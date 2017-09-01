@@ -226,7 +226,7 @@ abstract class NewModel
                         @$bt_item["file"].":".@$bt_item["line"]. "<br/>";
                 }
 
-                dispatch( new \App\Jobs\send_error_mail("","$bt_str", ""  ));
+                dispatch( new \App\Jobs\send_error_mail("","$bt_str", "" ,\App\Enums\Ereport_error_from_type::V_1  ));
             }
         }
         return $this->do_error($ret ,$sql);
@@ -257,9 +257,11 @@ abstract class NewModel
         $count_query = "select count(*) " . $count_query;
 
         if ( !$use_group_by_flag ){
-            $count=$this->main_get_value($count_query,0);
+            //$count=$this->main_get_value($count_query,0);
+            $count=50;
         }else{
-            $count=count($this->main_get_list($count_query ));
+            //$count=count($this->main_get_list($count_query ));
+            $count=50;
         }
         if ($count>50) {
             $count=50;

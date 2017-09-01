@@ -13,4 +13,5 @@ return array (
     array(10,"","产品"),
     array(11,"","培训"),
     array(12,"","研发"),
+    array(13,"","财务"),
 );

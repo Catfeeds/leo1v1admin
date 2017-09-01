@@ -478,7 +478,7 @@ class teacher_info extends Controller
             return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
         } else {
             $new_url=$this->gen_download_url($file_url);
-            //dd($new_url);
+            // dd($new_url);
             return $this->output_succ(array('ret' => 0, 'info' => '成功',
                              'file' => urlencode($new_url),
                              'file_ex' => $new_url,
@@ -2037,9 +2037,9 @@ class teacher_info extends Controller
     public function get_teacher_basic_info(){
         $teacherid = $this->get_login_teacher();
         $ret_info  = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
+
         foreach ($ret_info['list'] as &$item) {
             E\Esubject::set_item_value_str($item);
-            // E\Egarde_part_ex::set_item_value_str($item);
             E\Etextbook_type::set_item_value_str($item);
             E\Eidentity::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item);
@@ -2048,12 +2048,7 @@ class teacher_info extends Controller
             $first_day    = strtotime( date('Y-m-d', $item['create_time']) );
             $item['days'] = ($now_day - $first_day)/86400;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            if($item['teacher_money_type'] == 0) {
-                $item['level'] = $item['level'] + 2;
-            } else {
-                $item['level'] = $item['level'] + 1;
-            }
-            $item['normal_count'] = $item['normal_count']/100;
+            $item['teacher_title'] = \App\Helper\Utils::get_teacher_level_str($item);
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
@@ -2062,13 +2057,13 @@ class teacher_info extends Controller
 
     public function edit_teacher_info(){
         $teacherid = $this->get_login_teacher();
-        $nick      = $this->get_in_str_val('nick','');
+        $nick      = tirm( $this->get_in_str_val('nick','') );
         $gender    = $this->get_in_str_val('gender','');
         $birth     = $this->get_in_int_val('birth','');
-        $email     = $this->get_in_str_val('email','');
+        $email     = trim( $this->get_in_str_val('email','') );
         $work_year = $this->get_in_int_val('work_year','');
-        $phone     = $this->get_in_int_val('phone','');
-        $school    = $this->get_in_str_val('school','');
+        $phone     = trim( $this->get_in_int_val('phone','') );
+        $school    = trim( $this->get_in_str_val('school','') );
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2103,15 +2098,15 @@ class teacher_info extends Controller
     }
 
     public function edit_teacher_bank_info(){
-        $teacherid = $this->get_login_teacher();
+        $teacherid     = $this->get_login_teacher();
         $bank_account  = $this->get_in_str_val('bank_account','');
         $idcard        = trim( $this->get_in_str_val('idcard','') );
-        $bank_type     = trim($this->get_in_str_val('bank_type','') );
+        $bank_type     = trim( $this->get_in_str_val('bank_type','') );
         $bank_address  = $this->get_in_str_val('bank_address','');
         $bank_province = $this->get_in_str_val('bank_province','');
         $bank_city     = $this->get_in_str_val('bank_city','');
-        $bankcard      = trim($this->get_in_str_val('bankcard','') );
-        $bank_phone    = trim($this->get_in_int_val('bank_phone','') );
+        $bankcard      = trim( $this->get_in_str_val('bankcard','') );
+        $bank_phone    = trim( $this->get_in_int_val('bank_phone','') );
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2121,16 +2116,12 @@ class teacher_info extends Controller
         if ($idcard == '') {
             return $this->output_err('身份证号不能为空！');
         }
-        if ($bankcard == '') {
-            return $this->output_err('卡号不能为空！');
+        if (strlen($idcard) !== 18) {
+            return $this->output_err('身份证号码不正确！');
         }
-        // if (strlen($bankcard) !== 16 || strlen($bankcard) !== 18) {
-        //     return $this->output_err('身份证号码不正确！');
-        // }
-
-        // if (strlen($idcard) !== 18) {
-        //     return $this->output_err('身份证号码不正确！');
-        // }
+        if ($bankcard == '') {
+            return $this->output_err('银行卡号不能为空！');
+        }
         if ($bank_phone == '') {
             return $this->output_err('手机号不能为空！');
         }
@@ -2150,7 +2141,7 @@ class teacher_info extends Controller
 
     public function edit_teacher_status(){
         $teacherid = $this->get_login_teacher();
-        $status = $this->get_in_str_val('status');
+        $status    = $this->get_in_str_val('status');
         if ( $status == 'full' ) {
             $need_test_lesson_flag = 1;
         } else {
@@ -2163,5 +2154,24 @@ class teacher_info extends Controller
         } else {
             return outputjson_error('发生错误，设置失败！');
         }
+    }
+
+    public function update_teacher_pdf_info(){
+        $teacherid = $this->get_login_teacher();
+        $field     = $this->get_in_str_val('opt_field', '');
+        $url       = $this->get_in_str_val('get_pdf_url', '');
+        if ( $field == '' || $url == '' ) {
+            $this->output_err("上传信息为空！");
+        }
+        $res_info = $this->t_teacher_info->field_update_list(["teacherid" => $teacherid],
+            [$field  => $url]
+        );
+
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
+
     }
 }

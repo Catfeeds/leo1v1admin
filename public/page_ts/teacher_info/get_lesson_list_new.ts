@@ -130,14 +130,9 @@ $(function(){
         id_item["onshown_init"]=function () {
             if ( back_flag ) {
 
-                //七牛上传方法
-                //btn_id 绑定的上传按钮
-                //file_name_fix 自定义文件名
                 $.self_upload_process(btn_id,"/common/upload_qiniu",[] ,["pdf","zip"],{
                     "file_name_fix":file_name_fix
                 }, function( ret,ctminfo){
-                    //ret.file_name 回调的文件名称
-
                     set_url_fun(ret.file_name);
                     upload_status_show(id_item,1);
                 });
@@ -742,7 +737,6 @@ $(function(){
 
     $(".opt-download-test-paper").on("click", function () {
         var opt_data = $(this).get_opt_data();
-        console.log(333);
         $.do_ajax("/user_deal/set_stu_test_paper_download", {
             "lessonid"               : opt_data.lessonid,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id

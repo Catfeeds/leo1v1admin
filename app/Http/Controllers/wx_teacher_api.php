@@ -306,7 +306,6 @@ class wx_teacher_api extends Controller
     public function get_teacher_info_for_teacher_day(){ // 教师节活动 获取老师信息
         $this->switch_tongji_database();
         $ret_info = [];
-        // $teacherid = $this->get_in_int_val('t');
         $teacherid = $this->get_teacherid();
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);

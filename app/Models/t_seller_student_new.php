@@ -1000,6 +1000,64 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_page_random ($sql,2);
     }
+
+    public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$user_info
+    ) {
+        $where_arr=[
+            ["s.grade=%u", $grade, -1 ],
+            ["has_pad=%u", $has_pad, -1 ],
+            ["subject=%u", $subject, -1 ],
+            "s.lesson_count_all=0",
+            "n.seller_resource_type=1",
+            "n.admin_revisiterid=0",
+            "t.seller_student_status <>  50",
+            "n.sys_invaild_flag = 0",
+            'n.test_lesson_count > 0',
+            ["origin like '%s%%'", $this->ensql( $origin), ""],
+            ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+        ];
+        if ($user_info >0 ) {
+            if  ($user_info < 10000) {
+                $where_arr[]=[  "m.uid=%u", $user_info, "" ] ;
+            }else{
+                $where_arr[]=[  "m.phone like '%%%s%%'", $user_info, "" ] ;
+            }
+        }else{
+            if ($user_info!=""){
+                $where_arr[]=array( "(m.account like '%%%s%%' or  m.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
+        }
+
+        if (!($nick || $phone)) {
+            $now=time(NULL);
+            $this->where_arr_add_time_range($where_arr,"n.free_time",$start_time ,$end_time);
+            $where_arr[]= "f.adminid is null ";
+        }
+        $sql = $this->gen_sql_new(
+            "select t.test_lesson_subject_id,t.subject,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.free_adminid,n.free_time,"
+            ."s.grade,s.origin "
+            ." from %s t "
+            ." left join %s n on t.userid=n.userid "
+            ." left join %s s on s.userid=n.userid "
+            // ." left join %s m on n.admin_revisiterid=m.uid  "
+            ." left join %s m on m.uid=n.free_adminid  "
+            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid )  "
+            ." where %s ",
+            t_test_lesson_subject::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_test_subject_free_list::DB_TABLE_NAME,
+             $where_arr
+        );
+        return $this->main_get_page_random ($sql,5);
+    }
+
     public function get_free_seller_list_time($start_time,$end_time,$grade, $has_pad, $subject,$nick,$phone) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -2004,7 +2062,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select l.userid ,n.phone, max(l.lesson_start) lesson_start  "
             . " from %s n "
             . " left join %s l on n.userid = l.userid "
-            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) and  l.lesson_start< $now and l.lesson_start >0 "
+            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.admin_assign_time ) and  l.lesson_start< $now and l.lesson_start >0 "
             ." group by l.userid  ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
@@ -2012,5 +2070,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_all_list(){
+        $sql = $this->gen_sql_new(
+            " select userid,test_lesson_count,free_adminid,free_time "
+            ." from %s "
+            ." order by userid "
+            ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }

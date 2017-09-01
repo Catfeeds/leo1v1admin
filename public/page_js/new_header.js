@@ -851,8 +851,14 @@ $(function(){
     $( window ).bind("resize",reset_item);
 
 
-    $("#id_new_seller_system").on("click",function(){
-        $.wopen("http://admincc.yb1v1.com");
+    $("#id_call_check_systen").on("click",function(){
+        $.do_ajax("/ajax_deal2/get_rcrai_login_info",{},function(resp){
+            if (resp.data.staff ){
+                $.wopen("http://leoedu.rcrai.com/login/"+resp.data.staff.id ,true);
+            }else{
+                alert("无辅助系统的账号信息");
+            }
+        });
     });
 
     $("#id_self_menu_add").on("click",function(){

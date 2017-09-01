@@ -263,7 +263,7 @@
                                 <a style="display:none;" class="fa-edit opt-change-state" title="更改付款状态"> </a>
                                 <a class="fa-trash-o opt-del" title="删除合同"> </a>
                                 <a class=" fa-unlock  opt-is-not-spec-flag " title="设置为正常订单,非特殊"> </a>
-                                @if (0)
+                                @if($account_role==13)
                                     <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
                                     <a class="fa-cny opt-change-money" title="更改金额"> </a>
                                     <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a>
@@ -686,7 +686,7 @@
         <div class="row" >
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group  ">
-                    <span class="input-group-addon" style="color:red;">特殊申请：</span>
+                    <span class="input-group-addon" style="color:red;">特殊申请(或未用活动)：</span>
                     <select  class="form-control field-order_require_flag">
                     </select>
                 </div>

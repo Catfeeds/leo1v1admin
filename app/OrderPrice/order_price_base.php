@@ -3,7 +3,7 @@ namespace App\OrderPrice;
 
 use \App\Enums as E;
 class order_price_base {
-    static $cur_order_price_type=E\Eorder_price_type::V_20170701;
+    static $cur_order_price_type=E\Eorder_price_type::V_20170901;
     static $order_price_type_config=[
         E\Eorder_price_type::V_20170101 => order_price_20170101::class,
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
@@ -66,13 +66,13 @@ class order_price_base {
         $last_k=$def_value[0];
         $last_value=$def_value[1];
         foreach ($config as  $k =>$v ) {
-            if ($k >= $check_key )  {
-                return array($k, $last_value);
+            if ($k > $check_key )  {
+                return array($last_k , $last_value);
             }
             $last_value= $v;
             $last_k= $k;
         }
-        return array($k, $last_value);
+        return array($last_k, $last_value);
     }
 
     static function get_value_from_config($config,$check_key,$def_value=0) {

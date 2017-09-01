@@ -947,14 +947,12 @@ class ajax_deal2 extends Controller
         \App\Helper\Utils::logger("cur_require_count:$test_lesson_count,   cur_require_count_max: $cur_test_lesson_count_max" );
 
 
-        /*
 
         if ($test_lesson_count > $cur_test_lesson_count_max) {
             return $this->output_err(
                 "目前当前已试听数 $test_lesson_count,　超过 $cur_test_lesson_count_max ,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ",
                 ["flag" => "goto_test_lesson_list"]);
         }
-        */
 
         return $this->output_succ();
     }
@@ -963,6 +961,15 @@ class ajax_deal2 extends Controller
 
         //$this->t_seller_student_new->get_
     }
-
+    public function test(){
+        sleep(5);
+        return  $this->output_succ();
+    }
+    public function get_rcrai_login_info() {
+        $adminid= $this->get_account_id();
+        $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
+        $ret_arr=\App\Helper\Utils::json_decode_as_array($ret_str,true);
+        return $this->output_succ(["data" => $ret_arr ]); 
+    }
 
 }

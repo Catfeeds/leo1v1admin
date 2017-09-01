@@ -20,7 +20,7 @@ class t_jw_teacher_month_plan_lesson_info extends \App\Models\Zgen\z_t_jw_teache
     }
 
     public function get_info_by_month_new($month){
-        $sql = $this->gen_sql_new("select adminid ,tran_count ,tran_count_seller ,tran_count_ass ,tran_per,tran_count_green "
+        $sql = $this->gen_sql_new("select adminid ,tran_count ,tran_count_seller ,tran_count_ass ,tran_per,tran_count_green,ass_tran_green_count ,seller_tran_green_count "
                                   ." from %s "
                                   ." where month =%u",
                                   self::DB_TABLE_NAME,

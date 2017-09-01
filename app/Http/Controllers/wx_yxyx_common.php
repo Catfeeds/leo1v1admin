@@ -231,7 +231,21 @@ class wx_yxyx_common extends Controller
             return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
-            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+            $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+
+            if ($db_userid)  {
+                $add_time=$this->t_seller_student_new->get_add_time($userid);
+                if ($add_time < time(NULL) -60*86400 ) { //60天前例子
+                    $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                    if ($userid) {
+                        $this->t_student_info->field_update_list($userid, [
+                            "origin_level" => E\Eorigin_level::V_99
+                        ] );
+                    }
+                }
+            }else{
+                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+            }
         }
         $userid = null;
         $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );

@@ -138,7 +138,7 @@ class main_page extends Controller
     }
     public  function assistant() {
         $this->switch_tongji_database();
-        /* return $this->error_view([
+        /*return $this->error_view([
             "关闭首页统计,请看其它."
             ]);*/
 
@@ -158,15 +158,17 @@ class main_page extends Controller
 
         //
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-        $lesson_count_list=$this->t_lesson_info->get_confirm_lesson_list($start_time,$end_time);
+        // $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        $lesson_count_list= $this->t_month_ass_student_info->get_ass_month_info_lesson($start_time);
+        // dd($lesson_count_list);
         //
 
         $lesson_all=0;$user_all=0;
-        foreach($lesson_count_list['list'] as &$item ){
-            $item["assistant_nick"] =$this->cache_get_assistant_nick($item["assistantid"]);
+        /*foreach($lesson_count_list['list'] as &$item ){
+            // $item["assistant_nick"] =$this->cache_get_assistant_nick($item["assistantid"]);
             $lesson_all += $item["lesson_count"];
             $user_all += $item["user_count"];
-        }
+            }*/
         $xs = !empty($user_all)?round($lesson_all/$user_all/100,1):0;
         $stu_info=$this->t_student_info->tongji_assisent($assistantid);
 
@@ -311,6 +313,12 @@ class main_page extends Controller
         $res=[] ;
         $ret_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
         $tra_info =  $this->t_jw_teacher_month_plan_lesson_info->get_info_by_month_new($start_time);
+        // $all        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
+        // $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
+        // $seller        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
+        //  $ass_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        //$seller_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+
         foreach($ret_info as &$item){
             $item["all_count"] = $item["all_count"]-$item["back_other_count"];
 
@@ -331,6 +339,8 @@ class main_page extends Controller
             $item["tra_count_green"] = @$tra_info[$item["accept_adminid"]]["tran_count_green"];
             $item["tra_per_str"] = @$tra_info[$item["accept_adminid"]]["tran_per"];
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
+            $item["ass_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["ass_tran_green_count"];
+            $item["seller_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["seller_tran_green_count"];
 
 
             $all_total += $item["set_count"];

@@ -822,7 +822,7 @@ $(function(){
         $(".opt-user-info").hide();
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
-    }else if(window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/"){
+    }else if(window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_tea_qua_zj" || window.location.pathname=="/human_resource/index_tea_qua_zj/" ){
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();

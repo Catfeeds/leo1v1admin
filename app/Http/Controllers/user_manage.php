@@ -413,14 +413,14 @@ class user_manage extends Controller
         $grade             = $this->get_in_int_val("grade",-1);
         $subject           = $this->get_in_int_val("subject",-1);
         $this->get_in_int_val("self_adminid", $this->get_account_id());
-        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
-        $teacherid         = $this->get_in_teacherid(-1);
-        $origin_userid     = $this->get_in_int_val("origin_userid", -1);
-        $referral_adminid  = $this->get_in_int_val("referral_adminid",-1, "");
-        $assistantid       = $this->get_in_assistantid(-1);
-        $from_key          = $this->get_in_str_val('from_key');
-        $from_url          = $this->get_in_str_val('from_url');
-        $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
+        $tmk_adminid      = $this->get_in_int_val("tmk_adminid", -1);
+        $teacherid        = $this->get_in_teacherid(-1);
+        $origin_userid    = $this->get_in_int_val("origin_userid", -1);
+        $referral_adminid = $this->get_in_int_val("referral_adminid",-1, "");
+        $assistantid      = $this->get_in_assistantid(-1);
+        $from_key         = $this->get_in_str_val('from_key');
+        $from_url         = $this->get_in_str_val('from_url');
+        $spec_flag        = $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -509,9 +509,11 @@ class user_manage extends Controller
             }
         }
 
-        return $this->Pageview(__METHOD__,$ret_list,
-                               ["all_lesson_count" => $all_lesson_count,
-                                "all_promotion_spec_diff_money"=> $all_promotion_spec_diff_money ] );
+        return $this->Pageview(__METHOD__,$ret_list,[
+            "all_lesson_count"              => $all_lesson_count,
+            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
+            "account_role"                  => $this->get_account_role()
+        ]);
     }
 
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝

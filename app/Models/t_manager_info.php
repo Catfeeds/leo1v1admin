@@ -157,7 +157,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "t1.fulltime_teacher_type =%u ", $fulltime_teacher_type ,  -1] ,
         ];
         if ($user_info >0 ) {
-            $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
+            if  ($user_info < 10000) {
+                $where_arr[]=[  "t1.uid=%u", $user_info, "" ] ;
+            }else{
+                $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
+            }
         }else{
             if ($user_info!=""){
                 $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",

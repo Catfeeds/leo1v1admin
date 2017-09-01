@@ -882,57 +882,6 @@ class seller_student_new extends Controller
 
     }
 
-    public function test_lesson_fail_list_data() {
-        $this->switch_tongji_database();
-
-        $page_num = $this->get_in_page_num();
-        list($start_time,$end_time) = $this->get_in_date_range(-80,0 );
-        $grade                      = $this->get_in_grade(-1);
-        $phone                      = trim($this->get_in_phone());
-        $can_reset_seller_flag      = 1;
-
-        $adminid  = $this->get_account_id();
-        $date_key = date("Ymd");
-
-
-        $json_ret=\App\Helper\Common::redis_get_json("SELLER_TEST_LESSON_USER_$adminid");
-
-        if (!$json_ret || $json_ret["opt_date"] != $date_key ) {
-            $json_ret=[
-                "opt_date" => $date_key ,
-                "opt_count" => 0,
-            ];
-            \App\Helper\Common::redis_set_json("SELLER_TEST_LESSON_USER_$adminid", $json_ret);
-        }
-
-        $seller_level = $this->t_manager_info->get_seller_level( $adminid);
-
-        $seller_level_str    = E\Eseller_level::get_desc($seller_level);
-        $seller_level_config = \App\Helper\Config::get_seller_test_lesson_user_month_limit();
-        $level_limit_count   = @$seller_level_config[$seller_level];
-        $last_count          = $level_limit_count - $json_ret['opt_count'];
-
-       $ret_info = $this->t_test_lesson_subject->get_test_lesson_fail_list(
-           $page_num, $start_time, $end_time,$grade, $adminid,   $phone
-       );
-
-        foreach($ret_info['list'] as &$item) {
-            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
-            E\Egrade::set_item_value_str($item);
-            E\Egender::set_item_value_str($item);
-            E\Esubject::set_item_value_str($item);
-            \App\Helper\Utils::hide_item_phone($item);
-        }
-
-        $ret_arr=[];
-        $ret_arr["ret_info"] = $ret_info;
-        $ret_arr["seller_level_str"] = $seller_level_str;
-        $ret_arr["opt_count"] =$json_ret['opt_count'] ;
-        $ret_arr["last_count"] = $last_count;
-        return $ret_arr;
-
-    }
-
     public function test_lesson_no_order_list() {
         $ret_arr = $this->test_lesson_no_order_list_data();
         $ret_info         = $ret_arr["ret_info"];
@@ -948,18 +897,44 @@ class seller_student_new extends Controller
     }
 
     public function test_lesson_fail_list() {
-        $ret_arr = $this->test_lesson_fail_list_data();
-        $ret_info         = $ret_arr["ret_info"];
-        $seller_level_str = $ret_arr["seller_level_str"];
-        $opt_count        = $ret_arr["opt_count"];
-        $last_count       = $ret_arr["last_count"];
-        return $this->pageView(__METHOD__, $ret_info, [
-            "seller_level_str"  => $seller_level_str,
-            "opt_count"  => $opt_count,
-            "last_count"  => $last_count
-        ]);
-
+        $ret_info = $this->test_lesson_fail_list_data();
+        return $this->pageView(__METHOD__, $ret_info);
     }
+
+    public function test_lesson_fail_list_data() {
+        list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
+        $page_num   = $this->get_in_page_num();
+        $phone_name = trim($this->get_in_str_val("phone_name"));
+        $user_info  = trim($this->get_in_str_val('user_info',''));
+        $nick  = "";
+        $phone = "";
+        if($phone_name){
+            if (!($phone_name>0)) {
+                $nick=$phone_name;
+            }else{
+                $phone=$phone_name;
+            }
+        }
+
+        $grade=$this->get_in_grade(-1);
+        $has_pad=$this->get_in_has_pad(-1);
+        $subject=$this->get_in_subject(-1);
+        $origin=trim($this->get_in_str_val("origin",""));
+        $this->t_seller_student_new->switch_tongji_database();
+        $ret_info= $this->t_seller_student_new->get_free_seller_fail_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$user_info);
+        foreach ($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
+            E\Epad_type::set_item_value_str($item, "has_pad");
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            \App\Helper\Utils::hide_item_phone($item);
+            $item["cc_nick"]= $this->cache_get_account_nick($item["free_adminid"]);
+        }
+
+        return $ret_info;
+    }
+
 
 
     public function ass_seller_student_list() {

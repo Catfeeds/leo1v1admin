@@ -76,6 +76,7 @@
                     <td class="remove-for-xs" >联系电话</td>
                     <td style="display:none;" >地区</td>
                     <td class="remove-for-xs" >年级</td>
+                    <td style="display:none;" >下一年级</td>
                     <td style="width:50px;" >签约课时</td>
                     <td style="width:50px;" >剩余课时</td>
                     <td >赞</td>
@@ -112,6 +113,7 @@
                         </td>
                         <td  > {{$var["phone_location"]}}</td>
                         <td class="td-grade" data-v="{{$var["grade"]}}"  ></td>
+                        <td class="td-grade-up" data-v="{{$var["grade_up"]}}"  ></td>
                         <td>{{$var["lesson_count_all"]}}</td>
                         <td>{{$var["lesson_count_left"]}}</td>
                         <td >{{$var["praise"]}}</td>

@@ -8,6 +8,10 @@
                 <div class="col-xs-6 col-md-2">
                     <button id="id_add" class="btn btn-primary" >新增命令</button>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                    最后时间:{{$last_require_time}}
+                </div>
             </div>
         </div>
         <hr/>

@@ -134,6 +134,7 @@ class teacher_simulate extends Controller
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
 
+
         $show_data = [
             "all_money"                  => round($all_money,2),
             "all_money_simulate"         => round($all_money_simulate,2),
@@ -323,19 +324,28 @@ class teacher_simulate extends Controller
             }
         }
 
-        if(!empty($teacher_money_type_month)){
+        if(is_array($teacher_money_type_month)){
             foreach($teacher_money_type_month as $month_key=>&$month_val){
-                foreach($month_val as $t_key => &$t_val){
-                    foreach($t_val as $l_key=>&$l_val){
-                        $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
-                        $l_val['level_str']              = E\Elevel::get_desc($l_key);
+                if(is_array($month_val)){
+                    foreach($month_val as $t_key => &$t_val){
+                        if(is_array($t_val)){
+                            foreach($t_val as $l_key=>&$l_val){
+                                $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
+                                $l_val['level_str']              = E\Elevel::get_desc($l_key);
+                            }
+                        }
                     }
                 }
             }
         }
 
+        $has_power = 0;
+        if(in_array($account,["ted","michelle"])){
+            $has_power = 1;
+        }
+
         return $this->view(__METHOD__,[
-            "account"                  => $account,
+            "has_power"                => $has_power,
             "level_list"               => $level_list,
             "money_month"              => $money_month,
             "teacher_money_type_month" => $teacher_money_type_month,

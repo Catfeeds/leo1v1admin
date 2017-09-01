@@ -156,6 +156,45 @@ class wx_parent_api extends Controller
             \App\Models\t_teacher_label::C_device_record      => $device_record,
         ]);
 
+        if($insert_ret){
+            /**
+               向老师发送微信推送
+
+
+               课程评价通知
+               x月x日
+
+               xx:xx的xx课xx同学已经提交了课程评价
+               课程：{时间课程名称}
+               时间：xx-xx xx:xx~xx:xx
+               请登录老师端查看详情，谢谢！
+
+
+               D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A
+
+               {{first.DATA}}
+               课程：{{keyword1.DATA}}
+               时间：{{keyword2.DATA}}
+               {{remark.DATA}}
+             **/
+
+            $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid();
+
+            $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+
+            $template_id_teacher = 'D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A';
+
+            $data_tea = [
+                'first'    => date('H:i',$lesson_info['start'])."的 $subject_str 课 ".$lesson_info['stu_nick']."同学已经提交了课程评价",
+                'keyword1' => " $subject_str ",
+                'keyword2' => date('m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i', $lesson_info['lesson_end']),
+                'remark'   => "请登录老师端查看详情，谢谢！",
+            ];
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($lesson_info['wx_openid'],$template_id_teacher, $data_tea,'');
+
+        }
+
         return $this->output_succ();
     }
 
@@ -1192,6 +1231,52 @@ class wx_parent_api extends Controller
         }
 
         if($ret){
+            if($type == 2){
+                $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
+                $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+                $first = date('m月d日 H:i',$lesson_info['lesson_start'])."的 $subject_str 课程，".$lesson_info['stu_nick']."同学的家长已经上传了";
+
+                $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+                if($paper_type == 1){ // 存放试卷
+
+                    /**
+                       待办事项提醒
+                       x月x日
+
+                       x月x日xx：xx的xx课程，xx同学的家长已经上传了试卷
+                       待办主题：家长已上传试卷
+                       待办内容：xx同学的试卷已上传
+                       日期：2017/06/01
+                       请尽快登录老师后台，进行查看。
+
+                       rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                       {{first.DATA}}
+                       待办主题：{{keyword1.DATA}}
+                       待办内容：{{keyword2.DATA}}
+                       日期：{{keyword3.DATA}}
+                       {{remark.DATA}}
+                    **/
+                    $first .='试卷';
+                    $keyword1 = '家长已上传试卷';
+                    $keyword2 = $lesson_info['stu_nick']."同学的试卷已上传";
+
+                }elseif($paper_type == 2){ //　存放作业
+                    $first .='作业';
+                    $keyword1 = '家长已上传作业';
+                    $keyword2 = $lesson_info['stu_nick']."同学的作业已上传";
+                }
+
+                $data_msg = [
+                    'first'    => "$first",
+                    'keyword1' => "$keyword1",
+                    'keyword2' => "$keyword2",
+                    'keyword3' => date("Y-m-d"),
+                    'remark'   => "请尽快登录老师后台，进行查看。"
+                ];
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($data_msg,$template_id_teacher, $data_msg,'');
+            }
+
             return $this->output_succ();
         }else{
             return $this->output_err('图片上传失败,请稍后重试.....');
@@ -1199,12 +1284,47 @@ class wx_parent_api extends Controller
     }
 
 
+
+    public function get_pdf_download_url()
+    {
+        $file_url = $this->get_in_str_val("file_url");
+
+        if (strlen($file_url) == 0) {
+            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if (preg_match("/http/", $file_url)) {
+            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+        } else {
+            $new_url=$this->gen_download_url($file_url);
+            // dd($new_url);
+            return $this->output_succ(array('ret' => 0, 'info' => '成功',
+                             'file' => urlencode($new_url),
+                             'file_ex' => $new_url,
+            ));
+        }
+    }
+
+    private function gen_download_url($file_url)
+    {
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+
+
     public function get_paper_url(){ // 获取预览图片
         $lesson_id   = $this->get_in_int_val('lessonid');
         $lesson_type = $this->get_in_int_val('lesson_type');
         $paper_type  = $this->get_in_int_val('paper_type');
-
-        $qiniu_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
 
         if($lesson_type == 2){ // 试听课
             if($paper_type == 1){ // 试卷
@@ -1215,9 +1335,8 @@ class wx_parent_api extends Controller
                 $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
                 if($paper_url['homework_pdf']){
-                    $paper_url['homework_pdf'] = $qiniu_url.$paper_url['homework_pdf'];
+                    return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
                 }
-                return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 试卷
@@ -1227,9 +1346,8 @@ class wx_parent_api extends Controller
                 $paper_url = $this->t_lesson_info_b2->get_stu_cw_url($lessonid);
 
                 if($paper_url){
-                    $paper_url = $qiniu_url.$paper_url;
+                    return $this->output_succ(['data'=>$paper_url]);
                 }
-                return $this->output_succ(['data'=>$paper_url]);
             }
         }
 

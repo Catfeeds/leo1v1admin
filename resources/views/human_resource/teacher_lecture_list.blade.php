@@ -2,6 +2,7 @@
 @section('content')
 <script type="text/javascript" > 
  var acc= "{{$acc}}";
+ var account_role= "{{$account_role}}";
  var g_adminid= "{{$adminid}}";
  var tea_subject= "{{$tea_subject}}";
 </script>
@@ -88,6 +89,7 @@
             <thead>
                 <tr>
                     <td display="none">num</td>
+                    <td display="none">id</td>
                     <td>手机号</td>
                     <td>是否绑定微信</td>
                     <td>老师姓名</td>
@@ -116,6 +118,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["num"]}}</td>
+                        <td>{{$var["id"]}}</td>
                         <td>{{$var["phone"]}}</td>
                         <td>{{$var["have_wx_flag"]}}</td>
                         <td>{{$var["nick"]}}</td>
@@ -145,7 +148,7 @@
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
-                                @if(in_array($acc,["adrian","coco","wander","nick","amyshen","王芳","tanya","max"]))
+                                @if(in_array($account_role,["10","11","12"]))
                                     <a class="opt-reset">重置</a>
                                 @endif
                                 @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby"]) || $var["account"]=="")

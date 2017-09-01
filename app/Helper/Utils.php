@@ -1155,7 +1155,7 @@ class Utils  {
         dispatch( new \App\Jobs\send_error_mail($to,$title,$content));
     }
 
-    public static function savePicToServer($pic_url,$savePathFile) {
+    static public  function savePicToServer($pic_url,$savePathFile) {
         $targetName   = $savePathFile;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');

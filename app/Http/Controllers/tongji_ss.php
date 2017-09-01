@@ -752,7 +752,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            if(isset($ret_info['list'][4]['all_count'])){
+            // if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
                     $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
@@ -773,7 +773,7 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['user_count'] = count($user_count);
                     $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
-            }
+            // }
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
@@ -2062,6 +2062,7 @@ class tongji_ss extends Controller
 
             //E\Epad_type::set_item_value_str($item, "has_pad");
             E\Etest_lesson_level::set_item_value_str($item, "stu_test_lesson_level");
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item, "test_lesson_order_fail_flag");
 
 
             $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($item["stu_request_lesson_time_info"], true);
@@ -2102,8 +2103,13 @@ class tongji_ss extends Controller
             $aa = $this->t_course_order->get_have_order_info($item["teacherid"],$item["userid"],$item["subject"]);
             if($aa >0){
                 $item["have_order"] ="<font color=\"red\">已签</font>";
+                $item["fail_info"]="";
+            }elseif($item["test_lesson_order_fail_flag"]>0){
+                $item["have_order"] ="签约失败";
+                $item["fail_info"]="失败类型:".$item["test_lesson_order_fail_flag_str"]."<br>失败说明:".$item["test_lesson_order_fail_desc"];
             }else{
                 $item["have_order"] ="未签";
+                $item["fail_info"]="";
             }
 
 
@@ -7949,6 +7955,23 @@ class tongji_ss extends Controller
             }elseif(is_numeric($item['grade_ex'])){
                 $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_ex']);
                 }*/
+            //  E\Eteacher_type::set_item_value_str($item,"teacher_type");
+            // E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
+            // E\Egender::set_item_value_str($item,"gender");
+            E\Esubject::set_item_value_str($item,"subject");
+            // E\Esubject::set_item_value_str($item,"second_subject");
+            // E\Esubject::set_item_value_str($item,"third_subject");
+            E\Eidentity::set_item_value_str($item);
+            //E\Elevel::set_item_value_str($item,"level");
+            E\Eteacher_money_type::set_item_value_str($item);
+            // E\Eteacher_ref_type::set_item_value_str($item); //是否全职
+           
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+           
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+
+
 
         }
         return $this->pageView(__METHOD__,$ret_info);

@@ -361,7 +361,7 @@ class user_deal extends Controller
                 if($ret_row) {
                     $error_lessonid=$ret_row["lessonid"];
                     return $this->output_err(
-                        "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                        "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
                     );
                 }
 
@@ -699,7 +699,9 @@ class user_deal extends Controller
                 $this->t_teacher_info->send_template_msg($teacherid,$template_id,$data_msg,$url);
 
                 $wx=new \App\Helper\Wx();
-                $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                if($parent_wx_openid){
+                    $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                }
 
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
@@ -716,7 +718,9 @@ class user_deal extends Controller
     }
 
     public function course_set_default_lesson_count () {
-        if ($this->get_account() != "jim"  && $this->get_account() != "echo" && $this->get_account() != "adrian"  ) {
+        $account      = $this->get_account();
+        $account_role = $this->get_account_role();
+        if ($this->get_account() != "jim"  && $this->get_account() != "adrian"  && $account_role!=13 ) {
             return $this->output_err("没有权限");
         }
         $orderid=$this->get_in_int_val("orderid");
@@ -2613,8 +2617,28 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        dd(md5(112233445652));
         $this->switch_tongji_database();
+        $start_time = strtotime("2017-08-01");
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        dd($ass_month);
+
+        $end_time = strtotime("2017-09-01");
+        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
+        dd($lesson_count_list);
+
+        // $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+        // $account_role = $this->t_manager_info->get_account_role($require_adminid);
+        $lesson_start = strtotime("2017-09-08");
+        $require_adminid = 457;
+        $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+        $rank = @$self_top_info[6]["top_index"];
+        dd($rank);
+
+        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+        $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        dd($lesson_count_list);
+
         $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
         $arr=[];
         $i=1;

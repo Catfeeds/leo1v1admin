@@ -1023,6 +1023,7 @@ class ss_deal extends Controller
         $teacherid    = $this->get_in_teacherid();
         $lesson_start = $this->get_in_str_val('lesson_start');
         $grade        = $this->get_in_int_val('grade');
+        $top_seller_flag = $this->get_in_int_val('top_seller_flag');
         $lesson_start = strtotime($lesson_start);
         $lesson_end   = $lesson_start+2400;
         $orderid      = 1;
@@ -1036,6 +1037,19 @@ class ss_deal extends Controller
         }
         if($lesson_start < time()){
             return $this->output_err("课程开始时间过早!");
+        }
+
+        //判断是否销售top20
+        if($top_seller_flag==1){
+            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+            $account_role = $this->t_manager_info->get_account_role($require_adminid);
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+            $rank = @$self_top_info[6]["top_index"];
+            if($account_role !=2 || $rank>20){
+                return $this->output_err("申请人不是销售top20!");
+            }
+
         }
 
         //老师年级科目限制
@@ -1084,6 +1098,7 @@ class ss_deal extends Controller
             "require_id"         => $require_id,
             "set_lesson_adminid" => $this->get_account_id(),
             "set_lesson_time"    => time(NULL) ,
+            "top_seller_flag"    => $top_seller_flag
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             'current_lessonid'      => $lessonid,
@@ -1122,7 +1137,11 @@ class ss_deal extends Controller
                 ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
 
             $parentid = $this->t_student_info->get_parentid($userid);
-            $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+
+            if($parentid>0){
+                $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+
+            }
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -1421,16 +1440,9 @@ class ss_deal extends Controller
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
-        if ( \App\Helper\Utils::check_env_is_release()) {
-            $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
                 $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
             );
-        }else{
-            $ret=\App\OrderPrice\order_price_base:: get_price_ex_by_order_price_type(
-                E\Eorder_price_type::V_20170901,
-                $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
-            );
-        }
         return $this->output_succ(["data"=>$ret]);
     }
 
@@ -1597,7 +1609,7 @@ class ss_deal extends Controller
         );
 
 
-        if($order_require_flag) {
+        if($order_require_flag && $promotion_spec_diff_money ) {
             $this->t_flow->add_flow(
                 E\Eflow_type::V_SELLER_ORDER_REQUIRE,
                 $this->get_account_id(),"特殊折扣",$orderid);
@@ -1612,6 +1624,7 @@ class ss_deal extends Controller
                 $userid,$orderid,
                 $promotion_spec_present_lesson,$competition_flag,$grade,$subject);
         }
+
         if ( $promotion_spec_diff_money ) {
             $this->t_order_info->field_update_list($orderid,[
                 "promotion_spec_diff_money" =>  $promotion_spec_diff_money
@@ -2211,7 +2224,7 @@ class ss_deal extends Controller
             "system"
         );
 
-      
+
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
             //分配销售总监
@@ -2252,14 +2265,14 @@ class ss_deal extends Controller
                 $sub_assign_adminid_1= 287;
             }
             $this->t_seller_student_new->field_update_list($userid,[
-               "sub_assign_adminid_1"  =>$sub_assign_adminid_1 
+               "sub_assign_adminid_1"  =>$sub_assign_adminid_1
             ]);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1,"/seller_student_new/seller_student_list_all?userid=$userid");
 
 
- 
+
         }else{
             //分配给原来的销售
             $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
@@ -2270,9 +2283,9 @@ class ss_deal extends Controller
                 $nick=$this->t_student_info->get_nick($userid);
                 $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             }
- 
+
         }
-        
+
 
         return $this->output_succ();
 
@@ -2417,7 +2430,7 @@ class ss_deal extends Controller
             $realPath = $file -> getRealPath();
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
             $objPHPExcel = $objReader->load($realPath);
-            
+
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
@@ -2471,7 +2484,7 @@ class ss_deal extends Controller
                 $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
                 if(empty($id)){
                     $this->t_teacher_lecture_appointment_info->row_insert([
-                        "answer_begin_time"  =>$answer_begin_time, 
+                        "answer_begin_time"  =>$answer_begin_time,
                         "answer_end_time"    =>$answer_end_time,
                         "name"               =>$name,
                         "phone"              =>$phone,
@@ -3003,6 +3016,10 @@ class ss_deal extends Controller
                 "test_subject_free_type" => $test_subject_free_type,
             ],false,true);
 
+            $this->t_seller_student_new->field_update_list($item["userid"],[
+                "free_adminid" => $this->get_account_id(),
+                "free_time" => time(),
+            ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );
         return $this->output_succ();
@@ -3235,13 +3252,13 @@ class ss_deal extends Controller
              return $this->output_err("答题时间/手机号/名字不能为空");
         }
 
-      
+
         $id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         if($id>0){
              return $this->output_err("该手机号已存在");
         }
         $this->t_teacher_lecture_appointment_info->row_insert([
-            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_begin_time"  =>$answer_begin_time,
             "answer_end_time"    =>$answer_end_time,
             "name"               =>$name,
             "phone"              =>$phone,
@@ -3279,7 +3296,7 @@ class ss_deal extends Controller
             return $this->output_err("答题时间/手机号/名字不能为空");
         }
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_begin_time"  =>$answer_begin_time,
             "answer_end_time"    =>$answer_end_time,
             "name"               =>$name,
             "email"              =>$email,
@@ -3495,7 +3512,7 @@ class ss_deal extends Controller
             $account_id     = $this->get_account_id();
             $freeze_adminid = $this->t_teacher_info->get_freeze_adminid($teacherid);
             $del_flag = $this->t_manager_info->get_del_flag($freeze_adminid);
-            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72){
+            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448){
                 return $this->output_err("您没有权限进行该操作!");
             }
             $this->t_teacher_info->field_update_list($teacherid,[
@@ -3628,7 +3645,7 @@ class ss_deal extends Controller
             $account_id     = $this->get_account_id();
             $freeze_adminid = $this->t_teacher_info->get_freeze_adminid($teacherid);
             $del_flag = $this->t_manager_info->get_del_flag($freeze_adminid);
-            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72){
+            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448){
                 return $this->output_err("您没有权限进行该操作!");
             }
             $this->t_teacher_info->field_update_list($teacherid,[
@@ -4406,6 +4423,9 @@ class ss_deal extends Controller
         $end_date   = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
         $phone= $this->get_in_phone();
 
+        if (!$phone) {
+            return $this->output_err("当前用户不存在");
+        }
         $cmd= new \App\Console\Commands\sync_tq();
         $count=$cmd->load_data($start_date,$end_date,$phone);
 

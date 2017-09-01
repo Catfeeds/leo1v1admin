@@ -60,29 +60,30 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             break;
         }
 
-        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid from %s ".
+        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid ,grade_up"
+                              ." from %s ".
                               "  where  %s  %s  ",
                               self::DB_TABLE_NAME,
                               [$this->where_str_gen($where_arr)],
                               $order_str
         );
+
         $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
         foreach  (  $ret_info["list"] as &$item) {
             if (!$item["phone_location"] ) {
                 //设置到数据库
-                $arr=explode("-",$item["phone"]);
-                $phone=$arr[0];
+                $arr   = explode("-",$item["phone"]);
+                $phone = $arr[0];
 
                 $item["phone_location"] = \App\Helper\Common::get_phone_location($phone);
                 if ($item["phone_location"]) {
                     $this->field_update_list($item["userid"] ,[
-                        "phone_location"  =>   $item["phone_location"]
+                        "phone_location" => $item["phone_location"]
                     ]);
                 }
             }
         }
         return $ret_info;
-
     }
 
 
@@ -2849,4 +2850,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_all_student($reg_time){
+        $where_arr = [
+            ["reg_time<%u",$reg_time,0]
+        ];
+        $sql = $this->gen_sql_new("select userid,grade"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

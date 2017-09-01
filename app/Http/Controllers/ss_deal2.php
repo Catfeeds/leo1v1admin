@@ -204,6 +204,10 @@ class ss_deal2 extends Controller
         ],false,true);
 
         $this->t_seller_student_new->set_user_free($userid);
+        $this->t_seller_student_new->field_update_list($userid,[
+            "free_adminid" => $this->get_account_id(),
+            "free_time" => time(),
+        ]);
         return $this->output_succ();
 
     }

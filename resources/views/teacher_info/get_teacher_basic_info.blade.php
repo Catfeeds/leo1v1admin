@@ -13,6 +13,9 @@
      .ft24{
          font-size:24px;
      }
+     .ft22{
+         font-size:22px;
+     }
      .text-cen{
          text-align:center;
      }
@@ -25,9 +28,6 @@
      .bor-hr{
          border-top:1px solid #ccc;
          margin-bottom:10px;
-     }
-     .div-mar{
-         margin:10px;
      }
      .color-6{
          color:#666;
@@ -74,7 +74,7 @@
                         <div class="box-body box-profile">
                             <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
                             <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
-                            <p class="text-muted text-center">{{$my_info['level']}}星教师</p>
+                            <p class="text-muted text-center">{{$my_info['teacher_title']}}</p>
                         </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
@@ -151,8 +151,8 @@
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
                                     <p data-status="nofull"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
                                     <br>
-                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
-                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info btn-sm opt-set">设置饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft22">设置不饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft22">设置饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -179,8 +179,12 @@
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <div class="col-sm-12"">
-                                    <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
+                                <div class="col-sm-12">
+                                    @if ($my_info['jianli'])
+                                        <button type="button" data-pdf="{{$my_info['jianli']}}" class="btn btn-block btn-info opt-show ft22">查看简历</button>
+                                    @else
+                                        <button type="button" id="jianli" data-val="jianli" class="btn btn-block btn-info opt-upload ft22">上传简历</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -188,7 +192,9 @@
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
                         <div class="row text-cen">
-                            <a href="javascript:;" class="color-6">重新上传简历</a>
+                            @if ($my_info['jianli'])
+                                <a href="javascript:;" class="color-6 opt-upload"  id="jianli" data-val="jianli" >重新上传</a>
+                            @endif
                         </div>
                     </div>
                     <!-- /.box-footer -->
@@ -205,19 +211,25 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" style="height: 100px;">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
-                                    <!-- <input id="upload_zigezheng" value="上传资格证" class="btn btn-primary add_certificate" style="margin-bottom:5px;" type="button"/> -->
-                                </div>
+                                    @if (@$my_info['seniority'])
+                                        <button type="button" data-pdf="{{$my_info['seniority']}}" class="btn btn-block btn-info opt-show ft22">查看资格证</button>
+                                    @else
+                                        <button type="button" id="seniority" data-val="seniority" class="btn btn-block btn-info opt-upload ft22">上传资格证</button>
+                                    @endif
 
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
                         <div class="row">
+                            @if (@$my_info['seniority'])
+                                <a href="javascript:;" class="color-6 opt-upload"  id="seniority" data-val="seniority" >重新上传</a>
+                            @endif
                         </div>
                     </div>
                     <!-- /.box-footer -->
@@ -234,14 +246,24 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" style="height: 100px;">
+                        <div class="chart">
                             <div class="row">
+                                <div class="col-sm-12">
+                                    @if (@$my_info['prove'])
+                                        <button type="button" data-pdf="{{$my_info['prove']}}" class="btn btn-block btn-info opt-show ft22">查看公校证明</button>
+                                    @else
+                                        <button type="button" id="prove" data-val="prove" class="btn btn-block btn-info opt-upload ft22">上传公校证明</button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
                         <div class="row">
+                            @if (@$my_info['prove'])
+                                <a href="javascript:;" class="color-6 opt-upload"  id="prove" data-val="prove" >重新上传</a>
+                            @endif
                         </div>
                     </div>
                     <!-- /.box-footer -->
@@ -539,7 +561,7 @@
                                                     hide
                                                     @endif
                                                     ">
-                                        <button type="button" class="btn btn-info btn-bank">绑定银行卡</button>
+                                        <button type="button" class="btn btn-info btn-bank ft22">绑定银行卡</button>
                                     </div>
                             </div>
                         </div>
@@ -612,21 +634,29 @@
                         <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="col-sm-3 label label-warning div-mar">
-                                        <h3>{{$my_info['leave_count']}}次</h3>
-                                        <p>请假次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-warning">
+                                            <h4>{{$my_info['leave_count']}}次</h4>
+                                            <p>请假次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-info div-mar">
-                                        <h3>{{$my_info['late_count']}}次</h3>
-                                        <p>迟到次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-info">
+                                            <h4>{{$my_info['late_count']}}次</h4>
+                                            <p>迟到次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-success div-mar">
-                                        <h3>{{$my_info['noevaluate_count']}}次</h3>
-                                        <p>未评价次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-success">
+                                            <h4>{{$my_info['noevaluate_count']}}次</h4>
+                                            <p>未评价次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-primary div-mar">
-                                        <h3>{{$my_info['change_count']}}次</h3>
-                                        <p>被换</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-primary">
+                                            <h4>{{$my_info['change_count']}}次</h4>
+                                            <p>被换次数</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -638,7 +668,8 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-
+                @if (1>2)
+                    <!-- 暂时不显示内容 -->
                 <div class="box box-info direct-chat direct-chat-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title text-blue">课堂评分</h3>
@@ -683,6 +714,7 @@
                     <!-- /.box-footer-->
                 </div>
                 <!-- /.col -->
+                @endif
             </section>
             <!-- /.right -->
         </div>

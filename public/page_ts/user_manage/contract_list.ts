@@ -443,7 +443,6 @@ $(function(){
         });
 
         var arr=[
-            /* ["","没有优惠就不填，只填价格"], */
             ["实付价格",$price],
             ["原始价格",$discount_price],
             ["优惠原因",$discount_reason],
@@ -934,7 +933,7 @@ $(function(){
         };
 
         $order_require_flag.on("change", opt_spec);
-        $order_promotion_type.val(1); //赠送课时
+        $order_promotion_type.val(2); //打折
         opt_spec();
 
         var reload_present_info = function() {

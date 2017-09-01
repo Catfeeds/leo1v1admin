@@ -2026,7 +2026,7 @@ function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,m
     */
     var uploader = Qiniu.uploader({
     runtimes: 'html5, flash, html4',
-    browse_button: btn_id , //choose files id
+    browse_button : btn_id , //choose files id
     uptoken_url: token_url ,
     domain: domain,
     container: containerid,
@@ -2107,6 +2107,7 @@ function custom_show_pdf(file_url) {
 
 
 function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process ){
+    console.log(1232);
     do_ajax( "/common/get_bucket_info",{
         is_public: is_public_bucket ? 1:0
     },function(ret){
@@ -2187,7 +2188,6 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
             var file_name=$.md5(file.name) +time +'.' + match[1];
             console.log('gen file_name:'+file_name);
                     return file_name;
-
           }
         }
       });

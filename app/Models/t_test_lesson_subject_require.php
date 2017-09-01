@@ -1516,6 +1516,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql = $this->gen_sql_new("select m.name,accept_adminid,".
                                   "m.account,sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) set_count,".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1,1,0)) green_count, ".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1 and t.require_admin_type=1,1,0)) ass_green_count, ".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1 and t.require_admin_type=2,1,0)) seller_green_count, ".
                                   "sum(if(jw_test_lesson_status =2,1,0)) gz_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason='未排课,期待时间已到',1,0)) back_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason <> '未排课,期待时间已到',1,0)) back_other_count,".
@@ -1968,7 +1970,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
        $this->where_arr_add_boolean_for_value($where_arr,"origin_userid",$origin_userid_flag );
        $this->where_arr_add_boolean_for_value($where_arr,"contract_status",$order_flag,true);
 
-
        $sql= $this->gen_sql_new(
            "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
            " from %s tr".
@@ -1986,25 +1987,20 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            t_order_info::DB_TABLE_NAME,
            $where_arr);
        return $this->main_get_list_by_page($sql,$page_num);
-
    }
 
    public function  get_test_fail_row($cur_require_adminid)
    {
-       $time = time();
        $where_arr=[
-           "require_time>1503849600",
-           "require_time<".$time,
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",
            'contract_status in (0,null)',
        ];
+       $this->where_arr_add_time_range($where_arr,"require_time",1503849600,time(null));
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
 
        $sql= $this->gen_sql_new(
-           "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,"
-           ."  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time,"
-           ." test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
+           "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
            " from %s tr".
            " left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id".
            " left join %s tss on tr.current_lessonid = tss.lessonid ".
@@ -2378,7 +2374,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function get_jw_openid($lessonid){
         $where_arr=[
-            ["l.lessonid=%d",$lessonid ]   ,
+            ["l.lessonid=%d",$lessonid ],
         ];
         $sql=$this->gen_sql_new(
             "select m.wx_openid  "

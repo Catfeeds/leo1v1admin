@@ -42,7 +42,7 @@
                             <tr>
                                 <td>月份</td>
                                 <td>总课时</td>
-                                @if(in_array($account,["adrian","ted","michelle"]))
+                                @if($has_power==1)
                                     <td>总工资</td>
                                     <td>总收入</td>
                                     <td>模拟工资</td>
@@ -57,7 +57,7 @@
                                 <tr>
                                     <td>{{$m_key}}</td>
                                     <td>{{$m_val['lesson_total']}}</td>
-                                    @if(in_array($account,["adrian","ted","michelle"]))
+                                    @if($has_power==1)
                                         <td>{{$m_val['money']}}</td>
                                         <td>{{$m_val['lesson_price']}}</td>
                                         <td>{{$m_val['money_simulate']}}</td>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td>总计</td>
                                 <td>{{$all_money['lesson_total']}}</td>
-                                @if(in_array($account,["adrian","ted","michelle"]))
+                                @if($has_power==1)
                                     <td>{{round($all_money['money'],2)}}</td>
                                     <td>{{round($all_money['lesson_price'],2)}}</td>
                                     <td>{{round($all_money['money_simulate'],2)}}</td>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <!-- 老师工资类型及等级分布 -->
-            @if(!empty($teacher_money_type_month))
+            @if(is_array($teacher_money_type_month))
                 @foreach(@$teacher_money_type_month as $month_key=>$month_val)
                     <div class="col-xs-12 col-md-9">
                         <div class="panel panel-warning">
@@ -102,7 +102,7 @@
                                         <td>工资类型</td>
                                         <td>等级</td>
                                         <td>总课时</td>
-                                        @if(in_array($account,["adrian","ted","michelle"]))
+                                        @if($has_power==1)
                                             <td>总工资</td>
                                             <td>总收入</td>
                                             <td>模拟工资</td>
@@ -112,24 +112,28 @@
                                         <td>模拟工资成本</td>
                                         <td>模拟老师工资/总收入</td>
                                     </tr>
-                                    @foreach($month_val as $t_key=>$t_val)
-                                        @foreach($t_val as $l_key=>$l_val)
-                                            <tr>
-                                                <td>{{$l_val['teacher_money_type_str']}}</td>
-                                                <td>{{$l_val['level_str']}}</td>
-                                                <td>{{$l_val['lesson_total']}}</td>
-                                                @if(in_array($account,["adrian","ted","michelle"]))
-                                                    <td>{{$l_val['money']}}</td>
-                                                    <td>{{$l_val['lesson_price']}}</td>
-                                                    <td>{{$l_val['money_simulate']}}</td>
-                                                    <td>{{$l_val['lesson_price_simulate']}}</td>
-                                                @endif
-                                                <td>{{round($l_val['money']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)*100}}%</td>
-                                                <td>{{round($l_val['money_simulate']/($l_val['lesson_price_simulate']==0?1:$l_val['lesson_price_simulate']),4)*100}}%</td>
-                                                <td>{{round($l_val['money_simulate']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)*100}}%</td>
-                                            </tr>
+                                    @if(is_array($month_val))
+                                        @foreach($month_val as $t_key=>$t_val)
+                                            @if(is_array($t_val))
+                                                @foreach($t_val as $l_key=>$l_val)
+                                                    <tr>
+                                                        <td>{{$l_val['teacher_money_type_str']}}</td>
+                                                        <td>{{$l_val['level_str']}}</td>
+                                                        <td>{{$l_val['lesson_total']}}</td>
+                                                        @if($has_power==1)
+                                                            <td>{{$l_val['money']}}</td>
+                                                            <td>{{$l_val['lesson_price']}}</td>
+                                                            <td>{{$l_val['money_simulate']}}</td>
+                                                            <td>{{$l_val['lesson_price_simulate']}}</td>
+                                                        @endif
+                                                        <td>{{round($l_val['money']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)*100}}%</td>
+                                                        <td>{{round($l_val['money_simulate']/($l_val['lesson_price_simulate']==0?1:$l_val['lesson_price_simulate']),4)*100}}%</td>
+                                                        <td>{{round($l_val['money_simulate']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)*100}}%</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         @endforeach
-                                    @endforeach
+                                    @endif
                                 </table>
                             </div>
                         </div>

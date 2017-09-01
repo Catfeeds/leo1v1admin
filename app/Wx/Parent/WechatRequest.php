@@ -157,8 +157,32 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
      * @return array
      */
     public static function image(&$request){
-        $content = '收到图片';
-        return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+        // $content = '收到图片';
+        // return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+
+        // 测试
+
+
+        $tuwenList[] = array(
+
+            'title' => '家长端下载手册',
+
+            'description' => '家长端下载手册',
+
+            'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
+
+            'url' => 'http://www.jiuqitian.com/chou6',
+
+        );
+
+        $item = array();
+        foreach($tuwenList as $tuwen){
+            $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
+        }
+        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+
+
+
     }
 
     /**

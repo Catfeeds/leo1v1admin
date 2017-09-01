@@ -20,7 +20,7 @@ function table_init() {
                 });
                 list_data.push(row_data);
             });
-            
+
             $.do_ajax ( "/common_new/upload_xls_data",{
                 xls_data :  JSON.stringify(list_data )
             },function(data){
@@ -32,7 +32,7 @@ function table_init() {
 
         download_item.on("click",function(){
             if ($(".page-opt-show-all").length >0 ) {
-                
+
                 BootstrapDialog.show({
                     title: '下载为xls',
                     message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
@@ -46,7 +46,7 @@ function table_init() {
                         cssClass: 'btn-warning',
                         action: function(dialog) {
                             download_fun();
-                            
+
                         }
                     }]
                 });
@@ -54,7 +54,7 @@ function table_init() {
             }else{
                 download_fun();
             }
-            
+
 
 
         });
@@ -79,12 +79,12 @@ function table_init() {
                     }else{
                         $input.attr("checked","checked") ;
                     }
-                    
+
                     $input.data("index",title);
                     arr.push([ title,  $input]);
                 }
             });
-            
+
             $.show_key_value_table("列显示配置", arr ,[{
                 label: '默认',
                 cssClass: 'btn-primary',
@@ -112,17 +112,17 @@ function table_init() {
                     $.do_ajax("/user_deal/opt_table_field_list",{
                         "opt_type":"set",
                         "table_key":table_key,
-                        "data":JSON.stringify(config_map) 
+                        "data":JSON.stringify(config_map)
                     });
                 }
             }]);
         });
         opt_td.append(config_item);
-    
+
     });
-    
-    
-    var $table_list=$(".common-table") ; 
+
+
+    var $table_list=$(".common-table") ;
     $.each($table_list, function(table_i){
 
         var path_list=window.location.pathname.split("/");
@@ -168,7 +168,7 @@ function table_init() {
                 if (config_map==null) {
                     config_map=[];
                 }
-                
+
 
                 $table.addClass( "table table-bordered table-striped");
                 var $row_list= $table.find("tbody >tr  ");
@@ -202,18 +202,18 @@ function table_init() {
                         $item.removeClass( "remove-for-xs");
                         $item.removeClass( "remove-for-not-xs");
                     }
-                    
+
                     if ($item.css("display")=="none") {
                         display_none_list.push(i );
                     }
                     if ($item.hasClass("remove-for-xs" ) ) {
                         not_for_xs_list.push(i);
                     }
-                    
+
                     if (i== $th_td_list.length-1) {
                         $item.addClass( "remove-for-xs");
                     }
-                    
+
                     if (use_table_config && !set_reset_filed_flag ) {
                         if ($item.css("display")!="none") {
                             var $reset_btn=$("<a href=\"javascript:;\">重置</a>")  ;
@@ -227,11 +227,11 @@ function table_init() {
                             $item.append($reset_btn);
                             set_reset_filed_flag=true;
                         }
-                        
+
                     }
                 });
 
-                //for  
+                //for
 
                 $th.prepend( '<td class="remove-for-not-xs" ></td>');
 
@@ -253,15 +253,15 @@ function table_init() {
                     $item.prepend(
                         $('<td class="remove-for-not-xs"  > <a class="  fa  fa-cog  start-opt-mobile " style="font-size:25px"  href="javascript:;"  > </a> </td>')
                     );
-                    //remove-for-xs 
-                    
+                    //remove-for-xs
+
                     $td_last.find(">div" ).prepend('<a href="javascript:;" class="btn  fa fa-cog td-info"></a>');
                 });
                 bind_td_info($table);
                 bind_td_drapdown($table);
 
                 reset_item();
-                
+
         };
 
 
@@ -274,12 +274,12 @@ function table_init() {
             reset_table ({ field_default_flag:true });
         }
 
-        
+
     });
 
 }
 
- 
+
 $(function(){
     table_init();
 
@@ -303,7 +303,7 @@ $(function(){
     if (item_arr[2]=="index" || item_arr[2]==""){
         opt_url="/"+item_arr[1]+"/index";
     }
-    
+
     var obj=$(".treeview-menu >li>a[href*=\""+ opt_url +"\"]").first();
     var title1=obj.text();
     var title2="";
@@ -311,7 +311,7 @@ $(function(){
         //检查一级节点
         obj=$(".sidebar-menu >li>a[href*=\""+window.location.pathname+"\"]").first();
         title1=obj.text();
-        
+
         obj.css(  "background-color", "rgb(60, 141, 188)");
         obj.css(  "color", "white");
 
@@ -336,7 +336,7 @@ $(function(){
             obj.css(  "color", "white");
         }
 
-        
+
 
         var menu_item= obj.parent().parent().parent();
         title2=menu_item.find(">a span").text();
@@ -348,7 +348,7 @@ $(function(){
             menu_item.addClass("active");
         }
 
-        
+
         menu_item= menu_item.parent().parent();
         if (menu_item.hasClass("treeview")) {
             menu_item.children(".fa-angle-left").first().
@@ -363,37 +363,37 @@ $(function(){
             set_title( title2+"/"+title1 );
         }
     }
-    
+
 
     reset_item();
     $( window ).bind("resize",reset_item);
 
-    
+
 
 
 
     //处理 page select num
     $(".pages > input"). on("keypress", function( e){
-		if (e.keyCode==13){
-			var url=$(this).attr("data");
-			var page_num=$(this).val();
+    if (e.keyCode==13){
+      var url=$(this).attr("data");
+      var page_num=$(this).val();
             url=url.replace(/{Page}/, page_num  );
             window.location.href=url;
-		}
-	});
+    }
+  });
 
     //处理 page select num
     $(".pages > .page-opt-show-all"). on("click", function( e){
-		var url=$(this).attr("data");
-		var page_num=0xFFFFFFFF+1; 
+    var url=$(this).attr("data");
+    var page_num=0xFFFFFFFF+1;
         url=url.replace(/{Page}/, page_num  );
         window.location.href=url;
-	});
+  });
 });
 
 function bind_td_drapdown($table){
     $table.find(".remove-for-not-xs .start-opt-mobile" ).on("click",function(){
-        $(this).closest("tr").find("td > div .td-info ").click(); 
+        $(this).closest("tr").find("td > div .td-info ").click();
     });
 }
 function check_in_phone(){
@@ -418,14 +418,14 @@ function bind_td_info($table){
     $table.find(".td-info").on("click" ,function(){
         var th_row=$(this).closest("table").find("thead td");
         var data_row=$(this).closest("tr").find("td");
-        
+
         var arr=[];
         th_row.each( function( index,element){
             if (index!=0 && index!=th_row.length-1){
                 arr.push( [ $(element).text() ,  $(data_row[index]).text().replace(/,/g, ", " ) ] );
             }
             if (  index==th_row.length-1 ) { //opt
-                
+
                 var a_list=$(data_row).find(">div >a");
                 var opt_arr=[];
 
@@ -448,6 +448,5 @@ function bind_td_info($table){
         $.show_key_value_table("详细信息",arr );
         return false;
     });
-    
-}
 
+}

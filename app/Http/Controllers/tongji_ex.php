@@ -106,5 +106,20 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function sys_error_list() {
+        list($start_time, $end_time)= $this->get_in_date_range(0,0,0,[],0,0,true);
+        $report_error_from_type=$this->get_in_el_report_error_from_type();
+        $report_error_from_type=$this->get_in_el_report_error_type();
+
+    }
+    public function show_sys_error_info() {
+        $id=$this->get_in_id();
+        $item= $this->t_sys_error_info->field_get_list($id,"*");
+        \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+        E\Ereport_error_from_type::set_item_value_str($item);
+        E\Ereport_error_type::set_item_value_str($item);
+        return $this->pageView(__METHOD__, null, ["report_info"=> $item]);
+    }
+
 
 }

@@ -231,19 +231,45 @@ class agent extends Controller
     }
 
     public function check(){
-        $agent_level_old = 1;
-        $agent_level = 2;
-        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
-            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
-            $data = [
-                'first'    => '等级升级提醒',
-                'keyword1' => '水晶会员',
-                'keyword2' => date('Y-m-d H:i:s',time()),
-                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
-            ];
-            $url = '';
-            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old='oAJiDwBbbqiTwnU__f6ce5tNpWYs',$template_id,$data,$url);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid=734);
+        dd($ret_info);
+        //60天
+        // $list = $this->t_agent->get_agent_list();
+        // foreach($list as $item){
+        //     $type = $item['type'];
+        //     $phone = $item['phone'];
+        //     $userid = $item['userid'];
+        //     if($type == 1){//进例子
+        //         $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        //         if($db_userid){
+        //             $add_time=$this->t_seller_student_new->get_add_time($userid);
+        //             if ($add_time < time(NULL) -60*86400 ) { //60天前例子
+        //                 $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        //             }
+        //         }else{
+        //             $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        //         }
+        //     }
+        // }
+
+        $this->switch_tongji_database();
+        $list = $this->t_seller_student_new->get_all_list();
+        dd($list);
+        foreach($list as $item){
+            $userid = $item['userid'];
+            // $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+            // $succ_count = $succ_test_info['count'];
+            // if($item['test_lesson_count'] != $succ_count){
+            //     $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+            // }
+            if($userid){
+                $ret = $this->t_test_subject_free_list->get_all_list_by_userid($userid);
+                if($ret){
+                    $this->t_seller_student_new->field_update_list($userid,['free_adminid'=>$ret['adminid'],'free_time'=>$ret['add_time']]);
+                }
+            }
         }
+        dd('a');
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -441,7 +467,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -566,7 +592,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];

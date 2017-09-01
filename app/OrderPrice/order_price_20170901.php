@@ -96,6 +96,7 @@ class order_price_20170901 extends order_price_base
             }
         }
 
+        /*
 
         // 活动
         $free_money=0;
@@ -119,6 +120,7 @@ class order_price_20170901 extends order_price_base
             $desc_list[]=static::gen_desc("满课时立减",false  );
         }
         $price-=$free_money;
+        */
         /*
         if($args["from_test_lesson_id"]!=0){
             $from_test_lesson_id=@$args["from_test_lesson_id"];
@@ -141,7 +143,7 @@ class order_price_20170901 extends order_price_base
              "price"                => $old_price,
              "present_lesson_count" => $present_lesson_count ,
              "discount_price"       => $price,
-             "discount_count"       => floor(($price/$old_price)*10000)/100,
+             "discount_count"       => @floor(($price/$old_price)*10000)/100,
              "order_promotion_type" => $order_promotion_type,
              "contract_type"        => $contract_type,
              "grade"                => $grade,
