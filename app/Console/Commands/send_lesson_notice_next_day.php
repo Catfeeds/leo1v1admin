@@ -52,7 +52,49 @@ class send_lesson_notice_next_day extends Command
     }
 
 
-    public function get_data($item){
-        $data_msg = [];
+
+    
+
+    public function get_data_tea($item){
+
+
+
+        $data_msg = [
+            'first' =>""
+        ];
     }
+
+    public function get_data_par($item){
+        $data_msg = [
+            'first' =>""
+        ];
+    }
+
+
+
+    /***
+        QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8 // 家长
+
+        {{first.DATA}}
+        课程名称：{{keyword1.DATA}}
+        上课时间：{{keyword2.DATA}}
+        上课地点：{{keyword3.DATA}}
+        联系电话：{{keyword4.DATA}}
+        {{remark.DATA}}
+
+
+        // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
+
+        {{first.DATA}}
+        上课时间：{{keyword1.DATA}}
+        课程类型：{{keyword2.DATA}}
+        教师姓名：{{keyword3.DATA}}
+        {{remark.DATA}}
+
+
+
+
+
+
+     ***/
 }
