@@ -59,7 +59,6 @@ $(function(){
     $("#id_user_info").val(g_args.user_info);
     $('#id_subject').val(g_args.subject);
 
-
     $( "#id_phone_name" ).autocomplete({
         source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
         minLength: 0,
