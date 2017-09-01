@@ -851,8 +851,20 @@ $(function(){
     $( window ).bind("resize",reset_item);
 
 
-    $("#id_new_seller_system").on("click",function(){
-        $.wopen("http://admincc.yb1v1.com");
+    $("#id_call_check_systen").on("click",function(){
+        $.ajax({
+            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+g_args.account_id ,
+            'type': 'POST',
+            'data': {},
+            'dataType': 'jsonp',
+            success: function(data) {
+                if (data['ret'] == 0) {
+                    $.reload();
+                } else {
+                    console.log(data);
+                }
+            }
+        });
     });
 
     $("#id_self_menu_add").on("click",function(){

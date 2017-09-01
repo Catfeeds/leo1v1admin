@@ -134,6 +134,12 @@ class teacher_simulate extends Controller
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
 
+
+        $has_power=0;
+        if(in_array($acc,["erick"])){
+            $has_power=1;
+        }
+
         $show_data = [
             "all_money"                  => round($all_money,2),
             "all_money_simulate"         => round($all_money_simulate,2),
