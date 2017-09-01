@@ -195,7 +195,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
 
         $sql = $this->gen_sql_new(
             "select t.subject,t.grade,n.has_pad,n.phone_location ,s.origin_level,".
-            " if (o.pay_time>0 and contract_type in (0,3) and contract_status>0,1,0) as order_user".
+            " if (o.pay_time>0 and o.contract_type in (0,3) and o.contract_status>0,1,0) as order_user".
             " from %s n left join %s s on s.userid=n.userid".
             " left join %s t on t.userid = n.userid ".
             " left join %s o on t.userid = o.userid ".
