@@ -2483,19 +2483,19 @@ class user_manage extends Controller
         $ret_student_subject[1]['cc']           = $ret_info["person_num"];
         $ret_student_subject[1]['trans']        = $ret_info['have_order'];
         if($ret_info['person_num']>0){
-            $ret_student_subject[1]['per'] = round($ret_info['have_order']/$ret_info['person_num'],2).'%';
+            $ret_student_subject[1]['per'] = round(100*$ret_info['have_order']/$ret_info['person_num'],2).'%';
         }
 
         $ret_student_subject[2]['cc']           = $ret_info_top["person_num"];
         $ret_student_subject[2]['trans']        = $ret_info_top['have_order'];
         if($ret_info_top['person_num']>0){
-            $ret_student_subject[2]['per'] = round($ret_info_top['have_order']/$ret_info_top['person_num'],2).'%';
+            $ret_student_subject[2]['per'] = round(100*$ret_info_top['have_order']/$ret_info_top['person_num'],2).'%';
         }
 
         $ret_student_subject[3]['cc']           = $ret_info_take["person_num"];
         $ret_student_subject[3]['trans']        = $ret_info_take['have_order'];
         if($ret_info_take['person_num']>0){
-            $ret_student_subject[3]['per'] = round($ret_info_take['have_order']/$ret_info_take['person_num'],2).'%';
+            $ret_student_subject[3]['per'] = round(100*$ret_info_take['have_order']/$ret_info_take['person_num'],2).'%';
         }
         $arr['list'] = $ret_student_subject;
         return $this->pageView(__METHOD__, $arr);
