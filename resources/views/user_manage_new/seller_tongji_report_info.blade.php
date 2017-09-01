@@ -83,9 +83,9 @@
                         <td >{{@$var["is_called_phone_count_for_day"]}}</td>
                         <td >{{@$var["is_called_phone_count_for_month"]}}</td>
                         <td >{{@$var["require_test_count_for_day"]}}</td>
-                        <td >{{@$var["become_member_time"]}}111</td>
-                        <td >{{@$var["leave_member_time"]}}222</td>
-                        <td >{{@$var["del_flag_str"]}}333</td>
+                        <td >{{@$var["become_member_time"]}}</td>
+                        <td >{{@$var["leave_member_time"]}}</td>
+                        <td >{{@$var["del_flag_str"]}}</td>
                         <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
