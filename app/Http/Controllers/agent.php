@@ -231,7 +231,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid=725);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid=734);
         dd($ret_info);
         //60天
         // $list = $this->t_agent->get_agent_list();
