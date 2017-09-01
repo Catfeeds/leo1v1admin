@@ -10,18 +10,23 @@ $(function(){
                 "item_name":  $.trim($("#id_phone_name").val())
             },function(){});
         }
-
+        if ($.trim($("#id_user_info").val()) != g_args.user_info ) {
+            $.do_ajax("/user_deal/set_item_list_add",{
+                "item_key" :show_name_key,
+                "item_name":  $.trim($("#id_user_info").val())
+            },function(){});
+        }
 
         $.reload_self_page ( {
-            date_type:    $('#id_date_type').val(),
-            opt_date_type:    $('#id_opt_date_type').val(),
-            start_time:    $('#id_start_time').val(),
-            end_time:    $('#id_end_time').val(),
-
-            grade:    $('#id_grade').val(),
-            phone_name:    $('#id_phone_name').val(),
-            has_pad:    $('#id_has_pad').val(),
-            subject:    $('#id_subject').val()
+            date_type     : $('#id_date_type').val(),
+            opt_date_type : $('#id_opt_date_type').val(),
+            start_time    : $('#id_start_time').val(),
+            end_time      : $('#id_end_time').val(),
+            grade         : $('#id_grade').val(),
+            phone_name    : $('#id_phone_name').val(),
+            user_info     : $('#id_user_info').val(),
+            has_pad       : $('#id_has_pad').val(),
+            subject       : $('#id_subject').val()
         });
     }
 
@@ -36,17 +41,13 @@ $(function(){
         }
     });
 
-    // $('#id_free_date_range').select_date_range({
-    //     'date_type' : g_args.date_type,
-    //     'opt_date_type' : g_args.opt_date_type,
-    //     'start_time'    : g_args.start_time,
-    //     'end_time'      : g_args.end_time,
-    //     date_type_config : JSON.parse( g_args.date_type_config),
-    //     onQuery :function() {
-    //         load_data();
-    //     }
-    // });
-
+    $( "#id_user_info" ).autocomplete({
+        source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
+        minLength: 0,
+        select: function( event, ui ) {
+            load_data();
+        }
+    });
 
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
@@ -55,6 +56,7 @@ $(function(){
     $('#id_grade').val(g_args.grade);
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_phone_name').val(g_args.phone_name);
+    $("#id_user_info").val(g_args.user_info);
     $('#id_subject').val(g_args.subject);
 
 

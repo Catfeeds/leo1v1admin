@@ -905,6 +905,7 @@ class seller_student_new extends Controller
         list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         $page_num   = $this->get_in_page_num();
         $phone_name = trim($this->get_in_str_val("phone_name"));
+        $user_info  = trim($this->get_in_str_val('user_info',''));
         $nick  = "";
         $phone = "";
         if($phone_name){
@@ -920,7 +921,7 @@ class seller_student_new extends Controller
         $subject=$this->get_in_subject(-1);
         $origin=trim($this->get_in_str_val("origin",""));
         $this->t_seller_student_new->switch_tongji_database();
-        $ret_info= $this->t_seller_student_new->get_free_seller_fail_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
+        $ret_info= $this->t_seller_student_new->get_free_seller_fail_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone,$user_info);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
