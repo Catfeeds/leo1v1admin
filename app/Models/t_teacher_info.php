@@ -2965,7 +2965,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["teacherid=%s",$teacherid, 0],
         ];
-        $sql = $this->gen_sql_new("select level,teacher_money_type"
+        $sql = $this->gen_sql_new("select level,teacher_money_type,teacher_type"
                            ." from %s"
                            ." where %s"
                            ,self::DB_TABLE_NAME
