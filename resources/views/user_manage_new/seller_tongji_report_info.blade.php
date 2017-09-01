@@ -47,10 +47,10 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
-                    <td >日均通时</td>
-                    <td>日均呼出</td>
-                    <td>月呼出量</td>
-                    <td>日均邀约</td>
+                    <!-- <td >日均通时</td>
+                         <td>日均呼出</td>
+                         <td>月呼出量</td>
+                         <td>日均邀约</td> -->
                     <td>累约人数</td>
                     <td>试听成功数</td>
                     <td>已排课</td>
@@ -82,10 +82,10 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <td style=" width:80px" >{{@$var["duration_count_for_day"]}}</td>
-                        <td >{{@$var["is_called_phone_count_for_day"]}}</td>
-                        <td >{{@$var["is_called_phone_count_for_month"]}}</td>
-                        <td >{{@$var["require_test_count_for_day"]}}</td>
+                        <!-- <td style=" width:80px" >{{@$var["duration_count_for_day"]}}</td>
+                             <td >{{@$var["is_called_phone_count_for_day"]}}</td>
+                             <td >{{@$var["is_called_phone_count_for_month"]}}</td>
+                             <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
                         <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
