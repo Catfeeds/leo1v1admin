@@ -510,11 +510,6 @@ class lesson extends TeaWxController
             ];
         }
 
-
-        // $stu_performance = $this->get_in_str_val('stu_performance',''); // 学生表现
-        // $stu_improve = $this->get_in_str_val('stu_improve',''); // 需要改进
-        // $stu_comment = $stu_performance.'<br>'.$stu_improve; // 合并整体评价
-
         $teacher_message_str = $this->get_in_str_val("teacher_message",'');
         $point_note_list_arr = [];
 
@@ -572,9 +567,4 @@ class lesson extends TeaWxController
         }
     }
 
-    public function get_lesson_intro(){
-        $lessonid = $this->get_in_int_val('lessonid');
-        $lesson_intro = $this->t_lesson_info->get_lesson_intro($lessonid);
-        return $this->output_succ(['data'=>$lesson_intro]);
-    }
 }

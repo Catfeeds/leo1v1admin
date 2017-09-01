@@ -3367,6 +3367,7 @@ class user_manage_new extends Controller
     /**
      * @param type 需要重置的内容 1 课程包年级 2 学生年级
      * 暑期(7.1)重置学生课程包的年级 升级课程包年级
+     * 开学(9.1)重置学生年级 
      */
     public function reset_course_order_grade(){
         $type = $this->get_in_int_val("type",1);
@@ -3375,7 +3376,6 @@ class user_manage_new extends Controller
         $type_str  = $type==1?"课程包年级":"学生年级";
         $title     = "重置学生年级";
         $send_info = $acc."用户在".date("Y-m-d H:i",time())."时候，尝试重置学生的相关年级,类型为".$type_str;
-        \App\Helper\Utils::send_error_email("wg392567893@163.com",$title,$send_info);
 
         if($type==2 && !in_array($acc,["adrian","jim"])){
             return $this->output_err("你没有此权限!");

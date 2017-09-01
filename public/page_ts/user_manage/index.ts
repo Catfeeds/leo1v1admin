@@ -118,6 +118,7 @@ $(function(){
     Enum_map.append_option_list("test_user", $("#id_test_user"));
     Enum_map.append_option_list("stu_origin", $("#id_originid"));
     Enum_map.td_show_desc("grade", $(".td-grade"));
+    Enum_map.td_show_desc("grade", $(".td-grade-up"));
     Enum_map.td_show_desc("relation_ship", $(".td-parent-type"));
     Enum_map.append_option_list("student_type", $("#id_student_type"));
 

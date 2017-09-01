@@ -42,7 +42,7 @@
                             <tr>
                                 <td>月份</td>
                                 <td>总课时</td>
-                                @if(in_array($account,["adrian","ted","michelle"]))
+                                @if($has_power==1)
                                     <td>总工资</td>
                                     <td>总收入</td>
                                     <td>模拟工资</td>
@@ -57,7 +57,7 @@
                                 <tr>
                                     <td>{{$m_key}}</td>
                                     <td>{{$m_val['lesson_total']}}</td>
-                                    @if(in_array($account,["adrian","ted","michelle"]))
+                                    @if($has_power==1)
                                         <td>{{$m_val['money']}}</td>
                                         <td>{{$m_val['lesson_price']}}</td>
                                         <td>{{$m_val['money_simulate']}}</td>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td>总计</td>
                                 <td>{{$all_money['lesson_total']}}</td>
-                                @if(in_array($account,["adrian","ted","michelle"]))
+                                @if($has_power==1)
                                     <td>{{round($all_money['money'],2)}}</td>
                                     <td>{{round($all_money['lesson_price'],2)}}</td>
                                     <td>{{round($all_money['money_simulate'],2)}}</td>
@@ -102,7 +102,7 @@
                                         <td>工资类型</td>
                                         <td>等级</td>
                                         <td>总课时</td>
-                                        @if(in_array($account,["adrian","ted","michelle"]))
+                                        @if($has_power==1)
                                             <td>总工资</td>
                                             <td>总收入</td>
                                             <td>模拟工资</td>
@@ -120,7 +120,7 @@
                                                         <td>{{$l_val['teacher_money_type_str']}}</td>
                                                         <td>{{$l_val['level_str']}}</td>
                                                         <td>{{$l_val['lesson_total']}}</td>
-                                                        @if(in_array($account,["adrian","ted","michelle"]))
+                                                        @if($has_power==1)
                                                             <td>{{$l_val['money']}}</td>
                                                             <td>{{$l_val['lesson_price']}}</td>
                                                             <td>{{$l_val['money_simulate']}}</td>

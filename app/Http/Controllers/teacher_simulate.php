@@ -339,13 +339,13 @@ class teacher_simulate extends Controller
             }
         }
 
-        $has_power=0;
+        $has_power = 0;
         if(in_array($account,["ted","michelle"])){
-            
+            $has_power = 1;
         }
 
         return $this->view(__METHOD__,[
-            "account"                  => $account,
+            "has_power"                => $has_power,
             "level_list"               => $level_list,
             "money_month"              => $money_month,
             "teacher_money_type_month" => $teacher_money_type_month,

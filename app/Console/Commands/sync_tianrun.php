@@ -149,7 +149,7 @@ class sync_tianrun extends Command
         $day=$this->option('day');
         if ($day===null) {
             $now=time(NULL);
-            $start_time=$now-660;
+            $start_time=$now-60*15;
             $end_time=$now;
         }else{
             $start_time=strtotime($day);

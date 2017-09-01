@@ -128,11 +128,13 @@ class testbb extends Controller
 
 
     public function get_pdf_url(){
-        $pdf_file_path = 'http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=';
+        $pdf_file_path = "http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=";
         // $this->set_in_value('file_url',$file_url);
         // return $this->get_pdf_download_url();
         $pdf_url = "2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf";
         $lessonid = 247905;
+        $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
@@ -143,8 +145,8 @@ class testbb extends Controller
             $path = public_path().'/wximg';
 
             @chmod($savePathFile, 0777);
-
-            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+            exit;
+            // $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
             $file_name_origi = array();
             foreach($imgs_url_list as $item){
