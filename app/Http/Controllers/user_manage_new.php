@@ -1383,6 +1383,7 @@ class user_manage_new extends Controller
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
+        dd($res);
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
@@ -1402,18 +1403,8 @@ class user_manage_new extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
-                // \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
-                // \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
-                if(isset($item["become_member_time"])){
-                    $item["become_member_time"] = date('Y-m-d H:i:s',$item["become_member_time"]);
-                }else{
-                    $item["become_member_time"] = '';
-                }
-                if(isset($item['leave_member_time'])){
-                    $item["leave_member_time"] = date('Y-m-d H:i:s',$item["leave_member_time"]);
-                }else{
-                    $item["leave_member_time"] = '';
-                }
+                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
+                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
                 if(isset($item["del_flag"])){
                     $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
                 }else{
