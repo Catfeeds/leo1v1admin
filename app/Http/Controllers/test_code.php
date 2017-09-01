@@ -1987,6 +1987,11 @@ class test_code extends Controller
     }
 
     public function get_stu_list(){
+        $start_num  = $this->get_in_int_val("start_num");
+        $end_num    = $this->get_in_int_val("end_num");
+        $time       = strtotime("2017-1-1");
+        $start_time = strtotime("+$start_num month",$time);
+        $end_time   = strtotime("+$end_num month",$start_time );
 
     }
 }
