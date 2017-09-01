@@ -1402,8 +1402,18 @@ class user_manage_new extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
-                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
-                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
+                // \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
+                // \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
+                if($item["become_member_time"]){
+                    $item["become_member_time"] = date('Y-m-d H:i:s',$item["become_member_time"]);
+                }else{
+                    $item["become_member_time"] = '';
+                }
+                if($item['leave_member_time']){
+                    $item["leave_member_time"] = date('Y-m-d H:i:s',$item["leave_member_time"]);
+                }else{
+                    $item["leave_member_time"] = '';
+                }
                 if(isset($item["del_flag"])){
                     $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
                 }else{
