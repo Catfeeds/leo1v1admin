@@ -2465,19 +2465,19 @@ class user_manage extends Controller
                 "name" => "普通排课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
             2 => [
                 "name" => "Top20排课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
             3 => [
                 "name" => "抢课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
         ];
         $ret_student_subject[1]['cc']           = $ret_info["person_num"];
@@ -2488,13 +2488,13 @@ class user_manage extends Controller
 
         $ret_student_subject[2]['cc']           = $ret_info_top["person_num"];
         $ret_student_subject[2]['trans']        = $ret_info_top['have_order'];
-        if($ret_info['person_num']>0){
+        if($ret_info_top['person_num']>0){
             $ret_student_subject[2]['per'] = round($ret_info_top['have_order']/$ret_info_top['person_num'],2).'%';
         }
 
         $ret_student_subject[3]['cc']           = $ret_info_take["person_num"];
         $ret_student_subject[3]['trans']        = $ret_info_take['have_order'];
-        if($ret_info['person_num']>0){
+        if($ret_info_take['person_num']>0){
             $ret_student_subject[3]['per'] = round($ret_info_take['have_order']/$ret_info_take['person_num'],2).'%';
         }
         $arr['list'] = $ret_student_subject;
