@@ -88,6 +88,7 @@
             <thead>
                 <tr>
                     <td display="none">num</td>
+                    <td display="none">id</td>
                     <td>手机号</td>
                     <td>是否绑定微信</td>
                     <td>老师姓名</td>
@@ -116,6 +117,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["num"]}}</td>
+                        <td>{{$var["id"]}}</td>
                         <td>{{$var["phone"]}}</td>
                         <td>{{$var["have_wx_flag"]}}</td>
                         <td>{{$var["nick"]}}</td>

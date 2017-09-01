@@ -990,8 +990,7 @@ class common_new extends Controller
          **/
 
 
-        $lesson_info = $this->t_lessson_info_b3->get_lesson_info_by_lessonid($lessonid);
-
+        $lesson_info = $this->t_lessson_info_b2->get_lesson_info_by_lessonid($lessonid);
 
         if($type == 1){ // 试卷
             $keyword1 = '讲义已上传';

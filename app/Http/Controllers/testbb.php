@@ -127,6 +127,47 @@ class testbb extends Controller
     // }
 
 
+    public function get_pdf_url(){
+        $url = $this->get_in_str_val('f');
+        return $this->get_pdf_download_url($url);
+    }
+
+    public function get_pdf_download_url()
+    {
+        $file_url = $this->get_in_str_val("file_url");
+
+        if (strlen($file_url) == 0) {
+            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if (preg_match("/http/", $file_url)) {
+            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+        } else {
+            $new_url=$this->gen_download_url($file_url);
+            // dd($new_url);
+            return $this->output_succ(array('ret' => 0, 'info' => '成功',
+                             'file' => urlencode($new_url),
+                             'file_ex' => $new_url,
+            ));
+        }
+    }
+
+    private function gen_download_url($file_url)
+    {
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+
+
 
 
 

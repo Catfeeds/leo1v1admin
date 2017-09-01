@@ -2798,6 +2798,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_open_order_list(){
+        return true; 
+        // $where_arr = [
+        //     ["",,0]
+        // ];
+        $sql = $this->gen_sql_new(""
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
 
     }
 

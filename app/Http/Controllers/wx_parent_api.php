@@ -178,7 +178,7 @@ class wx_parent_api extends Controller
                {{remark.DATA}}
              **/
 
-            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid();
+            $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid();
 
             $subject_str = E\Esubject::get_desc($lesson_info['subject']);
 
@@ -1232,7 +1232,7 @@ class wx_parent_api extends Controller
 
         if($ret){
             if($type == 2){
-                $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
+                $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
                 $subject_str = E\Esubject::get_desc($lesson_info['subject']);
                 $first = date('m月d日 H:i',$lesson_info['lesson_start'])."的 $subject_str 课程，".$lesson_info['stu_nick']."同学的家长已经上传了";
 
@@ -1284,12 +1284,47 @@ class wx_parent_api extends Controller
     }
 
 
+
+    public function get_pdf_download_url()
+    {
+        $file_url = $this->get_in_str_val("file_url");
+
+        if (strlen($file_url) == 0) {
+            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+        }
+
+        if (preg_match("/http/", $file_url)) {
+            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+        } else {
+            $new_url=$this->gen_download_url($file_url);
+            // dd($new_url);
+            return $this->output_succ(array('ret' => 0, 'info' => '成功',
+                             'file' => urlencode($new_url),
+                             'file_ex' => $new_url,
+            ));
+        }
+    }
+
+    private function gen_download_url($file_url)
+    {
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
+        $file_url = \App\Helper\Config::get_qiniu_private_url()."/" .$file_url;
+
+        $base_url=$auth->privateDownloadUrl($file_url );
+        return $base_url;
+    }
+
+
+
     public function get_paper_url(){ // 获取预览图片
         $lesson_id   = $this->get_in_int_val('lessonid');
         $lesson_type = $this->get_in_int_val('lesson_type');
         $paper_type  = $this->get_in_int_val('paper_type');
-
-        $qiniu_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
 
         if($lesson_type == 2){ // 试听课
             if($paper_type == 1){ // 试卷
@@ -1300,9 +1335,8 @@ class wx_parent_api extends Controller
                 $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
                 if($paper_url['homework_pdf']){
-                    $paper_url['homework_pdf'] = $qiniu_url.$paper_url['homework_pdf'];
+                    return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
                 }
-                return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 试卷
@@ -1312,9 +1346,8 @@ class wx_parent_api extends Controller
                 $paper_url = $this->t_lesson_info_b2->get_stu_cw_url($lessonid);
 
                 if($paper_url){
-                    $paper_url = $qiniu_url.$paper_url;
+                    return $this->output_succ(['data'=>$paper_url]);
                 }
-                return $this->output_succ(['data'=>$paper_url]);
             }
         }
 
