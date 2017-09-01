@@ -24,6 +24,7 @@
                     <td>工资类别</td>
 
                     <td>老师类型</td>
+                    <td>老师等级</td>
                   
                    
 
@@ -47,6 +48,7 @@
                         </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["identity_str"]}} </td>
+                        <td>{{@$var["level_str"]}} </td>
 
                        
                        
