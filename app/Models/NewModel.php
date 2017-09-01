@@ -226,7 +226,7 @@ abstract class NewModel
                         @$bt_item["file"].":".@$bt_item["line"]. "<br/>";
                 }
 
-                dispatch( new \App\Jobs\send_error_mail("","$bt_str", ""  ));
+                dispatch( new \App\Jobs\send_error_mail("","$bt_str", "" ,\App\Enums\Ereport_error_from_type::V_1  ));
             }
         }
         return $this->do_error($ret ,$sql);
