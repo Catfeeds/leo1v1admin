@@ -44,7 +44,8 @@ class reset_student_course_grade extends Job implements ShouldQueue
                 $task->t_lesson_info_b2->update_lesson_grade($courseid,$up_grade);
             }
         }else{
-            $list = $this->task->t_student_info->get_all_student();
+            $reg_time = strtotime(date("Y-9-1",time()));
+            $list = $this->task->t_student_info->get_all_student($reg_time);
             foreach($list as $s_val){
                 $userid   = $s_val['userid'];
                 $up_grade = $this->get_up_grade($s_val['grade'],$this->type);
