@@ -329,14 +329,16 @@ class test_boby extends Controller
                     } else {
                         $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
                     }
-                    $subject = E\Esubject::set_item_value_str($item);
-                    echo $subject;
+                    E\Esubject::set_item_value_str($item);
+                    $subject = $item['subject_str'];
                 }
+                // dd($list);
+                // dd($subject);
 
                 foreach ($list as $k=>$v){
                     $s = $s.'<tr><td>'.$subject.'</td>'
-                                    .'<td>'.$v["lesson_nums"].'</td>'
-                                    .'<td>'.$v["user_nums"].'</td>'
+                                    .'<td>'.$k.'</td>'
+                                    .'<td>'.$v.'</td>'
                                     .'</tr>';
                 }
             }

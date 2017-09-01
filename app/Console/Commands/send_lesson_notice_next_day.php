@@ -57,11 +57,12 @@ class send_lesson_notice_next_day extends Command
 
 
     public function get_data_tea($item){
-
-
-
+        $subject_str = E\Esubject::get_desc($item['subject']);
         $data_msg = [
-            'first' =>""
+            'first'    =>"老师您好，您于明天".date('H:i',$item['lesson_start'])."有一节 $subject_str 课。",
+            'keyword1' => '"'.date('Y-m-d H:i',$item['lesson_start']).' ~ '.date('H:i',$item['lesson_end']),
+            'keyword2' => "试听课",
+            'keyword3' => "'".$item['tea_nick']."'",
         ];
     }
 
