@@ -232,7 +232,7 @@ class agent extends Controller
 
     public function check(){
         // $this->agent_add();
-        $wx_openid = ' oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
         $data = [
             'first'    => '恭喜您获得邀请奖金',
