@@ -333,7 +333,7 @@ class wx_yxyx_api extends Controller
         $ret = $this->t_agent_cash->get_cash_list_by_phone($phone);
         foreach($ret as $key=>$item){
             $ret_list[$key]['cash'] = $item['cash']/100;
-            $ret_list[$key]['is_suc_flag'] = $item['is_suc_flag'];
+            $ret_list[$key]['is_suc_flag'] = $item['check_money_flag'];
             $ret_list[$key]['create_time'] = date('Y-m-d',$item['create_time']);
         }
         return $this->output_succ(["list" =>$ret_list]);
