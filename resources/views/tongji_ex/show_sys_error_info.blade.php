@@ -18,7 +18,7 @@
 
         <hr/>
         <div>
-           {!! @report_info["error_msg"] !!} 
+           {!! @$report_info["error_msg"] !!} 
         </div>
     </section>
 
