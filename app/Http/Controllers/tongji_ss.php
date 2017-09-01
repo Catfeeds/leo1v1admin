@@ -694,7 +694,6 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            dd($ret_new);
             // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
@@ -775,7 +774,7 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
             }
-            dd($ret_info);
+            dd($ret_info['list']);
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
