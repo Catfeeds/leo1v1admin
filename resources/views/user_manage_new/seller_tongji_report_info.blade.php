@@ -52,8 +52,8 @@
                          <td>月呼出量</td>
                          <td>日均邀约</td> -->
                     <td>累约人数</td>
-                    <td>试听成功数</td>
                     <td>已排课</td>
+                    <td>试听成功数</td>
                     <td>取消人数</td>
                     <td>取消率</td>
                     <td>签约人数</td>
@@ -87,8 +87,8 @@
                              <td >{{@$var["is_called_phone_count_for_month"]}}</td>
                              <td >{{@$var["require_test_count_for_day"]}}</td> -->
                         <td >{{@$var["require_test_count_for_month"]}}</td>
-                        <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["test_lesson_count_for_month"]}}</td>
+                        <td >{{@$var["succ_all_count_for_month"]}}</td>
                         <td >{{@$var["fail_all_count_for_month"]}}</td>
                         <td >{{@$var["lesson_per"]}}</td>
                         <td >{{@$var["all_new_contract_for_month"]}}</td>
