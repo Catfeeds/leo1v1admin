@@ -3,6 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+require_once(app_path("/Libs/OSS/autoload.php"));
+use OSS\OssClient;
+
+use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
@@ -133,9 +137,8 @@ class testbb extends Controller
         // return $this->get_pdf_download_url();
         $pdf_url = "2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf";
         $lessonid = 247905;
-        $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+        $pdf_file_path = $this->gen_download_url($pdf_url);
 
-        dd($pdf_file_path);
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
@@ -146,9 +149,9 @@ class testbb extends Controller
             $path = public_path().'/wximg';
 
             @chmod($savePathFile, 0777);
-            exit;
-            // $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
+            // dd($imgs_url_list);
             $file_name_origi = array();
             foreach($imgs_url_list as $item){
                 $file_name_origi[] = @$this->put_img_to_alibaba($item);
@@ -170,25 +173,23 @@ class testbb extends Controller
 
     }
 
-    public function get_pdf_download_url()
-    {
-        $file_url = $this->get_in_str_val("file_url");
+    // public function get_pdf_download_url($file_url)
+    // {
+    //     if (strlen($file_url) == 0) {
+    //         return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
+    //     }
 
-        if (strlen($file_url) == 0) {
-            return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
-        }
-
-        if (preg_match("/http/", $file_url)) {
-            return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
-        } else {
-            $new_url=$this->gen_download_url($file_url);
-            // dd($new_url);
-            return $this->output_succ(array('ret' => 0, 'info' => '成功',
-                             'file' => urlencode($new_url),
-                             'file_ex' => $new_url,
-            ));
-        }
-    }
+    //     if (preg_match("/http/", $file_url)) {
+    //         return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
+    //     } else {
+    //         $new_url=$this->gen_download_url($file_url);
+    //         // dd($new_url);
+    //         return $this->output_succ(array('ret' => 0, 'info' => '成功',
+    //                          'file' => urlencode($new_url),
+    //                          'file_ex' => $new_url,
+    //         ));
+    //     }
+    // }
 
     private function gen_download_url($file_url)
     {
@@ -234,6 +235,33 @@ class testbb extends Controller
         }
 
     }
+
+
+    public function put_img_to_alibaba($target){
+        try {
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"], false);
+
+
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
+
+            return $config["public"]["url"]."/".$file_name;
+
+        } catch (OssException $e) {
+            \App\Helper\Utils::logger( "init OssClient fail");
+            return "" ;
+        }
+
+    }
+
 
 
 

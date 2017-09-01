@@ -32,8 +32,8 @@ class reset_student_course_grade extends Job implements ShouldQueue
     {
         $task = new \App\Console\Tasks\TaskController();
 
-        $list = $task->t_course_order->get_course_order_grade();
         if($this->type==1){
+            $list = $task->t_course_order->get_course_order_grade();
             foreach($list as $l_val){
                 $courseid = $l_val['courseid'];
                 $up_grade = $this->get_up_grade($l_val['grade'],$this->type);
@@ -44,6 +44,7 @@ class reset_student_course_grade extends Job implements ShouldQueue
                 $task->t_lesson_info_b2->update_lesson_grade($courseid,$up_grade);
             }
         }else{
+            $list = $this->task->t_student_info->get_all_student();
             foreach($list as $s_val){
                 $userid   = $s_val['userid'];
                 $up_grade = $this->get_up_grade($s_val['grade'],$this->type);
@@ -51,6 +52,7 @@ class reset_student_course_grade extends Job implements ShouldQueue
                     "grade_up" => $up_grade,
                 ]);
             }
+            \App\Helper\Utils::logger("reset student grade");
             $task->t_course_order->reset_course_lesson_gradse_type(0);
         }
     }
@@ -68,4 +70,5 @@ class reset_student_course_grade extends Job implements ShouldQueue
         }
         return (int)$grade;
     }
+
 }

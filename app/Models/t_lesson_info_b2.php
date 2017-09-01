@@ -3718,20 +3718,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "is_test_user=0",
         ];
 
-        $sql = $this->gen_sql_new("select count( l.lessonid ) as lesson_nums"
-                                  ." from %s l force index(lesson_type_and_start)"
-                                  ." left join  %s s on s.userid=l.userid"
-                                  ." where %s "
-                                  ." group by l.userid"
-                                  ." order by lesson_nums"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr);
+        $sql = $this->gen_sql_new(
+            "select count( l.lessonid ) as lesson_nums,l.subject, count(distinct l.userid) as user_count"
+            ." from %s l force index(lesson_type_and_start)"
+            ." left join  %s s on s.userid=l.userid"
+            ." where %s "
+            ." group by l.subject"
+            ." order by lesson_nums"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
         return $this->main_get_list($sql);
-	}
+    }
 
     public function get_confirm_lesson_list_new($start_time,$end_time) {
-        $where_arr = [       
+        $where_arr = [
             ["lesson_start>=%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3) ",
