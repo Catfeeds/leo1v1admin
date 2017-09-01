@@ -1039,6 +1039,15 @@ class ss_deal extends Controller
             return $this->output_err("课程开始时间过早!");
         }
 
+        //判断是否销售top20
+        if($top_seller_flag==1){
+            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+            $account_role = $this->t_manager_info->get_account_role($account_role);
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+            $ranking = @$self_top_info[6]["top_index"];
+
+        }
+
         //老师年级科目限制
         $rr = $this->get_teacher_grade_freeze_limit_info($teacherid,$lesson_start,$grade,$require_id);
         if($rr){
