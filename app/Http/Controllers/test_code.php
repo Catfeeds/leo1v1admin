@@ -1986,4 +1986,7 @@ class test_code extends Controller
         
     }
 
+    public function get_stu_list(){
+
+    }
 }

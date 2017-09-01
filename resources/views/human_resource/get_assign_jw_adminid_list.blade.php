@@ -85,8 +85,8 @@
                         <span >有无教材</span>
                         <select id="id_textbook_flag" class ="opt-change" >
                             <option value="-1">全部</option>
-                            <option value="1">是</option>
-                            <option value="0">否</option>
+                            <option value="1">有</option>
+                            <option value="0">无</option>
                         </select>
                     </div>
                 </div>
