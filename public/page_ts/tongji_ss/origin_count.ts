@@ -37,7 +37,7 @@ $(function(){
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
 
-    $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic").css({
+    $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic,#id_origin_level_pic,#id_order_area_pic").css({
         "height" : 400
     });
 
@@ -108,6 +108,7 @@ $(function(){
     gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
     // gen_data( g_has_pad_map,"origin_level","id_origin_level_pic");
     gen_data( g_area_map,"","id_area_pic");
+    gen_data( g_order_area_map, "", "id_order_area_pic");
     gen_data( g_origin_level_map,"origin_level","id_origin_level_pic");
 
 

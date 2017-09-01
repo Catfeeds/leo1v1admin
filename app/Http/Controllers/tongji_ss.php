@@ -617,6 +617,7 @@ class tongji_ss extends Controller
         $grade_map        = [];
         $has_pad_map      = [];
         $area_map         = [];
+        $order_area_map   = [];
         $origin_level_map = [];
         $all_count        = count($data_list);
 
@@ -635,6 +636,14 @@ class tongji_ss extends Controller
             } else {
                 @$area_map[""] ++;
             }
+            if ($a_item['order_user']) {
+                if (strlen($area_name)>5) {
+                    @$order_area_map[$area_name] ++;
+                } else {
+                    @$order_area_map[""] ++;
+                }
+            }
+
         }
         $group_list = $this->t_admin_group_name->get_group_list(2);
 
@@ -776,14 +785,15 @@ class tongji_ss extends Controller
             // }
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            "subject_map" => $subject_map,
-            "grade_map"   => $grade_map,
-            "has_pad_map" => $has_pad_map,
+            "subject_map"      => $subject_map,
+            "grade_map"        => $grade_map,
+            "has_pad_map"      => $has_pad_map,
             "origin_level_map" => $origin_level_map,
-            "area_map"    => $area_map,
-            "group_list"  => $group_list,
-            "field_name"  => $field_name,
-            "origin_type"  => $origin_type,
+            "area_map"         => $area_map,
+            "order_area_map"   => $order_area_map,
+            "group_list"       => $group_list,
+            "field_name"       => $field_name,
+            "origin_type"      => $origin_type,
         ]);
     }
 
