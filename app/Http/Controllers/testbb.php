@@ -91,8 +91,9 @@ class testbb extends Controller
 
 
     public function test_img(){
-        $d = strtotime(date('Y-m-d'),+1);
-        dd($d);
+        $next_day_begin = strtotime(date('Y-m-d',strtotime("+1 days")));
+        $next_day_end   = strtotime("+1 days");
+        dd($next_day_begin);
     }
 
 
