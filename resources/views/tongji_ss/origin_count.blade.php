@@ -324,7 +324,7 @@
             </div>
 
             <div class="col-xs-6 col-md-3">
-                <div>签单地区</div>
+                <div>签单省份</div>
                 <div id="id_order_area_pic" class="demo-placeholder" style="height:400;"></div>
                 <table   class="table table-bordered table-striped"   >
                     <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
