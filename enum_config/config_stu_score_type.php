@@ -8,4 +8,5 @@ return array(
     array(5,"","期末考"),
     array(6,"","一模"),
     array(7,"","二模"),
+    array(8,"","测评"),
 );

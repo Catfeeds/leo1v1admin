@@ -710,6 +710,7 @@ class TeacherTask extends TaskController
             foreach($lesson_list as &$val){
                 if(time() >= ($val["lesson_start"]-4*3600)){
                     $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    $subject_str = E\Esubject::get_desc($val['subject']);
                     if($openid){
                         $lesson_time = date("H:i",$val["lesson_start"]);
                         if($val["work_status"]==1){
@@ -729,14 +730,25 @@ class TeacherTask extends TaskController
                          * {{remark.DATA}}
                          */
 
-                        $data=[];
-                        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                        $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传".$status_str;
-                        $data['keyword1'] = $status_str."上传提醒";
-                        $data['keyword2'] = $lesson_time."的模拟课程未上传".$status_str.",请尽快登录老师后台进行处理";
-                        $data['keyword3'] = date("Y-m-d H:i",time());
-                        $data['remark']   = "";
-                        $url = "";
+                        if($val['train_type'] == 4){ // 模拟试听
+                            $data=[];
+                            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                            $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传".$status_str;
+                            $data['keyword1'] = $status_str."上传提醒";
+                            $data['keyword2'] = $lesson_time."的模拟课程未上传".$status_str.",请尽快登录老师后台进行处理";
+                            $data['keyword3'] = date("Y-m-d H:i",time());
+                            $data['remark']   = "";
+                            $url = "";
+                        }elseif($val['lesson_type'] == 2){ // 试听课
+                            $data=[];
+                            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                            $data['first']    = "老师您好,".$lesson_time."的 $subject_str 课未上传讲义";
+                            $data['keyword1'] = "讲义上传提醒";
+                            $data['keyword2'] = $lesson_time."的 $subject_str 课未上传讲义,请尽快登录老师后台进行处理";
+                            $data['keyword3'] = date("Y-m-d H:i",time());
+                            $data['remark']   = "";
+                            $url = "";
+                        }
                         // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
