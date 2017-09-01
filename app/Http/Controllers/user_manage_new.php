@@ -795,12 +795,12 @@ class user_manage_new extends Controller
             $money_all+=$item["price"];
             $order_count++;
             if($item["pre_price"]==0){
-                $item["pre_status"]="无定金"; 
+                $item["pre_status"]="无定金";
             }else{
                 if($item["pre_pay_time"]>0){
                     $item["pre_status"]="定金已支付";
                 }else{
-                    $item["pre_status"]="定金未支付"; 
+                    $item["pre_status"]="定金未支付";
                 }
             }
         }
@@ -1376,14 +1376,20 @@ class user_manage_new extends Controller
                 $res[$k]['finish_personal_per'] =  round($v['all_price']/100/$res[$k]['target_personal_money'],2);
                 $res[$k]['los_personal_money'] = $res[$k]['target_personal_money']-$v['all_price']/100;
             }
+            // \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            $res[$k]['become_member_time'] = $v['become_member_time'];
+            $res[$k]['leave_member_time'] = $v['all_new_contract'];
+            $res[$k]['del_flag'] = $v['del_flag'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
-
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
-        foreach( $ret_info as &$item ) {
+        foreach( $ret_info as &$item ){
+            $item["become_member_time"] = '';
+            $item["leave_member_time"] = '';
+            $item["del_flag_str"] = '';
             E\Emain_type::set_item_value_str($item);
             $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
@@ -1400,6 +1406,11 @@ class user_manage_new extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
+                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
+                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
+                if(isset($item["del_flag"])){
+                    $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                }
             }
 
         }
@@ -3665,7 +3676,7 @@ class user_manage_new extends Controller
             $subject,150,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
         $this->t_lesson_info->field_update_list($lessonid,[
-           "lesson_name"   =>$lesson_name 
+           "lesson_name"   =>$lesson_name
         ]);
         $this->t_homework_info->add(
             $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
@@ -3685,7 +3696,7 @@ class user_manage_new extends Controller
         $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_goal_info = $this->t_order_info->get_order_info_by_orderid($orderid_goal);
 
-        if(!in_array($acc,['adrian',"jim"])){
+        if(!in_array($acc,['adrian',"jim"]) && !in_array($account_role,[13])){
             return $this->output_err("没有权限合并合同！");
         }
         if($order_info['userid'] != $order_goal_info['userid']){
@@ -3785,8 +3796,7 @@ class user_manage_new extends Controller
         $money_301 = $this->get_in_int_val("money_301");
         $money_303 = $this->get_in_int_val("money_303");
 
-        $check_time = strtotime("2017-9-1");
-        if($teacher_money_type!=6 || time()>$check_time){
+        if($teacher_money_type!=6){
             return $this->output_err("此类型工资不能个修改!");
         }
 
@@ -3856,4 +3866,3 @@ class user_manage_new extends Controller
 
 
 }
-

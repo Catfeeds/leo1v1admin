@@ -443,7 +443,6 @@ $(function(){
         });
 
         var arr=[
-            /* ["","没有优惠就不填，只填价格"], */
             ["实付价格",$price],
             ["原始价格",$discount_price],
             ["优惠原因",$discount_reason],
@@ -476,6 +475,7 @@ $(function(){
 
     $(".opt-del").on("click", function(){
         var orderid = $(this).parent().data('orderid');
+        console.log(orderid);
         var userid  = $(this).parent().data('userid');
 
         var name  = $(this).closest("tr").find(".stu_nick").text();
@@ -890,6 +890,7 @@ $(function(){
         var $order_require_flag   = html_node.find(".field-order_require_flag");
 
         var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+        var $order_desc_list = html_node.find(".field-order_desc_list");
 
         var $nick    = html_node.find(".field-nick");
         var $grade   = html_node.find(".field-grade");
@@ -932,7 +933,7 @@ $(function(){
         };
 
         $order_require_flag.on("change", opt_spec);
-        $order_promotion_type.val(1); //赠送课时
+        $order_promotion_type.val(2); //打折
         opt_spec();
 
         var reload_present_info = function() {
@@ -949,6 +950,20 @@ $(function(){
                 $discount_price.val(data.price );
                 $promotion_spec_present_lesson.val( data.present_lesson_count );
                 $promotion_spec_discount_price.val( data.discount_price );
+                if (data.desc_list) {
+                    var desc_list_str="";
+                    $.each(data.desc_list , function(i,item){
+                        var succ_str="";
+                        if (item.succ_flag) {
+                            succ_str="<font color=\"green\">匹配</font>";
+                        }else{
+                            succ_str="<font color=\"red\">未匹配</font>";
+                        }
+                        desc_list_str+=
+                        "<font color=\"blue\"> "+ item.title+ "</font>:"+succ_str+":"+item.desc+ " <br/>";
+                    });
+                    $order_desc_list.html(desc_list_str);
+                }
 
                 if (order_promotion_type==1) {
                     $order_promotion_desc.val("赠送:"+ data.present_lesson_count +"课时" );
@@ -1163,7 +1178,7 @@ $(function(){
 
             $("<div></div>").admin_select_dlg_ajax({
                 "opt_type" :  "select", // or "list"
-                "url"          : "/ss_deal/get_require_list_js",
+                "url"          : "/ss_deal/get_require_list_js_new",
                 select_primary_field : "require_id",
                 select_display       : "require_id",
 
@@ -1238,11 +1253,6 @@ $(function(){
             "adminid" :  g_args.self_adminid
         });
     }
-
-
-
-
-
 
         var opt_extend_new_1 =function() {
         $.admin_select_user( $(this), "student", function(id){
@@ -2162,14 +2172,10 @@ $(function(){
 
     $(".opt-flow-node-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.flow_show_node_list( opt_data.flowid);
+        $.flow_show_all_info( opt_data.flowid);
 
     });
 
-    $(".opt-flow-def-list").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        $.flow_show_define_list( opt_data.flowid);
-    });
 
 
 

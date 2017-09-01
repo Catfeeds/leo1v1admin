@@ -494,11 +494,26 @@ class lesson extends TeaWxController
         $homework_situation = $this->get_in_str_val("homework_situation",'');
         $content_grasp      = $this->get_in_str_val("content_grasp",'');
         $lesson_interact    = $this->get_in_str_val("lesson_interact",'');
+        $stu_comment_str    = $this->get_in_str_val("stu_comment");
+
+        $stu_common_info_arr = [];
+        if(is_array($stu_comment_str)){
+            $stu_comment_arr = $stu_comment_str;
+        }else{
+            $stu_comment_arr = json_decode($stu_comment_str,true);
+        }
+
+        foreach($stu_comment_arr as $index=> $item){
+            $stu_common_info_arr[] = [
+                'stu_tip'     => $index,
+                'stu_info'    => $item,
+            ];
+        }
 
 
-        $stu_performance = $this->get_in_str_val('stu_performance',''); // 学生表现
-        $stu_improve = $this->get_in_str_val('stu_improve',''); // 需要改进
-        $stu_comment = $stu_performance.'<br>'.$stu_improve; // 合并整体评价
+        // $stu_performance = $this->get_in_str_val('stu_performance',''); // 学生表现
+        // $stu_improve = $this->get_in_str_val('stu_improve',''); // 需要改进
+        // $stu_comment = $stu_performance.'<br>'.$stu_improve; // 合并整体评价
 
         $teacher_message_str = $this->get_in_str_val("teacher_message",'');
         $point_note_list_arr = [];
@@ -517,16 +532,16 @@ class lesson extends TeaWxController
             ];
         }
 
-        if($teacher_message_str && $stu_comment ){
+        if($teacher_message_str && $stu_comment_str ){
             $stu_performance = [
                 "total_judgement"    => $total_judgement,
                 "homework_situation" => $homework_situation,
                 "content_grasp"     => $content_grasp,
                 "lesson_interact"   => $lesson_interact,
                 "point_note_list"   => $point_note_list_arr,
-                "stu_comment"       => $stu_comment
+                "stu_comment"       => $stu_common_info_arr
             ];
-        }elseif($teacher_message_str && !$stu_comment) {
+        }elseif($teacher_message_str && !$stu_comment_str) {
             $stu_performance = [
                 "total_judgement"    => $total_judgement,
                 "homework_situation" => $homework_situation,
@@ -540,7 +555,7 @@ class lesson extends TeaWxController
                 "homework_situation"=> $homework_situation,
                 "content_grasp"   => $content_grasp,
                 "lesson_interact" => $lesson_interact,
-                "stu_comment"     => $stu_comment
+                "stu_comment"     => $stu_common_info_arr
             ];
         }
 

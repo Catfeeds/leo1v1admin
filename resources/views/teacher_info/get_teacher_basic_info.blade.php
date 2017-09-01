@@ -77,7 +77,7 @@
                         <div class="box-body box-profile">
                             <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
                             <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
-                            <p class="text-muted text-center">{{$my_info['level']}}星教师</p>
+                            <p class="text-muted text-center">{{$my_info['teacher_title']}}</p>
                         </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
