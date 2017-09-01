@@ -11,7 +11,7 @@ class office_close extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:office_close {--without-seller} {--reset}';
+    protected $signature = 'command:office_close {--without-seller} {--reset} {--check-require-time}';
 
     /**
      * The console command description.
@@ -39,7 +39,14 @@ class office_close extends cmd_base
     {
         $without_seller=$this->option('without-seller');
         $reset=$this->option('reset');
-        if ($reset ) {
+        $check_require_time=$this->option('check-require-time');
+        if ($check_require_time) {
+            $last_require_time= \App\Helper\office_cmd::get_last_require_time();
+            if ($last_require_time < time(NULL)-0 ) {//
+                $last_require_time_str=\App\Helper\Utils::unixtime2date($last_require_time);
+                $this->task->t_manager_info->send_wx_todo_msg("jim","sys","空调遥控-树莓派,不工作,最后一次上报时间 $last_require_time_str");
+            }
+        } else if ($reset ) {
 
 
             $value=24;
