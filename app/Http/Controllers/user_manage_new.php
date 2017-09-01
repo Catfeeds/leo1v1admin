@@ -1376,14 +1376,13 @@ class user_manage_new extends Controller
                 $res[$k]['finish_personal_per'] =  round($v['all_price']/100/$res[$k]['target_personal_money'],2);
                 $res[$k]['los_personal_money'] = $res[$k]['target_personal_money']-$v['all_price']/100;
             }
-            $res[$k]['become_member_time'] = $v['become_member_time'];
-            $res[$k]['leave_member_time'] = $v['leave_member_time'];
+            $res[$k]['become_member_time'] = $v['become_member_time']?$v['become_member_time']:$v['create_time'];
+            $res[$k]['leave_member_time'] = $v['leave_member_time']?$v['leave_member_time']:0;
             $res[$k]['del_flag'] = $v['del_flag'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
-        dd($res);
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
