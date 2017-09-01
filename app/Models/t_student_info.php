@@ -72,19 +72,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         foreach  (  $ret_info["list"] as &$item) {
             if (!$item["phone_location"] ) {
                 //设置到数据库
-                $arr=explode("-",$item["phone"]);
-                $phone=$arr[0];
+                $arr   = explode("-",$item["phone"]);
+                $phone = $arr[0];
 
                 $item["phone_location"] = \App\Helper\Common::get_phone_location($phone);
                 if ($item["phone_location"]) {
                     $this->field_update_list($item["userid"] ,[
-                        "phone_location"  =>   $item["phone_location"]
+                        "phone_location" => $item["phone_location"]
                     ]);
                 }
             }
         }
         return $ret_info;
-
     }
 
 
