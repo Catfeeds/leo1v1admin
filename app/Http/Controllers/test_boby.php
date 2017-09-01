@@ -349,10 +349,10 @@ class test_boby extends Controller
     }
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
-        return 'bey';
-        $start_time = strtotime('2017-08-05');
-        $end_time = strtotime('2017-09-01');
-        $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
+        // return 'bey';
+        // $start_time = strtotime('2017-08-05');
+        // $end_time = strtotime('2017-09-01');
+        // $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
         $teacherid = "(55161,176999)";
         $start_time = strtotime('2017-09-01');
@@ -374,19 +374,19 @@ class test_boby extends Controller
             }
         }
         foreach ($userid_list as $item) {
-            if ($item['grade'] < 300) {
-                foreach ($g200 as $v){
-                    $userid = $item['userid'];
-                    $lessonid = $v;
-                    $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
-                }
-            } else {
+            // if ($item['grade'] < 300) {
+            //     foreach ($g200 as $v){
+            //         $userid = $item['userid'];
+            //         $lessonid = $v;
+            //         $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+            //     }
+            // } else {
                 foreach ($g300 as $v){
                     $userid = $item['userid'];
                     $lessonid = $v;
-                    $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+                    $this->t_open_lesson_user->add_open_class_user($lessonid, 116281);
                 }
-            }
+            // }
 
         }
 
