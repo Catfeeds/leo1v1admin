@@ -320,9 +320,9 @@ class test_boby extends Controller
            .'</tr>';
         for ($sub=0; $sub < 12; $sub++) {
             $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time,$sub);
-            $list = [];
-            $subject = '';
             if ($ret_info) {
+                $list = [];
+                $subject = '';
                 foreach ($ret_info as &$item) {
                     if ( !array_key_exists($item['lesson_nums'], $list) ){
                         $list[ $item['lesson_nums'] ] = 1;
