@@ -1614,7 +1614,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "r.add_time >0 ";
         }
         if($textbook_flag==0){
-            $where_arr[] = "t.teacher_textbook =''";
+            $where_arr[] = "(t.teacher_textbook ='' || t.teacher_textbook=0) ";
         }elseif($textbook_flag==1){
             $where_arr[] = "t.teacher_textbook <> '' ";
         }
