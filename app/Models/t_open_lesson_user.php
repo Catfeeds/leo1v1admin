@@ -100,4 +100,14 @@ class t_open_lesson_user extends \App\Models\Zgen\z_t_open_lesson_user
         );
         return $this->main_get_list($sql);
     }
+
+    public function delete_open_lesson_by_lessonid($lessonid)
+    {
+        $sql = sprintf("delete from %s where lessonid = %u ",
+                       self::DB_TABLE_NAME,
+                       $lessonid
+        );
+        return $this->main_update($sql);
+    }
+
 }
