@@ -1409,7 +1409,7 @@ class user_manage_new extends Controller
                 }else{
                     $item["become_member_time"] = '';
                 }
-                if(iseet($item['leave_member_time'])){
+                if(isset($item['leave_member_time'])){
                     $item["leave_member_time"] = date('Y-m-d H:i:s',$item["leave_member_time"]);
                 }else{
                     $item["leave_member_time"] = '';
