@@ -2048,12 +2048,7 @@ class teacher_info extends Controller
             $first_day    = strtotime( date('Y-m-d', $item['create_time']) );
             $item['days'] = ($now_day - $first_day)/86400;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            if($item['teacher_money_type'] == 0) {
-                $item['level'] = $item['level'] + 2;
-            } else {
-                $item['level'] = $item['level'] + 1;
-            }
-            $item['normal_count'] = $item['normal_count']/100;
+            $item['teacher_title'] = \App\Helper\Utils::get_teacher_level_str($item);
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],

@@ -3694,7 +3694,7 @@ class user_manage_new extends Controller
         $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_goal_info = $this->t_order_info->get_order_info_by_orderid($orderid_goal);
 
-        if(!in_array($acc,['adrian',"jim"])){
+        if(!in_array($acc,['adrian',"jim"]) && !in_array($account_role,[13])){
             return $this->output_err("没有权限合并合同！");
         }
         if($order_info['userid'] != $order_goal_info['userid']){
@@ -3794,8 +3794,7 @@ class user_manage_new extends Controller
         $money_301 = $this->get_in_int_val("money_301");
         $money_303 = $this->get_in_int_val("money_303");
 
-        $check_time = strtotime("2017-9-1");
-        if($teacher_money_type!=6 || time()>$check_time){
+        if($teacher_money_type!=6){
             return $this->output_err("此类型工资不能个修改!");
         }
 

@@ -443,7 +443,6 @@ $(function(){
         });
 
         var arr=[
-            /* ["","没有优惠就不填，只填价格"], */
             ["实付价格",$price],
             ["原始价格",$discount_price],
             ["优惠原因",$discount_reason],
