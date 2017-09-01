@@ -2816,4 +2816,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+
+    public function get_userid_by_pay_time($start_time, $end_time) {
+
+        $where_arr = [
+            ["o.pay_time>=%u",$start_time,0],
+            ["o.pay_time<%u",$end_time,0],
+            "o.contract_type in (0,3)",
+            "o.contract_status=1",
+            "s.is_test_user=0",
+            "s.grade>200",
+        ];
+        $sql = $this->gen_sql_new(
+            "select s.userid,s.grade"
+            ." from %s o"
+            ." left join %s s on o.userid=s.userid"
+            ." where %s"
+            // ." group by s.userid"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
