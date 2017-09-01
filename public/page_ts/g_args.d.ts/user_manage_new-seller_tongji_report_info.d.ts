@@ -13,6 +13,11 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	all_new_contract_for_month	:any;
+	all_price_for_month	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
+	del_flag	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -22,8 +27,8 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	del_flag_str	:any;
 	main_type_str	:any;
-	become_member_long_time	:any;
 	lesson_per	:any;
 	order_per	:any;
 	finish_per	:any;
