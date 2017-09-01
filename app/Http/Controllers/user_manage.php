@@ -2166,4 +2166,275 @@ class user_manage extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
+    /**
+     * @author    sam
+     * @function  助教统计月课时消耗-年级
+     */
+    public function tongji_grade_lesson_count()
+    {
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+
+        $this->switch_tongji_database();
+        $ret_info = $this->t_lesson_info_b2->grade_lesson_count($start_time,$end_time); //获取信息
+        $desc_map= array(
+            100 => "小学",
+            101 => "小一",
+            102 => "小二",
+            103 => "小三",
+            104 => "小四",
+            105 => "小五",
+            106 => "小六",
+            200 => "初中",
+            201 => "初一",
+            202 => "初二",
+            203 => "初三",
+            300 => "高中",
+            301 => "高一",
+            302 => "高二",
+            303 => "高三",
+        );
+        $sum = 0;
+        foreach ($ret_info as $key => &$value) {
+            if(isset($desc_map[$value['grade']])){
+                $value['grade_str'] = @$desc_map[$value['grade']];
+                $value['sum'] = round($value['sum']/100,0);
+                $sum += $value['sum'];
+            }
+        }
+
+        $ret_info[] = ["grade" => 999,"sum" => $sum ,"grade_str" =>"总计"];
+
+
+        $ret_grade = [];
+        foreach ($ret_info as $key => &$value) {
+            $ret_grade[$value['grade_str']] = $value['sum'];
+        }
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_grade,
+        ]);
+    }
+    /**
+     * @author    sam
+     * @function  助教统计年级-科目数量
+     */
+    public function tongji_student_grade_subject()
+    {
+        $this->t_student_info->switch_tongji_database();
+        $ret_info = $this->t_student_info->get_studentid_grade(); //获取学生id
+        $arr = [
+              "total_num" => "0",
+              "per_page_count" => 10,
+              "page_info" => [
+                "total_num" => "0",
+                "per_page_count" => 10,
+                "page_num" => 1,
+              ],
+              "list" => []
+            ];
+        $ret_student_subject = [
+            1 => [
+                "name" => 1, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            2 => [
+                "name" => 2, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            3 => [
+                "name" => 3, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            4 => [
+                "name" => 4, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            5 => [
+                "name" => 5, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            6 => [
+                "name" => "5科以上", 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            7 => [
+                "name" => "合计",
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+        ];
+        $sum = 0;
+        foreach ($ret_info as $key => $value) {
+            $num = $value['num'];
+            $sum += $num;
+            if($num < 6){
+                if(isset($ret_student_subject[$num][$value['grade']])){
+                    ++$ret_student_subject[$num][$value['grade']];
+                    ++$ret_student_subject[7][$value['grade']];
+                    ++$ret_student_subject[$num]['num'];
+                    ++$ret_student_subject[7]['num'];
+                }
+            }else{
+                if(isset($ret_student_subject[$num][$value['grade']])){
+                    ++$ret_student_subject[6][$value['grade']];
+                    ++$ret_student_subject[7][$value['grade']];
+                    ++$ret_student_subject[$num]['num'];
+                    ++$ret_student_subject[7]['num'];
+                }
+            }
+        }
+        $arr['list'] = $ret_student_subject;
+        return $this->pageView(__METHOD__, $arr);
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_student_subject,
+        ]);
+    }
+   
+
+   /**
+     * @author    sam
+     * @function  助教统计年级-科目数量
+     */
+    public function tongji_cc()
+    {
+
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $ret_info = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,0); //普通排课
+        $ret_info_top = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,1,0); //Top
+        $ret_info_take = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,1); //抢课
+
+        $arr = [
+              "total_num" => "0",
+              "per_page_count" => 10,
+              "page_info" => [
+                "total_num" => "0",
+                "per_page_count" => 10,
+                "page_num" => 1,
+              ],
+              "list" => []
+            ];
+        $ret_student_subject = [
+            1 => [
+                "name" => "普通排课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '0%',
+            ],
+            2 => [
+                "name" => "Top20排课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '0%',
+            ],
+            3 => [
+                "name" => "抢课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '0%',
+            ],
+        ];
+        $ret_student_subject[1]['cc']           = $ret_info["person_num"];
+        $ret_student_subject[1]['trans']        = $ret_info['have_order'];
+        if($ret_info['person_num']>0){
+            $ret_student_subject[1]['per'] = round(100*$ret_info['have_order']/$ret_info['person_num'],2).'%';
+        }
+
+        $ret_student_subject[2]['cc']           = $ret_info_top["person_num"];
+        $ret_student_subject[2]['trans']        = $ret_info_top['have_order'];
+        if($ret_info_top['person_num']>0){
+            $ret_student_subject[2]['per'] = round(100*$ret_info_top['have_order']/$ret_info_top['person_num'],2).'%';
+        }
+
+        $ret_student_subject[3]['cc']           = $ret_info_take["person_num"];
+        $ret_student_subject[3]['trans']        = $ret_info_take['have_order'];
+        if($ret_info_take['person_num']>0){
+            $ret_student_subject[3]['per'] = round(100*$ret_info_take['have_order']/$ret_info_take['person_num'],2).'%';
+        }
+        $arr['list'] = $ret_student_subject;
+        return $this->pageView(__METHOD__, $arr);
+   }
+
 }

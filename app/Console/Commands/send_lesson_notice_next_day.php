@@ -46,8 +46,13 @@ class send_lesson_notice_next_day extends Command
         $lesson_info_list = $task->t_lesson_info_b3->get_next_day_lesson_info();
 
         foreach($lesson_info_list as $item){
-            
+            $this->get_data($item);
         }
 
+    }
+
+
+    public function get_data($item){
+        $data_msg = [];
     }
 }
