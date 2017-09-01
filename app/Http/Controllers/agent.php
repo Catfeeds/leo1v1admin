@@ -231,7 +231,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $this->t_agent->reset_user_info($id=1762);
+        $this->t_agent->reset_user_info_new($id=1762);
         // $this->agent_add();
         // $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         // $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
