@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use \App\Enums as E;
 class send_lesson_notice_next_day extends Command
 {
     /**
@@ -46,14 +47,14 @@ class send_lesson_notice_next_day extends Command
         $lesson_info_list = $task->t_lesson_info_b3->get_next_day_lesson_info();
 
         foreach($lesson_info_list as $item){
-            $this->get_data($item);
+            $this->get_data_tea($item);
         }
 
     }
 
 
 
-    
+
 
     public function get_data_tea($item){
 
@@ -65,8 +66,14 @@ class send_lesson_notice_next_day extends Command
     }
 
     public function get_data_par($item){
+        $subject_str = E\Esubject::get_desc($item['subject']);
         $data_msg = [
-            'first' =>""
+            'first'    =>"家长您好，".$item['stu_nick']."同学于明天".date('H:i',$item['lesson_start'])."有一节".$item['tea_nick']."老师的 $subject_str 课。",
+            'keyword1' => "$subject_str",
+            'keyword2' => '"'.date('Y-m-d H:i',$item['lesson_start']).' ~ '.date('H:i',$item['lesson_end']),
+            'keyword3' => "学生端",
+            'keyword4' => "'".$item['phone']."'",
+            'remark'   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
         ];
     }
 
