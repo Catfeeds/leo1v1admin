@@ -965,9 +965,11 @@ class ajax_deal2 extends Controller
         sleep(5);
         return  $this->output_succ();
     }
-    public function get_rcaai_login_info() {
+    public function get_rcrai_login_info() {
         $adminid= $this->get_account_id();
-        data=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
+        $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
+        $ret_arr=\App\Helper\Utils::json_decode_as_array($ret_str,true);
+        return $this->output_succ(["data" => $ret_arr ]); 
     }
 
 }

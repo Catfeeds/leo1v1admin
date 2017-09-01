@@ -158,7 +158,8 @@ class main_page extends Controller
 
         //
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-        $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        // $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        $lesson_count_list= $this->t_month_ass_student_info->get_ass_month_info($start_time);
         // dd($lesson_count_list);
         //
 

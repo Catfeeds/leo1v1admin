@@ -852,13 +852,11 @@ $(function(){
 
 
     $("#id_call_check_systen").on("click",function(){
-        $.ajax({
-            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+g_adminid,
-            'type': 'get',
-            'data': {},
-            'dataType': 'jsonp',
-            success: function(data) {
-                alert(JSON.stringify(data) );
+        $.do_ajax("/ajax_deal2/get_rcrai_login_info",{},function(resp){
+            if (resp.data.staff ){
+                $.wopen("http://leoedu.rcrai.com/login/"+resp.data.staff.id ,true);
+            }else{
+                alert("无辅助系统的账号信息");
             }
         });
     });

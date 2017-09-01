@@ -75,7 +75,7 @@ class audio_post extends cmd_base
                     "roles"=>[
                         "销售",
                     ],
-                    "job_number"=> $admin_info["adminid"],
+                    "job_number"=> $adminid,
                     "dept"=>[
                         "name"=> $admin_info["group_name"] ,
                         "id"=> $admin_info["groupid"]
@@ -83,7 +83,7 @@ class audio_post extends cmd_base
                 ];
 
                 $ret=\App\Helper\Net::http_post_data($url, json_encode($post_data));
-                echo "deal :".  $item["phone"]. ":".json_encode($ret)."\n";
+                echo "deal : $adminid, ".  $item["phone"]. ":".json_encode($ret)."\n";
             }
 
         }
