@@ -752,6 +752,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            dd($ret_info_new,$assigned_count);
             if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
