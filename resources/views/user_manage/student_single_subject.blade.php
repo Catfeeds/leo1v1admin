@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">科目数量</span>
+                        <span class="input-group-addon">次数</span>
                         <input class="opt-change form-control" id="id_num" />
                     </div>
                 </div>
@@ -49,6 +49,7 @@
                     <td >课次</td> 
                     <td >平均课时</td>
                     <td >科目</td>
+		    <td >年级</td>
                     <td >操作</td>
                 </tr>
             </thead>
@@ -56,17 +57,17 @@
                 @foreach ($table_data_list as $var)
 				    <tr>
                         <td >{{$var["num"]}}</td>
-                        <td >{{$var["student_nick"]}}</td>
+                        <td ><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{$var["student_nick"]}}</a></td>
                         <td >{{$var['phone']}}</td>
                         <td >{{$var["lesson_count"]}}</td>
                         <td >{{$var["count"]}}</td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject"]}}</td>
+			            <td >{{$var["grade"]}}</td>
                         <td >
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                  >
-                                <a class=" fa-list-alt opt-show-lesson-list" title="显示对应课程列表"></a>
                             </div>
                         </td>
 				    </tr>

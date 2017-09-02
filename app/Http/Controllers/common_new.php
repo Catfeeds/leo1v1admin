@@ -648,14 +648,13 @@ class common_new extends Controller
         $lessonid = $this->get_in_lessonid();
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
 
-        dispatch(new deal_pdf_to_image($pdf_url, $lessonid));
+        // dispatch(new deal_pdf_to_image($pdf_url, $lessonid));
 
-
-        // $this->t_pdf_to_png_info->row_insert([
-        //     'lessonid'    => $lessonid,
-        //     'pdf_url'     => $pdf_url,
-        //     'create_time' => time()
-        // ]);
+        $this->t_pdf_to_png_info->row_insert([
+            'lessonid'    => $lessonid,
+            'pdf_url'     => $pdf_url,
+            'create_time' => time()
+        ]);
     }
 
     public function get_banner_pic_list(){
@@ -1054,6 +1053,14 @@ class common_new extends Controller
         // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
         // dispatch($job);
     }
-
+    public function check_ssh_login_time() {
+        $account=$this->get_in_str_val("account");
+        $ssh_login_time=\App\Helper\Common::redis_get("SSH_LOGIN_TIME_$account");
+        if (time(NULL)-$ssh_login_time  < 600  ){
+            return "1";
+        }else{
+            return "0";
+        }
+    }
 
 }
