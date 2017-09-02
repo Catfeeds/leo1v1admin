@@ -297,6 +297,7 @@ class ss_deal extends Controller
 
 
         $has_pad       = $this->get_in_int_val("has_pad");
+        $intention_level       = $this->get_in_int_val("intention_level");
         $user_desc     = $this->get_in_str_val("user_desc");
         $next_revisit_time     = $this->get_in_str_val("next_revisit_time");
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");
@@ -436,7 +437,8 @@ class ss_deal extends Controller
             "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
-            "textbook"                  => $textbook
+            "textbook"                  => $textbook,
+            "intention_level"                    => $intention_level
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
@@ -467,7 +469,7 @@ class ss_deal extends Controller
         $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
-                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand
+                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
             ]);
         }
         return $this->output_succ();
@@ -556,6 +558,11 @@ class ss_deal extends Controller
             }
 
         }else{
+            //更新试听申请意向
+            $info = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"current_require_id,intention_level");
+            $this->t_test_lesson_subject_require->field_update_list($info["current_require_id"],[
+               "intention_level" =>$intention_level 
+            ]);
             $stu_type = $this->t_student_info->get_type($userid);
             if($stu_type==0){
                 $assistantid = $this->t_student_info->get_assistantid($userid);

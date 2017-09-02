@@ -739,7 +739,7 @@ $(function(){
 
     $(".opt-refresh_call_end").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.do_ajax('/authority/update_lesson_call_end_time', {
+        $.do_ajax('/agent/update_lesson_call_end_time', {
             'adminid' : opt_data.uid
         },function(resp){
             if(resp){

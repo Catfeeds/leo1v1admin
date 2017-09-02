@@ -662,7 +662,6 @@ class menu{
             ]],
 
             ["power_id"=>14, "name"=>"角色-教务",  "list"=>[
-
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/jw_teacher" ],
                 ["power_id"=>12, "name"=>"KPI",   "url"=>"/tongji_ss/tongji_jw_teacher_kpi" ],
                 ["power_id"=>14, "name"=>"未排统计",   "url"=>"/tongji_ss/get_jw_no_plan_remind" ],
@@ -760,7 +759,6 @@ class menu{
                 ["power_id"=>5, "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                 ["power_id"=>2, "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
                 ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
-                
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
