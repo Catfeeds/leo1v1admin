@@ -624,7 +624,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
-    public function tongji_test_lesson_origin( $origin, $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="" ,$distinct = 0){
+    public function tongji_test_lesson_origin( $origin='', $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="" ,$distinct = 0){
         switch ( $field_name ) {
         case "origin" :
             $field_name="s.origin";
@@ -642,7 +642,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         }
 
         $where_arr=[
-            ["s.origin like '%%%s%%' ",$origin,-1],
+            ["s.origin like '%%%s%%' ",$origin,''],
         ];
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
@@ -716,7 +716,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         }
 
         $where_arr=[
-            ["s.origin like '%%%s%%' ",$origin,-1],
+            ["s.origin like '%%%s%%' ",$origin,''],
             ["$field_name='%s'",$check_value,""],
         ];
 
@@ -1125,7 +1125,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             break;
         }
         $where_arr = [
-            ["s.origin like '%%%s%%' ",$origin,-1],
+            ["s.origin like '%%%s%%' ",$origin, ''],
             " accept_flag =1  ",
             " is_test_user=0  ",
             " require_admin_type =2  ",
