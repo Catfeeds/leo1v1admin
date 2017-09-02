@@ -461,6 +461,7 @@ class wx_teacher_api extends Controller
         // 判断是否有 录制试讲||分享朋友圈
 
         $is_share = $this->t_wx_share->get_share_flag($teacherid);
+        // $is_video = $this->
 
         $num = $this->t_teacher_day_luck_draw->compute_time();
         if($num>2){
