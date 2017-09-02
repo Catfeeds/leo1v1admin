@@ -723,8 +723,12 @@ class user_deal extends Controller
         if ($this->get_account() != "jim"  && $this->get_account() != "adrian"  && $account_role!=13 ) {
             return $this->output_err("没有权限");
         }
-        $orderid      = $this->get_in_int_val("orderid");
-        $lesson_total = $this->get_in_int_val("lesson_total");
+
+        $orderid          = $this->get_in_int_val("orderid");
+        $lesson_total     = $this->get_in_int_val("lesson_total");
+        $old_lesson_total = $this->get_in_int_val("old_lesson_total");
+        $lesson_left      = $this->get_in_int_val("lesson_left");
+
 
 
         return $this->output_succ();
