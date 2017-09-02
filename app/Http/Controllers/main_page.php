@@ -31,7 +31,7 @@ class main_page extends Controller
         $server_map= $this->t_audio_record_server->get_server_map();
 
         foreach ($record_server_list as &$s_item ) {
-            $s_item[""]="";
+            $s_item["max_record_count"]= @$server_map[ $s_item["server"]]["max_record_count"];
         }
 
         foreach ($sms_list as &$item)  {
