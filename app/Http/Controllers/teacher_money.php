@@ -281,6 +281,7 @@ class teacher_money extends Controller
 
         $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
+        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
 
@@ -329,8 +330,8 @@ class teacher_money extends Controller
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            // $check_type=\App\Helper\Utils::check_teacher_money_type($teacher_money_type);
-            if(!in_array($teacher_money_type,[0,1,2,3,7])){
+            $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
+            if($check_type==2){
                 $start_time = strtotime("-1 month",$start);
                 $end_time   = strtotime("-1 month",$end);
                 $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
@@ -339,7 +340,7 @@ class teacher_money extends Controller
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
-                    if(in_array($teacher_money_type,[0,1,2,3,7])){
+                    if($check_type!=2){
                         $already_lesson_count = $val['already_lesson_count'];
                     }
                     if($val['confirm_flag']!=2){
