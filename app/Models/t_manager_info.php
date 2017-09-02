@@ -1555,6 +1555,21 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_some_info($sql){
-            return $this->main_get_list($sql);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_admin_list_by_role($role){
+        $where_arr = [
+            ["account_role=%u",$role,-1],
+            "del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select uid "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 }

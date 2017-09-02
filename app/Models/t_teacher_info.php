@@ -3406,6 +3406,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_type in (0,1,3)",
             "lesson_del_flag=0",
             "confirm_flag!=2",
+            "t.teacherid=teacherid",
             "lesson_status=2",
         ];
         $sql = $this->gen_sql_new("select t.teacherid"

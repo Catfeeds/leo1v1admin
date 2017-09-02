@@ -62,6 +62,9 @@ class deal_pdf_to_png extends Command
 
         // ];
 
+        \App\Helper\Utils::logger("deal_pdf_to_png commond");
+
+
         foreach($pdf_lists as $item){
             $id       = $item['id'];
             $pdf_url  = $item['pdf_url'];
@@ -88,6 +91,7 @@ class deal_pdf_to_png extends Command
 
                 $file_name_origi_str = implode(',',$file_name_origi);
 
+                \App\Helper\Utils::logger("deal_pdf_to_png commond1 ".$file_name_origi_str);
                 $ret = $task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
                 $task->t_pdf_to_png_info->field_update_list($id,[
                     "id_do_flag" => 1,
