@@ -1266,16 +1266,23 @@ class user_manage extends Controller
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
         if(!isset($agent_order['orderid'])){
-            $phone    = $this->t_student_info->get_phone($userid);
-            $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
+            // $phone    = $this->t_student_info->get_phone($userid);
+            // $ret_info = $this->t_agent->get_p_pp_id_by_phone($userid);
+            $ret_info = $this->t_agent->get_p_pp_row_by_userid($userid);
             if(isset($ret_info['id'])){
                 $level1 = 0;
                 $level2 = 0;
-                if($ret_info['p_phone']){
-                    $level1 = $this->check_agent_level($ret_info['p_phone']);
+                $aid = $ret_info['id'];
+                $phone = $ret_info['phone'];
+                $p_phone = $ret_info['p_phone'];
+                $p_wx_openid = $ret_info['p_wx_openid'];
+                $pp_phone = $ret_info['pp_phone'];
+                $pp_wx_openid = $ret_info['pp_wx_openid'];
+                if($p_phone){
+                    $level1 = $this->check_agent_level($p_phone);
                 }
-                if($ret_info['pp_phone']){
-                    $level2 = $this->check_agent_level($ret_info['pp_phone']);
+                if($pp_phone){
+                    $level2 = $this->check_agent_level($pp_phone);
                 }
                 $price           = $order_price/100;
                 $level1_price    = $price/20>500?500:$price/20;
@@ -1302,6 +1309,32 @@ class user_manage extends Controller
                     'pp_price'    => $pp_price,
                     'create_time' => time(null),
                 ]);
+
+                if($p_wx_openid && $p_price){
+                    $p_price_new = $p_price/100;
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $p_price_new.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                }
+
+                if($pp_wx_openid && $pp_price){
+                    $pp_price_new = $pp_price/100;
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $pp_price_new.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                }
             }
         }
     }
