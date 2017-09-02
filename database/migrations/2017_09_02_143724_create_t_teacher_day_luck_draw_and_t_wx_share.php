@@ -23,6 +23,7 @@ class CreateTTeacherDayLuckDrawAndTWxShare extends Migration
            t_field($table->integer("teacherid"),"老师id");
            t_field($table->integer("money"),"中奖金额");
            t_field($table->integer("is_grant_flag"),"奖品是否发放 0:未发放 1:已发放");
+           t_field($table->integer("grant_time"),"奖品");
             // t_field($table->integer("id_do_flag"),"是否处理 0:未处理 1:已处理");
             // t_field($table->integer("create_time"),"添加时间");
             // t_field($table->string("pdf_url"),'pdf课件链接');

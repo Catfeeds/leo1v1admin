@@ -3850,7 +3850,13 @@ class human_resource extends Controller
     public function get_check_textbook_tea_list(){
         $adminid = $this->get_account_id();
 
-        $ret_info = $this->t_teacher_info->get_check_textbook_tea_list($adminid);
+        if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186){
+            $adminid=-1;
+        }
+
+        $check_time = strtotime("2017-9-2");
+        $ret_info = $this->t_teacher_info->get_check_textbook_tea_list($adminid,$check_time);
+        $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
     }

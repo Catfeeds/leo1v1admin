@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <section class="content ">
-        <div>
-            <div class="row ">
-            </div>
-        </div>
         <hr/>
         <table class="common-table"> 
             <thead>
@@ -31,4 +27,3 @@
         @include("layouts.page")
     </section>
 @endsection
-

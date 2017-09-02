@@ -56,7 +56,7 @@ class deal_pdf_to_png extends cmd_base
 
         $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
 
-        foreach($pdf_lists as $item){
+        while(list($key,$item)=each($pdf_lists)){
             $id       = $item['id'];
             $pdf_url  = $item['pdf_url'];
             $lessonid = $item['lessonid'];
