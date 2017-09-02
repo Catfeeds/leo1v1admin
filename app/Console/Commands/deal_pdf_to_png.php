@@ -82,7 +82,6 @@ class deal_pdf_to_png extends cmd_base
 
                 $file_name_origi_str = implode(',',$file_name_origi);
 
-                \App\Helper\Utils::logger("deal_pdf_to_png commond1 ".$file_name_origi_str);
                 $ret = $task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
                 $task->t_pdf_to_png_info->field_update_list($id,[
                     "id_do_flag" => 1,
@@ -95,10 +94,6 @@ class deal_pdf_to_png extends cmd_base
 
                 @unlink($savePathFile);
             }
-
-
-
-
         }
     }
 

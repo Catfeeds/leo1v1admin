@@ -149,7 +149,7 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th style="width:25px"></th>
-                                <th>分类</th>
+                                <th style="width:150px">分类</th>
                                 <th>姓名</th>
                                 <th>时间</th>
                                 <th>状态</th>
@@ -281,11 +281,29 @@
                                 <td></td>
                                 <td></td>
                             </tr>
+                            <tr class="key6">
+                                <td> </td>
+                                <td>—</td>
+                                <td>学生1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="key6">
+                                <td> </td>
+                                <td>—</td>
+                                <td>学生2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
                             <tr>
                                 <td>
-                                    <button data-key="key7" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
+                                    <button type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
                                     </button>
-
                                 </td>
                                 <td>常规课程</td>
                                 <td></td>
@@ -294,6 +312,142 @@
                                 <td></td>
                                 <td></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <button data-key="key7" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
+                                    </button>
+
+                                </td>
+                                <td>—</td>
+                                <td>学生1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>基础工资</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>上课迟到</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>上传讲义超时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>评价超时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>教学事故</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key7">
+                                <td></td>
+                                <td>未提前四小时换课</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <button data-key="key8" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
+                                    </button>
+
+                                </td>
+                                <td>—</td>
+                                <td>学生2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>基础工资</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>上课迟到</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>上传讲义超时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>评价超时</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>教学事故</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+                            <tr class="key8">
+                                <td></td>
+                                <td>未提前四小时换课</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>申诉</td>
+                            </tr>
+
 
                         </table>
                     </div>

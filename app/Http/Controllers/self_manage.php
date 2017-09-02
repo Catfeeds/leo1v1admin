@@ -172,13 +172,8 @@ class self_manage extends Controller
     public function ssh_login() {
         $account = $this->get_account();
         if ( \App\Helper\Utils::check_env_is_release() ) {
-            $ip= "114.215.66.38";
-            \App\Helper\Utils::exec_cmd("sshpass -p\"yb142857\" ssh -2  -o \"StrictHostKeyChecking no\" -p56000 -lybai 114.215.66.38  sudo usermod -U    $account ");
-
-            //60秒后关闭
-            $job=(new \App\Jobs\deal_ssh_lock_user( $account ))->delay(60);
-            dispatch($job);
-
+            $ip="118.190.115.161";
+            \App\Helper\Common::redis_set("SSH_LOGIN_TIME_$account",time(NULL));
             return $this->output_succ( [
                 "ssh_cmd"  => "ssh -l$account $ip "
             ]);
