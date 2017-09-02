@@ -24,7 +24,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["num"]}} </td>
-                        <td>{{@$var["teacher_nick"]}} </td>
+                        <td><a href="{{url('teacher_info_admin/index?teacherid=').$var['teacherid']}}" target="_blank">{{@$var["teacher_nick"]}}</a> </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["grade_part_ex_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>

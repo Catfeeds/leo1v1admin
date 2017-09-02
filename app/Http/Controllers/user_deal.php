@@ -5224,8 +5224,9 @@ class user_deal extends Controller
         $textbook_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("textbook_list"));
         $teacher_textbook = implode(",",$textbook_list);
         $this->t_teacher_info->field_update_list($teacherid,[
-            "teacher_textbook" => $teacher_textbook ,
-        ] );
+            "teacher_textbook"    => $teacher_textbook,
+            "textbook_check_flag" => 1
+        ]);
 
         $arr= explode(",",$teacher_textbook);
         foreach($arr as $val){
@@ -5246,8 +5247,6 @@ class user_deal extends Controller
             "add_time"  =>time(),
             "acc"      =>$this->get_account()
         ]);
-        // $id = $this->t_teacher_record_list->get_last_insertid();
-
 
         return $this->output_succ();
     }

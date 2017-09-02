@@ -1590,9 +1590,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,50);
     }
 
-    public function get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag){
+    public function get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag,$have_test_lesson_flag=-1){
         $where_arr = [
             ["t.teacherid=%u",$teacherid,-1],
+            ["t.have_test_lesson_flag=%u",$have_test_lesson_flag,-1],
             ["grade_part_ex=%u",$grade_part_ex,-1],
             ["t.subject=%u",$subject,-1],
             ["t.second_subject=%u",$second_subject,-1],

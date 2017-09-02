@@ -60,6 +60,13 @@
                         <select id="id_class_will_type" class ="opt-change" ></select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >有无试听课</span>
+                        <select id="id_have_test_lesson_flag" class ="opt-change" ></select>
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span >有无试听课(分配后的九天内)</span>

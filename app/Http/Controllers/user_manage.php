@@ -2530,6 +2530,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
+	$assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){

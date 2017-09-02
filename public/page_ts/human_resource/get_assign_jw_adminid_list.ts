@@ -14,6 +14,7 @@ $(function(){
 			class_will_type:	$('#id_class_will_type').val(),
 			have_lesson:	$('#id_have_lesson').val(),
 			revisit_flag:	$('#id_revisit_flag').val(),
+			have_test_lesson_flag:	$('#id_have_test_lesson_flag').val(),
 			textbook_flag:	$('#id_textbook_flag').val()
         });
     }
@@ -23,6 +24,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject") );
     Enum_map.append_option_list("subject", $("#id_second_subject") );
     Enum_map.append_option_list("class_will_type", $("#id_class_will_type") );
+    Enum_map.append_option_list("boolean", $("#id_have_test_lesson_flag") );
 
 
 	$('#id_page_count').val(g_args.page_count);
@@ -36,6 +38,7 @@ $(function(){
 	$('#id_have_lesson').val(g_args.have_lesson);
 	$('#id_revisit_flag').val(g_args.revisit_flag);
 	$('#id_textbook_flag').val(g_args.textbook_flag);
+	$('#id_have_test_lesson_flag').val(g_args.have_test_lesson_flag);
 
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 

@@ -3797,6 +3797,7 @@ class human_resource extends Controller
         $have_lesson            = $this->get_in_int_val("have_lesson",0);
         $revisit_flag           = $this->get_in_int_val("revisit_flag",0);
         $textbook_flag          = $this->get_in_int_val("textbook_flag",0);
+        $have_test_lesson_flag          = $this->get_in_int_val("have_test_lesson_flag",-1);
 
         $adminid = $this->get_account_id();
         $account = $this->get_account();
@@ -3804,7 +3805,7 @@ class human_resource extends Controller
         if($adminid==74 || $adminid==349 || $adminid==99 || $account=="adrian"){
             $adminid=-1;
         }
-        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag);
+        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag,$have_test_lesson_flag);
         foreach($ret_info["list"] as &$item){
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";

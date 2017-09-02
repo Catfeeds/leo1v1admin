@@ -561,7 +561,7 @@ class ss_deal extends Controller
             //更新试听申请意向
             $info = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"current_require_id,intention_level");
             $this->t_test_lesson_subject_require->field_update_list($info["current_require_id"],[
-               "intention_level" =>$intention_level 
+               "intention_level" =>$info["intention_level"] 
             ]);
             $stu_type = $this->t_student_info->get_type($userid);
             if($stu_type==0){
