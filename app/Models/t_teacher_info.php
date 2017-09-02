@@ -3409,7 +3409,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.teacherid=teacherid",
             "lesson_status=2",
         ];
-        $sql = $this->gen_sql_new("select t.teacherid"
+        $sql = $this->gen_sql_new("select t.teacherid,t.assign_jw_adminid"
                                   ." from %s t"
                                   ." where %s"
                                   ." and exists ("
