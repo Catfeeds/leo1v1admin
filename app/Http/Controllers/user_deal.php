@@ -732,6 +732,7 @@ class user_deal extends Controller
         if($lesson_total != $old_lesson_total){
             if($lesson_total>$old_lesson_total){
 
+            }
 
         }
 
