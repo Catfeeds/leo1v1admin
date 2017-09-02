@@ -262,6 +262,9 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_value($sql);
     }
 
+    public function get_time_by_lesson($lessonid){
+        
+    }
 
 
 }

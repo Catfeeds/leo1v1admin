@@ -993,6 +993,8 @@ class ajax_deal2 extends Controller
 
     public function get_lesson_stu_tea_time(){
         $lessonid = $this->get_in_int_val("lessonid");
+        $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid");
+        $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
     }
 
 }
