@@ -2526,6 +2526,10 @@ class user_manage extends Controller
     public function stu_all_teacher()
     {
         $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+
+        if($assistantid == 0){
+            $assistantid = -1;
+        }
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){
