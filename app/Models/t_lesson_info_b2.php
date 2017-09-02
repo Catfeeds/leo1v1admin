@@ -103,8 +103,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
-            ["lesson_type=%d",$type,-1],
-            // "lesson_type=2", //试听
+            // ["lesson_type=%d",$type,-1],
+            "lesson_type=2", //试听
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
         ];
