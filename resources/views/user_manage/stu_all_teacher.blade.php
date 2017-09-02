@@ -26,8 +26,8 @@
                         <td>{{@$var["num"]}} </td>
                         <td>{{@$var["teacher_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["grade_part_ex"]}} </td>
-                        <td>{{@$var["subject"]}} </td>
+                        <td>{{@$var["grade_part_ex_str"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

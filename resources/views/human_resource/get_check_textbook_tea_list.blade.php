@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <section class="content ">
-        <div>
-            <div class="row ">
-            </div>
-        </div>
         <hr/>
         <table class="common-table"> 
             <thead>
@@ -12,6 +8,7 @@
                     <td >姓名</td>
                     <td>手机号</td>
                     <td>操作</td>
+                    <td style="display:none"></td>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +21,7 @@
                                 <a class="opt-teacher-info" title="老师信息">老师信息</a>
                             </div>
                         </td>
+                        <td></td>
                     </tr>
                 @endforeach
             </tbody>

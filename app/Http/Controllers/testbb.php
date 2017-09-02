@@ -57,11 +57,17 @@ class testbb extends Controller
         //     'create_time' => time()
         // ]);
 
-        $l[] =[
+        $arr[]=[
             "a"=>1,
             "b"=>2
         ];
 
+        while(list($key,$value)=each($arr)){ 
+            while(list($key,$value)=each($value)){
+                echo "$key=>$value"."<br>"; 
+
+            }
+        }; 
         // $t = $this->get_in_int_val('t',-1);
         // dd($t);
     }
