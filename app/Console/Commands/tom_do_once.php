@@ -79,9 +79,10 @@ class tom_do_once extends Command
                 //例子最后回访时间
                 $ret = $this->task->t_tq_call_info->get_last_call_by_phone($phone);
                 $call_time = isset($ret['start_time'])?$ret['start_time']:0;
+                echo $userid.':'."$call_time"."\n";
                 $set_arr=[];
                 $set_arr["last_revisit_time"]=$call_time;
-                $this->field_update_list($userid,$set_arr);
+                $this->task->t_seller_student_new->field_update_list($userid,$set_arr);
             }
         }
     }

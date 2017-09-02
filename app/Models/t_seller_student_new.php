@@ -2074,7 +2074,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_all_list(){
         $sql = $this->gen_sql_new(
-            " select userid,test_lesson_count,free_adminid,free_time "
+            " select userid,phone,test_lesson_count,free_adminid,free_time "
             ." from %s "
             ." order by userid "
             ,self::DB_TABLE_NAME
