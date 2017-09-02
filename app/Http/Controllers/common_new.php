@@ -1056,7 +1056,7 @@ class common_new extends Controller
     public function check_ssh_login_time() {
         $account=$this->get_in_str_val("account");
         $ssh_login_time=\App\Helper\Common::redis_get("SSH_LOGIN_TIME_$account");
-        if ($now-$ssh_login_time  < 600  ){
+        if (time(NULL)-$ssh_login_time  < 600  ){
             return "1";
         }else{
             return "0";
