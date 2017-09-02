@@ -135,14 +135,8 @@ class seller_student_new extends Controller
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
-            $first_call_time = $item['first_call_time'];
-            $last_call_time = $item['last_contact_time'];
-            if($first_call_time){
-                $lass_call_time_space = $last_call_time?(time()-$last_call_time):(time()-$first_call_time);
-            }else{
-                $lass_call_time_space = time()-$item['add_time'];
-            }
-            $item['lass_call_time_space'] = (int)($lass_call_time_space/86400);
+            $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
+            $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
 
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
@@ -1462,6 +1456,19 @@ class seller_student_new extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
         $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
         $this->refresh_test_call_end();
+
+        return $ret;
+    }
+
+    public function set_call_end_time(){
+        $ret = 1;
+        $adminid = $this->get_account_id();
+        if(in_array($adminid,[898,831])){
+            $lessonid = $this->get_in_int_val('lessonid');
+            $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
+                "call_end_time"    => time(null),
+            ]);
+        }
 
         return $ret;
     }

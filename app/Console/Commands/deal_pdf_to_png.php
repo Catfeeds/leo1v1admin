@@ -49,17 +49,32 @@ class deal_pdf_to_png extends cmd_base
      *
      * @return mixed
      */
-    public function do_handle()
+
+    public function do_handle (){
+
+        while(true){
+            $this->do_change();
+        }
+    }
+
+
+    public function do_change()
     {
         //
-        $task = new \App\Console\Tasks\TaskController();
 
-        $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
+        $pdf_lists = $this->task->t_pdf_to_png_info->get_pdf_list_for_doing();
 
-        foreach($pdf_lists as $item){
+        while(list($key,$item)=each($pdf_lists)){
             $id       = $item['id'];
             $pdf_url  = $item['pdf_url'];
             $lessonid = $item['lessonid'];
+
+
+            $this->task->t_pdf_to_png_info->field_update_list($id,[
+                "id_do_flag" => 2,
+                "deal_time"  => time()
+            ]);
+
 
             $pdf_file_path = $this->get_pdf_download_url($pdf_url);
 
@@ -82,9 +97,8 @@ class deal_pdf_to_png extends cmd_base
 
                 $file_name_origi_str = implode(',',$file_name_origi);
 
-                \App\Helper\Utils::logger("deal_pdf_to_png commond1 ".$file_name_origi_str);
-                $ret = $task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
-                $task->t_pdf_to_png_info->field_update_list($id,[
+                $ret = $this->task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+                $this->task->t_pdf_to_png_info->field_update_list($id,[
                     "id_do_flag" => 1,
                     "deal_time"  => time()
                 ]);
@@ -95,10 +109,9 @@ class deal_pdf_to_png extends cmd_base
 
                 @unlink($savePathFile);
             }
-
-
-
-
+        }
+        if ( count( $pdf_lists)==0  )  {
+            sleep(20);
         }
     }
 

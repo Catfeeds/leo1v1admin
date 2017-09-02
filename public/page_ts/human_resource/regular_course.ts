@@ -76,7 +76,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                if(id_start_time.val().substr(0,2)< 6 || id_end_time.val().substr(0,2) < 6){
+                if(id_start_time.val().substr(0,2)< 4 || id_end_time.val().substr(0,2) < 4){
                     alert('请选择正确的时间');
                     return;
                 }

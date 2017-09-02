@@ -37,6 +37,16 @@ $(function(){
             });
     });
 
+    $("#id_set_call_end_time").on("click",function(){
+        var me=this;
+        var opt_data= $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/set_call_end_time",{
+            "lessonid" : opt_data.lessonid,
+            },function(ret){
+                window.location.reload();
+            });
+    });
+
 
     $('.opt-change').set_input_change_event(load_data);
 });

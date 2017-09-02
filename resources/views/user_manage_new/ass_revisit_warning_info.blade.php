@@ -108,6 +108,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="fa opt-warning-record" >预警处置 </a>
                             </div>
                         </td>
 

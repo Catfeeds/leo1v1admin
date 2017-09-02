@@ -1,5 +1,7 @@
 <?php
 return array(
+    ["db_weiyi","t_wx_share", "id"],
+    ["db_weiyi","t_teacher_day_luck_draw", "id"],
     ["db_weiyi","t_pdf_to_png_info", "id"],
     ["db_weiyi_admin","t_sys_error_info", "id"],
     ["db_weiyi_admin","t_config_date", "id"],

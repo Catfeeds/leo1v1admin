@@ -996,7 +996,7 @@ class Common {
         $admin_list=$admin_list["list"] ;
 
         $cur_key_index=1;
-        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {
+        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
             global $cur_key_index;
             if (!isset($item [$key])) {
                 $item[$key] = [
@@ -1005,6 +1005,10 @@ class Common {
                     "key_class" => $key_class."-".$cur_key_index,
                     "sub_list"=>[] ,
                     "data" => array(),
+                    "become_member_time"=>$become_member_time,
+                    "leave_member_time" =>$leave_member_time,
+                    "create_time"  =>$create_time,
+                    "del_flag"  =>$del_flag
                 ];
                 $cur_key_index++;
             }
@@ -1017,7 +1021,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid"
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
@@ -1037,6 +1041,7 @@ class Common {
         foreach ($old_list as &$item) {
             $adminid=$item["adminid"];
             //g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid
+            // "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
             if (isset($admin_list[ $adminid])) {
                 $admin_item= $admin_list[ $adminid] ;
                 $item['main_type']=$admin_item["main_type"];
@@ -1044,6 +1049,10 @@ class Common {
                 $item['group_name']=$admin_item["group_name"];
                 $item['groupid']=$admin_item["groupid"];
                 $item['account']=$admin_item["account"];
+                $item['become_member_time']=$admin_item["become_member_time"];
+                $item['leave_member_time']=$admin_item["leave_member_time"];
+                $item['create_time']=$admin_item["create_time"];
+                $item['del_flag']=$admin_item["del_flag"];
             }else{
 
             }
@@ -1055,6 +1064,10 @@ class Common {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
+                $item['become_member_time']=0;
+                $item['leave_member_time']=0;
+                $item['create_time']=0;
+                $item['del_flag']=0;
                 //$item['account']=
             }
 
@@ -1064,6 +1077,10 @@ class Common {
             $group_name=$item["group_name"];
             $account=$item["account"];
             $groupid = $item['groupid'];
+            $become_member_time = $item['become_member_time'];
+            $leave_member_time = $item['leave_member_time'];
+            $create_time = $item['create_time'];
+            $del_flag = $item['del_flag'];
             $key0_map=&$data_map[""];
             $add_data($key0_map, $item );
 
@@ -1079,7 +1096,7 @@ class Common {
             $key3_map=&$key2_map["sub_list"][$group_name];
             $add_data($key3_map, $item );
 
-            $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid);
+            $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid,$become_member_time,$leave_member_time,$create_time,$del_flag);
             $key4_map=&$key3_map["sub_list"][$account];
             $add_data($key4_map, $item,true );
 
@@ -1153,6 +1170,10 @@ class Common {
                             $data['adminid'] = $item4['adminid'];
                             $data['groupid'] = $item4['groupid'];
                             $data["level"]="l-4";
+                            $data['become_member_time']=$item4["become_member_time"];
+                            $data['leave_member_time']=$item4["leave_member_time"];
+                           $data['create_time']=$item4["create_time"];
+                            $data['del_flag']=$item4["del_flag"];
 
                             $list[]=$data;
                         }

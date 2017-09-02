@@ -604,6 +604,17 @@
 
                         </div>
                     </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">是否高意向：</span>
+                            <select id="id_intention_level" class=" form-control "   >
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select> 
+
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12">

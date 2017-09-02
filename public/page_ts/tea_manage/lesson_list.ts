@@ -1808,7 +1808,7 @@ $(function(){
     $('.opt-manage-all').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var js_pot = JSON.stringify(opt_data);
-        window.open('supervisor/lesson_all_info?lessonid='+opt_data.lessonid);
+        window.open('/supervisor/lesson_all_info?lessonid='+opt_data.lessonid);
     });
 
     $(".opt-add_reward").on("click",function(){

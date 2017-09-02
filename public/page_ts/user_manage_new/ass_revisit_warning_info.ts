@@ -32,6 +32,51 @@ $(function(){
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
+    $(".opt-warning-record").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var id_warning_deal_info  = $("<textarea />");
+        var id_warning_deal_url = $("<div><input class=\"warning_deal_url\" id=\"warning_deal_url\" type=\"text\"readonly ><div ><span><a class=\"upload_gift_pic\" id=\"id_upload_warning_deal\" href=\"javascript:;\">上传</a></span><span><a style=\"margin-left:20px\" href=\"javascript:;\" id=\"id_del_warning_deal\">删除</a></span></div></div>");
+        var id_is_warning_flag = $("<select><option value=\"1\">预警中</option><option value=\"2\">已解决</option></select>");
+        id_warning_deal_info.val(opt_data.warning_deal_info);
+        id_is_warning_flag.val(opt_data.is_warning_flag);
+        id_warning_deal_url.find("#warning_deal_url").val(opt_data.url);
+        var arr = [
+            ["预警处理方案",  id_warning_deal_info ],
+            ["相关图片上传",  id_warning_deal_url ],
+            ["预警解决",  id_is_warning_flag ]
+        ];
+
+        id_warning_deal_url.find("#id_del_warning_deal").on("click",function(){
+            id_warning_deal_url.find("#warning_deal_url").val("");
+        });
+        $.show_key_value_table("预警处置", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+
+                $.do_ajax("/user_deal/set_revisit_warning_deal_info", {
+                    userid : opt_data.userid,
+                    revisit_time: opt_data.revisit_time,
+                    warning_deal_url : id_warning_deal_url.find("#warning_deal_url").val(),
+                    warning_deal_info: id_warning_deal_info.val(),
+                    is_warning_flag:id_is_warning_flag.val()
+                });
+            }
+        },function(){
+            $.custom_upload_file('id_upload_warning_deal',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+
+                $("#warning_deal_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
+        });
+
+
+        
+
+    });
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

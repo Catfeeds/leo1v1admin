@@ -60,6 +60,13 @@
                         <select id="id_class_will_type" class ="opt-change" ></select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >有无试听课</span>
+                        <select id="id_have_test_lesson_flag" class ="opt-change" ></select>
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span >有无试听课(分配后的九天内)</span>
@@ -156,7 +163,6 @@
                                 恢复接课时间:{{@$var["recover_class_time_str"]}}<br>
                             @endif
                             负责人:{{@$var["acc"]}}<br>
-                            
                         </td>
                         <td>
                             时间:{{@$var["lesson_start_str"]}}<br>
@@ -167,7 +173,6 @@
                                 <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new" title="回访列表" ></a>
                                 <a class="opt-teacher-info" title="老师信息" >老师信息</a>
-
                             </div>
                         </td>
                     </tr>

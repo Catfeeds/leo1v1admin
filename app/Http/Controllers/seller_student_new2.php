@@ -257,6 +257,8 @@ class seller_student_new2 extends Controller
             $item["lesson_used_flag_str"]=\App\Helper\Common::get_boolean_color_str(!$item["lesson_del_flag"]);
 
             E\Eboolean::set_item_value_str($item,"fail_greater_4_hour_flag");
+            // E\Eboolean::set_item_value_str($item,"intention_level");
+            $item["intention_level_str"] = \App\Helper\Common::get_boolean_color_str($item["intention_level"]);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Eass_test_lesson_type::set_item_value_str($item);
 

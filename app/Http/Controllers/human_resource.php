@@ -3797,13 +3797,15 @@ class human_resource extends Controller
         $have_lesson            = $this->get_in_int_val("have_lesson",0);
         $revisit_flag           = $this->get_in_int_val("revisit_flag",0);
         $textbook_flag          = $this->get_in_int_val("textbook_flag",0);
+        $have_test_lesson_flag          = $this->get_in_int_val("have_test_lesson_flag",-1);
 
         $adminid = $this->get_account_id();
+        $account = $this->get_account();
         // $adminid=343;
-        if($adminid==74 || $adminid==349 || $adminid==99){
+        if($adminid==74 || $adminid==349 || $adminid==99 || $account=="adrian"){
             $adminid=-1;
         }
-        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag);
+        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag,$have_test_lesson_flag);
         foreach($ret_info["list"] as &$item){
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
@@ -3841,14 +3843,29 @@ class human_resource extends Controller
             }
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            "adminid"   =>$adminid,
-            "jw_list"   =>$jw_list
+            "adminid" => $adminid,
+            "jw_list" => $jw_list
         ]);
+    }
+
+    public function get_check_textbook_tea_list(){
+        $adminid             = $this->get_account_id();
+        $textbook_check_flag = $this->get_in_int_val("textbook_check_flag",-1);
+
+        if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186){
+            $adminid=-1;
+        }
+
+        $check_time = strtotime("2017-9-2");
+        $ret_info   = $this->t_teacher_info->get_check_textbook_tea_list($adminid,$textbook_check_flag,$check_time);
+        $ret_info   = \App\Helper\Utils::list_to_page_info($ret_info);
+
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function get_avg_conversion_time($time=0,$decimal_point=0){
         if($time==0){
-            $time=time();
+            $time = time();
         }
         $this->t_lesson_info->switch_tongji_database();
 
@@ -4559,9 +4576,6 @@ class human_resource extends Controller
 
         return $this->pageView(__METHOD__,$tea_list);
     }
-
-
-
 
 
 }

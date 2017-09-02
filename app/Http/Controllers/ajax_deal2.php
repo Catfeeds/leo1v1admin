@@ -709,7 +709,17 @@ class ajax_deal2 extends Controller
         $ret = $this->t_cs_proposal_info->field_update_list($id,$data);
         return $this->output_succ();
     }
-
+    public function show_student_single_subject()
+    {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $assistantid = $this->get_in_int_val("assistantid");
+        $studentid   = $this->get_in_int_val("studentid");
+        $start_time  = $this->get_in_int_val("start_time");
+        $end_time    = $this->get_in_int_val("end_time");
+        $ret = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$assistantid,$studentid);
+        return $this->output_succ();
+        # code...
+    }
     public function get_admin_work_status(){
         $account_role = $this->get_in_int_val("account_role",-1);
         $list = $this->t_manager_info->get_admin_work_status_info($account_role);

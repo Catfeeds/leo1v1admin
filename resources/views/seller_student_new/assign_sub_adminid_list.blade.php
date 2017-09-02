@@ -378,7 +378,7 @@
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
                         </td>
-                        <td>{{$var["lass_call_time_space"]}}天 </td>
+                        <td>{{$var["last_call_time_space"]}}天 </td>
                     @if ($show_list_flag==0)
                         <td>
                             {{$var['first_call_time']}}
