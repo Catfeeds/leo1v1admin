@@ -1113,7 +1113,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
-    public function tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="", $origin) {
+    public function tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="", $origin='') {
         switch($field_name){
         case "origin" :
             $field_name="s.origin";

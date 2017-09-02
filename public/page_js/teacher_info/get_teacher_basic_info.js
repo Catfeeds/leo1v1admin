@@ -43,11 +43,11 @@ $(function(){
     $('.opt-set').on('click', function(){
         var old_status = $(this).attr('data-status');
         $.ajax({
-			      type     : "post",
-			      url      : "/teacher_info/edit_teacher_status",
-			      dataType : "json",
-			      data     : {'status': old_status},
-			      success  : function(result){
+            type     : "post",
+            url      : "/teacher_info/edit_teacher_status",
+            dataType : "json",
+            data     : {'status': old_status},
+            success  : function(result){
                 if(result.ret==0){
                     $('b[data-status]').toggleClass('hide');
                     $('p[data-status]').toggleClass('hide');
@@ -55,7 +55,7 @@ $(function(){
                 }else{
                     alert(result.info);
                 }
-			      }
+            }
         });
     });
 
@@ -80,20 +80,24 @@ $(function(){
         console.log(sub_url)
         console.log(sub_content)
         $.ajax({
-			      type     : "post",
-			      url      : "/teacher_info/"+sub_url,
-			      dataType : "json",
-			      data     : sub_content,
-			      success : function(result){
+            type     : "post",
+            url      : "/teacher_info/"+sub_url,
+            dataType : "json",
+            data     : sub_content,
+            success : function(result){
                 if(result.ret==0){
                     window.location.reload();
                 }else{
                     alert(result.info);
                 }
-			      }
+            }
         });
     });
-	  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
+    $('#modal-default').on('shown.bs.modal', function (e) {
+        $(".modal").unbind("click");
+
+    })
 
 });
 

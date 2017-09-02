@@ -1411,9 +1411,12 @@ class user_manage extends Controller
             $time = strtotime(date("Y-m-01",$start+$i*32*86400));
             //echo date("Y-m-01",$start+$i*32*86400);
             $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
-            dd($arr);
+            // dd($arr);
         }
         dd($arr);
+        $ret_info = \App\Helper\Utils::list_to_page_info($arr);
+        return $this->pageView(__METHOD__,$ret_info);
+
     }
 
     public function user_login_list(){
