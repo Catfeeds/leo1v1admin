@@ -874,6 +874,8 @@ class tongji_ss extends Controller
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eseller_student_status::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
             if ($item['success_flag'] != 2) {
                 $item['success_flag_str'] = '是';
             } else{
