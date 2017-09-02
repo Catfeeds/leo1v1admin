@@ -995,7 +995,7 @@ class ajax_deal2 extends Controller
         $lessonid = $this->get_in_int_val("lessonid");
         $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_end");
         $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
-        $user_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
+        $user_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],2);
         $stu_time = 0;
         foreach($user_in as $k=>$val){
             if(isset($user_out[$k])){
@@ -1005,17 +1005,19 @@ class ajax_deal2 extends Controller
             }
         }
 
-        $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
-        $user_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
-        $stu_time = 0;
-        foreach($user_in as $k=>$val){
-            if(isset($user_out[$k])){
-                $stu_time +=$user_out[$k]["opt_time"]-$val["opt_time"];
+        $teacher_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["teacherid"],1);
+        $teacher_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["teacherid"],2);
+        $tea_time = 0;
+        foreach($teacher_in as $k=>$val){
+            if(isset($teacher_out[$k])){
+                $tea_time +=$teacher_out[$k]["opt_time"]-$val["opt_time"];
             }else{
-                $stu_time +=$info["lesson_end"]-$val["opt_time"];
+                $tea_time +=$info["lesson_end"]-$val["opt_time"];
             }
         }
-
+        $data["stu_time"] = $stu_time;
+        $data["tea_time"] = $tea_time;
+        return $this->output_succ(["data" => $data ]); 
     }
 
 }

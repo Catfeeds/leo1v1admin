@@ -42,6 +42,7 @@ $(function(){
                         "lessonid"       : lessonid
                     },function(resp){
                         console.log(resp.data);
+                        alert(resp.data.stu_time);
                         $tr.find(".stu_time").text(resp.data.stu_time); 
                         $tr.find(".tea_time").text(resp.data.tea_time); 
                        
