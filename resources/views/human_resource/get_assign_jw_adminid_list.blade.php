@@ -163,7 +163,6 @@
                                 恢复接课时间:{{@$var["recover_class_time_str"]}}<br>
                             @endif
                             负责人:{{@$var["acc"]}}<br>
-                            
                         </td>
                         <td>
                             时间:{{@$var["lesson_start_str"]}}<br>

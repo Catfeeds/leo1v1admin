@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('content')
     <section class="content ">
+        <div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span >是否设置过教材</span>
+                    <select id="id_textbook_check_flag" class ="opt-change" ></select>
+                </div>
+            </div>
+        </div>
         <hr/>
         <table class="common-table"> 
             <thead>

@@ -269,6 +269,7 @@
                                 试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
                                 <!-- 成绩情况: {{$var["stu_score_info"]}} <br/> -->
                                 性格信息: {{$var["stu_character_info"]}} <br/>
+                                高意向: {!! $var["intention_level_str"] !!} <br/>
                             </td>
                             <td >{{$var["require_time"]}}</td>
                             <td > {{$var["require_admin_nick"]}}</td>

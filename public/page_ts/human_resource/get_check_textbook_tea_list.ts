@@ -42,5 +42,7 @@ $(function(){
 
 	  $('.opt-change').set_input_change_event(load_data);
 
+    Enum_map.append_option_list("boolean",$("#id_textbook_check_flag"));
+    $("#id_textbook_check_flag").val(g_args.textbook_check_flag);
 
 });

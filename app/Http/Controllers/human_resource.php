@@ -3849,8 +3849,8 @@ class human_resource extends Controller
     }
 
     public function get_check_textbook_tea_list(){
-        $adminid = $this->get_account_id();
-        $
+        $adminid             = $this->get_account_id();
+        $textbook_check_flag = $this->get_in_int_val("textbook_check_flag",-1);
 
         if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186){
             $adminid=-1;
@@ -3865,7 +3865,7 @@ class human_resource extends Controller
 
     public function get_avg_conversion_time($time=0,$decimal_point=0){
         if($time==0){
-            $time=time();
+            $time = time();
         }
         $this->t_lesson_info->switch_tongji_database();
 
