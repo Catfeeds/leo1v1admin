@@ -27,4 +27,3 @@
         @include("layouts.page")
     </section>
 @endsection
-

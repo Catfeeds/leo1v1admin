@@ -56,45 +56,43 @@ class deal_pdf_to_png extends cmd_base
 
         $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
 
-        while(list($key,$value)=each($pdf_lists)){
-            while(list($i,$item)=each($value)){
-                $id       = $item['id'];
-                $pdf_url  = $item['pdf_url'];
-                $lessonid = $item['lessonid'];
+        while(list($key,$item)=each($pdf_lists)){
+            $id       = $item['id'];
+            $pdf_url  = $item['pdf_url'];
+            $lessonid = $item['lessonid'];
 
-                $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+            $pdf_file_path = $this->get_pdf_download_url($pdf_url);
 
-                $savePathFile = public_path('wximg').'/'.$pdf_url;
+            $savePathFile = public_path('wximg').'/'.$pdf_url;
 
-                if($pdf_url){
+            if($pdf_url){
 
-                    \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+                \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
 
-                    $path = public_path().'/wximg';
+                $path = public_path().'/wximg';
 
-                    @chmod($savePathFile, 0777);
+                @chmod($savePathFile, 0777);
 
-                    $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+                $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
-                    $file_name_origi = array();
-                    foreach($imgs_url_list as $item){
-                        $file_name_origi[] = @$this->put_img_to_alibaba($item);
-                    }
-
-                    $file_name_origi_str = implode(',',$file_name_origi);
-
-                    $ret = $task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
-                    $task->t_pdf_to_png_info->field_update_list($id,[
-                        "id_do_flag" => 1,
-                        "deal_time"  => time()
-                    ]);
-
-                    foreach($imgs_url_list as $item_orgi){
-                        @unlink($item_orgi);
-                    }
-
-                    @unlink($savePathFile);
+                $file_name_origi = array();
+                foreach($imgs_url_list as $item){
+                    $file_name_origi[] = @$this->put_img_to_alibaba($item);
                 }
+
+                $file_name_origi_str = implode(',',$file_name_origi);
+
+                $ret = $task->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+                $task->t_pdf_to_png_info->field_update_list($id,[
+                    "id_do_flag" => 1,
+                    "deal_time"  => time()
+                ]);
+
+                foreach($imgs_url_list as $item_orgi){
+                    @unlink($item_orgi);
+                }
+
+                @unlink($savePathFile);
             }
         }
     }

@@ -3429,7 +3429,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["assign_jw_time>%u",$check_time,-1],
             "textbook_check_flag=0"
         ];
-        $sql = $this->gen_sql_new("select teacherid,phone,realname"
+        $sql = $this->gen_sql_new("select teacherid,phone,realname,teacher_textbook"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
