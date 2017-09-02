@@ -404,6 +404,7 @@ class url_power_map {
 			'/main_page/assistant_new'	=>1125300,
 			'/user_manage_new/ass_warning_stu_info'	=>1125400,
 			'/user_manage_new/ass_warning_stu_info_new'	=>1125500,
+			'/user_manage_new/ass_revisit_warning_info_sub'	=>1124100,
 			'/user_manage/ass_archive_ass'	=>1120500,
 			'/supervisor/monitor_ass'	=>1120300,
 			'/user_manage/contract_list_ass'	=>1120200,

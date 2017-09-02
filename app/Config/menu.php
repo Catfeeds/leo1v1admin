@@ -619,6 +619,7 @@ class menu{
                 ["power_id"=>53, "name"=>"首页-new",   "url"=>"/main_page/assistant_new" ],
                 ["power_id"=>54, "name"=>"预警学员信息",   "url"=>"/user_manage_new/ass_warning_stu_info" ],
                 ["power_id"=>55, "name"=>"预警学员信息-new",   "url"=>"/user_manage_new/ass_warning_stu_info_new" ],
+                ["power_id"=>41, "name"=>"学情回访预警信息",   "url"=>"/user_manage_new/ass_revisit_warning_info_sub"],
                 ["power_id"=>5, "name"=>"学员档案-助教",   "url"=>"/user_manage/ass_archive_ass"],
                 ["power_id"=>3, "name"=>"课堂状态-助教",   "url"=>"/supervisor/monitor_ass"],
                 ["power_id"=>2, "name"=>"学员合同-助教",   "url"=>"/user_manage/contract_list_ass"],
