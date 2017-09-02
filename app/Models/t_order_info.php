@@ -1174,7 +1174,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         if($field_name=="tmk_adminid"){
             $where_arr=[
                 ["o.origin like '%%%s%%' ",$origin,""],
-                ["$field_name=%s",$check_value,""],
+                ["$field_name='%s'",$check_value,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1184,7 +1184,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         } else {
             $where_arr=[
                 ["o.origin like '%%%s%%' ",$origin,""],
-                ["$field_name=%s",$check_value,""],
+                ["$field_name='%s'",$check_value,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",

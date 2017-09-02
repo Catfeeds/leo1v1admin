@@ -870,7 +870,7 @@ class tongji_ss extends Controller
 
         //试听信息
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
+        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info('',$field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eseller_student_status::set_item_value_str($item);
@@ -915,7 +915,7 @@ class tongji_ss extends Controller
         $this->t_seller_student_origin->switch_tongji_database();
 
         //订单信息
-        $ret_info= $this->t_order_info->tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str,$check_value,$page_info);
+        $ret_info= $this->t_order_info->tongji_seller_order_info( '',$field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str,$check_value,$page_info);
 
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
