@@ -3850,6 +3850,8 @@ class human_resource extends Controller
     public function get_check_textbook_tea_list(){
         $adminid = $this->get_account_id();
 
+        $ret_info = $this->t_teacher_info->get_check_textbook_tea_list($adminid);
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 

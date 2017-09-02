@@ -143,7 +143,6 @@ $(function(){
 
     $(".opt-set-lesson-new ").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        console.log(opt_data.require_id);
         if(opt_data.jw_test_lesson_status == 2){
             alert("请先解除挂载!");
             return;
@@ -948,6 +947,8 @@ $(function(){
 
     $(" .opt-binding-course-order ").on("click", function() {
         var opt_data = $(this).get_opt_data();
+        alert(opt_data.require_id);
+
         console.log(opt_data.lessonid);
 
         $("<div></div>").admin_select_dlg_ajax({
