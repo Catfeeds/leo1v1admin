@@ -6,6 +6,7 @@ $(function(){
         $.reload_self_page ( {
         });
     }
+    $(".fa-download").hide();
 
     $(".opt-teacher-info").on("click",function(){
         var opt_data = $(this).get_opt_data();
