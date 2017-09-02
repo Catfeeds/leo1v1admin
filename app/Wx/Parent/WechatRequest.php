@@ -171,7 +171,7 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
             'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
 
-            'url' => 'http://www.jiuqitian.com/chou6',
+            'url' => 'www.jiuqitian.com/chou7',
 
         );
 

@@ -35,6 +35,15 @@ class t_audio_record_server extends \App\Models\Zgen\z_t_audio_record_server
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function get_server_map() {
+        $sql=$this->gen_sql_new("select * from %s where %s  ",
+                                self::DB_TABLE_NAME );
+        return $this->main_get_list($sql,function($item){
+            return $item["ip"];
+        });
+    }
+
+
     public function get_ip_from_config_userid($config_userid) {
         $sql=$this->gen_sql("select ip   from %s where config_userid=%u",
                             self::DB_TABLE_NAME ,$config_userid);

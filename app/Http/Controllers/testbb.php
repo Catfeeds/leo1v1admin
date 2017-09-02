@@ -49,28 +49,21 @@ class testbb extends Controller
 
 
     public function test () {
-        // $lessonid = '247905';
-        // $pdf_url  = '2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf';
-        // $this->t_pdf_to_png_info->row_insert([
-        //     'lessonid'    => $lessonid,
-        //     'pdf_url'     => $pdf_url,
-        //     'create_time' => time()
-        // ]);
 
-        $arr[]=[
-            "a"=>1,
-            "b"=>2
-        ];
+        $rand = mt_rand(0,100000);
+        $money = $rand;
 
-        while(list($key,$value)=each($arr)){ 
-            // while(list($key,$val)=each($value)){
-            //     echo "$val"."<br>"; 
+        if($rand>1000 && $rand<=1035){ // 中 91.0元
+            $money = '9100'; // 单位分
+        }elseif($rand>2000 && $rand <=3000){ // 中9.1元
+            $money = '910'; // 单位分
+        }elseif($rand>20000 && $rand<33000){ // 中0.91元
+            $money = '91'; // 单位分
+        }
 
-            // }
-            echo $value['a'];
-        }; 
-        // $t = $this->get_in_int_val('t',-1);
-        // dd($t);
+        echo $money;
+
+
     }
 
     public function lesson_send_msg(){
