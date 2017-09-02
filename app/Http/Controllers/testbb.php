@@ -63,10 +63,11 @@ class testbb extends Controller
         ];
 
         while(list($key,$value)=each($arr)){ 
-            while(list($key,$value)=each($value)){
-                echo "$key=>$value"."<br>"; 
+            // while(list($key,$val)=each($value)){
+            //     echo "$val"."<br>"; 
 
-            }
+            // }
+            echo $value['a'];
         }; 
         // $t = $this->get_in_int_val('t',-1);
         // dd($t);

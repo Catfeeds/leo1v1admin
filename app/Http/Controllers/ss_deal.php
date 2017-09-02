@@ -437,7 +437,8 @@ class ss_deal extends Controller
             "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
-            "textbook"                  => $textbook
+            "textbook"                  => $textbook,
+            "intention_level"                    => $intention_level
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
@@ -469,7 +470,6 @@ class ss_deal extends Controller
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
                 "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
-                "intention_level"                    => $intention_level
             ]);
         }
         return $this->output_succ();

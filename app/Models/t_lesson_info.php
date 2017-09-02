@@ -9250,7 +9250,7 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_stu_all_teacher($page_info,$assistantid)
+    public function get_stu_all_teacher($page_info,$assistantid=0)
     {
         $where_arr = [
             ["s.assistantid = %u",$assistantid,0],
@@ -9268,6 +9268,7 @@ lesson_type in (0,1) "
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+	dd($sql);
         return $this->main_get_list_by_page($sql,$page_info);
     }
 }
