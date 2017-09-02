@@ -1339,7 +1339,7 @@ lesson_type in (0,1) "
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME, //
                                 $start_time,$end_time,  $where_arr);
-	dd($sql);
+	   dd($sql);
         return $this->main_get_list($sql);
     }
 
