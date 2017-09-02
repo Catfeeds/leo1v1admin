@@ -2006,7 +2006,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            "test_lesson_order_fail_flag in (0,null)",
            'contract_status in (0,null)',
        ];
-       $this->where_arr_add_time_range($where_arr,"require_time",1503849600,time(null));
+       $this->where_arr_add_time_range($where_arr,"require_time",1504195200,time(null));
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
 
        $sql= $this->gen_sql_new(
