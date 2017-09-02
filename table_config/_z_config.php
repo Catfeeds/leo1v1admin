@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_pdf_to_png_info", "id"],
     ["db_weiyi_admin","t_sys_error_info", "id"],
     ["db_weiyi_admin","t_config_date", "id"],
     ["db_weiyi_admin","t_admin_self_menu", "id"],

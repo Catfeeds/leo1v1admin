@@ -1851,60 +1851,6 @@ class test_code extends Controller
         }
     }
 
-    public function get_simulate_info(){
-        $level_list  = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
-        $money_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
-        $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
-
-
-
-    }
-
-    public function wenjuanxing(){
-        $data = file_get_contents("php://input");
-
-        \App\Helper\Utils::logger("wenjuanxing:".$data);
-        echo "succ";
-    }
-
-    public function get_math_teacher(){
-        $start_num = $this->get_in_int_val("start_num",0);
-        $end_num   = $this->get_in_int_val("end_num",1);
-        $start = strtotime("2017-1-1");
-        $start_time = strtotime("+$start_num month",$start);
-        $end_time   = strtotime("+$end_num month",$start);
-
-        echo $start_time;
-        echo "<br>";
-        echo $end_time;
-        echo "<br>";
-
-        $lesson_list = $this->t_teacher_info->get_math_teacher($start_time,$end_time);
-        echo "姓名|手机|年级|入职时间|课程数|签单数|整体转化率|";
-        echo "<br>";
-        foreach($lesson_list as $val){
-            if($val['subject']==2){
-                $grade_str = E\Egrade_range::get_desc($val['grade_start'])."-".E\Egrade_range::get_desc($val['grade_end']);
-                if($val['grade_start']==0){
-                    $grade_str = E\Egrade_part_ex::get_desc($val['grade_part_ex']);
-                }
-            }elseif($val['second_subject']==2){
-                $grade_str = E\Egrade_range::get_desc($val['second_grade_start'])."-".E\Egrade_range::get_desc($val['second_grade_end']);
-                if($val['second_grade_start']==0){
-                    $grade_str = E\Egrade_part_ex::get_desc($val['second_grade']);
-                }
-            }else{
-                $grade_str = "";
-            }
-            $time = date("Y-m-d H:i",$val['train_through_new_time']);
-
-            echo $val['realname']."|".$val['phone']."|".$grade_str."|".$time."|".$val['lesson_num']
-                                 ."|".$val['has_order']."|".$val['test_transfor_per']
-                                 ;
-            echo "<br>";
-        }
-    }
-
     public function refresh(){
         $subject_map = E\Esubject::$desc_map;
         $grade_map = E\Egrade::$desc_map;
@@ -1971,27 +1917,12 @@ class test_code extends Controller
         return $grade_ex;
     }
 
-    public function add_open_user_lesson(){
-        $open_lesson = $this->t_lesson_info_b3->get_open_lesson_list();
+    public function get_tea_list(){
+        $start = strtotime("2017-7-1");
+        $end   = strtotime("2017-9-1");
+        $list  = $this->t_lesson_info_b3->get_tea_list($start,$end);
 
-        $order_start = strtotime("2017-8-5");
-        $order_end   = strtotime("2017-8-31");
-        $list = $this->t_order_info->get_open_order_list($order_start,$order_end);
 
-        \App\Helper\Utils::debug_to_html( $list );
-    }
-
-    public function check_user_list(){
-        $list = $this->t_course_order->get_course_order_grade();
-        
-    }
-
-    public function get_stu_list(){
-        $start_num  = $this->get_in_int_val("start_num");
-        $end_num    = $this->get_in_int_val("end_num");
-        $time       = strtotime("2017-1-1");
-        $start_time = strtotime("+$start_num month",$time);
-        $end_time   = strtotime("+$end_num month",$start_time );
 
     }
 }

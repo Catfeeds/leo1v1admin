@@ -281,7 +281,9 @@ class teacher_money extends Controller
 
         $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $teacher_type       = $this->t_teacher_info->get_teacher_type($teacherid);
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        $transfer_time      = $this->t_teacher_info->get_transfer_time($teacherid);
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
 
@@ -335,6 +337,10 @@ class teacher_money extends Controller
                 $start_time = strtotime("-1 month",$start);
                 $end_time   = strtotime("-1 month",$end);
                 $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+                if($transfer_teacherid>0 && $transfer_time>$start && $transfer_time<$end){
+                    $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
+                    $already_lesson_count += $old_lesson_count;
+                }
             }
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
