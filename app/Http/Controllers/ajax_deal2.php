@@ -712,11 +712,11 @@ class ajax_deal2 extends Controller
     public function show_student_single_subject()
     {
         $teacherid = $this->get_in_int_val("teacherid");
-        $assistantid = $this->get_in_int_val("assistantid");
+        $subject = $this->get_in_int_val("subject");
         $studentid   = $this->get_in_int_val("studentid");
         $start_time  = strtotime($this->get_in_str_val("start_time"));
-        $end_time    = strtotime($this->get_in_str_val("end_time"));
-        $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$assistantid,$studentid);
+        $end_time    = strtotime($this->get_in_str_val("end_time"))+86400;
+        $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid);
 	
         foreach ($ret_info as &$item) {
             # code...
@@ -989,6 +989,12 @@ class ajax_deal2 extends Controller
         $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
         $ret_arr=\App\Helper\Utils::json_decode_as_array($ret_str,true);
         return $this->output_succ(["data" => $ret_arr ]); 
+    }
+
+    public function get_lesson_stu_tea_time(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid");
+        $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
     }
 
 }

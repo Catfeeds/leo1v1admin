@@ -1134,6 +1134,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+
         $where_arr[]= $ret_in_str;
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);

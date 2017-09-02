@@ -40,7 +40,7 @@ $(function(){
 	$('.show_detail').on("click",function(){
 		var data            = $(this).get_opt_data();
         var teacherid = $(this).attr('date-teacherid');
-        var assistantid = $(this).attr('date-assistantid');
+        var subject = $(this).attr('date-subject');
         var studentid   = $(this).attr('date-studentid');
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
@@ -54,7 +54,7 @@ $(function(){
 
         $.do_ajax('/ajax_deal2/show_student_single_subject',{
             'teacherid' : teacherid,
-            'assistantid':assistantid,
+            'subject':subject,
             'studentid' :studentid,
             'start_time':start_time,
             'end_time'  : end_time,

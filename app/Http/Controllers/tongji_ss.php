@@ -7989,6 +7989,8 @@ class tongji_ss extends Controller
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
         // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
+        $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
+        // dd($ret_info);
         foreach($ret_info["list"] as &$item){
             /* if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";
@@ -7996,7 +7998,7 @@ class tongji_ss extends Controller
                 $item["train_through_new_str"]="未入职";
             }
             if($item["train_through_new_time"]>0){*/
-            $item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
+            //$item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
             /* }else{
                 $item["train_through_new_time_str"]="无";
             }
@@ -8011,7 +8013,7 @@ class tongji_ss extends Controller
             //  E\Eteacher_type::set_item_value_str($item,"teacher_type");
             // E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
             // E\Egender::set_item_value_str($item,"gender");
-            E\Esubject::set_item_value_str($item,"subject");
+            /* E\Esubject::set_item_value_str($item,"subject");
             E\Elevel::set_item_value_str($item,"level");
             // E\Esubject::set_item_value_str($item,"second_subject");
             // E\Esubject::set_item_value_str($item,"third_subject");
@@ -8023,7 +8025,7 @@ class tongji_ss extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
            
             E\Egrade_range::set_item_value_str($item,"grade_start");
-            E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade_range::set_item_value_str($item,"grade_end");*/
 
 
 
