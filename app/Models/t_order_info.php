@@ -676,8 +676,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0)",
             ["stu_from_type=%u" , $stu_from_type, -1],
         ];
-        $sql = $this->gen_sql_new("select t2.uid adminid,count(*) all_new_contract,sum(price) all_price,MAX(price) max_price"
-                                  // ."t2.create_time,t2.become_member_time,t2.leave_member_time,t2.del_flag "
+        $sql = $this->gen_sql_new("select t2.uid adminid,count(*) all_new_contract,sum(price) all_price,MAX(price) max_price,"
+                                  ."t2.create_time,t2.become_member_time,t2.leave_member_time,t2.del_flag "
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.sys_operator = t2.account "
                                   ." left join %s t3 on t1.userid = t3.userid "

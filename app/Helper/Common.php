@@ -1017,7 +1017,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid"
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
@@ -1044,6 +1044,10 @@ class Common {
                 $item['group_name']=$admin_item["group_name"];
                 $item['groupid']=$admin_item["groupid"];
                 $item['account']=$admin_item["account"];
+                $item['become_member_time']=$admin_item["become_member_time"];
+                $item['leave_member_time']=$admin_item["leave_member_time"];
+                $item['create_time']=$admin_item["create_time"];
+                $item['del_flag']=$admin_item["del_flag"];
             }else{
 
             }
@@ -1153,6 +1157,10 @@ class Common {
                             $data['adminid'] = $item4['adminid'];
                             $data['groupid'] = $item4['groupid'];
                             $data["level"]="l-4";
+                            $data['become_member_time']=$item4["become_member_time"];
+                            $data['leave_member_time']=$item4["leave_member_time"];
+                            $data['create_time']=$item4["create_time"];
+                            $data['del_flag']=$item4["del_flag"];
 
                             $list[]=$data;
                         }
