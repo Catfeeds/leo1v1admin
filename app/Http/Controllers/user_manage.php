@@ -2518,7 +2518,7 @@ class user_manage extends Controller
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
             $item["subject"]        = E\Esubject::get_desc($item["subject"]);
             $item['lesson_count']   = $item['lesson_count']/100;
-            $item["count_per"]      = $item['lesson_count']/$item['count'];
+            $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }

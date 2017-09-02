@@ -18,7 +18,7 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 
 
-class deal_pdf_to_png extends Command
+class deal_pdf_to_png extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -49,21 +49,12 @@ class deal_pdf_to_png extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function do_handle()
     {
         //
         $task = new \App\Console\Tasks\TaskController();
 
         $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
-
-        // $pdf_lists[] = [
-
-        //     // id, pdf_url, lessonid
-
-        // ];
-
-        \App\Helper\Utils::logger("deal_pdf_to_png commond");
-
 
         foreach($pdf_lists as $item){
             $id       = $item['id'];
