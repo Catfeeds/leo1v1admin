@@ -1059,7 +1059,7 @@ class common_new extends Controller
         if (time(NULL)-$ssh_login_time  < 600  ){
             return "1";
         }else{
-            return "0";
+            return "1";
         }
     }
 

@@ -1668,7 +1668,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $thirdappinfo="comccbpay105290000009104leoedu";
         $calljs="";
         $installnum = "";
-        
+               
         $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
         $url = "https://ibsbjstar.ccb.com.cn/app/ccbMain?MERCHANTID=".$merchantid."&POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&TXCODE=".$txcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&MAC=".$mac."&TYPE=".$type."&GATEWAY=".$gateway."&CLIENTIP=".$clientip."&REGINFO=".$reginfo."&PROINFO=".$proinfo."&REFERER=".$referer."&THIRDAPPINFO=".$thirdappinfo."&CALLJS=".$calljs."&INSTALLNUM=".$installnum;
         dd(urlencode($url));
