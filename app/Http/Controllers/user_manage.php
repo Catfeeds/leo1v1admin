@@ -2509,7 +2509,7 @@ class user_manage extends Controller
 
         $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
                                 $assistantid,$teacherid,$studentid,$num);
-        foreach($ret_list['list'] as &$item ){
+        foreach($ret_list['list'] as $key => &$item){
             $ret_info['list'][$key]['num'] = $key + 1;
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
