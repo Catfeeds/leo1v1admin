@@ -1404,9 +1404,10 @@ class user_manage extends Controller
     }
 
     public function get_stu_grade_info_month(){
-        $start_time = strtotime("2017-01-01");
-        for($i=0;$i<=9;$i++){
-            echo $i;
+        $start = strtotime("2017-01-01");
+        for($i=0;$i<=8;$i++){
+            $start_time = strtotime(date("Y-m-01",$start+$i*32*86400));
+            $end_time = strtotime(date("Y-m-01",$start_time+$i*32*86400));
         }
     }
 

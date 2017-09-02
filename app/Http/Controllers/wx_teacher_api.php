@@ -448,9 +448,9 @@ class wx_teacher_api extends Controller
     public function update_is_share(){ // 更新是否分享朋友圈
         $teacherid = $this->get_teacherid();
 
-        $this->t_wx_share->row_insert([
-            'teacherid' => $teacherid,
-            'type'      => 1,
+        $ret = $this->t_wx_share->row_insert([
+            'teacherid'  => $teacherid,
+            'type'       => 1, // 分享类型 1:微信朋友圈
             'share_time' => time()
         ]);
 
