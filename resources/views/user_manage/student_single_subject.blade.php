@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">科目数量</span>
+                        <span class="input-group-addon">次数</span>
                         <input class="opt-change form-control" id="id_num" />
                     </div>
                 </div>
@@ -66,7 +66,6 @@
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                  >
-                                <a class=" fa-list-alt opt-show-lesson-list" title="显示对应课程列表"></a>
                             </div>
                         </td>
 				    </tr>

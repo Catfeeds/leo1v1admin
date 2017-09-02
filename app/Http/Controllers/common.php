@@ -1668,6 +1668,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $thirdappinfo="comccbpay105290000009104leoedu";
         $calljs="";
         $installnum = "";
+        $tt = mb_convert_encoding( $proinfo, 'UTF-8','GBK');
+        dd($tt);
         
         $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
 

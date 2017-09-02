@@ -1561,6 +1561,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_admin_list_by_role($role){
         $where_arr = [
             ["account_role=%u",$role,-1],
+            "del_flag=0"
         ];
         $sql = $this->gen_sql_new("select uid "
                                   ." from %s "
