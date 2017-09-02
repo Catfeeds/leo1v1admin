@@ -57,13 +57,13 @@
                 @foreach ($table_data_list as $var)
 				    <tr>
                         <td >{{$var["num"]}}</td>
-                        <td >{{$var["student_nick"]}}</td>
+                        <td ><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{$var["student_nick"]}}</a></td>
                         <td >{{$var['phone']}}</td>
                         <td >{{$var["lesson_count"]}}</td>
                         <td >{{$var["count"]}}</td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject"]}}</td>
-			<td >{{$var["grade"]}}</td>
+			            <td >{{$var["grade"]}}</td>
                         <td >
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
