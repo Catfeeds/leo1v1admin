@@ -481,7 +481,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
-                                  "am.uid adminid,am.account ".
+                                  "am.uid adminid,am.account,".
+                                  "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
                                   " left join %s m on g.up_groupid = m.groupid".
@@ -511,7 +512,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
-                                  "am.account ".
+                                  "am.account, ".
+                                  "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am left join %s u on (am.uid = u.adminid and u.month=%u)".
                                   " left join %s g on (u.groupid = g.groupid and g.month=%u)".
                                   " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".

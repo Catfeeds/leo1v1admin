@@ -1270,7 +1270,6 @@ class user_manage_new extends Controller
     }
 
     public function seller_tongji_report_info(){
-
         \App\Helper\Utils::logger("START");
         $start = strtotime(date('Y-m-01',time()));
         $day = intval(ceil((time()-$start)/86400)-1);
