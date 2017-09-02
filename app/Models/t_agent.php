@@ -1064,7 +1064,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_new($id ) {
         $agent_info = $this->field_get_list($id,"*");
-        dd($agent_info);
         $userid  = $agent_info["userid"];
         $agent_type= $agent_info["type"];
         $agent_level_old = $agent_info["agent_level"];
