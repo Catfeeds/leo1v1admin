@@ -1922,7 +1922,7 @@ class test_code extends Controller
         $end   = strtotime("2017-9-1");
         $list  = $this->t_lesson_info_b3->get_tea_list($start,$end);
 
-
+        dd($list);
 
     }
 }
