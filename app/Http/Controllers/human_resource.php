@@ -3855,8 +3855,8 @@ class human_resource extends Controller
         }
 
         $check_time = strtotime("2017-9-2");
-        $ret_info = $this->t_teacher_info->get_check_textbook_tea_list($adminid,$check_time);
-        $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        $ret_info   = $this->t_teacher_info->get_check_textbook_tea_list($adminid,$check_time);
+        $ret_info   = \App\Helper\Utils::list_to_page_info($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
