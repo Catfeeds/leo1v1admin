@@ -3799,8 +3799,9 @@ class human_resource extends Controller
         $textbook_flag          = $this->get_in_int_val("textbook_flag",0);
 
         $adminid = $this->get_account_id();
+        $account = $this->get_account();
         // $adminid=343;
-        if($adminid==74 || $adminid==349 || $adminid==99){
+        if($adminid==74 || $adminid==349 || $adminid==99 || $account=="adrian"){
             $adminid=-1;
         }
         $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag);
@@ -3846,7 +3847,9 @@ class human_resource extends Controller
         ]);
     }
 
-    public function get_check_textbook_list(){
+    public function get_check_textbook_tea_list(){
+        $adminid = $this->get_account_id();
+
 
     }
 
