@@ -674,6 +674,7 @@ class menu{
                 ["power_id"=>9, "name"=>"教师档案(休课)",   "url"=>"/human_resource/index_new_jw_hold"],
                 ["power_id"=>15, "name"=>"教师档案(离职)",   "url"=>"/human_resource/quit_teacher_info"],
                 ["power_id"=>11, "name"=>"分配老师",   "url"=>"/human_resource/get_assign_jw_adminid_list"],
+                ["power_id"=>16, "name"=>"活跃老师",   "url"=>"/human_resource/get_check_textbook_tea_list"],
                 ["power_id"=>4, "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info"],
                 ["power_id"=>7, "name"=>"转介绍统计","url"=>"/human_resource/teacher_lecture_origin_count"],
                 ["power_id"=>8, "name"=>"老师反馈","url"=>"/teacher_feedback/teacher_feedback_list_jw"],

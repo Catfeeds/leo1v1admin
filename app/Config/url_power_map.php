@@ -450,6 +450,7 @@ class url_power_map {
 			'/human_resource/index_new_jw_hold'	=>1140900,
 			'/human_resource/quit_teacher_info'	=>1141500,
 			'/human_resource/get_assign_jw_adminid_list'	=>1141100,
+			'/human_resource/get_check_textbook_tea_list'	=>1141600,
 			'/human_resource/teacher_lecture_appointment_info'	=>1140400,
 			'/human_resource/teacher_lecture_origin_count'	=>1140700,
 			'/teacher_feedback/teacher_feedback_list_jw'	=>1140800,
