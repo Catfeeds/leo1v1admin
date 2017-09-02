@@ -1407,7 +1407,9 @@ class user_manage extends Controller
         $start = strtotime("2017-01-01");
         $arr=[];
         for($i=1;$i<=9;$i++){
-            $time = strtotime(date("Y-m-01",$start_time+$i*32*86400));
+            $time = strtotime(date("Y-m-01",$start+$i*32*86400));
+            echo date("Y-m-01",$start+$i*32*86400);
+            // $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
         }
     }
 
