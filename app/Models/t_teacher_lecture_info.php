@@ -1793,7 +1793,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     public function get_video_flag($teacherid){
         $sql = $this->gen_sql_new("  select tl.id from %s tl "
-                                  ." left join %s t on t.phone=tl.phone"
+                                  ." join %s t on t.phone=tl.phone where t.teacherid=$teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
         );
+
+        return $this->main_get_value($sql);
     }
 }

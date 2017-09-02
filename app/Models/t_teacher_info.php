@@ -3410,11 +3410,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_check_textbook_tea_list($adminid,$textbook_check_flag,$check_time){
+    public function get_check_textbook_tea_list($adminid,$textbook_check_flag){
         $where_arr = [
             ["assign_jw_adminid=%u",$adminid,-1],
-            ["assign_jw_time>%u",$check_time,-1],
             ["textbook_check_flag=%u",$textbook_check_flag,-1],
+            "need_check_textbook=1"
         ];
         $sql = $this->gen_sql_new("select teacherid,phone,realname,teacher_textbook"
                                   ." from %s "
