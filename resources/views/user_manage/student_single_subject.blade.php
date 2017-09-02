@@ -49,6 +49,7 @@
                     <td >课次</td> 
                     <td >平均课时</td>
                     <td >科目</td>
+		    <td >年级</td>
                     <td >操作</td>
                 </tr>
             </thead>
@@ -62,6 +63,7 @@
                         <td >{{$var["count"]}}</td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject"]}}</td>
+			<td >{{$var["grade"]}}</td>
                         <td >
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

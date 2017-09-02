@@ -2517,7 +2517,7 @@ class user_manage extends Controller
             $this->cache_set_item_assistant_nick($item);
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
             $item["subject"]        = E\Esubject::get_desc($item["subject"]);
-            $item['lesson_count']   = $item['lesson_count']/100;
+            $item['lesson_count']   = round($item['lesson_count']/100,2);
             $item["count_per"]      = $item['lesson_count']/$item['count'];
         }
         return $this->Pageview(__METHOD__,$ret_list );
