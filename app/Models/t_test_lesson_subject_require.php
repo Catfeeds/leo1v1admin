@@ -717,11 +717,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $where_arr=[
             ["s.origin like '%%%s%%' ",$origin,""],
+            ["{$field_name}=%s",$check_value,""],
         ];
-        if($check_value) {
-            $where_arr[]= "{$field_name}='{$check_value}'";
 
-        }
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);

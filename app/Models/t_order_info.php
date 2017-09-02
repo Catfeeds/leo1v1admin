@@ -1174,6 +1174,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         if($field_name=="tmk_adminid"){
             $where_arr=[
                 ["o.origin like '%%%s%%' ",$origin,""],
+                ["$field_name=%s",$check_value,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1183,15 +1184,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         } else {
             $where_arr=[
                 ["o.origin like '%%%s%%' ",$origin,""],
+                ["$field_name=%s",$check_value,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
             ];
         }
-        if ($check_value){
-            $where_arr[] = "{$field_name}='{$check_value}'";
-        }
-
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);

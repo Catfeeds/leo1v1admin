@@ -56,11 +56,11 @@ class deal_pdf_to_png extends Command
 
         $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
 
-        $pdf_lists[] = [
+        // $pdf_lists[] = [
 
-            // id, pdf_url, lessonid
+        //     // id, pdf_url, lessonid
 
-        ];
+        // ];
 
         foreach($pdf_lists as $item){
             $id       = $item['id'];
