@@ -8,6 +8,10 @@ class t_teacher_day_luck_draw extends \App\Models\Zgen\z_t_teacher_day_luck_draw
 		parent::__construct();
 	}
 
+    public function compute_time($teacherid){
+        
+    }
+
 }
 
 
