@@ -2864,4 +2864,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_grade_info_month($time){
+        $sql = $this->gen_sql_new("select count(*) num,grade from %s where reg_time <%u and is_test_user=0 group by grade",
+                                  self::DB_TABLE_NAME,
+                                  $time
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["grade"];
+        });
+    }
+
 }

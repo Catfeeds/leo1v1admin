@@ -60,4 +60,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+
+    public function tongji_record_server_info_ex($start_time,$end_time) {
+
+        $where_arr = [
+            array("lesson_start > %u",$start_time,-1),
+            array("lesson_start <= %u",$end_time,-1),
+            "lesson_type <> 4001 ",
+            "confirm_flag in (0,1)  ",
+        ];
+
+        $sql= $this->gen_sql_new(
+            "select record_audio_server1 as server, count(*) as count, sum( lesson_status = 1)active_count "
+            ." from %s where %s   "
+            ." and lesson_del_flag=0 "
+            ."group by record_audio_server1 ",
+            self::DB_TABLE_NAME, $where_arr ) ;
+        return $this->main_get_list($sql);
+    }
 }
