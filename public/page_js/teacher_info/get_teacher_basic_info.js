@@ -60,57 +60,30 @@ $(function(){
     });
 
     $('.opt-edit').on('click', function () {
-        $(this).nextAll().removeClass('hide');
-        var id = $(this).attr('data-name');
-        if(id == 'user-info'){
-            $(this).hide();
-        }
-        $('#'+id+' span').addClass('hide');
-        $('#'+id+' a').addClass('hide');
-        $('#'+id+' input').removeClass('hide');
-        $('#'+id+' select').removeClass('hide');
-    });
-    $('.btn-bank').on('click', function() {
-        if ($(this).text() != '提交') {
-            $(this).text('提交');
-            $('#bank-info').removeClass('hide');
-            $('#bank-info input').removeClass('hide');
-            $('#bank-info select').removeClass('hide');
-            $('#bank-info span').addClass('hide');
+        var class_content = $(this).attr('data-name');
+        var id_model   = $(this).attr('data-target');
+        var html_test = $.dlg_get_html_by_class(class_content);
+        var html_code = $("<form></form>").html(html_test);
+        if (class_content == 'user-info') {
+            $(id_model+' .modal-title').text('基本信息');
         } else {
-            $.ajax({
-			          type     : "post",
-			          url      : "/teacher_info/edit_teacher_bank_info",
-			          dataType : "json",
-			          data     : $('#bank-info').serialize(),
-			          success : function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        alert(result.info);
-                    }
-			          }
-            });
-
+            $(id_model+' .modal-title').text('银行卡信息');
         }
+        html_code.find('input,select,span,a').toggleClass('hide');
+        $(id_model+' .modal-body').empty().append(html_code);
     });
-    $('.opt-bank').on('click', function (){
-        $(this).parent().parent().parent().remove();
-        $('.div-bank').removeClass('hide');
-        $('.btn-bank').click();
-    });
+
     $('.direct-chat-contacts').css('backgroundColor','#fff');
-    $('button[data-refresh]').on('click', function(){
-        window.location.reload();
-    });
     $('.opt-submit').on('click', function () {
-        var form_id = $(this).attr('data-name');
-        var sub_url = $('#'+form_id).attr('data-sub');
+        var sub_content =  $('#modal-default .modal-body>form').serialize();
+        var sub_url     =  $('#modal-default .modal-body>form').children().first().attr('data-sub');
+        console.log(sub_url)
+        console.log(sub_content)
         $.ajax({
 			      type     : "post",
 			      url      : "/teacher_info/"+sub_url,
 			      dataType : "json",
-			      data     : $('#'+form_id).serialize(),
+			      data     : sub_content,
 			      success : function(result){
                 if(result.ret==0){
                     window.location.reload();

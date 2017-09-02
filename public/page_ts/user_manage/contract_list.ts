@@ -425,7 +425,6 @@ $(function(){
         var contractid = $(this).parent().data('contractid');
         var orderid    = $(this).parent().data('orderid');
         var userid     = $(this).parent().data('userid');
-        //var html_node  = $("<span> <input type=input style=\"width:80px\"> </input>元</span> ");
         var $price           = $("<input/> ");
         var $discount_price  = $("<input/> ");
         var $discount_reason = $("<textarea/> ");
@@ -434,7 +433,7 @@ $(function(){
             "orderid":orderid
         },function(result){
             console.log(result);
-            var data=result.data;
+            var data = result.data;
             $price.val(data.price/100);
             if(data.discount_price && data.discount_price!=0){
                 $discount_price.val(data.discount_price/100);
@@ -1027,25 +1026,26 @@ $(function(){
     };
 
     $(" .opt-change-default_lesson_count").on("click",function(){
+        var data = $(this).get_opt_data();
         var nick   = $(this).closest("tr") .find(".stu_nick").text();
-        var contract_starttime = $(this).closest("tr") .find(".contract_starttime").text();
-        var orderid =$(this).get_opt_data("orderid");
+        var orderid =data.orderid;
 
         var $lesson_count=$("<input/>");
-        $lesson_count.val( $(this).get_opt_data("default_lesson_count")/100 );
+        $lesson_count.val( $(this).get_opt_data("lesson_total")/100 );
 
         var arr=[
             ["姓名" , nick ],
-            ["合同时间" , contract_starttime],
             ["课时数" , $lesson_count],
         ];
-        $.show_key_value_table("设置每次课课时数", arr ,{
+
+        $.show_key_value_table("修改课时数", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_deal/course_set_default_lesson_count",{
-                    "orderid"              : orderid,
-                    "default_lesson_count" : $lesson_count.val()*100
+                    "orderid"      : orderid,
+                    "lesson_total" : $lesson_count.val()*100
+                    "old_lesson_total" : $lesson_count.val()*100
                 });
             }
         });

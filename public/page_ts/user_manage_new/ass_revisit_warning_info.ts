@@ -39,7 +39,6 @@ $(function(){
         var id_is_warning_flag = $("<select><option value=\"1\">预警中</option><option value=\"2\">已解决</option></select>");
         id_warning_deal_info.val(opt_data.warning_deal_info);
         id_is_warning_flag.val(opt_data.is_warning_flag);
-        id_warning_deal_url.find("#warning_deal_url").val(opt_data.url);
         var arr = [
             ["预警处理方案",  id_warning_deal_info ],
             ["相关图片上传",  id_warning_deal_url ],
