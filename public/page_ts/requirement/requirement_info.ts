@@ -73,8 +73,8 @@ $(function(){
         var priority          = $("<select />");  //优先级
         var significance      = $("<select />");  //目前影响
         var expect_time       = $("<input />");  //期望时间
-        var statement         = $("<textarea />"); //需求说明
-        var notes             = $("<textarea />"); //备注
+        var statement         = $("<textarea  placeholder='【需求故事】作为……  我希望…… 以便…… 【验收标准】1、……2、……3、……' />"); //需求说明
+        var notes             = $("<textarea  />"); //备注
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
