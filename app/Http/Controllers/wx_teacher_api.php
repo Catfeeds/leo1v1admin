@@ -458,8 +458,14 @@ class wx_teacher_api extends Controller
 
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
+        // 判断是否有 录制试讲||分享朋友圈
 
-        $this->t_teacher_day_luck_draw->compute_time();
+        $is_share = $this->t_wx_share->get_share_flag($teacherid);
+
+        $num = $this->t_teacher_day_luck_draw->compute_time();
+        if($num>2){
+            
+        }
         // $level = $this->get_in_int_val('level'); // 中奖等级
         $rand = mt_rand(0,100000);
         $money = 0;
