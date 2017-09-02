@@ -1026,16 +1026,17 @@ $(function(){
     };
 
     $(" .opt-change-default_lesson_count").on("click",function(){
-        var data = $(this).get_opt_data();
-        var nick   = $(this).closest("tr") .find(".stu_nick").text();
-        var orderid =data.orderid;
+        var data    = $(this).get_opt_data();
+        var nick    = $(this).closest("tr") .find(".stu_nick").text();
+        var orderid = data.orderid;
 
-        var $lesson_count=$("<input/>");
-        $lesson_count.val( $(this).get_opt_data("lesson_total")/100 );
+        var $lesson_count    = $("<input/>");
+        var old_lesson_total = data.lesson_total*data.default_lesson_count;
+        $lesson_count.val( old_lesson_total/100 );
 
-        var arr=[
-            ["姓名" , nick ],
-            ["课时数" , $lesson_count],
+        var arr = [
+            ["姓名",nick ],
+            ["课时数",$lesson_count],
         ];
 
         $.show_key_value_table("修改课时数", arr ,{
@@ -1043,9 +1044,10 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_deal/course_set_default_lesson_count",{
-                    "orderid"      : orderid,
-                    "lesson_total" : $lesson_count.val()*100
-                    "old_lesson_total" : $lesson_count.val()*100
+                    "orderid"          : orderid,
+                    "lesson_total"     : $lesson_count.val()*100,
+                    "old_lesson_total" : old_lesson_total,
+                    "lesson_left"      : data.lesson_left,
                 });
             }
         });

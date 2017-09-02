@@ -1403,6 +1403,13 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function get_stu_grade_info_month(){
+        $start_time = strtotime("2017-01-01");
+        for($i=0;$i<=9;$i++){
+            echo $i;
+        }
+    }
+
     public function user_login_list(){
         list($start_time,$end_time)=$this->get_in_date_range(-7,0);
         $account = $this->get_in_str_val("account","");
