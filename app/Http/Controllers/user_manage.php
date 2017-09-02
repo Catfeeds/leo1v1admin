@@ -2524,8 +2524,16 @@ class user_manage extends Controller
     }
     public function stu_all_teacher()
     {
-        $assistantid = 57397;
+        $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+        if($assistantid){
+            $assistantid = 190500;
+        }
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($assistantid);
-        dd($ret_info);
+        foreach($ret_info['list'] as $key => &$item){
+            $ret_info['list'][$key]['num'] = $key + 1;
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            $item["teacher_nick"]      = $this->cache_get_teacher_nick ($item["teacherid"] );
+        }
     }
 }
