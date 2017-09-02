@@ -459,7 +459,8 @@ class wx_teacher_api extends Controller
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
 
-
+        // 计算目前的奖金总额
+        $total_money = $this->t_teacher_day_luck_draw->get_total_money();
 
         // 判断是否有 录制试讲||分享朋友圈
 

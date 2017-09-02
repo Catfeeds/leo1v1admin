@@ -40,7 +40,7 @@ $(function(){
 	$('.show_detail').on("click",function(){
 		var data            = $(this).get_opt_data();
         var teacherid = $(this).attr('date-teacherid');
-        var assistantid = $(this).attr('date-assistantid');
+        var subject = $(this).attr('date-subject');
         var studentid   = $(this).attr('date-studentid');
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();

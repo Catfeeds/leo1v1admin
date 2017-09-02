@@ -7989,6 +7989,8 @@ class tongji_ss extends Controller
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
         // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
+        $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
+        dd($ret_info);
         foreach($ret_info["list"] as &$item){
             /* if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";
