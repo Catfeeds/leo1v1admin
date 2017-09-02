@@ -49,9 +49,15 @@ class testbb extends Controller
 
 
     public function test () {
+        // $this->t_pdf_to_png_info->row_insert([
+        //     'lessonid'    => $lessonid,
+        //     'pdf_url'     => $pdf_url,
+        //     'create_time' => time()
+        // ]);
 
-        $t = $this->get_in_int_val('t',-1);
-        dd($t);
+
+        // $t = $this->get_in_int_val('t',-1);
+        // dd($t);
     }
 
     public function lesson_send_msg(){
