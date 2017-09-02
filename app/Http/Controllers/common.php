@@ -1649,7 +1649,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         //MAC校验域
-        $mac = md5($orderNo);
+        // $mac = md5($orderNo);
         $merchantid= 105290000009104;
 
         //信用卡分期柜台代码
@@ -1669,6 +1669,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $calljs="";
         $installnum = "";
         
+        $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
 
         $data = [
             "payment" =>$payment,
