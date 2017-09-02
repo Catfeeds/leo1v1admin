@@ -936,7 +936,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [
                         'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $p_price.'元',
+                        'keyword1' => $p_price_new.'元',
                         'keyword2' => $phone,
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price.'元。',
                     ];
@@ -949,7 +949,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [
                         'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $pp_price.'元',
+                        'keyword1' => $pp_price_new.'元',
                         'keyword2' => $phone,
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price.'元。',
                     ];
