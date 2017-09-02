@@ -1153,7 +1153,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value, $page_info) {
+    public function tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value='', $page_info = '') {
 
 
         switch ( $field_name ) {
@@ -1170,7 +1170,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         if($field_name=="tmk_adminid"){
             $where_arr=[
-                "{$field_name}='{$check_value}'",
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1179,12 +1178,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ];
         } else {
             $where_arr=[
-                "{$field_name}='{$check_value}'",
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
             ];
-
+        }
+        if ($check_value){
+            $where_arr[] = "{$field_name}='{$check_value}'";
         }
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
@@ -1208,7 +1208,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr
         );
         // dd($sql);
-        return $this->main_get_list_by_page($sql, $page_info);
+        if ($page_info) {
+            return $this->main_get_list_by_page($sql, $page_info);
+        } else {
+            return $this->main_get_list($sql);
+        }
     }
 
     public function tongji_seller_order_count($start_time,$end_time) {

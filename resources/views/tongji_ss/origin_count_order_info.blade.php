@@ -9,7 +9,7 @@
                     <td>订单ID</td>
                     <td>用户</td>
                     <td>电话</td>
-                    <td>归属地</td>
+                    <td>省份</td>
                     <td>年级</td>
                     <td>科目</td>
                     <td>课时</td>
