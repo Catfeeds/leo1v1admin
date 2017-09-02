@@ -49,18 +49,19 @@ class testbb extends Controller
 
 
     public function test () {
-        $lessonid = '247905';
-        $pdf_url  = '2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf';
-        $this->t_pdf_to_png_info->row_insert([
-            'lessonid'    => $lessonid,
-            'pdf_url'     => $pdf_url,
-            'create_time' => time()
-        ]);
+        // $lessonid = '247905';
+        // $pdf_url  = '2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf';
+        // $this->t_pdf_to_png_info->row_insert([
+        //     'lessonid'    => $lessonid,
+        //     'pdf_url'     => $pdf_url,
+        //     'create_time' => time()
+        // ]);
 
-        /**
-           ,,,,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_4.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_5.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_6.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_7.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_8.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_9.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_10.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_11.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_12.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_13.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_14.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_15.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_16.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_17.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_18.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_19.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_20.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_21.png,https://lessonpic.oss-cn-shanghai.aliyuncs.com/l_t_pdf_247905_22.png
+        $l[] =[
+            "a"=>1,
+            "b"=>2
+        ];
 
-         */
         // $t = $this->get_in_int_val('t',-1);
         // dd($t);
     }

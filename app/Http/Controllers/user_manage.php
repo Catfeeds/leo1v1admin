@@ -2537,6 +2537,7 @@ class user_manage extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             $item["teacher_nick"]      = $this->cache_get_teacher_nick ($item["teacherid"] );
         }
+	dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 }
