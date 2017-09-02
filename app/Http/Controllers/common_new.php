@@ -649,6 +649,13 @@ class common_new extends Controller
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
 
         dispatch(new deal_pdf_to_image($pdf_url, $lessonid));
+
+
+        // $this->t_pdf_to_png_info->row_insert([
+        //     'lessonid'    => $lessonid,
+        //     'pdf_url'     => $pdf_url,
+        //     'create_time' => time()
+        // ]);
     }
 
     public function get_banner_pic_list(){

@@ -25,7 +25,7 @@ class deal_pdf_to_png extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:deal_pdf_to_png';
 
     /**
      * The console command description.
@@ -55,6 +55,12 @@ class deal_pdf_to_png extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         $pdf_lists = $task->t_pdf_to_png_info->get_pdf_list_for_doing();
+
+        $pdf_lists[] = [
+
+            // id, pdf_url, lessonid
+
+        ];
 
         foreach($pdf_lists as $item){
             $id       = $item['id'];
