@@ -281,7 +281,9 @@ class teacher_money extends Controller
 
         $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $teacher_type       = $this->t_teacher_info->get_teacher_type($teacherid);
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        $transfer_time      = $this->t_teacher_info->get_transfer_time($teacherid);
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
 
