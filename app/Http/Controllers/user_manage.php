@@ -1320,7 +1320,7 @@ class user_manage extends Controller
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    // \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
                 }
 
                 if($pp_wx_openid && $pp_price){
@@ -1333,7 +1333,7 @@ class user_manage extends Controller
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                    // \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
                 }
             }
         }
