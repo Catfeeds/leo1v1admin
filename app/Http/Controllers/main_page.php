@@ -28,7 +28,8 @@ class main_page extends Controller
         $sms_list=$this->t_sms_msg->tongji_type_get_list($start_time,$end_time);
         $lesson_info=$this->t_lesson_info->tongji_count($start_time, $end_time);
         $record_server_list=$this->t_lesson_info->tongji_record_server_info($start_time, $end_time);
-        $this->t_audio_record_server->get_active_server_list();
+        $ip_config_list=$this->t_audio_record_server->get_server_list(null);
+        
 
         foreach ($sms_list as &$item)  {
             E\Esms_type::set_item_value_str($item, "type");

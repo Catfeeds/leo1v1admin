@@ -732,6 +732,14 @@ class user_deal extends Controller
         if($lesson_total != $old_lesson_total){
             $lesson_diff = $lesson_total-$old_lesson_total;
             $lesson_left+= $lesson_diff;
+            $ret = $this->t_order_info->field_update_list($orderid,[
+                "lesson_total"=>$lesson_total,
+                "default_lesson_count"=>1,
+                "lesson_left"=>$lesson_left,
+            ]);
+            if(!$ret){
+                return $this->output_err("更新失败！");
+            }
         }
 
         return $this->output_succ();
