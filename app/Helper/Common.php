@@ -1037,6 +1037,7 @@ class Common {
         foreach ($old_list as &$item) {
             $adminid=$item["adminid"];
             //g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid
+            // "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
             if (isset($admin_list[ $adminid])) {
                 $admin_item= $admin_list[ $adminid] ;
                 $item['main_type']=$admin_item["main_type"];
@@ -1059,6 +1060,10 @@ class Common {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
+                $item['become_member_time']=$admin_item["become_member_time"];
+                $item['leave_member_time']=$admin_item["leave_member_time"];
+                $item['create_time']=$admin_item["create_time"];
+                $item['del_flag']=$admin_item["del_flag"];
                 //$item['account']=
             }
 
