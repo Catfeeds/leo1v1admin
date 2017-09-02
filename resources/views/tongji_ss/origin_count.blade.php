@@ -318,7 +318,8 @@
                     </tbody>
                 </table>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div> 渠道等级</div>
                 <div id="id_origin_level_pic" class="demo-placeholder" style="height:400;"></div>
@@ -357,7 +358,8 @@
                     </tbody>
                 </table>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div>试听省份</div>
                 <div id="id_test_area_pic" class="demo-placeholder" style="height:400;"></div>
