@@ -195,7 +195,8 @@
                                 <thead>
                                     <tr>
                                         <td>记录服务器</td>
-                                        <td>在线个数 </td>
+                                        <td>在线数 </td>
+                                        <td>最大在线数</td>
                                         <td>总个数 </td>
                                     </tr>
                                 </thead>
@@ -204,6 +205,7 @@
                                         <tr>
                                             <td>{{$var["server"]}}</td>
                                             <td>{{$var["active_count"]}}</td>
+                                            <td>{{@$var["max_record_count"]}}</td>
                                             <td>{{$var["count"]}}</td>
                                         </tr>
                                     @endforeach

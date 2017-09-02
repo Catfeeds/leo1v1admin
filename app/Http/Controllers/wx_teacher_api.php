@@ -460,7 +460,11 @@ class wx_teacher_api extends Controller
         $teacherid = $this->get_teacherid();
 
         // $level = $this->get_in_int_val('level'); // 中奖等级
+        $rand = mt_rand(0,100000);
 
+        if($rand>1000 && $rand<=1035){ // 中 91.0元
+            
+        }
 
     }
 

@@ -71,11 +71,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
 
         $sql= $this->gen_sql_new(
-            "select record_audio_server1 as server, count(*) as count, sum( lesson_status = 1)active_count "
-            ." from %s where %s   "
+            "select record_audio_server1 as server, max_record_count, count(*) as count, sum( lesson_status = 1)active_count "
+            ." from %s a"
+            ." join %s l on a.ip= l.record_audio_server1  "
+            . " where %s   "
             ." and lesson_del_flag=0 "
             ."group by record_audio_server1 ",
+            t_audio_record_server::DB_TABLE_NAME,
             self::DB_TABLE_NAME, $where_arr ) ;
         return $this->main_get_list($sql);
+
     }
+
 }
