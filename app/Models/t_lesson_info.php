@@ -1301,11 +1301,27 @@ lesson_type in (0,1) "
         $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
                                 " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
-                                ." group by l.userid ",
+                                ." group by l.userid,l.subject ",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME, //
                                 $start_time,$end_time,  $where_arr);
-
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
+    }
+    public function get_single_confirm_lesson_list_user($page_num, $start_time,$end_time,
+        $assistantid,$teacherid,$studentid,$num) {
+        $where_arr=[
+            ["s.assistantid= %u",$assistantid, -1  ],
+            ["l.teacherid= %u",$teacherid, -1  ],
+            ["s.userid= %u",$studentid, -1  ],
+            ["count= %u",$num, -1  ],
+        ];
+        $sql=$this->gen_sql_new("select s.assistantid, s.userid ,l.subject,l.teacherid,l.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
+                                . " and lesson_del_flag=0 "
+                                ." group by l.userid ,l.subject",
+                                self::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME, //
+                                $start_time,$end_time,  $where_arr);
         return $this->main_get_list_by_page($sql,$page_num,30,true);
     }
 
