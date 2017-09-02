@@ -579,7 +579,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-
     public function get_count_by_phone($phone){
         $where_arr=[
             ['a1.phone = %s ',$phone],
@@ -685,11 +684,33 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
-            " select a.id,a.phone,a.parentid pid,a1.phone p_phone,a1.parentid ppid,a2.phone pp_phone".
+            " select a.id,a.userid,a.phone,"
+            ."a1.id pid,a1.phone p_phone,a1.wx_openid p_wx_openid,"
+            ."a2.id ppid,a2.phone pp_phone,a2.wx_openid pp_wx_openid".
             " from %s a ".
             " left join %s a1 on a1.id=a.parentid".
             " left join %s a2 on a2.id=a1.parentid".
-            " where %s ",
+            " where %s limit 1",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_p_pp_row_by_userid($userid){
+        $where_arr = [
+            ['a.userid = "%u"',$userid,-1],
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.userid,a.phone,a.wx_openid,"
+            ."a1.id pid,a1.phone p_phone,a1.wx_openid p_wx_openid,"
+            ."a2.id ppid,a2.phone pp_phone,a2.wx_openid pp_wx_openid".
+            " from %s a ".
+            " left join %s a1 on a1.id=a.parentid".
+            " left join %s a2 on a2.id=a1.parentid".
+            " where %s limit 1",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
