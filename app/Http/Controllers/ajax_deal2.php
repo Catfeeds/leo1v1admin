@@ -717,6 +717,7 @@ class ajax_deal2 extends Controller
         $start_time  = strtotime($this->get_in_str_val("start_time"));
         $end_time    = strtotime($this->get_in_str_val("end_time"));
         $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$assistantid,$studentid);
+	dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
         # code...
     }

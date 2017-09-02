@@ -463,8 +463,14 @@ class wx_teacher_api extends Controller
         $rand = mt_rand(0,100000);
 
         if($rand>1000 && $rand<=1035){ // 中 91.0元
-            
+            $money = '9100'; // 单位分
+        }elseif($rand>2000 && $rand <=3000){ // 中9.1元
+            $money = '910'; // 单位分
+        }elseif($rand>20000 && $rand<33000){ // 中0.91元
+            $money = '91'; // 单位分
         }
+
+        echo $money;
 
     }
 

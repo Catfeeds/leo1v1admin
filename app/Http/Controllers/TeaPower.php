@@ -2839,6 +2839,26 @@ trait  TeaPower {
     }
 
 
+    public function get_low_grade($grade){
+        switch($grade){
+        case 102:case 103:case 104:case 105:case 106:case 202:case 203:case 302:case 303:
+            $grade_new=$grade-1;
+            break;
+        case 201:
+            $grade_new=106;
+            break;
+        case 301:
+            $grade_new=203;
+            break;
+        case 401:
+            $grade_new=303;
+            break;
+        default:
+            $grade_new=0;
+        }
+        return $grade_new;
+ 
+    }
 
 
 
