@@ -9,6 +9,9 @@
                     <td>id</td>
                     <td>姓名</td>
                     <td>电话</td>
+                    <td>省份</td>
+                    <td>年级</td>
+                    <td>科目</td>
                     <td>渠道</td>
                     <td>状态</td>
                     <td>上课时间</td>
@@ -22,6 +25,9 @@
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["phone_location"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["check_value"]}} </td>
                         <td>{{@$var["seller_student_status_str"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>

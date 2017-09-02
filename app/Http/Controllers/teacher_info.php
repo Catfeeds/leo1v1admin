@@ -2057,7 +2057,7 @@ class teacher_info extends Controller
 
     public function edit_teacher_info(){
         $teacherid = $this->get_login_teacher();
-        $nick      = tirm( $this->get_in_str_val('nick','') );
+        $nick      = trim( $this->get_in_str_val('nick','') );
         $gender    = $this->get_in_str_val('gender','');
         $birth     = $this->get_in_int_val('birth','');
         $email     = trim( $this->get_in_str_val('email','') );

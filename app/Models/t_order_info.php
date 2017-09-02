@@ -2188,6 +2188,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             }
             $where_arr[]=$this->where_get_in_str("m2.uid", $require_adminid_list );
         }
+
         if($up_master_adminid != -1){
             $where_arr[]="t2.ass_master_adminid=".$account_id;
         }
@@ -2209,7 +2210,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
-            "select  promotion_spec_is_not_spec_flag, promotion_spec_diff_money , origin_assistantid,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
+            "select promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            ." from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
             ." t1.from_key,t1.from_url,"

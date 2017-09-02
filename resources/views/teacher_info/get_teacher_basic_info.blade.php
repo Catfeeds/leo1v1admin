@@ -736,8 +736,8 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default col-sm-offset-1 col-sm-2 pull-right opt-submit">确认</button>
-                <button type="button" class="btn btn-info col-sm-2 pull-right" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-info col-sm-offset-1 col-sm-2 pull-right opt-submit">确认</button>
+                <button type="button" class="btn btn-default col-sm-2 pull-right" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

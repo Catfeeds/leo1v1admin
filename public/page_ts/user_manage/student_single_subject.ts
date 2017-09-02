@@ -70,12 +70,10 @@ $(function(){
                 var cls = "success";
 
                 html_str += "<tr class=\"" + cls + "\" > <td>" 
-                		 + item.teacher_nick 
-                		 + "<td>" + item.lesson_type_str + "<td>" 
-                		 + item.lesson_start+'-'+item.lesson_end + "<td>" 
-                		 + item.grade_str+ "<td>"
-                		 +item.lesson_count+ "<td>" 
-                		 + item.lesson_cancel_reason_type_str
+                		 + item.lesson_start+'-'+item.lesson_end 
+                		 + "<td>" + item.count + "<td>" 
+                		 + item.+teacher_nick "<td>"
+                		 +item.assistant_nick
                 		 + "</tr>";
             });
 
