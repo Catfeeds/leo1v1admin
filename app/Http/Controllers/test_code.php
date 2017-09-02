@@ -1921,7 +1921,7 @@ class test_code extends Controller
         $start = strtotime("2017-7-1");
         $end   = strtotime("2017-9-1");
         $list  = $this->t_teacher_info->get_tea_list($start,$end);
-
+        $admin_list =$this->t_manager_info->get_admin_list_by_role(3);
         dd($list);
 
     }
