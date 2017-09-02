@@ -3399,6 +3399,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_tea_list($start,$end){
         $where_arr = [
             "need_check_textbook=1",
+            "assign_jw_adminid=0",
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.assign_jw_adminid"
                                   ." from %s t"

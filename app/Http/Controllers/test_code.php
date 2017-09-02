@@ -1937,7 +1937,6 @@ class test_code extends Controller
             echo "<br>";
             $this->t_teacher_info->field_update_list($t_val['teacherid'],[
                 "assign_jw_adminid" => $uid,
-                "assign_jw_time"    => time(),
             ]);
             $check_num++;
             if($check_num==$limit_num){
