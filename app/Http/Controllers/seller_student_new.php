@@ -1158,6 +1158,8 @@ class seller_student_new extends Controller
                 $item['test_lesson_order_fail_flag_one'] = 16;
             }elseif(in_array($item['test_lesson_order_fail_flag'],[1701])){//考虑中
                 $item['test_lesson_order_fail_flag_one'] = 17;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1801])){//已经签单
+                $item['test_lesson_order_fail_flag_one'] = 18;
             }else{//未设置
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
