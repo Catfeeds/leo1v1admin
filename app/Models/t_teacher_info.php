@@ -3403,19 +3403,23 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $lesson_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
-            ""
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
+            "confirm_flag!=2",
+            "lesson_status=2",
         ];
         $sql = $this->gen_sql_new("select t.teacherid"
                                   ." from %s t"
                                   ." where %s"
                                   ." and exists ("
-                                  ." select 1 from %s"
+                                  ." select 1 from %s where %s"
                                   ." )"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
         );
         return $this->main_get_list($sql);
-
     }
 
 }
