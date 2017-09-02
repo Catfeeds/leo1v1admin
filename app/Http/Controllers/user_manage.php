@@ -2510,9 +2510,13 @@ class user_manage extends Controller
         $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
                                 $assistantid,$teacherid,$studentid,$num);
         foreach($ret_list['list'] as &$item ){
+            $ret_info['list'][$key]['num'] = $key + 1;
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
+            $item["subject"]        = E\Esubject::get_desc($item["subject"]);
+            $item['lesson_count']   = $item['lesson_count']/100;
+            $item["count_per"]      = $item['lesson_count']/$item['count'];
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }
