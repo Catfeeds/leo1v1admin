@@ -425,7 +425,6 @@ $(function(){
         var contractid = $(this).parent().data('contractid');
         var orderid    = $(this).parent().data('orderid');
         var userid     = $(this).parent().data('userid');
-        //var html_node  = $("<span> <input type=input style=\"width:80px\"> </input>元</span> ");
         var $price           = $("<input/> ");
         var $discount_price  = $("<input/> ");
         var $discount_reason = $("<textarea/> ");
@@ -434,7 +433,7 @@ $(function(){
             "orderid":orderid
         },function(result){
             console.log(result);
-            var data=result.data;
+            var data = result.data;
             $price.val(data.price/100);
             if(data.discount_price && data.discount_price!=0){
                 $discount_price.val(data.discount_price/100);

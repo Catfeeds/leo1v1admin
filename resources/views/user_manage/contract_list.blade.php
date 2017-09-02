@@ -263,7 +263,7 @@
                                 <a style="display:none;" class="fa-edit opt-change-state" title="更改付款状态"> </a>
                                 <a class="fa-trash-o opt-del" title="删除合同"> </a>
                                 <a class=" fa-unlock  opt-is-not-spec-flag " title="设置为正常订单,非特殊"> </a>
-                                @if($account_role==13)
+                                @if(in_array($account_role,[13,12]))
                                     <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
                                     <a class="fa-cny opt-change-money" title="更改金额"> </a>
                                     <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a>
