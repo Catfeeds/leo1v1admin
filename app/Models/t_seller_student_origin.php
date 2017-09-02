@@ -180,7 +180,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $this->switch_tongji_database();
 
         $where_arr=[
-            ["o.origin like '%%%s%%' ",$origin,""],
+            ["s.origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
         ];
 
