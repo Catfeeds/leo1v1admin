@@ -1302,11 +1302,13 @@ class user_manage extends Controller
                 }
                 $this->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $ret_info['id'],
+                    'aid'         => $aid,
                     'pid'         => $pid,
-                    'p_price'     => $p_price,
+                    'p_price'     => $p_level,
+                    'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
+                    'pp_level'    => $level2,
                     'create_time' => time(null),
                 ]);
 
