@@ -69,7 +69,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "assign_jw_adminid=0",
             "lesson_status=2"
         ];
-        $sql = $this->gen_sql_new("select dispatch(t.teacherid)"
+        $sql = $this->gen_sql_new("select distinct(t.teacherid)"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
