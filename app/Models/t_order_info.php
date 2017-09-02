@@ -1156,7 +1156,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function tongji_seller_order_info( $origin,$field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value='', $page_info = '') {
+    public function tongji_seller_order_info( $origin='',$field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value='', $page_info = '') {
 
 
         switch ( $field_name ) {
