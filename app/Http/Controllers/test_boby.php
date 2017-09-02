@@ -319,15 +319,17 @@ class test_boby extends Controller
            .'<td>人数</td>'
            .'</tr>';
         for ($sub=0; $sub < 12; $sub++) {
+            // $sub = 2;
             $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time,$sub);
             if ($ret_info) {
                 $list = [];
                 $subject = '';
+                // dd($ret_info);
                 foreach ($ret_info as &$item) {
                     if ( !array_key_exists($item['lesson_nums'], $list) ){
                         $list[ $item['lesson_nums'] ] = 1;
                     } else {
-                        $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
+                        $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ] +1;
                     }
                     E\Esubject::set_item_value_str($item);
                     $subject = $item['subject_str'];

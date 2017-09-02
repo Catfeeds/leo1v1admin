@@ -10,6 +10,7 @@ interface GargsStatic {
 	class_will_type:	number;
 	have_lesson:	number;
 	revisit_flag:	number;
+	textbook_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -77,7 +78,8 @@ $(function(){
 			identity:	$('#id_identity').val(),
 			class_will_type:	$('#id_class_will_type').val(),
 			have_lesson:	$('#id_have_lesson').val(),
-			revisit_flag:	$('#id_revisit_flag').val()
+			revisit_flag:	$('#id_revisit_flag').val(),
+			textbook_flag:	$('#id_textbook_flag').val()
         });
     }
 
@@ -91,6 +93,7 @@ $(function(){
 	$('#id_class_will_type').val(g_args.class_will_type);
 	$('#id_have_lesson').val(g_args.have_lesson);
 	$('#id_revisit_flag').val(g_args.revisit_flag);
+	$('#id_textbook_flag').val(g_args.textbook_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -161,6 +164,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">revisit_flag</span>
                 <input class="opt-change form-control" id="id_revisit_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">textbook_flag</span>
+                <input class="opt-change form-control" id="id_textbook_flag" />
             </div>
         </div>
 */

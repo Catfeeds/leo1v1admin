@@ -102,7 +102,7 @@ class teacher_feedback extends Controller
         \App\Helper\Utils::unixtime2date_for_item($lesson_info,"stu_cw_upload_time","_str");
         E\Eteacher_money_type::set_item_value_str($lesson_info);
         E\Elevel::set_item_value_str($lesson_info);
-        
+
         return $this->output_succ(["data"=>$lesson_info]);
     }
 
@@ -124,7 +124,7 @@ class teacher_feedback extends Controller
                 $next_flag   = 0;
                 $first_day   = strtotime(date("Y-m-01",time()));
                 if($lesson_info["lesson_start"]<$first_day){
-                    $check_day = strtotime(date("Y-m-03",time()));
+                    $check_day = strtotime(date("Y-m-02",time()));
                     $next_flag = $check_day<time()?1:0;
                 }
 

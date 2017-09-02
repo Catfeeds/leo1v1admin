@@ -561,6 +561,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    public function get_p_pp_by_id($id){
+        $where_arr = [
+            ['a.id = %u ',$id,-1],
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.phone,a.wx_openid,aa.wx_openid p_wx_openid,aaa.wx_openid pp_wx_openid"
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid "
+            ." left join %s aaa on aaa.id = aa.parentid "
+            ." where %s limit 1 "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_count_by_phone($phone){
         $where_arr=[
             ['a1.phone = %s ',$phone],
@@ -853,7 +872,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
-        // $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
+        $p_pp_info = $this->task->t_agent->get_p_pp_by_id($id);
+        $phone = $p_pp_info['phone'];
+        $p_wx_openid = $p_pp_info['p_wx_openid'];
+        $pp_wx_openid = $p_pp_info['pp_wx_openid'];
+        $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
@@ -908,7 +931,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'create_time' =>  $check_time,
                 ]);
 
-                // if(($order_info_old['orderid'] == $orderid) && )
+                if(!$order_info_old && $p_wx_openid && $p_price){
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $p_price.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                }
+
+                if(!$order_info_old && $pp_wx_openid && $pp_price){
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $pp_price.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                }
             }
 
         }
@@ -1016,6 +1061,108 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
     }
 
+
+    public function reset_user_info_new($id ) {
+        $agent_info = $this->field_get_list($id,"*");
+        $userid  = $agent_info["userid"];
+        $agent_type= $agent_info["type"];
+        $agent_level_old = $agent_info["agent_level"];
+        $wx_openid_old  = $agent_info["wx_openid"];
+        $agent_student_status=0;
+        if ($userid) {
+            $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
+            $is_test_user = $student_info['is_test_user'];
+            $create_time = $agent_info['create_time'];
+            $now=time(NULL);
+            $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+
+            //是学员
+            if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
+                //检查合同
+                if ($this->task->t_agent_order->check_aid($id) ) {
+                    $agent_student_status=E\Eagent_student_status::V_50;
+                }else{
+                    $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
+                    if ($stu_info) {
+                        $global_seller_student_status = $stu_info["global_seller_student_status"];
+                        $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+                        $seller_resource_type         = $stu_info["seller_resource_type"];
+                        if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
+                            if($global_tq_called_flag == 0 ) {
+                                $agent_student_status=E\Eagent_student_status::V_0;
+                            }else if ($global_tq_called_flag==1) {
+                                $agent_student_status=E\Eagent_student_status::V_10;
+                            }else if ( $global_seller_student_status<200) {
+                                //E\Eseller_student_status
+                                $agent_student_status=E\Eagent_student_status::V_20;
+                            }else if ( $global_seller_student_status<=220) {
+                                $agent_student_status=E\Eagent_student_status::V_30;
+                            }else{
+                                 $test_lessonid=$agent_info["test_lessonid"];
+                                if ( $test_lessonid ) {
+                                    $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
+                                    if ( $lesson_info["lesson_end"]  < time(NULL)) {
+                                        $agent_student_status=E\Eagent_student_status::V_40;
+                                    }else{
+                                        $agent_student_status=E\Eagent_student_status::V_30;
+                                    }
+                                }else{
+                                    $agent_student_status=E\Eagent_student_status::V_30;
+                                }
+                            }
+                        }else{
+                            $agent_student_status=E\Eagent_student_status::V_100;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        $level_count_info= $this-> get_level_count_info($id);
+
+        //重置当前等级
+        $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
+        $this->field_update_list($id,[
+            "agent_level" => $agent_level,
+            "agent_student_status" => $agent_student_status,
+            "l1_child_count" => $level_count_info["l1_child_count"],
+            "l2_child_count" => $level_count_info["l2_child_count"],
+            "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
+        ]);
+
+        if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
+            $this->field_update_list($id,[
+                "type" =>  E\Eagent_type::V_3
+            ]);
+        }
+        if ( $level_count_info["l1_child_count"]) {
+            if ($agent_type ==1 ) {
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_3
+                ]);
+            }else if( $agent_type ==0 ){
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_2
+                ]);
+            }
+        }
+        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
+            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+            $data = [
+                'first'    => '等级升级提醒',
+                'keyword1' => '水晶会员',
+                'keyword2' => date('Y-m-d H:i:s',time()),
+                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
+            ];
+            $url = '';
+            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
+        }
+    }
 
     public function get_level_count_info($id ) {
         $sql = $this->gen_sql_new(

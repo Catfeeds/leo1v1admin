@@ -3796,13 +3796,14 @@ class human_resource extends Controller
         $class_will_type        = $this->get_in_int_val("class_will_type",-1);
         $have_lesson            = $this->get_in_int_val("have_lesson",0);
         $revisit_flag           = $this->get_in_int_val("revisit_flag",-1);
+        $textbook_flag          = $this->get_in_int_val("textbook_flag",0);
 
         $adminid = $this->get_account_id();
         // $adminid=343;
         if($adminid==74 || $adminid==349 || $adminid==99){
             $adminid=-1;
         }
-        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag);
+        $ret_info = $this->t_teacher_info->get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag);
         foreach($ret_info["list"] as &$item){
             if($item["train_through_new_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";

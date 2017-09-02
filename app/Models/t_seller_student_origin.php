@@ -180,7 +180,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $this->switch_tongji_database();
 
         $where_arr=[
-            ["origin like '%%%s%%' ",$origin,""],
+            ["o.origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
         ];
 
@@ -193,14 +193,18 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
-        $sql = $this->gen_sql_new("select t.subject,t.grade,n.has_pad,n.phone_location ,s.origin_level".
-                                  " from %s n left join %s s on s.userid=n.userid".
-                                  " left join %s t on t.userid = n.userid ".
-                                  " where %s",
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  $where_arr
+        $sql = $this->gen_sql_new(
+            "select t.subject,t.grade,n.has_pad,n.phone_location ,s.origin_level,".
+            " if (o.pay_time>0 and o.contract_type in (0,3) and o.contract_status>0,1,0) as order_user".
+            " from %s n left join %s s on s.userid=n.userid".
+            " left join %s t on t.userid = n.userid ".
+            " left join %s o on t.userid = o.userid ".
+            " where %s",
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_list($sql);
     }

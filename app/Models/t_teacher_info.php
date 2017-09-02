@@ -1590,7 +1590,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,50);
     }
 
-    public function get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag){
+    public function get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag){
         $where_arr=[
             ["t.teacherid=%u",$teacherid,-1],
             ["grade_part_ex=%u",$grade_part_ex,-1],
@@ -1612,6 +1612,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "(r.add_time =0 or r.add_time is null)";
         }elseif($revisit_flag==1){
             $where_arr[] = "r.add_time >0 ";
+        }
+        if($textbook_flag==0){
+            $where_arr[] = "(t.teacher_textbook ='' || t.teacher_textbook=0) ";
+        }elseif($textbook_flag==1){
+            $where_arr[] = "t.teacher_textbook <> '' ";
         }
 
         $sql=$this->gen_sql_new("select t.grade_part_ex,t.second_subject,realname,t.teacherid,assign_jw_adminid,t.subject,m.account,assign_jw_time,train_through_new_time,identity,t.phone,r.record_info,r.add_time,r.acc,r.class_will_type,r.class_will_sub_type,r.recover_class_time,l.lesson_start,l.subject l_subject,t.grade_start,t.grade_end,t.teacher_textbook  "
@@ -3150,7 +3155,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_train_through_teacher_info_new(){
-        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time,identity,teacher_money_type,subject,grade_end,grade_start,grade_part_ex "
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time,identity,teacher_money_type,subject,grade_end,grade_start,grade_part_ex,level "
                                   ." from %s where train_through_new_time>0 and is_test_user=0 and is_quit=0",
                                   self::DB_TABLE_NAME
         );

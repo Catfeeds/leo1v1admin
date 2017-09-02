@@ -1096,7 +1096,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_row($sql);
     }
-    public function tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str) {
+    public function tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str,$origin) {
 
 
         switch ( $field_name ) {
@@ -1111,8 +1111,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             break;
         }
 
+
         if($field_name=="tmk_adminid"){
             $where_arr=[
+                ["o.origin like '%%%s%%' ",$origin,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1121,6 +1123,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ];
         } else {
             $where_arr=[
+                ["o.origin like '%%%s%%' ",$origin,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1153,7 +1156,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value, $page_info) {
+    public function tongji_seller_order_info( $origin,$field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value='', $page_info = '') {
 
 
         switch ( $field_name ) {
@@ -1170,7 +1173,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         if($field_name=="tmk_adminid"){
             $where_arr=[
-                "{$field_name}='{$check_value}'",
+                ["o.origin like '%%%s%%' ",$origin,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
@@ -1179,12 +1182,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ];
         } else {
             $where_arr=[
-                "{$field_name}='{$check_value}'",
+                ["o.origin like '%%%s%%' ",$origin,""],
                 "contract_type in ( 0 )",
                 "is_test_user=0",
                 "contract_status >0 ",
             ];
-
+        }
+        if ($check_value){
+            $where_arr[] = "{$field_name}='{$check_value}'";
         }
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
@@ -1193,21 +1198,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-        $sql = $this->gen_sql_new("select $field_name as check_value,o.price,o.orderid,s.nick,s.phone,o.grade,"
-                                  ."o.pay_time,o.subject,o.lesson_total, o.lesson_left, o.default_lesson_count"
-                                  ." from   %s  o  "
-                                  ." left join %s m  on o.sys_operator=m.account "
-                                  ." left join %s s  on o.userid=s.userid "
-                                  ." left join %s n  on o.userid=n.userid "
-                                  ." where %s ",
-                                  self::DB_TABLE_NAME ,
-                                  t_manager_info::DB_TABLE_NAME ,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  $where_arr
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value,o.price,o.orderid,s.phone_location,s.nick,s.phone,o.grade,"
+            ."o.pay_time,o.subject,o.lesson_total, o.lesson_left, o.default_lesson_count"
+            ." from   %s  o  "
+            ." left join %s m  on o.sys_operator=m.account "
+            ." left join %s s  on o.userid=s.userid "
+            ." left join %s n  on o.userid=n.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME ,
+            t_manager_info::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr
         );
         // dd($sql);
-        return $this->main_get_list_by_page($sql, $page_info);
+        if ($page_info) {
+            return $this->main_get_list_by_page($sql, $page_info);
+        } else {
+            return $this->main_get_list($sql);
+        }
     }
 
     public function tongji_seller_order_count($start_time,$end_time) {
