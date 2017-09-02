@@ -35,6 +35,58 @@ $(function(){
 	$.admin_select_user( $('#id_assistantid'), "assistant", load_data );
 	$.admin_select_user( $('#id_teacherid'), "teacher", load_data );
 	$.admin_select_user( $('#id_studentid'), "student", load_data );
+
+
+	$('.show_detail').on("click",function(){
+		var data            = $(this).get_opt_data();
+        var teacherid = $(this).attr('date-teacherid');
+        var assistantid = data.assistantid;
+        var studentid   = data.userid;
+        alert(teacherid);
+        alert(assistantid);
+        alert(studentid);
+        var start_time = $('#id_start_time').val();
+        var end_time   = $('#id_end_time').val();
+        var html_node    = $.obj_copy_node("#id_assign_log");
+
+        BootstrapDialog.show({
+            title: "详情列表",
+            message: html_node,
+            closable: true
+        });
+
+        $.do_ajax('/ajax_deal2/show_student_single_subject',{
+            'teacherid' : teacherid,
+            'assistantid':assistantid,
+            'studentid' :studentid,
+            'start_time':start_time,
+            'end_time'  : end_time,
+        },function(result){
+            var data     = result['data'];
+            alert(data);
+            console.log(data);
+            var html_str = "";
+            $.each(data, function (i, item) {
+                var cls = "success";
+
+                html_str += "<tr class=\"" + cls + "\" > <td>" 
+                		 + item.teacher_nick 
+                		 + "<td>" + item.lesson_type_str + "<td>" 
+                		 + item.lesson_start+'-'+item.lesson_end + "<td>" 
+                		 + item.grade_str+ "<td>"
+                		 +item.subject_str+"<td>"
+                		 +item.nick+"<td>"
+                		 +item.ass_nick+ "<td>" 
+                		 +item.lesson_count+ "<td>" 
+                		 + item.lesson_cancel_reason_type_str
+                		 + "</tr>";
+            });
+
+            html_node.find(".data-body").html(html_str);
+
+        });
+
+    });
 	$('.opt-change').set_input_change_event(load_data);
 });
 

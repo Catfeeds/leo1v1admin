@@ -2499,14 +2499,10 @@ class user_manage extends Controller
 
         if($assistantid == -1){
             $assistantid_before = $this->t_assistant_info->get_assistantid($acc);
-
             if ($assistantid_before) {
                 $assistantid = $assistantid_before;
             }
-
         }
-
-
         $page_num=$this->get_in_page_num();
 
         $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
@@ -2523,6 +2519,8 @@ class user_manage extends Controller
         return $this->Pageview(__METHOD__,$ret_list );
     
     }
+
+
     public function stu_all_teacher()
     {
         $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
