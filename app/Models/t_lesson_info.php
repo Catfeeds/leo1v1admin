@@ -9249,4 +9249,25 @@ lesson_type in (0,1) "
             return $item['teacherid'];
         });
     }
+
+    public function get_stu_all_teacher($assistantid)
+    {
+        $where_arr = [
+            ["s.assistantid = %u",$assistantid,0],
+            "c.course_type  =1",
+            "c.course_status =0",
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.phone,t.grade_part_ex ,t.subject"
+                                  ." from %s s"
+                                  ." left join %s c s.userid = c.userid "
+                                  ." left join %s t c.teacherid = t.teacherid "
+                                  ." where %s"
+                                  ." order by lesson_start asc"
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
+                                  ,t_
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

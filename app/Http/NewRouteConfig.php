@@ -233,6 +233,8 @@ class NewRouteConfig {
         "/user_manage/student_school_score_stat"                => true,
         "/user_manage/tongji_cc"                                => true,
         "/user_manage/student_single_subject"                   => true,
+        "/user_manage/stu_all_teacher"                          => true,
+
 
         "/authority/get_account_role" => true,
         "/authority/set_account_role"        => true,

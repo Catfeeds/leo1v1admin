@@ -2522,4 +2522,10 @@ class user_manage extends Controller
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }
+    public function stu_all_teacher()
+    {
+        $assistantid = 57397;
+        $ret_info = $this->t_lesson_info->get_stu_all_teacher($assistantid);
+        dd($ret_info);
+    }
 }
