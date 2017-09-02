@@ -2116,9 +2116,9 @@ class teacher_info extends Controller
         if ($idcard == '') {
             return $this->output_err('身份证号不能为空！');
         }
-        if (strlen($idcard) !== 18) {
-            return $this->output_err('身份证号码不正确！');
-        }
+        // if (strlen($idcard) !== 18) {
+        //     return $this->output_err('身份证号码不正确！');
+        // }
         if ($bankcard == '') {
             return $this->output_err('银行卡号不能为空！');
         }

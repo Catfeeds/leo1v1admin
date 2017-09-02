@@ -38,6 +38,16 @@
      .color-blue{
          color:#00A6FF;
      }
+     .bg-set-blue{
+         background:#00a6ff;
+         color:#fff;
+     }
+     .bg-lblue{
+         background:#e6faff;
+     }
+     .bor-rds{
+         border-radius:5px;
+     }
      .div-bank{
          width:60%;
          margin:50px auto;
@@ -45,11 +55,6 @@
      .btn-bank{
          display:block;
          width:100%;
-     }
-     .flag-baes th{
-         width:20%;
-         background:#E6FAFF;
-         text-align:center;
      }
      .flag-baes td{
          width:30%;
@@ -102,13 +107,13 @@
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <div class="col-sm-10">
+                                <div class="col-xs-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-xs-2">
                                     <div class="progress">
                                         <div class="progress-bar">
                                             <b class="ft24 text-yellow text-top">60%</b>
@@ -338,30 +343,28 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
+                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
                             </button>
-                            <button type="button" class="btn btn-box-tool hide color-9" data-toggle="modal" data-target="#modal-default"><span class="color-9 ft14">取消</span></button>
-                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info"><span class="color-9 ft14">保存</span></button>
                         </div>
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info" id="user-info">
-                                    <p class="color-9">个人信息</p>
+                                <div class="col-sm-12 flag-baes user-info" id="user-info">
+                                    <p class="color-9"  data-sub="edit_teacher_info" >个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>ID</th>
+                                            <th class="text-cen bg-lblue" >ID</th>
                                             <td id="teacherid">56123</td>
-                                            <th>姓名</th>
+                                            <th class="text-cen bg-lblue" >姓名</th>
                                             <td>
                                                 <span>{{$my_info['nick']}}</span>
                                                 <input type="text" name="nick" class="hide" value="{{$my_info['nick']}}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>性别</th>
+                                            <th class="text-cen bg-lblue" >性别</th>
                                             <td class="form-group">
                                                 <span>{{$my_info['gender_str']}}</span>
                                                 <select name="gender" class="form-control hide">
@@ -370,23 +373,23 @@
                                                             <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
                                                 </select>
                                             </td>
-                                            <th>出生日期</th>
+                                            <th class="text-cen bg-lblue" >出生日期</th>
                                             <td>
                                                 <span>{{$my_info['birth']}}</span>
                                                 <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}" placeholder="例如：19900101">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>邮箱</th>
+                                            <th class="text-cen bg-lblue" >邮箱</th>
                                             <td>
                                                 <span>{{$my_info['email']}}</span>
                                                 <input type="email" name="email" class="hide" value="{{$my_info['email']}}">
                                             </td>
-                                            <th>推荐人</th>
+                                            <th class="text-cen bg-lblue" >推荐人</th>
                                             <td> {{$my_info['teacher_ref_type_str']}} </td>
                                         </tr>
                                         <tr>
-                                            <th>手机号</th>
+                                            <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
                                                 <span>{{$my_info['phone']}}</span>
                                                 <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
@@ -394,30 +397,30 @@
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
                                                 @endif
                                             </td>
-                                            <th>信息创建时间</th>
+                                            <th class="text-cen bg-lblue" >信息创建时间</th>
                                             <td> {{$my_info['create_time']}} </td>
                                         </tr>
                                     </table>
                                     <p class="color-9">教学信息</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>教龄</th>
+                                            <th class="text-cen bg-lblue" >教龄</th>
                                             <td>
                                                 <span>{{$my_info['work_year']}}</span>
                                                 <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
                                             </td>
-                                            <th>教材版本</th>
+                                            <th class="text-cen bg-lblue" >教材版本</th>
                                             <td>{{$my_info['textbook_type_str']}}</td>
                                         </tr>
                                         <tr>
-                                            <th>科目</th>
+                                            <th class="text-cen bg-lblue" >科目</th>
                                             <td> {{$my_info['subject_str']}} </td>
-                                            <th>年级段</th>
+                                            <th class="text-cen bg-lblue" >年级段</th>
                                             <td> {{$my_info['grade_part_ex']}} </td>
                                         </tr>
                                         <tr>
-                                            <th>方言备注</th>
-                                            <td>
+                                            <th class="text-cen bg-lblue" >方言备注</th>
+                                            <td colspan="3">
                                                 <span>{{$my_info['dialect_notes']}}</span>
                                                 <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
 
@@ -427,44 +430,44 @@
                                     <p class="color-9">教学背景</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>身份</th>
+                                            <th class="text-cen bg-lblue" >身份</th>
                                             <td>
                                                 <span>{{$my_info['identity_str']}}</span>
                                                 <input type="text" name="identity_str" value="{{$my_info['identity_str']}}" class="hide" placeholder="未填写">
                                             </td>
-                                            <th>毕业院校</th>
+                                            <th class="text-cen bg-lblue" >毕业院校</th>
                                             <td>
                                                 <span>{{$my_info['school']}}</span>
                                                 <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>最高学历</th>
+                                            <th class="text-cen bg-lblue" >最高学历</th>
                                             <td>
                                                 <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
 
-                                            <th>专业</th>
+                                            <th class="text-cen bg-lblue" >专业</th>
                                             <td>
                                                 <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>兴趣爱好</th>
+                                            <th class="text-cen bg-lblue" >兴趣爱好</th>
                                             <td>
                                                 <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
-                                            <th>个人特长</th>
+                                            <th class="text-cen bg-lblue" >个人特长</th>
                                             <td>
                                                 <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
                                         </tr>
                                     </table>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -490,86 +493,86 @@
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <form class="col-sm-12 flag-baes
-                                             @if (!$my_info['bankcard'])
-                                             hide
-                                             @endif
-                                             " id="bank-info">
-                                    <table class="table table-bordered">
+                                <div class="col-sm-12 flag-baes
+                                            @if (!$my_info['bankcard'])
+                                            hide
+                                            @endif
+                                             bank-info">
+                                    <table class="table table-bordered" data-sub="edit_teacher_bank_info">
                                         <tr>
-                                            <th>持卡人</th>
+                                            <th class="text-cen bg-lblue" >持卡人</th>
                                             <td>
                                                 <span>{{$my_info['bank_account']}}</span>
                                                 <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未绑定">
                                             </td>
-                                            <th>身份证号</th>
+                                            <th class="text-cen bg-lblue" >身份证号</th>
                                             <td>
                                                 <span>{{$my_info['idcard']}}</span>
                                                 <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未绑定">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>银行卡类型</th>
+                                            <th class="text-cen bg-lblue">银行卡类型</th>
                                             <td>
                                                 <span>{{$my_info['bank_type']}}</span>
                                                 <select name="bank_type" class="form-control hide">
-                                                        <option>中国建设银行</option>
-                                                        <option>中国工商银行</option>
-                                                        <option>中国农业银行</option>
-                                                        <option>交通银行</option>
-                                                        <option>招商银行</option>
-                                                        <option>中国银行</option>
-                                                    </select>
+                                                    <option>中国建设银行</option>
+                                                    <option>中国工商银行</option>
+                                                    <option>中国农业银行</option>
+                                                    <option>交通银行</option>
+                                                    <option>招商银行</option>
+                                                    <option>中国银行</option>
+                                                </select>
 
-                                                </td>
-                                                <th>支行名称</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_address']}}</span>
-                                                    <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未绑定">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>开户省</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_province']}}</span>
-                                                    <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未绑定">
+                                            </td>
+                                            <th class="text-cen bg-lblue" >支行名称</th>
+                                            <td>
+                                                <span>{{$my_info['bank_address']}}</span>
+                                                <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未绑定">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-cen bg-lblue" >开户省</th>
+                                            <td>
+                                                <span>{{$my_info['bank_province']}}</span>
+                                                <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未绑定">
 
-                                                </td>
-                                                <th>开户市</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_city']}}</span>
-                                                    <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未绑定">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>卡号</th>
-                                                <td>
-                                                    <span>{{$my_info['bankcard']}}</span>
-                                                    <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未绑定">
-                                                </td>
-                                                <th>预留手机号</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_phone']}}</span>
-                                                    <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未绑定">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                        <div class="div-bank text-cen
-                                                    @if ($my_info['bankcard'])
-                                                    hide
-                                                    @endif
-                                                    ">
-                                        <button type="button" class="btn btn-info btn-bank ft18">绑定银行卡</button>
-                                    </div>
+                                            </td>
+                                            <th class="text-cen bg-lblue" >开户市</th>
+                                            <td>
+                                                <span>{{$my_info['bank_city']}}</span>
+                                                <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未绑定">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-cen bg-lblue" >卡号</th>
+                                            <td>
+                                                <span>{{$my_info['bankcard']}}</span>
+                                                <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未绑定">
+                                            </td>
+                                            <th class="text-cen bg-lblue" >预留手机号</th>
+                                            <td>
+                                                <span>{{$my_info['bank_phone']}}</span>
+                                                <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未绑定">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="div-bank text-cen
+                                            @if ($my_info['bankcard'])
+                                            hide
+                                            @endif
+                                            ">
+                                    <button type="button" data-toggle="modal" data-target="#modal-default" class="btn btn-info btn-bank ft18 opt-edit" data-name="bank-info">绑定银行卡</button>
+                                </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
+                        <!-- /.box-body -->
+                        <div class="box-footer no-border">
                         @if ($my_info['bankcard'])
                             <div class="row text-cen">
-                                <p>如需<a class="text-blue opt-bank" data-name="bank-info" href="javascript:;">更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
+                                <p>如需<a class="text-blue opt-edit"  data-toggle="modal" data-target="#modal-default"  data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
                             @endif
                     </div>
@@ -634,25 +637,25 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 label label-warning">
+                                        <div class="col-sm-12 bg-yellow text-cen bor-rds">
                                             <h4>{{$my_info['leave_count']}}次</h4>
                                             <p>请假次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 label label-info">
+                                        <div class="col-sm-12 bg-set-blue text-cen bor-rds">
                                             <h4>{{$my_info['late_count']}}次</h4>
                                             <p>迟到次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 label label-success">
+                                        <div class="col-sm-12 bg-green text-cen bor-rds">
                                             <h4>{{$my_info['noevaluate_count']}}次</h4>
                                             <p>未评价次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 label label-primary">
+                                        <div class="col-sm-12 bg-blue text-cen bor-rds">
                                             <h4>{{$my_info['change_count']}}次</h4>
                                             <p>被换次数</p>
                                         </div>
@@ -721,21 +724,20 @@
 @endsection
 
 <div class="modal fade" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content" style="width:50%;margin:0 auto">
+    <div class="modal-dialog" style="width:60%">
+        <div class="modal-content">
             <div class="modal-header">
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"></h4>
             </div>
-            <div class="modal-body text-cen">
-                <div>
-                    <img src="/img/warning.png" />
-                </div>
-                <h5 class="color-red">您还未保存信息，确定要退出吗？</h5>
+            <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default col-sm-5 pull-left" data-refresh="">确认</button>
-                <button type="button" class="btn btn-info col-sm-5 pull-right" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default col-sm-offset-1 col-sm-2 pull-right opt-submit">确认</button>
+                <button type="button" class="btn btn-info col-sm-2 pull-right" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
