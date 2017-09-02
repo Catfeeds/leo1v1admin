@@ -43,12 +43,6 @@ class CreateTPdfToPngInfo extends Migration
              */
 
 
-            // t_field($table->integer("teacherid"),"老师id");
-            // t_field($table->integer("type")," 分享类型 1:微信朋友圈 2:其他");
-            // t_field($table->integer("share_time"),"添加时间");
-
-            // $table->index(["teacherid"]);
-            // $table->index(["share_time"]);
 
 
         });

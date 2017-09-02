@@ -1287,7 +1287,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid"
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
                     if ($self_flag) {
                         $arr[$k]=$v;

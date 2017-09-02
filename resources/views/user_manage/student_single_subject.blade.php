@@ -60,7 +60,7 @@
                         <td ><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{$var["student_nick"]}}</a></td>
                         <td >{{$var['phone']}}</td>
                         <td >{{$var["lesson_count"]}}</td>
-                         <td class="show_detail" date-teacherid="{{$var['teacherid']}}" data-studentid="{{$var['userid']}}" data-assistantid="{{$var['assistantid']}}"><a>{{@$var["count"]}}</a></td>
+                         <td class="show_detail" date-teacherid="{{$var['teacherid']}}" date-studentid="{{$var['userid']}}" date-assistantid="{{$var['assistantid']}}"><a>{{@$var["count"]}}</a></td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject"]}}</td>
 			            <td >{{$var["grade"]}}</td>

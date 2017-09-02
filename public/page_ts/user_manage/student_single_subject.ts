@@ -40,8 +40,8 @@ $(function(){
 	$('.show_detail').on("click",function(){
 		var data            = $(this).get_opt_data();
         var teacherid = $(this).attr('date-teacherid');
-        var assistantid = data.assistantid;
-        var studentid   = data.userid;
+        var assistantid = $(this).attr('date-assistantid');
+        var studentid   = $(this).attr('date-studentid');
         alert(teacherid);
         alert(assistantid);
         alert(studentid);
