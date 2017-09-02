@@ -444,7 +444,7 @@ class wx_teacher_api extends Controller
 
 
     // 教师节抽奖接口 [招师部]
-
+    // t_teacher_lecture_info  录制试讲
     public function update_is_share(){ // 更新是否分享朋友圈
         $teacherid = $this->get_teacherid();
 

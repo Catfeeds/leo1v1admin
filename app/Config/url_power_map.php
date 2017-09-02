@@ -437,6 +437,7 @@ class url_power_map {
 			'/tea_manage_new/get_seller_ass_record_info_ass'	=>1129400,
 			'/user_manage/graduating_lesson_time'	=>1127400,
 			'/user_manage/no_type_student_score'	=>1129500,
+			'/user_manage/stu_all_teacher'	=>1129600,
 			'/main_page/jw_teacher'	=>1140100,
 			'/tongji_ss/tongji_jw_teacher_kpi'	=>1141200,
 			'/tongji_ss/get_jw_no_plan_remind'	=>1141400,

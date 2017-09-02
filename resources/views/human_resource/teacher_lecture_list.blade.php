@@ -148,7 +148,7 @@
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
-                                @if(in_array($account_role,["9","10","11","12"]) || $acc="coco")
+                                @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo")
                                     <a class="opt-reset">重置</a>
                                 @endif
                                 @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby"]) || $var["account"]=="")
@@ -156,11 +156,8 @@
                                     @if($var['status']==0)
                                         <a class="opt-video_error" title="视频出错短信通知">视频出错</a>
                                     @endif
-                                    @if(in_array($acc,["adrian","jack","ted","zoe","abby"]))
-                                        <a class="opt-add_teacher" title="审核通过,但未在老师档案中,点击此按钮添加">添加老师</a>
-                                        @if(in_array($acc,["adrian","jack"]))
-                                            <a class="opt-set_test">测试数据切换</a>
-                                        @endif
+                                    @if(in_array($acc,["adrian","jack"]))
+                                        <a class="opt-set_test">测试数据切换</a>
                                     @endif
                                     @if($var["account"]!="" || in_array($acc,["adrian"]))
                                         @if($account_role != 8) 
