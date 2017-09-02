@@ -718,12 +718,14 @@ class ajax_deal2 extends Controller
         $end_time    = strtotime($this->get_in_str_val("end_time"));
         $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$assistantid,$studentid);
 	
-        foreach ($ret_info as $key => $value) {
+        foreach ($ret_info as &$item) {
             # code...
-            $this->cache_set_item_teacher_nick($value['teacherid']);
-            $this->cache_set_item_assistant_nick($value['assistantid']);
+            $this->cache_set_item_teacher_nick($item,"teacherid","teacher_nick");
+            $this->cache_set_item_assistant_nick($item,"assistantid","assistant_nick");
+            $item['count'] = $item['count']/100;
+            $item['lesson_start']    = \App\Helper\Utils::unixtime2date($item['lesson_start'] );
+            $item['lesson_end']      = \App\Helper\Utils::unixtime2date($item['lesson_end'] );
         }
-	dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
         # code...
     }

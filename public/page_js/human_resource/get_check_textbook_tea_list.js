@@ -4,6 +4,8 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+		        page_count          :	$('#id_page_count').val(),
+            textbook_check_flag : $("#id_textbook_check_flag").val(),
         });
     }
     $(".fa-download").hide();
