@@ -1026,25 +1026,26 @@ $(function(){
     };
 
     $(" .opt-change-default_lesson_count").on("click",function(){
+        var data = $(this).get_opt_data();
         var nick   = $(this).closest("tr") .find(".stu_nick").text();
-        var contract_starttime = $(this).closest("tr") .find(".contract_starttime").text();
-        var orderid =$(this).get_opt_data("orderid");
+        var orderid =data.orderid;
 
         var $lesson_count=$("<input/>");
-        $lesson_count.val( $(this).get_opt_data("default_lesson_count")/100 );
+        $lesson_count.val( $(this).get_opt_data("lesson_total")/100 );
 
         var arr=[
             ["姓名" , nick ],
-            ["合同时间" , contract_starttime],
             ["课时数" , $lesson_count],
         ];
-        $.show_key_value_table("设置每次课课时数", arr ,{
+
+        $.show_key_value_table("修改课时数", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_deal/course_set_default_lesson_count",{
-                    "orderid"              : orderid,
-                    "default_lesson_count" : $lesson_count.val()*100
+                    "orderid"      : orderid,
+                    "lesson_total" : $lesson_count.val()*100
+                    "old_lesson_total" : $lesson_count.val()*100
                 });
             }
         });
