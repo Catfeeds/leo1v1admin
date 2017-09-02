@@ -579,7 +579,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-
     public function get_count_by_phone($phone){
         $where_arr=[
             ['a1.phone = %s ',$phone],
@@ -685,11 +684,33 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
-            " select a.id,a.phone,a.parentid pid,a1.phone p_phone,a1.parentid ppid,a2.phone pp_phone".
+            " select a.id,a.userid,a.phone,"
+            ."a1.id pid,a1.phone p_phone,a1.wx_openid p_wx_openid,"
+            ."a2.id ppid,a2.phone pp_phone,a2.wx_openid pp_wx_openid".
             " from %s a ".
             " left join %s a1 on a1.id=a.parentid".
             " left join %s a2 on a2.id=a1.parentid".
-            " where %s ",
+            " where %s limit 1",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_p_pp_row_by_userid($userid){
+        $where_arr = [
+            ['a.userid = "%u"',$userid,-1],
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.userid,a.phone,a.wx_openid,"
+            ."a1.id pid,a1.phone p_phone,a1.wx_openid p_wx_openid,"
+            ."a2.id ppid,a2.phone pp_phone,a2.wx_openid pp_wx_openid".
+            " from %s a ".
+            " left join %s a1 on a1.id=a.parentid".
+            " left join %s a2 on a2.id=a1.parentid".
+            " where %s limit 1",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
@@ -932,27 +953,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
 
                 if(!$order_info_old && $p_wx_openid && $p_price){
+                    $p_price_new = $p_price/100;
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [
                         'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $p_price.'元',
+                        'keyword1' => $p_price_new.'元',
                         'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price.'元。',
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    //\App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
                 }
 
                 if(!$order_info_old && $pp_wx_openid && $pp_price){
+                    $pp_price_new = $pp_price/100;
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [
                         'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $pp_price.'元',
+                        'keyword1' => $pp_price_new.'元',
                         'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price.'元。',
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                    //\App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
                 }
             }
 

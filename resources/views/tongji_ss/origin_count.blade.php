@@ -9,8 +9,14 @@
      var g_subject_map= <?php  echo json_encode ($subject_map); ?> ;
      var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
      var g_area_map= <?php  echo json_encode ($area_map); ?> ;
-     var g_order_area_map= <?php  echo json_encode ($order_area_map); ?> ;
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
+     var g_order_area_map= <?php  echo json_encode ($order_area_map); ?> ;
+     var g_order_grade_map= <?php  echo json_encode ($order_grade_map); ?> ;
+     var g_order_subject_map= <?php  echo json_encode ($order_subject_map); ?> ;
+     var g_test_area_map= <?php  echo json_encode ($test_area_map); ?> ;
+     var g_test_grade_map= <?php  echo json_encode ($test_grade_map); ?> ;
+     var g_test_subject_map= <?php  echo json_encode ($test_subject_map); ?> ;
+
     </script>
     <section class="content">
         <div class="book_filter">
@@ -312,7 +318,8 @@
                     </tbody>
                 </table>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div> 渠道等级</div>
                 <div id="id_origin_level_pic" class="demo-placeholder" style="height:400;"></div>
@@ -332,8 +339,55 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-xs-6 col-md-3">
+                <div>签单年级</div>
+                <div id="id_order_grade_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="col-xs-6 col-md-3">
+                <div>签单科目</div>
+                <div id="id_order_subject_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <div>试听省份</div>
+                <div id="id_test_area_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div>试听年级</div>
+                <div id="id_test_grade_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="col-xs-6 col-md-3">
+                <div>试听科目</div>
+                <div id="id_test_subject_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
 
 
      </div>

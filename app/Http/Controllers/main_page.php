@@ -463,7 +463,7 @@ class main_page extends Controller
         $total_test_five_num = 0;
         $total_regular_first_per = 0;
         $total_regular_first_num = 0;
-        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
@@ -530,7 +530,7 @@ class main_page extends Controller
             }
 
 
-            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"];
+            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"]+$item["test_five"];
             $item["all_target_num"] = 250;
             if(in_array($item["uid"],[486,754,1011,329])){
                 $item["all_target_num"]=150;
@@ -551,6 +551,7 @@ class main_page extends Controller
                 $train_first_pass += $item["train_first_pass"];
                 $train_second_all += $item["train_second_all"];
                 $test_first_all += $item["test_first"];
+                $test_five_all += $item["test_five"];
                 $regular_first_all += $item["regular_first"];
             }
         }
@@ -630,7 +631,7 @@ class main_page extends Controller
 
             $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
-            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all;
+            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all+$test_five_all;
             $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],
                     "test_first"=>$test_first_all,
                     "test_five" =>$test_five_all,
@@ -652,8 +653,9 @@ class main_page extends Controller
             $arr["train_first_pass"] = $train_first_pass;
             $arr["train_second_all"] = $train_second_all;
             $arr["test_first"] = $test_first_all;
+            $arr["test_five"] = $test_five_all;
             $arr["regular_first"] = $regular_first_all;
-            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all;
+            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all+$test_five_all;
         }
 
         $num = count($teacher_info);
