@@ -1274,7 +1274,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             if(count($call_end_time_arr)>0){
                 $call_end_time = min($call_end_time_arr);
             }
-            if($lzx == 898){
+            if(isset($lzx) && $lzx == 898){
                 if(!$call_end_time){
                     $call_end_time = time();
                 }
