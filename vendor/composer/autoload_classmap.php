@@ -790,6 +790,7 @@ return array(
     'TTeacherRecordListAddTrialTrainStatus' => $baseDir . '/database/migrations/2017_06_09_111532_t_teacher_record_list_add_trial_train_status.php',
     'TTeacherRecordListChangePrimaryKey' => $baseDir . '/database/migrations/2017_06_12_163353_t_teacher_record_list_change_primary_key.php',
     'TTeacherRewardRuleList' => $baseDir . '/database/migrations/2017_08_23_194222_t_teacher_reward_rule_list.php',
+    'TTeacherSalaryList' => $baseDir . '/database/migrations/2017_09_01_195237_t_teacher_salary_list.php',
     'TTestLessonRequireTeacherListAddTeacherid' => $baseDir . '/database/migrations/2017_06_16_111946_t_test_lesson_require_teacher_list_add_teacherid.php',
     'TTestLessonSubjectAddHomeworkPdfUrl' => $baseDir . '/database/migrations/2017_08_23_100712_t_test_lesson_subject_add_homework_pdf_url.php',
     'TTestLessonSubjectAddPaperSendWxFlag' => $baseDir . '/database/migrations/2017_04_25_170730_t_test_lesson_subject_add_paper_send_wx_flag.php',
