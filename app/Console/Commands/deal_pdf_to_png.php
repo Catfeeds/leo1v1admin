@@ -34,7 +34,6 @@ class deal_pdf_to_png extends cmd_base
      */
     protected $description = 'Command description';
 
-    public $task;
     /**
      * Create a new command instance.
      *
@@ -43,7 +42,6 @@ class deal_pdf_to_png extends cmd_base
     public function __construct()
     {
         parent::__construct();
-        // $this->task
     }
 
     /**
