@@ -399,4 +399,30 @@ class test_boby extends Controller
     }
 
 
+    public function get_teacher(){
+
+        $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
+        $ret = $this->t_lesson_info_b2->get_teacher($sql);
+        $s = '<table border=1><tr>'
+           .'<td>id</td>'
+           .'<td>名字</td>'
+           .'<td>tel</td>'
+           .'<td>time</td>'
+           .'<td>课耗</td>'
+           .'</tr>';
+
+        foreach ($ret as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+                $s = $s.'<tr><td>'.$item["teacherid"].'</td>'
+                   .'<td>'.$item["nick"].'</td>'
+                   .'<td>'.$item["phone"].'</td>'
+                   .'<td>'.$item["create_time"].'</td>'
+                   .'<td>'.$item["lesson_conun"].'</td>'
+                   .'</tr>';
+        }
+
+        $s = $s.'</table>';
+        return $s;
+
+    }
 }
