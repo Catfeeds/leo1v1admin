@@ -657,6 +657,8 @@ class menu{
 
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],
                 ["power_id"=>95, "name"=>"未录入成绩学生列表",   "url"=>"/user_manage/no_type_student_score"],
+                ["power_id"=>96, "name"=>"在读学员老师列表",   "url"=>"/user_manage/stu_all_teacher"],
+
             ]],
 
             ["power_id"=>14, "name"=>"角色-教务",  "list"=>[
