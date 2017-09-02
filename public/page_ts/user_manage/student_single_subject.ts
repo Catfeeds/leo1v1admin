@@ -44,6 +44,7 @@ $(function(){
         var studentid   = $(this).attr('date-studentid');
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
+        alert(end_time);
         var html_node    = $.obj_copy_node("#id_assign_log");
 
         BootstrapDialog.show({
@@ -54,7 +55,7 @@ $(function(){
 
         $.do_ajax('/ajax_deal2/show_student_single_subject',{
             'teacherid' : teacherid,
-            'assistantid':assistantid,
+            'subject':subject,
             'studentid' :studentid,
             'start_time':start_time,
             'end_time'  : end_time,
