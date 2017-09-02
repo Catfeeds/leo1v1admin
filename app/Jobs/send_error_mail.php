@@ -18,7 +18,7 @@ class send_error_mail extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($to,$title,$content, $report_error_type )
+    public function __construct($to,$title,$content, $report_error_type=1 )
     {
         parent::__construct();
         $this->mail_info = [
@@ -62,8 +62,7 @@ class send_error_mail extends Job implements ShouldQueue
 
                 \App\Helper\Utils::logger(" send error to wx: $account");
                 try {
-                    $id= $this->task->t_sys_error_info->add(E\Ereport_error_from_type::V_1, $report_error_type , $title . "<br/>" .$content );
-
+                    $id = $this->task->t_sys_error_info->add(E\Ereport_error_from_type::V_1, $report_error_type , $title . "<br/>" .$content );
                     $this->task->t_manager_info->send_wx_todo_msg($account,"",$title,  $content, "/tongji_ex/show_sys_error_info?id=$id" );
                 } catch (\Exception $e ) {
                     \App\Helper\Utils::logger("err: " . $e->getMessage() );
