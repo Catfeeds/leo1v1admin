@@ -1460,6 +1460,19 @@ class seller_student_new extends Controller
         return $ret;
     }
 
+    public function set_call_end_time(){
+        $ret = 1;
+        $adminid = $this->get_account_id();
+        if(in_array($adminid,[898,831])){
+            $lessonid = $this->get_in_int_val('lessonid');
+            $ret = $this->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
+                "call_end_time"    => time(null),
+            ]);
+        }
+
+        return $ret;
+    }
+
     public function seller_get_test_lesson_list(){
         $adminid=$this->get_account_id();
         $list=$this->t_seller_student_new->get_test_lesson_list($adminid);
