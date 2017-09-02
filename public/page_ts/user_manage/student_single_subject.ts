@@ -74,9 +74,6 @@ $(function(){
                 		 + "<td>" + item.lesson_type_str + "<td>" 
                 		 + item.lesson_start+'-'+item.lesson_end + "<td>" 
                 		 + item.grade_str+ "<td>"
-                		 +item.subject_str+"<td>"
-                		 +item.nick+"<td>"
-                		 +item.ass_nick+ "<td>" 
                 		 +item.lesson_count+ "<td>" 
                 		 + item.lesson_cancel_reason_type_str
                 		 + "</tr>";
