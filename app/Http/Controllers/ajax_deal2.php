@@ -722,6 +722,9 @@ class ajax_deal2 extends Controller
             # code...
             $this->cache_set_item_teacher_nick($item,"teacherid","teacher_nick");
             $this->cache_set_item_assistant_nick($item,"assistantid","assistant_nick");
+            $item['count'] = $item['count']/100;
+            $item['lesson_start']    = \App\Helper\Utils::unixtime2date($item['lesson_start'] );
+            $item['lesson_end']      = \App\Helper\Utils::unixtime2date($item['lesson_end'] );
         }
         return $this->output_succ(['data'=>$ret_info]);
         # code...
