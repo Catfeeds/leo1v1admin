@@ -2375,7 +2375,7 @@ class user_manage extends Controller
 
    /**
      * @author    sam
-     * @function  助教统计年级-科目数量
+     * @function  教务CC转化率统计
      */
     public function tongji_cc()
     {
@@ -2437,4 +2437,48 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__, $arr);
    }
 
+     /**
+     * @author    sam
+     * @function  学生单科目统计
+     */
+   public function student_single_subject() {
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $assistantid=$this->get_in_assistantid(-1);
+        $teacherid  =$this->get_in_teacherid(-1);
+        $studentid  =$this->get_in_studentid(-1);
+        $num        =$this->get_in_int_val("num",-1);
+
+        $acc = $this->get_account();
+        if (\App\Helper\Utils::check_env_is_local()) {
+            if ($acc=="jim") {
+                $acc="lulul";
+            }
+        }else{
+            if ($acc=="jim") {
+                $acc="fly";
+            }
+        }
+
+        if($assistantid == -1){
+            $assistantid_before = $this->t_assistant_info->get_assistantid($acc);
+
+            if ($assistantid_before) {
+                $assistantid = $assistantid_before;
+            }
+
+        }
+
+
+        $page_num=$this->get_in_page_num();
+
+        $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
+                                $assistantid,$teacherid,$studentid,$num);
+        foreach($ret_list['list'] as &$item ){
+            $this->cache_set_item_student_nick($item);
+            $this->cache_set_item_assistant_nick($item);
+            $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
+        }
+        return $this->Pageview(__METHOD__,$ret_list );
+    }
 }
