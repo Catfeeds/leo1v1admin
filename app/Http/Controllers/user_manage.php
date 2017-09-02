@@ -1413,15 +1413,6 @@ class user_manage extends Controller
             $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
             // dd($arr);
         }
-        foreach($arr as $k=>$v){
-            if($k<9){
-                foreach($v as  $y=>&$val){
-                    $tt = $this->get_low_grade($val["grade"]);
-                    $v[$tt] = $val;
-                }
-            }
-        }
-        dd($arr);
     }
 
     public function user_login_list(){
