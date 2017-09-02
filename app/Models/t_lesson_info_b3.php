@@ -62,13 +62,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_have_order_lesson_list_new($start_time,$end_time){
         $where_arr = [
-            ["l.lesson_start>=%d",$next_day_begin],
-            ["l.lesson_start<=%d",$next_day_end],
+            ["l.lesson_start>=%d",$start_time],
+            ["l.lesson_start<=%d",$end_time],
             "l.del_flag=0",
             "s.is_test_user=0",
-            "l.lesson_type =2"
+            "l.lesson_type =2",
+            "m.account_role=2"
         ];
-
+        $sql = $this->gen_sql_new("select l.lessonid,l.subject"
+                                  ." from %s l join %s s on l.userid = s.userid"
+                                  ." join %s tss on l.lessonid = tss.lessonid"
+                                  ." join %s tq on tss.require_id = tq.require_id"
+                                  ." join %s m on tq.cur_require_adminid = m.uid"
+                                  ." join %s o on l.lessonid = o.from_test_lesson_id and contract_type in (0,3) and contract_status>0"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
     }
 
 }

@@ -17,7 +17,11 @@ class t_teacher_day_luck_draw extends \App\Models\Zgen\z_t_teacher_day_luck_draw
     }
 
     public function get_total_money(){
-        $sql = $this->gen_sql_new("");
+        $sql = $this->gen_sql_new(" select sum(td.money/100) from %s td  "
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
     }
 
 

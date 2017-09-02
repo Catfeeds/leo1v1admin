@@ -62,7 +62,7 @@
                         <td >{{$var["lesson_count"]}}</td>
                          <td class="show_detail" date-teacherid="{{$var['teacherid']}}" date-studentid="{{$var['userid']}}" date-subject="{{$var['subject']}}"><a>{{@$var["count"]}}</a></td>
                         <td >{{$var["count_per"]}}</td>
-                        <td >{{$var["subject"]}}</td>
+                        <td >{{$var["subject_str"]}}</td>
 			            <td >{{$var["grade"]}}</td>
                         <td >
                             <div 

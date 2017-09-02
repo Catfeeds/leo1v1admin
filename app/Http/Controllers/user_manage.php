@@ -1413,8 +1413,8 @@ class user_manage extends Controller
             $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
             // dd($arr);
         }
-        $grade_one = $arr[8][101]["num"];
-        $arr[9][101]["num"] =  $arr[9][101]["num"]-$arr[8][101]["num"];
+        $grade_one = @$arr[8][101]["num"];
+        $arr[9][101]["num"] =  @$arr[9][101]["num"]-@$arr[8][101]["num"];
         // dd($arr);
         $ret_info = \App\Helper\Utils::list_to_page_info($arr);
         return $this->pageView(__METHOD__,$ret_info);
@@ -2530,7 +2530,7 @@ class user_manage extends Controller
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
-            $item["subject"]        = E\Esubject::get_desc($item["subject"]);
+            $item["subject_str"]        = E\Esubject::get_desc($item["subject"]);
             $item['lesson_count']   = $item['lesson_count']/100;
             $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
