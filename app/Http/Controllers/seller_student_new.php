@@ -135,13 +135,7 @@ class seller_student_new extends Controller
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
-            $first_call_time = $item['first_call_time'];
-            $last_call_time = $item['last_contact_time'];
-            if($first_call_time){
-                $lass_call_time_space = $last_call_time?(time()-$last_call_time):(time()-$first_call_time);
-            }else{
-                $lass_call_time_space = time()-$item['add_time'];
-            }
+            $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
             $item['lass_call_time_space'] = (int)($lass_call_time_space/86400);
 
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
