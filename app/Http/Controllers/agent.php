@@ -231,12 +231,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret = $this->t_tq_call_info->get_last_call_by_phone($phone='15351808266');
-        dd($ret);
-        $call_time = isset($ret['start_time'])?$ret['start_time']:0;
-        $set_arr=[];
-        $set_arr["last_revisit_time"]=$call_time;
-        $this->field_update_list($userid,$set_arr);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid=457);
+        dd($ret_info);
     }
 
     public function agent_add(){
