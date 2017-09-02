@@ -3395,4 +3395,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_tea_list($start,$end){
+        $where_arr = [
+            "assign_jw_adminid=0",
+            "is_test_user=0",
+        ];
+        $lesson_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+            ""
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid"
+                                  ." from %s t"
+                                  ." where %s"
+                                  ." and exists ("
+                                  ." select 1 from %s"
+                                  ." )"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }

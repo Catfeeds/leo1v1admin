@@ -1920,7 +1920,7 @@ class test_code extends Controller
     public function get_tea_list(){
         $start = strtotime("2017-7-1");
         $end   = strtotime("2017-9-1");
-        $list  = $this->t_lesson_info_b3->get_tea_list($start,$end);
+        $list  = $this->t_teacher_info->get_tea_list($start,$end);
 
         dd($list);
 
