@@ -60,7 +60,7 @@
                         <td ><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{$var["student_nick"]}}</a></td>
                         <td >{{$var['phone']}}</td>
                         <td >{{$var["lesson_count"]}}</td>
-                        <td >{{$var["count"]}}</td>
+                         <td class="show_detail" date-teacherid="{{$var['teacherid']}}"><a>{{@$var["count"]}}</a></td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject"]}}</td>
 			            <td >{{$var["grade"]}}</td>
@@ -76,6 +76,15 @@
         </table>
 
         @include("layouts.page")
+        <div style="display:none;" >
+            <div id="id_assign_log">
+                <table   class="table table-bordered "   >
+                    <tr>  <th> 时间 <th>课时 <th>老师 <th>助教 </tr>
+                        <tbody class="data-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
     </section>
     
 @endsection
