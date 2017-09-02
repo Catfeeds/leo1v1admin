@@ -1060,10 +1060,10 @@ class Common {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
-                $item['become_member_time']=$admin_item["become_member_time"];
-                $item['leave_member_time']=$admin_item["leave_member_time"];
-                $item['create_time']=$admin_item["create_time"];
-                $item['del_flag']=$admin_item["del_flag"];
+                $item['become_member_time']=0;
+                $item['leave_member_time']=0;
+                $item['create_time']=0;
+                $item['del_flag']=0;
                 //$item['account']=
             }
 
