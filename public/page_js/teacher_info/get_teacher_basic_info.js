@@ -95,7 +95,7 @@ $(function(){
         }
     });
     $('.opt-bank').on('click', function (){
-        $(this).parent().remove();
+        $(this).parent().parent().parent().remove();
         $('.div-bank').removeClass('hide');
         $('.btn-bank').click();
     });
