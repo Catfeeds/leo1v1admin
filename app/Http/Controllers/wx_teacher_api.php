@@ -458,17 +458,30 @@ class wx_teacher_api extends Controller
 
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
+
+        // 计算目前的奖金总额
+        $total_money = $this->t_teacher_day_luck_draw->get_total_money();
+
+        if($total_money > 2000){ // 超过经费额度 则所有人都显示未中奖
+            return $this->output_succ();
+        }
+
         // 判断是否有 录制试讲||分享朋友圈
 
         $is_share = $this->t_wx_share->get_share_flag($teacherid);
         $is_video = $this->t_teacher_lecture_info->get_video_flag($teacherid);
 
-        $num = $this->t_teacher_day_luck_draw->compute_time();
-        if($num>2){
-
+        $total_num = 1;
+        if($is_share || $is_video){ //抽奖次数 增加3次
+            $total_num = 4;
         }
-        // $level = $this->get_in_int_val('level'); // 中奖等级
-        $rand = mt_rand(0,100000);
+
+        $num = $this->t_teacher_day_luck_draw->compute_time();
+        if($num>=$total_num){
+            return $this->output_err('您的抽奖次数已用完!');
+        }
+
+        $rand  = mt_rand(0,100000);
         $money = 0;
 
         if($rand>1000 && $rand<=1035){ // 中 91.0元
@@ -481,7 +494,14 @@ class wx_teacher_api extends Controller
 
         }
 
-        echo $money;
+        $ret = $this->t_teacher_day_luck_draw->row_insert([
+            'do_time'   => time(),
+            'teacherid' => $teacherid,
+            'money'     => $money,
+        ]);
+
+        $real_money = $money/100;
+        return $this->output_succ(['data'=>$real_money]);
 
     }
 

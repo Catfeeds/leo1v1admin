@@ -2008,6 +2008,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            'contract_status=0 or  contract_status is null',
        ];
        $this->where_arr_add_time_range($where_arr,"require_time",1504195200,time(null));
+       $this->where_arr_add_time_range($where_arr,"l.lesson_end",1504195200,time(null));
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
 
        $sql= $this->gen_sql_new(

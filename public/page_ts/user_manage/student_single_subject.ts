@@ -40,11 +40,8 @@ $(function(){
 	$('.show_detail').on("click",function(){
 		var data            = $(this).get_opt_data();
         var teacherid = $(this).attr('date-teacherid');
-        var assistantid = $(this).attr('date-assistantid');
+        var subject = $(this).attr('date-subject');
         var studentid   = $(this).attr('date-studentid');
-        alert(teacherid);
-        alert(assistantid);
-        alert(studentid);
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
         var html_node    = $.obj_copy_node("#id_assign_log");
@@ -57,14 +54,12 @@ $(function(){
 
         $.do_ajax('/ajax_deal2/show_student_single_subject',{
             'teacherid' : teacherid,
-            'assistantid':assistantid,
+            'subject':subject,
             'studentid' :studentid,
             'start_time':start_time,
             'end_time'  : end_time,
         },function(result){
             var data     = result['data'];
-            alert(data);
-            console.log(data);
             var html_str = "";
             $.each(data, function (i, item) {
                 var cls = "success";
