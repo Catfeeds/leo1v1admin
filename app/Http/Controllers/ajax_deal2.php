@@ -993,8 +993,29 @@ class ajax_deal2 extends Controller
 
     public function get_lesson_stu_tea_time(){
         $lessonid = $this->get_in_int_val("lessonid");
-        $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid");
+        $info = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_end");
         $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
+        $user_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
+        $stu_time = 0;
+        foreach($user_in as $k=>$val){
+            if(isset($user_out[$k])){
+                $stu_time +=$user_out[$k]["opt_time"]-$val["opt_time"];
+            }else{
+                 $stu_time +=$info["lesson_end"]-$val["opt_time"];
+            }
+        }
+
+        $user_in = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
+        $user_out = $this->t_lesson_opt_log->get_time_by_lesson($lessonid,$info["userid"],1);
+        $stu_time = 0;
+        foreach($user_in as $k=>$val){
+            if(isset($user_out[$k])){
+                $stu_time +=$user_out[$k]["opt_time"]-$val["opt_time"];
+            }else{
+                $stu_time +=$info["lesson_end"]-$val["opt_time"];
+            }
+        }
+
     }
 
 }
