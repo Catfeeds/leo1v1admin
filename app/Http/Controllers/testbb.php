@@ -49,11 +49,13 @@ class testbb extends Controller
 
 
     public function test () {
-        // $this->t_pdf_to_png_info->row_insert([
-        //     'lessonid'    => $lessonid,
-        //     'pdf_url'     => $pdf_url,
-        //     'create_time' => time()
-        // ]);
+        $lessonid = '247905';
+        $pdf_url  = '2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf';
+        $this->t_pdf_to_png_info->row_insert([
+            'lessonid'    => $lessonid,
+            'pdf_url'     => $pdf_url,
+            'create_time' => time()
+        ]);
 
 
         // $t = $this->get_in_int_val('t',-1);
