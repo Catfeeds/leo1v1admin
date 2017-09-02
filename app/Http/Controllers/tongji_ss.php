@@ -3360,8 +3360,8 @@ class tongji_ss extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $month_test_lesson_num = $this->get_in_int_val("month_test_lesson_num",22);
         $month = intval(date("m",$start_time));
-        $month_except_arr = [2=>1666,3=>2866,4=>3933,5=>5200,6=>6666];
-        $except_test_num = $month_except_arr[$month];
+        $month_except_arr = [2=>1666,3=>2866,4=>3933,5=>5200,6=>6666,7=>6666,8=>6666,9=>6666,10=>6666,11=>6666,12=>6666];
+        $except_test_num = @$month_except_arr[$month];
         $except_test_lesson_num = $this->get_in_int_val("except_test_lesson_num",$except_test_num);
         //$month_start = strtotime(date("Y-m-01",time()));
         $last_month_start = strtotime(date("Y-m-01",$start_time-300));

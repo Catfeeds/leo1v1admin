@@ -195,7 +195,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释 
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释
             }
 
             // 给投诉老师反馈
@@ -442,6 +442,13 @@ class wx_teacher_api extends Controller
         return $this->output_succ(["money"=>$money]);
     }
 
+
+    // 教师节抽奖接口 [招师部]
+    // t_teacher_lecture_info  录制试讲
+    public function update_is_share(){ // 更新是否分享朋友圈
+        $teacherid = $this->get_teacherid();
+
+    }
 
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
