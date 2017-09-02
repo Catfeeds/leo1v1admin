@@ -698,7 +698,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
-    public function tongji_test_lesson_origin_info( $origin,$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info=''){
+    public function tongji_test_lesson_origin_info( $origin='',$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info=''){
         switch ( $field_name ) {
         case "origin" :
             $field_name="s.origin";
@@ -717,7 +717,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $where_arr=[
             ["s.origin like '%%%s%%' ",$origin,""],
-            ["{$field_name}=%s",$check_value,""],
+            ["$field_name=%s",$check_value,""],
         ];
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
