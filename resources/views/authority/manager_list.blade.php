@@ -106,6 +106,7 @@
                     <td > 咨询师等级</td>
                     <td > 入职时间</td>
                     <td > 离职时间</td>
+                    <td > 打电话账号</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -130,6 +131,7 @@
                             <td>{{$var["seller_level_str"]}}</td>
                             <td>{{$var["become_time"]}}</td>
                             <td>{{$var["leave_time"]}}</td>
+                            <td>{{$var["tquin"]}}</td>
                             <td  >
                                 <div class="div-row-data"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
