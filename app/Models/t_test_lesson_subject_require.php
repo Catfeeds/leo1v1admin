@@ -716,7 +716,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         }
 
         $where_arr=[
-            ["o.origin like '%%%s%%' ",$origin,""],
+            ["s.origin like '%%%s%%' ",$origin,""],
         ];
         if($check_value) {
             $where_arr[]= "{$field_name}='{$check_value}'";
