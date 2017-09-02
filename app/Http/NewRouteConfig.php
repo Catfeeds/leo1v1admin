@@ -234,6 +234,9 @@ class NewRouteConfig {
         "/user_manage/tongji_cc"                                => true,
         "/user_manage/student_single_subject"                   => true,
         "/user_manage/stu_all_teacher"                          => true,
+        "/user_manage/get_stu_grade_info_month"                 => true,
+        "/user_manage/get_stu_subject_info_month"                 => true,
+        
 
 
         "/authority/get_account_role" => true,

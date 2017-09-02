@@ -729,7 +729,10 @@ class user_deal extends Controller
         $old_lesson_total = $this->get_in_int_val("old_lesson_total");
         $lesson_left      = $this->get_in_int_val("lesson_left");
 
+        if($lesson_total != $old_lesson_total){
 
+            
+        }
 
         return $this->output_succ();
     }
