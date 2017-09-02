@@ -1183,7 +1183,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_test_lesson_list($start_time,$end_time,$userid = -1,$lessonid = 0){
+    public function get_test_lesson_list($start_time,$end_time,$userid = -1,$lessonid = 0,$lzx=-1){
         $type = 1;
         if($lessonid){//手动刷新
             $type = 0;
@@ -1222,14 +1222,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             }
         }
         if(count($lesson_arr)>0){
-            $ret = $this->update_lesson_call($lesson_arr,$type);
+            $ret = $this->update_lesson_call($lesson_arr,$type,$lzx);
             if(!$type){
                 return $ret;
             }
         }
     }
 
-    public function update_lesson_call($lesson_arr,$type){//type:是否要求回访打通,1定时刷新,0手动刷新
+    public function update_lesson_call($lesson_arr,$type,$lzx=-1){//type:是否要求回访打通,1定时刷新,0手动刷新
         foreach($lesson_arr as $item){
             $lessonid     = $item['lessonid'];
             $tquin        = (int)$item['tquin'];
@@ -1273,6 +1273,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             }
             if(count($call_end_time_arr)>0){
                 $call_end_time = min($call_end_time_arr);
+            }
+            if($lzx == 898){
+                if(!$call_end_time){
+                    $call_end_time = time();
+                }
             }
             $ret = $this->task->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
                 "call_before_time" => $call_before_time,

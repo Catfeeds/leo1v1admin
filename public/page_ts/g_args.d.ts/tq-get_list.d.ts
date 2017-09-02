@@ -1,10 +1,10 @@
 interface GargsStatic {
+	phone:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	phone:	string;
 	is_called_phone:	number;//App\Enums\Eboolean
 	uid:	number;
 	page_num:	number;
@@ -45,12 +45,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			phone:	$('#id_phone').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			phone:	$('#id_phone').val(),
 			is_called_phone:	$('#id_is_called_phone').val(),
 			uid:	$('#id_uid').val(),
 			seller_student_status:	$('#id_seller_student_status').val()
