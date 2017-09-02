@@ -721,9 +721,8 @@ class ajax_deal2 extends Controller
         foreach ($ret_info as &$item) {
             # code...
             $this->cache_set_item_teacher_nick($item,"teacherid","teacher_nick");
-            $this->cache_set_item_assistant_nick($item,"assistant","assistant_nick");
+            $this->cache_set_item_assistant_nick($item,"assistantid","assistant_nick");
         }
-	dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
         # code...
     }

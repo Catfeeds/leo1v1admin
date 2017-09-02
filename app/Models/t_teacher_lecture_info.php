@@ -1789,4 +1789,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         });
  
     }
+
+
+    public function get_video_flag($teacherid){
+        $sql = $this->gen_sql_new("  select tl.id from %s tl "
+                                  ." left join %s t on t.phone=tl.phone"
+        );
+    }
 }

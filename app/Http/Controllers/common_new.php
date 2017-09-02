@@ -1043,8 +1043,6 @@ class common_new extends Controller
         }
     }
 
-
-
     public function send_to_no_contract_stu(){
         $start_time = strtotime('2017-06-01');
         $end_time   = strtotime('2017-09-01');
