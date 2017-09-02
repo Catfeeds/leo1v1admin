@@ -13,8 +13,8 @@
      .ft24{
          font-size:24px;
      }
-     .ft22{
-         font-size:22px;
+     .ft18{
+         font-size:18px;
      }
      .text-cen{
          text-align:center;
@@ -29,8 +29,8 @@
          border-top:1px solid #ccc;
          margin-bottom:10px;
      }
-     .color-6{
-         color:#666;
+     .color-9{
+         color:#999;
      }
      .color-red{
          color:red;
@@ -79,11 +79,11 @@
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
                                 <h3><span  class="color-blue">{{$my_info['days']}}</span><span class="ft14">天</span></h3>
-                                <p class="color-6">入职天数</p>
+                                <p class="color-9">入职天数</p>
                             </div>
                             <div class="col-sm-6">
                                 <h3><span  class="color-blue">{{$my_info['normal_count']}}</span><span class="ft14">课时</span></h3>
-                                <p class="color-6">总课耗</p>
+                                <p class="color-9">总课耗</p>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
                         <div class="row">
-                            <p class="text-cen color-6">信息完整度100%后，此模块可关闭</p>
+                            <p class="text-cen color-9">信息完整度100%后，此模块可关闭</p>
                         </div>
                     </div>
                     <!-- /.box-footer -->
@@ -138,7 +138,7 @@
                         <h3 class="box-title text-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
                         <div class="box-tools pull-right">
                             <b class="color-red" data-status="full">饱和</b>
-                            <b class="color-red" data-status="nofull">不饱和</b>
+                            <b style="color:#00b798" data-status="nofull">不饱和</b>
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -151,8 +151,8 @@
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
                                     <p data-status="nofull"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
                                     <br>
-                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft22">设置不饱和</button>
-                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft22">设置饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft18">设置不饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft18">设置饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -181,9 +181,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if ($my_info['jianli'])
-                                        <button type="button" data-pdf="{{$my_info['jianli']}}" class="btn btn-block btn-info opt-show ft22">查看简历</button>
+                                        <button type="button" data-pdf="{{$my_info['jianli']}}" class="btn btn-block btn-info opt-show ft18">查看简历</button>
                                     @else
-                                        <button type="button" id="jianli" data-val="jianli" class="btn btn-block btn-info opt-upload ft22">上传简历</button>
+                                        <button type="button" id="jianli" data-val="jianli" class="btn btn-block btn-info opt-upload ft18">上传简历</button>
                                     @endif
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                     <div class="box-footer no-border">
                         <div class="row text-cen">
                             @if ($my_info['jianli'])
-                                <a href="javascript:;" class="color-6 opt-upload"  id="jianli" data-val="jianli" >重新上传</a>
+                                <a href="javascript:;" class="color-9 opt-upload"  id="jianli" data-val="jianli" >重新上传</a>
                             @endif
                         </div>
                     </div>
@@ -215,9 +215,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (@$my_info['seniority'])
-                                        <button type="button" data-pdf="{{$my_info['seniority']}}" class="btn btn-block btn-info opt-show ft22">查看资格证</button>
+                                        <button type="button" data-pdf="{{$my_info['seniority']}}" class="btn btn-block btn-info opt-show ft18">查看资格证</button>
                                     @else
-                                        <button type="button" id="seniority" data-val="seniority" class="btn btn-block btn-info opt-upload ft22">上传资格证</button>
+                                        <button type="button" id="seniority" data-val="seniority" class="btn btn-block btn-info opt-upload ft18">上传资格证</button>
                                     @endif
 
                                 </div>
@@ -228,7 +228,7 @@
                     <div class="box-footer no-border">
                         <div class="row">
                             @if (@$my_info['seniority'])
-                                <a href="javascript:;" class="color-6 opt-upload"  id="seniority" data-val="seniority" >重新上传</a>
+                                <a href="javascript:;" class="color-9 opt-upload"  id="seniority" data-val="seniority" >重新上传</a>
                             @endif
                         </div>
                     </div>
@@ -250,9 +250,9 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (@$my_info['prove'])
-                                        <button type="button" data-pdf="{{$my_info['prove']}}" class="btn btn-block btn-info opt-show ft22">查看公校证明</button>
+                                        <button type="button" data-pdf="{{$my_info['prove']}}" class="btn btn-block btn-info opt-show ft18">查看公校证明</button>
                                     @else
-                                        <button type="button" id="prove" data-val="prove" class="btn btn-block btn-info opt-upload ft22">上传公校证明</button>
+                                        <button type="button" id="prove" data-val="prove" class="btn btn-block btn-info opt-upload ft18">上传公校证明</button>
                                     @endif
                                 </div>
                             </div>
@@ -262,7 +262,7 @@
                     <div class="box-footer no-border">
                         <div class="row">
                             @if (@$my_info['prove'])
-                                <a href="javascript:;" class="color-6 opt-upload"  id="prove" data-val="prove" >重新上传</a>
+                                <a href="javascript:;" class="color-9 opt-upload"  id="prove" data-val="prove" >重新上传</a>
                             @endif
                         </div>
                     </div>
@@ -338,10 +338,10 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-6 ft14">编辑</span>
+                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
                             </button>
-                            <button type="button" class="btn btn-box-tool hide color-6" data-toggle="modal" data-target="#modal-default"><span class="color-6 ft14">取消</span></button>
-                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info"><span class="color-6 ft14">保存</span></button>
+                            <button type="button" class="btn btn-box-tool hide color-9" data-toggle="modal" data-target="#modal-default"><span class="color-9 ft14">取消</span></button>
+                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info"><span class="color-9 ft14">保存</span></button>
                         </div>
                     </div>
                     <div class="bor-hr"></div>
@@ -349,7 +349,7 @@
                         <div class="chart">
                             <div class="row">
                                 <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info" id="user-info">
-                                    <p class="color-6">个人信息</p>
+                                    <p class="color-9">个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>ID</th>
@@ -398,7 +398,7 @@
                                             <td> {{$my_info['create_time']}} </td>
                                         </tr>
                                     </table>
-                                    <p class="color-6">教学信息</p>
+                                    <p class="color-9">教学信息</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>教龄</th>
@@ -424,7 +424,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <p class="color-6">教学背景</p>
+                                    <p class="color-9">教学背景</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>身份</th>
@@ -441,25 +441,25 @@
                                         <tr>
                                             <th>最高学历</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
+                                                <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
 
                                             <th>专业</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
+                                                <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>兴趣爱好</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
+                                                <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
                                             <th>个人特长</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
+                                                <span class="color-9">未填写</span>
                                                 <input type="text" name="noname" class="hide" placeholder="未填写">
                                             </td>
                                         </tr>
@@ -519,7 +519,6 @@
                                                         <option>交通银行</option>
                                                         <option>招商银行</option>
                                                         <option>中国银行</option>
-                                                        <option>中国邮政</option>
                                                     </select>
 
                                                 </td>
@@ -561,7 +560,7 @@
                                                     hide
                                                     @endif
                                                     ">
-                                        <button type="button" class="btn btn-info btn-bank ft22">绑定银行卡</button>
+                                        <button type="button" class="btn btn-info btn-bank ft18">绑定银行卡</button>
                                     </div>
                             </div>
                         </div>
