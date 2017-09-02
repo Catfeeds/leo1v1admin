@@ -548,9 +548,9 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
-
+        //订单地区占比
         $order_area_map   = [];
-        $order_data = $this->t_order_info->tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
+        $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
 
         foreach ($order_data as $a_item) {
             $area_name = substr($a_item["phone_location"], 0, -6);
@@ -566,7 +566,7 @@ class tongji_ss extends Controller
         $data_map=&$ret_info["list"];
         //试听信息
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
@@ -575,7 +575,7 @@ class tongji_ss extends Controller
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
         //去掉重复userid
-        $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
+        $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
 
         foreach ($distinct_test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
@@ -583,7 +583,7 @@ class tongji_ss extends Controller
         }
 
 
-        $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+        $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex, $origin);
         foreach ($require_list as  $item ) {
             $check_value=$item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
@@ -594,7 +594,7 @@ class tongji_ss extends Controller
         $this->t_order_info->switch_tongji_database();
         //合同
         // dd($field_name,$origin_ex);
-        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
