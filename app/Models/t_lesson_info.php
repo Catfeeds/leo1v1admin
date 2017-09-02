@@ -9250,23 +9250,24 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_stu_all_teacher($assistantid)
+    public function get_stu_all_teacher($page_info,$assistantid)
     {
         $where_arr = [
             ["s.assistantid = %u",$assistantid,0],
             "c.course_type  =0",
             "c.course_status =0",
+            "c.teacherid!=0"
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.phone,t.grade_part_ex ,t.subject"
+        $sql = $this->gen_sql_new("select c.teacherid,t.phone,t.grade_part_ex ,t.subject"
                                   ." from %s s"
                                   ." left join %s c on s.userid = c.userid "
                                   ." left join %s t on c.teacherid = t.teacherid "
-                                  ." where %s"
+                                  ." where %s group by c.teacherid"
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_course_order::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 }
