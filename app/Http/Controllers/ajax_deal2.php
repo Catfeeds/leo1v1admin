@@ -717,7 +717,11 @@ class ajax_deal2 extends Controller
         $start_time  = strtotime($this->get_in_str_val("start_time"));
         $end_time    = strtotime($this->get_in_str_val("end_time"));
         $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$assistantid,$studentid);
-	dd($ret_info);
+        foreach ($ret_info as $key => $value) {
+            # code...
+            $this->cache_set_item_teacher_nick($value['teacherid']);
+            $this->cache_set_item_assistant_nick($value['assistantid']);
+        }
         return $this->output_succ(['data'=>$ret_info]);
         # code...
     }
