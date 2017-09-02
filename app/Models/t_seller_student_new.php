@@ -1226,6 +1226,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time ");
 
             $set_arr=[];
+            $set_arr["last_revisit_time"]=$call_time;//最后回访时间
             if ($item["tq_called_flag"]<$tq_called_flag) {
                 $set_arr["tq_called_flag"]=$tq_called_flag;
             }
