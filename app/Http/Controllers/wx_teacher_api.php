@@ -459,8 +459,10 @@ class wx_teacher_api extends Controller
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
 
+        $this->t_teacher_day_luck_draw->compute_time();
         // $level = $this->get_in_int_val('level'); // 中奖等级
         $rand = mt_rand(0,100000);
+        $money = 0;
 
         if($rand>1000 && $rand<=1035){ // 中 91.0元
             $money = '9100'; // 单位分
@@ -468,6 +470,8 @@ class wx_teacher_api extends Controller
             $money = '910'; // 单位分
         }elseif($rand>20000 && $rand<33000){ // 中0.91元
             $money = '91'; // 单位分
+        }else{
+
         }
 
         echo $money;
