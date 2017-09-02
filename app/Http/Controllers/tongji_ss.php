@@ -548,12 +548,19 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
-        //订单地区占比
-        $order_area_map   = [];
+        //订单占比
+        $order_area_map    = [];
+        $order_subject_map = [];
+        $order_grade_map   = [];
         $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
 
         foreach ($order_data as $a_item) {
+            $subject   = $a_item["subject"];
+            $grade     = $a_item["grade"];
             $area_name = substr($a_item["phone_location"], 0, -6);
+            @$order_subject_map[$subject] ++;
+            @$order_grade_map[$grade] ++;
+
             if (strlen($area_name)>5) {
                 @$order_area_map[$area_name] ++;
             } else {
@@ -801,10 +808,12 @@ class tongji_ss extends Controller
             "has_pad_map"      => $has_pad_map,
             "origin_level_map" => $origin_level_map,
             "area_map"         => $area_map,
-            "order_area_map"   => $order_area_map,
             "group_list"       => $group_list,
             "field_name"       => $field_name,
             "origin_type"      => $origin_type,
+            "order_area_map"   => $order_area_map,
+            "order_subject_map"=> $order_subject_map,
+            "order_grade_map"  => $order_grade_map,
         ]);
     }
 
