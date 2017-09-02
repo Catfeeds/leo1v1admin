@@ -2520,6 +2520,7 @@ class user_manage extends Controller
             $item['lesson_count']   = $item['lesson_count']/100;
             $item["count_per"]      = $item['lesson_count']/$item['count'];
         }
+	dd($ret_list);
         return $this->Pageview(__METHOD__,$ret_list );
     }
 }
