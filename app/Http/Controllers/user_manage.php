@@ -2193,9 +2193,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-	if($ret_info['list'][$key]['total_score']){
-	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-	}
+    	if($ret_info['list'][$key]['total_score']){
+    	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+    	}
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
@@ -2472,13 +2472,13 @@ class user_manage extends Controller
         }
         $arr['list'] = $ret_student_subject;
         return $this->pageView(__METHOD__, $arr);
-   }
+    }
 
      /**
      * @author    sam
      * @function  学生单科目统计
      */
-   public function student_single_subject() {
+    public function student_single_subject() {
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
         $assistantid=$this->get_in_assistantid(-1);
@@ -2521,19 +2521,22 @@ class user_manage extends Controller
             $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
         return $this->Pageview(__METHOD__,$ret_list );
+    
     }
     public function stu_all_teacher()
     {
         $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
-        if($assistantid){
+        if($assistantid == 0){
             $assistantid = 190500;
         }
-        $ret_info = $this->t_lesson_info->get_stu_all_teacher($assistantid);
+        $page_info=$this->get_in_page_info();
+        $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){
             $ret_info['list'][$key]['num'] = $key + 1;
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             $item["teacher_nick"]      = $this->cache_get_teacher_nick ($item["teacherid"] );
         }
+        return $this->pageView(__METHOD__,$ret_info);
     }
 }

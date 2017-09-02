@@ -716,6 +716,7 @@ function init_edit() {
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
+            var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
             var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
@@ -1159,7 +1160,8 @@ function init_edit() {
                             stu_character_info:id_stu_character_info.val(),
                             stu_request_test_lesson_time_info:id_stu_request_test_lesson_time_info.data("v"),
                             stu_request_lesson_time_info:id_stu_request_lesson_time_info.data("v"),
-                            has_pad       : id_has_pad.val()
+                            has_pad       : id_has_pad.val(),
+                            intention_level       : id_intention_level.val()
                         });
 
                     }

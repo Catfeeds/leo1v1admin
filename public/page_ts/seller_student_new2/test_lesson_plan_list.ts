@@ -947,6 +947,8 @@ $(function(){
 
     $(" .opt-binding-course-order ").on("click", function() {
         var opt_data = $(this).get_opt_data();
+        alert(opt_data.require_id);
+
         console.log(opt_data.lessonid);
 
         $("<div></div>").admin_select_dlg_ajax({

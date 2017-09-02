@@ -297,6 +297,7 @@ class ss_deal extends Controller
 
 
         $has_pad       = $this->get_in_int_val("has_pad");
+        $intention_level       = $this->get_in_int_val("intention_level");
         $user_desc     = $this->get_in_str_val("user_desc");
         $next_revisit_time     = $this->get_in_str_val("next_revisit_time");
         $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");
@@ -467,7 +468,8 @@ class ss_deal extends Controller
         $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
-                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand
+                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
+                "intention_level"                    => $intention_level
             ]);
         }
         return $this->output_succ();
