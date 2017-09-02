@@ -724,14 +724,14 @@
 @endsection
 
 <div class="modal fade" id="modal-default">
-    <div class="modal-dialog" style="width:60%">
+    <div class="modal-dialog" style="width:60%;border-top:3px solid #00A6FF;border-radius:3px">
         <div class="modal-content">
             <div class="modal-header">
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title"></h4>
+                <h3 class="modal-title color-blue"></h3>
             </div>
             <div class="modal-body">
             </div>
