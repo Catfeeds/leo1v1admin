@@ -72,8 +72,8 @@ $(function(){
                 html_str += "<tr class=\"" + cls + "\" > <td>" 
                 		 + item.lesson_start+'-'+item.lesson_end 
                 		 + "<td>" + item.count + "<td>" 
-                		 + item.teacherid +"<td>"
-                		 +item.assistantid
+                		 + item.teacher_nick +"<td>"
+                		 +item.assistant_nick
                 		 + "</tr>";
             });
 
