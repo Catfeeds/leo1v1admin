@@ -3795,7 +3795,7 @@ class human_resource extends Controller
         $identity               = $this->get_in_int_val("identity",-1);
         $class_will_type        = $this->get_in_int_val("class_will_type",-1);
         $have_lesson            = $this->get_in_int_val("have_lesson",0);
-        $revisit_flag           = $this->get_in_int_val("revisit_flag",-1);
+        $revisit_flag           = $this->get_in_int_val("revisit_flag",0);
         $textbook_flag          = $this->get_in_int_val("textbook_flag",0);
 
         $adminid = $this->get_account_id();

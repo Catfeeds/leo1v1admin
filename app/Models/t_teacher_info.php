@@ -1591,7 +1591,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_assign_jw_adminid_info($page_num,$adminid,$teacherid,$grade_part_ex,$subject,$second_subject,$identity,$jw_adminid,$class_will_type,$have_lesson,$revisit_flag,$textbook_flag){
-        $where_arr=[
+        $where_arr = [
             ["t.teacherid=%u",$teacherid,-1],
             ["grade_part_ex=%u",$grade_part_ex,-1],
             ["t.subject=%u",$subject,-1],
@@ -3393,34 +3393,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_list($sql);
-    }
-
-    public function get_math_teacher($start,$end){
-        $where_arr = [
-            ["lesson_start>%u",$start,0],
-            ["lesson_end<%u",$end,0],
-            "lesson_type=2",
-            "lesson_del_flag=0",
-            "l.subject=2",
-            "t.is_test_user=0"
-        ];
-        $sql = $this->gen_sql_new("select count(1) as lesson_num,l.teacherid,t.subject,t.second_subject,"
-                                  ." grade_start,grade_end,second_grade_start,second_grade_end,t.realname,"
-                                  ." t.phone,t.test_transfor_per,t.train_through_new_time,count(c.userid) as has_order,"
-                                  ." t.grade_part_ex,t.second_grade"
-                                  ." from %s l"
-                                  ." left join %s t on l.teacherid=t.teacherid"
-                                  ." left join %s c on l.teacherid=c.teacherid and l.userid=c.userid and c.course_type in (0,1,3)"
-                                  ." where %s "
-                                  ." group by l.teacherid"
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,t_course_order::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql,function($item){
-            return $item['teacherid'];
-        });
     }
 
 }

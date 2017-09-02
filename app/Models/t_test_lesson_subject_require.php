@@ -698,7 +698,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
-    public function tongji_test_lesson_origin_info( $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value, $page_info){
+    public function tongji_test_lesson_origin_info( $origin,$field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value='', $page_info=''){
         switch ( $field_name ) {
         case "origin" :
             $field_name="s.origin";
@@ -716,8 +716,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         }
 
         $where_arr=[
-            "{$field_name}='{$check_value}'",
+            ["o.origin like '%%%s%%' ",$origin,""],
         ];
+        if($check_value) {
+            $where_arr[]= "{$field_name}='{$check_value}'";
+
+        }
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
@@ -725,7 +729,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid, s.phone, s.grade, s.nick, tss.success_flag"
+            "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid,"
+            ." s.phone_location, s.phone, t.grade,t.subject, s.nick, tss.success_flag"
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
@@ -744,7 +749,11 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_student_info::DB_TABLE_NAME,
             $where_arr,$start_time,$end_time );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        if ($page_info) {
+            return $this->main_get_list_by_page($sql,$page_info);
+        } else {
+            return $this->main_get_list($sql);
+        }
     }
 
 

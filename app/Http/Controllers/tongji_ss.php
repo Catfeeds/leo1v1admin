@@ -568,6 +568,26 @@ class tongji_ss extends Controller
             }
 
         }
+        //试听占比
+        $test_area_map    = [];
+        $test_subject_map = [];
+        $test_grade_map   = [];
+        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
+        foreach ($test_data as $a_item) {
+            $subject   = $a_item["subject"];
+            $grade     = $a_item["grade"];
+            $area_name = substr($a_item["phone_location"], 0, -6);
+            @$test_subject_map[$subject] ++;
+            @$test_grade_map[$grade] ++;
+
+            if (strlen($area_name)>5) {
+                @$test_area_map[$area_name] ++;
+            } else {
+                @$test_area_map[""] ++;
+            }
+
+        }
+
 
         ///  测试区
         $data_map=&$ret_info["list"];
@@ -659,9 +679,6 @@ class tongji_ss extends Controller
             }
 
         }
-
-
-
 
         $group_list = $this->t_admin_group_name->get_group_list(2);
 
@@ -814,6 +831,9 @@ class tongji_ss extends Controller
             "order_area_map"   => $order_area_map,
             "order_subject_map"=> $order_subject_map,
             "order_grade_map"  => $order_grade_map,
+            "test_area_map"   => $test_area_map,
+            "test_subject_map"=> $test_subject_map,
+            "test_grade_map"  => $test_grade_map,
         ]);
     }
 

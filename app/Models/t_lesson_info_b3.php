@@ -58,4 +58,28 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         return $this->main_get_list($sql);
     }
+
+    public function get_tea_list($start,$end){
+        $where_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
+            "confirm_flag!=2",
+            "assign_jw_adminid=0",
+            "lesson_status=2"
+        ];
+        $sql = $this->gen_sql_new("select dispatch(t.teacherid)"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
+
 }
