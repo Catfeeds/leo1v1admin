@@ -1404,10 +1404,16 @@ class user_manage extends Controller
     }
 
     public function get_stu_grade_info_month(){
-        $start_time = strtotime("2017-01-01");
-        for($i=0;$i<=9;$i++){
-            echo $i;
+        $this->switch_tongji_database();
+        $start = strtotime("2017-01-01");
+        $arr=[];
+        for($i=1;$i<=9;$i++){
+            $time = strtotime(date("Y-m-01",$start+$i*32*86400));
+            //echo date("Y-m-01",$start+$i*32*86400);
+            $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
+            dd($arr);
         }
+        dd($arr);
     }
 
     public function user_login_list(){

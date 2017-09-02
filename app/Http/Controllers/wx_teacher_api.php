@@ -448,9 +448,9 @@ class wx_teacher_api extends Controller
     public function update_is_share(){ // 更新是否分享朋友圈
         $teacherid = $this->get_teacherid();
 
-        $this->t_wx_share->row_insert([
-            'teacherid' => $teacherid,
-            'type'      => 1,
+        $ret = $this->t_wx_share->row_insert([
+            'teacherid'  => $teacherid,
+            'type'       => 1, // 分享类型 1:微信朋友圈
             'share_time' => time()
         ]);
 
@@ -458,6 +458,14 @@ class wx_teacher_api extends Controller
 
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
         $teacherid = $this->get_teacherid();
+
+        // $level = $this->get_in_int_val('level'); // 中奖等级
+        $rand = mt_rand(0,100000);
+
+        if($rand>1000 && $rand<=1035){ // 中 91.0元
+            
+        }
+
     }
 
 
