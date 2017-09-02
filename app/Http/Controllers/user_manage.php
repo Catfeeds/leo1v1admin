@@ -1302,11 +1302,13 @@ class user_manage extends Controller
                 }
                 $this->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $ret_info['id'],
+                    'aid'         => $aid,
                     'pid'         => $pid,
-                    'p_price'     => $p_price,
+                    'p_price'     => $p_level,
+                    'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
+                    'pp_level'    => $level2,
                     'create_time' => time(null),
                 ]);
 
@@ -1320,7 +1322,7 @@ class user_manage extends Controller
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    // \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
                 }
 
                 if($pp_wx_openid && $pp_price){
@@ -1333,7 +1335,7 @@ class user_manage extends Controller
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
                     ];
                     $url = '';
-                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                    // \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
                 }
             }
         }
@@ -2510,9 +2512,13 @@ class user_manage extends Controller
         $ret_list=$this->t_lesson_info->get_single_confirm_lesson_list_user($page_num,$start_time,$end_time,
                                 $assistantid,$teacherid,$studentid,$num);
         foreach($ret_list['list'] as &$item ){
+            $ret_info['list'][$key]['num'] = $key + 1;
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
+            $item["subject"]        = E\Esubject::get_desc($item["subject"]);
+            $item['lesson_count']   = $item['lesson_count']/100;
+            $item["count_per"]      = $item['lesson_count']/$item['count'];
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }

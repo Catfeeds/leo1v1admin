@@ -42,25 +42,26 @@
         <table   class="common-table"   >
             <thead>
                 <tr>
-
-                    <td >userid</td>
-                    <td >昵称</td>
-                    <td >grade</td>
-                    <td >助教</td>
-                    <td >课时数</td> 
-                    <td >总次数</td> 
+                    <td >#</td>
+                    <td >学生</td>
+                    <td >电话</td>
+                    <td >课时</td>
+                    <td >课次</td> 
+                    <td >平均课时</td>
+                    <td >科目</td>
                     <td >操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
 				    <tr>
-                        <td >{{$var["userid"]}}</td>
+                        <td >{{$var["num"]}}</td>
                         <td >{{$var["student_nick"]}}</td>
-                        <td >{{$var["grade"]}}</td>
-                        <td >{{$var["assistant_nick"]}}</td>
-                        <td >{{$var["lesson_count"]/100}}</td>
+                        <td >{{$var['phone']}}</td>
+                        <td >{{$var["lesson_count"]}}</td>
                         <td >{{$var["count"]}}</td>
+                        <td >{{$var["count_per"]}}</td>
+                        <td >{{$var["subject"]}}</td>
                         <td >
                             <div 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
