@@ -34,6 +34,7 @@ class deal_pdf_to_png extends cmd_base
      */
     protected $description = 'Command description';
 
+    public $task;
     /**
      * Create a new command instance.
      *
@@ -42,6 +43,7 @@ class deal_pdf_to_png extends cmd_base
     public function __construct()
     {
         parent::__construct();
+        // $this->task
     }
 
     /**
@@ -68,6 +70,13 @@ class deal_pdf_to_png extends cmd_base
             $id       = $item['id'];
             $pdf_url  = $item['pdf_url'];
             $lessonid = $item['lessonid'];
+
+
+            $this->task->t_pdf_to_png_info->field_update_list($id,[
+                "id_do_flag" => 2,
+                "deal_time"  => time()
+            ]);
+
 
             $pdf_file_path = $this->get_pdf_download_url($pdf_url);
 
