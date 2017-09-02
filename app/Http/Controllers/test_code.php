@@ -1929,18 +1929,21 @@ class test_code extends Controller
         }
         $limit_num = ceil($tea_num/$admin_num);
 
-        foreach($admin_list as $a_val){
-            $check_num = 1;
-            foreach($list as $t_val){
-                $this->t_teacher_info->field_update_list($t_val['teacherid'],[
-                    "assign_jw_adminid" => $a_val['uid'],
-                    "assign_jw_time"    => time(),
-                ]);
-                $check_num++;
-                if($check_num==$limit_num){
-                    break;
-                }
+
+        $check_num=0;
+        $key = 0;
+        foreach($list as $t_val){
+            $uid=$admin_list[$key]['uid'];
+            $this->t_teacher_info->field_update_list($t_val['teacherid'],[
+                "assign_jw_adminid" => $uid,
+                "assign_jw_time"    => time(),
+            ]);
+            $check_num++;
+            if($check_num==$limit_num){
+                $key++;
+                $check_num=0;
             }
         }
     }
 }
+
