@@ -27,8 +27,12 @@ class main_page extends Controller
         //得到短信信息
         $sms_list=$this->t_sms_msg->tongji_type_get_list($start_time,$end_time);
         $lesson_info=$this->t_lesson_info->tongji_count($start_time, $end_time);
-        $record_server_list=$this->t_lesson_info_b3->tongji_record_server_info_ex($start_time, $end_time);
-        //$record_server_list=$this->t_lesson_info->tongji_record_server_info($start_time, $end_time);
+        $record_server_list=$this->t_lesson_info->tongji_record_server_info($start_time, $end_time);
+        $server_map= $this->t_audio_record_server->get_server_map();
+
+        foreach ($record_server_list as &$s_item ) {
+            $s_item[""]="";
+        }
 
         foreach ($sms_list as &$item)  {
             E\Esms_type::set_item_value_str($item, "type");

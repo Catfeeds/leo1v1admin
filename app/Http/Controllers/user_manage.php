@@ -1413,7 +1413,9 @@ class user_manage extends Controller
             $arr[$i] = $this->t_student_info->get_stu_grade_info_month($time);
             // dd($arr);
         }
-        dd($arr);
+        $grade_one = $arr[8][101]["num"];
+        $arr[9][101]["num"] =  $arr[9][101]["num"]-$arr[8][101]["num"];
+        // dd($arr);
         $ret_info = \App\Helper\Utils::list_to_page_info($arr);
         return $this->pageView(__METHOD__,$ret_info);
 
