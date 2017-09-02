@@ -1055,8 +1055,28 @@ class common_new extends Controller
     }
     public function check_ssh_login_time() {
         $account=$this->get_in_str_val("account");
+        $remote_host=$this->get_in_str_val("remote_host");
         $ssh_login_time=\App\Helper\Common::redis_get("SSH_LOGIN_TIME_$account");
-        $check_ip_list=[""];
+        $check_ip_list=[
+            //公司网络
+            "116.226.191.6",
+            //外网网互通
+            "118.190.115.161",
+            "118.190.135.205",
+            "118.190.113.96",
+            "121.42.186.59",
+            "121.42.183.163",
+            "114.215.98.161",
+            "114.215.40.128",
+            "115.28.89.73",
+            "114.215.66.38",
+            "118.190.65.189",
+            "118.190.65.193",
+        ];
+        if(in_array($remote_host, $check_ip_list )){
+            return "1";
+        }
+
         if (time(NULL)-$ssh_login_time  < 3600 ){
             return "1";
         }else{

@@ -93,7 +93,7 @@ interface RowData {
 	first_admin_revisiterid	:any;
 	first_admin_revisiterid_time	:any;
 	first_seller_status	:any;
-	lass_call_time_space	:any;
+	last_call_time_space	:any;
 	opt_time	:any;
 	index	:any;
 	seller_student_status_str	:any;

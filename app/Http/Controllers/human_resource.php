@@ -3841,9 +3841,13 @@ class human_resource extends Controller
             }
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            "adminid"   =>$adminid,
-            "jw_list"   =>$jw_list
+            "adminid" => $adminid,
+            "jw_list" => $jw_list
         ]);
+    }
+
+    public function get_check_textbook_list(){
+
     }
 
     public function get_avg_conversion_time($time=0,$decimal_point=0){
@@ -4559,9 +4563,6 @@ class human_resource extends Controller
 
         return $this->pageView(__METHOD__,$tea_list);
     }
-
-
-
 
 
 }

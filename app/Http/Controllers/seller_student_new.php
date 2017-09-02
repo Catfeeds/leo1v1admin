@@ -1453,8 +1453,9 @@ class seller_student_new extends Controller
     }
 
     public function refresh_call_end(){
+        $lzx = $this->get_account_id();
         $lessonid = $this->get_in_int_val('lessonid');
-        $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid,$lzx);
         $this->refresh_test_call_end();
 
         return $ret;

@@ -121,6 +121,19 @@ class authority extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function update_lesson_call_end_time(){
+        $adminid = $this->get_in_int_val('adminid');
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }else{
+            $ret = 1;
+        }
+
+        return $ret;
+    }
 
     public function manager_list_offline()
     {
