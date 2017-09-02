@@ -443,8 +443,8 @@ class wx_teacher_api extends Controller
     }
 
 
-    public function g(){
-        
+    public function teacher_day_luck_draw(){ //教师节抽奖活动//
+        $teacherid = $this->get_teacherid();
     }
 
 
