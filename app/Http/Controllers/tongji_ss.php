@@ -886,6 +886,7 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = '否';
             }
         }
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
