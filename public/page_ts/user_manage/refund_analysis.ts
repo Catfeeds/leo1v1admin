@@ -4,8 +4,10 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            orderid:  g_args.orderid	,
-            apply_time: g_args.apply_time	,
+            orderid       :  g_args.orderid	,
+            apply_time    : g_args.apply_time	,
+            is_test_user  : $("#id_is_test_user").val(),
+
         });
     }
 

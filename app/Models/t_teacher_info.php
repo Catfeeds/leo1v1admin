@@ -828,7 +828,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
         $sql = $this->gen_sql(
             "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
-            ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,"
+            ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
             ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
             ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
             ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
@@ -3251,7 +3251,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school){
+    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
+                                        $phone, $school, $address){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
             "nick"      => $nick,
@@ -3261,6 +3262,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "work_year" => $work_year,
             "phone"     => $phone,
             "school"    => $school,
+            "address"   => $address,
         ]);
         return $res;
     }
