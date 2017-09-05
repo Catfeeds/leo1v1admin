@@ -1438,7 +1438,9 @@ class tongji extends Controller
         list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
             0 => array( "add_time", "资源进来时间"),
             1 => array("tmk_assign_time","微信运营时间"),
-        ] );
+        ]);
+        dd($start_time,$end_time);
+        //date_type_config=undefined&date_type=0&opt_date_type=3&start_time=2017-09-01&end_time=2017-09-30
         $this->t_seller_student_origin->switch_tongji_database();
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
