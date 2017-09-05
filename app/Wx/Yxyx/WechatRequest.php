@@ -20,6 +20,7 @@ use Yxyx\Core\WeChatOAuth;
 use Yxyx\Core\UserManage;
 use Yxyx\Core\Media;
 use Yxyx\Core\AccessToken;
+use Yxyx\Core\ResponseInitiative;
 
 
 class WechatRequest  {
@@ -561,7 +562,7 @@ class WechatRequest  {
             if ( \App\Helper\Utils::check_env_is_release() ) {
                 return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
             }else{
-                \Yxyx\Core\ResponseInitiative::image( $request['tousername'], $mediaId);
+                ResponseInitiative::image( $request['tousername'], $mediaId);
                 //ResponseInitiative::
                 return "";
             }
