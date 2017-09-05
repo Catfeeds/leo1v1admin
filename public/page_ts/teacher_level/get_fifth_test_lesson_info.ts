@@ -445,6 +445,29 @@ $(function(){
         });
     });
 
+    $(".opt-play-new").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var lessonid = $(this).get_opt_data("lessonid");
+        var id = $(this).get_opt_data("id");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+            // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+        });
+        $.do_ajax("/teacher_level/set_teacher_record_acc",{
+            "teacherid"    : opt_data.teacherid,
+            "type"         : 1,
+            "lesson_style" : 2,
+            "lessonid"     :opt_data.lessonid,
+            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+        },function(result){
+            window.location.reload(); 
+        });
+
+    });
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });
