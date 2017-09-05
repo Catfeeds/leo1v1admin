@@ -199,10 +199,10 @@
                                    target="_blank" title="设置空闲时间">设置空闲时间</a>
                                 <a class="opt-get-teacher-lesson-hold div_show">设置暂停接试听课</a>
                                 <a class="fa-edit opt-edit"  title="编辑"> </a>
-                                @if(in_array($acc,["zoe","ivy","adrian","jim","夏宏东"]))
+                                @if(in_array($account_role,["8","10","12"]))
                                     <a class="opt-tea_origin_url" title="招师链接">招</a>
                                 @endif
-                                @if(in_array($acc,["adrian","jim","alan","jack","夏宏东"]))
+                                @if(in_array($account_role,["10","12"]))
                                     <a class="fa-shield opt-trial-pass"  title="试讲通过"> </a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
                                     <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>

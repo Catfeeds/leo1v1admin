@@ -15,7 +15,7 @@ class send_wx_msg_for_test_lesson extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:send_wx_msg_for_test_lesson';
 
     /**
      * The console command description.
@@ -49,7 +49,29 @@ class send_wx_msg_for_test_lesson extends Command
         $lesson_end_halfhour   = $now+31*60;
 
         // 获取试听课 课前30分钟
-        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+        // $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+
+        // 测试数据
+        //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
+        // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
+
+        $test_lesson_list_halfhour[] = [
+            "ass_phone" => "18201985007",
+            "par_phone" => "13933633400",
+            "teacherid" => "254321",
+            "subject" => "3",
+            "ass_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek",
+            "tea_openid" => "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",
+            "par_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek",
+            "lesson_start" => "1504585800",
+            "lesson_end" => "1504588200",
+            "teacher_nick" => "james-teacher",
+            "userid" => "316441",
+            "stu_nick" => "james-student",
+            "parent_nick" => "13933633400"
+        ];
+        // 测试数据
 
         foreach($test_lesson_list_halfhour as $item){
             $data_tea = $this->get_data($item,1,1);
@@ -59,6 +81,8 @@ class send_wx_msg_for_test_lesson extends Command
             $this->send_wx_msg_tea($item,1,$data_tea);
             $this->send_wx_msg_admin($item,1,$data_ass, $data_par);
         }
+
+        /*
 
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
@@ -124,6 +148,7 @@ class send_wx_msg_for_test_lesson extends Command
         // 试听课正常结束
 
         foreach($normal_lesson_list as $index=>$item){
+
             $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
             $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
@@ -138,6 +163,7 @@ class send_wx_msg_for_test_lesson extends Command
             }
 
         }
+        */
 
     }
 

@@ -94,6 +94,7 @@ $(function(){
         });
     });
     $('.opt-change').set_input_change_event(load_data);
+
     $('#modal-default').on('shown.bs.modal', function (e) {
         $(this).unbind("click");
         $("button[data-dismiss]").on("click", function () {
