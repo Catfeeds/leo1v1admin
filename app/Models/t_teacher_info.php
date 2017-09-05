@@ -3294,7 +3294,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_quit=0 ",
             " t.is_test_user =0",           
             "t.train_through_new_time>=".$start_time,
-            "t.train_through_new_time<".$end_time
+            "t.train_through_new_time<".$end_time,
+            "ta.id>0"
         ];
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
@@ -3321,7 +3322,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tl.status=1",
+            //  "tl.status=1",
+            "tl.id>0",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time
         ];
@@ -3351,9 +3353,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " t.is_quit=0 ",
             " t.is_test_user =0",
-            "tr.trial_train_status=1",
+            // "tr.trial_train_status=1",
             "t.train_through_new_time>=".$start_time,
-            "t.train_through_new_time<".$end_time
+            "t.train_through_new_time<".$end_time,
+            "tr.id>0"
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
