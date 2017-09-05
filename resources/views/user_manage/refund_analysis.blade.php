@@ -9,14 +9,14 @@
                     <div class="input-group " >
                         <span >联系状态</span>
                         <!-- <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  /> -->
-                        <select id="id_is_test_user" class="opt-change" >
+                        <select id="id_qc_contact_status" class="opt-change" >
                     </div>
                 </div>
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
                         <span >提升状态</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <select id="id_qc_contact_status" class="opt-change" >
                     </div>
                 </div>
 
