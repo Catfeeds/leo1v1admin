@@ -106,14 +106,35 @@ class send_wx_msg_for_test_lesson extends Command
 
             $this->send_wx_msg_ass($item,3,$data_ass);
         }
+
+        // 旷课
+
+        if(!empty($absenteeism_lesson_list)){
+            foreach($absenteeism_lesson_list as $index=>$item){
+                $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+                $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+
+                if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
+                    $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
+                    $this->send_wx_msg_ass($item,4,$data_ass);
+                }
+
+                if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
+                    $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
+                    $this->send_wx_msg_ass($item,4,$data_ass);
+                }
+
+            }
+       }
         */
+
 
 
         // 测试数据
         //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
         // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
 
-        $absenteeism_lesson_list[] = [
+        $normal_lesson_list[] = [
             "lessonid" => "315614",
             "ass_phone" => "18201985007",
             "par_phone" => "13933633400",
@@ -136,46 +157,28 @@ class send_wx_msg_for_test_lesson extends Command
 
 
 
-        // 旷课
-
-        if(!empty($absenteeism_lesson_list)){
-            foreach($absenteeism_lesson_list as $index=>$item){
-                $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-                $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
-
-                // if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
-                    $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
-                    $this->send_wx_msg_ass($item,4,$data_ass);
-                // }
-
-                // if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
-                    $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
-                    $this->send_wx_msg_ass($item,4,$data_ass);
-                // }
-
-            }
-       }
-        /*
 
         // 试听课正常结束
 
-        foreach($normal_lesson_list as $index=>$item){
+        if(!empty($normal_lesson_list)){
 
-            $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-            $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+            foreach($normal_lesson_list as $index=>$item){
 
-            if( $logout_time_tea>$item['lesson_end']-600){
+                $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+                $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+
+                // if( $logout_time_tea>$item['lesson_end']-600){
                 $data_ass = $this->get_data($item,3,6);
                 $this->send_wx_msg_ass($item,5,$data_ass);
-            }
+                // }
 
-            if($logout_time_stu>$item['lesson_end']-600){
+                // if($logout_time_stu>$item['lesson_end']-600){
                 $data_ass = $this->get_data($item,3,6);
                 $this->send_wx_msg_ass($item,5,$data_ass);
-            }
+                // }
 
+            }
         }
-        */
 
     }
 
@@ -290,14 +293,16 @@ class send_wx_msg_for_test_lesson extends Command
             }elseif($type==4){ // 结束未进入课堂
                 if($tea_nick_cut_class){
                     $first = "您好，{".$item['stu_nick']."}同学的课程已结束，$tea_nick_cut_class 老师未能按时进入课堂 ";
+                    $keyword2 = "$tea_nick_cut_class 老师";
                 }else{
                     $first = "您好，{".$item['stu_nick']."}同学的课程已结束，$stu_nick_cut_class 同学未能按时进入课堂";
+                    $keyword2 = "$stu_nick_cut_class 同学";
                 }
 
                 $data = [
                     "first"    => "$first",
                     "keyword1" => '旷课提醒',
-                    "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword2" => "$keyword2 未进入课堂 课程时间：".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])." 学生名字：".$item['stu_nick']." 老师名字：".$item['teacher_nick'],
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请立刻联系同学/老师。"
                 ];
