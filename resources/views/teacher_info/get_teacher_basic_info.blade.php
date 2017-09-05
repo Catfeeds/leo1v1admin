@@ -343,7 +343,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" id="mark" ><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
+                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
                             </button>
                         </div>
                     </div>
