@@ -56,6 +56,7 @@ interface RowData {
 	lesson_end	:any;
 	real_begin_time	:any;
 	gen_video_grade	:any;
+	assistantid	:any;
 	stu_id	:any;
 	stu_phone	:any;
 	stu_nick	:any;
@@ -143,6 +144,7 @@ interface RowData {
 	lesson_time	:any;
 	lesson_cancel_reason_type_str	:any;
 	require_lesson_success_flow_status_str	:any;
+	assistant_nick	:any;
 	lesson_end_str	:any;
 	real_begin_time_str	:any;
 	lesson_status_str	:any;
