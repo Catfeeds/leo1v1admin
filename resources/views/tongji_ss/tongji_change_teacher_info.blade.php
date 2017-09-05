@@ -66,7 +66,11 @@
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["order_confirm_flag_str"]!!} </td>
                         <td>{{@$var['change_teacher_reason_type_str']}}</td>
-                        <td>{{@$var['change_teacher_reason']}}/<a target="_blank" href="{{$var['change_teacher_reason_img_url']}}">{{@$var['change_teacher_reason_img_url']}}</a></td>
+                        <td>{{@$var['change_teacher_reason']}}
+                            @if($var['change_teacher_reason_img_url'])
+                                /<a target="_blank" class="btn fa fa-download" href="{{$var['change_teacher_reason_img_url']}}"></a>
+                            @endif
+                        </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

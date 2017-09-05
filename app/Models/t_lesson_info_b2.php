@@ -2845,7 +2845,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
-                                  ." left join %s tr on (l.teacherid = tr.teacherid and l.userid = tr.userid and and tr.type=1 and tr.lesson_style=4)"
+                                  ." left join %s tr on (l.teacherid = tr.teacherid and l.userid = tr.userid and tr.type=1 and tr.lesson_style=4)"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1) group by l.teacherid,l.userid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,

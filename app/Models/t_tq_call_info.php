@@ -393,4 +393,15 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_call_info_list($adminid,$phone){
+        $sql = $this->gen_sql_new(
+            "select start_time,adminid,record_url from %s "
+            ." where phone='%s' and adminid = %u and is_called_phone=1 "
+            ,self::DB_TABLE_NAME
+            ,$phone
+            ,$adminid
+        );
+        return $this->main_get_list($sql); 
+    }
 }

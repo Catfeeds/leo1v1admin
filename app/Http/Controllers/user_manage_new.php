@@ -337,8 +337,7 @@ class user_manage_new extends Controller
             $end   = strtotime("+1 month",$start);
             $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
             $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-            $transfer_time      = $this->t_teacher_info->get_transfer_time($teacherid);
-            if($transfer_teacherid>0 && $transfer_time>$start_time && $transfer_time<$end_time){
+            if($transfer_teacherid>0){
                 $old_lesson_count      = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
                 $already_lesson_count += $old_lesson_count;
             }
@@ -1148,6 +1147,7 @@ class user_manage_new extends Controller
     public function admin_member_list(){
         list($start_time,$end_time)=$this->get_in_date_range(date("Y-m-01"),0,0,[],3);
         $start_time = date('Y-m-d',$start_time);
+
         $ret_info = $this->t_manager_info->get_seller_month_money_info($start_time);
         $num_info = $this->t_admin_group_user->get_group_num($start_time);
         foreach($ret_info['list'] as &$item){

@@ -936,6 +936,7 @@ class main_page extends Controller
                 unset($ret_info[$i]);
             }
         }
+        $zs_video_list =$zs_one_list= $ret_info;
 
         $list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
         $list1  = $this->t_teacher_lecture_appointment_info->tongji_no_call_count_by_accept_adminid();
@@ -1004,6 +1005,61 @@ class main_page extends Controller
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
         $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
 
+        $video_pass = $one_pass=[];
+        for($i=1;$i<=10;$i++){
+            $video_pass[$i] = $this->t_teacher_lecture_info->get_teacher_passed_num_by_subject_grade($start_time,$end_time,$i);
+            $one_pass[$i] = $this->t_teacher_record_list->get_teacher_passes_num_by_subject_grade($start_time,$end_time,$i);
+ 
+        }
+        foreach($zs_video_list as &$ui){
+            $uid      = $ui["uid"];
+            $ui["xxyw"] = @$video_pass[1][$uid]["primary_num"];
+            $ui["czyw"] = @$video_pass[1][$uid]["middle_num"];
+            $ui["gzyw"] = @$video_pass[1][$uid]["senior_num"];
+            $ui["xxsx"] = @$video_pass[2][$uid]["primary_num"];
+            $ui["czsx"] = @$video_pass[2][$uid]["middle_num"];
+            $ui["gzsx"] = @$video_pass[2][$uid]["senior_num"];
+            $ui["xxyy"] = @$video_pass[3][$uid]["primary_num"];
+            $ui["czyy"] = @$video_pass[3][$uid]["middle_num"];
+            $ui["gzyy"] = @$video_pass[3][$uid]["senior_num"];
+            $ui["czhx"] = @$video_pass[4][$uid]["middle_num"];
+            $ui["gzhx"] = @$video_pass[4][$uid]["senior_num"];
+            $ui["czwl"] = @$video_pass[5][$uid]["middle_num"];
+            $ui["gzwl"] = @$video_pass[5][$uid]["senior_num"];
+            $ui["czsw"] = @$video_pass[6][$uid]["middle_num"];
+            $ui["gzsw"] = @$video_pass[6][$uid]["senior_num"];
+            $ui["kx"] = @$video_pass[10][$uid]["primary_num"]+@$video_pass[10][$uid]["middle_num"]+@$video_pass[10][$uid]["senior_num"];
+            $ui["other"] = @$video_pass[7][$uid]["primary_num"]+@$video_pass[7][$uid]["middle_num"]+@$video_pass[7][$uid]["senior_num"]+@$video_pass[8][$uid]["primary_num"]+@$video_pass[8][$uid]["middle_num"]+@$video_pass[8][$uid]["senior_num"]+@$video_pass[9][$uid]["primary_num"]+@$video_pass[9][$uid]["middle_num"]+@$video_pass[9][$uid]["senior_num"];
+           
+        }
+        
+        foreach($zs_one_list as &$uy){
+            $uid      = $uy["uid"];
+            $uy["xxyw"] = @$one_pass[1][$uid]["primary_num"];
+            $uy["czyw"] = @$one_pass[1][$uid]["middle_num"];
+            $uy["gzyw"] = @$one_pass[1][$uid]["senior_num"];
+            $uy["xxsx"] = @$one_pass[2][$uid]["primary_num"];
+            $uy["czsx"] = @$one_pass[2][$uid]["middle_num"];
+            $uy["gzsx"] = @$one_pass[2][$uid]["senior_num"];
+            $uy["xxyy"] = @$one_pass[3][$uid]["primary_num"];
+            $uy["czyy"] = @$one_pass[3][$uid]["middle_num"];
+            $uy["gzyy"] = @$one_pass[3][$uid]["senior_num"];
+            $uy["czhx"] = @$one_pass[4][$uid]["middle_num"];
+            $uy["gzhx"] = @$one_pass[4][$uid]["senior_num"];
+            $uy["czwl"] = @$one_pass[5][$uid]["middle_num"];
+            $uy["gzwl"] = @$one_pass[5][$uid]["senior_num"];
+            $uy["czsw"] = @$one_pass[6][$uid]["middle_num"];
+            $uy["gzsw"] = @$one_pass[6][$uid]["senior_num"];
+            $uy["kx"] = @$one_pass[10][$uid]["primary_num"]+@$one_pass[10][$uid]["middle_num"]+@$one_pass[10][$uid]["senior_num"];
+            $uy["other"] = @$one_pass[7][$uid]["primary_num"]+@$one_pass[7][$uid]["middle_num"]+@$one_pass[7][$uid]["senior_num"]+@$one_pass[8][$uid]["primary_num"]+@$one_pass[8][$uid]["middle_num"]+@$one_pass[8][$uid]["senior_num"]+@$one_pass[9][$uid]["primary_num"]+@$one_pass[9][$uid]["middle_num"]+@$one_pass[9][$uid]["senior_num"];
+           
+        }
+
+        // print_r($zs_video_list);
+        //print_r($zs_one_list);
+        // dd($rrrr);
+
+        
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
@@ -1011,7 +1067,9 @@ class main_page extends Controller
             "no_call_total"   => $no_call_total,
             "system_total"   => $system_total,
             "self_total"   => $self_total,
-            "data"        =>$data
+            "data"        =>$data,
+            "zs_one_list" =>$zs_one_list,
+            "zs_video_list"=>$zs_video_list
         ]);
     }
 

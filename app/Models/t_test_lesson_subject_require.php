@@ -249,7 +249,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
         $sql = $this->gen_sql_new(
-            "select test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
+            "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
             ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid ,"
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"

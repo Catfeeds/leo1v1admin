@@ -536,6 +536,7 @@ class NewRouteConfig {
         "/human_resource/quit_teacher_info"                   => true,
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime" => true,
+       
         
 
         "/ass_manage/add_manager" => true,

@@ -184,4 +184,38 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_reward_list($start,$end,$reward_type){
+        $where_arr = [
+            ["add_time>%u",$start,0],
+            ["add_time<%u",$end,0],
+            ["type=%u",$reward_type,-1],
+        ];
+        $lesson_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+            "lesson_type < 1000",
+            "lesson_status=2",
+            "lesson_del_flag=0",
+            "confirm_flag!=2",
+            "tm.teacherid=teacherid"
+        ];
+        \App\Helper\Utils::effective_lesson_sql($lesson_arr);
+        $sql = $this->gen_sql_new("select sum(money) as money_total,t.teacherid,t.bankcard,t.bank_account,t.bank_type,t.phone,"
+                                  ." t.realname"
+                                  ." from %s tm"
+                                  ." left join %s t on tm.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s where %s)"
+                                  ." group by t.teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

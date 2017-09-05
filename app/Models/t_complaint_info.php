@@ -10,7 +10,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
 
-    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type,$complaint_type  ){
+    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type ){
 
         $where_arr = [
             ["complaint_state = %d",$is_complaint_state,-1],
@@ -76,7 +76,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
 
-    public function get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type){
+    public function get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag){
 
         $where_arr = [
             // ["ta.assign_flag=%d",0],
@@ -125,13 +125,14 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
     public function get_last_msg($userid){
 
-        $sql = $this->gen_sql_new("select complaint_info from %s tc where userid = %d order by add_time desc",
+        $sql = $this->gen_sql_new("select complaint_info, add_time from %s tc where userid = %d order by add_time desc",
                                   self::DB_TABLE_NAME,
                                   $userid
         );
 
         return $this->main_get_list($sql);
     }
+
 
 
 }

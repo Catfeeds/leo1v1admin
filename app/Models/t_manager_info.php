@@ -540,8 +540,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_seller_month_money_info($start_time){
-        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
-                                  "am.account,mm.money,mm.personal_money,mt.month_money, mm.test_lesson_count".
+        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
+                                  " am.uid adminid,am.become_member_time,".
+                                  " am.account,mm.money,mm.personal_money,mt.month_money, mm.test_lesson_count".
                                   " from %s am left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
                                   " left join %s m on g.up_groupid = m.groupid".
@@ -564,7 +565,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_as_page($sql,function($item){
             return $item['adminid'];
         });
-
     }
 
     public function get_assistant_month_target_info($start_time,$up_master_adminid=-1,$account_id=74){

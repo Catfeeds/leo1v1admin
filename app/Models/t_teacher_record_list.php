@@ -586,6 +586,39 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $list;
 
     }
+    
+    public function get_teacher_passes_num_by_subject_grade($start_time,$end_time,$subject){
+        $where_arr=[
+            ["l.subject=%u",$subject,-1],
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            // "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
+            "tr.type=10",         
+            "(tr.acc is not null && tr.acc <> '')",
+            "tr.trial_train_status =1"
+        ];
+
+        $sql = $this->gen_sql_new("select taa.accept_adminid,sum(if(substring(l.grade,1,1)=1,1,0)) primary_num, "
+                                  ." sum(if(substring(l.grade,1,1)=2,1,0)) middle_num,"
+                                  ."sum(if(substring(l.grade,1,1)=3,1,0)) senior_num "
+                                  ." from %s tr left join %s ta on tr.train_lessonid  = ta.lessonid"
+                                  ." left join %s l on tr.train_lessonid  = l.lessonid "
+                                  ." left join %s t on ta.userid = t.teacherid "
+                                  ." left join %s taa on t.phone = taa.phone "
+                                  ." where %s and t.teacherid>0 group by taa.accept_adminid ",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
+
+    }
+
 
     public function get_all_interview_count($start_time,$end_time,$trial_train_status,$subject_ex=-1){
         $where_arr=[

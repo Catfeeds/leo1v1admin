@@ -34,6 +34,7 @@ interface RowData {
 	deal_info	:any;
 	deal_time	:any;
 	deal_adminid	:any;
+	complained_department	:any;
 	complaint_type_str	:any;
 	complained_adminid_type_str	:any;
 	complaint_state_str	:any;

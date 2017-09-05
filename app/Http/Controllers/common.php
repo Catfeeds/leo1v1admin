@@ -1655,23 +1655,26 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //信用卡分期柜台代码
         $posid = '002171923';
         $branchid = 310000000;
-        $curcode = 01;
+        $curcode = "01";
         $txcode = 520100;
         $remark1="";
         $remark2 ="";
         $type=1;
         $gateway=0;
         $clientip = "";
-        $reginfo = $this->t_order_info->get_userid($orderid);
+        $reginfo = "学生:".$this->t_order_info->get_userid($orderid);
         $proinfo="课程";
         $referer="";
         $thirdappinfo="comccbpay105290000009104leoedu";
         $calljs="";
         $installnum = "";
+        $sec = "30819d300d06092a864886f70d010101050003818b0030818702818100da1faeffe420660abea650bea7d21afff96881c1fc0c0b06e6edb9f7bdd4e617da53dd6fe375321cfed3653a6cf09a8e13166a4f5bb15af5122701f0f2bcc7f5d86e8a7b870a4ddf82a68a9a8b2f5a2b963e955b63e7aebb19f282e2194b1dd3d5654a63d05c5a7471088b728616cd1f67726c6629ba39c17b8df73e5ca8b42d020111";
+        $pub = substr($sec,-30);
+        // dd($sect);
                
-        $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
-        $url = "https://ibsbjstar.ccb.com.cn/app/ccbMain?MERCHANTID=".$merchantid."&POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&TXCODE=".$txcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&MAC=".$mac."&TYPE=".$type."&GATEWAY=".$gateway."&CLIENTIP=".$clientip."&REGINFO=".$reginfo."&PROINFO=".$proinfo."&REFERER=".$referer."&THIRDAPPINFO=".$thirdappinfo."&CALLJS=".$calljs."&INSTALLNUM=".$installnum;
-        dd(urlencode($url));
+        $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=".$pub."%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
+        $url = "https://ibsbjstar.ccb.com.cn/app/ccbMain?MERCHANTID=".$merchantid."&POSID=".urlencode($posid)."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".urlencode($curcode)."&TXCODE=".$txcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&MAC=".urlencode($mac)."&TYPE=".$type."&GATEWAY=".$gateway."&CLIENTIP=".$clientip."&REGINFO=".urlencode($reginfo)."&PROINFO=".urlencode($proinfo)."&REFERER=".$referer."&THIRDAPPINFO=".urlencode($thirdappinfo)."&CALLJS=".$calljs."&INSTALLNUM=".$installnum;
+        dd($url);
 
         $data = [
             "payment" =>$payment,
