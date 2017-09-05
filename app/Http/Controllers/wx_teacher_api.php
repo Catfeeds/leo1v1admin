@@ -495,6 +495,9 @@ class wx_teacher_api extends Controller
 
         /*
 
+          活动可能性
+
+          1\ 没有mon
 
         **/
 
