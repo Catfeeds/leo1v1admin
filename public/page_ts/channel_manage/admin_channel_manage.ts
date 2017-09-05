@@ -154,6 +154,12 @@ $(function(){
             $(this).hide();
         }
     });
+    $(".opt-tea_origin_url").each(function(){
+        var opt_data = $(this).get_opt_data();
+        if(opt_data.level != "l-3"){
+            $(this).hide();
+        }
+    });
     $(".opt-add_other_teacher").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_phone              = $("<input/>");
@@ -204,6 +210,11 @@ $(function(){
             );
 
         });
+    });
+    $(".opt-tea_origin_url").on("click",function(){
+        var phone = $(this).get_opt_data("admin_phone");
+        var url = "http://wx-teacher-web.leo1v1.com/tea.html?"+phone;
+        BootstrapDialog.alert(url);
     });
     $('.opt-change').set_input_change_event(load_data);
 });
