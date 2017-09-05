@@ -234,57 +234,19 @@ class agent extends Controller
     }
 
     public function check(){
-        list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
-             $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
-             $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-             $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
-        $ret  = $this->t_agent->get_agent_info_new(null);
-        $userid_arr = [];
-
-        $ret_new = [];
-        $ret_info_new = [];
-        $id_arr = array_unique(array_column($ret,'id'));
-        foreach($ret as &$item){
-            if($item['type'] == 1){
-                $userid_arr[] = $item['userid'];
-            }
-            $item['agent_type'] = $item['type'];
-            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
-            if($item['lesson_start']){
-                $item['lesson_start'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            }else{
-                $item['lesson_start'] = '';
-            }
-
-            $id = $item['id'];
-            $id_arr_new = array_unique(array_column($ret_new,'id'));
-            if(in_array($id,$id_arr_new)){
-            }else{
-                if($item['lesson_start']){
-                    if($item['lesson_start']>$item['create_time']){
-                        $ret_new[] = $item;
-                    }
-                }else{
-                    $ret_new[] = $item;
-                }
-            }
-            //例子总数
-            $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
-            if(in_array($id,$id_arr_new_two)){
-            }else{
-                $ret_info_new[] = $item;
-            }
-            //合同
-            if($item['aoid']){
-                $orderid = $item['aoid'];
-                $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                if(in_array($orderid,$orderid_arr)){
-                }else{
-                    $order_count[] = $item;
-                    $user_count[] = $item;
-                    $order_all_money += $item['price'];
-                }
-            }
+        $order_info = $this->t_order_info->get_agent_order_info($userid=303874,$create_time=1503734326);
+        dd($order_info);
+        list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
+        $order_info = $this->t_agent_order->get_all_list();
+        foreach($order_info as $item){
+            $orderid = $item['orderid'];
+            // $orderid_arr = array_unique(array_column($order_count,'aoid'));
+            // if(in_array($orderid,$orderid_arr)){
+            // }else{
+            $order_count[] = $item;
+            $user_count[] = $item;
+            $order_all_money += $item['price'];
+            // }
         }
         dd($order_count);
 

@@ -8,6 +8,21 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         parent::__construct();
     }
 
+    public function get_all_list()
+    {
+        $where_arr = [];
+        $sql = $this->gen_sql_new ("select ao.*,"
+                                   ." o.price "
+                                   ." from %s ao "
+                                   ." left join %s o on o.orderid = ao.orderid "
+                                   ." where %s "
+                                   ,self::DB_TABLE_NAME
+                                   ,t_order_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_agent_order_info($page_info)
     {
         $sql=$this->gen_sql_new ("select ao.*,"
