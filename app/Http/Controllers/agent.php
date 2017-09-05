@@ -194,17 +194,17 @@ class agent extends Controller
     }
 
     public function agent_order_list() {
-        $orderid   = $this->get_in_int_val('orderid');
-        $start_time       = $this->get_in_int_val('start_time');
-        $end_time       = $this->get_in_int_val('end_time');
-        $aid       = $this->get_in_int_val('aid');
-        $pid       = $this->get_in_int_val('pid');
-        $p_price   = $this->get_in_int_val('p_price');
-        $ppid      = $this->get_in_int_val('ppid');
-        $pp_price  = $this->get_in_int_val('pp_price');
-        $userid  = $this->get_in_int_val('userid');
-        $page_num  = $this->get_in_page_num();
-        $page_info = $this->get_in_page_info();
+        $orderid    = $this->get_in_int_val('orderid');
+        $start_time = $this->get_in_int_val('start_time');
+        $end_time   = $this->get_in_int_val('end_time');
+        $aid        = $this->get_in_int_val('aid');
+        $pid        = $this->get_in_int_val('pid');
+        $p_price    = $this->get_in_int_val('p_price');
+        $ppid       = $this->get_in_int_val('ppid');
+        $pp_price   = $this->get_in_int_val('pp_price');
+        $userid     = $this->get_in_int_val('userid');
+        $page_num   = $this->get_in_page_num();
+        $page_info  = $this->get_in_page_info();
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info,$start_time,$end_time);
         foreach($ret_info['list'] as &$item){
             $item['p_price'] = $item['p_price']/100;
