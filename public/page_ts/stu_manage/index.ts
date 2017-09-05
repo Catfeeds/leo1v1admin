@@ -87,9 +87,9 @@ $(function(){
         html_node.find("#id_name").val(opt_data.nick );
         html_node.find("#id_realname").val(opt_data.realname);
         html_node.find("#id_gender").val(opt_data.gender);
-        html_node.find("#id_parent_name").val(opt_data.parent_name);
+      //  html_node.find("#id_parent_name").val(opt_data.parent_name);
         html_node.find("#id_birth").val(opt_data.birth );
-        html_node.find("#id_parent_type").val(opt_data.parent_type);
+      //  html_node.find("#id_parent_type").val(opt_data.parent_type);
         html_node.find("#id_address").val(opt_data.address);
         html_node.find("#id_school").val(opt_data.school);
         html_node.find("#id_stu_email").val(opt_data.stu_email);
@@ -105,10 +105,16 @@ $(function(){
             format:'Ymd'
         });
 
-        var tt ="晋城市";
-        if(tt == ''){
-            tt="选择市（区）";
+        var old_city = opt_data.city;
+        if(old_city == ''){
+            old_city="选择市（区）";
         }
+        var old_area = opt_data.area;
+        if(old_city == ''){
+            old_city="选择区（县）";
+        }
+        var old_province = opt_data.province;
+
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
         var area = html_node.find("#area");  
@@ -119,7 +125,7 @@ $(function(){
         //初始化  
         province.html(preProvince);  
         city.html(preCity);  
-        area.html(preArea);  
+        area.html(preArea);
         
         //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用  
         //func_suc_getXmlProvice进行 省的 解析  
@@ -128,6 +134,7 @@ $(function(){
             url : "../province_city_select_Info.xml",  
             success : func_suc_getXmlProvice  
         });  
+        province.val(4);
         
         //省 下拉选择发生变化触发的事件  
         province.change(function() {  
