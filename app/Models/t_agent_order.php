@@ -31,7 +31,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     public function get_agent_order_info($page_info)
     {
         $sql=$this->gen_sql_new ("select ao.*,"
-                                 ." a.userid,a.phone phone,a.nickname nickname, "
+                                 ." a.userid,a.phone phone,a.nickname nickname,a.create_time a_create_time, "
                                  ." aa.phone p_phone,aa.nickname p_nickname, "
                                  ." aaa.phone pp_phone,aaa.nickname pp_nickname, "
                                  ." o.price "
