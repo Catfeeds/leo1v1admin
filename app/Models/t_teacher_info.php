@@ -3309,7 +3309,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
                                   ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
@@ -3338,7 +3338,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_video,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tl on t.phone = tl.phone"
@@ -3369,7 +3369,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"
@@ -3442,5 +3442,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+    public function get_success_through($start_time,$end_time){
+        $where_arr = [
+            ["t.train_through_new_time>%u",$start_time,-1],
+            ["t.train_through_new_time<%u",$end_time,-1],
+            "l.reference>0",
+            "t.is_quit = 0 ",
+            "t.is_test_user =0 "
+        ];
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, l.reference,count(t.teacherid) as sum".
+                                  " from %s t ".
+                                  " left join %s l on t.phone = l.phone".
+                                  " left join %s s on l.reference=s.phone".
+                                  " where %s ".
+                                  " group by l.reference order by l.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
 
+    }
 }

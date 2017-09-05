@@ -62,7 +62,6 @@
                     <td>审核人</td>
                     <td>是否反馈</td>
                     <td>反馈时间</td>
-                    
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -80,13 +79,10 @@
                                 {{@$var["add_time_str"]}}
                             @endif
                         </td>
-
-
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                               
                                     <a class="opt-first-lesson-video" >视频</a>
                                     <a class="opt-play-new" title="回放-new">回放-new</a>
                                     <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>

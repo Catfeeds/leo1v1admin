@@ -20,6 +20,7 @@ use Yxyx\Core\WeChatOAuth;
 use Yxyx\Core\UserManage;
 use Yxyx\Core\Media;
 use Yxyx\Core\AccessToken;
+use Yxyx\Core\ResponseInitiative;
 
 
 class WechatRequest  {
@@ -558,7 +559,14 @@ class WechatRequest  {
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
-            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            if ( \App\Helper\Utils::check_env_is_release() ) {
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            }else{
+                ResponseInitiative::image( $request['fromusername'],  $mediaId);
+                //ResponseInitiative::
+                return "";
+            }
+
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',

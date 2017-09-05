@@ -1670,12 +1670,12 @@ class tongji extends Controller
                         $have_intention_c_count[] = $item;
                     }
                     //预约数&&上课数
-                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                    // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                    if($item['test_lessonid']){
                         $require_count[] = $item;
                         $test_lesson_count[] = $item;
                     }
                     //试听成功数
-                    // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
                     if($item['lesson_user_online_status'] == 1 ){
                         $succ_test_lesson_count[] = $item;
                     }
