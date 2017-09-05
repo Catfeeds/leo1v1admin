@@ -205,12 +205,13 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
         foreach($ret_info['list'] as &$item){
-            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             $item['p_price'] = $item['p_price']/100;
             $item['pp_price'] = $item['pp_price']/100;
             $item['price'] = $item['price']/100;
             E\Ep_level::set_item_value_str($item);
             E\Epp_level::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,'create_time');
+            \App\Helper\Utils::unixtime2date_for_item($item,'a_create_time');
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

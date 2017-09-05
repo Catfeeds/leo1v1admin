@@ -81,6 +81,7 @@
                             >
                                
                                     <a class="opt-first-lesson-video" >视频</a>
+                                    <a class="opt-play-new" title="回放-new">回放-new</a>
                                     <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
                                     <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
                                        data-type="leoedu://meeting.leoedu.com/meeting="

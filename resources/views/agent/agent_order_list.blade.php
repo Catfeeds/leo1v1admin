@@ -36,6 +36,7 @@
                     <td>上上级微信昵称 </td>
                     <td>上上级转介绍费 </td>
                     <td>订单确认时上上级等级 </td>
+                    <td>例子进入时间 </td>
                     <td>订单确认时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -55,6 +56,7 @@
                         <td>{{@$var["pp_nickname"]}} </td>
                         <td>{{@$var["pp_price"]}} </td>
                         <td>{{@$var["pp_level_str"]}} </td>
+                        <td>{{@$var["a_create_time"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
