@@ -42,19 +42,10 @@ $(function(){
                         "lessonid"       : lessonid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".first_lesson_num").text(resp.data.first_lesson_num); 
-                        $tr.find(".first_order_num").text(resp.data.first_order_num); 
-                        $tr.find(".first_per").text(resp.data.first_per);
-                        $tr.find(".second_lesson_num").text(resp.data.second_lesson_num); 
-                        $tr.find(".second_order_num").text(resp.data.second_order_num); 
-                        $tr.find(".second_per").text(resp.data.second_per); 
-                        $tr.find(".third_lesson_num").text(resp.data.third_lesson_num); 
-                        $tr.find(".third_order_num").text(resp.data.third_order_num); 
-                        $tr.find(".third_per").text(resp.data.third_per); 
-                        $tr.find(".fourth_lesson_num").text(resp.data.fourth_lesson_num); 
-                        $tr.find(".fourth_order_num").text(resp.data.fourth_order_num); 
-                        $tr.find(".fourth_per").text(resp.data.fourth_per); 
-
+                        alert(resp.data.stu_time);
+                        $tr.find(".stu_time").text(resp.data.stu_time); 
+                        $tr.find(".tea_time").text(resp.data.tea_time); 
+                       
 
                        
                         

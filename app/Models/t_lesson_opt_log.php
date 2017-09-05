@@ -262,6 +262,17 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_value($sql);
     }
 
+    public function get_time_by_lesson($lessonid,$userid,$opt_type){
+        $where_arr=[
+            ["lessonid=%u",$lessonid, -1],
+            ["userid=%u",$userid, -1],
+            ["opt_type=%u",$opt_type, -1],            
+            "server_type=2",
+        ];
+        $sql = $this->gen_sql_new("select opt_time from %s where %s order by opt_time",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+ 
+    }
 
 
 }

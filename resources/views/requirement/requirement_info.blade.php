@@ -95,9 +95,9 @@
                     <td>提交人</td>
                     <td>提交时间</td>
                     <td>期待交付时间</td>
-                    <td style="width:320px">需求说明</td>
+                    <td style="width:320px">需求故事</td>
                     <td>需求附件</td>
-                    <td style="width:320px">备注</td>
+                    <td style="width:320px">验收标准</td>
                     <td>联系方式</td>
                     <td>进度(部门)</td>
                     <td>进度(状态)</td>
