@@ -15,7 +15,7 @@
                     <td>渠道</td>
                     <td>状态</td>
                     <td>老师</td>
-                    <td>系统判定状态</td>
+                    <td>系统判定是否有效</td>
                     <td>上课时间</td>
                     <td>试听是否成功</td>
                     <td></td>
@@ -33,7 +33,7 @@
                         <td>{{@$var["check_value"]}} </td>
                         <td>{{@$var["seller_student_status_str"]}} </td>
                         <td>{{@$var["tea_nick"]}} </td>
-                        <td>{{@$var["lesson_user_online_status_str"]}} </td>
+                        <td>{!!@$var["lesson_user_online_status_str"]!!} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["success_flag_str"]}} </td>
                         <td>

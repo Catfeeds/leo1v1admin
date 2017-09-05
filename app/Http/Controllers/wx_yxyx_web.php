@@ -23,8 +23,11 @@ class wx_yxyx_web extends Controller
         $agent_id = $this->get_agent_id();
         $agent = $this->t_agent->get_agent_info_by_id($agent_id);
         $agent_id_new = $agent['id'];
+        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
+        $base_url=$wx_config["url"];
         if($agent_id_new){
-            $web_html_url="http://wx-yxyx-web.leo1v1.com";
+            $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $base_url ) ;
+
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
@@ -37,10 +40,9 @@ class wx_yxyx_web extends Controller
             header("Location: $url");
         }else{
             \App\Helper\Utils::logger('yxyx_yyy');
-            $wx_config=\App\Helper\Config::get_config("yxyx_wx");
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-            $redirect_url=urlencode("http://wx-yxyx.leo1v1.com/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
+            $redirect_url=urlencode("$base_url/wx_yxyx_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }
     }

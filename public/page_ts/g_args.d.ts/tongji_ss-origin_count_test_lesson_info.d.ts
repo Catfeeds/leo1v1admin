@@ -24,12 +24,22 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	check_value	:any;
+	seller_student_status	:any;
+	lesson_start	:any;
 	userid	:any;
+	phone_location	:any;
 	phone	:any;
 	grade	:any;
+	subject	:any;
 	nick	:any;
+	success_flag	:any;
+	tea_nick	:any;
 	lesson_user_online_status	:any;
+	seller_student_status_str	:any;
+	subject_str	:any;
+	grade_str	:any;
 	lesson_user_online_status_str	:any;
+	success_flag_str	:any;
 }
 
 /*

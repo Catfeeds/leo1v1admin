@@ -1135,7 +1135,19 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     public function get_two_list_record(){
         $sql = $this->gen_sql_new("select train_lessonid,lesson_style,count(*)  from %s where type=1 and lesson_style in (3,4) group by train_lessonid,lesson_style having(count(*)>1)",self::DB_TABLE_NAME);
-         return $this->main_get_list($sql);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_id_list_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("select id,userid  from %s where train_lessonid=%u and lesson_style in (3,4) order by id ",self::DB_TABLE_NAME,$lessonid);
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_user_null_list(){
+        $sql = $this->gen_sql_new("select id,train_lessonid  from %s where  type=1 and lesson_style in (3,4) and userid=0",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+
     }
     
 }

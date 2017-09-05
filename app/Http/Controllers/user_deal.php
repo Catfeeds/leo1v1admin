@@ -2622,10 +2622,14 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_teacher_record_list->get_two_list_record();
+        $list = $this->t_teacher_record_list->get_user_null_list();
+        foreach($list as $val){
+            $userid = $this->t_lesson_info->get_userid($val["train_lessonid"]);
+            $this->t_teacher_record_list->field_update_list($val["id"],[
+               "userid"  =>$userid 
+            ]);
+        }
         dd($list);
-        $id = $this->t_teacher_record_list->check_lesson_record_exist(304197,1,3);
-        dd($id);
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
