@@ -231,6 +231,7 @@ class agent extends Controller
     }
 
     public function check(){
+        list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
         $order_info = $this->t_agent_order->get_all_list();
         foreach($order_info as $item){
             $orderid = $item['orderid'];
