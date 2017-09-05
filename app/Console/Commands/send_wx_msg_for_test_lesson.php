@@ -91,7 +91,7 @@ class send_wx_msg_for_test_lesson extends Command
 
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
-        $lesson_end_five   = $now-6*60;
+        $lesson_end_five   = $now-4*60;
         // $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
         foreach($test_lesson_list_five as $item){
             $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
