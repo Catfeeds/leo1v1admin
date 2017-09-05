@@ -32,6 +32,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     {
         $where_arr = [];
         if($start_time && $end_time){
+            dd($start_time,$end_time);
             $this->where_arr_add_time_range($where_arr,'a.create_time',$start_time,$end_time);
         }
         $sql=$this->gen_sql_new ("select ao.*,"
