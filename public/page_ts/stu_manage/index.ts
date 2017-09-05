@@ -568,24 +568,36 @@ $(function(){
     });
 
     $("#id_set_grade").on("click",function(){
-        var opt_data=$("#id_stu_info").data();
-        var $grade=$("<select/>");
+        var opt_data    = $("#id_stu_info").data();
+        var $grade      = $("<select/>");
+        var $start_time = $("<input/>");
+
         Enum_map.append_option_list("grade", $grade, true);
         $grade.val(opt_data.grade);
 
         var arr=[
-            ["年级",$grade]
+            ["年级",$grade],
+            ["----","如果不设置课程重置开始时间，则不重置课程年级"],
+            ["课程重置开始时间",$start_time]
         ];
 
         $.show_key_value_table("重置年级", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-              $.do_ajax("/user_deal/set_stu_grade", {
-                    userid  : g_args.sid,
-                    grade : $grade.val()
+                $.do_ajax("/user_deal/set_stu_grade", {
+                    userid     : g_args.sid,
+                    grade      : $grade.val(),
+                    start_time : $start_time.val(),
                 });
             }
+        },function(){
+            $start_time.datetimepicker({
+                datepicker : true,
+                timepicker : true,
+                format     : 'Y-m-d H:i',
+                step       : 30,
+            });
         });
     });
 

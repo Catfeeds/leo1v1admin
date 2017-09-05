@@ -2159,8 +2159,8 @@ lesson_type in (0,1) "
     }
 
     public function update_grade_by_userid($userid,$start_time,$grade ) {
-        $sql=$this->gen_sql_new("update %s set  grade = %u where userid =%u and lesson_start>=%u",
-                                self::DB_TABLE_NAME,$grade,$userid,$start_time);
+        $sql = $this->gen_sql_new("update %s set  grade = %u where userid =%u and lesson_start>=%u",
+                                  self::DB_TABLE_NAME,$grade,$userid,$start_time);
         return $this->main_update($sql);
     }
 

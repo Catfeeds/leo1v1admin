@@ -12,7 +12,6 @@
     <script type="text/javascript" src="/js/svg.js"></script>
     <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
     <script type="text/javascript" src="/page_js/lib/flow.js"></script>
-
     <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
     <style>
      .ui-corner-all {

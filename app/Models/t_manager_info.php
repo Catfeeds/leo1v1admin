@@ -299,6 +299,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function del_ass_manager($uid)
     {
+        /*
         $sql = sprintf("delete from %s  where uid = %u ",
                        self::DB_TABLE_NAME,
                        $uid
@@ -310,6 +311,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                         $uid
         );
         return $this->main_update($sql2);
+        */
     }
     public function get_sim_role($account){
         $sql   =    $this->gen_sql("select account_role from %s where account = '%s'",
