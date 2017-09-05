@@ -273,14 +273,14 @@ class agent extends Controller
             }
             //合同
             if($item['aoid']){
-                $orderid = $item['aoid'];
-                $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                if(in_array($orderid,$orderid_arr)){
-                }else{
+                // $orderid = $item['aoid'];
+                // $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                // if(in_array($orderid,$orderid_arr)){
+                // }else{
                     $order_count[] = $item;
                     $user_count[] = $item;
                     $order_all_money += $item['price'];
-                }
+                // }
             }
         }
         dd($order_count);
