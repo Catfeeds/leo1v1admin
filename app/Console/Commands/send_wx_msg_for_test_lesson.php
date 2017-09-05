@@ -64,10 +64,6 @@ class send_wx_msg_for_test_lesson extends Command
         }
         }
 
-
-
-
-
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now-4*60;
@@ -90,15 +86,6 @@ class send_wx_msg_for_test_lesson extends Command
                 $this->send_wx_msg_ass($item,2,$data_ass);
             }
         }
-        */
-
-
-
-
-
-
-
-
 
 
         // 课程中途退出10分钟以上
@@ -119,13 +106,14 @@ class send_wx_msg_for_test_lesson extends Command
 
             $this->send_wx_msg_ass($item,3,$data_ass);
         }
+        */
 
 
         // 测试数据
         //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
         // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
 
-        $cut_class_lesson_list[] = [
+        $absenteeism_lesson_list[] = [
             "lessonid" => "315614",
             "ass_phone" => "18201985007",
             "par_phone" => "13933633400",
@@ -147,7 +135,6 @@ class send_wx_msg_for_test_lesson extends Command
 
 
 
-        /*
 
         // 旷课
 
@@ -166,6 +153,7 @@ class send_wx_msg_for_test_lesson extends Command
             }
 
         }
+        /*
 
         // 试听课正常结束
 
