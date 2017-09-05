@@ -96,9 +96,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info_new($type)
+    public function get_agent_info_new($start_time=-1,$end_time=-1)
     {
         $where_arr = array();
+        if($start_time && $end_time){
+            $this->where_arr_add_time_range($where_arr,'a.create_time',$start_time,$end_time);
+        }
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"

@@ -1439,7 +1439,6 @@ class tongji extends Controller
             0 => array( "add_time", "资源进来时间"),
             1 => array("tmk_assign_time","微信运营时间"),
         ] );
-
         $this->t_seller_student_origin->switch_tongji_database();
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
@@ -1586,7 +1585,7 @@ class tongji extends Controller
                  $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
                  $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
-            $ret  = $this->t_agent->get_agent_info_new(null);
+            $ret  = $this->t_agent->get_agent_info_new($start_time,$end_time);
             $userid_arr = [];
 
             $ret_new = [];
