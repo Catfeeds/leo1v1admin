@@ -8,15 +8,16 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	month	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../self_manage; vi  ../self_manage/self_menu_list.ts
+	 mkdir -p ../user_manage; vi  ../user_manage/subject_by_month.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/self_manage-self_menu_list.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage-subject_by_month.d.ts" />
 
 $(function(){
     function load_data(){
