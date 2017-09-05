@@ -1439,7 +1439,6 @@ class tongji extends Controller
             0 => array( "add_time", "资源进来时间"),
             1 => array("tmk_assign_time","微信运营时间"),
         ]);
-        dd($start_time,$end_time);
         //date_type_config=undefined&date_type=0&opt_date_type=3&start_time=2017-09-01&end_time=2017-09-30
         $this->t_seller_student_origin->switch_tongji_database();
 
@@ -1710,20 +1709,22 @@ class tongji extends Controller
             }
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            "subject_map"      => $subject_map,
-            "grade_map"        => $grade_map,
-            "has_pad_map"      => $has_pad_map,
-            "origin_level_map" => $origin_level_map,
-            "area_map"         => $area_map,
-            "group_list"       => $group_list,
-            "field_name"       => $field_name,
-            "origin_type"      => $origin_type,
-            "order_area_map"   => $order_area_map,
-            "order_subject_map"=> $order_subject_map,
-            "order_grade_map"  => $order_grade_map,
-            "test_area_map"   => $test_area_map,
-            "test_subject_map"=> $test_subject_map,
-            "test_grade_map"  => $test_grade_map,
+            "subject_map"       => $subject_map,
+            "grade_map"         => $grade_map,
+            "has_pad_map"       => $has_pad_map,
+            "origin_level_map"  => $origin_level_map,
+            "area_map"          => $area_map,
+            "group_list"        => $group_list,
+            "field_name"        => $field_name,
+            "origin_type"       => $origin_type,
+            "order_area_map"    => $order_area_map,
+            "order_subject_map" => $order_subject_map,
+            "order_grade_map"   => $order_grade_map,
+            "test_area_map"     => $test_area_map,
+            "test_subject_map"  => $test_subject_map,
+            "test_grade_map"    => $test_grade_map,
+            "start_time"        => $start_time,
+            "end_time"          => $end_time,
         ]);
     }
 }
