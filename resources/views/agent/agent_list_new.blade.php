@@ -67,7 +67,7 @@
                             <td>注册</td>
                         @endif
                         <td>{{@$var["tea_nick"]}} </td>
-                        <td>{{@$var["lesson_user_online_status_str"]}} </td>
+                        <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
