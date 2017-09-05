@@ -23,6 +23,14 @@ class CreateTStudentSubjectList extends Migration
 
         });
 
+        Schema::table('db_weiyi.t_student_info', function( Blueprint $table)
+        {
+            t_field($table->integer("province"),"省");
+            t_field($table->string("city",128),"市");
+            t_field($table->string("area",128),"区");
+        });
+
+
     }
 
     /**
