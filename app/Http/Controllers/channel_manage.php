@@ -80,6 +80,10 @@ class channel_manage extends Controller
                         "master_adminid"=>'',
                         "main_type"=>'',
                         "admin_phone" => $val['phone'],
+                        "zs_id" => $val['zs_id'],
+                        "zs_name" => $this->cache_get_account_nick($val["zs_id"] ),
+                        "email" => $val['email'],
+                        "teacher_type_str" =>E\Eteacher_type::get_desc($val["teacher_type"]),
                     ];
 
                     $test_list = [];
@@ -549,5 +553,14 @@ class channel_manage extends Controller
         array_unshift($list,$total);
         //dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+    }
+
+    public function update_zs_id(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $zs_id     = $this->get_in_int_val("zs_id");
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                "zs_id" => $zs_id
+            ]);
+        return $this->output_succ();
     }
 }

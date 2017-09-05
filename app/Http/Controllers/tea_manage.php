@@ -232,9 +232,6 @@ class tea_manage extends Controller
             $lesson_del_flag,$fulltime_teacher_type
         );
 
-
-
-
         $lesson_list       = array();
         $lesson_status_cfg = array( 0 => "未上", 1 => "进行",2 => "结束",3=>"终结");
         $lesson_cw_cfg     = array( 0 => "未传", 1=> "已传" );

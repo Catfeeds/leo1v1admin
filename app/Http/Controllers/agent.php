@@ -234,22 +234,13 @@ class agent extends Controller
     }
 
     public function check(){
-        $userid = $this->t_phone_to_user->get_userid($phone='18805817187');
-        $userid_one = $this->t_phone_to_user->get_userid($phone='13605714800');
-        dd($userid,$userid_one);
-        $order_info = $this->t_order_info->get_agent_order_info_new($userid=303874,$create_time=1503734326);
-        dd($order_info);
         list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
         $order_info = $this->t_agent_order->get_all_list();
         foreach($order_info as $item){
             $orderid = $item['orderid'];
-            // $orderid_arr = array_unique(array_column($order_count,'aoid'));
-            // if(in_array($orderid,$orderid_arr)){
-            // }else{
             $order_count[] = $item;
             $user_count[] = $item;
             $order_all_money += $item['price'];
-            // }
         }
         dd($order_count);
 

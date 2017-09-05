@@ -204,25 +204,25 @@
                     <td style="display:none;" >是否新增试听</td>
                     <td style="display:none;" >助教试听类型</td>
                     <td style="display:none;" >课时数</td>
-                    <td  >删除标示</td>
-                    <td  >系统判断是否有效</td>
-                    <td  >课程有效申请</td>
-                    <td  >课时确认</td>
-                    <td  style="display:none;" >课程取消原因</td>
+                    <td >删除标示</td>
+                    <td >系统判断是否有效</td>
+                    <td >课程有效申请</td>
+                    <td >课时确认</td>
+                    <td style="display:none;" >课程取消原因</td>
                     <td style="display:none;" >课时确认人</td>
-                    <td  style="display:none;" >课时确认时间</td>
+                    <td style="display:none;" >课时确认时间</td>
                     <td style="display:none;" >课时确认原因</td>
                     <td style="display:none;" >lesson_name</td>
                     <td style="display:none;" >tea_cw_name</td>
                     <td style="display:none;" >lesson_intro</td>
-                    <td  style="display:none;" >评价反馈</td>
+                    <td style="display:none;" >评价反馈</td>
                     <td style="display:none;" >试听申请人</td>
                     <td style="display:none;" >用户版本</td>
                     <td style="display:none;" >声音记录服务器1</td>
                     <td style="display:none;max-width:100px;" >本次课用户版本</td>
                     <td style="display:none" >课堂扣款</td>
                     <td style="display:none" >助教</td>
-                    <td  style="min-width:200px" >操作</td>
+                    <td style="min-width:200px" >操作</td>
                 </tr>
             </thead>
             <tbody>
