@@ -1180,7 +1180,7 @@ $(function(){
 
             $("<div></div>").admin_select_dlg_ajax({
                 "opt_type" :  "select", // or "list"
-                "url"          : "/ss_deal/get_require_list_js_new",
+                "url"          : "/ss_deal/get_require_list_js",
                 select_primary_field : "require_id",
                 select_display       : "require_id",
 

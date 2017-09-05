@@ -2426,6 +2426,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
 
     }
+
+    public function get_agent_order_info_new($userid,$create_time) {
+        $where_arr = [
+            ["order_time > %u ", $create_time,0 ],
+            'order_status in (1,2)',
+            'contract_type =0 ',
+            ['userid=%u',  $userid ],
+        ];
+        $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s",
+                                 self::DB_TABLE_NAME, $where_arr);
+        return $this->main_get_list($sql);
+
+    }
+
     public function get_agent_order($orderid_array_str,$userid_array_str){
         $where_arr = [
             "o.orderid not in (".$orderid_array_str.")",

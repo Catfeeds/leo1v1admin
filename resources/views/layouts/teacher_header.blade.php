@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
         <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
+        <!-- 自定义样式表 -->
+        <link rel="stylesheet" href="/css/teacher-info.css">
         <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
 
 

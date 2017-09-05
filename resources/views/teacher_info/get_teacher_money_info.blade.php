@@ -1,24 +1,6 @@
 @extends('layouts.teacher_header')
 @section('content')
-    <style>
-     .bor-hr{
-         border-top:1px solid #ccc;
-         margin-bottom:10px;
-     }
-     .direct-chat-messages {
-         height: 180px;
-         overflow:hidden;
-     }
-     .direct-chat-contacts{
-         height:180px;
-         background:#fff;
-         color:#000;
-     }
-     .small-box{
-        height:100px;
-     }
-    </style>
-    <section class="content">
+    <section class="content li-section">
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-info">

@@ -6,67 +6,7 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
-    <style>
-     .ft14{
-         font-size:14px;
-     }
-     .ft24{
-         font-size:24px;
-     }
-     .ft18{
-         font-size:18px;
-     }
-     .text-cen{
-         text-align:center;
-     }
-     .text-top{
-         vertical-align:top;
-     }
-     .r-border{
-         border-right:1px solid #ccc;
-     }
-     .bor-hr{
-         border-top:1px solid #ccc;
-         margin-bottom:10px;
-     }
-     .color-9{
-         color:#999;
-     }
-     .color-red{
-         color:red;
-     }
-     .color-blue{
-         color:#00A6FF;
-     }
-     .bg-set-blue{
-         background:#00a6ff;
-         color:#fff;
-     }
-     .bg-lblue{
-         background:#e6faff;
-     }
-     .bor-rds{
-         border-radius:5px;
-     }
-     .div-bank{
-         width:60%;
-         margin:50px auto;
-     }
-     .btn-bank{
-         display:block;
-         width:100%;
-     }
-     .flag-baes td{
-         width:30%;
-         text-align:center;
-     }
-     input{
-         border:0 solid #fff;
-         width:100%;
-         height:100%;
-     }
-    </style>
-    <section class="content">
+    <section class="content li-section">
         <div class="row">
             <!-- Left col -->
             <section class="col-lg-5 connectedSortable">
@@ -351,9 +291,9 @@
                                     <p class="color-9"  data-sub="edit_teacher_info" >个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th class="text-cen bg-lblue" >ID</th>
+                                            <th class="text-cen bg-lblue" style="width:20%">ID</th>
                                             <td id="teacherid">56123</td>
-                                            <th class="text-cen bg-lblue" >姓名</th>
+                                            <th class="text-cen bg-lblue" style="width:20%">姓名</th>
                                             <td>
                                                 <span>{{$my_info['nick']}}</span>
                                                 <input type="text" name="nick" class="hide" value="{{$my_info['nick']}}">
@@ -400,12 +340,12 @@
                                     <p class="color-9">教学信息</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th class="text-cen bg-lblue" >教龄</th>
+                                            <th class="text-cen bg-lblue" style="width:20%">教龄</th>
                                             <td>
                                                 <span>{{$my_info['work_year']}}</span>
                                                 <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
                                             </td>
-                                            <th class="text-cen bg-lblue" >教材版本</th>
+                                            <th class="text-cen bg-lblue" style="width:20%">教材版本</th>
                                             <td>{{$my_info['textbook_type_str']}}</td>
                                         </tr>
                                         <tr>
@@ -426,12 +366,12 @@
                                     <p class="color-9">教学背景</p>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th class="text-cen bg-lblue" >身份</th>
+                                            <th class="text-cen bg-lblue"  style="width:20%">身份</th>
                                             <td>
                                                 <span>{{$my_info['identity_str']}}</span>
                                                 <input type="text" name="identity_str" value="{{$my_info['identity_str']}}" class="hide" placeholder="未填写">
                                             </td>
-                                            <th class="text-cen bg-lblue" >毕业院校</th>
+                                            <th class="text-cen bg-lblue"  style="width:20%">毕业院校</th>
                                             <td>
                                                 <span>{{$my_info['school']}}</span>
                                                 <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">

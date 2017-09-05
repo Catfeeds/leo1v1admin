@@ -26,6 +26,8 @@
                          <td>支付宝姓名</td>
                          <td>支付宝账号</td> -->
                     <td>类型</td>
+                    <td>老师</td>
+                    <td>系统判定是否有效</td>
                     <td>上课时间</td>
                     <td>创建时间</td>
                     <td>操作</td>
@@ -64,6 +66,8 @@
                         @else
                             <td>注册</td>
                         @endif
+                        <td>{{@$var["tea_nick"]}} </td>
+                        <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>

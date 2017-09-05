@@ -71,6 +71,9 @@ class agent extends Controller
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
+                $item["lesson_user_online_status"]
+            );
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             if($item['lesson_start']){
@@ -231,6 +234,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $order_info = $this->t_order_info->get_agent_order_info_new($userid=303874,$create_time=1503734326);
+        dd($order_info);
         list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
         $order_info = $this->t_agent_order->get_all_list();
         foreach($order_info as $item){
