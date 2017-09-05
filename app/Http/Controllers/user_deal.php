@@ -2622,6 +2622,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list = $this->t_teacher_record_list->get_two_list_record();
+        dd($list);
         $id = $this->t_teacher_record_list->check_lesson_record_exist(304197,1,3);
         dd($id);
         $this->switch_tongji_database();
