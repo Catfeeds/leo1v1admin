@@ -14,6 +14,8 @@ interface RowData {
 	nick	:any;
 	phone	:any;
 	email	:any;
+	prove	:any;
+	seniority	:any;
 	teacher_type	:any;
 	teacher_ref_type	:any;
 	identity	:any;

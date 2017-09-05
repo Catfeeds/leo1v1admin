@@ -167,7 +167,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        <div class="row">
+                        <div class="row text-cen">
                             @if (@$my_info['seniority'])
                                 <a href="javascript:;" class="color-9 opt-upload"  id="seniority" data-val="seniority" >重新上传</a>
                             @endif
@@ -201,7 +201,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        <div class="row">
+                        <div class="row text-cen">
                             @if (@$my_info['prove'])
                                 <a href="javascript:;" class="color-9 opt-upload"  id="prove" data-val="prove" >重新上传</a>
                             @endif
