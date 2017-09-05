@@ -153,14 +153,14 @@ class agent extends Controller
                     if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
                         $have_intention_c_count[] = $item;
                     }
+                }
+                if($item['a_lesson_start']>=$start_time && $item['a_lesson_start']<$end_time){
                     //预约数&&上课数
                     // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
                     if($item['test_lessonid']){
                         $require_count[] = $item;
                         $test_lesson_count[] = $item;
                     }
-                }
-                if($item['a_lesson_start']>=$start_time && $item['a_lesson_start']<$end_time){
                     //试听成功数
                     // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
                     if($item['lesson_user_online_status'] == 1 ){
