@@ -504,6 +504,8 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("media_info:".json_encode( $mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
@@ -550,6 +552,8 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
