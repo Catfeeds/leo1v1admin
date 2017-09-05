@@ -356,7 +356,7 @@ $(function(){
                     return false;
                 }
 
-                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8"){
+                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8" ){
                     if($.check_in_phone()){
                         var w = $.check_in_phone()?329:558;
                         var h = w/4*3;
@@ -379,7 +379,7 @@ $(function(){
                                     +"&start="+start,"_blank");
                         window.location.reload();
                     }
-                }else if(account != "" && (acc=="wander" || acc=="nick" || acc=="jack")){
+                }else if(account != "" && (acc=="wander" || acc=="nick" || acc=="jack" || acc=="ted")){
                     if($.check_in_phone()){
                         var w = $.check_in_phone()?329 : 558;
                         var h = w/4*3;

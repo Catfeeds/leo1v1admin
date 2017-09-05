@@ -665,7 +665,7 @@ $(function(){
         var teacher_subject = $(this).data("subject");
         if(teacherid > 0){
             var title     = "试听成功详情";
-            var html_node = $("<div id=\"div_table\"><table class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>学生</td><td>年级</td><td>科目</td><td>试听需求</td><td width=\"100px\">视频回放</td><td>咨询师回访记录</td><td>合同</td><td width=\"120px\">签约失败说明</td><tr></table></div>");
+            var html_node = $("<div id=\"div_table\"><table class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>学生</td><td>年级</td><td>科目</td><td>试听需求</td><td width=\"100px\">视频回放</td><td>咨询师回访记录</td><td>电话回访记录</td><td>合同</td><td width=\"120px\">签约失败说明</td><tr></table></div>");
 
             $.do_ajax('/tongji_ss/get_test_lesson_history_success_info',{
                 "teacherid"  : teacherid,
@@ -681,6 +681,7 @@ $(function(){
                     var subject  = item["subject_str"];
                     var grade    = item["grade_str"];
                     var rev      = item["rev"];
+                    var call_rev      = item["call_rev"];
                     var html ="<tr>"
                         +"<td>"+lessonid+"</td>"
                         +"<td>"+time+"</td>"
@@ -701,6 +702,7 @@ $(function(){
                         +"<a class=\"stu_test_paper\"  data-nick=\""+nick+"\" data-lessonid=\""+lessonid+"\">试卷下载</a>"
                         +"</td>"
                         +"<td>"+rev+"</td>"
+                        +"<td>"+call_rev+"</td>"
                         +"<td>"+item["have_order"]+"</td>"
                         +"<td>"+item["fail_info"]+"</td>"
                         +"</tr>";
@@ -771,6 +773,41 @@ $(function(){
                 });
 
 
+                html_node.find("table").find(".audio_show").each(function(){
+                    $(this).on("click",function(){
+                        var url = $(this).data("url");
+                        var load_wav_self_flag = $(this).data("flag");
+                        if (load_wav_self_flag) {
+                            var file=url.split("/")[4];
+                            //get mp3
+                            file=file.split(".")[0]+".mp3";
+                            url= "/audio/"+file;
+                        }
+
+                        var html_node_audio = $(" <div  style=\"text-align:center;\"  > <div id=\"drawing_list\" style=\"width:100%\"  > </div>  <audio preload=\"none\"  > </audio> <br>  <a href=\""+url+"\" class=\"btn btn-primary \"  target=\"_blank\"> 下载 </a>  </div> ");
+
+                        var audio_node   = html_node_audio.find("audio" );
+
+                        BootstrapDialog.show({
+                            title    : "录音:" ,
+                            message  : html_node_audio,
+                            closable : true,
+                            onhide   : function(dialogRef){
+                            },
+                            onshown: function() {
+                                //加载mp3
+                                audiojs.events.ready(function(){
+
+                                    var as = audiojs.createAll({}, audio_node  );
+                                    //as[0].load( opt_data.record_url );
+                                    as[0].load(url);
+                                    as[0].play();
+                                });
+                            }
+
+                        });
+                    });
+                });
                 html_node.find("table").find(".url_class").each(function(){
                     $(this).on("click",function(){
                         var url = $(this).data("url");

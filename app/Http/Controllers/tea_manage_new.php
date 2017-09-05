@@ -203,8 +203,8 @@ class tea_manage_new extends Controller
     }
 
     public function update_tea_note()  {
-        $teacherid =$this->get_in_teacherid();
-        $tea_note     = trim($this->get_in_str_val('tea_note',""));
+        $teacherid = $this->get_in_teacherid();
+        $tea_note  = trim($this->get_in_str_val('tea_note',""));
 
         $ret=$this->t_teacher_info->field_update_list($teacherid,[
             'tea_note'         => $tea_note

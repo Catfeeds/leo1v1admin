@@ -151,7 +151,7 @@
                                 @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo")
                                     <a class="opt-reset">重置</a>
                                 @endif
-                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby"]) || $var["account"]=="")
+                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby","ted"]) || $var["account"]=="")
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     @if($var['status']==0)
                                         <a class="opt-video_error" title="视频出错短信通知">视频出错</a>

@@ -244,6 +244,30 @@ class ss_deal extends Controller
         $origin_userid = $this->get_in_int_val("origin_userid");
         $require_id = $this->get_in_int_val("require_id");
 
+        $change_reason = trim($this->get_in_str_val('change_reason'));
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+        $url = $this->get_in_str_val('change_reason_url');
+
+
+        if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
+            return $this->output_err('请选择换老师类型!');
+        }elseif($ass_test_lesson_type == 2 && !$change_reason){
+            return $this->output_err('请填写换老师原因!');
+        }elseif($ass_test_lesson_type == 2 && strlen(str_replace(" ","",$change_reason))<9){
+            return $this->output_err('换老师原因不得少于3个字!');
+        }
+
+        if($url){
+            if(preg_match('/http/i',$url)){
+                $change_reason_url = $url;
+            }else{
+                $domain = config('admin')['qiniu']['public']['url'];
+                $change_reason_url = $domain.'/'.$url;
+            }
+        }else{
+            $change_reason_url = '';
+        }
+
         if ($stu_request_test_lesson_time) {
             $stu_request_test_lesson_time=strtotime( $stu_request_test_lesson_time);
         } else {
@@ -274,6 +298,9 @@ class ss_deal extends Controller
         $require_arr = [
             "test_stu_request_test_lesson_demand"=>$stu_request_test_lesson_demand,
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
+            "change_teacher_reason"          => $change_reason,
+            "change_teacher_reason_img_url"      => $change_reason_url,
+            "change_teacher_reason_type" => $change_teacher_reason_type
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
@@ -561,7 +588,7 @@ class ss_deal extends Controller
             //更新试听申请意向
             $info = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"current_require_id,intention_level");
             $this->t_test_lesson_subject_require->field_update_list($info["current_require_id"],[
-               "intention_level" =>$info["intention_level"] 
+               "intention_level" =>$info["intention_level"]
             ]);
             $stu_type = $this->t_student_info->get_type($userid);
             if($stu_type==0){

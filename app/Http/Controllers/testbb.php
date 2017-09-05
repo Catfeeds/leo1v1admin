@@ -50,6 +50,10 @@ class testbb extends Controller
 
     public function test () {
 
+        $a = 'http://1111';
+        $d = preg_match('/Http/i',$a);
+        dd($d);
+
         $rand = mt_rand(0,100000);
         $money = $rand;
 
