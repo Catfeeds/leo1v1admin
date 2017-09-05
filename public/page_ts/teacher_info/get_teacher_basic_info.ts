@@ -22,7 +22,6 @@ $(function(){
                 }
             }, [], ["pdf","zip"],function(){}
         );
-
     });
 
     $('.opt-show').on('click', function (){
