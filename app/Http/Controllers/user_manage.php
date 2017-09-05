@@ -1403,6 +1403,20 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function subject_by_month(){
+        $this->switch_tongji_database();
+        $ret_info = [];
+        for($i=1;$i<=12;$i++){
+            $ret_info[$i] = $this->t_lesson_info->get_subject_by_month($i);
+        }
+
+        foreach($ret_info as $k=>&$item){
+            $item["month"]=$k;
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
     public function get_stu_grade_info_month(){
         $this->switch_tongji_database();
         $start = strtotime("2017-01-01");
