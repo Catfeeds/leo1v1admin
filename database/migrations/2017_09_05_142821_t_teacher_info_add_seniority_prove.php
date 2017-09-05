@@ -15,8 +15,8 @@ class TTeacherInfoAddSeniorityProve extends Migration
         //
         Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
-            t_field($table->integer("seniority"),"资格证");
-            t_field($table->integer("prove"),"公校证明");
+            t_field($table->string("seniority"),"资格证");
+            t_field($table->string("prove"),"公校证明");
         });
 
     }
