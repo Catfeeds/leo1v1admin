@@ -64,10 +64,6 @@ class send_wx_msg_for_test_lesson extends Command
         }
         }
 
-
-
-
-
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now-4*60;
@@ -90,15 +86,6 @@ class send_wx_msg_for_test_lesson extends Command
                 $this->send_wx_msg_ass($item,2,$data_ass);
             }
         }
-        */
-
-
-
-
-
-
-
-
 
 
         // 课程中途退出10分钟以上
@@ -119,13 +106,14 @@ class send_wx_msg_for_test_lesson extends Command
 
             $this->send_wx_msg_ass($item,3,$data_ass);
         }
+        */
 
 
         // 测试数据
         //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
         // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
 
-        $cut_class_lesson_list[] = [
+        $absenteeism_lesson_list[] = [
             "lessonid" => "315614",
             "ass_phone" => "18201985007",
             "par_phone" => "13933633400",
@@ -147,25 +135,27 @@ class send_wx_msg_for_test_lesson extends Command
 
 
 
-        /*
 
         // 旷课
 
-        foreach($absenteeism_lesson_list as $index=>$item){
-            $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
-            $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+        if(!empty($absenteeism_lesson_list)){
+            foreach($absenteeism_lesson_list as $index=>$item){
+                $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+                $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
-            if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
-                $this->send_wx_msg_ass($item,4,$data_ass);
+                // if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
+                    $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
+                    $this->send_wx_msg_ass($item,4,$data_ass);
+                // }
+
+                // if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
+                    $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
+                    $this->send_wx_msg_ass($item,4,$data_ass);
+                // }
+
             }
-
-            if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
-                $this->send_wx_msg_ass($item,4,$data_ass);
-            }
-
-        }
+       }
+        /*
 
         // 试听课正常结束
 
