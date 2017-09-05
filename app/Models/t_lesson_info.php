@@ -5325,7 +5325,6 @@ lesson_type in (0,1) "
                                   $start_time,
                                   $end_time
         );
-
         $ret =  $this->main_get_list($sql);
         //deal
         $arr=[];
