@@ -26,15 +26,16 @@ class  yxyx_wx_server extends Controller
     var $check_login_flag =false;//是否需要验证
     public function index() {
         $wechat = new \App\Wx\Yxyx\wechat (WECHAT_TOKEN_YXYX, TRUE);
-        /*
-        $r = $wechat->checkSignature();
-        exit;
-        */
-        $ret=$wechat->run();
-        if (is_bool($ret)) {
-            return "";
+        if (\App\Helper\Utils::check_env_is_test() ) {
+            $r = $wechat->checkSignature();
+            exit;
         }else{
-            return $ret;
+            $ret=$wechat->run();
+            if (is_bool($ret)) {
+                return "";
+            }else{
+                return $ret;
+            }
         }
     }
 

@@ -174,7 +174,7 @@ class send_wx_msg_for_test_lesson extends Command
             if($type == 1){ // 课前30分钟
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
-                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
+                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => '学生端',
                     "keyword4" => '"'.$item['ass_phone'].'"',
