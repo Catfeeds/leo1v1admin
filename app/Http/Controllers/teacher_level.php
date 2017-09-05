@@ -631,7 +631,6 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-  
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -641,7 +640,6 @@ class teacher_level extends Controller
         return $this->get_first_test_lesson_info();
     }
 
-    
     //第一次试听课列表
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
@@ -819,15 +817,12 @@ class teacher_level extends Controller
                     "acc"            => $acc,
                     "click_time"     => time(),
                 ]);
-  
             }
-
-            
         }else{
             $acc= $this->get_account();
             $ret = $this->t_teacher_record_list->row_insert([
                 "teacherid"      => $teacherid,
-                "type"           => $record_type,          
+                "type"           => $record_type,
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
                 "acc"            => $acc,

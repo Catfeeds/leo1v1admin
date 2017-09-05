@@ -134,7 +134,6 @@ $(function(){
             url : "../province_city_select_Info.xml",  
             success : func_suc_getXmlProvice  
         });  
-        province.val(4);
         
         //省 下拉选择发生变化触发的事件  
         province.change(function() {  
