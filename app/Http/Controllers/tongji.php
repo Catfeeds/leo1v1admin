@@ -1679,7 +1679,7 @@ class tongji extends Controller
                     }
                 }
             }
-            $order_info = $this->t_agent_order->get_all_list();
+            $order_info = $this->t_agent_order->get_all_list($start_time,$end_time);
             foreach($order_info as $item){
                 $orderid = $item['orderid'];
                 $order_count[] = $item;
