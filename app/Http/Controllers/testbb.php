@@ -278,7 +278,14 @@ class testbb extends Controller
 
     public function ss(){
 
-        // $now = time();
+        $now = time();
+
+        $lesson_begin_five = $now-5*60;
+        $lesson_end_five   = $now-6*60;
+        $test_lesson_list_five  = $this->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+
+        dd($test_lesson_list_five);
+
         $now = 1504584000;
         $lesson_begin_halfhour = $now+29*60;
         $lesson_end_halfhour   = $now+30*60;
