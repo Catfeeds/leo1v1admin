@@ -57,7 +57,8 @@
                                 <a class="fa opt-assign-admin"  title=""> 分配成员</a>
                                 <a class="fa opt-add_other_teacher"  title=""> 新增招师代理</a>
                                 <a class="fa opt-tea_origin_url" title="">招</a>
-
+                                <a class="fa opt-detail" title="详细">详细</a>
+                                <a class="fa opt-edit_other_teacher" title="">修改招师代理信息</a>
                             </div>
                         </td>
                     </tr>
@@ -65,6 +66,7 @@
             </tbody>
         </table>
         @include("layouts.page")
+        
     </section>
     
 @endsection

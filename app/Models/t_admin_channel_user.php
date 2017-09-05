@@ -37,7 +37,7 @@ class t_admin_channel_user extends \App\Models\Zgen\z_t_admin_channel_user
         $where_arr=[
             ["teacher_ref_type = %u",$group_id,-1]
         ];
-        $sql=$this->gen_sql_new("select teacherid ,realname ,phone  from %s where %s",
+        $sql=$this->gen_sql_new("select teacherid ,realname ,phone,zs_id ,email,teacher_type from %s where %s",
                                 t_teacher_info::DB_TABLE_NAME,
                                 $where_arr);
         return $this->main_get_list($sql);

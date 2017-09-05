@@ -154,7 +154,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-tea_origin_url").each(function(){
+    $(".opt-tea_origin_url, .opt-detail, .opt-edit_other_teacher").each(function(){
         var opt_data = $(this).get_opt_data();
         if(opt_data.level != "l-3"){
             $(this).hide();
@@ -215,6 +215,61 @@ $(function(){
         var phone = $(this).get_opt_data("admin_phone");
         var url = "http://wx-teacher-web.leo1v1.com/tea.html?"+phone;
         BootstrapDialog.alert(url);
+    });
+    $(".opt-detail").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid        = $("<input readonly='readonly'/>"); 
+        var teachername      = $("<input readonly='readonly'/>"); 
+        var phone            = $("<input readonly='readonly'/>");
+        var email            = $("<input readonly='readonly'/>");
+        var teacher_type     = $("<input readonly='readonly'/>");
+        var zs_name          = $("<input readonly='readonly'/>");
+        teacherid.val(opt_data.admin_id);
+        teachername.val(opt_data.admin_name);
+        phone.val(opt_data.admin_phone);
+        email.val(opt_data.email);
+        teacher_type.val(opt_data.teacher_type);
+        zs_name.val(opt_data.zs_name);
+        var arr = [
+            ["电话", phone],
+            ["姓名",    teachername],
+            ["老师类型",    teacher_type],
+            ["电子邮件", email],
+            ["指定招师", zs_name],
+        ];
+
+        $.show_key_value_table("详细记录", arr, {
+            label    :   "确认",
+            cssClass :   "btn-warning",
+            action   :   function(dialog){
+            }
+        },function(){
+        });
+    }) ;
+    $('.opt-edit_other_teacher').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var zs_id                 = $("<input/>");
+        var arr = [
+            ["指定招师",zs_id]
+        ];
+
+        $.show_key_value_table("修改指定招师信息", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/channel_manage/update_zs_id',{
+                    "teacherid"          : opt_data.admin_id,
+                    "zs_id"              : zs_id.val(),
+                });
+            }
+        },function(){
+            $.admin_select_user(
+                zs_id ,
+                "admin", null,true, {
+                    "main_type": 8 //分配用户
+                }
+            );
+        });
     });
     $('.opt-change').set_input_change_event(load_data);
 });
