@@ -486,14 +486,19 @@ class wx_teacher_api extends Controller
         return $this->output_succ();
     }
 
+
+
+
+
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
+
         $teacherid = $this->get_teacherid();
 
         // 计算目前的奖金总额
         $total_money = $this->t_teacher_day_luck_draw->get_total_money();
 
         if($total_money > 2000){ // 超过经费额度 则所有人都显示未中奖
-            return $this->output_succ();
+            return $this->output_succ(['money'=>0]);
         }
 
         // 判断是否有 录制试讲||分享朋友圈
@@ -529,10 +534,12 @@ class wx_teacher_api extends Controller
             'money'     => $money,
         ]);
 
+        // dd($money);
         $real_money = $money/100;
-        return $this->output_succ(['data'=>$real_money]);
+        return $this->output_succ(['money'=>$real_money]);
 
     }
+
 
 
 }
