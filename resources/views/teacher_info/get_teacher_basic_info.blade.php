@@ -352,7 +352,7 @@
                                             <th class="text-cen bg-lblue" >科目</th>
                                             <td> {{$my_info['subject_str']}} </td>
                                             <th class="text-cen bg-lblue" >年级段</th>
-                                            <td> {{$my_info['grade_part_ex']}} </td>
+                                            <td> {{$my_info['grade_str']}} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >方言备注</th>
@@ -361,7 +361,7 @@
                                                 <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
 
                                             </td>
-                                            <th class="text-cen bg-lblue" >地址</th>
+                                            <th class="text-cen bg-lblue" >所在地</th>
                                             <td>
                                                 <span>{{$my_info['address']}}</span>
                                                 <input type="text" name="address" class="hide" value="{{$my_info['address']}}" placeholder="未填写">
