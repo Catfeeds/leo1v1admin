@@ -98,7 +98,6 @@ $(function(){
 
         html_node.find("#id_textbook").val(opt_data.editionid );
         html_node.find("#id_region").val(opt_data.region);
-        html_node.find("#province").val(4);
 
         html_node.find("#id_birth").datetimepicker({
             lang:'ch',
@@ -106,7 +105,7 @@ $(function(){
             format:'Ymd'
         });
 
-        var old_city = opt_data.city;
+       /* var old_city = opt_data.city;
         if(old_city == ''){
             old_city="选择市（区）";
         }
@@ -115,6 +114,7 @@ $(function(){
             old_city="选择区（县）";
         }
         var old_province = opt_data.province;
+        */
 
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
@@ -171,7 +171,7 @@ $(function(){
             var value = province.find("option:selected").text()  
                 + city.find("option:selected").text()  
                 + area.find("option:selected").text();  
-            //address.text(value);  
+            html_node.find("#id_address").val(value);  
             $("#txtProCity").val(value);  
         });  
         
