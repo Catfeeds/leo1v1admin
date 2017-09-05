@@ -47,16 +47,31 @@ class send_wx_msg_for_test_lesson extends Command
         $now = time();
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
-
+        /*
+          测试ok
         // 获取试听课 课前30分钟
-        // $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+        if(!empty($test_lesson_list_halfhour)){
+        foreach($test_lesson_list_halfhour as $item){
+        $data_par = $this->get_data($item,1,1);
+        $data_tea = $this->get_data($item,2,1);
+        $data_ass = $this->get_data($item,3,1);
+
+        $this->send_wx_msg_tea($item,1,$data_tea);
+        $this->send_wx_msg_par($item,1,$data_par);
+        $this->send_wx_msg_ass($item,1,$data_ass);
+        }
+        }
+
+        */
 
 
         // 测试数据
         //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
         // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
 
-        $test_lesson_list_halfhour[] = [
+        $test_lesson_list_five[] = [
             "ass_phone" => "18201985007",
             "par_phone" => "13933633400",
             "teacherid" => "254321",
@@ -73,22 +88,11 @@ class send_wx_msg_for_test_lesson extends Command
         ];
         // 测试数据
 
-        foreach($test_lesson_list_halfhour as $item){
-            $data_par = $this->get_data($item,1,1);
-            $data_tea = $this->get_data($item,2,1);
-            $data_ass = $this->get_data($item,3,1);
-
-            $this->send_wx_msg_tea($item,1,$data_tea);
-            $this->send_wx_msg_par($item,1,$data_par);
-            $this->send_wx_msg_ass($item,1,$data_ass);
-        }
-
-        /*
 
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now-6*60;
-        $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+        // $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
         foreach($test_lesson_list_five as $item){
             $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
             $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
@@ -108,6 +112,7 @@ class send_wx_msg_for_test_lesson extends Command
             }
         }
 
+        /*
 
 
         // 课程中途退出10分钟以上
@@ -175,10 +180,10 @@ class send_wx_msg_for_test_lesson extends Command
             if($type == 1){ // 课前30分钟
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
-                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
+                    "keyword1" => "$subject_str",
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => '学生端',
-                    "keyword4" => '"'.$item['ass_phone'].'"',
+                    "keyword4" => '" 助教电话: '.$item['ass_phone'].'"',
                     "remark"   => "可登录学生端提前预习讲义，做好课前准备工作，保持网络畅通，开课前五分钟可提前进入课堂，祝学习愉快！"
                 ];
             }elseif($type == 2){ // 超时5分钟
@@ -243,7 +248,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword1" => "$subject_str",
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => "学生端",
-                    "keyword4" => '"'.$item['par_phone'].'"',
+                    "keyword4" => '" 家长电话: '.$item['par_phone'].'"',
                     "remark"   => "请及时跟进"
                 ];
             }elseif($type == 2){ // 超时5分钟  $tea_nick_cut_class='', $stu_nick_cut_class=

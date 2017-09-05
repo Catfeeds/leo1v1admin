@@ -1143,5 +1143,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
 
     }
+
+    public function get_user_null_list(){
+        $sql = $this->gen_sql_new("select id  from %s where  type=1 and lesson_style in (3,4) and userid=0",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+
+    }
     
 }

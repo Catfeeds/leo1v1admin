@@ -2625,7 +2625,9 @@ class user_deal extends Controller
         $list = $this->t_teacher_record_list->get_two_list_record();
         foreach($list as $val){
             $tt = $this->t_teacher_record_list->get_id_list_by_lessonid($val["train_lessonid"]);
-            print_r($tt);
+            if(count($tt)>1){
+                $this->t_teacher_record_list->row_delete($tt[1]["id"]);
+            }
         }
         dd($list);
         $id = $this->t_teacher_record_list->check_lesson_record_exist(304197,1,3);

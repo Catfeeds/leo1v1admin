@@ -32,7 +32,10 @@ class wx_yxyx_common extends Controller
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr = preg_split("/\//", $goto_url);
         $action       = @$goto_url_arr[2];
-        $web_html_url = "http://wx-yxyx-web.leo1v1.com";
+
+        //$web_html_url = "http://wx-yxyx-web.leo1v1.com";
+        $web_html_url= preg_replace("/wx-yxyx/","wx-yxyx-web", $wx_config["url"] ) ;
+
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
         }else{
