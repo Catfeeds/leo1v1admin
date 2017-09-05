@@ -71,6 +71,9 @@ class agent extends Controller
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
+                $item["lesson_user_online_status"]
+            );
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
             if($item['lesson_start']){

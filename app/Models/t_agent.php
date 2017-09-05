@@ -109,6 +109,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." n.admin_revisiterid,n.tmk_student_status,n.global_tq_called_flag,n.sys_invaild_flag,"
                                  ." t.seller_student_status,t.require_admin_type,"
                                  ." tr.accept_flag,"
+                                 ." tea.nick as tea_nick,l.lesson_user_online_status, "
                                  ." l.lesson_user_online_status,l.lesson_start "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
@@ -121,6 +122,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
                                  ." left join %s tss on tss.lessonid = tr.current_lessonid"
                                  ." left join %s l on l.lessonid = tss.lessonid"
+                                 ." left join %s tea on l.teacherid = tea.teacherid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -133,6 +135,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
+                                 ,t_teacher_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list($sql);
