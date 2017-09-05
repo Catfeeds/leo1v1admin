@@ -298,7 +298,8 @@ class menu{
                     ["power_id"=>53, "name"=>"渠道统计-BD-即时", "url"=>"/tongji_ss/origin_count_bd_simple"],
 
                     ["power_id"=>54, "name"=>"渠道统计-优学帮", "url"=>"/tongji_ss/origin_count_yxb"],
-                    ["power_id"=>55, "name"=>"渠道统计-优学帮-即时", "url"=>"/tongji_ss/origin_count_yxb_simple"],
+                    // ["power_id"=>55, "name"=>"渠道统计-优学帮-即时", "url"=>"/tongji_ss/origin_count_yxb_simple"],
+                    ["power_id"=>55, "name"=>"渠道统计-优学帮-即时", "url"=>"/tongji/origin_count_yxb_simple"],
 
                     ["power_id"=>50, "name"=>"渠道统计-微信运营/tmk", "url"=>"/tongji_ss/origin_count_tmk"],
                     ["power_id"=>10, "name"=>"渠道cc产出统计", "url"=>"/tongji2/seller_origin_info"],
