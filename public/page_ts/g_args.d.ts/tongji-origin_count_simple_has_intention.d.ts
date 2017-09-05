@@ -1,16 +1,16 @@
 interface GargsStatic {
-    origin:    string;
-    origin_ex:    string;
-    seller_groupid_ex:    string;
-    admin_revisiterid:    number;
-    groupid:    number;
-    tmk_adminid:    number;
-    check_field_id:    number;
-    date_type_config:    string;
-    date_type:    number;
-    opt_date_type:    number;
-    start_time:    string;
-    end_time:    string;
+	origin:	string;
+	origin_ex:	string;
+	seller_groupid_ex:	string;
+	admin_revisiterid:	number;
+	groupid:	number;
+	tmk_adminid:	number;
+	check_field_id:	number;
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -20,35 +20,36 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-    key1    :any;
-    key2    :any;
-    key3    :any;
-    key4    :any;
-    key1_class    :any;
-    key2_class    :any;
-    key3_class    :any;
-    key4_class    :any;
-    level    :any;
-    create_time    :any;
-    all_count    :any;
-    assigned_count    :any;
-    tmk_assigned_count    :any;
-    tq_no_call_count    :any;
-    tq_called_count    :any;
-    tq_call_fail_count    :any;
-    tq_call_succ_valid_count    :any;
-    tq_call_succ_invalid_count    :any;
-    tq_call_fail_invalid_count    :any;
-    have_intention_a_count    :any;
-    have_intention_b_count    :any;
-    have_intention_c_count    :any;
-    require_count    :any;
-    test_lesson_count    :any;
-    succ_test_lesson_count    :any;
-    order_count    :any;
-    user_count    :any;
-    order_all_money    :any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
+	key1_class	:any;
+	key2_class	:any;
+	key3_class	:any;
+	key4_class	:any;
+	level	:any;
+	create_time	:any;
+	all_count	:any;
+	assigned_count	:any;
+	tmk_assigned_count	:any;
+	tq_no_call_count	:any;
+	tq_called_count	:any;
+	tq_call_fail_count	:any;
+	tq_call_succ_valid_count	:any;
+	tq_call_succ_invalid_count	:any;
+	tq_call_fail_invalid_count	:any;
+	have_intention_a_count	:any;
+	have_intention_b_count	:any;
+	have_intention_c_count	:any;
+	require_count	:any;
+	test_lesson_count	:any;
+	succ_test_lesson_count	:any;
+	order_count	:any;
+	user_count	:any;
+	order_all_money	:any;
 }
+
 /*
 
 tofile: 
