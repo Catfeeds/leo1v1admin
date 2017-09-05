@@ -238,13 +238,9 @@ class agent extends Controller
         $order_info = $this->t_agent_order->get_all_list();
         foreach($order_info as $item){
             $orderid = $item['orderid'];
-            // $orderid_arr = array_unique(array_column($order_count,'aoid'));
-            // if(in_array($orderid,$orderid_arr)){
-            // }else{
             $order_count[] = $item;
             $user_count[] = $item;
             $order_all_money += $item['price'];
-            // }
         }
         dd($order_count);
 

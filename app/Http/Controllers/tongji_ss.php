@@ -796,6 +796,13 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            $order_info = $this->t_agent_order->get_all_list();
+            foreach($order_info as $item){
+                $orderid = $item['orderid'];
+                $order_count[] = $item;
+                $user_count[] = $item;
+                $order_all_money += $item['price'];
+            }
             // if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
@@ -886,7 +893,6 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = '否';
             }
         }
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
