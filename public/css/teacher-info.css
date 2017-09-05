@@ -36,6 +36,15 @@
 .bg-lblue{
     background:#e6faff;
 }
+.bg-lgreen{
+    background:#36d68f;
+}
+.bg-lpro{
+    background:#6c86e1;
+}
+.bg-lyellow{
+    background:#ef7d50;
+}
 .bor-rds{
     border-radius:5px;
 }
@@ -76,4 +85,5 @@ input{
 .small-box{
     height:100px;
 }
+
 
