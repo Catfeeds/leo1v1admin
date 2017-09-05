@@ -727,18 +727,17 @@ class tongji_ss extends Controller
                     $ret_info_new[] = $item;
                 }
                 //合同
-                if($item['aoid']){
-                    $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                    if(in_array($orderid,$orderid_arr)){
-                    }else{
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
-                }
+                // if($item['aoid']){
+                //     $orderid = $item['aoid'];
+                //     $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                //     if(in_array($orderid,$orderid_arr)){
+                //     }else{
+                //         $order_count[] = $item;
+                //         $user_count[] = $item;
+                //         $order_all_money += $item['price'];
+                //     }
+                // }
             }
-            // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
