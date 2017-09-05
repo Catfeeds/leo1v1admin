@@ -495,7 +495,7 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
+            $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
             $img_url = self::get_img_url($url);
             $type = 'image';
             $num = rand();
@@ -540,7 +540,7 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "http://yxyx.leo1v1.com/common/get_agent_qr_new?wx_openid=".$openid;
+            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;
 
             $img_url = self::get_img_url($url);
             $type = 'image';
