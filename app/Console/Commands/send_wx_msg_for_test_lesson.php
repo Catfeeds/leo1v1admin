@@ -162,20 +162,20 @@ class send_wx_msg_for_test_lesson extends Command
 
         if(!empty($normal_lesson_list)){
 
-            foreach($normal_lesson_list as $index=>$item){
+            foreach($normal_lesson_list as $item){
 
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
-                // if( $logout_time_tea>$item['lesson_end']-600){
-                $data_ass = $this->get_data($item,3,6);
-                $this->send_wx_msg_ass($item,5,$data_ass);
-                // }
+                if( $logout_time_tea>$item['lesson_end']-600){
+                    $data_ass = $this->get_data($item,3,5);
+                    $this->send_wx_msg_ass($item,5,$data_ass);
+                }
 
-                // if($logout_time_stu>$item['lesson_end']-600){
-                $data_ass = $this->get_data($item,3,6);
-                $this->send_wx_msg_ass($item,5,$data_ass);
-                // }
+                if($logout_time_stu>$item['lesson_end']-600){
+                    $data_ass = $this->get_data($item,3,5);
+                    $this->send_wx_msg_ass($item,5,$data_ass);
+                }
 
             }
         }
@@ -315,6 +315,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "remark"   => "请您及时跟进"
                 ];
             }
+
         }
         return $data;
     }
