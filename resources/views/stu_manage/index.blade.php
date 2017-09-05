@@ -552,22 +552,18 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-12">
-                    <div class="input-group ">
-                        <span class="input-group-addon">地址</span>
-                        <input type="text" value="" class=" form-control "  id="id_address"  placeholder="" />
-                    </div>
+            <div class="col-xs-12 col-md-12">
+                <div class="input-group ">
+                    <span class="input-group-addon">地址</span>
+                    <input type="text" value="" class=" form-control "  id="id_address"  placeholder="" />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <div class="input-group ">
-                        <span class="input-group-addon">教材(目前使用)</span>
-                        <select class="form-control" id="id_textbook">
-                        </select>
+            <div class="col-xs-12 col-md-6">
+                <div class="input-group ">
+                    <span class="input-group-addon">教材(目前使用)</span>
+                    <select class="form-control" id="id_textbook">
+                    </select>
 
-                    </div>
                 </div>
             </div>
 
