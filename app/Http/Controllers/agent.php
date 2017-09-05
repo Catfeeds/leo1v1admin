@@ -234,9 +234,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $userid = $this->t_phone_to_user->get_userid($phone='18805817187');
-        $userid_one = $this->t_phone_to_user->get_userid($phone='13605714800');
-        dd($userid,$userid_one);
         $order_info = $this->t_order_info->get_agent_order_info_new($userid=303874,$create_time=1503734326);
         dd($order_info);
         list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
