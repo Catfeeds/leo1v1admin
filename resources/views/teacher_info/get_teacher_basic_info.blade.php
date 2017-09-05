@@ -387,25 +387,29 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" >最高学历</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['education']}}</span>
                                                 <input type="text" name="education" class="hide" value="{{$my_info['education']}}"  placeholder="未填写">
                                             </td>
 
                                             <th class="text-cen bg-lblue" >专业</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['major']}}</span>
                                                 <input type="text" name="major" class="hide" value="{{$my_info['major']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >兴趣爱好</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['hobby']}}</span>
                                                 <input type="text" name="hobby" class="hide" value="{{$my_info['hobby']}}"  placeholder="未填写">
                                             </td>
                                             <th class="text-cen bg-lblue" >个人特长</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['speciality']}}</span>
                                                 <input type="text" name="speciality" class="hide" value="{{$my_info['speciality']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
