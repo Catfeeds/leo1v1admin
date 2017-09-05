@@ -59,6 +59,7 @@ interface RowData {
 	gender_str	:any;
 	days	:any;
 	teacher_title	:any;
+	grade_str	:any;
 }
 
 /*
