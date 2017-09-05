@@ -21,6 +21,7 @@ interface RowData {
 	identity	:any;
 	grade_start	:any;
 	grade_end	:any;
+	address	:any;
 	realname	:any;
 	work_year	:any;
 	textbook_type	:any;
