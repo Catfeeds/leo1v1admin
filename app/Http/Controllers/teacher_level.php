@@ -841,7 +841,7 @@ class teacher_level extends Controller
 
     public function set_teacher_record_info(){
         $teacherid                        = $this->get_in_int_val("teacherid",0);
-        $userid                        = $this->get_in_int_val("userid",0);
+        $userid                           = $this->get_in_int_val("userid",0);
         $lessonid                         = $this->get_in_int_val("lessonid",0);
         $record_lesson_list               = $this->get_in_str_val("lesson_list","");
         $tea_process_design_score         = $this->get_in_int_val('tea_process_design_score');

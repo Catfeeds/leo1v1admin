@@ -2818,7 +2818,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
         $this->where_arr_add_time_range($where_arr,"tr.lesson_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag "
+        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,l.userid "
                                   ." from %s tr left join %s t on tr.teacherid = t.teacherid"
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s s on l.userid=s.userid"
@@ -2885,7 +2885,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
         $this->where_arr_add_time_range($where_arr,"tr.lesson_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag "
+        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,l.userid "
                                   ." from %s tr left join %s t on tr.teacherid = t.teacherid"
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s s on l.userid=s.userid"
@@ -3489,7 +3489,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.lesson_start<=%d",$lesson_end]
         ];
 
-        $sql = $this->gen_sql_new(" select m.phone as ass_phone, p.phone as par_phone, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+        $sql = $this->gen_sql_new(" select l.lessonid, m.phone as ass_phone, p.phone as par_phone, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "

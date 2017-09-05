@@ -1557,8 +1557,9 @@ class test_code extends Controller
 
     public function reset_test_appointment(){
         if(\App\Helper\Utils::check_env_is_test()){
-            $teacherid=62509;
-            $id=24;
+            $teacherid = 62509;
+            $phone     = "99900020001";
+            $id        = 24;
         }else{
             $phone=$this->get_in_str_val("phone");
             if($phone==""){

@@ -2622,7 +2622,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_teacher_record_list->get_user_null_list();
+        $list = $this->t_teacher_record_list->get_two_list_record();
+        dd($list);
         foreach($list as $val){
             $userid = $this->t_lesson_info->get_userid($val["train_lessonid"]);
             $this->t_teacher_record_list->field_update_list($val["id"],[
