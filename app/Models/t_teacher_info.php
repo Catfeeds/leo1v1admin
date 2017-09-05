@@ -3252,7 +3252,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
-                                        $phone, $school, $address, $dialect_notes){
+                                        $phone, $school, $address, $dialect_notes, $education, $major, $hobby,
+                                        $speciality){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
             "nick"          => $nick,
@@ -3264,6 +3265,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "school"        => $school,
             "address"       => $address,
             "dialect_notes" => $dialect_notes,
+            "education"     => $education,
+            "major"         => $major,
+            "hobby"         => $hobby,
+            "speciality"    => $speciality,
         ]);
         return $res;
     }
