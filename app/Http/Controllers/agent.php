@@ -60,12 +60,12 @@ class agent extends Controller
         list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
              $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
              $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-             $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+             $order_count,$user_count,$order_all_money,$start_time,$end_time) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],$this->get_in_int_val('start_time'),$this->get_in_int_val('end_time')];
         $userid_arr   = [];
         $ret_new      = [];
         $ret_info_new = [];
         $type         = $this->get_in_int_val('type');
-        $ret          = $this->t_agent->get_agent_info_new(null);
+        $ret          = $this->t_agent->get_agent_info_new($start_time,$end_time);
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
             if($item['type'] == 1){
@@ -195,6 +195,8 @@ class agent extends Controller
 
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
+        $start_time       = $this->get_in_int_val('start_time');
+        $end_time       = $this->get_in_int_val('end_time');
         $aid       = $this->get_in_int_val('aid');
         $pid       = $this->get_in_int_val('pid');
         $p_price   = $this->get_in_int_val('p_price');
@@ -203,7 +205,7 @@ class agent extends Controller
         $userid  = $this->get_in_int_val('userid');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
+        $ret_info  = $this->t_agent_order->get_agent_order_info($page_info,$start_time,$end_time);
         foreach($ret_info['list'] as &$item){
             $item['p_price'] = $item['p_price']/100;
             $item['pp_price'] = $item['pp_price']/100;
