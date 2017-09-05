@@ -5035,7 +5035,7 @@ lesson_type in (0,1) "
             "m.del_flag=0"
         ];
         $sql = $this->gen_sql_new("select l.lessonid,lesson_start,l.subject,l.grade,s.nick,l.draw,l.audio,l.real_begin_time,"
-                                  ."n.stu_character_info,n.stu_score_info,t.stu_request_lesson_time_info,t.stu_request_test_lesson_time,t.stu_request_test_lesson_time_info,t.stu_test_lesson_level,s.editionid,t.stu_request_test_lesson_demand,t.stu_test_paper,t.tea_download_paper_time,t.require_adminid,s.phone,l.userid,l.teacherid,tr.test_lesson_order_fail_desc,tr.test_lesson_order_fail_flag   "
+                                  ."n.stu_character_info,n.stu_score_info,t.stu_request_lesson_time_info,t.stu_request_test_lesson_time,t.stu_request_test_lesson_time_info,t.stu_test_lesson_level,s.editionid,t.stu_request_test_lesson_demand,t.stu_test_paper,t.tea_download_paper_time,t.require_adminid,s.phone,l.userid,l.teacherid,tr.test_lesson_order_fail_desc,tr.test_lesson_order_fail_flag,tr.cur_require_adminid,s.phone    "
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid "
                                   ." left join %s s on l.userid = s.userid "
@@ -5281,6 +5281,7 @@ lesson_type in (0,1) "
                                   $start_time,
                                   $end_time
         );
+
         $ret =  $this->main_get_list($sql);
         $arr[$month]=[];
         foreach($ret as $v){
@@ -5295,6 +5296,45 @@ lesson_type in (0,1) "
             @$res[$item]++;
         }
         return $res;
+    }
+
+    public function get_subject_by_month($month){
+        $year = date('Y',time());
+        $month_end = $month+1;
+        if($month_end <10){
+            $month_end = "0".$month_end;
+        }
+        if($month <10){
+            $month = "0".$month;
+        }
+
+        $start_time = strtotime($year."-".$month."-01");
+        $end_time = strtotime($year."-".$month_end."-01");
+        if($month==12){
+            $month_end = "01";
+            $year1 = $year +1;
+            $start_time = strtotime($year."-".$month."-01");
+            $end_time = strtotime($year1."-".$month_end."-01");
+
+        }
+
+        //sql deal
+        $sql = $this->gen_sql_new("select distinct userid,subject from %s where lesson_type in (0,1,3) and confirm_flag in (0,1) and ".
+                                  " lesson_start >= %u and lesson_start <= %u and lesson_del_flag=0",
+                                  self::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time
+        );
+
+        $ret =  $this->main_get_list($sql);
+        //deal
+        $arr=[];
+        foreach($ret as $v){
+            $subject= $v["subject"];
+            @$arr[$subject]++;
+        }
+    
+        return $arr;
     }
 
     public function get_regular_stu_num($start,$end,$teacherid_list=[]){

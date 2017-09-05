@@ -153,8 +153,8 @@
                         <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
-                                    <p data-status="nofull"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
+                                    <p data-status="full"> 你当前处于饱和状态，不会收到排课邀请，如需排课，可设置状态为不饱和</p>
+                                    <p data-status="nofull">你当前处于不饱和状态，可以收到排课邀请，如需不接收排课需求，可设置状态为饱和</p>
                                     <br>
                                     <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info opt-set ft18">设置不饱和</button>
                                     <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info opt-set ft18">设置饱和</button>
@@ -343,7 +343,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
+                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" id="mark" ><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
                             </button>
                         </div>
                     </div>

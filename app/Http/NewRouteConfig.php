@@ -217,7 +217,7 @@ class NewRouteConfig {
         "/user_manage/count_zan"                                => true,
         "/user_manage/zan_info"                                 => true,
         "/user_manage/get_mypraise_info"                        => true,
-        "/user_manage/add_praise"                  => true,
+        "/user_manage/add_praise"                               => true,
         "/user_manage/get_type_student_list"                    => true,
         "/user_manage/student_type_update"                      => true,
         "/user_manage/get_order_info"                           => true,
@@ -235,8 +235,9 @@ class NewRouteConfig {
         "/user_manage/student_single_subject"                   => true,
         "/user_manage/stu_all_teacher"                          => true,
         "/user_manage/get_stu_grade_info_month"                 => true,
-        "/user_manage/get_stu_subject_info_month"                 => true,
-        
+        "/user_manage/get_stu_subject_info_month"               => true,
+        "/user_manage/subject_by_month"                         => true,
+
 
 
         "/authority/get_account_role" => true,
@@ -535,6 +536,7 @@ class NewRouteConfig {
         "/human_resource/quit_teacher_info"                   => true,
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime" => true,
+       
         
 
         "/ass_manage/add_manager" => true,

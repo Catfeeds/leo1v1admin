@@ -42,8 +42,8 @@ class teacher_fifth_regular_lesson_deal extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task     = new \App\Console\Tasks\TaskController();
 
-        $start_time = time()-86400;
         $end_time = time();
+        $start_time = $end_time-86400;
         $ret_info = $task->t_lesson_info_b2->get_teacher_fifth_regular_lesson_detail($start_time,$end_time);
         $i=0;
         foreach($ret_info as $val){

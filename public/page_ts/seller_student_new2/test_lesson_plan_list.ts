@@ -720,7 +720,15 @@ $(function(){
         var $nick=$("<input/>").val(opt_data.nick );
         var $school=$("<input/>").val(opt_data.school );
         var $ass_test_lesson_type = $("<select/>");
+
+
+        var $id_change_teacher_reason_type = $("<select />").val(opt_data.change_teacher_reason_type);
+        var $id_change_reason = $("<textarea />").val(opt_data.change_teacher_reason);
+        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+
         Enum_map.append_option_list("ass_test_lesson_type",$ass_test_lesson_type,true);
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
+
         $ass_test_lesson_type .val(opt_data.ass_test_lesson_type);
 
         var $stu_request_test_lesson_time= $("<input  /> ").val(opt_data.stu_request_test_lesson_time ) ;
@@ -742,11 +750,34 @@ $(function(){
         // console.log($stu_request_test_lesson_time);
 
 
+
+        $ass_test_lesson_type.on("change",function(){
+            if($ass_test_lesson_type.val() == 2){
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                $id_change_reason.parent().parent().css('display','table-row');
+                $id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_reason.parent().parent().css('display','none');
+                $id_change_reason_url.parent().parent().css('display','none');
+
+                $id_change_teacher_reason_type.val(0);
+                $id_change_reason.val('');
+                $id_change_reason_url.val('');
+                $('#change_reason_url').val('')
+            }
+        });
+
+
+
         var arr=[
             ["电话", opt_data.phone],
             ["年级", opt_data.grade_str ],
             ["科目", opt_data.subject_str ],
             ["分类", $ass_test_lesson_type],
+            ["换老师类型", $id_change_teacher_reason_type],
+            ["申请原因", $id_change_reason],
+            ["申请原因(图片)", $id_change_reason_url],
             ["姓名", $nick],
             ["学校", $school],
             ["教材版本", $editionid],
@@ -770,7 +801,7 @@ $(function(){
                 }
                 need_start_time=$.strtotime(min_date_time );
 
-                alert(1);
+                // alert(1);
                 // if(!require_time){
 
                 // }
@@ -792,9 +823,29 @@ $(function(){
                     school:$school.val(),
                     stu_request_test_lesson_time:$stu_request_test_lesson_time.val(),
                     stu_request_test_lesson_demand:$stu_request_test_lesson_demand.val(),
+                    change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
+                    change_reason : $id_change_reason.val(),
+                    change_reason_url : $id_change_reason_url.find("#change_reason_url").val()
+
                 });
             }
         },function(){
+            $.custom_upload_file('id_upload_change_reason',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+                $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
+            if(opt_data.ass_test_lesson_type == 2){ // 是换老师类型
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                $id_change_reason.parent().parent().css('display','table-row');
+                $id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_reason.parent().parent().css('display','none');
+                $id_change_reason_url.parent().parent().css('display','none');
+            }
+            $('#change_reason_url').val(opt_data.change_teacher_reason_img_url);
+            $id_change_teacher_reason_type.find('option[value="'+opt_data.change_teacher_reason_type+'"]').attr('selected',1);
 
         });
 
@@ -1001,6 +1052,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
+       // alert(opt_data.require_id);
         console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");

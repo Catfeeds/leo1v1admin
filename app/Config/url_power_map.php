@@ -459,6 +459,7 @@ class url_power_map {
 			'/tongji_ss/get_seller_rank_for_jw'	=>1142700,
 			'/seller_student_new2/test_lesson_plan_list_jw_leader'	=>1142800,
 			'/user_manage/tongji_cc'	=>1142900,
+			'/user_manage/subject_by_month'	=>1143000,
 			'/seller_student_new2/tmk_student_list_all'	=>1333100,
 			'/seller_student_new/tel_student_list'	=>1313100,
 			'/seller_student_new/tmk_assign_sub_adminid_list'	=>1310600,

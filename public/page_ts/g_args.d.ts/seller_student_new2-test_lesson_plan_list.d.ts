@@ -42,6 +42,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	change_teacher_reason	:any;
+	change_teacher_reason_img_url	:any;
+	change_teacher_reason_type	:any;
 	test_lesson_order_fail_flag	:any;
 	test_lesson_order_fail_desc	:any;
 	test_lesson_order_fail_set_time	:any;
@@ -73,6 +76,7 @@ interface RowData {
 	require_adminid	:any;
 	stu_request_test_lesson_time	:any;
 	stu_request_test_lesson_demand	:any;
+	intention_level	:any;
 	origin_assistantid	:any;
 	subject	:any;
 	grade	:any;
@@ -139,6 +143,7 @@ interface RowData {
 	success_flag_str	:any;
 	lesson_used_flag_str	:any;
 	fail_greater_4_hour_flag_str	:any;
+	intention_level_str	:any;
 	test_lesson_fail_flag_str	:any;
 	ass_test_lesson_type_str	:any;
 	stu_request_test_lesson_time_info_str	:any;

@@ -1403,6 +1403,20 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function subject_by_month(){
+        $this->switch_tongji_database();
+        $ret_info = [];
+        for($i=1;$i<=12;$i++){
+            $ret_info[$i] = $this->t_lesson_info->get_subject_by_month($i);
+        }
+
+        foreach($ret_info as $k=>&$item){
+            $item["month"]=$k;
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
     public function get_stu_grade_info_month(){
         $this->switch_tongji_database();
         $start = strtotime("2017-01-01");
@@ -1960,7 +1974,7 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type );
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type   );
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
@@ -2008,11 +2022,81 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
-    public function complaint_department_deal_product(){
-        $this->set_in_value('account_type',2);
-        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
-        return $this->complaint_department_deal();
+    public function complaint_department_deal_product(){ // 显示软件反馈类型
+
+        $page_info    = $this->get_in_page_info();
+        $account_id   = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        $account_type = $this->get_in_int_val('account_type',2);
+        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
+
+        // 权限分配
+        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
+        $root_flag = in_array($account_id,$root_id_arr);
+
+        $up_groupid = $this->t_admin_group_name->get_up_groupid_by_master_adminid($account_id);
+
+        if($up_groupid > 0){
+            $account_id_arr = $this->t_admin_group_name->get_adminid_list_by_up_groupid($up_groupid);
+            $account_id_arr_tmp = [];
+            if($account_id_arr){
+                foreach($account_id_arr as $item){
+                    $account_id_arr_tmp[] = $item['adminid'];
+                }
+                $account_id_str = implode(',',$account_id_arr_tmp);
+            }else{
+                $account_id_str = $account_id;
+            }
+
+        }else{
+            $account_id_str = $account_id;
+        }
+
+
+
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
+            0 => array( "add_time", "投诉时间"),
+            1 => array( "current_admin_assign_time", "分配时间"),
+        ]);
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
+
+
+        foreach($ret_info['list'] as $index=>&$item){
+
+            E\Ecomplaint_type::set_item_value_str($item);
+            E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
+            $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
+            E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
+            $item['complaint_date']         = \App\Helper\Utils::unixtime2date($item['add_time']);
+            $item['deal_date']              = \App\Helper\Utils::unixtime2date($item['deal_time']);
+            $item['current_admin_assign_time_date'] = \App\Helper\Utils::unixtime2date($item['current_admin_assign_time']);
+            $item['deal_admin_nick'] = $this->t_manager_info->get_ass_master_nick($item['deal_adminid']);
+
+            $this->get_nick_phone_by_account_type($item['account_type'],$item);
+
+            $current_account_arr = $this->t_complaint_assign_info->get_last_accept_adminid($item['complaint_id']);
+            $current_account_last = reset($current_account_arr);
+
+            $item['current_account'] = $current_account_last['account'];
+
+            if ($item['current_account']) {
+                $item['follow_state_str'] = '<font color="green">已分配</font>';
+            } else {
+                $item['follow_state_str'] = '<font color="blue">未分配</font>';
+            }
+
+            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time']);
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+
+
     }
+
+
+
+
 
 
     public function complaint_department_deal(){

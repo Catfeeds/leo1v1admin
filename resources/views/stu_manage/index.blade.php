@@ -573,6 +573,35 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">省</span>
+                    <select class="form-control" id="province" name="province">
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">市</span>
+                    <select class="form-control" id="city" name="city">
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">区(县)</span>
+                    <select class="form-control" id="area" name="area">
+                    </select>
+
+                </div>
+            </div>
+
+
+        </div>
+
 
 
 

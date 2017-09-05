@@ -357,7 +357,11 @@ class seller_student_new2 extends Controller
 
     public function  ass_test_lesson_list()
     {
-        $this->set_in_value("require_adminid",$this->get_account_id() );
+        $adminid = $this->get_account_id();
+        if($adminid==349){
+            $adminid=-1;
+        }
+        $this->set_in_value("require_adminid",$adminid);
         $this->set_in_value("cur_page","ass_test_lesson_list" );
         $this->set_in_value("is_ass_tran",1);
 

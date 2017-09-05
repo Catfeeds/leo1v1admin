@@ -403,7 +403,7 @@ class wx_parent_api extends Controller
 
         $report_msg_last = $this->t_user_report->get_last_msg($report_uid);
         if (!empty($report_msg_last) && $report_msg_last['0']['report_msg'] == $report_msg) {
-            return $this->output_err("投诉已受理,请勿重复提交..");
+            return $this->output_err("您的反馈投诉已收到,谢谢您的反馈!");
         }
 
          // * 插入到投诉数据库中

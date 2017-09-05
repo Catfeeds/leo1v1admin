@@ -1033,9 +1033,7 @@ class Common {
                     }
                 }
             }
-
         };
-
 
         $check_init_map_item($data_map,"","");
         foreach ($old_list as &$item) {
@@ -1068,20 +1066,19 @@ class Common {
                 $item['leave_member_time']=0;
                 $item['create_time']=0;
                 $item['del_flag']=0;
-                //$item['account']=
             }
 
 
-            $main_type=$item['main_type'];
-            $up_group_name=$item["up_group_name"];
-            $group_name=$item["group_name"];
-            $account=$item["account"];
-            $groupid = $item['groupid'];
+            $main_type          = $item['main_type'];
+            $up_group_name      = $item["up_group_name"];
+            $group_name         = $item["group_name"];
+            $account            = $item["account"];
+            $groupid            = $item['groupid'];
             $become_member_time = $item['become_member_time'];
-            $leave_member_time = $item['leave_member_time'];
-            $create_time = $item['create_time'];
-            $del_flag = $item['del_flag'];
-            $key0_map=&$data_map[""];
+            $leave_member_time  = $item['leave_member_time'];
+            $create_time        = $item['create_time'];
+            $del_flag           = $item['del_flag'];
+            $key0_map           = &$data_map[""];
             $add_data($key0_map, $item );
 
             $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );

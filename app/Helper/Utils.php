@@ -1674,4 +1674,12 @@ class Utils  {
         return $value;
     }
 
+    static public function effective_lesson_sql(&$where_arr,$prefix=""){
+        if($prefix!=""){
+            $prefix = $prefix.".";
+        }
+        $where_arr[] = $prefix."lesson_del_flag=0";
+        $where_arr[] = $prefix."confirm_flag!=2";
+    }
+
 };

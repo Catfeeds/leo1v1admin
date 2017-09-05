@@ -59,7 +59,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
-
     public function get_have_order_lesson_list_new($start_time,$end_time){
         $where_arr = [
             ["l.lesson_start>=%d",$start_time],
@@ -86,5 +85,37 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_trial_teacher_list($start,$end){
+        $where_arr = [
+            ["l.lesson_start>%u",$start,0],
+            ["l.lesson_start<%u",$end,0],
+            "l.lesson_type=2",
+            "t.is_test_user=0"
+        ];
+        \App\Helper\Utils::effective_lesson_sql($where_arr,"l");
+        $lesson_arr = [
+            "l.userid=l2.userid",
+            "l.teacherid=l2.teacherid",
+            "l2.lesson_type in (0,1,3)",
+        ];
+        \App\Helper\Utils::effective_lesson_sql($lesson_arr,"l2");
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.subject,t.grade_part_ex,t.grade_start,t.grade_end,"
+                                  ." t.second_subject,t.second_grade,t.second_grade_start,t.second_grade_end,t.phone,"
+                                  ." count(distinct(l.lessonid)) as lesson_num,count(distinct(l2.userid)) as succ_num"
+                                  ." from %s t"
+                                  ." left join %s l on t.teacherid=l.teacherid"
+                                  ." left join %s l2 on %s"
+                                  ." where %s"
+                                  ." group by t.teacherid"
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
