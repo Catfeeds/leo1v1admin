@@ -833,7 +833,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
             ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
             ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
-            ." t.test_transfor_per,t.school,t.need_test_lesson_flag,"
+            ." t.test_transfor_per,t.school,t.need_test_lesson_flag,t.education,t.major,t.hobby,t.speciality,"
             ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
             ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
             ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
