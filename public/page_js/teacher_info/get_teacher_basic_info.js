@@ -104,7 +104,6 @@ $(function(){
             $(".modal-backdrop").remove();
             $(".modal-open").css("padding-right", "");
             $(".modal-open").removeClass("modal-open");
-            // $("#mark").click();
         });
     })
 

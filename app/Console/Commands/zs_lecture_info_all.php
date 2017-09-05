@@ -50,7 +50,7 @@ class zs_lecture_info_all extends Command
 		
 		$teacher_info = $task->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
 		foreach($teacher_info as $kk=>$vv){
-		    if(in_array($kk,[992,891,486,871])){
+		    if(in_array($kk,[992,891,486,871,1058])){
                 unset($teacher_info[$kk]);
 		    }
 		}
