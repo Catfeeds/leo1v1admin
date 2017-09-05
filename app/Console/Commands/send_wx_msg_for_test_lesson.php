@@ -74,12 +74,13 @@ class send_wx_msg_for_test_lesson extends Command
         // 测试数据
 
         foreach($test_lesson_list_halfhour as $item){
-            $data_tea = $this->get_data($item,1,1);
-            $data_par = $this->get_data($item,2,1);
+            $data_par = $this->get_data($item,1,1);
+            $data_tea = $this->get_data($item,2,1);
             $data_ass = $this->get_data($item,3,1);
 
             $this->send_wx_msg_tea($item,1,$data_tea);
-            $this->send_wx_msg_admin($item,1,$data_ass, $data_par);
+            $this->send_wx_msg_par($item,1,$data_par);
+            $this->send_wx_msg_ass($item,1,$data_ass);
         }
 
         /*
@@ -305,13 +306,13 @@ class send_wx_msg_for_test_lesson extends Command
 
     public function send_wx_msg_tea($item, $type, $data_tea){ // 给老师发送
         if($type == 1){
-            $template_id_parent = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; // 上课提醒
+            $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; // 上课提醒
         }else{
-            $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
+            $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
        if($type !=3  ){
-           \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
+           \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,'');
        }
 
     }
