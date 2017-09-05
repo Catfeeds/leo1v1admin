@@ -3252,17 +3252,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
-                                        $phone, $school, $address){
+                                        $phone, $school, $address, $dialect_notes){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "nick"      => $nick,
-            "gender"    => $gender,
-            "birth"     => $birth,
-            "email"     => $email,
-            "work_year" => $work_year,
-            "phone"     => $phone,
-            "school"    => $school,
-            "address"   => $address,
+            "nick"          => $nick,
+            "gender"        => $gender,
+            "birth"         => $birth,
+            "email"         => $email,
+            "work_year"     => $work_year,
+            "phone"         => $phone,
+            "school"        => $school,
+            "address"       => $address,
+            "dialect_notes" => $dialect_notes,
         ]);
         return $res;
     }

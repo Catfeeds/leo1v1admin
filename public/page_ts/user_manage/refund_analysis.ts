@@ -6,11 +6,20 @@ $(function(){
         $.reload_self_page ( {
             orderid       :  g_args.orderid	,
             apply_time    : g_args.apply_time	,
-            is_test_user  : $("#id_is_test_user").val(),
-
+            qc_contact_status   : $("#id_qc_contact_status").val(),
+            qc_advances_status  : $("#id_qc_advances_status").val(),
+            qc_voluntarily_status  : $("#id_qc_voluntarily_status").val(),
+            //qc_voluntarily_status
         });
     }
 
+    Enum_map.append_option_list( "qc_contact_status", $("#id_qc_contact_status"));
+    Enum_map.append_option_list( "qc_advances_status", $("#id_qc_advances_status"));
+    Enum_map.append_option_list( "qc_voluntarily_status", $("#id_qc_voluntarily_status"));
+    $("#id_qc_contact_status").val(g_args.qc_contact_status);
+    $("#id_qc_advances_status").val(g_args.qc_advances_status);
+    $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
+//qc_voluntarily_status
 
     var adminid = $('#adminid').attr('data-adminid');
 

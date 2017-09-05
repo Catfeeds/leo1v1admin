@@ -12,7 +12,7 @@ $(function(){
         'end_time'       : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config), 
         onQuery :function() {
-            load_data();
+            //load_data();
         }
     });
 
@@ -29,26 +29,34 @@ $(function(){
             "teacherid"     : $("#id_search_teacher").val(),
             "lesson_status" : $("#id_lesson_status").val(),
             "lesson_type"   : $("#id_search_lesson_type").val(),
+
             "start_time"    : $("#id_start_time").val(),
             "end_time"      : $("#id_end_time").val(),
-            "date_type"     : $("#id_date_time").val(),
-            "opt_date_type" : $("#id_opt_date_time").val()
+            "date_type"     : $("#id_date_type").val(),
+            "opt_date_type" : $("#id_opt_date_type").val()
         });
     };
 
     $("#id_lesson_status").val(g_lesson_status);
     $("#id_search_teacher").val(g_teacherid);
     $("#id_search_lesson_type").val(g_lesson_type);
+
+    
+    $("#id_query").on("click",function(){
+        load_data();
+    });
+
+
     
     $.admin_select_user($("#id_search_teacher"),"teacher",function(){
-        load_data();
+        //load_data();
     });
     
     $("#id_lesson_status").on("change", function(){
-        load_data();
+        //load_data();
     });
     $("#id_search_lesson_type").on("change", function(){
-        load_data();
+        //load_data();
     });
 
     $("#id_add_lesson").on("click", function(){

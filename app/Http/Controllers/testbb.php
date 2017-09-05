@@ -281,6 +281,8 @@ class testbb extends Controller
         // $now = time();
         $now = 1504585740;
 
+        // delete from t_parent_info where parentid = 0
+
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now+6*60;
         $test_lesson_list_five  = $this->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);

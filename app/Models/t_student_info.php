@@ -829,7 +829,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                        ." s.stu_phone, s.gender, s.grade, s.operator_note type, parent_name, parent_type, address,"
                        ." school,textbook, editionid, region, p.phone as parent_phone, assistantid, seller_adminid,"
                        ." reg_time , init_info_pdf_url, user_agent, guest_code, host_code, s.parentid, s.is_test_user, "
-                       ." p.wx_openid as parent_wx_openid "
+                       ." p.wx_openid as parent_wx_openid,s.province,s.city,s.area "
                        ." from %s as s "
                        ." left join %s as p on s.parentid = p.parentid "
                        ." where userid = %u  "
