@@ -46,20 +46,6 @@ class send_lesson_notice_next_day extends Command
 
         $lesson_info_list = $task->t_lesson_info_b3->get_next_day_lesson_info();
 
-        // $lesson_info_list[] = [
-        //     "lesson_start" => "1504359000",
-        //     "phone" => "13501824183",
-        //     "tea_nick" => "卓媛容",
-        //     "lessonid" => "307572",
-        //     "stu_id" => "310203",
-        //     "stu_nick" => "李晨琳",
-        //     "lesson_end" => "1504361400",
-        //     "subject" => "5",
-        //     "tea_openid" => "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",
-        //     "par_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek"
-        // ];
-
-
         $wx = new \App\Helper\Wx();
         $template_id_parent  = 'QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8';
         $template_id_teacher = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk';
@@ -79,9 +65,6 @@ class send_lesson_notice_next_day extends Command
         }
 
     }
-
-
-
 
 
     public function get_data_tea($item){

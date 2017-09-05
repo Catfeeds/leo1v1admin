@@ -156,6 +156,7 @@ $(function(){
     });
     $(".opt-add_other_teacher").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        alert(opt_data.group_id);
         var id_phone              = $("<input/>");
         var id_tea_nick           = $("<input/>");
         var id_teacher_type       = $("<select/>");

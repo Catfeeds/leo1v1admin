@@ -13,7 +13,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	do_num	:any;
 	do_time	:any;
 	teacherid	:any;
 	money	:any;
