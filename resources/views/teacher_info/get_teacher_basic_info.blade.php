@@ -114,10 +114,10 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-2">
-                                    <!-- <div class="progress"> -->
+                                    <div class="progress">
                                         <div class="progress-bar">
                                             <b class="ft24 text-yellow text-top">60%</b>
-                                            <!-- </div> -->
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
