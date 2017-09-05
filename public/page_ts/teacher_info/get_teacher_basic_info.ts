@@ -6,9 +6,10 @@ $(function(){
         $.reload_self_page ( {
 
         });
-    }
+    };
 
-    $(".opt-upload").on("click", function( ){
+     $("[data-val]").each(function() {
+       console.log(this);
         var opt_field = $(this).attr('data-val');
         custom_upload_file(
             opt_field,0,function(up, file, info) {
