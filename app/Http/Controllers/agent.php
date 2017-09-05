@@ -65,7 +65,8 @@ class agent extends Controller
         $ret_new      = [];
         $ret_info_new = [];
         $type         = $this->get_in_int_val('type');
-        $ret          = $this->t_agent->get_agent_info_new($start_time,$end_time);
+        // $ret          = $this->t_agent->get_agent_info_new($start_time,$end_time);
+        $ret          = $this->t_agent->get_agent_info_new(null);
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
             if($item['type'] == 1){
