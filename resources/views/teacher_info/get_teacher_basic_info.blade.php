@@ -231,7 +231,7 @@
                                             <p> <span class="badge bg-lblue ft18">自然型</span></p>
                                         @elseif ($val == '技巧型')
                                             <p> <span class="badge bg-lpor ft18">技巧型</span></p>
-                                        @else
+                                        @elseif ($val == '情感型')
                                             <p> <span class="badge bg-lyellow ft18">情感型</span></p>
                                         @endif
                                     @endforeach
