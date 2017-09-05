@@ -746,6 +746,7 @@ class teacher_level extends Controller
             }else{
                 $item["record_flag_str"]="未反馈";
             }
+            $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
   
         }
 
@@ -784,6 +785,7 @@ class teacher_level extends Controller
             }else{
                 $item["record_flag_str"]="未反馈";
             }
+            $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
   
         }
         $this->set_in_value("acc",$this->get_account());

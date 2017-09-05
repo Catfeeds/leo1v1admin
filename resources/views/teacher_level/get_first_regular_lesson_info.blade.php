@@ -68,6 +68,7 @@
                     <td>学生</td>
                     <td>审核人</td>
                     <td>是否反馈</td>
+                    <td>反馈时间</td>
                     
                     <td> 操作  </td>
                 </tr>
@@ -81,6 +82,11 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
+                        <td>
+                        @if($var["record_info"])
+                            {{@$var["add_time_str"]}}
+                        @endif
+                        <td>
 
                         <td>
                             <div
