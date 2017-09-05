@@ -249,7 +249,7 @@ class authority extends Controller
         $set_arr['del_flag'] = $del_flag;
         if($del_flag){
             $set_arr['leave_member_time'] = $time;
-            $set_arr['tquin'] = 0;
+            $set_arr['tquin'] = null;
             $set_arr['call_phone_type'] = 0;
             $set_arr['call_phone_passwd'] = '';
         }else{
