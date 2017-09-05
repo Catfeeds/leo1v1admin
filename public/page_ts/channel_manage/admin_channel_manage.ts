@@ -222,18 +222,18 @@ $(function(){
         var teachername      = $("<input readonly='readonly'/>"); 
         var phone            = $("<input readonly='readonly'/>");
         var email            = $("<input readonly='readonly'/>");
-        var teacher_type     = $("<input readonly='readonly'/>");
+        var teacher_type_str = $("<input readonly='readonly'/>");
         var zs_name          = $("<input readonly='readonly'/>");
         teacherid.val(opt_data.admin_id);
         teachername.val(opt_data.admin_name);
         phone.val(opt_data.admin_phone);
         email.val(opt_data.email);
-        teacher_type.val(opt_data.teacher_type);
+        teacher_type_str.val(opt_data.teacher_type_str);
         zs_name.val(opt_data.zs_name);
         var arr = [
             ["电话", phone],
             ["姓名",    teachername],
-            ["老师类型",    teacher_type],
+            ["老师类型",    teacher_type_str],
             ["电子邮件", email],
             ["指定招师", zs_name],
         ];

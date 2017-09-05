@@ -83,7 +83,7 @@ class channel_manage extends Controller
                         "zs_id" => $val['zs_id'],
                         "zs_name" => $this->cache_get_account_nick($val["zs_id"] ),
                         "email" => $val['email'],
-                        "teacher_type" =>E\Eidentity::get_desc($val["teacher_type"]),
+                        "teacher_type_str" =>E\Eteacher_type::get_desc($val["teacher_type"]),
                     ];
 
                     $test_list = [];
