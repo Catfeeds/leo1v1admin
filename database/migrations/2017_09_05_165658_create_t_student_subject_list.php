@@ -17,6 +17,8 @@ class CreateTStudentSubjectList extends Migration
         {
             t_field($table->integer("userid"),"学生");
             t_field($table->integer("subejct"),"科目");
+            t_field($table->integer("editionid"),"教材版本");
+            $table->primary(["userid","subject"]);
 
 
         });
