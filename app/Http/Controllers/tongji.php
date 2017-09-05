@@ -1588,6 +1588,7 @@ class tongji extends Controller
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             // $ret  = $this->t_agent->get_agent_info_new($start_time,$end_time);
             $ret  = $this->t_agent->get_agent_info_new(null);
+            dd($start_time,$end_time,$ret);
             $userid_arr = [];
 
             $ret_new = [];
