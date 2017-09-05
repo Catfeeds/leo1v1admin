@@ -876,7 +876,10 @@ class tongji_ss extends Controller
             E\Eseller_student_status::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-            E\Elesson_user_online_status::sert_item_value_str($item);
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
+                $item["lesson_user_online_status"]
+            );
+
             if ($item['success_flag'] != 2) {
                 $item['success_flag_str'] = '是';
             } else{
