@@ -475,20 +475,20 @@
     </div>
     <div id="id_dlg_set_user" style="display:none;">
         <div class="row">
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
                     <span class="input-group-addon">昵称</span>
                     <input type="text" value="" class=" form-control "  id="id_name"  placeholder="" />
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
                     <span class="input-group-addon">实名</span>
                     <input type="text" value="" class=" form-control "  id="id_realname"  placeholder="" />
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
                     <span class="input-group-addon">性别</span>
                     <select id="id_gender" class="form-control">
@@ -498,28 +498,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3">
-                <div class="input-group ">
-                    <span class="input-group-addon">家长</span>
-                    <input type="text" value="" class=" form-control "   id="id_parent_name"  placeholder="" />
-
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-3">
-                <div class="input-group ">
-                    <span class="input-group-addon">关系</span>
-                    <select class="form-control"  id="id_parent_type" >
-                        <option value="1">父亲</option>
-                        <option value="2">母亲</option>
-                        <option value="3">爷爷</option>
-                        <option value="4">奶奶</option>
-                        <option value="5">外公</option>
-                        <option value="6">外婆</option>
-                        <option value="7">其他</option>
-                    </select>
-                </div>
-            </div>
-
+           
             <div class="col-xs-6 col-md-6">
                 <div class="input-group ">
                     <span class="input-group-addon">生日</span>
