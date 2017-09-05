@@ -1885,7 +1885,7 @@ trait  TeaPower {
         //$userid = 60022 ;$teacherid= 60011;
         if($flag==1){
             $account="system";
-            $time = $time;
+            $time = time();
         }elseif($flag==0){
             $account = $this->get_account();
             $time = time();

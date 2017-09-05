@@ -1169,6 +1169,7 @@ class human_resource extends Controller
             $ret_auth = $this->t_manager_info->check_permission($this->get_account(), TEA_ARCHIVES);
             if(!$ret_auth)
                 return outputJson(array('ret' => NOT_AUTH, 'info' => $this->err_string[NOT_AUTH]));
+            
             $this->t_teacher_info->delete_teacher($teacherid);
             $this->t_user_info->delete_user($teacherid, 2);
         }elseif($teacher_type == 1){

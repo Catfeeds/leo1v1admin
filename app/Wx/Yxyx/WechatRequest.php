@@ -267,6 +267,10 @@ class WechatRequest  {
      * @return array
      */
     public static function eventSubscribe(&$request){
+
+
+        $wx_config= \App\Helper\Config::get_config("yxyx_wx");
+        $base_url=$wx_config["url"];
         $content =
             self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
@@ -848,6 +852,9 @@ class WechatRequest  {
         if(isset($agent['phone'])){
             $phone = $agent['phone'];
         }
+
+        $wx_config= \App\Helper\Config::get_config("yxyx_wx");
+        $base_url=$wx_config["url"];
         if(!$phone){
             $content="
 【绑定提醒】
