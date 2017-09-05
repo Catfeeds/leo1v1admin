@@ -558,7 +558,14 @@ class WechatRequest  {
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
-            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            if ( \App\Helper\Utils::check_env_is_release() ) {
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            }else{
+                \Yxyx\Core\ResponseInitiative::image( $request['tousername'], $mediaId);
+                //ResponseInitiative::
+                return "";
+            }
+
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',

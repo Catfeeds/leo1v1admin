@@ -87,9 +87,9 @@ $(function(){
         html_node.find("#id_name").val(opt_data.nick );
         html_node.find("#id_realname").val(opt_data.realname);
         html_node.find("#id_gender").val(opt_data.gender);
-        html_node.find("#id_parent_name").val(opt_data.parent_name);
+      //  html_node.find("#id_parent_name").val(opt_data.parent_name);
         html_node.find("#id_birth").val(opt_data.birth );
-        html_node.find("#id_parent_type").val(opt_data.parent_type);
+      //  html_node.find("#id_parent_type").val(opt_data.parent_type);
         html_node.find("#id_address").val(opt_data.address);
         html_node.find("#id_school").val(opt_data.school);
         html_node.find("#id_stu_email").val(opt_data.stu_email);

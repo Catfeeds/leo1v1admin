@@ -25,7 +25,6 @@ $(function(){
 
 
     $("#id_qc_msg").on("click",function(){
-
         var qc_other_reason = $("#id_qc_other_reason").val();
         var qc_analysia     = $("#id_qc_analysia").val();
         var qc_reply        = $("#id_qc_reply").val();

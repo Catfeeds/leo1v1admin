@@ -3309,7 +3309,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
                                   ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
@@ -3338,7 +3338,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_video,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tl on t.phone = tl.phone"
@@ -3369,7 +3369,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"

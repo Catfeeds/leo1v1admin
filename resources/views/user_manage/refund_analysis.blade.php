@@ -4,7 +4,7 @@
     <section class="content ">
 
         <div>
-            <div class="row  row-query-list" >
+            <div class="row  " >
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
                         <span >联系状态</span>
@@ -89,9 +89,6 @@
                             </textarea>
 
                     </td>
-                    <td rowspan="3" style="vertical-align:middle; text-align:center;width:10%;">
-                        <button type="button" class="btn btn-success" id="id_qc_msg">提交</button>
-                    </td>
                 </tr>
                 <tr>
                     <td>QC整体分析</td>
@@ -108,6 +105,12 @@
 {{$qc_anaysis[0]['qc_reply']}}
                         </textarea>
                     </td>
+                </tr>
+
+                <tr>
+                    <td  colspan="15"  style="vertical-align:middle; text-align:center;width:10%;">
+                        <button type="button" class="btn btn-success" id="id_qc_msg">提交</button>
+                    </td> 
                 </tr>
         </table>
         <a style="display:none;" id="adminid" data-adminid="{{$adminid}}"></a>
