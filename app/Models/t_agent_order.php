@@ -8,25 +8,34 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         parent::__construct();
     }
 
-    public function get_all_list()
+    public function get_all_list($start_time=-1,$end_time=-1)
     {
         $where_arr = [];
+        if($start_time && $end_time){
+            $this->where_arr_add_time_range($where_arr,'ao.create_time',$start_time,$end_time);
+        }
         $sql = $this->gen_sql_new ("select ao.*,"
                                    ." o.price "
                                    ." from %s ao "
                                    ." left join %s o on o.orderid = ao.orderid "
+                                   ." left join %s a on a.id = ao.aid "
                                    ." where %s "
                                    ,self::DB_TABLE_NAME
                                    ,t_order_info::DB_TABLE_NAME
+                                   ,t_agent::DB_TABLE_NAME
                                    ,$where_arr
         );
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_order_info($page_info)
+    public function get_agent_order_info($page_info,$start_time=-1,$end_time=-1)
     {
+        $where_arr = [];
+        if($start_time && $end_time){
+            $this->where_arr_add_time_range($where_arr,'ao.create_time',$start_time,$end_time);
+        }
         $sql=$this->gen_sql_new ("select ao.*,"
-                                 ." a.userid,a.phone phone,a.nickname nickname, "
+                                 ." a.userid,a.phone phone,a.nickname nickname,a.create_time a_create_time, "
                                  ." aa.phone p_phone,aa.nickname p_nickname, "
                                  ." aaa.phone pp_phone,aaa.nickname pp_nickname, "
                                  ." o.price "
@@ -35,11 +44,13 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
                                  ." left join %s aa on aa.id=ao.pid "
                                  ." left join %s aaa on aaa.id=ao.ppid "
                                  ." left join %s o on o.orderid=ao.orderid "
+                                 ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_order_info::DB_TABLE_NAME
+                                 ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }

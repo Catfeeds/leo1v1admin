@@ -47,16 +47,16 @@
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <div class="col-sm-10 col-xs-8">
+                                <div class="col-xs-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2 col-xs-4">
-                                    <b class="ft24 text-yellow text-top" style="line-height: 20px">60%</b>
+                                <div class="col-xs-2">
+                                    <b class="ft18 text-yellow text-top" style="line-height: 20px">60%</b>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-xs-12">
                                     <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
                                     <br />
                                 </div>
@@ -167,7 +167,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        <div class="row">
+                        <div class="row text-cen">
                             @if (@$my_info['seniority'])
                                 <a href="javascript:;" class="color-9 opt-upload"  id="seniority" data-val="seniority" >重新上传</a>
                             @endif
@@ -201,7 +201,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        <div class="row">
+                        <div class="row text-cen">
                             @if (@$my_info['prove'])
                                 <a href="javascript:;" class="color-9 opt-upload"  id="prove" data-val="prove" >重新上传</a>
                             @endif
@@ -352,15 +352,22 @@
                                             <th class="text-cen bg-lblue" >科目</th>
                                             <td> {{$my_info['subject_str']}} </td>
                                             <th class="text-cen bg-lblue" >年级段</th>
-                                            <td> {{$my_info['grade_part_ex']}} </td>
+                                            <td> {{$my_info['grade_str']}} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >方言备注</th>
-                                            <td colspan="3">
+                                            <td>
                                                 <span>{{$my_info['dialect_notes']}}</span>
                                                 <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
 
                                             </td>
+                                            <th class="text-cen bg-lblue" >所在地</th>
+                                            <td>
+                                                <span>{{$my_info['address']}}</span>
+                                                <input type="text" name="address" class="hide" value="{{$my_info['address']}}" placeholder="未填写">
+
+                                            </td>
+
                                         </tr>
                                     </table>
                                     <p class="color-9">教学背景</p>
@@ -380,26 +387,30 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" >最高学历</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['education']}}</span>
+                                                <input type="text" name="education" class="hide" value="{{$my_info['education']}}"  placeholder="未填写">
                                             </td>
 
                                             <th class="text-cen bg-lblue" >专业</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['major']}}</span>
+                                                <input type="text" name="major" class="hide" value="{{$my_info['major']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >兴趣爱好</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['hobby']}}</span>
+                                                <input type="text" name="hobby" class="hide" value="{{$my_info['hobby']}}"  placeholder="未填写">
                                             </td>
                                             <th class="text-cen bg-lblue" >个人特长</th>
                                             <td>
-                                                <span class="color-9">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <!-- <span class="color-9">未填写</span> -->
+                                                <span>{{$my_info['speciality']}}</span>
+                                                <input type="text" name="speciality" class="hide" value="{{$my_info['speciality']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
                                     </table>

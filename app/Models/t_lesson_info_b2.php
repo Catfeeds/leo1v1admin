@@ -3610,7 +3610,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct l.teacherid) lesson_add_num,ta.reference,tt.teacher_ref_type,c.channel_id,c.channel_name"
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) lesson_add_num,ta.reference,tt.teacher_ref_type,c.channel_id,c.channel_name,tt.realname,tt.phone"
                                   ." from %s l left join %s t on l.userid = t.teacherid"
                                   ." left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
@@ -3655,7 +3655,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.lesson_start<=%d",$next]
         ];
 
-        $sql = $this->gen_sql_new(" select l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+        $sql = $this->gen_sql_new(" select l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "

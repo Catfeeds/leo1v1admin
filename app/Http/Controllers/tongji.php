@@ -1222,4 +1222,509 @@ class tongji extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
+    public function gen_origin_data($old_list,$no_sum_list=[] ,$origin_ex="")
+    {
+
+        $value_map=$this->t_origin_key->get_list( $origin_ex);
+        $cur_key_index=1;
+        $check_init_map_item=function (&$item, $key, $key_class, $value = "") {
+            global $cur_key_index;
+            if (!isset($item [$key])) {
+                $item[$key] = [
+                    "value" => $value,
+                    "key_class" => $key_class."-".$cur_key_index,
+                    "sub_list"=>[] ,
+                    "data" => array(),
+                ];
+                $cur_key_index++;
+            }
+        };
+        $add_data=function (&$item, $add_item ,$self_flag=false) use ( $no_sum_list) {
+            $arr=&$item["data"];
+            foreach ($add_item as $k => $v) {
+                if (!is_int($k) && $k!="origin" &&
+                    ($self_flag|| !in_array(  $k ,$no_sum_list ) )
+                ) {
+                    if (!isset($arr[$k])) {
+                        $arr[$k]=0;
+                    }
+                    $arr[$k]+=$v;
+                }
+            }
+
+        };
+        /*
+          [
+          "baidu pc " => ["data" => $item
+          sub_list=> [
+          "xx" ＝ ["data" => $item
+          sub_list= [...]
+          ]
+
+          ]
+          ]
+          ]
+
+        */
+
+        $all_item=["origin"=>"全部"];
+
+        $check_init_map_item($data_map,"","");
+        foreach ($old_list as &$item) {
+            $value=trim($item["origin"]);
+            if (!isset($value_map[$value])) {
+                $value_map[$value]=[
+                    "key1"=>"未定义",
+                    "key2"=>"未定义",
+                    "key3"=>"未定义",
+                    "key4"=>$value,
+                    "value"=>$value,
+                ];
+            }
+
+            $conf=$value_map[$value];
+
+            $key1=$conf["key1"];
+            $key2=$conf["key2"];
+            $key3=$conf["key3"];
+            $key4=$conf["key4"];
+            $key0_map=&$data_map[""];
+            $add_data($key0_map, $item );
+
+            $check_init_map_item($key0_map["sub_list"] , $key1,"key1" );
+            $key1_map=&$key0_map["sub_list"][$key1];
+            $add_data($key1_map, $item );
+
+            $check_init_map_item($key1_map["sub_list"] , $key2 ,"key2");
+            $key2_map=&$key1_map["sub_list"][$key2];
+            $add_data($key2_map, $item );
+
+            $check_init_map_item($key2_map["sub_list"] , $key3 ,"key3");
+            $key3_map=&$key2_map["sub_list"][$key3];
+            $add_data($key3_map, $item );
+
+            $check_init_map_item($key3_map["sub_list"] , $key4,"key4",$value);
+            $key4_map=&$key3_map["sub_list"][$key4];
+            $add_data($key4_map, $item, true);
+
+        }
+        $list=[];
+        //array_unshift($ret_info["list"],$all_item);
+        foreach ($data_map as $key0 => $item0) {
+            $data=$item0["data"];
+            $data["key1"]="全部";
+            $data["key2"]="";
+            $data["key3"]="";
+            $data["key4"]="";
+            $data["key1_class"]="";
+            $data["key2_class"]="";
+            $data["key3_class"]="";
+            $data["key4_class"]="";
+            $data["level"]="l-0";
+
+            $list[]=$data;
+            foreach ($item0["sub_list"] as $key1 => $item1) {
+                $data=$item1["data"];
+                $data["key1"]=$key1;
+                $data["key2"]="";
+                $data["key3"]="";
+                $data["key4"]="";
+                $data["key1_class"]=$item1["key_class"];
+                $data["key2_class"]="";
+                $data["key3_class"]="";
+                $data["key4_class"]="";
+                $data["level"]="l-1";
+
+                $list[]=$data;
+
+                foreach ($item1["sub_list"] as $key2 => $item2) {
+                    $data=$item2["data"];
+                    $data["key1"]=$key1;
+                    $data["key2"]=$key2;
+                    $data["key3"]="";
+                    $data["key4"]="";
+                    $data["key1_class"]=$item1["key_class"];
+                    $data["key2_class"]=$item2["key_class"];
+                    $data["key3_class"]="";
+                    $data["key4_class"]="";
+                    $data["level"]="l-2";
+
+                    $list[]=$data;
+                    foreach ($item2["sub_list"] as $key3 => $item3) {
+                        $data=$item3["data"];
+                        $data["key1"]=$key1;
+                        $data["key2"]=$key2;
+                        $data["key3"]=$key3;
+                        $data["key4"]="";
+                        $data["key1_class"]=$item1["key_class"];
+                        $data["key2_class"]=$item2["key_class"];
+                        $data["key3_class"]=$item3["key_class"];
+                        $data["key4_class"]="";
+                        $data["level"]="l-3";
+
+                        $list[]=$data;
+                        foreach ($item3["sub_list"] as $key4 => $item4) {
+                            $data=$item4["data"];
+                            $data["key1"]=$key1;
+                            $data["key2"]=$key2;
+                            $data["key3"]=$key3;
+                            $data["key4"]=$key4;
+                            $data["value"] = $item4["value"];
+                            $data["key1_class"]=$item1["key_class"];
+                            $data["key2_class"]=$item2["key_class"];
+                            $data["key3_class"]=$item3["key_class"];
+                            $data["key4_class"]=$item4["key_class"];
+                            $k4_v=$item4["value"];
+                            if ($k4_v != $key4) {
+                                $data["key4"]=$key4."/". $k4_v ;
+                            }
+                            $data["old_key4"]=$key4;
+                            $data["level"]="l-4";
+                            $list[]=$data;
+                        }
+
+                    }
+
+                }
+
+
+            }
+        }
+
+        foreach($list as &$item){
+            if($item["level"]=="l-4" && $item["key1"]!="未定义"){
+                $item["create_time"] = $value_map[$item['value']]["create_time"];
+                if(!empty($item["create_time"])){
+                    $item["create_time"] = date('Y-m-d',$item["create_time"]);
+                }else{
+                    $item["create_time"] = "";
+                }
+            }else{
+                $item["create_time"] = "";
+            }
+        }
+        return $list;
+    }
+
+    public function origin_count_yxb_simple () {
+        $this->set_in_value("origin_ex","优学帮,,,");
+        return $this->origin_count_simple_has_intention();
+    }
+
+    public function origin_count_simple_has_intention(){
+        $origin            = trim($this->get_in_str_val("origin",""));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
+        $groupid           = $this->get_in_int_val("groupid",-1);
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+
+        $check_field_id    = $this->get_in_int_val("check_field_id",1);
+        $check_field_config=[
+            1=> ["渠道","origin", "" ],
+            2=> ["年级","grade", E\Egrade::class ],
+            3=> ["科目","subject", E\Esubject::class ],
+            4=> ["tmk人员","tmk_adminid", "" ],
+            5=> ["销售人员","admin_revisiterid", "" ],
+            6=> ["渠道等级","origin_level",   E\Eorigin_level::class  ],
+        ];
+
+        $data_map=[];
+        $check_item=$check_field_config[$check_field_id];
+        $field_name       = $check_item[1];
+        $field_class_name = $check_item[2];
+
+        list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
+            0 => array( "add_time", "资源进来时间"),
+            1 => array("tmk_assign_time","微信运营时间"),
+        ]);
+        //date_type_config=undefined&date_type=0&opt_date_type=3&start_time=2017-09-01&end_time=2017-09-30
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+
+        //订单占比
+        $order_area_map    = [];
+        $order_subject_map = [];
+        $order_grade_map   = [];
+        $order_data = $this->t_order_info->tongji_seller_order_info($origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
+
+        foreach ($order_data as $a_item) {
+            $subject   = $a_item["subject"];
+            $grade     = $a_item["grade"];
+            $area_name = substr($a_item["phone_location"], 0, -6);
+            @$order_subject_map[$subject] ++;
+            @$order_grade_map[$grade] ++;
+
+            if (strlen($area_name)>5) {
+                @$order_area_map[$area_name] ++;
+            } else {
+                @$order_area_map[""] ++;
+            }
+
+        }
+        //试听占比
+        $test_area_map    = [];
+        $test_subject_map = [];
+        $test_grade_map   = [];
+        $test_data=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex);
+        foreach ($test_data as $a_item) {
+            $subject   = $a_item["subject"];
+            $grade     = $a_item["grade"];
+            $area_name = substr($a_item["phone_location"], 0, -6);
+            @$test_subject_map[$subject] ++;
+            @$test_grade_map[$grade] ++;
+
+            if (strlen($area_name)>5) {
+                @$test_area_map[$area_name] ++;
+            } else {
+                @$test_area_map[""] ++;
+            }
+
+        }
+
+
+        ///  测试区
+        $data_map=&$ret_info["list"];
+        //试听信息
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
+        foreach ($test_lesson_list as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+            $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
+            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+        }
+        //去掉重复userid
+        $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $origin, $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
+
+        foreach ($distinct_test_lesson_list as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+        }
+
+
+        $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex, $origin);
+        foreach ($require_list as  $item ) {
+            $check_value=$item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+            $data_map[$check_value]["require_count"] = $item["require_count"];
+        }
+
+
+        $this->t_order_info->switch_tongji_database();
+        //合同
+        // dd($field_name,$origin_ex);
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str, $origin);
+        foreach ($order_list as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+
+        foreach ($data_map as &$item ) {
+            if($field_class_name ) {
+                $item["title"]= $field_class_name::get_desc($item["check_value"]);
+            }else{
+                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+                }else{
+                    $item["title"]= $item["check_value"];
+                }
+            }
+
+            if ($field_name=="origin") {
+                $item["origin"]= $item["title"];
+            }
+        }
+
+        if ($field_name=="origin") {
+            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        }
+
+
+        $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
+        $subject_map      = [];
+        $grade_map        = [];
+        $has_pad_map      = [];
+        $area_map         = [];
+        $origin_level_map = [];
+        $all_count        = count($data_list);
+
+        $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
+
+        foreach ($data_list as $a_item) {
+            $subject      = $a_item["subject"];
+            $grade        = $a_item["grade"];
+            $has_pad      = $a_item["has_pad"];
+            $origin_level = $a_item["origin_level"];
+            $area_name    = substr($a_item["phone_location"], 0, -6);
+            @$subject_map[$subject] ++;
+            @$grade_map[$grade] ++;
+            @$has_pad_map[$has_pad] ++;
+            @$origin_level_map[$origin_level] ++;
+            if (strlen($area_name)>5) {
+                @$area_map[$area_name] ++;
+            } else {
+                @$area_map[""] ++;
+            }
+
+        }
+
+        $group_list = $this->t_admin_group_name->get_group_list(2);
+
+        $origin_type = 0;
+        if($origin_ex == '优学帮,,,'){
+            $origin_type = 1;
+
+            list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
+                 $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
+                 $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
+                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
+            $ret  = $this->t_agent->get_agent_info_new($start_time,$end_time);
+            $userid_arr = [];
+
+            $ret_new = [];
+            $ret_info_new = [];
+            $id_arr = array_unique(array_column($ret,'id'));
+            foreach($ret as &$item){
+                if($item['type'] == 1){
+                    $userid_arr[] = $item['userid'];
+                }
+                $item['agent_type'] = $item['type'];
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+                if($item['lesson_start']){
+                    $item['lesson_start'] = date('Y-m-d H:i:s',$item['lesson_start']);
+                }else{
+                    $item['lesson_start'] = '';
+                }
+
+                $id = $item['id'];
+                $id_arr_new = array_unique(array_column($ret_new,'id'));
+                if(in_array($id,$id_arr_new)){
+                }else{
+                    if($item['lesson_start']){
+                        if($item['lesson_start']>$item['create_time']){
+                            $ret_new[] = $item;
+                        }
+                    }else{
+                        $ret_new[] = $item;
+                    }
+                }
+                //例子总数
+                $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
+                if(in_array($id,$id_arr_new_two)){
+                }else{
+                    $ret_info_new[] = $item;
+                }
+            }
+            if(count($userid_arr)>0){
+                foreach($ret_new as &$item){
+                    //已分配销售
+                    if($item['admin_revisiterid']>0){
+                        $assigned_count[] = $item;
+                    }
+                    //TMK有效
+                    if($item['tmk_student_status'] == 3){
+                        $tmk_assigned_count[] = $item;
+                    }
+                    //未拨打
+                    if($item['global_tq_called_flag'] == 0){
+                        $tq_no_call_count[] = $item;
+                    }
+                    //已拨打
+                    if($item['global_tq_called_flag'] != 0){
+                        $tq_called_count[] = $item;
+                    }
+                    //未接通
+                    if($item['global_tq_called_flag'] == 1){
+                        $tq_call_fail_count[] = $item;
+                    }
+                    //已拨通-有效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                        $tq_call_succ_valid_count[] = $item;
+                    }
+                    //已拨通-无效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_succ_invalid_count[] = $item;
+                    }
+                    //未拨通-无效
+                    if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_fail_invalid_count[] = $item;
+                    }
+                    //有效意向(A)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                        $have_intention_a_count[] = $item;
+                    }
+                    //有效意向(B)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                        $have_intention_b_count[] = $item;
+                    }
+                    //有效意向(C)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                        $have_intention_c_count[] = $item;
+                    }
+                    //预约数&&上课数
+                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                        $require_count[] = $item;
+                        $test_lesson_count[] = $item;
+                    }
+                    //试听成功数
+                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
+                        $succ_test_lesson_count[] = $item;
+                    }
+                }
+            }
+            $order_info = $this->t_agent_order->get_all_list($start_time,$end_time);
+            foreach($order_info as $item){
+                $orderid = $item['orderid'];
+                $order_count[] = $item;
+                $user_count[] = $item;
+                $order_all_money += $item['price'];
+            }
+            foreach([0,1,2,3,4] as $item){
+                $ret_info['list'][$item]['all_count'] = count($ret_info_new);
+                $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
+                $ret_info['list'][$item]['tmk_assigned_count'] = count($tmk_assigned_count);
+                $ret_info['list'][$item]['tq_no_call_count'] = count($tq_no_call_count);
+                $ret_info['list'][$item]['tq_called_count'] = count($tq_called_count);
+                $ret_info['list'][$item]['tq_call_fail_count'] = count($tq_call_fail_count);
+                $ret_info['list'][$item]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
+                $ret_info['list'][$item]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
+                $ret_info['list'][$item]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
+                $ret_info['list'][$item]['have_intention_a_count'] = count($have_intention_a_count);
+                $ret_info['list'][$item]['have_intention_b_count'] = count($have_intention_b_count);
+                $ret_info['list'][$item]['have_intention_c_count'] = count($have_intention_c_count);
+                $ret_info['list'][$item]['require_count'] = count($require_count);
+                $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
+                $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                $ret_info['list'][$item]['order_count'] = count($order_count);
+                $ret_info['list'][$item]['user_count'] = count($user_count);
+                $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info,[
+            "subject_map"       => $subject_map,
+            "grade_map"         => $grade_map,
+            "has_pad_map"       => $has_pad_map,
+            "origin_level_map"  => $origin_level_map,
+            "area_map"          => $area_map,
+            "group_list"        => $group_list,
+            "field_name"        => $field_name,
+            "origin_type"       => $origin_type,
+            "order_area_map"    => $order_area_map,
+            "order_subject_map" => $order_subject_map,
+            "order_grade_map"   => $order_grade_map,
+            "test_area_map"     => $test_area_map,
+            "test_subject_map"  => $test_subject_map,
+            "test_grade_map"    => $test_grade_map,
+            "start_time"        => $start_time,
+            "end_time"          => $end_time,
+        ]);
+    }
 }

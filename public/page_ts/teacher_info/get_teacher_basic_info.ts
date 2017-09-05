@@ -6,14 +6,10 @@ $(function(){
         $.reload_self_page ( {
 
         });
-    }
+    };
 
-    $(".opt-upload").on("click", function( ){
+     $("[data-val]").each(function() {
         var opt_field = $(this).attr('data-val');
-        upload_info(opt_field);
-    });
-
-    var upload_info = function(opt_field) {
         custom_upload_file(
             opt_field,0,function(up, file, info) {
                 var res = $.parseJSON(file);
@@ -26,7 +22,7 @@ $(function(){
                 }
             }, [], ["pdf","zip"],function(){}
         );
-    }
+    });
 
     $('.opt-show').on('click', function (){
         var pdf_url = $(this).attr('data-pdf');

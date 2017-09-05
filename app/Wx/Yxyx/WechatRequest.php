@@ -20,6 +20,7 @@ use Yxyx\Core\WeChatOAuth;
 use Yxyx\Core\UserManage;
 use Yxyx\Core\Media;
 use Yxyx\Core\AccessToken;
+use Yxyx\Core\ResponseInitiative;
 
 
 class WechatRequest  {
@@ -267,6 +268,10 @@ class WechatRequest  {
      * @return array
      */
     public static function eventSubscribe(&$request){
+
+
+        $wx_config= \App\Helper\Config::get_config("yxyx_wx");
+        $base_url=$wx_config["url"];
         $content =
             self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
@@ -491,7 +496,9 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
+            \App\Helper\Utils::logger("send txt end");
+
+            $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
             $img_url = self::get_img_url($url);
             $type = 'image';
             $num = rand();
@@ -500,6 +507,8 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("media_info:".json_encode( $mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
@@ -536,7 +545,7 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
-            $url = "http://yxyx.leo1v1.com/common/get_agent_qr_new?wx_openid=".$openid;
+            $url = "$base_url/common/get_agent_qr_new?wx_openid=".$openid;
 
             $img_url = self::get_img_url($url);
             $type = 'image';
@@ -546,9 +555,18 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
-            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            if ( \App\Helper\Utils::check_env_is_release() ) {
+                return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+            }else{
+                ResponseInitiative::image( $request['tousername'], $mediaId);
+                //ResponseInitiative::
+                return "";
+            }
+
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',
@@ -848,6 +866,9 @@ class WechatRequest  {
         if(isset($agent['phone'])){
             $phone = $agent['phone'];
         }
+
+        $wx_config= \App\Helper\Config::get_config("yxyx_wx");
+        $base_url=$wx_config["url"];
         if(!$phone){
             $content="
 【绑定提醒】

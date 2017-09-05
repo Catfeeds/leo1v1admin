@@ -826,24 +826,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
         ];
-        $sql = $this->gen_sql("select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,"
-                              ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,"
-                              ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
-                              ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
-                              ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
-                              ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
-                              ." t.test_transfor_per,t.school,t.need_test_lesson_flag,"
-                              ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
-                              ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
-                              ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
-                              ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
-                              ."sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
-                              ." from %s t"
-                              ." left join %s l on l.teacherid=t.teacherid"
-                              ." where %s"
-                              ,self::DB_TABLE_NAME
-                              ,t_lesson_info::DB_TABLE_NAME
-                              ,$where_arr
+        $sql = $this->gen_sql(
+            "select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,t.prove,t.seniority,"
+            ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,t.address,"
+            ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
+            ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
+            ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
+            ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
+            ." t.test_transfor_per,t.school,t.need_test_lesson_flag,t.education,t.major,t.hobby,t.speciality,"
+            ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
+            ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
+            ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
+            ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
+            ."sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
+            ." from %s t"
+            ." left join %s l on l.teacherid=t.teacherid"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list_as_page($sql);
     }
@@ -3250,16 +3251,24 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school){
+    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
+                                        $phone, $school, $address, $dialect_notes, $education, $major, $hobby,
+                                        $speciality){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "nick"      => $nick,
-            "gender"    => $gender,
-            "birth"     => $birth,
-            "email"     => $email,
-            "work_year" => $work_year,
-            "phone"     => $phone,
-            "school"    => $school,
+            "nick"          => $nick,
+            "gender"        => $gender,
+            "birth"         => $birth,
+            "email"         => $email,
+            "work_year"     => $work_year,
+            "phone"         => $phone,
+            "school"        => $school,
+            "address"       => $address,
+            "dialect_notes" => $dialect_notes,
+            "education"     => $education,
+            "major"         => $major,
+            "hobby"         => $hobby,
+            "speciality"    => $speciality,
         ]);
         return $res;
     }
@@ -3300,7 +3309,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
                                   ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
@@ -3329,7 +3338,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_video,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tl on t.phone = tl.phone"
@@ -3360,7 +3369,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
-                                  ." ,c.channel_id,c.channel_name "
+                                  ." ,c.channel_id,c.channel_name,tt.realname,tt.phone "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"

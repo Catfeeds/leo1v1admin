@@ -1018,7 +1018,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=1",
             ["tr.lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
-            //  "tr.record_info <> ''"
+            //  "tr.lesson_invalid_flag >0"
+            "tr.record_info <> ''"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tr.acc,count(*) all_num "

@@ -2059,6 +2059,15 @@ class teacher_info extends Controller
             $item['days'] = ($now_day - $first_day)/86400;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item['teacher_title'] = \App\Helper\Utils::get_teacher_level_str($item);
+
+            if ($item['grade_start'] == 0) {
+                $grade_str = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
+            } else {
+                $grade_start_str = E\Egrade_range::get_desc($item['grade_start']);
+                $grade_end_str   = E\Egrade_range::get_desc($item['grade_end']);
+                $grade_str       = $grade_start_str."-".$grade_end_str;
+            }
+            $item['grade_str']=$grade_str;
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
@@ -2066,14 +2075,20 @@ class teacher_info extends Controller
     }
 
     public function edit_teacher_info(){
-        $teacherid = $this->get_login_teacher();
-        $nick      = trim( $this->get_in_str_val('nick','') );
-        $gender    = $this->get_in_str_val('gender','');
-        $birth     = $this->get_in_int_val('birth','');
-        $email     = trim( $this->get_in_str_val('email','') );
-        $work_year = $this->get_in_int_val('work_year','');
-        $phone     = trim( $this->get_in_int_val('phone','') );
-        $school    = trim( $this->get_in_str_val('school','') );
+        $teacherid     = $this->get_login_teacher();
+        $nick          = trim( $this->get_in_str_val('nick','') );
+        $gender        = $this->get_in_str_val('gender','');
+        $birth         = $this->get_in_int_val('birth','');
+        $email         = trim( $this->get_in_str_val('email','') );
+        $work_year     = $this->get_in_int_val('work_year','');
+        $phone         = trim( $this->get_in_int_val('phone','') );
+        $school        = trim( $this->get_in_str_val('school','') );
+        $address       = trim( $this->get_in_str_val('address','') );
+        $dialect_notes = trim( $this->get_in_str_val('dialect_notes','') );
+        $education     = trim( $this->get_in_str_val('education','') );
+        $major         = trim( $this->get_in_str_val('major','') );
+        $hobby         = trim( $this->get_in_str_val('hobby','') );
+        $speciality    = trim( $this->get_in_str_val('speciality','') );
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2103,7 +2118,10 @@ class teacher_info extends Controller
             return $this->output_err('毕业院校不能为空！');
         }
 
-        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school);
+        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email,
+                                                               $work_year, $phone, $school, $address,
+                                                               $dialect_notes, $education, $major, $hobby,
+                                                               $speciality);
         return outputjson_success();
     }
 

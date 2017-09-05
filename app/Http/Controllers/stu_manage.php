@@ -79,6 +79,9 @@ class stu_manage extends Controller
             'seller_admin_nick' => $this->cache_get_account_nick( $ret_db["seller_adminid"]),
             'seller_phone' => $this->t_manager_info->get_phone(  $ret_db["seller_adminid"] ),
             'is_test_user'      => $ret_db['is_test_user'],
+            'province'          => $ret_db['province'],
+            'city'              => $ret_db['city'],
+            'area'              => $ret_db['area'],
         );
 
         $l_1v1_list = [];

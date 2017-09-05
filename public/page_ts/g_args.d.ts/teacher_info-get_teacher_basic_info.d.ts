@@ -14,11 +14,14 @@ interface RowData {
 	nick	:any;
 	phone	:any;
 	email	:any;
+	prove	:any;
+	seniority	:any;
 	teacher_type	:any;
 	teacher_ref_type	:any;
 	identity	:any;
 	grade_start	:any;
 	grade_end	:any;
+	address	:any;
 	realname	:any;
 	work_year	:any;
 	textbook_type	:any;
@@ -44,6 +47,10 @@ interface RowData {
 	test_transfor_per	:any;
 	school	:any;
 	need_test_lesson_flag	:any;
+	education	:any;
+	major	:any;
+	hobby	:any;
+	speciality	:any;
 	change_count	:any;
 	noevaluate_count	:any;
 	late_count	:any;
@@ -56,6 +63,7 @@ interface RowData {
 	gender_str	:any;
 	days	:any;
 	teacher_title	:any;
+	grade_str	:any;
 }
 
 /*

@@ -96,9 +96,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info_new($type)
+    public function get_agent_info_new($start_time=-1,$end_time=-1)
     {
         $where_arr = array();
+        if($start_time && $end_time){
+            $this->where_arr_add_time_range($where_arr,'a.create_time',$start_time,$end_time);
+        }
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"
@@ -120,8 +123,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s s on s.userid = a.userid"
                                  ." left join %s t on t.userid= a.userid "
                                  ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
-                                 ." left join %s tss on tss.lessonid = tr.current_lessonid"
-                                 ." left join %s l on l.lessonid = tss.lessonid"
+                                 // ." left join %s tss on tss.lessonid = tr.current_lessonid"
+                                 // ." left join %s l on l.lessonid = tss.lessonid"
+                                 ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s tea on l.teacherid = tea.teacherid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
@@ -133,7 +137,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_test_lesson_subject::DB_TABLE_NAME
                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
-                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                 // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,t_teacher_info::DB_TABLE_NAME
                                  ,$where_arr

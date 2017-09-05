@@ -726,19 +726,7 @@ class tongji_ss extends Controller
                 }else{
                     $ret_info_new[] = $item;
                 }
-                //合同
-                if($item['aoid']){
-                    $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                    if(in_array($orderid,$orderid_arr)){
-                    }else{
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
-                }
             }
-            // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -803,28 +791,26 @@ class tongji_ss extends Controller
                 $user_count[] = $item;
                 $order_all_money += $item['price'];
             }
-            // if(isset($ret_info['list'][4]['all_count'])){
-                foreach([0,1,2,3,4] as $item){
-                    $ret_info['list'][$item]['all_count'] = count($ret_info_new);
-                    $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
-                    $ret_info['list'][$item]['tmk_assigned_count'] = count($tmk_assigned_count);
-                    $ret_info['list'][$item]['tq_no_call_count'] = count($tq_no_call_count);
-                    $ret_info['list'][$item]['tq_called_count'] = count($tq_called_count);
-                    $ret_info['list'][$item]['tq_call_fail_count'] = count($tq_call_fail_count);
-                    $ret_info['list'][$item]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
-                    $ret_info['list'][$item]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
-                    $ret_info['list'][$item]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
-                    $ret_info['list'][$item]['have_intention_a_count'] = count($have_intention_a_count);
-                    $ret_info['list'][$item]['have_intention_b_count'] = count($have_intention_b_count);
-                    $ret_info['list'][$item]['have_intention_c_count'] = count($have_intention_c_count);
-                    $ret_info['list'][$item]['require_count'] = count($require_count);
-                    $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
-                    $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
-                    $ret_info['list'][$item]['order_count'] = count($order_count);
-                    $ret_info['list'][$item]['user_count'] = count($user_count);
-                    $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
-                }
-            // }
+            foreach([0,1,2,3,4] as $item){
+                $ret_info['list'][$item]['all_count'] = count($ret_info_new);
+                $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
+                $ret_info['list'][$item]['tmk_assigned_count'] = count($tmk_assigned_count);
+                $ret_info['list'][$item]['tq_no_call_count'] = count($tq_no_call_count);
+                $ret_info['list'][$item]['tq_called_count'] = count($tq_called_count);
+                $ret_info['list'][$item]['tq_call_fail_count'] = count($tq_call_fail_count);
+                $ret_info['list'][$item]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
+                $ret_info['list'][$item]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
+                $ret_info['list'][$item]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
+                $ret_info['list'][$item]['have_intention_a_count'] = count($have_intention_a_count);
+                $ret_info['list'][$item]['have_intention_b_count'] = count($have_intention_b_count);
+                $ret_info['list'][$item]['have_intention_c_count'] = count($have_intention_c_count);
+                $ret_info['list'][$item]['require_count'] = count($require_count);
+                $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
+                $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                $ret_info['list'][$item]['order_count'] = count($order_count);
+                $ret_info['list'][$item]['user_count'] = count($user_count);
+                $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
+            }
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map"      => $subject_map,
