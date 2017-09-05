@@ -272,54 +272,20 @@ class testbb extends Controller
 
 
 
-    public function teacher_day_luck_draw(){ //教师节抽奖活动//
 
-        $teacherid = $this->get_teacherid();
 
-        // 计算目前的奖金总额
-        $total_money = $this->t_teacher_day_luck_draw->get_total_money();
 
-        if($total_money > 2000){ // 超过经费额度 则所有人都显示未中奖
-            return $this->output_succ();
-        }
 
-        // 判断是否有 录制试讲||分享朋友圈
-        $is_share = $this->t_wx_share->get_share_flag($teacherid);
-        $is_video = $this->t_teacher_lecture_info->get_video_flag($teacherid);
+    public function ss(){
 
-        $total_num = 1;
-        if($is_share || $is_video){ //抽奖次数 增加3次
-            $total_num = 4;
-        }
+        $now = time();
+        $lesson_begin_halfhour = $now+30*60;
+        $lesson_end_halfhour   = $now+31*60;
 
-        $num = $this->t_teacher_day_luck_draw->compute_time($teacherid);
-        if($num>=$total_num){
-            return $this->output_err('您的抽奖次数已用完!');
-        }
-
-        $rand  = mt_rand(0,100000);
-        $money = 0;
-
-        if($rand>1000 && $rand<=1035){ // 中 91.0元
-            $money = '9100'; // 单位分
-        }elseif($rand>2000 && $rand <=3000){ // 中9.1元
-            $money = '910'; // 单位分
-        }elseif($rand>20000 && $rand<=33000){ // 中0.91元
-            $money = '91'; // 单位分
-        }else{
-
-        }
-
-        $ret = $this->t_teacher_day_luck_draw->row_insert([
-            'do_time'   => time(),
-            'teacherid' => $teacherid,
-            'money'     => $money,
-        ]);
-
-        $real_money = $money/100;
-        return $this->output_succ(['data'=>$real_money]);
-
+        // 获取试听课 课前30分钟
+        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
     }
+
 
 
 
