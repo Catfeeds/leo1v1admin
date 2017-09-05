@@ -98,6 +98,7 @@ $(function(){
 
         html_node.find("#id_textbook").val(opt_data.editionid );
         html_node.find("#id_region").val(opt_data.region);
+        html_node.find("#province").val(4);
 
         html_node.find("#id_birth").datetimepicker({
             lang:'ch',
@@ -225,8 +226,7 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
-                    alert(html_node.find("#province").val());
-                    return;
+                   
                     var stu_nick     = html_node.find("#id_name").val();
                     var parent_name  = html_node.find("#id_parent_name").val();
                     var parent_phone = html_node.find("#id_parent_phone").val();
