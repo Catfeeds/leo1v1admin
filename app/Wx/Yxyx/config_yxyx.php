@@ -18,6 +18,7 @@ namespace LaneWeChat;
  */
 define("WECHAT_URL_YXYX", 'http://yxyx.leo1v1.com/yxyx_wx_server/');//理优优学优享
 
+
 define('WECHAT_TOKEN_YXYX', 'yxyx14285714');
 // define('ENCODING_AES_KEY_YXYX', "rSOE0Qp7BhrVl4T2GPecyTKrVOKklfR1nulOCW71X5G");//理优优学优享
 define('ENCODING_AES_KEY_YXYX', "rFUbMgUBv7wJNrnW1YqlfCaQDMSvAccVZgkMPxASZeP");//理优优学优享
