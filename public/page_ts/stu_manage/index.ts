@@ -97,7 +97,7 @@ $(function(){
         Enum_map.append_option_list( "region_version", html_node.find("#id_textbook"), true );
 
         html_node.find("#id_textbook").val(opt_data.editionid );
-        html_node.find("#id_region").val(opt_data.region);
+       // html_node.find("#id_region").val(opt_data.region);
 
         html_node.find("#id_birth").datetimepicker({
             lang:'ch',
@@ -228,35 +228,50 @@ $(function(){
                 action: function(dialog) {
                    
                     var stu_nick     = html_node.find("#id_name").val();
-                    var parent_name  = html_node.find("#id_parent_name").val();
-                    var parent_phone = html_node.find("#id_parent_phone").val();
+                   // var parent_name  = html_node.find("#id_parent_name").val();
+                  //  var parent_phone = html_node.find("#id_parent_phone").val();
                     var stu_phone    = html_node.find("#id_stu_phone").val();
                     var address      = html_node.find("#id_address").val();
                     var school       = html_node.find("#id_school").val();
-                    var region       = html_node.find("#id_region").val();
-                    var parent_type  = html_node.find("#id_parent_type").val();
+                   // var region       = html_node.find("#id_region").val();
+                  //  var parent_type  = html_node.find("#id_parent_type").val();
                     var editionid    = html_node.find("#id_textbook").val();
                     var textbook     = html_node.find("#id_textbook").find("option:selected").text();
                     var sexy         = html_node.find("#id_gender").val();
                     var birth        = html_node.find("#id_birth").val();
                     var stu_email        = html_node.find("#id_stu_email").val();
+                    var region = html_node.find("#province").find("option:selected").text();
+                    var province = html_node.find("#province").val();
+                    var city = html_node.find("#city").find("option:selected").text();
+                    var area = html_node.find("#area").find("option:selected").text();
+                   // alert(province);
+                    if(province==""){
+                        region="";
+                        city="";
+                        area="";
+                    }
+                    //alert(region);
+                   // return;
                     $.ajax({
                         url: '/stu_manage/change_stu_info',
                         type: 'POST',
                         data : {
                             'studentid'   : g_sid,
                             'stu_nick'    : stu_nick,
-                            'parent_name' : parent_name,
+                           // 'parent_name' : parent_name,
                             'address'     : address,
                             'school'      : school,
-                            'parent_type' : parent_type,
+                            //'parent_type' : parent_type,
                             'textbook'    : textbook,
                             'editionid'   : editionid ,
                             "sexy"        : sexy,
                             "region"      : region,
                             "realname"    : html_node.find("#id_realname").val(),
                             'birth'       : birth,
-                            'stu_email'   : stu_email
+                            'stu_email'   : stu_email,
+                            'province'    : province,
+                            'city'        : city,
+                            'area'        : area
                         },
                         dataType: 'json',
                         success: function(data) {
