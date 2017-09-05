@@ -3,17 +3,18 @@
 
 function load_data(){
     $.reload_self_page ( {
-        date_type:    $('#id_date_type').val(),
-        opt_date_type:    $('#id_opt_date_type').val(),
-        start_time:    $('#id_start_time').val(),
         check_field_id:    $('#id_check_field_id').val(),
-        end_time:    $('#id_end_time').val(),
         admin_revisiterid:    $('#id_admin_revisiterid').val(),
         groupid:    $('#id_groupid').val(),
         tmk_adminid:    $('#id_tmk_adminid').val(),
         origin_ex:    $('#id_origin_ex').val(),
         seller_groupid_ex:    $('#id_seller_groupid_ex').val(),
-        origin:    $('#id_origin').val()
+        origin:    $('#id_origin').val(),
+        date_type_config:    $('#id_date_type_config').val(),
+        date_type:    $('#id_date_type').val(),
+        opt_date_type:    $('#id_opt_date_type').val(),
+        start_time:    $('#id_start_time').val(),
+        end_time:    $('#id_end_time').val()
     });
 }
 
@@ -28,9 +29,10 @@ $(function(){
         'end_time'      : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
-            //load_data();
+            load_data();
         }
     });
+
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
