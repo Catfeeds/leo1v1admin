@@ -495,6 +495,8 @@ class WechatRequest  {
             $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
             $txt_ret = self::https_post($url,$txt);
 
+            \App\Helper\Utils::logger("send txt end");
+
             $url = "$base_url/common/get_agent_qr?wx_openid=".$openid;
             $img_url = self::get_img_url($url);
             $type = 'image';
@@ -504,6 +506,8 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("media_info:".json_encode( $mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
@@ -550,6 +554,8 @@ class WechatRequest  {
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
             $mediaId = Media::upload($img_url, $type);
+            \App\Helper\Utils::logger("mediaId info:". json_encode($mediaId));
+
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);

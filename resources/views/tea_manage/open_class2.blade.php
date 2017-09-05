@@ -16,6 +16,12 @@
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
         <div class="row">
+
+            <div class="col-xs-6 col-md-1">
+                <div class="input-group ">
+                    <button id="id_query" > 查询 </button>
+                </div>
+            </div>
             <div class="col-xs-12 col-md-4" data-title="时间段">
                 <div id="id_date_range"> </div>
             </div>

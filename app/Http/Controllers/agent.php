@@ -237,6 +237,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $page_info = $this->get_in_page_info();
+        $ret = $this->t_agent_order->get_agent_order_info($page_info,$start_time=1504195200,$end_time=1506787200);
+        dd($ret);
         list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
         $order_info = $this->t_agent_order->get_all_list();
         foreach($order_info as $item){
