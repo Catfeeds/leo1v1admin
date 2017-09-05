@@ -51,9 +51,9 @@ return [
     ],
 
     "yxyx_wx" => [
-        "appid"     => "wxb4f28794ec117af0" ,
-        "appsecret" => "4a4bc7c543698b8ac499e5c72c22f242",
-        "url" => "http://wx-yxyx.leo1v1.com",
+        "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
+        "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
+        "url" =>  env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",

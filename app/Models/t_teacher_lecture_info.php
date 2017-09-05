@@ -62,7 +62,8 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." t.nick as reference_name,t.teacherid,la.answer_begin_time,la.grade_ex,"
                                   ." tt.subject t_subject,tt.teacherid as t_teacherid,tt.create_time as t_create_time,"
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
-                                  ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,m.account accept_account, m.name as zs_name,"
+                                  ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"
+                                  ." m.account accept_account, m.name as zs_name,"
                                   ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time  "
                                   ." from %s as b"
                                   ." left join %s la on b.phone=la.phone"
@@ -522,6 +523,32 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             if(!empty( $v["teacherid"])) $arr[$v["teacherid"]] = $v["teacherid"];
         }
         return $arr;
+
+    }
+
+    public function get_teacher_passed_num_by_subject_grade($start_time,$end_time,$subject){
+        $where_arr=[
+            "tl.status =1",
+            "(tl.account is not null && tl.account <> '')",
+            "tl.is_test_flag =0",
+            ["tl.subject=%u",$subject,-1],
+            ["tl.confirm_time >= %u",$start_time,-1],
+            ["tl.confirm_time <= %u",$end_time,-1],
+        ];
+
+        $sql = $this->gen_sql_new("select accept_adminid,sum(if(substring(tl.grade,1,1)=1,1,0)) primary_num, "
+                                  ." sum(if(substring(tl.grade,1,1)=2,1,0)) middle_num,"
+                                  ."sum(if(substring(tl.grade,1,1)=3,1,0)) senior_num "
+                                  ." from %s tl "
+                                  ." left join %s ta on tl.phone = ta.phone"
+                                  ." where %s group by ta.accept_adminid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return  $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
 
     }
     public function get_teacher_list_passed_by_reference($reference,$start_time,$end_time){

@@ -6,10 +6,11 @@ $(function(){
         $.reload_self_page ( {
 		        page_count          :	$('#id_page_count').val(),
             textbook_check_flag : $("#id_textbook_check_flag").val(),
+		        user_name           :	$('#id_user_name').val(),
         });
     }
     $(".fa-download").hide();
-
+    $("#id_user_name").val(g_args.user_name);
     $(".opt-teacher-info").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var textbook = opt_data["teacher_textbook"];
@@ -46,5 +47,35 @@ $(function(){
 
     Enum_map.append_option_list("boolean",$("#id_textbook_check_flag"));
     $("#id_textbook_check_flag").val(g_args.textbook_check_flag);
+
+    $(".opt-tea_note").on("click",function(){
+        var data = $(this).get_opt_data();
+        var id_tea_note = $("<textarea/>");
+        var arr = [
+            ["教务备注",id_tea_note]
+        ];
+        id_tea_note.val(data.tea_note);
+
+        $.show_key_value_table("设置备注",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/update_tea_note",{
+                    "teacherid" : data.teacherid,
+                    "tea_note"  : id_tea_note.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+
+
+    });
+
+
 
 });

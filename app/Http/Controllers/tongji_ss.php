@@ -876,6 +876,10 @@ class tongji_ss extends Controller
             E\Eseller_student_status::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
+                $item["lesson_user_online_status"]
+            );
+
             if ($item['success_flag'] != 2) {
                 $item['success_flag_str'] = '是';
             } else{
@@ -2164,6 +2168,28 @@ class tongji_ss extends Controller
                 $item["have_order"] ="未签";
                 $item["fail_info"]="";
             }
+            $call_str ="";
+            $call_revisit_list = $this->t_tq_call_info->get_call_info_list($item["cur_require_adminid"],$item["phone"]);
+            $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+            $now = time();
+            foreach($call_revisit_list as $ty) {
+                $record_url= $ty["record_url"] ;
+                if ($now-$ty["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
+                    $load_wav_self_flag=1;
+                }else{
+                    $load_wav_self_flag=0;
+                }
+                if (preg_match("/api.clink.cn/", $record_url ) ) {
+                    $record_url .=$clink_args;
+                }
+
+                $call_time = date("Y-m-d H:i:s",$ty["start_time"]);
+                $call_str .="<p>".$call_time.":<a class=\"audio_show\" data-url=\"".$record_url."\" data-flag=\"".$load_wav_self_flag."\">听录音</a></p>";
+                
+            }
+
+            $item["call_rev"] = $call_str;
+
 
 
         }

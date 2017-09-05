@@ -1252,7 +1252,10 @@ class human_resource extends Controller
         if($key == "")
             return outputJson(array('ret' => -1, 'info' => 'key不能为空'));
 
+        $domain = config('admin')['qiniu']['public']['url'];
         $url = "http://" . $this->g_config['qiniu']['download_pub'] . "/" . $key;
+        //$url = $domain."/". $key;
+        //return $this->output_err("hahaha!");
         $ret_db = $this->t_assistant_info->change_ass_face($url, $assistantid);
         if($ret_db > 0)
             return outputJson(array('ret' => 0, 'info' => '成功'));
@@ -3851,14 +3854,15 @@ class human_resource extends Controller
     public function get_check_textbook_tea_list(){
         $adminid             = $this->get_account_id();
         $textbook_check_flag = $this->get_in_int_val("textbook_check_flag",-1);
-        $page_num = $this->get_in_page_num();
+        $user_name           = $this->get_in_str_val("user_name");
+        $page_num            = $this->get_in_page_num();
 
         if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186){
             $adminid=-1;
         }
 
         $check_time = strtotime("2017-9-2");
-        $ret_info   = $this->t_teacher_info->get_check_textbook_tea_list($page_num,$adminid,$textbook_check_flag);
+        $ret_info   = $this->t_teacher_info->get_check_textbook_tea_list($page_num,$adminid,$textbook_check_flag,$user_name);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -3989,9 +3993,9 @@ class human_resource extends Controller
 
         $acc = $this->get_account();
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"              =>$acc
+            "acc"          => $acc,
+            "account_role" => $this->get_account_role()
         ]);
-
     }
 
     public function teacher_info_for_seller(){

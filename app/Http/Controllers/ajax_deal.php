@@ -495,7 +495,8 @@ class ajax_deal extends Controller
             $item["contract_type"],
             $item["grade"],
             $lesson_total,
-            0
+            0,
+            ["from_test_lesson_id"=> $item["from_test_lesson_id"] ] 
         );
 
         $promotion_discount_price=$price_ret["discount_price"]*100;

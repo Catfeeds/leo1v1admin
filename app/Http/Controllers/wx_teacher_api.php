@@ -132,6 +132,17 @@ class wx_teacher_api extends Controller
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
         // $complaint_type   = $this->get_in_int_val('complaint_type');
         $complaint_type   = 1;
+        $now = time();
+
+        $last_info_arr = $this->t_complaint_info->get_last_msg($teacherid);
+        if(!empty($last_info_arr)){
+            $last_info = $last_info_arr[0];
+            if($last_info['complaint_info'] == $complaint_info && ($last_info['add_time']+120) > $now){
+                return $this->output_err("您的反馈我们已收到,我们会及时处理,谢谢您的反馈!");
+            }
+        }
+
+
 
         $sever_name = $_SERVER['SERVER_NAME'];
 
@@ -227,11 +238,30 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         \App\Helper\Utils::logger("wx_software: ".$teacherid);
 
+        $now = time();
+
+        $last_info_arr = $this->t_complaint_info->get_last_msg($teacherid);
+        if(!empty($last_info_arr)){
+            $last_info = $last_info_arr[0];
+            if($last_info['complaint_info'] == $complaint_info && ($last_info['add_time']+120) > $now){
+                return $this->output_err("您的反馈我们已收到,我们会及时处理,谢谢您的反馈!");
+            }
+        }
+
+
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
-        $complaint_img_url = $ret_arr['alibaba_url_str'];
+        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
+        $complaint_img_url = '';
+
+        if($serverId_str){
+            $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
+            $complaint_img_url = $ret_arr['alibaba_url_str'];
+        }
+
+        \App\Helper\Utils::logger("complaint_img_url: ".$complaint_img_url);
+
 
         //插入到投诉数据库中
         $account_type = '2'; // 投诉人身份 [老师]
@@ -242,7 +272,6 @@ class wx_teacher_api extends Controller
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
             'complaint_img_url' => $complaint_img_url,
-            // 'complained_feedback_type' => 2
         ]);
 
         if ($ret_info_qc) {
@@ -265,7 +294,7 @@ class wx_teacher_api extends Controller
                 "keyword2"  => "老师反馈内容:$complaint_info",
                 "keyword3"  => "反馈时间 $log_time_date ",
             ];
-            $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+            $url = 'http://admin.yb1v1.com/user_manage/complaint_department_deal_product';
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
@@ -454,20 +483,25 @@ class wx_teacher_api extends Controller
             'share_time' => time()
         ]);
 
+        return $this->output_succ();
     }
 
+
+
+
+
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
+
         $teacherid = $this->get_teacherid();
 
         // 计算目前的奖金总额
         $total_money = $this->t_teacher_day_luck_draw->get_total_money();
 
         if($total_money > 2000){ // 超过经费额度 则所有人都显示未中奖
-            return $this->output_succ();
+            return $this->output_succ(['money'=>0]);
         }
 
         // 判断是否有 录制试讲||分享朋友圈
-
         $is_share = $this->t_wx_share->get_share_flag($teacherid);
         $is_video = $this->t_teacher_lecture_info->get_video_flag($teacherid);
 
@@ -476,7 +510,7 @@ class wx_teacher_api extends Controller
             $total_num = 4;
         }
 
-        $num = $this->t_teacher_day_luck_draw->compute_time();
+        $num = $this->t_teacher_day_luck_draw->compute_time($teacherid);
         if($num>=$total_num){
             return $this->output_err('您的抽奖次数已用完!');
         }
@@ -488,7 +522,7 @@ class wx_teacher_api extends Controller
             $money = '9100'; // 单位分
         }elseif($rand>2000 && $rand <=3000){ // 中9.1元
             $money = '910'; // 单位分
-        }elseif($rand>20000 && $rand<33000){ // 中0.91元
+        }elseif($rand>20000 && $rand<=33000){ // 中0.91元
             $money = '91'; // 单位分
         }else{
 
@@ -500,10 +534,12 @@ class wx_teacher_api extends Controller
             'money'     => $money,
         ]);
 
+        // dd($money);
         $real_money = $money/100;
-        return $this->output_succ(['data'=>$real_money]);
+        return $this->output_succ(['money'=>$real_money]);
 
     }
+
 
 
 }

@@ -30,7 +30,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key = "teacher_money_type_month";
 
     public function __construct(){
-        // $this->switch_tongji_database();
+        $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -1946,5 +1946,63 @@ class test_code extends Controller
 
         }
     }
+
+    public function get_reward_list(){
+        $start = strtotime("2017-8-1");
+        $end= strtotime("2017-9-1");
+        $list = $this->t_teacher_money_list->get_reward_list($start,$end,6);
+        foreach($list as $val){
+            echo $val['teacherid']."|".$val['realname']."|".$val['phone']."|银行卡:".$val['bankcard']."|".$val['bank_account']."|".$val['bank_type']
+                                 ."|".($val['money_total']/100);
+            echo "<br>";
+        }
+    }
+
+    public function get_trial_teacher(){
+        $num = $this->get_in_int_val("num");
+        $start = strtotime("+$num month",strtotime("2017-7-1"));
+        $end   = strtotime("+1 month",$start);
+        $list = $this->t_lesson_info_b3->get_trial_teacher_list($start,$end);
+
+        echo "姓名|手机|试听课次|成功课次|第一科目|第一科目年级|第二科目|第二科目年级";
+        echo "<br>";
+        foreach($list as $val){
+            if($val['subject']>0){
+                $subject_str = E\Esubject::get_desc($val['subject']);
+                if($val['grade_start']>0){
+                    $grade_str = E\Egrade_range::get_desc($val['grade_start'])."-".E\Egrade_range::get_desc($val['grade_end']);
+                }else{
+                    $grade_str = E\Egrade_part_ex::get_desc($val['grade_part_ex']);
+                }
+            }else{
+                $subject_str = "无";
+                $grade_str   = "无";
+            }
+            if($val['second_subject']){
+                $second_subject_str = E\Esubject::get_desc($val['second_subject']);
+                if($val['second_grade_start']>0){
+                    $second_grade_str = E\Egrade_range::get_desc($val['second_grade_start'])."-".E\Egrade_range::get_desc($val['second_grade_end']);
+                }else{
+                    $second_grade_str = E\Egrade_part_ex::get_desc($val['second_grade']);
+                }
+            }else{
+                $second_subject_str = "无";
+                $second_grade_str   = "无";
+            }
+
+
+            $second_grade_str = E\Egrade_part_ex::get_desc($val['second_grade']);
+            echo $val['realname']."|".$val['phone']."|".$val['lesson_num']."|".$val['succ_num']."|".$subject_str."|".$grade_str."|".$second_subject_str."|".$second_grade_str;
+            echo "<br>";
+        }
+    }
+
+
+
+
+
+
+
+
 }
 

@@ -1751,6 +1751,16 @@ class teacher_info extends Controller
         $msg            = $this->get_in_str_val('complaint_info');
         $teacherid      = $this->get_login_teacher();
         $complaint_type = 2;//课程投诉
+        $now = time();
+
+        $last_info_arr = $this->t_complaint_info->get_last_msg($teacherid);
+
+        if(!empty($last_info_arr)){
+            $last_info = $last_info_arr[0];
+            if($last_info['complaint_info'] == $msg && ($last_info['add_time']+120) > $now){
+                return $this->output_err("您的反馈我们已收到,我们会及时处理,谢谢您的反馈!");
+            }
+        }
 
         $account_type   = '2'; // 老师类型
         $ret_info_qc = $this->t_complaint_info->row_insert([

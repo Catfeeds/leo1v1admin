@@ -50,6 +50,14 @@ class testbb extends Controller
 
     public function test () {
 
+        $num = $this->t_teacher_day_luck_draw->compute_time();
+
+        dd($num);
+
+        $a = 'http://1111';
+        $d = preg_match('/Http/i',$a);
+        dd($d);
+
         $rand = mt_rand(0,100000);
         $money = $rand;
 
@@ -261,6 +269,28 @@ class testbb extends Controller
         }
 
     }
+
+
+
+
+
+
+
+    public function ss(){
+
+        // $now = time();
+        $now = 1504584000;
+        $lesson_begin_halfhour = $now+29*60;
+        $lesson_end_halfhour   = $now+30*60;
+
+
+        // 获取试听课 课前30分钟
+        $test_lesson_list_halfhour = $this->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+        dd($test_lesson_list_halfhour);
+    }
+
+
 
 
 

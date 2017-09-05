@@ -237,19 +237,19 @@ $(function(){
     }
   });
 
-       var uploader = Qiniu.uploader({
-    runtime: 'html5, flash, html4',
-    browse_button: 'id_upload', //choose files
-    uptoken_url: '/upload/pub_token',
-    domain: 'http://ebtestpub.qiniudn.com/',
-    container: 'id_container',
-    drop_element: 'id_container',
-    max_file_size: '2mb',
-    dragdrop: true,
-    chunk_size: '4mb',
-    unique_names: false,
-    save_key: false,
-    auto_start: true,
+    var uploader = Qiniu.uploader({
+        runtime: 'html5, flash, html4',
+        browse_button: 'id_upload', //choose files
+        uptoken_url: '/upload/pub_token',
+        domain: 'http://ebtestpub.qiniudn.com/',
+        container: 'id_container',
+        drop_element: 'id_container',
+        max_file_size: '2mb',
+        dragdrop: true,
+        chunk_size: '4mb',
+        unique_names: false,
+        save_key: false,
+        auto_start: true,
         filters: {
             mime_types : [
                 {title:"image", extensions: "jpg"},
@@ -287,7 +287,13 @@ $(function(){
       'FileUploaded' : function(up, file, info) {
         console.log('Things below are from FileUploaded');
         var progress = new FileProgress(file, 'process_info');
-                progress.setComplete(up, info, file);//function(up, info, file)
+          if(info.response){
+               progress.setComplete(up, info.response, file);
+          }else{
+               progress.setComplete(up, info, file);
+          }
+
+               // progress.setComplete(up, info, file);//function(up, info, file)
       },
 
       'Error': function(up, err, errTip) {

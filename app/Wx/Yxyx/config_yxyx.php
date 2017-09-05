@@ -16,19 +16,25 @@ namespace LaneWeChat;
 /*
  * 服务器配置，详情请参考@link http://mp.weixin.qq.com/wiki/index.php?title=接入指南
  */
-define("WECHAT_URL_YXYX", 'http://yxyx.leo1v1.com/yxyx_wx_server/');//理优优学优享
+
 
 define('WECHAT_TOKEN_YXYX', 'yxyx14285714');
 // define('ENCODING_AES_KEY_YXYX', "rSOE0Qp7BhrVl4T2GPecyTKrVOKklfR1nulOCW71X5G");//理优优学优享
 define('ENCODING_AES_KEY_YXYX', "rFUbMgUBv7wJNrnW1YqlfCaQDMSvAccVZgkMPxASZeP");//理优优学优享
 // define('ENCODING_AES_KEY_YXYX', "kP9eZAagRdgfPsYxR0KqMvRaORCYfPmjU6sHiKfiNdA");//微信测试
 
+//8Xc9cpq8pFNgUC7kluftBPTRhrp50bTIxbAdfawLWXD
+
 // /*
 //  * 开发者配置
 //  */
+
 define("WECHAT_APPID_YXYX", 'wxb4f28794ec117af0'); //理优优学优享公众号
 //4a4bc7c543698b8ac499e5c72c22f242
 define("WECHAT_APPSECRET_YXYX",'4a4bc7c543698b8ac499e5c72c22f242');//理优优学优享appsecret
+
+define("WECHAT_URL_YXYX", 'http://yxyx.leo1v1.com/yxyx_wx_server/');//理优优学优享
+
 //"appid": "wxa99d0de03f407627",
 //    "appsecret": "61bbf741a09300f7f2fd0a861803f920",
 
