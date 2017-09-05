@@ -210,9 +210,9 @@
                                 <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                                 <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                                 @if($origin_type)
-                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?start_time={{@$var['start_time']}}&end_time={{@$var['end_time']}}">{{@$var["all_count"]}}</a></td>
-                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=2&start_time={{@$var['start_time']}}&end_time={{@$var['end_time']}}">{{@$var["assigned_count"]}}</a></td>
-                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=3&start_time={{@$var['start_time']}}&end_time={{@$var['end_time']}}">{{@$var["tmk_assigned_count"]}}</a></td>
+                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["all_count"]}}</a></td>
+                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=2&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["assigned_count"]}}</a></td>
+                                    <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=3&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tmk_assigned_count"]}}</a></td>
 
                                     <td >{{intval(@$var["avg_first_time"]/60)}}</td>
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=5&start_time={{@$var['start_time']}}&end_time={{@$var['end_time']}}">{{@$var["tq_no_call_count"]}}</a></td>
