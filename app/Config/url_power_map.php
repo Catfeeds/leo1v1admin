@@ -216,7 +216,7 @@ class url_power_map {
 			'/tongji_ss/origin_count_bd'	=>1070851,
 			'/tongji_ss/origin_count_bd_simple'	=>1070853,
 			'/tongji_ss/origin_count_yxb'	=>1070854,
-			'/tongji_ss/origin_count_yxb_simple'	=>1070855,
+			'/tongji/origin_count_yxb_simple'	=>1070855,
 			'/tongji_ss/origin_count_tmk'	=>1070850,
 			'/tongji2/seller_origin_info'	=>1070810,
 			'/seller_student_new2/origin_user_list'	=>1070860,
