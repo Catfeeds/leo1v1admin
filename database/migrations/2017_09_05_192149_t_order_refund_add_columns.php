@@ -16,9 +16,9 @@ class TOrderRefundAddColumns extends Migration
 
         Schema::table('db_weiyi.t_order_refund', function( Blueprint $table)
         {
-            // t_field($table->string("qc_other_reason",1000),"qc其他原因");
-            // t_field($table->string("qc_analysia",1000),"qc整体分析");
-            // t_field($table->string("qc_reply",1000),"qc 应对方案");
+            t_field($table->integer("qc_contact_status"),"联系状态");
+            t_field($table->integer("qc_advances_status"),"提升状态");
+            t_field($table->integer("qc_voluntarily_status"),"态度情况");
         });
 
     }
