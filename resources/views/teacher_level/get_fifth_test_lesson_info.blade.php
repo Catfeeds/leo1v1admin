@@ -61,6 +61,7 @@
                     <td>试听需求</td>
                     <td>审核人</td>
                     <td>是否反馈</td>
+                    <td>反馈时间</td>
                     
                     <td> 操作  </td>
                 </tr>
@@ -74,6 +75,12 @@
                         <td>{{@$var["test_stu_request_test_lesson_demand"]}} </td>
                         <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
+                        <td>
+                            @if($var["record_info"])
+                                {{@$var["add_time_str"]}}
+                            @endif
+                        </td>
+
 
                         <td>
                             <div

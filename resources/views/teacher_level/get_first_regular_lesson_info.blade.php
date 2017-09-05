@@ -83,10 +83,10 @@
                         <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
                         <td>
-                        @if($var["record_info"])
-                            {{@$var["add_time_str"]}}
-                        @endif
-                        <td>
+                            @if($var["record_info"])
+                                {{@$var["add_time_str"]}}
+                            @endif
+                        </td>
 
                         <td>
                             <div

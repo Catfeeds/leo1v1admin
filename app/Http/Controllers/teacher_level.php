@@ -667,6 +667,7 @@ class teacher_level extends Controller
             if(empty($item["test_stu_request_test_lesson_demand"])){
                 $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
             }
+            $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
   
         }
         
@@ -708,6 +709,7 @@ class teacher_level extends Controller
             if(empty($item["test_stu_request_test_lesson_demand"])){
                 $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
             }
+            $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
   
         }
         $this->set_in_value("acc",$this->get_account());
