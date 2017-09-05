@@ -205,6 +205,7 @@ class agent extends Controller
         $userid     = $this->get_in_int_val('userid');
         $page_num   = $this->get_in_page_num();
         $page_info  = $this->get_in_page_info();
+        dd($start_time,$end_time);
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info,$start_time,$end_time);
         foreach($ret_info['list'] as &$item){
             $item['p_price'] = $item['p_price']/100;
