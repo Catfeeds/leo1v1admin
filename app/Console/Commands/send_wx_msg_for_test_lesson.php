@@ -74,8 +74,8 @@ class send_wx_msg_for_test_lesson extends Command
         // 测试数据
 
         foreach($test_lesson_list_halfhour as $item){
-            $data_tea = $this->get_data($item,1,1);
-            $data_par = $this->get_data($item,2,1);
+            $data_par = $this->get_data($item,1,1);
+            $data_tea = $this->get_data($item,2,1);
             $data_ass = $this->get_data($item,3,1);
 
             $this->send_wx_msg_tea($item,1,$data_tea);
