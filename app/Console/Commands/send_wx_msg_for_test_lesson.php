@@ -47,64 +47,68 @@ class send_wx_msg_for_test_lesson extends Command
         $now = time();
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
-        /*
-          测试ok
         // 获取试听课 课前30分钟
         $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         if(!empty($test_lesson_list_halfhour)){
-        foreach($test_lesson_list_halfhour as $item){
-        $data_par = $this->get_data($item,1,1);
-        $data_tea = $this->get_data($item,2,1);
-        $data_ass = $this->get_data($item,3,1);
+            foreach($test_lesson_list_halfhour as $item){
+                $data_par = $this->get_data($item,1,1);
+                $data_tea = $this->get_data($item,2,1);
+                $data_ass = $this->get_data($item,3,1);
 
-        $this->send_wx_msg_tea($item,1,$data_tea);
-        $this->send_wx_msg_par($item,1,$data_par);
-        $this->send_wx_msg_ass($item,1,$data_ass);
-        }
+                $this->send_wx_msg_tea($item,1,$data_tea);
+                $this->send_wx_msg_par($item,1,$data_par);
+                $this->send_wx_msg_ass($item,1,$data_ass);
+            }
         }
 
         // 试听课超时5分钟
         $lesson_begin_five = $now-5*60;
         $lesson_end_five   = $now-4*60;
         $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
-        foreach($test_lesson_list_five as $item){
-            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
-            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-            if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
-                $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
-                $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
-                $this->send_wx_msg_par($item,2,$data_par);
-                $this->send_wx_msg_ass($item,2,$data_ass);
-            }
+        if($test_lesson_list_five){
+            foreach($test_lesson_list_five as $item){
+                $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+                $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-            if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
-                $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
-                $data_ass = $this->get_data($item,3,2,$item['teacher_nick'],'');
-                $this->send_wx_msg_tea($item,2,$data_tea);
-                $this->send_wx_msg_ass($item,2,$data_ass);
+                if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
+                    $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
+                    $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
+                    $this->send_wx_msg_par($item,2,$data_par);
+                    $this->send_wx_msg_ass($item,2,$data_ass);
+                }
+
+                if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
+                    $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
+                    $data_ass = $this->get_data($item,3,2,$item['teacher_nick'],'');
+                    $this->send_wx_msg_tea($item,2,$data_tea);
+                    $this->send_wx_msg_ass($item,2,$data_ass);
+                }
             }
         }
 
 
         // 课程中途退出10分钟以上
         $cut_class_lesson_list = $normal_lesson_list = $absenteeism_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
-        foreach($cut_class_lesson_list as $item){
-            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
-            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-            if($opt_time_stu<=$now-600 && $opt_time_stu<$item['lesson_end']){ // 判断学生是否超时 [10分钟]
-                $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
-                $data_ass = $this->get_data($item,3,3,$item['stu_nick']);
+        if($cut_class_lesson_list ){
+            foreach($cut_class_lesson_list as $item){
+                $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+                $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+
+                if($opt_time_stu<=$now-600 && $opt_time_stu<$item['lesson_end']){ // 判断学生是否超时 [10分钟]
+                    $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
+                    $data_ass = $this->get_data($item,3,3,$item['stu_nick']);
+                }
+
+                if($opt_time_tea<=$now-600 && $opt_time_tea<$item['lesson_end']){ // 判断老师是否超时  [10分钟]
+                    $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
+                    $data_ass = $this->get_data($item,3,3,$item['teacher_nick']);
+                }
+
+                $this->send_wx_msg_ass($item,3,$data_ass);
             }
-
-            if($opt_time_tea<=$now-600 && $opt_time_tea<$item['lesson_end']){ // 判断老师是否超时  [10分钟]
-                $data_ass = $this->get_data($item, 3,3, $item['teacher_nick'], '');
-                $data_ass = $this->get_data($item,3,3,$item['teacher_nick']);
-            }
-
-            $this->send_wx_msg_ass($item,3,$data_ass);
         }
 
         // 旷课
@@ -125,58 +129,18 @@ class send_wx_msg_for_test_lesson extends Command
                 }
 
             }
-       }
-        */
-
-
-
-        // 测试数据
-        //orwGAs_IqKFcTuZcU1xwuEtV3Kek [家长端 james]
-        // oJ_4fxPmwXgLmkCTdoJGhSY1FTlc [老师帮 james]
-
-        $normal_lesson_list[] = [
-            "lessonid" => "315614",
-            "ass_phone" => "18201985007",
-            "par_phone" => "13933633400",
-            "teacherid" => "254321",
-            "subject" => "3",
-            "ass_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek",
-            "tea_openid" => "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",
-            "par_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek",
-            "lesson_start" => "1504585800",
-            "lesson_end" => "1504588200",
-            "teacher_nick" => "james-teacher",
-            "userid" => "316441",
-            "stu_nick" => "james-student",
-            "parent_nick" => "13933633400"
-        ];
-
-        // 测试数据
-
-
-
-
-
+        }
 
         // 试听课正常结束
 
         if(!empty($normal_lesson_list)){
-
             foreach($normal_lesson_list as $item){
-
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
-
-                if( $logout_time_tea>$item['lesson_end']-600){
+                if( ($logout_time_tea>$item['lesson_end']-600) && ($logout_time_stu>$item['lesson_end']-600)){
                     $data_ass = $this->get_data($item,3,5);
                     $this->send_wx_msg_ass($item,5,$data_ass);
                 }
-
-                if($logout_time_stu>$item['lesson_end']-600){
-                    $data_ass = $this->get_data($item,3,5);
-                    $this->send_wx_msg_ass($item,5,$data_ass);
-                }
-
             }
         }
 
@@ -328,9 +292,9 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
-       if($type !=3  ){
-           \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,'');
-       }
+        if($type !=3  ){
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,'');
+        }
 
     }
 
