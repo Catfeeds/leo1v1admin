@@ -562,7 +562,7 @@ class WechatRequest  {
             if ( \App\Helper\Utils::check_env_is_release() ) {
                 return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
             }else{
-                ResponseInitiative::image( $request['tousername'], $mediaId);
+                ResponseInitiative::image( $request['fromusername'],  $mediaId);
                 //ResponseInitiative::
                 return "";
             }

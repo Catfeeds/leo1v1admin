@@ -134,7 +134,6 @@ $(function(){
             url : "../province_city_select_Info.xml",  
             success : func_suc_getXmlProvice  
         });  
-        province.val(4);
         
         //省 下拉选择发生变化触发的事件  
         province.change(function() {  
@@ -226,6 +225,8 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
+                    alert(html_node.find("#province").val());
+                    return;
                     var stu_nick     = html_node.find("#id_name").val();
                     var parent_name  = html_node.find("#id_parent_name").val();
                     var parent_phone = html_node.find("#id_parent_phone").val();

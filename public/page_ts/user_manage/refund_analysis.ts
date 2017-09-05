@@ -29,7 +29,13 @@ $(function(){
         var qc_analysia     = $("#id_qc_analysia").val();
         var qc_reply        = $("#id_qc_reply").val();
 
-        if(adminid != 540 && adminid != 968){
+        var qc_contact_status      = $("#id_qc_contact_status").val();
+        var qc_advances_status     = $("#id_qc_advances_status").val();
+        var qc_voluntarily_status  = $("#id_qc_voluntarily_status").val();
+
+        console.log(qc_voluntarily_status);
+
+        if(adminid != 540 && adminid != 968 && adminid != 99 && adminid != 1024 ){
             alert('您没有修改权限!');
             load_data();
         } else {
