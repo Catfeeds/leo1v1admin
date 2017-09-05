@@ -565,9 +565,7 @@ $(function(){
                 });
             }
         });
-
     });
-
 
     $("#id_set_grade").on("click",function(){
         var opt_data=$("#id_stu_info").data();

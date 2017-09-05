@@ -2131,7 +2131,7 @@ class user_deal extends Controller
         $start_time = $this->get_in_start_time_from_str();
         $grade      = $this->get_in_grade();
         $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
-        $acc=$this->get_account();
+        $acc = $this->get_account();
 
         if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
@@ -3281,7 +3281,6 @@ class user_deal extends Controller
         ]);
         return $this->output_succ();
     }
-
 
     public function set_stu_account(){
         $userid    = $this->get_in_int_val("userid");
