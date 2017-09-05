@@ -105,7 +105,7 @@ $(function(){
             format:'Ymd'
         });
 
-        var old_city = opt_data.city;
+       /* var old_city = opt_data.city;
         if(old_city == ''){
             old_city="选择市（区）";
         }
@@ -114,6 +114,7 @@ $(function(){
             old_city="选择区（县）";
         }
         var old_province = opt_data.province;
+        */
 
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
@@ -170,7 +171,7 @@ $(function(){
             var value = province.find("option:selected").text()  
                 + city.find("option:selected").text()  
                 + area.find("option:selected").text();  
-            //address.text(value);  
+            html_node.find("#id_address").val(value);  
             $("#txtProCity").val(value);  
         });  
         
@@ -225,8 +226,7 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
-                    alert(html_node.find("#province").val());
-                    return;
+                   
                     var stu_nick     = html_node.find("#id_name").val();
                     var parent_name  = html_node.find("#id_parent_name").val();
                     var parent_phone = html_node.find("#id_parent_phone").val();
