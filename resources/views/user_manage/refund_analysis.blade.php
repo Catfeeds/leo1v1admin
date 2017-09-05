@@ -23,8 +23,6 @@
                     <div class="input-group " >
                         <span >是否自愿</span>
                         <select id="id_qc_voluntarily_status" class="opt-change" ></select>
-
-                        <!-- <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  /> -->
                     </div>
                 </div>
             </div>
