@@ -3993,7 +3993,8 @@ class human_resource extends Controller
 
         $acc = $this->get_account();
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"              =>$acc
+            "acc"          => $acc,
+            "account_role" => $this->get_account_role()
         ]);
 
     }

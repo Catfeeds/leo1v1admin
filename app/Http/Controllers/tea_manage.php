@@ -797,13 +797,13 @@ class tea_manage extends Controller
         $grade_start           = $this->get_in_int_val("grade_start",0);
         $grade_end             = $this->get_in_int_val("grade_end",0);
         $not_grade             = $this->get_in_str_val("not_grade","");
-        $teacher_ref_type      = $this->get_in_int_val('teacher_ref_type',-1);
         $zs_id                 = $this->get_in_int_val('zs_id',-1);
         $wx_use_flag           = $this->get_in_int_val("wx_use_flag",1);
         $bankcard              = $this->get_in_str_val("bankcard");
         $bank_address          = $this->get_in_str_val("bank_address");
         $bank_account          = $this->get_in_str_val("bank_account");
         $train_through_new     = $this->get_in_int_val("train_through_new");
+        $teacher_ref_type      = $this->get_in_int_val('teacher_ref_type',0);
         $account_role          = $this->get_account_role();
         $acc                   = $this->get_account();
         /**
@@ -864,7 +864,7 @@ class tea_manage extends Controller
         if($reference_info['teacher_type']>20){
             $teacher_ref_type = $reference_info['teacher_ref_type'];
         }else{
-            $teacher_ref_type = 0;
+            // $teacher_ref_type = 0;
         }
 
         /**

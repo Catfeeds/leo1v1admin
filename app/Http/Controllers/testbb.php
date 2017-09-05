@@ -282,8 +282,11 @@ class testbb extends Controller
         $lesson_begin_halfhour = $now+30*60;
         $lesson_end_halfhour   = $now+31*60;
 
+
         // 获取试听课 课前30分钟
-        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+        $test_lesson_list_halfhour = $this->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
+
+        dd($test_lesson_list_halfhour);
     }
 
 
