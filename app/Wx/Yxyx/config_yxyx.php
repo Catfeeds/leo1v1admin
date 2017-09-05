@@ -23,6 +23,8 @@ define('WECHAT_TOKEN_YXYX', 'yxyx14285714');
 define('ENCODING_AES_KEY_YXYX', "rFUbMgUBv7wJNrnW1YqlfCaQDMSvAccVZgkMPxASZeP");//理优优学优享
 // define('ENCODING_AES_KEY_YXYX', "kP9eZAagRdgfPsYxR0KqMvRaORCYfPmjU6sHiKfiNdA");//微信测试
 
+//8Xc9cpq8pFNgUC7kluftBPTRhrp50bTIxbAdfawLWXD
+
 // /*
 //  * 开发者配置
 //  */

@@ -3996,7 +3996,6 @@ class human_resource extends Controller
             "acc"          => $acc,
             "account_role" => $this->get_account_role()
         ]);
-
     }
 
     public function teacher_info_for_seller(){
