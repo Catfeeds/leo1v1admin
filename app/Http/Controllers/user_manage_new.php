@@ -128,6 +128,8 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_list );
     }
 
+
+
     public function tea_lesson_count_detail_list() {
         $teacherid  = $this->get_in_teacherid(0);
         $studentid  = $this->get_in_studentid(-1);
