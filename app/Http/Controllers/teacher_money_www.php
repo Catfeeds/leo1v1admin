@@ -6,7 +6,7 @@ use \App\Enums as E;
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie;
 
-class teacher_money extends Controller
+class teacher_money_www extends Controller
 {
     use CacheNick;
     var $teacher_money;
@@ -20,6 +20,9 @@ class teacher_money extends Controller
     public function get_teacher_money_total_list(){
         $teacherid = $this->get_login_teacher();
 
+        $now_date = date("Y-m-01",time());
+        $end_time = strtotime("+1 month",strtotime($now_date));
+        $start_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
     }
 
 
