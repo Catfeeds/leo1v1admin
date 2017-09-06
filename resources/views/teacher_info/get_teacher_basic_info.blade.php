@@ -9,7 +9,7 @@
     <section class="content li-section">
         <div class="row">
             <!-- Left col -->
-            <section class="col-lg-5 connectedSortable">
+            <section class="col-lg-5 connectedSortable" style="padding-right:5px">
                 <!-- Chat box -->
                 <div class="box box-info">
                     <div class="box-header">
@@ -74,9 +74,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-info collapsed-box">
+                <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
+                        <h3 class="box-title color-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
                         <div class="box-tools pull-right">
                             <b class="color-red" data-status="full">饱和</b>
                             <b style="color:#00b798" data-status="nofull">不饱和</b>
@@ -108,9 +108,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-success collapsed-box">
+                <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-success">简历</h3>
+                        <h3 class="box-title color-blue">简历</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
@@ -142,9 +142,9 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
-                <div class="box box-success collapsed-box">
+                <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-success">资格证</h3>
+                        <h3 class="box-title color-blue">资格证</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
@@ -177,9 +177,9 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
-                <div class="box box-success collapsed-box">
+                <div class="box box-info-ly collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-success">公校证明</h3>
+                        <h3 class="box-title color-blue">公校证明</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
@@ -212,9 +212,9 @@
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
                 @if ($my_info['tags_flag'] != 0 )
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">教师风格</h3>
+                        <h3 class="box-title color-blue">教师风格</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
@@ -228,13 +228,13 @@
                                     <p>
                                     @foreach($my_info['teacher_tags_arr'] as $val)
                                         @if ($val == '逻辑型')
-                                            <span class="badge bg-linfo ft18">逻辑型</span>
+                                            <span class="badge bg-linfo ft14">逻辑型</span>
                                         @elseif ($val == '自然型')
-                                            <span class="badge bg-lgreen ft18">自然型</span>
+                                            <span class="badge bg-lgreen ft14">自然型</span>
                                         @elseif ($val == '技巧型')
-                                            <span class="badge bg-lpro ft18">技巧型</span>
+                                            <span class="badge bg-lpro ft14">技巧型</span>
                                         @elseif ($val == '情感型')
-                                            <span class="badge bg-lyellow ft18">情感型</span>
+                                            <span class="badge bg-lyellow ft14">情感型</span>
                                         @endif
                                     @endforeach
                                     </p>
@@ -262,44 +262,13 @@
                 </div>
                 @endif
                 <!-- /.box (chat box) -->
-                <!-- Chat box -->
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title text-yellow">教学特长</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bor-hr"></div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart" style="height: 100px;">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <span class="badge bg-green">特长1</span>
-                                    <span class="badge bg-info">特长2</span>
-                                    <span class="badge bg-red">特长3</span>
-                                    <span class="badge bg-blue">特长4</span>
-                                    <span class="badge bg-yellow">特长5</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                        <div class="row">
-                        </div>
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box (chat box) -->
             </section>
             <!-- right col -->
             <section class="col-lg-7 connectedSortable">
                 <!-- Chat box -->
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">基本信息</h3>
+                        <h3 class="box-title color-blue">基本信息</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
                             </button>
@@ -450,9 +419,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">银行卡信息</h3>
+                        <h3 class="box-title color-blue">银行卡信息</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -550,9 +519,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">转化率</h3>
+                        <h3 class="box-title color-blue">转化率</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -592,9 +561,9 @@
                 <!-- /.box  -->
 
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info-ly">
                     <div class="box-header">
-                        <h3 class="box-title text-success">上课情况</h3>
+                        <h3 class="box-title color-blue">上课情况</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
