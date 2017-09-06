@@ -50,6 +50,8 @@
                         <td>第五次试听课平均听课时长</td>
                         <td>第一次常规课</td>
                         <td>第一次常规课平均听课时长</td>
+                        <td>第五次常规课</td>
+                        <td>第五次常规课平均听课时长</td>
                         <td>总数</td>
 
                         <td>完成率</td>
@@ -74,6 +76,8 @@
 
                             <td> {{@$var["regular_first"]}}</td>
                             <td> {{@$var["regular_first_per_str"]}}</td>
+                            <td> {{@$var["regular_five"]}}</td>
+                            <td> {{@$var["regular_five_per_str"]}}</td>
                             <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
                           

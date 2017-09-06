@@ -649,9 +649,6 @@ class user_manage extends Controller
         $lru_id      = $this->get_in_int_val("lru_id");
         $lru_id_name = $this->get_in_str_val("lru_id_name" );
 
-
-
-
         // dd($lru_id);
         $lru_key = "USER_LIST_".$type."_".$this->get_account_id();
 
@@ -1692,6 +1689,9 @@ class user_manage extends Controller
         $qc_other_reason   = $this->get_in_str_val("qc_other_reason");
         $qc_analysia       = $this->get_in_str_val("qc_analysia");
         $qc_reply          = $this->get_in_str_val("qc_reply");
+        $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
+        $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
+        $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
 
         $this->t_order_refund->update_refund_list($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply);
         return $this->output_succ();
