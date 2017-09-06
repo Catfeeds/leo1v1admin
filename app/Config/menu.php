@@ -403,7 +403,8 @@ class menu{
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
-                    ["power_id"=>33, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
+                    ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
+                    ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"销售时效统计",   "url"=>"/tongji/seller_time"],
                     ["power_id"=>36, "name"=>"销售-时报", "url"=>"/tongji/seller_call_rate"],
 
