@@ -691,7 +691,7 @@ class user_manage extends Controller
             $ret_list= $this->t_student_info->get_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);
         }else if ($type=="seller_student" ){ //销售的用户
             $ret_list= $this->t_student_info->get_seller_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);
-        }else if ($type=="admin" ||$type=="account"  ){
+        }else if ($type=="admin" || $type=="account"  ){
             $ret_list= $this->t_manager_info->get_list_for_select($id,$gender, $nick_phone, $page_num,$main_type);
         }else if ($type=="admin_group_master" ){
             $ret_list= $this->t_manager_info-> get_group_master_for_select($id,$gender,$nick_phone,$page_num,$main_type);
@@ -707,6 +707,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_jiaoyan_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="research_teacher"){//教研老师
             $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
+        }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
+            $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }
 
 
@@ -1693,7 +1695,7 @@ class user_manage extends Controller
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
 
-        $this->t_order_refund->update_refund_list($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply);
+        $this->t_order_refund->update_refund_list($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status);
         return $this->output_succ();
     }
 

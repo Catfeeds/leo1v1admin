@@ -1383,13 +1383,11 @@ class user_manage_new extends Controller
                 $res[$k]['finish_personal_per'] =  round($v['all_price']/100/$res[$k]['target_personal_money'],2);
                 $res[$k]['los_personal_money'] = $res[$k]['target_personal_money']-$v['all_price']/100;
             }
-            // $res[$k]['become_member_time'] = $v['create_time'];
-            // $res[$k]['leave_member_time'] = $v['leave_member_time']?$v['leave_member_time']:0;
-            // $res[$k]['del_flag'] = $v['del_flag'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
+        list($become_member_num,$leave_member_num) = [0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
@@ -1408,6 +1406,10 @@ class user_manage_new extends Controller
             $item['los_money'] = @$item['target_money']-@$item['all_price_for_month'];
             $item['los_personal_money'] = @$item['target_personal_money']-@$item['all_price_for_month'];
 
+            $item["del_flag"]?$leave_member_num++:$become_member_num++;
+            $item['become_member_num'] = $become_member_num;
+            $item['leave_member_num'] = $leave_member_num;
+
             if($item['level'] == "l-4" ){
                 $item['target_money']="";
                 $item['finish_per'] = "";
@@ -1420,14 +1422,11 @@ class user_manage_new extends Controller
                 $item["leave_member_time"] = '';
                 $item["del_flag_str"] = '';
             }
-
         }
-
+        dd($ret_info);
         \App\Helper\Utils::logger("OUTPUT");
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
-
-
     }
     public function seller_require_tq_time_list(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],1);

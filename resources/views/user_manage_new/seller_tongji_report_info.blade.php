@@ -63,6 +63,8 @@
                     <td>团队业绩指标</td>
                     <td>团队指标完成率</td>
                     <td>团队缺口金额</td>
+                    <td>在职人数</td>
+                    <td>离职人数</td>
                     <td style="display:none;">销售自定指标</td>
                     <td style="display:none;"> 自定指标完成率</td>
                     <td style="display:none;">自定指标缺口金额</td>
@@ -98,6 +100,8 @@
                         <td >{{@$var["target_money"]}}</td>
                         <td >{{@$var["finish_per"]}}</td>
                         <td >{{@$var["los_money"]}}</td>
+                        <td >{{@$var["become_member_num"]}}</td>
+                        <td >{{@$var["leave_member_num"]}}</td>
                         <td >{{@$var["target_personal_money"]}}</td>
                         <td >{{@$var["finish_personal_per"]}}</td>
                         <td >{{@$var["los_personal_money"]}}</td>

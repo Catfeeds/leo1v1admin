@@ -218,7 +218,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num){
+        $where_arr = [
+            ["t.gender=%d",$gender,-1],
+            ["teacherid=%d",$id,-1],
+            "train_through_new=1",
+            "trial_lecture_is_pass=1",
+        ];
+        if($nick_phone!=""){
+            $where_arr[] = array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",array(
+                $this->ensql($nick_phone),
+                $this->ensql($nick_phone),
+                $this->ensql($nick_phone))
+            );
+        }
 
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,realname,subject,grade_part_ex "
+                                  ." from %s t"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+    }
 
     public function get_teacher_detail_list_new($teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,$lend,$teacherid_arr=[]){
         $where_arr = array(

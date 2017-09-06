@@ -902,7 +902,7 @@ class tongji2 extends Controller
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
         $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
         //$kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time,"c.add_time");
-        $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
+        //  $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
 
         $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
@@ -928,7 +928,7 @@ class tongji2 extends Controller
             // $val["refund_score"] = round((10-@$refund_score[$k])>=0?10-@$refund_score[$k]:0,2);
             $val["refund_score"] = round(@$refund_score[$k],2);
             $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
-            $val["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
+            $val["kk_succ"] = isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0;
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
