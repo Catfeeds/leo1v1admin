@@ -3513,7 +3513,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "s.is_test_user =0 ",
             "s.phone > 0"
         ];
-        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,t.wx_openid, a.reference,count(s.teacherid) as sum".
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, a.reference,count(s.teacherid) as sum".
                                   " from %s t ".
                                   " left join %s a on t.phone = a.phone".
                                   " left join %s s on a.reference=s.phone".
