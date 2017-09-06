@@ -8,15 +8,22 @@ $(function(){
     $('#id_add_user_parent').on('click', function(){
         var studentid = $(this).parent().data('studentid');
         var $phone=$("<input/>");
+        var $parent_name=$("<input/>");
+        var $parent_type=$("<select><option value=\"1\">父亲</option><option value=\"2\">母亲</option><option value=\"3\">爷爷</option><option value=\"4\">奶奶</option><option value=\"5\">外公</option><option value=\"6\">外婆</option><option value=\"7\">其他</option></select>");
+
         $.do_ajax("/stu_manage/get_stu_parent",{
             'studentid':studentid
         },function(result){
             if(result.phone!=0){
                 $phone.val(result.phone);
+                $parent_type.val(result.parent_type);
+                $parent_name.val(result.parent_name);
             }
 
             var arr=[
-                ["家长电话",$phone]
+                ["家长电话",$phone],
+                ["家长名字",$parent_name],
+                ["家长关系",$parent_type],
             ];
 
             $.show_key_value_table("绑定家长", arr ,{
@@ -29,7 +36,9 @@ $(function(){
                         dataType: 'json',
                         data : {
                             'studentid' : studentid,
-                            'phone'     : $phone.val()
+                            'phone'     : $phone.val(),
+                            'parent_name'     : $parent_name.val(),
+                            'parent_type'     : $parent_type.val()
                   },
                         success: function(data) {
                             if(data.ret==0){
@@ -266,6 +275,28 @@ $(function(){
                     });
                     
                 });
+
+                html_node.find("table").find(".delete_stu_subject").each(function(){
+                    $(this).on("click",function(){
+                        var userid = $(this).data("userid");
+
+                        var subject = $(this).data("subject");
+                        BootstrapDialog.confirm("确定要删除？", function(val){
+                            if (val) {
+                                $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" :          subject,
+                                });
+
+                            } 
+                        });
+ 
+
+                        
+                    });
+                    
+                });
+
 
                 
 
