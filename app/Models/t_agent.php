@@ -1002,6 +1002,77 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         }
     }
+    public function eval_agent_student_status(  $stu_info, $lesson_info ){
+        $agent_student_status=0;
+        if ($stu_info) {
+            $global_seller_student_status = $stu_info["global_seller_student_status"];
+            $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+            $seller_resource_type         = $stu_info["seller_resource_type"];
+
+            if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
+                if($global_tq_called_flag == 0 ) {
+                    $agent_student_status=E\Eagent_student_status::V_0;
+                }else if ($global_tq_called_flag==1) {
+                    $agent_student_status=E\Eagent_student_status::V_10;
+                }else if ( $global_seller_student_status<200) {
+                    //E\Eseller_student_status
+                    $agent_student_status=E\Eagent_student_status::V_20;
+                }else if ( $global_seller_student_status<=220) {
+                    $agent_student_status=E\Eagent_student_status::V_30;
+                }else{
+                    if ( $lesson_info) {
+                        if ( $lesson_info["lesson_end"]  < time(NULL)) {
+                            $agent_student_status=E\Eagent_student_status::V_40;
+                        }else{
+                            $agent_student_status=E\Eagent_student_status::V_30;
+                        }
+                    }else{
+                        $agent_student_status=E\Eagent_student_status::V_30;
+                    }
+                }
+            }else{
+                $agent_student_status=E\Eagent_student_status::V_100;
+            }
+
+        }
+        return $agent_student_status;
+    }
+
+    public function eval_agent_status(  $stu_info, $lesson_info ){
+        if ($stu_info) {
+            $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+
+            if ($lesson_info ) {
+                if ($lesson_info["lesson_user_online_status"]==1) {
+                    return  E\Eagent_status::V_30;
+                }else{
+                    return  E\Eagent_status::V_20;
+                }
+            }else{
+                if ($global_tq_called_flag==2) {
+                    return  E\Eagent_status::V_10;
+                }
+            }
+        }
+        return  E\Eagent_status::V_1;
+    }
+
+    public function eval_agent_status_money($agent_status ){
+        switch ( $agent_status ) {
+        case E\Eagent_status::V_1 :
+            return 5;
+
+        case E\Eagent_status::V_10 :
+            return 10;
+        case E\Eagent_status::V_20 :
+            return 20;
+        case E\Eagent_status::V_30 :
+        case E\Eagent_status::V_40 :
+            return 50;
+        default:
+            return 0;
+        }
+    }
 
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
@@ -1010,6 +1081,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_level_old = $agent_info["agent_level"];
         $wx_openid_old  = $agent_info["wx_openid"];
         $agent_student_status=0;
+        $agent_status=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
             $is_test_user = $student_info['is_test_user'];
@@ -1023,48 +1095,43 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 //检查合同
                 if ($this->task->t_agent_order->check_aid($id) ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
+                    $agent_status=E\Eagent_status::V_40;
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
-                    if ($stu_info) {
-                        $global_seller_student_status = $stu_info["global_seller_student_status"];
-                        $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
-                        $seller_resource_type         = $stu_info["seller_resource_type"];
-                        if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
-                            if($global_tq_called_flag == 0 ) {
-                                $agent_student_status=E\Eagent_student_status::V_0;
-                            }else if ($global_tq_called_flag==1) {
-                                $agent_student_status=E\Eagent_student_status::V_10;
-                            }else if ( $global_seller_student_status<200) {
-                                //E\Eseller_student_status
-                                $agent_student_status=E\Eagent_student_status::V_20;
-                            }else if ( $global_seller_student_status<=220) {
-                                $agent_student_status=E\Eagent_student_status::V_30;
-                            }else{
-                                 $test_lessonid=$agent_info["test_lessonid"];
-                                if ( $test_lessonid ) {
-                                    $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
-                                    if ( $lesson_info["lesson_end"]  < time(NULL)) {
-                                        $agent_student_status=E\Eagent_student_status::V_40;
-                                    }else{
-                                        $agent_student_status=E\Eagent_student_status::V_30;
-                                    }
-                                }else{
-                                    $agent_student_status=E\Eagent_student_status::V_30;
-                                }
-                            }
-                        }else{
-                            $agent_student_status=E\Eagent_student_status::V_100;
-                        }
 
+                    $test_lessonid=$agent_info["test_lessonid"];
+                    $lesson_info=null;
+                    if ( $test_lessonid ) {
+                        $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
                     }
+                    $agent_student_status= $this->eval_agent_student_status(  $stu_info, $lesson_info );
+                    $agent_status= $this->eval_agent_status( $stu_info, $lesson_info );
 
                 }
-
             }
-
         }
 
         $level_count_info= $this-> get_level_count_info($id);
+        $l1_lesson_info=$this-> get_l1_test_lesson_succ_count_from_lesson($id);
+        $agent_status_money= $this->eval_agent_status_money($agent_status);
+        $agent_status_money_open_flag= 0;
+        if ($agent_status == E\Eagent_status::V_40  ) {
+            $agent_status_money_open_flag= 1;
+        } else {
+            $parentid= $agent_info["parentid"];
+            if ($parentid) { //父节点
+                $parent_l1_agent_status_test_lesson_succ_count=  $this->get_l1_agent_status_test_lesson_succ_count($id);
+                if ($parent_l1_agent_status_test_lesson_succ_count>=4)  {
+                    $agent_status_money_open_flag= 1;
+                }
+            }
+        }
+        $l1_agent_status_all_open_money=0;
+        $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
+        if ( $l1_agent_status_test_lesson_succ_count >=4 ) {
+            $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50;
+        }
+
 
         //重置当前等级
         $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
@@ -1074,6 +1141,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "l1_child_count" => $level_count_info["l1_child_count"],
             "l2_child_count" => $level_count_info["l2_child_count"],
             "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
+
+            "agent_status" => $agent_status,
+            "agent_status_money" => $agent_status_money,
+            "agent_status_money_open_flag" => $agent_status_money_open_flag,
+            "l1_agent_status_all_open_money" =>  $l1_agent_status_all_open_money,
+            "l1_agent_status_test_lesson_succ_count" =>  $l1_agent_status_test_lesson_succ_count,
+            "l1_agent_status_all_money" =>  $l1_lesson_info["l1_agent_status_all_money"] ,
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -1224,6 +1298,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $id
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_l1_test_lesson_succ_count_from_lesson($id) {
+        $sql = $this->gen_sql_new(
+            "select sum(lesson_user_online_status>0) as l1_agent_status_test_lesson_succ_count , "
+            . " sum(agent_status_money)  l1_agent_status_all_money  "
+            . " from %s a "
+            . " left join  %s l on a.test_lessonid =l.lessonid  "
+            ." where  a.parentid=%u ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $id
+        );
+        return $this->main_get_row($sql);
+
     }
 
 

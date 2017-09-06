@@ -142,9 +142,11 @@ class order_price_base {
     }
 
     static public function gen_desc($title,$succ_flag, $desc="" ) {
+        /*
         if (!$succ_flag) {
             $desc="";
         }
+        */
         return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc];
     }
 }
