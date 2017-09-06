@@ -145,7 +145,12 @@ $(function(){
         province.change(function() {  
             //province.val()  : 返回是每个省对应的下标,序号从0开始  
             if (province.val() != "") {  
+                if(opt_data.region != html_node.find("#province").find("option:selected").text()){
+                    var preCity = "<option value=\"\">选择市（区）</option>";  
+                    var preArea = "<option value=\"\">选择区（县）</option>";   
+                }
                 city.html(preCity);  
+                area.html(preArea);  
                 
                 //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
                 //func_suc_getXmlProvice进行省对应的市的解析  
@@ -160,6 +165,10 @@ $(function(){
         
         //市 下拉选择发生变化触发的事件  
         city.change(function() {  
+            if(opt_data.city != html_node.find("#city").find("option:selected").text()){  
+                var preArea = "<option value=\"\">选择区（县）</option>";   
+            } 
+
             area.html(preArea);  
             $.ajax({  
                 type : "GET",  
@@ -214,7 +223,88 @@ $(function(){
             });  
         } 
 
+        var subject_textbook = html_node.find("#id_set_subject_textbook"); 
+        subject_textbook.on("click",function(){
+            var title = "科目教材详情";
+            var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>科目</td><td>教材</td><td>操作</td></tr></table></div>");                     
 
+            $.do_ajax("/ajax_deal2/get_subject_textbook_list",{
+                "userid" : g_sid
+            },function(result){
+                if(result.ret!=0){
+                    BootstrapDialog.alert(result.info);
+                    return ;
+                }
+
+                $.each(result.data,function(i,item){
+                    html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td></td></tr>");
+                    
+
+                });
+
+                var dlg=BootstrapDialog.show({
+                    title:title, 
+                    message :  html_node   ,
+                    closable: true, 
+                    buttons:[{
+                        label: '增加科目',
+                        cssClass: 'btn-warning',
+                        action: function(dialog) {
+                           // alert(1111);
+                            var id_subject_new = $("<select/>");
+                            var id_textbook_new     = $("<select/>");
+                            Enum_map.append_option_list("subject", id_subject_new, true );
+                            Enum_map.append_option_list("region_version", id_textbook_new, true );
+                            var arr=[
+                                ["科目",id_subject_new],
+                                ["年级",id_textbook_new],
+                            ];
+                            $.show_key_value_table("增加", arr ,{
+                                label    : '确认',
+                                cssClass : 'btn-warning',
+                                action   : function(dialog) {
+                                    $.do_ajax( '/ajax_deal2/set_user_subject_textbook', {
+                                        "userid"             :g_sid,
+                                        "subject" : id_subject_new.val(),
+                                        "editionid"     : id_textbook_new.val(),
+                                    });
+                                }
+                            });
+
+
+                        }
+ 
+                    },{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+                        
+                    }
+
+                });
+
+                dlg.getModalDialog().css("width","1024px");
+
+            });
+
+        });
+
+        var id_editionid= html_node.find("#id_editionid"); 
+        var id_subject= html_node.find("#id_subject");
+        id_subject.on("change",function(){
+            $.do_ajax("/ajax_deal2/get_editionid",{
+                "userid" : g_sid,
+                "subject": id_subject.val()
+            },function(result){
+                id_editionid.val(result.editionid); 
+            });
+ 
+        });
 
         
 
@@ -697,4 +787,5 @@ $(function(){
         });
     });
 
+   
 });
