@@ -117,11 +117,19 @@ class stu_manage extends Controller
             $o_item["lesson_time"]    = Utils::fmt_lesson_time( $o_item["lesson_start"] ,$o_item["lesson_end"]);
         }
 
+        //科目教材
+        $subject_textbook_list = $this->t_student_subject_list->get_info_by_userid($sid);
+        foreach($subject_textbook_list  as &$item_oo){
+            $item_oo["editionid_str"] =  E\Eregion_version::get_desc ($item_oo["editionid"]);   
+            $item_oo["subject_str"] =  E\Esubject::get_desc ($item_oo["subject"]);   
+        }
+
         return $this->pageView(__METHOD__,null,[
             "stu_info"          => $student_info,
             "l_1v1_list"        => $l_1v1_list,
             "small_lesson_list" => $small_lesson_list,
             "open_lesson_list"  => $open_lesson_list,
+            "subject_textbook_list"=>$subject_textbook_list
         ] );
     }
 
@@ -401,8 +409,10 @@ class stu_manage extends Controller
 
         $parentid = $this->t_student_info->get_parentid($studentid);
         $phone    = $this->t_parent_info->get_phone($parentid);
+        $parent_name    = $this->t_student_info->get_parent_name($studentid);
+        $parent_type   = $this->t_student_info->get_parent_type($studentid);
 
-        return outputjson_success(array('phone'=>$phone));
+        return outputjson_success(array('phone'=>$phone,'parent_type'=>$parent_type,'parent_name'=>$parent_name));
     }
 
     public function set_stu_parent(){

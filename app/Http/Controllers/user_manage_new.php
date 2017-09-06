@@ -1406,10 +1406,6 @@ class user_manage_new extends Controller
             $item['los_money'] = @$item['target_money']-@$item['all_price_for_month'];
             $item['los_personal_money'] = @$item['target_personal_money']-@$item['all_price_for_month'];
 
-            $item["del_flag"]?$leave_member_num++:$become_member_num++;
-            $item['become_member_num'] = $become_member_num;
-            $item['leave_member_num'] = $leave_member_num;
-
             if($item['level'] == "l-4" ){
                 $item['target_money']="";
                 $item['finish_per'] = "";
@@ -1417,10 +1413,15 @@ class user_manage_new extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
                 \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
                 $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                $item["del_flag"]?$leave_member_num++:$become_member_num++;
+                $item['become_member_num'] = $become_member_num;
+                $item['leave_member_num'] = $leave_member_num;
             }else{
                 $item["become_member_time"] = '';
                 $item["leave_member_time"] = '';
                 $item["del_flag_str"] = '';
+                $item['become_member_num'] = '';
+                $item['leave_member_num'] = '';
             }
         }
         \App\Helper\Utils::logger("OUTPUT");

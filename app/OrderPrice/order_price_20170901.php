@@ -96,10 +96,10 @@ class order_price_20170901 extends order_price_base
             }
         }
 
+        $free_money=0;
         /*
 
         // 活动
-        $free_money=0;
         $find_free_money_lesson_count= 0;
         if  ( $lesson_count >=90*3) {
             $find_free_money_lesson_count=90;
@@ -119,24 +119,21 @@ class order_price_20170901 extends order_price_base
         }else{
             $desc_list[]=static::gen_desc("满课时立减",false  );
         }
-        $price-=$free_money;
         */
-        /*
         if($args["from_test_lesson_id"]!=0){
             $from_test_lesson_id=@$args["from_test_lesson_id"];
             $task= self::get_task_controler();
-            \App\Helper\Utils::logger("hd free_money= $free_money");
             //当配活动
             $lesson_start= $task->t_lesson_info_b2->get_lesson_start($from_test_lesson_id);
             $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
             if ( $lesson_count>=30*3 && $lesson_start &&  time(NULL)<$check_time  ) {
                 $free_money+=300;
-                \App\Helper\Utils::logger("hd 2 free_money= $free_money");
+                $desc_list[]=static::gen_desc("当配活动",true, "试听后一天内下单 立减 300元" );
             }
         }else{
-
+            $desc_list[]=static::gen_desc("当配活动",false );
         }
-        */
+        $price-=$free_money;
 
 
         return [

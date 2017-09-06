@@ -3485,4 +3485,71 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_success_apply($start_time,$end_time){
+        $where_arr = [
+            ["l.answer_begin_time >%u",$start_time,-1],  //报名时间在范围内
+            ["l.answer_begin_time <%u",$end_time,-1],
+            "l.reference>0", //推荐人存在
+            "t.is_quit = 0 ", //推荐人没有离职
+            "t.is_test_user =0 " //推荐人不是测试用户
+        ];
+        $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick, l.reference, count(t.phone) as sum ".
+                                  " from %s l ".
+                                  " left join %s t on t.phone = l.reference".
+                                  " where %s ".
+                                  " group by t.phone order by t.phone",
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_video_apply($start_time,$end_time){
+        $where_arr = [
+            ["t.add_time >%u",$start_time,-1],
+            ["t.add_time <%u",$end_time,-1],
+            "a.reference>0",
+            "s.is_quit = 0 ",
+            "s.is_test_user =0 ",
+            "s.phone > 0"
+        ];
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, a.reference,count(s.teacherid) as sum".
+                                  " from %s t ".
+                                  " left join %s a on t.phone = a.phone".
+                                  " left join %s s on a.reference=s.phone".
+                                  " where %s ".
+                                  " group by s.phone order by s.phone",
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_lesson_apply($start_time,$end_time){
+        $where_arr = [
+            ["l.lesson_start >%u",$start_time,-1],
+            ["l.lesson_start <%u",$end_time,-1],
+            "l.lesson_type=1100",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "k.is_quit = 0 ",
+            "k.is_test_user =0 ",
+            "k.phone > 0"
+        ];
+        $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick, a.reference,count(k.teacherid) as sum".
+                                  " from %s l ".
+                                  " left join %s t on l.userid = t.teacherid".
+                                  " left join %s a on t.phone=a.phone".
+                                  " left join %s k on k.phone=a.reference".
+                                  " where %s ".
+                                  " group by k.phone order by k.phone",
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+    }
+
 }

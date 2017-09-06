@@ -456,6 +456,8 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_end');
             E\Efrom_type::set_item_value_str($item);
             $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
             $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );
@@ -1015,6 +1017,11 @@ class user_manage extends Controller
             E\Econtract_type::set_item_value_str($item,"contract_type");
             E\Eboolean::set_item_value_str($item,"need_receipt");
             E\Egrade::set_item_value_str($item);
+
+            E\Eqc_advances_status::set_item_value_str($item);
+            E\Eqc_contact_status::set_item_value_str($item);
+            E\Eqc_voluntarily_status::set_item_value_str($item);
+
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
 
@@ -1023,8 +1030,11 @@ class user_manage extends Controller
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
-            if($item['apply_time']-$item['order_time']){
-                
+            $pass_time = $item['apply_time']-$item['order_time'];
+            if($pass_time >= 90*24*3600){ // 下单是否超过3个月
+                $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
+            }else{
+                $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
         }

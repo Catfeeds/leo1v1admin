@@ -240,25 +240,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $a = 0;
-        $b = 0;
-        $c = 1;
-        $c?$a++:$b++;
-        dd($a,$b);
-        $page_info = $this->get_in_page_info();
-        $ret = $this->t_agent_order->get_agent_order_info($page_info,$start_time=1504195200,$end_time=1506787200);
-        dd($ret);
-        list($orderid,$order_count,$user_count,$order_all_money)=[0,[],[],0];
-        $order_info = $this->t_agent_order->get_all_list();
-        foreach($order_info as $item){
-            $orderid = $item['orderid'];
-            $order_count[] = $item;
-            $user_count[] = $item;
-            $order_all_money += $item['price'];
-        }
-        dd($order_count);
-
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid=457);
+        $ret_info = $this->t_agent->get_all_list();
         dd($ret_info);
     }
 
