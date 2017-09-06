@@ -86,13 +86,13 @@
                         <td >下单超过3个月</td>
 
 
-                        <td >咨询部</td>
-                        <td >助教部</td>
-                        <td >教务部</td>
-                        <td >管理部</td>
-                        <td >教学部</td>
-                        <td >产品部</td>
-                        <td >客户情况变化</td>
+                        <td colspan="4">咨询部</td>
+                        <td colspan="4">助教部</td>
+                        <td colspan="4">教务部</td>
+                        <td colspan="4">管理部</td>
+                        <td colspan="4">教学部</td>
+                        <td colspan="4">产品部</td>
+                        <td colspan="4">客户情况变化</td>
 
                         <td style="min-width:120px;">操作</td>
                     </tr>
@@ -135,6 +135,27 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

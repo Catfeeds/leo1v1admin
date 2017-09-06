@@ -591,6 +591,7 @@ class teacher_money extends Controller
             "level"        => $level_str,
             "teacher_type" => $teacher_type,
             "bank_status"  => $bank_status,
+            "train_through_new_time" => $info['train_through_new_time']
         ];
         return $teacher_info;
     }

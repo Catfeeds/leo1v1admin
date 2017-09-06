@@ -133,5 +133,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_tea_lesson_count_list($start_time,$end_time,$teacher_money_type) {
+        $where_arr = [
+            ["lesson_start>=%s",$start_time,0],
+            ["lesson_start<%s",$end_time,0],
+            ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            "lesson_status=2",
+            "lesson_type in (0,1,3)",
+            "t.is_test_user=0",
+        ];
+        \App\Helper\Utils::effective_lesson_sql($where_arr);
+        $sql=$this->gen_sql_new("select l.teacherid,sum(lesson_count) as lesson_count,count(l.lessonid) as count,"
+                                ." count(distinct(l.userid)) as stu_num,group_concat(l.grade),group_concat(l.subject),"
+                                ." t.teacher_money_type,t.level,t.realname"
+                                ." from %s l"
+                                ." left join %s t on l.teacherid=t.teacherid"
+                                ." where %s"
+                                ." group by l.teacherid "
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
 
 }

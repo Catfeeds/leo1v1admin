@@ -2068,12 +2068,32 @@ class teacher_info extends Controller
                 $grade_str       = $grade_start_str."-".$grade_end_str;
             }
             $item['grade_str']=$grade_str;
-
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag'] = count($item['teacher_tags_arr']);
+            //判断完整度
+            $msgarr = ['nick','birth','gender','email','phone','work_year','address','dialect_notes','school','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
+            $integrity = 0;
+            foreach ($item as $key=> $val) {
+                if ( $val != "") {
+                    if ($key == 'jianli') {
+                        $integrity = $integrity + 37;
+                    }
+                    if (in_array($key,$msgarr)) {
+                        $integrity = $integrity + 3;
+                    }
+
+                }
+            }
+            $item['integrity'] = $integrity;
+            if ($integrity == 100 & $item['prove'] != '' & $item['seniority'] != '') {
+                $show_flag = 0;
+            } else {
+                $show_flag = 1;
+            }
         }
         return $this->pageView(__METHOD__,$ret_info,[
-            "my_info" => $ret_info['list'][0],
+            "my_info"   => $ret_info['list'][0],
+            "show_flag" => $show_flag,
         ]);
     }
 

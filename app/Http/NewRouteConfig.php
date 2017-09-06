@@ -113,6 +113,7 @@ class NewRouteConfig {
         "campus_manage"               => true,
         "requirement_info"            => true,
         "channel_manage"              => true,
+        "teacher_lesson"              => true,
 
     ];
 
