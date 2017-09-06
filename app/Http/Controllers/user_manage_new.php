@@ -1425,8 +1425,8 @@ class user_manage_new extends Controller
             }
 
             if($item['level'] == 'l-3'){
-                $item['become_member_num'] = '';
-                $item['leave_member_num'] = '';
+                $become_member_num_l3 = 0;
+                $leave_member_num_l3 = 0;
             }
         }
         \App\Helper\Utils::logger("OUTPUT");
