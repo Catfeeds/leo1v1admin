@@ -367,10 +367,7 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <th class="text-cen bg-lblue"  style="width:20%">身份</th>
-                                            <td>
-                                                <span>{{$my_info['identity_str']}}</span>
-                                                <input type="text" name="identity_str" value="{{$my_info['identity_str']}}" class="hide" placeholder="未填写">
-                                            </td>
+                                            <td>{{$my_info['identity_str']}}</td>
                                             <th class="text-cen bg-lblue"  style="width:20%">毕业院校</th>
                                             <td>
                                                 <span>{{$my_info['school']}}</span>

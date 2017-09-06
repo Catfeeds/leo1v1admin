@@ -2071,12 +2071,12 @@ class teacher_info extends Controller
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag'] = count($item['teacher_tags_arr']);
             //判断完整度
-            $msgarr = ['nick','birth','gender','email','phone','work_year','address','dialect_notes','school','identity','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
+            $msgarr = ['nick','birth','gender','email','phone','work_year','address','dialect_notes','school','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
             $integrity = 0;
             foreach ($item as $key=> $val) {
                 if ( $val != "") {
                     if ($key == 'jianli') {
-                        $integrity = $integrity + 34;
+                        $integrity = $integrity + 37;
                     }
                     if (in_array($key,$msgarr)) {
                         $integrity = $integrity + 3;
