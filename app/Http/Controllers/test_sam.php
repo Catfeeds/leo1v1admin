@@ -17,8 +17,73 @@ class test_sam  extends Controller
     {
         $start_time = 1503849600;//2017/8/28 0:0:0
         $end_time = 1504454400;//2017/9/4 0:0:0
-        $success = $this->t_teacher_info->get_success_through($start_time,$end_time);
-        dd($success);
+        $success_through       = $this->t_teacher_info->get_success_through($start_time,$end_time);
+        $success_apply         = $this->t_teacher_info->get_success_apply($start_time,$end_time);
+        $video_apply           = $this->t_teacher_info->get_video_apply($start_time,$end_time);
+        $lesson_apply          = $this->t_teacher_info->get_lesson_apply($start_time,$end_time);
+        $ret = [];
+        foreach($success_through as $key => $value){
+            $ret[$value['phone']] = [
+                "phone"           => $value['phone'],
+                "teacherid"       => $value['teacherid'],
+                "nick"            => $value["nick"],
+                "reference"       => $value["reference"],
+                "success_through" => $value["sum"],
+                "success_apply"   => 0,
+                "total_apply"     => 0,
+            ];
+        }
+
+        foreach($success_apply as $key => $value){
+            if(isset($ret[$value['phone']])){
+                $ret[$value['phone']]['success_apply'] = $value['sum'];
+            }else{
+                $ret[$value['phone']] = [
+                    "phone"           => $value['phone'],
+                    "teacherid"       => $value["teacherid"],
+                    "nick"            => $value["nick"],
+                    "reference"       => $value["reference"],
+                    "success_through" => 0,
+                    "success_apply"   => $value['sum'],
+                    "total_apply"     => 0,
+                ];
+            }
+        }
+
+        foreach($video_apply as $key => $value){
+            if(isset($ret[$value['phone']])){
+                $ret[$value['phone']]['total_apply'] = $value['sum'];
+            }else{
+                $ret[$value['phone']] = [
+                    "phone"           => $value['phone'],
+                    "teacherid"       => $value['teacherid'],
+                    "nick"            => $value['nick'],
+                    "reference"       => $value['reference'],
+                    "success_through" => 0,
+                    "success_apply"   => 0,
+                    "total_apply"     => $value['sum'],
+                ];
+            }
+        }
+
+        foreach($lesson_apply as $key => $value){
+            if(isset($ret[$value['phone']])){
+                $ret[$value['phone']]['total_apply'] += $value['sum'];
+            }else{
+                $ret[$value['phone']] = [
+                    "phone"           => $value['phone'],
+                    "teacherid"       => $value['teacherid'],
+                    "nick"            => $value["nick"],
+                    "reference"       => $value["reference"],
+                    "success_through" => 0,
+                    "success_apply"   => 0,
+                    "total_apply"     => $value['sum'],
+                ];
+            }
+        }
+
+
+        dd($ret);
     }
     
     private function get_lesson_quiz_cfg($lesson_quiz_status, $lesson_type)
