@@ -16,6 +16,17 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         );
         return $this->main_update($sql);
     }
+
+    public function update_parent_type($parentid, $userid, $parent_type){
+        $sql=$this->gen_sql("update %s  set parent_type=%u  where userid=%u and parentid=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$parent_type
+                            ,$userid
+                            ,$parentid
+        );
+        return $this->main_update($sql);
+
+    }
     public function get_count_by_userid(  $userid) {
 
         $sql=$this->gen_sql("select count(*) from %s where userid=%u"

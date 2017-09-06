@@ -462,8 +462,17 @@ class stu_manage extends Controller
             }
         }else{
             \App\Helper\Utils::logger("parentid".$parentid);
+            $this->t_parent_info->field_update_list($parentid,[
+               "nick"  =>$parent_name 
+            ]);
+            $this->t_student_info->field_update_list($studentid,[
+                "parentid"  =>$parentid,
+                "parent_name" =>$parent_name,
+                "parent_type" =>$parent_type
+            ]);
             $check_flag = $this->t_parent_child->check_has_parent($parentid,$studentid);
-            if($check_flag){
+            if($check_flag){               
+                $this->t_parent_child->update_parent_type($parentid,$studentid,$parent_type);
                 //$this->t_parent_info->send_wx_todo_msg($parentid,"确认课时","sadfaafa  ","ttt1");
                 return outputjson_error("用户已绑定！");
             }
@@ -472,12 +481,13 @@ class stu_manage extends Controller
         if($parentid>0){
             $bind_fail_flag=0;
             $this->t_parent_child->start_transaction();
-            $ret_info = $this->t_parent_child->set_student_parent($parentid,$studentid);
+            $ret_info = $this->t_parent_child->set_student_parent($parentid,$studentid,$parent_type);
             if($ret_info){
                 $parent_name = $this->t_parent_info->get_nick($parentid);
                 $ret_info    = $this->t_student_info->field_update_list($studentid,[
                     "parentid"    => $parentid,
-                    "parent_name" => $parent_name
+                    "parent_name" => $parent_name,
+                    "parent_type" => $parent_type
                 ]);
             }else{
                 \App\Helper\Utils::logger(" bind_fail_flag 22 ");
