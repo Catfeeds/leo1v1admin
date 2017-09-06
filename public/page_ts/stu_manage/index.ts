@@ -237,7 +237,7 @@ $(function(){
                 }
 
                 $.each(result.data,function(i,item){
-                    html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td></td></tr>");
+                    html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td><a href=\"javascript:;\" class=\"update_textbook\"  data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">修改教材版本</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_stu_subject\" data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">删除科目</a></td></tr>");
                     
 
                 });
