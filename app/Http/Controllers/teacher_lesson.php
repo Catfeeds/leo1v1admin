@@ -10,9 +10,11 @@ class teacher_lesson extends Controller
     use CacheNick;
 
     public function lesson_count_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(-1,0,0,null,1);
+        list($start_time,$end_time) = $this->get_in_date_range(-1,0,0,null,3);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
-
+        $start_time = strtotime("2017-8-1");
+        $end_time= strtotime("2017-9-1");
+        $this->switch_tongji_database();
         $ret_list = $this->t_lesson_info_b3->get_tea_lesson_count_list($start_time,$end_time,$teacher_money_type);
 
         echo "姓名|工资类型|等级|所带年级|所带科目|累计课时|学生数|课程数";
