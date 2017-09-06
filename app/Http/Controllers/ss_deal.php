@@ -2395,6 +2395,10 @@ class ss_deal extends Controller
                 }
                
             }
+            foreach($arr as $item){
+                $middle = $item[2];
+                $senior = $item[3];
+            }
 
            
             dd($arr);
