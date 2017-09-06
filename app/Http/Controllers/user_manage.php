@@ -707,8 +707,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_jiaoyan_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="research_teacher"){//教研老师
             $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
-        }else if($type==""){
-            $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
+        }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
+            $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }
 
 
