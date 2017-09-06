@@ -111,11 +111,11 @@ $(function(){
         }
 
         var old_city = opt_data.city;
-        if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+        if(old_city == '' || html_node.find("#province").find("option:selected").text() != old_province){
             old_city="选择市（区）";
         }
         var old_area = opt_data.area;
-        if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+        if(old_city == '' || html_node.find("#province").find("option:selected").text() != old_province){
             old_city="选择区（县）";
         }
        
@@ -145,15 +145,7 @@ $(function(){
         province.change(function() {  
             //province.val()  : 返回是每个省对应的下标,序号从0开始  
             if (province.val() != "") {  
-                if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
-                    old_city="选择市（区）";
-                }
-                if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
-                    old_city="选择区（县）";
-                }
-
-                var preCity = "<option value=\"\">"+old_city+"</option>";  
-                var preArea = "<option value=\"\">"+old_area+"</option>";  
+                 
 
 
                 city.html(preCity);  
