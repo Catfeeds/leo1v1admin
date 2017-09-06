@@ -117,11 +117,19 @@ class stu_manage extends Controller
             $o_item["lesson_time"]    = Utils::fmt_lesson_time( $o_item["lesson_start"] ,$o_item["lesson_end"]);
         }
 
+        //科目教材
+        $subject_textbook_list = $this->t_student_subject_list->get_info_by_userid($sid);
+        foreach($subject_textbook_list  as &$item_oo){
+            $item_oo["editionid_str"] =  E\Eregion_version::get_desc ($item_oo["editionid"]);   
+            $item_oo["subject_str"] =  E\Esubject::get_desc ($item_oo["subject"]);   
+        }
+
         return $this->pageView(__METHOD__,null,[
             "stu_info"          => $student_info,
             "l_1v1_list"        => $l_1v1_list,
             "small_lesson_list" => $small_lesson_list,
             "open_lesson_list"  => $open_lesson_list,
+            "subject_textbook_list"=>$subject_textbook_list
         ] );
     }
 

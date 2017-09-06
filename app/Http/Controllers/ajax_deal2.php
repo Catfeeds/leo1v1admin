@@ -1058,16 +1058,60 @@ class ajax_deal2 extends Controller
             "address" =>$address,
             "school"  =>$school,
             "editionid"=>$editionid,
-            "region"   =>$region,
             "gender"   =>$gender,
             "birth"    =>$birth,
             "stu_email"=>$stu_email,
             "realname" =>$realname,
-            "province" =>$province,
-            "city"     =>$city,
-            "area"     =>$area
         ]);
+        if($region){
+            $this->t_student_info->field_update_list($userid,[
+                "region"   =>$region,
+                "province" =>$province,
+                "city"     =>$city,
+                "area"     =>$area
+            ]);
+ 
+        }
         return $this->output_succ();
+    }
+
+    //获取学生科目教材列表
+    public function get_subject_textbook_list(){
+        $userid    = $this->get_in_int_val("userid");
+        $list = $this->t_student_subject_list->get_info_by_userid($userid);
+        foreach($list  as &$item){
+            $item["editionid_str"] =  E\Eregion_version::get_desc ($item["editionid"]);   
+            $item["subject_str"] =  E\Esubject::get_desc ($item["subject"]);   
+        }
+        return $this->output_succ(["data"=>$list]); 
+    }
+
+    //新增学生科目教材
+    public function set_user_subject_textbook(){
+        $userid    = $this->get_in_int_val("userid");
+        $subject    = $this->get_in_int_val("subject");
+        $editionid   = $this->get_in_int_val("editionid");
+        if($subject<=0){
+            return $this->output_err("请选择科目");
+        }
+        $exist_flag = $this->t_student_subject_list->field_get_value_2($userid,$subject,"userid");
+        if($exist_flag){
+            return $this->output_err("该科目已存在");
+        }
+        $this->t_student_subject_list->row_insert([
+            "userid"  => $userid,
+            "subject" => $subject,
+            "editionid" =>$editionid
+        ]);
+        return $this->output_succ(); 
+    }
+
+    //根据学生科目获取教材
+    public function get_editionid(){
+        $userid    = $this->get_in_int_val("userid");
+        $subject    = $this->get_in_int_val("subject");
+        $editionid =$this->t_student_subject_list->get_editionid($userid,$subject);
+        return $this->output_succ(["editionid"=>$editionid]); 
     }
  
 
