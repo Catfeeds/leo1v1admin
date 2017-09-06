@@ -2399,9 +2399,13 @@ class ss_deal extends Controller
             foreach($arr as $item){
                 $middle = $item[2];
                 $middle_arr = explode("、",$middle);
+                $middle_list=[];
+                foreach($middle_arr as $v){
+                    $middle_list[] = $list[$v];
+                }
 
 
-                dd($middle_arr);
+                dd($middle_list);
                 $senior = $item[3];
             }
 

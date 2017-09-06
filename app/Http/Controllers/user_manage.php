@@ -1037,7 +1037,18 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
+
+            // 获取退费分析
+
+            $item['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
+
+
+
+
+
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
