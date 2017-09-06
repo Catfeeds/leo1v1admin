@@ -2381,6 +2381,7 @@ class ss_deal extends Controller
 
     public function upload_subject_grade_textbook_from_xls(){
         $file = Input::file('file');
+        $list    = E\Eregion_version::$desc_map;
         if ($file->isValid()) {
             //处理列
             $realPath = $file -> getRealPath();
@@ -2397,6 +2398,10 @@ class ss_deal extends Controller
             }
             foreach($arr as $item){
                 $middle = $item[2];
+                $middle_arr = explode("、",$middle);
+
+
+                dd($middle_arr);
                 $senior = $item[3];
             }
 
