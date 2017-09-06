@@ -148,7 +148,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                 ." group_concat(distinct(l.grade)) as grade,"
                                 ." group_concat(distinct(l.subject)) as subject,"
                                 ." t.teacher_money_type,t.level,t.realname"
-                                ." from %s l"
+                                ." from %s l force index(lesson_type_and_start) "
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
                                 ." group by l.teacherid "

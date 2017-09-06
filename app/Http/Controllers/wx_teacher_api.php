@@ -474,6 +474,21 @@ class wx_teacher_api extends Controller
 
     // 教师节抽奖接口 [招师部]
     // t_teacher_lecture_info  录制试讲
+
+    public function get_luck_draw_num(){ // 获取当前老师的抽奖次数
+        $teacherid = $this->get_in_int_val('teacherid');
+        $is_share  = $this->t_wx_share->get_share_flag($teacherid);
+        $is_video  = $this->t_teacher_lecture_info->get_video_flag($teacherid);
+
+        $total_num = 1;
+        if($is_share || $is_video){ //抽奖次数 增加3次
+            $total_num = 4;
+        }
+
+
+    }
+
+
     public function update_is_share(){ // 更新是否分享朋友圈
         $teacherid = $this->get_teacherid();
 
@@ -485,10 +500,6 @@ class wx_teacher_api extends Controller
 
         return $this->output_succ();
     }
-
-
-
-
 
     public function teacher_day_luck_draw(){ //教师节抽奖活动//
 

@@ -55,6 +55,7 @@ class zs_send_data_every_week extends Command
      */
     public function handle()
     {
+        $task=new \App\Console\Tasks\TaskController();
         $now = time();
 
         $start_time = 1503849600;//2017/8/28 0:0:0
@@ -128,8 +129,6 @@ class zs_send_data_every_week extends Command
             }
         }
 
-
-        \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
         foreach ($ret as $key => $value) {
             // $wx_openid      = $value['wx_openid'];
             $wx_openid   = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
@@ -143,7 +142,7 @@ class zs_send_data_every_week extends Command
                  */
             if($wx_openid!=""){
                 $record_info = $value['nick'];
-                $status_str  = "本周代理详情";
+                $status_str  = "上周代理详情";
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                 $wx_data["first"]    = $record_info;
                 $wx_data["keyword1"] = $status_str;
@@ -153,8 +152,7 @@ class zs_send_data_every_week extends Command
                 $wx_data["remark"] = "好友成功入职后，即可获得伯乐奖，"
                                    ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
                                    ."请及时绑定银行卡号，如未绑定将无法发放。";
-                self::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
-                \App\Helper\Utils::send_reference_msg_for_wx($wx_openid,$record_info,$status_str);
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
             }
         }
     }
