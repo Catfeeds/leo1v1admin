@@ -152,8 +152,7 @@ class zs_send_data_every_week extends Command
                 $wx_data["remark"] = "好友成功入职后，即可获得伯乐奖，"
                                    ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
                                    ."请及时绑定银行卡号，如未绑定将无法发放。";
-                self::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
-                \App\Helper\Utils::send_reference_msg_for_wx($wx_openid,$record_info,$status_str);
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
             }
         }
     }
