@@ -99,7 +99,6 @@ class agent extends Controller
                 }
             }
         }
-        dd($ret_info_new);
         if(count($userid_arr)>0){
             foreach($ret_new as &$item){
                 if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
