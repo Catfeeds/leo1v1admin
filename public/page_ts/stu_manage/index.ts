@@ -238,9 +238,36 @@ $(function(){
 
                 $.each(result.data,function(i,item){
                     html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td><a href=\"javascript:;\" class=\"update_textbook\"  data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">修改教材版本</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_stu_subject\" data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">删除科目</a></td></tr>");
-                    
-
+                                      
                 });
+                html_node.find("table").find(".update_textbook").each(function(){
+                    $(this).on("click",function(){
+                        var userid = $(this).data("userid");
+
+                        var subject = $(this).data("subject");
+                        var id_textbook_new     = $("<select/>");
+                        Enum_map.append_option_list("region_version", id_textbook_new, true );
+                        var arr=[
+                            ["教材",id_textbook_new],
+                        ];
+                        $.show_key_value_table("修改", arr ,{
+                            label    : '确认',
+                            cssClass : 'btn-warning',
+                            action   : function(dialog) {
+                                $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" :          subject,
+                                    "editionid"     : id_textbook_new.val(),
+                                });
+                            }
+                        });
+
+                        
+                    });
+                    
+                });
+
+                
 
                 var dlg=BootstrapDialog.show({
                     title:title, 
@@ -257,7 +284,7 @@ $(function(){
                             Enum_map.append_option_list("region_version", id_textbook_new, true );
                             var arr=[
                                 ["科目",id_subject_new],
-                                ["年级",id_textbook_new],
+                                ["教材",id_textbook_new],
                             ];
                             $.show_key_value_table("增加", arr ,{
                                 label    : '确认',

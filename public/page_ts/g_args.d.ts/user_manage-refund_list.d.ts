@@ -56,6 +56,9 @@ interface RowData {
 	contract_type_str	:any;
 	need_receipt_str	:any;
 	grade_str	:any;
+	qc_advances_status_str	:any;
+	qc_contact_status_str	:any;
+	qc_voluntarily_status_str	:any;
 	is_pass	:any;
 }
 
