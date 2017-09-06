@@ -114,7 +114,7 @@ class user_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_list );
     }
 
-    public function tea_lesson_count_list() {
+    public function tea_lesson_count_list(){
         $start_time = $this->get_in_start_time_from_str(date("Y-m-01",time(NULL)) );
         $end_time   = $this->get_in_end_time_from_str_next_day(date("Y-m-d",(time(NULL)+86400)) );
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
@@ -127,6 +127,8 @@ class user_manage_new extends Controller
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }
+
+
 
     public function tea_lesson_count_detail_list() {
         $teacherid  = $this->get_in_teacherid(0);
@@ -3875,6 +3877,5 @@ class user_manage_new extends Controller
 
         return $this->output_succ();
     }
-
 
 }

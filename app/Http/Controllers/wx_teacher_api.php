@@ -511,6 +511,7 @@ class wx_teacher_api extends Controller
         }
 
         $num = $this->t_teacher_day_luck_draw->compute_time($teacherid);
+
         if($num>=$total_num){
             return $this->output_err('您的抽奖次数已用完!');
         }
@@ -536,8 +537,8 @@ class wx_teacher_api extends Controller
 
         // dd($money);
         $real_money = $money/100;
-        return $this->output_succ(['money'=>$real_money]);
-
+        $left_num = $total_num-$num;
+        return $this->output_succ(['money'=>$real_money,'num'=>$left_num]);
     }
 
 
