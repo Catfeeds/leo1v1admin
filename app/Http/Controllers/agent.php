@@ -63,6 +63,7 @@ class agent extends Controller
              $order_count,$user_count,$order_all_money,$start_time,$end_time) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],$this->get_in_int_val('start_time'),$this->get_in_int_val('end_time')];
         $type         = $this->get_in_int_val('type');
         $ret          = $this->t_agent->get_agent_info_new(null);
+        dd($ret);
         $userid_arr   = [];
         $ret_new      = [];
         $ret_info_new = [];
