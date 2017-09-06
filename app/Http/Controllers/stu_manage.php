@@ -418,9 +418,14 @@ class stu_manage extends Controller
     public function set_stu_parent(){
         $studentid = $this->get_in_int_val("studentid",0);
         $phone     = trim($this->get_in_int_val("phone",0));
+        $parent_name     = trim($this->get_in_str_val("parent_name",""));
+        $parent_type     = $this->get_in_int_val("parent_type",0);
 
         $parent_info = $this->t_parent_info->get_parentid_by_phone($phone);
         $parentid    = $parent_info['parentid'];
+        if(!$parent_name){
+            $parent_name = $phone;
+        }
 
         if($parentid==0){
             $fail_flag = 0;
@@ -436,7 +441,7 @@ class stu_manage extends Controller
                 if($ret){
                     $parent_ret = $this->t_parent_info->row_insert([
                         "parentid"           => $parentid,
-                        "nick"               => $phone,
+                        "nick"               => $parent_name,
                         "phone"              => $phone,
                         "last_modified_time" => \App\Helper\Utils::unixtime2date(time()),
                     ]);

@@ -58,7 +58,7 @@
         <div class="body">
             <table class="common-table ">
                 <thead>
-                    <tr>
+                    <tr >
                         <td rowspan="2">学生</td>
                         <td >合同年级</td>
                         <td width="130px">合同</td>
