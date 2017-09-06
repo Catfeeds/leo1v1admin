@@ -11,7 +11,7 @@
             <!-- Left col -->
             <section class="col-lg-5 connectedSortable" style="padding-right:5px">
                 <!-- Chat box -->
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header">
                     </div>
                     <div class="box-body">
