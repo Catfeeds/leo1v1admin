@@ -304,14 +304,22 @@
                                             </td>
                                             <th class="text-cen bg-lblue" >出生日期</th>
                                             <td>
-                                                <span>{{$my_info['birth']}}</span>
+                                                @if($my_info['birth'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['birth']}}</span>
+                                                @endif
                                                 <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}" placeholder="例如：19900101">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >邮箱</th>
                                             <td>
-                                                <span>{{$my_info['email']}}</span>
+                                                @if($my_info['email'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['email']}}</span>
+                                                @endif
                                                 <input type="email" name="email" class="hide" value="{{$my_info['email']}}">
                                             </td>
                                             <th class="text-cen bg-lblue" >推荐人</th>
@@ -320,7 +328,11 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
-                                                <span>{{$my_info['phone']}}</span>
+                                                @if($my_info['phone'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['phone']}}</span>
+                                                @endif
                                                 <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
                                                 @if ($my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
@@ -335,7 +347,11 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" style="width:20%">教龄</th>
                                             <td>
-                                                <span>{{$my_info['work_year']}}</span>
+                                                @if($my_info['work_year'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['work_year']}}</span>
+                                                @endif
                                                 <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
                                             </td>
                                             <th class="text-cen bg-lblue" style="width:20%">教材版本</th>
@@ -350,13 +366,21 @@
                                         <tr>
                                             <th class="text-cen bg-lblue" >方言备注</th>
                                             <td>
-                                                <span>{{$my_info['dialect_notes']}}</span>
+                                                @if($my_info['dialect_notes'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['dialect_notes']}}</span>
+                                                @endif
                                                 <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
 
                                             </td>
                                             <th class="text-cen bg-lblue" >所在地</th>
                                             <td>
-                                                <span>{{$my_info['address']}}</span>
+                                                @if($my_info['address'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['address']}}</span>
+                                                @endif
                                                 <input type="text" name="address" class="hide" value="{{$my_info['address']}}" placeholder="未填写">
 
                                             </td>
@@ -370,36 +394,52 @@
                                             <td>{{$my_info['identity_str']}}</td>
                                             <th class="text-cen bg-lblue"  style="width:20%">毕业院校</th>
                                             <td>
-                                                <span>{{$my_info['school']}}</span>
+                                                @if($my_info['school'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['school']}}</span>
+                                                @endif
                                                 <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >最高学历</th>
                                             <td>
-                                                <!-- <span class="color-9">未填写</span> -->
-                                                <span>{{$my_info['education']}}</span>
+                                                @if($my_info['education'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['education']}}</span>
+                                                @endif
                                                 <input type="text" name="education" class="hide" value="{{$my_info['education']}}"  placeholder="未填写">
                                             </td>
 
                                             <th class="text-cen bg-lblue" >专业</th>
                                             <td>
-                                                <!-- <span class="color-9">未填写</span> -->
-                                                <span>{{$my_info['major']}}</span>
+                                                @if($my_info['major'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['major']}}</span>
+                                                @endif
                                                 <input type="text" name="major" class="hide" value="{{$my_info['major']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >兴趣爱好</th>
                                             <td>
-                                                <!-- <span class="color-9">未填写</span> -->
-                                                <span>{{$my_info['hobby']}}</span>
+                                                @if($my_info['hobby'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['hobby']}}</span>
+                                                @endif
                                                 <input type="text" name="hobby" class="hide" value="{{$my_info['hobby']}}"  placeholder="未填写">
                                             </td>
                                             <th class="text-cen bg-lblue" >个人特长</th>
                                             <td>
-                                                <!-- <span class="color-9">未填写</span> -->
-                                                <span>{{$my_info['speciality']}}</span>
+                                                @if($my_info['speciality'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['speciality']}}</span>
+                                                @endif
                                                 <input type="text" name="speciality" class="hide" value="{{$my_info['speciality']}}"  placeholder="未填写">
                                             </td>
                                         </tr>
@@ -434,24 +474,36 @@
                                             @if (!$my_info['bankcard'])
                                             hide
                                             @endif
-                                             bank-info">
+                                            bank-info">
                                     <table class="table table-bordered" data-sub="edit_teacher_bank_info">
                                         <tr>
                                             <th class="text-cen bg-lblue" >持卡人</th>
                                             <td>
-                                                <span>{{$my_info['bank_account']}}</span>
-                                                <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未绑定">
+                                                @if($my_info['bank_account'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_account']}}</span>
+                                                @endif
+                                                <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未设置">
                                             </td>
                                             <th class="text-cen bg-lblue" >身份证号</th>
                                             <td>
-                                                <span>{{$my_info['idcard']}}</span>
-                                                <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未绑定">
+                                                @if($my_info['idcard'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['idcard']}}</span>
+                                                @endif
+                                                <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未设置">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue">银行卡类型</th>
                                             <td>
-                                                <span>{{$my_info['bank_type']}}</span>
+                                                @if($my_info['bank_type'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_type']}}</span>
+                                                @endif
                                                 <select name="bank_type" class="form-control hide">
                                                     <option>中国建设银行</option>
                                                     <option>中国工商银行</option>
@@ -464,33 +516,54 @@
                                             </td>
                                             <th class="text-cen bg-lblue" >支行名称</th>
                                             <td>
-                                                <span>{{$my_info['bank_address']}}</span>
-                                                <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未绑定">
+                                                @if($my_info['bank_address'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_address']}}</span>
+                                                @endif
+                                                <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未设置">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >开户省</th>
                                             <td>
-                                                <span>{{$my_info['bank_province']}}</span>
-                                                <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未绑定">
+                                                @if($my_info['bank_province'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_province']}}</span>
+                                                @endif
+                                                <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未设置">
 
                                             </td>
                                             <th class="text-cen bg-lblue" >开户市</th>
                                             <td>
-                                                <span>{{$my_info['bank_city']}}</span>
-                                                <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未绑定">
+                                                @if($my_info['bank_city'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_city']}}</span>
+                                                @endif
+                                                <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未设置">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >卡号</th>
                                             <td>
-                                                <span>{{$my_info['bankcard']}}</span>
-                                                <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未绑定">
+                                                @if($my_info['bankcard'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bankcard']}}</span>
+                                                @endif
+
+                                                <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未设置">
                                             </td>
                                             <th class="text-cen bg-lblue" >预留手机号</th>
                                             <td>
-                                                <span>{{$my_info['bank_phone']}}</span>
-                                                <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未绑定">
+                                                @if($my_info['bank_phone'] == '')
+                                                    <span class="color-9">未设置</span>
+                                                @else
+                                                    <span>{{$my_info['bank_phone']}}</span>
+                                                @endif
+                                                <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未设置">
                                             </td>
                                         </tr>
                                     </table>
@@ -502,16 +575,16 @@
                                             ">
                                     <button type="button" data-toggle="modal" data-target="#modal-default" class="btn btn-info btn-bank ft18 opt-edit" data-name="bank-info">绑定银行卡</button>
                                 </div>
-                                </div>
                             </div>
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer no-border">
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer no-border">
                         @if ($my_info['bankcard'])
                             <div class="row text-cen">
                                 <p>如需<a class="text-blue opt-edit"  data-toggle="modal" data-target="#modal-default"  data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
-                            @endif
+                        @endif
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -609,50 +682,50 @@
                 <!-- /.box (chat box) -->
                 @if (1>2)
                     <!-- 暂时不显示内容 -->
-                <div class="box box-info direct-chat direct-chat-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title text-blue">课堂评分</h3>
+                    <div class="box box-info direct-chat direct-chat-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title text-blue">课堂评分</h3>
 
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts"
-                                    data-widget="chat-pane-toggle">
-                                <i class="fa fa-question"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="bor-hr"></div>
-                    <div class="box-body">
-                        <div class="chart col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">第一次试听课平均分:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">第五次试听课平均分:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">第八次试听课平均分:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">第一次常规课平均分:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">第五次常规课评价分:<span class="ft24">96分</span></div>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts"
+                                        data-widget="chat-pane-toggle">
+                                    <i class="fa fa-question"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="direct-chat-contacts">
-                            <div class="col-sm-12 div-pad text-black">
-                                <h5>平均分=所有学生第N次分数和/所有学生</h5>
-                                <p>例如：李老师带了三个学生A、B、C。</p>
-                                <div class="col-sm-offset-1">
-                                    <p>A第五次试听课分数为90<br/>
-                                    B第五次试听课分数为92<br/>
-                                    C第五次试听课分数为88<br/>
-                                    那么，李老师的第五次试听课平均分为(90+92+88)/3=90分</p>
+                        <!-- /.box-header -->
+                        <div class="bor-hr"></div>
+                        <div class="box-body">
+                            <div class="chart col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
+                                    <div class="col-sm-6">第一次试听课平均分:<span class="ft24">96分</span></div>
+                                    <div class="col-sm-6">第五次试听课平均分:<span class="ft24">96分</span></div>
+                                    <div class="col-sm-6">第八次试听课平均分:<span class="ft24">96分</span></div>
+                                    <div class="col-sm-6">第一次常规课平均分:<span class="ft24">96分</span></div>
+                                    <div class="col-sm-6">第五次常规课评价分:<span class="ft24">96分</span></div>
+                                </div>
+                            </div>
+                            <div class="direct-chat-contacts">
+                                <div class="col-sm-12 div-pad text-black">
+                                    <h5>平均分=所有学生第N次分数和/所有学生</h5>
+                                    <p>例如：李老师带了三个学生A、B、C。</p>
+                                    <div class="col-sm-offset-1">
+                                        <p>A第五次试听课分数为90<br/>
+                                            B第五次试听课分数为92<br/>
+                                            C第五次试听课分数为88<br/>
+                                            那么，李老师的第五次试听课平均分为(90+92+88)/3=90分</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                        </div>
+                        <!-- /.box-footer-->
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                    </div>
-                    <!-- /.box-footer-->
-                </div>
-                <!-- /.col -->
+                    <!-- /.col -->
                 @endif
             </section>
             <!-- /.right -->
