@@ -99,6 +99,7 @@ class agent extends Controller
                 }
             }
         }
+        dd($ret_info_new);
         if(count($userid_arr)>0){
             foreach($ret_new as &$item){
                 if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
@@ -193,7 +194,6 @@ class agent extends Controller
         foreach($ret_info_new as $key=>&$item){
             $item['num'] = $key+1;
         }
-        dd($ret_info_new);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
