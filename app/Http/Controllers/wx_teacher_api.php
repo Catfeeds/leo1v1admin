@@ -537,7 +537,8 @@ class wx_teacher_api extends Controller
 
         // dd($money);
         $real_money = $money/100;
-        return $this->output_succ(['money'=>$real_money]);
+        $left_num = $total_num-$num;
+        return $this->output_succ(['money'=>$real_money,'num'=>$left_num]);
 
     }
 
