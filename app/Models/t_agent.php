@@ -773,6 +773,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
             . " a.type agent_type, "
             . " a.test_lessonid  test_lessonid ,"
+            . " a1.agent_status_money   p_agent_status_money ,"
+
+            . " a1.agent_status_money_open_flag   p_agent_status_money_open_flag ,"
 
 
             . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
@@ -810,6 +813,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $p_phone=$item["p_phone"];
             $p_agent_level=$item["p_agent_level"];
             $p_test_lessonid=$item["p_test_lessonid"];
+            $p_agent_status_money_open_flag=$item["p_agent_status_money_open_flag"];
+            $p_agent_status_money=$item["p_agent_status_money"];
             $id=$item["id"];
             $userid=$item["userid"];
             $nick=$item["nick"];
@@ -826,6 +831,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
             E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
 
+
+            E\Eboolean::set_item_value_color_str($item,"p_agent_status_money_open_flag" );
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
                 $map[$pid]=$item ;
@@ -845,6 +852,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 "p1_p_agent_level"        => $p1["o_p_agent_level"],
                 "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
                 "p1_p_price"              => $p1["o_p_price"]/100,
+                "p1_agent_status_money"              => $p1["p_agent_status_money"]/100,
+                "p1_agent_status_money_open_flag_str" => $p1["p_agent_status_money_open_flag_str"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
