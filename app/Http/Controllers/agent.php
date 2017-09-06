@@ -240,6 +240,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $a = 0;
+        $b = 0;
+        $c = 1;
+        $c?$a++:$b++;
+        dd($a,$b);
         $page_info = $this->get_in_page_info();
         $ret = $this->t_agent_order->get_agent_order_info($page_info,$start_time=1504195200,$end_time=1506787200);
         dd($ret);

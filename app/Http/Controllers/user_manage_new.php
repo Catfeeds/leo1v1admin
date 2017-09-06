@@ -1387,6 +1387,7 @@ class user_manage_new extends Controller
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
+        list($become_member_num,$leave_member_num) = [0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
@@ -1404,6 +1405,10 @@ class user_manage_new extends Controller
             $item['ave_price_for_month'] =@$item['all_new_contract_for_month']!=0?round(@$item['all_price_for_month']/@$item['all_new_contract_for_month']):0;
             $item['los_money'] = @$item['target_money']-@$item['all_price_for_month'];
             $item['los_personal_money'] = @$item['target_personal_money']-@$item['all_price_for_month'];
+
+            $item["del_flag"]?$leave_member_num++:$become_member_num++;
+            $item['become_member_num'] = $become_member_num;
+            $item['leave_member_num'] = $leave_member_num;
 
             if($item['level'] == "l-4" ){
                 $item['target_money']="";

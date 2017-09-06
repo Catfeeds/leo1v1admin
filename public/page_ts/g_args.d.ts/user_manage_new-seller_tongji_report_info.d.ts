@@ -34,6 +34,8 @@ interface RowData {
 	ave_price_for_month	:any;
 	los_money	:any;
 	los_personal_money	:any;
+	become_member_num	:any;
+	leave_member_num	:any;
 	del_flag_str	:any;
 }
 
