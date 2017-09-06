@@ -156,6 +156,9 @@ class zs_lecture_info_day extends Command
 
         //第五次试听
         $test_five_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,2,$subject);
+        //第五次常规
+        $regular_five_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,4,$subject);
+
 
         $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num];
 

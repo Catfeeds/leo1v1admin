@@ -178,7 +178,7 @@ class wx_parent_api extends Controller
                {{remark.DATA}}
              **/
 
-            $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid();
+            $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
 
             $subject_str = E\Esubject::get_desc($lesson_info['subject']);
 

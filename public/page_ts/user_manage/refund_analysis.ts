@@ -9,7 +9,6 @@ $(function(){
             qc_contact_status   : $("#id_qc_contact_status").val(),
             qc_advances_status  : $("#id_qc_advances_status").val(),
             qc_voluntarily_status  : $("#id_qc_voluntarily_status").val(),
-            //qc_voluntarily_status
         });
     }
 
@@ -19,7 +18,6 @@ $(function(){
     $("#id_qc_contact_status").val(g_args.qc_contact_status);
     $("#id_qc_advances_status").val(g_args.qc_advances_status);
     $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
-//qc_voluntarily_status
 
     var adminid = $('#adminid').attr('data-adminid');
 
@@ -44,7 +42,10 @@ $(function(){
                 apply_time      : g_args.apply_time	,
                 qc_reply        : qc_reply,
                 qc_analysia     : qc_analysia,
-                qc_other_reason : qc_other_reason
+                qc_other_reason : qc_other_reason,
+                qc_contact_status   : qc_contact_status,
+                qc_advances_status  : qc_advances_status,
+                qc_voluntarily_status : qc_voluntarily_status
             } ) ;
         }
     });
