@@ -219,7 +219,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                 ,self::DB_TABLE_NAME
                                 ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
 

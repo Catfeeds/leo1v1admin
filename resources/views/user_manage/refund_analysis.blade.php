@@ -85,7 +85,7 @@
                 <td style="width:20%;">其他原因</td>
                 <td colspan="15" id="id_qc_other_reason_show">
                     <textarea style="width:100%;" id="id_qc_other_reason">
-                        {{$qc_anaysis[0]['qc_other_reason']}}
+                        {{$qc_anaysis['qc_other_reason']}}
                     </textarea>
 
                 </td>
