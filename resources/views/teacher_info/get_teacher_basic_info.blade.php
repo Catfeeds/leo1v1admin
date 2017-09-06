@@ -34,44 +34,46 @@
                     </div>
                 </div>
 
-                <!-- Chat box -->
-                <div class="box box-warning">
-                    <div class="box-header">
-                        <h3 class="box-title text-yellow">资料完整度</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
+                @if ($show_flag)
+                    <!-- Chat box -->
+                    <div class="box box-warning">
+                        <div class="box-header">
+                            <h3 class="box-title text-yellow">资料完整度</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bor-hr"></div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart">
-                            <div class="row">
-                                <div class="col-xs-10">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        <div class="bor-hr"></div>
+                        <div class="box-body border-radius-none">
+                            <div class="chart">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{$my_info['integrity']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$my_info['integrity']}}%">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-2">
-                                    <b class="ft18 text-yellow text-top" style="line-height: 20px">60%</b>
-                                </div>
-                                <div class="col-xs-12">
-                                    <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
-                                    <br />
+                                    <div class="col-xs-2">
+                                        <b class="ft18 text-yellow text-top" style="line-height: 20px">{{$my_info['integrity']}}%</b>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
+                                        <br />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                        <div class="row">
-                            <p class="text-cen color-9">信息完整度100%后，此模块可关闭</p>
+                        <!-- /.box-body -->
+                        <div class="box-footer no-border">
+                            <div class="row">
+                                <p class="text-cen color-9">信息完整度100%后，此模块可关闭</p>
+                            </div>
                         </div>
+                        <!-- /.box-footer -->
                     </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box (chat box) -->
+                    <!-- /.box (chat box) -->
+                @endif
 
                 <!-- Chat box -->
                 <div class="box box-info-ly collapsed-box">
