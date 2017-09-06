@@ -829,7 +829,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info($teacherid){
-        $sql = $this->gen_sql("select teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
+        $sql = $this->gen_sql("select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
                               ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
                               ." gender,birth,address,face,grade_part_ex,bankcard,"
                               ." train_through_new,trial_lecture_is_pass,wx_use_flag"
@@ -3470,9 +3470,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.train_through_new_time<%u",$end_time,-1],
             "l.reference>0",
             "t.is_quit = 0 ",
-            "t.is_test_user =0 "
+            "t.is_test_user =0 ",
+            "s.wx_openid != '' "
         ];
-        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, l.reference,count(t.teacherid) as sum".
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, l.reference,count(t.teacherid) as sum".
                                   " from %s t ".
                                   " left join %s l on t.phone = l.phone".
                                   " left join %s s on l.reference=s.phone".
@@ -3492,9 +3493,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["l.answer_begin_time <%u",$end_time,-1],
             "l.reference>0", //推荐人存在
             "t.is_quit = 0 ", //推荐人没有离职
-            "t.is_test_user =0 " //推荐人不是测试用户
+            "t.is_test_user =0 ", //推荐人不是测试用户
+            "t.wx_openid != '' "
         ];
-        $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick, l.reference, count(t.phone) as sum ".
+        $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick,t.wx_openid, l.reference, count(t.phone) as sum ".
                                   " from %s l ".
                                   " left join %s t on t.phone = l.reference".
                                   " where %s ".
@@ -3511,9 +3513,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "a.reference>0",
             "s.is_quit = 0 ",
             "s.is_test_user =0 ",
-            "s.phone > 0"
+            "s.phone > 0",
+            "s.wx_openid != '' "
         ];
-        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, a.reference,count(s.teacherid) as sum".
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, a.reference,count(s.teacherid) as sum".
                                   " from %s t ".
                                   " left join %s a on t.phone = a.phone".
                                   " left join %s s on a.reference=s.phone".
@@ -3535,9 +3538,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "k.is_quit = 0 ",
             "k.is_test_user =0 ",
-            "k.phone > 0"
+            "k.phone > 0",
+            "k.wx_openid != '' "
         ];
-        $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick, a.reference,count(k.teacherid) as sum".
+        $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick,k.wx_openid, a.reference,count(k.teacherid) as sum".
                                   " from %s l ".
                                   " left join %s t on l.userid = t.teacherid".
                                   " left join %s a on t.phone=a.phone".

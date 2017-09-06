@@ -51,9 +51,11 @@
                 <!-- Logo -->
                 <a href="/teacher_info/index" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b  >理</b></span>
+                    <!-- <span class="logo-mini"> <embed src="/img/leo1.svg" type="image/svg+xml" style="width:50px;height:50px"/></span> -->
+                    <span class="logo-mini"><img src="/img/leo1.png" width="100%"></span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>理优教育</b></span>
+                    <span class="logo-lg"><img src="/img/leo2.png"></span>
+                    <!-- <span class="logo-lg"><embed src="/img/leo2.svg" type="image/svg+xml"  style="width:100px;height:58px"/></span> -->
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -67,6 +69,21 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <!-- Messages: style can be found in dropdown.less-->
+                            {{-- <li class="dropdown messages-menu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-envelope-o"></i>
+                                                </a>
+                                                </li> --}}
+                            <li class="dropdown messages-menu">
+                                <a href="http://www.leo1v1.com/common/download" class="dropdown-toggle" target="_blank">
+                                    <i class="fa  fa-download"></i>
+                                </a>
+                            </li>
+                            {{-- <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-book"></i>
+                                </a>
+                            </li> --}}
                             <!-- Notifications: style can be found in dropdown.less -->
                             <!-- Tasks: style can be found in dropdown.less -->
                             <!-- User Account: style can be found in dropdown.less -->
@@ -112,8 +129,8 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li ><a href="/teacher_info/get_teacher_basic_info" ><i class="fa fa-user"></i>基本属性 </a></li>
-                                <li ><a href="index2.html"><i class="fa fa-graduation-cap"></i>我的学生</a></li>
-                                <li ><a href="index2.html"><i class="fa fa-cog"></i>操作台</a></li>
+                                {{-- <li ><a href="index2.html"><i class="fa fa-graduation-cap"></i>我的学生</a></li> --}}
+                                {{-- <li ><a href="index2.html"><i class="fa fa-cog"></i>操作台</a></li> --}}
                                 <li ><a href="/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>
                             </ul>
                         </li>

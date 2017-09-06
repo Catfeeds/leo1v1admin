@@ -128,13 +128,14 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <table class="table table-bordered">
-                            <tr>
+                        <table class="table table-bordered text-cen">
+                            <tr class="text-cen">
                                 <th style="width:25px"></th>
                                 <th style="width:150px">分类</th>
                                 <th>姓名</th>
                                 <th>时间</th>
                                 <th>状态</th>
+                                <th>扣款 </th>
                                 <th>金额</th>
                                 <th>操作</th>
                             </tr>
@@ -145,6 +146,7 @@
 
                                 </td>
                                 <td>推荐</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -163,10 +165,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key2">
                                 <td></td>
                                 <td>荣誉榜奖金</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -181,10 +185,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key2">
                                 <td> </td>
                                 <td>试听培训奖金</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -204,6 +210,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key3">
                                 <td> </td>
@@ -213,10 +220,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key3">
                                 <td> </td>
                                 <td>工资补偿</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -236,6 +245,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>
@@ -244,6 +254,7 @@
 
                                 </td>
                                 <td>平台管理费</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -262,6 +273,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key6">
                                 <td> </td>
@@ -271,11 +283,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key6">
                                 <td> </td>
                                 <td>—</td>
                                 <td>学生2</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -306,10 +320,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key7">
                                 <td></td>
                                 <td>基础工资</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -323,11 +339,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key7">
                                 <td></td>
                                 <td>上传讲义超时</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -341,6 +359,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key7">
@@ -350,11 +369,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key7">
                                 <td></td>
                                 <td>未提前四小时换课</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -374,10 +395,12 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="key8">
                                 <td></td>
                                 <td>基础工资</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -391,11 +414,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key8">
                                 <td></td>
                                 <td>上传讲义超时</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -409,6 +434,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key8">
@@ -418,11 +444,13 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td>申诉</td>
                             </tr>
                             <tr class="key8">
                                 <td></td>
                                 <td>未提前四小时换课</td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

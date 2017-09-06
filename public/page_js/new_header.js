@@ -455,6 +455,7 @@ function table_init() {
                 list_data.push(row_data);
             });
 
+
             $.do_ajax ( "/page_common/upload_xls_data",{
                 xls_data :  JSON.stringify(list_data )
             },function(data){

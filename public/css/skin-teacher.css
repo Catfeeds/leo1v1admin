@@ -145,7 +145,7 @@
 .skin-teacher .sidebar-menu .treeview-menu > li > a:hover,
 .skin-teacher .sidebar-menu .treeview > a:hover
 {
-    background-color: #39BFF8 ;
+    background-color: #3bb1ff;
     border-left-color: #fff;
 }
 
@@ -201,3 +201,12 @@
     border: 1px solid #ddd;
 }
 
+.skin-teacher .treeview-menu{
+    padding-left:0;
+}
+.skin-teacher .main-sidebar{
+    background: -webkit-linear-gradient(#0b91ff , #0bceff); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#0b91ff , #0bceff); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#0b91ff , #0bceff); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#0b91ff , #0bceff); /* 标准的语法 */
+}

@@ -1,113 +1,126 @@
-.ft14{
+
+.skin-teacher .ft14{
     font-size:14px;
 }
-.ft24{
+.skin-teacher .ft24{
     font-size:24px;
 }
-.ft18{
+.skin-teacher .ft18{
     font-size:18px;
 }
-.ft14{
+.skin-teacher .ft14{
     font-size:14px;
 }
-.text-cen{
+.skin-teacher .text-cen{
     text-align:center;
 }
-.text-top{
+.skin-teacher .text-top{
     vertical-align:top;
 }
-.r-border{
+.skin-teacher .r-border{
     border-right:1px solid #ccc;
 }
-.bor-hr{
+.skin-teacher .bor-hr{
     border-top:1px solid #ccc;
     margin-bottom:10px;
 }
-.color-9{
+.skin-teacher .color-9{
     color:#999;
 }
-.color-red{
+.skin-teacher .color-red{
     color:red;
 }
-.color-blue{
+.skin-teacher .color-blue{
     color:#00A6FF;
 }
-.bg-set-blue{
-    background:#00a6ff;
+.skin-teacher .bg-set-blue{
+    background:#00A6ff;
     color:#fff;
 }
-.bg-blue{
-    background:#00a6ff;
+.skin-teacher .bg-blue{
+    background:#00A6ff;
 }
-.bg-lblue{
-    background:#e6faff;
+
+.skin-teacher .bg-lblue{
+    background:#E6fAff;
 }
-.bg-linfo{
+.skin-teacher .bg-linfo{
     background:#42b2ff;
 }
 
-.color-fff{
+.skin-teacher .color-fff{
     color:#fff
 }
-.bg-lgreen{
+.skin-teacher .bg-lgreen{
     background:#36d68f;
 }
-.bg-lpro{
+.skin-teacher .bg-lpro{
     background:#6c86e1;
 }
-.bg-lyellow{
+.skin-teacher .bg-lyellow{
     background:#ef7d50;
 }
-.bor-rds{
+.skin-teacher .bor-rds{
     border-radius:5px;
 }
-.div-bank{
+.skin-teacher .div-bank{
     width:60%;
     margin:50px auto;
 }
-.btn-bank{
+.skin-teacher .btn-bank{
     display:block;
     width:100%;
 }
-.flag-baes td{
+.skin-teacher .flag-baes td{
     width:30%;
     text-align:center;
 }
-input{
+.skin-teacher input{
     border:0 solid #fff;
     width:100%;
     height:100%;
 }
-.li-section{
+.skin-teacher .li-section{
     padding:20px 20px;
 }
-.bor-hr{
+.skin-teacher .bor-hr{
     border-top:1px solid #ccc;
     margin-bottom:10px;
 }
-.direct-chat-messages {
+.skin-teacher .direct-chat-messages {
     height: 180px;
     overflow:hidden;
 }
-.direct-chat-contacts{
+.skin-teacher .direct-chat-contacts{
     height:180px;
     background:#fff;
     color:#000;
 }
-.small-box{
+.skin-teacher .small-box{
     height:100px;
 }
-.box-top-ly{
+.skin-teacher .box-top-ly{
 	  border-top:3px solid #00A6FF;
 }
-.box-info-ly{
+.skin-teacher .box-info-ly{
 	  border-top:3px solid #00A6FF;
 }
-.text-color-ly{
+.skin-teacher .text-color-ly{
 	  color: #00A6FF;
 }
-.btn-info-ly{
+.skin-teacher .btn-info-ly{
 	  background-color:#00A6FF;
 	  color: #FFFFFF;
 }
+
+.skin-teacher .opt-set,opt-upload,opt-show{
+	  background-color:#00A6FF;
+}
+.skin-teacher .main-header .navbar .sidebar-toggle{
+    color:#0bceff;
+}
+.skin-teacher .main-header .navbar .sidebar-toggle:hover{
+    color:#def4ff;
+}
+
 

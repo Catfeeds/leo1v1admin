@@ -15,8 +15,11 @@ class test_sam  extends Controller
     
     public function lesson_list()
     {
-        $start_time = 1503849600;//2017/8/28 0:0:0
-        $end_time = 1504454400;//2017/9/4 0:0:0
+        $start = date('Y-m-01', strtotime('-1 month'));
+        $end   = date('Y-m-01');
+        $end_time = strtotime($end);
+        $start_time = strtotime($start);
+
         $success_through       = $this->t_teacher_info->get_success_through($start_time,$end_time);
         $success_apply         = $this->t_teacher_info->get_success_apply($start_time,$end_time);
         $video_apply           = $this->t_teacher_info->get_video_apply($start_time,$end_time);
@@ -28,6 +31,7 @@ class test_sam  extends Controller
                 "teacherid"       => $value['teacherid'],
                 "nick"            => $value["nick"],
                 "reference"       => $value["reference"],
+                "wx_openid"       => $value["wx_openid"],
                 "success_through" => $value["sum"],
                 "success_apply"   => 0,
                 "total_apply"     => 0,
@@ -43,6 +47,7 @@ class test_sam  extends Controller
                     "teacherid"       => $value["teacherid"],
                     "nick"            => $value["nick"],
                     "reference"       => $value["reference"],
+                    "wx_openid"       => $value["wx_openid"],
                     "success_through" => 0,
                     "success_apply"   => $value['sum'],
                     "total_apply"     => 0,
@@ -59,6 +64,7 @@ class test_sam  extends Controller
                     "teacherid"       => $value['teacherid'],
                     "nick"            => $value['nick'],
                     "reference"       => $value['reference'],
+                    "wx_openid"       => $value["wx_openid"],
                     "success_through" => 0,
                     "success_apply"   => 0,
                     "total_apply"     => $value['sum'],
@@ -75,6 +81,7 @@ class test_sam  extends Controller
                     "teacherid"       => $value['teacherid'],
                     "nick"            => $value["nick"],
                     "reference"       => $value["reference"],
+                    "wx_openid"       => $value["wx_openid"],
                     "success_through" => 0,
                     "success_apply"   => 0,
                     "total_apply"     => $value['sum'],
