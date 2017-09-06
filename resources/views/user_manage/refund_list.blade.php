@@ -80,6 +80,7 @@
                         <td >审批状态</td>
                         <td >审批时间</td>
                         <td >退费状态</td>
+                        <td >下单超过3个月</td>
                         <td style="min-width:120px;">操作</td>
                     </tr>
                 </thead>
@@ -116,6 +117,7 @@
                             <td >{!!$var["flow_status_str"]!!}</td>
                             <td >{{$var["flow_status_time"]}}</td>
                             <td >{{$var["refund_status_str"]}}</td>
+                            <td >{!!$var["is_pass"]!!}</td>
                             <td >
                                 <div
                                     {!!\App\Helper\Utils::gen_jquery_data($var)!!}

@@ -1023,8 +1023,11 @@ class user_manage extends Controller
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
-            if($item['apply_time']-$item['order_time']){
-                
+            $pass_time = $item['apply_time']-$item['order_time'];
+            if($pass_time >= 90*24*3600){
+                $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
+            }else{
+                $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
         }
