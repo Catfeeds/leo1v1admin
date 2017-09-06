@@ -105,19 +105,20 @@ $(function(){
             format:'Ymd'
         });
 
-       var old_city = opt_data.city;
-        if(old_city == ''){
-            old_city="选择市（区）";
-        }
-        var old_area = opt_data.area;
-        if(old_city == ''){
-            old_city="选择区（县）";
-        }
         var old_province = opt_data.region;
         if(old_province == ''){
             old_province="选择省（市）";
         }
 
+        var old_city = opt_data.city;
+        if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+            old_city="选择市（区）";
+        }
+        var old_area = opt_data.area;
+        if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+            old_city="选择区（县）";
+        }
+       
         
 
         var province = html_node.find("#province");  
@@ -144,6 +145,17 @@ $(function(){
         province.change(function() {  
             //province.val()  : 返回是每个省对应的下标,序号从0开始  
             if (province.val() != "") {  
+                if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+                    old_city="选择市（区）";
+                }
+                if(old_city == '' || html_node.find("#province").find("option:selected").text()==old_province){
+                    old_city="选择区（县）";
+                }
+
+                var preCity = "<option value=\"\">"+old_city+"</option>";  
+                var preArea = "<option value=\"\">"+old_area+"</option>";  
+
+
                 city.html(preCity);  
                 
                 //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
