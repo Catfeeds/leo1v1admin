@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 
-//\Illuminate\Routing\Router 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 Route::group(['middleware' => ['web']], function () {
