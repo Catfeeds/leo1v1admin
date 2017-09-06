@@ -1476,18 +1476,6 @@ class user_manage_new extends Controller
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
                 unset($item);
             }else{
-                if($item['level'] == 'l-3'){
-                    foreach($member as $info){
-                        if($item['group_name'] == $info['group_name']){
-                            $item['become_member_num'] = $info['become_member_num'];
-                            $item['leave_member_num'] = $info['leave_member_num'];
-                        }
-                    }
-                }else{
-                    $item['become_member_num'] = '';
-                    $item['leave_member_num'] = '';
-                }
-
                 if($item['level'] == 'l-2'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
@@ -1496,8 +1484,17 @@ class user_manage_new extends Controller
                         }
                     }
                 }else{
-                    $item['become_member_num'] = '';
-                    $item['leave_member_num'] = '';
+                    if($item['level'] == 'l-3'){
+                        foreach($member as $info){
+                            if($item['group_name'] == $info['group_name']){
+                                $item['become_member_num'] = $info['become_member_num'];
+                                $item['leave_member_num'] = $info['leave_member_num'];
+                            }
+                        }
+                    }else{
+                        $item['become_member_num'] = '';
+                        $item['leave_member_num'] = '';
+                    }
                 }
             }
         }
