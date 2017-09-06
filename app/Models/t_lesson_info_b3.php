@@ -144,14 +144,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         \App\Helper\Utils::effective_lesson_sql($where_arr);
         $sql=$this->gen_sql_new("select l.teacherid,sum(lesson_count) as lesson_count,count(l.lessonid) as count,"
-                                ." count(distinct(l.userid)) as stu_num,group_concat(l.grade),group_concat(l.subject),"
+                                ." count(distinct(l.userid)) as stu_num,"
+                                ." group_concat(distinct(l.grade)) as grade,"
+                                ." group_concat(distinct(l.subject)) as subject,"
                                 ." t.teacher_money_type,t.level,t.realname"
                                 ." from %s l"
                                 ." left join %s t on l.teacherid=t.teacherid"
                                 ." where %s"
                                 ." group by l.teacherid "
                                 ,self::DB_TABLE_NAME
-                                ,t_student_info::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
         );
