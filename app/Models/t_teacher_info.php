@@ -3472,7 +3472,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_quit = 0 ",
             "t.is_test_user =0 "
         ];
-        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, l.reference,count(t.teacherid) as sum".
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, l.reference,count(t.teacherid) as sum".
                                   " from %s t ".
                                   " left join %s l on t.phone = l.phone".
                                   " left join %s s on l.reference=s.phone".
@@ -3494,7 +3494,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_quit = 0 ", //推荐人没有离职
             "t.is_test_user =0 " //推荐人不是测试用户
         ];
-        $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick, l.reference, count(t.phone) as sum ".
+        $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick,t.wx_openid, l.reference, count(t.phone) as sum ".
                                   " from %s l ".
                                   " left join %s t on t.phone = l.reference".
                                   " where %s ".
@@ -3513,7 +3513,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "s.is_test_user =0 ",
             "s.phone > 0"
         ];
-        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick, a.reference,count(s.teacherid) as sum".
+        $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,t.wx_openid, a.reference,count(s.teacherid) as sum".
                                   " from %s t ".
                                   " left join %s a on t.phone = a.phone".
                                   " left join %s s on a.reference=s.phone".
@@ -3537,7 +3537,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "k.is_test_user =0 ",
             "k.phone > 0"
         ];
-        $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick, a.reference,count(k.teacherid) as sum".
+        $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick,k.wx_openid, a.reference,count(k.teacherid) as sum".
                                   " from %s l ".
                                   " left join %s t on l.userid = t.teacherid".
                                   " left join %s a on t.phone=a.phone".
