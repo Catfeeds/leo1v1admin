@@ -1455,7 +1455,7 @@ class user_manage_new extends Controller
                 $leave_member_num_l2 = 0;
             }
         }
-        dd($member_new,$member_num_new,$member,$member_num);
+        // dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){
             foreach($member_num as $k=>$info){
                 if(($key+1) == $k){
