@@ -211,6 +211,7 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
+                @if ($my_info['tags_flag'] != 0 )
                 <div class="box box-info">
                     <div class="box-header">
                         <h3 class="box-title text-blue">教师风格</h3>
@@ -224,18 +225,19 @@
                         <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <p>
                                     @foreach($my_info['teacher_tags_arr'] as $val)
                                         @if ($val == '逻辑型')
-                                            <p> <span class="badge bg-lgreen ft18">逻辑型</span></p>
+                                            <span class="badge bg-linfo ft18">逻辑型</span>
                                         @elseif ($val == '自然型')
-                                            <p> <span class="badge bg-lblue ft18">自然型</span></p>
+                                            <span class="badge bg-lgreen ft18">自然型</span>
                                         @elseif ($val == '技巧型')
-                                            <p> <span class="badge bg-lpor ft18">技巧型</span></p>
+                                            <span class="badge bg-lpro ft18">技巧型</span>
                                         @elseif ($val == '情感型')
-                                            <p> <span class="badge bg-lyellow ft18">情感型</span></p>
+                                            <span class="badge bg-lyellow ft18">情感型</span>
                                         @endif
                                     @endforeach
-
+                                    </p>
                                     @foreach($my_info['teacher_tags_arr'] as $val)
                                         @if ($val == '逻辑型')
                                             <p> <span style="color:#42B2FF">逻辑型:</span> 讲课思维严谨，讲题思路清晰，富有亲和力，善于运用多种教学方式，培养学生独立思考的能力，启发学生举一反三。</p>
@@ -258,6 +260,7 @@
                     </div>
                     <!-- /.box-footer -->
                 </div>
+                @endif
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
                 <div class="box box-warning">
