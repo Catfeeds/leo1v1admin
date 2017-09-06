@@ -23,23 +23,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_all_list(){
-        $where_arr = [
-            'a.type =1 or a.type=3',
-        ];
-        $sql=$this->gen_sql_new (" select a.id,a.phone,a.userid,a.type,s.origin_level "
-                                 ." from %s a "
-                                 ." left join %s n on n.userid=a.userid "
-                                 ." left join %s s on s.userid=a.userid "
-                                 ." where %s "
-                                 ,self::DB_TABLE_NAME
-                                 ,t_seller_student_new::DB_TABLE_NAME
-                                 ,t_student_info::DB_TABLE_NAME
-                                 ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_agent_info($page_info, $order_by_str, $phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
     {
         $where_arr = [];
