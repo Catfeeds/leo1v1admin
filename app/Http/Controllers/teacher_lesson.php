@@ -20,8 +20,8 @@ class teacher_lesson extends Controller
         foreach($ret_list['list'] as $item){
             E\Elevel::set_item_value_str($item);
             E\Eteacher_money_type::set_item_value_str($item);
-            $grade_str = E\Egrade::namelist2idlist($item['grade']);
-            $subject_str = E\Esubject::namelist2idlist($item['subject']);
+            $grade_str = E\Egrade::idlist2namelist($item['grade']);
+            $subject_str = E\Esubject::idlist2namelist($item['subject']);
             $lesson_total=$item['lesson_count']/100;
 
             echo $item['realname']."|".$item['teacher_money_type_str']."|".$item['level_str']."|".$grade_str."|".$subject_str
