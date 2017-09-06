@@ -94,11 +94,7 @@ class agent extends Controller
             $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
             if(in_array($id,$id_arr_new_two)){
             }else{
-                if($start_time && $end_time){
-                    if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
-                        $ret_info_new[] = $item;
-                    }
-                }else{
+                if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
                     $ret_info_new[] = $item;
                 }
             }
