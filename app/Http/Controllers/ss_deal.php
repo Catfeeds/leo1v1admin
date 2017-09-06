@@ -723,8 +723,7 @@ class ss_deal extends Controller
 
         }
 
-        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
-        return $this->output_succ(["data"=> $ret_list]);
+        return $this->output_ajax_table($ret_list);
     }
 
     public function get_require_list_js_new()  {
