@@ -65,7 +65,7 @@ class Enum_base {
     }
     static public function namelist2idlist  ($name_list) {
         $id_list=[];
-        foreach( split(",", $name_list )  as $str ) {
+        foreach( explode(",", $name_list )  as $str ) {
             $id_list[] = self::s2v($str);
         }
 
