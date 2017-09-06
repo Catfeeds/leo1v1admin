@@ -117,11 +117,19 @@ class stu_manage extends Controller
             $o_item["lesson_time"]    = Utils::fmt_lesson_time( $o_item["lesson_start"] ,$o_item["lesson_end"]);
         }
 
+        //科目教材
+        $subject_textbook_list = $this->t_student_subject_list->get_info_by_userid($sid);
+        foreach($subject_textbook_list  as &$item_oo){
+            $item_oo["editionid_str"] =  E\Eregion_version::get_desc ($item_oo["editionid"]);   
+            $item_oo["subject_str"] =  E\Esubject::get_desc ($item_oo["subject"]);   
+        }
+
         return $this->pageView(__METHOD__,null,[
             "stu_info"          => $student_info,
             "l_1v1_list"        => $l_1v1_list,
             "small_lesson_list" => $small_lesson_list,
             "open_lesson_list"  => $open_lesson_list,
+            "subject_textbook_list"=>$subject_textbook_list
         ] );
     }
 
@@ -401,16 +409,23 @@ class stu_manage extends Controller
 
         $parentid = $this->t_student_info->get_parentid($studentid);
         $phone    = $this->t_parent_info->get_phone($parentid);
+        $parent_name    = $this->t_student_info->get_parent_name($studentid);
+        $parent_type   = $this->t_student_info->get_parent_type($studentid);
 
-        return outputjson_success(array('phone'=>$phone));
+        return outputjson_success(array('phone'=>$phone,'parent_type'=>$parent_type,'parent_name'=>$parent_name));
     }
 
     public function set_stu_parent(){
         $studentid = $this->get_in_int_val("studentid",0);
         $phone     = trim($this->get_in_int_val("phone",0));
+        $parent_name     = trim($this->get_in_str_val("parent_name",""));
+        $parent_type     = $this->get_in_int_val("parent_type",0);
 
         $parent_info = $this->t_parent_info->get_parentid_by_phone($phone);
         $parentid    = $parent_info['parentid'];
+        if(!$parent_name){
+            $parent_name = $phone;
+        }
 
         if($parentid==0){
             $fail_flag = 0;
@@ -426,7 +441,7 @@ class stu_manage extends Controller
                 if($ret){
                     $parent_ret = $this->t_parent_info->row_insert([
                         "parentid"           => $parentid,
-                        "nick"               => $phone,
+                        "nick"               => $parent_name,
                         "phone"              => $phone,
                         "last_modified_time" => \App\Helper\Utils::unixtime2date(time()),
                     ]);
@@ -447,8 +462,17 @@ class stu_manage extends Controller
             }
         }else{
             \App\Helper\Utils::logger("parentid".$parentid);
+            $this->t_parent_info->field_update_list($parentid,[
+               "nick"  =>$parent_name 
+            ]);
+            $this->t_student_info->field_update_list($studentid,[
+                "parentid"  =>$parentid,
+                "parent_name" =>$parent_name,
+                "parent_type" =>$parent_type
+            ]);
             $check_flag = $this->t_parent_child->check_has_parent($parentid,$studentid);
-            if($check_flag){
+            if($check_flag){               
+                $this->t_parent_child->update_parent_type($parentid,$studentid,$parent_type);
                 //$this->t_parent_info->send_wx_todo_msg($parentid,"确认课时","sadfaafa  ","ttt1");
                 return outputjson_error("用户已绑定！");
             }
@@ -457,12 +481,13 @@ class stu_manage extends Controller
         if($parentid>0){
             $bind_fail_flag=0;
             $this->t_parent_child->start_transaction();
-            $ret_info = $this->t_parent_child->set_student_parent($parentid,$studentid);
+            $ret_info = $this->t_parent_child->set_student_parent($parentid,$studentid,$parent_type);
             if($ret_info){
                 $parent_name = $this->t_parent_info->get_nick($parentid);
                 $ret_info    = $this->t_student_info->field_update_list($studentid,[
                     "parentid"    => $parentid,
-                    "parent_name" => $parent_name
+                    "parent_name" => $parent_name,
+                    "parent_type" => $parent_type
                 ]);
             }else{
                 \App\Helper\Utils::logger(" bind_fail_flag 22 ");

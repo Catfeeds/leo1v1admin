@@ -558,6 +558,34 @@
                     <input type="text" value="" class=" form-control "  id="id_address"  placeholder="" />
                 </div>
             </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="input-group ">
+                    <span class="input-group-addon">科目</span>
+                    <select class="form-control" id="id_subject" name="subject">
+                        @foreach ( $subject_textbook_list as $var )
+                            <option value="{{$var["subject"]}}"> {{$var["subject_str"]}} </option>
+                        @endforeach
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-5">
+                <div class="input-group ">
+                    <span class="input-group-addon">教材</span>
+                    <select class="form-control" id="id_editionid" name="editionid">
+                        @foreach ( $subject_textbook_list as $var )
+                            <option value="{{$var["editionid"]}}"> {{$var["editionid_str"]}} </option>
+                        @endforeach
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3"  >
+                <button  id="id_set_subject_textbook"  class="btn btn-warning" >编辑科目</button>
+            </div>
+
+
             <div class="col-xs-12 col-md-6">
                 <div class="input-group ">
                     <span class="input-group-addon">教材(目前使用)</span>

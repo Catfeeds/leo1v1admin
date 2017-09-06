@@ -111,3 +111,6 @@ input{
 	  color: #FFFFFF;
 }
 
+.opt-set,opt-upload,opt-show{
+	  background-color:#00A6FF;
+}

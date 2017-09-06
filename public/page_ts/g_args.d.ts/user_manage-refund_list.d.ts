@@ -20,6 +20,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	qc_contact_status	:any;
+	qc_advances_status	:any;
+	qc_voluntarily_status	:any;
 	userid	:any;
 	phone	:any;
 	discount_price	:any;
@@ -53,6 +56,10 @@ interface RowData {
 	contract_type_str	:any;
 	need_receipt_str	:any;
 	grade_str	:any;
+	qc_advances_status_str	:any;
+	qc_contact_status_str	:any;
+	qc_voluntarily_status_str	:any;
+	is_pass	:any;
 }
 
 /*

@@ -162,7 +162,7 @@ $(function(){
             lang             : 'ch',
             datepicker       : true,
             timepicker       : true,
-            format:'Y-m-d H  : i',
+            format:'Y-m-d H:i',
             step             : 30,
             onChangeDateTime : function(){
             }
