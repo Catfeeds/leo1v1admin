@@ -66,6 +66,7 @@ interface RowData {
 	teacher_title	:any;
 	grade_str	:any;
 	teacher_tags_arr	:any;
+	tags_flag	:any;
 }
 
 /*
