@@ -123,9 +123,9 @@ $(function(){
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
         var area = html_node.find("#area");  
-        var preProvince = "<option value=\"\">选择省（市）</option>";  
-        var preCity = "<option value=\"\">选择市（区）</option>";  
-        var preArea = "<option value=\"\">选择区（县）</option>";  
+        var preProvince = "<option value=\"\">"+old_province+"</option>";  
+        var preCity = "<option value=\"\">"+old_city+"</option>";  
+        var preArea = "<option value=\"\">"+old_area+"</option>";  
         
         //初始化  
         province.html(preProvince);  

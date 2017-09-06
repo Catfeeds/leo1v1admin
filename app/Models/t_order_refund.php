@@ -264,7 +264,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   $where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_end_class_stu_order(){
