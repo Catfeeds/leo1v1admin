@@ -1438,7 +1438,7 @@ class user_manage_new extends Controller
                 $leave_member_num_l3 = 0;
             }
         }
-        dd($member_num);
+        // dd($member_num);
         \App\Helper\Utils::logger("OUTPUT");
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
