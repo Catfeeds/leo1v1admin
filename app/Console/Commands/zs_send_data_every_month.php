@@ -12,14 +12,14 @@ use Qiniu\Storage\BucketManager;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-class zs_send_data_every_week extends Command
+class zs_send_data_every_month extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:zs_send_data_every_week';
+    protected $signature = 'command:zs_send_data_every_month';
 
     /**
      * The console command description.
@@ -57,13 +57,10 @@ class zs_send_data_every_week extends Command
     {
         $task=new \App\Console\Tasks\TaskController();
 
-        $date = date("Y-m-d"); //当前日期
-        $first=1; //$first =1 表示每周星期一为开始时间 0表示每周日为开始时间
-        $w = date("w", strtotime($date)); //获取当前周的第几天 周日是 0 周一 到周六是 1 -6
-        $d = $w ? $w - $first : 6; //如果是周日 -6天
-        $now_start = date("Y-m-d", strtotime("$date -".$d." days")); //本周开始时间
-        $end_time = strtotime($now_start);
-        $start_time = $end_time - 7*24*3600;
+        $start = date('Y-m-01', strtotime('-1 month'));
+        $end   = date('Y-m-01');
+        $end_time = strtotime($end);
+        $start_time = strtotime($start);
 
         $success_through       = $task->t_teacher_info->get_success_through($start_time,$end_time);
         $success_apply         = $task->t_teacher_info->get_success_apply($start_time,$end_time);
@@ -116,7 +113,7 @@ class zs_send_data_every_week extends Command
                 ];
             }
         }
-
+        
         foreach($lesson_apply as $key => $value){
             if(isset($ret[$value['phone']])){
                 $ret[$value['phone']]['total_apply'] += $value['sum'];
@@ -147,13 +144,13 @@ class zs_send_data_every_week extends Command
                  */
             if($wx_openid!=""){
                 $record_info = $value['nick'];
-                $status_str  = "上周代理详情";
+                $status_str  = "上月代理详情";
                 $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                 $wx_data["first"]    = $record_info;
                 $wx_data["keyword1"] = $status_str;
-                $wx_data["keyword2"] = "\n 1、上周填写报名".$value['success_apply']."人"
-                                     ."\n 2、上周录制预约".$value["total_apply"]."人"
-                                     ."\n 3、上周成功入职".$value['success_through']."人";
+                $wx_data["keyword2"] = "\n 1、上月填写报名".$value['success_apply']."人"
+                                     ."\n 2、上月录制预约".$value["total_apply"]."人"
+                                     ."\n 3、上月成功入职".$value['success_through']."人";
                 $wx_data["remark"] = "好友成功入职后，即可获得伯乐奖，"
                                    ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
                                    ."请及时绑定银行卡号，如未绑定将无法发放。";

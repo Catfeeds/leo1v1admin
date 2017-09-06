@@ -20,17 +20,13 @@
 </style>
 <section class="content">
     <div class="row" >
-        <div class="col-xs-12 col-md-6"  data-title="时间段">
-            <div  id="id_date_range" >
-            </div>
-        </div>        
+               
 
-        <div class="col-md-1 remove-for-xs col-xs-6 " style="display:none" >
+        <div class="col-md-1 remove-for-xs col-xs-6 " >
             <div>
                 <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
             </div>
         </div>
     </div>
-    <div id='calendar' ></div>
   </section>
 @endsection

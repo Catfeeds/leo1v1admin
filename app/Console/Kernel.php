@@ -45,6 +45,7 @@ class Kernel extends ConsoleKernel
         Commands\zs_lecture_info_day::class,        
         Commands\zs_lecture_info_all::class,
         Commands\zs_send_data_every_week::class,
+        Commands\zs_send_data_every_month::class,
         Commands\update_ass_warning_list::class,        
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
