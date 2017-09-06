@@ -1737,4 +1737,9 @@ class tongji extends Controller
             "end_time"          => $end_time,
         ]);
     }
+
+    public function seller_personal_money(){
+        $ret_info = [];
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
