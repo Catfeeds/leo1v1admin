@@ -1015,6 +1015,11 @@ class user_manage extends Controller
             E\Econtract_type::set_item_value_str($item,"contract_type");
             E\Eboolean::set_item_value_str($item,"need_receipt");
             E\Egrade::set_item_value_str($item);
+
+            E\Eqc_advances_status::set_item_value_str($item);
+            E\Eqc_contact_status::set_item_value_str($item);
+            E\Eqc_voluntarily_status::set_item_value_str($item);
+
             \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
 
@@ -1024,7 +1029,7 @@ class user_manage extends Controller
             }
 
             $pass_time = $item['apply_time']-$item['order_time'];
-            if($pass_time >= 90*24*3600){
+            if($pass_time >= 90*24*3600){ // 下单是否超过3个月
                 $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
             }else{
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';

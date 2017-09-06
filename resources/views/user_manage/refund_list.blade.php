@@ -80,6 +80,9 @@
                         <td >审批状态</td>
                         <td >审批时间</td>
                         <td >退费状态</td>
+                        <td>联系状态</td>
+                        <td>提升状态</td>
+                        <td>学习态度</td>
                         <td >下单超过3个月</td>
                         <td style="min-width:120px;">操作</td>
                     </tr>
@@ -117,6 +120,9 @@
                             <td >{!!$var["flow_status_str"]!!}</td>
                             <td >{{$var["flow_status_time"]}}</td>
                             <td >{{$var["refund_status_str"]}}</td>
+                            <td >{{$var["qc_contact_status_str"]}}</td>
+                            <td >{{$var["qc_advances_status_str"]}}</td>
+                            <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
                             <td >
                                 <div
