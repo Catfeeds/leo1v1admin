@@ -461,6 +461,12 @@ class main_page extends Controller
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
         $regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
+        //第5次常规
+        $regular_five = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,4,$subject);
+       
+        $regular_five_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,4,$subject);
+
+
         $all_count=0;
         $total_test_first_per = 0;
         $total_test_five_per = 0;
@@ -468,7 +474,9 @@ class main_page extends Controller
         $total_test_five_num = 0;
         $total_regular_first_per = 0;
         $total_regular_first_num = 0;
-        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=0;
+        $total_regular_five_per = 0;
+        $total_regular_five_num = 0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
@@ -534,8 +542,24 @@ class main_page extends Controller
                 }
             }
 
+            $item["regular_five"] = isset($regular_five[$account])?$regular_five[$account]["all_num"]:0;
+            $item["regular_five_per"] = isset($regular_five_per[$account])?round($regular_five_per[$account]["all_time"]/$regular_five_per[$account]["all_num"]):0;
+            if($item["regular_five_per"]){
+                $total_regular_five_per += $regular_five_per[$account]["all_time"];
+                $total_regular_five_num += $regular_five_per[$account]["all_num"];
+            }
+            $item["regular_five_per_str"] = "";
+            if($item["regular_five_per"]){
+                if($item["regular_five_per"]/60>0){
+                    $item["regular_five_per_str"] = round($item["regular_five_per"]/60)."分".($item["regular_five_per"]%60)."秒";
+                }else{
+                    $item["regular_five_per_str"] .= "秒";
+                }
+            }
 
-            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"]+$item["test_five"];
+
+
+            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"]+$item["test_five"]+$item["regular_five"];
             if($item["uid"]==481){
                 $item["all_num"] +=7;
             }
@@ -561,6 +585,7 @@ class main_page extends Controller
                 $test_first_all += $item["test_first"];
                 $test_five_all += $item["test_five"];
                 $regular_first_all += $item["regular_first"];
+                $regular_five_all += $item["regular_five"];
             }
         }
 
@@ -607,6 +632,21 @@ class main_page extends Controller
             }
         }
 
+        $total_regular_five_per_str = "";
+        if($total_regular_five_num>0){
+            $total_regular_five_per = isset($total_regular_five_num)?round($total_regular_five_per/$total_regular_five_num):0;
+        }else{
+            $total_regular_five_per = 0;
+        }
+        if($total_regular_five_per){
+            if($total_regular_five_per/60>0){
+                $total_regular_five_per_str = round($total_regular_five_per/60)."分".($total_regular_five_per%60)."秒";
+            }else{
+                $total_regular_five_per_str .= "秒";
+            }
+        }
+
+
 
         \App\Helper\Utils::order_list( $teacher_info,"per", 0 );
         if($kpi_flag==0){
@@ -632,28 +672,34 @@ class main_page extends Controller
             $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
             $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
 
-            //第一次试听/第一次常规总计
+            //第一次试听/第一次常规总计/第五次试听/第五次常规总计
             $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
 
             $test_five_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,2,$subject);
 
             $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
+            $regular_five_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,4,$subject);
 
-            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all+$test_five_all;
+            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all+$test_five_all+$regular_five_all;
             $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],
                     "test_first"=>$test_first_all,
                     "test_five" =>$test_five_all,
                     "regular_first"=>$regular_first_all,
+                    "regular_five"=>$regular_five_all,
                     "all_num"=>$all_num,
                     "test_first_per_str" => $total_test_first_per_str, 
                     "test_five_per_str" => $total_test_five_per_str, 
-                    "regular_first_per_str" => $total_regular_first_per_str];
+                  "regular_first_per_str" => $total_regular_first_per_str,
+                  "regular_five_per_str" => $total_regular_five_per_str,
+            ];
         }elseif($kpi_flag==1){
             $arr=[];
             $arr=["name"=>"总计",
                  "test_first_per_str" => $total_test_first_per_str,
                  "test_five_per_str" => $total_test_five_per_str,
-                 "regular_first_per_str" => $total_regular_first_per_str];
+                  "regular_first_per_str" => $total_regular_first_per_str,
+                  "regular_five_per_str" => $total_regular_five_per_str,
+            ];
 
             $arr["real_num"] = $real_num;
             $arr["suc_count"] = $suc_count;
@@ -663,7 +709,8 @@ class main_page extends Controller
             $arr["test_first"] = $test_first_all;
             $arr["test_five"] = $test_five_all;
             $arr["regular_first"] = $regular_first_all;
-            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all+$test_five_all;
+            $arr["regular_five"] = $regular_five_all;
+            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all+$test_five_all+$regular_five_all;
         }
 
         $num = count($teacher_info);
