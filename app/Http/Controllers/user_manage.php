@@ -456,6 +456,8 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_end');
             E\Efrom_type::set_item_value_str($item);
             $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
             $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );
