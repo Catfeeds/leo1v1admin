@@ -1448,21 +1448,20 @@ class user_manage_new extends Controller
                 }
             }
         }
-        dd($member,$ret_info);
-        foreach($ret_info as &$item){
-            if($item['level'] == 'l-3'){
-                foreach($member as $info){
-                    if($item['group_name'] == $info['group_name']){
-                        $item['become_member_num'] = $info['become_member_num'];
-                        $item['leave_member_num'] = $info['leave_member_num'];
-                    }
-                }
-            }else{
-                $item['become_member_num'] = '';
-                $item['leave_member_num'] = '';
-            }
-        }
-        dd($ret_info);
+        // foreach($ret_info as &$item){
+        //     if($item['level'] == 'l-3'){
+        //         foreach($member as $info){
+        //             if($item['group_name'] == $info['group_name']){
+        //                 $item['become_member_num'] = $info['become_member_num'];
+        //                 $item['leave_member_num'] = $info['leave_member_num'];
+        //             }
+        //         }
+        //     }else{
+        //         $item['become_member_num'] = '';
+        //         $item['leave_member_num'] = '';
+        //     }
+        // }
+        // dd($ret_info);
         \App\Helper\Utils::logger("OUTPUT");
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
