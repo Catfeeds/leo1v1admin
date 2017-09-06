@@ -55,6 +55,7 @@ class zs_send_data_every_week extends Command
      */
     public function handle()
     {
+        $task=new \App\Console\Tasks\TaskController();
         $now = time();
 
         $start_time = 1503849600;//2017/8/28 0:0:0
@@ -128,8 +129,6 @@ class zs_send_data_every_week extends Command
             }
         }
 
-
-        \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
         foreach ($ret as $key => $value) {
             // $wx_openid      = $value['wx_openid'];
             $wx_openid   = "oJ_4fxH0imLIImSpAEOPqZjxWtDA";
