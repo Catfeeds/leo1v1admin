@@ -213,7 +213,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             "orderid"      => $orderid,
             "apply_time"   => $apply_time,
         ];
-        $sql=$this->gen_sql_new("select qc_other_reason, qc_analysia, qc_reply  "
+        $sql=$this->gen_sql_new("select qc_other_reason, qc_analysia, qc_reply, qc_contact_status, qc_advances_status, qc_voluntarily_status "
                                 ." from %s "
                                 ." where %s"
                                 ,self::DB_TABLE_NAME
