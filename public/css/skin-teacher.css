@@ -17,8 +17,7 @@
 .skin-teacher .main-header .navbar .nav .open > a:hover,
 .skin-teacher .main-header .navbar .nav .open > a:focus,
 .skin-teacher .main-header .navbar .nav > .active > a {
-    background: #0B91FF;
-    color: #f6f6f6;
+    background: #DEF4FF;
 }
 .skin-teacher .main-header .navbar .sidebar-toggle {
     padding: 5px 5px;
@@ -26,8 +25,7 @@
     color: #0B91FF;
 }
 .skin-teacher .main-header .navbar .sidebar-toggle:hover {
-  color: #ccc;
-  background-color: #0B91FF;
+  background-color: #DEF4FF;
 }
 
 @media (max-width: 767px) {
@@ -58,7 +56,7 @@
     /*background-color: #357ca5;*/
 }
 .skin-teacher .main-header li.user-header {
-  background-color: #0B91FF;
+  background-color: #DEF4FF;
 }
 .skin-teacher .content-header {
   background: transparent;
@@ -98,17 +96,12 @@
 }
 .skin-teacher .sidebar-menu   {
     border-left-color: #fff;
-    background-color: #0B91FF;
 }
 
 .skin-teacher .sidebar  {
     margin-top:8px;
 
 }
-.skin-teacher .sidebar-menu > li.treeview.active > a {
-  background-color: #0B91FF ;
-}
-
 @media (min-width: 768px) {
     .sidebar-mini.sidebar-collapse .main-header .logo > .logo-mini {
 	      font-size: 30px;
@@ -117,7 +110,6 @@
 
 .skin-teacher .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
-  background: #0b91FF;
 }
 
 .skin-teacher .sidebar-menu > li    .pull-right-container {
@@ -209,4 +201,9 @@
     background: -o-linear-gradient(#0b91ff , #0bceff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(#0b91ff , #0bceff); /* Firefox 3.6 - 15 */
     background: linear-gradient(#0b91ff , #0bceff); /* 标准的语法 */
+}
+
+.skin-teacher .progress{
+    height:7px;
+    margin-top:5px;
 }

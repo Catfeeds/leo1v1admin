@@ -63,7 +63,7 @@
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" title="切换菜单栏">
                         <span class="sr-only">切换菜单栏</span>
                     </a>
-                    <span id="header_title1" style="font-size:18px;line-height:280%" > </span> 
+                    <span id="header_title1" style="font-size:18px;line-height:300%" > </span> 
 
 
                     <div class="navbar-custom-menu">

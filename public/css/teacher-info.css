@@ -88,11 +88,9 @@
     margin-bottom:10px;
 }
 .skin-teacher .direct-chat-messages {
-    height: 180px;
     overflow:hidden;
 }
 .skin-teacher .direct-chat-contacts{
-    height:180px;
     background:#fff;
     color:#000;
 }
@@ -113,14 +111,24 @@
 	  color: #FFFFFF;
 }
 
-.skin-teacher .opt-set,opt-upload,opt-show{
+.skin-teacher .opt-set,.opt-show{
 	  background-color:#00A6FF;
 }
+.skin-teacher button[opt-upload]{
+	  background-color:#00A6FF;
+}
+
 .skin-teacher .main-header .navbar .sidebar-toggle{
     color:#0bceff;
 }
-.skin-teacher .main-header .navbar .sidebar-toggle:hover{
-    color:#def4ff;
+
+.skin-teacher .btn-info:hover{
+    background:#0094e3;
+}
+.skin-teacher .btn-info{
+    border:none;
 }
 
-
+.skin-teacher .direct-chat-messages,.direct-chat-contacts{
+    height: 150px;
+}
