@@ -1023,6 +1023,9 @@ class user_manage extends Controller
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
+            if($item['apply_time']-$item['order_time']){
+                
+            }
 
         }
 
