@@ -6,22 +6,33 @@ $(function(){
         $.reload_self_page ( {
             orderid       :  g_args.orderid	,
             apply_time    : g_args.apply_time	,
-            qc_contact_status   : $("#id_qc_contact_status").val(),
-            qc_advances_status  : $("#id_qc_advances_status").val(),
-            qc_voluntarily_status  : $("#id_qc_voluntarily_status").val(),
-            //qc_voluntarily_status
+            // qc_contact_status  : $('#opt_qc_contact_status').attr('data-val'),
+            // qc_advances_status  : $('#opt_qc_advances_status').attr('data-val'),
+            // qc_voluntarily_status  : $('#opt_qc_voluntarily_status').attr('data-val'),
         });
     }
+
+
+
+    var adminid = $('#adminid').attr('data-adminid');
+
+    var qc_contact_status  = $('#opt_qc_contact_status').attr('data-val');
+    var qc_advances_status = $('#opt_qc_advances_status').attr('data-val');
+    var qc_voluntarily_status  = $('#opt_qc_voluntarily_status').attr('data-val');
+
+
 
     Enum_map.append_option_list( "qc_contact_status", $("#id_qc_contact_status"));
     Enum_map.append_option_list( "qc_advances_status", $("#id_qc_advances_status"));
     Enum_map.append_option_list( "qc_voluntarily_status", $("#id_qc_voluntarily_status"));
-    $("#id_qc_contact_status").val(g_args.qc_contact_status);
-    $("#id_qc_advances_status").val(g_args.qc_advances_status);
-    $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
-//qc_voluntarily_status
+    // $("#id_qc_contact_status").val(g_args.qc_contact_status);
+    // $("#id_qc_advances_status").val(g_args.qc_advances_status);
+    // $("#id_qc_voluntarily_status").val(g_args.qc_voluntarily_status);
 
-    var adminid = $('#adminid').attr('data-adminid');
+     $("#id_qc_contact_status").find('option[value="'+qc_contact_status+'"]').attr('selected',1);
+     $("#id_qc_advances_status").find('option[value="'+qc_advances_status+'"]').attr('selected',1);
+     $("#id_qc_voluntarily_status").find('option[value="'+qc_voluntarily_status+'"]').attr('selected',1);
+
 
 
     $("#id_qc_msg").on("click",function(){
@@ -44,7 +55,10 @@ $(function(){
                 apply_time      : g_args.apply_time	,
                 qc_reply        : qc_reply,
                 qc_analysia     : qc_analysia,
-                qc_other_reason : qc_other_reason
+                qc_other_reason : qc_other_reason,
+                qc_contact_status   : qc_contact_status,
+                qc_advances_status  : qc_advances_status,
+                qc_voluntarily_status : qc_voluntarily_status
             } ) ;
         }
     });

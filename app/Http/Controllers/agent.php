@@ -61,26 +61,22 @@ class agent extends Controller
              $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
              $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
              $order_count,$user_count,$order_all_money,$start_time,$end_time) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],$this->get_in_int_val('start_time'),$this->get_in_int_val('end_time')];
+        $type         = $this->get_in_int_val('type');
+        $ret          = $this->t_agent->get_agent_info_new(null);
         $userid_arr   = [];
         $ret_new      = [];
         $ret_info_new = [];
-        $type         = $this->get_in_int_val('type');
-        $ret          = $this->t_agent->get_agent_info_new($start_time,$end_time);
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_user_online_status"]);
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
-            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
-                $item["lesson_user_online_status"]
-            );
             $item['agent_type'] = $item['type'];
-            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
-            if($item['lesson_start']){
-                $item['lesson_start'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            }else{
-                $item['lesson_start'] = '';
-            }
+            $item['a_create_time'] = $item['create_time'];
+            $item['a_lesson_start'] = $item['lesson_start'];
+            $item['create_time'] = \App\Helper\Utils::unixtime2date($item['create_time']);
+            $item['lesson_start'] = $item['lesson_start']?\App\Helper\Utils::unixtime2date($item['lesson_start']):'';
 
             $id = $item['id'];
             $id_arr_new = array_unique(array_column($ret_new,'id'));
@@ -98,63 +94,70 @@ class agent extends Controller
             $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
             if(in_array($id,$id_arr_new_two)){
             }else{
-                $ret_info_new[] = $item;
+                if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                    $ret_info_new[] = $item;
+                }
             }
         }
         if(count($userid_arr)>0){
             foreach($ret_new as &$item){
-                //已分配销售
-                if($item['admin_revisiterid']>0){
-                    $assigned_count[] = $item;
+                if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                    //已分配销售
+                    if($item['admin_revisiterid']>0){
+                        $assigned_count[] = $item;
+                    }
+                    //TMK有效
+                    if($item['tmk_student_status'] == 3){
+                        $tmk_assigned_count[] = $item;
+                    }
+                    //未拨打
+                    if($item['global_tq_called_flag'] == 0){
+                        $tq_no_call_count[] = $item;
+                    }
+                    //已拨打
+                    if($item['global_tq_called_flag'] != 0){
+                        $tq_called_count[] = $item;
+                    }
+                    //未接通
+                    if($item['global_tq_called_flag'] == 1){
+                        $tq_call_fail_count[] = $item;
+                    }
+                    //已拨通-有效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                        $tq_call_succ_valid_count[] = $item;
+                    }
+                    //已拨通-无效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_succ_invalid_count[] = $item;
+                    }
+                    //未拨通-无效
+                    if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_fail_invalid_count[] = $item;
+                    }
+                    //有效意向(A)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                        $have_intention_a_count[] = $item;
+                    }
+                    //有效意向(B)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                        $have_intention_b_count[] = $item;
+                    }
+                    //有效意向(C)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                        $have_intention_c_count[] = $item;
+                    }
                 }
-                //TMK有效
-                if($item['tmk_student_status'] == 3){
-                    $tmk_assigned_count[] = $item;
-                }
-                //未拨打
-                if($item['global_tq_called_flag'] == 0){
-                    $tq_no_call_count[] = $item;
-                }
-                //已拨打
-                if($item['global_tq_called_flag'] != 0){
-                    $tq_called_count[] = $item;
-                }
-                //未接通
-                if($item['global_tq_called_flag'] == 1){
-                    $tq_call_fail_count[] = $item;
-                }
-                //已拨通-有效
-                if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
-                    $tq_call_succ_valid_count[] = $item;
-                }
-                //已拨通-无效
-                if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
-                    $tq_call_succ_invalid_count[] = $item;
-                }
-                //未拨通-无效
-                if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
-                    $tq_call_fail_invalid_count[] = $item;
-                }
-                //有效意向(A)
-                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
-                    $have_intention_a_count[] = $item;
-                }
-                //有效意向(B)
-                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
-                    $have_intention_b_count[] = $item;
-                }
-                //有效意向(C)
-                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
-                    $have_intention_c_count[] = $item;
-                }
-                //预约数&&上课数
-                if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
-                    $require_count[] = $item;
-                    $test_lesson_count[] = $item;
-                }
-                //试听成功数
-                if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
-                    $succ_test_lesson_count[] = $item;
+                if($item['a_lesson_start']>=$start_time && $item['a_lesson_start']<$end_time){
+                    //预约数&&上课数
+                    // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                    if($item['test_lessonid']){
+                        $require_count[] = $item;
+                        $test_lesson_count[] = $item;
+                    }
+                    //试听成功数
+                    if($item['lesson_user_online_status'] == 1 ){
+                        $succ_test_lesson_count[] = $item;
+                    }
                 }
             }
         }
@@ -237,6 +240,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $a = 0;
+        $b = 0;
+        $c = 1;
+        $c?$a++:$b++;
+        dd($a,$b);
         $page_info = $this->get_in_page_info();
         $ret = $this->t_agent_order->get_agent_order_info($page_info,$start_time=1504195200,$end_time=1506787200);
         dd($ret);

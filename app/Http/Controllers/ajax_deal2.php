@@ -1020,4 +1020,55 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data" => $data ]); 
     }
 
+    //修改学生信息
+    public function change_stu_info()
+    {
+        $userid    = $this->get_in_int_val("studentid");
+        $stu_nick     = mb_substr($this->get_in_str_val("stu_nick"), 0, 10, 'utf-8');
+        $address      = $this->get_in_str_val("address");
+        $school       = $this->get_in_str_val("school");
+        $editionid    = $this->get_in_int_val("editionid");
+        $region       = $this->get_in_str_val("region");
+        $gender         = $this->get_in_int_val("sexy");
+        $birth        = $this->get_in_int_val("birth");
+        $stu_email    = trim($this->get_in_str_val("stu_email"));
+        $realname = $this->get_in_str_val("realname");
+        $province       = $this->get_in_int_val("province");
+        $city = $this->get_in_str_val("city");
+        $area = $this->get_in_str_val("area");
+        if(!empty($stu_email)){
+            if(preg_match('/^[1-9]\d{4,10}$/',$stu_email)){
+                $stu_email = $stu_email."@qq.com";
+            }else{
+                $pattern = "/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i";
+                if ( !preg_match( $pattern, $stu_email )){
+                   return $this->output_err("邮箱格式错误!"); 
+                }
+            }
+
+        }
+        // TODO check user login and the
+
+        /* $ret_auth = $this->manage_model->check_permission($this->account, CHANGE_STU_INFO);
+        if(!$ret_auth)
+        outputJson(array('ret' => NOT_AUTH, 'info' => $this->err_string[NOT_AUTH]));*/
+
+        $this->t_student_info->field_update_list($userid,[
+            "nick"    =>$stu_nick,
+            "address" =>$address,
+            "school"  =>$school,
+            "editionid"=>$editionid,
+            "region"   =>$region,
+            "gender"   =>$gender,
+            "birth"    =>$birth,
+            "stu_email"=>$stu_email,
+            "realname" =>$realname,
+            "province" =>$province,
+            "city"     =>$city,
+            "area"     =>$area
+        ]);
+        return $this->output_succ();
+    }
+ 
+
 }

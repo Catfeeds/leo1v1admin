@@ -2068,6 +2068,9 @@ class teacher_info extends Controller
                 $grade_str       = $grade_start_str."-".$grade_end_str;
             }
             $item['grade_str']=$grade_str;
+
+            $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
+            $item['tags_flag'] = count($item['teacher_tags_arr']);
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],

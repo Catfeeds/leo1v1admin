@@ -44,6 +44,7 @@ interface RowData {
 	trial_lecture_is_pass	:any;
 	create_time	:any;
 	wx_openid	:any;
+	teacher_tags	:any;
 	test_transfor_per	:any;
 	school	:any;
 	need_test_lesson_flag	:any;
@@ -64,6 +65,8 @@ interface RowData {
 	days	:any;
 	teacher_title	:any;
 	grade_str	:any;
+	teacher_tags_arr	:any;
+	tags_flag	:any;
 }
 
 /*

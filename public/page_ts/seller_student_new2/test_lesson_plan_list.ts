@@ -147,8 +147,8 @@ $(function(){
             alert("请先解除挂载!");
             return;
         }
-        var id_teacherid  = $("<input/>");
-        var id_start_time = $("<input/>");
+        var id_teacherid       = $("<input/>");
+        var id_start_time      = $("<input/>");
         var id_top_seller_flag = $("<select />");
         Enum_map.append_option_list("boolean",id_top_seller_flag,true);
 
@@ -159,12 +159,12 @@ $(function(){
         }
 
         id_start_time.datetimepicker({
-            lang:'ch',
-            datepicker:true,
-            timepicker:true,
-            format:'Y-m-d H:i',
-            step:30,
-            onChangeDateTime :function(){
+            lang             : 'ch',
+            datepicker       : true,
+            timepicker       : true,
+            format:'Y-m-d H  : i',
+            step             : 30,
+            onChangeDateTime : function(){
             }
         });
 
@@ -183,13 +183,13 @@ $(function(){
                 label    : '驳回',
                 cssClass : 'btn-danger',
                 action   : function(dialog) {
-                    var $input=$("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+                    var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
                     $.show_input(
-                        opt_data.nick+":"+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
+                        opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
                         "",function(val){
                             $.do_ajax("/ss_deal/set_no_accpect",{
                                 'require_id'       : opt_data.require_id,
-                                'fail_reason'       :val
+                                'fail_reason' : val
                             });
                         }, $input  );
                     $input.val("未排课,期待时间已到");
@@ -206,7 +206,7 @@ $(function(){
                             "grade"        : opt_data.grade,
                             'teacherid'    : id_teacherid.val(),
                             'lesson_start' : id_start_time.val(),
-                            'top_seller_flag':id_top_seller_flag.val()
+                            'top_seller_flag' : id_top_seller_flag.val()
                         });
                     };
 
@@ -226,7 +226,7 @@ $(function(){
                     }
                 }
             }],function(){
-                $.admin_select_user(id_teacherid,"teacher");
+                $.admin_select_user(id_teacherid,"train_through_teacher");
             });
     });
 
@@ -716,7 +716,7 @@ $(function(){
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-        console.log(opt_data);
+        // console.log(opt_data);
         var $nick=$("<input/>").val(opt_data.nick );
         var $school=$("<input/>").val(opt_data.school );
         var $ass_test_lesson_type = $("<select/>");

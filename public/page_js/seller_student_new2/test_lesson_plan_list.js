@@ -120,6 +120,15 @@ $(function(){
         $(".limit-require-info").hide();
     }
 
+    if (window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran/" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list/") {
+        $(".opt-binding-course-order").hide();
+        $(".opt-test_lesson_order_fail").hide();
+    }else{
+        $(".opt-binding-course-order").show();
+        $(".opt-test_lesson_order_fail").show();
+    }
+
+
     $(".opt-download-test-paper").on("click",function(){
         var opt_data = $(this).get_opt_data();
         $.custom_show_pdf(opt_data.stu_test_paper);
@@ -138,8 +147,10 @@ $(function(){
             alert("请先解除挂载!");
             return;
         }
-        var id_teacherid  = $("<input/>");
-        var id_start_time = $("<input/>");
+        var id_teacherid       = $("<input/>");
+        var id_start_time      = $("<input/>");
+        var id_top_seller_flag = $("<select />");
+        Enum_map.append_option_list("boolean",id_top_seller_flag,true);
 
         if(opt_data.teacherid > 0){
              id_teacherid.val(opt_data.teacherid);
@@ -148,12 +159,12 @@ $(function(){
         }
 
         id_start_time.datetimepicker({
-            lang:'ch',
-            datepicker:true,
-            timepicker:true,
-            format:'Y-m-d H:i',
-            step:30,
-            onChangeDateTime :function(){
+            lang             : 'ch',
+            datepicker       : true,
+            timepicker       : true,
+            format:'Y-m-d H  : i',
+            step             : 30,
+            onChangeDateTime : function(){
             }
         });
 
@@ -164,6 +175,7 @@ $(function(){
             ["开始时间",id_start_time ]  ,
             ["年级",opt_data.grade_str]  ,
             ["科目",opt_data.subject_str]  ,
+            ["销售top20意向",id_top_seller_flag]  ,
         ];
 
         $.show_key_value_table("排课", arr ,[
@@ -171,13 +183,13 @@ $(function(){
                 label    : '驳回',
                 cssClass : 'btn-danger',
                 action   : function(dialog) {
-                    var $input=$("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+                    var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
                     $.show_input(
-                        opt_data.nick+":"+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
+                        opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
                         "",function(val){
                             $.do_ajax("/ss_deal/set_no_accpect",{
                                 'require_id'       : opt_data.require_id,
-                                'fail_reason'       :val
+                                'fail_reason' : val
                             });
                         }, $input  );
                     $input.val("未排课,期待时间已到");
@@ -193,7 +205,8 @@ $(function(){
                             'require_id'   : opt_data.require_id,
                             "grade"        : opt_data.grade,
                             'teacherid'    : id_teacherid.val(),
-                            'lesson_start' : id_start_time.val()
+                            'lesson_start' : id_start_time.val(),
+                            'top_seller_flag' : id_top_seller_flag.val()
                         });
                     };
 
@@ -213,7 +226,7 @@ $(function(){
                     }
                 }
             }],function(){
-                $.admin_select_user(id_teacherid,"teacher");
+                $.admin_select_user(id_teacherid,"train_through_teacher");
             });
     });
 
@@ -280,9 +293,7 @@ $(function(){
         },function(){
             update_show_status();
         });
-
     });
-
 
     $(".opt-lesson-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -480,10 +491,14 @@ $(function(){
         var $id_userid  = $("<input/>");
         var $id_subject  = $("<select/>");
         var $id_ass_test_lesson_type = $("<select/>");
+        var $id_change_reason = $("<textarea />");
+        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+
         var $green_channel_teacherid = $("<input></input>") ;
         var $stu_request_test_lesson_demand = $("<textarea/>") ;
         var $id_grade_select = $("<select />");
         var $id_stu_request_test_lesson_time =  $("<input/>") ;
+        var $id_change_teacher_reason_type = $("<select />");
 
         $id_stu_request_test_lesson_time.datetimepicker( {
             lang:'ch',
@@ -497,9 +512,9 @@ $(function(){
         Enum_map.append_option_list("subject",$id_subject,true);
         Enum_map.append_option_list("ass_test_lesson_type",$id_ass_test_lesson_type,true);
         Enum_map.append_option_list("grade", $id_grade_select, true);
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
 
         $id_subject.on("change",function(){
-            // alert($id_userid.val());
             $.do_ajax("/ss_deal/get_stu_grade_by_sid",{
                 sid : $id_userid.val()
             },function(ret){
@@ -507,11 +522,30 @@ $(function(){
             });
         });
 
+        $id_ass_test_lesson_type.on("change",function(){
+            if($id_ass_test_lesson_type.val() == 2){
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                $id_change_reason.parent().parent().css('display','table-row');
+                $id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_reason.parent().parent().css('display','none');
+                $id_change_reason_url.parent().parent().css('display','none');
+
+                $id_change_teacher_reason_type.val(0);
+                $id_change_reason.val('');
+                $id_change_reason_url.val('');
+            }
+        });
+
         var arr=[
             ["学生",  $id_userid ]  ,
             ["科目",  $id_subject ]  ,
             ["年级 ", $id_grade_select]  ,
             ["分类",  $id_ass_test_lesson_type ]  ,
+            ["换老师类型", $id_change_teacher_reason_type ]  ,
+            ["申请原因",  $id_change_reason ],
+            ["申请原因(图片)",  $id_change_reason_url ],
             ["绿色通道",$green_channel_teacherid],
             ["期望上课时间",$id_stu_request_test_lesson_time],
             ["试听需求",$stu_request_test_lesson_demand],
@@ -540,6 +574,13 @@ $(function(){
                 }
                 need_start_time=$.strtotime(min_date_time );
 
+                // alert(require_time);
+
+                if(!require_time){
+                    alert("请选择试听时间!");
+                    return;
+                }
+
                 if (require_time < need_start_time ) {
                     alert("试听时间不能早于 "+ min_date_time );
                   //  $(me).parent().find(".opt-edit").click();
@@ -555,13 +596,23 @@ $(function(){
                     stu_request_test_lesson_time   : $id_stu_request_test_lesson_time.val(),
                     stu_request_test_lesson_demand : $stu_request_test_lesson_demand.val(),
                     grade                          : $id_grade_select.val(),
+                    change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
+                    change_reason : $id_change_reason.val(),
+                    change_reason_url : $id_change_reason_url.find("#change_reason_url").val()
                 });
             }
         }],function(){
             $.admin_select_user($id_userid,"student");
             $.admin_select_user( $green_channel_teacherid, "teacher");
-        });
+            $id_change_teacher_reason_type.parent().parent().css('display','none');
+            $id_change_reason.parent().parent().css('display','none');
+            $id_change_reason_url.parent().parent().css('display','none');
+            $.custom_upload_file('id_upload_change_reason',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+                $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
+        });
     });
 
 
@@ -669,7 +720,15 @@ $(function(){
         var $nick=$("<input/>").val(opt_data.nick );
         var $school=$("<input/>").val(opt_data.school );
         var $ass_test_lesson_type = $("<select/>");
+
+
+        var $id_change_teacher_reason_type = $("<select />").val(opt_data.change_teacher_reason_type);
+        var $id_change_reason = $("<textarea />").val(opt_data.change_teacher_reason);
+        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+
         Enum_map.append_option_list("ass_test_lesson_type",$ass_test_lesson_type,true);
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
+
         $ass_test_lesson_type .val(opt_data.ass_test_lesson_type);
 
         var $stu_request_test_lesson_time= $("<input  /> ").val(opt_data.stu_request_test_lesson_time ) ;
@@ -691,11 +750,34 @@ $(function(){
         // console.log($stu_request_test_lesson_time);
 
 
+
+        $ass_test_lesson_type.on("change",function(){
+            if($ass_test_lesson_type.val() == 2){
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                $id_change_reason.parent().parent().css('display','table-row');
+                $id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_reason.parent().parent().css('display','none');
+                $id_change_reason_url.parent().parent().css('display','none');
+
+                $id_change_teacher_reason_type.val(0);
+                $id_change_reason.val('');
+                $id_change_reason_url.val('');
+                $('#change_reason_url').val('')
+            }
+        });
+
+
+
         var arr=[
             ["电话", opt_data.phone],
             ["年级", opt_data.grade_str ],
             ["科目", opt_data.subject_str ],
             ["分类", $ass_test_lesson_type],
+            ["换老师类型", $id_change_teacher_reason_type],
+            ["申请原因", $id_change_reason],
+            ["申请原因(图片)", $id_change_reason_url],
             ["姓名", $nick],
             ["学校", $school],
             ["教材版本", $editionid],
@@ -718,6 +800,12 @@ $(function(){
                     min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
                 }
                 need_start_time=$.strtotime(min_date_time );
+
+                // alert(1);
+                // if(!require_time){
+
+                // }
+
                 if (require_time < need_start_time ) {
                     alert("申请时间不能早于 "+ min_date_time );
                     return;
@@ -735,9 +823,29 @@ $(function(){
                     school:$school.val(),
                     stu_request_test_lesson_time:$stu_request_test_lesson_time.val(),
                     stu_request_test_lesson_demand:$stu_request_test_lesson_demand.val(),
+                    change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
+                    change_reason : $id_change_reason.val(),
+                    change_reason_url : $id_change_reason_url.find("#change_reason_url").val()
+
                 });
             }
         },function(){
+            $.custom_upload_file('id_upload_change_reason',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+                $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
+            if(opt_data.ass_test_lesson_type == 2){ // 是换老师类型
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                $id_change_reason.parent().parent().css('display','table-row');
+                $id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_reason.parent().parent().css('display','none');
+                $id_change_reason_url.parent().parent().css('display','none');
+            }
+            $('#change_reason_url').val(opt_data.change_teacher_reason_img_url);
+            $id_change_teacher_reason_type.find('option[value="'+opt_data.change_teacher_reason_type+'"]').attr('selected',1);
 
         });
 
@@ -767,7 +875,7 @@ $(function(){
             }
 
         });
-        
+
         $.show_key_value_table("换老师,换时间", arr, {
             label    : '提交',
             cssClass : 'btn-primary',
@@ -890,6 +998,9 @@ $(function(){
 
     $(" .opt-binding-course-order ").on("click", function() {
         var opt_data = $(this).get_opt_data();
+       // alert(opt_data.require_id);
+
+        console.log(opt_data.lessonid);
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type": "select", // or "list"
@@ -941,6 +1052,8 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
+       // alert(opt_data.require_id);
+        console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");
         var $test_lesson_order_fail_desc =$("<textarea/>");
@@ -1016,7 +1129,7 @@ $(function(){
     });
 
 
-    $(".opt-teacher-cancel-class-confirm").on("click",function(){
+    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var lessonid=opt_data.lessonid;
         var lesson_time = opt_data.lesson_time;
@@ -1052,6 +1165,30 @@ $(function(){
         });
     });
 
+    $(".opt-teacher-cancel-class-confirm").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var id_record_info = $("<textarea/>");
+        var arr = [
+            ["原因", id_record_info]
+        ];
+
+        $.show_key_value_table("增加老师4小时内取消课程记录", arr, {
+            label    :   "确认",
+            cssClass :   "btn-warning",
+            action   :   function(dialog){
+                if(id_record_info.val() == ''){
+                    alert("请输入取消的理由");
+                    return;
+                }
+                $.do_ajax('/ajax_deal2/add_cancel_lesson_four_hour_list',{
+                    "teacherid" : opt_data.teacherid,
+                    "record_info":id_record_info.val(),
+                });
+            }
+        },function(){
+        });
+    });
     $("#id_grab_lesson").on("click",function(){
         var id_grab_url    = $("<button class='btn btn-danger'>生成抢单链接</button>");
         var id_grab_lesson = $("<button class='btn btn-danger'>添加至抢单库</button>");
@@ -1303,9 +1440,9 @@ $(function(){
                     "require_adminid":opt_data.cur_require_adminid,
                     "grade":opt_data.grade,
                     "subject":opt_data.subject,
-                    "account_role":opt_data.cur_require_adminid_role,
                     "is_green_flag":opt_data.is_green_flag
                 });
+
             }
         },function(){
             $.admin_select_user( $limit_require_teacherid, "teacher");

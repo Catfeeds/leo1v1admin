@@ -7,6 +7,9 @@
 .ft18{
     font-size:18px;
 }
+.ft14{
+    font-size:14px;
+}
 .text-cen{
     text-align:center;
 }
@@ -33,8 +36,27 @@
     background:#00a6ff;
     color:#fff;
 }
+.bg-blue{
+    background:#00a6ff;
+}
 .bg-lblue{
     background:#e6faff;
+}
+.bg-linfo{
+    background:#42b2ff;
+}
+
+.color-fff{
+    color:#fff
+}
+.bg-lgreen{
+    background:#36d68f;
+}
+.bg-lpro{
+    background:#6c86e1;
+}
+.bg-lyellow{
+    background:#ef7d50;
 }
 .bor-rds{
     border-radius:5px;
@@ -59,7 +81,6 @@ input{
 .li-section{
     padding:20px 20px;
 }
-
 .bor-hr{
     border-top:1px solid #ccc;
     margin-bottom:10px;
@@ -75,5 +96,18 @@ input{
 }
 .small-box{
     height:100px;
+}
+.box-top-ly{
+	  border-top:3px solid #00A6FF;
+}
+.box-info-ly{
+	  border-top:3px solid #00A6FF;
+}
+.text-color-ly{
+	  color: #00A6FF;
+}
+.btn-info-ly{
+	  background-color:#00A6FF;
+	  color: #FFFFFF;
 }
 
