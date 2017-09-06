@@ -60,6 +60,9 @@ interface RowData {
 	qc_contact_status_str	:any;
 	qc_voluntarily_status_str	:any;
 	is_pass	:any;
+	qc_other_reason	:any;
+	qc_analysia	:any;
+	qc_reply	:any;
 }
 
 /*

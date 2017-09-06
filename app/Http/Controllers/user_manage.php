@@ -1039,9 +1039,10 @@ class user_manage extends Controller
 
 
             // 获取退费分析
-
-            $item['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
-
+            $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
+            $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
+            $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
+            $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
 
 
 
@@ -1636,7 +1637,7 @@ class user_manage extends Controller
         }
 
         // dd($list);
-        list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
+        // list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
 
         //以上处理原因填写
 
@@ -1697,6 +1698,8 @@ class user_manage extends Controller
             }
         }
         //以上处理责任比率
+        // dd($all_percent);
+        // dd($list);
 
         $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
 
@@ -1712,9 +1715,9 @@ class user_manage extends Controller
     public function add_qc_analysis_by_order_apply(){
         $orderid           = $this->get_in_int_val("orderid");
         $apply_time        = $this->get_in_int_val("apply_time");
-        $qc_other_reason   = $this->get_in_str_val("qc_other_reason");
-        $qc_analysia       = $this->get_in_str_val("qc_analysia");
-        $qc_reply          = $this->get_in_str_val("qc_reply");
+        $qc_other_reason   = trim($this->get_in_str_val("qc_other_reason"));
+        $qc_analysia       = trim($this->get_in_str_val("qc_analysia"));
+        $qc_reply          = trim($this->get_in_str_val("qc_reply"));
         $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');

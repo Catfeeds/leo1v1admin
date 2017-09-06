@@ -88,6 +88,7 @@
                         ["1级试听提成金额(可提现)" , "l1_agent_status_all_open_money"],
                        ]) !!}
 
+                    <td  >l1完成试听数</td>
                     <td style="display:none;" >上级微信昵称</td>
                     <td style="display:none;" >上上级微信昵称</td>
                     <td>会员等级</td>
@@ -118,6 +119,7 @@
                         <td>{{@$var["l2_child_count"]}} </td>
                         <td>{{@$var["l1_agent_status_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_open_money"]}} </td>
+                        <td>{{@$var["l1_agent_status_test_lesson_succ_count"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>
                             {{@$var["p_phone"]}}
