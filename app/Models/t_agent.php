@@ -25,7 +25,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_all_list(){
         $where_arr = [
-            'type in(1,3)',
+            'a.type =1 or a.type=3',
         ];
         $sql=$this->gen_sql_new (" select a.id,a.phone,a.userid,a.type "
                                  ." from %s a "
