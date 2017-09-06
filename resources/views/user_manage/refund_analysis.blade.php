@@ -94,7 +94,7 @@
                 <td>QC整体分析</td>
                 <td colspan="15" id="id_qc_analysia_show">
                     <textarea style="width:100%;" id="id_qc_analysia">
-                        {{$qc_anaysis[0]['qc_analysia']}}
+                        {{$qc_anaysis['qc_analysia']}}
                     </textarea>
                 </td>
             </tr>
@@ -102,7 +102,7 @@
                 <td>后期应对措施及工作调整方案</td>
                 <td colspan="15" id="id_qc_reply_show">
                     <textarea style="width:100%;" id="id_qc_reply">
-                        {{$qc_anaysis[0]['qc_reply']}}
+                        {{$qc_anaysis['qc_reply']}}
                     </textarea>
                 </td>
             </tr>
