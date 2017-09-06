@@ -1609,7 +1609,7 @@ class user_manage extends Controller
     }
 
     public function refund_analysis () {
-        $adminid = $this->get_account_id();
+        $adminid     = $this->get_account_id();
         $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
         $list        = $this->t_refund_analysis->get_list($orderid,$apply_time);
