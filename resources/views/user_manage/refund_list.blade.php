@@ -59,7 +59,7 @@
             <table class="common-table ">
                 <thead>
                     <tr>
-                        <td >学生</td>
+                        <td rowspan="2">学生</td>
                         <td >合同年级</td>
                         <td width="130px">合同</td>
                         <td >下单人</td>

@@ -409,8 +409,10 @@ class stu_manage extends Controller
 
         $parentid = $this->t_student_info->get_parentid($studentid);
         $phone    = $this->t_parent_info->get_phone($parentid);
+        $parent_name    = $this->t_student_info->get_parent_name($studentid);
+        $parent_type   = $this->t_student_info->get_parent_type($studentid);
 
-        return outputjson_success(array('phone'=>$phone));
+        return outputjson_success(array('phone'=>$phone,'parent_type'=>$parent_type,'parent_name'=>$parent_name));
     }
 
     public function set_stu_parent(){
