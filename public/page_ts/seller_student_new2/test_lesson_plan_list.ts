@@ -226,7 +226,7 @@ $(function(){
                     }
                 }
             }],function(){
-                $.admin_select_user(id_teacherid,"teacher");
+                $.admin_select_user(id_teacherid,"train_through_teacher");
             });
     });
 

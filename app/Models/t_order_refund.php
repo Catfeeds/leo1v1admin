@@ -180,7 +180,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_value($sql);
     }
 
-    public function update_refund_list ($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply) {
+    public function update_refund_list ($orderid, $apply_time, $qc_other_reason, $qc_analysia, $qc_reply, $qc_contact_status, $qc_advances_status, $qc_voluntarily_status) {
         $where_arr = [
             "orderid"      => $orderid,
             "apply_time"   => $apply_time,
@@ -189,12 +189,18 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $sql = $this->gen_sql_new("update %s set
                                    qc_other_reason = '%s' ,
                                    qc_analysia     = '%s' ,
-                                   qc_reply        = '%s'
+                                   qc_reply        = '%s',
+                                   qc_contact_status  = %d,
+                                   qc_advances_status = %d,
+                                   qc_voluntarily_status = %d
                                    where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$qc_other_reason
                                   ,$qc_analysia
                                   ,$qc_reply
+                                  ,$qc_contact_status
+                                  ,$qc_advances_status
+                                  ,$qc_voluntarily_status
                                   ,$where_arr
         );
 
@@ -207,7 +213,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             "orderid"      => $orderid,
             "apply_time"   => $apply_time,
         ];
-        $sql=$this->gen_sql_new("select qc_other_reason, qc_analysia, qc_reply  "
+        $sql=$this->gen_sql_new("select qc_other_reason, qc_analysia, qc_reply, qc_contact_status, qc_advances_status, qc_voluntarily_status "
                                 ." from %s "
                                 ." where %s"
                                 ,self::DB_TABLE_NAME

@@ -96,12 +96,13 @@ class zs_lecture_info_all extends Command
 		$train_first_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
 		$train_second_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
 
-		//第一次试听/第一次常规总计/第五次试听
+		//第一次试听/第一次常规总计/第五次试听/第五次常规
 		$test_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
 		$regular_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 		$test_five_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,2,$subject);
+		$regular_five_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,4,$subject);
 
-		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all+$test_five_all;
+		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all+$test_five_all+$regular_five_all;
         $num = count($teacher_info);
 		// $all_count = ($num-2)*250+300;
         if($all_count){
@@ -117,7 +118,7 @@ class zs_lecture_info_all extends Command
 
 
         foreach($admin_list as $yy){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"整体进度","质监月项目进度汇总","\n面试数通过人数:".$all_tea_ex."/".$video_real["all_count"]."\n模拟试听审核数(一审):".$train_first_all["pass_num"]."/".$train_first_all["all_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all."\n第五次试听审核:".$test_five_all."\n整体完成率:".$all_per."%","http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date1."&end_time=".$date2."&subject=-1");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"整体进度","质监月项目进度汇总","\n面试数通过人数:".$all_tea_ex."/".$video_real["all_count"]."\n模拟试听审核数(一审):".$train_first_all["pass_num"]."/".$train_first_all["all_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all."\n第五次试听审核:".$test_five_all."\n第五次常规审核:".$regular_five_all."\n整体完成率:".$all_per."%","http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date1."&end_time=".$date2."&subject=-1");
         }
 
 
