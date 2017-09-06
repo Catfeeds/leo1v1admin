@@ -241,6 +241,12 @@ class agent extends Controller
 
     public function check(){
         $ret_info = $this->t_agent->get_all_list();
+        foreach($ret_info as $item){
+            $userid = $item['userid'];
+            $this->t_student_info->field_update_list($userid, [
+                "origin_level" => E\Eorigin_level::V_99
+            ]);
+        }
         dd($ret_info);
     }
 
