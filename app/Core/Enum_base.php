@@ -2,15 +2,12 @@
 namespace  App\Core;
 
 class Enum_base {
-
-
     static function get_desc( $val){
         if (isset(static::$desc_map[$val])) {
             return   static::$desc_map[$val];
         }else{
             return $val;
         }
-
     }
 
     static function get_color_desc($val) {
@@ -55,7 +52,6 @@ class Enum_base {
         $item[$key."_str"]= static::get_simple_desc($item[$key]);
     }
 
-    //
     static public function  s2v($str ){
         if (isset(static::$s2v_map[$str])){
             return static::$s2v_map[$str] ;
@@ -63,13 +59,21 @@ class Enum_base {
             return 0;
         }
     }
+
     static public function namelist2idlist  ($name_list) {
         $id_list=[];
         foreach( explode(",", $name_list )  as $str ) {
             $id_list[] = self::s2v($str);
         }
-
         return join(",",$id_list);
+    }
+
+    static public function idlist2namelist  ($id_list) {
+        $name_list=[];
+        foreach( explode(",", $id_list )  as $str ) {
+            $name_list[] = self::get_desc($str);
+        }
+        return join(",",$name_list);
     }
 
     static public function  v2s($v){

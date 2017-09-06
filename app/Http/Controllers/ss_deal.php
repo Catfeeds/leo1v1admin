@@ -2379,6 +2379,36 @@ class ss_deal extends Controller
         }
     }
 
+    public function upload_subject_grade_textbook_from_xls(){
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0 || $k==1){
+                    unset($arr[$k]);
+                }
+               
+            }
+
+           
+            dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
+    }
+
     public function upload_psychological_lesson_from_xls(){
         $file = Input::file('file');
         if ($file->isValid()) {

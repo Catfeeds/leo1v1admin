@@ -1389,7 +1389,7 @@ class user_manage_new extends Controller
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
-        list($become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [0,0,0,0,0,0];
+        list($member_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
@@ -1427,10 +1427,40 @@ class user_manage_new extends Controller
             }
 
             if($item['level'] == 'l-3'){
+                $member[] = [
+                    "up_group_name"     => $item['up_group_name'],
+                    "group_name"        => $item['group_name'],
+                ];
+                $member_num[] = [
+                    'become_member_num' => $become_member_num_l3,
+                    'leave_member_num'  => $leave_member_num_l3,
+                ];
+
                 $become_member_num_l3 = 0;
                 $leave_member_num_l3 = 0;
             }
         }
+        foreach($member as $key=>&$item){
+            foreach($member_num as $k=>$info){
+                if(($key+1) == $k){
+                    $item['become_member_num'] = $info['become_member_num'];
+                    $item['leave_member_num'] = $info['leave_member_num'];
+                }
+            }
+        }
+        // foreach($ret_info as &$item){
+        //     if($item['level'] == 'l-3'){
+        //         foreach($member as $info){
+        //             if($item['group_name'] == $info['group_name']){
+        //                 $item['become_member_num'] = $info['become_member_num'];
+        //                 $item['leave_member_num'] = $info['leave_member_num'];
+        //             }
+        //         }
+        //     }else{
+        //         $item['become_member_num'] = '';
+        //         $item['leave_member_num'] = '';
+        //     }
+        // }
         \App\Helper\Utils::logger("OUTPUT");
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
@@ -3377,7 +3407,7 @@ class user_manage_new extends Controller
     /**
      * @param type 需要重置的内容 1 课程包年级 2 学生年级
      * 暑期(7.1)重置学生课程包的年级 升级课程包年级
-     * 开学(9.1)重置学生年级 
+     * 开学(9.1)重置学生年级
      */
     public function reset_course_order_grade(){
         $type = $this->get_in_int_val("type",1);
