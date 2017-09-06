@@ -2397,7 +2397,7 @@ class ss_deal extends Controller
             }
 
            
-            dd($arr[1]);
+            dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
             return outputjson_success();
