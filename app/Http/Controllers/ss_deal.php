@@ -2390,7 +2390,7 @@ class ss_deal extends Controller
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
-                if(empty($val[0]) || $k==0){
+                if(empty($val[0]) || $k==0 || $k==1){
                     unset($arr[$k]);
                 }
                
