@@ -267,6 +267,28 @@ $(function(){
                     
                 });
 
+                html_node.find("table").find(".delete_stu_subject").each(function(){
+                    $(this).on("click",function(){
+                        var userid = $(this).data("userid");
+
+                        var subject = $(this).data("subject");
+                        BootstrapDialog.confirm("确定要删除？", function(val){
+                            if (val) {
+                                $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" :          subject,
+                                });
+
+                            } 
+                        });
+ 
+
+                        
+                    });
+                    
+                });
+
+
                 
 
                 var dlg=BootstrapDialog.show({

@@ -1106,6 +1106,29 @@ class ajax_deal2 extends Controller
         return $this->output_succ(); 
     }
 
+    //修改学生科目教材
+    public function update_user_subject_textbook(){
+        $userid    = $this->get_in_int_val("userid");
+        $subject    = $this->get_in_int_val("subject");
+        $editionid   = $this->get_in_int_val("editionid");
+        
+        $this->t_student_subject_list->field_update_list_2($userid,$subject,[
+            "editionid" =>$editionid
+        ]);
+        return $this->output_succ(); 
+    }
+
+    //删除学生科目教材
+    public function delete_user_subject_textbook(){
+        $userid    = $this->get_in_int_val("userid");
+        $subject    = $this->get_in_int_val("subject");
+        
+        $this->t_student_subject_list->row_delete_2($userid,$subject);
+        return $this->output_succ(); 
+    }
+
+
+
     //根据学生科目获取教材
     public function get_editionid(){
         $userid    = $this->get_in_int_val("userid");

@@ -146,7 +146,7 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack"]))
+                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack","王芳"]))
                                 <a class="opt-set-server" title="服务器" >切换</a>
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-edit-new" title="审核-new">审核-new</a>
