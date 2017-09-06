@@ -17,7 +17,7 @@ class teacher_lesson extends Controller
 
         echo "姓名|工资类型|等级|所带年级|所带科目|累计课时|学生数|课程数";
         echo "<br>";
-        foreach($ret_list as $item){
+        foreach($ret_list['list'] as $item){
             E\Elevel::set_item_value_str($item);
             E\Eteacher_money_type::set_item_value_str($item);
             $grade_str = E\Egrade::namelist2idlist($item['grade']);
