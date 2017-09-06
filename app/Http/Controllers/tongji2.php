@@ -1031,7 +1031,9 @@ class tongji2 extends Controller
             $item["create_time"]= \App\Helper\Utils::unixtime2date(@$admin_map[$adminid]["create_time"], 'Y-m-d');
         }
 
-        $ret_info=\App\Helper\Common::gen_admin_member_data($obj_list,[ "create_time", "per_price" ],0, strtotime( date("Y-m-01",$start_time )   ));
+        $ret_info=\App\Helper\Common::gen_admin_member_data($obj_list,[ "create_time", "per_price" ],0,
+                                                            strtotime( date("Y-m-01",$start_time )   ));
+        // dd($ret_info);
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
