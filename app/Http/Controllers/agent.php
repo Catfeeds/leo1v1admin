@@ -94,14 +94,77 @@ class agent extends Controller
             $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
             if(in_array($id,$id_arr_new_two)){
             }else{
-                if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                if($start_time && $end_time){
+                    if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                        $ret_info_new[] = $item;
+                    }
+                }else{
                     $ret_info_new[] = $item;
                 }
             }
         }
         if(count($userid_arr)>0){
             foreach($ret_new as &$item){
-                if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                if($start_time && $end_time){
+                    if($item['a_create_time']>=$start_time && $item['a_create_time']<$end_time){
+                        //已分配销售
+                        if($item['admin_revisiterid']>0){
+                            $assigned_count[] = $item;
+                        }
+                        //TMK有效
+                        if($item['tmk_student_status'] == 3){
+                            $tmk_assigned_count[] = $item;
+                        }
+                        //未拨打
+                        if($item['global_tq_called_flag'] == 0){
+                            $tq_no_call_count[] = $item;
+                        }
+                        //已拨打
+                        if($item['global_tq_called_flag'] != 0){
+                            $tq_called_count[] = $item;
+                        }
+                        //未接通
+                        if($item['global_tq_called_flag'] == 1){
+                            $tq_call_fail_count[] = $item;
+                        }
+                        //已拨通-有效
+                        if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                            $tq_call_succ_valid_count[] = $item;
+                        }
+                        //已拨通-无效
+                        if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                            $tq_call_succ_invalid_count[] = $item;
+                        }
+                        //未拨通-无效
+                        if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                            $tq_call_fail_invalid_count[] = $item;
+                        }
+                        //有效意向(A)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                            $have_intention_a_count[] = $item;
+                        }
+                        //有效意向(B)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                            $have_intention_b_count[] = $item;
+                        }
+                        //有效意向(C)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                            $have_intention_c_count[] = $item;
+                        }
+                    }
+                    if($item['a_lesson_start']>=$start_time && $item['a_lesson_start']<$end_time){
+                        //预约数&&上课数
+                        // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                        if($item['test_lessonid']){
+                            $require_count[] = $item;
+                            $test_lesson_count[] = $item;
+                        }
+                        //试听成功数
+                        if($item['lesson_user_online_status'] == 1 ){
+                            $succ_test_lesson_count[] = $item;
+                        }
+                    }
+                }else{
                     //已分配销售
                     if($item['admin_revisiterid']>0){
                         $assigned_count[] = $item;
@@ -146,10 +209,7 @@ class agent extends Controller
                     if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
                         $have_intention_c_count[] = $item;
                     }
-                }
-                if($item['a_lesson_start']>=$start_time && $item['a_lesson_start']<$end_time){
                     //预约数&&上课数
-                    // if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
                     if($item['test_lessonid']){
                         $require_count[] = $item;
                         $test_lesson_count[] = $item;
