@@ -3,12 +3,12 @@
     <section class="content li-section">
         <div class="row">
             <div class="col-sm-12">
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header with-border">
-                        <div style="text-align:center;" class="text-blue">
-                            <button type="button" class="btn btn-box-tool text-blue left"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
+                        <div style="text-align:center;" class="color-blue">
+                            <button type="button" class="btn btn-box-tool color-blue left"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
                             <h3 class="box-title"><span id="year">2017</span>-<span id="month">08</span></h3>&nbsp;&nbsp;
-                            <button type="button" class="btn btn-box-tool text-blue right"><i class="fa fa-angle-right"></i></button>
+                            <button type="button" class="btn btn-box-tool color-blue right"><i class="fa fa-angle-right"></i></button>
                         </div>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -24,17 +24,17 @@
             </div>
 
             <div class="col-sm-12">
-                <div class="box box-success direct-chat direct-chat-success">
+                <div class="box box-info-ly direct-chat direct-chat-success">
                     <div class="box-header with-border">
-                        <h3 class="box-title text-green">薪资情况</h3>
+                        <h3 class="box-title color-blue">薪资情况</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="晋升规则"
-                                    data-widget="chat-pane-toggle" value="upgrade">
-                                <i class="fa fa-question"></i>&nbsp;晋升规则</button>
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="薪资规则"
-                                    data-widget="chat-pane-toggle" value="salary">
-                                <i class="fa fa-question"></i>&nbsp;薪资规则</button>
-
+                            <!-- <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="晋升规则"
+                                 data-widget="chat-pane-toggle" value="upgrade">
+                                 <i class="fa fa-question"></i>&nbsp;晋升规则</button>
+                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="薪资规则"
+                                 data-widget="chat-pane-toggle" value="salary">
+                                 <i class="fa fa-question"></i>&nbsp;薪资规则</button>
+                               -->
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
 
@@ -47,7 +47,7 @@
                             <div class="row">
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
-                                    <div class="small-box bg-yellow">
+                                    <div class="small-box bg-lyellow color-fff">
                                         <div class="col-xs-12 text-right">
                                             <i class="fa fa-question"></i>
                                         </div>
@@ -60,9 +60,9 @@
                                 <!-- ./col -->
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
-                                    <div class="small-box bg-blue">
+                                    <div class="small-box bg-linfo color-fff">
                                         <div class="col-xs-12 text-right">
-                                            <select class="bg-blue" style="border:none">
+                                            <select class="bg-linfo" style="border:none">
                                                 <option value="3">初三</option>
                                                 <option value="2">初二</option>
                                                 <option value="1">初一</option>
@@ -77,7 +77,7 @@
                                 <!-- ./col -->
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
-                                    <div class="small-box bg-green">
+                                    <div class="small-box bg-lgreen color-fff">
                                         <div class="col-xs-12 text-right">
                                             <i class="fa fa-question"></i>
                                         </div>
@@ -91,7 +91,7 @@
                                 <!-- 兼职老师显示 -->
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
-                                    <div class="small-box bg-red">
+                                    <div class="small-box bg-lpro color-fff">
                                         <div class="col-xs-12 text-right">
                                             <i class="fa fa-question"></i>
                                         </div>
@@ -118,9 +118,9 @@
             <!-- /.col -->
 
             <div class="col-sm-12">
-                <div class="box box-info">
+                <div class="box box-info-ly">
                     <div class="box-header with-border">
-                        <h3 class="box-title text-blue">薪资详情</h3>
+                        <h3 class="box-title color-blue">薪资详情</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
