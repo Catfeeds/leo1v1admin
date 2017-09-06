@@ -1361,7 +1361,7 @@ lesson_type in (0,1) "
     }
 
     public function get_tea_confirm_lesson_list($start_time,$end_time,$teacher_money_type) {
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>=%s",$start_time,0],
             ["lesson_start<%s",$end_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
