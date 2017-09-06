@@ -84,18 +84,23 @@
                         ["提成金额" , "all_money"],
                         ["1级人数" , "l1_child_count"],
                         ["2级人数" , "l2_child_count"],
+                        ["1级试听提成金额" , "l1_agent_status_all_money"],
+                        ["1级试听提成金额(可提现)" , "l1_agent_status_all_open_money"],
                        ]) !!}
 
-                    <td>上级微信昵称</td>
-                    <td>上上级微信昵称</td>
+                    <td style="display:none;" >上级微信昵称</td>
+                    <td style="display:none;" >上上级微信昵称</td>
                     <td>会员等级</td>
-                    <td>例子状态/当前cc</td>
-                    <td>在读状态</td>
-                    <td>是否试听/是否成功</td>
+                    <td style="display:none;" >例子状态/当前cc</td>
+                    <td style="display:none;">在读状态</td>
+                    <td style="display:none;">是否试听/是否成功</td>
+
                     <td>试听时间</td>
                     <td>合同金额</td>
                     <td>上级分成</td>
                     <td>上上级分成</td>
+                    <td>试听提成状态</td>
+                    <td>试听提成上级是否可提现</td>
                     <td>绑定类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
@@ -111,6 +116,8 @@
                         <td>{{@$var["all_money"]}} </td>
                         <td>{{@$var["l1_child_count"]}} </td>
                         <td>{{@$var["l2_child_count"]}} </td>
+                        <td>{{@$var["l1_agent_status_all_money"]}} </td>
+                        <td>{{@$var["l1_agent_status_all_open_money"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>
                             {{@$var["p_phone"]}}
@@ -127,6 +134,9 @@
                         <td>{{@$var["price"]}} </td>
                         <td>{{@$var["p_off_info"]}} </td>
                         <td>{{@$var["pp_off_info"]}} </td>
+
+                        <td>{{@$var["agent_status_str"]}} </td>
+                        <td>{{@$var["agent_status_money_open_flag_str"]}} </td>
 
                         <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
