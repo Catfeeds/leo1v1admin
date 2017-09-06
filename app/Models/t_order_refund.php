@@ -19,7 +19,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
         $this->where_arr_adminid_in_list($where_arr,"refund_userid", $require_adminid_list );
         $sql = $this->gen_sql_new(
-            " select r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
+            " select r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
             ." f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account, "
             ." r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url, "
             ." o.grade,o.need_receipt "
@@ -219,7 +219,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                 ,self::DB_TABLE_NAME
                                 ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
 
@@ -264,9 +264,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   $where_arr
         );
 
-        return $this->main_get_list($sql);
-
-
+        return $this->main_get_row($sql);
     }
 
     public function get_end_class_stu_order(){
