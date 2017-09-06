@@ -14,7 +14,7 @@ class teacher_lesson extends Controller
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
 
         $ret_list = $this->t_lesson_info_b3->get_tea_lesson_count_list($start_time,$end_time,$teacher_money_type);
-
+        dd($ret_list);
 
         // return $this->Pageview(__METHOD__,$ret_list );
     }
