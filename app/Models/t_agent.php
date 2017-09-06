@@ -27,12 +27,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr = [
             'a.type =1 or a.type=3',
         ];
-        $sql=$this->gen_sql_new (" select a.id,a.phone,a.userid,a.type "
+        $sql=$this->gen_sql_new (" select a.id,a.phone,a.userid,a.type,s.origin_level "
                                  ." from %s a "
                                  ." left join %s n on n.userid=a.userid "
+                                 ." left join %s s on s.userid=a.userid "
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,t_seller_student_new::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list($sql);
