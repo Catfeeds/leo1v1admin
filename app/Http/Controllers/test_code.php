@@ -1997,12 +1997,6 @@ class test_code extends Controller
         }
     }
 
-    public function get_8_month(){
-        $start_time = strtotime("2017-8-1");
-        $end_time = strtotime("2017-9-1");
-
-        $list = $this->t_lesson_info_b3
-    }
 
 
 
