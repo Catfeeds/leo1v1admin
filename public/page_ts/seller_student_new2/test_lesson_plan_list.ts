@@ -716,7 +716,7 @@ $(function(){
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-        console.log(opt_data);
+        // console.log(opt_data);
         var $nick=$("<input/>").val(opt_data.nick );
         var $school=$("<input/>").val(opt_data.school );
         var $ass_test_lesson_type = $("<select/>");

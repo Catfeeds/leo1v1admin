@@ -1169,7 +1169,7 @@ class Common {
                             $data["level"]="l-4";
                             $data['become_member_time']=$item4["become_member_time"];
                             $data['leave_member_time']=$item4["leave_member_time"];
-                            $data['create_time']=$item4["create_time"];
+                            $data['create_time']=date('Y-m-d H:i:s',$item4["create_time"]);
                             $data['del_flag']=$item4["del_flag"];
 
                             $list[]=$data;

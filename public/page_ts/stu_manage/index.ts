@@ -105,7 +105,7 @@ $(function(){
             format:'Ymd'
         });
 
-       /* var old_city = opt_data.city;
+       var old_city = opt_data.city;
         if(old_city == ''){
             old_city="选择市（区）";
         }
@@ -113,15 +113,19 @@ $(function(){
         if(old_city == ''){
             old_city="选择区（县）";
         }
-        var old_province = opt_data.province;
-        */
+        var old_province = opt_data.region;
+        if(old_province == ''){
+            old_province="选择省（市）";
+        }
+
+        
 
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
         var area = html_node.find("#area");  
-        var preProvince = "<option value=\"\">选择省（市）</option>";  
-        var preCity = "<option value=\"\">选择市（区）</option>";  
-        var preArea = "<option value=\"\">选择区（县）</option>";  
+        var preProvince = "<option value=\"\">"+old_province+"</option>";  
+        var preCity = "<option value=\"\">"+old_city+"</option>";  
+        var preArea = "<option value=\"\">"+old_area+"</option>";  
         
         //初始化  
         province.html(preProvince);  
@@ -253,7 +257,7 @@ $(function(){
                     //alert(region);
                    // return;
                     $.ajax({
-                        url: '/stu_manage/change_stu_info',
+                        url: '/ajax_deal2/change_stu_info',
                         type: 'POST',
                         data : {
                             'studentid'   : g_sid,

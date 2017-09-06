@@ -16,9 +16,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+<<<<<<< HEAD
+=======
 	admin_revisiterid	:any;
 	new_user_count	:any;
 	old_money	:any;
+	test_lesson_count	:any;
+>>>>>>> 593d8e2180a1b96d0c56dae6cb95e21866da5ba0
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;

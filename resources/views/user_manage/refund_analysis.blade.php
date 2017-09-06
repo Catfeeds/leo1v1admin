@@ -85,7 +85,7 @@
                 <td style="width:20%;">其他原因</td>
                 <td colspan="15" id="id_qc_other_reason_show">
                     <textarea style="width:100%;" id="id_qc_other_reason">
-                        {{$qc_anaysis[0]['qc_other_reason']}}
+                        {{$qc_anaysis['qc_other_reason']}}
                     </textarea>
 
                 </td>
@@ -94,7 +94,7 @@
                 <td>QC整体分析</td>
                 <td colspan="15" id="id_qc_analysia_show">
                     <textarea style="width:100%;" id="id_qc_analysia">
-                        {{$qc_anaysis[0]['qc_analysia']}}
+                        {{$qc_anaysis['qc_analysia']}}
                     </textarea>
                 </td>
             </tr>
@@ -102,7 +102,7 @@
                 <td>后期应对措施及工作调整方案</td>
                 <td colspan="15" id="id_qc_reply_show">
                     <textarea style="width:100%;" id="id_qc_reply">
-                        {{$qc_anaysis[0]['qc_reply']}}
+                        {{$qc_anaysis['qc_reply']}}
                     </textarea>
                 </td>
             </tr>
@@ -114,6 +114,9 @@
             </tr>
         </table>
         <a style="display:none;" id="adminid" data-adminid="{{$adminid}}"></a>
+        <a style="display:none;" id="opt_qc_contact_status" data-val="{{$qc_anaysis['qc_contact_status']}}"></a>
+        <a style="display:none;" id="opt_qc_advances_status" data-val="{{$qc_anaysis['qc_advances_status']}}"></a>
+        <a style="display:none;" id="opt_qc_voluntarily_status" data-val="{{$qc_anaysis['qc_voluntarily_status']}}"></a>
     </section>
 
 @endsection

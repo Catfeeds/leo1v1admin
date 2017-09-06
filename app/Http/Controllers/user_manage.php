@@ -1019,11 +1019,14 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
-            foreach($refund_qc_list as $val){
-                if(!empty($val['qc_other_reason']) || !empty($val['qc_analysia']) || !empty($val['qc_reply']) ){
-                    $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
-                }
+            if(!empty($refund_qc_list['qc_other_reason']) || !empty($refund_qc_list['qc_analysia']) || !empty($refund_qc_list['qc_reply']) ){
+                $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
+
+            if($item['apply_time']-$item['order_time']){
+                
+            }
+
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
