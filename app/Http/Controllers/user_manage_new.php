@@ -1387,7 +1387,7 @@ class user_manage_new extends Controller
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
-        list($become_member_num_l_l1,$leave_member_num_l1,$become_member_num_l_l2,$leave_member_num_l2,$become_member_num_l_l3,$leave_member_num_l3) = [0,0,0,0,0,0];
+        list($become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
