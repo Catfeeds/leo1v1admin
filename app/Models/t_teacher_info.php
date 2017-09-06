@@ -3470,7 +3470,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.train_through_new_time<%u",$end_time,-1],
             "l.reference>0",
             "t.is_quit = 0 ",
-            "t.is_test_user =0 "
+            "t.is_test_user =0 ",
+            "s.wx_openid != '' "
         ];
         $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, l.reference,count(t.teacherid) as sum".
                                   " from %s t ".
@@ -3492,7 +3493,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["l.answer_begin_time <%u",$end_time,-1],
             "l.reference>0", //推荐人存在
             "t.is_quit = 0 ", //推荐人没有离职
-            "t.is_test_user =0 " //推荐人不是测试用户
+            "t.is_test_user =0 ", //推荐人不是测试用户
+            "t.wx_openid != '' "
         ];
         $sql = $this->gen_sql_new("select t.phone,t.teacherid,t.nick,t.wx_openid, l.reference, count(t.phone) as sum ".
                                   " from %s l ".
@@ -3511,7 +3513,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "a.reference>0",
             "s.is_quit = 0 ",
             "s.is_test_user =0 ",
-            "s.phone > 0"
+            "s.phone > 0",
+            "s.wx_openid != '' "
         ];
         $sql = $this->gen_sql_new("select s.phone, s.teacherid, s.nick,s.wx_openid, a.reference,count(s.teacherid) as sum".
                                   " from %s t ".
@@ -3535,7 +3538,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "k.is_quit = 0 ",
             "k.is_test_user =0 ",
-            "k.phone > 0"
+            "k.phone > 0",
+            "k.wx_openid != '' "
         ];
         $sql = $this->gen_sql_new("select k.phone, k.teacherid, k.nick,k.wx_openid, a.reference,count(k.teacherid) as sum".
                                   " from %s l ".
