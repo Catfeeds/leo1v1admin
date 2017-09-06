@@ -575,25 +575,25 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-yellow text-cen bor-rds">
+                                        <div class="col-sm-12 bg-lyellow text-cen bor-rds color-fff">
                                             <h4>{{$my_info['leave_count']}}次</h4>
                                             <p>请假次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-set-blue text-cen bor-rds">
+                                        <div class="col-sm-12 bg-linfo text-cen bor-rds color-fff">
                                             <h4>{{$my_info['late_count']}}次</h4>
                                             <p>迟到次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-green text-cen bor-rds">
+                                        <div class="col-sm-12 bg-lgreen text-cen bor-rds color-fff">
                                             <h4>{{$my_info['noevaluate_count']}}次</h4>
                                             <p>未评价次数</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="col-sm-12 bg-blue text-cen bor-rds">
+                                        <div class="col-sm-12 bg-lpro text-cen bor-rds color-fff">
                                             <h4>{{$my_info['change_count']}}次</h4>
                                             <p>被换次数</p>
                                         </div>
