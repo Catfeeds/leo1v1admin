@@ -2080,9 +2080,15 @@ class teacher_info extends Controller
                     }
                     if (in_array($key,$msgarr)) {
                         $integrity = $integrity + 3;
+                        $item[$key.'_code'] = '<span>'.$val.'</span>';
                     }
 
+                } else {
+                    if (in_array($key,$msgarr)) {
+                        $item[$key.'_code'] = '<span class="color-9">未设置</span>';
+                    }
                 }
+
             }
             $item['integrity'] = $integrity;
             if ($integrity == 100 & $item['prove'] != '' & $item['seniority'] != '') {
