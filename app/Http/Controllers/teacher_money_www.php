@@ -18,9 +18,9 @@ class teacher_money extends Controller
     }
 
     public function get_teacher_money_total_list(){
-        $teacherid = $this->get_in_teacherid();
+        $teacherid = $this->get_login_teacher();
+
     }
-    
 
 
 

@@ -1020,4 +1020,55 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data" => $data ]); 
     }
 
+    //修改学生信息
+    public function change_stu_info()
+    {
+        $userid    = $this->get_in_int_val("studentid");
+        $stu_nick     = mb_substr($this->get_in_str_val("stu_nick");, 0, 10, 'utf-8');
+        $stu_phone    = $this->get_in_str_val("stu_phone");
+        $address      = $this->get_in_str_val("address");
+        $school       = $this->get_in_str_val("school");
+        $editionid    = $this->get_in_int_val("editionid");
+        $region       = $this->get_in_str_val("region");
+        $sexy         = $this->get_in_int_val("sexy");
+        $birth        = $this->get_in_int_val("birth");
+        $stu_email    = trim($this->get_in_str_val("stu_email"));
+        if(!empty($stu_email)){
+            if(preg_match('/^[1-9]\d{4,10}$/',$stu_email)){
+                $stu_email = $stu_email."@qq.com";
+            }else{
+                $pattern = "/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i";
+                if ( !preg_match( $pattern, $stu_email )){
+                    outputJson(array(
+                        'ret' => -1,
+                        'info' => "邮箱格式有误 ",
+                    ));
+
+                }
+            }
+
+        }
+        $realname = $this->get_in_str_val("realname");
+        // TODO check user login and the
+
+        $ret_auth = $this->manage_model->check_permission($this->account, CHANGE_STU_INFO);
+        if(!$ret_auth)
+            outputJson(array('ret' => NOT_AUTH, 'info' => $this->err_string[NOT_AUTH]));
+
+        $ret_db = $this->stu_manage_model->change_stu_info($studentid, $stu_nick,$parent_name, $parent_type,
+                                                           $stu_phone, $address, $school, $textbook,$sexy,$region,
+                                                           $grade, $editionid, $birth,$realname,$stu_email );
+
+
+        $parent_id = $this->stu_manage_model->get_stu_parentid($studentid);
+        $this->user_model->set_parent_name($parent_id, $parent_name, $parent_phone);
+
+        if ($ret_db === false){
+            outputJson(array('ret' => SYSTEM_ERR, 'info' => $this->err_string[SYSTEM_ERR]));
+        }
+
+        outputJson(array('ret' => SUCCESS, 'info' => $this->err_string[SUCCESS]));
+    }
+ 
+
 }

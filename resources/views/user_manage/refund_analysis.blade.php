@@ -114,6 +114,9 @@
             </tr>
         </table>
         <a style="display:none;" id="adminid" data-adminid="{{$adminid}}"></a>
+        <a style="display:none;" id="opt_qc_contact_status" data-val="{{$qc_anaysis['qc_contact_status']}}"></a>
+        <a style="display:none;" id="opt_qc_advances_status" data-val="{{$qc_anaysis['qc_advances_status']}}"></a>
+        <a style="display:none;" id="opt_qc_voluntarily_status" data-val="{{$qc_anaysis['qc_voluntarily_status']}}"></a>
     </section>
 
 @endsection
