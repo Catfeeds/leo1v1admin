@@ -59,42 +59,42 @@
             <table class="common-table ">
                 <thead>
                     <tr >
-                        <th rowspan="2">学生</th>
-                        <th >合同年级</th>
-                        <th width="130px">合同</th>
-                        <th >下单人</th>
-                        <th style="display:none;" >合同时间</th>
-                        <th style="display:none;" >合同类型</th>
-                        <th style="display:none;" >合同总课时</th>
-                        <th >应退课时</th>
-                        <th style="display:none;">合同原价</th>
-                        <th style="display:none;">合同实付</th>
-                        <th >实退金额</th>
-                        <th >是否开有发票</th>
-                        <th >发票</th>
-                        <th >支付账号</th>
-                        <th >退费理由</th>
-                        <th >挽单结果</th>
-                        <th >申请时间</th>
-                        <th >申请人</th>
-                        <th >审批状态</th>
-                        <th >审批时间</th>
-                        <th >退费状态</th>
-                        <th>联系状态</th>
-                        <th>提升状态</th>
-                        <th>学习态度</th>
-                        <th >下单超过3个月</th>
+                        <td rowspan="2">学生</td>
+                        <td >合同年级</td>
+                        <td width="130px">合同</td>
+                        <td >下单人</td>
+                        <td style="display:none;" >合同时间</td>
+                        <td style="display:none;" >合同类型</td>
+                        <td style="display:none;" >合同总课时</td>
+                        <td >应退课时</td>
+                        <td style="display:none;">合同原价</td>
+                        <td style="display:none;">合同实付</td>
+                        <td >实退金额</td>
+                        <td >是否开有发票</td>
+                        <td >发票</td>
+                        <td >支付账号</td>
+                        <td >退费理由</td>
+                        <td >挽单结果</td>
+                        <td >申请时间</td>
+                        <td >申请人</td>
+                        <td >审批状态</td>
+                        <td >审批时间</td>
+                        <td >退费状态</td>
+                        <td>联系状态</td>
+                        <td>提升状态</td>
+                        <td>学习态度</td>
+                        <td >下单超过3个月</td>
 
 
-                        <th >咨询部</th>
-                        <th >助教部</th>
-                        <th >教务部</th>
-                        <th >管理部</th>
-                        <th >教学部</th>
-                        <th >产品部</th>
-                        <th >客户情况变化</th>
+                        <td colspan="4">咨询部</td>
+                        <td colspan="4">助教部</td>
+                        <td colspan="4">教务部</td>
+                        <td colspan="4">管理部</td>
+                        <td colspan="4">教学部</td>
+                        <td colspan="4">产品部</td>
+                        <td colspan="4">客户情况变化</td>
 
-                        <th style="min-width:120px;">操作</th>
+                        <td style="min-width:120px;">操作</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,6 +135,27 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
