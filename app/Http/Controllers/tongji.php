@@ -1751,7 +1751,6 @@ class tongji extends Controller
                 }
             }
         }
-        $ret_new = [];
         foreach($ret as $key=>$item){
             foreach($item as $info){
                 $adminid = $info['uid'];
@@ -1770,14 +1769,10 @@ class tongji extends Controller
                     $money5 += $money;
                 }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
                     $money6 += $money;
-                    if($item == 315){
-                        dd($info);
-                        $ret_new[] = $info;
-                    }
                 }
             }
-            if($item == 315){
-                dd($ret_new);
+            if($adminid == 315){
+                dd($item);
             }
             $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
