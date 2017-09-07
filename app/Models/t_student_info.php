@@ -2878,11 +2878,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_userid_by_name($realname,$nick){
         $sql = $this->gen_sql_new("select s.userid from %s s "
                                   ." left join %s a on s.assistantid = a.assistantid"
-                                  ." where s.nick = '%s' and a.nick ='%s'",
+                                  ." where s.nick = '%s' ",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
-                                  $realname,
-                                  $nick
+                                  $realname
         );
         return $this->main_get_value($sql);
     }

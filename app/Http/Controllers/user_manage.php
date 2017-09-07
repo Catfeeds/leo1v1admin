@@ -1666,10 +1666,8 @@ class user_manage extends Controller
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
-                    // echo $v2['department'];
                 }
             }
-
 
             if($num>0){
                 $v1['score'] = $score/$num;
