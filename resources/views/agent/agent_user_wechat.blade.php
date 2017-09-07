@@ -28,6 +28,52 @@
 
                         <tr>
                             <td>会员等级</td>
+                            <td id="id_agent_level_str"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>昵称</td>
+                            <td id="id_usernick"> </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                微信昵称
+                            <td id="id_wx_headimgurl"> </td>
+                        <tr>
+                            <td>
+                                微信头像url
+                            </td>
+
+                            <td > <img
+                                id="id_f_headimgurl"
+                                      src="" style="width:100px; "/>  </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                星星个数
+                            </td>
+                            <td id="id_f_count"> </td>
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+
+                <table     class="common-table"  >
+                    <thead>
+                        <tr>
+                            <td>项目 </td>
+                            <td> 值</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>会员等级</td>
                             <td id="id_f_agent_level"> </td>
                         </tr>
 
