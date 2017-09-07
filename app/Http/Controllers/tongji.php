@@ -1777,14 +1777,14 @@ class tongji extends Controller
             $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
-            $ret_info[$key]['money1']  = $money1;
-            $ret_info[$key]['money2']  = $money2;
-            $ret_info[$key]['money3']  = $money3;
-            $ret_info[$key]['money4']  = $money4;
-            $ret_info[$key]['money5']  = $money5;
-            $ret_info[$key]['money6']  = $money6;
+            $ret_info[$key]['money1']  = $money1/100;
+            $ret_info[$key]['money2']  = $money2/100;
+            $ret_info[$key]['money3']  = $money3/100;
+            $ret_info[$key]['money4']  = $money4/100;
+            $ret_info[$key]['money5']  = $money5/100;
+            $ret_info[$key]['money6']  = $money6/100;
         }
-
+        dd($date_list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 }
