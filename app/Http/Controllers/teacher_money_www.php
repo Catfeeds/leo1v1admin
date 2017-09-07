@@ -20,9 +20,17 @@ class teacher_money_www extends Controller
     public function get_teacher_money_total_list(){
         $teacherid = $this->get_login_teacher();
 
-        $now_date = date("Y-m-01",time());
-        $end_time = strtotime("+1 month",strtotime($now_date));
-        $start_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
+        $now_date   = date("Y-m-01",time());
+        $begin_time = strtotime("-1 year ",$now_date);
+        $end_time   = strtotime("+1 month",strtotime($now_date));
+        $first_lesson_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
+        if($begin_time<$first_lesson_time){
+            $begin_time = $first_lesson_time;
+        }
+
+        
+
+
     }
 
 

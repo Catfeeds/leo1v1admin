@@ -1296,7 +1296,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_l1_test_lesson_succ_count_from_lesson($id) {
         $sql = $this->gen_sql_new(
-            "select sum(lesson_user_online_status>0) as l1_agent_status_test_lesson_succ_count , "
+            "select sum(lesson_user_online_status=1) as l1_agent_status_test_lesson_succ_count , "
             . " sum(agent_status_money)  l1_agent_status_all_money  "
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "

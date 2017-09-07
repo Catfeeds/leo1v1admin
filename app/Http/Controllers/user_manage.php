@@ -1645,6 +1645,14 @@ class user_manage extends Controller
         $key1_value    = $this->t_order_refund_confirm_config->get_all_key1_value();
         $has_teaching  = true;
 
+        // dd($key1_value);
+
+        /**
+         * 规则: 如果教学部的责任为0 则 老师|科目的责任也为0 [QC-文斌]
+         * 责任占比=部门分值/总分
+         * 部门分值=（部门问题1分值+。。。。。。+部门问题N分值）/N
+         * 总分=部门1分值+。。。+部门N分值
+         */
         foreach ($list as &$item) {
             $total_score += $item['score'];
             $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);

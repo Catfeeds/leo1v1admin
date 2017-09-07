@@ -131,7 +131,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["teacherid=%u",$teacherid,-1],
             "lesson_start!=0",
-            "lesson_type in (0,1,3)",
+            "lesson_type<1000",
         ];
         \App\Helper\Utils::effective_lesson_sql($where_arr);
         $sql = $this->gen_sql_new("select min(lesson_start)"

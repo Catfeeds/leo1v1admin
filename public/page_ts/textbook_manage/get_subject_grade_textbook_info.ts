@@ -55,8 +55,8 @@ $(function(){
                 select_list     : select_list,
                 onChange        : function( select_list,dlg) {
                     //alert(JSON.stringify(select_list));return;
-                    $.do_ajax("/user_deal/set_teacher_textbook",{
-                        "teacherid": opt_data.teacherid,
+                    $.do_ajax("/ajax_deal2/set_teacher_textbook",{
+                        "id": opt_data.id,
                         "textbook_list":JSON.stringify(select_list),
                         "old_textbook": opt_data.teacher_textbook,
                     });

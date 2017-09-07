@@ -31,7 +31,6 @@ class teacher_lesson extends Controller
             echo "<br>";
         }
 
-
         // return $this->Pageview(__METHOD__,$ret_list );
     }
 
