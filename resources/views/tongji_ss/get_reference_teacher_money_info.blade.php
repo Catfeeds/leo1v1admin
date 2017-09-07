@@ -15,9 +15,11 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>lessonid </td>
-                    <td>学生时长 </td>
-                    <td>老师时长 </td>
+                    <td>userid </td>
+                    <td>姓名</td>
+                    <td>年级</td>
+                    <td>老师类型</td>
+                    <td>地区</td>
                                      
                    
 
@@ -27,18 +29,21 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["lessonid"]}} </td>
-                        <td class="stu_time"></td>
-                        <td class="tea_time"></td>
+                        <td>{{@$var}} </td>
+                        <td class="nick"></td>
+                        <td class="grade"></td>
+                        <td class="identity"></td>
+                        <td class="location"></td>
                        
                        
                        
 
                        
                         <td>
-                            <div class="row-data" {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
+                            <div class="row-data" data-userid="{{$var}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
+
                         </td>
                     </tr>
                 @endforeach

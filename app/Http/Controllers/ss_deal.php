@@ -723,8 +723,7 @@ class ss_deal extends Controller
 
         }
 
-        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
-        return $this->output_succ(["data"=> $ret_list]);
+        return $this->output_ajax_table($ret_list);
     }
 
     public function get_require_list_js_new()  {
@@ -1080,7 +1079,7 @@ class ss_deal extends Controller
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
             $rank = @$self_top_info[6]["top_index"];
-            if($account_role !=2 || $rank>20){
+            if(($account_role !=2 || $rank>20) && $require_adminid != 349){
                 return $this->output_err("申请人不是销售top20!");
             }
 
@@ -2377,6 +2376,120 @@ class ss_deal extends Controller
         } else {
             return outputjson_ret(false);
         }
+    }
+
+    public function upload_ass_stu_from_xls(){
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0 ){
+                    unset($arr[$k]);
+                }
+               
+            }
+            $str="";
+
+            foreach($arr as $v){
+                $userid = $this->t_student_info->get_userid_by_name($v[2],$v[1]);
+                $str .= $userid.",";
+            }
+           
+            $this->t_teacher_info->field_update_list(240314,[
+                "limit_plan_lesson_reason" =>trim($str,",")
+            ]);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
+    }
+
+    public function upload_subject_grade_textbook_from_xls(){
+        $file = Input::file('file');
+        $list    = E\Eregion_version::$desc_map;
+        $list_new =[];
+        foreach($list as $k=>$i){
+            $list_new[$i] = $k;
+        }
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0 || $k==1){
+                    unset($arr[$k]);
+                }
+               
+            }
+            foreach($arr as $item){
+                $middle = $item[3];
+                $middle_arr = explode("、",$middle);
+                $middle_list=[];
+                foreach($middle_arr as $v){
+                    if(isset($list_new[$v])){
+                        $middle_list[] = $list_new[$v];
+                    }
+                }
+
+                $middle_str =  implode(",",$middle_list);
+                $this->t_location_subject_grade_textbook_info->row_insert([
+                    "province"  =>$item[0],
+                    "city"      =>$item[1],
+                    "subject"   =>5,
+                    "grade"     =>200,
+                    "teacher_textbook"=>$middle_str,
+                    "educational_system" =>$item[2]
+                ]);
+
+
+                $senior = $item[4];
+                $senior_arr = explode("、",$senior);
+                $senior_list=[];
+                foreach($senior_arr as $v){
+                    if(isset($list_new[$v])){
+                        $senior_list[] = $list_new[$v];
+                    }
+                }
+                $senior_str =  implode(",",$senior_list);
+                $this->t_location_subject_grade_textbook_info->row_insert([
+                    "province"  =>$item[0],
+                    "city"      =>$item[1],
+                    "subject"   =>5,
+                    "grade"     =>300,
+                    "teacher_textbook"=>$senior_str,
+                    "educational_system" =>$item[2]
+                ]);
+
+
+                
+            }
+
+           
+            //dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+
     }
 
     public function upload_psychological_lesson_from_xls(){

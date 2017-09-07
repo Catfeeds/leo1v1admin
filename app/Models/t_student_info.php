@@ -1256,7 +1256,40 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             if($user_info["origin_assistantid"]>0){
                 $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
             }
-            $master_adminid = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+            $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+            $master_list=[];
+            foreach($master_adminid_list as $tt){
+                $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
+            }
+            $num_all_new = count($master_list);
+            $j=0;
+            foreach($master_list as $val){
+                $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
+                if (!$json_ret) {
+                    $json_ret=0;
+                }
+                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", $json_ret);
+                if($json_ret==1){
+                    $j++;
+                }
+            }
+            if($j==$num_all_new){
+                foreach($master_list as $val){
+                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 0);
+                }
+            }
+
+            if($userid>0){
+                foreach($master_list as $val){
+                    $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_NEW_$val");
+                    if($json_ret==0){
+                        $master_adminid= $val;
+                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_NEW_$val", 1);
+                        break;
+                    }
+                }
+            }
+
             if(empty($master_adminid)){
 
                 $master_adminid=0;
@@ -2873,6 +2906,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql,function($item){
             return $item["grade"];
         });
+    }
+
+    public function get_userid_by_name($realname,$nick){
+        $sql = $this->gen_sql_new("select s.userid from %s s "
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." where s.nick = '%s' order by s.userid desc",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $realname
+        );
+        return $this->main_get_value($sql);
     }
 
 }

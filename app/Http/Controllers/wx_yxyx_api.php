@@ -35,6 +35,45 @@ class wx_yxyx_api extends Controller
         $agent_id= $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
         return $agent_id;
     }
+    public function get_user_info_new(){
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+
+        $agent_level = (int)$agent_info['agent_level'];
+        $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
+        $headimgurl   = $agent_info['headimgurl']?$agent_info['headimgurl']:'';
+        $nickname     = $agent_info['nickname']?$agent_info['nickname']:'';
+        $pay          = 0;
+        $cash         = 0;
+        $have_cash    = 0;
+        $num          = 0;
+        $test_count   = 0;
+        $my_num_count = $this->t_agent->get_count_by_phone($phone);
+        $my_num       = $my_num_count['count']?$my_num_count['count']:0;
+        $cash_item    = $this->t_agent_cash->get_cash_by_phone($phone);
+        $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
+
+        $data = [
+            'agent_level'      =>  $agent_level ,
+            'usernick'       => $nick,
+            'pay'        => $pay,
+            'cash'       => $cash_new,
+            'wx_headimgurl' => $agent_info['headimgurl'],
+            'wx_nick' => $agent_info['nickname'],
+            "child_count" =>  10,//下线个数
+            "star_count" =>  10,//下线个数
+            //"all_money"  => $agent_info[""];
+        ];
+
+        return $this->output_succ(["user_info_list" =>$data]);
+
+    }
+
 
     public function get_user_info(){
         $agent_id   = $this->get_agent_id();
@@ -219,10 +258,13 @@ class wx_yxyx_api extends Controller
         }
         return $this->output_succ(["list" =>$ret_list]);
     }
+    public function get_user_money_info() {
+        $agent_id = $this->get_agent_id();
+
+    }
 
     public function get_user_cash(){
         $agent_id = $this->get_agent_id();
-        $type = $this->get_in_int_val('type');
 
         $list=$this->t_agent->get_link_list_by_ppid($agent_id);
 

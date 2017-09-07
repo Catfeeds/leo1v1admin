@@ -304,7 +304,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   t_admin_main_group_name::DB_TABLE_NAME,
                                   $campus_id
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_seller_master_adminid_by_campus_id($campus_id){

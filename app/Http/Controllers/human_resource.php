@@ -3858,7 +3858,7 @@ class human_resource extends Controller
         $user_name           = $this->get_in_str_val("user_name");
         $page_num            = $this->get_in_page_num();
 
-        if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186){
+        if($adminid==74 || $adminid==349 || $adminid==99 || $adminid==186 || $adminid==486){
             $adminid=-1;
         }
 

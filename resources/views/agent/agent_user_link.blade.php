@@ -21,11 +21,15 @@
                     <td> 一级 试听 </td>
                     <td>  一级签单 </td>
                     <td>  一级提成 </td>
+                    <td>  一级提成(可提现) </td>
                     <td>  一级等级 </td>
+                    <td>  一级试听成功提成 </td>
+                    <td>  一级试听成功 可提现 </td>
                     <td> 二级 </td>
                     <td> 二级 试听 </td>
                     <td> 二级 签单</td>
                     <td>  二级提成 </td>
+                    <td>  一级提成(可提现) </td>
                     <td>  二级等级 </td>
 
                     <td> 操作  </td>
@@ -38,11 +42,16 @@
                         <td> {!! @$var["p1_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p1_price"] !!} </td>
                         <td> {!! @$var["p1_p_price"] !!} </td>
+                        <td> {!! @$var["p1_p_open_price"] !!} </td>
                         <td> {!! @$var["p1_p_agent_level_str"] !!} </td>
+
+                        <td> {!! @$var["p1_agent_status_money"] !!} </td>
+                        <td> {!! @$var["p1_agent_status_money_open_flag_str"] !!} </td>
                         <td> {{@$var["p2_name"]}} </td>
                         <td> {!! @$var["p2_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p2_price"] !!} </td>
                         <td> {!! @$var["p2_p_price"] !!} </td>
+                        <td> {!! @$var["p2_p_open_price"] !!} </td>
                         <td> {!! @$var["p2_p_agent_level_str"] !!} </td>
                         <td>
                             <div

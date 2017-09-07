@@ -1737,4 +1737,55 @@ class tongji extends Controller
             "end_time"          => $end_time,
         ]);
     }
+
+    public function seller_personal_money(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
+        $account_role = E\Eaccount_role::V_2;
+        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$adminid);
+        $adminid_list = array_unique(array_column($order_user_list,'uid'));
+        foreach($adminid_list as $item){
+            foreach($order_user_list as $info){
+                if($info['uid'] == $item){
+                    $ret[$item][] = $info;
+                }
+            }
+        }
+        $ret_new = [];
+        foreach($ret as $key=>$item){
+            foreach($item as $info){
+                $adminid    = $info['uid'];
+                $account    = $info['sys_operator'];
+                $money      = $info['price'];
+                $order_time = $info['order_time'];
+                if($order_time>=strtotime("-5 months", $start_time) && $order_time<strtotime("-4 months", $start_time)){
+                    $money1 += $money;
+                }elseif($order_time>=strtotime("-4 months", $start_time) && $order_time<strtotime("-3 months", $start_time)){
+                    $money2 += $money;
+                }elseif($order_time>=strtotime("-3 months", $start_time) && $order_time<strtotime("-2 months", $start_time)){
+                    $money3 += $money;
+                }elseif($order_time>=strtotime("-2 months", $start_time) && $order_time<strtotime("-1 months", $start_time)){
+                    $money4 += $money;
+                }elseif($order_time>=strtotime("-1 months", $start_time) && $order_time<$start_time){
+                    $money5 += $money;
+                }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
+                    $money6 += $money;
+                }
+            }
+            $ret_info[$key]['id']      = $num++;
+            $ret_info[$key]['adminid'] = $adminid;
+            $ret_info[$key]['account'] = $account;
+            $ret_info[$key]['money1']  = $money1/100;
+            $ret_info[$key]['money2']  = $money2/100;
+            $ret_info[$key]['money3']  = $money3/100;
+            $ret_info[$key]['money4']  = $money4/100;
+            $ret_info[$key]['money5']  = $money5/100;
+            $ret_info[$key]['money6']  = $money6/100;
+            list($money1,$money2,$money3,$money4,$money5,$money6) = [0,0,0,0,0,0];
+        }
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
+    }
 }

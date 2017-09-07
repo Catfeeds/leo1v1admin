@@ -31,19 +31,17 @@ class teacher_money extends Controller
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
-        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_type = $simple_info['teacher_money_type'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
 
-        $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
-        if($check_type==2){
-            $start = strtotime("-1 month",$start_time);
-            $end   = strtotime("-1 month",$end_time);
-            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-            $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-            if($transfer_teacherid>0){
-                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
-                $already_lesson_count += $old_lesson_count;
-            }
+        $start = strtotime("-1 month",$start_time);
+        $end   = strtotime("-1 month",$end_time);
+        $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+        if($transfer_teacherid>0){
+            $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
+            $last_lesson_count += $old_lesson_count;
         }
 
         $time_list   = [];
@@ -54,9 +52,8 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(in_array($teacher_money_type,[0,1,2,3,7])){
-                    $already_lesson_count = $val['already_lesson_count'];
-                }
+                $check_type  = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+                $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
 
                 $val['lesson_base']        = "0";
                 $val['lesson_reward']      = "0";
@@ -156,7 +153,6 @@ class teacher_money extends Controller
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
 
         \App\Helper\Utils::logger("teacherid11233:$teacherid,".json_encode($lesson_list));
-
         return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
     }
 
@@ -288,16 +284,17 @@ class teacher_money extends Controller
             return $this->output_err("参数错误!");
         }
 
-        $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
-        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type       = $this->t_teacher_info->get_teacher_type($teacherid);
-        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
 
-        $simple_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_info = $this->get_teacher_info_for_total_money($simple_info);
-        $list         = [];
+        $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_flag = $simple_info['teacher_money_flag'];
+        $teacher_money_type = $simple_info['teacher_money_type'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
+        $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
+
+        $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
             $j     = $i+1;
             $start = strtotime("+".$i."month",$start_date);
@@ -321,56 +318,52 @@ class teacher_money extends Controller
             $list[$i]["lesson_cost_tax"]    = "0";
             $list[$i]["lesson_total"]       = "0";
             //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']    = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start,$end,1))/100;
+            $list[$i]['lesson_reward_ex']    = ($this->t_teacher_money_list->get_teacher_honor_money(
+                $teacherid,$start,$end,E\Ereward_type::V_1))/100;
             //试听课奖金
-            $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start,$end,2))/100;
+            $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money(
+                $teacherid,$start,$end,E\Ereward_type::V_2))/100;
             //90分钟课程补偿
             $list[$i]['lesson_reward_compensate'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,3))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_3))/100;
             //工资补偿
             $list[$i]['lesson_reward_compensate_price'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,4))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_4))/100;
             //模拟试听奖金
             $list[$i]['lesson_reward_train'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,5))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_5))/100;
             //伯乐奖
             $list[$i]['lesson_reward_reference'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,6))/100;
-
+                $teacherid,$start,$end,E\Ereward_type::V_6))/100;
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
-            if($check_type==2){
-                $start_time = strtotime("-1 month",$start);
-                $end_time   = strtotime("-1 month",$end);
-                $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
-                if($transfer_teacherid>0){
-                    $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
-                    $already_lesson_count += $old_lesson_count;
-                }
+            //拉取上个月累计课时
+            $start_time = strtotime("-1 month",$start);
+            $end_time   = strtotime("-1 month",$end);
+            $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+            if($transfer_teacherid>0){
+                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
+                $last_lesson_count += $old_lesson_count;
             }
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
-                foreach($lesson_list as $key=>&$val){
-                    if($check_type!=2){
-                        $already_lesson_count = $val['already_lesson_count'];
-                    }
-                    if($val['confirm_flag']!=2){
-                        $lesson_count = $val['lesson_count']/100;
-                    }else{
-                        $lesson_count = 0;
-                    }
+                foreach($lesson_list as $key => &$val){
+                    //判断课程的老师类型来设置累计课时的数值
+                    $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+                    $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
+                    $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+
                     if($val['lesson_type'] != 2){
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
                         $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                     }else{
-                        $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price($teacher_money_type
-                                                                                      ,$val['teacher_type']
-                                                                                      ,$val['lesson_start']);
+                        $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+                            $teacher_money_type,$val['teacher_type'],$val['lesson_start']
+                        );
                         $list[$i]['lesson_trial'] += $val['lesson_base'];
                         $reward = "0";
                     }

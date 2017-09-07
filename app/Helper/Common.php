@@ -994,7 +994,6 @@ class Common {
         }
 
         $admin_list=$admin_list["list"] ;
-
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
             global $cur_key_index;
@@ -1075,9 +1074,9 @@ class Common {
             $account            = $item["account"];
             $groupid            = $item['groupid'];
             $become_member_time = $item['become_member_time'];
-            $leave_member_time  = $item['leave_member_time'];
-            $create_time        = $item['create_time'];
-            $del_flag           = $item['del_flag'];
+            $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
+            $create_time        = isset($item['create_time'])?$item['create_time']:0;
+            $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
             $key0_map           = &$data_map[""];
             $add_data($key0_map, $item );
 

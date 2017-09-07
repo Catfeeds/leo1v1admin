@@ -403,7 +403,8 @@ class menu{
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
-                    ["power_id"=>33, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
+                    ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
+                    ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"销售时效统计",   "url"=>"/tongji/seller_time"],
                     ["power_id"=>36, "name"=>"销售-时报", "url"=>"/tongji/seller_call_rate"],
 
@@ -746,6 +747,7 @@ class menu{
                 ["power_id"=>39, "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
                 ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
                 ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info"],
+                ["power_id"=>44, "name"=>"精排1000教学反馈",   "url"=>"/teacher_level/get_seller_top_test_lesson_info"],
                 ["power_id"=>42, "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_zj"],
                 [ "power_id"=>43,"name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua_zj"],
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[
@@ -804,6 +806,7 @@ class menu{
                 ["power_id"=>39, "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info_jy"],
                 ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info_jy"],
                 ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info_jy"],
+                ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
 
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],

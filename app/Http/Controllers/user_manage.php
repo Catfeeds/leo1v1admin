@@ -1037,6 +1037,41 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
+
+            $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
+            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
+            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+
+            foreach($arr['key1_value'] as &$v1){
+                foreach($arr['list'] as $v2){
+                    if($v2['key1_str'] == $v1['value']){
+                        $key1_name = $v1['value'].'一级原因';
+                        $key2_name = $v1['value'].'二级原因';
+                        $key3_name = $v1['value'].'三级原因';
+
+                        if(isset($v1["$key1_name"])){
+                            $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
+                            $v1["$key2_name"] = $v1["$key2_name"].'/'.$v2['key3_str'];
+                            $v1["$key3_name"] = $v1["$key3_name"].'/'.$v2['key4_str'];
+                            $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
+                            $v1['dep_score']  = $v1['dep_score'].'/'.$v2['score'];
+                        }else{
+                            $v1["$key1_name"] = $v2['key2_str'];
+                            $v1["$key2_name"] = $v2['key3_str'];
+                            $v1["$key3_name"] = $v2['key4_str'];
+                            $v1['reason']     = $v2['reason'];
+                            $v1['dep_score']  = $v2['score'];
+                        }
+                    }
+                }
+            }
+
+            // $item['']
+
+
+            // $item['all_percent'] = $arr['key1_value'];
+
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
@@ -1609,15 +1644,31 @@ class user_manage extends Controller
     }
 
     public function refund_analysis () {
-        $adminid = $this->get_account_id();
+        $adminid     = $this->get_account_id();
         $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
-        $list        = $this->t_refund_analysis->get_list($orderid,$apply_time);
 
         if($orderid <=0){
             return $this->error_view(["请从[退费管理]-[QC退费分析总表]进入"]);
         }
-        // dd($list);
+
+        $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+        dd($arr);
+
+        return $this->pageView(__METHOD__,null,
+                               ["refund_info" => $arr['list'],
+                                "all_percent" => $arr['key1_value'],
+                                "qc_anaysis"  => $arr['qc_anaysis'],
+                                "adminid"     => $adminid
+                               ]
+        );
+
+    }
+
+
+    public function  get_refund_analysis_info($orderid,$apply_time){
+        $list = $this->t_refund_analysis->get_list($orderid,$apply_time);
+
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
             $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
@@ -1625,85 +1676,76 @@ class user_manage extends Controller
         }
 
         // dd($list);
-        list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
-
         //以上处理原因填写
+        /**
+         * 规则: 如果教学部的责任为0 则 老师|科目的责任也为0 [QC-文斌]
+         * 责任占比=部门分值/总分
+         * 部门分值=（部门问题1分值+。。。。。。+部门问题N分值）/N
+         * 总分=部门1分值+。。。+部门N分值
+         */
 
-        $total_score   = 0;
-        $key1_value    = $this->t_order_refund_confirm_config->get_all_key1_value();
-        $has_teaching  = true;
+        $total_score = 0;
+        $key1_value  = $this->t_order_refund_confirm_config->get_all_key1_value();
+        $is_teaching_flag = true;
 
-        foreach ($list as &$item) {
-            $total_score += $item['score'];
-            $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
-            if ($item['department'] == "教学部") {
-                $has_teaching = false;
-            }
-        }
+        foreach($key1_value as $k1=>&$v1){
+            $num = 0;
+            $score = 0;
 
-        foreach($list as &$item){
-            $is_hasScoreFlag = false;
+            foreach($list as $i2=>&$v2){
+                $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
-            if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
-                $is_hasScoreFlag = true;
-            }
+                if($v2['score'] >0 && $v2['department'] == '教学部'){
+                    $is_teaching_flag = false;
+                }
 
-            if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
-                $total_score = $total_score - $item['score'];
-            }
-        }
-
-        foreach ($list as &$item) {
-            if($total_score != 0){
-                $item['responsibility_percent'] = number_format(($item['score']/$total_score)*100,2);
-            } else {
-                $item['responsibility_percent'] =0;
-            }
-        }
-
-        $all_percent = [];
-
-        // dd($key1_value);
-
-        foreach ($key1_value as &$item) {
-            $item['responsibility_percent']  = 0;
-            $all_percent[$item['value']] = 0;
-            foreach ($list as $item_tmp) {
-                if ($item['value'] == $item_tmp['department']) {
-                    $all_percent[$item['value']] += $item_tmp['responsibility_percent'];
+                if($v2['department'] == $v1['value']){
+                    $num++;
+                    $score += $v2['score'];
                 }
             }
-            $all_percent[$item['value']].="%";
-        }
 
-        if($all_percent["教学部"] == '0%'){
-            if (isset($all_percent['老师'] )) {
-                $all_percent['老师'] = "0%";
-            }
-
-            if ( isset($all_percent['科目'])) {
-                $all_percent['科目'] = "0%";
+            if($num>0){
+                $v1['score'] = $score/$num;
+                $total_score += ($score/$num);
             }
         }
-        //以上处理责任比率
 
-        $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
+        foreach($key1_value as &$v3){
+            if($is_teaching_flag && ($v3['value'] == '老师' || $v3['value']=='科目') ){
+                if(isset($v3['score'])){
+                    $total_score-=$v3['score'];
+                    $v3['score'] = 0;
+                }
+            }
+        }
 
-        return $this->pageView(__METHOD__,null,
-                  ["refund_info" => $list,
-                   "all_percent" => $all_percent,
-                   "qc_anaysis"  => $qc_anaysis,
-                   "adminid"     => $adminid
-                  ]
-        );
+        foreach($key1_value as &$v4){
+            if($total_score>0){
+                if(isset($v4['score'])){
+                    $v4['responsibility_percent'] = number_format(($v4['score']/$total_score)*100,2).'%';
+                }else{
+                    $v4['responsibility_percent'] = '0%';
+                }
+            }
+        }
+
+
+
+
+
+        $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
+        $arr['key1_value'] = $key1_value;
+        $arr['list']       = $list;
+        return $arr;
     }
 
     public function add_qc_analysis_by_order_apply(){
         $orderid           = $this->get_in_int_val("orderid");
         $apply_time        = $this->get_in_int_val("apply_time");
-        $qc_other_reason   = $this->get_in_str_val("qc_other_reason");
-        $qc_analysia       = $this->get_in_str_val("qc_analysia");
-        $qc_reply          = $this->get_in_str_val("qc_reply");
+        $qc_other_reason   = trim($this->get_in_str_val("qc_other_reason"));
+        $qc_analysia       = trim($this->get_in_str_val("qc_analysia"));
+        $qc_reply          = trim($this->get_in_str_val("qc_reply"));
         $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
@@ -2310,9 +2352,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-    	if($ret_info['list'][$key]['total_score']){
-    	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-    	}
+        if($ret_info['list'][$key]['total_score']){
+        $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+        }
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
@@ -2387,7 +2429,7 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => 1, 
+                "name" => 1,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2403,7 +2445,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             2 => [
-                "name" => 2, 
+                "name" => 2,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2419,7 +2461,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             3 => [
-                "name" => 3, 
+                "name" => 3,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2435,7 +2477,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             4 => [
-                "name" => 4, 
+                "name" => 4,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2451,7 +2493,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             5 => [
-                "name" => 5, 
+                "name" => 5,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2467,7 +2509,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             6 => [
-                "name" => "5科以上", 
+                "name" => "5科以上",
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2525,7 +2567,7 @@ class user_manage extends Controller
                 "ret_info" => @$ret_student_subject,
         ]);
     }
-   
+
 
    /**
      * @author    sam
@@ -2552,19 +2594,19 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => "普通排课", 
+                "name" => "普通排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             2 => [
-                "name" => "Top20排课", 
+                "name" => "Top20排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             3 => [
-                "name" => "抢课", 
+                "name" => "抢课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
@@ -2634,7 +2676,7 @@ class user_manage extends Controller
             $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
         return $this->Pageview(__METHOD__,$ret_list );
-    
+
     }
 
 

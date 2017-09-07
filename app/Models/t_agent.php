@@ -758,10 +758,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
             . " a.type agent_type, "
             . " a.test_lessonid  test_lessonid ,"
+            . " a1.agent_status_money   p_agent_status_money ,"
+
+            . " a1.agent_status_money_open_flag   p_agent_status_money_open_flag ,"
 
 
-            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
-            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  ao1.p_open_price o_p_open_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
@@ -795,6 +798,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $p_phone=$item["p_phone"];
             $p_agent_level=$item["p_agent_level"];
             $p_test_lessonid=$item["p_test_lessonid"];
+            $p_agent_status_money_open_flag=$item["p_agent_status_money_open_flag"];
+            $p_agent_status_money=$item["p_agent_status_money"];
             $id=$item["id"];
             $userid=$item["userid"];
             $nick=$item["nick"];
@@ -811,6 +816,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
             E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
 
+
+            E\Eboolean::set_item_value_color_str($item,"p_agent_status_money_open_flag" );
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
                 $map[$pid]=$item ;
@@ -830,6 +837,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 "p1_p_agent_level"        => $p1["o_p_agent_level"],
                 "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
                 "p1_p_price"              => $p1["o_p_price"]/100,
+                "p1_p_open_price"              => $p1["o_p_open_price"]/100,
+                "p1_agent_status_money"              => $p1["p_agent_status_money"]/100,
+                "p1_agent_status_money_open_flag_str" => $p1["p_agent_status_money_open_flag_str"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
@@ -840,6 +850,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     "p2_p_agent_level"        => $p2["o_agent_level"],
                     "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
                     "p2_p_price"              => $p2["o_price"]/100,
+                    "p2_p_open_price"              => $p2["o_open_price"]/100,
                 ] ;
             }
         }
@@ -860,6 +871,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
+        $star_count=0;
         $phone        = $agent_info['phone'];
         $create_time  = $agent_info['create_time'];
         $userid       = $agent_info['userid'];
@@ -882,18 +894,22 @@ class t_agent extends \App\Models\Zgen\z_t_agent
            && $is_test_user == 0
            && $orderid){//在读非测试
             $level     =  E\Eagent_level::V_2 ;
+            $star_count=2;
+
         }elseif($wx_openid){//有wx绑定
             $son_test_lesson = $this->get_son_test_lesson_count_by_id($id,$check_time);
             $count           = count($son_test_lesson);
             if($count>=2){ //>=两次试听
                 $level     =  E\Eagent_level::V_2 ;
+                $star_count=2;
             }else{
                 $level     =  E\Eagent_level::V_1 ;
+                $star_count=$count;
             }
         }else{//非绑定
             $level =  E\Eagent_level::V_0;
         }
-        return $level;
+        return  array( $level, $star_count );
     }
 
 
@@ -918,13 +934,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 if ($pid) {
                     \App\Helper\Utils::logger("check  p_level pid=$pid");
                     $p_agent_info= $this->field_get_list($pid,"*");
-                    $p_level=$this->get_agent_level_by_check_time($pid, $p_agent_info, $check_time );
+                    list($p_level,$p_star_count )=$this->get_agent_level_by_check_time($pid, $p_agent_info, $check_time );
                 }
 
                 if ($ppid) {
                     \App\Helper\Utils::logger("check  pp_level ppid=$ppid");
                     $pp_agent_info= $this->field_get_list($ppid,"*");
-                    $pp_level=$this->get_agent_level_by_check_time($ppid, $pp_agent_info, $check_time );
+                    list($pp_level , $pp_star_count) =$this->get_agent_level_by_check_time($ppid, $pp_agent_info, $check_time );
                 }
 
                 $order_price= $order_info["price"];
@@ -934,6 +950,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $level2_pp_price = $price/20>500?500:$price/20;
                 $p_price = 0;
                 $pp_price = 0;
+
+                $p_open_price = 0;
+                $pp_open_price = 0;
 
                 if($p_level== 1){//黄金
                     $p_price = $level1_price*100;
@@ -945,6 +964,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $pp_price = $level2_pp_price*100;
                 }
 
+                $lesson_info= $this->task->t_lesson_info_b2->get_lesson_count_by_userid($userid, $check_time );
+                $lesson_count=$lesson_info["count"];
+                if ($lesson_count >=8 ) {
+                    $p_open_price= $p_price;
+                    $pp_open_price= $pp_price;
+                }else if ( $lesson_count >=2) {
+                    $p_open_price= $p_price*0.2;
+                    $pp_open_price= $pp_price*0.2;
+                }
+
+
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
@@ -955,6 +985,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'pp_price'    => $pp_price,
                     'p_level'     =>$p_level,
                     'pp_level'     =>$pp_level,
+
+                    'p_open_price'     =>$p_open_price,
+                    'pp_open_price'     =>$pp_open_price,
                     'create_time' =>  $check_time,
                 ]);
 
@@ -987,6 +1020,77 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         }
     }
+    public function eval_agent_student_status(  $stu_info, $lesson_info ){
+        $agent_student_status=0;
+        if ($stu_info) {
+            $global_seller_student_status = $stu_info["global_seller_student_status"];
+            $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+            $seller_resource_type         = $stu_info["seller_resource_type"];
+
+            if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
+                if($global_tq_called_flag == 0 ) {
+                    $agent_student_status=E\Eagent_student_status::V_0;
+                }else if ($global_tq_called_flag==1) {
+                    $agent_student_status=E\Eagent_student_status::V_10;
+                }else if ( $global_seller_student_status<200) {
+                    //E\Eseller_student_status
+                    $agent_student_status=E\Eagent_student_status::V_20;
+                }else if ( $global_seller_student_status<=220) {
+                    $agent_student_status=E\Eagent_student_status::V_30;
+                }else{
+                    if ( $lesson_info) {
+                        if ( $lesson_info["lesson_end"]  < time(NULL)) {
+                            $agent_student_status=E\Eagent_student_status::V_40;
+                        }else{
+                            $agent_student_status=E\Eagent_student_status::V_30;
+                        }
+                    }else{
+                        $agent_student_status=E\Eagent_student_status::V_30;
+                    }
+                }
+            }else{
+                $agent_student_status=E\Eagent_student_status::V_100;
+            }
+
+        }
+        return $agent_student_status;
+    }
+
+    public function eval_agent_status(  $stu_info, $lesson_info ){
+        if ($stu_info) {
+            $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+
+            if ($lesson_info ) {
+                if ($lesson_info["lesson_user_online_status"]==1) {
+                    return  E\Eagent_status::V_30;
+                }else{
+                    return  E\Eagent_status::V_20;
+                }
+            }else{
+                if ($global_tq_called_flag==2) {
+                    return  E\Eagent_status::V_10;
+                }
+            }
+        }
+        return  E\Eagent_status::V_1;
+    }
+
+    public function eval_agent_status_money($agent_status ){
+        switch ( $agent_status ) {
+        case E\Eagent_status::V_1 :
+            return 500;
+
+        case E\Eagent_status::V_10 :
+            return 1000;
+        case E\Eagent_status::V_20 :
+            return 2000;
+        case E\Eagent_status::V_30 :
+        case E\Eagent_status::V_40 :
+            return 5000;
+        default:
+            return 0;
+        }
+    }
 
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
@@ -995,6 +1099,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_level_old = $agent_info["agent_level"];
         $wx_openid_old  = $agent_info["wx_openid"];
         $agent_student_status=0;
+        $agent_status=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
             $is_test_user = $student_info['is_test_user'];
@@ -1008,57 +1113,92 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 //检查合同
                 if ($this->task->t_agent_order->check_aid($id) ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
+                    $agent_status=E\Eagent_status::V_40;
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
-                    if ($stu_info) {
-                        $global_seller_student_status = $stu_info["global_seller_student_status"];
-                        $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
-                        $seller_resource_type         = $stu_info["seller_resource_type"];
-                        if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
-                            if($global_tq_called_flag == 0 ) {
-                                $agent_student_status=E\Eagent_student_status::V_0;
-                            }else if ($global_tq_called_flag==1) {
-                                $agent_student_status=E\Eagent_student_status::V_10;
-                            }else if ( $global_seller_student_status<200) {
-                                //E\Eseller_student_status
-                                $agent_student_status=E\Eagent_student_status::V_20;
-                            }else if ( $global_seller_student_status<=220) {
-                                $agent_student_status=E\Eagent_student_status::V_30;
-                            }else{
-                                 $test_lessonid=$agent_info["test_lessonid"];
-                                if ( $test_lessonid ) {
-                                    $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
-                                    if ( $lesson_info["lesson_end"]  < time(NULL)) {
-                                        $agent_student_status=E\Eagent_student_status::V_40;
-                                    }else{
-                                        $agent_student_status=E\Eagent_student_status::V_30;
-                                    }
-                                }else{
-                                    $agent_student_status=E\Eagent_student_status::V_30;
-                                }
-                            }
-                        }else{
-                            $agent_student_status=E\Eagent_student_status::V_100;
-                        }
 
+                    $test_lessonid=$agent_info["test_lessonid"];
+                    $lesson_info=null;
+                    if ( $test_lessonid ) {
+                        $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
                     }
+                    $agent_student_status= $this->eval_agent_student_status(  $stu_info, $lesson_info );
+                    $agent_status= $this->eval_agent_status( $stu_info, $lesson_info );
 
                 }
-
             }
-
         }
 
         $level_count_info= $this-> get_level_count_info($id);
+        $agent_status_money_open_flag= 0;
+        $agent_status_money =0;
+        $l1_agent_status_test_lesson_succ_count=0;
+        $l1_agent_status_all_money =0;
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        if ($agent_info["create_time"] > $yxyx_check_time)  {
+            $l1_lesson_info=$this-> get_l1_test_lesson_succ_count_from_lesson($id);
+            $agent_status_money= $this->eval_agent_status_money($agent_status);
+            $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
+            $l1_agent_status_all_money= $l1_lesson_info["l1_agent_status_all_money"];
+        }else{
+            $agent_status=E\Eagent_status::V_0;
+        }
+
+
+        //$agent_info
+        if ($agent_status == E\Eagent_status::V_40  ) {
+            $agent_status_money_open_flag= 1;
+        } else if (  $agent_status == E\Eagent_status::V_30) {
+            $parentid= $agent_info["parentid"];
+            if ($parentid) { //父节点
+                $parent_l1_agent_status_test_lesson_succ_count=  $this->get_l1_agent_status_test_lesson_succ_count($parentid);
+                if ($parent_l1_agent_status_test_lesson_succ_count>=4)  {
+                    $agent_status_money_open_flag= 1;
+                }
+            }
+        }
+        $l1_agent_status_all_open_money=0;
+        if ( $l1_agent_status_test_lesson_succ_count >=4 ) {
+            $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50*100;
+        }
+
 
         //重置当前等级
-        $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
+        list($agent_level, $star_count)=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
+
+        //佣金提成信息
+        $order_open_all_money= $level_count_info["l1_child_open_price"] +$level_count_info["l2_child_open_price"];
+        $order_all_money= $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"];
+
+        //总提成信息
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money;
+        $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id);
+
+
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
+            "star_count" => $star_count,
             "agent_student_status" => $agent_student_status,
             "l1_child_count" => $level_count_info["l1_child_count"],
             "l2_child_count" => $level_count_info["l2_child_count"],
-            "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
+
+            "all_money" => $order_all_money ,
+            "order_open_all_money" => $order_open_all_money,
+
+            "agent_status" => $agent_status,
+            "agent_status_money" => $agent_status_money,
+            "agent_status_money_open_flag" => $agent_status_money_open_flag,
+            "l1_agent_status_all_money" =>  $l1_agent_status_all_money,
+            "l1_agent_status_all_open_money" =>  $l1_agent_status_all_open_money,
+
+            "l1_agent_status_test_lesson_succ_count" =>  $l1_agent_status_test_lesson_succ_count,
+
+            "all_yxyx_money" => $all_yxyx_money,
+            "all_open_cush_money" => $all_open_cush_money,
+            "all_have_cush_money" => $all_have_cush_money,
+
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -1091,112 +1231,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
-    public function reset_user_info_new($id ) {
-        $agent_info = $this->field_get_list($id,"*");
-        $userid  = $agent_info["userid"];
-        $agent_type= $agent_info["type"];
-        $agent_level_old = $agent_info["agent_level"];
-        $wx_openid_old  = $agent_info["wx_openid"];
-        $agent_student_status=0;
-        if ($userid) {
-            $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
-            $is_test_user = $student_info['is_test_user'];
-            $create_time = $agent_info['create_time'];
-            $now=time(NULL);
-            $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
-            $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
-
-            //是学员
-            if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
-                //检查合同
-                if ($this->task->t_agent_order->check_aid($id) ) {
-                    $agent_student_status=E\Eagent_student_status::V_50;
-                }else{
-                    $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
-                    if ($stu_info) {
-                        $global_seller_student_status = $stu_info["global_seller_student_status"];
-                        $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
-                        $seller_resource_type         = $stu_info["seller_resource_type"];
-                        if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
-                            if($global_tq_called_flag == 0 ) {
-                                $agent_student_status=E\Eagent_student_status::V_0;
-                            }else if ($global_tq_called_flag==1) {
-                                $agent_student_status=E\Eagent_student_status::V_10;
-                            }else if ( $global_seller_student_status<200) {
-                                //E\Eseller_student_status
-                                $agent_student_status=E\Eagent_student_status::V_20;
-                            }else if ( $global_seller_student_status<=220) {
-                                $agent_student_status=E\Eagent_student_status::V_30;
-                            }else{
-                                 $test_lessonid=$agent_info["test_lessonid"];
-                                if ( $test_lessonid ) {
-                                    $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
-                                    if ( $lesson_info["lesson_end"]  < time(NULL)) {
-                                        $agent_student_status=E\Eagent_student_status::V_40;
-                                    }else{
-                                        $agent_student_status=E\Eagent_student_status::V_30;
-                                    }
-                                }else{
-                                    $agent_student_status=E\Eagent_student_status::V_30;
-                                }
-                            }
-                        }else{
-                            $agent_student_status=E\Eagent_student_status::V_100;
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        $level_count_info= $this-> get_level_count_info($id);
-
-        //重置当前等级
-        $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
-        $this->field_update_list($id,[
-            "agent_level" => $agent_level,
-            "agent_student_status" => $agent_student_status,
-            "l1_child_count" => $level_count_info["l1_child_count"],
-            "l2_child_count" => $level_count_info["l2_child_count"],
-            "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
-        ]);
-
-        if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
-            $this->field_update_list($id,[
-                "type" =>  E\Eagent_type::V_3
-            ]);
-        }
-        if ( $level_count_info["l1_child_count"]) {
-            if ($agent_type ==1 ) {
-                $this->field_update_list($id,[
-                    "type" =>  E\Eagent_type::V_3
-                ]);
-            }else if( $agent_type ==0 ){
-                $this->field_update_list($id,[
-                    "type" =>  E\Eagent_type::V_2
-                ]);
-            }
-        }
-        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
-            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
-            $data = [
-                'first'    => '等级升级提醒',
-                'keyword1' => '水晶会员',
-                'keyword2' => date('Y-m-d H:i:s',time()),
-                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
-            ];
-            $url = '';
-            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
-        }
-    }
 
     public function get_level_count_info($id ) {
         $sql = $this->gen_sql_new(
-            "select count(*) as l1_child_count , sum(child_count) l2_child_count, sum(p_price) l1_child_price, sum( pp_price ) l2_child_price  "
-            . " from (select  a1.id  agent_id,  ao1.p_price  , sum(a2.id>0 )  child_count, sum(ao2.pp_price) as  pp_price   "
+            "select count(*) as l1_child_count , sum(child_count) l2_child_count, sum(p_price) l1_child_price, sum(p_open_price) l1_child_open_price, sum( pp_price ) l2_child_price , sum(pp_open_price) l2_child_open_price "
+            . " from (select  a1.id  agent_id,  ao1.p_price  , ao1.p_open_price  , sum(a2.id>0 )  child_count, sum(ao2.pp_price) as  pp_price , sum(ao2.pp_open_price) as  pp_open_price  "
             . " from %s a1"
             . " left join  %s a2 on( a1.id=a2.parentid and a2.type in (1,3)  )  "
             . " left join  %s ao1 on( a1.id=ao1.aid   )  "
@@ -1207,6 +1246,22 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_agent_order::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,
             $id
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_l1_test_lesson_succ_count_from_lesson($id) {
+        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+
+        $sql = $this->gen_sql_new(
+            "select sum(lesson_user_online_status=1) as l1_agent_status_test_lesson_succ_count , "
+            . " sum(agent_status_money)  l1_agent_status_all_money  "
+            . " from %s a "
+            . " left join  %s l on a.test_lessonid =l.lessonid  "
+            ." where  a.parentid=%u  and a.create_time > %u ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $id,$check_time
         );
         return $this->main_get_row($sql);
     }

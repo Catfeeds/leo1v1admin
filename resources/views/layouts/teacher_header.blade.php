@@ -31,8 +31,6 @@
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
         <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
-        <!-- 自定义样式表 -->
-        <link rel="stylesheet" href="/css/teacher-info.css">
         <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
 
 
@@ -61,7 +59,7 @@
                     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" title="切换菜单栏">
                         <span class="sr-only">切换菜单栏</span>
                     </a>
-                    <span id="header_title1" style="font-size:18px;line-height:280%" > </span> 
+                    <span id="header_title1" style="font-size:18px;line-height:300%" > </span> 
 
 
                     <div class="navbar-custom-menu">
@@ -127,12 +125,12 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li ><a href="/teacher_info/get_teacher_basic_info" ><i class="fa fa-user"></i>基本属性 </a></li>
-                                {{-- <li ><a href="index2.html"><i class="fa fa-graduation-cap"></i>我的学生</a></li> --}}
+                                <li ><a href="/teacher_info/get_teacher_student"><i class="fa fa-graduation-cap"></i>我的学生</a></li>
                                 {{-- <li ><a href="index2.html"><i class="fa fa-cog"></i>操作台</a></li> --}}
                                 <li ><a href="/teacher_info/get_teacher_money_info"><i class="fa fa-database"></i>薪资相关</a></li>
                             </ul>
                         </li>
-                        {{-- <li  ><a href="/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li> --}}
+                        <li  ><a href="/teacher_info/file_store"><i class="fa fa-book"></i> <span>资料库</span> </a></li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -201,6 +199,5 @@
 
         </div>
         <!-- ./wrapper -->
-
 </body>
 </html>

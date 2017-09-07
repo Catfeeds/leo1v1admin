@@ -272,7 +272,7 @@
                     <div class="box-header">
                         <h3 class="box-title color-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-9 ft14">编辑</span>
+                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-blue ft14">编辑</span>
                             </button>
                         </div>
                     </div>
@@ -505,7 +505,7 @@
                     <div class="box-footer no-border">
                         @if ($my_info['bankcard'])
                             <div class="row text-cen">
-                                <p>如需<a class="text-blue opt-edit"  data-toggle="modal" data-target="#modal-default"  data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
+                                <p>如需<a class="color-blue opt-edit"  data-toggle="modal" data-target="#modal-default"  data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
                         @endif
                     </div>
@@ -688,7 +688,7 @@
                 <div>
                     <img src="/img/band-wx.jpg" height="150"/>
                 </div>
-                <p class="text-blue text-cen">扫描并绑定
+                <p class="color-blue text-cen">扫描并绑定
                     <br/>
                     理优1对1老师帮
                 </p>

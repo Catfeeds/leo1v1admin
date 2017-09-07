@@ -2622,6 +2622,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $master_adminid_list = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id(1);
+        $master_list=[];
+        foreach($master_adminid_list as $tt){
+            $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
+        }
+        dd($master_list);
+        $num_all_new = count($master_list);
         $list = $this->t_teacher_record_list->get_two_list_record();
         dd($list);
         foreach($list as $val){

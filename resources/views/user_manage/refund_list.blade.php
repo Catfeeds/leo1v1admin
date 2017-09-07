@@ -86,13 +86,18 @@
                         <td >下单超过3个月</td>
 
 
-                        <td colspan="4">咨询部</td>
-                        <td colspan="4">助教部</td>
-                        <td colspan="4">教务部</td>
-                        <td colspan="4">管理部</td>
-                        <td colspan="4">教学部</td>
-                        <td colspan="4">产品部</td>
-                        <td colspan="4">客户情况变化</td>
+                        <td  style="display:none;">咨询部 | 一级原因</td>
+                        <td  style="display:none;">咨询部 | 二级原因</td>
+                        <td  style="display:none;">咨询部 | 三级原因</td>
+                        <td  style="display:none;">咨询部 | 扣分值</td>
+                        <td  style="display:none;">咨询部 | 原因分析</td>
+                        <td  style="display:none;">咨询部</td>
+                        <td  style="display:none;">助教部</td>
+                        <td  style="display:none;">教务部</td>
+                        <td  style="display:none;">管理部</td>
+                        <td  style="display:none;">教学部</td>
+                        <td  style="display:none;">产品部</td>
+                        <td  style="display:none;">客户情况变化</td>
 
                         <td style="min-width:120px;">操作</td>
                     </tr>
@@ -135,27 +140,6 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

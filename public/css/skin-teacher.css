@@ -17,8 +17,7 @@
 .skin-teacher .main-header .navbar .nav .open > a:hover,
 .skin-teacher .main-header .navbar .nav .open > a:focus,
 .skin-teacher .main-header .navbar .nav > .active > a {
-    background: #0B91FF;
-    color: #f6f6f6;
+    background: #DEF4FF;
 }
 .skin-teacher .main-header .navbar .sidebar-toggle {
     padding: 5px 5px;
@@ -26,8 +25,7 @@
     color: #0B91FF;
 }
 .skin-teacher .main-header .navbar .sidebar-toggle:hover {
-  color: #ccc;
-  background-color: #0B91FF;
+  background-color: #DEF4FF;
 }
 
 @media (max-width: 767px) {
@@ -58,7 +56,7 @@
     /*background-color: #357ca5;*/
 }
 .skin-teacher .main-header li.user-header {
-  background-color: #0B91FF;
+  background-color: #DEF4FF;
 }
 .skin-teacher .content-header {
   background: transparent;
@@ -88,6 +86,7 @@
 }
 .skin-teacher .sidebar-menu > li > a {
   border-left: 3px solid transparent;
+  opacity:0.6;
 }
 
 .skin-teacher .sidebar-menu  li:hover > a,
@@ -95,20 +94,16 @@
 {
     border-left-color: #fff;
     background-color: #39BFF8 ;
+    opacity:1;
 }
 .skin-teacher .sidebar-menu   {
     border-left-color: #fff;
-    background-color: #0B91FF;
 }
 
 .skin-teacher .sidebar  {
     margin-top:8px;
 
 }
-.skin-teacher .sidebar-menu > li.treeview.active > a {
-  background-color: #0B91FF ;
-}
-
 @media (min-width: 768px) {
     .sidebar-mini.sidebar-collapse .main-header .logo > .logo-mini {
 	      font-size: 30px;
@@ -117,7 +112,6 @@
 
 .skin-teacher .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
-  background: #0b91FF;
 }
 
 .skin-teacher .sidebar-menu > li    .pull-right-container {
@@ -125,6 +119,7 @@
 }
 .skin-teacher .treeview-menu > li > a {
     font-size:18px;
+    opacity:0.6;
 }
 .skin-teacher .treeview-menu {
     /*padding-left: 0px; */
@@ -145,8 +140,9 @@
 .skin-teacher .sidebar-menu .treeview-menu > li > a:hover,
 .skin-teacher .sidebar-menu .treeview > a:hover
 {
-    background-color: #39BFF8 ;
+    background-color: #3bb1ff;
     border-left-color: #fff;
+    opacity:1;
 }
 
 .skin-teacher .sidebar-form {
@@ -201,3 +197,155 @@
     border: 1px solid #ddd;
 }
 
+.skin-teacher .treeview-menu{
+    padding-left:0;
+}
+.skin-teacher .main-sidebar{
+    background: -webkit-linear-gradient(#0b91ff , #0bceff); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#0b91ff , #0bceff); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#0b91ff , #0bceff); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#0b91ff , #0bceff); /* 标准的语法 */
+}
+
+.skin-teacher .progress{
+    height:7px;
+    margin-top:5px;
+}
+
+.skin-teacher .ft14{
+    font-size:14px;
+}
+.skin-teacher .ft24{
+    font-size:24px;
+}
+.skin-teacher .ft18{
+    font-size:18px;
+}
+.skin-teacher .ft14{
+    font-size:14px;
+}
+.skin-teacher .text-cen{
+    text-align:center;
+}
+.skin-teacher .text-top{
+    vertical-align:top;
+}
+.skin-teacher .r-border{
+    border-right:1px solid #ccc;
+}
+.skin-teacher .bor-hr{
+    border-top:1px solid #ccc;
+    margin-bottom:10px;
+}
+.skin-teacher .color-9{
+    color:#999;
+}
+.skin-teacher .color-red{
+    color:red;
+}
+.skin-teacher .color-blue{
+    color:#00A6FF;
+}
+.skin-teacher .bg-set-blue{
+    background:#00A6ff;
+    color:#fff;
+}
+.skin-teacher .bg-blue{
+    background:#00A6ff;
+}
+
+.skin-teacher .bg-lblue{
+    background:#E6fAff;
+}
+.skin-teacher .bg-linfo{
+    background:#42b2ff;
+}
+
+.skin-teacher .color-fff{
+    color:#fff
+}
+.skin-teacher .bg-lgreen{
+    background:#36d68f;
+}
+.skin-teacher .bg-lpro{
+    background:#6c86e1;
+}
+.skin-teacher .bg-lyellow{
+    background:#ef7d50;
+}
+.skin-teacher .bor-rds{
+    border-radius:5px;
+}
+.skin-teacher .div-bank{
+    width:60%;
+    margin:50px auto;
+}
+.skin-teacher .btn-bank{
+    display:block;
+    width:100%;
+}
+.skin-teacher .flag-baes td{
+    width:30%;
+    text-align:center;
+}
+.skin-teacher input{
+    border:0 solid #fff;
+    width:100%;
+    height:100%;
+}
+.skin-teacher .li-section{
+    padding:20px 20px;
+}
+.skin-teacher .bor-hr{
+    border-top:1px solid #ccc;
+    margin-bottom:10px;
+}
+.skin-teacher .direct-chat-messages {
+    overflow:hidden;
+}
+.skin-teacher .direct-chat-contacts{
+    background:#fff;
+    color:#000;
+}
+.skin-teacher .small-box{
+    height:100px;
+}
+.skin-teacher .box-top-ly{
+	  border-top:3px solid #00A6FF;
+}
+.skin-teacher .box-info-ly{
+	  border-top:3px solid #00A6FF;
+}
+.skin-teacher .text-color-ly{
+	  color: #00A6FF;
+}
+.skin-teacher .btn-info-ly{
+	  background-color:#00A6FF;
+	  color: #FFFFFF;
+}
+
+.skin-teacher .opt-set,.opt-show{
+	  background-color:#00A6FF;
+}
+.skin-teacher button[opt-upload]{
+	  background-color:#00A6FF;
+}
+
+.skin-teacher .main-header .navbar .sidebar-toggle{
+    color:#0bceff;
+}
+
+.skin-teacher .btn-info:hover{
+    background:#0094e3;
+}
+.skin-teacher .btn-info{
+    border:none;
+}
+
+.skin-teacher .direct-chat-messages,.direct-chat-contacts{
+    height: 150px;
+}
+
+.skin-teacher .logo-lg,.logo-mini{
+    margin-top:7px;
+}

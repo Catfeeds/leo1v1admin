@@ -46,6 +46,17 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
         return $this->main_get_row($sql);
     }
 
+    public function get_have_cash($aid){
+        $sql = $this->gen_sql_new(
+            "select sum(cash) have_cash "
+            ." from %s  "
+            ." where aid=%u "
+            ,self::DB_TABLE_NAME
+            ,$aid
+        );
+        return $this->main_get_value($sql);
+    }
+
 }
 
 

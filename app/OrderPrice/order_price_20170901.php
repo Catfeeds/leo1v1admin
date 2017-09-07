@@ -124,11 +124,21 @@ class order_price_20170901 extends order_price_base
             $from_test_lesson_id=@$args["from_test_lesson_id"];
             $task= self::get_task_controler();
             //当配活动
-            $lesson_start= $task->t_lesson_info_b2->get_lesson_start($from_test_lesson_id);
+            $lesson_info= $task->t_lesson_info_b2->field_get_list(
+                $from_test_lesson_id,
+                "lesson_start,userid,grade");
+            $userid = $lesson_info["userid"];
+            $grade  = $lesson_info["grade"];
+            $cur_lesson_start = $lesson_info["lesson_start"];
+            $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
+            $lesson_start = $first_lesson_info["lesson_start"];
+
             $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
             if ( $lesson_count>=30*3 && $lesson_start &&  time(NULL)<$check_time  ) {
                 $free_money+=300;
                 $desc_list[]=static::gen_desc("当配活动",true, "试听后一天内下单 立减 300元" );
+            }else{
+                $desc_list[]=static::gen_desc("当配活动",false );
             }
         }else{
             $desc_list[]=static::gen_desc("当配活动",false );

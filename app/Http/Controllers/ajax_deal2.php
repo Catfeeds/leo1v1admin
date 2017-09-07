@@ -1118,16 +1118,6 @@ class ajax_deal2 extends Controller
         return $this->output_succ(); 
     }
 
-    //删除学生科目教材
-    public function delete_user_subject_textbook(){
-        $userid    = $this->get_in_int_val("userid");
-        $subject    = $this->get_in_int_val("subject");
-        
-        $this->t_student_subject_list->row_delete_2($userid,$subject);
-        return $this->output_succ(); 
-    }
-
-
 
     //根据学生科目获取教材
     public function get_editionid(){
@@ -1137,5 +1127,38 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["editionid"=>$editionid]); 
     }
  
+    //配置教材版本
+    public function set_teacher_textbook(){
+        $id = $this-> get_in_int_val('id');
+        $textbook_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("textbook_list"));
+        $teacher_textbook = implode(",",$textbook_list);
+        $this->t_location_subject_grade_textbook_info->field_update_list($id,[
+            "teacher_textbook"    => $teacher_textbook
+        ]);
+        
+        return $this->output_succ();
+    }
+
+
+    public function get_stu_nick_info(){
+        $userid    = $this->get_in_int_val("userid",166241);
+        $stu_info = $this->t_student_info->field_get_list($userid,"nick,grade,phone");
+        $grade =  E\Egrade::get_desc ($stu_info["grade"]); 
+        $location = \App\Helper\Common::get_phone_location($stu_info["phone"]);
+        $location = substr($location,0,-6);
+        $tea_info = $this->t_lesson_info_b3->get_teacher_identity($userid);
+        $str="";
+        if(!empty($tea_info)){
+            foreach($tea_info as $val){
+                $str .= E\Eidentity::get_desc ($val["identity"]).",";
+            }
+        }
+        $data=["nick"=>$stu_info["nick"],"location"=>$location,"grade"=>$grade,"identity"=>$str];
+        
+
+        return $this->output_succ(["data"=>$data]);
+        
+    }
+
 
 }

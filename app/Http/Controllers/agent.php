@@ -26,8 +26,15 @@ class agent extends Controller
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
             =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
                                                "l2_child_count" => "a.l2_child_count",
+                                               "l1_agent_status_all_money" => "a.l1_agent_status_all_money",
+                                               "l1_agent_status_all_open_money" => "a.l1_agent_status_all_open_money",
                                                "all_money" => "a.all_money",
-            ]  );
+
+                                               "all_yxyx_money" => "a.all_yxyx_money",
+                                               "all_open_cush_money" => "a.all_open_cush_money",
+                                               "order_open_all_money" => "a.order_open_all_money",
+                                               "all_have_cush_money" => "a.all_have_cush_money",
+            ]);
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         $userid_arr = [];
@@ -42,16 +49,26 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
+            E\Eagent_status::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"agent_status_money_open_flag");
+
             E\Eagent_student_status::set_item_value_str($item);
             $item["cc_nick"]= $this->cache_get_account_nick( $item["admin_revisiterid"]);
             $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
             $item["all_money"]/= 100;
+            $item["l1_agent_status_all_money"]/= 100;
+            $item["l1_agent_status_all_open_money"]/= 100;
+            $item["all_yxyx_money"]/= 100;
+            $item["all_open_cush_money"]/= 100;
+            $item["all_have_cush_money"]/= 100;
+            $item["order_open_all_money"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
             $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;
+
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -300,6 +317,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $num = 0;
+        foreach([1,2,3] as $item){
+            $num++;
+        }
+        dd($num);
         // foreach($ret_info as $item){
         //     $userid = $item['userid'];
         //     $this->t_student_info->field_update_list($userid, [

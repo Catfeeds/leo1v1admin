@@ -629,6 +629,32 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1,$adminid=-1)  {
+        $where_arr=[
+            "o.contract_type =0",
+            "o.contract_status in (1,2)",
+            ["m.account_role=%u", $account_role, -1],
+            "s.is_test_user = 0",
+        ];
+        if($adminid){
+            $this->where_arr_add_int_field($where_arr,'m.uid',$adminid);
+        }
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            " select o.orderid,o.price,o.order_time,o.sys_operator, "
+            ." m.uid "
+            ." from %s o "
+            ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on o.userid = s.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function get_1v1_order_list( $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],$adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag  =-1 ) {
 
@@ -2849,14 +2875,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_type in (0,3)",
             "o.contract_status=1",
             "s.is_test_user=0",
-            "s.grade>200",
+            // "s.grade>200",
         ];
         $sql = $this->gen_sql_new(
-            "select s.userid,s.grade"
+            "select distinct s.userid"
             ." from %s o"
             ." left join %s s on o.userid=s.userid"
             ." where %s"
-            ." group by s.userid"
+            // ." group by s.userid"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr

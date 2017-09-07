@@ -1997,7 +1997,11 @@ class test_code extends Controller
         }
     }
 
-
+    public function test_reward(){
+        $type=4;
+        $begin_time = strtotime("2017-4-1");
+        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
+    }
 
 
 
