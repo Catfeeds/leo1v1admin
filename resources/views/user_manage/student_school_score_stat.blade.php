@@ -68,7 +68,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{@$var["realname"]}}</a></td>
+                        <td><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{@$var["nick"]}}</a></td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["semester_str"]}} </td>
                         <td>{{@$var["stu_score_type_str"]}} </td>

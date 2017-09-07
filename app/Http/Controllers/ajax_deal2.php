@@ -1154,9 +1154,9 @@ class ajax_deal2 extends Controller
             }
         }
         $data=["nick"=>$stu_info["nick"],"location"=>$location,"grade"=>$grade,"identity"=>$str];
-        dd($data);
         
 
+        return $this->output_succ(["data"=>$data]);
         
     }
 
