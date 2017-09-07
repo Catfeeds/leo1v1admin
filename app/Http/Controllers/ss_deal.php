@@ -2400,10 +2400,9 @@ class ss_deal extends Controller
                 $userid = $this->t_student_info->get_userid_by_name($v[2],$v[1]);
                 $str .= $userid.",";
             }
-            dd($str);
            
             $this->t_teacher_info->field_update_list(240314,[
-                "limit_plan_lesson_reason" =>urlencode($data)
+                "limit_plan_lesson_reason" =>trim($str,",")
             ]);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 

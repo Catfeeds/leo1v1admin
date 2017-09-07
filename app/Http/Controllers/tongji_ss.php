@@ -7999,7 +7999,7 @@ class tongji_ss extends Controller
     }
 
     public function get_reference_teacher_money_info(){
-        global $_SESSION;
+        // global $_SESSION;
         // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_info_new();
@@ -8010,15 +8010,9 @@ class tongji_ss extends Controller
         // $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
         
         // dd($ret_info);
-        $_SESSION["data"]=1111;
-        session($_SESSION);
-        dd(session("data"));
-        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(60683);
-        $json = stripslashes(html_entity_decode($data));
-        // $content = mb_detect_encoding($data, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));//查看编码
-        $json= mb_convert_encoding($json, "UTF-8");
-        $list = json_decode($json);
-        dd($list);
+       
+        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(240314);
+        $list = explode(",",$data);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
         //  foreach($ret_info["list"] as &$item){
             /* if($item["train_through_new"]==1){
