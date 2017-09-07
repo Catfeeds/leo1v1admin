@@ -67,7 +67,6 @@ $(function(){
         $('.direct-chat-contacts').append(content);
     });
 
-
     var curnum = 6;
     $('#id_prev_year').on('click', function() {
         curnum--;

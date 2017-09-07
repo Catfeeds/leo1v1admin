@@ -145,16 +145,15 @@
                         <td  style="display:none;">QC整体分析</td>
                         <td  style="display:none;">后期应对措施及工作调整方案</td>
 
-                        <td  style="display:none;">责任鉴定 | 咨询部</td>
                         <td  style="display:none;">责任鉴定 | 助教部</td>
                         <td  style="display:none;">责任鉴定 | 教务部</td>
                         <td  style="display:none;">责任鉴定 | 老师管理</td>
                         <td  style="display:none;">责任鉴定 | 教学部</td>
                         <td  style="display:none;">责任鉴定 | 产品问题</td>
+                        <td  style="display:none;">责任鉴定 | 咨询部</td>
                         <td  style="display:none;">责任鉴定 | 客户情况变化</td>
                         <td  style="display:none;">责任鉴定 | 老师</td>
                         <td  style="display:none;">责任鉴定 | 科目</td>
-
 
 
                         <td style="min-width:120px;">操作</td>
@@ -266,6 +265,8 @@
                             <td  >{{@$var["客户情况变化责任值"]}}</td>
                             <td  >{{@$var["老师责任值"]}}</td>
                             <td  >{{@$var["科目责任值"]}}</td>
+
+
 
                             <td >
                                 <div

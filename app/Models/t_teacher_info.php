@@ -471,7 +471,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
-                                                $record_score_num=-1,$identity=-1,$tea_label_type_str=""
+                                                $record_score_num=-1,$identity=-1,$tea_label_type_str="",$plan_level=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -636,6 +636,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
 
 
+        if($plan_level==1){
+           $where_arr[] = "t.test_transfor_per >=20"; 
+        }elseif($plan_level==2){
+           $where_arr[] = "t.test_transfor_per >=10 and t.test_transfor_per <20";  
+        }
 
         $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
