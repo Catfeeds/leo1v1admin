@@ -11,8 +11,11 @@ class teacher_money_www extends Controller
     use CacheNick;
 
     public function get_teacher_money_total_list(){
-        $teacherid = $this->get_login_teacher();
-
+        // $teacherid = $this->get_login_teacher();
+        $teacherid = $this->get_in_int_val("teacherid");;
+        if(!$teacherid){
+            return $this->output_err("老师id出错！");
+        }
         $now_date   = date("Y-m-01",time());
         $begin_time = strtotime("-1 year ",$now_date);
         $end_time   = strtotime("+1 month",strtotime($now_date));
@@ -63,12 +66,12 @@ class teacher_money_www extends Controller
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
         foreach($reward_list as $r_val){
             $month_key = date("Y-m",$r_val['add_time']);
-            $add_time = strtotime("Y-m-d H:i",$r_val['add_time']);
+            $add_time  = strtotime("Y-m-d H:i",$r_val['add_time']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
 
             $reward_money = $r_val['money']/100;
             $reward_arr = [
-                "name"       => "",
+                "name"       => E\Ereward_type::get_desc($r_val['type']),
                 "time"       => $add_time,
                 "state_info" => "",
                 "cost"       => "",
@@ -86,13 +89,11 @@ class teacher_money_www extends Controller
                 $list_reward_key = "compensate";
                 break;
             }
-            $list[$month_key][$list_reward_key][]=$reward_arr;
-            $list[$month_key]["all_money"]+=$reward_money;
+            $list[$month_key][$list_reward_key][]  = $reward_arr;
+            $list[$month_key]["all_money"]        += $reward_money;
         }
 
-
-
-
+        dd($list);
     }
 
     private function get_lesson_cost_info(&$val,&$check_num){

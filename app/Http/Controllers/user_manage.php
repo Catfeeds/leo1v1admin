@@ -1003,6 +1003,8 @@ class user_manage extends Controller
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
 
+        $refund_info = [];
+
         foreach($ret_info['list'] as &$item){
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1067,12 +1069,16 @@ class user_manage extends Controller
                 }
             }
 
+            $refund_info[] = $arr['key1_value'];
+
             // $item['']
 
 
             // $item['all_percent'] = $arr['key1_value'];
 
         }
+
+        // dd($refund_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,

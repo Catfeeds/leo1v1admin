@@ -115,6 +115,7 @@ class NewRouteConfig {
         "channel_manage"              => true,
         "teacher_lesson"              => true,
         "textbook_manage"             => true,
+        "teacher_money_www"           => true,
     ];
 
     //config
