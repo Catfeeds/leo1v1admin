@@ -1050,6 +1050,11 @@ class user_manage extends Controller
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
+            $item['all_percent'] = $arr['key1_value'];
+
+            // foreach($arr['list'] as $v){
+
+            // }
 
 
         }

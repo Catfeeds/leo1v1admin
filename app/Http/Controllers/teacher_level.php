@@ -1001,7 +1001,7 @@ class teacher_level extends Controller
         $userid       = $this->get_in_int_val("userid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
         $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
-        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
+        $ret_info = $this->t_lesson_info_b3->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
 
     }
 
