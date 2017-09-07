@@ -34,14 +34,14 @@ class teacher_money_www extends Controller
             if($val['lesson_type'] != 2){
                 $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
-                $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
+                $lesson_reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
             }else{
                 $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
                     $teacher_money_type,$val['teacher_type'],$val['lesson_start']
                 );
-                $reward = "0";
+                $lesson_reward = "0";
             }
-
+            $lesson_money = $val['lesson_base']+$lesson_reward;
 
             $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
@@ -50,8 +50,13 @@ class teacher_money_www extends Controller
                 "time"       => $lesson_time,
                 "state_info" => $val['lesson_cost_info'],
                 "cost"       => $val['lesson_cost'],
-                "money"      => $val['lesson_cost'],
+                "money"      => $lesson_money,
             ];
+
+            if($val['lesson_type']==2){
+                $list[$month_key]["trial_lesson"]=$lesson_arr
+            }
+
 
         }
     }

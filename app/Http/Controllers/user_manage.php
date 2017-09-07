@@ -1062,12 +1062,11 @@ class user_manage extends Controller
 
                        // $v1[$key1_name] = '';
                        if(isset($v1["$key1_name"])){
-                       
+                          $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
+                          $v1["$key2_name"] = $v1["$key2_name"].'/'$v2['key3_str'];
+                          $v1["$key3_name"] = $v1["$key3_name"].'/'$v2['key4_str'];
+                          $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
                        }
-                       $v1[$key1_name] = $v1[$key1_name].'/'.$v2['key2_str'];
-                       $v1[$key2_name] = $v1[$key2_name].'/'$v2['key3_str'];
-                       $v1[$key3_name] = $v1[$key3_name].'/'$v2['key4_str'];
-                       $v1['reason']   = $v1['reason'].'/'.$v2['reason'];
                        //reason
                     }
                   }
