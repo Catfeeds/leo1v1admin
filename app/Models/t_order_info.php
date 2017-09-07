@@ -629,6 +629,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1)  {
+        $where_arr=[
+            "o1.contract_type =0",
+            "o1.contract_status in (1,2)",
+            ["m.account_role=%u", $account_role, -1],
+            "s2.is_test_user=0",
+        ];
+        $this->where_arr_add_time_range($where_arr,"o1.order_time",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            " select o1.orderid,o1.price,o1.order_time,o1.sys_operator, "
+            ." m.uid "
+            ." from db_weiyi.t_order_info o1 "
+            ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s2 on o1.userid = s2.userid"
+            ."where %s  ",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function get_1v1_order_list( $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],$adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag  =-1 ) {
 
