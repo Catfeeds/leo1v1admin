@@ -81,11 +81,20 @@
 
                     {!!\App\Helper\Utils::th_order_gen([
 
-                        ["提成金额" , "all_money"],
-                        ["1级人数" , "l1_child_count"],
-                        ["2级人数" , "l2_child_count"],
+
+                        ["总金额" , "all_yxyx_money"],
+                        ["总金额(可提现)" , "all_open_cush_money"],
+                        ["总金额(已提现)" , "all_have_cush_money"],
+
+                        ["佣金金额" , "all_money"],
+                        ["佣金金额(可提现)" , "order_open_all_money"],
+
                         ["1级试听提成金额" , "l1_agent_status_all_money"],
                         ["1级试听提成金额(可提现)" , "l1_agent_status_all_open_money"],
+
+
+                        ["1级人数" , "l1_child_count"],
+                        ["2级人数" , "l2_child_count"],
                        ]) !!}
 
                     <td  >l1完成试听数</td>
@@ -114,11 +123,19 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
+
+                        <td>{{@$var["all_yxyx_money"]}} </td>
+                        <td>{{@$var["all_open_cush_money"]}} </td>
+                        <td>{{@$var["all_have_cush_money"]}} </td>
+
                         <td>{{@$var["all_money"]}} </td>
-                        <td>{{@$var["l1_child_count"]}} </td>
-                        <td>{{@$var["l2_child_count"]}} </td>
+                        <td>{{@$var["order_open_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_open_money"]}} </td>
+
+
+                        <td>{{@$var["l1_child_count"]}} </td>
+                        <td>{{@$var["l2_child_count"]}} </td>
                         <td>{{@$var["l1_agent_status_test_lesson_succ_count"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>

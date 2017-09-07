@@ -265,7 +265,6 @@ class wx_yxyx_api extends Controller
 
     public function get_user_cash(){
         $agent_id = $this->get_agent_id();
-        $type = $this->get_in_int_val('type');
 
         $list=$this->t_agent->get_link_list_by_ppid($agent_id);
 
