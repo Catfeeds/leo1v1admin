@@ -362,21 +362,38 @@ class test_boby extends Controller
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
         $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        // $lessonid_list = ['318453','318454','318455','318456'];
-        // $lessonid_list = ['318457','318458','318459'];
-        $lessonid_list = ['318460','318461','318462'];
-        // $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
-
         // foreach ($lessonid_list as $v) {
         //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
         // }
         // echo 'ok';
         // exit;
+        $g100 = [];
+        $g200 = [];
+        $g300 = [];
         foreach ($lessonid_list as $v){
-            foreach ($userid_list as $item) {
-                $userid = $item['userid'];
-                $lessonid = $v;
-                $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+            if ($v['grade'] < 200) {
+                $g100[] = $v['lessonid'];
+            } else if ($v['grade'] < 300) {
+                $g200[] = $v['lessonid'];
+            }else {
+                $g300[] = $v['lessonid'];
+            }
+        }
+        foreach ($userid_list as $item) {
+            if ($item['grade'] > 0) {
+                if ($item['grade'] < 200 ) {
+                    foreach ($g100 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                } else if ($item['grade'] < 300 ) {
+                    foreach ($g200 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                } else {
+                    foreach ($g300 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                }
             }
         }
 
