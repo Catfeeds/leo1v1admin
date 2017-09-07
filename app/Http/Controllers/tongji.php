@@ -1746,6 +1746,43 @@ class tongji extends Controller
         }
         $account_role = E\Eaccount_role::V_2;
         $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role);
+        $adminid_list = array_unique(array_column($order_user_list,'uid'));
+        $adminid = 0;
+        $account = '';
+        $price_sum = 0;
+        $ret = [];
+        $ret_info = [];
+        foreach($adminid_list as $item){
+            foreach($order_user_list as $info){
+                if($info['uid'] == $item){
+                    $ret[$item][] = $info;
+                }
+            }
+        }
+        dd($ret);
+        foreach($ret as $item){
+            foreach($item as $info){
+                $adminid = $info['adminid'];
+                $account = $info['account'];
+                $price_sum += $info['price'];
+            }
+            $ret_info[]['adminid'] = $adminid;
+            $ret_info[]['account'] = $account;
+            $ret_info[]['money'] = $price_sum;
+        }
+        dd($ret_info);
+        $ret_info = [
+            [
+                'adminid' => $adminid,
+                'account' => $account,
+                'money1'  => $mondy1,
+                'money2'  => $mondy2,
+                'money3'  => $mondy3,
+                'money4'  => $mondy4,
+                'money5'  => $mondy5,
+                'money6'  => $mondy6,
+            ],
+        ];
         dd($order_user_list);
 
 
