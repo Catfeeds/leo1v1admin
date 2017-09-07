@@ -31,8 +31,6 @@
         <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
         <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
-        <!-- 自定义样式表 -->
-        <link rel="stylesheet" href="/css/teacher-info.css">
         <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
 
 
@@ -51,7 +49,7 @@
                 <!-- Logo -->
                 <a href="/teacher_info/index" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <!-- <span class="logo-mini"> <embed src="/img/leo1.svg" type="image/svg+xml" style="width:50px;height:50px"/></span> -->
+                    <!-- <span class="logo-mini"> <embed src="/img/leo1.svg" type="image/svg+xml" style="width:50px;height:50px"/> </span> -->
                     <span class="logo-mini"><img src="/img/leo1.png" width="100%"></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="/img/leo2.png"></span>
