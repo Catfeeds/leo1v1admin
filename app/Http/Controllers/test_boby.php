@@ -387,23 +387,25 @@ class test_boby extends Controller
 
     public function get_teacher(){
 
-        $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
-        $ret = $this->t_lesson_info_b2->get_teacher($sql);
+        // $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
+        $sql = 'select  FROM_UNIXTIME(l.lesson_start) as tt_time, s.userid,  s.phone, t.subject, s.nick  from db_weiyi.t_test_lesson_subject_require tr  join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id  join db_weiyi.t_seller_student_new n  on t.userid=n.userid  join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid  join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid  join db_weiyi.t_student_info s on s.userid = l.userid  join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid   where  lesson_start >0 and accept_flag=1   and s.is_test_user=0 and l.lesson_type=2 and success_flag=1   and l.lesson_start>1483200000 and not exists (select 1 from db_weiyi.t_order_info o where s.userid=o.userid and o.contract_type in (0,3) and contract_status>0)
+group by s.userid';
+        $ret = $this->t_student_info->get_teacher($sql);
         $s = '<table border=1><tr>'
            .'<td>id</td>'
            .'<td>名字</td>'
            .'<td>tel</td>'
-           .'<td>time</td>'
-           .'<td>课耗</td>'
+           .'<td>科目</td>'
+           .'<td>上课时间</td>'
            .'</tr>';
 
         foreach ($ret as &$item) {
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-                $s = $s.'<tr><td>'.$item["teacherid"].'</td>'
+            E\Esubject::set_item_value_str($item);
+                $s = $s.'<tr><td>'.$item["userid"].'</td>'
                    .'<td>'.$item["nick"].'</td>'
                    .'<td>'.$item["phone"].'</td>'
-                   .'<td>'.$item["create_time"].'</td>'
-                   .'<td>'.$item["lesson_conun"].'</td>'
+                   .'<td>'.$item["subject_str"].'</td>'
+                   .'<td>'.$item["tt_time"].'</td>'
                    .'</tr>';
         }
 
