@@ -1060,14 +1060,17 @@ class user_manage extends Controller
                        $key2_name = $v1['value'].'一级原因';
                        $key3_name = $v1['value'].'一级原因';
 
-                       // $v1[$key1_name] = '';
                        if(isset($v1["$key1_name"])){
                           $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
                           $v1["$key2_name"] = $v1["$key2_name"].'/'$v2['key3_str'];
                           $v1["$key3_name"] = $v1["$key3_name"].'/'$v2['key4_str'];
                           $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
+                       }else{
+                          $v1["$key1_name"] = $v2['key2_str'];
+                          $v1["$key2_name"] = $v2['key3_str'];
+                          $v1["$key3_name"] = $v2['key4_str'];
+                          $v1['reason']     = $v2['reason'];
                        }
-                       //reason
                     }
                   }
                }
@@ -1669,7 +1672,7 @@ class user_manage extends Controller
         }
 
         $arr = $this->get_refund_analysis_info($orderid,$apply_time);
-        // dd($arr);
+        dd($arr);
 
         return $this->pageView(__METHOD__,null,
                                ["refund_info" => $arr['list'],
@@ -1745,6 +1748,33 @@ class user_manage extends Controller
                 }
             }
         }
+
+
+
+        foreach($key1_value as &$v1){
+            foreach($list as $v2){
+                if($v2['key1_str'] == $v1['value']){
+                    $key1_name = $v1['value'].'一级原因';
+                    $key2_name = $v1['value'].'二级原因';
+                    $key3_name = $v1['value'].'三级原因';
+
+                    if(isset($v1["$key1_name"])){
+                        $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
+                        $v1["$key2_name"] = $v1["$key2_name"].'/'.$v2['key3_str'];
+                        $v1["$key3_name"] = $v1["$key3_name"].'/'.$v2['key4_str'];
+                        $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
+                        $v1['dep_score']  = $v1['dep_score'].'/'.$v2['score'];
+                    }else{
+                        $v1["$key1_name"] = $v2['key2_str'];
+                        $v1["$key2_name"] = $v2['key3_str'];
+                        $v1["$key3_name"] = $v2['key4_str'];
+                        $v1['reason']     = $v2['reason'];
+                        $v1['dep_score']  = $v2['score'];
+                    }
+                }
+            }
+        }
+
 
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;
