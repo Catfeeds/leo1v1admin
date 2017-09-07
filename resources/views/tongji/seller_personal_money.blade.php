@@ -32,7 +32,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["money1"]}} </td>
+                        <td>{{@$var["money2"]}} </td>
+                        <td>{{@$var["money3"]}} </td>
+                        <td>{{@$var["money4"]}} </td>
+                        <td>{{@$var["money5"]}} </td>
+                        <td>{{@$var["money6"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
