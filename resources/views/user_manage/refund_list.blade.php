@@ -198,16 +198,21 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
-                            <td>{{@$var["助教问题一级原因"]}}</td>
-                            <td>{{@$var["助教问题二级原因"]}}</td>
-                            <td>{{@$var["助教问题三级原因"]}}</td>
+                            <td>{{@$var["助教部一级原因"]}}</td>
+                            <td>{{@$var["助教部二级原因"]}}</td>
+                            <td>{{@$var["助教部三级原因"]}}</td>
                             <td>{{@$var["dep_score"]}}</td>
                             <td>{{@$var["reason"]}}</td>
 
+                            <td>{{@$var["教务部一级原因"]}}</td>
+                            <td>{{@$var["教务部二级原因"]}}</td>
+                            <td>{{@$var["教务部三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
 
-                            <td>{{@$var["助教问题一级原因"]}}</td>
-                            <td>{{@$var["助教问题二级原因"]}}</td>
-                            <td>{{@$var["助教问题三级原因"]}}</td>
+                            <td>{{@$var["老师管理一级原因"]}}</td>
+                            <td>{{@$var["老师管理二级原因"]}}</td>
+                            <td>{{@$var["老师管理三级原因"]}}</td>
                             <td>{{@$var["dep_score"]}}</td>
                             <td>{{@$var["reason"]}}</td>
 

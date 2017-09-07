@@ -91,19 +91,30 @@
                                
                                 <tbody >
                                         <tr>
-                                            <td class="">类型</td>
-                                            <td class="panel-red">试听成功人数</td>
-                                            <td class="panel-blue">签约单数</td> 
-                                            <td class="panel-yellow">转化率</td> 
+                                            <td class="panel-gray">类型</td>
+                                            <td class="panel-gray">试听成功人数</td>
+                                            <td class="panel-gray">签约单数</td> 
+                                            <td class="panel-gray">转化率</td> 
                                         </tr>
-                                        @foreach ( $table_data_list as $var )
                                         <tr>
-                                            <td >{{@$var['name']}}</td> 
+                                            <td >1000精排</td> 
+                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
+                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
+                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
+                                        </tr>
+                                        <tr>
+                                            <td >绿色通道</td> 
                                             <td >{{@$var['cc']}}</td> 
                                             <td >{{@$var['trans']}}</td>
                                             <td >{{@$var['per']}}</td>
                                         </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td >常规排课</td> 
+                                            <td >{{@$var['cc']}}</td> 
+                                            <td >{{@$var['trans']}}</td>
+                                            <td >{{@$var['per']}}</td>
+                                        </tr>
+
                                 </tbody>
                             </table>
 
