@@ -169,4 +169,27 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_teacher_identity($userid){
+        $start_time = time()-50*86400;
+        $end_time = time();
+        $where_arr = [
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["l.userid = %u",$userid,-1],
+            "lesson_status=2",
+            "lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            "t.is_test_user=0",
+        ];
+        $sql = $this->gen_sql_new("select distinct t.identity "
+                                  ." from %s l left join %s t on l.teacherid= t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }

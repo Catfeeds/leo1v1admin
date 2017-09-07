@@ -65,6 +65,8 @@ class wx_yxyx_api extends Controller
             'cash'       => $cash_new,
             'wx_headimgurl' => $agent_info['headimgurl'],
             'wx_nick' => $agent_info['nickname'],
+            "child_count" =>  10,//下线个数
+            "star_count" =>  10,//下线个数
             //"all_money"  => $agent_info[""];
         ];
 

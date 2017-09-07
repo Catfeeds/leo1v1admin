@@ -31,13 +31,14 @@ class teacher_money extends Controller
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
-        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
+        $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_type = $simple_info['teacher_money_type'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
 
         $start = strtotime("-1 month",$start_time);
         $end   = strtotime("-1 month",$end_time);
         $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
         if($transfer_teacherid>0){
             $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
             $last_lesson_count += $old_lesson_count;
@@ -152,7 +153,6 @@ class teacher_money extends Controller
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
 
         \App\Helper\Utils::logger("teacherid11233:$teacherid,".json_encode($lesson_list));
-
         return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
     }
 

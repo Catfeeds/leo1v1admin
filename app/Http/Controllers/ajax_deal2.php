@@ -1147,6 +1147,15 @@ class ajax_deal2 extends Controller
         $location = \App\Helper\Common::get_phone_location($stu_info["phone"]);
         $location = substr($location,0,-6);
         $tea_info = $this->t_lesson_info_b3->get_teacher_identity($userid);
+        $str="";
+        if(!empty($tea_info)){
+            foreach($tea_info as $val){
+                $str .= E\Eidentity::get_desc ($val["identity"]).",";
+            }
+        }
+        $data=["nick"=>$stu_info["nick"],"location"=>$location,"grade"=>$grade,"identity"=>$str];
+        dd($data);
+        
 
         
     }
