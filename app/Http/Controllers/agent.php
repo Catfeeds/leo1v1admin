@@ -1522,6 +1522,7 @@ class agent extends Controller
         $original_path= $url;
         $dest_path = $path.uniqid().'.png';
         $src = imagecreatefromstring(file_get_contents($original_path));
+        dd($src);
         $newpic = imagecreatetruecolor($w,$h);
         imagealphablending($newpic,false);
         $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
