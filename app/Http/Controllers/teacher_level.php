@@ -933,6 +933,9 @@ class teacher_level extends Controller
             }elseif($lesson_style==4){
                 $nick = $this->t_student_info->get_nick($userid);
                 $str = "学生:".$nick."的第五次常规课教学反馈";
+            }elseif($lesson_style==6){
+                $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                $str = "教学反馈";
             }
 
             /**
@@ -1001,7 +1004,8 @@ class teacher_level extends Controller
         $userid       = $this->get_in_int_val("userid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
         $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
-        $ret_info = $this->t_lesson_info_b3->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
+        $ret_info = $this->t_lesson_info_b3->get_seller_top_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
+        dd($ret_info);
 
     }
 
