@@ -2121,12 +2121,9 @@ trait  TeaPower {
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "通过模拟试听即可获得晋升，理优教育致力于打造高水平的教学服务团队，期待您能通过审核，加油！";
                 $url = "";
-                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
-                // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
             }
-
         }elseif($flag==2){
             if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
                 /**
@@ -2147,12 +2144,9 @@ trait  TeaPower {
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "通过模拟试听即可获得晋升，理优教育致力于打造高水平的教学服务团队，期待您能通过审核，加油！";
                 $url = "";
-                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
-                // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
             }
-
         }
 
         return true;
@@ -2195,9 +2189,7 @@ trait  TeaPower {
             $reference = 1;
         }
         return $reference;
-
     }
-
 
     public function teacher_train_through_deal($teacher_info,$flag){
         $today_date  = date("Y年m月d日",time());
