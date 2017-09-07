@@ -72,29 +72,20 @@ $(function(){
         element: 'line-chart',
         resize: true,
         data: [
-            {x: '2016-05', y: 2645},
-            {x: '2016-06', y: 3789},
-            {x: '2016-07', y: 4052},
-            {x: '2016-08', y: 3927},
-            {x: '2016-09', y: 8020},
-            {x: '2016-10', y: 6050},
-            {x: '2016-11', y: 7150},
-            {x: '2016-12', y: 6500},
-            {x: '2017-01', y: 2686},
-            {x: '2017-02', y: 2778},
             {x: '2017-03', y: 4912},
             {x: '2017-04', y: 3767},
             {x: '2017-05', y: 6810},
             {x: '2017-06', y: 5670},
             {x: '2017-07', y: 7100},
             {x: '2017-08', y: 5920},
-
         ],
         xkey: 'x',
         ykeys: ['y'],
         labels: ['工资'],
-        lineColors: ['#00c0ef'],
-        hideHover: 'auto'
+        lineColors: ['#00a6ff'],
+        hideHover: true,
+        parseTime:false,
+        smooth:false,
     });
 
     var month_change = function (month){
@@ -115,6 +106,8 @@ $(function(){
             month = 12;
         }
     });
+    var pic_code = $('#line-chart').html();
+    console.log(pic_code)
 
 });
 

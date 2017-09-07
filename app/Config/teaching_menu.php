@@ -100,6 +100,8 @@ class teaching_menu{
 
 
                 [ "name"=>"教研部",  "list"=>[
+                    ["name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
+
                     [ "name"=>"教研组",  "list"=>[
                         ["name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                         ["name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],

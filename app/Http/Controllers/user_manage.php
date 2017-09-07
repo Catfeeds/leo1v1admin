@@ -1037,7 +1037,19 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
+
+            // 获取退费分析
+            $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
+            $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
+            $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
+            $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
+
+
+
+
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
@@ -1625,13 +1637,35 @@ class user_manage extends Controller
         }
 
         // dd($list);
-        list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
+        // list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
 
         //以上处理原因填写
 
         $total_score   = 0;
         $key1_value    = $this->t_order_refund_confirm_config->get_all_key1_value();
         $has_teaching  = true;
+
+        // dd($key1_value);
+
+        /**
+         * 规则: 如果教学部的责任为0 则 老师|科目的责任也为0 [QC-文斌]
+         * 责任占比=部门分值/总分
+         * 部门分值=（部门问题1分值+。。。。。。+部门问题N分值）/N
+         * 总分=部门1分值+。。。+部门N分值
+         */
+
+        // foreach($list as $i1=>&$v1){
+        //     foreach($list as $i2=>&$v2){
+        //         $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+        //         $v1['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v1['configid']);
+
+        //         if($v2['department'] == $v1['department']){
+        //             $score = $v1['score'];
+        //         }
+        //     }
+        // }
+
+
 
         foreach ($list as &$item) {
             $total_score += $item['score'];
@@ -1663,7 +1697,6 @@ class user_manage extends Controller
 
         $all_percent = [];
 
-        // dd($key1_value);
 
         foreach ($key1_value as &$item) {
             $item['responsibility_percent']  = 0;
@@ -1686,6 +1719,8 @@ class user_manage extends Controller
             }
         }
         //以上处理责任比率
+        // dd($all_percent);
+        // dd($list);
 
         $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
 
@@ -1701,9 +1736,9 @@ class user_manage extends Controller
     public function add_qc_analysis_by_order_apply(){
         $orderid           = $this->get_in_int_val("orderid");
         $apply_time        = $this->get_in_int_val("apply_time");
-        $qc_other_reason   = $this->get_in_str_val("qc_other_reason");
-        $qc_analysia       = $this->get_in_str_val("qc_analysia");
-        $qc_reply          = $this->get_in_str_val("qc_reply");
+        $qc_other_reason   = trim($this->get_in_str_val("qc_other_reason"));
+        $qc_analysia       = trim($this->get_in_str_val("qc_analysia"));
+        $qc_reply          = trim($this->get_in_str_val("qc_reply"));
         $qc_contact_status     = $this->get_in_int_val('qc_contact_status');
         $qc_advances_status    = $this->get_in_int_val('qc_advances_status');
         $qc_voluntarily_status = $this->get_in_int_val('qc_voluntarily_status');
@@ -2310,9 +2345,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-    	if($ret_info['list'][$key]['total_score']){
-    	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-    	}
+        if($ret_info['list'][$key]['total_score']){
+        $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+        }
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
@@ -2387,7 +2422,7 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => 1, 
+                "name" => 1,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2403,7 +2438,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             2 => [
-                "name" => 2, 
+                "name" => 2,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2419,7 +2454,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             3 => [
-                "name" => 3, 
+                "name" => 3,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2435,7 +2470,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             4 => [
-                "name" => 4, 
+                "name" => 4,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2451,7 +2486,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             5 => [
-                "name" => 5, 
+                "name" => 5,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2467,7 +2502,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             6 => [
-                "name" => "5科以上", 
+                "name" => "5科以上",
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2525,7 +2560,7 @@ class user_manage extends Controller
                 "ret_info" => @$ret_student_subject,
         ]);
     }
-   
+
 
    /**
      * @author    sam
@@ -2552,19 +2587,19 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => "普通排课", 
+                "name" => "普通排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             2 => [
-                "name" => "Top20排课", 
+                "name" => "Top20排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             3 => [
-                "name" => "抢课", 
+                "name" => "抢课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
@@ -2634,7 +2669,7 @@ class user_manage extends Controller
             $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
         return $this->Pageview(__METHOD__,$ret_list );
-    
+
     }
 
 
@@ -2645,7 +2680,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
-	$assistantid = 190500	;
+    $assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){

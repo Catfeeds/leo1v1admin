@@ -8,6 +8,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 		parent::__construct();
 	}
 
+
     public function check_is_exists($money_info,$type=-1){
         $where_arr = [
             ["money_info='%s'",$money_info,""],
@@ -39,7 +40,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     }
 
     /**
-     * 获取老师的额外奖励薪资
+     * 获取老师的额外奖励薪资总和
      * @param teacherid 老师id
      * @param start     统计奖励的开始时间
      * @param end       统计奖励的开始时间
@@ -62,6 +63,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_value($sql);
     }
 
+    //获取额外薪资明细
     public function get_teacher_honor_money_list($teacherid,$start,$end,$type=0){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
@@ -78,7 +80,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
-
+    //签单奖
     public function get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid){
         if($lessonid==-1){
             $where_arr = [
@@ -185,6 +187,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
+    /**
+     * 未上过课获得伯乐奖老师列表
+     */
     public function get_reward_list($start,$end,$reward_type){
         $where_arr = [
             ["add_time>%u",$start,0],

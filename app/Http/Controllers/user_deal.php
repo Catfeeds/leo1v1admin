@@ -2622,6 +2622,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        dd(session());
         $list = $this->t_teacher_record_list->get_two_list_record();
         dd($list);
         foreach($list as $val){

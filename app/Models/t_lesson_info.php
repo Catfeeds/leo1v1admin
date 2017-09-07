@@ -2905,6 +2905,7 @@ lesson_type in (0,1) "
         );
         return $this->main_get_list($sql);
     }
+
     public function get_open_lesson_user($lessonid){
         $sql = $this->gen_sql_new("select s.nick,s.phone,l.grade"
                                   ." from %s l"
@@ -2920,6 +2921,7 @@ lesson_type in (0,1) "
         );
         return $this->main_get_list($sql);
     }
+
     public function get_error_test_lesson_list($page_num,$start_time,$end_time) {
 
         /*
