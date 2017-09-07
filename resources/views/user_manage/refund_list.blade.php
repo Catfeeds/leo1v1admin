@@ -92,11 +92,24 @@
                         <td  style="display:none;">助教部 | 扣分值</td>
                         <td  style="display:none;">助教部 | 原因分析</td>
 
-                        <td  style="display:none;">助教部 | 一级原因</td>
-                        <td  style="display:none;">助教部 | 二级原因</td>
-                        <td  style="display:none;">助教部 | 三级原因</td>
-                        <td  style="display:none;">助教部 | 扣分值</td>
-                        <td  style="display:none;">助教部 | 原因分析</td>
+                        <td  style="display:none;">教务部 | 一级原因</td>
+                        <td  style="display:none;">教务部 | 二级原因</td>
+                        <td  style="display:none;">教务部 | 三级原因</td>
+                        <td  style="display:none;">教务部 | 扣分值</td>
+                        <td  style="display:none;">教务部 | 原因分析</td>
+
+                        <td  style="display:none;">老师管理 | 一级原因</td>
+                        <td  style="display:none;">老师管理 | 二级原因</td>
+                        <td  style="display:none;">老师管理 | 三级原因</td>
+                        <td  style="display:none;">老师管理 | 扣分值</td>
+                        <td  style="display:none;">老师管理 | 原因分析</td>
+
+                        <td  style="display:none;">教学部 | 一级原因</td>
+                        <td  style="display:none;">教学部 | 二级原因</td>
+                        <td  style="display:none;">教学部 | 三级原因</td>
+                        <td  style="display:none;">教学部 | 扣分值</td>
+                        <td  style="display:none;">教学部 | 原因分析</td>
+
 
 
 

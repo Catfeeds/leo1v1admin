@@ -242,8 +242,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_tongji_cc( $start_time,$end_time,$require_type,$set_type){
         $where_arr = [
-            ["lesson_start >= %u",$start_time,-1],
-            ["lesson_start < %u",$end_time,-1],
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
@@ -256,8 +254,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["lesson_start >= %u",$start_time,-1];
             $where_arr[]= ["lesson_start < %u",$end_time,-1];
         }elseif($set_type==2){
-            $where_arr[]= ["lesson_start >= %u",$start_time,-1];
-            $where_arr[]= ["lesson_start < %u",$end_time,-1];
+            $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
+            $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
+        }
+        if($require_type==1){
+            $where_arr[] = "tss.top_seller_flag=1";
+        }elseif($require_type==2){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =1";
+        }elseif($require_type==3){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =0";
         }
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"

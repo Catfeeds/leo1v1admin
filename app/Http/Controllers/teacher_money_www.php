@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 class teacher_money_www extends Controller
 {
     use CacheNick;
+    use TeaPower;
 
     public function get_teacher_money_total_list(){
         // $teacherid = $this->get_login_teacher();
@@ -41,14 +42,14 @@ class teacher_money_www extends Controller
 
             $key = "already_lesson_count_".$month_key."_".$teacherid;
             if(!isset($already_lesson_count_list[$key])){
-                $last_lesson_count = Redis::get($key);
+                $last_lesson_count = \App\Helper\Common::redis_get($key);
                 if($last_lesson_count === null){
                     $last_end_time = strtotime(date("Y-m-01",$val['lesson_start']));
                     $last_start_time = strtotime("-1 month",$last_end_time);
                     $last_lesson_count = $this->get_already_lesson_count(
                         $last_start_time,$last_end_time,$teacherid,$val['teacher_money_type']
                     );
-                    Redis::set($key,$last_lesson_count);
+                    \App\Helper\Common::redis_set($key,$last_lesson_count);
                 }
                 $already_lesson_count_list[$key] = $last_lesson_count;
             }else{

@@ -46,8 +46,8 @@ class wx_yxyx_api extends Controller
 
         $agent_level = (int)$agent_info['agent_level'];
         $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
-        $headimgurl   = $agent_info['headimgurl']?$agent_info['headimgurl']:'';
-        $nickname     = $agent_info['nickname']?$agent_info['nickname']:'';
+        $headimgurl   = $agent_info['headimgurl'];
+        $nickname     = $agent_info['nickname'];
         $pay          = 0;
         $cash         = 0;
         $have_cash    = 0;
