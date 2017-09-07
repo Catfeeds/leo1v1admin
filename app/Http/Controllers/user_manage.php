@@ -1656,57 +1656,30 @@ class user_manage extends Controller
 
         // 测试
 
-        // foreach ($list as &$item) {
-        //     $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
-        //     if ($item['department'] == "教学部") {
-        //         $has_teaching = false;
-        //     }
-        // }
-
-        // foreach($list as &$item){
-        //     $is_hasScoreFlag = false;
-
-        //     if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
-        //         $is_hasScoreFlag = true;
-        //     }
-
-        //     if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
-        //         $total_score = $total_score - $item['score'];
-        //     }
-        // }
-
-
-
         $total_score = 0;
         foreach($key1_value as $k1=>&$v1){
             $num = 0;
             $score = 0;
-            // $has_teaching = true;
 
             foreach($list as $i2=>&$v2){
-                // $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+                $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
                 }
-
-                if(($v2["department"] == "教学部" && $v2['score'] == 0) || $has_teaching) {
-                    $is_hasScoreFlag = true;
-                }
-
-            }
-
-            foreach($list as $i3=>&$v3){
-
             }
 
             if($num>0){
+                if((!isset($v1['score']) || $v1['score'] ==0) && $v1['value'] == '教学部'){
+                    
+                }
                 $v1['score'] = $score/$num;
                 $total_score += ($score/$num);
             }
         }
         // dd($key1_value);
+        // dd($total_score);
         // 测试
 
 
