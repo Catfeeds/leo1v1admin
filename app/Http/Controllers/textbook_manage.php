@@ -13,7 +13,18 @@ class textbook_manage extends Controller
     use TeaPower;
 
     public function get_subject_grade_textbook_info(){
-        $ret_info = \App\Helper\Utils::list_to_page_info([]);
+        $page_info = $this->get_in_page_info();
+        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info($page_info);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade::set_item_value_str($item,"grade");
+            $arr= explode(",",$item["teacher_textbook"]);
+            foreach($arr as $val){
+                @$item["textbook_str"] .=  E\Eregion_version::get_desc ($val).",";
+            }
+            $item["textbook_str"] = trim($item["textbook_str"],",");
+ 
+        }
         return $this->pageView(__METHOD__,$ret_info);
 
     }

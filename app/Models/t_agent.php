@@ -1054,15 +1054,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function eval_agent_status_money($agent_status ){
         switch ( $agent_status ) {
         case E\Eagent_status::V_1 :
-            return 5;
+            return 500;
 
         case E\Eagent_status::V_10 :
-            return 10;
+            return 1000;
         case E\Eagent_status::V_20 :
-            return 20;
+            return 2000;
         case E\Eagent_status::V_30 :
         case E\Eagent_status::V_40 :
-            return 50;
+            return 5000;
         default:
             return 0;
         }
@@ -1111,10 +1111,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_status_money_open_flag= 0;
         if ($agent_status == E\Eagent_status::V_40  ) {
             $agent_status_money_open_flag= 1;
-        } else {
+        } else if (  $agent_status == E\Eagent_status::V_30) {
             $parentid= $agent_info["parentid"];
             if ($parentid) { //父节点
-                $parent_l1_agent_status_test_lesson_succ_count=  $this->get_l1_agent_status_test_lesson_succ_count($id);
+                $parent_l1_agent_status_test_lesson_succ_count=  $this->get_l1_agent_status_test_lesson_succ_count($parentid);
                 if ($parent_l1_agent_status_test_lesson_succ_count>=4)  {
                     $agent_status_money_open_flag= 1;
                 }
@@ -1123,7 +1123,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $l1_agent_status_all_open_money=0;
         $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
         if ( $l1_agent_status_test_lesson_succ_count >=4 ) {
-            $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50;
+            $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50*100;
         }
 
 

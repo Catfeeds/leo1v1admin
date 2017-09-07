@@ -25,7 +25,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
     public function get_grade_first_test_lesson($userid, $grade ) {
         $sql = $this->gen_sql_new(
-            "select lesson_start where %s"
+            "select lesson_start from %s"
             . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start asc limit 1  ",
             self::DB_TABLE_NAME,
             $userid, $grade
