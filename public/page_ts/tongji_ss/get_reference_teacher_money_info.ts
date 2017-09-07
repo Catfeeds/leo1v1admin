@@ -15,8 +15,10 @@ $(function(){
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
-                var opt_data=$tr.find(".course_plan").get_opt_data();
-                var lessonid = opt_data.lessonid;
+                var opt_data=$tr.find(".course_plan");
+                var lessonid = opt_data.data("userid");
+                alert(lessonid);
+                return;
                 if(lessonid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,

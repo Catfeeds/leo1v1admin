@@ -1681,6 +1681,7 @@ class user_manage extends Controller
         foreach($key1_value as $k1=>&$v1){
             $num = 0;
             $score = 0;
+            // $has_teaching = true;
 
             foreach($list as $i2=>&$v2){
                 // $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
@@ -1693,6 +1694,10 @@ class user_manage extends Controller
                 if(($v2["department"] == "教学部" && $v2['score'] == 0) || $has_teaching) {
                     $is_hasScoreFlag = true;
                 }
+
+            }
+
+            foreach($list as $i3=>&$v3){
 
             }
 

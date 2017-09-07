@@ -40,6 +40,10 @@
 
                        
                         <td>
+                            <div class="row-data" data-userid="{{$var}}" >
+                                <a class="fa fa-list course_plan" title="按课程包排课"> </a>
+                            </div>
+
                         </td>
                     </tr>
                 @endforeach
