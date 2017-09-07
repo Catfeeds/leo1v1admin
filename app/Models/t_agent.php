@@ -1106,9 +1106,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
         $level_count_info= $this-> get_level_count_info($id);
-        $l1_lesson_info=$this-> get_l1_test_lesson_succ_count_from_lesson($id);
-        $agent_status_money= $this->eval_agent_status_money($agent_status);
         $agent_status_money_open_flag= 0;
+        $agent_status_money =0;
+        $l1_agent_status_test_lesson_succ_count=0;
+        $l1_agent_status_all_money =0;
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        if ($agent_info["create_time"] > $yxyx_check_time)  {
+            $l1_lesson_info=$this-> get_l1_test_lesson_succ_count_from_lesson($id);
+            $agent_status_money= $this->eval_agent_status_money($agent_status);
+            $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
+            $l1_agent_status_all_money= $l1_lesson_info["l1_agent_status_all_money"]; 
+        }else{
+            $agent_status=E\Eagent_status::V_0;
+        }
+
+
+        //$agent_info
         if ($agent_status == E\Eagent_status::V_40  ) {
             $agent_status_money_open_flag= 1;
         } else if (  $agent_status == E\Eagent_status::V_30) {
@@ -1121,7 +1135,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
         }
         $l1_agent_status_all_open_money=0;
-        $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
         if ( $l1_agent_status_test_lesson_succ_count >=4 ) {
             $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50*100;
         }
@@ -1141,7 +1154,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "agent_status_money_open_flag" => $agent_status_money_open_flag,
             "l1_agent_status_all_open_money" =>  $l1_agent_status_all_open_money,
             "l1_agent_status_test_lesson_succ_count" =>  $l1_agent_status_test_lesson_succ_count,
-            "l1_agent_status_all_money" =>  $l1_lesson_info["l1_agent_status_all_money"] ,
+            "l1_agent_status_all_money" =>  $l1_agent_status_all_money,
         ]);
 
         if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -1295,15 +1308,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_l1_test_lesson_succ_count_from_lesson($id) {
+        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+
         $sql = $this->gen_sql_new(
             "select sum(lesson_user_online_status=1) as l1_agent_status_test_lesson_succ_count , "
             . " sum(agent_status_money)  l1_agent_status_all_money  "
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
-            ." where  a.parentid=%u ",
+            ." where  a.parentid=%u  and a.create_time > %u ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
-            $id
+            $id,$check_time
         );
         return $this->main_get_row($sql);
 

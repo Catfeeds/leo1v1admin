@@ -1213,6 +1213,9 @@ class Utils  {
         return $money;
     }
 
+    /**
+     * @param data 需检测的参数
+     */
     static public function check_isset_data(&$data,$add_data=1,$type=1){
         if(!isset($data)){
             $data = $add_data;
