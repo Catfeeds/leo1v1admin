@@ -1052,13 +1052,25 @@ class user_manage extends Controller
 
             $item['all_percent'] = $arr['key1_value'];
             $show_arr = [];
+            /**
+               foreach($arr['key1_value'] as $v1){
+                  foreach($arr['list'] as $v2){
 
-            foreach($arr['list'] as $v){
-                $show_arr[]['key1_str'] = $v['key1_str'];
-                $show_arr[]['key2_str'] = $v['key2_str'];
-                $show_arr[]['key3_str'] = $v['key3_str'];
-                $show_arr[]['key4_str'] = $v['key4_str'];
-            }
+                  }
+               }
+
+
+
+
+
+             */
+
+            // foreach($arr['list'] as $v){
+            //     $show_arr[]['key1_str'] = $v['key1_str'];
+            //     $show_arr[]['key2_str'] = $v['key2_str'];
+            //     $show_arr[]['key3_str'] = $v['key3_str'];
+            //     $show_arr[]['key4_str'] = $v['key4_str'];
+            // }
 
 
         }
