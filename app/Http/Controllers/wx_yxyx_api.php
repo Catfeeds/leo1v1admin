@@ -45,29 +45,21 @@ class wx_yxyx_api extends Controller
         }
 
         $agent_level = (int)$agent_info['agent_level'];
-        $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
+        $nick         = $agent_info['nickname'];
+        if (!$nick) {
+            $nick=$phone;
+        }
         $headimgurl   = $agent_info['headimgurl'];
         $nickname     = $agent_info['nickname'];
-        $pay          = 0;
-        $cash         = 0;
-        $have_cash    = 0;
-        $num          = 0;
-        $test_count   = 0;
-        $my_num_count = $this->t_agent->get_count_by_phone($phone);
-        $my_num       = $my_num_count['count']?$my_num_count['count']:0;
-        $cash_item    = $this->t_agent_cash->get_cash_by_phone($phone);
-        $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
 
         $data = [
             'agent_level'      =>  $agent_level ,
             'usernick'       => $nick,
-            'pay'        => $pay,
             'cash'       => $cash_new,
             'wx_headimgurl' => $agent_info['headimgurl'],
             'wx_nick' => $agent_info['nickname'],
             "child_count" =>  10,//下线个数
-            "star_count" =>  10,//下线个数
-            //"all_money"  => $agent_info[""];
+            "star_count" =>  $agent_info["star_count"],//下线个数
         ];
 
         return $this->output_succ(["user_info_list" =>$data]);

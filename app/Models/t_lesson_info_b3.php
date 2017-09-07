@@ -240,7 +240,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-    public function get_tongji_cc( $start_time,$end_time,$require_type,$set_type){
+    public function get_seller_test_lesson_tran_info( $start_time,$end_time,$require_type,$set_type){
         $where_arr = [
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",

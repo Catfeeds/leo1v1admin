@@ -110,16 +110,52 @@
                         <td  style="display:none;">教学部 | 扣分值</td>
                         <td  style="display:none;">教学部 | 原因分析</td>
 
+                        <td  style="display:none;">产品问题 | 一级原因</td>
+                        <td  style="display:none;">产品问题 | 二级原因</td>
+                        <td  style="display:none;">产品问题 | 三级原因</td>
+                        <td  style="display:none;">产品问题 | 扣分值</td>
+                        <td  style="display:none;">产品问题 | 原因分析</td>
+
+                        <td  style="display:none;">咨询部 | 一级原因</td>
+                        <td  style="display:none;">咨询部 | 二级原因</td>
+                        <td  style="display:none;">咨询部 | 三级原因</td>
+                        <td  style="display:none;">咨询部 | 扣分值</td>
+                        <td  style="display:none;">咨询部 | 原因分析</td>
+
+                        <td  style="display:none;">客户情况变化 | 一级原因</td>
+                        <td  style="display:none;">客户情况变化 | 二级原因</td>
+                        <td  style="display:none;">客户情况变化 | 三级原因</td>
+                        <td  style="display:none;">客户情况变化 | 扣分值</td>
+                        <td  style="display:none;">客户情况变化 | 原因分析</td>
+
+                        <td  style="display:none;">老师 | 一级原因</td>
+                        <td  style="display:none;">老师 | 二级原因</td>
+                        <td  style="display:none;">老师 | 三级原因</td>
+                        <td  style="display:none;">老师 | 扣分值</td>
+                        <td  style="display:none;">老师 | 原因分析</td>
+
+                        <td  style="display:none;">科目 | 一级原因</td>
+                        <td  style="display:none;">科目 | 二级原因</td>
+                        <td  style="display:none;">科目 | 三级原因</td>
+                        <td  style="display:none;">科目 | 扣分值</td>
+                        <td  style="display:none;">科目 | 原因分析</td>
 
 
+                        <td  style="display:none;">其他原因</td>
+                        <td  style="display:none;">QC整体分析</td>
+                        <td  style="display:none;">后期应对措施及工作调整方案</td>
+
+                        <td  style="display:none;">责任鉴定 | 咨询部</td>
+                        <td  style="display:none;">责任鉴定 | 助教部</td>
+                        <td  style="display:none;">责任鉴定 | 教务部</td>
+                        <td  style="display:none;">责任鉴定 | 老师管理</td>
+                        <td  style="display:none;">责任鉴定 | 教学部</td>
+                        <td  style="display:none;">责任鉴定 | 产品问题</td>
+                        <td  style="display:none;">责任鉴定 | 客户情况变化</td>
+                        <td  style="display:none;">责任鉴定 | 老师</td>
+                        <td  style="display:none;">责任鉴定 | 科目</td>
 
 
-                        <td  style="display:none;">助教部</td>
-                        <td  style="display:none;">教务部</td>
-                        <td  style="display:none;">管理部</td>
-                        <td  style="display:none;">教学部</td>
-                        <td  style="display:none;">产品部</td>
-                        <td  style="display:none;">客户情况变化</td>
 
                         <td style="min-width:120px;">操作</td>
                     </tr>
@@ -162,6 +198,21 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
+                            <td>{{@$var["助教问题一级原因"]}}</td>
+                            <td>{{@$var["助教问题二级原因"]}}</td>
+                            <td>{{@$var["助教问题三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+
+                            <td>{{@$var["助教问题一级原因"]}}</td>
+                            <td>{{@$var["助教问题二级原因"]}}</td>
+                            <td>{{@$var["助教问题三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+
+
                             <td></td>
                             <td></td>
                             <td></td>
@@ -169,6 +220,52 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+
 
                             <td >
                                 <div
