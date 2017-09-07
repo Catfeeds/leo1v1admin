@@ -22,7 +22,10 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>销售 </td>
+                    @foreach ( $date_list as $var )
+                        <td>{{@$var["month"]}}月 </td>
+                    @endforeach
                     <td> 操作  </td>
                 </tr>
             </thead>
