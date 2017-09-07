@@ -1775,7 +1775,7 @@ class tongji extends Controller
                     }
                 }
             }
-            if($item == 315){
+            if($key == 315){
                 dd($ret_new);
             }
             $ret_info[$key]['id']      = $num++;
