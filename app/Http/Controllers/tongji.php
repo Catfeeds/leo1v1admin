@@ -1775,9 +1775,6 @@ class tongji extends Controller
                     }
                 }
             }
-            if($key == 315){
-                dd($ret_new);
-            }
             $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
@@ -1787,6 +1784,9 @@ class tongji extends Controller
             $ret_info[$key]['money4']  = $money4/100;
             $ret_info[$key]['money5']  = $money5/100;
             $ret_info[$key]['money6']  = $money6/100;
+            if($key == 315){
+                dd($ret_info[$key]);
+            }
         }
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
