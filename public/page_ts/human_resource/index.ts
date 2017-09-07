@@ -40,7 +40,8 @@ $(function(){
             month_stu_num:	$('#id_month_stu_num').val(),
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
-			tea_label_type:	$('#id_tea_label_type').val()
+			tea_label_type:	$('#id_tea_label_type').val(),
+			plan_level:	$('#id_plan_level').val()
         });
     }
 
@@ -102,6 +103,7 @@ $(function(){
 	$('#id_record_score_num').val(g_args.record_score_num);
 	$('#id_identity').val(g_args.identity);
 	$('#id_tea_label_type').val(g_args.tea_label_type);
+	$('#id_plan_level').val(g_args.plan_level);
 
 
 
