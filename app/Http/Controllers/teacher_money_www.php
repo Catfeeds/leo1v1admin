@@ -55,6 +55,52 @@ class teacher_money_www extends Controller
         }
     }
 
+    private function get_lesson_cost_info_2(&$val){
+        $lesson_all_cost = 0;
+        $lesson_info     = "";
+        $deduct_type = E\Elesson_deduct::$s2v_map;
+        $deduct_info = E\Elesson_deduct::$desc_map;
+        $teacher_money = \App\Helper\Config::get_config("teacher_money");
+        $month_key     = date("Y-m",$val['lesson_start']);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['change_num'],0,0);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['late_num'],0,0);
+        $change_num = $check_num[$month_key]['change_num'];
+        $late_num   = $check_num[$month_key]['late_num'];
+
+        if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
+            if($val['lesson_cancel_reason_type']==21){
+                $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
+                $info            = "上课旷课!";
+            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
+            && $val['lesson_cancel_time_type']==1){
+                if($this->change_num>=3){
+                    $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
+                    $lesson_info     = "课前４小时内取消上课！";
+                }else{
+                    $this->change_num++;
+                    $lesson_info     = "本月第".$this->change_num."次换课";
+                    $lesson_all_cost = 0;
+                }
+            }
+        }else{
+            $lesson_cost = $this->teacher_money['lesson_cost']/100;
+            foreach($deduct_type as $key=>$item){
+                if($val['deduct_change_class']==0){
+                    if($val[$key]>0){
+                        if($key=="deduct_come_late" && $this->late_num<3){
+                            $this->late_num++;
+                        }else{
+                            $lesson_all_cost += $lesson_cost;
+                            $lesson_info.=$deduct_info[$item]."/";
+                        }
+                    }
+                }
+            }
+        }
+
+        $val['lesson_cost']      = $lesson_all_cost;
+        $val['lesson_cost_info'] = $lesson_info;
+    }
     private function get_lesson_cost_info(&$val,&$check_num){
         $lesson_all_cost = 0;
         $deduct_type   = E\Elesson_deduct::$s2v_map;
