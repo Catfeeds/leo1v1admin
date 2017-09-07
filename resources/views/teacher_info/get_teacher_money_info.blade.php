@@ -1,7 +1,7 @@
 @extends('layouts.teacher_header')
 @section('content')
     <script type="text/javascript" >
-        var month_info = <?php  echo json_encode($list); ?> ;
+        var month_info = <?php  echo json_encode($money_list); ?> ;
     </script>
     <section class="content li-section">
         <div class="row">
@@ -66,11 +66,6 @@
                                     <div class="small-box bg-linfo color-fff">
                                         <div class="col-xs-12 text-right">
                                             <br>
-                                            <!-- <select class="bg-linfo" style="border:none">
-                                                 <option value="3">初三</option>
-                                                 <option value="2">初二</option>
-                                                 <option value="1">初一</option>
-                                                 </select> -->
                                         </div>
                                         <div class="inner"">
                                             <p>总薪资</p>

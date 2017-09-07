@@ -640,6 +640,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
            $where_arr[] = "t.test_transfor_per >=20"; 
         }elseif($plan_level==2){
            $where_arr[] = "t.test_transfor_per >=10 and t.test_transfor_per <20";  
+        }elseif($plan_level==3){
+             $where_arr[] = "t.test_transfor_per <10";
+             $where_arr[] = "t.identity in (5,6)";
+             $where_arr[] = "month_stu_num >=4";
+             $where_arr[] = "tr.record_score>=60 and tr.record_score<=90";
+        }elseif($plan_level==4){
+            $where_arr[] = "t.test_transfor_per <10";
+            $where_arr[] = "t.identity not in (5,6)";
+            $where_arr[] = "month_stu_num >=4";
+            $where_arr[] = "tr.record_score<=90";
+        }elseif($plan_level==5){
+            $where_arr[] = "t.test_transfor_per <10";
+            $where_arr[] = "t.identity in (5,6)";
+            $where_arr[] = "month_stu_num >=1 and month_stu_num<=3";
+            $where_arr[] = "tr.record_score>=60 and tr.record_score<=90"; 
         }
 
         $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,"

@@ -1961,7 +1961,9 @@ class teacher_info extends Controller
             $list[$month_key]["all_money"]        += $reward_money;
         }
 
-        return $this->pageView(__METHOD__,[],["list" => $list]);
+        return $this->pageView(__METHOD__,[],[
+            "money_list" => $list
+        ]);
     }
 
     private function get_lesson_cost_info(&$val,&$check_num){

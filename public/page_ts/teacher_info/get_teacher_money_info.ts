@@ -16,22 +16,6 @@ $(function(){
         $(this).children().toggleClass('fa-minus');
     });
 
-    $('circle').each(function(){
-        console.log($(this).text());
-        alert($(this).text())
-    });
-
-    $('select').change(function() {
-        var salary = $(this).val();
-        if (salary == 1) {
-            $('#salary').text('10.00');
-        } else if (salary == 2) {
-            $('#salary').text('20.00');
-        } else {
-            $('#salary').text('30.00');
-        }
-    });
-
     var salary_modal = '';
     $('button[data-toggle]').on('click', function() {
         var value = $(this).val();
@@ -84,6 +68,7 @@ $(function(){
         month_change();
     });
 
+    console.log(month_info);
     var month_change = function (){
         $('#line-chart').empty();
         var show_info = [];
