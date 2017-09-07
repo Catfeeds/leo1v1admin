@@ -1038,28 +1038,41 @@ class user_manage extends Controller
             }
 
 
-            // 获取退费分析
-            // $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
-            // $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
-            // $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
-            // $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
-
-
             $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
-            $item['all_percent'] = $arr['key1_value'];
+            foreach($arr['key1_value'] as &$v1){
+                foreach($arr['list'] as $v2){
+                    if($v2['key1_str'] == $v1['value']){
+                        $key1_name = $v1['value'].'一级原因';
+                        $key2_name = $v1['value'].'二级原因';
+                        $key3_name = $v1['value'].'三级原因';
 
-            // foreach($arr['list'] as $v){
+                        if(isset($v1["$key1_name"])){
+                            $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
+                            $v1["$key2_name"] = $v1["$key2_name"].'/'.$v2['key3_str'];
+                            $v1["$key3_name"] = $v1["$key3_name"].'/'.$v2['key4_str'];
+                            $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
+                            $v1['dep_score']  = $v1['dep_score'].'/'.$v2['score'];
+                        }else{
+                            $v1["$key1_name"] = $v2['key2_str'];
+                            $v1["$key2_name"] = $v2['key3_str'];
+                            $v1["$key3_name"] = $v2['key4_str'];
+                            $v1['reason']     = $v2['reason'];
+                            $v1['dep_score']  = $v2['score'];
+                        }
+                    }
+                }
+            }
 
-            // }
+            // $item['']
 
+
+            // $item['all_percent'] = $arr['key1_value'];
 
         }
-
-        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
@@ -1640,6 +1653,7 @@ class user_manage extends Controller
         }
 
         $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+        dd($arr);
 
         return $this->pageView(__METHOD__,null,
                                ["refund_info" => $arr['list'],
@@ -1715,6 +1729,10 @@ class user_manage extends Controller
                 }
             }
         }
+
+
+
+
 
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;

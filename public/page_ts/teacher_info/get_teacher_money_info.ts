@@ -115,9 +115,7 @@ $(function(){
             smooth:false,
         });
     }
-
     month_change();
-
 });
 
 
