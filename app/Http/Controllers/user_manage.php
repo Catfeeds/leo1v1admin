@@ -1073,10 +1073,7 @@ class user_manage extends Controller
                 $item["$score_name"]   = @$v1['score'];
                 $item["$percent_name"] = @$v1['responsibility_percent'];
             }
-
         }
-
-        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
