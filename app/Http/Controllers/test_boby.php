@@ -10,7 +10,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      // $this->switch_tongji_database();
+      $this->switch_tongji_database();
     }
 
     public function get_b_txt($file_name="b"){
@@ -359,9 +359,9 @@ class test_boby extends Controller
         $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
         $teacherid = "(180795)";
-        $start_time = strtotime('2017-09-01');
-        $end_time = strtotime('2017-10-01');
-        // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
+        // $start_time = strtotime('2017-09-01');
+        // $end_time = strtotime('2017-10-01');
+        $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         // $lessonid_list = ['318453','318454','318455','318456'];
         // $lessonid_list = ['318457','318458','318459'];
         $lessonid_list = ['318460','318461','318462'];
