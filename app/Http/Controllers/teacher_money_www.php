@@ -117,7 +117,10 @@ class teacher_money_www extends Controller
         }else{
             $val['lesson_cost_normal'] = "0";
         }
+
         $val['lesson_cost'] = (string)$lesson_all_cost;
+        $check_num[$month_key]['change_num'] = $change_num;
+        $check_num[$month_key]['late_num']   = $late_num;
     }
 
 

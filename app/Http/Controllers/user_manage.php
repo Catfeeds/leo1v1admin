@@ -1052,9 +1052,9 @@ class user_manage extends Controller
 
             $item['all_percent'] = $arr['key1_value'];
 
-            foreach($arr['re'] as $v){
-                
-            }
+            // foreach($arr['list'] as $v){
+
+            // }
 
 
         }
