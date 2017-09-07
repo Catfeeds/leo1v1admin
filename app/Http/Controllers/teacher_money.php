@@ -357,12 +357,7 @@ class teacher_money extends Controller
                     //判断课程的老师类型来设置累计课时的数值
                     $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
                     $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
-
-                    if($val['confirm_flag']!=2){
-                        $lesson_count = $val['lesson_count']/100;
-                    }else{
-                        $lesson_count = 0;
-                    }
+                    $lesson_count = $val['config_flag']!=2?($val['lesson_count']/100):0;
 
                     if($val['lesson_type'] != 2){
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
@@ -379,7 +374,7 @@ class teacher_money extends Controller
                     $val['lesson_full_reward'] = 0;
                     $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
 
-                    $this->get_lesson_cost_info($val,$check_num);
+                    $this->get_lesson_cost_info($val);
                     $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
                     $list[$i]['lesson_price']       += $lesson_price;
                     $list[$i]['lesson_reward']      += $val['lesson_reward'];

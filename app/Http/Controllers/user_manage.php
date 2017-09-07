@@ -1658,12 +1658,18 @@ class user_manage extends Controller
         // 测试
 
         $total_score = 0;
+        $is_teaching_flag = false;
+
         foreach($key1_value as $k1=>&$v1){
             $num = 0;
             $score = 0;
 
             foreach($list as $i2=>&$v2){
                 $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+
+                if((!isset($v2['score']) || $v2['score'] ==0) && $v2['value'] == '教学部'){
+                    $is_teaching_flag = true;
+                }
 
                 if($v2['department'] == $v1['value']){
                     $num++;
@@ -1677,11 +1683,9 @@ class user_manage extends Controller
             }
         }
 
-        $is_teaching_flag = false;
         foreach($key1_value as $v3){
-            if((!isset($v1['score']) || $v1['score'] ==0) && $v1['value'] == '教学部'){
-                // $v3
-                $is_teaching_flag = true;
+            if($is_teaching_flag){
+                // $total_score = $total_score
             }
         }
         // dd($key1_value);
