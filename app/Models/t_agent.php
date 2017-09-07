@@ -205,14 +205,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_invite_money_not_open_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
         $where_arr=[
             "a.agent_type in (1,3)",
-            "agent_status_money_open_flag=0",
+            //["agent_status_money_open_flag=%s",d k],
+
+            $agent_status_money_open_flag
         ];
         if ( $test_lesson_succ_flag ) {
             $where_arr[] ="agent_status_money=50 ";
         }else{
             $where_arr[] ="agent_status_money<50 ";
         }
-        $agent_status_money_open_flag 
+
 
         $sql=$this->gen_sql_new (
             "select a.id, a.nickname,a.phone , agent_status_money, agent_status_money_open_flag "
