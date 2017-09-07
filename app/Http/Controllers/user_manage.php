@@ -1683,6 +1683,8 @@ class user_manage extends Controller
             }
         }
 
+        // dd($list);
+
         foreach($key1_value as $v3){
             if($is_teaching_flag && ($v3['value'] == '老师' || $v3['value']=='科目') ){
                 if(isset($v3['score'])){
