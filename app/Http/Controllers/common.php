@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_xy.png";
+        $phone_qr_name = $phone."_qr_agent_yx.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -834,14 +834,10 @@ class common extends Controller
                 $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
                 shell_exec($wgetshell);
 
-                // $imgg = $this->yuan_img($datapath);
-                // $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-                // imagejpeg($imgg,$datapath_new);
-                // $image_4 = imagecreatefromjpeg($datapath_new);
-
-                $imggzip = $this->resize_img($datapath);
-                $datapath_new = $this->test($imggzip);
-                $image_4 = imagecreatefrompng($datapath_new);
+                $imgg = $this->yuan_img($datapath);
+                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+                imagejpeg($imgg,$datapath_new);
+                $image_4 = imagecreatefromjpeg($datapath_new);
             }
             // $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             // $color = imagecolorallocate($image_5, 255, 255, 255);
@@ -897,6 +893,11 @@ class common extends Controller
         $original_path= $url;
         $dest_path = $path.uniqid().'.png';
         $src = imagecreatefromstring(file_get_contents($original_path));
+
+        $datapath ="/tmp/".$phone."_headimg_new.jpeg";
+        $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+
         $newpic = imagecreatetruecolor($w,$h);
         imagealphablending($newpic,false);
         $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
