@@ -1740,18 +1740,13 @@ class tongji extends Controller
 
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $date_list = [['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]];
+        list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,''];
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
         $account_role = E\Eaccount_role::V_2;
         $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role);
         $adminid_list = array_unique(array_column($order_user_list,'uid'));
-        $adminid = 0;
-        $account = '';
-        $price_sum = 0;
-        $ret = [];
-        $ret_info = [];
         foreach($adminid_list as $item){
             foreach($order_user_list as $info){
                 if($info['uid'] == $item){
@@ -1759,31 +1754,36 @@ class tongji extends Controller
                 }
             }
         }
-        dd($ret);
         foreach($ret as $item){
             foreach($item as $info){
-                $adminid = $info['adminid'];
-                $account = $info['account'];
-                $price_sum += $info['price'];
+                $adminid = $info['uid'];
+                $account = $info['sys_operator'];
+                $money = $info['price'];
+                $order_time = $info['order_time'];
+                if($order_time>=strtotime("-5 months", $start_time) && $order_time<strtotime("-4 months", $start_time)){
+                    $money1 += $money;
+                }elseif($order_time>=strtotime("-4 months", $start_time) && $order_time<strtotime("-3 months", $start_time)){
+                    $money2 += $money;
+                }elseif($order_time>=strtotime("-3 months", $start_time) && $order_time<strtotime("-2 months", $start_time)){
+                    $money3 += $money;
+                }elseif($order_time>=strtotime("-2 months", $start_time) && $order_time<strtotime("-1 months", $start_time)){
+                    $money4 += $money;
+                }elseif($order_time>=strtotime("-1 months", $start_time) && $order_time<$start_time){
+                    $money5 += $money;
+                }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
+                    $money6 += $money;
+                }
             }
             $ret_info[]['adminid'] = $adminid;
             $ret_info[]['account'] = $account;
-            $ret_info[]['money'] = $price_sum;
+            $ret_info[]['money1'] = $money1;
+            $ret_info[]['money2'] = $money2;
+            $ret_info[]['money3'] = $money3;
+            $ret_info[]['money4'] = $money4;
+            $ret_info[]['money5'] = $money5;
+            $ret_info[]['money6'] = $money6;
         }
         dd($ret_info);
-        $ret_info = [
-            [
-                'adminid' => $adminid,
-                'account' => $account,
-                'money1'  => $mondy1,
-                'money2'  => $mondy2,
-                'money3'  => $mondy3,
-                'money4'  => $mondy4,
-                'money5'  => $mondy5,
-                'money6'  => $mondy6,
-            ],
-        ];
-        dd($order_user_list);
 
 
         $adminid=$this->get_in_adminid(-1);
