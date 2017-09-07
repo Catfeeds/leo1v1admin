@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 @foreach($all_percent as $key => $val)
-                    <td>{{$val}}</td>
+                    <td>{{$val['responsibility_percent']}}</td>
                 @endforeach
             </tr>
             </tbody>

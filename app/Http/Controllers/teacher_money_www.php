@@ -65,6 +65,9 @@ class teacher_money_www extends Controller
             $list[$i]['lesson_full_reward'] += $val['lesson_full_reward'];
         }
 
+        foreach($list as $l_key=>$l_val){
+            
+        }
     }
 
 
