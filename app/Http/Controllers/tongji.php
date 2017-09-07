@@ -1771,6 +1771,7 @@ class tongji extends Controller
                 }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
                     $money6 += $money;
                     if($item == 315){
+                        dd($info);
                         $ret_new[] = $info;
                     }
                 }
