@@ -1658,6 +1658,33 @@ class main_page extends Controller
             }
         }
 
+        //教务
+        $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1); 
+        $top_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,1,1); 
+        $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1); 
+        $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1); 
+        foreach($tea_all as $kk=>&$valll){
+            $valll["per"] = !empty($valll["person_num"])?round($valll["have_order"]/$valll["person_num"]*100,2):0;
+            $valll["top_num"] = @$top_tea_all[$kk]["person_num"];
+            $valll["top_order"] = @$top_tea_all[$kk]["have_order"];
+            $valll["green_num"] = @$green_tea_all[$kk]["person_num"];
+            $valll["green_order"] = @$green_tea_all[$kk]["have_order"];
+            $valll["normal_num"] = @$normal_tea_all[$kk]["person_num"];
+            $valll["normal_order"] = @$normal_tea_all[$kk]["have_order"];
+            $valll["top_per"] = !empty($valll["top_num"])?round($valll["top_order"]/$valll["top_num"]*100,2):0;
+            $valll["green_per"] = !empty($valll["green_num"])?round($valll["green_order"]/$valll["green_num"]*100,2):0;
+            $valll["normal_per"] = !empty($valll["normal_num"])?round($valll["normal_order"]/$valll["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $tea_all,"per", 0 );
+        foreach($tea_all as $s=>$v){
+            if($s>9){
+                unset($tea_all[$s]);
+            }
+        }
+
+
 
                 
 

@@ -73,6 +73,12 @@
                             <td id="id_invite_money_info"> </td>
                         </tr>
 
+                        <tr>
+                            <td>
+                               邀请试听成功不可提现
+                            <td id="id_invite_money_info"> </td>
+                        </tr>
+
 
                     </tbody>
 
