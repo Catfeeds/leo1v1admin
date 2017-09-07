@@ -50,6 +50,12 @@ $(function(){
     });
 
 
+    $("#id_invite_money_info").on("click",function(){
+        load_invite_list(1,1);
+    });
+
+
+
 
    $.ajax({
         type : "get",

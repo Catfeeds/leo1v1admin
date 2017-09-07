@@ -769,6 +769,7 @@ class human_resource extends Controller
         $record_score_num         = $this->get_in_int_val("record_score_num", -1);
         $identity                 = $this->get_in_int_val("identity", -1);
         $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
+        $plan_level               = $this->get_in_int_val("plan_level", -1);
         if($tea_label_type==-1){
             $tea_label_type_str="";
         }else{
@@ -807,7 +808,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$tea_label_type_str
+            $record_score_num,$identity,$tea_label_type_str,$plan_level
         );
 
         $tea_list = [];

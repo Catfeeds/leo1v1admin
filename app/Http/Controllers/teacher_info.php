@@ -1881,9 +1881,9 @@ class teacher_info extends Controller
         $check_num = [];
         $already_lesson_count_list = [];
         foreach($lesson_list as $val){
-            $check_type           = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-            $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-            $month_key            = date("Y-m",$val['lesson_start']);
+            $check_type   = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+            $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+            $month_key    = date("Y-m",$val['lesson_start']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
 
@@ -1961,7 +1961,9 @@ class teacher_info extends Controller
             $list[$month_key]["all_money"]        += $reward_money;
         }
 
-        return $this->pageView(__METHOD__,[],["list" => $list]);
+        return $this->pageView(__METHOD__,[],[
+            "money_list" => $list
+        ]);
     }
 
     private function get_lesson_cost_info(&$val,&$check_num){

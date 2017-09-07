@@ -222,9 +222,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         ];
         if ( $test_lesson_succ_flag ) {
-            $where_arr[] ="agent_status_money=50 ";
+            $where_arr[] ="agent_status_money=5000 ";
         }else{
-            $where_arr[] ="agent_status_money<50 ";
+            $where_arr[] ="agent_status_money<5000 ";
         }
 
 
@@ -1244,6 +1244,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 "type" =>  E\Eagent_type::V_3
             ]);
         }
+
+        if (  $agent_type==E\Eagent_type::V_3  &&  !$userid ) {//是会员, 学员,
+            $this->field_update_list($id,[
+                "type" =>  E\Eagent_type::V_2
+            ]);
+        }
+
         if ( $level_count_info["l1_child_count"]) {
             if ($agent_type ==1 ) {
                 $this->field_update_list($id,[

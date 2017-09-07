@@ -1482,10 +1482,10 @@ class agent extends Controller
         $datapath ="/tmp/154_headimg.jpeg";
         $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
-        // $imgg = $this->yuan_img($datapath);
-        // $datapath_new ="/tmp/154_headimg_new.jpeg";
+        $imgg = $this->yuan_img($datapath);
+        $datapath_new ="/tmp/154_headimg_new.jpeg";
         //头像
-        $headimgurl = $datapath;
+        $headimgurl = $datapath_new;
         //背景图
         $bgurl = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg';
         $imgs['dst'] = $bgurl;
@@ -1493,10 +1493,8 @@ class agent extends Controller
         $imggzip = $this->resize_img($headimgurl);
         //第二步 裁减成圆角图片
         $imgs['src'] = $this->test($imggzip);
-        dd($imgs['src']);
         //第三步 合并图片
         $dest = $this->mergerImg($imgs);
-        dd($dest);
     }
 
     public function resize_img($url,$path='/tmp/'){
@@ -1522,7 +1520,6 @@ class agent extends Controller
         $original_path= $url;
         $dest_path = $path.uniqid().'.png';
         $src = imagecreatefromstring(file_get_contents($original_path));
-        dd($src);
         $newpic = imagecreatetruecolor($w,$h);
         imagealphablending($newpic,false);
         $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
@@ -1557,7 +1554,9 @@ class agent extends Controller
 
         $src_im = imagecreatefrompng($imgs['src']);
         $src_info = getimagesize($imgs['src']);
-        imagecopy($dests,$src_im,354,35,0,0,190,190);
+        imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
+        // imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
+        // imagecopymerge($dests,$src_im,354,35,0,0,190,190,100);
         imagedestroy($src_im);
         imagejpeg($dests,$imgname);
         unlink($imgs['src']);
