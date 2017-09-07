@@ -1770,10 +1770,6 @@ class tongji extends Controller
                     $money5 += $money;
                 }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
                     $money6 += $money;
-                    if($adminid == 315){
-                        dd($money);
-                        $ret_new[] = $info;
-                    }
                 }
             }
             $ret_info[$key]['id']      = $num++;
@@ -1785,9 +1781,7 @@ class tongji extends Controller
             $ret_info[$key]['money4']  = $money4/100;
             $ret_info[$key]['money5']  = $money5/100;
             $ret_info[$key]['money6']  = $money6/100;
-            if($key == 315){
-                dd($ret_info[$key]);
-            }
+            list($money1,$money2,$money3,$money4,$money5,$money6) = [0,0,0,0,0,0];
         }
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
