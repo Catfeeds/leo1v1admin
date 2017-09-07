@@ -362,21 +362,22 @@ class test_boby extends Controller
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        $par = $this->get_in_int_val("par");
-        if ($par == 1) {
-            $lessonid_list = ['318453','318454','318455','318456','318457'];
-        } else {
-            $lessonid_list = ['318458','318459','318460','318461','318462'];
-        }
-        echo $par,'--';
+        $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
+        // $par = $this->get_in_int_val("par");
+        // if ($par == 1) {
+        //     $lessonid_list = ['318453','318454','318455','318456','318457'];
+        // } else {
+        //     $lessonid_list = ['318458','318459','318460','318461','318462'];
+        // }
+        // echo $par,'--';
         $num = 0;
 
-        // foreach ($lessonid_list as $v) {
-        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
-        //     $num++;
-        // }
-        // echo $num, '---ok';
-        // exit;
+        foreach ($lessonid_list as $v) {
+            $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
+            $num++;
+        }
+        echo $num, '---ok';
+        exit;
         // $g200 = [];
         // $g300 = [];
         // foreach($lessonid_list as $v){
