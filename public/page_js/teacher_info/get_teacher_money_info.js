@@ -107,7 +107,8 @@ $(function(){
         }
     });
     var pic_code = $('#line-chart').html();
-    console.log(pic_code)
+    
+    // console.log(pic_code)
 
 });
 
