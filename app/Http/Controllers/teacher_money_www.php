@@ -23,7 +23,8 @@ class teacher_money_www extends Controller
 
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
-        $list   = [];
+        $list      = [];
+        $check_num = [];
         foreach($lesson_list as $val){
             $check_type           = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
             $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
@@ -43,11 +44,11 @@ class teacher_money_www extends Controller
                 $reward = "0";
             }
 
-            $this->get_lesson_cost_info($val);
+            $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
             $lesson_arr = [
-                "name" => $val['stu_nick'],
-                "time" => $lesson_time,
+                "name"  => $val['stu_nick'],
+                "time"  => $lesson_time,
                 "state" => $lesson_time,
             ];
 

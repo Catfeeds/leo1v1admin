@@ -196,12 +196,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
-            "l.lesson_type in =2",
+            "l.lesson_type  =2",
             "l.lesson_status>0",
             "t.is_test_user=0",
             "tss.top_seller_flag=1",
             ["l.subject = %u",$subject,-1],
-            ["tr.teacherid = %u",$teacherid,-1],
+            ["l.teacherid = %u",$teacherid,-1],
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){

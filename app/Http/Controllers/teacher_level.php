@@ -1005,7 +1005,30 @@ class teacher_level extends Controller
         $record_flag       = $this->get_in_int_val("record_flag",0);
         $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
         $ret_info = $this->t_lesson_info_b3->get_seller_top_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
-        dd($ret_info);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade::set_item_value_str($item);
+            if(!empty($item["record_info"])){
+                $item["record_flag_str"]="已反馈";
+            }else{
+                $item["record_flag_str"]="未反馈";
+            }
+            if(empty($item["test_stu_request_test_lesson_demand"])){
+                $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
+            }
+            $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
+  
+        }
+        
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
+
 
     }
 
