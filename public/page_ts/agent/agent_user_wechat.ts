@@ -26,6 +26,10 @@ $(function(){
             $("#id_wx_headimgurl").attr("src", user.wx_headimgurl );
             $("#id_star_count").text( user.star_count);
             $("#id_wx_nick").text( user.wx_nick );
+            $("#id_all_money_info").text(""+ user. all_money_info.all_money+"/"+ user.all_money_info.open_moeny +"/"+ user.all_have_cush_money );
+            $("#id_order_money_info").text(""+ user. order_money_info.all_money+"/"+ user.order_money_info.open_moeny  );
+            $("#id_invite_money_info").text(""+ user. invite_money_info.all_money+"/"+ user.invite_money_info.open_moeny  );
+
         },
         error:function(){
             alert('fail');

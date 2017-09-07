@@ -80,10 +80,10 @@
                         <td >审批状态</td>
                         <td >审批时间</td>
                         <td >退费状态</td>
-                        <td>联系状态</td>
-                        <td>提升状态</td>
-                        <td>学习态度</td>
-                        <td >下单超过3个月</td>
+                        <td  style="display:none;">联系状态</td>
+                        <td  style="display:none;">提升状态</td>
+                        <td  style="display:none;">学习态度</td>
+                        <td  style="display:none;">下单超过3个月</td>
 
 
                         <td  style="display:none;">助教部 | 一级原因</td>
