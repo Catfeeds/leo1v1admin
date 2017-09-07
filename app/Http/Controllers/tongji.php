@@ -1754,7 +1754,7 @@ class tongji extends Controller
                 }
             }
         }
-        foreach($ret as $item){
+        foreach($ret as $key=>$item){
             foreach($item as $info){
                 $adminid = $info['uid'];
                 $account = $info['sys_operator'];
@@ -1774,14 +1774,14 @@ class tongji extends Controller
                     $money6 += $money;
                 }
             }
-            $ret_info[]['adminid'] = $adminid;
-            $ret_info[]['account'] = $account;
-            $ret_info[]['money1'] = $money1;
-            $ret_info[]['money2'] = $money2;
-            $ret_info[]['money3'] = $money3;
-            $ret_info[]['money4'] = $money4;
-            $ret_info[]['money5'] = $money5;
-            $ret_info[]['money6'] = $money6;
+            $ret_info[$key]['adminid'] = $adminid;
+            $ret_info[$key]['account'] = $account;
+            $ret_info[$key]['money1'] = $money1;
+            $ret_info[$key]['money2'] = $money2;
+            $ret_info[$key]['money3'] = $money3;
+            $ret_info[$key]['money4'] = $money4;
+            $ret_info[$key]['money5'] = $money5;
+            $ret_info[$key]['money6'] = $money6;
         }
         dd($ret_info);
 
