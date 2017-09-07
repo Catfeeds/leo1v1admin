@@ -1654,17 +1654,20 @@ class user_manage extends Controller
          * 总分=部门1分值+。。。+部门N分值
          */
 
-        // foreach($list as $i1=>&$v1){
-        //     foreach($list as $i2=>&$v2){
-        //         $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
-        //         $v1['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v1['configid']);
+        // 测试
+        $num = 1;
+        foreach($key1_value as $k1=>&$v1){
+            foreach($list as $i2=>&$v2){
+                $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
-        //         if($v2['department'] == $v1['department']){
-        //             $score = $v1['score'];
-        //         }
-        //     }
-        // }
+                if($v2['department'] == $v1['value']){
+                    $num++;
+                    $score = $v1['score'];
+                }
+            }
+        }
 
+        // 测试
 
 
         foreach ($list as &$item) {

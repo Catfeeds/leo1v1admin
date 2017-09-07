@@ -1214,7 +1214,10 @@ class Utils  {
     }
 
     /**
+     * 检测某个参数是否存在并 赋值/增加
      * @param data 需检测的参数
+     * @param add_data 检测后所增加的值
+     * @param type 0 检测不存在后不执行增加操作 1 检测不存在后增加add_data的值
      */
     static public function check_isset_data(&$data,$add_data=1,$type=1){
         if(!isset($data)){
@@ -1224,6 +1227,13 @@ class Utils  {
         }
     }
 
+    /**
+     * 为 set_value 设置一个默认值
+     * @param set_value 需要设置默认值的参数
+     * @param check_data 需要检测的 参数/数组
+     * @param default_value 如果 check_data 不存在，则给 set_value 设置的默认值
+     * @param check_key 如果 check_data 为数组，则需要检测 check_data[check_key] 是否存在
+     */
     static public function set_default_value(&$set_value,$check_data,$default_value=1,$check_key=0){
         self::check_isset_data($set_value,"");
         if(is_array($check_data)){

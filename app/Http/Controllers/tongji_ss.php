@@ -8009,11 +8009,10 @@ class tongji_ss extends Controller
         // $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
         
         // dd($ret_info);
-        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(240314);
-        $json = urldecode($data);
-        dd($json);
-              // $content = mb_detect_encoding($data, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));       //查看编码
-        // $json= mb_convert_encoding($content tent , "UTF-8", "GBK");
+        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(60683);
+        $json = stripslashes(html_entity_decode($info));
+        // $content = mb_detect_encoding($data, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));//查看编码
+        //$json= mb_convert_encoding($data, "UTF-8");
         $list = json_decode($json, true);
         dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
