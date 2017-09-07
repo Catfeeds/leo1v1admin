@@ -97,7 +97,7 @@ class send_wx_msg_for_test_lesson extends Command
                 $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_logout($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-                if($opt_time_stu<=$now-600 && $opt_time_stu<$item['lesson_end']){ // 判断学生是否超时 [10分钟]
+                if(($opt_time_stu > $item['lesson_start']) && $opt_time_stu<=$now-600 && $opt_time_stu<$item['lesson_end'] && $now>$item['lesson_start']){ // 判断学生是否超时 [10分钟]
                     $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
                     $data_ass = $this->get_data($item,3,3,$item['stu_nick']);
                 }
@@ -118,12 +118,12 @@ class send_wx_msg_for_test_lesson extends Command
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
                 $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
-                if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
+                if((!$logout_time_tea || $logout_time_tea<$item['lesson_start']) && $now>$item['lesson_end']){
                     $data_ass = $this->get_data($item,3,4,$item['teacher_nick'],'');
                     $this->send_wx_msg_ass($item,4,$data_ass);
                 }
 
-                if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
+                if((!$logout_time_stu || $logout_time_stu<$item['lesson_start']) && $now>$item['lesson_end']){
                     $data_ass = $this->get_data($item,3,4,'',$item['stu_nick']);
                     $this->send_wx_msg_ass($item,4,$data_ass);
                 }

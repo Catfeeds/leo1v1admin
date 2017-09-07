@@ -898,14 +898,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //重置试听信息
         $lessonid = 0;
         if($userid && $is_test_user == 0 ) {
+            $lessonid=0;
             $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
             if ($ret) {
                 $lessonid = $ret['lessonid'];
             }
         }
-        $this->field_update_list($id,[
-            "test_lessonid" => $lessonid
-        ]);
+        return $lessonid;
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
@@ -1138,12 +1137,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $wx_openid_old  = $agent_info["wx_openid"];
         $agent_student_status=0;
         $agent_status=0;
+        $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
             $is_test_user = $student_info['is_test_user'];
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
-            $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $test_lessonid=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
             $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
 
             //是学员
@@ -1236,6 +1236,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_yxyx_money" => $all_yxyx_money,
             "all_open_cush_money" => $all_open_cush_money,
             "all_have_cush_money" => $all_have_cush_money,
+            "test_lessonid" => $test_lessonid,
 
         ]);
 
