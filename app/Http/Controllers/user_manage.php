@@ -1644,7 +1644,7 @@ class user_manage extends Controller
         $total_score   = 0;
         $key1_value    = $this->t_order_refund_confirm_config->get_all_key1_value();
         $has_teaching  = true;
-        
+
 
         // dd($key1_value);
 
@@ -1667,7 +1667,7 @@ class user_manage extends Controller
             foreach($list as $i2=>&$v2){
                 $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
-                if($v2['score'] >0 && $v2['value'] == '教学部'){
+                if($v2['score'] >0 && $v2['department'] == '教学部'){
                     $is_teaching_flag = false;
                 }
 
@@ -1683,76 +1683,82 @@ class user_manage extends Controller
             }
         }
 
-        dd($list);
-
-        foreach($key1_value as $v3){
+        foreach($key1_value as &$v3){
             if($is_teaching_flag && ($v3['value'] == '老师' || $v3['value']=='科目') ){
                 if(isset($v3['score'])){
                     $total_score-=$v3['score'];
+                    $v3['score'] = 0;
+                }
+            }
+
+            if($total_score>0){
+                if(isset($v3['score'])){
+                    $v3['responsibility_percent'] = number_format(($v3['score']/$total_score)*100,2).'%';
+                }else{
+                    $v3['responsibility_percent'] = '0%';
                 }
             }
         }
 
-        dd($total_score);
         // dd($key1_value);
         // dd($total_score);
         // 测试
 
 
-        foreach ($list as &$item) {
-            $total_score += $item['score'];
-            $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
-            if ($item['department'] == "教学部") {
-                $has_teaching = false;
-            }
-        }
+        // foreach ($list as &$item) {
+        //     $total_score += $item['score'];
+        //     $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
+        //     if ($item['department'] == "教学部") {
+        //         $has_teaching = false;
+        //     }
+        // }
 
-        foreach($list as &$item){
-            $is_hasScoreFlag = false;
+        // foreach($list as &$item){
+        //     $is_hasScoreFlag = false;
 
-            if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
-                $is_hasScoreFlag = true;
-            }
+        //     if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
+        //         $is_hasScoreFlag = true;
+        //     }
 
-            if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
-                $total_score = $total_score - $item['score'];
-            }
-        }
-
-
+        //     if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
+        //         $total_score = $total_score - $item['score'];
+        //     }
+        // }
 
 
-        foreach ($list as &$item) {
-            if($total_score != 0){
-                $item['responsibility_percent'] = number_format(($item['score']/$total_score)*100,2);
-            } else {
-                $item['responsibility_percent'] =0;
-            }
-        }
-
-        $all_percent = [];
 
 
-        foreach ($key1_value as &$item) {
-            $item['responsibility_percent']  = 0;
-            $all_percent[$item['value']] = 0;
-            foreach ($list as $item_tmp) {
-                if ($item['value'] == $item_tmp['department']) {
-                    $all_percent[$item['value']] += $item_tmp['responsibility_percent'];
-                }
-            }
-            $all_percent[$item['value']].="%";
-        }
+        // foreach ($list as &$item) {
+        //     if($total_score != 0){
+        //         $item['responsibility_percent'] = number_format(($item['score']/$total_score)*100,2);
+        //     } else {
+        //         $item['responsibility_percent'] =0;
+        //     }
+        // }
 
-        if($all_percent["教学部"] == '0%'){
-            if (isset($all_percent['老师'] )) {
-                $all_percent['老师'] = "0%";
-            }
+        // $all_percent = [];
 
-            if ( isset($all_percent['科目'])) {
-                $all_percent['科目'] = "0%";
-            }
-        }
+
+        // foreach ($key1_value as &$item) {
+        //     $item['responsibility_percent']  = 0;
+        //     $all_percent[$item['value']] = 0;
+        //     foreach ($list as $item_tmp) {
+        //         if ($item['value'] == $item_tmp['department']) {
+        //             $all_percent[$item['value']] += $item_tmp['responsibility_percent'];
+        //         }
+        //     }
+        //     $all_percent[$item['value']].="%";
+        // }
+
+        // if($all_percent["教学部"] == '0%'){
+        //     if (isset($all_percent['老师'] )) {
+        //         $all_percent['老师'] = "0%";
+        //     }
+
+        //     if ( isset($all_percent['科目'])) {
+        //         $all_percent['科目'] = "0%";
+        //     }
+        // }
         //以上处理责任比率
         // dd($all_percent);
         // dd($list);
@@ -1761,7 +1767,7 @@ class user_manage extends Controller
 
         return $this->pageView(__METHOD__,null,
                   ["refund_info" => $list,
-                   "all_percent" => $all_percent,
+                   "all_percent" => $key1_value,
                    "qc_anaysis"  => $qc_anaysis,
                    "adminid"     => $adminid
                   ]
