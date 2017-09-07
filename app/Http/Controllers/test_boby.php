@@ -353,7 +353,7 @@ class test_boby extends Controller
     }
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
-        // return 'bey';
+        return 'bey';
         $start_time = strtotime('2017-08-05');
         $end_time = strtotime('2017-09-01');
         $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);

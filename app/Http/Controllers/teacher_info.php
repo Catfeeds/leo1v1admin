@@ -2193,7 +2193,21 @@ class teacher_info extends Controller
 
     public function get_teacher_money_info(){
         $teacherid = $this->get_login_teacher();
-        return $this->pageView(__METHOD__);
+        $test = [
+            ['x'=>'2017-01','y'=> '4435'],
+            ['x'=>'2017-02','y'=> '4621'],
+            ['x'=>'2017-03','y'=> '6521'],
+            ['x'=>'2017-04','y'=> '2643'],
+            ['x'=>'2017-05','y'=> '6321'],
+            ['x'=>'2017-06','y'=> '3221'],
+            ['x'=>'2017-07','y'=> '5221'],
+            ['x'=>'2017-08','y'=> '3226'],
+            ['x'=>'2017-09','y'=> '4341'],
+            ['x'=>'2017-10','y'=> '2321'],
+            ['x'=>'2017-11','y'=> '8521'],
+            ['x'=>'2017-12','y'=> '4621'],
+        ];
+        return $this->pageView(__METHOD__,array(),['test'=>$test]);
     }
 
     public function edit_teacher_status(){

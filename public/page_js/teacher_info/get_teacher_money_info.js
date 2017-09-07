@@ -67,48 +67,54 @@ $(function(){
 
 	  $('.opt-change').set_input_change_event(load_data);
 
-    // LINE CHART
-    var line = new Morris.Line({
-        element: 'line-chart',
-        resize: true,
-        data: [
-            {x: '2017-03', y: 4912},
-            {x: '2017-04', y: 3767},
-            {x: '2017-05', y: 6810},
-            {x: '2017-06', y: 5670},
-            {x: '2017-07', y: 7100},
-            {x: '2017-08', y: 5920},
-        ],
-        xkey: 'x',
-        ykeys: ['y'],
-        labels: ['工资'],
-        lineColors: ['#00a6ff'],
-        hideHover: true,
-        parseTime:false,
-        smooth:false,
-    });
-
-    var month_change = function (month){
-        var year = $('#year').text();
-        var htmlcode = $('#line-chart').html();
-
-    };
+    var curnum = 6;
     $('.left').on('click', function() {
-        var month = $('#month').text() - 1;
-        if ( month < 1 ) {
-            month = 1;
+        curnum--;
+        if ( curnum < 0 ) {
+            curnum = 0;
         }
-        month_change(month);
+        month_change();
     });
+
     $('.right').on('click', function() {
-        var month = $('#month').text() + 1;
-        if ( month > 12 ) {
-            month = 12;
+        curnum++;
+        if ( curnum > 12 ) {
+            curnnum = 12;
         }
+        month_change();
     });
-    var pic_code = $('#line-chart').html();
-    
-    // console.log(pic_code)
+
+    var month_change = function (){
+        $('#line-chart').empty();
+        $('#year').text( month_info[curnum].x );
+        console.log(curnum)
+        var show_info = [];
+        var num = 0;
+        var loopnum = curnum;
+        while (num < 6)
+        {
+            if(loopnum < 12) {
+                show_info[num] = month_info[loopnum];
+            }
+            loopnum++;
+            num++;
+        }
+        // LINE CHART
+        var line = new Morris.Line({
+            element: 'line-chart',
+            resize: true,
+            data: show_info,
+            xkey: 'x',
+            ykeys: ['y'],
+            labels: ['工资'],
+            lineColors: ['#00a6ff'],
+            hideHover: true,
+            parseTime:false,
+            smooth:false,
+        });
+    }
+
+    month_change();
 
 });
 
