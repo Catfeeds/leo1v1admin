@@ -131,7 +131,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="" class="img-circle" alt="User Image" />
+                                    <img src="" width="90px" height="90px" class="img-circle" alt="上传头像" />
                                     <p>
                                         {{$_account}}
                                         -

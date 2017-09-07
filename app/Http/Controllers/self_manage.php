@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Redis;
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
 
 
 class self_manage extends Controller
 {
+    use TeaPower;
     use CacheNick;
 
     public  function index() {
@@ -264,7 +271,82 @@ class self_manage extends Controller
         return $this->output_succ();
 
     }
+    public function upload_face_pic(){
+        //header("Content-type: image/jpeg"); 
+        $adminid= $this->get_account_id();
+        $ret_info = $this->t_manager_info->get_show_manage_info($adminid);
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_info,
+        ]);
+    }
 
+    public function set_manager_face(){
+        $uid = $this->get_in_int_val("uid");
+        $face = $this->get_in_str_val("face");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $face = $domain.'/'.$face;
+
+        //$origin_pic = "http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png"; 
+        $origin_pic = $face;
+        $filename = pathinfo($origin_pic);
+        $extension = $filename['extension'];
+        $filename = "/tmp/".$filename['filename']."test".".".$extension;
+        if($extension == "jpg"){
+            $imagecreatefrom = "imagecreatefromjpeg";
+            $image  = "imagejpeg";
+        }else{
+            $imagecreatefrom = "imagecreatefrom".$extension;  
+            $image  = "image".$extension;
+        }
+
+        $width = 750;
+        $height = 750;
+        // 计算缩放比例   
+        $info = getimagesize($origin_pic);   
+        $calc = min($width / $info[0], $height / $info[1]);   
+
+        $dim = $imagecreatefrom($origin_pic);
+        // 创建缩略画布    
+        $tim = imagecreatetruecolor($width, $height); 
+         // 创建白色填充缩略画布   
+        $white = imagecolorallocate($tim, 255, 255, 255);   
+          // 填充缩略画布   
+        imagefill($tim, 0, 0, $white);   
+     
+        $dwidth = (int)$info[0] * $calc;   
+        $dheight = (int)$info[1] * $calc;     
+        $paddingx = (int)($width - $dwidth) / 2;   
+        $paddingy = (int)($height - $dheight) / 2;
+        imagecopyresampled($tim, $dim, $paddingx, $paddingy, 
+                            0, 0, 
+                            $dwidth, $dheight, 
+                            $info[0], $info[1]);   
+
+        //imagepng($tim);
+        //$dim = imagecreatefrompng($tim);
+        $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
+        //dd($image_bg);
+        $image_bg = imagecreatefrompng($bg_pic);
+        imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100); 
+
+        $image($tim, $filename);
+        $file_name = \App\Helper\Utils::qiniu_upload($filename);
+
+        if($file_name!=''){
+            $cmd_rm = "rm ".$filename;
+
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+        }
+        imagedestroy($image_bg);
+        imagedestroy($tim);
+        imagedestroy($dim);
+
+        $this->t_manager_info->field_update_list($uid,[
+            "face_pic" => "http://ebtestpub.qiniudn.com/".$file_name,
+        ]);
+        // dd();
+        return $this->output_succ();
+    }
 
 
 }
