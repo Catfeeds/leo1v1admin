@@ -1052,9 +1052,9 @@ class user_manage extends Controller
 
             $item['all_percent'] = $arr['key1_value'];
 
-            // foreach($arr['list'] as $v){
+            foreach($arr['list'] as $v){
 
-            // }
+            }
 
 
         }
@@ -1640,6 +1640,7 @@ class user_manage extends Controller
         }
 
         $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+        // dd($arr);
 
         return $this->pageView(__METHOD__,null,
                                ["refund_info" => $arr['list'],
