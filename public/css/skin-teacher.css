@@ -86,6 +86,7 @@
 }
 .skin-teacher .sidebar-menu > li > a {
   border-left: 3px solid transparent;
+  opacity:0.6;
 }
 
 .skin-teacher .sidebar-menu  li:hover > a,
@@ -93,6 +94,7 @@
 {
     border-left-color: #fff;
     background-color: #39BFF8 ;
+    opacity:1;
 }
 .skin-teacher .sidebar-menu   {
     border-left-color: #fff;
@@ -117,6 +119,7 @@
 }
 .skin-teacher .treeview-menu > li > a {
     font-size:18px;
+    opacity:0.6;
 }
 .skin-teacher .treeview-menu {
     /*padding-left: 0px; */
@@ -139,6 +142,7 @@
 {
     background-color: #3bb1ff;
     border-left-color: #fff;
+    opacity:1;
 }
 
 .skin-teacher .sidebar-form {
