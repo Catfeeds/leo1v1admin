@@ -12,11 +12,12 @@ class teacher_money_www extends Controller
     use TeaPower;
 
     public function get_teacher_money_total_list(){
-        // $teacherid = $this->get_login_teacher();
-        $teacherid = $this->get_in_int_val("teacherid");;
+        $teacherid = $this->get_login_teacher();
+        // $teacherid = $this->get_in_int_val("teacherid");;
         if(!$teacherid){
             return $this->output_err("老师id出错！");
         }
+
         $now_date   = date("Y-m-01",time());
         $begin_time = strtotime("-1 year",strtotime($now_date));
         $end_time   = strtotime("+1 month",strtotime($now_date));
@@ -74,7 +75,6 @@ class teacher_money_www extends Controller
             $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
             $lesson_arr = [
-                "type"       => "--",
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
                 "state_info" => $val['lesson_cost_info'],

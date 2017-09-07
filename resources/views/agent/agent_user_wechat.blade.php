@@ -16,6 +16,7 @@
 
         <div id=""> </div>
             <div class="col-xs-12 col-md-4">
+
                 <table     class="common-table"  >
                     <thead>
                         <tr>

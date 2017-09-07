@@ -202,7 +202,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-    public function get_invite_money_not_open_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
+    public function get_invite_money( $id, $test_lesson_succ_flag , $agent_status_money_open_flag  ) {
+        $list=$this->get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag );
+        $money=0;
+        foreach ($list as $item) {
+            $money+=$item["agent_status_money"];
+        }
+        return $money;
+    }
+
+
+    public function get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
         $where_arr=[
             "a.agent_type in (1,3)",
             ["agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
@@ -222,7 +232,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$id,$where_arr
         );
 
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 
