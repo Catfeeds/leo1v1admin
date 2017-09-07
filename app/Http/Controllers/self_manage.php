@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Redis;
+
+use Illuminate\Support\Facades\Session;
 // 引入鉴权类
 use Qiniu\Auth;
 
@@ -344,6 +346,7 @@ class self_manage extends Controller
         $this->t_manager_info->field_update_list($uid,[
             "face_pic" => "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name,
         ]);
+        $_SESSION['face_pic']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         // dd();
         return $this->output_succ();
     }
