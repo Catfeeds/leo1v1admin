@@ -1039,13 +1039,17 @@ class user_manage extends Controller
 
 
             // 获取退费分析
-            $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
-            $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
-            $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
-            $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
+            // $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
+            // $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
+            // $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
+            // $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
 
 
-            // $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
+            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
+            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+
 
 
         }

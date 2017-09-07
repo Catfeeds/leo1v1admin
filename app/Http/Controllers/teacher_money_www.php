@@ -37,13 +37,11 @@ class teacher_money_www extends Controller
             $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
             $month_key            = date("Y-m",$l_val['lesson_start']);
 
-            \App\Helper\Utils::check_isset_data($list[$month_key]['试听课程'],[],0);
-
             if($val['lesson_type'] != 2){
                 $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
-                $list[$i]['lesson_normal'] += $val['lesson_base'];
                 $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
+                $list[$month_key]['lesson_normal'] = $val['lesson_base'];
             }else{
                 $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
                     $teacher_money_type,$val['teacher_type'],$val['lesson_start']
@@ -51,26 +49,80 @@ class teacher_money_www extends Controller
                 $list[$i]['lesson_trial'] += $val['lesson_base'];
                 $reward = "0";
             }
-            $val['lesson_full_reward'] = 0;
-            $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
 
             $this->get_lesson_cost_info($val);
-            $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
+            $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
+            $lesson_arr = [
+                "name" => $val['stu_nick'],
+                "time" => $lesson_time,
+                "state" => $lesson_time,
+            ];
 
-            $list[$i]['lesson_price']       += $lesson_price;
-            $list[$i]['lesson_reward']      += $val['lesson_reward'];
-            $list[$i]['lesson_cost']        += $val['lesson_cost'];
-            $list[$i]['lesson_cost_normal'] += $val['lesson_cost_normal'];
-            $list[$i]['lesson_total']       += $lesson_count;
-            $list[$i]['lesson_full_reward'] += $val['lesson_full_reward'];
-        }
-
-        foreach($list as $l_key=>$l_val){
-            
         }
     }
 
+    private function get_lesson_cost_info($val,$check_num){
+        $lesson_all_cost = 0;
+        $deduct_type = E\Elesson_deduct::$s2v_map;
+        $deduct_info = E\Elesson_deduct::$desc_map;
+        $month_key   = date("Y-m",$val['lesson_start']);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['change_num'],0,0);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['late_num'],0,0);
 
+        if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
+            if($val['lesson_cancel_reason_type']==21){
+                $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
+                $info            = "上课旷课!";
+            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
+                    && $val['lesson_cancel_time_type']==1){
+                if($this->change_num>=3){
+                    $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
+                    $info            = "课前４小时内取消上课！";
+                }else{
+                    $this->change_num++;
+                    $info            = "本月第".$this->change_num."次换课";
+                    $lesson_all_cost = 0;
+                }
+            }
+            if(isset($info)){
+                $cost_info['type']  = 3;
+                $cost_info['money'] = $lesson_all_cost;
+                $cost_info['info']  = $info;
+                $val['list'][]      = $cost_info;
+            }
+        }else if($val['fail_greater_4_hour_flag']==0 && ($val['test_lesson_fail_flag']==101 || $val['test_lesson_fail_flag']==102)){
+            $cost_info['type']  = 3;
+            $cost_info['money'] = 0;
+            $cost_info['info']  = "老师原因4小时内取消试听课";
+            $val['list'][]      = $cost_info;
+        }else{
+            $lesson_cost = $this->teacher_money['lesson_cost']/100;
+            $lesson_all_cost = 0;
+            foreach($deduct_type as $key=>$item){
+                if($val['deduct_change_class']==0){
+                    if($val[$key]>0){
+                        if($key=="deduct_come_late" && $this->late_num<3){
+                            $this->late_num++;
+                        }else{
+                            $cost_info['type']  = 3;
+                            $cost_info['money'] = $lesson_cost;
+                            $cost_info['info']  = $deduct_info[$item];
+
+                            $lesson_all_cost += $lesson_cost;
+                            $val["list"][]    = $cost_info;
+                        }
+                    }
+                }
+            }
+        }
+
+        if($val['lesson_type']!=2){
+            $val['lesson_cost_normal'] = (string)$lesson_all_cost;
+        }else{
+            $val['lesson_cost_normal'] = "0";
+        }
+        $val['lesson_cost'] = (string)$lesson_all_cost;
+    }
 
 
 }
