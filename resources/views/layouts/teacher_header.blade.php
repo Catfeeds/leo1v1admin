@@ -49,11 +49,9 @@
                 <!-- Logo -->
                 <a href="/teacher_info/index" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <!-- <span class="logo-mini"> <embed src="/img/leo1.svg" type="image/svg+xml" style="width:50px;height:50px"/> </span> -->
                     <span class="logo-mini"><img src="/img/leo1.png" width="100%"></span>
                     <!-- logo for regular state and mobile devices -->
                     <span class="logo-lg"><img src="/img/leo2.png"></span>
-                    <!-- <span class="logo-lg"><embed src="/img/leo2.svg" type="image/svg+xml"  style="width:100px;height:58px"/></span> -->
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -201,6 +199,5 @@
 
         </div>
         <!-- ./wrapper -->
-
 </body>
 </html>
