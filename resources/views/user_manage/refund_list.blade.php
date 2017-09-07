@@ -201,56 +201,56 @@
                             <td>{{@$var["助教部一级原因"]}}</td>
                             <td>{{@$var["助教部二级原因"]}}</td>
                             <td>{{@$var["助教部三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["助教部dep_score"]}}</td>
+                            <td>{{@$var["助教部reason"]}}</td>
 
                             <td>{{@$var["教务部一级原因"]}}</td>
                             <td>{{@$var["教务部二级原因"]}}</td>
                             <td>{{@$var["教务部三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["教务部dep_score"]}}</td>
+                            <td>{{@$var["教务部reason"]}}</td>
 
                             <td>{{@$var["老师管理一级原因"]}}</td>
                             <td>{{@$var["老师管理二级原因"]}}</td>
                             <td>{{@$var["老师管理三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["老师管理dep_score"]}}</td>
+                            <td>{{@$var["老师管理reason"]}}</td>
 
                             <td>{{@$var["教学部一级原因"]}}</td>
                             <td>{{@$var["教学部二级原因"]}}</td>
                             <td>{{@$var["教学部三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["教学部dep_score"]}}</td>
+                            <td>{{@$var["教学部reason"]}}</td>
 
                             <td>{{@$var["产品问题一级原因"]}}</td>
                             <td>{{@$var["产品问题二级原因"]}}</td>
                             <td>{{@$var["产品问题三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["产品问题dep_score"]}}</td>
+                            <td>{{@$var["产品问题reason"]}}</td>
 
                             <td>{{@$var["咨询部一级原因"]}}</td>
                             <td>{{@$var["咨询部二级原因"]}}</td>
                             <td>{{@$var["咨询部三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["咨询部dep_score"]}}</td>
+                            <td>{{@$var["咨询部reason"]}}</td>
 
                             <td>{{@$var["客户情况变化一级原因"]}}</td>
                             <td>{{@$var["客户情况变化二级原因"]}}</td>
                             <td>{{@$var["客户情况变化三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["客户情况变化dep_score"]}}</td>
+                            <td>{{@$var["客户情况变化reason"]}}</td>
 
                             <td>{{@$var["老师一级原因"]}}</td>
                             <td>{{@$var["老师二级原因"]}}</td>
                             <td>{{@$var["老师三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["老师dep_score"]}}</td>
+                            <td>{{@$var["老师reason"]}}</td>
 
                             <td>{{@$var["科目一级原因"]}}</td>
                             <td>{{@$var["科目二级原因"]}}</td>
                             <td>{{@$var["科目三级原因"]}}</td>
-                            <td>{{@$var["dep_score"]}}</td>
-                            <td>{{@$var["reason"]}}</td>
+                            <td>{{@$var["科目dep_score"]}}</td>
+                            <td>{{@$var["科目reason"]}}</td>
 
 
                             <td  >{{@$var["qc_other_reason"]}}</td>

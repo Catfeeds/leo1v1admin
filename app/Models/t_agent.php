@@ -222,9 +222,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         ];
         if ( $test_lesson_succ_flag ) {
-            $where_arr[] ="agent_status_money=50 ";
+            $where_arr[] ="agent_status_money=5000 ";
         }else{
-            $where_arr[] ="agent_status_money<50 ";
+            $where_arr[] ="agent_status_money<5000 ";
         }
 
 

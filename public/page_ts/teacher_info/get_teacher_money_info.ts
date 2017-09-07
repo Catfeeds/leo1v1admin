@@ -7,6 +7,7 @@ $(function(){
 
         });
     }
+	  $('.opt-change').set_input_change_event(load_data);
 
     $('button[data-key]').on('click', function() {
         var key = $(this).attr('data-key');
@@ -14,6 +15,7 @@ $(function(){
         $(this).children().toggleClass('fa-plus');
         $(this).children().toggleClass('fa-minus');
     });
+
     $('circle').each(function(){
         console.log($(this).text());
         alert($(this).text())
@@ -65,10 +67,9 @@ $(function(){
         $('.direct-chat-contacts').append(content);
     });
 
-	  $('.opt-change').set_input_change_event(load_data);
 
     var curnum = 6;
-    $('.left').on('click', function() {
+    $('#id_prev_year').on('click', function() {
         curnum--;
         if ( curnum < -5 ) {
             curnum = -5;
@@ -76,7 +77,7 @@ $(function(){
         month_change();
     });
 
-    $('.right').on('click', function() {
+    $('#id_next_year').on('click', function() {
         curnum++;
         if ( curnum > 6 ) {
             curnum = 6;
