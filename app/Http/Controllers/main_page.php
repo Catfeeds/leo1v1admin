@@ -1596,6 +1596,17 @@ class main_page extends Controller
 
     }
 
+    public function teacher_management_info(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info = $this->t_lesson_info_b3->get_tongji_cc($start_time,$end_time,0,0); //普通排课
+        $ret_info_top = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,1,0); //Top
+        $ret_info_take = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,1); //抢课
+
+        dd(111);
+
+    }
+
 
 
 

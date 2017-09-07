@@ -1039,7 +1039,7 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
-
+            //处理 投诉分析 [QC-文斌]
             $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
@@ -1053,32 +1053,30 @@ class user_manage extends Controller
                         $key3_name = $v1['value'].'三级原因';
 
                         if(isset($v1["$key1_name"])){
-                            $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
-                            $v1["$key2_name"] = $v1["$key2_name"].'/'.$v2['key3_str'];
-                            $v1["$key3_name"] = $v1["$key3_name"].'/'.$v2['key4_str'];
-                            $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
-                            $v1['dep_score']  = $v1['dep_score'].'/'.$v2['score'];
+                            $item["$key1_name"] = $item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = $item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = $item["$key3_name"].'/'.$v2['key4_str'];
+                            $item['reason']     = $item['reason'].'/'.$v2['reason'];
+                            $item['dep_score']  = $item['dep_score'].'/'.$v2['score'];
                         }else{
-                            $v1["$key1_name"] = $v2['key2_str'];
-                            $v1["$key2_name"] = $v2['key3_str'];
-                            $v1["$key3_name"] = $v2['key4_str'];
-                            $v1['reason']     = $v2['reason'];
-                            $v1['dep_score']  = $v2['score'];
+                            $item["$key1_name"] = $v2['key2_str'];
+                            $item["$key2_name"] = $v2['key3_str'];
+                            $item["$key3_name"] = $v2['key4_str'];
+                            $item['reason']     = $v2['reason'];
+                            $item['dep_score']  = $v2['score'];
                         }
                     }
                 }
+
+                $item['score'] = @$v1['score'];
+                $item['responsibility_percent'] = @$v1['responsibility_percent'];
             }
 
-            $refund_info[] = $arr['key1_value'];
-
-            // $item['']
-
-
-            // $item['all_percent'] = $arr['key1_value'];
+            // $refund_info[] = $arr['key1_value'];
 
         }
 
-        // dd($refund_info);
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,

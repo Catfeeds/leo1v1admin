@@ -24,19 +24,38 @@ class teacher_money_www extends Controller
             $begin_time = $first_lesson_time;
         }
         $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_type = $simple_info['teacher_type'];
+        $teacher_money_flag = $simple_info['teacher_money_flag'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
         $list      = [];
         $check_num = [];
+        $already_lesson_count_list = [];
         foreach($lesson_list as $val){
             $check_type           = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-            $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
             $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-            $month_key            = date("Y-m",$l_val['lesson_start']);
+            $month_key            = date("Y-m",$val['lesson_start']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
 
+            $key = "already_lesson_count_".$month_key."_".$teacherid;
+            if(!isset($already_lesson_count_list[$key])){
+                $last_lesson_count = Redis::get($key);
+                if($last_lesson_count === null){
+                    $last_end_time = strtotime(date("Y-m-01",$val['lesson_start']));
+                    $last_start_time = strtotime("-1 month",$last_end_time);
+                    $last_lesson_count = $this->get_already_lesson_count(
+                        $last_start_time,$last_end_time,$teacherid,$val['teacher_money_type']
+                    );
+                    Redis::set($key,$last_lesson_count);
+                }
+                $already_lesson_count_list[$key] = $last_lesson_count;
+            }else{
+                $last_lesson_count = $already_lesson_count_list[$key];
+            }
+
+            $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
             if($val['lesson_type'] != 2){
                 $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
@@ -44,7 +63,7 @@ class teacher_money_www extends Controller
                 $list_lesson_key = "normal_lesson";
             }else{
                 $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
-                    $teacher_money_type,$val['teacher_type'],$val['lesson_start']
+                    $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                 );
                 $lesson_reward   = "0";
                 $list_lesson_key = "trial_lesson";
