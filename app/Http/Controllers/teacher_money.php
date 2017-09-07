@@ -341,20 +341,19 @@ class teacher_money extends Controller
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
-            if($check_type==2){
-                $start_time = strtotime("-1 month",$start);
-                $end_time   = strtotime("-1 month",$end);
-                $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
-                if($transfer_teacherid>0){
-                    $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
-                    $already_lesson_count += $old_lesson_count;
-                }
+            //拉取上个月累计课时
+            $start_time = strtotime("-1 month",$start);
+            $end_time   = strtotime("-1 month",$end);
+            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+            if($transfer_teacherid>0){
+                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
+                $already_lesson_count += $old_lesson_count;
             }
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
+                    $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
                     if($check_type!=2){
                         $already_lesson_count = $val['already_lesson_count'];
                     }
