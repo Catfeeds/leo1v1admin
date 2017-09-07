@@ -493,6 +493,7 @@ class url_power_map {
 			'/teacher_level/get_fifth_test_lesson_info'	=>1373900,
 			'/teacher_level/get_first_regular_lesson_info'	=>1374000,
 			'/teacher_level/get_fifth_regular_lesson_info'	=>1374100,
+			'/teacher_level/get_seller_top_test_lesson_info'	=>1374400,
 			'/human_resource/teacher_test_lesson_info_zj'	=>1374200,
 			'/human_resource/index_tea_qua_zj'	=>1374300,
 			'/tongji_ss/teacher_interview_info_tongji'	=>1373004,

@@ -121,6 +121,7 @@ class teaching_menu{
                         [ "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info_jy"],
                         [ "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info_jy"],
                         [ "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info_jy"],
+                        ["name"=>"精排1000教学反馈",   "url"=>"/teacher_level/get_seller_top_test_lesson_info"],
                         [ "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                         ["name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                         [ "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],

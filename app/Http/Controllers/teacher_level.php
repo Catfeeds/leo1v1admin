@@ -934,7 +934,7 @@ class teacher_level extends Controller
                 $nick = $this->t_student_info->get_nick($userid);
                 $str = "学生:".$nick."的第五次常规课教学反馈";
             }elseif($lesson_style==6){
-                $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+                // $openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
                 $str = "教学反馈";
             }
 
