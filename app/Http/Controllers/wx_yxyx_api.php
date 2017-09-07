@@ -63,21 +63,21 @@ class wx_yxyx_api extends Controller
 
         E\Eagent_level::set_item_value_str($data);
         $data["all_money_info"] =[
-            "all_money" => $data["all_yxyx_money"]/100,
-            "open_moeny" => $data["all_open_cush_money"]/100,
+            "all_money" => $agent_info["all_yxyx_money"]/100,
+            "open_moeny" => $agent_info["all_open_cush_money"]/100,
         ];
 
         $data["order_money_info"] =[
-            "all_money" => $data["all_money"]/100,
-            "open_moeny" => $data["order_open_all_money"]/100,
+            "all_money" => $agent_info["all_money"]/100,
+            "open_moeny" => $agent_info["order_open_all_money"]/100,
         ];
 
         $data["invite_money_info"] =[
-            "all_money" => $data["l1_agent_status_all_money"]/100,
-            "open_moeny" => $data["l1_agent_status_all_open_money"]/100,
+            "all_money" => $agent_info["l1_agent_status_all_money"]/100,
+            "open_moeny" => $agent_info["l1_agent_status_all_open_money"]/100,
         ];
-        $data["invite_money_not_open_lesson_succ"]=$this->t_agent->get_invite_money($id,1,0);
-        $data["invite_money_not_open_not_lesson_succ"]=$this->t_agent->get_invite_money($id,0,0);
+        $data["invite_money_not_open_lesson_succ"]=$this->t_agent->get_invite_money( $agent_id  ,1,0);
+        $data["invite_money_not_open_not_lesson_succ"]=$this->t_agent->get_invite_money($agent_id,0,0);
 
 
         return $this->output_succ(["user_info_list" =>$data]);
