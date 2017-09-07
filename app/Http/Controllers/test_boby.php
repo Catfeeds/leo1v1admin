@@ -365,12 +365,12 @@ class test_boby extends Controller
         $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
         $num = 0;
 
-        foreach ($lessonid_list as $v) {
-            $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
-            $num++;
-        }
-        echo $num, '---ok';
-        exit;
+        // foreach ($lessonid_list as $v) {
+        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
+        //     $num++;
+        // }
+        // echo $num, '---ok';
+        // exit;
         // $g200 = [];
         // $g300 = [];
         // foreach($lessonid_list as $v){
