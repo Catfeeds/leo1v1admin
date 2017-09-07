@@ -70,8 +70,8 @@ $(function(){
     var curnum = 6;
     $('.left').on('click', function() {
         curnum--;
-        if ( curnum < 0 ) {
-            curnum = 0;
+        if ( curnum < -5 ) {
+            curnum = -5;
         }
         month_change();
     });
@@ -86,19 +86,21 @@ $(function(){
 
     var month_change = function (){
         $('#line-chart').empty();
-        $('#year').text( month_info[curnum].x );
-        console.log(curnum)
         var show_info = [];
         var num = 0;
         var loopnum = curnum;
         while (num < 6)
         {
-            if(loopnum < 12) {
-                show_info[num] = month_info[loopnum];
+            if(loopnum < 12 & loopnum >= 0) {
+                if( month_info[loopnum] !== undefined ) {
+                    show_info[show_info.length] = month_info[loopnum];
+                }
             }
+
             loopnum++;
             num++;
         }
+        $('#year').text( month_info[loopnum-1].x );
         // LINE CHART
         var line = new Morris.Line({
             element: 'line-chart',
