@@ -28,8 +28,10 @@ class teacher_money_www extends Controller
             $begin_time = $first_lesson_time;
         }
 
-        
-
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
+        foreach($lesson_list as $l_val){
+            
+        }
 
     }
 
