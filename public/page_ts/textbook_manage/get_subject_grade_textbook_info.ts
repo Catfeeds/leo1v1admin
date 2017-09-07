@@ -10,8 +10,8 @@ $(function(){
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({
         browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
-        url : '/ss_deal/upload_subject_grade_textbook_from_xls', //服务器端的上传页面地址
-        // url : '/ss_deal/upload_lecture_from_xls', //服务器端的上传页面地址
+       // url : '/ss_deal/upload_subject_grade_textbook_from_xls', //服务器端的上传页面地址
+        url : '/ss_deal/upload_ass_stu_from_xls', //服务器端的上传页面地址
         flash_swf_url : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
         silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
         filters: {
