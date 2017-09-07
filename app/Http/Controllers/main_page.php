@@ -1611,7 +1611,58 @@ class main_page extends Controller
         $top_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,1,1); 
         $green_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,2,1); 
         $normal_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,3,1); 
-        dd($seller_all);
+        foreach($seller_all as $k=>&$val){
+            $val["per"] = !empty($val["person_num"])?round($val["have_order"]/$val["person_num"]*100,2):0;
+            $val["top_num"] = @$top_seller_all[$k]["person_num"];
+            $val["top_order"] = @$top_seller_all[$k]["have_order"];
+            $val["green_num"] = @$green_seller_all[$k]["person_num"];
+            $val["green_order"] = @$green_seller_all[$k]["have_order"];
+            $val["normal_num"] = @$normal_seller_all[$k]["person_num"];
+            $val["normal_order"] = @$normal_seller_all[$k]["have_order"];
+            $val["top_per"] = !empty($val["top_num"])?round($val["top_order"]/$val["top_num"]*100,2):0;
+            $val["green_per"] = !empty($val["green_num"])?round($val["green_order"]/$val["green_num"]*100,2):0;
+            $val["normal_per"] = !empty($val["normal_num"])?round($val["normal_order"]/$val["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $seller_all,"per", 0 );
+        foreach($seller_all as $s=>$v){
+            if($s>9){
+                unset($seller_all[$s]);
+            }
+        }
+
+        //老师
+        $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1); 
+        $top_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,1,1); 
+        $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1); 
+        $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1); 
+        foreach($tea_all as $k=>&$val){
+            $val["per"] = !empty($val["person_num"])?round($val["have_order"]/$val["person_num"]*100,2):0;
+            $val["top_num"] = @$top_tea_all[$k]["person_num"];
+            $val["top_order"] = @$top_tea_all[$k]["have_order"];
+            $val["green_num"] = @$green_tea_all[$k]["person_num"];
+            $val["green_order"] = @$green_tea_all[$k]["have_order"];
+            $val["normal_num"] = @$normal_tea_all[$k]["person_num"];
+            $val["normal_order"] = @$normal_tea_all[$k]["have_order"];
+            $val["top_per"] = !empty($val["top_num"])?round($val["top_order"]/$val["top_num"]*100,2):0;
+            $val["green_per"] = !empty($val["green_num"])?round($val["green_order"]/$val["green_num"]*100,2):0;
+            $val["normal_per"] = !empty($val["normal_num"])?round($val["normal_order"]/$val["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $tea_all,"per", 0 );
+        foreach($tea_all as $s=>$v){
+            if($s>9){
+                unset($tea_all[$s]);
+            }
+        }
+
+
+                
+
+
+        dd($tea_all);
 
         return $this->pageView(__METHOD__ ,null, [
             "top_jw_total" => $top_jw_total,

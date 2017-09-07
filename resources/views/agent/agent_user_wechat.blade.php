@@ -32,28 +32,45 @@
                         </tr>
 
                         <tr>
-                            <td>昵称</td>
-                            <td id="id_usernick"> </td>
+                            <td>
+                                星星个数
+                            </td>
+                            <td id="id_star_count"> </td>
                         </tr>
                         <tr>
                             <td>
                                 微信昵称
                             <td id="id_wx_nick"> </td>
-                        <tr>
-                            <td>
-                                微信头像url
-                            </td>
-
-                            <td > <img
-                                id="id_wx_headimgurl"
-                                      src="" style="width:100px; "/>  </td>
                         </tr>
 
                         <tr>
                             <td>
-                                星星个数
+                                微信头像url
                             </td>
-                            <td id="id_star_count"> </td>
+                            <td > <img
+                                id="id_wx_headimgurl"
+                                      src="" style="width:100px; "/>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                               总金额/可提现/已提现
+                            <td id="id_all_money_info"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                               签单奖励/可提现
+                            <td id="id_order_money_info"> </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                               邀请奖励/可提现
+                            <td id="id_invite_money_info"> </td>
                         </tr>
 
 

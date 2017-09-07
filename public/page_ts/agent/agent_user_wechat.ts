@@ -23,7 +23,9 @@ $(function(){
         success : function(data){
             var user= data.user_info_list;
             $("#id_agent_level_str").text(user.agent_level_str );
-            $("#id_wx_headimgurl").attr("src", user.wx_yxyx_api );
+            $("#id_wx_headimgurl").attr("src", user.wx_headimgurl );
+            $("#id_star_count").text( user.star_count);
+            $("#id_wx_nick").text( user.wx_nick );
         },
         error:function(){
             alert('fail');
