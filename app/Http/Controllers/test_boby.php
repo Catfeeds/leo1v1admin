@@ -405,7 +405,7 @@ class test_boby extends Controller
                    .'<td>'.$item["nick"].'</td>'
                    .'<td>'.$item["phone"].'</td>'
                    .'<td>'.$item["subject_str"].'</td>'
-                   .'<td>'.$item["tt_time"].'</td>'
+                   .'<td>'.$item["lesson_start"].'</td>'
                    .'</tr>';
         }
 
