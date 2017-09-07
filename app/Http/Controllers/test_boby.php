@@ -363,50 +363,21 @@ class test_boby extends Controller
         // $end_time = strtotime('2017-10-01');
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
-        // $par = $this->get_in_int_val("par");
-        // if ($par == 1) {
-        //     $lessonid_list = ['318453','318454','318455','318456','318457'];
-        // } else {
-        //     $lessonid_list = ['318458','318459','318460','318461','318462'];
-        // }
-        // echo $par,'--';
-        $num = 0;
 
-        foreach ($lessonid_list as $v) {
-            $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
-            $num++;
-        }
-        echo $num, '---ok';
-        exit;
-        // $g200 = [];
-        // $g300 = [];
-        // foreach($lessonid_list as $v){
-        //     if ($v['grade'] == 200) {
-        //         $g200[ count($g200) ] = $v['lessonid'];
-        //     } else {
-        //         $g300[ count($g300) ] = $v['lessonid'];
-        //     }
+        // foreach ($lessonid_list as $v) {
+        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
         // }
-        foreach ($userid_list as $item) {
-            // if ($item['grade'] < 300) {
-                // foreach ($g200 as $v){
-            foreach ($lessonid_list as $v){
+        // echo 'ok';
+        // exit;
+        foreach ($lessonid_list as $v){
+            foreach ($userid_list as $item) {
                 $userid = $item['userid'];
                 $lessonid = $v;
                 $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
-                $num++;
             }
-            // } else {
-            //     foreach ($g300 as $v){
-                    // $userid = $item['userid'];
-                    // $lessonid = $v;
-                    // $this->t_open_lesson_user->add_open_class_user($lessonid, 229241);
-                // }
-            // }
-
         }
 
-        echo $num,'---ok';
+        echo 'ok';
         exit;
     }
 
