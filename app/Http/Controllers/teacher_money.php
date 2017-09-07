@@ -379,7 +379,7 @@ class teacher_money extends Controller
                     $val['lesson_full_reward'] = 0;
                     $val['lesson_reward']      = $reward*$lesson_count+$val['lesson_full_reward'];
 
-                    $this->get_lesson_cost_info($val);
+                    $this->get_lesson_cost_info($val,$check_num);
                     $lesson_price = $val['lesson_base']+$val['lesson_reward']-$val['lesson_cost'];
                     $list[$i]['lesson_price']       += $lesson_price;
                     $list[$i]['lesson_reward']      += $val['lesson_reward'];
