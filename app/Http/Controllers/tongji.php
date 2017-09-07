@@ -1740,7 +1740,6 @@ class tongji extends Controller
 
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        dd($start_time,strtotime("1 months", $start_time));
         list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
         $account_role = E\Eaccount_role::V_2;
         $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$adminid);
