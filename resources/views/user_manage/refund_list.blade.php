@@ -228,11 +228,53 @@
                             <td>{{@$var["dep_score"]}}</td>
                             <td>{{@$var["reason"]}}</td>
 
-                            <td>{{@$var["产品问题一级原因"]}}</td>
-                            <td>{{@$var["产品问题二级原因"]}}</td>
-                            <td>{{@$var["产品问题三级原因"]}}</td>
+                            <td>{{@$var["咨询部一级原因"]}}</td>
+                            <td>{{@$var["咨询部二级原因"]}}</td>
+                            <td>{{@$var["咨询部三级原因"]}}</td>
                             <td>{{@$var["dep_score"]}}</td>
                             <td>{{@$var["reason"]}}</td>
+
+                            <td>{{@$var["客户情况变化一级原因"]}}</td>
+                            <td>{{@$var["客户情况变化二级原因"]}}</td>
+                            <td>{{@$var["客户情况变化三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+                            <td>{{@$var["老师一级原因"]}}</td>
+                            <td>{{@$var["老师二级原因"]}}</td>
+                            <td>{{@$var["老师三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+                            <td>{{@$var["科目一级原因"]}}</td>
+                            <td>{{@$var["科目二级原因"]}}</td>
+                            <td>{{@$var["科目三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+
+                            <td  >{{@$var["qc_other_reason"]}}</td>
+                            <td  >{{@$var["qc_analysia"]}}</td>
+                            <td  >{{@$var["qc_reply"]}}</td>
+
+                            <td  >{{@$var["qc_other_reason"]}}</td>
+                            <td  >{{@$var["qc_analysia"]}}</td>
+                            <td  >{{@$var["qc_reply"]}}</td>
+
+                            <!-- 
+                                 <td  >责任鉴定 | 咨询部</td>
+                                 <td  >责任鉴定 | 助教部</td>
+                                 <td  >责任鉴定 | 教务部</td>
+                                 <td  >责任鉴定 | 老师管理</td>
+                                 <td  >责任鉴定 | 教学部</td>
+                                 <td  >责任鉴定 | 产品问题</td>
+                                 <td  >责任鉴定 | 客户情况变化</td>
+                                 <td  >责任鉴定 | 老师</td>
+                                 <td  >责任鉴定 | 科目</td>
+
+                               -->
+
+
 
 
 

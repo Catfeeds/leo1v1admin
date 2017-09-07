@@ -92,9 +92,9 @@
                                 <tbody >
                                         <tr>
                                             <td class="panel-gray">类型</td>
-                                            <td class="panel-gray">试听成功人数</td>
-                                            <td class="panel-gray">签约单数</td> 
-                                            <td class="panel-gray">转化率</td> 
+                                            <td class="panel-gray">咨询转化率</td>
+                                            <td class="panel-gray">教务转化率</td> 
+                                            <td class="panel-gray">老师转化率</td> 
                                         </tr>
                                         <tr>
                                             <td >1000精排</td> 

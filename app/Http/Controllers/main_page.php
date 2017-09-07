@@ -1606,6 +1606,8 @@ class main_page extends Controller
         $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
         $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2); //教务普通排课总体
 
+        //咨询
+        $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
 
         return $this->pageView(__METHOD__ ,null, [
             "top_jw_total" => $top_jw_total,
