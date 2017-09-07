@@ -10,10 +10,9 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                <div class="col-md-3 col-xs-0" data-always_show="1">
+                    <div class="input-group col-sm-12"  >
+                        <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入用户名/电话，回车查找" />
                     </div>
                 </div>
             </div>

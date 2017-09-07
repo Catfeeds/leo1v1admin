@@ -1742,7 +1742,8 @@ class tongji extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
         $account_role = E\Eaccount_role::V_2;
-        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$adminid);
+        $user_info = trim($this->get_in_str_val('user_info',''));
+        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role,$user_info);
         $adminid_list = array_unique(array_column($order_user_list,'uid'));
         foreach($adminid_list as $item){
             foreach($order_user_list as $info){
