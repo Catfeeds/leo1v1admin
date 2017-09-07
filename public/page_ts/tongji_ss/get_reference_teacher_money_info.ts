@@ -15,11 +15,9 @@ $(function(){
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
-                var opt_data=$tr.find(".course_plan");
-                var lessonid = opt_data.data("userid");
-                alert(lessonid);
-                return;
-                if(lessonid>0){
+                var opt_data=$tr.find(".row-data");
+                var userid = opt_data.data("userid");
+                if(userid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -40,8 +38,8 @@ $(function(){
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/ajax_deal2/get_lesson_stu_tea_time",{
-                        "lessonid"       : lessonid
+                    $.do_ajax("/ajax_deal2/get_stu_nick_info",{
+                        "userid"       : userid
                     },function(resp){
                         console.log(resp.data);
                         alert(resp.data.stu_time);
