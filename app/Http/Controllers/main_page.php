@@ -1596,6 +1596,32 @@ class main_page extends Controller
 
     }
 
+    public function teacher_management_info(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $top_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+        $green_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
+        $normal_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1); //咨询/老师普通排课总体
+        $top_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,2); //教务1000精排总体
+        $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
+        $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2); //教务普通排课总体
+
+        //咨询
+        $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
+        dd($seller_all);
+
+        return $this->pageView(__METHOD__ ,null, [
+            "top_jw_total" => $top_jw_total,
+            "green_jw_total" => $green_jw_total,
+            "normal_jw_total" => $normal_jw_total,
+            "top_seller_total" => $top_seller_total,
+            "green_seller_total" => $green_seller_total,
+            "normal_seller_total" => $normal_seller_total,       
+        ]);
+
+
+    }
+
 
 
 

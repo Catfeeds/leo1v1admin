@@ -23,9 +23,38 @@
          .bootstrap-dialog-message {
              color:#333;
          }
+         .head{
+             height:70px;
+             padding:0 10px;
+         }
+         .nav{
+             height:70px;
+         }
+         .logo{
+             display:block;
+             height:70px;
+             line-height:70px;
+         }
+         .test{
+             background:#ccc
+         }
         </style>
     </head>
-    <body class="bg-blue">
+    <body>
+        <!-- head-start -->
+        <div class="row head test">
+            <div class="col-xs-2 col-xs-offset-2 nav">
+                <a href="" class="logo  pull-right">
+                    <img src="/img/leo2.png">
+                </a>
+            </div>
+            <div class="col-xs-1 nav test">
+                <a href="" class="logo">登录</a>
+            </div>
+
+        </div>
+        <!-- head-end -->
+        <!-- <body class="bg-blue"> -->
         <div class="form-box" id="login-box">
             <div class="header">老师管理系统</div>
             <form >

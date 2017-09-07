@@ -932,6 +932,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TManageInfoAddMainDepartment' => __DIR__ . '/../..' . '/database/migrations/2017_06_15_103406_t_manage_info_add_main_department.php',
         'TManageInfoAddPersonalDesc' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_152137_t_manage_info_add_personal_desc.php',
         'TManagerInfoAddBecomeMemberTime' => __DIR__ . '/../..' . '/database/migrations/2017_07_28_115538_t_manager_info_add_become_member_time.php',
+        'TManagerInfoAddFacePic' => __DIR__ . '/../..' . '/database/migrations/2017_09_07_104316_t_manager_info_add_face_pic.php',
         'TManagerInfoAddFigtion' => __DIR__ . '/../..' . '/database/migrations/2017_04_14_155953_t_manager_info_add_figtion.php',
         'TManagerInfoAddLeaveMemberTime' => __DIR__ . '/../..' . '/database/migrations/2017_07_29_184928_t_manager_info_add_leave_member_time.php',
         'TManagerInfoAddMenuConfig' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_172629_t_manager_info_add_menu_config.php',

@@ -459,6 +459,7 @@ trait  ViewDeal {
     static function view_with_header_info( $view , $data=[], $mergeData=[] ) {
         $data["_power_list"]= session("power_list");
         $data["_account"]=  session("acc") ;
+        $data["_face_pic"]=  session("face_pic") ;
         $data["_adminid"]=  session("adminid") ;
         $data["_account_role"] =  session("account_role") ;
 

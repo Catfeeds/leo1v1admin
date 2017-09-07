@@ -1003,6 +1003,8 @@ class user_manage extends Controller
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
 
+        $refund_info = [];
+
         foreach($ret_info['list'] as &$item){
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1037,7 +1039,7 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
-
+            //处理 投诉分析 [QC-文斌]
             $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
@@ -1051,28 +1053,30 @@ class user_manage extends Controller
                         $key3_name = $v1['value'].'三级原因';
 
                         if(isset($v1["$key1_name"])){
-                            $v1["$key1_name"] = $v1["$key1_name"].'/'.$v2['key2_str'];
-                            $v1["$key2_name"] = $v1["$key2_name"].'/'.$v2['key3_str'];
-                            $v1["$key3_name"] = $v1["$key3_name"].'/'.$v2['key4_str'];
-                            $v1['reason']     = $v1['reason'].'/'.$v2['reason'];
-                            $v1['dep_score']  = $v1['dep_score'].'/'.$v2['score'];
+                            $item["$key1_name"] = $item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = $item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = $item["$key3_name"].'/'.$v2['key4_str'];
+                            $item['reason']     = $item['reason'].'/'.$v2['reason'];
+                            $item['dep_score']  = $item['dep_score'].'/'.$v2['score'];
                         }else{
-                            $v1["$key1_name"] = $v2['key2_str'];
-                            $v1["$key2_name"] = $v2['key3_str'];
-                            $v1["$key3_name"] = $v2['key4_str'];
-                            $v1['reason']     = $v2['reason'];
-                            $v1['dep_score']  = $v2['score'];
+                            $item["$key1_name"] = $v2['key2_str'];
+                            $item["$key2_name"] = $v2['key3_str'];
+                            $item["$key3_name"] = $v2['key4_str'];
+                            $item['reason']     = $v2['reason'];
+                            $item['dep_score']  = $v2['score'];
                         }
                     }
                 }
+
+                $score_name   = $v1['value'].'扣分值';
+                $percent_name = $v1['value'].'责任值';
+                $item["$score_name"]   = @$v1['score'];
+                $item["$percent_name"] = @$v1['responsibility_percent'];
             }
 
-            // $item['']
-
-
-            // $item['all_percent'] = $arr['key1_value'];
-
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
@@ -2687,7 +2691,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
-    $assistantid = 190500	;
+	    $assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){
