@@ -202,6 +202,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_invite_money_not_open_list($id, $test_lesson_succ_flag=0 ){
+
+        $sql=$this->gen_sql_new (
+            "select a.id, a.nickname,a.phone , agent_status_money, agent_status_money_open_flag "
+            ." from %s a "
+            ." where a.parentid=%u "
+            ,self::DB_TABLE_NAME
+            ,$id
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_parent_phone_by_openid($wx_openid){
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"a.wx_openid",$wx_openid);

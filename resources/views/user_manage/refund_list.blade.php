@@ -257,9 +257,8 @@
                             <td  >{{@$var["qc_analysia"]}}</td>
                             <td  >{{@$var["qc_reply"]}}</td>
 
-                            <td  >{{@$var["qc_other_reason"]}}</td>
-                            <td  >{{@$var["qc_analysia"]}}</td>
-                            <td  >{{@$var["qc_reply"]}}</td>
+                            <td  >{{@$var["助教部责任值"]}}</td>
+                            <td  >{{@$var["教务部责任值"]}}</td>
 
                             <!-- 
                                  <td  >责任鉴定 | 咨询部</td>

@@ -88,7 +88,7 @@ class teacher_money_www extends Controller
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
         foreach($reward_list as $r_val){
             $month_key = date("Y-m",$r_val['add_time']);
-            $add_time  = strtotime("Y-m-d H:i",$r_val['add_time']);
+            $add_time  = date("Y-m-d H:i",$r_val['add_time']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
 
             $reward_money = $r_val['money']/100;

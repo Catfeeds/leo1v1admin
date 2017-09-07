@@ -1070,11 +1070,13 @@ class user_manage extends Controller
 
                 $score_name   = $v1['value'].'扣分值';
                 $percent_name = $v1['value'].'责任值';
-                // $item['score'] = @$v1['score'];
-                // $item['responsibility_percent'] = @$v1['responsibility_percent'];
+                $item["$score_name"]   = @$v1['score'];
+                $item["$percent_name"] = @$v1['responsibility_percent'];
             }
 
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
