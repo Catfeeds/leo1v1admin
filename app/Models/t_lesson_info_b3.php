@@ -247,8 +247,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_del_flag = 0",
             "mm.account_role=2 ",
             "mm.del_flag=0",
-            ["tss.top_seller_flag=%u",$top_seller_flag,-1],
-            ["tss.grab_flag=%u",$grab_flag,-1],
         ];
         if($set_type==1){
             $where_arr[]= ["lesson_start >= %u",$start_time,-1];
