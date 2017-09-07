@@ -1,6 +1,7 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/agent-agent_user_wechat.d.ts" />
 
+
 $(function(){
     function load_data(){
         $.reload_self_page ( {
@@ -14,6 +15,20 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
+
+   $.ajax({
+        type : "get",
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_info_new?_agent_id="+g_args.id ,
+        dataType : "jsonp",//数据类型为jsonp
+        success : function(data){
+            var user= data.user_info_list;
+            $("#id_agent_level_str").text(user.agent_level_str );
+            $("#id_wx_headimgurl").attr("src", user.wx_yxyx_api );
+        },
+        error:function(){
+            alert('fail');
+        }
+    });
    $.ajax({
         type : "get",
         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_info?_agent_id="+g_args.id ,

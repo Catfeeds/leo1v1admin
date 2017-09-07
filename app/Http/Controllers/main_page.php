@@ -1608,6 +1608,9 @@ class main_page extends Controller
 
         //咨询
         $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
+        $top_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,1,1); 
+        $green_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,2,1); 
+        $normal_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,3,1); 
         dd($seller_all);
 
         return $this->pageView(__METHOD__ ,null, [
