@@ -22,6 +22,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>序号 </td>
                     <td>销售 </td>
                     @foreach ( $date_list as $var )
                         <td>{{@$var["month"]}}月 </td>
@@ -32,14 +33,18 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["id"]}} </td>
+                        <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["money1"]}} </td>
+                        <td>{{@$var["money2"]}} </td>
+                        <td>{{@$var["money3"]}} </td>
+                        <td>{{@$var["money4"]}} </td>
+                        <td>{{@$var["money5"]}} </td>
+                        <td>{{@$var["money6"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-
                             </div>
                         </td>
                     </tr>

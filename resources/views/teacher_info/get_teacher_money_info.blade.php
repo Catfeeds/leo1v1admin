@@ -1,5 +1,8 @@
 @extends('layouts.teacher_header')
 @section('content')
+    <script type="text/javascript" >
+        var month_info = <?php  echo json_encode ($test); ?> ;
+    </script>
     <section class="content li-section">
         <div class="row">
             <div class="col-sm-12">
@@ -7,7 +10,7 @@
                     <div class="box-header with-border">
                         <div style="text-align:center;" class="color-blue">
                             <button type="button" class="btn btn-box-tool color-blue left ft24"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
-                            <h3 class="box-title"><span id="year">2017-08</span></h3>&nbsp;&nbsp;
+                            <h3 class="box-title"><span id="year"></span></h3>&nbsp;&nbsp;
                             <button type="button" class="btn btn-box-tool color-blue right ft24"><i class="fa fa-angle-right"></i></button>
                         </div>
                         <div class="box-tools pull-right">

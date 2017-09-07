@@ -1740,45 +1740,50 @@ class tongji extends Controller
 
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        $date_list = [['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]];
-        foreach($date_list as $key=>&$item){
-            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
-        }
+        list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
         $account_role = E\Eaccount_role::V_2;
         $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role);
-        dd($order_user_list);
-
-
-        $adminid=$this->get_in_adminid(-1);
-        //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
-        list($start_time,$end_time )= $this->get_in_date_range_month(0);
-        $month= strtotime( date("Y-m-01", $start_time));
-        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
-
-        $admin_list=&$ret_info["list"];
-        $account_role= E\Eaccount_role::V_2;
-        $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
-        $map=[];
-        foreach($ret_info["list"] as $item ) {
-            $map[$item["adminid"] ]=true;
-        }
-
-        foreach($order_user_list as $item ) {
-            if(!@$map[$item["adminid"] ] ) {
-                if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
-                    $ret_info["list"][]=["adminid" => $item["adminid"] ];
+        $adminid_list = array_unique(array_column($order_user_list,'uid'));
+        foreach($adminid_list as $item){
+            foreach($order_user_list as $info){
+                if($info['uid'] == $item){
+                    $ret[$item][] = $info;
                 }
             }
         }
-
-        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, $month);
-
-        foreach( $admin_list as &$item ) {
-            E\Emain_type::set_item_value_str($item);
+        foreach($ret as $key=>$item){
+            foreach($item as $info){
+                $adminid = $info['uid'];
+                $account = $info['sys_operator'];
+                $money = $info['price'];
+                $order_time = $info['order_time'];
+                if($order_time>=strtotime("-5 months", $start_time) && $order_time<strtotime("-4 months", $start_time)){
+                    $money1 += $money;
+                }elseif($order_time>=strtotime("-4 months", $start_time) && $order_time<strtotime("-3 months", $start_time)){
+                    $money2 += $money;
+                }elseif($order_time>=strtotime("-3 months", $start_time) && $order_time<strtotime("-2 months", $start_time)){
+                    $money3 += $money;
+                }elseif($order_time>=strtotime("-2 months", $start_time) && $order_time<strtotime("-1 months", $start_time)){
+                    $money4 += $money;
+                }elseif($order_time>=strtotime("-1 months", $start_time) && $order_time<$start_time){
+                    $money5 += $money;
+                }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
+                    $money6 += $money;
+                }
+            }
+            $ret_info[$key]['id']      = $num++;
+            $ret_info[$key]['adminid'] = $adminid;
+            $ret_info[$key]['account'] = $account;
+            $ret_info[$key]['money1']  = $money1/100;
+            $ret_info[$key]['money2']  = $money2/100;
+            $ret_info[$key]['money3']  = $money3/100;
+            $ret_info[$key]['money4']  = $money4/100;
+            $ret_info[$key]['money5']  = $money5/100;
+            $ret_info[$key]['money6']  = $money6/100;
         }
-        dd($admin_list);
-
-        $ret_info = [];
-        return $this->pageView(__METHOD__,$ret_info,['date_list'=>$date_list]);
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 }

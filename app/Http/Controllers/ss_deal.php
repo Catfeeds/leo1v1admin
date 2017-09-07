@@ -1079,7 +1079,7 @@ class ss_deal extends Controller
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
             $rank = @$self_top_info[6]["top_index"];
-            if($account_role !=2 || $rank>20){
+            if(($account_role !=2 || $rank>20) && $require_adminid != 349){
                 return $this->output_err("申请人不是销售top20!");
             }
 

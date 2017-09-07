@@ -42,9 +42,10 @@ $(function(){
                         "userid"       : userid
                     },function(resp){
                         console.log(resp.data);
-                        alert(resp.data.stu_time);
-                        $tr.find(".stu_time").text(resp.data.stu_time); 
-                        $tr.find(".tea_time").text(resp.data.tea_time); 
+                        $tr.find(".nick").text(resp.data.nick); 
+                        $tr.find(".grade").text(resp.data.grade); 
+                        $tr.find(".identity").text(resp.data.identity); 
+                        $tr.find(".location").text(resp.data.location); 
                        
 
                        

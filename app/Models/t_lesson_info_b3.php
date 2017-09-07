@@ -192,4 +192,47 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_seller_top_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in =2",
+            "l.lesson_status>0",
+            "t.is_test_user=0",
+            "tss.top_seller_flag=1",
+            ["l.subject = %u",$subject,-1],
+            ["tr.teacherid = %u",$teacherid,-1],
+            ["l.userid = %u",$userid,-1],
+        ];
+        if($record_flag==0){
+            $where_arr[] = "(tr.record_info is null or tr.record_info='')";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.record_info <>''";
+        }
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
+        }
+
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,l.userid "
+                                  ." from %s tr left join %s t on tr.teacherid = t.teacherid"
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." where %s and tr.type=1 and tr.lesson_style=4",
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
+
 }
