@@ -1144,6 +1144,10 @@ class ajax_deal2 extends Controller
         $userid    = $this->get_in_int_val("userid",166241);
         $stu_info = $this->t_student_info->field_get_list($userid,"nick,grade,phone");
         $grade =  E\Egrade::get_desc ($stu_info["grade"]); 
+        $location = \App\Helper\Common::get_phone_location($stu_info["phone"]);
+        $location = substr($location,0,-6);
+        $tea_info = $this->t_lesson_info_b3->get_teacher_identity($userid);
+
         
     }
 

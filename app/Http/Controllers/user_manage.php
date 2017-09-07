@@ -1684,8 +1684,8 @@ class user_manage extends Controller
         }
 
         foreach($key1_value as $v3){
-            if($is_teaching_flag){
-                // $total_score = $total_score
+            if($is_teaching_flag ){
+                // $total_score = $total_score -
             }
         }
         // dd($key1_value);
