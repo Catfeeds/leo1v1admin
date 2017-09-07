@@ -322,21 +322,23 @@ class teacher_money extends Controller
             $list[$i]["lesson_cost_tax"]    = "0";
             $list[$i]["lesson_total"]       = "0";
             //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']    = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start,$end,1))/100;
+            $list[$i]['lesson_reward_ex']    = ($this->t_teacher_money_list->get_teacher_honor_money(
+                $teacherid,$start,$end,E\Ereward_type::V_1))/100;
             //试听课奖金
-            $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start,$end,2))/100;
+            $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money(
+                $teacherid,$start,$end,E\Ereward_type::V_2))/100;
             //90分钟课程补偿
             $list[$i]['lesson_reward_compensate'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,3))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_3))/100;
             //工资补偿
             $list[$i]['lesson_reward_compensate_price'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,4))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_4))/100;
             //模拟试听奖金
             $list[$i]['lesson_reward_train'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,5))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_5))/100;
             //伯乐奖
             $list[$i]['lesson_reward_reference'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,6))/100;
+                $teacherid,$start,$end,E\Ereward_type::V_6))/100;
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
@@ -351,7 +353,7 @@ class teacher_money extends Controller
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
-                foreach($lesson_list as $key=>&$val){
+                foreach($lesson_list as $key => &$val){
                     //判断课程的老师类型来设置累计课时的数值
                     $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
                     $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;

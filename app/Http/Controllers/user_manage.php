@@ -1671,11 +1671,14 @@ class user_manage extends Controller
             }
 
             if($num>0){
-                if((!isset($v1['score']) || $v1['score'] ==0) && $v1['value'] == '教学部'){
-                    
-                }
                 $v1['score'] = $score/$num;
                 $total_score += ($score/$num);
+            }
+        }
+
+        foreach($key1_value as $v3){
+            if((!isset($v1['score']) || $v1['score'] ==0) && $v1['value'] == '教学部'){
+                // $v3
             }
         }
         // dd($key1_value);
