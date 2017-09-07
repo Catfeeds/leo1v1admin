@@ -1759,6 +1759,7 @@ class tongji extends Controller
                 }
             }
         }
+        dd($ret);
         foreach($ret as $item){
             foreach($item as $info){
                 $adminid = $info['adminid'];
