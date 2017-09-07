@@ -1644,6 +1644,7 @@ class user_manage extends Controller
         $total_score   = 0;
         $key1_value    = $this->t_order_refund_confirm_config->get_all_key1_value();
         $has_teaching  = true;
+        
 
         // dd($key1_value);
 
@@ -1676,9 +1677,11 @@ class user_manage extends Controller
             }
         }
 
+        $is_teaching_flag = false;
         foreach($key1_value as $v3){
             if((!isset($v1['score']) || $v1['score'] ==0) && $v1['value'] == '教学部'){
                 // $v3
+                $is_teaching_flag = true;
             }
         }
         // dd($key1_value);
