@@ -78,8 +78,8 @@ $(function(){
 
     $('.right').on('click', function() {
         curnum++;
-        if ( curnum > 12 ) {
-            curnnum = 12;
+        if ( curnum > 6 ) {
+            curnum = 6;
         }
         month_change();
     });
