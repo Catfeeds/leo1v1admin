@@ -308,6 +308,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $num = 0;
+        foreach([1,2,3] as $item){
+            $num++;
+        }
+        dd($num);
         // foreach($ret_info as $item){
         //     $userid = $item['userid'];
         //     $this->t_student_info->field_update_list($userid, [
