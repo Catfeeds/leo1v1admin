@@ -363,12 +363,14 @@ class test_boby extends Controller
         // $end_time = strtotime('2017-10-01');
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
+        $num = 0;
 
-        // foreach ($lessonid_list as $v) {
-        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v['lessonid'] );
-        // }
-        // echo 'ok';
-        // exit;
+        foreach ($lessonid_list as $v) {
+            $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
+            $num++;
+        }
+        echo $num, '---ok';
+        exit;
         // $g200 = [];
         // $g300 = [];
         // foreach($lessonid_list as $v){
@@ -378,7 +380,6 @@ class test_boby extends Controller
         //         $g300[ count($g300) ] = $v['lessonid'];
         //     }
         // }
-        $num = 0;
         foreach ($userid_list as $item) {
             // if ($item['grade'] < 300) {
                 // foreach ($g200 as $v){
