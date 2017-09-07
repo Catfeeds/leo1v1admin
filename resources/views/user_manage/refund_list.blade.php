@@ -216,59 +216,28 @@
                             <td>{{@$var["dep_score"]}}</td>
                             <td>{{@$var["reason"]}}</td>
 
+                            <td>{{@$var["教学部一级原因"]}}</td>
+                            <td>{{@$var["教学部二级原因"]}}</td>
+                            <td>{{@$var["教学部三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+                            <td>{{@$var["产品问题一级原因"]}}</td>
+                            <td>{{@$var["产品问题二级原因"]}}</td>
+                            <td>{{@$var["产品问题三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
+
+                            <td>{{@$var["产品问题一级原因"]}}</td>
+                            <td>{{@$var["产品问题二级原因"]}}</td>
+                            <td>{{@$var["产品问题三级原因"]}}</td>
+                            <td>{{@$var["dep_score"]}}</td>
+                            <td>{{@$var["reason"]}}</td>
 
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
 
 
 

@@ -99,20 +99,22 @@
                                         <tr>
                                             <td >1000精排</td> 
                                             <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
-                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
+                                            <td >{{@$top_jw_total["have_order"]}}/{{@$top_jw_total["person_num"]}}</td> 
                                             <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
                                         </tr>
                                         <tr>
                                             <td >绿色通道</td> 
-                                            <td >{{@$var['cc']}}</td> 
-                                            <td >{{@$var['trans']}}</td>
-                                            <td >{{@$var['per']}}</td>
+                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}</td> 
+                                            <td >{{@$green_jw_total["have_order"]}}/{{@$green_jw_total["person_num"]}}</td> 
+                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}</td> 
+
                                         </tr>
                                         <tr>
                                             <td >常规排课</td> 
-                                            <td >{{@$var['cc']}}</td> 
-                                            <td >{{@$var['trans']}}</td>
-                                            <td >{{@$var['per']}}</td>
+                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
+                                            <td >{{@$normal_jw_total["have_order"]}}/{{@$normal_jw_total["person_num"]}}</td> 
+                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
+
                                         </tr>
 
                                 </tbody>
