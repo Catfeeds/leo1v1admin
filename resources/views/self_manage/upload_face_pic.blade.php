@@ -80,7 +80,7 @@
                         <div class="col-xs-6 col-md-10  row-td-field-value"  data-teacherid="">
                         <button style="margin-left:10px"  id="id_upload_face" type="button" class="btn btn-primary" >上传头像</button> 
                         <br/>
-                        <a href="{{$ret_info['face_pic']}}">下载</a>
+                        <a href="{{$ret_info['face_pic']}}" target= "_blank">下载</a>
                         <br/>
                         <b ><font color="red">提示：请上传正方形头像，防止头像上传过程中拉伸变形。（可以使用手机软件或者在线裁剪头像）</font></b>
                         </div>
