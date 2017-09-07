@@ -288,16 +288,17 @@ class teacher_money extends Controller
             return $this->output_err("参数错误!");
         }
 
-        $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
-        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_type       = $this->t_teacher_info->get_teacher_type($teacherid);
-        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
 
         $simple_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_flag = $simple_info['teacher_money_flag'];
+        $teacher_money_type = $simple_info['teacher_money_type'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
         $teacher_info = $this->get_teacher_info_for_total_money($simple_info);
-        $list         = [];
+
+        $list = [];
         for($i=0,$flag=true;$flag!=false;$i++){
             $j     = $i+1;
             $start = strtotime("+".$i."month",$start_date);

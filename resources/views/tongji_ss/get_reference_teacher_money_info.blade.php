@@ -15,9 +15,9 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>lessonid </td>
-                    <td>学生时长 </td>
-                    <td>老师时长 </td>
+                    <td>userid </td>
+                    <td></td>
+                    <td></td>
                                      
                    
 
@@ -27,7 +27,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["lessonid"]}} </td>
+                        <td>{{@$var}} </td>
                         <td class="stu_time"></td>
                         <td class="tea_time"></td>
                        
