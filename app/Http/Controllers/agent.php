@@ -61,6 +61,10 @@ class agent extends Controller
             $item["all_money"]/= 100;
             $item["l1_agent_status_all_money"]/= 100;
             $item["l1_agent_status_all_open_money"]/= 100;
+            $item["all_yxyx_money"]/= 100;
+            $item["all_open_cush_money"]/= 100;
+            $item["all_have_cush_money"]/= 100;
+            $item["order_open_all_money"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
             $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;

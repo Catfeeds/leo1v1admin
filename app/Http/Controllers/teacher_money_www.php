@@ -29,6 +29,8 @@ class teacher_money_www extends Controller
             $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
             $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
             $month_key            = date("Y-m",$l_val['lesson_start']);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
 
             if($val['lesson_type'] != 2){
                 $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
@@ -55,18 +57,37 @@ class teacher_money_www extends Controller
                 "money"      => $lesson_money,
             ];
             $list[$month_key][$list_lesson_key][]=$lesson_arr;
+            $list[$month_key]["all_money"] += $lesson_money;
         }
 
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
         foreach($reward_list as $r_val){
             $month_key = date("Y-m",$r_val['add_time']);
+            $add_time = strtotime("Y-m-d H:i",$r_val['add_time']);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
+
+            $reward_money = $r_val['money']/100;
             $reward_arr = [
+                "name"       => "",
+                "time"       => $add_time,
+                "state_info" => "",
+                "cost"       => "",
+                "money"      => $r_val['money']/100,
             ];
             switch($r_val['type']){
             case E\Ereward_type::V_6:
-
-            case E\Ereward_type::V_6:
+                $reward_arr["name"]=$this->cache_get_teacher_nick($r_val['money_info']);
+                $list_reward_key = "reference";
+                break;
+            case E\Ereward_type::V_1: case E\Ereward_type::V_2: case E\Ereward_type::V_5:
+                $list_reward_key = "reward";
+                break;
+            default:
+                $list_reward_key = "compensate";
+                break;
             }
+            $list[$month_key][$list_reward_key][]=$reward_arr;
+            $list[$month_key]["all_money"]+=$reward_money;
         }
 
 
