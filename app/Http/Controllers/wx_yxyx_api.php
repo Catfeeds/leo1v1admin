@@ -58,23 +58,23 @@ class wx_yxyx_api extends Controller
             'wx_headimgurl'       => $agent_info['headimgurl'],
             'wx_nick'             => $agent_info['nickname'],
             "star_count"          => $agent_info["star_count"],//星星个数
-            "all_have_cush_money" => $agent_info["all_have_cush_money"],
+            "all_have_cush_money" => $agent_info["all_have_cush_money"]/100,
         ];
 
         E\Eagent_level::set_item_value_str($data);
         $data["all_money_info"] =[
-            "all_money" => $data["all_yxyx_money"],
-            "open_moeny" => $data["all_open_cush_money"],
+            "all_money" => $data["all_yxyx_money"]/100,
+            "open_moeny" => $data["all_open_cush_money"]/100,
         ];
 
         $data["order_money_info"] =[
-            "all_money" => $data["all_money"],
-            "open_moeny" => $data["order_open_all_money"],
+            "all_money" => $data["all_money"]/100,
+            "open_moeny" => $data["order_open_all_money"]/100,
         ];
 
         $data["invite_money_info"] =[
-            "all_money" => $data["l1_agent_status_all_money"],
-            "open_moeny" => $data["l1_agent_status_all_open_money"],
+            "all_money" => $data["l1_agent_status_all_money"]/100,
+            "open_moeny" => $data["l1_agent_status_all_open_money"]/100,
         ];
 
 

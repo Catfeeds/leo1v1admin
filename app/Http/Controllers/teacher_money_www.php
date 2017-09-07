@@ -115,7 +115,7 @@ class teacher_money_www extends Controller
             $list[$month_key]["all_money"]        += $reward_money;
         }
 
-        dd($list);
+        return $this->output_succ(["list"=>$list]);
     }
 
     private function get_lesson_cost_info(&$val,&$check_num){
