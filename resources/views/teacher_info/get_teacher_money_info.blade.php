@@ -132,15 +132,15 @@
                     </div>
                     <div class="box-body">
                         <table class="table table-bordered text-cen">
-                            <tr class="text-cen">
-                                <th style="width:25px"></th>
-                                <th style="width:150px">分类</th>
-                                <th>姓名</th>
-                                <th>时间</th>
-                                <th>状态</th>
-                                <th>扣款 </th>
-                                <th>金额</th>
-                                <th>操作</th>
+                            <tr>
+                                <th class="text-cen" style="width:25px"></th>
+                                <th class="text-cen" style="width:150px">分类</th>
+                                <th class="text-cen">姓名</th>
+                                <th class="text-cen">时间</th>
+                                <th class="text-cen">状态</th>
+                                <th class="text-cen">扣款 </th>
+                                <th class="text-cen">金额</th>
+                                <th class="text-cen">操作</th>
                             </tr>
                             <tr>
                                 <td>
