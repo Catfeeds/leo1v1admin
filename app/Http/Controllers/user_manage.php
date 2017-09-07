@@ -1656,24 +1656,24 @@ class user_manage extends Controller
 
         // 测试
 
-        foreach ($list as &$item) {
-            $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
-            if ($item['department'] == "教学部") {
-                $has_teaching = false;
-            }
-        }
+        // foreach ($list as &$item) {
+        //     $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
+        //     if ($item['department'] == "教学部") {
+        //         $has_teaching = false;
+        //     }
+        // }
 
-        foreach($list as &$item){
-            $is_hasScoreFlag = false;
+        // foreach($list as &$item){
+        //     $is_hasScoreFlag = false;
 
-            if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
-                $is_hasScoreFlag = true;
-            }
+        //     if(($item["department"] == "教学部" && $item['score'] == 0) || $has_teaching) {
+        //         $is_hasScoreFlag = true;
+        //     }
 
-            // if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
-            //     $total_score = $total_score - $item['score'];
-            // }
-        }
+        //     if ($is_hasScoreFlag && ($item['department'] == "老师" || $item['department'] == "科目" )) {
+        //         $total_score = $total_score - $item['score'];
+        //     }
+        // }
 
 
 
@@ -1683,12 +1683,17 @@ class user_manage extends Controller
             $score = 0;
 
             foreach($list as $i2=>&$v2){
-                $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+                // $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
                 if($v2['department'] == $v1['value']){
                     $num++;
                     $score += $v2['score'];
                 }
+
+                if(($v2["department"] == "教学部" && $v2['score'] == 0) || $has_teaching) {
+                    $is_hasScoreFlag = true;
+                }
+
             }
 
             if($num>0){
