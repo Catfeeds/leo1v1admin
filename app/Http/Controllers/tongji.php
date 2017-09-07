@@ -1740,7 +1740,7 @@ class tongji extends Controller
 
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,''];
+        list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,0,''];
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
@@ -1774,7 +1774,7 @@ class tongji extends Controller
                     $money6 += $money;
                 }
             }
-            $ret_info[$key]['id']      = $key+1;
+            $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
             $ret_info[$key]['money1']  = $money1;
