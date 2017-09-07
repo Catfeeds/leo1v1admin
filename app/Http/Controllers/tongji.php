@@ -1754,9 +1754,9 @@ class tongji extends Controller
         $ret_new = [];
         foreach($ret as $key=>$item){
             foreach($item as $info){
-                $adminid = $info['uid'];
-                $account = $info['sys_operator'];
-                $money = $info['price'];
+                $adminid    = $info['uid'];
+                $account    = $info['sys_operator'];
+                $money      = $info['price'];
                 $order_time = $info['order_time'];
                 if($order_time>=strtotime("-5 months", $start_time) && $order_time<strtotime("-4 months", $start_time)){
                     $money1 += $money;
@@ -1771,6 +1771,7 @@ class tongji extends Controller
                 }elseif($order_time>=$start_time && $order_time<strtotime("1 months", $start_time)){
                     $money6 += $money;
                     if($adminid == 315){
+                        dd($money);
                         $ret_new[] = $info;
                     }
                 }
