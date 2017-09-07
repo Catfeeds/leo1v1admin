@@ -1655,18 +1655,22 @@ class user_manage extends Controller
          */
 
         // 测试
-        $num = 1;
+        $num = 0;
+        $score = 0;
         foreach($key1_value as $k1=>&$v1){
             foreach($list as $i2=>&$v2){
                 $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
 
                 if($v2['department'] == $v1['value']){
                     $num++;
-                    $score = $v1['score'];
+                    $score += $v2['score'];
+                    // dd($score);
+
                 }
             }
+            $total_score += ($score/$num);
         }
-
+        // dd($score);
         // 测试
 
 

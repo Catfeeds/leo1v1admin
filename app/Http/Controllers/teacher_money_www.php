@@ -33,7 +33,7 @@ class teacher_money_www extends Controller
         $date_list   = [];
         foreach($lesson_list as $l_val){
             $month_key = date("Y-m",$l_val['lesson_start']);
-            \App\Helper\Utils::check_isset_data($date_list[],[],$type);
+            \App\Helper\Utils::check_isset_data($date_list[$month_key],[],0);
 
         }
 

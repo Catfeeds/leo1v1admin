@@ -1243,8 +1243,9 @@ class Utils  {
         }
     }
 
-    static public function get_rate($child,$monther,$point=2){
-        return round($monther>0?($child/$monther):0,$point);
+    //计算百分比
+    static public function get_rate($child,$mother,$point=2){
+        return round($mother>0?($child/$mother):0,$point);
     }
 
     static public function pingapp(){
@@ -1372,6 +1373,7 @@ class Utils  {
         $wx  = new \App\Helper\Wx();
         $ret = $wx->send_template_msg($wx_openid,$template_id,$data,$url);
     }
+
     static public function gen_url($base_url, $args=null ) {
         $arr=[];
         if ($args) {
@@ -1383,6 +1385,7 @@ class Utils  {
             return $base_url;
         }
     }
+
     static public function gen_wx_teacher_url( $path_name, $args ) {
         $config=\App\Helper\Config::get_config("teacher_wx");
         $url=$config["url"];
