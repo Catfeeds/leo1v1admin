@@ -38,23 +38,22 @@
                         <tr>
                             <td>
                                 微信昵称
-                            <td id="id_wx_headimgurl"> </td>
+                            <td id="id_wx_nick"> </td>
                         <tr>
                             <td>
                                 微信头像url
                             </td>
 
                             <td > <img
-                                id="id_f_headimgurl"
+                                id="id_wx_headimgurl"
                                       src="" style="width:100px; "/>  </td>
                         </tr>
-
 
                         <tr>
                             <td>
                                 星星个数
                             </td>
-                            <td id="id_f_count"> </td>
+                            <td id="id_star_count"> </td>
                         </tr>
 
 
