@@ -131,7 +131,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="" class="img-circle" alt="User Image" />
+                                    <img src="{{$_face_pic}}" class="img-circle" alt="User Image" />
                                     <p>
                                         {{$_account}}
                                         -

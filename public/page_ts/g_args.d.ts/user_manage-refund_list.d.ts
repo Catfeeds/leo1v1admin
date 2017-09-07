@@ -63,8 +63,24 @@ interface RowData {
 	qc_other_reason	:any;
 	qc_analysia	:any;
 	qc_reply	:any;
-	score	:any;
-	responsibility_percent	:any;
+	助教部扣分值	:any;
+	助教部责任值	:any;
+	教务部扣分值	:any;
+	教务部责任值	:any;
+	老师管理扣分值	:any;
+	老师管理责任值	:any;
+	教学部扣分值	:any;
+	教学部责任值	:any;
+	产品问题扣分值	:any;
+	产品问题责任值	:any;
+	咨询部扣分值	:any;
+	咨询部责任值	:any;
+	客户情况变化扣分值	:any;
+	客户情况变化责任值	:any;
+	老师扣分值	:any;
+	老师责任值	:any;
+	科目扣分值	:any;
+	科目责任值	:any;
 }
 
 /*

@@ -1608,6 +1608,7 @@ class main_page extends Controller
 
         //咨询
         $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
+        dd($seller_all);
 
         return $this->pageView(__METHOD__ ,null, [
             "top_jw_total" => $top_jw_total,
