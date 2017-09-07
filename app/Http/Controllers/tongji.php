@@ -1741,9 +1741,6 @@ class tongji extends Controller
     public function seller_personal_money(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         list($date_list,$ret,$ret_info,$adminid,$money,$money1,$money2,$money3,$money4,$money5,$money6,$num,$account) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]],[],[],0,0,0,0,0,0,0,0,1,''];
-        foreach($date_list as $key=>&$item){
-            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
-        }
         $account_role = E\Eaccount_role::V_2;
         $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role);
         $adminid_list = array_unique(array_column($order_user_list,'uid'));
@@ -1784,7 +1781,9 @@ class tongji extends Controller
             $ret_info[$key]['money5']  = $money5/100;
             $ret_info[$key]['money6']  = $money6/100;
         }
-        dd($date_list);
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
+        }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 }
