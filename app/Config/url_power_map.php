@@ -322,6 +322,7 @@ class url_power_map {
 			'/self_manage/flow_list'	=>1201000,
 			'/self_manage/self_menu_list'	=>1201100,
 			'/requirement/requirement_info'	=>1201200,
+			'/self_manage/upload_face_pic'	=>1201300,
 			'/main_page/seller'	=>1116000,
 			'/human_resource/teacher_info_for_seller'	=>1116700,
 			'/seller_student_new2/test_lesson_plan_list_seller'	=>1117500,
