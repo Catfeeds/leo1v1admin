@@ -1053,9 +1053,14 @@ class user_manage extends Controller
             $item['all_percent'] = $arr['key1_value'];
             $show_arr = [];
             /**
-               foreach($arr['key1_value'] as $v1){
+               foreach($arr['key1_value'] as &$v1){
                   foreach($arr['list'] as $v2){
-
+                    if($v2['key1_str'] == $v1['value']){
+                       $key1_name = $v1['value'].'一级原因';
+                       $key2_name = $v1['value'].'一级原因';
+                       $key3_name = $v1['value'].'一级原因';
+                       $v1['']
+                    }
                   }
                }
 
