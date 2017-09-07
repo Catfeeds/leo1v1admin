@@ -1619,7 +1619,6 @@ class main_page extends Controller
             "normal_seller_total" => $normal_seller_total,       
         ]);
 
-        dd(111);
 
     }
 

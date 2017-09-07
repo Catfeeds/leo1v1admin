@@ -499,6 +499,8 @@ class menu{
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
+
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
