@@ -1739,14 +1739,14 @@ class tongji extends Controller
     }
 
     public function seller_personal_money(){
-        // list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        // $date_list = [['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]];
-        // foreach($date_list as $key=>&$item){
-        //     $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
-        // }
-        // $account_role= E\Eaccount_role::V_2;
-        // $order_user_list=$this->t_order_info->get_admin_list(strtotime("-5 months", $start_time),$end_time,$account_role);
-
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $date_list = [['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]];
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
+        }
+        $account_role = E\Eaccount_role::V_2;
+        $order_user_list = $this->t_order_info->get_admin_list_new(strtotime("-5 months", $start_time),$end_time,$account_role);
+        dd($order_user_list);
 
 
         $adminid=$this->get_in_adminid(-1);
