@@ -17,12 +17,14 @@ class teacher_money_www extends Controller
             return $this->output_err("老师id出错！");
         }
         $now_date   = date("Y-m-01",time());
-        $begin_time = strtotime("-1 year ",$now_date);
+        $begin_time = strtotime("-1 year",strtotime($now_date));
         $end_time   = strtotime("+1 month",strtotime($now_date));
         $first_lesson_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
         if($begin_time<$first_lesson_time){
             $begin_time = $first_lesson_time;
         }
+        $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_type = $simple_info['teacher_type'];
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
         $list      = [];
