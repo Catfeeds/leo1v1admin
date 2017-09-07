@@ -361,15 +361,15 @@ class user_manage_new extends Controller
 
         $add_data = function(&$item,$add_item){
             $arr  = &$item["data"];
-            foreach ($add_item as $k => $v ) {
+            foreach($add_item as $k => $v){
                 if (!isset($arr[$k])) {
                     $arr[$k]="";
                 }
                 if ($k=="price" || $k=="lesson_count" || $k=="lesson_reward" || $k=="lesson_full_reward") {
-                    $arr[$k]+=$v;
+                    $arr[$k] += $v;
                 }
                 if($k=="lesson_cost"){
-                    $arr[$k]-=$v;
+                    $arr[$k] -= $v;
                 }
             }
         };
