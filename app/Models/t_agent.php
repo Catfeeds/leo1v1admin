@@ -213,19 +213,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
         $where_arr=[
             "a.type in (1,3)",
             ["agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
+            "create_time> $yxyx_check_time",
+
         ];
         if ( $test_lesson_succ_flag ) {
-            $where_arr[] ="agent_status_money=50 ";
+            $where_arr[] ="agent_status_money=5000 ";
         }else{
-            $where_arr[] ="agent_status_money<50 ";
+            $where_arr[] ="agent_status_money<5000 ";
         }
 
 
         $sql=$this->gen_sql_new (
-            "select a.id, a.nickname,a.phone , agent_status_money, agent_status_money_open_flag "
+            "select  a.create_time, a.id, a.nickname,a.phone,  agent_status, agent_status_money, agent_status_money_open_flag "
             ." from %s a "
             ." where a.parentid=%u and %s "
             ,self::DB_TABLE_NAME
@@ -1240,6 +1244,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 "type" =>  E\Eagent_type::V_3
             ]);
         }
+
+        if (  $agent_type==E\Eagent_type::V_3  &&  !$userid ) {//是会员, 学员,
+            $this->field_update_list($id,[
+                "type" =>  E\Eagent_type::V_2
+            ]);
+        }
+
         if ( $level_count_info["l1_child_count"]) {
             if ($agent_type ==1 ) {
                 $this->field_update_list($id,[

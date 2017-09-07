@@ -1,4 +1,3 @@
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info-get_teacher_money_info.d.ts" />
 
@@ -8,6 +7,7 @@ $(function(){
 
         });
     }
+	  $('.opt-change').set_input_change_event(load_data);
 
     $('button[data-key]').on('click', function() {
         var key = $(this).attr('data-key');
@@ -15,21 +15,7 @@ $(function(){
         $(this).children().toggleClass('fa-plus');
         $(this).children().toggleClass('fa-minus');
     });
-    $('circle').each(function(){
-        console.log($(this).text());
-        alert($(this).text())
-    });
 
-    $('select').change(function() {
-        var salary = $(this).val();
-        if (salary == 1) {
-            $('#salary').text('10.00');
-        } else if (salary == 2) {
-            $('#salary').text('20.00');
-        } else {
-            $('#salary').text('30.00');
-        }
-    });
     var salary_modal = '';
     $('button[data-toggle]').on('click', function() {
         var value = $(this).val();
@@ -65,19 +51,8 @@ $(function(){
         $('.direct-chat-contacts').append(content);
     });
 
-    $.ajax({
-			  type     : "post",
-			  url      : "/teacher_money_www/get_teacher_money_total_list",
-			  dataType : "json",
-			  success : function(ret){
-            console.log(ret)
-			  }
-    });
-
-	  $('.opt-change').set_input_change_event(load_data);
-
     var curnum = 6;
-    $('.left').on('click', function() {
+    $('#id_prev_year').on('click', function() {
         curnum--;
         if ( curnum < -5 ) {
             curnum = -5;
@@ -85,7 +60,7 @@ $(function(){
         month_change();
     });
 
-    $('.right').on('click', function() {
+    $('#id_next_year').on('click', function() {
         curnum++;
         if ( curnum > 6 ) {
             curnum = 6;
@@ -93,6 +68,7 @@ $(function(){
         month_change();
     });
 
+    console.log(month_info);
     var month_change = function (){
         $('#line-chart').empty();
         var show_info = [];
@@ -126,5 +102,3 @@ $(function(){
     }
     month_change();
 });
-
-

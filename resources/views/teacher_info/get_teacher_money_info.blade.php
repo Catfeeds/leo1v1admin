@@ -1,7 +1,7 @@
 @extends('layouts.teacher_header')
 @section('content')
     <script type="text/javascript" >
-        var month_info = <?php  echo json_encode ($test); ?> ;
+        var month_info = <?php  echo json_encode($money_list); ?> ;
     </script>
     <section class="content li-section">
         <div class="row">
@@ -9,9 +9,16 @@
                 <div class="box box-info-ly">
                     <div class="box-header with-border">
                         <div style="text-align:center;" class="color-blue">
-                            <button type="button" class="btn btn-box-tool color-blue left ft24"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
-                            <h3 class="box-title"><span id="year"></span></h3>&nbsp;&nbsp;
-                            <button type="button" class="btn btn-box-tool color-blue right ft24"><i class="fa fa-angle-right"></i></button>
+                            <button type="button" class="btn btn-box-tool color-blue left ft24" id="id_prev_year">
+                                <i class="fa fa-angle-left"></i>&nbsp;&nbsp;
+                            </button>
+                            <h3 class="box-title">
+                                <span id="id_year"></span>
+                            </h3>
+                            &nbsp;&nbsp;
+                            <button type="button" class="btn btn-box-tool color-blue right ft24" id="id_next_year">
+                                <i class="fa fa-angle-right"></i>
+                            </button>
                         </div>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -31,16 +38,8 @@
                     <div class="box-header with-border">
                         <h3 class="box-title color-blue">薪资情况</h3>
                         <div class="box-tools pull-right">
-                            <!-- <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="晋升规则"
-                                 data-widget="chat-pane-toggle" value="upgrade">
-                                 <i class="fa fa-question"></i>&nbsp;晋升规则</button>
-                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="薪资规则"
-                                 data-widget="chat-pane-toggle" value="salary">
-                                 <i class="fa fa-question"></i>&nbsp;薪资规则</button>
-                               -->
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
-
                         </div>
                     </div>
                     <!-- /.box-header -->
@@ -57,7 +56,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>教师等级</p>
-                                            <h4>高级教师</h4>
+                                            <h4 id="id_teacher_level">高级教师</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -66,15 +65,11 @@
                                     <!-- small box -->
                                     <div class="small-box bg-linfo color-fff">
                                         <div class="col-xs-12 text-right">
-                                            <select class="bg-linfo" style="border:none">
-                                                <option value="3">初三</option>
-                                                <option value="2">初二</option>
-                                                <option value="1">初一</option>
-                                            </select>
+                                            <br>
                                         </div>
                                         <div class="inner"">
-                                            <p>基本薪资</p>
-                                            <h4><span id="salary">30.00</span>/每节课</h4>
+                                            <p>总薪资</p>
+                                            <h4 id="id_all_money"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +83,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>本月课耗</p>
-                                            <h4>66.5课时</h4>
+                                            <h4 id="id_lesson_total"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -102,8 +97,8 @@
                                             <br>
                                         </div>
                                         <div class="inner">
-                                            <p>课耗奖励</p>
-                                            <h4>每节课20元</h4>
+                                            <p>常规课课耗奖励</p>
+                                            <h4 id="id_lesson_count_reward"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -203,12 +198,10 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-
                             <tr>
                                 <td>
                                     <button data-key="key3" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
                                     </button>
-
                                 </td>
                                 <td>补偿</td>
                                 <td></td>

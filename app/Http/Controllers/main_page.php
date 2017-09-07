@@ -1638,6 +1638,7 @@ class main_page extends Controller
         $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1); 
         $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1); 
         foreach($tea_all as $kk=>&$valll){
+            
             $valll["per"] = !empty($valll["person_num"])?round($valll["have_order"]/$valll["person_num"]*100,2):0;
             $valll["top_num"] = @$top_tea_all[$kk]["person_num"];
             $valll["top_order"] = @$top_tea_all[$kk]["have_order"];
@@ -1648,6 +1649,9 @@ class main_page extends Controller
             $valll["top_per"] = !empty($valll["top_num"])?round($valll["top_order"]/$valll["top_num"]*100,2):0;
             $valll["green_per"] = !empty($valll["green_num"])?round($valll["green_order"]/$valll["green_num"]*100,2):0;
             $valll["normal_per"] = !empty($valll["normal_num"])?round($valll["normal_order"]/$valll["normal_num"]*100,2):0;
+            if($valll["person_num"] <10){
+                unset($tea_all[$kk]);
+            }
 
         }
 
@@ -1658,11 +1662,32 @@ class main_page extends Controller
             }
         }
 
+        //教务
+        $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2); 
+        $top_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,1,2); 
+        $green_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,2,2); 
+        $normal_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,3,2); 
+        foreach($jw_all as $kk=>&$vall){
+            $vall["per"] = !empty($vall["person_num"])?round($vall["have_order"]/$vall["person_num"]*100,2):0;
+            $vall["top_num"] = @$top_jw_all[$kk]["person_num"];
+            $vall["top_order"] = @$top_jw_all[$kk]["have_order"];
+            $vall["green_num"] = @$green_jw_all[$kk]["person_num"];
+            $vall["green_order"] = @$green_jw_all[$kk]["have_order"];
+            $vall["normal_num"] = @$normal_jw_all[$kk]["person_num"];
+            $vall["normal_order"] = @$normal_jw_all[$kk]["have_order"];
+            $vall["top_per"] = !empty($vall["top_num"])?round($vall["top_order"]/$vall["top_num"]*100,2):0;
+            $vall["green_per"] = !empty($vall["green_num"])?round($vall["green_order"]/$vall["green_num"]*100,2):0;
+            $vall["normal_per"] = !empty($vall["normal_num"])?round($vall["normal_order"]/$vall["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $jw_all,"per", 0 );
+       
+
 
                 
 
 
-        dd($tea_all);
 
         return $this->pageView(__METHOD__ ,null, [
             "top_jw_total" => $top_jw_total,
@@ -1671,6 +1696,9 @@ class main_page extends Controller
             "top_seller_total" => $top_seller_total,
             "green_seller_total" => $green_seller_total,
             "normal_seller_total" => $normal_seller_total,       
+            "seller_all" => $seller_all,       
+            "tea_all" => $tea_all,       
+            "jw_all" => $jw_all,       
         ]);
 
 

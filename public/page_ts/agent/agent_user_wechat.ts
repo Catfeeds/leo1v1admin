@@ -15,6 +15,47 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
+    function load_invite_list(test_lesson_succ_flag,  agent_status_money_open_flag  ){
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_l1_invite_money_list?_agent_id="+g_args.id+"&test_lesson_succ_flag="+ test_lesson_succ_flag + "&agent_status_money_open_flag=" + agent_status_money_open_flag,
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var invite_list= data.list;
+                var new_desc_list_str="";
+                $.each( invite_list, function(){
+                    new_desc_list_str+= "<tr><td>"
+                        + "加入时间:" + this.create_time
+                        + "<br/>学员:" + this.nick
+                        + "<br/>状态:" + this.agent_status_str
+                        + "<br/>提成:" + this.agent_status_money
+                        + "<br/>可提现:" + this.agent_status_money_open_flag_str
+                        +"</td></tr>";
+                });
+                $("#id_new_desc_list").html(new_desc_list_str);
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+    };
+
+    $("#id_invite_money_not_open_not_lesson_succ").on("click",function(){
+        load_invite_list(0,0);
+    });
+
+    $("#id_invite_money_not_open_lesson_succ").on("click",function(){
+        load_invite_list(1,0);
+    });
+
+
+    $("#id_invite_money_info").on("click",function(){
+        load_invite_list(1,1);
+    });
+
+
+
 
    $.ajax({
         type : "get",
@@ -28,7 +69,9 @@ $(function(){
             $("#id_wx_nick").text( user.wx_nick );
             $("#id_all_money_info").text(""+ user. all_money_info.all_money+"/"+ user.all_money_info.open_moeny +"/"+ user.all_have_cush_money );
             $("#id_order_money_info").text(""+ user. order_money_info.all_money+"/"+ user.order_money_info.open_moeny  );
-            $("#id_invite_money_info").text(""+ user. invite_money_info.all_money+"/"+ user.invite_money_info.open_moeny  );
+            $("#id_invite_money_info").text(""+ user. invite_money_info.all_money+"/"+ user.invite_money_info.open_moeny );
+            $("#id_invite_money_not_open_lesson_succ").text(user.invite_money_not_open_lesson_succ );
+            $("#id_invite_money_not_open_not_lesson_succ").text(user.invite_money_not_open_not_lesson_succ);
 
         },
         error:function(){

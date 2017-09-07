@@ -322,12 +322,6 @@ class agent extends Controller
             $num++;
         }
         dd($num);
-        // foreach($ret_info as $item){
-        //     $userid = $item['userid'];
-        //     $this->t_student_info->field_update_list($userid, [
-        //         "origin_level" => E\Eorigin_level::V_99
-        //     ]);
-        // }
     }
 
     public function agent_add(){
@@ -1474,6 +1468,99 @@ class agent extends Controller
             $level = 0;
         }
         return $level;
+    }
+
+
+        /**
+     * @todo : 本函数用于 将方形的图片压缩后
+     *         再裁减成圆形 做成logo
+     *         与背景图合并
+     * @return 返回url
+     */
+    public function index(){
+        $headimgurl = 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLAEbfWjOqjPWTPiaSg6wBVuE1D986YvpLF9CNuVUz0ce0rmP0eQNz345KeSK0RWsG5B3ibv3oIXZLOQ/0';
+        $datapath ="/tmp/154_headimg.jpeg";
+        $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+        $imgg = $this->yuan_img($datapath);
+        $datapath_new ="/tmp/154_headimg_new.jpeg";
+        //头像
+        $headimgurl = $datapath_new;
+        //背景图
+        $bgurl = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg';
+        $imgs['dst'] = $bgurl;
+        //第一步 压缩图片
+        $imggzip = $this->resize_img($headimgurl);
+        //第二步 裁减成圆角图片
+        $imgs['src'] = $this->test($imggzip);
+        //第三步 合并图片
+        $dest = $this->mergerImg($imgs);
+    }
+
+    public function resize_img($url,$path='/tmp/'){
+        $imgname = $path.uniqid().'.jpg';
+        $file = $url;
+        list($width, $height) = getimagesize($file); //获取原图尺寸
+        $percent = (110/$width);
+        //缩放尺寸
+        $newwidth = 190;
+        $newheight = 190;
+        $src_im = imagecreatefromjpeg($file);
+        $dst_im = imagecreatetruecolor($newwidth, $newheight);
+        imagecopyresized($dst_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+        imagejpeg($dst_im, $imgname); //输出压缩后的图片
+        imagedestroy($dst_im);
+        imagedestroy($src_im);
+        return $imgname;
+    }
+
+    //第一步生成圆角图片
+    public function test($url,$path='/tmp/'){
+        $w = 190;  $h=190; // original size
+        $original_path= $url;
+        $dest_path = $path.uniqid().'.png';
+        $src = imagecreatefromstring(file_get_contents($original_path));
+        $newpic = imagecreatetruecolor($w,$h);
+        imagealphablending($newpic,false);
+        $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
+        $r=$w/2;
+        for($x=0;$x<$w;$x++)
+            for($y=0;$y<$h;$y++){
+                $c = imagecolorat($src,$x,$y);
+                $_x = $x - $w/2;
+                $_y = $y - $h/2;
+                if((($_x*$_x) + ($_y*$_y)) < ($r*$r)){
+                    imagesetpixel($newpic,$x,$y,$c);
+                }else{
+                    imagesetpixel($newpic,$x,$y,$transparent);
+                }
+            }
+        imagesavealpha($newpic, true);
+        imagepng($newpic, $dest_path);
+        imagedestroy($newpic);
+        imagedestroy($src);
+        unlink($url);
+        return $dest_path;
+    }
+
+    //php 合并图片
+    public function mergerImg($imgs,$path='/tmp/') {
+        $imgname = $path.rand(1000,9999).uniqid().'.jpg';
+        list($max_width, $max_height) = getimagesize($imgs['dst']);
+        $dests = imagecreatetruecolor($max_width, $max_height);
+        $dst_im = imagecreatefromjpeg($imgs['dst']);
+        imagecopy($dests,$dst_im,0,0,0,0,$max_width,$max_height);
+        imagedestroy($dst_im);
+
+        $src_im = imagecreatefrompng($imgs['src']);
+        $src_info = getimagesize($imgs['src']);
+        imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
+        // imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
+        // imagecopymerge($dests,$src_im,354,35,0,0,190,190,100);
+        imagedestroy($src_im);
+        imagejpeg($dests,$imgname);
+        unlink($imgs['src']);
+        return $imgname;
     }
 
 
