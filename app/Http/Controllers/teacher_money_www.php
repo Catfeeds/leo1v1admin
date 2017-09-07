@@ -28,9 +28,13 @@ class teacher_money_www extends Controller
             $begin_time = $first_lesson_time;
         }
 
+        $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
+        $date_list   = [];
         foreach($lesson_list as $l_val){
-            
+            $month_key = date("Y-m",$l_val['lesson_start']);
+            \App\Helper\Utils::check_isset_data($date_list[],[],$type);
+
         }
 
     }

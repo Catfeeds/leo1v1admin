@@ -1653,6 +1653,20 @@ class user_manage extends Controller
          * 部门分值=（部门问题1分值+。。。。。。+部门问题N分值）/N
          * 总分=部门1分值+。。。+部门N分值
          */
+
+        // foreach($list as $i1=>&$v1){
+        //     foreach($list as $i2=>&$v2){
+        //         $v2['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v2['configid']);
+        //         $v1['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($v1['configid']);
+
+        //         if($v2['department'] == $v1['department']){
+        //             $score = $v1['score'];
+        //         }
+        //     }
+        // }
+
+
+
         foreach ($list as &$item) {
             $total_score += $item['score'];
             $item['department'] = $this->t_order_refund_confirm_config->get_department_name_by_configid($item['configid']);
@@ -1683,7 +1697,6 @@ class user_manage extends Controller
 
         $all_percent = [];
 
-        // dd($key1_value);
 
         foreach ($key1_value as &$item) {
             $item['responsibility_percent']  = 0;
@@ -2332,9 +2345,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-    	if($ret_info['list'][$key]['total_score']){
-    	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-    	}
+        if($ret_info['list'][$key]['total_score']){
+        $ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+        }
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
@@ -2409,7 +2422,7 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => 1, 
+                "name" => 1,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2425,7 +2438,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             2 => [
-                "name" => 2, 
+                "name" => 2,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2441,7 +2454,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             3 => [
-                "name" => 3, 
+                "name" => 3,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2457,7 +2470,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             4 => [
-                "name" => 4, 
+                "name" => 4,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2473,7 +2486,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             5 => [
-                "name" => 5, 
+                "name" => 5,
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2489,7 +2502,7 @@ class user_manage extends Controller
                 "303" => 0
             ],
             6 => [
-                "name" => "5科以上", 
+                "name" => "5科以上",
                 "num" => 0,
                 "101" => 0,
                 "102" => 0,
@@ -2547,7 +2560,7 @@ class user_manage extends Controller
                 "ret_info" => @$ret_student_subject,
         ]);
     }
-   
+
 
    /**
      * @author    sam
@@ -2574,19 +2587,19 @@ class user_manage extends Controller
             ];
         $ret_student_subject = [
             1 => [
-                "name" => "普通排课", 
+                "name" => "普通排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             2 => [
-                "name" => "Top20排课", 
+                "name" => "Top20排课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
             ],
             3 => [
-                "name" => "抢课", 
+                "name" => "抢课",
                 "cc" => 0,
                 "trans" => 0,
                 "per" => '0%',
@@ -2656,7 +2669,7 @@ class user_manage extends Controller
             $item["count_per"]      = round($item['lesson_count']/$item['count'],2);
         }
         return $this->Pageview(__METHOD__,$ret_list );
-    
+
     }
 
 
@@ -2667,7 +2680,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
-	$assistantid = 190500	;
+    $assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){

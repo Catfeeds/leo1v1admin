@@ -2395,8 +2395,10 @@ class ss_deal extends Controller
                
             }
            
-            session(["ass_stu_arr" => $arr ] );
-            dd(session("ass_stu_arr"));
+            $data = json_encode($arr);
+            $this->t_teacher_info->field_update_list(240314,[
+                "limit_plan_lesson_reason" =>urlencode($data)
+            ]);
             dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 

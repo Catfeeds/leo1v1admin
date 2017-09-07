@@ -7999,9 +7999,6 @@ class tongji_ss extends Controller
     }
 
     public function get_reference_teacher_money_info(){
-        $this->switch_tongji_database();
-        $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2017-08-01");
         // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_info_new();
@@ -8009,9 +8006,18 @@ class tongji_ss extends Controller
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
         // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
-        $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
+        // $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
+        
         // dd($ret_info);
-        foreach($ret_info["list"] as &$item){
+        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(240314);
+        $json = urldecode($data);
+        dd($json);
+              // $content = mb_detect_encoding($data, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));       //查看编码
+        // $json= mb_convert_encoding($content tent , "UTF-8", "GBK");
+        $list = json_decode($json, true);
+        dd($list);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+        //  foreach($ret_info["list"] as &$item){
             /* if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";
             }else{
@@ -8049,8 +8055,8 @@ class tongji_ss extends Controller
 
 
 
-        }
-        return $this->pageView(__METHOD__,$ret_info);
+        // }
+        // return $this->pageView(__METHOD__,$ret_info);
 
     }
 
