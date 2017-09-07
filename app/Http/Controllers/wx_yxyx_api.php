@@ -45,30 +45,38 @@ class wx_yxyx_api extends Controller
         }
 
         $agent_level = (int)$agent_info['agent_level'];
-        $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
-        $headimgurl   = $agent_info['headimgurl']?$agent_info['headimgurl']:'';
-        $nickname     = $agent_info['nickname']?$agent_info['nickname']:'';
-        $pay          = 0;
-        $cash         = 0;
-        $have_cash    = 0;
-        $num          = 0;
-        $test_count   = 0;
-        $my_num_count = $this->t_agent->get_count_by_phone($phone);
-        $my_num       = $my_num_count['count']?$my_num_count['count']:0;
-        $cash_item    = $this->t_agent_cash->get_cash_by_phone($phone);
-        $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
+        $nick         = $agent_info['nickname'];
+        if (!$nick) {
+            $nick=$phone;
+        }
+        $headimgurl   = $agent_info['headimgurl'];
+        $nickname     = $agent_info['nickname'];
 
         $data = [
-            'agent_level'      =>  $agent_level ,
-            'usernick'       => $nick,
-            'pay'        => $pay,
-            'cash'       => $cash_new,
-            'wx_headimgurl' => $agent_info['headimgurl'],
-            'wx_nick' => $agent_info['nickname'],
-            "child_count" =>  10,//下线个数
-            "star_count" =>  10,//下线个数
-            //"all_money"  => $agent_info[""];
+            'agent_level'         => $agent_level ,
+            'usernick'            => $nick,
+            'wx_headimgurl'       => $agent_info['headimgurl'],
+            'wx_nick'             => $agent_info['nickname'],
+            "star_count"          => $agent_info["star_count"],//星星个数
+            "all_have_cush_money" => $agent_info["all_have_cush_money"],
         ];
+
+        E\Eagent_level::set_item_value_str($data);
+        $data["all_money_info"] =[
+            "all_money" => $data["all_yxyx_money"],
+            "open_moeny" => $data["all_open_cush_money"],
+        ];
+
+        $data["order_money_info"] =[
+            "all_money" => $data["all_money"],
+            "open_moeny" => $data["order_open_all_money"],
+        ];
+
+        $data["invite_money_info"] =[
+            "all_money" => $data["l1_agent_status_all_money"],
+            "open_moeny" => $data["l1_agent_status_all_open_money"],
+        ];
+
 
         return $this->output_succ(["user_info_list" =>$data]);
 
@@ -696,4 +704,5 @@ class wx_yxyx_api extends Controller
         $wx=new \App\Helper\Wx();
         $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
     }
+
 }
