@@ -213,9 +213,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
         $where_arr=[
             "a.type in (1,3)",
             ["agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
+            "create_time> $yxyx_check_time",
+
         ];
         if ( $test_lesson_succ_flag ) {
             $where_arr[] ="agent_status_money=50 ";
@@ -225,7 +229,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
         $sql=$this->gen_sql_new (
-            "select a.id, a.nickname,a.phone , agent_status_money, agent_status_money_open_flag "
+            "select  a.create_time, a.id, a.nickname,a.phone,  agent_status, agent_status_money, agent_status_money_open_flag "
             ." from %s a "
             ." where a.parentid=%u and %s "
             ,self::DB_TABLE_NAME

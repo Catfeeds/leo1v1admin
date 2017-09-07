@@ -76,13 +76,26 @@
                         <tr>
                             <td>
                                邀请试听成功不可提现
-                            <td id="id_invite_money_info"> </td>
+                            <td id="id_invite_money_not_open_lesson_succ"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                               邀请试听未成功不可提现
+                            <td id="id_invite_money_not_open_not_lesson_succ"> </td>
                         </tr>
 
 
                     </tbody>
 
                 </table>
+
+                <table     class="common-table"  >
+                    <tbody id="id_new_desc_list" >
+
+                    </tbody>
+                </table>
+
 
 
                 <table     class="common-table"  >

@@ -10,11 +10,11 @@ use \App\Helper\Config;
 class teacher_info extends Controller
 {
     use CacheNick;
+    use TeaPower;
     var $check_login_flag=true;
 
     function __construct( )  {
         parent::__construct();
-
     }
 
     function check_login() {
@@ -28,12 +28,9 @@ class teacher_info extends Controller
         }
     }
 
-
     public function index() {
         return self::get_lesson_list_new();
     }
-
-
 
     public function get_lesson_list_new() {
         $teacherid   = $this->get_login_teacher();
@@ -858,334 +855,6 @@ class teacher_info extends Controller
         return $this->output_succ();
     }
 
-    public function tea_wages_info(){
-        $teacherid  = $this->get_login_teacher();
-        $year       = $this->get_in_str_val("year","2017-1");
-        if(!in_array($year,["2016-12","2017-1"])){
-            $year = "2017-1";
-        }
-
-        $start_time = strtotime("$year-01");
-
-        $begin_time = strtotime("2016-12-01");
-        $end_time   = time();
-        if($start_time<$begin_time || $start_time>$end_time){
-            $start_time = $begin_time;
-        }
-        $end_time = strtotime("+1 month",$start_time);
-
-        if($teacherid==0){
-            $ret_list=\App\Helper\Utils::list_to_page_info([]);
-            return $this->Pageview(__METHOD__,$ret_list);
-        }
-
-        $teacher_money_flag = $this->t_teacher_info->get_teacher_money_flag($teacherid);
-        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $teacher_honor      = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
-        $teacher_trial      = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-        $old_list           = $this->t_lesson_info_b2->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
-
-        if($teacher_money_type==4){
-            $start = strtotime("-1 month",strtotime(date("Y-m-01",$start_time)));
-            $end   = strtotime("+1 month",$start);
-            $already_lesson_count = $this->t_lesson_info_b2->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-        }
-
-        global $cur_key_index;
-        $check_init_map_item = function(&$item,$key,$key_class,$value="") {
-            global $cur_key_index;
-            if (!isset($item[$key])) {
-                $item[$key] = [
-                    "value"     => $value,
-                    "key_class" => $key_class."-".$cur_key_index,
-                    "sub_list"  => [],
-                    "data"      => [],
-                ];
-                $cur_key_index++;
-            }
-        };
-
-        $add_data = function(&$item,$add_item){
-            $arr  = &$item["data"];
-            foreach ($add_item as $k => $v ) {
-                if (!isset($arr[$k])) {
-                    $arr[$k]="";
-                }
-                if ($k=="price" || $k=="lesson_count" || $k=="lesson_reward" || $k=="lesson_full_reward") {
-                    $arr[$k]+=$v;
-                }
-                if($k=="lesson_cost"){
-                    $arr[$k]-=$v;
-                }
-            }
-        };
-
-        $data_map = [];
-        $check_init_map_item($data_map,"","");
-        foreach ($old_list as $row_id => &$item) {
-            $studentid            = $item["userid"];
-            $grade                = $item["grade"];
-            $pre_price            = $item['money'];
-            $lesson_count         = $item["lesson_count"];
-            if($teacher_money_type!=4){
-                $already_lesson_count = $item["already_lesson_count"];
-            }
-
-            if($item['type']!=0){
-                $rule_type = \App\Config\teacher_rule::get_teacher_rule($item['type']);
-            }else{
-                $rule_type = [];
-            }
-
-            if(!empty($rule_type)){
-                $i=0;
-                $lesson_count_level = count($rule_type);
-                foreach($rule_type as $key=>$val){
-                    $i++;
-                    if($already_lesson_count<$key){
-                        $lesson_count_level=$key==0?$i:($i-1);
-                        break;
-                    }
-                }
-            }else{
-                $lesson_count_level = 1;
-            }
-
-            $diff = ($item["lesson_end"]-$item["lesson_start"])/60;
-            if ($diff<=40) {
-                $def_lesson_count = 100;
-            } else if ( $diff <= 60) {
-                $def_lesson_count = 150;
-            } else if ( $diff <=90 ) {
-                $def_lesson_count = 200;
-            }else{
-                $def_lesson_count = ceil($diff/40)*100 ;
-            }
-
-            if ($lesson_count != $def_lesson_count ) {
-                $item["lesson_count_err"] = "background-color:red;";
-            }
-
-            $item['lesson_full_reward'] = $this->get_lesson_full_reward($item['lesson_full_num']);
-            $this->get_lesson_cost_info($item);
-
-            if($item['confirm_flag']==2){
-                $item['lesson_price'] = 0;
-                $item['pre_reward']   = 0;
-                $item['price']        = 0;
-            }else{
-                $item['lesson_price']  /= 100;
-                if($item["lesson_type"]!=2){
-                    $item['pre_reward'] = $this->get_teacher_lesson_money($item['type'],$already_lesson_count);
-                    $item["price"] = ($pre_price+$item['pre_reward'])*$lesson_count/100
-                                   +$item['lesson_full_reward']
-                                   -$item['lesson_cost'];
-                    $item["pre_price"] = $pre_price;
-                }else{
-                    $item['pre_reward'] = 0;
-                    if($lesson_count>0) {
-                        $trial_base = \App\Helper\Utils::get_trial_base_price($teacher_money_type);
-
-                        $item["price"]        = $trial_base+$item['lesson_full_reward']-$item['lesson_cost'];
-                        $item["pre_price"]    = $trial_base;
-                        $item["lesson_count"] = 100;
-                    }else{
-                        $item["price"]        = 0;
-                        $item["pre_price"]    = 0;
-                        $item["lesson_count"] = 0;
-                    }
-                }
-            }
-
-            $item['lesson_reward'] = $item['pre_reward']*$lesson_count/100;
-            E\Elevel::set_item_value_str($item);
-            E\Egrade::set_item_value_str($item);
-            E\Esubject::set_item_value_str($item);
-            E\Econfirm_flag::set_item_value_str($item);
-            E\Econtract_type::set_item_value_str($item,"lesson_type");
-            E\Eteacher_money_type::set_item_value_str($item);
-
-            $item["lesson_time"] = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"], $item["lesson_end"]);
-
-            $key0_map=&$data_map[""];
-            $check_init_map_item($key0_map["sub_list"] , $studentid,"key1");
-            $add_data($key0_map, $item );
-
-            $key1_map=&$key0_map["sub_list"][$studentid];
-            $check_init_map_item($key1_map["sub_list"] ,$lesson_count_level,"key2",$item['type'] );
-            $add_data($key1_map, $item );
-
-            $key2_map=&$key1_map["sub_list"][$lesson_count_level];
-            $check_init_map_item($key2_map["sub_list"] ,$row_id,"key3");
-            $add_data($key2_map, $item );
-
-            $key3_map=&$key2_map["sub_list"][$row_id];
-            $key3_map["data"]=$item;
-        }
-
-        $list=[];
-        if (count($old_list)>0) {
-            foreach ($data_map as  $studentid=> $item0 ) {
-                $data=$item0["data"];
-                $data["key1"]="全部";
-                $data["key2"]="";
-                $data["key3"]="";
-                $data["key1_class"]="";
-                $data["key2_class"]="";
-                $data["key3_class"]="";
-                $data["level"]="l-0";
-                $list[]=$data;
-
-                foreach ( $item0["sub_list"] as $key1=> $item1  ) { // student
-                    $data=$item1["data"];
-                    $data["stu_nick"]=$this->cache_get_student_nick($key1);
-                    $data["key1"]=$key1;
-                    $data["key2"]="";
-                    $data["key3"]="";
-                    $data["key1_class"]=$item1["key_class"];
-                    $data["key2_class"]="";
-                    $data["key3_class"]="";
-                    $data["level"]="l-1";
-                    $list[]=$data;
-
-                    foreach ( $item1["sub_list"] as $key2 => $item2 ) { //lesson_count_level
-                        $data=$item2["data"];
-                        $data["key1"]=$key1;
-                        $data["key2"]=$key2;
-
-                        if($item2['value']>0){
-                            $lesson_count_range = \App\Config\teacher_rule::get_teacher_lesson_count_range($item2['value']);
-                            $data["lesson_count_level_str"] = $lesson_count_range[$key2];
-                        }else{
-                            $data["lesson_count_level_str"] = "未确认";
-                        }
-
-                        $data["key3"]="";
-                        $data["key1_class"]=$item1["key_class"];
-                        $data["key2_class"]=$item2["key_class"];
-                        $data["key3_class"]="";
-                        $data["level"]="l-2";
-
-                        $list[]=$data;
-                        foreach ( $item2["sub_list"] as $key3=> $item3  ) {
-                            $data=$item3["data"];
-                            $data["key1"]=$key1;
-                            $data["key2"]=$key2;
-                            $data["key3"]=$key3;
-                            $data["key1_class"]=$item1["key_class"];
-                            $data["key2_class"]=$item2["key_class"];
-                            $data["key3_class"]=$item3["key_class"];
-                            $data["level"]="l-3";
-                            $data["lesson_count_level_str"]="-";
-
-                            $list[]=$data;
-                        }
-                    }
-                }
-            }
-        }
-        $ret_list = \App\Helper\Utils::list_to_page_info($list);
-
-        if(isset($list) && !empty($list)){
-            $teacher_all_money = $list[0]['price']+$teacher_honor/100+$teacher_trial/100;
-        }else{
-            $teacher_all_money=0;
-        }
-
-        $teacher_tax_money = 0;
-        if($teacher_money_flag!=1){
-            if(in_array($teacher_money_type,[0,1,2,3])){
-                if($teacher_all_money>800){
-                    $tax_price = $teacher_all_money-800;
-                    $teacher_tax_money = round($tax_price*0.02,2);
-                    $teacher_all_money -= $teacher_tax_money;
-                }
-            }else{
-                $teacher_tax_money = round($teacher_all_money*0.02,2);
-                $teacher_all_money -= $teacher_tax_money;
-            }
-        }
-
-        /**
-         if($teacher_all_money>800 && $teacher_money_flag!=1){
-         $tax_price = $teacher_all_money-800;
-         $teacher_tax_money = round($tax_price*0.02,2);
-         $teacher_all_money -= $teacher_tax_money;
-         }else{
-         $teacher_tax_money = 0;
-         }
-        */
-
-        return $this->Pageview(__METHOD__,$ret_list,[
-            "teacher_honor"      => $teacher_honor/100,
-            "teacher_trial"      => $teacher_trial/100,
-            "teacher_money_type" => $teacher_money_type,
-            "teacher_tax_money"  => $teacher_tax_money,
-            "teacher_all_money"  => $teacher_all_money,
-        ]);
-    }
-
-    /**
-     * 检测此节课是否获得全勤奖
-     */
-    private function get_lesson_full_reward($lesson_full_num){
-        $full_num = $this->teacher_money['lesson_full_num'];
-        if($lesson_full_num%$full_num==0 && $lesson_full_num!=0){
-            $lesson_full_reward = $this->teacher_money['lesson_full_reward']/100;
-        }else{
-            $lesson_full_reward=0;
-        }
-        return $lesson_full_reward;
-    }
-
-    private function get_lesson_cost_info(&$val){
-        $lesson_all_cost = 0;
-        $lesson_info     = "";
-        $deduct_type     = E\Elesson_deduct::$s2v_map;
-        $deduct_info     = E\Elesson_deduct::$desc_map;
-        $month           = 0;
-        $lesson_month    = date("m",$val['lesson_start']);
-        if($month!=$lesson_month){
-            $month = $lesson_month;
-            $this->change_num=0;
-            $this->late_num=0;
-        }
-
-        if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
-            if($val['lesson_cancel_reason_type']==21){
-                $lesson_all_cost = $this->teacher_money['lesson_miss_cost']/100;
-                $info            = "上课旷课!";
-            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
-                    && $val['lesson_cancel_time_type']==1){
-                if($this->change_num>=3){
-                    $lesson_all_cost = $this->teacher_money['lesson_cost']/100;
-                    $lesson_info     = "课前４小时内取消上课！";
-                }else{
-                    $this->change_num++;
-                    $lesson_info     = "本月第".$this->change_num."次换课";
-                    $lesson_all_cost = 0;
-                }
-            }
-        }else{
-            $lesson_cost = $this->teacher_money['lesson_cost']/100;
-            foreach($deduct_type as $key=>$item){
-                if($val['deduct_change_class']==0){
-                    if($val[$key]>0){
-                        if($key=="deduct_come_late" && $this->late_num<3){
-                            $this->late_num++;
-                        }else{
-                            $lesson_all_cost += $lesson_cost;
-                            $lesson_info     .= $deduct_info[$item]."/";
-                        }
-                    }
-                }
-            }
-        }
-
-        $val['lesson_cost']      = $lesson_all_cost;
-        $val['lesson_cost_info'] = $lesson_info;
-    }
-
     private function get_teacher_lesson_money($type,$already_lesson_count){
         $rule_type = \App\Config\teacher_rule::$rule_type;
         $reward    = 0;
@@ -1202,7 +871,6 @@ class teacher_info extends Controller
     }
 
     public function teacher_lecture_appointment_info(){
-
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $page_num  = $this->get_in_page_num();
         $teacherid = $this->get_login_teacher();
@@ -1220,7 +888,6 @@ class teacher_info extends Controller
         }
 
         if(!empty($ret_info)){
-
             foreach($ret_info["list"] as &$item){
                 $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
                 if($item['confirm_time']!=0){
@@ -1239,11 +906,6 @@ class teacher_info extends Controller
                     $item['phone'] = substr($item['phone'],0,3)."****".substr($item['phone'],7);
                 }
             }
-        }else{
-
-           // return $this->pageView(__METHOD__,[],[
-             //   "lecture_status" => 0
-            //]);
         }
 
         $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
@@ -2193,21 +1855,162 @@ class teacher_info extends Controller
 
     public function get_teacher_money_info(){
         $teacherid = $this->get_login_teacher();
-        $test = [
-            ['x'=>'2017-01','y'=> '4435'],
-            ['x'=>'2017-02','y'=> '4621'],
-            ['x'=>'2017-03','y'=> '6521'],
-            ['x'=>'2017-04','y'=> '2643'],
-            ['x'=>'2017-05','y'=> '6321'],
-            ['x'=>'2017-06','y'=> '3221'],
-            ['x'=>'2017-07','y'=> '5221'],
-            ['x'=>'2017-08','y'=> '3226'],
-            ['x'=>'2017-09','y'=> '4341'],
-            ['x'=>'2017-10','y'=> '2321'],
-            ['x'=>'2017-11','y'=> '8521'],
-            ['x'=>'2017-12','y'=> '4621'],
-        ];
-        return $this->pageView(__METHOD__,array(),['test'=>$test]);
+        if(!$teacherid){
+            return $this->output_err("老师id出错！");
+        }
+
+        $now_date   = date("Y-m-01",time());
+        $check_time = strtotime("2016-12-1");
+        $begin_time = strtotime("-1 year",strtotime($now_date));
+        $end_time   = strtotime("+1 month",strtotime($now_date));
+        $first_lesson_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
+        if($begin_time<$first_lesson_time){
+            $begin_time = $first_lesson_time;
+        }
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+
+        $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_money_flag = $simple_info['teacher_money_flag'];
+        $teacher_type       = $simple_info['teacher_type'];
+        $transfer_teacherid = $simple_info['transfer_teacherid'];
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
+        $list      = [];
+        $check_num = [];
+        $already_lesson_count_list = [];
+        foreach($lesson_list as $val){
+            $check_type           = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+            $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+            $month_key            = date("Y-m",$val['lesson_start']);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
+
+            $key = "already_lesson_count_".$month_key."_".$teacherid;
+            if(!isset($already_lesson_count_list[$key])){
+                $last_lesson_count = \App\Helper\Common::redis_get($key);
+                if($last_lesson_count === null){
+                    $last_end_time = strtotime(date("Y-m-01",$val['lesson_start']));
+                    $last_start_time = strtotime("-1 month",$last_end_time);
+                    $last_lesson_count = $this->get_already_lesson_count(
+                        $last_start_time,$last_end_time,$teacherid,$val['teacher_money_type']
+                    );
+                    \App\Helper\Common::redis_set($key,$last_lesson_count);
+                }
+                $already_lesson_count_list[$key] = $last_lesson_count;
+            }else{
+                $last_lesson_count = $already_lesson_count_list[$key];
+            }
+
+            $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
+            if($val['lesson_type'] != 2){
+                $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
+                $val['lesson_base'] = $val['money']*$lesson_count;
+                $lesson_reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
+                $list_lesson_key = "normal_lesson";
+            }else{
+                $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
+                    $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+                );
+                $lesson_reward   = "0";
+                $list_lesson_key = "trial_lesson";
+            }
+            $lesson_money = $val['lesson_base']+$lesson_reward;
+
+            $this->get_lesson_cost_info($val,$check_num);
+            $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
+            $lesson_arr = [
+                "name"       => $val['stu_nick'],
+                "time"       => $lesson_time,
+                "state_info" => $val['lesson_cost_info'],
+                "cost"       => $val['lesson_cost'],
+                "money"      => $lesson_money,
+            ];
+            $list[$month_key][$list_lesson_key][]=$lesson_arr;
+            $list[$month_key]["all_money"] += $lesson_money;
+        }
+
+        $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
+        foreach($reward_list as $r_val){
+            $month_key = date("Y-m",$r_val['add_time']);
+            $add_time  = date("Y-m-d H:i",$r_val['add_time']);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
+
+            $reward_money = $r_val['money']/100;
+            $reward_arr = [
+                "name"       => E\Ereward_type::get_desc($r_val['type']),
+                "time"       => $add_time,
+                "state_info" => "",
+                "cost"       => "",
+                "money"      => $r_val['money']/100,
+            ];
+            switch($r_val['type']){
+            case E\Ereward_type::V_6:
+                $reward_arr["name"]=$this->cache_get_teacher_nick($r_val['money_info']);
+                $list_reward_key = "reference";
+                break;
+            case E\Ereward_type::V_1: case E\Ereward_type::V_2: case E\Ereward_type::V_5:
+                $list_reward_key = "reward";
+                break;
+            default:
+                $list_reward_key = "compensate";
+                break;
+            }
+            $list[$month_key][$list_reward_key][]  = $reward_arr;
+            $list[$month_key]["all_money"]        += $reward_money;
+        }
+
+        return $this->pageView(__METHOD__,[],["list" => $list]);
+    }
+
+    private function get_lesson_cost_info(&$val,&$check_num){
+        $lesson_all_cost = 0;
+        $lesson_info     = "";
+        $deduct_type = E\Elesson_deduct::$s2v_map;
+        $deduct_info = E\Elesson_deduct::$desc_map;
+        $teacher_money = \App\Helper\Config::get_config("teacher_money");
+        $month_key     = date("Y-m",$val['lesson_start']);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['change_num'],0,0);
+        \App\Helper\Utils::check_isset_data($check_num[$month_key]['late_num'],0,0);
+        $change_num = $check_num[$month_key]['change_num'];
+        $late_num   = $check_num[$month_key]['late_num'];
+
+        if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
+            if($val['lesson_cancel_reason_type']==21){
+                $lesson_all_cost = $teacher_money['lesson_miss_cost']/100;
+                $info            = "上课旷课!";
+            }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
+            && $val['lesson_cancel_time_type']==1){
+                if($change_num>=3){
+                    $lesson_all_cost = $teacher_money['lesson_cost']/100;
+                    $lesson_info     = "课前４小时内取消上课！";
+                }else{
+                    $change_num++;
+                    $lesson_info     = "本月第".$change_num."次换课";
+                    $lesson_all_cost = 0;
+                }
+            }
+        }else{
+            $lesson_cost = $teacher_money['lesson_cost']/100;
+            foreach($deduct_type as $key=>$item){
+                if($val['deduct_change_class']==0){
+                    if($val[$key]>0){
+                        if($key=="deduct_come_late" && $late_num<3){
+                            $late_num++;
+                        }else{
+                            $lesson_all_cost += $lesson_cost;
+                            $lesson_info.=$deduct_info[$item]."/";
+                        }
+                    }
+                }
+            }
+        }
+
+        $val['lesson_cost']      = $lesson_all_cost;
+        $val['lesson_cost_info'] = $lesson_info;
+        $check_num[$month_key]['change_num'] = $change_num;
+        $check_num[$month_key]['late_num']   = $late_num;
     }
 
     public function edit_teacher_status(){

@@ -1514,8 +1514,10 @@ class user_manage extends Controller
         foreach ($list as $key =>&$item) {
             if($item['configid']>0){
                 $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
-                $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
-                $list[$key] = array_merge($item,$ret);
+                if($keys){
+                    $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+                    $list[$key] = array_merge($item,$ret);
+                }
             }
         }
         list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
@@ -1654,7 +1656,7 @@ class user_manage extends Controller
         }
 
         $arr = $this->get_refund_analysis_info($orderid,$apply_time);
-        dd($arr);
+        // dd($arr);
 
         return $this->pageView(__METHOD__,null,
                                ["refund_info" => $arr['list'],
@@ -1672,8 +1674,8 @@ class user_manage extends Controller
 
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
-            $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
-            $list[$key] = array_merge($item,$ret);
+            $ret        = @$this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+            $list[$key] = @array_merge($item,$ret);
         }
 
         // dd($list);
@@ -1730,10 +1732,6 @@ class user_manage extends Controller
                 }
             }
         }
-
-
-
-
 
         $arr['qc_anaysis'] = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
         $arr['key1_value'] = $key1_value;

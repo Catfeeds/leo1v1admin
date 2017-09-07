@@ -1,7 +1,7 @@
 @extends('layouts.teacher_header')
 @section('content')
     <script type="text/javascript" >
-        var month_info = <?php  echo json_encode ($test); ?> ;
+        var month_info = <?php  echo json_encode($list); ?> ;
     </script>
     <section class="content li-section">
         <div class="row">
@@ -31,16 +31,8 @@
                     <div class="box-header with-border">
                         <h3 class="box-title color-blue">薪资情况</h3>
                         <div class="box-tools pull-right">
-                            <!-- <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="晋升规则"
-                                 data-widget="chat-pane-toggle" value="upgrade">
-                                 <i class="fa fa-question"></i>&nbsp;晋升规则</button>
-                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="薪资规则"
-                                 data-widget="chat-pane-toggle" value="salary">
-                                 <i class="fa fa-question"></i>&nbsp;薪资规则</button>
-                               -->
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
-
                         </div>
                     </div>
                     <!-- /.box-header -->
@@ -102,8 +94,8 @@
                                             <br>
                                         </div>
                                         <div class="inner">
-                                            <p>课耗奖励</p>
-                                            <h4>每节课20元</h4>
+                                            <p>常规课课耗奖励</p>
+                                            <h4>20元/课时</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -203,12 +195,10 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-
                             <tr>
                                 <td>
                                     <button data-key="key3" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
                                     </button>
-
                                 </td>
                                 <td>补偿</td>
                                 <td></td>

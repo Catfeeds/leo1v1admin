@@ -23,6 +23,7 @@ class teaching_menu{
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[
+                    [ "name"=>"首页", "url"=>"/main_page/teacher_management_info"],
                     [ "name"=>"招师组",  "list"=>[
                         [ "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                         [ "name"=>"面试转化信息",   "url"=>"/main_page/zs_teacher_old" ],
