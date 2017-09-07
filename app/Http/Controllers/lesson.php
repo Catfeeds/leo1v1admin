@@ -223,7 +223,6 @@ class lesson extends TeaWxController
         $stu_per_arr = json_decode($stu_per);
         if($stu_per){
             return $this->output_succ(['data'=>$stu_per_arr]);
-
         }else{
             return $this->output_err('普通评价不存在!');
         }
@@ -557,11 +556,11 @@ class lesson extends TeaWxController
         if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
 
-            $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
+            $ret = $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
 
             $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
 
-            if($com_state){
+            if($com_state && $ret){
                 return $this->output_succ(['time'=>$com_state]);
             }
         }
