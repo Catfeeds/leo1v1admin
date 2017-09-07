@@ -629,13 +629,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1)  {
+    public function  get_admin_list_new($start_time ,$end_time , $account_role=-1,$adminid=-1)  {
         $where_arr=[
             "o.contract_type =0",
             "o.contract_status in (1,2)",
             ["m.account_role=%u", $account_role, -1],
             "s.is_test_user = 0",
         ];
+        if($adminid){
+            $this->where_arr_add_int_field($where_arr,'m.uid',$adminid);
+        }
         $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
