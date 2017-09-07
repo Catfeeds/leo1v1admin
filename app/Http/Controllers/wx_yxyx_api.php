@@ -219,6 +219,10 @@ class wx_yxyx_api extends Controller
         }
         return $this->output_succ(["list" =>$ret_list]);
     }
+    public function get_user_money_info() {
+        $agent_id = $this->get_agent_id();
+
+    }
 
     public function get_user_cash(){
         $agent_id = $this->get_agent_id();

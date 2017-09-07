@@ -8010,7 +8010,8 @@ class tongji_ss extends Controller
         // $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
         
         // dd($ret_info);
-        session(["data"=>1111]);
+        $_SESSION["data"]=1111;
+        session($_SESSION);
         dd(session("data"));
         $data = $this->t_teacher_info->get_limit_plan_lesson_reason(60683);
         $json = stripslashes(html_entity_decode($data));
