@@ -34,16 +34,13 @@ class teacher_money extends Controller
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type = $this->t_teacher_info->get_teacher_type($teacherid);
 
-        $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
-        if($check_type==2){
-            $start = strtotime("-1 month",$start_time);
-            $end   = strtotime("-1 month",$end_time);
-            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-            $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-            if($transfer_teacherid>0){
-                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
-                $already_lesson_count += $old_lesson_count;
-            }
+        $start = strtotime("-1 month",$start_time);
+        $end   = strtotime("-1 month",$end_time);
+        $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        if($transfer_teacherid>0){
+            $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
+            $last_lesson_count += $old_lesson_count;
         }
 
         $time_list   = [];
@@ -54,9 +51,8 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(in_array($teacher_money_type,[0,1,2,3,7])){
-                    $already_lesson_count = $val['already_lesson_count'];
-                }
+                $check_type  = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+                $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
 
                 $val['lesson_base']        = "0";
                 $val['lesson_reward']      = "0";
