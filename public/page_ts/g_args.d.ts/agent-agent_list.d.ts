@@ -55,6 +55,11 @@ interface RowData {
 	l1_agent_status_all_money	:any;
 	l1_agent_status_all_open_money	:any;
 	l1_agent_status_test_lesson_succ_count	:any;
+	star_count	:any;
+	all_yxyx_money	:any;
+	all_open_cush_money	:any;
+	all_have_cush_money	:any;
+	order_open_all_money	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;

@@ -29,6 +29,11 @@ class agent extends Controller
                                                "l1_agent_status_all_money" => "a.l1_agent_status_all_money",
                                                "l1_agent_status_all_open_money" => "a.l1_agent_status_all_open_money",
                                                "all_money" => "a.all_money",
+
+                                               "all_yxyx_money" => "a.all_yxyx_money",
+                                               "all_open_cush_money" => "a.all_open_cush_money",
+                                               "order_open_all_money" => "a.order_open_all_money",
+                                               "all_have_cush_money" => "a.all_have_cush_money",
             ]);
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
