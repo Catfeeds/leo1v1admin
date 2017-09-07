@@ -65,6 +65,15 @@ $(function(){
         $('.direct-chat-contacts').append(content);
     });
 
+    $.ajax({
+			  type     : "post",
+			  url      : "/teacher_money_www/get_teacher_money_total_list",
+			  dataType : "json",
+			  success : function(ret){
+            console.log(ret)
+			  }
+    });
+
 	  $('.opt-change').set_input_change_event(load_data);
 
     var curnum = 6;
