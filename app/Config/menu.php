@@ -688,6 +688,7 @@ class menu{
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
                 ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
                 ["power_id"=>30, "name"=>"月份-科目统计", "url"=>"/user_manage/subject_by_month"],
+                ["power_id"=>31, "name"=>"师资管理-首页", "url"=>"/main_page/teacher_management_info"],
 
             ]],
 

@@ -353,30 +353,47 @@ class test_boby extends Controller
     }
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
-        return 'bey';
+        // return 'bey';
         $start_time = strtotime('2017-08-05');
         $end_time = strtotime('2017-09-01');
         $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
-        // $teacherid = "(55161,176999)";
+        $teacherid = "(180795)";
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
-        // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        // $lessonid_list = ['318453','318454','318455','318456'];
-        // $lessonid_list = ['318457','318458','318459'];
-        $lessonid_list = ['318460','318461','318462'];
-        // $lessonid_list = ['318453','318454','318455','318456','318457','318458','318459','318460','318461','318462'];
-
+        $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         // foreach ($lessonid_list as $v) {
         //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
         // }
         // echo 'ok';
         // exit;
+        $g100 = [];
+        $g200 = [];
+        $g300 = [];
         foreach ($lessonid_list as $v){
-            foreach ($userid_list as $item) {
-                $userid = $item['userid'];
-                $lessonid = $v;
-                $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+            if ($v['grade'] < 200) {
+                $g100[] = $v['lessonid'];
+            } else if ($v['grade'] < 300) {
+                $g200[] = $v['lessonid'];
+            }else {
+                $g300[] = $v['lessonid'];
+            }
+        }
+        foreach ($userid_list as $item) {
+            if ($item['grade'] > 0) {
+                if ($item['grade'] < 200 ) {
+                    foreach ($g100 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                } else if ($item['grade'] < 300 ) {
+                    foreach ($g200 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                } else {
+                    foreach ($g300 as $lessonid) {
+                        $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                    }
+                }
             }
         }
 
@@ -388,8 +405,7 @@ class test_boby extends Controller
     public function get_teacher(){
 
         // $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
-        $sql = 'select  FROM_UNIXTIME(l.lesson_start) as tt_time, s.userid,  s.phone, t.subject, s.nick  from db_weiyi.t_test_lesson_subject_require tr  join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id  join db_weiyi.t_seller_student_new n  on t.userid=n.userid  join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid  join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid  join db_weiyi.t_student_info s on s.userid = l.userid  join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid   where  lesson_start >0 and accept_flag=1   and s.is_test_user=0 and l.lesson_type=2 and success_flag=1   and l.lesson_start>1483200000 and not exists (select 1 from db_weiyi.t_order_info o where s.userid=o.userid and o.contract_type in (0,3) and contract_status>0)
-group by s.userid';
+        $sql = 'select  l.lesson_start, s.userid,  s.phone, t.subject, s.nick  from db_weiyi.t_test_lesson_subject_require tr  join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id  join db_weiyi.t_seller_student_new n  on t.userid=n.userid  join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid  join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid  join db_weiyi.t_student_info s on s.userid = l.userid  join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid   where  lesson_start >0 and accept_flag=1   and s.is_test_user=0 and l.lesson_type=2 and success_flag=1   and l.lesson_start>1483200000 and not exists (select 1 from db_weiyi.t_order_info o where s.userid=o.userid and o.contract_type in (0,3) and contract_status>0) group by s.userid';
         $ret = $this->t_student_info->get_teacher($sql);
         $s = '<table border=1><tr>'
            .'<td>id</td>'
@@ -401,11 +417,12 @@ group by s.userid';
 
         foreach ($ret as &$item) {
             E\Esubject::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
                 $s = $s.'<tr><td>'.$item["userid"].'</td>'
                    .'<td>'.$item["nick"].'</td>'
                    .'<td>'.$item["phone"].'</td>'
                    .'<td>'.$item["subject_str"].'</td>'
-                   .'<td>'.$item["tt_time"].'</td>'
+                   .'<td>'.$item["lesson_start"].'</td>'
                    .'</tr>';
         }
 

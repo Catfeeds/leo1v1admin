@@ -342,7 +342,7 @@ class self_manage extends Controller
         imagedestroy($dim);
 
         $this->t_manager_info->field_update_list($uid,[
-            "face_pic" => "http://ebtestpub.qiniudn.com/".$file_name,
+            "face_pic" => "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name,
         ]);
         // dd();
         return $this->output_succ();

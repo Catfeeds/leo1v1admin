@@ -12,18 +12,24 @@ class teacher_money_www extends Controller
     use TeaPower;
 
     public function get_teacher_money_total_list(){
-        // $teacherid = $this->get_login_teacher();
-        $teacherid = $this->get_in_int_val("teacherid");;
+        $teacherid = $this->get_login_teacher();
+        // $teacherid = $this->get_in_int_val("teacherid");;
         if(!$teacherid){
             return $this->output_err("老师id出错！");
         }
+
         $now_date   = date("Y-m-01",time());
+        $check_time = strtotime("2016-12-1");
         $begin_time = strtotime("-1 year",strtotime($now_date));
         $end_time   = strtotime("+1 month",strtotime($now_date));
         $first_lesson_time = $this->t_lesson_info_b3->get_first_lesson_time($teacherid);
         if($begin_time<$first_lesson_time){
             $begin_time = $first_lesson_time;
         }
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+
         $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_type       = $simple_info['teacher_type'];
@@ -74,7 +80,6 @@ class teacher_money_www extends Controller
             $this->get_lesson_cost_info($val,$check_num);
             $lesson_time = \App\Helper\Utils::get_lesson_time($val['lesson_start'],$val['lesson_end']);
             $lesson_arr = [
-                "type"       => "--",
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
                 "state_info" => $val['lesson_cost_info'],
@@ -115,7 +120,9 @@ class teacher_money_www extends Controller
             $list[$month_key]["all_money"]        += $reward_money;
         }
 
-        return $this->output_succ(["list"=>$list]);
+        return $this->output_succ([
+            "list" => $list
+        ]);
     }
 
     private function get_lesson_cost_info(&$val,&$check_num){

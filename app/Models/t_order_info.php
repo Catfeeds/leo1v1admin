@@ -190,7 +190,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             if($have_master==0){
                 $where_arr[] = "(t2.ass_master_adminid=0 or t2.init_info_pdf_url is null)";
             }elseif($have_master==1){
-                $where_arr[] = "t2.ass_master_adminid>0'";
+                $where_arr[] = "t2.ass_master_adminid>0";
             }
 
 
@@ -2889,7 +2889,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             // "s.grade>200",
         ];
         $sql = $this->gen_sql_new(
-            "select distinct s.userid"
+            "select distinct s.userid,s.grade"
             ." from %s o"
             ." left join %s s on o.userid=s.userid"
             ." where %s"

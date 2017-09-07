@@ -1,4 +1,3 @@
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info-get_teacher_money_info.d.ts" />
 
@@ -30,6 +29,7 @@ $(function(){
             $('#salary').text('30.00');
         }
     });
+
     var salary_modal = '';
     $('button[data-toggle]').on('click', function() {
         var value = $(this).val();
@@ -117,5 +117,3 @@ $(function(){
     }
     month_change();
 });
-
-

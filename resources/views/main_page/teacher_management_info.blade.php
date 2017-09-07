@@ -124,6 +124,170 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            咨询转化率                          
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                
+                                <tbody >
+                                    <tr>
+                                        <td class="panel-gray" rowspan="2">咨询名单</td>
+                                        <td class="panel-gray" colspan="3">精排试听</td>
+                                        <td class="panel-gray" colspan="3">绿色通道</td> 
+                                        <td class="panel-gray" colspan="3">常规试听</td> 
+                                    </tr>
+                                    <tr>
+                                        <td>签单数</td>
+                                        <td>有效试听</td>
+                                        <td>转化率</td>
+                                        <td>签单数</td>
+                                        <td>有效试听</td>
+                                        <td>转化率</td>
+                                        <td>签单数</td>
+                                        <td>有效试听</td>
+                                        <td>转化率</td>
+                                    </tr>
+                                    @foreach($seller_all as $var)
+                                        <tr>
+                                            <td>{{@$var["account"]}}</td>
+                                            <td>{{@$var["top_order"]}}</td>
+                                            <td>{{@$var["top_num"]}}</td>
+                                            <td>{{@$var["top_per"]}}%</td>
+                                            <td>{{@$var["green_order"]}}</td>
+                                            <td>{{@$var["green_num"]}}</td>
+                                            <td>{{@$var["green_per"]}}%</td>
+                                            <td>{{@$var["normal_order"]}}</td>
+                                            <td>{{@$var["normal_num"]}}</td>
+                                            <td>{{@$var["normal_per"]}}%</td>
+
+                                            
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            老师转化率                          
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                
+                                <tbody >
+                                    <tr>
+                                        <td class="panel-gray" rowspan="2">老师名单</td>
+                                        <td class="panel-gray" colspan="3">精排试听</td>
+                                        <td class="panel-gray" colspan="3">绿色通道</td> 
+                                        <td class="panel-gray" colspan="3">常规试听</td> 
+                                    </tr>
+                                    <tr>
+                                        <td>签单课程</td>
+                                        <td>有效课程</td>
+                                        <td>转化率</td>
+                                        <td>签单课程</td>
+                                        <td>有效课程</td>
+                                        <td>转化率</td>
+                                        <td>签单课程</td>
+                                        <td>有效课程</td>
+                                        <td>转化率</td>
+                                    </tr>
+                                    @foreach($tea_all as $var)
+                                        <tr>
+                                            <td>{{@$var["realname"]}}</td>
+                                            <td>{{@$var["top_order"]}}</td>
+                                            <td>{{@$var["top_num"]}}</td>
+                                            <td>{{@$var["top_per"]}}%</td>
+                                            <td>{{@$var["green_order"]}}</td>
+                                            <td>{{@$var["green_num"]}}</td>
+                                            <td>{{@$var["green_per"]}}%</td>
+                                            <td>{{@$var["normal_order"]}}</td>
+                                            <td>{{@$var["normal_num"]}}</td>
+                                            <td>{{@$var["normal_per"]}}%</td>
+
+                                            
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            教务转化率                          
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                
+                                <tbody >
+                                    <tr>
+                                        <td class="panel-gray" rowspan="2">老师名单</td>
+                                        <td class="panel-gray" colspan="3">精排试听</td>
+                                        <td class="panel-gray" colspan="3">绿色通道</td> 
+                                        <td class="panel-gray" colspan="3">常规试听</td> 
+                                    </tr>
+                                    <tr>
+                                        <td>签单排课</td>
+                                        <td>有效排课</td>
+                                        <td>转化率</td>
+                                        <td>签单排课</td>
+                                        <td>有效排课</td>
+                                        <td>转化率</td>
+                                        <td>签单排课</td>
+                                        <td>有效排课</td>
+                                        <td>转化率</td>
+                                    </tr>
+                                    @foreach($jw_all as $var)
+                                        <tr>
+                                            <td>{{@$var["account"]}}</td>
+                                            <td>{{@$var["top_order"]}}</td>
+                                            <td>{{@$var["top_num"]}}</td>
+                                            <td>{{@$var["top_per"]}}%</td>
+                                            <td>{{@$var["green_order"]}}</td>
+                                            <td>{{@$var["green_num"]}}</td>
+                                            <td>{{@$var["green_per"]}}%</td>
+                                            <td>{{@$var["normal_order"]}}</td>
+                                            <td>{{@$var["normal_num"]}}</td>
+                                            <td>{{@$var["normal_per"]}}%</td>
+
+                                            
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
         </div>
     </section>
