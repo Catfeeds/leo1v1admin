@@ -1,6 +1,9 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
+	grade:	number;
+	subject:	number;
+	address:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -33,11 +36,16 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			grade:	$('#id_grade').val(),
+			subject:	$('#id_subject').val(),
+			address:	$('#id_address').val()
         });
     }
 
 
+	$('#id_grade').val(g_args.grade);
+	$('#id_subject').val(g_args.subject);
+	$('#id_address').val(g_args.address);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -47,4 +55,25 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">address</span>
+                <input class="opt-change form-control" id="id_address" />
+            </div>
+        </div>
 */
