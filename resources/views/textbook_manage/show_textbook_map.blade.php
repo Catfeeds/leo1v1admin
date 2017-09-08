@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <div class="col-md-1 remove-for-xs col-xs-6 " style="margin-left:1200px" >
+        <div class="col-md-1 remove-for-xs col-xs-6 " style="margin-left:200px" >
             <div>
                 <button class="btn btn-primary" id="id_back"> 返回 </button>
             </div>

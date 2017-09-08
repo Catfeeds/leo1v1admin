@@ -124,12 +124,20 @@ $(function(){
                 });
                 
             });
+        });
+        
         $.show_key_value_table("添加地区教材", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
 
-                $.do_ajax( '/ss_deal/update_research_note', {
+                $.do_ajax( '/ajax_deal2/add_textbook_one', {
+                    "province" :id_province.val(),
+                    "city"   :id_city.val(),
+                    "subject":id_subject.val(),
+                    "grade":id_grade.val(),
+                    "teacher_textbook":id_teacher_textbook.val(),
+                    "educational_system":id_educational_system.val()
                 });
             }
         });

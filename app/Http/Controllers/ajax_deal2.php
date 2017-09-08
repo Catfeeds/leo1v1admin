@@ -1160,5 +1160,15 @@ class ajax_deal2 extends Controller
         
     }
 
+    public function add_textbook_one(){
+        $teacher_textbook = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("teacher_textbook"));
+        $grade = $this->get_in_int_val('grade');
+        $subject = $this->get_in_int_val('subject');
+        $province = trim($this->get_in_str_val('province'));
+        $city = trim($this->get_in_str_val('city'));
+        $educational_system = trim($this->get_in_str_val('educational_system'));
+        $is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($province,$city,$grade,$subject);
+    }
+
 
 }

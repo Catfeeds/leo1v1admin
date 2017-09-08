@@ -65,7 +65,6 @@ class reset_lesson_online_user_status extends Command
             $always_reset=false;
         }
 
-
         $lesson_list = $this->task->t_lesson_info_b2->get_lesson_list_for_set_online_user_status($start_time, $end_time  , $always_reset);
         foreach ( $lesson_list as $item) {
             $lessonid  = $item["lessonid"];
