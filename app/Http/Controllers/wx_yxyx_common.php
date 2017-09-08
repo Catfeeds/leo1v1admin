@@ -242,6 +242,12 @@ class wx_yxyx_common extends Controller
                         $this->t_student_info->field_update_list($userid, [
                             "origin_level" => E\Eorigin_level::V_99
                         ]);
+
+                        $this->t_seller_student_new->field_update_list($userid, [
+                            "global_tq_called_flag" =>0 ,
+                            "global_seller_student_status" =>0 ,
+                        ]);
+
                     }
                 }
             }else{

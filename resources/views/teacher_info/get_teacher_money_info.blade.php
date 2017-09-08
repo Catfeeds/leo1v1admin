@@ -28,9 +28,7 @@
                     <div class="box-body chart-responsive">
                         <div class="chart" id="line-chart" style="height: 300px;"></div>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
             </div>
 
             <div class="col-sm-12">
@@ -38,7 +36,8 @@
                     <div class="box-header with-border">
                         <h3 class="box-title color-blue">薪资情况</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -116,13 +115,11 @@
                     <!-- /.box-footer-->
                 </div>
             </div>
-            <!-- /.col -->
 
             <div class="col-sm-12">
                 <div class="box box-info-ly">
                     <div class="box-header with-border">
                         <h3 class="box-title color-blue">薪资详情</h3>
-
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -138,204 +135,12 @@
                                 <th class="text-cen">状态</th>
                                 <th class="text-cen">扣款 </th>
                                 <th class="text-cen">金额</th>
-                                <th class="text-cen">操作</th>
+                                <!-- <th class="text-cen">操作</th> -->
                             </tr>
-                            <tr>
-                                <td>
-                                    <button data-key="key1" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
-                                    </button>
-
-                                </td>
-                                <td>推荐</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button data-key="key2" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
-                                    </button>
-
-                                </td>
-                                <td>奖金</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key2">
-                                <td></td>
-                                <td>荣誉榜奖金</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key2">
-                                <td></td>
-                                <td>试听课奖金</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key2">
-                                <td> </td>
-                                <td>试听培训奖金</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button data-key="key3" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
-                                    </button>
-                                </td>
-                                <td>补偿</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key3">
-                                <td> </td>
-                                <td>90分钟课程补偿</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key3">
-                                <td> </td>
-                                <td>工资补偿</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <button data-key="key4" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
-                                    </button>
-
-                                </td>
-                                <td>课程扣款</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button data-key="key5" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
-                                    </button>
-
-                                </td>
-                                <td>平台管理费</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button data-key="key6" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
-                                    </button>
-
-                                </td>
-                                <td>试听课程</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key6">
-                                <td> </td>
-                                <td>—</td>
-                                <td>学生1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key6">
-                                <td> </td>
-                                <td>—</td>
-                                <td>学生2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <button data-key="key7" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
-                                    </button>
-                                </td>
-                                <td>常规课程</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key7">
-                                <td> </td>
-                                <td>—</td>
-                                <td>学生1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="key7">
-                                <td> </td>
-                                <td>—</td>
-                                <td>学生2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
                         </table>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
             </div>
         </div>
     </section>
-
 @endsection

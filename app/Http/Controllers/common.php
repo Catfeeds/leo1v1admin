@@ -746,29 +746,32 @@ class common extends Controller
      */
     public function get_teacher_qr(){
         $wx_openid = $this->get_in_str_val("wx_openid");
-        $test_flag = 0;
+        $activity_flag = 0;
         \App\Helper\Utils::logger("get_teacher_info wx_openid:".$wx_openid);
 
         $phone = $this->t_teacher_info->get_phone_by_wx_openid($wx_openid);
         if(!$phone || $wx_openid==""){
             return "";
         }
-        if($phone=="13661763881"){
-            $test_flag = 1;
+        $check_time = strtotime("2017-9-15");
+        if(time()<$check_time){
+            $activity_flag=1;
             $phone_qr_name = $phone."_teacher_day_qr.png";
         }else{
             $phone_qr_name = $phone."_qr.png";
         }
+
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        if(!$is_exists || $test_flag){
+        if(!$is_exists){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
 
-            if($test_flag){
+            if($activity_flag){
+                //教师节背景图
                 $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
             }else{
@@ -785,7 +788,7 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             if($test_flag){
-                imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
+                imagecopymerge($image_3,$image_2, 532,1038,0,0,157,157, 100);
             }else{
                 imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
             }
