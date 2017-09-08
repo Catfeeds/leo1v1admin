@@ -777,29 +777,30 @@ class common extends Controller
             $qr_url         = "/tmp/".$phone.".png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
 
-            if($activity_flag){
+            if($activity_flag || $test_flag){
                 //教师节背景图
                 $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+                list($qr_width, $qr_height)=getimagesize($qr_url);
+                //缩放比例
+                $per=round(157/$width,3);
+                $n_w=$qr_width*$per;
+                $n_h=$qr_height*$per;
+                $new=imagecreatetruecolor($n_w, $n_h);
+                $img=imagecreatefromjpeg($filename);
+                //copy部分图像并调整
+                imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
+                //图像输出新图片、另存为
+                imagejpeg($new, $qr_url);
+                imagedestroy($new);
+                imagedestroy($img);
             }else{
                 //原始邀请有奖背景图
                 $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/pic_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
             }
 
-            list($qr_width, $qr_height)=getimagesize($qr_url);
-            //缩放比例
-            $per=round(157/$width,3);
-            $n_w=$qr_width*$per;
-            $n_h=$qr_height*$per;
-            $new=imagecreatetruecolor($n_w, $n_h);
-            $img=imagecreatefromjpeg($filename);
-            //copy部分图像并调整
-            imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
-            //图像输出新图片、另存为
-            imagejpeg($new, "a.jpg");
-            imagedestroy($new);
-            imagedestroy($img);
 
             //高温邀请有奖背景图
             // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
@@ -808,7 +809,7 @@ class common extends Controller
             $image_qr = imagecreatefrompng($qr_url);
             $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            if($activity_flag){
+            if($activity_flag || $test_flag){
                 imagecopymerge($image_ret,$image_qr,532,1038,0,0,157,157,100);
             }else{
                 imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
