@@ -103,12 +103,15 @@
          }
          .footer{
              position:absolute;
+             bottom:0px;
              background-color:#eee;
              margin:0 0;
              width:100%;
-             height:100%;
+             height:auto;
          }
          .footer-btm{
+             background:#ccc;
+             padding-top:100px;
              position:absolute;
              bottom:0px;
              width:100%;
