@@ -479,7 +479,7 @@ class fulltime_teacher extends Controller
 
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
         $ret_info['apply_total'] = $apply_total[0]['apply_total'];
-        $ret_info['arrive_num'] = $arrive_num[0]['arrive_num'] + $video_num[0]['video_num'];
+        $ret_info['arrive_num'] = $arrive_num[0]['arrive_count'] + $video_num[0]['video_num'];
         
     	return $this->pageView(__METHOD__,null,[
     		'ret_info'  =>   @$ret_info,

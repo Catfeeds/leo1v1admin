@@ -156,7 +156,7 @@
                                                 <td></td>
                                             </tr>
                                             @foreach($l_val as $k=>$v)
-                                                @if($k!="key_str")
+                                                @if($k!=="key_str")
                                                     <tr class="{{$l_key}}_{{$list_val['date']}}">
                                                         <td></td>
                                                         <td>——</td>
