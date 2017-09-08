@@ -94,7 +94,7 @@ class flow_base{
         list($next_node_type,$next_adminid,$auto_pass_flag)=$flow_class::get_next_node_info_by_nodeid($nodeid);
         if ($next_node_type==-1) { //END
             $task->t_flow_node->set_check_info($nodeid,$flow_check_flag,-1, $check_msg);
-            $task->t_flow->set_flow_status($flowid, $flow_check_flag );
+            $task->t_flow->set_flow_status($flowid,  E\Eflow_status::V_PASS );
             $msg= $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"] );
 
             $task->t_manager_info->send_wx_todo_msg_by_adminid($flow_info["post_adminid"],"审批系统","审批完成:".E\Eflow_type::get_desc($flow_type),$msg,"");
@@ -106,7 +106,7 @@ class flow_base{
             $next_nodeid=$task->t_flow_node->add_node($next_node_type,$flowid,$next_adminid,0,0,"",0 ,$auto_pass_flag);
             $task->t_flow_node->set_check_info($nodeid,$flow_check_flag,$next_nodeid,$check_msg);
             if ($auto_pass_flag) { //自动通过
-                static::do_flow_pass( $next_nodeid,E\Eflow_check_flag::S_AUDO_PASS,$check_msg);
+                static::do_flow_pass( $next_nodeid,E\Eflow_check_flag::V_AUDO_PASS,$check_msg);
             }
         }
         return true;
