@@ -1,6 +1,7 @@
 <?php
 namespace App\Flow;
 
+use \App\Enums as E;
 function next_node_process_end( $adminid,$flow_id ) {
     /**  @var  $t_flow_node \App\Models\t_flow_node */
     $t_flow_node= new \App\Models\t_flow_node();
@@ -13,6 +14,10 @@ class flow_base{
      */
     static function get_task_controler() {
         return new \App\Console\Tasks\TaskController ();
+    }
+    static function get_adminid_by_account($account) {
+        $task=static::get_task_controler();
+        return $task->t_manager_info->get_adminid_by_account($account);
     }
 
     static function get_node_name( $node_type ) {
@@ -56,6 +61,12 @@ class flow_base{
         if(!is_array($ret) ) { //next_adminid
             $ret=[ $node_def_item[0], $ret ];
         }
+        if (count($ret)==2) {
+            $ret[]=0; //audo pass
+        }
+        if (!( $ret[1] >0) )  { // account
+            $ret[1]= static::get_adminid_by_account( $ret[1]);
+        }
         return $ret;
     }
 
@@ -71,6 +82,35 @@ class flow_base{
 
     }
 
+    static function do_flow_pass($nodeid ,$flow_check_flag,$check_msg) {
+        $task=static::get_task_controler();
+
+        $node_info  = $task->t_flow_node->field_get_list($nodeid,"*");
+        $flowid     = $node_info["flowid"] ;
+        $flow_info  = $task->t_flow->field_get_list($flowid,"*");
+        $flow_type  = $flow_info["flow_type"];
+        $flow_class = \App\Flow\flow::get_flow_class($flow_type);
+
+        list($next_node_type,$next_adminid,$auto_pass_flag)=$flow_class::get_next_node_info_by_nodeid($nodeid);
+        if ($next_node_type==-1) { //END
+            $task->t_flow_node->set_check_info($nodeid,$flow_check_flag,-1, $check_msg);
+            $task->t_flow->set_flow_status($flowid,  E\Eflow_status::V_PASS );
+            $msg= $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"] );
+
+            $task->t_manager_info->send_wx_todo_msg_by_adminid($flow_info["post_adminid"],"审批系统","审批完成:".E\Eflow_type::get_desc($flow_type),$msg,"");
+            $flow_class::call_do_succ_end($flowid);
+        }else{
+            if (!$next_adminid) {
+                return  false;
+            }
+            $next_nodeid=$task->t_flow_node->add_node($next_node_type,$flowid,$next_adminid,0,0,"",0 ,$auto_pass_flag);
+            $task->t_flow_node->set_check_info($nodeid,$flow_check_flag,$next_nodeid,$check_msg);
+            if ($auto_pass_flag) { //自动通过
+                static::do_flow_pass( $next_nodeid,E\Eflow_check_flag::V_AUDO_PASS,$check_msg);
+            }
+        }
+        return true;
+    }
 
 
 }

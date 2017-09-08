@@ -3,7 +3,7 @@
 
     <script type="text/javascript" src="/page_js/lib/flow.js"></script>
     <section class="content ">
-        
+
         <div>
 
             <div class="row  row-query-list" >
@@ -40,7 +40,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>时间</td>
@@ -86,6 +86,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
