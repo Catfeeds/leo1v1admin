@@ -1050,12 +1050,14 @@ class human_resource extends Controller
         $page_num     = $this->get_in_page_num();
         $ret_info     = $this->t_assistant_info->get_ass_info_new($is_part_time,$assistantid , $rate_score, $page_num);
         foreach($ret_info['list'] as &$item){
-            $birth_year = substr((string)$item['birth'], 0, 4);
-            $age        = (int)date('Y', time()) - (int)$birth_year;
+            E\Egender::set_item_value_str($item);
+            $birth_year           = substr((string)$item['birth'], 0, 4);
+            $age                  = (int)date('Y', time()) - (int)$birth_year;
             $item['ass_nick']     = $item['nick'];
             $item['is_part_time'] = E\Eassistant_type::get_desc($item['assistant_type']);
-            E\Egender::set_item_value_str($item);
-            $item['age']          = $age;
+            // $item['age'] = $age;
+            $item['age']    = $item['birth']?$age:'';
+            $item['school'] = $item['school']?$item['school']:'';
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
