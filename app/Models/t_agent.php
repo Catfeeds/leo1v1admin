@@ -221,9 +221,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "create_time> $yxyx_check_time",
 
         ];
-        if ( $test_lesson_succ_flag ) {
+        if ( $test_lesson_succ_flag ==1 ) {
             $where_arr[] ="agent_status_money=5000 ";
-        }else{
+        }else if ( $test_lesson_succ_flag ==0 ) {
             $where_arr[] ="agent_status_money<5000 ";
         }
 

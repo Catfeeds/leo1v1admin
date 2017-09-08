@@ -11,12 +11,11 @@
                         <h3 class="box-title color-blue no-money-title">暂无薪资</h3>
                         <div style="text-align:center;" class="color-blue has-money">
                             <button type="button" class="btn btn-box-tool color-blue left ft24" id="id_prev_year">
-                                <i class="fa fa-angle-left"></i>&nbsp;&nbsp;
+                                <i class="fa fa-angle-left"></i>
                             </button>
                             <h3 class="box-title">
                                 <span id="id_year"></span>
                             </h3>
-                            &nbsp;&nbsp;
                             <button type="button" class="btn btn-box-tool color-blue right ft24" id="id_next_year">
                                 <i class="fa fa-angle-right"></i>
                             </button>
@@ -126,17 +125,52 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <table class="table table-bordered text-cen">
-                            <tr>
-                                <th class="text-cen" style="width:25px"></th>
-                                <th class="text-cen" style="width:150px">分类</th>
-                                <th class="text-cen">姓名</th>
-                                <th class="text-cen">时间</th>
-                                <th class="text-cen">状态</th>
-                                <th class="text-cen">扣款 </th>
-                                <th class="text-cen">金额</th>
-                                <!-- <th class="text-cen">操作</th> -->
-                            </tr>
+                        <table class='table table-bordered text-cen' id="id_teacher_money_list">
+                            <thead>
+                                <tr>
+                                    <th class='text-cen' style='width:25px'></th>
+                                    <th class='text-cen' style='width:150px'>分类</th>
+                                    <th class='text-cen' >姓名</th>
+                                    <th class='text-cen' >时间</th>
+                                    <th class='text-cen' >状态</th>
+                                    <th class='text-cen' >扣款</th>
+                                    <th class='text-cen' >金额</th>
+                                </tr>
+                            </thead>
+                            @foreach($money_list as $list_key=>$list_val)
+                                <tbody id="id_{{$list_val['date']}}">
+                                @if(isset($list_val['list']) && is_array($list_val['list']))
+                                    @foreach($list_val['list'] as $l_key=>$l_val)
+                                        <tr>
+                                            <td>
+                                                <button type='button' id="{{$l_key}}_{{$list_val['date']}}">
+                                                    <i class='fa fa-plus'></i>
+                                                </button>
+                                            </td>
+                                            <td>{{$l_val['key_str']}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @foreach($l_val as $k=>$v)
+                                            @if($k!="key_str")
+                                                <tr class="{{$l_key}}_{{$list_val['date']}}">
+                                                    <td></td>
+                                                    <td>——</td>
+                                                    <td>{{$v['name']}}</td>
+                                                    <td>{{$v['time']}}</td>
+                                                    <td>{{$v['status_info']}}</td>
+                                                    <td>{{$v['cost']}}</td>
+                                                    <td>{{$v['money']}}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            @endforeach
                         </table>
                     </div>
                 </div>

@@ -29,6 +29,41 @@ class textbook_manage extends Controller
 
     }
 
+    public function show_textbook_map(){
+      return $this->pageView(__METHOD__,null);
+    }
+
+    public function get_city_textbook_info(){
+        $list = $this->t_location_subject_grade_textbook_info->get_all_list();
+        $data=[];
+        foreach($list as $item){
+            $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $data[$item["city"]]["area"] =$item["city"]; 
+            $data[$item["city"]]["province"] =$item["province"]; 
+            $subject_str    = E\Esubject::get_desc($item["subject"]);
+            $grade_str    = E\Esubject::get_desc($item["grade"]);
+
+            $arr_text= explode(",",$item["teacher_textbook"]);
+            $textbook="";
+            foreach($arr_text as $vall){
+                @$textbook .=  E\Eregion_version::get_desc ($vall).",";
+            }
+            $textbook = trim($textbook,",");
+            
+
+        }
+        $arr=[];
+        foreach($data as $v){
+            $arr[] = $v;
+        }
+        return $this->output_succ([
+            "data"=>$arr
+        ]);
+
+        //dd($data);
+    }
+
+
    
 
 }

@@ -5,4 +5,5 @@ return array(
     array(1,"pass","通过"),
     array(2,"no_pass","不通过"),
     array(3,"return_back","驳回"),
+    array(4,"audo_pass","自动通过"),
 );

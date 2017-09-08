@@ -556,6 +556,7 @@ class url_power_map {
 			'/fulltime_teacher/fulltime_teacher_assessment_positive_info'	=>1340800,
 			'/fulltime_teacher/fulltime_teacher_assessment_positive_info_master'	=>1340900,
 			'/teacher_level/get_teacher_level_quarter_info_fulltime'	=>1341100,
+			'/fulltime_teacher/fulltime_teacher_data'	=>1341800,
 			'/customer_service/intended_user_info'	=>1390100,
 			'/customer_service/complaint_info'	=>1390200,
 			'/customer_service/proposal_info'	=>1390300,

@@ -753,6 +753,7 @@ class common extends Controller
         if(!$phone || $wx_openid==""){
             return "";
         }
+
         $check_time = strtotime("2017-9-15");
         if(time()<$check_time){
             $activity_flag=1;
@@ -761,10 +762,10 @@ class common extends Controller
             $phone_qr_name = $phone."_qr.png";
         }
 
-        $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $qiniu_url     = $qiniu['public']['url'];
-        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        if(!$is_exists){
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $qiniu_url = $qiniu['public']['url'];
+        $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        if(!$is_exists ){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
@@ -772,29 +773,43 @@ class common extends Controller
 
             if($activity_flag){
                 //教师节背景图
-                $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
+                $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+                list($qr_width, $qr_height)=getimagesize($qr_url);
+                //缩放比例
+                $per = round(157/$qr_width,3);
+                $n_w = $qr_width*$per;
+                $n_h = $qr_height*$per;
+                $new = imagecreatetruecolor($n_w, $n_h);
+                $img = imagecreatefrompng($qr_url);
+                //copy部分图像并调整
+                imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
+                //图像输出新图片、另存为
+                imagepng($new, $qr_url);
+                imagedestroy($new);
+                imagedestroy($img);
             }else{
                 //原始邀请有奖背景图
-                $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/pic_invitation.png";
+                $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/pic_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
             }
 
             //高温邀请有奖背景图
-            // $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
+            // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
             // \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-            $image_1 = imagecreatefrompng($bg_url);
-            $image_2 = imagecreatefrompng($qr_url);
-            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
-            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            $image_bg  = imagecreatefrompng($bg_url);
+            $image_qr  = imagecreatefrompng($qr_url);
+            $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
+            imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
             if($activity_flag){
-                imagecopymerge($image_3,$image_2, 534,1040,0,0,imagesx($image_2),imagesy($image_2), 100);
+                imagecopymerge($image_ret,$image_qr,532,1038,0,0,157,157,100);
             }else{
-                imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
+                imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
             }
             //高温
-            // imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
-            imagepng($image_3,$teacher_qr_url);
+            // imagecopymerge($image_ret,$image_qr,455,875,0,0,imagesx($image_qr),imagesy($image_qr),100);
+            imagepng($image_ret,$teacher_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($teacher_qr_url);
 
@@ -803,9 +818,9 @@ class common extends Controller
                 \App\Helper\Utils::exec_cmd($cmd_rm);
             }
 
-            imagedestroy($image_1);
-            imagedestroy($image_2);
-            imagedestroy($image_3);
+            imagedestroy($image_bg);
+            imagedestroy($image_qr);
+            imagedestroy($image_ret);
         }else{
             $file_name=$phone_qr_name;
         }
@@ -828,7 +843,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_hx.png";
+        $phone_qr_name = $phone."_qr_agent_hw.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -853,10 +868,13 @@ class common extends Controller
                 $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
                 imagejpeg($imgg,$datapath_new);
                 $image_4 = imagecreatefromjpeg($datapath_new);
+
+                // $imggzip = $this->resize_img($headimgurl);
+                // $imgg = $this->test($imggzip);
+                // $image_4 = imagecreatefrompng($imgg);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             $color = imagecolorallocate($image_5, 255, 255, 255);
-            // $color = imagecolorallocatealpha($image_5,0,0,0,127);
             imagefill($image_5, 0, 0, $color);
             imageColorTransparent($image_5, $color);
 
@@ -864,6 +882,7 @@ class common extends Controller
             imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
             imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
+            // imagecopy($image_3,$image_4,0,0,0,0,190,190);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -934,6 +953,52 @@ class common extends Controller
 
         $file_url = $qiniu_url."/".$file_name;
         return $file_url;
+    }
+
+    public function resize_img($url,$path='/tmp/'){
+        $imgname = $path.uniqid().'.jpg';
+        $file = $url;
+        list($width, $height) = getimagesize($file); //获取原图尺寸
+        $percent = (110/$width);
+        //缩放尺寸
+        $newwidth = 190;
+        $newheight = 190;
+        $src_im = imagecreatefromjpeg($file);
+        $dst_im = imagecreatetruecolor($newwidth, $newheight);
+        imagecopyresized($dst_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+        imagejpeg($dst_im, $imgname); //输出压缩后的图片
+        imagedestroy($dst_im);
+        imagedestroy($src_im);
+        return $imgname;
+    }
+
+    //第一步生成圆角图片
+    public function test($url,$path='/tmp/'){
+        $w = 190;  $h=190; // original size
+        $original_path= $url;
+        $dest_path = $path.uniqid().'.png';
+        $src = imagecreatefromjpeg($original_path);
+        $newpic = imagecreatetruecolor($w,$h);
+        imagealphablending($newpic,false);
+        $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
+        $r=$w/2;
+        for($x=0;$x<$w;$x++)
+            for($y=0;$y<$h;$y++){
+                $c = imagecolorat($src,$x,$y);
+                $_x = $x - $w/2;
+                $_y = $y - $h/2;
+                if((($_x*$_x) + ($_y*$_y)) < ($r*$r)){
+                    imagesetpixel($newpic,$x,$y,$c);
+                }else{
+                    imagesetpixel($newpic,$x,$y,$transparent);
+                }
+            }
+        imagesavealpha($newpic, true);
+        imagepng($newpic, $dest_path);
+        imagedestroy($newpic);
+        imagedestroy($src);
+        unlink($url);
+        return $dest_path;
     }
 
     function yuan_img($imgpath = './tx.jpg') {
@@ -1722,24 +1787,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $data=[];
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $data[$item["city"]]["area"] =$item["city"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
+            $textbook="";
             foreach($arr_text as $vall){
                 @$textbook .=  E\Eregion_version::get_desc ($vall).",";
             }
             $textbook = trim($textbook,",");
 
-            $data[$item["city"]][$item["subject"]]["subject"] =$subject_str;
+            $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
             if($item["grade"]==100){
-                $data[$item["city"]][$item["subject"]]["primary"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["primary"] = $textbook;
             }elseif($item["grade"]==200){
-                $data[$item["city"]][$item["subject"]]["middle"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["middle"] = $textbook;
             }elseif($item["grade"]==300){
-                $data[$item["city"]][$item["subject"]]["senior"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
             }
         }
-        dd($data);
+        $arr=[];
+        foreach($data as $v){
+            $arr[] = $v;
+        }
+        return $this->output_succ([
+            "data"=>$arr
+        ]);
+
+        //dd($data);
     }
 
 }

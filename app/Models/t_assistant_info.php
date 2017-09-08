@@ -43,7 +43,7 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         }
 
         $sql=$this->gen_sql_new ("select nick,assistant_type,gender,birth,phone,"
-                                 ." email,rate_score,assistantid,school,prize"
+                                 ." email,rate_score,assistantid,school,prize,work_year"
                                  ." from %s "
                                  ." where is_quit=0 "
                                  ." and %s "

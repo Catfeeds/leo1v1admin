@@ -23,9 +23,10 @@ interface RowData {
 	assistantid	:any;
 	school	:any;
 	prize	:any;
+	work_year	:any;
+	gender_str	:any;
 	ass_nick	:any;
 	is_part_time	:any;
-	gender_str	:any;
 	age	:any;
 }
 

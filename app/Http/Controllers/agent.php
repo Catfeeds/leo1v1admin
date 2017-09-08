@@ -484,51 +484,6 @@ class agent extends Controller
         return $ret;
     }
 
-    /**
-     *  blog:http://www.zhaokeli.com
-     * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
-     * @param  string $imgpath [description]
-     * @return [type]          [description]
-     */
-    function yuan_img($imgpath = './tx.jpg') {
-        $ext     = pathinfo($imgpath);
-        $src_img = null;
-        // dd($ext['extension']);
-        switch ($ext['extension']) {
-        case 'jpg':
-            $src_img = imagecreatefromjpeg($imgpath);
-            break;
-        case 'jpeg':
-            $src_img = imagecreatefromjpeg($imgpath);
-            break;
-        case 'png':
-            $src_img = imagecreatefrompng($imgpath);
-            break;
-        }
-        $wh  = getimagesize($imgpath);
-        $w   = $wh[0];
-        $h   = $wh[1];
-        $w   = min($w, $h);
-        $h   = $w;
-        $img = imagecreatetruecolor($w, $h);
-        //这一句一定要有
-        imagesavealpha($img, true);
-        //拾取一个完全透明的颜色,最后一个参数127为全透明
-        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
-        imagefill($img, 0, 0, $bg);
-        $r   = $w / 2; //圆半径
-        $y_x = $r; //圆心X坐标
-        $y_y = $r; //圆心Y坐标
-        for ($x = 0; $x < $w; $x++) {
-            for ($y = 0; $y < $h; $y++) {
-                $rgbColor = imagecolorat($src_img, $x, $y);
-                if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
-                    imagesetpixel($img, $x, $y, $rgbColor);
-                }
-            }
-        }
-        return $img;
-    }
 
 
 
@@ -1479,9 +1434,15 @@ class agent extends Controller
      */
     public function index(){
         $headimgurl = 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLAEbfWjOqjPWTPiaSg6wBVuE1D986YvpLF9CNuVUz0ce0rmP0eQNz345KeSK0RWsG5B3ibv3oIXZLOQ/0';
-        $datapath = "/tmp/1545_headimg.jpeg";
+        $datapath = "/tmp/178_headimg.jpeg";
         $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
+
+        // $imgg = $this->yuan_img($datapath);
+        // $datapath_new ="/tmp/189_headimg_new.jpeg";
+        // imagejpeg($imgg,$datapath_new);
+        // $image_4 = imagecreatefromjpeg($datapath_new);
+        // dd($image_4);
         //头像
         $headimgurl = $datapath;
         //背景图
@@ -1489,11 +1450,12 @@ class agent extends Controller
         $imgs['dst'] = $bgurl;
         //第一步 压缩图片
         $imggzip = $this->resize_img($headimgurl);
-        dd($imggzip);
         //第二步 裁减成圆角图片
         $imgs['src'] = $this->test($imggzip);
+        dd($imgs['src']);
         //第三步 合并图片
         $dest = $this->mergerImg($imgs);
+        dd($dest);
     }
 
     public function resize_img($url,$path='/tmp/'){
@@ -1518,7 +1480,7 @@ class agent extends Controller
         $w = 190;  $h=190; // original size
         $original_path= $url;
         $dest_path = $path.uniqid().'.png';
-        $src = imagecreatefromstring(file_get_contents($original_path));
+        $src = imagecreatefromjpeg($original_path);
         $newpic = imagecreatetruecolor($w,$h);
         imagealphablending($newpic,false);
         $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
@@ -1545,6 +1507,7 @@ class agent extends Controller
     //php 合并图片
     public function mergerImg($imgs,$path='/tmp/') {
         $imgname = $path.rand(1000,9999).uniqid().'.jpg';
+
         list($max_width, $max_height) = getimagesize($imgs['dst']);
         $dests = imagecreatetruecolor($max_width, $max_height);
         $dst_im = imagecreatefromjpeg($imgs['dst']);
@@ -1553,14 +1516,57 @@ class agent extends Controller
 
         $src_im = imagecreatefrompng($imgs['src']);
         $src_info = getimagesize($imgs['src']);
-        imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
-        // imagecopy($dests,$src_im,354,35,0,0,$src_info[0],$src_info[1]);
-        // imagecopymerge($dests,$src_im,354,35,0,0,190,190,100);
+        imagecopy($dests,$src_im,354,35,0,0,190,190);
+
         imagedestroy($src_im);
         imagejpeg($dests,$imgname);
         unlink($imgs['src']);
         return $imgname;
     }
 
+    /**
+     *  blog:http://www.zhaokeli.com
+     * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
+     * @param  string $imgpath [description]
+     * @return [type]          [description]
+     */
+        function yuan_img($imgpath = './tx.jpg') {
+        $ext     = pathinfo($imgpath);
+        $src_img = null;
+        switch ($ext['extension']) {
+        case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'png':
+            $src_img = imagecreatefrompng($imgpath);
+            break;
+        }
+        $wh  = getimagesize($imgpath);
+        $w   = $wh[0];
+        $h   = $wh[1];
+        $w   = min($w, $h);
+        $h   = $w;
+        $img = imagecreatetruecolor($w, $h);
+        //这一句一定要有
+        imagesavealpha($img, true);
+        //拾取一个完全透明的颜色,最后一个参数127为全透明
+        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        imagefill($img, 0, 0, $bg);
+        $r   = $w / 2; //圆半径
+        $y_x = $r; //圆心X坐标
+        $y_y = $r; //圆心Y坐标
+        for ($x = 0; $x < $w; $x++) {
+            for ($y = 0; $y < $h; $y++) {
+                $rgbColor = imagecolorat($src_img, $x, $y);
+                if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
+                    imagesetpixel($img, $x, $y, $rgbColor);
+                }
+            }
+        }
+        return $img;
+    }
 
 }

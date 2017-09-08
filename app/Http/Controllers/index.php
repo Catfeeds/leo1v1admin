@@ -50,14 +50,9 @@ class index extends Controller
 
         $jump_url=$this->get_in_str_val("jump_url");
 
-        \App\Helper\Utils::logger("jump_url1112:$jump_url");
-
         if (!$jump_url) {
             $jump_url="/wx_teacher_web/wage_summary";
         }
-        \App\Helper\Utils::logger("sessionid:".session_id());
-        \App\Helper\Utils::logger("login_user_role:".session("login_user_role"));
-        \App\Helper\Utils::logger("login_userid:".session("login_userid"));
 
         if (session("login_user_role" )==2 && session("login_userid" ) >0 ) {
             \App\Helper\Utils::logger("wx_teacher_find111".$jump_url);
@@ -137,13 +132,8 @@ class index extends Controller
 
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
-            \App\Helper\Utils::logger("xxxxx111");
-
-
             return $this->wx_teacher_index();
         }
-
-
 
         $tq_token=$this->get_in_str_val("token");
         $tq_uin=$this->get_in_int_val("uin");

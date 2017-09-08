@@ -67,6 +67,7 @@
                                     <td> 兼职全职</td>
                                     <td> 性别</td>
                                     <td> 年龄 </td>
+                                    <td> 工龄 </td>
                                     <td> 学校 </td>
                                     <td> 手机 </td>
                                     <td> 邮箱</td>
@@ -82,6 +83,7 @@
                                         <td>{{@$var["is_part_time"]}} </td>
                                         <td>{{@$var["gender_str"]}} </td>
                                         <td>{{@$var["age"]}} </td>
+                                        <td>{{@$var["work_year"]}} </td>
                                         <td>{{@$var["school"]}} </td>
                                         <td>{{@$var["phone"]}} </td>
                                         <td>{{@$var["email"]}} </td>
