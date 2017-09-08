@@ -142,11 +142,7 @@ class wx_teacher_api extends Controller
             }
         }
 
-
-
         $sever_name = $_SERVER['SERVER_NAME'];
-
-        \App\Helper\Utils::logger("wx_tousu: ".$teacherid);
 
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
