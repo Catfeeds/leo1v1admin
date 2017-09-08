@@ -36,6 +36,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	order_price_desc	:any;
 	promotion_spec_is_not_spec_flag	:any;
 	promotion_spec_diff_money	:any;
 	origin_assistantid	:any;
