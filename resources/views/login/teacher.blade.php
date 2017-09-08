@@ -69,6 +69,10 @@
              border-bottom:3px solid #0bceff;
              color:#0bceff;
          }
+         .navs a:hover{
+             border-bottom:3px solid #0bceff;
+             color:#0bceff;
+         }
          .login{
              border:1px solid #ccc;
              border-radius:5px;
