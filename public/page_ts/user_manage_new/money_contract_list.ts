@@ -115,44 +115,52 @@ $(function(){
         var $check_money_desc = $("<textarea/>");
         Enum_map.append_option_list( "check_money_flag",  $check_money_flag ,true );
 
-        var arr=[
-            [ "学生" , opt_data.stu_nick ],
-            [ "年级" , opt_data.grade_str ],
-            [ "试听课时间" , opt_data.lesson_start ],
-            [ "奥赛" , opt_data.competition_flag_str ],
-            [ "课时数" , opt_data.lesson_total*opt_data.default_lesson_count/100  ],
-            [ "原价" , opt_data.discount_price/100 ],
-            [ "现价" , opt_data.price ],
-            [ "单价" , opt_data.price/opt_data.lesson_total ],
-            [ "申请状态" , opt_data.flow_status_str ],
-            [ "申请说明" , opt_data.flow_post_msg ],
+        $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
+            "str" : JSON.stringify( opt_data.order_price_desc)
+        }, function (resp){
+            var arr=[
+                [ "学生" , opt_data.stu_nick ],
+                [ "年级" , opt_data.grade_str ],
+                [ "试听课时间" , opt_data.lesson_start ],
+                [ "奥赛" , opt_data.competition_flag_str ],
+                [ "课时数" , opt_data.lesson_total*opt_data.default_lesson_count/100  ],
+                [ "原价" , opt_data.discount_price/100 ],
+                [ "现价" , opt_data.price ],
+                [ "单价" , opt_data.price/opt_data.lesson_total*100 ],
+                ["计算流程", $( resp.html_str ) ],
+                [ "申请状态" , opt_data.flow_status_str ],
+                [ "申请说明" , opt_data.flow_post_msg ],
 
-            [ "原因" , opt_data.discount_reason ],
-            [ "确认状态" , $check_money_flag ],
-            [ "说明" ,  $check_money_desc ],
-        ];
+                [ "原因" , opt_data.discount_reason ],
+                [ "确认状态" , $check_money_flag ],
+                [ "说明" ,  $check_money_desc ],
+            ];
 
-        $.show_key_value_table("财务确认", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                var check_money_flag= $check_money_flag.val();
-                $.do_ajax("/user_deal/order_check_money",{
-                    "orderid"          : orderid,
-                    "check_money_flag" : check_money_flag,
-                    "check_money_desc" : $check_money_desc.val()
-                },function( ){
-                    if (check_money_flag == 1 ) { //支付成功
-                        $.do_ajax("/user_manage/set_contract_payed_new", {
-                            'orderid'    : orderid,
-                            "channelid"  : 1 ,
-                            'userid'     : opt_data.userid,
-                            'pay_number' : 1
-                        });
-                    }
-                });
-            }
-        });
+            $.show_key_value_table("财务确认", arr ,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    var check_money_flag= $check_money_flag.val();
+                    $.do_ajax("/user_deal/order_check_money",{
+                        "orderid"          : orderid,
+                        "check_money_flag" : check_money_flag,
+                        "check_money_desc" : $check_money_desc.val()
+                    },function( ){
+                        if (check_money_flag == 1 ) { //支付成功
+                            $.do_ajax("/user_manage/set_contract_payed_new", {
+                                'orderid'    : orderid,
+                                "channelid"  : 1 ,
+                                'userid'     : opt_data.userid,
+                                'pay_number' : 1
+                            });
+                        }
+                    });
+                }
+            });
+
+
+        } );
+
 
     });
 
