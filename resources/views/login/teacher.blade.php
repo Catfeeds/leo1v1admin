@@ -61,6 +61,9 @@
          .color-9{
              color:#999;
          }
+         .color-red{
+             color:red;
+         }
          .mid-con{
              margin:20px 0;
              height:370px;
@@ -170,11 +173,11 @@
                         </div>
                     </div>
                     <div class="login-mig form-group">
-                        <span id="id_errmsg"></span>
+                        <span id="id_errmsg" class="color-red"></span>
                     </div>
                     <div class="login-mig row">
                         <div class="col-xs-6">
-                            <label><input class="bor-no" type="checkbox" name="hold"> 记住密码</label>
+                            <label class="color-9"><input class="bor-no" type="checkbox" name="hold"> 记住密码</label>
                         </div>
                         <div class="col-xs-6">
                             <a href="" class="color-blue">忘记密码？</a>
