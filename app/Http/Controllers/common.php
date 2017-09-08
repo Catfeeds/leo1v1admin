@@ -1722,13 +1722,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $data=[];
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
-            $data[$item["city"]][$item["subject"]]["subject"] =$item["subject"];
+            $subject_str    = E\Esubject::get_desc($item["subject"]);
+
+            $arr_text= explode(",",$item["teacher_textbook"]);
+            foreach($arr_text as $vall){
+                @$textbook .=  E\Eregion_version::get_desc ($vall).",";
+            }
+            $textbook = trim($textbook,",");
+
+            $data[$item["city"]][$item["subject"]]["subject"] =$subject_str;
             if($item["grade"]==100){
-                $data[$item["city"]][$item["subject"]]["primary"] =$item["teacher_textbook"];
+                $data[$item["city"]][$item["subject"]]["primary"] = $textbook;
             }elseif($item["grade"]==200){
-                $data[$item["city"]][$item["subject"]]["middle"] =$item["teacher_textbook"];
+                $data[$item["city"]][$item["subject"]]["middle"] = $textbook;
             }elseif($item["grade"]==300){
-                $data[$item["city"]][$item["subject"]]["senior"] =$item["teacher_textbook"];
+                $data[$item["city"]][$item["subject"]]["senior"] = $textbook;
             }
         }
         dd($data);
