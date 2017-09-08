@@ -251,7 +251,8 @@ class login extends Controller
         $_SESSION['adminid']         = $ret_row["uid"];
         $_SESSION['account_role']    = $ret_row["account_role"];
         $_SESSION['seller_level']    = $ret_row["seller_level"];
-        $_SESSION['face_pic']    = $ret_row["face_pic"];
+        // $_SESSION['face_pic']    = $ret_row["face_pic"];
+        $_SESSION['face_pic']    = isset($ret_row["face_pic"])?$ret_row["face_pic"]:'';
         $_SESSION['power_set_time']  = time(NULL);
 
 
