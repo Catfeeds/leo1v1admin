@@ -134,7 +134,6 @@ class send_wx_msg_for_test_lesson extends Command
         }
 
         // 试听课正常结束
-
         if(!empty($normal_lesson_list)){
             foreach($normal_lesson_list as $item){
                 $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);

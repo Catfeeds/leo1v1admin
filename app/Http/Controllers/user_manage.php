@@ -2405,7 +2405,9 @@ class user_manage extends Controller
         $ret_grade = [];
         dd($ret_info);
         foreach ($ret_info as $key => &$value) {
-            $ret_grade[$value['grade_str']] = $value['sum'];
+		if($value['grade'] != "401"){
+	          $ret_grade[$value['grade_str']] = $value['sum'];
+		}
         }
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_grade,

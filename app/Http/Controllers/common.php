@@ -1787,6 +1787,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $data=[];
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $data[$item["city"]]["area"] =$item["city"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
@@ -1805,8 +1806,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
             }
         }
+        $arr=[];
+        foreach($data as $v){
+            $arr[] = $v;
+        }
         return $this->output_succ([
-            "data"=>$data
+            "data"=>$arr
         ]);
 
         //dd($data);
