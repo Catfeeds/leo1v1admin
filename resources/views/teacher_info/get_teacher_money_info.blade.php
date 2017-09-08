@@ -1,7 +1,7 @@
 @extends('layouts.teacher_header')
 @section('content')
     <script type="text/javascript" >
-        var month_info = <?php  echo json_encode($money_list); ?> ;
+     var month_info = <?php  echo json_encode($money_list); ?> ;
     </script>
     <section class="content li-section">
         <div class="row">
@@ -67,8 +67,8 @@
                                             <br>
                                         </div>
                                         <div class="inner"">
-                                            <p>总薪资</p>
-                                            <h4 id="id_all_money"></h4>
+                                            <p>常规课耗</p>
+                                            <h4 id="id_normal_lesson_total"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -81,8 +81,8 @@
                                             <br>
                                         </div>
                                         <div class="inner">
-                                            <p>本月课耗</p>
-                                            <h4 id="id_lesson_total"></h4>
+                                            <p>试听课耗</p>
+                                            <h4 id="id_trial_lesson_total"></h4>
                                         </div>
                                     </div>
                                 </div>

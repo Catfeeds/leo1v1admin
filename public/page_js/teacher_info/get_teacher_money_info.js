@@ -51,54 +51,61 @@ $(function(){
         $('.direct-chat-contacts').append(content);
     });
 
-    var curnum = 6;
-    $('#id_prev_year').on('click', function() {
-        curnum--;
-        if ( curnum < -5 ) {
-            curnum = -5;
-        }
-        month_change();
-    });
+    var max_num = month_info.length;
 
-    $('#id_next_year').on('click', function() {
-        curnum++;
-        if ( curnum > 6 ) {
-            curnum = 6;
-        }
-        month_change();
-    });
-
-    console.log(month_info);
-    var month_change = function (){
-        $('#line-chart').empty();
-        var show_info = [];
-        var num = 0;
-        var loopnum = curnum;
-        while (num < 6)
-        {
-            if(loopnum < 12 & loopnum >= 0) {
-                if( month_info[loopnum] !== undefined ) {
-                    show_info[show_info.length] = month_info[loopnum];
-                }
-            }
-
-            loopnum++;
-            num++;
-        }
-        $('#year').text( month_info[loopnum-1].x );
-        // LINE CHART
-        var line = new Morris.Line({
-            element: 'line-chart',
-            resize: true,
-            data: show_info,
-            xkey: 'x',
-            ykeys: ['y'],
-            labels: ['工资'],
-            lineColors: ['#00a6ff'],
-            hideHover: true,
-            parseTime:false,
-            smooth:false,
+    if(max_num>0){
+        var curnum = max_num-1;
+        $('#id_prev_year').on('click', function() {
+            curnum--;
+            month_change();
         });
+        $('#id_next_year').on('click', function() {
+            curnum++;
+            month_change();
+        });
+
+        var month_change = function (){
+            $('#line-chart').empty();
+
+            if ( curnum == 0  ) {
+                curnum = 0;
+            }else if(curnum>=max_num){
+                curnum = max_num-1;
+            }
+            var show_info = [];
+            // var num = 0;
+            // var loopnum = curnum;
+            // while (num < max_num)
+            // {
+            //     if(loopnum < max_num && loopnum >= 0) {
+            //         if( month_info[loopnum] !== undefined ) {
+            //             show_info[show_info.length] = month_info[loopnum];
+            //         }
+            //     }
+            //     loopnum++;
+            //     num++;
+            // }
+            // console.log("loopnum:"+(loopnum-1));
+            // console.log("month_info:"+month_info[loopnum-1]);
+            $('#id_year').text( month_info[curnum].date );
+
+            var line = new Morris.Line({
+                element    : 'line-chart',
+                resize     : true,
+                data       : month_info,
+                xkey       : 'date',
+                ykeys      : ['all_money'],
+                labels     : ['工资'],
+                lineColors : ['#00a6ff'],
+                hideHover  : true,
+                parseTime  : false,
+                smooth     : false,
+            });
+        }
+        month_change();
+    }else{
+        $("#id_section").empty();
+        $("#id_section").html("暂无薪资信息！");
     }
-    month_change();
+
 });
