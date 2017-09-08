@@ -51,6 +51,7 @@ class ajax_deal extends Controller
         $node_type=0;
 
         $ret_list=[];
+        $auto_pass_flag=0;
         do{
 
             $ret_list[]=[
@@ -58,11 +59,12 @@ class ajax_deal extends Controller
                 "name" => $flow_class::get_node_name($node_type),
                 "adminid" => $adminid,
                 "admin_nick" => $this->cache_get_account_nick($adminid),
+                "auto_pass_flag" =>  $auto_pass_flag
             ];
 
             \App\Helper\Utils::logger("node_type:$node_type,flowid:$flowid");
 
-            list($node_type,$adminid )=$flow_class::get_next_node_info( $node_type, $flowid, $adminid );
+            list($node_type,$adminid, $auto_pass_flag)=$flow_class::get_next_node_info( $node_type, $flowid, $adminid );
             //\App\Helper\Utils::logger(" 22 node_type:$node_type,flowid:$flowid");
 
         } while ($node_type  != -1);
@@ -72,6 +74,7 @@ class ajax_deal extends Controller
             "name" => "结束",
             "adminid" => "",
             "admin_nick" =>"" ,
+            "auto_pass_flag" =>0 ,
         ];
 
         $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);

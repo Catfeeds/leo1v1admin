@@ -146,6 +146,13 @@ jQuery.extend({
                     render:function(val,item) {
                         return item.admin_nick;
                     }
+
+                },{
+                    title:"自动通过",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.auto_pass_flag?"<font color=red>是</font>": "否" ;
+                    }
                 }
             ] ,
             filter_list: [],

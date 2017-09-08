@@ -14,7 +14,7 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
     }
 
 
-    public function add_node($node_type,$flowid,$adminid, $flow_check_flag=0, $check_time=0 , $check_msg="", $next_nodeid=0 )  {
+    public function add_node($node_type,$flowid,$adminid, $flow_check_flag=0, $check_time=0 , $check_msg="", $next_nodeid=0, $auto_pass_flag=0 )  {
         $this->row_insert([
             'node_type'=>$node_type,
             'flowid'=>$flowid,
@@ -36,7 +36,11 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
         $msg="申请人:". $flow_info["post_admin_nick"] . "-". $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"]);
         \App\Helper\Utils::logger(" XXSEND WX todo :next_adminid=$adminid");
 
-        $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
+        if (!$auto_pass_flag ) {
+            $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
+        }else{
+            $this->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"审批系统","有新的审批[自动通过]:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
+        }
 
         //$this->t_manager_info->send_wx_todo_msg_by_adminid($next_adminid,"审批系统","有新的审批:".E\Eflow_type::get_desc($flow_type),$msg,"/self_manage/flow_list");
         return $this->get_last_insertid();
