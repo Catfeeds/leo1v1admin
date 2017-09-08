@@ -126,6 +126,15 @@
                     </div>
                     <div class="box-body">
                         <table class='table table-bordered text-cen' id="id_teacher_money_list">
+                            <tr>
+                                <th class='text-cen' style='width:25px'></th>
+                                <th class='text-cen' style='width:150px'>分类</th>
+                                <th class='text-cen'>姓名</th>
+                                <th class='text-cen'>时间</th>
+                                <th class='text-cen'>状态</th>
+                                <th class='text-cen'>扣款</th>
+                                <th class='text-cen'>金额</th>
+                            </tr>
                         </table>
                     </div>
                 </div>

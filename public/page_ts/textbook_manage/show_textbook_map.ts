@@ -1,8 +1,7 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/textbook_manage-show_textbook_map.d.ts" />
 
-$(function(){
-
+ $(function(){
     
     var myChart = echarts.init(document.getElementById('container_new'));
     // 显示省份

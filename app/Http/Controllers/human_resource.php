@@ -1694,11 +1694,6 @@ class human_resource extends Controller
             }
         }
 
-        if($full_time==1 && $status==1){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-        }
 
         $this->t_teacher_lecture_info->field_update_list($id,[
             "status"                             => $status,
@@ -1728,6 +1723,13 @@ class human_resource extends Controller
         if($status==1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
+            $nick = $appointment_info['name'];
+            if($full_time==1){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            }
+
             if(!empty($teacher_info)){
                 $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1741,7 +1743,7 @@ class human_resource extends Controller
                 $add_info    = [
                     "phone"                 => $lecture_info['phone'],
                     "identity"              => $identity,
-                    "tea_nick"              => $appointment_info['name'],
+                    "tea_nick"              => $nick,
                     "subject"               => $subject,
                     "grade"                 => $grade,
                     "grade_start"           => $grade_range['grade_start'],
