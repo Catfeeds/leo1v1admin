@@ -29,6 +29,10 @@ class tq extends Controller
 
     }
 
+    public function index(){
+
+    }
+
     public function get_list () {
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],1);
         $phone           = $this->get_in_phone();

@@ -16,20 +16,53 @@ $(function(){
         $(this).children().toggleClass('fa-minus');
     });
 
-    var show_teacher_money = function(money_list,html){
-        var button_html   = "";
+    var show_teacher_money = function(money_list){
+        var html_list =
+            "<tr>"
+            +"<th class='text-cen' style='width:25px'></th>"
+            +"<th class='text-cen' style='width:150px'>分类</th>"
+            +"<th class='text-cen'>姓名</th>"
+            +"<th class='text-cen'>时间</th>"
+            +"<th class='text-cen'>状态</th>"
+            +"<th class='text-cen'>扣款 </th>"
+            +"<th class='text-cen'>金额</th>"
+            +"</tr>";
+
         var id_button_str = "";
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            id_button_str = "";
-            html_list += "<tr><td><button type='button' id="+id_button_str+"><i class='fa fa-minus'></i></button></td>";
+            id_button_str = "id_"+key;
+            html_list += "<tr>"
+                +"<td>"
+                +"<button type='button' id="+id_button_str+"><i class='fa fa-plus'></i></button>"
+                +"</td>"
+                +"<td>"+value.key_str+"</td>"
+                +"<td></td>"
+                +"<td></td>"
+                +"<td></td>"
+                +"<td></td>"
+                +"<td></td>"
+                +"</tr>";
+
             $.each(value,function(k,v){
-
+                if(k!="key_str"){
+                    html_list += "<tr>"
+                        +"<td></td>"
+                        +"<td></td>"
+                        +"<td>"+v.name+"</td>"
+                        +"<td>"+v.time+"</td>"
+                        +"<td>"+v.status_info+"</td>"
+                        +"<td>"+v.cost+"</td>"
+                        +"<td>"+v.money+"</td>"
+                        +"</tr>";
+                }
             });
-            html_list +="</tr>";
         });
-        $('#id_teacher_money_list').html(html_list);
+        console.log(html_list);
+        // $('#id_teacher_money_list').append(html_list);
+        $('#'+id_button_str).on("click",function(){
 
+        });
     }
 
     var month_change = function (){
@@ -64,7 +97,7 @@ $(function(){
         $('#id_trial_lesson_total').text(month_info[curnum].trial_lesson_total+"课时");
         $('#id_all_money').text(month_info[curnum].all_money+"元");
         //薪资详情
-        show_teacher_money(month_info[curnum].list,html_list);
+        show_teacher_money(month_info[curnum].list);
 
         var line = new Morris.Line({
             element    : 'line-chart',
@@ -80,20 +113,9 @@ $(function(){
         });
     }
 
+
     var max_num = month_info.length;
     if(max_num>0){
-        var html_list =
-            "<tr>"
-            +"<th class='text-cen' style='width:25px'></th>"
-            +"<th class='text-cen' style='width:150px'>分类</th>"
-            +"<th class='text-cen'>姓名</th>"
-            +"<th class='text-cen'>时间</th>"
-            +"<th class='text-cen'>状态</th>"
-            +"<th class='text-cen'>扣款 </th>"
-            +"<th class='text-cen'>金额</th>"
-            +"<!-- <th class='text-cen'>操作</th> -->"
-            +"</tr>";
-
         var curnum = max_num-1;
         $(".no-money-title").hide();
         $('#id_prev_year').on('click', function() {
@@ -104,7 +126,6 @@ $(function(){
             curnum++;
             month_change();
         });
-
         month_change();
     }else{
         $(".has-money").hide();

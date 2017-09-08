@@ -1933,7 +1933,7 @@ class teacher_info extends Controller
             $lesson_arr = [
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
-                "state_info" => $val['lesson_cost_info'],
+                "status_info" => $val['lesson_cost_info'],
                 "cost"       => $val['lesson_cost'],
                 "money"      => $lesson_money,
             ];
@@ -1953,7 +1953,7 @@ class teacher_info extends Controller
             $reward_arr = [
                 "name"       => E\Ereward_type::get_desc($r_val['type']),
                 "time"       => $add_time,
-                "state_info" => "",
+                "status_info" => "",
                 "cost"       => "",
                 "money"      => $r_val['money']/100,
             ];

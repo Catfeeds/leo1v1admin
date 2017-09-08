@@ -71,7 +71,6 @@ class send_wx_msg_for_test_lesson extends Command
             foreach($test_lesson_list_five as $item){
                 $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
                 $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
-
                 if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
                     $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
                     $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
