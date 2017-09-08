@@ -126,40 +126,50 @@
                     </div>
                     <div class="box-body">
                         <table class='table table-bordered text-cen' id="id_teacher_money_list">
-                            <tr>
-                                <th class='text-cen' style='width:25px'></th>
-                                <th class='text-cen' style='width:150px'>分类</th>
-                                <th class='text-cen'>姓名</th>
-                                <th class='text-cen'>时间</th>
-                                <th class='text-cen'>状态</th>
-                                <th class='text-cen'>扣款</th>
-                                <th class='text-cen'>金额</th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th class='text-cen' style='width:25px'></th>
+                                    <th class='text-cen' style='width:150px'>分类</th>
+                                    <th class='text-cen' >姓名</th>
+                                    <th class='text-cen' >时间</th>
+                                    <th class='text-cen' >状态</th>
+                                    <th class='text-cen' >扣款</th>
+                                    <th class='text-cen' >金额</th>
+                                </tr>
+                            </thead>
                             @foreach($money_list as $list_key=>$list_val)
+                                <tbody id="id_{{$list_val['date']}}">
                                 @if(isset($list_val['list']) && is_array($list_val['list']))
                                     @foreach($list_val['list'] as $l_key=>$l_val)
                                         <tr>
-                                            <td><button type='button'><i class='fa fa-plus'></i></button></td>
-                                            <td>{{$value['key_str']}}</td>
+                                            <td>
+                                                <button type='button' id="{{$l_key}}_{{$list_val['date']}}">
+                                                    <i class='fa fa-plus'></i>
+                                                </button>
+                                            </td>
+                                            <td>{{$l_val['key_str']}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        @foreach($value as $k=>$v)
-                                            <tr>
-                                                <td></td>
-                                                <td>——</td>
-                                                <td>{{$v['name']}}</td>
-                                                <td>{{$v['time']}}</td>
-                                                <td>{{$v['status_info']}}</td>
-                                                <td>{{$v['cost']}}</td>
-                                                <td>{{$v['money']}}</td>
-                                            </tr>
+                                        @foreach($l_val as $k=>$v)
+                                            @if($k!="key_str")
+                                                <tr class="{{$l_key}}_{{$list_val['date']}}">
+                                                    <td></td>
+                                                    <td>——</td>
+                                                    <td>{{$v['name']}}</td>
+                                                    <td>{{$v['time']}}</td>
+                                                    <td>{{$v['status_info']}}</td>
+                                                    <td>{{$v['cost']}}</td>
+                                                    <td>{{$v['money']}}</td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     @endforeach
                                 @endif
+                                </tbody>
                             @endforeach
                         </table>
                     </div>

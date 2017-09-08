@@ -41,6 +41,7 @@ class textbook_manage extends Controller
             $data[$item["city"]]["area"] =$item["city"]; 
             $data[$item["city"]]["province"] =$item["province"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
+            $grade_str    = E\Esubject::get_desc($item["grade"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
             $textbook="";
@@ -48,27 +49,8 @@ class textbook_manage extends Controller
                 @$textbook .=  E\Eregion_version::get_desc ($vall).",";
             }
             $textbook = trim($textbook,",");
+            
 
-            if($item["subject"]==1){
-                if($item["grade"]==100){
-                    $data[$item["city"]]["yw_primary"] =$textbook; 
-                }elseif($item["grade"]==200){
-                     $data[$item["city"]]["yw_middle"] =$textbook;
-                }elseif($item["grade"]==300){
-                     $data[$item["city"]]["yw_senior"] =$textbook;
-                }
-
-            }
-
-
-            $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
-            if($item["grade"]==100){
-                $data[$item["city"]]["textbook"][$item["subject"]]["primary"] = $textbook;
-            }elseif($item["grade"]==200){
-                $data[$item["city"]]["textbook"][$item["subject"]]["middle"] = $textbook;
-            }elseif($item["grade"]==300){
-                $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
-            }
         }
         $arr=[];
         foreach($data as $v){
