@@ -13,8 +13,8 @@ class t_location_subject_grade_textbook_info extends \App\Models\Zgen\z_t_locati
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_all_list(){
-        $sql = $this->gen_sql_new("select * from %s",self::DB_TABLE_NAME);
+    public function get_all_list($province){
+        $sql = $this->gen_sql_new("select * from %s where province ='%s'",self::DB_TABLE_NAME,$province);
         return $this->main_get_list($sql);
 
     }
