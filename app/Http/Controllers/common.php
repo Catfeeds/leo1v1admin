@@ -790,13 +790,12 @@ class common extends Controller
             list($qr_width, $qr_height)=getimagesize($qr_url);
             //缩放比例
             $per=round(157/$width,3);
-
             $n_w=$qr_width*$per;
-            $n_h=$height*$per;
+            $n_h=$qr_height*$per;
             $new=imagecreatetruecolor($n_w, $n_h);
             $img=imagecreatefromjpeg($filename);
             //copy部分图像并调整
-            imagecopyresized($new, $img,0, 0,0, 0,$n_w, $n_h, $qr_width, $height);
+            imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
             //图像输出新图片、另存为
             imagejpeg($new, "a.jpg");
             imagedestroy($new);
