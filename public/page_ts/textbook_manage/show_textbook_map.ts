@@ -1,8 +1,7 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/textbook_manage-show_textbook_map.d.ts" />
 
-$(function(){
-
+ $(function(){
     
     var myChart = echarts.init(document.getElementById('container_new'));
     // 显示省份
@@ -106,6 +105,13 @@ $(function(){
         option = null;
         //          自定义版本信息，可添加自定义字段，例如： educational:'六三制'
         
+        
+        $.do_ajax("/textbook_manage/get_city_textbook_info",{
+            
+        },function(response){
+            
+        });
+
         var $imgs = [
             {area:'渭南市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},
             {area: '西安市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},

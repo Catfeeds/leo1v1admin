@@ -30,13 +30,44 @@ class textbook_manage extends Controller
     }
 
     public function show_textbook_map(){
-        $url  =  "http://bbs.lampbrother.net" ; 
-        echo " <   script   language = 'javascript' 
-type = 'text/javascript' > "; 
-        echo " window.location.href = '$url' "; 
-        echo " <  /script > ";  
       return $this->pageView(__METHOD__,null);
     }
+
+    public function get_city_textbook_info(){
+        $list = $this->t_location_subject_grade_textbook_info->get_all_list();
+        $data=[];
+        foreach($list as $item){
+            $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $data[$item["city"]]["area"] =$item["city"]; 
+            $subject_str    = E\Esubject::get_desc($item["subject"]);
+
+            $arr_text= explode(",",$item["teacher_textbook"]);
+            $textbook="";
+            foreach($arr_text as $vall){
+                @$textbook .=  E\Eregion_version::get_desc ($vall).",";
+            }
+            $textbook = trim($textbook,",");
+
+            $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
+            if($item["grade"]==100){
+                $data[$item["city"]]["textbook"][$item["subject"]]["primary"] = $textbook;
+            }elseif($item["grade"]==200){
+                $data[$item["city"]]["textbook"][$item["subject"]]["middle"] = $textbook;
+            }elseif($item["grade"]==300){
+                $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
+            }
+        }
+        $arr=[];
+        foreach($data as $v){
+            $arr[] = $v;
+        }
+        return $this->output_succ([
+            "data"=>$arr
+        ]);
+
+        //dd($data);
+    }
+
 
    
 
