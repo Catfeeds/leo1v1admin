@@ -1966,7 +1966,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994,986,1043])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
