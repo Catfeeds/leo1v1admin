@@ -49,7 +49,8 @@ class wx_teacher_web extends Controller
             $wx        = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
 
             $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
-            $wx->goto_wx_login( $redirect_url );
+            // $wx->goto_wx_login( $redirect_url );
+            $wx->get_wx_login_url_for_openid($redirect_url);
         }
     }
 

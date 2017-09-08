@@ -87,6 +87,7 @@ $(function(){
             // }
             // console.log("loopnum:"+(loopnum-1));
             // console.log("month_info:"+month_info[loopnum-1]);
+            console.log(month_info);
             $('#id_year').text( month_info[curnum].date );
 
             var line = new Morris.Line({
