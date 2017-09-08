@@ -49,10 +49,6 @@
              display:inline-block;
              padding:0 15px;
          }
-         .nav a:hover{
-             border-bottom:3px solid #0bceff;
-             color:#0bceff;
-         }
          .r-link{
              padding-left:10px;
          }
@@ -69,8 +65,11 @@
              margin:20px 0;
              height:370px;
          }
+         .navs .selected{
+             border-bottom:3px solid #0bceff;
+             color:#0bceff;
+         }
          .login{
-             /* width:80%; */
              border:1px solid #ccc;
              border-radius:5px;
              padding:0 20px;
@@ -102,18 +101,14 @@
              color:#fff;
          }
          .footer{
-             position:absolute;
-             bottom:0px;
              background-color:#eee;
-             margin:0 0;
+             margin:100px 0 0 0;
              width:100%;
              height:auto;
          }
          .footer-btm{
              background:#ccc;
              padding-top:100px;
-             position:absolute;
-             bottom:0px;
              width:100%;
              text-align:center;
              color:#999;
@@ -129,11 +124,55 @@
          html {
              height: 100%;
          }
-
-         body {
+         body{
              height: 100%;
              position: relative;
          }
+         .download{
+             margin-top:100px;
+             padding:0 20px;
+         }
+         .download>div{
+             text-align:center
+         }
+         .download span{
+             cursor:pointer;
+             width:150px;
+             height:40px;
+             margin-left:10px;
+             display:inline-block;
+             border:1px solid #999;
+             font-size:18px;
+             border-radius:40px;
+             line-height:40px;
+             text-align:center;
+             color:#999;
+         }
+         .down-mid{
+             margin-top:50px;
+             text-align:center;
+         }
+         .down-tab{
+             margin-top:20px;
+             text-align:center;
+         }
+         .down-tab table{
+             width:70%;
+             margin:0 auto;
+         }
+         .down-btm{
+             margin:20px auto;
+             width:50%;
+         }
+         .table>tbody>tr>td{
+             border:none;
+         }
+         .download>div>.choised{
+             background-color:#0bceff;
+             border:none;
+             color:#fff;
+         }
+
         </style>
     </head>
     <body>
@@ -145,10 +184,10 @@
                     <img src="/img/leo2.png">
                 </a>
             </div>
-            <div class="col-md-4 col-xs-4 nav">
-                <a href="" class="logo">登录</a>
-                <a href="" class="logo">下载</a>
-                <a href="" class="logo">帮助中心</a>
+            <div class="col-md-4 col-xs-4 nav navs">
+                <a href="javascript:;" class="logo selected" data-id="#login">登录</a>
+                <a href="javascript:;" class="logo" data-id="#download">下载</a>
+                <!-- <a href="javascript:;" class="logo" data-id="#help">帮助中心</a> -->
             </div>
             {{-- <div class="col-md-3 col-xs-3">
                                                                       <a href="" class="logo  color-blue">收藏</a>
@@ -158,7 +197,7 @@
         <!-- head-end -->
 
         <!-- login-start -->
-        <div class="row mid-con">
+        <div class="row mid-con" id="login">
             <div class="col-md-3 col-md-offset-7 col-xs-8 col-xs-offset-2">
                 <div class="login">
                     <div class="login-top">
@@ -209,6 +248,64 @@
         </div>
         <!-- login-end -->
 
+        <!-- download-start -->
+        <div class="row mid-con hide" id="download">
+            <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+                <div class="download">
+                    <div class="">
+                        <span data-type=".pc" class="choised">PC电脑</span>
+                        <span data-type=".ipad">iPad</span>
+                        <span data-type=".pdf">PDF</span>
+                    </div>
+                    <div class="down-mid">
+                        <h3 class="pc">PC电脑客户端下载</h3>
+                        <h3 class="ipad hide">iPad客户端下载</h3>
+                        <h3 class="pdf hide">PDF编辑器</h3>
+                    </div>
+                    <div class="down-tab">
+                        <table class="table pc">
+                            <tr>
+                                <td>软件系统:</td>
+                                <td>Windows7/8/10及以上、MacOS 10.9及以上</td>
+                            </tr>
+                            <tr>
+                                <td>当前版本:</td>
+                                <td>4.1.0</td>
+                            </tr>
+                        </table>
+                        <table class="table ipad hide">
+                            <tr>
+                                <td>硬件要求:</td>
+                                <td>建议iPad2或以上更高版本</td>
+                            </tr>
+                            <tr>
+                                <td>当前版本:</td>
+                                <td>5.1.0</td>
+                            </tr>
+                            <tr>
+                                <td>下载方法:</td>
+                                <td>扫一扫二维码下载</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <img src="/img/leotea.png" width="100">
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                    <div class="down-btm">
+                        <button type="submit" class="btn btn-block btn-blue-ly pc">立即下载</button>
+                        <button type="submit" class="btn btn-block btn-blue-ly pdf hide">立即下载</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- download-end -->
+
+
         <!-- footer-start -->
         <div class="row footer">
             <div class="footer-btm">
@@ -218,38 +315,6 @@
             </div>
         </div>
         <!-- footer-end -->
-        {{-- <body class="bg-blue">
-             <div class="form-box" id="login-box">
-             <div class="header">老师管理系统</div>
-             <form >
-             <div class="body bg-gray">
-             <div class="form-group">
-             <input type="text" id="id_account" class="form-control" placeholder="请输入注册时使用的手机号码"/>
-             </div>
-             <div class="form-group">
-             <input type="password" id="id_password"  class="form-control" placeholder="请输入密码"/>
-             </div>
-             <div class="row" id="id_verify"   >
-             <div class="col-xs-5" style=" padding-right: 5px;">
-             <input type="text" id="id_seccode"  class="form-control" placeholder="验证码"/>
-             </div>
-        <div class="col-xs-7" style="padding-left: 0px; padding-right: 0px;">
-            <!-- <li class=" fa fa-times  " style="font-size:34px;color:red; "> </li> -->
-            <!-- <li class=" fa fa-check    " style="font-size:34px;color:green; "> </li> -->
-            <a class="btn btn-success" style="border-radius:16px; cursor: default;  display:none; " >
-                <i class="fa fa-check"></i>
-            </a>
-            <img id="verify_image" src=""  style="vertical-align:top;"/>
-        </div><!-- /.col -->
-        </div>
-        <div class="form-group">
-            <span id="id_errmsg"></span>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block btn-flat" id="id_user_login">登录</button>
-        </div>
-            </form>
-        </div>
-        --}}
         <!-- jQuery 2.0.2 -->
         <script src="/js/jquery-2.1.4.js" type="text/javascript"></script>
         <script ype="text/javascript" src="/js/jquery.md5.js"></script>

@@ -430,4 +430,21 @@ class test_boby extends Controller
         return $s;
 
     }
+
+    public function get_tea_lesson_some_info(){//p5
+        $teacherid = '404';
+        // $teacherid = $this->get_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            $item = intval($item);
+        }
+        return $this->output_succ(["list"=>$ret_info]);
+    }
+
+
 }

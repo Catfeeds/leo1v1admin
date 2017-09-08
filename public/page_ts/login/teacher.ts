@@ -59,6 +59,7 @@ $(function(){
         return false;
     } );
 
+
 });
 
 
@@ -84,3 +85,25 @@ function check_seccode() {
     }
     return true;
 }
+
+$('.navs a').mouseenter(function() {
+    $(this).addClass('selected');
+    $(this).siblings().removeClass('selected');
+    var show_id = $(this).attr('data-id');
+    $(show_id).removeClass('hide');
+    $(this).siblings().each(function(){
+        var hide_id = $(this).attr('data-id');
+        $(hide_id).addClass('hide');
+    });
+});
+
+$('.download span').mouseenter(function() {
+    $(this).addClass('choised');
+    $(this).siblings().removeClass('choised');
+    var show_class = $(this).attr('data-type');
+    $(show_class).removeClass('hide');
+    $(this).siblings().each(function(){
+        var hide_class = $(this).attr('data-type');
+        $(hide_class).addClass('hide');
+    });
+});
