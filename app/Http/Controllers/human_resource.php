@@ -2014,7 +2014,7 @@ class human_resource extends Controller
             }elseif($full_status==="0"){
                 $item['full_status_str']="不通过";
             }elseif($item["full_status"]=="3"){
-                $item['status_str'] ="待定";
+                $item['full_status_str'] ="待定";
             }else{
                 $item['full_status_str']="未审核";
             }
