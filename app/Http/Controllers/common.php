@@ -784,7 +784,7 @@ class common extends Controller
 
                 list($qr_width, $qr_height)=getimagesize($qr_url);
                 //缩放比例
-                $per=round(157/$width,3);
+                $per=round(157/$qr_width,3);
                 $n_w=$qr_width*$per;
                 $n_h=$qr_height*$per;
                 $new=imagecreatetruecolor($n_w, $n_h);
