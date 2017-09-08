@@ -118,7 +118,7 @@ $(function(){
                     multi_selection : true,
                     select_list     : select_list,
                     onChange        : function( select_list,dlg) {
-                        id_teacher_textbook.val(JSON.stringify(select_list));
+                        id_teacher_textbook.val(select_list);
                         dlg.close();
                     }
                 });

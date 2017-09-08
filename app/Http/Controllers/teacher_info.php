@@ -1948,6 +1948,7 @@ class teacher_info extends Controller
             $month_key = date("Y-m",$r_val['add_time']);
             $add_time  = date("Y-m-d H:i",$r_val['add_time']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["reward_money"],0,0);
 
             $reward_money = $r_val['money']/100;
             $reward_arr = [
@@ -1974,7 +1975,8 @@ class teacher_info extends Controller
             }
             $list[$month_key]['list'][$list_reward_key]["key_str"]  = $list_reward_key_str;
             $list[$month_key]['list'][$list_reward_key][]  = $reward_arr;
-            $list[$month_key]["all_money"] += $reward_money;
+            $list[$month_key]["all_money"]    += $reward_money;
+            $list[$month_key]["reward_money"] += $reward_money;
         }
 
         $money_list = [];

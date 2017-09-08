@@ -21,19 +21,31 @@ $(function(){
         $('#line-chart').empty();
         var show_info = [];
         var num       = 0;
-        var check_num = 6;
+        var loop_num  = 0;
+        var check_num = 5;
+        var left_free = 0;
+        var right_free = 0;
+        var half_num = check_num/2;
         if(check_num>max_num){
             check_num = max_num;
-        }else{
-            var left_free  = cur_num-check_num/2;
-            var right_free = max_num-cur_num-check_num/2;
-        }
-         var loop_num   = cur_num-check_num;
-
-        if(loop_num<0){
             loop_num = 0;
+        }else{
+            //如果
+            left_free  = cur_num-half_num;
+            right_free = max_num-cur_num-half_num;
+            if(left_free>0 ){
+                if(right_free<=0){
+                    loop_num = max_num-check_num;
+                }else if(right_free>0){
+                    loop_num = left_free;
+                }
+            }else if(left_free<=0){
+                loop_num = 0;
+            }
         }
-        while (num <= check_num)
+        loop_num=Math.ceil(loop_num);
+        console.log(month_info);
+        while (num < check_num)
         {
             if(loop_num>= 0) {
                 if( month_info[loop_num] !== undefined ) {
