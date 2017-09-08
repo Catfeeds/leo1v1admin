@@ -25,19 +25,19 @@ $(function(){
         var show_info = [];
 
         var num       = 0;
-        var loopnum   = 0;
+        var loopnum   = max_num+1;
         var check_num = 6;
         if(check_num>max_num){
             check_num = max_num;
         }
         while (num < check_num)
         {
-            if(loopnum < max_num && loopnum >= 0) {
+            if(loopnum >= 0) {
                 if( month_info[loopnum] !== undefined ) {
                     show_info[show_info.length] = month_info[loopnum];
                 }
             }
-            loopnum++;
+            loopnum--;
             num++;
         }
 
