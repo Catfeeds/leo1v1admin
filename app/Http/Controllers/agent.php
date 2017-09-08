@@ -1479,18 +1479,17 @@ class agent extends Controller
      */
     public function index(){
         $headimgurl = 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLAEbfWjOqjPWTPiaSg6wBVuE1D986YvpLF9CNuVUz0ce0rmP0eQNz345KeSK0RWsG5B3ibv3oIXZLOQ/0';
-        $datapath ="/tmp/154_headimg.jpeg";
-        $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+        $datapath = "/tmp/1545_headimg.jpeg";
+        $wgetshell = 'wget -O '.$datapath.' "'.$headimgurl.'" ';
         shell_exec($wgetshell);
-        $imgg = $this->yuan_img($datapath);
-        $datapath_new ="/tmp/154_headimg_new.jpeg";
         //头像
-        $headimgurl = $datapath_new;
+        $headimgurl = $datapath;
         //背景图
         $bgurl = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg';
         $imgs['dst'] = $bgurl;
         //第一步 压缩图片
         $imggzip = $this->resize_img($headimgurl);
+        dd($imggzip);
         //第二步 裁减成圆角图片
         $imgs['src'] = $this->test($imggzip);
         //第三步 合并图片
