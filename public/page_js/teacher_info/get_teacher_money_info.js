@@ -54,11 +54,13 @@ $(function(){
     var show_teacher_money = function(money_list,html){
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            html_list +="<tr>";
+            html_list +="<tr><td></td>";
             $.each(value,function(k,v){
 
             });
             html_list +="</tr>";
+
+
         });
         $('#id_teacher_money_list').html(html_list);
 

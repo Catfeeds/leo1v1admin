@@ -788,7 +788,7 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             if($activity_flag){
-                imagecopymerge($image_3,$image_2, 534,1040,0,0,imagesx($image_2),imagesy($image_2), 100);
+                imagecopymerge($image_3,$image_2, 532,1038,0,0,157,157, 100);
             }else{
                 imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
             }
@@ -828,7 +828,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_hl.png";
+        $phone_qr_name = $phone."_qr_agent_hx.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -849,29 +849,20 @@ class common extends Controller
                 $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
                 shell_exec($wgetshell);
 
-                // $imgg = $this->yuan_img($datapath);
-                // $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-                // imagejpeg($imgg,$datapath_new);
-                // $image_4 = imagecreatefromjpeg($datapath_new);
-
-                //第一步 压缩图片
-                $imggzip = $this->resize_img($datapath);
-                //第二步 裁减成圆角图片
-                $imgs = $this->test($imggzip);
-                \App\Helper\Utils::logger('yxyx_imgs:'.$imgs);
-                $image_4 = imagecreatefrompng($imgs);
+                $imgg = $this->yuan_img($datapath);
+                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+                imagejpeg($imgg,$datapath_new);
+                $image_4 = imagecreatefromjpeg($datapath_new);
             }
-            // $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
-            // $color = imagecolorallocate($image_5, 255, 255, 255);
-            // imagefill($image_5, 0, 0, $color);
-            // imageColorTransparent($image_5, $color);
+            $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
+            $color = imagecolorallocate($image_5, 255, 255, 255);
+            imagefill($image_5, 0, 0, $color);
+            imageColorTransparent($image_5, $color);
 
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            // imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
+            imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
-            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
-            imagecopy($image_3,$image_4,0,0,0,0,190,190);
-
+            imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -942,52 +933,6 @@ class common extends Controller
 
         $file_url = $qiniu_url."/".$file_name;
         return $file_url;
-    }
-
-    public function resize_img($url,$path='/tmp/'){
-        $imgname = $path.uniqid().'.jpg';
-        $file = $url;
-        list($width, $height) = getimagesize($file); //获取原图尺寸
-        $percent = (110/$width);
-        //缩放尺寸
-        $newwidth = 190;
-        $newheight = 190;
-        $src_im = imagecreatefromjpeg($file);
-        $dst_im = imagecreatetruecolor($newwidth, $newheight);
-        imagecopyresized($dst_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-        imagejpeg($dst_im, $imgname); //输出压缩后的图片
-        imagedestroy($dst_im);
-        imagedestroy($src_im);
-        return $imgname;
-    }
-
-    //第一步生成圆角图片
-    public function test($url,$path='/tmp/'){
-        $w = 190;  $h=190; // original size
-        $original_path= $url;
-        $dest_path = $path.uniqid().'.png';
-        $src = imagecreatefromjpeg($original_path);
-        $newpic = imagecreatetruecolor($w,$h);
-        imagealphablending($newpic,false);
-        $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
-        $r=$w/2;
-        for($x=0;$x<$w;$x++)
-            for($y=0;$y<$h;$y++){
-                $c = imagecolorat($src,$x,$y);
-                $_x = $x - $w/2;
-                $_y = $y - $h/2;
-                if((($_x*$_x) + ($_y*$_y)) < ($r*$r)){
-                    imagesetpixel($newpic,$x,$y,$c);
-                }else{
-                    imagesetpixel($newpic,$x,$y,$transparent);
-                }
-            }
-        imagesavealpha($newpic, true);
-        imagepng($newpic, $dest_path);
-        imagedestroy($newpic);
-        imagedestroy($src);
-        unlink($url);
-        return $dest_path;
     }
 
     function yuan_img($imgpath = './tx.jpg') {
@@ -1801,4 +1746,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //dd($data);
     }
 
+=======
+>>>>>>> cc06aadbf484b3f0a7f7d1ef666acd4e2afd8880
 }
