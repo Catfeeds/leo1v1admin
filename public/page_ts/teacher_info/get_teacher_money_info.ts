@@ -48,6 +48,14 @@ $(function(){
         $('#id_trial_lesson_total').text(month_info[curnum].trial_lesson_total+"课时");
         $('#id_all_money').text(month_info[curnum].all_money+"元");
 
+        $(".date-tbody").each(function(){
+
+            var date = $(this).data("date");
+            if(date==month_info[curnum].date){
+                
+            }
+        });
+
         var line = new Morris.Line({
             element    : 'line-chart',
             resize     : true,

@@ -41,7 +41,7 @@ class textbook_manage extends Controller
             $data[$item["city"]]["area"] =$item["city"]; 
             $data[$item["city"]]["province"] =$item["province"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
-            $grade_str    = E\Esubject::get_desc($item["grade"]);
+            $grade_str    = E\Egrade::get_desc($item["grade"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
             $textbook="";
@@ -49,6 +49,8 @@ class textbook_manage extends Controller
                 @$textbook .=  E\Eregion_version::get_desc ($vall).",";
             }
             $textbook = trim($textbook,",");
+            $str = $this->get_textbook_str($item["subject"],$item["grade"]);
+            $data[$item["city"]][$str] =$grade_str."".$subject_str.":".$textbook;
             
 
         }
