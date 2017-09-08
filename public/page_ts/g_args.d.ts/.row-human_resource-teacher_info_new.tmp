@@ -143,6 +143,17 @@
 	teacher_money_type_simulate	:any;
 	level_simulate	:any;
 	test_quit	:any;
+	two_week_test_lesson_num	:any;
+	month_stu_num	:any;
+	zs_id	:any;
+	textbook_check_flag	:any;
+	need_check_textbook	:any;
+	seniority	:any;
+	prove	:any;
+	education	:any;
+	major	:any;
+	hobby	:any;
+	speciality	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;

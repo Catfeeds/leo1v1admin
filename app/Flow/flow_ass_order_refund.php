@@ -10,6 +10,7 @@ class flow_ass_order_refund  extends flow_base{
         0=>[ 1 , "退费申请"  ],
         1=>[ 2,"主管审批"  ],
         2=>[ 3,"[部]主审批" ],
+        4=>[ -1,"xixi审核" ], //原来的
         3=>[ [6,5] ,"财务复核" ],
         5=>[ 6 ," michael复核 " ],
         6 =>[-1, " xixi复核 "  ],
@@ -118,6 +119,7 @@ class flow_ass_order_refund  extends flow_base{
 
 
     static function next_node_process_5 ($flowid, $adminid){ //
+        $flag=\App\Helper\Utils::check_env_is_release() ;
         return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
     }
 

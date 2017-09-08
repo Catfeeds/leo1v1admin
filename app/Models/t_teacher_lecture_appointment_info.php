@@ -1004,6 +1004,158 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
+    public function get_fulltime_teacher_count($start_time,$end_time){
+        $where_arr = [
+            ["answer_begin_time>%u",$start_time,-1],
+            ["answer_begin_time<%u",$end_time,-1],
+            "full_time=1",
+            "id>15246"
+        ];
+        $sql = $this->gen_sql_new("select count(phone) as apply_num "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_total(){
+        $where_arr = [
+            "full_time=1",
+            "id>15246"
+        ];
+        $sql = $this->gen_sql_new("select count(phone) as apply_total "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_arrive($start_time,$end_time){
+        $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            "t.phone>0",
+            ["t.real_begin_time>%u",$start_time,-1],
+            ["t.real_begin_time<%u",$end_time,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as arrive_count"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_arrive_video($start_time,$end_time){
+        $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            "s.lesson_type=1100",
+            " s.lesson_del_flag = 0",
+            "s.confirm_flag < 2 ",
+            "s.train_type = 5",
+            " t.is_test_user  = 0",
+            ["s.lesson_start>%u",$start_time,-1],
+            ["s.lesson_start<%u",$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as video_num"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." left join %s s on s.userid = t.teacherid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_arrive_through($start_time,$end_time){
+        $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            "t.phone>0",
+            ["t.confirm_time >%u",$start_time,-1],
+            ["t.confirm_time <%u",$end_time,-1],
+            "t.status=1",
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as arrive_through_count"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 
+    public function get_fulltime_teacher_arrive_video_through($start_time,$end_time){
+        $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            "s.lesson_type=1100",
+            " s.lesson_del_flag = 0",
+            "s.confirm_flag < 2 ",
+            "s.train_type = 5",
+            " t.is_test_user  = 0",
+            "k.type=10",//第一次面试
+            "k.trial_train_status =1",
+            ["s.lesson_start>%u",$start_time,-1],
+            ["s.lesson_start<%u",$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as video_through_num"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." left join %s s on s.userid = t.teacherid"
+                                  ." left join %s k on k.train_lessonid = s.lessonid  "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 
+    public function get_fulltime_teacher_arrive_second_through($start_time,$end_time)
+    {
+       $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            " t.is_test_user  = 0",
+            "s.type=12",//第2次面试
+            "s.trial_train_status =1",
+            ["s.add_time>%u",$start_time,-1],
+            ["s.add_time<%u",$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as through_num"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." left join %s s on s.teacherid  = t.teacherid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_enter($start_time,$end_time)
+    {
+       $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            " t.is_test_user  = 0",
+            "t.train_through_new =1",
+            ["t.train_through_new_time >%u",$start_time,-1],
+            ["t.train_through_new_time <%u",$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as num"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 }

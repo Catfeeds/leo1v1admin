@@ -1933,7 +1933,7 @@ class teacher_info extends Controller
             $lesson_arr = [
                 "name"       => $val['stu_nick'],
                 "time"       => $lesson_time,
-                "state_info" => $val['lesson_cost_info'],
+                "status_info" => $val['lesson_cost_info'],
                 "cost"       => $val['lesson_cost'],
                 "money"      => $lesson_money,
             ];
@@ -1953,7 +1953,7 @@ class teacher_info extends Controller
             $reward_arr = [
                 "name"       => E\Ereward_type::get_desc($r_val['type']),
                 "time"       => $add_time,
-                "state_info" => "",
+                "status_info" => "",
                 "cost"       => "",
                 "money"      => $r_val['money']/100,
             ];
@@ -1974,14 +1974,14 @@ class teacher_info extends Controller
             }
             $list[$month_key]['list'][$list_reward_key]["key_str"]  = $list_reward_key_str;
             $list[$month_key]['list'][$list_reward_key][]  = $reward_arr;
-            $list[$month_key]["all_money"]        += $reward_money;
+            $list[$month_key]["all_money"] += $reward_money;
         }
 
         $money_list = [];
         foreach($list as $m_val){
             $money_list[] = $m_val;
         }
-
+        // dd($money_list);
         return $this->pageView(__METHOD__,[],[
             "money_list"        => $money_list,
             "teacher_level_str" => $teacher_level_str

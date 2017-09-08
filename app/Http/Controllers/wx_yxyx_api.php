@@ -88,8 +88,8 @@ class wx_yxyx_api extends Controller
     }
     public function get_l1_invite_money_list() {
         $agent_id= $this->get_agent_id();
-        $agent_status_money_open_flag = $this-> get_in_int_val("agent_status_money_open_flag");
-        $test_lesson_succ_flag        = $this-> get_in_int_val("test_lesson_succ_flag");
+        $agent_status_money_open_flag = $this-> get_in_int_val("agent_status_money_open_flag",-1);
+        $test_lesson_succ_flag        = $this-> get_in_int_val("test_lesson_succ_flag",-1);
         $list=$this->t_agent-> get_invite_money_list($agent_id, $test_lesson_succ_flag , $agent_status_money_open_flag );
         foreach ($list  as &$item) {
             E\Eagent_status::set_item_value_str($item);

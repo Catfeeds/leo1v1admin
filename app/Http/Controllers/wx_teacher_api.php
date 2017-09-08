@@ -142,11 +142,7 @@ class wx_teacher_api extends Controller
             }
         }
 
-
-
         $sever_name = $_SERVER['SERVER_NAME'];
-
-        \App\Helper\Utils::logger("wx_tousu: ".$teacherid);
 
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
@@ -173,7 +169,7 @@ class wx_teacher_api extends Controller
 
         if ($ret_info_qc) {
             // 通知QC处理
-            $log_time_date = date('Y-m-d H:i:s',time(NULL));
+            $log_time_date = date('Y-m-d H:i:s',time());
             $opt_nick= $this->cache_get_teacher_nick($teacherid);
 
             /**
@@ -414,6 +410,9 @@ class wx_teacher_api extends Controller
             $level = $ret_info['level'] + 2;
         } else {
             $level = $ret_info['level'] + 1;
+        }
+        if($level > 5){
+            $level = 5;
         }
         $list['level'] = $level;
         $list['tea_title'] = $tea_title[$level];

@@ -808,6 +808,7 @@ class menu{
                 ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info_jy"],
                 ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info_jy"],
                 ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
+                ["power_id"=>43, "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
 
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
@@ -851,6 +852,8 @@ class menu{
                 ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
+                ["power_id"=>18, "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
+
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[

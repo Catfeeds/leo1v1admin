@@ -1050,12 +1050,14 @@ class human_resource extends Controller
         $page_num     = $this->get_in_page_num();
         $ret_info     = $this->t_assistant_info->get_ass_info_new($is_part_time,$assistantid , $rate_score, $page_num);
         foreach($ret_info['list'] as &$item){
-            $birth_year = substr((string)$item['birth'], 0, 4);
-            $age        = (int)date('Y', time()) - (int)$birth_year;
+            E\Egender::set_item_value_str($item);
+            $birth_year           = substr((string)$item['birth'], 0, 4);
+            $age                  = (int)date('Y', time()) - (int)$birth_year;
             $item['ass_nick']     = $item['nick'];
             $item['is_part_time'] = E\Eassistant_type::get_desc($item['assistant_type']);
-            E\Egender::set_item_value_str($item);
-            $item['age']          = $age;
+            // $item['age'] = $age;
+            $item['age']    = $item['birth']?$age:'';
+            $item['school'] = $item['school']?$item['school']:'';
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -1286,13 +1288,15 @@ class human_resource extends Controller
     {
         $assistantid = $this->get_in_int_val('assistantid',-1);
         $nick        = $this->get_in_str_val('name');
-        $birth       = $this->get_in_int_val('birth');
+        // $birth       = $this->get_in_int_val('birth');
+        $birth       = str_replace('-','',$this->get_in_str_val('birth'));
         $gender      = $this->get_in_int_val('sex');
         $work_year   = $this->get_in_int_val('years');
         $school      = $this->get_in_str_val('school');
         $phone       = $this->get_in_str_val('phone');
         $email       = $this->get_in_str_val('email');
         $assistant_type= $this->get_in_int_val('job');
+        $assistant_type = $assistant_type<0?0:$assistant_type;
 
         $ret_info = $this->t_assistant_info->update_assistant_info3($assistantid,$nick,$birth,$gender,$work_year,$school,$phone,$email,$assistant_type);
 
@@ -1690,11 +1694,6 @@ class human_resource extends Controller
             }
         }
 
-        if($full_time==1 && $status==1){
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-        }
 
         $this->t_teacher_lecture_info->field_update_list($id,[
             "status"                             => $status,
@@ -1724,6 +1723,13 @@ class human_resource extends Controller
         if($status==1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
+            $nick = $appointment_info['name'];
+            if($full_time==1){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            }
+
             if(!empty($teacher_info)){
                 $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1737,7 +1743,7 @@ class human_resource extends Controller
                 $add_info    = [
                     "phone"                 => $lecture_info['phone'],
                     "identity"              => $identity,
-                    "tea_nick"              => $appointment_info['name'],
+                    "tea_nick"              => $nick,
                     "subject"               => $subject,
                     "grade"                 => $grade,
                     "grade_start"           => $grade_range['grade_start'],
@@ -1996,8 +2002,6 @@ class human_resource extends Controller
 
             if($item['status']=="-2" && empty($item["lesson_start"])){
                 $item['status_str'] = "无试讲";
-            }elseif($item["trial_train_status"]==3){
-                $item['status_str'] ="待定";
             }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["lesson_start"]>0) || empty($item["lesson_start"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["lesson_start"]>0))){
                 $item['status_str'] = "未审核";
             }elseif($item['status']==1 || $item["trial_train_status"]==1){
@@ -2015,6 +2019,8 @@ class human_resource extends Controller
                 $item['full_status_str']="通过";
             }elseif($full_status==="0"){
                 $item['full_status_str']="不通过";
+            }elseif($item["full_status"]=="3"){
+                $item['full_status_str'] ="待定";
             }else{
                 $item['full_status_str']="未审核";
             }
@@ -2067,7 +2073,6 @@ class human_resource extends Controller
         $next_day = strtotime(date("Y-m-d",time()+86400));
         $this->set_in_value("next_day",$next_day);
         $next_day = $this->get_in_int_val("next_day");
-
         return $this->pageView(__METHOD__,$ret_info,[
             "account_id"     => $account_id,
             "show_full_time" => $show_full_time

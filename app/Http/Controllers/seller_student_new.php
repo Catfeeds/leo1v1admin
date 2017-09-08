@@ -1254,7 +1254,7 @@ class seller_student_new extends Controller
         $global_tq_called_flag = $this->get_in_el_tq_called_flag("-1", "global_tq_called_flag");
         $grade    = $this->get_in_el_grade();
         $subject = $this->get_in_el_subject();
-        list($start_time,$end_time) = $this->get_in_date_range(-30,1);
+        list($start_time,$end_time) = $this->get_in_date_range(-7,1);
 
         /*
         $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
