@@ -474,13 +474,22 @@ class fulltime_teacher extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $apply_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time); //成功注册人数
         $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total(); //总注册人数
-        $arrive_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//
-        $video_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);
+        $arrive_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//面试人数
+        $video_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);//视频试讲人数
+        $arrive_through_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
+        $video_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
 
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
         $ret_info['apply_total'] = $apply_total[0]['apply_total'];
-        $ret_info['arrive_num'] = $arrive_num[0]['arrive_num'] + $video_num[0]['video_num'];
-        
+        $ret_info['arrive_num'] = $arrive_num[0]['arrive_count'] + $video_num[0]['video_num'];
+        $ret_info['arrive_through'] = $arrive_through_num[0]['arrive_through_count'] + $video_through_num[0]['video_through_num'];
+        if($ret_info['apply_total']){
+            $ret_info['arrive_num_per'] = round(100*$ret_info['arrive_num']/$ret_info['apply_total'],2);
+            $ret_info['arrive_through_per'] = round(100*$ret_info['arrive_through']/$ret_info['apply_total'],2);
+        }else{
+            $ret_info['arrive_num_per'] = 0;
+            $ret_info['arrive_through_per'] = 0;
+        }
     	return $this->pageView(__METHOD__,null,[
     		'ret_info'  =>   @$ret_info,
     	]);
