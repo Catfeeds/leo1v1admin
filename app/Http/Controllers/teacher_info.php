@@ -1913,16 +1913,18 @@ class teacher_info extends Controller
             if($val['lesson_type'] != 2){
                 $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                 $val['lesson_base'] = $val['money']*$lesson_count;
-                $lesson_reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
-                $list_lesson_key = "normal_lesson";
-                $list_lesson_total_key = "normal_lesson_total";
+                $lesson_reward       = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
+                $list_lesson_key     = "normal_lesson";
+                $list_lesson_key_str = "常规课";
+                $lesson_total_key    = "normal_lesson_total";
             }else{
                 $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
                     $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                 );
-                $lesson_reward   = "0";
-                $list_lesson_key = "trial_lesson";
-                $list_lesson_total_key = "trial_lesson_total";
+                $lesson_reward       = "0";
+                $list_lesson_key     = "trial_lesson";
+                $list_lesson_key_str = "试听课";
+                $lesson_total_key    = "trial_lesson_total";
             }
             $lesson_money = $val['lesson_base']+$lesson_reward;
 
@@ -1935,8 +1937,9 @@ class teacher_info extends Controller
                 "cost"       => $val['lesson_cost'],
                 "money"      => $lesson_money,
             ];
-            $list[$month_key][$list_lesson_key][]  = $lesson_arr;
-            $list[$month_key][$list_lesson_total_key]  += $lesson_count;
+            $list[$month_key]['list'][$list_lesson_key]["key_str"] = $list_lesson_key_str;
+            $list[$month_key]['list'][$list_lesson_key][]  = $lesson_arr;
+            $list[$month_key][$lesson_total_key]  += $lesson_count;
             $list[$month_key]["all_money"]        += $lesson_money;
         }
 
@@ -1958,15 +1961,19 @@ class teacher_info extends Controller
             case E\Ereward_type::V_6:
                 $reward_arr["name"]=$this->cache_get_teacher_nick($r_val['money_info']);
                 $list_reward_key = "reference";
+                $list_reward_key_str = "伯乐奖";
                 break;
             case E\Ereward_type::V_1: case E\Ereward_type::V_2: case E\Ereward_type::V_5:
                 $list_reward_key = "reward";
+                $list_reward_key_str = "工资奖励";
                 break;
             default:
                 $list_reward_key = "compensate";
+                $list_reward_key_str = "工资补偿";
                 break;
             }
-            $list[$month_key][$list_reward_key][]  = $reward_arr;
+            $list[$month_key]['list'][$list_reward_key]["key_str"]  = $list_reward_key_str;
+            $list[$month_key]['list'][$list_reward_key][]  = $reward_arr;
             $list[$month_key]["all_money"]        += $reward_money;
         }
 

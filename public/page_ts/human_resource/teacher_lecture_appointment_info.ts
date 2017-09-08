@@ -181,7 +181,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var id_lecture_revisit_type = $("<select/>");   
         var id_return_revisit_note = $("<textarea />");
-        if(g_args.fulltime_flag==0){
+        if(opt_data.full_time==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );

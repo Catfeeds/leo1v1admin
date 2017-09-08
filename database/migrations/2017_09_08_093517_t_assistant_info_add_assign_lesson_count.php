@@ -13,6 +13,11 @@ class TAssistantInfoAddAssignLessonCount extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_assistant_info', function( Blueprint $table)
+        {
+            t_field($table->integer("assign_lesson_count"),"上级可提现金额");
+        });
+
     }
 
     /**
