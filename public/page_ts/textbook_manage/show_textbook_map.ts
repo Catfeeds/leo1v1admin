@@ -10,6 +10,7 @@ $(function(){
 
 
     var myChart = echarts.init(document.getElementById('container_new'));
+    console.log(myChart);
     // 显示省份
     var option = {
         tooltip : {
@@ -85,6 +86,7 @@ $(function(){
         animation: false
     };
     myChart.setOption(option, true); //显示国家地图
+    return;
 
     //var ecConfig = require('echarts/config');
     //myChart.on(ecConfig.EVENT.MAP_SELECTED, function (param){//由于是标签式单文件引入所以这个模块化单文件引入的事件要改变,不能使用require

@@ -754,14 +754,8 @@ class common extends Controller
             return "";
         }
 
-        if($phone=="13661763881"){
-            $test_flag=1;
-        }else{
-            $test_flag=0;
-        }
-
-        $check_time = strtotime("2017-9-1");
-        if(time()<$check_time || $test_flag=1){
+        $check_time = strtotime("2017-9-15");
+        if(time()<$check_time){
             $activity_flag=1;
             $phone_qr_name = $phone."_teacher_day_qr.png";
         }else{
@@ -771,13 +765,13 @@ class common extends Controller
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        if(!$is_exists || $test_flag){
+        if(!$is_exists ){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
 
-            if($activity_flag || $test_flag){
+            if($activity_flag){
                 //教师节背景图
                 $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
@@ -808,7 +802,7 @@ class common extends Controller
             $image_qr  = imagecreatefrompng($qr_url);
             $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            if($activity_flag || $test_flag){
+            if($activity_flag){
                 imagecopymerge($image_ret,$image_qr,532,1038,0,0,157,157,100);
             }else{
                 imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
