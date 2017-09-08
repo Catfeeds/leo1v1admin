@@ -66,7 +66,7 @@
                                         <div class="col-xs-12 text-right">
                                             <br>
                                         </div>
-                                        <div class="inner"">
+                                        <div class="inner">
                                             <p>常规课耗</p>
                                             <h4 id="id_normal_lesson_total"></h4>
                                         </div>
@@ -87,7 +87,6 @@
                                     </div>
                                 </div>
                                 <!-- ./col -->
-                                <!-- 兼职老师显示 -->
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
                                     <div class="small-box bg-lpro color-fff">
@@ -96,8 +95,8 @@
                                             <br>
                                         </div>
                                         <div class="inner">
-                                            <p>常规课课耗奖励</p>
-                                            <h4 id="id_lesson_count_reward"></h4>
+                                            <p>总薪资</p>
+                                            <h4 id="id_all_money"></h4>
                                         </div>
                                     </div>
                                 </div>
