@@ -16,36 +16,7 @@ $(function(){
         $(this).children().toggleClass('fa-minus');
     });
 
-
-    var max_num = month_info.length;
-    if(max_num>0){
-        var curnum = max_num-1;
-        $(".no-money-title").hide();
-        $('#id_prev_year').on('click', function() {
-            curnum--;
-            if(curnum<0){
-                curnum = 0;
-            }
-            month_change();
-        });
-        $('#id_next_year').on('click', function() {
-            curnum++;
-            if(curnum>=max_num){
-                curnum = max_num-1;
-            }
-            month_change();
-        });
-        month_change();
-    }else{
-        $(".has-money").hide();
-    }
     var month_change = function (){
-        if ( curnum == 0  ) {
-            curnum = 0;
-        }else if(curnum>=max_num){
-            curnum = max_num-1;
-        }
-
         //清除线谱
         $('#line-chart').empty();
         var show_info = [];
@@ -55,17 +26,19 @@ $(function(){
             check_num = max_num;
         }
 
-        var loopnum = max_num-check_num;
+        var loopnum = curnum-check_num;
+        if(loopnum<0){
+            loopnum = 0;
+        }
         while (num <= check_num)
         {
-            if(loopnum >= 0) {
+            if(loopnum>= 0) {
                 if( month_info[loopnum] !== undefined ) {
                     show_info[show_info.length] = month_info[loopnum];
                 }
             }
             loopnum++;
             num++;
-            console.log(show_info);
         }
 
         var line = new Morris.Line({
@@ -102,6 +75,29 @@ $(function(){
             var show_key = $(this).data("show_key");
             $("."+show_key).hide();
         });
+    }
+
+    var max_num = month_info.length;
+    if(max_num>0){
+        var curnum = max_num-1;
+        $(".no-money-title").hide();
+        $('#id_prev_year').on('click', function() {
+            curnum--;
+            if(curnum<0){
+                curnum = 0;
+            }
+            month_change();
+        });
+        $('#id_next_year').on('click', function() {
+            curnum++;
+            if(curnum>=max_num){
+                curnum = max_num-1;
+            }
+            month_change();
+        });
+        month_change();
+    }else{
+        $(".has-money").hide();
     }
 
     $(".show_key").on("click",function(){

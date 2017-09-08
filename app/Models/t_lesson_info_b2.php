@@ -82,7 +82,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             "lesson_status >=2 ",
             "lesson_end  <  $now  ",
-            "del_flag = 0"
+            "lesson_del_flag = 0"
         ];
         if (!$always_reset) {
             $where_arr[]=" lesson_user_online_status =0 ";
@@ -344,7 +344,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start>%d",$start_time],
             ["lesson_end<%d",$end_time],
             "lesson_user_online_status <> 1",
-            "del_flag = 0"
+            "lesson_del_flag = 0"
         ];
 
         $sql=$this->gen_sql_new("select lessonid, courseid "
@@ -3483,7 +3483,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_type=2", //试听课
-            "l.del_flag=0",
+            "l.lesson_del_flag=0",
             ["l.lesson_start>%d",$lesson_begin],
             ["l.lesson_start<=%d",$lesson_end]
         ];
@@ -3649,7 +3649,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_type=2", //试听课
-            "l.del_flag=0",
+            "l.lesson_del_flag=0",
             ["l.lesson_start>%d",$now],
             ["l.lesson_start<=%d",$next]
         ];

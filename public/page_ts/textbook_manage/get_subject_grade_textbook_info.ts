@@ -4,9 +4,20 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			grade:	$('#id_grade').val(),
+			subject:	$('#id_subject').val(),
+			address:	$('#id_address').val()
 
         });
     }
+
+    Enum_map.append_option_list("grade", $("#id_grade"),false,[100,200,300] );
+    Enum_map.append_option_list("subject", $("#id_subject") );
+
+    $('#id_grade').val(g_args.grade);
+	$('#id_subject').val(g_args.subject);
+	$('#id_address').val(g_args.address);
+
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({
         browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
@@ -66,6 +77,38 @@ $(function(){
         
     });
 
+    $("#id_add").on("click",function(){
+        var id_province = $("<input />"); 
+        var id_city = $("<input />"); 
+        var id_educational_system = $("<input />"); 
+        var id_grade = $("<select />"); 
+        var id_subject = $("<select />"); 
+        var id_teacher_textbook = $("<input />"); 
+        Enum_map.append_option_list("grade", id_grade,true,[100,200,300] );
+        Enum_map.append_option_list("subject", id_subject,true,[1,2,3,4,5,6,7,8,9,10] );
+
+        var arr=[
+            ["省", id_province],
+            ["市", id_city],
+            ["年级", id_grade],
+            ["科目", id_subject],
+            ["教材", id_teacher_textbook],
+            ["学制", id_educational_system],
+        ];
+        id_teacher_textbook.on("click",function(){
+            
+        });
+        $.show_key_value_table("添加地区教材", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+
+                $.do_ajax( '/ss_deal/update_research_note', {
+                });
+            }
+        });
+
+    });
 
 
 

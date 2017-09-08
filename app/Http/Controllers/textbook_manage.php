@@ -14,7 +14,10 @@ class textbook_manage extends Controller
 
     public function get_subject_grade_textbook_info(){
         $page_info = $this->get_in_page_info();
-        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info($page_info);
+        $grade = $this->get_in_int_val("grade",-1);
+        $subject = $this->get_in_int_val("subject",-1);
+        $address  = trim($this->get_in_str_val('address',''));
+        $ret_info =  $this->t_location_subject_grade_textbook_info->get_all_info($page_info,$grade,$subject,$address);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade::set_item_value_str($item,"grade");
