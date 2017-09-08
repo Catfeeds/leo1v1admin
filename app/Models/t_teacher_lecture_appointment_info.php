@@ -1008,7 +1008,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             ["answer_begin_time>%u",$start_time,-1],
             ["answer_begin_time<%u",$end_time,-1],
-            "full_time=1"
+            "full_time=1",
+            "id>15246"
         ];
         $sql = $this->gen_sql_new("select count(phone) as apply_num "
                                   ." from %s "
@@ -1019,7 +1020,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
     public function get_fulltime_teacher_total(){
         $where_arr = [
-            "full_time=1"
+            "full_time=1",
+            "id>15246"
         ];
         $sql = $this->gen_sql_new("select count(phone) as apply_total "
                                   ." from %s "
