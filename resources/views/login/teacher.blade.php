@@ -28,6 +28,7 @@
              min-width:966px;
              width:100%;
              padding:0 10px;
+             margin:0 0;
              border-bottom:1px solid #ccc;
          }
          .nav{
