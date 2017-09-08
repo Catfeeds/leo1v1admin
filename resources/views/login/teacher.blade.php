@@ -186,7 +186,11 @@
          .middle{
              min-height:400px;
          }
-
+         .band-wx{
+             position:absolute;
+             top:80px;
+             right:100px;
+         }
         </style>
     </head>
     <body>
@@ -210,11 +214,6 @@
         </div>
         <!-- head-end -->
 
-        <!-- 微信老师帮 -->
-        <div class="wx-help">
-
-        </div>
-        <!-- 微信老师帮 -->
         <div class="middle">
             <!-- login-start -->
             <div class="row mid-con" id="login">
@@ -270,17 +269,25 @@
 
             <!-- download-start -->
             <div class="row mid-con hide" id="download">
+                <!-- 微信老师帮 -->
+                <div class="band-wx">
+                    <img src="/img/band-wx.jpg" width="100">
+                </div>
+                <!-- 微信老师帮 -->
+
                 <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
                     <div class="download">
                         <div class="">
                             <span data-type=".pc" class="choised">PC电脑</span>
                             <span data-type=".ipad">iPad</span>
                             <span data-type=".pdf">PDF</span>
+                            <span data-type=".handout">讲义模板</span>
                         </div>
                         <div class="down-mid">
                             <h3 class="pc">PC电脑客户端下载</h3>
                             <h3 class="ipad hide">iPad客户端下载</h3>
                             <h3 class="pdf hide">PDF编辑器</h3>
+                            <h3 class="handout hide">讲义模板</h3>
                         </div>
                         <div class="down-tab">
                             <table class="table pc">
@@ -319,6 +326,7 @@
                         <div class="down-btm">
                             <button type="submit" class="btn btn-block btn-blue-ly pc">立即下载</button>
                             <button type="submit" class="btn btn-block btn-blue-ly pdf hide">立即下载</button>
+                            <button type="submit" class="btn btn-block btn-blue-ly handout hide">立即下载</button>
                         </div>
                     </div>
                 </div>
