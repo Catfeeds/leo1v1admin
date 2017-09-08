@@ -411,6 +411,9 @@ class wx_teacher_api extends Controller
         } else {
             $level = $ret_info['level'] + 1;
         }
+        if($level > 5){
+            $level = 5;
+        }
         $list['level'] = $level;
         $list['tea_title'] = $tea_title[$level];
         $list['tea_des'] = $tea_des[$level];
