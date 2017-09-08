@@ -1875,6 +1875,7 @@ class teacher_info extends Controller
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
+        $teacher_level_str = \App\Helper\Utils::get_teacher_level_str($simple_info);
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
         $list      = [];
@@ -1975,7 +1976,8 @@ class teacher_info extends Controller
         }
 
         return $this->pageView(__METHOD__,[],[
-            "money_list" => $money_list
+            "money_list"        => $money_list,
+            "teacher_level_str" => $teacher_level_str
         ]);
     }
 

@@ -788,7 +788,7 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             if($activity_flag){
-                imagecopymerge($image_3,$image_2, 532,1038,0,0,157,157, 100);
+                imagecopymerge($image_3,$image_2, 534,1040,0,0,imagesx($image_2),imagesy($image_2), 100);
             }else{
                 imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
             }
@@ -1769,6 +1769,31 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ(["data"=>$data]);
 
 
+    }
+
+    public function get_city_textbook_info(){
+        $list = $this->t_location_subject_grade_textbook_info->get_all_list();
+        $data=[];
+        foreach($list as $item){
+            $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $subject_str    = E\Esubject::get_desc($item["subject"]);
+
+            $arr_text= explode(",",$item["teacher_textbook"]);
+            foreach($arr_text as $vall){
+                @$textbook .=  E\Eregion_version::get_desc ($vall).",";
+            }
+            $textbook = trim($textbook,",");
+
+            $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
+            if($item["grade"]==100){
+                $data[$item["city"]]["textbook"][$item["subject"]]["primary"] = $textbook;
+            }elseif($item["grade"]==200){
+                $data[$item["city"]]["textbook"][$item["subject"]]["middle"] = $textbook;
+            }elseif($item["grade"]==300){
+                $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
+            }
+        }
+        dd($data);
     }
 
 }

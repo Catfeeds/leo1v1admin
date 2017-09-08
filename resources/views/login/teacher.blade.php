@@ -102,11 +102,19 @@
              color:#fff;
          }
          .footer{
+             position:absolute;
+             bottom:0px;
              background-color:#eee;
-             height:100%;
+             margin:0 0;
+             width:100%;
+             height:auto;
          }
          .footer-btm{
-             margin-top:150px;
+             background:#ccc;
+             padding-top:100px;
+             position:absolute;
+             bottom:0px;
+             width:100%;
              text-align:center;
              color:#999;
          }
@@ -118,7 +126,14 @@
              display:inline-block;
              width:75%;
          }
+         html {
+             height: 100%;
+         }
 
+         body {
+             height: 100%;
+             position: relative;
+         }
         </style>
     </head>
     <body>

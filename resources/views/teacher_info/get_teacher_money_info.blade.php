@@ -3,12 +3,13 @@
     <script type="text/javascript" >
      var month_info = <?php  echo json_encode($money_list); ?> ;
     </script>
-    <section class="content li-section">
+    <section class="content" id="id_section">
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-info-ly">
                     <div class="box-header with-border">
-                        <div style="text-align:center;" class="color-blue">
+                        <h3 class="box-title color-blue no-money-title">暂无薪资</h3>
+                        <div style="text-align:center;" class="color-blue has-money">
                             <button type="button" class="btn btn-box-tool color-blue left ft24" id="id_prev_year">
                                 <i class="fa fa-angle-left"></i>&nbsp;&nbsp;
                             </button>
@@ -25,7 +26,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="box-body chart-responsive">
+                    <div class="box-body chart-responsive has-money" >
                         <div class="chart" id="line-chart" style="height: 300px;"></div>
                     </div>
                 </div>
@@ -55,7 +56,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>教师等级</p>
-                                            <h4 id="id_teacher_level">高级教师</h4>
+                                            <h4 id="id_teacher_level">{{$teacher_level_str}}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +69,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>常规课耗</p>
-                                            <h4 id="id_normal_lesson_total"></h4>
+                                            <h4 id="id_normal_lesson_total">0课时</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +83,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>试听课耗</p>
-                                            <h4 id="id_trial_lesson_total"></h4>
+                                            <h4 id="id_trial_lesson_total">0课时</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +97,7 @@
                                         </div>
                                         <div class="inner">
                                             <p>总薪资</p>
-                                            <h4 id="id_all_money"></h4>
+                                            <h4 id="id_all_money">0元</h4>
                                         </div>
                                     </div>
                                 </div>

@@ -165,6 +165,7 @@ class NewRouteConfig {
         "/common/send_baidu_money_charge"    => true,
         "/common/get_baidu_money_charge"     => true,
         "/common/send_ccb_order_charge"      => true,
+        "/common/get_city_textbook_info"      => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
