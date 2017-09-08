@@ -28,7 +28,7 @@ $(function(){
 
         var loopnum = curnum-check_num;
         if(loopnum<0){
-            loopnum=0;
+            loopnum = 0;
         }
         while (num <= check_num)
         {
