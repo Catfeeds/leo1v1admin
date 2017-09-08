@@ -60,9 +60,9 @@ $(function(){
         });
         console.log(html_list);
         // $('#id_teacher_money_list').append(html_list);
-        $('#'+id_button_str).on("click",function(){
+        // $('#'+id_button_str).on("click",function(){
 
-        });
+        // });
     }
 
     var month_change = function (){
