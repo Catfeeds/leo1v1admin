@@ -2403,6 +2403,7 @@ class user_manage extends Controller
 
 
         $ret_grade = [];
+        dd($ret_info);
         foreach ($ret_info as $key => &$value) {
             $ret_grade[$value['grade_str']] = $value['sum'];
         }
