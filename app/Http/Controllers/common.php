@@ -786,6 +786,20 @@ class common extends Controller
                 $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/pic_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
             }
+            list($width, $height)=getimagesize($filename);
+            //缩放比例
+            $per=round(157/$width,3);
+
+            $n_w=$width*$per;
+            $n_h=$height*$per;
+            $new=imagecreatetruecolor($n_w, $n_h);
+            $img=imagecreatefromjpeg($filename);
+            //copy部分图像并调整
+            imagecopyresized($new, $img,0, 0,0, 0,$n_w, $n_h, $width, $height);
+            //图像输出新图片、另存为
+            imagejpeg($new, "a.jpg");
+            imagedestroy($new);
+            imagedestroy($img);
 
             //高温邀请有奖背景图
             // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
