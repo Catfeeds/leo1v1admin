@@ -54,7 +54,11 @@ $(function(){
     var show_teacher_money = function(money_list,html){
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
+            html_list +="<tr>";
+            $.each(value,function(k,v){
 
+            });
+            html_list +="</tr>";
         });
         $('#id_teacher_money_list').html(html_list);
 
@@ -111,8 +115,8 @@ $(function(){
     var max_num = month_info.length;
     if(max_num>0){
         var html_list =
-            "<table class='table table-bordered text-cen'>"
-            +"<tr><th class='text-cen' style='width:25px'></th>"
+            "<tr>"
+            +"<th class='text-cen' style='width:25px'></th>"
             +"<th class='text-cen' style='width:150px'>分类</th>"
             +"<th class='text-cen'>姓名</th>"
             +"<th class='text-cen'>时间</th>"
@@ -120,8 +124,7 @@ $(function(){
             +"<th class='text-cen'>扣款 </th>"
             +"<th class='text-cen'>金额</th>"
             +"<!-- <th class='text-cen'>操作</th> -->"
-            +"</tr>"
-            +"</table>";
+            +"</tr>";
 
         var curnum = max_num-1;
         $(".no-money-title").hide();

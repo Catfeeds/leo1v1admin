@@ -124,7 +124,9 @@
                             </button>
                         </div>
                     </div>
-                    <div class="box-body" id="id_teacher_money_list">
+                    <div class="box-body">
+                        <table class='table table-bordered text-cen' id="id_teacher_money_list">
+                        </table>
                     </div>
                 </div>
             </div>
