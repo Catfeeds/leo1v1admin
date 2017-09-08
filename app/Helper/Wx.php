@@ -23,24 +23,20 @@ class Wx{
         return $url;
     }
 
-
-
-
-
     public function goto_wx_login($redirect_url) {
         $url=$this->get_wx_login_url($redirect_url);
         header("location: $url");
         exit;
     }
 
-    public function goto_wx_login_for_openid($redirect_url) {// 教师节测试
+    public function goto_wx_login_for_openid($redirect_url) {// 教师节测试[静默授权]
         $url=$this->get_wx_login_url_for_openid($redirect_url);
         header("location: $url");
         exit;
     }
 
 
-    public function get_wx_login_url_for_openid($redirect_url) { //教师节测试
+    public function get_wx_login_url_for_openid($redirect_url) { //教师节测试[静默授权]
         \App\Helper\Utils::logger(" goto_wx_login redirect_url: $redirect_url");
         $appid = $this->appid;
         $no    = rand(1,10000);
