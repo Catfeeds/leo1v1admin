@@ -135,29 +135,17 @@ class self_manage extends Controller
         $flowid     = $node_info["flowid"] ;
         $flow_info  = $this->t_flow->field_get_list($flowid,"*");
         $flow_type  = $flow_info["flow_type"];
-        $flow_class = \App\Flow\flow::get_flow_class($flow_type);
         if($this->get_account_id() != $node_info["adminid"] ) {
             return $this->output_err("你不是审核者!");
         }
 
         if ($flow_check_flag== E\Eflow_check_flag::V_PASS ) {
-            list($next_node_type,$next_adminid)=$flow_class::get_next_node_info_by_nodeid($nodeid);
-            if ($next_node_type==-1) { //END
-                $this->t_flow_node->set_check_info($nodeid,$flow_check_flag,-1, $check_msg);
-                $this->t_flow->set_flow_status($flowid, E\Eflow_status::V_PASS);
-                $msg= $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"] );
-
-                $this->t_manager_info->send_wx_todo_msg_by_adminid($flow_info["post_adminid"],"审批系统","审批完成:".E\Eflow_type::get_desc($flow_type),$msg,"");
-                $flow_class::call_do_succ_end($flowid);
+            $ret=\App\Flow\flow_base::do_flow_pass($nodeid,$flow_check_flag, $check_msg );
+            if($ret) {
+                return $this->output_succ();
             }else{
-                if (!$next_adminid) {
-                    return  $this->output_err("出错,下一个审批人不存在.");
-                }
-                $next_nodeid=$this->t_flow_node->add_node($next_node_type,$flowid,$next_adminid);
-                $this->t_flow_node->set_check_info($nodeid,$flow_check_flag,$next_nodeid,$check_msg);
+                return $this->output_err("下个审批人不存在");
             }
-
-            return $this->output_succ();
 
         } else if ($flow_check_flag== E\Eflow_check_flag::V_NO_PASS ) {
             $this->t_flow_node->set_check_info($nodeid,$flow_check_flag,0);

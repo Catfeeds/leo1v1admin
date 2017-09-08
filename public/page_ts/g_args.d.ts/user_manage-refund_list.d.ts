@@ -63,6 +63,7 @@ interface RowData {
 	qc_other_reason	:any;
 	qc_analysia	:any;
 	qc_reply	:any;
+	all_percent	:any;
 }
 
 /*
