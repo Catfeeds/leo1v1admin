@@ -2856,9 +2856,50 @@ trait  TeaPower {
         $str="other";
         if($subject==1){
             if($grade==100){
-                $str = 
+                $str ="yw_primary"; 
+            }elseif($grade==200){
+                $str ="yw_middle"; 
+            }elseif($grade==300){
+                $str ="yw_senior"; 
             }
+
+        }elseif($subject==2){
+            if($grade==100){
+                $str ="sx_primary"; 
+            }elseif($grade==200){
+                $str ="sx_middle"; 
+            }elseif($grade==300){
+                $str ="sx_senior"; 
+            }
+
+        }elseif($subject==3){
+            if($grade==100){
+                $str ="yy_primary"; 
+            }elseif($grade==200){
+                $str ="yy_middle"; 
+            }elseif($grade==300){
+                $str ="yy_senior"; 
+            }
+
+        }elseif($subject==4){
+            if($grade==200){
+                $str ="hx_middle"; 
+            }elseif($grade==300){
+                $str ="hx_senior"; 
+            }
+
+        }elseif($subject==5){
+            if($grade==200){
+                $str ="wl_middle"; 
+            }elseif($grade==300){
+                $str ="wl_senior"; 
+            }
+
         }
+
+        return $str;
+
+
  
     }
   

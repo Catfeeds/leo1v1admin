@@ -93,7 +93,6 @@
                 selectedProvince = name;
             }
         }
-        alert(selectedProvince);
         //  alert(selectedProvince);//所选择省的名字
         if (typeof selectedProvince == 'undefined') {
             option.series.splice(1);
@@ -110,20 +109,19 @@
         $.do_ajax("/textbook_manage/get_city_textbook_info",{
             
         },function(response){
-            
-        });
-
-        var $imgs = [
-            {area:'渭南市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},
-            {area: '西安市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},
-            {area: '宝鸡市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'}
-        ];
+           var $imgs= response.data;
+           /* var $imgs = [
+                {area:'渭南市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},
+                {area: '西安市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'},
+                {area: '宝鸡市',educational:'六三制',junior:'初中：北师大版',senior:'高中：人教版'}
+            ];*/
         option = {
             tooltip : {
                 trigger: 'item',
                 formatter: function (params,ticket,callback){
                     var $pna = params.name;
                     var res ='';
+                    var province = selectedProvince;
                     for(var i = 0;i<$imgs.length;i++){
                         if($imgs[i].area == $pna){
                             res = '<div style="padding:20px;">'
@@ -2001,6 +1999,10 @@
             ]
         };
         myChart.setOption(option, true);//显示省地图
+
+            
+        });
+
     });
 
 
