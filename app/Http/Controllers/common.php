@@ -754,7 +754,7 @@ class common extends Controller
             return "";
         }
 
-        if($phone="13661763881"){
+        if($phone=="13661763881"){
             $test_flag=1;
         }else{
             $test_flag=0;
@@ -784,15 +784,15 @@ class common extends Controller
 
                 list($qr_width, $qr_height)=getimagesize($qr_url);
                 //缩放比例
-                $per=round(157/$qr_width,3);
-                $n_w=$qr_width*$per;
-                $n_h=$qr_height*$per;
-                $new=imagecreatetruecolor($n_w, $n_h);
-                $img=imagecreatefrompng($qr_url);
+                $per = round(157/$qr_width,3);
+                $n_w = $qr_width*$per;
+                $n_h = $qr_height*$per;
+                $new = imagecreatetruecolor($n_w, $n_h);
+                $img = imagecreatefrompng($qr_url);
                 //copy部分图像并调整
                 imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
                 //图像输出新图片、另存为
-                imagejpeg($new, $qr_url);
+                imagepng($new, $qr_url);
                 imagedestroy($new);
                 imagedestroy($img);
             }else{
@@ -801,12 +801,11 @@ class common extends Controller
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
             }
 
-
             //高温邀请有奖背景图
             // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
             // \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-            $image_bg = imagecreatefrompng($bg_url);
-            $image_qr = imagecreatefrompng($qr_url);
+            $image_bg  = imagecreatefrompng($bg_url);
+            $image_qr  = imagecreatefrompng($qr_url);
             $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
             if($activity_flag || $test_flag){
