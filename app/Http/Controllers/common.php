@@ -1730,13 +1730,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             $textbook = trim($textbook,",");
 
-            $data[$item["city"]][$item["subject"]]["subject"] =$subject_str;
+            $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
             if($item["grade"]==100){
-                $data[$item["city"]][$item["subject"]]["primary"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["primary"] = $textbook;
             }elseif($item["grade"]==200){
-                $data[$item["city"]][$item["subject"]]["middle"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["middle"] = $textbook;
             }elseif($item["grade"]==300){
-                $data[$item["city"]][$item["subject"]]["senior"] = $textbook;
+                $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
             }
         }
         dd($data);
