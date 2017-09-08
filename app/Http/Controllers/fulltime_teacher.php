@@ -476,7 +476,7 @@ class fulltime_teacher extends Controller
         $ret_info["apply_num"] = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time);
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret_info,
-        ]);
+        ]); 
   
     }
 }
