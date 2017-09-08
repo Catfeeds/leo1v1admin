@@ -143,8 +143,8 @@
                                         @foreach($list_val['list'] as $l_key=>$l_val)
                                             <tr>
                                                 <td>
-                                                    <button type='button' class="btn btn-box-tool"
-                                                            id="{{$l_key}}_{{$list_val['date']}}">
+                                                    <button type='button' class="btn btn-box-tool show_key"
+                                                            data-show_key="{{$l_key}}_{{$list_val['date']}}">
                                                         <i class='fa fa-plus'></i>
                                                     </button>
                                                 </td>

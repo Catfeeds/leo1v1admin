@@ -1034,7 +1034,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             "l.full_time=1",
             "l.id>15246",
-            "t.phone>0"
+            "t.phone>0",
+            ["t.real_begin_time>%u",$start_time,-1],
+            ["t.real_begin_time<%u",$end_time,-1],
         ];
         $sql = $this->gen_sql_new("select count(distinct(l.phone)) as arrive_count"
                                   ." from %s l "
@@ -1043,7 +1045,29 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr);
-
+        return $this->main_get_list($sql);
+    }
+    public function get_fulltime_teacher_arrive_video($start_time,$end_time){
+        $where_arr = [
+            "l.full_time=1",
+            "l.id>15246",
+            "s.lesson_type=1100",
+            " s.lesson_del_flag = 0",
+            "s.confirm_flag < 2 ",
+            "s.train_type = 5",
+            " t.is_test_user  = 0",
+            ["s.lesson_start>%u",$start_time,-1],
+            ["s.lesson_start<%u",$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(l.phone)) as video_num"
+                                  ." from %s l "
+                                  ." left join %s t on t.phone = l.phone"
+                                  ." left join %s s on s.userid = t.teacherid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr);
         return $this->main_get_list($sql);
     }
 }
