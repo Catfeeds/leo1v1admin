@@ -517,9 +517,11 @@ $(function(){
         var id_phone       = $("<input/>") ;
         var id_email       = $("<input/>") ;
         var id_sex       = $("<select/>") ;
+        var id_gender       = $("<select/>") ;
         var id_job     = $("<select/>") ;
 
         Enum_map.append_option_list("gender", id_sex);
+        Enum_map.append_option_list("gender", id_gender);
         Enum_map.append_option_list("assistant_type", id_job);
 
         id_birth.datetimepicker({
@@ -535,23 +537,26 @@ $(function(){
 
         id_assistantid.val(opt_data.assistantid);
         id_name.val(opt_data.nick);
-        id_birth.val(opt_data.birth);
-        id_years.val(opt_data.age);
+        // id_birth.val(opt_data.birth);
+        id_birth.val(birth);
+        // id_years.val(opt_data.age);
+        id_years.val(opt_data.work_year);
         id_school.val(opt_data.school);
         id_phone.val(opt_data.phone);
         id_email.val(opt_data.email);
+        id_gender.val(opt_data.gender);
         if(opt_data.gender == "男"){
            id_sex.val(1);
         }else{
             id_sex.val(2);
         }
-
         id_job.val(opt_data.assistant_type);
 
         var arr            = [
             [ "id",  id_assistantid ] ,
             [ "姓名",  id_name ] ,
-            [ "性别",  id_sex ] ,
+            // [ "性别",  id_sex ] ,
+            [ "性别",  id_gender ] ,
             [ "生日",  id_birth ] ,
             [ "工龄",  id_years] ,
             [ "学校",  id_school ] ,
@@ -576,7 +581,8 @@ $(function(){
                     'school'      : id_school.val(),
                     'phone'       : id_phone.val(),
                     'email'       : id_email.val(),
-                    'sex'         : id_sex.val(),
+                    // 'sex'         : id_sex.val(),
+                    'sex'         : id_gender.val(),
                     'job'         : id_job.val()
 
                 });
