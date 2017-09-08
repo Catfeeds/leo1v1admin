@@ -105,8 +105,8 @@
                                             <td >{{@$ret_info['arrive_num_per']}}%({{@$ret_info['arrive_num']}}/{{@$ret_info["apply_total"]}})</td> 
                                             <td >{{@$ret_info['arrive_through_per']}}%({{$ret_info['arrive_through']}}/{{@$ret_info["apply_total"]}})</td>
 
-                                            <td >1</td> 
-                                            <td >1</td> 
+                                            <td >{{@$ret_info['second_through']}}</td> 
+                                            <td >{{@$ret_info['second_through_per']}}%({{$ret_info['second_through']}}/{{$ret_info['apply_total']}})</td> 
                                             <td >1</td> 
                                             <td >1</td> 
                                        </tr>
