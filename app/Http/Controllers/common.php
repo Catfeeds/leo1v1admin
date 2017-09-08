@@ -788,7 +788,7 @@ class common extends Controller
                 $n_w=$qr_width*$per;
                 $n_h=$qr_height*$per;
                 $new=imagecreatetruecolor($n_w, $n_h);
-                $img=imagecreatefromjpeg($filename);
+                $img=imagecreatefrompng($qr_url);
                 //copy部分图像并调整
                 imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
                 //图像输出新图片、另存为
