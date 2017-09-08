@@ -16,46 +16,11 @@ $(function(){
         $(this).children().toggleClass('fa-minus');
     });
 
-    var salary_modal = '';
-    $('button[data-toggle]').on('click', function() {
-        var value = $(this).val();
-        if (salary_modal != '' & salary_modal != value ) {
-            salary_modal = value;
-            var that = $(this);
-            if ($('.direct-chat-contacts-open').length == 0) {
-                $(that).click();
-                $(that).click();
-            } else {
-                setTimeout(function(){
-                    $(that).click();
-                }, 500);
-            }
-        }
-        salary_modal = value;
-        if (value == 'salary') {
-            var content = '<div class="col-sm-12"><h5>薪资规则</h5>'
-                +'<p>例如：李老师带了三个学生A、B、C。</p>'
-                +'<div class="col-sm-offset-1">'
-                +'<p>A第五次试听课分数为90<br/>'
-                +'B第五次试听课分数为92<br/>'
-                +'那么，李老师的第五次试听课平均分为(90+92)/2=91分</p></div></div>';
-        } else {
-            var content = '<div class="col-sm-12"><h5>晋升规则</h5>'
-                +'<p>例如：李老师带了三个学生A、B、C。</p>'
-                +'<div class="col-sm-offset-1">'
-                +'<p>A第五次试听课分数为90<br/>'
-                +'B第五次试听课分数为92<br/>'
-                +'那么，李老师的第五次试听课平均分为(90+92)/2=91分</p></div></div>';
-        }
-        $('.direct-chat-contacts').empty();
-        $('.direct-chat-contacts').append(content);
-    });
-
     var show_teacher_money = function(money_list,html){
         var button_html = "";
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            html_list +="<tr><td><button type='button'><i class='fa fa-minus'></i></button></td>";
+            html_list += "<tr><td><button type='button'><i class='fa fa-minus'></i></button></td>";
             $.each(value,function(k,v){
 
             });

@@ -2003,15 +2003,6 @@ class test_code extends Controller
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
     }
 
-    public function get_phone(){
-        $info = $this->get_b_txt();
-
-        foreach($info as $val){
-            if($val!=""){
-                
-            }
-        }
-    }
 
 
 
