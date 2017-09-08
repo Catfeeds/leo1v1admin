@@ -754,14 +754,8 @@ class common extends Controller
             return "";
         }
 
-        if($phone="13661763881"){
-            $test_flag=1;
-        }else{
-            $test_flag=0;
-        }
-
-        $check_time = strtotime("2017-9-1");
-        if(time()<$check_time || $test_flag=1){
+        $check_time = strtotime("2017-9-15");
+        if(time()<$check_time){
             $activity_flag=1;
             $phone_qr_name = $phone."_teacher_day_qr.png";
         }else{
@@ -771,28 +765,28 @@ class common extends Controller
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        if(!$is_exists || $test_flag){
+        if(!$is_exists ){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
 
-            if($activity_flag || $test_flag){
+            if($activity_flag){
                 //教师节背景图
                 $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
                 list($qr_width, $qr_height)=getimagesize($qr_url);
                 //缩放比例
-                $per=round(157/$qr_width,3);
-                $n_w=$qr_width*$per;
-                $n_h=$qr_height*$per;
-                $new=imagecreatetruecolor($n_w, $n_h);
-                $img=imagecreatefrompng($qr_url);
+                $per = round(157/$qr_width,3);
+                $n_w = $qr_width*$per;
+                $n_h = $qr_height*$per;
+                $new = imagecreatetruecolor($n_w, $n_h);
+                $img = imagecreatefrompng($qr_url);
                 //copy部分图像并调整
                 imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
                 //图像输出新图片、另存为
-                imagejpeg($new, $qr_url);
+                imagepng($new, $qr_url);
                 imagedestroy($new);
                 imagedestroy($img);
             }else{
@@ -801,15 +795,14 @@ class common extends Controller
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
             }
 
-
             //高温邀请有奖背景图
             // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
             // \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-            $image_bg = imagecreatefrompng($bg_url);
-            $image_qr = imagecreatefrompng($qr_url);
+            $image_bg  = imagecreatefrompng($bg_url);
+            $image_qr  = imagecreatefrompng($qr_url);
             $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            if($activity_flag || $test_flag){
+            if($activity_flag){
                 imagecopymerge($image_ret,$image_qr,532,1038,0,0,157,157,100);
             }else{
                 imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
@@ -1794,6 +1787,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $data=[];
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
+            $data[$item["city"]]["area"] =$item["city"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
@@ -1812,8 +1806,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
             }
         }
+        $arr=[];
+        foreach($data as $v){
+            $arr[] = $v;
+        }
         return $this->output_succ([
-            "data"=>$data
+            "data"=>$arr
         ]);
 
         //dd($data);
