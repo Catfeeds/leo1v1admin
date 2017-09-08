@@ -1051,7 +1051,7 @@ class user_manage extends Controller
                         $key1_name = $v1['value'].'一级原因';
                         $key2_name = $v1['value'].'二级原因';
                         $key3_name = $v1['value'].'三级原因';
-                        $reason_name  = $v1['value'].'reason';
+                        $reason_name    = $v1['value'].'reason';
                         $dep_score_name = $v1['value'].'dep_score';
 
                         if(isset($v1["$key1_name"])){

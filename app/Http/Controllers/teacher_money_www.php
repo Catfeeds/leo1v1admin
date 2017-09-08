@@ -40,9 +40,9 @@ class teacher_money_www extends Controller
         $check_num = [];
         $already_lesson_count_list = [];
         foreach($lesson_list as $val){
-            $check_type           = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-            $lesson_count         = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
-            $month_key            = date("Y-m",$val['lesson_start']);
+            $check_type   = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+            $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
+            $month_key    = date("Y-m",$val['lesson_start']);
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
 
@@ -142,7 +142,7 @@ class teacher_money_www extends Controller
                 $lesson_all_cost = $teacher_money['lesson_miss_cost']/100;
                 $info            = "上课旷课!";
             }elseif(($val['lesson_cancel_reason_type']==2 || $val['lesson_cancel_reason_type']==12)
-            && $val['lesson_cancel_time_type']==1){
+                    && $val['lesson_cancel_time_type']==1){
                 if($change_num>=3){
                     $lesson_all_cost = $teacher_money['lesson_cost']/100;
                     $lesson_info     = "课前４小时内取消上课！";

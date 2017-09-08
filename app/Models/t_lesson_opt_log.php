@@ -262,6 +262,17 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_value($sql);
     }
 
+    public function get_login_time($lessonid,$userid){
+        $sql = $this->gen_sql_new(" select max(opt_time) from %s tl where tl.lessonid=%d and opt_type=1 and userid=%d "
+                                  ,self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $userid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_time_by_lesson($lessonid,$userid,$opt_type){
         $where_arr=[
             ["lessonid=%u",$lessonid, -1],

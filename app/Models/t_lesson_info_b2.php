@@ -1816,7 +1816,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start<=%d",$end_time, -1 ] ,
             ["l.lesson_type in (%s)",$lesson_type_in_str, "" ] ,
             ["l.userid=%u",$userid, -1 ] ,
-            //["l.teacherid=%u",$teacherid, 0 ] ,
+            ["l.teacherid=%u",$teacherid, 0 ] ,
             "l.lesson_del_flag=0",
         ];
 
@@ -1852,7 +1852,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                  t_assistant_info::DB_TABLE_NAME,
                                  $where_arr
         );
-        // dd($sql);
         return $this->main_get_list_as_page($sql,function($item){
             return $item['lessonid'];
         });
