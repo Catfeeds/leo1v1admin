@@ -1270,7 +1270,6 @@ class tea_manage_new extends Controller
         if($flag==1){
             $this->set_full_time_teacher($teacherid);
         }
-
         $record_id = $this->t_teacher_record_list->check_have_record($teacherid,E\Erecord_type::V_12);
         if($record_id){
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
