@@ -4,9 +4,20 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			grade:	$('#id_grade').val(),
+			subject:	$('#id_subject').val(),
+			address:	$('#id_address').val()
 
         });
     }
+
+    Enum_map.append_option_list("grade", $("#id_grade") );
+    Enum_map.append_option_list("subject", $("#id_subject") );
+
+    $('#id_grade').val(g_args.grade);
+	$('#id_subject').val(g_args.subject);
+	$('#id_address').val(g_args.address);
+
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({
         browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
