@@ -465,9 +465,18 @@ class fulltime_teacher extends Controller
             $item["lesson_start_str"]=date("Y-m-d H:i",$item["lesson_start"]); 
         }
         return $this->pageView(__METHOD__ ,$ret_info);
-
-
-        
-
+    }
+    /**
+     * @author    sam
+     * @function  武汉全职老师面试数据
+     */
+   
+    public function fulltime_teacher_data(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info["apply_num"] = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time);
+        return $this->pageView(__METHOD__ ,null, [
+            "ret_info" => @$ret_info,
+        ]);
+  
     }
 }
