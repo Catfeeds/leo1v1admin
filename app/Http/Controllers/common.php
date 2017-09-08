@@ -1725,6 +1725,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $subject_str    = E\Esubject::get_desc($item["subject"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
+            $textbook="";
             foreach($arr_text as $vall){
                 @$textbook .=  E\Eregion_version::get_desc ($vall).",";
             }
@@ -1739,7 +1740,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $data[$item["city"]]["textbook"][$item["subject"]]["senior"] = $textbook;
             }
         }
-        dd($data);
+        return $this->output_succ([
+            "data"=>$data
+        ]);
+
+        //dd($data);
     }
 
 }
