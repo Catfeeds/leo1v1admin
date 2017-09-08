@@ -11,12 +11,11 @@
                         <h3 class="box-title color-blue no-money-title">暂无薪资</h3>
                         <div style="text-align:center;" class="color-blue has-money">
                             <button type="button" class="btn btn-box-tool color-blue left ft24" id="id_prev_year">
-                                <i class="fa fa-angle-left"></i>&nbsp;&nbsp;
+                                <i class="fa fa-angle-left"></i>
                             </button>
                             <h3 class="box-title">
                                 <span id="id_year"></span>
                             </h3>
-                            &nbsp;&nbsp;
                             <button type="button" class="btn btn-box-tool color-blue right ft24" id="id_next_year">
                                 <i class="fa fa-angle-right"></i>
                             </button>
@@ -126,17 +125,7 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <table class="table table-bordered text-cen">
-                            <tr>
-                                <th class="text-cen" style="width:25px"></th>
-                                <th class="text-cen" style="width:150px">分类</th>
-                                <th class="text-cen">姓名</th>
-                                <th class="text-cen">时间</th>
-                                <th class="text-cen">状态</th>
-                                <th class="text-cen">扣款 </th>
-                                <th class="text-cen">金额</th>
-                                <!-- <th class="text-cen">操作</th> -->
-                            </tr>
+                        <table class='table table-bordered text-cen' id="id_teacher_money_list">
                         </table>
                     </div>
                 </div>

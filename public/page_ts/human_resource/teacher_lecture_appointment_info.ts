@@ -181,7 +181,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var id_lecture_revisit_type = $("<select/>");   
         var id_return_revisit_note = $("<textarea />");
-        if(g_args.fulltime_flag==0){
+        if(opt_data.full_time==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );
@@ -616,7 +616,8 @@ $(function(){
         var id_record_info = $("<textarea/>");
         var flag_html      = "<option value='0'>不通过</option>"
             +"<option value='1'>通过</option>"
-            +"<option value='2'>老师未到</option>";
+            +"<option value='2'>老师未到</option>"
+            +"<option value='3'>待定</option>";
         id_flag.append(flag_html);
         id_flag.val(data.full_status);
         id_record_info.val(data.full_record_info);

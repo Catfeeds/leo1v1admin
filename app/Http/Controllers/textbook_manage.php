@@ -29,6 +29,10 @@ class textbook_manage extends Controller
 
     }
 
+    public function show_textbook_map(){
+         return $this->pageView(__METHOD__,null);
+    }
+
    
 
 }
