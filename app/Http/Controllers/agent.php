@@ -1454,6 +1454,7 @@ class agent extends Controller
         $imgs['src'] = $this->test($imggzip);
         //第三步 合并图片
         $dest = $this->mergerImg($imgs);
+        dd($dest);
     }
 
     public function resize_img($url,$path='/tmp/'){
