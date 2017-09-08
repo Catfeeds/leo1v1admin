@@ -24,12 +24,7 @@
         
         <div>
             <div class="row">
-                <div class="col-md-1 remove-for-xs col-xs-6 " >
-                    <div>
-                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
-                    </div>
-                </div>
-                             
+                                             
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >年级</span>
@@ -47,6 +42,14 @@
                         <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="address" id="id_address"  placeholder="地区,学制等 回车查找" />
                     </div>
                 </div>
+
+                <div class="col-md-4 remove-for-xs col-xs-6 " >
+                    <div>
+                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
+                        <button class="btn btn-primary" id="id_add"> 增加</button>
+                    </div>
+                </div>
+
 
 
 
