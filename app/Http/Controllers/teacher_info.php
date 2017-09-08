@@ -1974,7 +1974,7 @@ class teacher_info extends Controller
             }
             $list[$month_key]['list'][$list_reward_key]["key_str"]  = $list_reward_key_str;
             $list[$month_key]['list'][$list_reward_key][]  = $reward_arr;
-            $list[$month_key]["all_money"]        += $reward_money;
+            $list[$month_key]["all_money"] += $reward_money;
         }
 
         $money_list = [];

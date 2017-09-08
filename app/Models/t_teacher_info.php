@@ -3268,8 +3268,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
             "l.lesson_type = 0",
-            "l.del_flag = 0",
-            "l.confirm_flag<>2"
+            "l.lesson_del_flag = 0",
+            "l.lesson_start>0",
+            "l.confirm_flag<>2",
+            "l.lesson_status>0"
         ];
 
         $sql = $this->gen_sql_new(" select count(*) as common_lesson_num from %s l"
@@ -3288,7 +3290,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $where_arr = [
             "l.lesson_type = 0",
-            "l.del_flag = 0",
+            "l.lesson_del_flag = 0",
+            "l.lesson_start>0",
+            "l.confirm_flag<>2",
+            "l.lesson_status>0",
             ["l.teacherid = %d",$teacherid,-1]
         ];
 

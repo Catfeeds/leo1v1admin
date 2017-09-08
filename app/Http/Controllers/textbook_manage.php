@@ -30,7 +30,12 @@ class textbook_manage extends Controller
     }
 
     public function show_textbook_map(){
-         return $this->pageView(__METHOD__,null);
+        $url  =  "http://bbs.lampbrother.net" ; 
+        echo " <   script   language = 'javascript' 
+type = 'text/javascript' > "; 
+        echo " window.location.href = '$url' "; 
+        echo " <  /script > ";  
+      return $this->pageView(__METHOD__,null);
     }
 
    
