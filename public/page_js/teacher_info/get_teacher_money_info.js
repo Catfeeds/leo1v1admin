@@ -17,16 +17,7 @@ $(function(){
     });
 
     var show_teacher_money = function(money_list){
-        var html_list =
-            "<tr>"
-            +"<th class='text-cen' style='width:25px'></th>"
-            +"<th class='text-cen' style='width:150px'>分类</th>"
-            +"<th class='text-cen'>姓名</th>"
-            +"<th class='text-cen'>时间</th>"
-            +"<th class='text-cen'>状态</th>"
-            +"<th class='text-cen'>扣款 </th>"
-            +"<th class='text-cen'>金额</th>"
-            +"</tr>";
+        var html_list = "";
 
         var id_button_str = "";
         $('#id_teacher_money_list').empty();
@@ -59,7 +50,7 @@ $(function(){
             });
         });
         console.log(html_list);
-        // $('#id_teacher_money_list').append(html_list);
+        $('#id_teacher_money_list').append(html_list);
         // $('#'+id_button_str).on("click",function(){
 
         // });
