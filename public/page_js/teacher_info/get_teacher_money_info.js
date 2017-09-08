@@ -88,7 +88,11 @@ $(function(){
             // console.log("loopnum:"+(loopnum-1));
             // console.log("month_info:"+month_info[loopnum-1]);
             console.log(month_info);
-            $('#id_year').text( month_info[curnum].date );
+            $('#id_year').text(month_info[curnum].date);
+            $('#id_teacher_level').text(month_info[curnum].level_str);
+            $('#id_normal_lesson_total').text(month_info[curnum].normal_lesson_total+"课时");
+            $('#id_trial_lesson_total').text(month_info[curnum].trial_lesson_total+"课时");
+            $('#id_all_money').text(month_info[curnum].all_money+"元");
 
             var line = new Morris.Line({
                 element    : 'line-chart',
