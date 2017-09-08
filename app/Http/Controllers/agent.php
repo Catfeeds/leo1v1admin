@@ -1452,6 +1452,7 @@ class agent extends Controller
         $imggzip = $this->resize_img($headimgurl);
         //第二步 裁减成圆角图片
         $imgs['src'] = $this->test($imggzip);
+        dd($imgs['src']);
         //第三步 合并图片
         $dest = $this->mergerImg($imgs);
         dd($dest);
