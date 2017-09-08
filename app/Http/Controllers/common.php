@@ -787,7 +787,7 @@ class common extends Controller
             $image_2 = imagecreatefrompng($qr_url);
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            if($test_flag){
+            if($activity_flag){
                 imagecopymerge($image_3,$image_2, 532,1038,0,0,157,157, 100);
             }else{
                 imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
@@ -1300,7 +1300,7 @@ class common extends Controller
                     "wx_openid" => $wx_openid
                 ]);
             }else{
-                return $this->output_err("微信绑定失败!请重新登录后绑定!");
+                return $this->output_err("微信绑定失败!请重新登录后绑定");
             }
 
             session(["login_userid"=>$teacher_info['teacherid']]);
