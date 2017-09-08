@@ -1746,6 +1746,4 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //dd($data);
     }
 
-=======
->>>>>>> cc06aadbf484b3f0a7f7d1ef666acd4e2afd8880
 }

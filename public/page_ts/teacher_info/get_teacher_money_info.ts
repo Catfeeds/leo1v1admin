@@ -52,9 +52,10 @@ $(function(){
     });
 
     var show_teacher_money = function(money_list,html){
+        var button_html = "<button type='button'><i class='fa fa-minus'></i></button>";
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            html_list +="<tr><td></td>";
+            html_list +="<tr><td><but</td>";
             $.each(value,function(k,v){
 
             });
