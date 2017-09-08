@@ -242,7 +242,7 @@ class Image
         }
 
         @imagestring($im, 12, 5, 3, $randval, $stringColor);
-        @imagettftext($im, 24, 0, 12, $height*0.75, $fontcolor, app_path("../fonts/") . "/VINERITC.TTF", $randval);
+        // @imagettftext($im, 24, 0, 12, $height*0.75, $fontcolor, app_path("../fonts/") . "/VINERITC.TTF", $randval);
 
         Image::output($im, $type);
     }
