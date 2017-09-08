@@ -34,7 +34,8 @@ class textbook_manage extends Controller
     }
 
     public function get_city_textbook_info(){
-        $list = $this->t_location_subject_grade_textbook_info->get_all_list();
+        $province = $this->get_in_str_val("province","河南");
+        $list = $this->t_location_subject_grade_textbook_info->get_all_list($province);
         $data=[];
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 

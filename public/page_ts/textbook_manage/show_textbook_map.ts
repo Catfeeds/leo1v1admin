@@ -110,7 +110,7 @@
         
         
         $.do_ajax("/textbook_manage/get_city_textbook_info",{
-            
+            "province" : selectedProvince 
         },function(response){
            var $imgs= response.data;
            /* var $imgs = [

@@ -490,6 +490,7 @@ class fulltime_teacher extends Controller
             $ret_info['arrive_num_per'] = 0;
             $ret_info['arrive_through_per'] = 0;
         }
+
     	return $this->pageView(__METHOD__,null,[
     		'ret_info'  =>   @$ret_info,
     	]);
