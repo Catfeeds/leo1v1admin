@@ -14,12 +14,12 @@ class wx_teacher_web extends Controller
     var $check_login_flag = false;
     public function __construct(){
         parent::__construct();
-        \App\Helper\Utils::logger("sessionid:".session_id());
-        \App\Helper\Utils::logger("web login_userid:".session("login_userid"));
 
         $to_url       = $this->get_in_str_val("_url");
         $goto_url_arr = preg_split("/\//", $to_url);
         $action       = @$goto_url_arr[2];
+
+        \App\Helper\Utils::logger("wx_url_new: $to_url");
 
         if($action == 'tea'){
             $url = "http://wx-teacher-web.leo1v1.com/tea.html?reference";
@@ -50,7 +50,6 @@ class wx_teacher_web extends Controller
 
             $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
-            // $wx->get_wx_login_url_for_openid($redirect_url);
         }
     }
 

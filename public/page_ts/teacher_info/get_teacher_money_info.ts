@@ -52,16 +52,14 @@ $(function(){
     });
 
     var show_teacher_money = function(money_list,html){
-        var button_html = "<button type='button'><i class='fa fa-minus'></i></button>";
+        var button_html = "";
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            html_list +="<tr><td><but</td>";
+            html_list +="<tr><td><button type='button'><i class='fa fa-minus'></i></button></td>";
             $.each(value,function(k,v){
 
             });
             html_list +="</tr>";
-
-
         });
         $('#id_teacher_money_list').html(html_list);
 
