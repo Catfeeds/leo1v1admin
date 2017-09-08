@@ -1973,7 +1973,7 @@ class teacher_info extends Controller
         foreach($list as $m_val){
             $money_list[] = $m_val;
         }
-
+        $money_list=[];
         return $this->pageView(__METHOD__,[],[
             "money_list" => $money_list
         ]);

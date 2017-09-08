@@ -788,7 +788,7 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             if($activity_flag){
-                imagecopymerge($image_3,$image_2, 532,1038,0,0,157,157, 100);
+                imagecopymerge($image_3,$image_2, 532,1038,0,0,imagesx($image_2),imagesy($image_2), 100);
             }else{
                 imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
             }

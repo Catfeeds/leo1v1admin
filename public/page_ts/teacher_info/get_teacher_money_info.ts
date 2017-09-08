@@ -52,7 +52,6 @@ $(function(){
     });
 
     var max_num = month_info.length;
-
     if(max_num>0){
         var curnum = max_num-1;
         $('#id_prev_year').on('click', function() {
@@ -108,9 +107,6 @@ $(function(){
             });
         }
         month_change();
-    }else{
-        $("#id_section").empty();
-        $("#id_section").html("暂无薪资信息！");
     }
 
 });
