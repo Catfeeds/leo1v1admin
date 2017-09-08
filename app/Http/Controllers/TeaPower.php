@@ -2852,6 +2852,17 @@ trait  TeaPower {
  
     }
 
+    public function  get_textbook_str($subject,$grade){
+        $str="other";
+        if($subject==1){
+            if($grade==100){
+                $str = 
+            }
+        }
+ 
+    }
+  
+
 
 
 }
