@@ -474,9 +474,11 @@ class fulltime_teacher extends Controller
     public function fulltime_teacher_data(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $apply_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time);
-	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
-	return $this->pageView(__METHOD__,null,[
-		'ret_info'  =>   @$ret_info,
-	]);										
+        $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total();
+    	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
+        $ret_info['apply_total'] = $apply_num[0]['apply_total'];
+    	return $this->pageView(__METHOD__,null,[
+    		'ret_info'  =>   @$ret_info,
+    	]);										
     }
 }

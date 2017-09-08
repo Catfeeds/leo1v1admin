@@ -102,8 +102,8 @@
                                             <td >{{@$ret_info["apply_num"]}}</td>
                                             <td >1</td> 
                                             <td >1</td> 
-                                            <td >1</td> 
-                                            <td >1</td>
+                                            <td >{{@$ret_info["apply_total"]}}</td> 
+                                            <td >{{@$ret_info["apply_total"]}}</td>
 
                                             <td >1</td> 
                                             <td >1</td> 
