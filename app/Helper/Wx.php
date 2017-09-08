@@ -23,12 +23,28 @@ class Wx{
         return $url;
     }
 
-
     public function goto_wx_login($redirect_url) {
         $url=$this->get_wx_login_url($redirect_url);
         header("location: $url");
         exit;
     }
+
+    public function goto_wx_login_for_openid($redirect_url) {// 教师节测试[静默授权]
+        $url=$this->get_wx_login_url_for_openid($redirect_url);
+        header("location: $url");
+        exit;
+    }
+
+
+    public function get_wx_login_url_for_openid($redirect_url) { //教师节测试[静默授权]
+        \App\Helper\Utils::logger(" goto_wx_login redirect_url: $redirect_url");
+        $appid = $this->appid;
+        $no    = rand(1,10000);
+        $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_base&state=STATE_$no&connect_redirect=1#wechat_redirect";
+        return $url;
+    }
+
+
 
     public function get_token_from_code($code) {
         $appid     = $this->appid;
@@ -39,6 +55,18 @@ class Wx{
 
         return $ret_arr;
     }
+
+    public function get_openid_from_code($code) { // 测试
+        $appid     = $this->appid;
+        $appsecret = $this->appsecret;
+        //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+        $json_data=file_get_contents( "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
+        $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
+
+        return $ret_arr;
+    }
+
+
 
     static public function  gen_temp_data( $openid,$template_id,$url,$data, $topcolor="#FF0000" ) {
         $data = [

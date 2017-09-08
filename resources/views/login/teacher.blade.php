@@ -28,6 +28,7 @@
              min-width:966px;
              width:100%;
              padding:0 10px;
+             margin:0 0;
              border-bottom:1px solid #ccc;
          }
          .nav{
@@ -134,10 +135,10 @@
                 <a href="" class="logo">下载</a>
                 <a href="" class="logo">帮助中心</a>
             </div>
-            <div class="col-md-3 col-xs-3">
-                <a href="" class="logo  color-blue">收藏</a>
-                <a href="" class="logo r-link  color-blue">创建桌面快捷方式</a>
-            </div>
+            {{-- <div class="col-md-3 col-xs-3">
+                                                                      <a href="" class="logo  color-blue">收藏</a>
+                                                                      <a href="" class="logo r-link  color-blue">创建桌面快捷方式</a>
+                                                                      </div> --}}
         </div>
         <!-- head-end -->
 
