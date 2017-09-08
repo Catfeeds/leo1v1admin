@@ -7,5 +7,6 @@ return array(
     array(3,"","特批赠送"),
     array(4,"","课程包特殊赠送"),
     array(5,"","转赠"),
+    array(6,"from_assistant","助教-配额赠送"),
 );
 

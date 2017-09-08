@@ -48,8 +48,8 @@
 
 
                             <div class="col-md-1 col-xs-5 ">
-                                <div class="input-group input-group-btn">
-                                    <button class="btn btn-warning id_add_ass fa fa-plus form-control">新增助教</button>
+                                <div class="input-group">
+                                    <button class="btn btn-primary id_add_ass fa fa-plus form-control">新增助教</button>
                                 </div>
                             </div>
 

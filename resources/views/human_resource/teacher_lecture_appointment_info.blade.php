@@ -243,6 +243,7 @@
                         <td>{{@$var["trans_subject_ex_str"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
+                        
                         <td>
                             {{@$var["status_str"]}}<br><br>
                             @if(!empty($var["reason"]) )

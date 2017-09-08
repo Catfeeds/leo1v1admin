@@ -7999,7 +7999,9 @@ class tongji_ss extends Controller
     }
 
     public function get_reference_teacher_money_info(){
-        // global $_SESSION;
+        global $_SESSION;
+        $_SESSION["arr"]=1;
+        dd($_SESSION);
         // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
         // $ret_info = $this->t_teacher_info->get_train_through_teacher_info_new();

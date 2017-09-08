@@ -2,12 +2,22 @@
 /// <reference path="../g_args.d.ts/tongji-seller_personal_money.d.ts" />
 
 $(function(){
+    var show_name_key="";
+    show_name_key="account_name_"+g_adminid;
+
+    if ($.trim($("#id_user_info").val()) != g_args.user_info ) {
+        $.do_ajax("/user_deal/set_item_list_add",{
+            "item_key" :show_name_key,
+            "item_name":  $.trim($("#id_user_info").val())
+        },function(){});
+    }
     function load_data(){
         $.reload_self_page ( {
-            date_type:    $('#id_date_type').val(),
-            opt_date_type:    $('#id_opt_date_type').val(),
-            start_time:    $('#id_start_time').val(),
-            end_time:    $('#id_end_time').val()
+            date_type     : $('#id_date_type').val(),
+            opt_date_type : $('#id_opt_date_type').val(),
+            start_time    : $('#id_start_time').val(),
+            end_time      : $('#id_end_time').val(),
+            user_info     : $('#id_user_info').val(),
         });
     }
 
@@ -22,5 +32,13 @@ $(function(){
         }
     });
 
-  $('.opt-change').set_input_change_event(load_data);
+    $("#id_user_info").autocomplete({
+        source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
+        minLength: 0,
+        select: function( event, ui ) {
+            load_data();
+        }
+    });
+    $("#id_user_info").val(g_args.user_info);
+    $('.opt-change').set_input_change_event(load_data);
 })

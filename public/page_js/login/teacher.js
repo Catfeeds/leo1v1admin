@@ -7,10 +7,6 @@ $(function(){
 
     var ua = window.navigator.userAgent.toLowerCase();
 
-
-
-
-
   function login_fun(){
         var account = $('#id_account').val();
         var password = $('#id_password').val();
@@ -30,7 +26,7 @@ $(function(){
             success: function(data) {
                 if (data['ret'] == 0) {
                     var to_url=$.query.get("to_url");
-                    if (to_url  ){
+                    if (to_url ){
                         window.location.href= to_url;
                     }else{
                         window.location.href=  "/teacher_info";

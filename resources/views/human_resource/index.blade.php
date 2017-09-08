@@ -326,6 +326,21 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >精排筛选</span>
+                        <select id="id_plan_level" class ="opt-change" >
+                            <option value="-1">全部</option>
+                            <option value="1">维度A</option>
+                            <option value="2">维度B</option>
+                            <option value="3">维度C</option>
+                            <option value="4">维度C候选</option>
+                            <option value="5">维度D</option>
+                            <option value="6">维度D候选</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>
                 <div class="col-xs-6 col-md-1">

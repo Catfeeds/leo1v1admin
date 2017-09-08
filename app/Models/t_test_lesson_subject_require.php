@@ -2010,7 +2010,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
        $where_arr=[
            "l.lesson_end>1504195200",
            "l.lesson_end<$time",
-           "lesson_del_flag=0",
+           "l.lesson_status = 2",
+           "l.lesson_del_flag = 0",
            "test_lesson_order_fail_flag in (0,null)",
            'contract_status=0 or contract_status is null',
        ];

@@ -1596,6 +1596,114 @@ class main_page extends Controller
 
     }
 
+    public function teacher_management_info(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $top_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+        $green_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
+        $normal_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1); //咨询/老师普通排课总体
+        $top_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,2); //教务1000精排总体
+        $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
+        $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2); //教务普通排课总体
+
+        //咨询
+        $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
+        $top_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,1,1); 
+        $green_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,2,1); 
+        $normal_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,3,1); 
+        foreach($seller_all as $k=>&$val){
+            $val["per"] = !empty($val["person_num"])?round($val["have_order"]/$val["person_num"]*100,2):0;
+            $val["top_num"] = @$top_seller_all[$k]["person_num"];
+            $val["top_order"] = @$top_seller_all[$k]["have_order"];
+            $val["green_num"] = @$green_seller_all[$k]["person_num"];
+            $val["green_order"] = @$green_seller_all[$k]["have_order"];
+            $val["normal_num"] = @$normal_seller_all[$k]["person_num"];
+            $val["normal_order"] = @$normal_seller_all[$k]["have_order"];
+            $val["top_per"] = !empty($val["top_num"])?round($val["top_order"]/$val["top_num"]*100,2):0;
+            $val["green_per"] = !empty($val["green_num"])?round($val["green_order"]/$val["green_num"]*100,2):0;
+            $val["normal_per"] = !empty($val["normal_num"])?round($val["normal_order"]/$val["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $seller_all,"per", 0 );
+        foreach($seller_all as $s=>$v){
+            if($s>9){
+                unset($seller_all[$s]);
+            }
+        }
+
+        //老师
+        $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1); 
+        $top_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,1,1); 
+        $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1); 
+        $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1); 
+        foreach($tea_all as $kk=>&$valll){
+            
+            $valll["per"] = !empty($valll["person_num"])?round($valll["have_order"]/$valll["person_num"]*100,2):0;
+            $valll["top_num"] = @$top_tea_all[$kk]["person_num"];
+            $valll["top_order"] = @$top_tea_all[$kk]["have_order"];
+            $valll["green_num"] = @$green_tea_all[$kk]["person_num"];
+            $valll["green_order"] = @$green_tea_all[$kk]["have_order"];
+            $valll["normal_num"] = @$normal_tea_all[$kk]["person_num"];
+            $valll["normal_order"] = @$normal_tea_all[$kk]["have_order"];
+            $valll["top_per"] = !empty($valll["top_num"])?round($valll["top_order"]/$valll["top_num"]*100,2):0;
+            $valll["green_per"] = !empty($valll["green_num"])?round($valll["green_order"]/$valll["green_num"]*100,2):0;
+            $valll["normal_per"] = !empty($valll["normal_num"])?round($valll["normal_order"]/$valll["normal_num"]*100,2):0;
+            if($valll["person_num"] <10){
+                unset($tea_all[$kk]);
+            }
+
+        }
+
+        \App\Helper\Utils::order_list( $tea_all,"per", 0 );
+        foreach($tea_all as $s=>$v){
+            if($s>9){
+                unset($tea_all[$s]);
+            }
+        }
+
+        //教务
+        $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2); 
+        $top_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,1,2); 
+        $green_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,2,2); 
+        $normal_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,3,2); 
+        foreach($jw_all as $kk=>&$vall){
+            $vall["per"] = !empty($vall["person_num"])?round($vall["have_order"]/$vall["person_num"]*100,2):0;
+            $vall["top_num"] = @$top_jw_all[$kk]["person_num"];
+            $vall["top_order"] = @$top_jw_all[$kk]["have_order"];
+            $vall["green_num"] = @$green_jw_all[$kk]["person_num"];
+            $vall["green_order"] = @$green_jw_all[$kk]["have_order"];
+            $vall["normal_num"] = @$normal_jw_all[$kk]["person_num"];
+            $vall["normal_order"] = @$normal_jw_all[$kk]["have_order"];
+            $vall["top_per"] = !empty($vall["top_num"])?round($vall["top_order"]/$vall["top_num"]*100,2):0;
+            $vall["green_per"] = !empty($vall["green_num"])?round($vall["green_order"]/$vall["green_num"]*100,2):0;
+            $vall["normal_per"] = !empty($vall["normal_num"])?round($vall["normal_order"]/$vall["normal_num"]*100,2):0;
+
+        }
+
+        \App\Helper\Utils::order_list( $jw_all,"per", 0 );
+       
+
+
+                
+
+
+
+        return $this->pageView(__METHOD__ ,null, [
+            "top_jw_total" => $top_jw_total,
+            "green_jw_total" => $green_jw_total,
+            "normal_jw_total" => $normal_jw_total,
+            "top_seller_total" => $top_seller_total,
+            "green_seller_total" => $green_seller_total,
+            "normal_seller_total" => $normal_seller_total,       
+            "seller_all" => $seller_all,       
+            "tea_all" => $tea_all,       
+            "jw_all" => $jw_all,       
+        ]);
+
+
+    }
+
 
 
 

@@ -1003,6 +1003,8 @@ class user_manage extends Controller
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
 
+        $refund_info = [];
+
         foreach($ret_info['list'] as &$item){
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1037,29 +1039,43 @@ class user_manage extends Controller
                 $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
             }
 
-
-            // 获取退费分析
-            // $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($item['orderid'], $item['apply_time']);
-            // $item['qc_other_reason'] = trim($qc_anaysis['qc_other_reason']);
-            // $item['qc_analysia']     = trim($qc_anaysis['qc_analysia']);
-            // $item['qc_reply']        = trim($qc_anaysis['qc_reply']);
-
-
+            //处理 投诉分析 [QC-文斌]
             $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
-            $item['all_percent'] = $arr['key1_value'];
+            foreach($arr['key1_value'] as &$v1){
+                foreach($arr['list'] as $v2){
+                    if($v2['key1_str'] == $v1['value']){
+                        $key1_name = $v1['value'].'一级原因';
+                        $key2_name = $v1['value'].'二级原因';
+                        $key3_name = $v1['value'].'三级原因';
+                        $reason_name    = $v1['value'].'reason';
+                        $dep_score_name = $v1['value'].'dep_score';
 
-            // foreach($arr['list'] as $v){
+                        if(isset($v1["$key1_name"])){
+                            $item["$key1_name"] = $item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = $item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = $item["$key3_name"].'/'.$v2['key4_str'];
+                            $item["$reason_name"]     = $item["$reason_name"].'/'.$v2['reason'];
+                            $item["$dep_score_name"]  = $item["$dep_score_name"].'/'.$v2['score'];
+                        }else{
+                            $item["$key1_name"] = $v2['key2_str'];
+                            $item["$key2_name"] = $v2['key3_str'];
+                            $item["$key3_name"] = $v2['key4_str'];
+                            $item["$reason_name"]     = $v2['reason'];
+                            $item["$dep_score_name"]  = $v2['score'];
+                        }
+                    }
+                }
 
-            // }
-
-
+                $score_name   = $v1['value'].'扣分值';
+                $percent_name = $v1['value'].'责任值';
+                $item["$score_name"]   = @$v1['score'];
+                $item["$percent_name"] = @$v1['responsibility_percent'];
+            }
         }
-
-        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
@@ -1500,8 +1516,10 @@ class user_manage extends Controller
         foreach ($list as $key =>&$item) {
             if($item['configid']>0){
                 $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
-                $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
-                $list[$key] = array_merge($item,$ret);
+                if($keys){
+                    $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+                    $list[$key] = array_merge($item,$ret);
+                }
             }
         }
         list($refund_info ,$map) = $this->t_order_refund_confirm_config->get_refund_list_and_map( -1, -1, -1);
@@ -1640,6 +1658,7 @@ class user_manage extends Controller
         }
 
         $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+        // dd($arr);
 
         return $this->pageView(__METHOD__,null,
                                ["refund_info" => $arr['list'],
@@ -1657,8 +1676,8 @@ class user_manage extends Controller
 
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);
-            $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
-            $list[$key] = array_merge($item,$ret);
+            $ret        = @$this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+            $list[$key] = @array_merge($item,$ret);
         }
 
         // dd($list);
@@ -2669,7 +2688,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
-    $assistantid = 190500	;
+	    $assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){

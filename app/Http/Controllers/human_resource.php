@@ -769,6 +769,7 @@ class human_resource extends Controller
         $record_score_num         = $this->get_in_int_val("record_score_num", -1);
         $identity                 = $this->get_in_int_val("identity", -1);
         $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
+        $plan_level               = $this->get_in_int_val("plan_level", -1);
         if($tea_label_type==-1){
             $tea_label_type_str="";
         }else{
@@ -807,7 +808,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$tea_label_type_str
+            $record_score_num,$identity,$tea_label_type_str,$plan_level
         );
 
         $tea_list = [];
@@ -1965,7 +1966,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994,986,1043])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
@@ -2003,6 +2004,8 @@ class human_resource extends Controller
                 $item['status_str'] = "未通过";
             }elseif($item["trial_train_status"]==2){
                 $item['status_str'] ="老师未到";
+            }elseif($item["trial_train_status"]==3){
+                $item['status_str'] ="待定";
             }else{
                  E\Echeck_status::set_item_value_str($item, "status");
             }

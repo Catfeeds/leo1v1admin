@@ -13,12 +13,12 @@
             <div class="row  " >
 
                 <div class="col-xs-12 col-md-6"  >
-                    <div style="font-size:18px" > {{$cur_dir}} <a href="#" class=" fa fa-share " id="id_share_cur"  >分享 </a>   </div>
+                    <div style="font-size:18px" > {{$cur_dir}} <a href="#" class=" fa fa-share color-blue" id="id_share_cur"  >分享 </a>   </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6"  id="id_add_dir_parent" >
-                    <button class="btn btn-primary" id="id_add_dir"> 创建文件夹</button>
-                    <button class="btn btn-primary" id="id_add_file"> 上传文件</button>
+                    <button class="btn btn-info-ly" id="id_add_dir"> 创建文件夹</button>
+                    <button class="btn btn-info-ly" id="id_add_file"> 上传文件</button>
                 </div>
             </div>
 

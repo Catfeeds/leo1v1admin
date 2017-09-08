@@ -339,28 +339,28 @@ class wx_teacher_api extends Controller
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
-        $test_lesson_info['pass_time'] = date("Y.m.d",$test_lesson_info["work_day"]);
-        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400);
-        $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
+        $test_lesson_info['pass_time'] = $test_lesson_info["work_day"]?date("Y.m.d",$test_lesson_info["work_day"]):"";
+        $test_lesson_info["work_day"] = $test_lesson_info["work_day"]?ceil((time()-$test_lesson_info["work_day"])/86400):0;
+        $test_lesson_info["test_lesson_time"] = $test_lesson_info['test_lesson_time']?date("Y.m.d",$test_lesson_info['test_lesson_time']):"";
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
-        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
+        $common_lesson_info["common_lesson_start"] = $common_lesson_info['common_lesson_start']?date("Y.m.d",$common_lesson_info['common_lesson_start']):"";
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
         $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
 
         $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
 
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
-        $ret =\App\Helper\Utils::send_curl_post($url);
-        $ret = json_decode($ret,true);
-        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
-            $money = $ret["data"][0]["lesson_price"];
-        }else{
-            $money = 0;
-        }
+        // $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        // $ret =\App\Helper\Utils::send_curl_post($url);
+        // $ret = json_decode($ret,true);
+        // if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+        //     $money = $ret["data"][0]["lesson_price"];
+        // }else{
+        //     $money = 0;
+        // }
 
-        $ret_info['money'] = $money.'元';
+        // $ret_info['money'] = $money.'元';
 
         return $this->output_succ(["data"=>$ret_info]);
     }
@@ -528,7 +528,9 @@ class wx_teacher_api extends Controller
         $num = $this->t_teacher_day_luck_draw->compute_time($teacherid);
 
         if($num>=$total_num){
-            return $this->output_err('您的抽奖次数已用完!');
+            if($teacherid !=240314){  // 测试使用
+                return $this->output_err('您的抽奖次数已用完!');
+            }
         }
 
         $rand  = mt_rand(0,100000);

@@ -7,10 +7,6 @@ $(function(){
 
     var ua = window.navigator.userAgent.toLowerCase();
 
-
-
-
-
   function login_fun(){
         var account = $('#id_account').val();
         var password = $('#id_password').val();

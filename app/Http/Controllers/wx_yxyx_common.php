@@ -183,9 +183,7 @@ class wx_yxyx_common extends Controller
         $orderid = 0;
         if($userid){
             $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
-            if($order_info['orderid']){
-                $orderid = $order_info['orderid'];
-            }
+            $orderid = $order_info['orderid'];
         }
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
@@ -244,6 +242,12 @@ class wx_yxyx_common extends Controller
                         $this->t_student_info->field_update_list($userid, [
                             "origin_level" => E\Eorigin_level::V_99
                         ]);
+
+                        $this->t_seller_student_new->field_update_list($userid, [
+                            "global_tq_called_flag" =>0 ,
+                            "global_seller_student_status" =>0 ,
+                        ]);
+
                     }
                 }
             }else{
@@ -257,7 +261,10 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
+
             $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            $agent_id=$this->t_agent->get_last_insertid();
+            dispatch( new \App\Jobs\agent_reset ($agent_id));
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");

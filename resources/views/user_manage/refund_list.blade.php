@@ -80,24 +80,81 @@
                         <td >审批状态</td>
                         <td >审批时间</td>
                         <td >退费状态</td>
-                        <td>联系状态</td>
-                        <td>提升状态</td>
-                        <td>学习态度</td>
-                        <td >下单超过3个月</td>
+                        <td  style="display:none;">联系状态</td>
+                        <td  style="display:none;">提升状态</td>
+                        <td  style="display:none;">学习态度</td>
+                        <td  style="display:none;">下单超过3个月</td>
 
+
+                        <td  style="display:none;">助教部 | 一级原因</td>
+                        <td  style="display:none;">助教部 | 二级原因</td>
+                        <td  style="display:none;">助教部 | 三级原因</td>
+                        <td  style="display:none;">助教部 | 扣分值</td>
+                        <td  style="display:none;">助教部 | 原因分析</td>
+
+                        <td  style="display:none;">教务部 | 一级原因</td>
+                        <td  style="display:none;">教务部 | 二级原因</td>
+                        <td  style="display:none;">教务部 | 三级原因</td>
+                        <td  style="display:none;">教务部 | 扣分值</td>
+                        <td  style="display:none;">教务部 | 原因分析</td>
+
+                        <td  style="display:none;">老师管理 | 一级原因</td>
+                        <td  style="display:none;">老师管理 | 二级原因</td>
+                        <td  style="display:none;">老师管理 | 三级原因</td>
+                        <td  style="display:none;">老师管理 | 扣分值</td>
+                        <td  style="display:none;">老师管理 | 原因分析</td>
+
+                        <td  style="display:none;">教学部 | 一级原因</td>
+                        <td  style="display:none;">教学部 | 二级原因</td>
+                        <td  style="display:none;">教学部 | 三级原因</td>
+                        <td  style="display:none;">教学部 | 扣分值</td>
+                        <td  style="display:none;">教学部 | 原因分析</td>
+
+                        <td  style="display:none;">产品问题 | 一级原因</td>
+                        <td  style="display:none;">产品问题 | 二级原因</td>
+                        <td  style="display:none;">产品问题 | 三级原因</td>
+                        <td  style="display:none;">产品问题 | 扣分值</td>
+                        <td  style="display:none;">产品问题 | 原因分析</td>
 
                         <td  style="display:none;">咨询部 | 一级原因</td>
                         <td  style="display:none;">咨询部 | 二级原因</td>
                         <td  style="display:none;">咨询部 | 三级原因</td>
                         <td  style="display:none;">咨询部 | 扣分值</td>
                         <td  style="display:none;">咨询部 | 原因分析</td>
-                        <td  style="display:none;">咨询部</td>
-                        <td  style="display:none;">助教部</td>
-                        <td  style="display:none;">教务部</td>
-                        <td  style="display:none;">管理部</td>
-                        <td  style="display:none;">教学部</td>
-                        <td  style="display:none;">产品部</td>
-                        <td  style="display:none;">客户情况变化</td>
+
+                        <td  style="display:none;">客户情况变化 | 一级原因</td>
+                        <td  style="display:none;">客户情况变化 | 二级原因</td>
+                        <td  style="display:none;">客户情况变化 | 三级原因</td>
+                        <td  style="display:none;">客户情况变化 | 扣分值</td>
+                        <td  style="display:none;">客户情况变化 | 原因分析</td>
+
+                        <td  style="display:none;">老师 | 一级原因</td>
+                        <td  style="display:none;">老师 | 二级原因</td>
+                        <td  style="display:none;">老师 | 三级原因</td>
+                        <td  style="display:none;">老师 | 扣分值</td>
+                        <td  style="display:none;">老师 | 原因分析</td>
+
+                        <td  style="display:none;">科目 | 一级原因</td>
+                        <td  style="display:none;">科目 | 二级原因</td>
+                        <td  style="display:none;">科目 | 三级原因</td>
+                        <td  style="display:none;">科目 | 扣分值</td>
+                        <td  style="display:none;">科目 | 原因分析</td>
+
+
+                        <td  style="display:none;">其他原因</td>
+                        <td  style="display:none;">QC整体分析</td>
+                        <td  style="display:none;">后期应对措施及工作调整方案</td>
+
+                        <td  style="display:none;">责任鉴定 | 助教部</td>
+                        <td  style="display:none;">责任鉴定 | 教务部</td>
+                        <td  style="display:none;">责任鉴定 | 老师管理</td>
+                        <td  style="display:none;">责任鉴定 | 教学部</td>
+                        <td  style="display:none;">责任鉴定 | 产品问题</td>
+                        <td  style="display:none;">责任鉴定 | 咨询部</td>
+                        <td  style="display:none;">责任鉴定 | 客户情况变化</td>
+                        <td  style="display:none;">责任鉴定 | 老师</td>
+                        <td  style="display:none;">责任鉴定 | 科目</td>
+
 
                         <td style="min-width:120px;">操作</td>
                     </tr>
@@ -140,13 +197,76 @@
                             <td >{{$var["qc_voluntarily_status_str"]}}</td>
                             <td >{!!$var["is_pass"]!!}</td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{@$var["助教部一级原因"]}}</td>
+                            <td>{{@$var["助教部二级原因"]}}</td>
+                            <td>{{@$var["助教部三级原因"]}}</td>
+                            <td>{{@$var["助教部dep_score"]}}</td>
+                            <td>{{@$var["助教部reason"]}}</td>
+
+                            <td>{{@$var["教务部一级原因"]}}</td>
+                            <td>{{@$var["教务部二级原因"]}}</td>
+                            <td>{{@$var["教务部三级原因"]}}</td>
+                            <td>{{@$var["教务部dep_score"]}}</td>
+                            <td>{{@$var["教务部reason"]}}</td>
+
+                            <td>{{@$var["老师管理一级原因"]}}</td>
+                            <td>{{@$var["老师管理二级原因"]}}</td>
+                            <td>{{@$var["老师管理三级原因"]}}</td>
+                            <td>{{@$var["老师管理dep_score"]}}</td>
+                            <td>{{@$var["老师管理reason"]}}</td>
+
+                            <td>{{@$var["教学部一级原因"]}}</td>
+                            <td>{{@$var["教学部二级原因"]}}</td>
+                            <td>{{@$var["教学部三级原因"]}}</td>
+                            <td>{{@$var["教学部dep_score"]}}</td>
+                            <td>{{@$var["教学部reason"]}}</td>
+
+                            <td>{{@$var["产品问题一级原因"]}}</td>
+                            <td>{{@$var["产品问题二级原因"]}}</td>
+                            <td>{{@$var["产品问题三级原因"]}}</td>
+                            <td>{{@$var["产品问题dep_score"]}}</td>
+                            <td>{{@$var["产品问题reason"]}}</td>
+
+                            <td>{{@$var["咨询部一级原因"]}}</td>
+                            <td>{{@$var["咨询部二级原因"]}}</td>
+                            <td>{{@$var["咨询部三级原因"]}}</td>
+                            <td>{{@$var["咨询部dep_score"]}}</td>
+                            <td>{{@$var["咨询部reason"]}}</td>
+
+                            <td>{{@$var["客户情况变化一级原因"]}}</td>
+                            <td>{{@$var["客户情况变化二级原因"]}}</td>
+                            <td>{{@$var["客户情况变化三级原因"]}}</td>
+                            <td>{{@$var["客户情况变化dep_score"]}}</td>
+                            <td>{{@$var["客户情况变化reason"]}}</td>
+
+                            <td>{{@$var["老师一级原因"]}}</td>
+                            <td>{{@$var["老师二级原因"]}}</td>
+                            <td>{{@$var["老师三级原因"]}}</td>
+                            <td>{{@$var["老师dep_score"]}}</td>
+                            <td>{{@$var["老师reason"]}}</td>
+
+                            <td>{{@$var["科目一级原因"]}}</td>
+                            <td>{{@$var["科目二级原因"]}}</td>
+                            <td>{{@$var["科目三级原因"]}}</td>
+                            <td>{{@$var["科目dep_score"]}}</td>
+                            <td>{{@$var["科目reason"]}}</td>
+
+
+                            <td  >{{@$var["qc_other_reason"]}}</td>
+                            <td  >{{@$var["qc_analysia"]}}</td>
+                            <td  >{{@$var["qc_reply"]}}</td>
+
+                            <td  >{{@$var["助教部责任值"]}}</td>
+                            <td  >{{@$var["教务部责任值"]}}</td>
+                            <td  >{{@$var["老师管理责任值"]}}</td>
+                            <td  >{{@$var["教学部责任值"]}}</td>
+                            <td  >{{@$var["产品问题责任值"]}}</td>
+                            <td  >{{@$var["咨询部责任值"]}}</td>
+                            <td  >{{@$var["客户情况变化责任值"]}}</td>
+                            <td  >{{@$var["老师责任值"]}}</td>
+                            <td  >{{@$var["科目责任值"]}}</td>
+
+
 
                             <td >
                                 <div

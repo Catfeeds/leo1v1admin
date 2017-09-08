@@ -23,6 +23,7 @@ class teaching_menu{
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[
+                    [ "name"=>"首页", "url"=>"/main_page/teacher_management_info"],
                     [ "name"=>"招师组",  "list"=>[
                         [ "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                         [ "name"=>"面试转化信息",   "url"=>"/main_page/zs_teacher_old" ],
@@ -159,6 +160,7 @@ class teaching_menu{
                         [ "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
                         [ "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
                         [ "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info"],
+                        ["name"=>"精排1000教学反馈",   "url"=>"/teacher_level/get_seller_top_test_lesson_info"],
                         [ "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji"],
                         [ "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_zj"],
                         [ "name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua_zj"],

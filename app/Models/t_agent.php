@@ -202,6 +202,44 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_invite_money( $id, $test_lesson_succ_flag , $agent_status_money_open_flag  ) {
+        $list=$this->get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag );
+        $money=0;
+        foreach ($list as $item) {
+            $money+=$item["agent_status_money"];
+        }
+        return $money;
+    }
+
+
+    public function get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        $where_arr=[
+            "a.type in (1,3)",
+            ["agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
+            "create_time> $yxyx_check_time",
+
+        ];
+        if ( $test_lesson_succ_flag ) {
+            $where_arr[] ="agent_status_money=5000 ";
+        }else{
+            $where_arr[] ="agent_status_money<5000 ";
+        }
+
+
+        $sql=$this->gen_sql_new (
+            "select  a.create_time, a.id, a.nickname,a.phone,  agent_status, agent_status_money, agent_status_money_open_flag "
+            ." from %s a "
+            ." where a.parentid=%u and %s "
+            ,self::DB_TABLE_NAME
+            ,$id,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_parent_phone_by_openid($wx_openid){
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"a.wx_openid",$wx_openid);
@@ -860,14 +898,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //重置试听信息
         $lessonid = 0;
         if($userid && $is_test_user == 0 ) {
+            $lessonid=0;
             $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
             if ($ret) {
                 $lessonid = $ret['lessonid'];
             }
         }
-        $this->field_update_list($id,[
-            "test_lessonid" => $lessonid
-        ]);
+        return $lessonid;
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
@@ -1100,12 +1137,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $wx_openid_old  = $agent_info["wx_openid"];
         $agent_student_status=0;
         $agent_status=0;
+        $test_lessonid=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
             $is_test_user = $student_info['is_test_user'];
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
-            $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $test_lessonid=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
             $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
 
             //是学员
@@ -1198,6 +1236,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_yxyx_money" => $all_yxyx_money,
             "all_open_cush_money" => $all_open_cush_money,
             "all_have_cush_money" => $all_have_cush_money,
+            "test_lessonid" => $test_lessonid,
 
         ]);
 
@@ -1206,6 +1245,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 "type" =>  E\Eagent_type::V_3
             ]);
         }
+
+        if (  $agent_type==E\Eagent_type::V_3  &&  !$userid ) {//是会员, 学员,
+            $this->field_update_list($id,[
+                "type" =>  E\Eagent_type::V_2
+            ]);
+        }
+
         if ( $level_count_info["l1_child_count"]) {
             if ($agent_type ==1 ) {
                 $this->field_update_list($id,[

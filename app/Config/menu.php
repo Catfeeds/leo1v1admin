@@ -499,6 +499,8 @@ class menu{
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
+
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
@@ -686,6 +688,7 @@ class menu{
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
                 ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
                 ["power_id"=>30, "name"=>"月份-科目统计", "url"=>"/user_manage/subject_by_month"],
+                ["power_id"=>31, "name"=>"师资管理-首页", "url"=>"/main_page/teacher_management_info"],
 
             ]],
 
@@ -745,6 +748,7 @@ class menu{
                 ["power_id"=>39, "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
                 ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
                 ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info"],
+                ["power_id"=>44, "name"=>"精排1000教学反馈",   "url"=>"/teacher_level/get_seller_top_test_lesson_info"],
                 ["power_id"=>42, "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_zj"],
                 [ "power_id"=>43,"name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua_zj"],
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[

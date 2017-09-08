@@ -42,7 +42,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["l.lesson_start>=%d",$next_day_begin],
             ["l.lesson_start<=%d",$next_day_end],
-            "l.del_flag=0",
+            "l.lesson_del_flag=0",
             "s.is_test_user=0",
             "l.lesson_type =2"
         ];
@@ -195,13 +195,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     public function get_seller_top_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
-            "l.lesson_user_online_status <2",
-            "l.lesson_type in =2",
+            // "l.lesson_user_online_status <2",
+            "l.lesson_type  =2",
             "l.lesson_status>0",
-            "t.is_test_user=0",
+            // "t.is_test_user=0",
             "tss.top_seller_flag=1",
             ["l.subject = %u",$subject,-1],
-            ["tr.teacherid = %u",$teacherid,-1],
+            ["l.teacherid = %u",$teacherid,-1],
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){
@@ -219,20 +219,244 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,l.userid "
-                                  ." from %s tr left join %s t on tr.teacherid = t.teacherid"
-                                  ." left join %s l on tr.train_lessonid = l.lessonid"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,l.userid,tt.stu_request_test_lesson_demand,tq.test_stu_request_test_lesson_demand "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s tr on tr.train_lessonid = l.lessonid and tr.type=1 and tr.lesson_style=6"
                                   ." left join %s s on l.userid=s.userid"
-                                  ." where %s and tr.type=1 and tr.lesson_style=4",
-                                  t_teacher_record_list::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
+                                  ." left join %s tq on tss.require_id = tq.require_id"
+                                  ." left join %s tt on tq.test_lesson_subject_id=tt.test_lesson_subject_id"
+                                  ." where %s ",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
+
+    public function get_seller_test_lesson_tran_info( $start_time,$end_time,$require_type,$set_type){
+        $where_arr = [
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "mm.account_role=2 ",
+            // "mm.del_flag=0",
+        ];
+        if($set_type==1){
+            $where_arr[]= ["lesson_start >= %u",$start_time,-1];
+            $where_arr[]= ["lesson_start < %u",$end_time,-1];
+        }elseif($set_type==2){
+            $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
+            $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
+        }
+        if($require_type==1){
+            $where_arr[] = "tss.top_seller_flag=1";
+        }elseif($require_type==2){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =1";
+        }elseif($require_type==3){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =0";
+        }
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
+    public function get_seller_test_lesson_tran_seller( $start_time,$end_time,$require_type,$set_type){
+        $where_arr = [
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "mm.account_role=2 ",
+            //  "mm.del_flag=0",
+        ];
+        if($set_type==1){
+            $where_arr[]= ["lesson_start >= %u",$start_time,-1];
+            $where_arr[]= ["lesson_start < %u",$end_time,-1];
+        }elseif($set_type==2){
+            $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
+            $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
+        }
+        if($require_type==1){
+            $where_arr[] = "tss.top_seller_flag=1";
+        }elseif($require_type==2){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =1";
+        }elseif($require_type==3){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =0";
+        }
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tq.cur_require_adminid"
+                                  ." ,mm.account "
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s group by tq.cur_require_adminid " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["cur_require_adminid"];
+        });
+
+    }
+
+    public function get_seller_test_lesson_tran_tea( $start_time,$end_time,$require_type,$set_type){
+        $where_arr = [
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "mm.account_role=2 ",
+            // "mm.del_flag=0",
+        ];
+        if($set_type==1){
+            $where_arr[]= ["lesson_start >= %u",$start_time,-1];
+            $where_arr[]= ["lesson_start < %u",$end_time,-1];
+        }elseif($set_type==2){
+            $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
+            $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
+        }
+        if($require_type==1){
+            $where_arr[] = "tss.top_seller_flag=1";
+        }elseif($require_type==2){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =1";
+        }elseif($require_type==3){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =0";
+        }
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s group by l.teacherid " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+
+    }
+
+    public function get_seller_test_lesson_tran_jw( $start_time,$end_time,$require_type,$set_type){
+        $where_arr = [
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "mm.account_role=2 ",
+            // "mm.del_flag=0",
+        ];
+        if($set_type==1){
+            $where_arr[]= ["lesson_start >= %u",$start_time,-1];
+            $where_arr[]= ["lesson_start < %u",$end_time,-1];
+        }elseif($set_type==2){
+            $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
+            $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
+        }
+        if($require_type==1){
+            $where_arr[] = "tss.top_seller_flag=1";
+        }elseif($require_type==2){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =1";
+        }elseif($require_type==3){
+            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.is_green_flag =0";
+        }
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tss.set_lesson_adminid,"
+                                  ."m.account "
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on tss.set_lesson_adminid =m.uid"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s and tss.set_lesson_adminid>0 group by tss.set_lesson_adminid  " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["set_lesson_adminid"];
+        });
+
+    }
+
+
+
+
 
 
 }

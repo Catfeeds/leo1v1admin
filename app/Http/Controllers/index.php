@@ -137,13 +137,8 @@ class index extends Controller
 
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
-            \App\Helper\Utils::logger("xxxxx111");
-
-
             return $this->wx_teacher_index();
         }
-
-
 
         $tq_token=$this->get_in_str_val("token");
         $tq_uin=$this->get_in_int_val("uin");
