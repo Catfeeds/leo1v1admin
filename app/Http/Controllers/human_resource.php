@@ -1996,6 +1996,8 @@ class human_resource extends Controller
 
             if($item['status']=="-2" && empty($item["lesson_start"])){
                 $item['status_str'] = "无试讲";
+            }elseif($item["trial_train_status"]==3){
+                $item['status_str'] ="待定";
             }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["lesson_start"]>0) || empty($item["lesson_start"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["lesson_start"]>0))){
                 $item['status_str'] = "未审核";
             }elseif($item['status']==1 || $item["trial_train_status"]==1){
@@ -2004,8 +2006,6 @@ class human_resource extends Controller
                 $item['status_str'] = "未通过";
             }elseif($item["trial_train_status"]==2){
                 $item['status_str'] ="老师未到";
-            }elseif($item["trial_train_status"]==3){
-                $item['status_str'] ="待定";
             }else{
                  E\Echeck_status::set_item_value_str($item, "status");
             }
