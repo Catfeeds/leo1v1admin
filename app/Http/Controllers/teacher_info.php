@@ -1875,6 +1875,7 @@ class teacher_info extends Controller
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
+        $teacher_level_str = \App\Helper\Utils::get_teacher_level_str($simple_info);
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$begin_time,$end_time);
         $list      = [];
@@ -1889,6 +1890,8 @@ class teacher_info extends Controller
             \App\Helper\Utils::check_isset_data($list[$month_key]["all_money"],0,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["date"],$month_key,0);
             \App\Helper\Utils::check_isset_data($list[$month_key]["level_str"],$level_str,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["trial_lesson_total"],0,0);
+            \App\Helper\Utils::check_isset_data($list[$month_key]["normal_lesson_total"],0,0);
 
             $key = "already_lesson_count_".$month_key."_".$teacherid;
             if(!isset($already_lesson_count_list[$key])){
@@ -1912,12 +1915,14 @@ class teacher_info extends Controller
                 $val['lesson_base'] = $val['money']*$lesson_count;
                 $lesson_reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                 $list_lesson_key = "normal_lesson";
+                $list_lesson_total_key = "normal_lesson_total";
             }else{
                 $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
                     $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                 );
                 $lesson_reward   = "0";
                 $list_lesson_key = "trial_lesson";
+                $list_lesson_total_key = "trial_lesson_total";
             }
             $lesson_money = $val['lesson_base']+$lesson_reward;
 
@@ -1930,8 +1935,9 @@ class teacher_info extends Controller
                 "cost"       => $val['lesson_cost'],
                 "money"      => $lesson_money,
             ];
-            $list[$month_key][$list_lesson_key][]=$lesson_arr;
-            $list[$month_key]["all_money"] += $lesson_money;
+            $list[$month_key][$list_lesson_key][]  = $lesson_arr;
+            $list[$month_key][$list_lesson_total_key]  += $lesson_count;
+            $list[$month_key]["all_money"]        += $lesson_money;
         }
 
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$begin_time,$end_time);
@@ -1970,7 +1976,8 @@ class teacher_info extends Controller
         }
 
         return $this->pageView(__METHOD__,[],[
-            "money_list" => $money_list
+            "money_list"        => $money_list,
+            "teacher_level_str" => $teacher_level_str
         ]);
     }
 

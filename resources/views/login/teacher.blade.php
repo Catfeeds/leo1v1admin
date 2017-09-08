@@ -28,6 +28,7 @@
              min-width:966px;
              width:100%;
              padding:0 10px;
+             margin:0 0;
              border-bottom:1px solid #ccc;
          }
          .nav{
@@ -60,6 +61,9 @@
          }
          .color-9{
              color:#999;
+         }
+         .color-red{
+             color:red;
          }
          .mid-con{
              margin:20px 0;
@@ -98,11 +102,16 @@
              color:#fff;
          }
          .footer{
+             position:absolute;
              background-color:#eee;
+             margin:0 0;
+             width:100%;
              height:100%;
          }
          .footer-btm{
-             margin-top:150px;
+             position:absolute;
+             bottom:0px;
+             width:100%;
              text-align:center;
              color:#999;
          }
@@ -114,7 +123,14 @@
              display:inline-block;
              width:75%;
          }
+         html {
+             height: 100%;
+         }
 
+         body {
+             height: 100%;
+             position: relative;
+         }
         </style>
     </head>
     <body>
@@ -131,10 +147,10 @@
                 <a href="" class="logo">下载</a>
                 <a href="" class="logo">帮助中心</a>
             </div>
-            <div class="col-md-3 col-xs-3">
-                <a href="" class="logo  color-blue">收藏</a>
-                <a href="" class="logo r-link  color-blue">创建桌面快捷方式</a>
-            </div>
+            {{-- <div class="col-md-3 col-xs-3">
+                                                                      <a href="" class="logo  color-blue">收藏</a>
+                                                                      <a href="" class="logo r-link  color-blue">创建桌面快捷方式</a>
+                                                                      </div> --}}
         </div>
         <!-- head-end -->
 
@@ -170,11 +186,11 @@
                         </div>
                     </div>
                     <div class="login-mig form-group">
-                        <span id="id_errmsg"></span>
+                        <span id="id_errmsg" class="color-red"></span>
                     </div>
                     <div class="login-mig row">
                         <div class="col-xs-6">
-                            <label><input class="bor-no" type="checkbox" name="hold"> 记住密码</label>
+                            <label class="color-9"><input class="bor-no" type="checkbox" name="hold"> 记住密码</label>
                         </div>
                         <div class="col-xs-6">
                             <a href="" class="color-blue">忘记密码？</a>

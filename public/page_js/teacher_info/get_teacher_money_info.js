@@ -52,9 +52,9 @@ $(function(){
     });
 
     var max_num = month_info.length;
-
     if(max_num>0){
         var curnum = max_num-1;
+        $(".no-money-title").hide();
         $('#id_prev_year').on('click', function() {
             curnum--;
             month_change();
@@ -87,7 +87,12 @@ $(function(){
             // }
             // console.log("loopnum:"+(loopnum-1));
             // console.log("month_info:"+month_info[loopnum-1]);
-            $('#id_year').text( month_info[curnum].date );
+            console.log(month_info);
+            $('#id_year').text(month_info[curnum].date);
+            $('#id_teacher_level').text(month_info[curnum].level_str);
+            $('#id_normal_lesson_total').text(month_info[curnum].normal_lesson_total+"课时");
+            $('#id_trial_lesson_total').text(month_info[curnum].trial_lesson_total+"课时");
+            $('#id_all_money').text(month_info[curnum].all_money+"元");
 
             var line = new Morris.Line({
                 element    : 'line-chart',
@@ -104,8 +109,7 @@ $(function(){
         }
         month_change();
     }else{
-        $("#id_section").empty();
-        $("#id_section").html("暂无薪资信息！");
+        $(".has-money").hide();
     }
 
 });
