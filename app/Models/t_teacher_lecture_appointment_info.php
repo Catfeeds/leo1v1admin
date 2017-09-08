@@ -1017,5 +1017,16 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,$where_arr);
         return $this->main_get_list($sql);
     }
+    public function get_fulltime_teacher_total(){
+        $where_arr = [
+            "full_time=1"
+        ];
+        $sql = $this->gen_sql_new("select count(phone) as apply_total "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
 
 }
