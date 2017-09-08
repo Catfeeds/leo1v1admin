@@ -39,6 +39,7 @@ class textbook_manage extends Controller
         foreach($list as $item){
             $data[$item["city"]]["educational_system"] =$item["educational_system"]; 
             $data[$item["city"]]["area"] =$item["city"]; 
+            $data[$item["city"]]["province"] =$item["province"]; 
             $subject_str    = E\Esubject::get_desc($item["subject"]);
 
             $arr_text= explode(",",$item["teacher_textbook"]);
@@ -47,6 +48,18 @@ class textbook_manage extends Controller
                 @$textbook .=  E\Eregion_version::get_desc ($vall).",";
             }
             $textbook = trim($textbook,",");
+
+            if($item["subject"]==1){
+                if($item["grade"]==100){
+                    $data[$item["city"]]["yw_primary"] =$textbook; 
+                }elseif($item["grade"]==200){
+                     $data[$item["city"]]["yw_middle"] =$textbook;
+                }elseif($item["grade"]==300){
+                     $data[$item["city"]]["yw_senior"] =$textbook;
+                }
+
+            }
+
 
             $data[$item["city"]]["textbook"][$item["subject"]]["subject"] =$subject_str;
             if($item["grade"]==100){

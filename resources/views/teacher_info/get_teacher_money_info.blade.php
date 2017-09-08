@@ -135,6 +135,32 @@
                                 <th class='text-cen'>扣款</th>
                                 <th class='text-cen'>金额</th>
                             </tr>
+                            @foreach($money_list as $list_key=>$list_val)
+                                @if(isset($list_val['list']) && is_array($list_val['list']))
+                                    @foreach($list_val['list'] as $l_key=>$l_val)
+                                        <tr>
+                                            <td><button type='button'><i class='fa fa-plus'></i></button></td>
+                                            <td>{{$value['key_str']}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @foreach($value as $k=>$v)
+                                            <tr>
+                                                <td></td>
+                                                <td>——</td>
+                                                <td>{{$v['name']}}</td>
+                                                <td>{{$v['time']}}</td>
+                                                <td>{{$v['status_info']}}</td>
+                                                <td>{{$v['cost']}}</td>
+                                                <td>{{$v['money']}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endif
+                            @endforeach
                         </table>
                     </div>
                 </div>

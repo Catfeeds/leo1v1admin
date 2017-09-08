@@ -93,6 +93,7 @@
                 selectedProvince = name;
             }
         }
+        alert(selectedProvince);
         //  alert(selectedProvince);//所选择省的名字
         if (typeof selectedProvince == 'undefined') {
             option.series.splice(1);
