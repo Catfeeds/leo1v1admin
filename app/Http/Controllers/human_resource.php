@@ -1286,7 +1286,8 @@ class human_resource extends Controller
     {
         $assistantid = $this->get_in_int_val('assistantid',-1);
         $nick        = $this->get_in_str_val('name');
-        $birth       = $this->get_in_int_val('birth');
+        // $birth       = $this->get_in_int_val('birth');
+        $birth       = str_replace('-','',$this->get_in_str_val('birth'));
         $gender      = $this->get_in_int_val('sex');
         $work_year   = $this->get_in_int_val('years');
         $school      = $this->get_in_str_val('school');
