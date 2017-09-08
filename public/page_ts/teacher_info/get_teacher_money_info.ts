@@ -23,22 +23,25 @@ $(function(){
             curnum = max_num-1;
         }
         var show_info = [];
-        // var num = 0;
-        // var loopnum = curnum;
-        // while (num < max_num)
-        // {
-        //     if(loopnum < max_num && loopnum >= 0) {
-        //         if( month_info[loopnum] !== undefined ) {
-        //             show_info[show_info.length] = month_info[loopnum];
-        //         }
-        //     }
-        //     loopnum++;
-        //     num++;
-        // }
-        // console.log("loopnum:"+(loopnum-1));
-        // console.log("month_info:"+month_info[loopnum-1]);
 
-        console.log(month_info);
+        var num       = 0;
+        var loopnum   = 0;
+        var check_num = 6;
+        if(check_num>max_num){
+            check_num = max_num;
+        }
+        while (num < check_num)
+        {
+            if(loopnum < max_num && loopnum >= 0) {
+                if( month_info[loopnum] !== undefined ) {
+                    show_info[show_info.length] = month_info[loopnum];
+                }
+            }
+            loopnum++;
+            num++;
+        }
+
+        //清除线谱
         $('#line-chart').empty();
         //月份显示
         $('#id_year').text(month_info[curnum].date);
@@ -49,17 +52,22 @@ $(function(){
         $('#id_all_money').text(month_info[curnum].all_money+"元");
 
         $(".date-tbody").each(function(){
-
             var date = $(this).data("date");
             if(date==month_info[curnum].date){
-                
+                $(this).show();
+            }else{
+                $(this).hide();
             }
         });
 
+        $(".show_key").each(function(){
+            var show_key = $(this).data("show_key");
+            $("."+show_key).hide();
+        });
         var line = new Morris.Line({
             element    : 'line-chart',
             resize     : true,
-            data       : month_info,
+            data       : show_info,
             xkey       : 'date',
             ykeys      : ['all_money'],
             labels     : ['工资'],
@@ -87,5 +95,11 @@ $(function(){
         $(".has-money").hide();
     }
 
+    $(".show_key").on("click",function(){
+        var data = $(this).data("show_key");
+        $('.'+data).toggle('show');
+        $(this).children().toggleClass('fa-plus');
+        $(this).children().toggleClass('fa-minus');
+    });
 
 });

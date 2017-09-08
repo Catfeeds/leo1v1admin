@@ -3,6 +3,9 @@
 
  $(function(){
     
+     $("#id_back").on("click",function(){
+         window.location.reload();  
+     });
     var myChart = echarts.init(document.getElementById('container_new'));
     // 显示省份
     var option = {
@@ -123,13 +126,20 @@
                     var res ='';
                     var province = selectedProvince;
                     for(var i = 0;i<$imgs.length;i++){
-                        if($imgs[i].area == $pna){
+                        if((($imgs[i].province == "北京" || $imgs[i].province == "上海" || $imgs[i].province == "天津" || $imgs[i].province == "重庆") && $imgs[i].province ==province ) || $imgs[i].area == $pna){
+                            var str = "";
+                            $.each($imgs[i],function(i,item){
+                                if(i != "area" && i != "province"){
+                                    str = str+item+"<br>";
+                                }
+                            });
+
                             res = '<div style="padding:20px;">'
                             //                                      添加版本信息，例如： +$imgs[i].educational+'<br>'
-                                +$imgs[i].educational+'<br>'
-                                +$imgs[i].junior+'<br>'
-                                +$imgs[i].senior+
-
+                              //  +$imgs[i].educational_system+'<br>'
+                               // +$imgs[i].wl_middle+'<br>'
+                               // +$imgs[i].wl_senior+
+                                +str+
                             '</div>';//设置自定义数据的模板，这里的模板是图片
                             //console.log(res);
                             break;

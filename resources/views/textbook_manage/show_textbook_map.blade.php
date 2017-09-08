@@ -1,5 +1,17 @@
 @extends('layouts.app')
 @section('content')
+    <div class="row">
+        <div class="col-md-1 remove-for-xs col-xs-6 " style="margin-left:1200px" >
+            <div>
+                <button class="btn btn-primary" id="id_back"> 返回 </button>
+            </div>
+
+        </div>
+
+        
+    </div>
+
+
 
     <!--定义页面图表容器-->
     <!-- 必须制定容器的大小（height、width） -->
