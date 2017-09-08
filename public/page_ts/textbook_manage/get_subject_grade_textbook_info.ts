@@ -96,8 +96,34 @@ $(function(){
             ["学制", id_educational_system],
         ];
         id_teacher_textbook.on("click",function(){
-            
-        });
+            var textbook  = "";
+            console.log(textbook);
+            $.do_ajax("/user_deal/get_teacher_textbook",{
+                "textbook" : textbook
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["textbook"]  ]);
+
+                    if (this["has_textbook"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","教材版本" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+                        id_teacher_textbook.val(JSON.stringify(select_list));
+                        dlg.close();
+                    }
+                });
+                
+            });
         $.show_key_value_table("添加地区教材", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
