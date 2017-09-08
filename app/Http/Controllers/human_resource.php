@@ -1296,6 +1296,7 @@ class human_resource extends Controller
         $phone       = $this->get_in_str_val('phone');
         $email       = $this->get_in_str_val('email');
         $assistant_type= $this->get_in_int_val('job');
+        $assistant_type = $assistant_type<0?0:$assistant_type;
 
         $ret_info = $this->t_assistant_info->update_assistant_info3($assistantid,$nick,$birth,$gender,$work_year,$school,$phone,$email,$assistant_type);
 
