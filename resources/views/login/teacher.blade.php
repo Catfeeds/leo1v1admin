@@ -109,9 +109,15 @@
              margin:100px 0 0 0;
              width:100%;
              height:auto;
+             position:fixed;
+             bottom:0;
+         }
+         input:-webkit-autofill{
+             background-color:#fff;
+             -webkit-box-shadow: 0 0 0px 1000px white inset;
          }
          .footer-btm{
-             background:#ccc;
+             background:#eee;
              padding-top:100px;
              width:100%;
              text-align:center;
@@ -162,6 +168,7 @@
          }
          .down-tab table{
              width:70%;
+             max-width:450px;
              margin:0 auto;
          }
          .down-btm{
@@ -203,6 +210,11 @@
         </div>
         <!-- head-end -->
 
+        <!-- 微信老师帮 -->
+        <div class="wx-help">
+
+        </div>
+        <!-- 微信老师帮 -->
         <div class="middle">
             <!-- login-start -->
             <div class="row mid-con" id="login">
