@@ -86,7 +86,7 @@ function check_seccode() {
     return true;
 }
 
-$('.navs a').mouseenter(function() {
+$('.navs a').on('click', function() {
     $(this).addClass('selected');
     $(this).siblings().removeClass('selected');
     var show_id = $(this).attr('data-id');
@@ -97,7 +97,7 @@ $('.navs a').mouseenter(function() {
     });
 });
 
-$('.download span').mouseenter(function() {
+$('.download span').on('click', function() {
     $(this).addClass('choised');
     $(this).siblings().removeClass('choised');
     var show_class = $(this).attr('data-type');

@@ -533,6 +533,7 @@ class url_power_map {
 			'/teacher_level/get_first_regular_lesson_info_jy'	=>1324000,
 			'/teacher_level/get_fifth_regular_lesson_info_jy'	=>1324100,
 			'/textbook_manage/get_subject_grade_textbook_info'	=>1324200,
+			'/textbook_manage/show_textbook_map'	=>1324300,
 			'/tongji_ss/get_test_lesson_low_tra_teacher'	=>1323103,
 			'/tongji_ss/get_seller_require_modify_info'	=>1323111,
 			'/tongji_ss/get_stu_test_paper_download_info'	=>1323119,
