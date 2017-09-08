@@ -1055,7 +1055,8 @@ class human_resource extends Controller
             $item['ass_nick']     = $item['nick'];
             $item['is_part_time'] = E\Eassistant_type::get_desc($item['assistant_type']);
             E\Egender::set_item_value_str($item);
-            $item['age']          = $age;
+            // $item['age']          = $age;
+            $item['age']          = $item['birth']?$age:'未设置';
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
