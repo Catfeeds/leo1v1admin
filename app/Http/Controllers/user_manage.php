@@ -2403,7 +2403,6 @@ class user_manage extends Controller
 
 
         $ret_grade = [];
-        dd($ret_info);
         foreach ($ret_info as $key => &$value) {
 		if($value['grade'] != "401"){
 	          $ret_grade[$value['grade_str']] = $value['sum'];

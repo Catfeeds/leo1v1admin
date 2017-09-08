@@ -475,8 +475,12 @@ class fulltime_teacher extends Controller
         $apply_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time); //成功注册人数
         $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total(); //总注册人数
         $arrive_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//
+        $video_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);
+
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
         $ret_info['apply_total'] = $apply_total[0]['apply_total'];
+        $ret_info['arrive_num'] = $arrive_num[0]['arrive_num'] + $video_num[0]['video_num'];
+        
     	return $this->pageView(__METHOD__,null,[
     		'ret_info'  =>   @$ret_info,
     	]);
