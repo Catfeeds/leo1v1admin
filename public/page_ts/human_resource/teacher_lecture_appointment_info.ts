@@ -616,7 +616,8 @@ $(function(){
         var id_record_info = $("<textarea/>");
         var flag_html      = "<option value='0'>不通过</option>"
             +"<option value='1'>通过</option>"
-            +"<option value='2'>老师未到</option>";
+            +"<option value='2'>老师未到</option>"
+            +"<option value='3'>待定</option>";
         id_flag.append(flag_html);
         id_flag.val(data.full_status);
         id_record_info.val(data.full_record_info);
