@@ -103,7 +103,6 @@ class send_wx_msg_for_test_lesson extends Command
                 if(($opt_time_stu>$opt_time_stu_login)&&($opt_time_stu > $item['lesson_start']) && ($opt_time_stu<=$now-600) && ($now<$item['lesson_end']) ){ // 判断学生是否超时 [10分钟]
                     $data_ass = $this->get_data($item, 3,3, '', $item['stu_nick']);
                     $this->send_wx_msg_ass($item,3,$data_ass);
-
                 }
 
                 if(($opt_time_tea>$opt_time_tea_login)&&($opt_time_tea > $item['lesson_start']) && ($opt_time_tea<=$now-600)  && ($now<$item['lesson_end']) ){ // 判断老师是否超时  [10分钟]

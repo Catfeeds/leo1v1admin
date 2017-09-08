@@ -17,10 +17,12 @@ $(function(){
     });
 
     var show_teacher_money = function(money_list,html){
-        var button_html = "";
+        var button_html   = "";
+        var id_button_str = "";
         $('#id_teacher_money_list').empty();
         $.each(money_list,function(key,value){
-            html_list += "<tr><td><button type='button'><i class='fa fa-minus'></i></button></td>";
+            id_button_str = "";
+            html_list += "<tr><td><button type='button' id="+id_button_str+"><i class='fa fa-minus'></i></button></td>";
             $.each(value,function(k,v){
 
             });
