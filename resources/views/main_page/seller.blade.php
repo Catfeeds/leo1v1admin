@@ -89,7 +89,7 @@
                                     <td>{{@$self_top_info[10]["top_index"]}} </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>钱 </td>
+                                    <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
                                 </tr>
                             </tbody>
                         </table>
