@@ -345,3 +345,6 @@
 .skin-teacher .logo-lg,.logo-mini{
     margin-top:5px;
 }
+.skin-teacher .btn-info:active,.btn-info:focus{
+    background-color:#00A6FF;
+}
