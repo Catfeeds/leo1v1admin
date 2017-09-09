@@ -754,6 +754,8 @@ class Utils  {
     static public function send_agent_msg_for_wx($openid,$template_id,$data,$url=""){
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
+        $wx->send_template_msg($jim_openid,$template_id,$data,$url);
         $is_success = $wx->send_template_msg($openid,$template_id,$data,$url);
         $task= new \App\Console\Tasks\TaskController();
         $task->t_weixin_msg->row_insert([

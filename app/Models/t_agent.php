@@ -1198,8 +1198,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //$old_agent_status
 
 
-
-        $parentid=1850;
+        //$parentid=1850;
         $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
         $data = [
             'first'    => "xcadfa",

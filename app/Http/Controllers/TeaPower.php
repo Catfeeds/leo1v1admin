@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
 use \App\Enums as E;
 
-trait  TeaPower {
+trait TeaPower {
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
 
@@ -165,7 +165,6 @@ trait  TeaPower {
                 "teacher_tags"  =>$str
             ]);
         }
-
     }
 
     public function get_teacher_label_new($tea_arr){
@@ -2909,8 +2908,6 @@ trait  TeaPower {
         }
 
         return $str;
-
-
     }
 
 
