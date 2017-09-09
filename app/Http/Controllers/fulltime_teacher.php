@@ -479,21 +479,26 @@ class fulltime_teacher extends Controller
         $arrive_through_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
         $video_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
 
-         $second_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+        $second_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+
+        $enter_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time);
 
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
         $ret_info['apply_total'] = $apply_total[0]['apply_total'];
         $ret_info['arrive_num'] = $arrive_num[0]['arrive_count'] + $video_num[0]['video_num'];
         $ret_info['arrive_through'] = $arrive_through_num[0]['arrive_through_count'] + $video_through_num[0]['video_through_num'];
         $ret_info['second_through'] = $second_through_num[0]['through_num'];
+        $ret_info['enter_num']      = $enter_num[0]['num'];
         if($ret_info['apply_total']){
             $ret_info['arrive_num_per'] = round(100*$ret_info['arrive_num']/$ret_info['apply_total'],2);
             $ret_info['arrive_through_per'] = round(100*$ret_info['arrive_through']/$ret_info['apply_total'],2);
             $ret_info['second_through_per'] = round(100*$ret_info['second_through']/$ret_info['apply_total'],2);
+            $ret_info['enter_num_per'] = round(100*$ret_info['enter_num']/$ret_info['apply_total'],2);
         }else{
             $ret_info['arrive_num_per'] = 0;
             $ret_info['arrive_through_per'] = 0;
             $ret_info['second_through_per'] = 0;
+            $ret_info['enter_num_per'] = 0;
         }
 
     	return $this->pageView(__METHOD__,null,[

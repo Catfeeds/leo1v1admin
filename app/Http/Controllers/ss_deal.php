@@ -1574,6 +1574,7 @@ class ss_deal extends Controller
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
+        $order_price_desc= json_encode( $price_ret["desc_list"]);
         $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
         $promotion_spec_diff_money =0;
@@ -1638,7 +1639,8 @@ class ss_deal extends Controller
             $promotion_spec_discount,
             $promotion_spec_present_lesson,$contract_from_type,
             $from_parent_order_lesson_count,
-            $pre_price
+            $pre_price,
+            $order_price_desc
         );
 
 

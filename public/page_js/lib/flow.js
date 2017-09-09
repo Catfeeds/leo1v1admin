@@ -172,6 +172,10 @@ jQuery.extend({
         $.do_ajax("/self_manage/flow_table_data",{
             flowid:flowid,
         },function(resp){
+            if (resp.ret==-1) {
+                alert(resp.info);
+                return;
+            }
             var arr=resp.table_data;
             arr.push([$("<font color=blue>审核人/时间</font>"), $("<font color=blue>审核状态/说明</font>")]);
 

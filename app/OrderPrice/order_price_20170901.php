@@ -16,6 +16,12 @@ class order_price_20170901 extends order_price_base
         303 => 480,
     ];
 
+    static $new_free_lesson_config = [
+        30 => 6,
+        60 => 12,
+        90 => 18,
+    ];
+
     static $new_discount_config_1 = [
         30 => 90,
         60 => 86,
@@ -70,6 +76,7 @@ class order_price_20170901 extends order_price_base
         $old_price = $grade_price/3*$lesson_count;
         $desc_list =  [];
         $price=$old_price;
+        $desc_list[]=static::gen_desc("原价",1, " $lesson_count 课时 $old_price 元 ", $price);
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             /*
@@ -90,10 +97,21 @@ class order_price_20170901 extends order_price_base
             $price=$grade_price*$off_value/100/3 * $lesson_count;
 
             if ($off_value<100) {
-                $desc_list[]=static::gen_desc("满课时打折",1, "$find_count_level 次课 $off_value 折");
+                $desc_list[]=static::gen_desc("满课时打折",1, "$find_count_level 次课 $off_value 折" ,$price);
             }else{
-                $desc_list[]=static::gen_desc("满课时打折",false);
+                $desc_list[]=static::gen_desc("满课时打折",false,"",$price );
             }
+
+            //满课时 90课时送 6课时 ,  2*90课时送 2*6课时   ,3*90课时 3*6
+            list($find_free_lesson_level , $present_lesson_count )=static::get_value_from_config_ex(
+                static::$new_free_lesson_config,  $check_lesson_count , [0,0] );
+            if ( $present_lesson_count) {
+                $tmp= $present_lesson_count/3;
+                $desc_list[]=static::gen_desc("活动-满课时送课",true, "$find_free_lesson_level 次课 送 $tmp 次课", $price );
+            }else{
+                $desc_list[]=static::gen_desc("活动-满课时送课",false ,"",$price );
+            }
+
         }
 
         $free_money=0;
@@ -120,6 +138,7 @@ class order_price_20170901 extends order_price_base
             $desc_list[]=static::gen_desc("满课时立减",false  );
         }
         */
+
         if($args["from_test_lesson_id"]!=0){
             $from_test_lesson_id=@$args["from_test_lesson_id"];
             $task= self::get_task_controler();
@@ -135,15 +154,17 @@ class order_price_20170901 extends order_price_base
 
             $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
             if ( $lesson_count>=30*3 && $lesson_start &&  time(NULL)<$check_time  ) {
-                $free_money+=300;
-                $desc_list[]=static::gen_desc("当配活动",true, "试听后一天内下单 立减 300元" );
+                $free_money=300;
+                $price-=$free_money;
+                $desc_list[]=static::gen_desc("当配活动",true, "试听后一天内下单 立减 300元" ,$price );
             }else{
-                $desc_list[]=static::gen_desc("当配活动",false );
+                $desc_list[]=static::gen_desc("当配活动",false, "",$price );
             }
         }else{
-            $desc_list[]=static::gen_desc("当配活动",false );
+            $desc_list[]=static::gen_desc("当配活动",false ,"",$price);
         }
-        $price-=$free_money;
+
+
 
 
         return [
