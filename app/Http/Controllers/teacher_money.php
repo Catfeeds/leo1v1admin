@@ -341,9 +341,15 @@ class teacher_money extends Controller
             //拉取上个月累计课时
             $start_time = strtotime("-1 month",$start);
             $end_time   = strtotime("-1 month",$end);
-            $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+            $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $teacherid,$start_time,$end_time);
+            //供第四版工资类型使用
+            $last_lesson_count_4 = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $teacherid,$start_time,$end_time,E\Eteacher_money_type::V_6);
+
             if($transfer_teacherid>0){
-                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
+                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                    $transfer_teacherid,$start_time,$end_time);
                 $last_lesson_count += $old_lesson_count;
             }
 
