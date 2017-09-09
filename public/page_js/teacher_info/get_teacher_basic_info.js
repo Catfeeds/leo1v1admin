@@ -15,11 +15,6 @@ $(function(){
                 var res = $.parseJSON(file);
                 if( res.key!='' ){
                     var get_pdf_url=res.key;
-                    // $.do_ajax("/teacher_info/update_teacher_pdf_info",{
-                    //     "opt_field": opt_field,
-                    //     "get_pdf_url": get_pdf_url,
-                    // });
-
                     $.ajax({
                         type     : "post",
                         url      : "/teacher_info/update_teacher_pdf_info",
@@ -109,7 +104,7 @@ $(function(){
     });
     $('.opt-change').set_input_change_event(load_data);
 
-    $("button[data-dismiss]").on("click", function () {
+    $(".tag").on("click", function () {
         if (!confirm("确定退出编辑吗？")){
             return false;
         }

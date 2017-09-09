@@ -177,7 +177,7 @@
                     <td style="display:none;" >知识点</td>
                     <td style="display:none;">老师</td>
                     <td style="min-width:60px">老师信息</td>
-                    <td style="display:none;">老师等级</td>
+                    <td style="display:none;">老师薪资类型</td>
                     <td style="display:none;">学生电话</td>
                     <td style="display:none;">家长电话</td>
                     <td style="display:none;">学生</td>
@@ -250,7 +250,7 @@
                             @endif
                         </td>
                         <td >
-                            {{$var["level"]}}
+                            {{$var["teacher_money_type_str"]}}/{{$var['level_str']}}
                         </td>
                         <td > {{$var["stu_phone"]}}    </td>
                         <td > {{$var["fa_phone"]}}    </td>

@@ -437,7 +437,7 @@ class teacher_simulate extends Controller
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->teacher_money_type_month_key);
 
         $start_time = strtotime("2017-1-1");
-        $end_time   = strtotime("2017-8-1");
+        $end_time   = strtotime("2017-9-1");
 
         $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
         dispatch($job);

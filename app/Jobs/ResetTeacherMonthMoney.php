@@ -160,7 +160,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
         \App\Helper\Utils::logger("month money is :".json_encode($teacher_money_month_list));
 
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list);
-        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_simulate_list);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_simulate_key,$already_lesson_count_simulate_list);
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->money_month_key,$month_list);
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_money_type_month_key,$teacher_money_month_list);
     }

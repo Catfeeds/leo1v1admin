@@ -205,7 +205,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释
             }
 
             // 给投诉老师反馈
@@ -237,12 +237,6 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         \App\Helper\Utils::logger("wx_software: ".$teacherid);
         \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
-        if($serverId_str == '123' || $serverId_str == '456' ){
-            $serverId_str = '';
-        }
-
-        \App\Helper\Utils::logger("wx_serverId_str2: ".$serverId_str);
-
 
         $now = time();
 
@@ -304,7 +298,6 @@ class wx_teacher_api extends Controller
 
             $qc_openid_arr = [
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                // "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8",  // haku
