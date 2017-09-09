@@ -83,6 +83,7 @@
                                 <a class="opt-assign_remark btn fa" title="分配记录">备</a>
                                 <a class="fa fa-list-alt opt-complaint-all btn" title="投诉信息汇总"></a>
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
+                                <a title="投诉图片" class="opt-complaint-img">图片</a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>

@@ -184,6 +184,27 @@ $(function(){
     });
 
 
+
+    $('.opt-complaint-img').on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var img_str  = opt_data.complaint_img_url;
+        var html_node = "";
+        var img_arr = img_str.split(',');
+
+        $.each(img_arr, function (i, item) {
+            var cls = "success";
+            html_node += "<tr class=\"" + cls + "\" > <td>" + i + "<td>" + item +"</tr>";
+        });
+
+        BootstrapDialog.show({
+            title: "图片列表",
+            message: html_node,
+            closable: true
+        });
+
+    });
+
+
     $('.opt-change').set_input_change_event(load_data);
 
 

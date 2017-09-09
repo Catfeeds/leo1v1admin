@@ -996,7 +996,7 @@ class teacher_level extends Controller
 
     public function delete_record_acc(){
         $id  = $this->get_in_int_val("id");
-        $this->t_teacher_record_list->row_insert($id);
+        $this->t_teacher_record_list->row_delete($id);
         return $this->output_succ();
     }
 
