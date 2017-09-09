@@ -108,17 +108,4 @@ $(function(){
         });
     });
     $('.opt-change').set_input_change_event(load_data);
-
-    $('#modal-default').on('shown.bs.modal', function (e) {
-        $(this).unbind("click");
-        $("button[data-dismiss]").on("click", function () {
-            $("#modal-default").removeClass('in');
-            $("#modal-default").css("padding-right", "");
-            $("#modal-default").hide();
-            $(".modal-backdrop").remove();
-            $(".modal-open").css("padding-right", "");
-            $(".modal-open").removeClass("modal-open");
-        });
-    })
-
 });
