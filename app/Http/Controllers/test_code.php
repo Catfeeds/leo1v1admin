@@ -2015,6 +2015,9 @@ class test_code extends Controller
         dd($already_lesson_count_list);
         // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
         // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
+
+
+
     }
 
 

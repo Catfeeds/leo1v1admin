@@ -298,7 +298,6 @@ class wx_teacher_api extends Controller
 
             $qc_openid_arr = [
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                // "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8",  // haku
