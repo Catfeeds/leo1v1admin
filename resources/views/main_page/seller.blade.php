@@ -88,9 +88,9 @@
                                     </td>
                                     <td>{{@$self_top_info[10]["top_index"]}} </td>
                                 </tr>
-                                <!-- <tr>
-                                     <td colspan="3">再做XXX业绩（下一提成档-当前业绩）可多赚约XXX钱（按提成档*对应提成系数-当前提成）{{@$self_money["this_money"]}} </td>
-                                     </tr> -->
+                                <tr>
+                                    <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>钱 </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
