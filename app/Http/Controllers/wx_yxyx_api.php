@@ -375,7 +375,7 @@ class wx_yxyx_api extends Controller
             if ($lesson_count >=2) {
                 $order_cash+=  $item["level1_cash"];
             }
-            if ($lesson_count >=4) {
+            if ($lesson_count >=8) {
                 $order_cash+=  $item["level2_cash"];
             }
             $item["order_cash"] = $order_cash;

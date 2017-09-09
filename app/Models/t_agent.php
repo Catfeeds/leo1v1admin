@@ -1003,7 +1003,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 $lesson_info= $this->task->t_lesson_info_b2->get_lesson_count_by_userid($userid, $check_time );
                 $lesson_count=$lesson_info["count"];
-                if ($lesson_count >=4 ) {
+                if ($lesson_count >=8 ) {
                     $p_open_price= $p_price;
                     $pp_open_price= $pp_price;
                 }else if ( $lesson_count >=2) {
