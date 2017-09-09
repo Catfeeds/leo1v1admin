@@ -360,7 +360,11 @@ class agent extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        dd($arr,$ret_info);
+
+        $arr_next = $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info_next(
+            $adminid, $start_time, $end_time );
+
+        dd($arr_next,$arr,$ret_info);
     }
 
     public function agent_add(){

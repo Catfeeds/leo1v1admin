@@ -128,13 +128,11 @@ class main_page extends Controller
 
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
         // dd($self_top_info);
-        //本月提成系数
-        // $this_money = $this->seller_month_money_list();
-        // $self_money['this_money'] = $this_money;
-        // $next_money = $this->seller_month_money_list();
-        // $self_money['next_money'] = $next_money;
+        //提成刺激
+        $money_info = $this->seller_month_money_list();
+        $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
+        $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
 
-        // dd($this_month_money_arr);
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -146,15 +144,14 @@ class main_page extends Controller
             "self_groupid"           => $self_groupid,
             "is_group_leader_flag"   => $is_group_leader_flag,
             "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
-            // "self_money"             => $self_money,
+            "self_money"             => $self_money,
         ]);
     }
 
     public function seller_month_money_list() {
-        $adminid=$this->get_in_adminid(-1);
-        list($start_time,$end_time )= $this->get_in_date_range_month(0);
-        $month= strtotime( date("Y-m-01", $start_time));
-
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=$this->get_account_id();
+        $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
         case "201703" :
@@ -166,7 +163,11 @@ class main_page extends Controller
                 $adminid, $start_time, $end_time ) ;
             break;
         }
-        return $arr['money'];
+        $arr_next = \App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info_next(
+            $adminid, $start_time, $end_time );
+        $arr['next_all_price'] = $arr_next['all_price'];
+        $arr['next_money'] = $arr_next['money'];
+        return $arr;
     }
 
     public  function assistant() {
