@@ -1229,7 +1229,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword3' => date('Y-m-d H:i:s',time()),
                         'remark'   => "sdfadf",
                     ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
                 }else if ($agent_status == E\Eagent_status::V_10) {//拨通推送
 
@@ -1241,7 +1241,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword3' => date('Y-m-d H:i:s',time()),
                         'remark'   => "sdfadf",
                     ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
                 }else if ($agent_status == E\Eagent_status::V_20) { //排课
 
                     $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
@@ -1252,7 +1252,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword3' => date('Y-m-d H:i:s',time()),
                         'remark'   => "sdfadf",
                     ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
 
                 }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
@@ -1265,7 +1265,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword3' => date('Y-m-d H:i:s',time()),
                         'remark'   => "sdfadf",
                     ];
-                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
 
                 }else if ($agent_status == E\Eagent_status::V_40) { //签单

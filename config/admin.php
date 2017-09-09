@@ -28,7 +28,7 @@ return [
     "teacher_ref_start_time"    => "2017-07-01",
 
     //新版优学优享开始时间
-    "yxyx_new_start_time"    => "2017-09-01", //
+    "yxyx_new_start_time"    => "2017-08-01", //
     "test" => [
         "username"  =>   'jim',
         "password"  =>   env('TEST_PASSWORD', 'xcwen142857'),
