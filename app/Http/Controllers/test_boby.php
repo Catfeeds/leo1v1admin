@@ -445,6 +445,23 @@ class test_boby extends Controller
         }
         return $this->output_succ(["list"=>$ret_info]);
     }
+    public function get_teacher_student(){//p4
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = 182903;
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+        $face       = [];
+        foreach ($ret_info as $item) {
+            $face[] = @$item['face'];
+        }
+        $stu_info['stu_num'] = count($ret_info);
+        $stu_info['face']    = $face;
+        return $this->output_succ(["stu_info"=>$stu_info]);
+    }
 
 
 }

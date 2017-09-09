@@ -15,11 +15,6 @@ $(function(){
                 var res = $.parseJSON(file);
                 if( res.key!='' ){
                     var get_pdf_url=res.key;
-                    // $.do_ajax("/teacher_info/update_teacher_pdf_info",{
-                    //     "opt_field": opt_field,
-                    //     "get_pdf_url": get_pdf_url,
-                    // });
-
                     $.ajax({
                         type     : "post",
                         url      : "/teacher_info/update_teacher_pdf_info",
