@@ -43,8 +43,8 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="bor-hr"></div>
-                    <div class="box-body">
-                        <div class="direct-chat-messages col-sm-12">
+                    <div class="box-body" style="overflow:hidden">
+                        <div class="direct-chat-messages col-sm-12" style="height:100%">
                             <div class="row">
                                 <div class="col-lg-3 col-xs-6">
                                     <!-- small box -->
