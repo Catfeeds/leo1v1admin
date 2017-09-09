@@ -348,3 +348,7 @@
 .skin-teacher .btn-info:active,.btn-info:focus{
     background-color:#00A6FF;
 }
+
+.skin-teacher .btm{
+    bottom:0;
+}

@@ -110,12 +110,12 @@
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="main-sidebar">
                 <!-- sidebar: style can be found in sidebar.less -->
-                <section class="sidebar">
+                <section class="sidebar" style="height:auto">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-                    <ul class="sidebar-menu" data-widget="tree">
+                    <ul class="sidebar-menu tree" data-widget="tree">
 
-                        <li ><a href="/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 课程列表 </span> </a></li>
-                        <li  ><a href="/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 当前课表 </span> </a></li>
+                        <li><a href="/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 课程列表 </span> </a></li>
+                        <li><a href="/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 当前课表 </span> </a></li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-black-tie"></i> <span>老师档案</span>
