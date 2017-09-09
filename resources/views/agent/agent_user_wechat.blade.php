@@ -60,6 +60,20 @@
                             <td id="id_all_money_info"> </td>
                         </tr>
 
+
+                        <tr>
+                            <td>
+                               签单人数
+                            <td id="id_order_user_count"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                下线人数
+                            <td id="id_child_all_count"> </td>
+                        </tr>
+
+
                         <tr>
                             <td>
                                签单奖励/可提现
@@ -75,13 +89,7 @@
 
                         <tr>
                             <td>
-                               邀请试听成功不可提现
-                            <td id="id_invite_money_not_open_lesson_succ"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                               邀请试听未成功不可提现
+                               邀请试听不可提现
                             <td id="id_invite_money_not_open_not_lesson_succ"> </td>
                         </tr>
 

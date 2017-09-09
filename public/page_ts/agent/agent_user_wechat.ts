@@ -42,12 +42,9 @@ $(function(){
     };
 
     $("#id_invite_money_not_open_not_lesson_succ").on("click",function(){
-        load_invite_list(0,0);
+        load_invite_list(-1,0);
     });
 
-    $("#id_invite_money_not_open_lesson_succ").on("click",function(){
-        load_invite_list(1,0);
-    });
 
 
     $("#id_invite_money_info").on("click",function(){
@@ -70,8 +67,9 @@ $(function(){
             $("#id_all_money_info").text(""+ user. all_money_info.all_money+"/"+ user.all_money_info.open_moeny +"/"+ user.all_have_cush_money );
             $("#id_order_money_info").text(""+ user. order_money_info.all_money+"/"+ user.order_money_info.open_moeny  );
             $("#id_invite_money_info").text(""+ user. invite_money_info.all_money+"/"+ user.invite_money_info.open_moeny );
-            $("#id_invite_money_not_open_lesson_succ").text(user.invite_money_not_open_lesson_succ );
-            $("#id_invite_money_not_open_not_lesson_succ").text(user.invite_money_not_open_not_lesson_succ);
+            $("#id_invite_money_not_open_not_lesson_succ").text(user.invite_money_info.all_money- user.invite_money_info.open_moeny   );
+            $("#id_order_user_count").text(user.order_user_count);
+            $("#id_child_all_count").text(user.child_all_count);
 
         },
         error:function(){
