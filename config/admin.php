@@ -36,7 +36,7 @@ return [
     "taobao_shop" => [
         'appKey'     => '23277683',
         'secretKey'  => 'c90496e27b10d2fe5c6c78b98753b9b5',
-        'sessionKey' => '61003238879001b35f8d8285aeddff01950f60fdf806cff2338582886',
+        'sessionKey' => '61021139fabdff75a2ddc18a54d1adc9d878cd8c78d071d2338582886',
         'name'       => '理优教育',
     ],
     "wx" => [
