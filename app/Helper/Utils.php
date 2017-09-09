@@ -755,7 +755,7 @@ class Utils  {
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $is_success = $wx->send_template_msg($openid,$template_id,$data,$url);
-        $task = new  \App\Console\Tasks\TaskController();
+        $task= new \App\Console\Tasks\TaskController();
         $task->t_weixin_msg->row_insert([
             "userid"      => 0,
             "openid"      => $openid,

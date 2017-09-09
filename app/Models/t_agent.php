@@ -1194,6 +1194,45 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return  array(($order_count+$need_set_open_list_count)*50*100, $order_count+$succ_lesson_cont ,$l1_agent_status_all_money  );
 
     }
+    public function wx_noti_agent_status( $parentid, $phone, $old_agent_status, $agent_status) {
+        //$old_agent_status
+        $parentid=1850;
+        if ($parentid && $old_agent_status < $agent_status ) { //状态升级
+            $p_item = $this->field_get_list($parentid,"wx_openid,agent_level");
+            if ($p_item) {
+                $wx_openid   = $p_item["wx_openid"];
+                $agent_level = $p_item["agent_level"];
+
+            }
+            if ($agent_status ==1  ) {
+
+            }
+
+
+        }
+        /*
+          1.成功邀请学员提醒
+          恭喜您成功邀请学员XXX参加测评课，您获得5元奖励。
+          如课程老师成功联系学员，将再获得5元奖励。
+
+
+          2.成功联系学员提醒
+          课程老师已成功联系学员XXX，您获得5元奖励。
+          如学员成功预约测评课，将再获得10元奖励。
+
+
+          3.学员成功预约测评课提醒
+          您邀请的学员XXX成功预约测评课，您获得10元奖励。
+          如学员成功上完测评课，将再获得30元奖励。
+
+          4.学员XXX测评课成功提醒
+          您邀请的学员XXX成功上完测评课，您获得30元奖励。
+          如学员购买课程，将再获得该学员学费的5%（最高500元）奖励。
+        */
+
+
+
+    }
 
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
@@ -1201,6 +1240,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_type= $agent_info["type"];
         $agent_level_old = $agent_info["agent_level"];
         $wx_openid_old  = $agent_info["wx_openid"];
+        $old_agent_status = $agent_info["agent_status"];
         $agent_student_status=0;
         $agent_status=0;
         $test_lessonid=0;
@@ -1312,7 +1352,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if ($agent_info["create_time"] < $check_time
             && $agent_info["agent_status_money_open_flag"] !=0 ) {
             $this->field_update_list($id,[
-                "agent_status_money_open_flag" => 0
+                "agent_status_money_open_flag" => 0,
+                "agent_status_money" => 0,
             ]);
         }
         //$agent_status_money_open_flag=0;

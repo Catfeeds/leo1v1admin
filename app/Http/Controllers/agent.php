@@ -318,8 +318,18 @@ class agent extends Controller
     }
 
     public function check(){
-        //cc排课
-       dd('a');
+        $adminid=830;
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+        dd($ret_info);
     }
 
     public function agent_add(){
