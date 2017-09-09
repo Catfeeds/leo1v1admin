@@ -318,9 +318,184 @@ class agent extends Controller
     }
 
     public function check(){
-        //cc排课
-       dd('a');
+        $adminid=830;
+        $this->set_in_value("limit_require_send_adminid",$adminid);
+        $this->set_in_value("limit_require_flag",1);
+
+        $cur_page = $this->get_in_str_val("cur_page");
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+            1 => array("require_time","申请时间"),
+            2 => array("stu_request_test_lesson_time", "期待试听时间"),
+            4 => array("lesson_start", "上课时间"),
+            5 => array("seller_require_change_time ", "销售申请更换时间"),
+        ]);
+
+        $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        if(!empty($account_info)){
+            if($account_info["teacherid"]==61828 ){
+                $tea_subject= "(4,5)";
+            }else if(!empty($account_info["subject"])){
+                $tea_subject = "(".$account_info["subject"].")";
+            }else{
+                $tea_subject= "";
+            }
+        }else{
+            $tea_subject = "";
+        }
+
+        $grade                      = $this->get_in_grade();
+        $subject                    = $this->get_in_subject();
+        $test_lesson_student_status = $this->get_in_int_val('test_lesson_student_status', -1,E\Eseller_student_status::class);
+        $lessonid                   = $this->get_in_lessonid(-1);
+        $page_num                   = $this->get_in_page_num();
+        $userid                     = $this->get_in_userid(-1);
+        $accept_flag                = $this->get_in_int_val("accept_flag", -2, E\Eset_boolean::class);
+        $success_flag               = $this->get_in_int_val("success_flag", -1, E\Eset_boolean::class);
+        $teacherid                  = $this->get_in_teacherid(-1);
+        $jw_teacher                 = $this->get_in_int_val("jw_teacher",-1);
+        $is_test_user               = $this->get_in_int_val("is_test_user",0, E\Eboolean::class);
+        $jw_test_lesson_status      = $this->get_in_int_val("jw_test_lesson_status",-1,E\Ejw_test_lesson_status::class);
+
+        $require_admin_type   = $this->get_in_int_val("require_admin_type", -1,E\Eaccount_role::class);
+        $require_adminid      = $this->get_in_int_val("require_adminid",-1);
+        $require_assign_flag  = $this->get_in_int_val("require_assign_flag",-1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+
+        $tmk_adminid                = $this->get_in_int_val("tmk_adminid",-1);
+        $seller_require_change_flag = $this->get_in_int_val("seller_require_change_flag",-1);
+        $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
+        $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
+        $adminid_right              = $this->get_seller_adminid_and_right();
+        $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
+        $is_jw                      = $this->get_in_int_val("is_jw",0);
+        $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
+        $limit_require_flag         = $this->get_in_int_val("limit_require_flag",-1);
+        $limit_require_send_adminid = $this->get_in_int_val("limit_require_send_adminid",-1);
+        $require_id                 = $this->get_in_int_val("require_id",-1);
+        $has_1v1_lesson_flag        = $this->get_in_int_val("has_1v1_lesson_flag",-1,E\Eboolean::class);
+
+        $ret_info = $this->t_test_lesson_subject_require->get_plan_list(
+            $page_num, $opt_date_str, $start_time,$end_time ,$grade,
+            $subject, $test_lesson_student_status,$teacherid, $userid,$lessonid ,
+            $require_admin_type , $require_adminid ,$ass_test_lesson_type, $test_lesson_fail_flag,$accept_flag ,
+            $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list,$adminid_all=[],
+            $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
+            $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
+        );
+        dd($ret_info);
+        $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
+        foreach($ret_info["list"] as $id => &$item){
+            $item['id'] = $start_index+$id;
+            $item["lesson_time"] = $item["lesson_start"];
+            $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
+            \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start");
+            \App\Helper\Utils::unixtime2date_for_item($item, "confirm_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "limit_require_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "limit_accept_time","_str");
+            E\Egrade::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,"editionid");
+            if(!empty($item["textbook"])){
+                $item["editionid_str"] = $item["textbook"];
+            }
+            E\Esubject::set_item_value_str($item);
+            if($item['current_lessonid']>0){
+                $item['grab_status']=2;
+            }
+            E\Egrab_status::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
+            E\Etest_lesson_level::set_item_value_str($item,"stu_test_lesson_level");
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"stu_test_ipad_flag");
+            E\Eset_boolean::set_item_value_str($item,"accept_flag");
+            E\Eaccept_flag::set_item_value_str($item,"limit_accept_flag");
+
+            $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["accept_flag"] );
+            $this->cache_set_item_teacher_nick($item);
+            $this->cache_set_item_account_nick($item,"confirm_adminid","confirm_admin_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+
+            $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($item["stu_request_lesson_time_info"], true);
+            $str_arr=[];
+            foreach ($stu_request_lesson_time_info as $p_item) {
+                $str_arr[]=E\Eweek::get_desc($p_item["week"])." "
+                    .date('H:i',@$p_item["start_time"])
+                    .date('~H:i', $p_item["end_time"]);
+            }
+
+            $item["stu_request_lesson_time_info_str"]= join("<br/>", $str_arr);
+            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["success_flag"] );
+            $item["lesson_used_flag_str"]=\App\Helper\Common::get_boolean_color_str(!$item["lesson_del_flag"]);
+
+            E\Eboolean::set_item_value_str($item,"fail_greater_4_hour_flag");
+            // E\Eboolean::set_item_value_str($item,"intention_level");
+            $item["intention_level_str"] = \App\Helper\Common::get_boolean_color_str($item["intention_level"]);
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+            E\Eass_test_lesson_type::set_item_value_str($item);
+
+            $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
+                $item["stu_request_test_lesson_time_info"],true
+            );
+
+            $str_arr=[];
+            foreach ($stu_request_test_lesson_time_info as $p_item) {
+                $str_arr[]= \App\Helper\Utils::fmt_lesson_time(@$p_item["start_time"], $p_item["end_time"]);
+            }
+
+            $item["stu_request_test_lesson_time_info_str"] = join("<br/>", $str_arr);
+            $item["stu_test_paper_flag_str"] = \App\Helper\Common::get_test_pager_boolean_color_str(
+                $item["stu_test_paper"], $item['tea_download_paper_time']
+            );
+
+            $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
+            $this->cache_set_item_account_nick($item, "limit_require_adminid", "limit_require_account");
+            $this->cache_set_item_account_nick($item, "limit_require_send_adminid", "limit_require_send_account");
+            $this->cache_set_item_teacher_nick($item, "limit_require_teacherid", "limit_require_tea_nick");
+            if($item['seller_require_change_flag'] > 0){
+                $item['require_change_lesson_time_str'] = date("Y-m-d H:i",$item['require_change_lesson_time']);
+                $item['seller_require_change_time_str'] = date("Y-m-d H:i",$item['seller_require_change_time']);
+                E\Eseller_require_change_flag::set_item_value_str($item);
+                $item['is_require_change']="1";
+            }else{
+                $item['is_require_change']="0";
+            }
+            if($item['accept_adminid'] > 0){
+                $item['is_accept_adminid']="1";
+                $this->cache_set_item_account_nick($item,"accept_adminid" ,"accept_account" ); //t_manager_info->get_account($item['accept_adminid']);
+            }else{
+                $item['is_accept_adminid']="0";
+            }
+
+        }
+
+        $adminid           = $this->get_account_id();
+        $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
+
+        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
+
+       //  var_dump($ret_info['list']);
+        // dd($ret_info['list']);
+        //dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "cur_page"          => $cur_page,
+            "adminid_right"     => $adminid_right,
+            "admin_work_status" => $admin_work_status,
+            "jw_teacher_list"   => $jw_teacher_list,
+            "adminid"           => $adminid
+        ]);
     }
+
+
+
+
+
+
+
+
 
     public function agent_add(){
         // $p_phone = '18616626799';
