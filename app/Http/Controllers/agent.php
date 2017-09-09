@@ -346,7 +346,8 @@ class agent extends Controller
             E\Emain_type::set_item_value_str($item);
         }
 
-        $start_time = date('Y-m-d',$start_time);
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=314;
         $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
