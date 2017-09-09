@@ -932,10 +932,12 @@ class Utils  {
     }
 
     /**
-     * 2017年02月24日16:18:42
-     * 检测老师工资体系(新版试听和老版试听价格不同,公司全职试听课价格为0)
-     * type 1,3 课时累计由学生决定
-     * type 2 课时累计由上月决定
+     * 2017年09月09日18:29:48
+     * 检测老师工资体系
+     * type 1 课时累计由学生决定
+     * type 3 课时累计由学生决定,公司全职老师,试听课价格为0
+     * type 2 课时累计由上月常规+试听课时决定
+     * type 4 课时累计由上月常规时决定
      * @param  teacher_money_type 老师工资分类
      * @param  teacher_type 老师类型
      * @return integer
@@ -948,8 +950,10 @@ class Utils  {
             }else{
                 $type = 1;
             }
-        }elseif(in_array($teacher_money_type,[4,5,6])){
+        }elseif(in_array($teacher_money_type,[4,5])){
             $type = 2;
+        }elseif(in_array($teacher_money_type,[6])){
+            $type = 4;
         }
         return $type;
     }

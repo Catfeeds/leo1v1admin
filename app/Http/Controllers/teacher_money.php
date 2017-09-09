@@ -352,7 +352,9 @@ class teacher_money extends Controller
                 foreach($lesson_list as $key => &$val){
                     //判断课程的老师类型来设置累计课时的数值
                     $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+
                     $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
+
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
 
                     if($val['lesson_type'] != 2){

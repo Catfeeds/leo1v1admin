@@ -2086,6 +2086,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account){
 
         //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规 
+        $phone = $this->get_phone($userid);
 
         $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
         $set_arr=[
@@ -2106,18 +2107,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "system"
         );
 
-
-
-
         $set_str=$this-> get_sql_set_str( $set_arr);
         $sql=sprintf("update %s set %s where userid=%u",
                      self::DB_TABLE_NAME,
                      $set_str,
                      $userid );
         return $this->main_update($sql);
-
-
-
     }
 
 }
