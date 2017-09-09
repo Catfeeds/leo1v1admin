@@ -209,32 +209,32 @@ class teacher_simulate extends Controller
                 }
             }
 
+
+
+            $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
+
+            $all_money_different        = $all_money_simulate-$all_money;
+            $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
+
+
+            $show_data = [
+                "all_money"                  => round($all_money,2),
+                "all_money_simulate"         => round($all_money_simulate,2),
+                "all_lesson_price"           => round($all_lesson_price,2),
+                "all_lesson_price_simulate"  => round($all_lesson_price_simulate,2),
+                "all_money_different"        => round($all_money_different,2),
+                "all_lesson_price_different" => round($all_lesson_price_different,2),
+                "lesson_total"               => $lesson_total,
+                "level_list"                 => $level_list,
+                "acc"                        => $acc,
+                "start_time"                 => $start_time,
+                "all_count"                 => $all_count,
+                "down_count"                 => $down_count,
+                "up_count"                 => $up_count,
+            ];
+
+            $this->check_month_redis_key($show_data);
         }
-
-
-        $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
-
-        $all_money_different        = $all_money_simulate-$all_money;
-        $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
-
-
-        $show_data = [
-            "all_money"                  => round($all_money,2),
-            "all_money_simulate"         => round($all_money_simulate,2),
-            "all_lesson_price"           => round($all_lesson_price,2),
-            "all_lesson_price_simulate"  => round($all_lesson_price_simulate,2),
-            "all_money_different"        => round($all_money_different,2),
-            "all_lesson_price_different" => round($all_lesson_price_different,2),
-            "lesson_total"               => $lesson_total,
-            "level_list"                 => $level_list,
-            "acc"                        => $acc,
-            "start_time"                 => $start_time,
-            "all_count"                 => $all_count,
-            "down_count"                 => $down_count,
-            "up_count"                 => $up_count,
-        ];
-
-        $this->check_month_redis_key($show_data);
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
         $show_data["final_money"] = $final_money_list;
         $list = \App\Helper\Utils::list_to_page_info($list);
