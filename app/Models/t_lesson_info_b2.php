@@ -3804,13 +3804,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_seller_week_lesson_new($start_time,$end_time,$adminid){
         $where_arr=[
             ["l.lesson_type=%u",2,-1],
-            ["l.lesson_del_flag=%u",0,-1],
+            // ["l.lesson_del_flag=%u",0,-1],
             ["l.lesson_start >= %u",$start_time,-1],
             ["l.lesson_start < %u",$end_time,-1],
             ["ls.require_adminid = %u",$adminid,-1],
         ];
 
         $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_start,l.userid,l.teacherid,l.lesson_start,l.lesson_end,"
+                                  ."l.lesson_del_flag,"
                                   ."lsl.call_before_time,lsl.call_end_time,"
                                   ."ls.require_adminid adminid,ls.require_adminid"
                                   ." from %s l "
