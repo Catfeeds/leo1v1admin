@@ -54,19 +54,6 @@
                                             <br>
                                         </div>
                                         <div class="inner">
-                                            <p>教师等级</p>
-                                            <h4 id="id_teacher_level">{{$teacher_level_str}}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./col -->
-                                <div class="col-lg-3 col-xs-6">
-                                    <!-- small box -->
-                                    <div class="small-box bg-linfo color-fff">
-                                        <div class="col-xs-12 text-right">
-                                            <br>
-                                        </div>
-                                        <div class="inner">
                                             <p>常规课耗</p>
                                             <h4 id="id_normal_lesson_total">0课时</h4>
                                         </div>
@@ -101,6 +88,18 @@
                                     </div>
                                 </div>
                                 <!-- ./col -->
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-linfo color-fff">
+                                        <div class="col-xs-12 text-right">
+                                            <br>
+                                        </div>
+                                        <div class="inner">
+                                            <p>额外奖励</p>
+                                            <h4 id="id_reward_money">0元</h4>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.row -->
                         </div>

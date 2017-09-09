@@ -20,6 +20,9 @@ class order_price_20170901 extends order_price_base
         30 => 6,
         60 => 12,
         90 => 18,
+        120 => 24,
+        150 => 30,
+        180 => 36,
     ];
 
     static $new_discount_config_1 = [

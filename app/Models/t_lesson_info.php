@@ -3240,11 +3240,10 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
         ];
         if($teacher_money_type==E\Eteacher_money_type::V_6){
-            $where_arr[]="lesson_type in (0,1,3)";
+            $where_arr[] = "lesson_type in (0,1,3)";
         }else{
-            $where_arr[]="lesson_type <1000";
+            $where_arr[] = "lesson_type <1000";
         }
-
 
         $sql = $this->gen_sql_new("select sum(lesson_count) "
                                   ." from %s"

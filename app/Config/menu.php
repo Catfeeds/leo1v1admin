@@ -374,10 +374,10 @@ class menu{
                     ["power_id"=>5, "name"=>"消息统计",   "url"=>"/monitor/aggregate"],
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
-                // ["power_id"=>9, "name"=>"淘宝管理",  "list"=>[
-                //     ["power_id"=>1, "name"=>"app首页设置",  "url"=>"/taobao_manage/taobao_type" ],
-                //     ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
-                // ]],
+                ["power_id"=>70, "name"=>"淘宝管理",  "list"=>[
+                    ["power_id"=>1, "name"=>"app首页设置",  "url"=>"/taobao_manage/taobao_type" ],
+                    ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
+                ]],
                 ["power_id"=>11, "name"=>"tmk数据 上传",  "list"=>[
                     ["power_id"=>1, "name"=>"批次列表",  "url"=>"/upload_tmk/post_list" ],
                     ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
