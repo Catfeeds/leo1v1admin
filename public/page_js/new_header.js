@@ -230,114 +230,10 @@ function table_init() {
     var row_query=$(".row-query-list" );
     if (row_query.length>0) {
         var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
-        //var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group-btn\" >   <button    title=\"筛选条件列表\" class=\" query_type_list btn btn-warning fa  fa-list  \"> </button> <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
-
-        /*
-          var btn=query_select_list.find(".query_type_list");
-          btn.on("click",function(){
-          var item_list=row_query.find (">div");
-          var arr=[];
-          $.each( item_list, function(i,item){
-          var $item=$(item);
-          var input=$item.find("select");
-          if (input.length==0) {
-          input=$item.find("input");
-          }
-          var id_name=input.attr("id");
-          if (id_name) {
-          var title= $item.data("title");
-          if (!title) {
-          title=$item.find('span').text();
-          }
-          if (!title) {
-          title=$item.find('input').attr("placeholder");
-          }
-          if (!title) {
-          title=$item.find('input').attr("placeholder");
-          }
-          if(title) {
-          var display= $item.css("display");
-          var $input=$("<input type=\"checkbox\"/>");
-          if (display=="none") {
-          $input.attr("checked",false) ;
-          }else{
-          $input.attr("checked","checked") ;
-          }
-          $input.data("id_name",id_name);
-          arr.push([ title,  $input]);
-          }
-          }
-
-          });
-
-          var path_list=window.location.pathname.split("/");
-          var table_key=path_list[1]+"-"+path_list[2]+"-query" ;
-
-
-          $.show_key_value_table("筛选条件配置", arr ,[{
-          label: '默认',
-          cssClass: 'btn-primary',
-          action: function(dialog) {
-          $.do_ajax("/page_common/opt_table_field_list",{
-          "opt_type":"set",
-          "table_key":table_key,
-          "data":""
-          });
-          window.location.reload();
-          }
-          },{
-
-          label: '确认',
-          cssClass: 'btn-warning',
-          action: function(dialog) {
-          var config_map={
-          };
-          $.each(arr, function(i,item){
-          var $input=item[1];
-          var index=$input.data("id_name");
-          var value=$input.prop("checked");
-          config_map[index]=value;
-          });
-          $.do_ajax("/page_common/opt_table_field_list",{
-          "opt_type":"set",
-          "table_key":table_key,
-          "data":JSON.stringify(config_map)
-          });
-          }
-          }]);
-
-          });
-        */
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");
         var table_query_key=path_list[1]+"-"+path_list[2]+"-query" ;
 
-        /*
-          $.do_ajax("/page_common/opt_table_field_list",{
-          "opt_type":"get",
-          "table_key":table_query_key
-          },  function(resp){
-          var item_list=row_query.find (">div");
-          if(resp.field_list ) {
-          $.each( resp.field_list, function( id_name, flag ){
-
-          if (!flag) {
-          item_list.each(function(){
-          var $item=$(this);
-          if ($item.find("#"+id_name).length >0) {
-          $item.hide();
-          return false;
-          }else{
-          return true;
-          }
-          });
-          }
-          return true;
-          });
-          }
-
-          });
-        */
 
         var item_list=row_query.find (">div");
         if (item_list.length>5) {
@@ -531,7 +427,7 @@ function table_init() {
                         "table_key":table_key,
                         "data":""
                     });
-                    $.reload();
+                    window.localStorage.setItem(table_key , "");
                 }
             },{
 
@@ -551,6 +447,7 @@ function table_init() {
                         "table_key":table_key,
                         "data":JSON.stringify(config_map)
                     });
+                    window.localStorage.setItem(table_key , "");
                 }
             }]);
         });
@@ -666,6 +563,7 @@ function table_init() {
                         });
                         $item.append($reset_btn);
                         set_reset_filed_flag=true;
+                        window.localStorage.setItem(table_key , "");
                     }
 
                 }
@@ -708,10 +606,25 @@ function table_init() {
 
 
         if (!check_in_phone() ) {
-            $.do_ajax("/page_common/opt_table_field_list",{
-                "opt_type":"get",
-                "table_key":table_key
-            }, reset_table );
+            var val=window.localStorage.getItem(table_key  );
+            var cur=(new Date() ).getTime()/1000;
+            var config = null;
+            try {
+                config=JSON.parse(val );
+            }catch( $e) {
+            }
+            if (config && cur - config.log_time < 3600    ) {
+                reset_table (config);
+            }else {
+                $.do_ajax("/page_common/opt_table_field_list",{
+                    "opt_type":"get",
+                    "table_key":table_key
+                }, function(resp ){
+                    reset_table (resp);
+                    resp.log_time=cur;
+                    window.localStorage.setItem(table_key , JSON.stringify(resp));
+                } );
+            }
         }else{
             reset_table ({});
         }

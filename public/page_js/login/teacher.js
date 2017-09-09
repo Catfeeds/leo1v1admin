@@ -59,6 +59,7 @@ $(function(){
         return false;
     } );
 
+
 });
 
 
@@ -84,3 +85,53 @@ function check_seccode() {
     }
     return true;
 }
+
+$('.navs a').on('click', function() {
+    $(this).addClass('selected');
+    $(this).siblings().removeClass('selected');
+    var show_id = $(this).attr('data-id');
+    $(show_id).removeClass('hide');
+    $(this).siblings().each(function(){
+        var hide_id = $(this).attr('data-id');
+        $(hide_id).addClass('hide');
+    });
+});
+
+$('.download span').on('click', function() {
+    $(this).addClass('choised');
+    $(this).siblings().removeClass('choised');
+    var show_class = $(this).attr('data-type');
+    $(show_class).removeClass('hide');
+    $(this).siblings().each(function(){
+        var hide_class = $(this).attr('data-type');
+        $(hide_class).addClass('hide');
+    });
+});
+
+$('.download-pc-url').click( function () {
+    var window_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/%E7%90%86%E4%BC%981%E5%AF%B91%20-%20%E8%80%81%E5%B8%88%E7%AB%AF%20Setup%204.1.0.exe";
+    var mac_url="http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/LeoeduTeacher-4.1.0.dmg";
+    if(navigator.platform.indexOf('mac') > -1 || navigator.platform.indexOf('Mac') > -1){
+        window.location.href = mac_url;
+    }else{
+        if(navigator.userAgent.indexOf("Windows XP") > -1 || navigator.userAgent.indexOf("Windows NT 5.1") > -1){
+            alert('不支持Windows XP,请安装Windows7及以上操作系统')
+        }else{
+            window.location.href = window_url;
+        }
+    }
+});
+$(".download-pdf").click( function(){
+    var window_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/FoxitReader_8.2.0.2051.exe";
+    var mac_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/LeoeduTeacher/FoxitReader.2.3.0.2197.enu.Setup.pkg";
+    console.log(navigator.platform);
+    if(navigator.platform.indexOf('mac') > -1 || navigator.platform.indexOf('Mac') > -1){
+        window.location.href = mac_url;
+    }else{
+        if(navigator.userAgent.indexOf("Windows XP") > -1 || navigator.userAgent.indexOf("Windows NT 5.1") > -1){
+            alert('不支持Windows XP,请安装Windows7及以上操作系统')
+        }else{
+            window.location.href = window_url;
+        }
+    }
+});

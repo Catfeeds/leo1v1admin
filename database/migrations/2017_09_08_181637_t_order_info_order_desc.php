@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TAssistantInfoAddAssignLessonCount extends Migration
+class TOrderInfoOrderDesc extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class TAssistantInfoAddAssignLessonCount extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_assistant_info', function( Blueprint $table)
+
+        Schema::table('db_weiyi.t_order_info', function( Blueprint $table)
         {
-            t_field($table->integer("assign_lesson_count"),"助教待赠送课时,每月累加");
+            t_field($table->string( "order_price_desc",4096),"价格说明");
         });
 
     }

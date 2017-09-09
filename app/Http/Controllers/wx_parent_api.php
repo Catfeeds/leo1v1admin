@@ -516,7 +516,6 @@ class wx_parent_api extends Controller
             return $this->output_err('只能调整24小时后的课程．．');
         }
 
-
         $arr = [
             "start" => $start,
             "end"   => $end
@@ -529,7 +528,7 @@ class wx_parent_api extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
 
         $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
-        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $lesson_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
 
         $filter_lesson_time_start = time(NULL)+86400;
         $filter_lesson_time_end   = $lesson_end+3*86400;

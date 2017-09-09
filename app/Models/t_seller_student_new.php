@@ -401,7 +401,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ." left join %s tss on  tr.current_lessonid = tss.lessonid "
             ." left join %s l on  tss.lessonid = l.lessonid "
             ." left join %s o on  o.from_test_lesson_id = l.lessonid "
-            ." left join %s f on f.from_key_int = o.orderid "
+            ." left join %s f on ( f.flow_type=2002  and  f.from_key_int = o.orderid  )"
             ." left join %s tt on l.teacherid = tt.teacherid"
             ." left join %s a on s.assistantid = a.assistantid"
             ." left join %s p on (p.parentid = s.parentid  and p.parentid !=0  ) "

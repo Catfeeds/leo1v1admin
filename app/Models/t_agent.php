@@ -221,9 +221,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "create_time> $yxyx_check_time",
 
         ];
-        if ( $test_lesson_succ_flag ) {
+        if ( $test_lesson_succ_flag ==1 ) {
             $where_arr[] ="agent_status_money=5000 ";
-        }else{
+        }else if ( $test_lesson_succ_flag ==0 ) {
             $where_arr[] ="agent_status_money<5000 ";
         }
 
@@ -1003,7 +1003,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 $lesson_info= $this->task->t_lesson_info_b2->get_lesson_count_by_userid($userid, $check_time );
                 $lesson_count=$lesson_info["count"];
-                if ($lesson_count >=8 ) {
+                if ($lesson_count >=4 ) {
                     $p_open_price= $p_price;
                     $pp_open_price= $pp_price;
                 }else if ( $lesson_count >=2) {
@@ -1128,6 +1128,70 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             return 0;
         }
     }
+    //return 可提现金额
+    public function reset_user_info_l1_money_open_flag($id ){
+        $l1_child_list=$this-> get_l1_test_lesson_order_list($id);
+        $set_open_list=[];
+        $order_count=0;
+        $l1_agent_status_all_money=0;
+        foreach( $l1_child_list as $item ) {
+            $child_id=$item["id"];
+            $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
+            $l1_agent_status_all_money +=$item["agent_status_money"];
+            $orderid=$item["orderid"];
+            if ($orderid) { //有订单
+                if ($agent_status_money_open_flag !=1 ) {
+                    $this->field_update_list($child_id,[
+                        "agent_status_money_open_flag" => 1
+                    ]);
+                    $order_count+=1;
+                }
+            }else {
+                if ($item["lesson_user_online_status"] ==1 ) {
+                    $set_open_list[]=[
+                        "id" => $child_id,
+                        "agent_status_money_open_flag" =>$agent_status_money_open_flag,
+                    ];
+                }else{
+                    if ($agent_status_money_open_flag !=0 ) { //没有开放
+                        $this->field_update_list($child_id,[
+                            "agent_status_money_open_flag" => 0
+                        ]);
+                    }
+                }
+            }
+
+
+            $succ_lesson_cont=count($set_open_list );
+
+            //4倍提现
+            $need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %4 ;
+            foreach ( $set_open_list as  $index => $item  ) {
+                $child_id=$item["id"];
+                $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
+                if ($index < $need_set_open_list_count) { //可提现范围
+                    if ($agent_status_money_open_flag !=1 ) {
+                        $this->field_update_list($child_id,[
+                            "agent_status_money_open_flag" => 1
+                        ]);
+                        $open_all_money_user_count+=1;
+                    }
+                }else{
+                    if ($agent_status_money_open_flag !=0 ) { //没有开放
+                        $this->field_update_list($child_id,[
+                            "agent_status_money_open_flag" => 0
+                        ]);
+                    }
+                }
+            }
+
+            //agent_status_money_open_flag
+            //a.id, lesson_user_online_status ,
+        }
+
+        return  array(($order_count+$need_set_open_list_count)*50*100, $order_count+$succ_lesson_cont ,$l1_agent_status_all_money  );
+
+    }
 
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
@@ -1168,38 +1232,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
         $level_count_info= $this-> get_level_count_info($id);
-        $agent_status_money_open_flag= 0;
         $agent_status_money =0;
         $l1_agent_status_test_lesson_succ_count=0;
         $l1_agent_status_all_money =0;
+        $l1_agent_status_all_open_money=0;
 
         $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
         if ($agent_info["create_time"] > $yxyx_check_time)  {
-            $l1_lesson_info=$this-> get_l1_test_lesson_succ_count_from_lesson($id);
+            list(  $l1_agent_status_all_open_money,
+                   $l1_agent_status_test_lesson_succ_count,
+                   $l1_agent_status_all_money ) =$this->reset_user_info_l1_money_open_flag($id);
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            $l1_agent_status_test_lesson_succ_count=$l1_lesson_info["l1_agent_status_test_lesson_succ_count"] ;
-            $l1_agent_status_all_money= $l1_lesson_info["l1_agent_status_all_money"];
         }else{
             $agent_status=E\Eagent_status::V_0;
         }
 
-
-        //$agent_info
-        if ($agent_status == E\Eagent_status::V_40  ) {
-            $agent_status_money_open_flag= 1;
-        } else if (  $agent_status == E\Eagent_status::V_30) {
-            $parentid= $agent_info["parentid"];
-            if ($parentid) { //父节点
-                $parent_l1_agent_status_test_lesson_succ_count=  $this->get_l1_agent_status_test_lesson_succ_count($parentid);
-                if ($parent_l1_agent_status_test_lesson_succ_count>=4)  {
-                    $agent_status_money_open_flag= 1;
-                }
-            }
-        }
-        $l1_agent_status_all_open_money=0;
-        if ( $l1_agent_status_test_lesson_succ_count >=4 ) {
-            $l1_agent_status_all_open_money=$l1_agent_status_test_lesson_succ_count *50*100;
-        }
 
 
         //重置当前等级
@@ -1227,7 +1274,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
             "agent_status" => $agent_status,
             "agent_status_money" => $agent_status_money,
-            "agent_status_money_open_flag" => $agent_status_money_open_flag,
             "l1_agent_status_all_money" =>  $l1_agent_status_all_money,
             "l1_agent_status_all_open_money" =>  $l1_agent_status_all_open_money,
 
@@ -1296,17 +1342,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-    public function get_l1_test_lesson_succ_count_from_lesson($id) {
+    public function get_l1_test_lesson_order_list($id) {
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
         $sql = $this->gen_sql_new(
-            "select sum(lesson_user_online_status=1) as l1_agent_status_test_lesson_succ_count , "
-            . " sum(agent_status_money)  l1_agent_status_all_money  "
+            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag  "
+            . " a.agent_status_money, ao.orderid  "
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
-            ." where  a.parentid=%u  and a.create_time > %u ",
+            . " left join  %s ao on a.id =ao.aid "
+            ." where  a.parentid=%u  and a.create_time > %u  order by l.lesson_start asc ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
             $id,$check_time
         );
         return $this->main_get_row($sql);

@@ -76,8 +76,11 @@ class wx_yxyx_api extends Controller
             "all_money" => $agent_info["l1_agent_status_all_money"]/100,
             "open_moeny" => $agent_info["l1_agent_status_all_open_money"]/100,
         ];
-        $data["invite_money_not_open_lesson_succ"]=$this->t_agent->get_invite_money( $agent_id  ,1,0)/100;
-        $data["invite_money_not_open_not_lesson_succ"]=$this->t_agent->get_invite_money($agent_id,0,0)/100;
+
+        $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
+        //$data["order_user_count"]= //$this->ag 
+        //$data["invite_money_not_open_lesson_succ"]=$this->t_agent->get_invite_money( $agent_id  ,1,0)/100;
+        //$data["invite_money_not_open_not_lesson_succ"]=$this->t_agent->get_invite_money($agent_id,0,0)/100;
 
 
         return $this->output_succ(["user_info_list" =>$data]);
@@ -85,8 +88,8 @@ class wx_yxyx_api extends Controller
     }
     public function get_l1_invite_money_list() {
         $agent_id= $this->get_agent_id();
-        $agent_status_money_open_flag = $this-> get_in_int_val("agent_status_money_open_flag");
-        $test_lesson_succ_flag        = $this-> get_in_int_val("test_lesson_succ_flag");
+        $agent_status_money_open_flag = $this-> get_in_int_val("agent_status_money_open_flag",-1);
+        $test_lesson_succ_flag        = $this-> get_in_int_val("test_lesson_succ_flag",-1);
         $list=$this->t_agent-> get_invite_money_list($agent_id, $test_lesson_succ_flag , $agent_status_money_open_flag );
         foreach ($list  as &$item) {
             E\Eagent_status::set_item_value_str($item);
@@ -370,7 +373,7 @@ class wx_yxyx_api extends Controller
             if ($lesson_count >=2) {
                 $order_cash+=  $item["level1_cash"];
             }
-            if ($lesson_count >=8) {
+            if ($lesson_count >=4) {
                 $order_cash+=  $item["level2_cash"];
             }
             $item["order_cash"] = $order_cash;

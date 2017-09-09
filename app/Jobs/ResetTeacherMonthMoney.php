@@ -19,9 +19,10 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
     var $month_money_key          = "month_money";
     var $lesson_total_key         = "lesson_total";
 
-    var $already_lesson_count_key     = "already_lesson_count_month";
-    var $money_month_key              = "money_month";
-    var $teacher_money_type_month_key = "teacher_money_type_month";
+    var $already_lesson_count_key          = "already_lesson_count_month";
+    var $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
+    var $money_month_key                   = "money_month";
+    var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     var $start_time = 0;
     var $end_time   = 0;
@@ -55,6 +56,11 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          * 每个老师上个月的累积课时
          */
         $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        /**
+         * 每个老师上个月的模拟累积课时
+         */
+        $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
+            E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
         /**
          * 每个月的各种详细数据
          * key   month_key
@@ -91,6 +97,17 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
                 $already_lesson_count_simulate = $already_lesson_count_list[$month_key][$teacherid];
             }
 
+            if(!isset($already_lesson_count_simulate_list[$month_key][$teacherid])){
+                $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
+                $now_month_end   = strtotime("+1 month",strtotime(date("Y-m-01",$val['lesson_start'])));
+                $already_lesson_count_simulate_2 = $this->get_already_lesson_count(
+                    $now_month_start,$now_month_end,$teacherid,E\Eteacher_money_type::V_6
+                );
+                $already_lesson_count_simulate_list[$month_key][$teacherid] = $already_lesson_count_simulate_2;
+            }else{
+                $already_lesson_count_simulate_2 = $already_lesson_count_simulate_list[$month_key][$teacherid];
+            }
+
             $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$val['teacher_type']);
             if($check_type==2){
                 $already_lesson_count = $already_lesson_count_simulate;
@@ -98,8 +115,10 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
                 $already_lesson_count = $val['already_lesson_count'];
             }
 
-            $reward           = \App\Helper\Utils::get_teacher_lesson_money_simulate($val['type'],$already_lesson_count);
-            $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money_simulate($val['type_simulate'],$already_lesson_count_simulate);
+            $reward           = \App\Helper\Utils::get_teacher_lesson_money_simulate(
+                $val['type'],$already_lesson_count);
+            $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money_simulate(
+                $val['type_simulate'],$already_lesson_count_simulate_2);
             $reward          *= $lesson_count;
             $reward_simulate *= $lesson_count;
             $money            = $val['money']*$lesson_count+$reward;
@@ -141,6 +160,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
         \App\Helper\Utils::logger("month money is :".json_encode($teacher_money_month_list));
 
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_simulate_list);
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->money_month_key,$month_list);
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_money_type_month_key,$teacher_money_month_list);
     }

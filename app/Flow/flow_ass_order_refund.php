@@ -119,6 +119,7 @@ class flow_ass_order_refund  extends flow_base{
 
 
     static function next_node_process_5 ($flowid, $adminid){ //
+        $flag=\App\Helper\Utils::check_env_is_release() ;
         return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
     }
 

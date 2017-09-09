@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 
-    <section class="content ">
+    <section class="content li-section">
 
         <div>
 

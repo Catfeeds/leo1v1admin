@@ -141,12 +141,12 @@ class order_price_base {
         return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) ;
     }
 
-    static public function gen_desc($title,$succ_flag, $desc="" ) {
+    static public function gen_desc($title,$succ_flag, $desc="", $price ) {
         /*
         if (!$succ_flag) {
             $desc="";
         }
         */
-        return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc];
+        return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc, "price" => $price  ];
     }
 }

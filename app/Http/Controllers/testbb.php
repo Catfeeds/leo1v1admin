@@ -277,6 +277,7 @@ class testbb extends Controller
 
 
     public function ss(){
+        dd(time());
     }
 
 
