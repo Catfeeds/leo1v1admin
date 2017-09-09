@@ -318,11 +318,36 @@ class agent extends Controller
     }
 
     public function check(){
-        $num = 0;
-        foreach([1,2,3] as $item){
-            $num++;
+        // $adminid=$this->get_in_adminid(-1);
+        $adminid=314;
+        //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
+        list($start_time,$end_time )= $this->get_in_date_range_month(0);
+        $month= strtotime( date("Y-m-01", $start_time));
+        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
+
+        $admin_list=&$ret_info["list"];
+        $account_role= E\Eaccount_role::V_2;
+        $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
+        $map=[];
+        foreach($ret_info["list"] as $item ) {
+            $map[$item["adminid"] ]=true;
         }
-        dd($num);
+
+        foreach($order_user_list as $item ) {
+            if(!@$map[$item["adminid"] ] ) {
+                if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
+                    $ret_info["list"][]=["adminid" => $item["adminid"] ];
+                }
+            }
+        }
+
+        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
+
+        foreach( $admin_list as &$item ) {
+            E\Emain_type::set_item_value_str($item);
+        }
+
+        dd($ret_info);
     }
 
     public function agent_add(){
