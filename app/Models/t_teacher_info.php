@@ -3041,6 +3041,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
             "s.is_test_user=0",
+            "stu_attend>0",
         ];
 
         $sql = $this->gen_sql_new(
