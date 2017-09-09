@@ -346,7 +346,7 @@ class agent extends Controller
             E\Emain_type::set_item_value_str($item);
         }
 
-
+        $start_time = date('Y-m-d',$start_time);
         $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
