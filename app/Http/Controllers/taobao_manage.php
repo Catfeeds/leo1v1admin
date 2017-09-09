@@ -240,7 +240,7 @@ class taobao_manage extends Controller
         foreach($ret_info['list'] as &$val){
             $val['type_str']=$val['type']==1?"是":"否";
         }
-
+        \App\Helper\Utils::debug_to_html( $ret_info );
         return $this->pageView(__METHOD__,$ret_info);
     }
 

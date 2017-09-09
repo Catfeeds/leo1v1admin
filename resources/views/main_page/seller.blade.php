@@ -89,7 +89,7 @@
                                     <td>{{@$self_top_info[10]["top_index"]}} </td>
                                 </tr>
                                 <!-- <tr>
-                                     <td colspan="3">11</td>
+                                     <td colspan="3">再做XXX业绩（下一提成档-当前业绩）可多赚约XXX钱（按提成档*对应提成系数-当前提成）{{@$self_money["this_money"]}} </td>
                                      </tr> -->
                             </tbody>
                         </table>

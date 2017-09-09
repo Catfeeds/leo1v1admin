@@ -280,14 +280,19 @@ $(function(){
                     alert("没有设置教材版本!");
                     $(me).parent().find(".opt-edit").click();
                     return;
-            }
+                }
 
 
-            if( ret.stu_request_test_lesson_time  =="无" ) {
-                alert("没有试听时间!");
-                $(me).parent().find(".opt-edit").click();
-                return;
-            }
+                if( ret.stu_request_test_lesson_time  =="无" ) {
+                    alert("没有试听时间!");
+                    $(me).parent().find(".opt-edit").click();
+                    return;
+                }
+                if(ret.subject <=0){
+                    alert("没有设置科目!");
+                    $(me).parent().find(".opt-edit").click();
+                    return; 
+                }
 
 
 

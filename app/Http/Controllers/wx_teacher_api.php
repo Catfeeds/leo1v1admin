@@ -250,7 +250,7 @@ class wx_teacher_api extends Controller
         if(!empty($last_info_arr)){
             $last_info = $last_info_arr[0];
             if($last_info['complaint_info'] == $complaint_info && ($last_info['add_time']+120) > $now){
-                return $this->output_err("您的反馈我们已收到,我们会及时处理,谢谢您的反馈!");
+                return $this->output_err();
             }
         }
 
@@ -466,10 +466,13 @@ class wx_teacher_api extends Controller
         $teacherid = $this->get_teacherid();
 
         \App\Helper\Utils::logger("month report teacherid".$teacherid);
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
-        $ret =\App\Helper\Utils::send_curl_post($url);
+        $end_time = date("Y-m-01",time());
+        $start_time = date("Y-m-d",strtotime("-1 month",strtotime($end_time)));
+
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid
+             ."&start_time=".$start_time."&end_time=".$end_time;
+        $ret = \App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);
-        \App\Helper\Utils::logger("teacher_day_teacherid".$teacherid);
 
         if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
             $money = $ret["data"][0]["lesson_price"];

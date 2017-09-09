@@ -21,21 +21,21 @@ $(function(){
                     // });
 
                     $.ajax({
-			                  type     : "post",
-			                  url      : "/teacher_info/update_teacher_pdf_info",
-			                  dataType : "json",
-			                  data : {
+                        type     : "post",
+                        url      : "/teacher_info/update_teacher_pdf_info",
+                        dataType : "json",
+                        data : {
                             "opt_field": opt_field,
                             "get_pdf_url": get_pdf_url,
                         },
-			                  success : function(result){
+                        success : function(result){
                             if(result.ret==0){
                                 alert("上传成功！");
                                 window.location.reload();
                             }else{
                                 alert("上传失败！");
                             }
-			                  }
+                        }
                     });
                 }
             }, [], ["pdf","zip"],function(){}
@@ -109,20 +109,10 @@ $(function(){
     });
     $('.opt-change').set_input_change_event(load_data);
 
-    $('#modal-default').on('shown.bs.modal', function (e) {
-        $(this).unbind("click");
-        $("button[data-dismiss]").on("click", function () {
-            $("#modal-default").removeClass('in');
-            $("#modal-default").css("padding-right", "");
-            $("#modal-default").hide();
-            $(".modal-backdrop").remove();
-            $(".modal-open").css("padding-right", "");
-            $(".modal-open").removeClass("modal-open");
-        });
-    })
+    $("button[data-dismiss]").on("click", function () {
+        if (!confirm("确定退出编辑吗？")){
+            return false;
+        }
+    });
 
 });
-
-
-/* HTML ...
-*/

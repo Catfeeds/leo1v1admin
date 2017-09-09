@@ -13,7 +13,6 @@ $(function(){
         });
     }
 
-
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
@@ -47,7 +46,6 @@ $(function(){
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time
                 },function(data){
-
                     $tr.find(".all_price").text(data["all_price"]);
                     $tr.find(".24_hour_all_price").text(data["24_hour_all_price"]);
 

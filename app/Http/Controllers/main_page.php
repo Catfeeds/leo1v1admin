@@ -128,6 +128,13 @@ class main_page extends Controller
 
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
         // dd($self_top_info);
+        //本月提成系数
+        // $this_money = $this->seller_month_money_list();
+        // $self_money['this_money'] = $this_money;
+        // $next_money = $this->seller_month_money_list();
+        // $self_money['next_money'] = $next_money;
+
+        // dd($this_month_money_arr);
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -139,38 +146,27 @@ class main_page extends Controller
             "self_groupid"           => $self_groupid,
             "is_group_leader_flag"   => $is_group_leader_flag,
             "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
+            // "self_money"             => $self_money,
         ]);
     }
 
     public function seller_month_money_list() {
         $adminid=$this->get_in_adminid(-1);
-        list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01") );
+        list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month= strtotime( date("Y-m-01", $start_time));
-        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
 
-        $admin_list=&$ret_info["list"];
-        $account_role= E\Eaccount_role::V_2;
-        $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
-        $map=[];
-        foreach($ret_info["list"] as $item ) {
-            $map[$item["adminid"] ]=true;
+        switch ( $month ) {
+        case "201702" :
+        case "201703" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                $month, $adminid, $start_time, $end_time ) ;
+            break;
+        default:
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
+                $adminid, $start_time, $end_time ) ;
+            break;
         }
-
-        foreach($order_user_list as $item ) {
-            if(!@$map[$item["adminid"] ] ) {
-                if ($adminid = -1  && $adminid==  $item["adminid"]   ) {
-                    $ret_info["list"][]=["adminid" => $item["adminid"] ];
-                }
-            }
-        }
-
-        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
-
-        foreach( $admin_list as &$item ) {
-            E\Emain_type::set_item_value_str($item);
-        }
-
-        return $this->pageView(__METHOD__,$ret_info);
+        return $arr['money'];
     }
 
     public  function assistant() {
