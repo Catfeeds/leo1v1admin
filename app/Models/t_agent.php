@@ -1219,6 +1219,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $wx_openid   = $p_item["wx_openid"];
                 $agent_level = $p_item["agent_level"];
                 //\App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+                /*
                 if ($agent_status == E\Eagent_status::V_1) { //报名推送
 
                     $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
@@ -1271,6 +1272,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }else if ($agent_status == E\Eagent_status::V_40) { //签单
 
                 }
+                */
             }
         }
         /*
