@@ -656,7 +656,7 @@
     </section>
 @endsection
 
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="modal-default" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog" style="width:60%;border-top:3px solid #00A6FF;border-radius:3px">
         <div class="modal-content">
             <div class="modal-header">
