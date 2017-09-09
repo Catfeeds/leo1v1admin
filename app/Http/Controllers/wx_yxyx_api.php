@@ -195,6 +195,9 @@ class wx_yxyx_api extends Controller
             $item["name"]= $item["nickname"]. "/". $item["phone"];
             E\Eagent_type::set_item_value_str($item);
             E\Eagent_student_status::set_item_value_str($item);
+            E\Eagent_status::set_item_value_str($item);
+            $item["invaild_flag"]= $item["agent_student_status"]== E\Eagent_student_status::V_100?1:0;
+
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
             $item["child_count"]*=1;
         }
@@ -221,6 +224,8 @@ class wx_yxyx_api extends Controller
                 E\Eagent_type::set_item_value_str($item);
                 E\Eagent_student_status::set_item_value_str($item);
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                E\Eagent_status::set_item_value_str($item);
+                $item["invaild_flag"]= $item["agent_student_status"]== E\Eagent_student_status::V_100?1:0;
                 $ret_list[]=$item;
             }
         }

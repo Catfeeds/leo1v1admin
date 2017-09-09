@@ -243,7 +243,7 @@ class wx_yxyx_common extends Controller
                     $opt_adminid = 442; // 王春雷
                     $account=$this->get_account();
                     $opt_account=$this->t_manager_info->get_account($opt_adminid);
-                    $self_adminid = $this->get_account_id();
+                    $self_adminid = 684;
                     $account = '系统';
                     $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
                     // 优学优享例子分配给 王春雷 [结束]
@@ -267,9 +267,9 @@ class wx_yxyx_common extends Controller
                 // 优学优享例子分配给 王春雷 [442]
 
                 $opt_adminid = 442; // 王春雷
-                $account=$this->get_account();
+                $account = $this->get_account();
                 $opt_account=$this->t_manager_info->get_account($opt_adminid);
-                $self_adminid = $this->get_account_id();
+                $self_adminid = 684;
                 // $account = $this->get_account();
                 $account = '系统';
                 $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
