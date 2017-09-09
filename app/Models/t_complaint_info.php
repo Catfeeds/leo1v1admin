@@ -98,7 +98,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
-                                  " where %s group by tc.complaint_id order by ta.assign_time desc ",
+                                  " where %s group by tc.complaint_id order by tc.add_time desc ",
                                   self::DB_TABLE_NAME,
                                   t_complaint_assign_info::DB_TABLE_NAME,
                                   t_complaint_deal_info::DB_TABLE_NAME,
