@@ -764,6 +764,7 @@ class agent extends Controller
         if ($id) {
             $phone=$this->t_agent->get_phone($id);
         }
+
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
