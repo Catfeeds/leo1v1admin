@@ -60,6 +60,7 @@ interface RowData {
 	all_open_cush_money	:any;
 	all_have_cush_money	:any;
 	order_open_all_money	:any;
+	child_order_count	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;

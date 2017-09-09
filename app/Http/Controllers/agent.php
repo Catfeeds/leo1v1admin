@@ -34,6 +34,7 @@ class agent extends Controller
                                                "all_open_cush_money" => "a.all_open_cush_money",
                                                "order_open_all_money" => "a.order_open_all_money",
                                                "all_have_cush_money" => "a.all_have_cush_money",
+                                               "child_order_count" => "a.child_order_count",
             ]);
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
