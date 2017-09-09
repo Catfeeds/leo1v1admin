@@ -2418,8 +2418,9 @@ trait  TeaPower {
         return $html;
     }
 
-        public function get_qq_group_html($subject){
-        $qq_common = ["问题答疑","528851744","用于薪资，软件等综合问题"];
+    public function get_qq_group_html($subject){
+        // 528851744 原答疑1群，人数已满
+        $qq_common = ["问题答疑","476559597","用于薪资，软件等综合问题"];
         $qq_group  = [
             1=>[
                 ["教研-语文","126321887","处理教学相关事务"],
