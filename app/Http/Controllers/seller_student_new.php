@@ -1511,7 +1511,7 @@ class seller_student_new extends Controller
             $end_time = $time+3600*24;
             $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
             $ret['ret'] = count($ret_info)?1:2;
-            $ret['rate'] = $del_rate;
+            $ret['rate'] = $del_rate*100;
         }else{//本周取消率
             $start_time = $time-3600*24*($week-2);
             $end_time = time();
@@ -1529,6 +1529,7 @@ class seller_student_new extends Controller
                 $ret['ret'] = 4;
             }
         }
+
         return $ret;
     }
 }

@@ -251,7 +251,7 @@ $(function(){
         // $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{
         // } ,function(ret){
         //     if(ret.ret==1){
-        //         alert('由于上周您转化率已超过25%,为'+ret.rate+',本周将被限制排课,每天可排1节');
+        //         alert("由于上周您转化率已超过25%,为'+ret.rate+'%,本周将被限制排课,每天可排1节,可点击'排课申请'继续排课");
         //     }else if(ret.ret==2){
         //         alert('您已被限制排课,今天可排课程为1节试听课');
         //     }else if(ret.ret==3){
