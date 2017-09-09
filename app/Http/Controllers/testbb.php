@@ -122,6 +122,7 @@ class testbb extends Controller
 
 
 
+    //以下代码勿删
     public function get_pdf_url(){
         $pdf_url = "1922777cc9f2c412922db85b4e5c8d101504882584907.pdf";
         $lessonid = 322583;
@@ -145,9 +146,8 @@ class testbb extends Controller
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
-            dd($file_name_origi_str);
 
-            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
@@ -233,7 +233,7 @@ class testbb extends Controller
     }
 
 
-
+    //以上代码勿删
 
 
 
