@@ -61,7 +61,7 @@ $(function(){
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'),false,[0,1,2,3,4]);
-    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[5,6,7]);
+    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[0,2,5,6]);
     Enum_map.append_option_list("boolean", $('#id_full_time'));
     Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     if(g_args.interview_type==-1){
@@ -184,7 +184,7 @@ $(function(){
         if(opt_data.full_time==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
-            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );
+            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,2,5,6] );
         }
         var arr=[
             ["回访状态", id_lecture_revisit_type],
