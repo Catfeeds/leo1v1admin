@@ -2036,7 +2036,7 @@ class user_manage extends Controller
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
-            E\Ecomplaint_department::set_item_value_str($item);
+            E\Ecomplained_department::set_item_value_str($item,'complained_department');
             E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
             $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
             E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
@@ -2118,7 +2118,6 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
         $ret_info   = $this->t_complaint_info->get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
-
 
         foreach($ret_info['list'] as $index=>&$item){
 

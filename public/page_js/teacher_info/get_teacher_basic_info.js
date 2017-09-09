@@ -21,21 +21,21 @@ $(function(){
                     // });
 
                     $.ajax({
-			                  type     : "post",
-			                  url      : "/teacher_info/update_teacher_pdf_info",
-			                  dataType : "json",
-			                  data : {
+                        type     : "post",
+                        url      : "/teacher_info/update_teacher_pdf_info",
+                        dataType : "json",
+                        data : {
                             "opt_field": opt_field,
                             "get_pdf_url": get_pdf_url,
                         },
-			                  success : function(result){
+                        success : function(result){
                             if(result.ret==0){
                                 alert("上传成功！");
                                 window.location.reload();
                             }else{
                                 alert("上传失败！");
                             }
-			                  }
+                        }
                     });
                 }
             }, [], ["pdf","zip"],function(){}
@@ -122,7 +122,3 @@ $(function(){
     })
 
 });
-
-
-/* HTML ...
-*/
