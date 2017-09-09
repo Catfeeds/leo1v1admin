@@ -21,7 +21,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new(" select distinct(tc.complaint_id), tc.complained_department,complaint_type, userid,account_type, complaint_info, add_time, complaint_info, current_adminid,m.account as current_account,complaint_state,current_admin_assign_time,complained_adminid,complained_adminid_type, complained_adminid_nick,suggest_info, deal_info, deal_time, deal_adminid, complained_department  ".
+        $sql = $this->gen_sql_new(" select distinct(tc.complaint_id), tc.complained_department,complaint_type, userid,account_type, complaint_info, add_time, complaint_info, current_adminid,m.account as current_account,complaint_state,current_admin_assign_time,complained_adminid,complained_adminid_type, complained_adminid_nick,suggest_info, deal_info, deal_time, deal_adminid, complained_department,tc.complaint_img_url  ".
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
@@ -98,7 +98,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
-                                  " where %s group by tc.complaint_id order by ta.assign_time desc ",
+                                  " where %s group by tc.complaint_id order by tc.add_time desc ",
                                   self::DB_TABLE_NAME,
                                   t_complaint_assign_info::DB_TABLE_NAME,
                                   t_complaint_deal_info::DB_TABLE_NAME,

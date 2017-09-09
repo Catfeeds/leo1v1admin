@@ -237,7 +237,7 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         \App\Helper\Utils::logger("wx_software: ".$teacherid);
         \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
-        if($serverId_str == '123'){
+        if($serverId_str == '123' || $serverId_str == '456' ){
             $serverId_str = '';
         }
 
@@ -466,7 +466,6 @@ class wx_teacher_api extends Controller
         $teacherid = $this->get_teacherid();
 
         \App\Helper\Utils::logger("month report teacherid".$teacherid);
-
         $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
         $ret =\App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);

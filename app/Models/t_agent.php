@@ -1350,7 +1350,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
         $sql = $this->gen_sql_new(
-            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag  "
+            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
             . " a.agent_status_money, ao.orderid  "
             . " from %s a "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
