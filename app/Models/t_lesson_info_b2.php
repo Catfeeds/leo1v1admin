@@ -727,7 +727,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
              $this->where_arr_add_int_or_idlist($where_arr,"ls.require_adminid",$adminid_list);
         }
 
-        $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_start,l.userid,s.nick as stu_nick,s.phone as stu_phone,l.teacherid,t.nick as tea_nick,l.lesson_start,l.lesson_end,ls.require_adminid adminid,lsl.call_before_time,lsl.call_end_time,ls.require_adminid,m.account "
+        $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_start,l.userid,l.teacherid,l.lesson_start,l.lesson_end,"
+                                  ."lsl.call_before_time,lsl.call_end_time,m.account,"
+                                  ."ls.require_adminid adminid,ls.require_adminid,"
+                                  ."t.nick tea_nick,"
+                                  ."s.nick as stu_nick,s.phone stu_phone"
                                   ." from %s l "
                                   ." left join %s lsl on lsl.lessonid=l.lessonid "
                                   ." left join %s lsr on lsr.require_id=lsl.require_id "
@@ -736,13 +740,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s t on t.teacherid=l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." where %s ",
-                                  self::DB_TABLE_NAME,
-                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                                  t_test_lesson_subject_require::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,//l
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,//lsl
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,//lsr
+                                  t_test_lesson_subject::DB_TABLE_NAME,//ls
+                                  t_manager_info::DB_TABLE_NAME,//m
+                                  t_teacher_info::DB_TABLE_NAME,//t
+                                  t_student_info::DB_TABLE_NAME,//s
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -3797,6 +3801,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             return $this->main_get_list($sql);
     }
 
+    public function get_seller_week_lesson_new($start_time,$end_time,$adminid){
+        $where_arr=[
+            ["l.lesson_type=%u",2,-1],
+            ["l.lesson_del_flag=%u",0,-1],
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start < %u",$end_time,-1],
+            ["ls.require_adminid = %u",$adminid,-1],
+        ];
+
+        $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_start,l.userid,l.teacherid,l.lesson_start,l.lesson_end,"
+                                  ."lsl.call_before_time,lsl.call_end_time,m.account,"
+                                  ."ls.require_adminid adminid,ls.require_adminid,"
+                                  ." from %s l "
+                                  ." left join %s lsl on lsl.lessonid=l.lessonid "
+                                  ." left join %s lsr on lsr.require_id=lsl.require_id "
+                                  ." left join %s ls on ls.test_lesson_subject_id=lsr.test_lesson_subject_id "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,//l
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,//lsl
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,//lsr
+                                  t_test_lesson_subject::DB_TABLE_NAME,//ls
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }
