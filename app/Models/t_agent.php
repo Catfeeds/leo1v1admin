@@ -1240,10 +1240,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $l1_agent_status_all_open_money=0;
 
         $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
-        if ($agent_info["create_time"] > $yxyx_check_time)  {
+
+        if ($agent_type == E\Eagent_type::V_2  || $agent_type == E\Eagent_type::V_3 ) {
             list(  $l1_agent_status_all_open_money,
                    $l1_agent_status_test_lesson_succ_count,
-                   $l1_agent_status_all_money ) =$this->reset_user_info_l1_money_open_flag($id);
+                   $l1_agent_status_all_money )
+                =$this->reset_user_info_l1_money_open_flag($id);
+        }
+
+        if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
         }else{
             $agent_status=E\Eagent_status::V_0;
@@ -1303,6 +1308,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ]);
         }
 
+        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        if ($agent_info["create_time"] < $check_time
+            && $agent_info["agent_status_money_open_flag"] !=0 ) {
+            $this->field_update_list($id,[
+                "agent_status_money_open_flag" => 0
+            ]);
+        }
+        //$agent_status_money_open_flag=0;
+
         if ( $level_count_info["l1_child_count"]) {
             if ($agent_type ==1 ) {
                 $this->field_update_list($id,[
@@ -1314,6 +1328,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
             }
         }
+
         if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
             $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
             $data = [

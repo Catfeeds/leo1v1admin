@@ -60,6 +60,20 @@
                             <td id="id_all_money_info"> </td>
                         </tr>
 
+
+                        <tr>
+                            <td>
+                               签单人数
+                            <td id="id_order_user_count"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                下线人数
+                            <td id="id_child_all_count"> </td>
+                        </tr>
+
+
                         <tr>
                             <td>
                                签单奖励/可提现
@@ -75,13 +89,7 @@
 
                         <tr>
                             <td>
-                               邀请试听成功不可提现
-                            <td id="id_invite_money_not_open_lesson_succ"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                               邀请试听未成功不可提现
+                               邀请试听不可提现
                             <td id="id_invite_money_not_open_not_lesson_succ"> </td>
                         </tr>
 
@@ -94,92 +102,6 @@
                     <tbody id="id_new_desc_list" >
 
                     </tbody>
-                </table>
-
-
-
-                <table     class="common-table"  >
-                    <thead>
-                        <tr>
-                            <td>项目 </td>
-                            <td> 值</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>会员等级</td>
-                            <td id="id_f_agent_level"> </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>昵称</td>
-                            <td id="id_f_nick"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                收入
-                            </td>
-                            <td id="id_f_pay"> </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                可提现收入
-                            </td>
-                            <td id="id_f_cash"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                已提现
-                            </td>
-                            <td id="id_f_have_cash"> </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                成功邀请购课数
-                            </td>
-                            <td id="id_f_num"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                我邀请的
-                            </td>
-                            <td id="id_f_my_num"> </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                微信昵称
-                            <td id="id_f_nickname"> </td>
-                        <tr>
-                            <td>
-                                微信头像url
-                            </td>
-
-                            <td > <img
-                                id="id_f_headimgurl"
-                                      src="" style="width:100px; "/>  </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                星星个数
-                            </td>
-                            <td id="id_f_count"> </td>
-                        </tr>
-
-
-                    </tbody>
-
                 </table>
 
                <hr/>

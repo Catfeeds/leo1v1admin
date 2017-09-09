@@ -346,7 +346,8 @@ class agent extends Controller
             E\Emain_type::set_item_value_str($item);
         }
 
-
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $adminid=314;
         $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
@@ -764,6 +765,7 @@ class agent extends Controller
         if ($id) {
             $phone=$this->t_agent->get_phone($id);
         }
+
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
