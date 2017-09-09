@@ -9116,7 +9116,7 @@ lesson_type in (0,1) "
 
     public function save_tea_pic_url($lessonid, $file_name_origi_str){
         $sql = $this->gen_sql_new("update %s tl ".
-                                  "set tl.tea_cw_pic = '%s' where tl.lessonid=%d",
+                                  "set tl.tea_cw_pic = '%s',tl.tea_cw_pic_flag=1 where tl.lessonid=%d",
                                   self::DB_TABLE_NAME,
                                   $file_name_origi_str,
                                   $lessonid

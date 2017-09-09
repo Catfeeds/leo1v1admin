@@ -1547,6 +1547,11 @@ class ss_deal extends Controller
         $subject             = $this->get_in_subject();
         $origin              = $this->get_in_str_val("origin");
         $from_test_lesson_id = 0;
+        if (!$lesson_total ) {
+            return $this->output_err("没有购买课时");
+        }
+
+
         if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);

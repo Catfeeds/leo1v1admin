@@ -238,9 +238,14 @@ class wx_yxyx_common extends Controller
                 $add_time=$this->t_seller_student_new->get_add_time($userid);
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
                     $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-                    // 优学优享例子分配给 王春雷 [442]
+                    // 优学优享例子分配给 王春雷 [442] [开始]
                     $opt_adminid = 442; // 王春雷
-                    // $this->t_seller_student_new->allot_userid_to_cc($opt_adminid);
+                    $account=$this->get_account();
+                    $opt_account=$this->t_manager_info->get_account($opt_adminid);
+                    $self_adminid = $this->get_account_id();
+                    $account = '系统';
+                    $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
+                    // 优学优享例子分配给 王春雷 [结束]
 
 
                     if($userid){
@@ -257,6 +262,16 @@ class wx_yxyx_common extends Controller
                 }
             }else{
                 $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+
+                // 优学优享例子分配给 王春雷 [442]
+
+                $opt_adminid = 442; // 王春雷
+                $account=$this->get_account();
+                $opt_account=$this->t_manager_info->get_account($opt_adminid);
+                $self_adminid = $this->get_account_id();
+                // $account = $this->get_account();
+                $account = '系统';
+                $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
 
             }
 
