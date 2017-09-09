@@ -388,6 +388,26 @@ $(function(){
         }
     });
 
+    $(".opt-delete").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        alert(id);
+        if(id==0){
+            alert("无数据,请刷新确认!");
+            return;
+        }else{
+            BootstrapDialog.confirm("确定要删除吗？", function(val){
+                if (val) {
+                    $.do_ajax( '/teacher_level/delete_record_acc', {
+                        'id' : id
+                    });
+                } 
+            });
+            
+        }
+    });
+
+
    
     $(".opt-qr-pad-at-time").on("click",function(){
         var lessonid= $(this).get_opt_data("lessonid");
