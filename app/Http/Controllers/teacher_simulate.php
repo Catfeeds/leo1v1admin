@@ -50,7 +50,7 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level.".txt";
+        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
