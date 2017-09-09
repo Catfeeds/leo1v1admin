@@ -207,6 +207,7 @@
                         <td style="display:none">招师</td>
                     @else
                         <td style="width:220px">一面状态</td>
+                        <td>一面面试官</td>
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
@@ -255,6 +256,7 @@
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["zs_name"]}} </td>
                         @else
+                            <td>{{@$var["train_teacher_str"]}}</td>
                             <td>{{@$var["lecture_revisit_type_new_str"]}}<br/>
                                 @if ($var['lesson_start']>0)
                                 @else    
