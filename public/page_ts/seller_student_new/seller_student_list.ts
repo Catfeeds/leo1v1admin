@@ -247,6 +247,15 @@ $(function(){
                 window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
             }
         });
+
+        // $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{
+        // } ,function(ret){
+        //     if(ret){
+        //         alert('您有签单失败原因未填写,请先填写完哦!');
+        //         window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
+        //     }
+        // });
+
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 
