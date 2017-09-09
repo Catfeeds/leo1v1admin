@@ -1194,7 +1194,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return  array(($order_count+$need_set_open_list_count)*50*100, $order_count+$succ_lesson_cont ,$l1_agent_status_all_money  );
 
     }
-    public function wx_noti_agent_status( $id, $parentid, $agent_level , $phone, $old_agent_status, $agent_status) {
+    public function wx_noti_agent_status( $id, $parentid, $agent_level , $test_lessonid, $phone, $old_agent_status, $agent_status) {
         //$old_agent_status
 
 
@@ -1249,8 +1249,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'first'    => "您邀请的学员{$phone}成功预约测评课，您获得10元奖励。 ",
                         'keyword1' => $phone,
                         'keyword2' =>  $phone ,
-                        'keyword3' => 
-                        'remark'   => "sdfadf",
+                        'keyword3' => "测评课",
+                        'keyword4' => "",
+                        'keyword5' => "理优1对1",
+                        'remark'   => "如学员成功上完测评课，将再获得30元奖励。",
                     ];
                     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
@@ -1426,7 +1428,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
             }
         }else {
-            $this->wx_noti_agent_status($id , $agent_info["parentid"],$agent_info["agent_level"] ,$agent_info["phone"],$old_agent_status,$agent_status);
+            $this->wx_noti_agent_status($id , $agent_info["parentid"],$agent_level,$test_lessonid ,$agent_info["phone"],$old_agent_status,$agent_status);
         }
 
         //$agent_status_money_open_flag=0;
