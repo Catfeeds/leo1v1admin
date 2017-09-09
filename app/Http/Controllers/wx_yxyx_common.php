@@ -244,6 +244,7 @@ class wx_yxyx_common extends Controller
                     /**
                        $account=$this->get_account();
                        $opt_account=$this->t_manager_info->get_account($opt_adminid);
+                       $self_adminid = $this->get_account_id();
 
                        $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
 
