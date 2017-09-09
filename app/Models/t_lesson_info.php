@@ -242,6 +242,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.lesson_start, l.lesson_end,l.real_begin_time,"
                      ."    l.gen_video_grade,"
                      ."    l.assistantid,"
+                     ."    l.teacher_money_type,"
                      ."    s.userid as stu_id,"
                      ."    s.phone as stu_phone,"
                      ."    s.nick as stu_nick,"

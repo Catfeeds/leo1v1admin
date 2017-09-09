@@ -430,9 +430,28 @@ class test_boby extends Controller
         return $s;
 
     }
+    public function get_teacher_lesson(){//p 2
+        // $teacherid = $this->get_teacherid();
+
+        $teacherid = 182903;
+        // \App\Helper\Utils::logger("yuebao".$teacherid);
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
+        $ret_info['normal_count'] = $ret_info['normal_count']/100;
+        $ret_info['test_count']   = $ret_info['test_count']/100;
+        $ret_info['other_count']  = $ret_info['other_count']/100;
+        return $this->output_succ(["lesson_info"=>$ret_info]);
+    }
+
+
 
     public function get_tea_lesson_some_info(){//p5
-        $teacherid = '404';
+        $teacherid = 182903;
+        // $teacherid = '404';
         // $teacherid = $this->get_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
@@ -444,6 +463,23 @@ class test_boby extends Controller
             $item = intval($item);
         }
         return $this->output_succ(["list"=>$ret_info]);
+    }
+    public function get_teacher_student(){//p4
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = 182903;
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+        $face       = [];
+        foreach ($ret_info as $item) {
+            $face[] = @$item['face'];
+        }
+        $stu_info['stu_num'] = count($ret_info);
+        $stu_info['face']    = $face;
+        return $this->output_succ(["stu_info"=>$stu_info]);
     }
 
 

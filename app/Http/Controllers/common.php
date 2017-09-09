@@ -1348,11 +1348,21 @@ class common extends Controller
                     if($data===false){
                         $data="生成失败！请退出重试！";
                     }
-                    return $this->output_err($data);
+
+                    if($data == '该手机号已存在'){
+                        $teacherid_old = $this->t_teacher_info->get_teacherid_by_phone($phone);
+                        $ret = $this->t_teacher_info->field_update_list($teacherid_old, [
+                            "wx_openid" => $wx_openid
+                        ]);
+
+                    }else{
+                        return $this->output_err($data);
+                    }
+                }else{
+                    $teacher_info['teacherid'] = $data;
                 }
-                $teacher_info['teacherid'] = $data;
+
             }
-            \App\Helper\Utils::logger("wx_openid189:$wx_openid,phone:$phone,teacherid:".$teacher_info['teacherid']);
 
             if($wx_openid){
                 $teacherid = $this->t_teacher_info->get_teacherid_by_openid($wx_openid);

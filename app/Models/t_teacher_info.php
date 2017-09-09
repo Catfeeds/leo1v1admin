@@ -3004,6 +3004,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['l.lesson_start<%s', $end_time, 0],
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
+            " stu_attend>0",
         ];
 
         $sql = $this->gen_sql_new(
@@ -3040,7 +3041,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['l.lesson_start<%s', $end_time, 0],
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
+            "l.lesson_type in (0,1,3)",
             "s.is_test_user=0",
+            "stu_attend>0",
         ];
 
         $sql = $this->gen_sql_new(

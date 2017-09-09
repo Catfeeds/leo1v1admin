@@ -375,7 +375,7 @@ class wx_yxyx_api extends Controller
             if ($lesson_count >=2) {
                 $order_cash+=  $item["level1_cash"];
             }
-            if ($lesson_count >=4) {
+            if ($lesson_count >=8) {
                 $order_cash+=  $item["level2_cash"];
             }
             $item["order_cash"] = $order_cash;
@@ -564,12 +564,6 @@ class wx_yxyx_api extends Controller
 
     public function update_agent_bank_info(){
         $agent_id = $this->get_agent_id();
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
         $bankcard      = $this->get_in_str_val("bankcard");
         $idcard        = $this->get_in_str_val("idcard");
         $bank_address  = $this->get_in_str_val("bank_address");
@@ -582,16 +576,19 @@ class wx_yxyx_api extends Controller
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $cash          = $this->get_in_str_val("cash"); //要提现
         $id            = $agent_id;
-        if(!isset($cash)){
-            return $this->output_err("请输入提现金额!");
+        if (!($cash>0)) {
+            return $this->output_err("提现金额不对!");
         }
-        $check_cash = $this->check_user_cash($phone);
-        $total_cash = $check_cash['cash'];      //可提现
-        $have_cash = $check_cash['have_cash'];  //已提现
+
+
+        $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
+        $total_cash = $agent_info["all_open_cush_money"];
+        $have_cash =  $agent_info["all_have_cush_money"];
         $cash_new = $cash + $have_cash;
         if($cash_new > $total_cash){
             return $this->output_err("超出可提现金额!");
         }
+
         if($bankcard){
             if($phone=='' || $bankcard==0 || $bank_address=="" || $bank_account==""
                || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
@@ -613,27 +610,6 @@ class wx_yxyx_api extends Controller
                     "bank_city"     => $bank_city,
                     "bank_province" => $bank_province,
                 ]);
-                if(($bankcard == $agent_info['bankcard']) && ($bank_address == $agent_info['bank_address'])
-                   && ($bank_account == $agent_info['bank_account']) && ($bank_phone == $agent_info['bank_phone'])
-                   && ($bank_type == $agent_info['bank_type']) && ($idcard == $agent_info['idcard'])
-                   && ($bank_city == $agent_info['bank_city']) && ($bank_province == $agent_info['bank_province'])){
-                    $ret = 1;
-                }
-                if($ret){
-                    \App\Helper\Utils::logger('yxyx_cash:'.$cash*100);
-                    $ret_new = $this->t_agent_cash->row_insert([
-                        "aid"         => $id,
-                        "cash"        => $cash*100,
-                        "is_suc_flag" => 0,
-                        "type"        => 1,
-                        "create_time" => time(null),
-                    ]);
-                    if(!$ret_new){
-                        return $this->output_err('更新失败！请重试！');
-                    }
-                }else{
-                    return $this->output_err("更新失败！请重试！");
-                }
             }
         }elseif($zfb_account){
             if($zfb_name=='' || $zfb_account==''){
@@ -643,25 +619,17 @@ class wx_yxyx_api extends Controller
                 "zfb_name"     => $zfb_name,
                 "zfb_account"     => $zfb_account,
             ]);
-            if(($zfb_account == $agent_info['zfb_account']) && ($zfb_name == $agent_info['zfb_name'])){
-                $ret = 1;
-            }
-            if($ret){
-                $ret_new = $this->t_agent_cash->row_insert([
-                    "aid"         => $id,
-                    "cash"        => $cash*100,
-                    "is_suc_flag" => 0,
-                    "type"        => 2,
-                    "create_time" => time(null),
-                ]);
-                if(!$ret_new){
-                    return $this->output_err('更新失败！请重试！');
-                }
-            }else{
-                return $this->output_err("更新失败！请重试！");
-            }
+
         }
-        return $this->output_succ('成功');
+        $ret_new = $this->t_agent_cash->row_insert([
+            "aid"         => $id,
+            "cash"        => $cash*100,
+            "is_suc_flag" => 0,
+            "type"        => 1,
+            "create_time" => time(null),
+        ]);
+
+        return $this->output_succ();
     }
 
     public function check_user_cash($phone){

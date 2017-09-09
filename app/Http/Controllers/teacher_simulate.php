@@ -32,7 +32,6 @@ class teacher_simulate extends Controller
         $level              = $this->get_in_int_val("level",-1);
         $acc                = $this->get_account();
 
-
         $list                      = [];
         $teacher_money_type_list   = [];
         $all_money                 = 0;
@@ -49,10 +48,19 @@ class teacher_simulate extends Controller
          */
         $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
+        $now_date  = date("Y-m",$start_time);
+        $file_name = "teacher_simulate_".$now_date.$teacher_money_type.$level.".txt";
+        $file_info = file_get_contents($file_name);
 
-        $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-            $start_time,$end_time,$teacher_money_type,$level,$teacher_id
-        );
+        if(empty($file_info) || $file_info==""){
+            $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id
+            );
+            file_put_contents($file_name,json_encode($tea_list));
+        }else{
+            $tea_list=json_decode($file_info,true);
+        }
+
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             $teacher_ref_type_rate = 0;
@@ -181,7 +189,6 @@ class teacher_simulate extends Controller
 
             $lesson_total += $lesson_count;
         }
-
         foreach($list as &$l_val){
             \App\Helper\Utils::check_isset_data($all_count,1);
             \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
@@ -203,6 +210,8 @@ class teacher_simulate extends Controller
                 $up_count['all']++;
             }
         }
+
+
 
         $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
 
@@ -437,7 +446,7 @@ class teacher_simulate extends Controller
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->teacher_money_type_month_key);
 
         $start_time = strtotime("2017-1-1");
-        $end_time   = strtotime("2017-8-1");
+        $end_time   = strtotime("2017-9-1");
 
         $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
         dispatch($job);

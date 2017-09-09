@@ -69,4 +69,11 @@ class wx_teacher_web extends Controller
         $url = "http://wx-teacher-web.leo1v1.com/teacher_activity/index.html";
         header("Location: $url");
     }
+
+    public function feedback(){
+        $url = "http://wx-teacher-web.leo1v1.com/wx_complain/feedback.html";
+        header("Location: $url");
+    }
+
+    //http://wx-teacher-web.leo1v1.com/wx_complain/feedback.html
 }

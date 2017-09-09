@@ -1282,7 +1282,7 @@ trait  TeaPower {
         }
         $check_flag = $this->t_teacher_info->check_teacher_phone($phone);
         if($check_flag){
-            return "该手机号已存在！";
+            return "该手机号已存在";
         }
 
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
@@ -2060,10 +2060,10 @@ trait  TeaPower {
         if($teacher_info['level']!=0){
             $update_arr['level']=0;
         }
-        if($teacher_info['train_through_new']==0){
+        /* if($teacher_info['train_through_new']==0){
             $update_arr['train_through_new']      = 1;
             $update_arr['train_through_new_time'] = time();
-        }
+            }*/
 
         $ret = true;
         if(isset($update_arr) && is_array($update_arr) && !empty($update_arr)){

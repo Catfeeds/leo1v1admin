@@ -2005,16 +2005,20 @@ class test_code extends Controller
 
 
     public function check_redis(){
-        $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
         $already_lesson_count_key          = "already_lesson_count_month";
+        $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
 
         $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
             E\Eredis_type::V_GET,$already_lesson_count_simulate_key,[],true);
         $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
-
         dd($already_lesson_count_simulate_list);
-    }
+        dd($already_lesson_count_list);
+        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
+        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
 
+
+
+    }
 
 
 
