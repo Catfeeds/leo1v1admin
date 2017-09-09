@@ -10,6 +10,7 @@ interface GargsStatic {
 	lessonid:	number;
 	status:	number;
 	feedback_type:	number;
+	del_flag:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -67,7 +68,8 @@ $(function(){
 			accept_adminid:	$('#id_accept_adminid').val(),
 			lessonid:	$('#id_lessonid').val(),
 			status:	$('#id_status').val(),
-			feedback_type:	$('#id_feedback_type').val()
+			feedback_type:	$('#id_feedback_type').val(),
+			del_flag:	$('#id_del_flag').val()
         });
     }
 
@@ -88,6 +90,7 @@ $(function(){
 	$('#id_lessonid').val(g_args.lessonid);
 	$('#id_status').val(g_args.status);
 	$('#id_feedback_type').val(g_args.feedback_type);
+	$('#id_del_flag').val(g_args.del_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -137,6 +140,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">feedback_type</span>
                 <input class="opt-change form-control" id="id_feedback_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">del_flag</span>
+                <input class="opt-change form-control" id="id_del_flag" />
             </div>
         </div>
 */

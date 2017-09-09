@@ -3945,4 +3945,170 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+
+    public function contract_list_seller_payed_master () {
+        $this->set_in_value("group_adminid",$this->get_account_id() );
+        return $this->contract_list_seller_payed_new();
+    }
+
+    public function contract_list_seller_payed_new(){
+        $sum_field_list=[
+            "all_count",
+            "all_count_0",
+            "all_count_1",
+            "no_call",
+            "no_call_0",
+            "no_call_1",
+            "call_count",
+            "invalid_count",
+            "no_connect",
+            "valid_count",
+            "require_test_count",
+            "test_lesson_count",
+            "fail_need_pay_count",
+            "order_count",
+            "new_user_count",
+        ];
+        $order_field_arr = array_merge(["account" ] ,$sum_field_list );
+        $grade_list      = $this->get_in_enum_list(E\Egrade::class);
+        $group_adminid   = $this->get_in_int_val("group_adminid",-1);
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+        //   $group_list=$this->t_admin_group_name->get_group_list(2);
+        // $groupid=$this->get_in_int_val("groupid", -1);
+        list($start_time,$end_time)= $this->get_in_date_range_week( 0 );
+
+        $origin_ex           = $this->get_in_str_val("origin_ex");
+
+        $ret_info=$this->t_test_lesson_subject->get_seller_count( $start_time, $end_time, $grade_list , $origin_ex  );
+        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, $grade_list, $origin_ex  );
+
+        $tl_info=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time ,$grade_list , $origin_ex );
+        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list , $origin_ex );
+        //order info
+        $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,$grade_list,"" , $origin_ex );
+
+        $obj_list=&$ret_info["list"] ;
+        foreach ($tl_info["list"] as $tl_item) {
+            $k=$tl_item["admin_revisiterid"];
+
+            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
+            $obj_list[$k]["test_lesson_count"]=$tl_item["test_lesson_count"];
+            $obj_list[$k]["fail_need_pay_count"]=$tl_item["fail_need_pay_count"];
+            $obj_list[$k]["fail_all_count"]=$tl_item["fail_all_count"];
+            $obj_list[$k]["succ_all_count"]=$tl_item["succ_all_count"];
+
+        }
+
+
+        foreach ($tr_info["list"] as $tr_item) {
+            $k=$tr_item["admin_revisiterid"];
+            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
+            $obj_list[$k]["require_test_count"]=$tr_item["require_test_count"];
+
+        }
+
+
+        foreach ($order_info["list"] as $order_item) {
+            $k=$order_item["adminid"];
+            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
+            $obj_list[$k]["order_count"]=$order_item["all_count"];
+            $obj_list[$k]["order_money"]=$order_item["all_price"];
+
+        }
+
+        $date_list=$this->t_id_opt_log-> get_seller_tongji($start_time,$end_time,$grade_list);
+        foreach ($date_list as $date_item) {
+            $k=$date_item["opt_id"];
+            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
+            $obj_list[$k]["assigned_count"]=$date_item["assigned_count"];
+            // $obj_list[$k]["get_new_count"]=$date_item["get_new_count"];
+            $obj_list[$k]["get_histroy_count"]=$date_item["get_histroy_count"];
+        }
+
+
+        //x
+        foreach ($new_user_info['list'] as $new_item) {
+            $k=$new_item['admin_revisiterid'];
+            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
+            $obj_list[$k]["new_user_count"]=$new_item["new_user_count"];
+        }
+
+
+        $all_item=["account" => "全部","admin_revisiterid" =>-1, ];
+        foreach ($ret_info["list"] as &$item) {
+            $item["valid_count"]=@$item["call_count"]-  @$item["invalid_count"]-@$item["no_connect"];
+            foreach ($item as $key => $value) {
+                if ((!is_int($key)) && ($key != "admin_revisiterid" )) {
+                    $all_item[$key]=(@$all_item[$key])+$value;
+                }
+            }
+            $this->cache_set_item_account_nick($item,"admin_revisiterid","account");
+        }
+
+        $ret_info = $ret_info['list'];
+        $admin_info = $this->t_manager_info->get_admin_member_list();
+        $admin_list= & $admin_info['list'] ;
+        if ($group_adminid >0) {
+            $groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($group_adminid);
+            $mark_user_map= $this->t_admin_group_user->get_user_map($groupid);
+        }
+
+        foreach ($admin_list as $vk=>&$val){
+            $adminid=$val['adminid'];
+            if (!isset($ret_info[$adminid ] )
+                || ( $group_adminid >0 &&  !isset($mark_user_map[ $adminid ] ) )  )  {
+                unset( $admin_list[$vk] );
+            }else{
+
+                $val['admin_revisiterid'] = $adminid ;
+                $ret_item=@$ret_info[$adminid];
+                $val['all_count'] = @$ret_item['all_count'];
+                $val['all_count_0'] = @$ret_item['all_count_0'];
+                $val['all_count_1'] = @$ret_item['all_count_1'];
+                $val['no_call'] = @$ret_item['no_call'];
+                $val['no_call_0'] = @$ret_item['no_call_0'];
+                $val['no_call_1'] = @$ret_item['no_call_1'];
+                $val['call_count'] = @$ret_item['account'];
+                $val['all_account'] = @$ret_item['call_count'];
+                $val['invalid_count'] = @$ret_item['invalid_count'];
+                $val['no_connect'] = @$ret_item['no_connect'];
+                $val['valid_count'] = @$ret_item['valid_count'];
+                $val['test_lesson_count'] = @$ret_item['test_lesson_count'];
+                $val['fail_need_pay_count'] = @$ret_item['fail_need_pay_count'];
+                $val['require_test_count'] = @$ret_item['require_test_count'];
+                $val['succ_all_count'] = @$ret_item['succ_all_count'];
+                $val['fail_all_count'] = @$ret_item['fail_all_count'];
+                $val['order_count'] = @$ret_item['order_count'];
+                $val['order_money'] = @$ret_item['order_money'];
+                $val['global_tq_no_call'] = @$ret_item['global_tq_no_call'];
+
+
+                $val['new_user_count'] = @$ret_item['new_user_count'];
+
+                $val['assigned_count'] = @$ret_item['assigned_count'];
+                // $val['get_new_count'] = @$ret_item['get_new_count'];
+                $val['get_histroy_count'] = @$ret_item['get_histroy_count'];
+
+
+            }
+        }
+
+        /*if (!$order_in_db_flag) {
+          \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
+          }
+
+          array_unshift($ret_info, $all_item);*/
+        $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list'],[],0, strtotime( date("Y-m-01",$start_time )   ));
+        /*$ret_info= $this->gen_admin_member_data($admin_info['list']);*/
+        foreach( $ret_info as &$item ) {
+            E\Emain_type::set_item_value_str($item);
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
+    }
+
+
 }
