@@ -1983,7 +1983,6 @@ class human_resource extends Controller
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid
         );
-
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
             $item["end"] = date("Y-m-d H:i:s",$item["answer_end_time"]);
@@ -1993,7 +1992,7 @@ class human_resource extends Controller
             }else{
                 E\Eidentity::set_item_value_str($item,"teacher_type");
             }
-            $item['train_teacher_str'] = $this->cache_get_teacher_nick($item["train_teacherid"]);
+            $item['interviewer_teacher_str'] = $this->cache_get_teacher_nick($item["interviewer_teacherid"]);
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");

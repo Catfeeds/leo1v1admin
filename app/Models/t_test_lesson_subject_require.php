@@ -274,15 +274,15 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." left join %s tc on tr.current_lessonid=tc.lessonid "
             ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
             ." where  %s order by %s asc "
-            , t_test_lesson_subject_require::DB_TABLE_NAME
-            , t_test_lesson_subject::DB_TABLE_NAME
-            , t_seller_student_new::DB_TABLE_NAME
-            , t_student_info::DB_TABLE_NAME
-            , t_test_lesson_subject_sub_list::DB_TABLE_NAME
-            , t_lesson_info::DB_TABLE_NAME
-            , t_course_order::DB_TABLE_NAME
-            , t_teacher_cancel_lesson_list::DB_TABLE_NAME
-            , t_teacher_info::DB_TABLE_NAME
+            , t_test_lesson_subject_require::DB_TABLE_NAME//tr
+            , t_test_lesson_subject::DB_TABLE_NAME//t
+            , t_seller_student_new::DB_TABLE_NAME//ss
+            , t_student_info::DB_TABLE_NAME//s
+            , t_test_lesson_subject_sub_list::DB_TABLE_NAME//tss
+            , t_lesson_info::DB_TABLE_NAME//l
+            , t_course_order::DB_TABLE_NAME//c
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME//tc
+            , t_teacher_info::DB_TABLE_NAME//tea
             ,$where_arr
             ,$opt_date_str
         );

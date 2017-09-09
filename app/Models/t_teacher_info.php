@@ -854,14 +854,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info($teacherid){
-        $sql = $this->gen_sql("select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
-                              ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
-                              ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,"
-                              ." train_through_new,trial_lecture_is_pass,wx_use_flag"
-                              ." from %s "
-                              ." where teacherid=%u"
-                              ,self::DB_TABLE_NAME
-                              ,$teacherid
+        $sql = $this->gen_sql(
+            "select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
+            ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
+            ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,"
+            ." train_through_new,trial_lecture_is_pass,wx_use_flag"
+            ." from %s "
+            ." where teacherid=%u"
+            ,self::DB_TABLE_NAME
+            ,$teacherid
         );
         return $this->main_get_row($sql);
     }
@@ -3224,14 +3225,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_del_flag = 0",
             "l.confirm_flag<>2",
             "l.lesson_start>0",
-            "l.lesson_status>0"
+            "l.lesson_status>0",
+            "tl.success_flag<>2"
         ];
 
         $sql = $this->gen_sql_new(" select t.train_through_new_time as work_day, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
+                                  ." left join %s tl on tl.lessonid=l.lessonid"
                                   ." where %s"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
 
