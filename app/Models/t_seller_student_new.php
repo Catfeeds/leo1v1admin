@@ -2083,7 +2083,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function allot_userid_to_cc($opt_adminid, $userid){
+    public function allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account){
 
         //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规 
 

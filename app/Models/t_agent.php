@@ -1245,12 +1245,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }else if ($agent_status == E\Eagent_status::V_20) { //排课
 
                     $template_id = '5gRCvXir0giV6kQcgTMki0TUWfQuKD1Vigg7zanvsD8';
+                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($lessonid);
                     $data = [
                         'first'    => "您邀请的学员{$phone}成功预约测评课，您获得10元奖励。 ",
                         'keyword1' => $phone,
                         'keyword2' =>  $phone ,
                         'keyword3' => "测评课",
-                        'keyword4' => "",
+                        'keyword4' => \App\Helper\Utils::unixtime2date($timestamp,"Y-m-d H:i") ,
                         'keyword5' => "理优1对1",
                         'remark'   => "如学员成功上完测评课，将再获得30元奖励。",
                     ];
@@ -1259,9 +1260,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
 
-                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $template_id = 'ahct5cHBDNVvA3rAYwMuaZ7VZlgx10xRfZ7ssh24hPQ';
                     $data = [
-                        'first'    => "xcadfa",
+                        'first'    => "您邀请的学员XXX成功上完测评课，您获得30元奖励。",
                         'keyword1' => $phone,
                         'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
                         'keyword3' => date('Y-m-d H:i:s',time()),
