@@ -135,32 +135,8 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
-    <script type="text/javascript" src="/js/cropbox.js"></script>
     <section class="content li-section">
         <div class="row">
-
-            <div class="container">
-                <div class="imageBox">
-	                  <div class="thumbBox"></div>
-	                  <div class="spinner" style="display: none">Loading...</div>
-                </div>
-                <div class="action"> 
-	                  <div class="new-contentarea tc"> 
-		                    <a href="javascript:void(0)" class="upload-img">
-			                      <label for="upload-file">上传图像</label>
-	                      </a>
-	                      <input type="file" class="" name="upload-file" id="upload-file" />
-	                  </div>
-	                  <input type="button btn" id="btnCrop"  class="Btnsty_peyton" value="裁切">
-	                  <input type="button btn" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
-	                  <input type="button btn" id="btnZoomOut" class="Btnsty_peyton" value="-" >
-                </div>
-                <div class="cropped"></div>
-            </div>
-
-
-
-
             <!-- Left col -->
             <section class="col-lg-5 connectedSortable" style="padding-right:5px">
                 <!-- Chat box -->
