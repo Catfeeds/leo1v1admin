@@ -1261,11 +1261,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
 
                     $template_id = 'ahct5cHBDNVvA3rAYwMuaZ7VZlgx10xRfZ7ssh24hPQ';
+                    $lesson_start=$this->task->t_lesson_info->get_lesson_start($lessonid);
                     $data = [
-                        'first'    => "您邀请的学员XXX成功上完测评课，您获得30元奖励。",
-                        'keyword1' => $phone,
-                        'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
-                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'first'    => "您邀请的学员{$phone}成功上完测评课，您获得30元奖励。",
+                        'keyword1' => "理优1对1",
+                        'keyword2' => "测评课" ,
+                        'keyword3' =>  \App\Helper\Utils::unixtime2date($lesson_start,"Y-m-d H:i") ,
                         'remark'   => "sdfadf",
                     ];
                     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
