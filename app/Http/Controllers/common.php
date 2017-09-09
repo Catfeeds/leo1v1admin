@@ -1354,9 +1354,12 @@ class common extends Controller
                         $ret = $this->t_teacher_info->field_update_list($teacherid_old, [
                             "wx_openid" => $wx_openid
                         ]);
+
                     }else{
                         return $this->output_err($data);
                     }
+                }else{
+                    
                 }
 
                 $teacher_info['teacherid'] = $data;
