@@ -1255,11 +1255,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //佣金提成信息
         $order_open_all_money= $level_count_info["l1_child_open_price"] +$level_count_info["l2_child_open_price"];
         $order_all_money= $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"];
+        $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id);
+
 
 
         $this->field_update_list($id,[
@@ -1268,6 +1270,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "agent_student_status" => $agent_student_status,
             "l1_child_count" => $level_count_info["l1_child_count"],
             "l2_child_count" => $level_count_info["l2_child_count"],
+            "child_order_count" => $child_order_count ,
 
             "all_money" => $order_all_money ,
             "order_open_all_money" => $order_open_all_money,
@@ -1326,8 +1329,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_level_count_info($id ) {
         $sql = $this->gen_sql_new(
-            "select count(*) as l1_child_count , sum(child_count) l2_child_count, sum(p_price) l1_child_price, sum(p_open_price) l1_child_open_price, sum( pp_price ) l2_child_price , sum(pp_open_price) l2_child_open_price "
-            . " from (select  a1.id  agent_id,  ao1.p_price  , ao1.p_open_price  , sum(a2.id>0 )  child_count, sum(ao2.pp_price) as  pp_price , sum(ao2.pp_open_price) as  pp_open_price  "
+            "select  sum(orderid>0) l1_order_count, sum(pp_order_count) l2_order_count, count(*) as l1_child_count , sum(child_count) l2_child_count, sum(p_price) l1_child_price, sum(p_open_price) l1_child_open_price, sum( pp_price ) l2_child_price , sum(pp_open_price) l2_child_open_price "
+            . " from (select  a1.id  agent_id, ao1.orderid,  ao1.p_price  , ao1.p_open_price  , sum(a2.id>0 )  child_count, sum(ao2.pp_price) as  pp_price , sum(ao2.pp_open_price) as  pp_open_price, sum(ao2.orderid>0)  pp_order_count "
             . " from %s a1"
             . " left join  %s a2 on( a1.id=a2.parentid and a2.type in (1,3)  )  "
             . " left join  %s ao1 on( a1.id=ao1.aid   )  "
@@ -1341,6 +1344,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_row($sql);
     }
+
 
     public function get_l1_test_lesson_order_list($id) {
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
