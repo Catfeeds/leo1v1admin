@@ -255,7 +255,7 @@
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["zs_name"]}} </td>
                         @else
-                            <td>{{@$var["lecture_revisit_type_new_str"]}}</td>
+                            <td>{{@$var["lecture_revisit_type_new_str"]}}<br/>{{@$var['custom']}}</td>
                             <td>
                                 {{@$var["full_status_str"]}}<br><br>
                                 @if(!empty($var["full_record_info"]) )
