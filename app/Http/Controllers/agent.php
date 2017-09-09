@@ -333,11 +333,11 @@ class agent extends Controller
         foreach($ret_info as $item){
             if($item['lesson_del_flag']){
                 $count_del++;
-            }else{
-                $count++;
             }
+            $count++;
         }
-        dd($count,$count_del);
+        $del_rate = $count?$count_del/$count:0;
+        dd($count,$count_del,$del_rate);
     }
 
     public function agent_add(){
