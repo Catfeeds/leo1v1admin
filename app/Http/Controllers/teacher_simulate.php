@@ -51,7 +51,7 @@ class teacher_simulate extends Controller
 
         $now_date  = date("Y-m",$start_time);
         $file_name = "teacher_simulate_".$now_date."_".$teacher_money_type."_".$level.".txt";
-        $file_info = file_get_contents($file_name);
+        $file_info = fopen($file_name,"a");
 
         if(empty($file_info) || $file_info==""){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
