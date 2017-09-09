@@ -50,10 +50,19 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        $file_name = "teacher_simulate_".$now_date."_".$teacher_money_type."_".$level.".txt";
-        $file_info = fopen($file_name,"a");
+        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id.".txt";
+        //需要重新拉取  flag  0 不需要  1 需要
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
 
-        if(empty($file_info) || $file_info==""){
+        if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
                 $start_time,$end_time,$teacher_money_type,$level,$teacher_id
             );
@@ -190,12 +199,15 @@ class teacher_simulate extends Controller
 
             $lesson_total += $lesson_count;
         }
+
+        \App\Helper\Utils::check_isset_data($all_count,0,0);
+        \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
+        \App\Helper\Utils::check_isset_data($down_count['all'],0,0);
+        \App\Helper\Utils::check_isset_data($up_count['base'],0,0);
+        \App\Helper\Utils::check_isset_data($up_count['all'],0,0);
+
         foreach($list as &$l_val){
             \App\Helper\Utils::check_isset_data($all_count,1);
-            \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
-            \App\Helper\Utils::check_isset_data($down_count['all'],0,0);
-            \App\Helper\Utils::check_isset_data($up_count['base'],0,0);
-            \App\Helper\Utils::check_isset_data($up_count['all'],0,0);
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);
             $l_val['money_base_different']   = round(($l_val['money_simulate_base']-$l_val['money_base']),2);
             $l_val['lesson_price_different'] = round(($l_val['lesson_price_simulate']-$l_val['lesson_price']),2);
@@ -211,15 +223,9 @@ class teacher_simulate extends Controller
                 $up_count['all']++;
             }
         }
-
-
-
         $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
-
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
-
-
         $show_data = [
             "all_money"                  => round($all_money,2),
             "all_money_simulate"         => round($all_money_simulate,2),
@@ -231,9 +237,9 @@ class teacher_simulate extends Controller
             "level_list"                 => $level_list,
             "acc"                        => $acc,
             "start_time"                 => $start_time,
-            "all_count"                 => $all_count,
+            "all_count"                  => $all_count,
             "down_count"                 => $down_count,
-            "up_count"                 => $up_count,
+            "up_count"                   => $up_count,
         ];
 
         $this->check_month_redis_key($show_data);
