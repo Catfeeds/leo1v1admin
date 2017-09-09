@@ -104,7 +104,7 @@ $(function(){
     });
     $('.opt-change').set_input_change_event(load_data);
 
-    $("button[data-dismiss]").on("click", function () {
+    $(".tag").on("click", function () {
         if (!confirm("确定退出编辑吗？")){
             return false;
         }
