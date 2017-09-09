@@ -328,8 +328,16 @@ class agent extends Controller
         }
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
+        list($count,$count_del) = [0,0];
         $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-        dd($ret_info);
+        foreach($ret_info as $item){
+            if($item['lesson_del_flag']){
+                $count_del++;
+            }else{
+                $count++;
+            }
+        }
+        dd($count,$count_del);
     }
 
     public function agent_add(){
