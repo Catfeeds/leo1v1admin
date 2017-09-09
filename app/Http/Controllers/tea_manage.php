@@ -282,8 +282,9 @@ class tea_manage extends Controller
             $item['lesson_quiz_status_str'] = $this->get_lesson_quiz_cfg($item['lesson_quiz_status'], $item['lesson_type']);
             $item['is_complained_str']      = E\Eboolean::get_desc ($item['is_complained' ]) ;
             $item['homework_url']           = $this->get_work_url($item);
-            $item['lesson_type_str']        = E\Econtract_type::get_desc($item["lesson_type"]) ;
-            $item['level']                  = E\Elevel::get_desc($item["level"]) ;
+            $item['lesson_type_str']        = E\Econtract_type::get_desc($item["lesson_type"]);
+            E\Elevel::set_item_value_str($item);
+            E\Eteacher_money_type::set_item_value_str($item);
             $item['teacher_score']        = sprintf("%.2f",($item["teacher_effect"]+$item["teacher_quality"]+$item["teacher_interact"])/3 );
             $item["tea_nick"]             = $this->cache_get_teacher_nick($item["teacherid"]);
             $item["require_admin_nick"]   = $this->cache_get_account_nick($item["require_adminid"]);
