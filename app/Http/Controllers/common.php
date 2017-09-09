@@ -1351,6 +1351,7 @@ class common extends Controller
 
                     if($data == '该手机号已存在'){
                         $teacherid_old = $this->t_teacher_info->get_teacherid_by_phone($phone);
+                        $teacher_info['teacherid'] = $teacherid_old;
                         $ret = $this->t_teacher_info->field_update_list($teacherid_old, [
                             "wx_openid" => $wx_openid
                         ]);

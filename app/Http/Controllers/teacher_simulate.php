@@ -48,9 +48,10 @@ class teacher_simulate extends Controller
          */
         $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
+
         $now_date  = date("Y-m",$start_time);
-        $file_name = "teacher_simulate_".$now_date.$teacher_money_type.$level.".txt";
-        $file_info = file_get_contents($file_name);
+        $file_name = "teacher_simulate_".$now_date."_".$teacher_money_type."_".$level.".txt";
+        $file_info = fopen($file_name,"a");
 
         if(empty($file_info) || $file_info==""){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(

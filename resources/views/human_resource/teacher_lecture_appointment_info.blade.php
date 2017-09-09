@@ -256,7 +256,7 @@
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["zs_name"]}} </td>
                         @else
-                            <td>{{@$var["train_teacher_str"]}}</td>
+                            <td>{{@$var["interviewer_teacher_str"]}}</td>
                             <td>{{@$var["lecture_revisit_type_new_str"]}}<br/>
                                 @if ($var['lesson_start']>0)
                                 @else    
