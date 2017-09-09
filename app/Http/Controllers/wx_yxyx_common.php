@@ -239,6 +239,9 @@ class wx_yxyx_common extends Controller
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
                     $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
                     // 优学优享例子分配给 王春雷 [442]
+                    $opt_adminid = 442; // 王春雷
+                    // $this->t_seller_student_new->allot_userid_to_cc($opt_adminid);
+
 
                     if($userid){
                         $this->t_student_info->field_update_list($userid, [
