@@ -365,7 +365,7 @@ class tongji2 extends Controller
             }
         }
 
-        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, $month);
+        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, strtotime( date("Y-m-01",$start_time )));
 
         foreach( $admin_list as &$item ) {
             E\Emain_type::set_item_value_str($item);

@@ -49,17 +49,6 @@ interface RowData {
 	l1_child_count	:any;
 	l2_child_count	:any;
 	all_money	:any;
-	agent_status	:any;
-	agent_status_money	:any;
-	agent_status_money_open_flag	:any;
-	l1_agent_status_all_money	:any;
-	l1_agent_status_all_open_money	:any;
-	l1_agent_status_test_lesson_succ_count	:any;
-	star_count	:any;
-	all_yxyx_money	:any;
-	all_open_cush_money	:any;
-	all_have_cush_money	:any;
-	order_open_all_money	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;
@@ -78,9 +67,7 @@ interface RowData {
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
-	agent_status_str	:any;
 	student_stu_type_str	:any;
-	agent_status_money_open_flag_str	:any;
 	agent_student_status_str	:any;
 	cc_nick	:any;
 	test_lessonid_str	:any;

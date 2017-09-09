@@ -524,6 +524,7 @@ class menu{
 
                 ["power_id"=>20, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
                 ["power_id"=>21, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
+                ["power_id"=>29, "name"=>"合同-已付费-主管",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
 
 
 
