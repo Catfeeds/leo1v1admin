@@ -986,13 +986,20 @@ class teacher_level extends Controller
     }
 
     public function reset_record_acc(){
-        $id                              = $this->get_in_int_val("id");
+        $id = $this->get_in_int_val("id");
         $this->t_teacher_record_list->field_update_list($id,[
             "acc"  =>"",
             "click_time"=>0
         ]);
         return $this->output_succ();
     }
+
+    public function delete_record_acc(){
+        $id  = $this->get_in_int_val("id");
+        $this->t_teacher_record_list->row_insert($id);
+        return $this->output_succ();
+    }
+
 
 
     public function get_seller_top_test_lesson_info(){

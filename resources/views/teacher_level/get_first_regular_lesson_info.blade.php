@@ -110,6 +110,9 @@
                                 @if(in_array($acc,["coco","jack","melody","wander","niki","seth","展慧东","CoCo老师"]))
                                     <a class="opt-reset-acc" >重置审核人</a>
                                 @endif
+                                @if($acc=="jack")
+                                    <a class="opt-delete" >删除</a>
+                                @endif
 
 
                             </div>

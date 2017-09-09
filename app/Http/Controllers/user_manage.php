@@ -2036,6 +2036,7 @@ class user_manage extends Controller
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
+            E\Ecomplaint_department::set_item_value_str($item);
             E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
             $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
             E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
@@ -2404,9 +2405,9 @@ class user_manage extends Controller
 
         $ret_grade = [];
         foreach ($ret_info as $key => &$value) {
-		if($value['grade'] != "401"){
-	          $ret_grade[$value['grade_str']] = $value['sum'];
-		}
+        if($value['grade'] != "401"){
+              $ret_grade[$value['grade_str']] = $value['sum'];
+        }
         }
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_grade,
@@ -2690,7 +2691,7 @@ class user_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
-	    $assistantid = 190500	;
+        $assistantid = 190500	;
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
         foreach($ret_info['list'] as $key => &$item){

@@ -852,6 +852,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TAgentAgentStatus' => __DIR__ . '/../..' . '/database/migrations/2017_09_06_161211_t_agent_agent_status.php',
         'TAgentCash' => __DIR__ . '/../..' . '/database/migrations/2017_07_05_193135_t_agent_cash.php',
         'TAgentCashAddCheckMoney' => __DIR__ . '/../..' . '/database/migrations/2017_08_22_161736_t_agent_cash_add_check_money.php',
+        'TAgentClildOrderCount' => __DIR__ . '/../..' . '/database/migrations/2017_09_09_105938_t_agent_clild_order_count.php',
         'TAgentEditBankcardIdcardType' => __DIR__ . '/../..' . '/database/migrations/2017_07_08_164842_t_agent_edit_bankcard_idcard_type.php',
         'TAgentInfoAgentStudentStatus' => __DIR__ . '/../..' . '/database/migrations/2017_08_25_132749_t_agent_info_agent_student_status.php',
         'TAgentOrder' => __DIR__ . '/../..' . '/database/migrations/2017_06_14_163953_t_agent_order.php',
