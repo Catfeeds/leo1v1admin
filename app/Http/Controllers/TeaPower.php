@@ -2900,9 +2900,7 @@ trait  TeaPower {
         return $str;
 
 
- 
     }
-  
 
 
 

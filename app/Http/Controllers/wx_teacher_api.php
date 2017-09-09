@@ -303,7 +303,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
             }
 
             // 给投诉老师反馈

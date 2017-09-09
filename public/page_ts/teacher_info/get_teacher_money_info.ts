@@ -76,6 +76,11 @@ $(function(){
         $('#id_normal_lesson_total').text(month_info[cur_num].normal_lesson_total+"课时");
         $('#id_trial_lesson_total').text(month_info[cur_num].trial_lesson_total+"课时");
         $('#id_all_money').text(month_info[cur_num].all_money+"元");
+        if(month_info[cur_num].reward_money==undefined){
+            $('#id_reward_money').text("0元");
+        }else{
+            $('#id_reward_money').text(month_info[cur_num].reward_money+"元");
+        }
 
         $(".date-tbody").each(function(){
             var date = $(this).data("date");
