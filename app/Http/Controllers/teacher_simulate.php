@@ -176,7 +176,8 @@ class teacher_simulate extends Controller
 
             $lesson_price = $val['lesson_price']/100;
             if(in_array($val['contract_type'],[0,3])){
-                $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+                // $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+                $lesson_price_simulate = 0;
             }else{
                 $lesson_price_simulate = 0;
             }
