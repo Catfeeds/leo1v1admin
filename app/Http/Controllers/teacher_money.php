@@ -760,6 +760,7 @@ class teacher_money extends Controller
 
     public function reset_lesson_reward(){
         $lessonid = $this->get_in_int_val("lessonid");
+        $account  = $this->get_account();
 
         $teacherid    = $this->t_lesson_info->get_teacherid($lessonid);
         $lesson_info  = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -770,10 +771,9 @@ class teacher_money extends Controller
         }
         $lesson_month = date("Y-m",$lesson_info['lesson_start']);
         $now_month = date("Y-m",time());
-        if($lesson_month!=$now_month){
+        if($lesson_month!=$now_month && $account!="adrian"){
             return $this->output_err("不是本月课程！无法更改！");
         }
-
 
         $ret = $this->t_lesson_info->field_update_list($lessonid,[
             "teacher_money_type" => $teacher_info['teacher_money_type'],
