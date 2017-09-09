@@ -405,9 +405,7 @@ class test_boby extends Controller
 
     public function get_teacher(){
 
-        // $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
-        $sql = 'select  l.lesson_start, s.userid,  s.phone, t.subject, s.nick  from db_weiyi.t_test_lesson_subject_require tr  join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id  join db_weiyi.t_seller_student_new n  on t.userid=n.userid  join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid  join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid  join db_weiyi.t_student_info s on s.userid = l.userid  join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid   where  lesson_start >0 and accept_flag=1   and s.is_test_user=0 and l.lesson_type=2 and success_flag=1   and l.lesson_start>1483200000 and not exists (select 1 from db_weiyi.t_order_info o where s.userid=o.userid and o.contract_type in (0,3) and contract_status>0) group by s.userid';
-        $ret = $this->t_student_info->get_teacher($sql);
+        exit;
         $s = '<table border=1><tr>'
            .'<td>id</td>'
            .'<td>名字</td>'
@@ -430,57 +428,6 @@ class test_boby extends Controller
         $s = $s.'</table>';
         return $s;
 
-    }
-    public function get_teacher_lesson(){//p 2
-        // $teacherid = $this->get_teacherid();
-
-        $teacherid = 182903;
-        // \App\Helper\Utils::logger("yuebao".$teacherid);
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
-        $ret_info['normal_count'] = $ret_info['normal_count']/100;
-        $ret_info['test_count']   = $ret_info['test_count']/100;
-        $ret_info['other_count']  = $ret_info['other_count']/100;
-        return $this->output_succ(["lesson_info"=>$ret_info]);
-    }
-
-
-
-    public function get_tea_lesson_some_info(){//p5
-        $teacherid = 182903;
-        // $teacherid = '404';
-        // $teacherid = $this->get_teacherid();
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-        foreach ($ret_info as &$item) {
-            $item = intval($item);
-        }
-        return $this->output_succ(["list"=>$ret_info]);
-    }
-    public function get_teacher_student(){//p4
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = 182903;
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-        $face       = [];
-        foreach ($ret_info as $item) {
-            $face[] = @$item['face'];
-        }
-        $stu_info['stu_num'] = count($ret_info);
-        $stu_info['face']    = $face;
-        return $this->output_succ(["stu_info"=>$stu_info]);
     }
 
 
