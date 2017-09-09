@@ -2095,16 +2095,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "admin_revisiterid"  => 0,
             "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
             "sub_assign_time_1"  => time(NULL),
+            "first_admin_master_adminid" =>$up_adminid,
+            "first_admin_master_time" => time(NULL)
         ];
-
-        if ( $seller_resource_type==0) {
-            if (!$ss_info["first_admin_master_time"]) {
-                $set_arr["first_admin_master_adminid"]=$up_adminid;
-                $set_arr["first_admin_master_time"]=$now;
-            }
-        }
-
-
 
 
         $ret_update = $this->t_book_revisit->add_book_revisit(

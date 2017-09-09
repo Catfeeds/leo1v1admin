@@ -240,7 +240,15 @@ class wx_yxyx_common extends Controller
                     $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
                     // 优学优享例子分配给 王春雷 [442]
                     $opt_adminid = 442; // 王春雷
-                    // $this->t_seller_student_new->allot_userid_to_cc($opt_adminid);
+
+                    /**
+                       $account=$this->get_account();
+                       $opt_account=$this->t_manager_info->get_account($opt_adminid);
+
+                       $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
+
+
+                    ***/
 
 
                     if($userid){
