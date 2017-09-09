@@ -1194,21 +1194,84 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return  array(($order_count+$need_set_open_list_count)*50*100, $order_count+$succ_lesson_cont ,$l1_agent_status_all_money  );
 
     }
-    public function wx_noti_agent_status( $parentid, $phone, $old_agent_status, $agent_status) {
+    public function wx_noti_agent_status( $id, $parentid, $agent_level , $phone, $old_agent_status, $agent_status) {
         //$old_agent_status
+
+
+
         $parentid=1850;
+        $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+        $data = [
+            'first'    => "xcadfa",
+            'keyword1' => $phone,
+            'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
+            'keyword3' => date('Y-m-d H:i:s',time()),
+            'remark'   => "sdfadf",
+        ];
+
         if ($parentid && $old_agent_status < $agent_status ) { //状态升级
             $p_item = $this->field_get_list($parentid,"wx_openid,agent_level");
             if ($p_item) {
+                $wx_config =\App\Helper\Config::get_config("yxyx_wx") ;
+                $base_url= $wx_config["url"] ;
+                $url="$base_url/wx_yxyx_web/index";
+
                 $wx_openid   = $p_item["wx_openid"];
                 $agent_level = $p_item["agent_level"];
+                //\App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
+                if ($agent_status == E\Eagent_status::V_1) { //报名推送
 
+                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $data = [
+                        'first'    => "xcadfa",
+                        'keyword1' => $phone,
+                        'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
+                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'remark'   => "sdfadf",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+
+                }else if ($agent_status == E\Eagent_status::V_10) {//拨通推送
+
+                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $data = [
+                        'first'    => "xcadfa",
+                        'keyword1' => $phone,
+                        'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
+                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'remark'   => "sdfadf",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                }else if ($agent_status == E\Eagent_status::V_20) { //排课
+
+                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $data = [
+                        'first'    => "xcadfa",
+                        'keyword1' => $phone,
+                        'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
+                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'remark'   => "sdfadf",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+
+
+                }else if ($agent_status == E\Eagent_status::V_30) { //试听成功
+
+                    $template_id = 'WEg0PqvnN23HboTngezq0Ut8cPLf-g_0Tgmv4zhj4Eo';
+                    $data = [
+                        'first'    => "xcadfa",
+                        'keyword1' => $phone,
+                        'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
+                        'keyword3' => date('Y-m-d H:i:s',time()),
+                        'remark'   => "sdfadf",
+                    ];
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+
+
+                }else if ($agent_status == E\Eagent_status::V_40) { //签单
+
+                }
             }
-            if ($agent_status ==1  ) {
-
-            }
-
-
         }
         /*
           1.成功邀请学员提醒
@@ -1228,6 +1291,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           4.学员XXX测评课成功提醒
           您邀请的学员XXX成功上完测评课，您获得30元奖励。
           如学员购买课程，将再获得该学员学费的5%（最高500元）奖励。
+
         */
 
 
@@ -1286,6 +1350,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                    $l1_agent_status_test_lesson_succ_count,
                    $l1_agent_status_all_money )
                 =$this->reset_user_info_l1_money_open_flag($id);
+        }
+
+        //不能降级
+        if ($old_agent_status > $agent_status ) {
+            $agent_status= $old_agent_status;
         }
 
         if ($agent_info["create_time"] > $yxyx_check_time)  {
@@ -1349,13 +1418,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
-        if ($agent_info["create_time"] < $check_time
-            && $agent_info["agent_status_money_open_flag"] !=0 ) {
-            $this->field_update_list($id,[
-                "agent_status_money_open_flag" => 0,
-                "agent_status_money" => 0,
-            ]);
+        if ($agent_info["create_time"] < $check_time) {
+            if ( $agent_info["agent_status_money_open_flag"] !=0 ) {
+                $this->field_update_list($id,[
+                    "agent_status_money_open_flag" => 0,
+                    "agent_status_money" => 0,
+                ]);
+            }
+        }else {
+            $this->wx_noti_agent_status($id , $agent_info["parentid"],$agent_info["agent_level"] ,$agent_info["phone"],$old_agent_status,$agent_status);
         }
+
         //$agent_status_money_open_flag=0;
 
         if ( $level_count_info["l1_child_count"]) {

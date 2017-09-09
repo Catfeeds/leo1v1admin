@@ -429,6 +429,10 @@ trait  TeaPower {
                 }else{
                     $tea_subject="";
                 }
+
+                if($adminid == 329){ // 千千 可以看所有科目
+                    $tea_subject = "(1,2,3,4,5,6,7,8,9,10,11)";
+                }
             }
         }else if($account_role==5){
             $qz_flag     = 1;
@@ -1284,12 +1288,18 @@ trait  TeaPower {
         if($check_flag){
             return "该手机号已存在";
         }
+        $check_teacher_day = strtotime("2017-9-10");
+        if(time()>$check_teacher_day){
+            $default_teacher_money_type= E\Eteacher_money_type::V_6;
+        }else{
+            $default_teacher_money_type= E\Eteacher_money_type::V_4;
+        }
 
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
         \App\Helper\Utils::set_default_value($wx_use_flag,$teacher_info,0,"wx_use_flag");
         \App\Helper\Utils::set_default_value($trial_lecture_is_pass,$teacher_info,0,"trial_lecture_is_pass");
         \App\Helper\Utils::set_default_value($train_through_new,$teacher_info,0,"train_through_new");
-        \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,4,"teacher_money_type");
+        \App\Helper\Utils::set_default_value($teacher_money_type,$teacher_info,$default_teacher_money_type,"teacher_money_type");
         \App\Helper\Utils::set_default_value($level,$teacher_info,0,"level");
         \App\Helper\Utils::set_default_value($grade,$teacher_info,0,"grade");
         \App\Helper\Utils::set_default_value($subject,$teacher_info,0,"subject");
