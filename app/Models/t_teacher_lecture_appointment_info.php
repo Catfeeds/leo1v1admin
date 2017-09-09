@@ -182,7 +182,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." if(l.status is null,'-2',l.status) as status,ta.lesson_start,"
                                   ." if(ta.lesson_start >0,4,la.lecture_revisit_type) lecture_revisit_type,"
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
-                                  ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
+                                  ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,ta.teacherid interviewer_teacherid"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account, m.name as zs_name,"
                                   ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,tt.user_agent,la.hand_flag,"
                                   ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info"
@@ -214,6 +214,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,$where_arr
                                   ,$record_str
         );
+        dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 

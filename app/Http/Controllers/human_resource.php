@@ -1993,7 +1993,7 @@ class human_resource extends Controller
             }else{
                 E\Eidentity::set_item_value_str($item,"teacher_type");
             }
-            $item['train_teacher_str'] = $this->cache_get_teacher_nick($item["train_teacherid"]);
+            $item['interviewer_teacher_str'] = $this->cache_get_teacher_nick($item["interviewer_teacherid"]);
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");
