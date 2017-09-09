@@ -469,7 +469,8 @@ class wx_teacher_api extends Controller
         $end_time = date("Y-m-01",time());
         $start_time = date("Y-m-d",strtotime("-1 month",strtotime($end_time)));
 
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid."&start_time=".$start_time."&end_time=".$now_time;
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid
+             ."&start_time=".$start_time."&end_time=".$now_time;
         $ret = \App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);
 
