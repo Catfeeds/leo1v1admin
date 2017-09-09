@@ -211,44 +211,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         //select count(*) from t_order_info as t1,t_book_info as t2 where t1.userid=t2.userid, t2.origin like "%APP课程包%" ;
         $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
-        $sql = $this->gen_sql_new("select from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
-                                  ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
-                                  ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
-                                  ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
-                                  ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
-                                  ." contract_endtime,t1.grade,t1.lesson_total,t1.price,t1.discount_price,t1.discount_reason,"
-                                  ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
-                                  ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
-                                  ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
-                                  ." t2.parent_name as parent_nick,t2.phone,t1.origin,t1.sys_operator,t1.from_type,"
-                                  ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
-                                  ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
-                                  ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
-                                  ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
-                                  ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
-                                  ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price"
-                                  ." from %s t1 "
-                                  ." left join %s t2 on t1.userid = t2.userid "
-                                  ." left join %s t3 on t1.sys_operator = t3.account "
-                                  ." left join %s c on t1.orderid = c.orderid "
-                                  ." left join %s n on t1.userid = n.userid "
-                                  ." left join %s l on l.lessonid = t1.from_test_lesson_id "
-                                  ." left join %s f on ( f.from_key_int = t1.orderid  and f.flow_type=2002)"
-                                  ." left join %s m on t2.ass_master_adminid = m.uid"
-                                  ." left join %s m2 on t1.sys_operator = m2.account"
-                                  ." left join %s ti on t1.userid = ti.userid"
-                                  ." where %s  order by $order_by_str ",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_course_order::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  t_flow::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  t_student_init_info::DB_TABLE_NAME,
-                                  $where_arr
+        $sql = $this->gen_sql_new(
+            "select  order_price_desc,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
+            ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
+            ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
+            ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
+            ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
+            ." contract_endtime,t1.grade,t1.lesson_total,t1.price,t1.discount_price,t1.discount_reason,"
+            ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
+            ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
+            ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
+            ." t2.parent_name as parent_nick,t2.phone,t1.origin,t1.sys_operator,t1.from_type,"
+            ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
+            ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
+            ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
+            ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
+            ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
+            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price"
+            ." from %s t1 "
+            ." left join %s t2 on t1.userid = t2.userid "
+            ." left join %s t3 on t1.sys_operator = t3.account "
+            ." left join %s c on t1.orderid = c.orderid "
+            ." left join %s n on t1.userid = n.userid "
+            ." left join %s l on l.lessonid = t1.from_test_lesson_id "
+            ." left join %s f on ( f.from_key_int = t1.orderid  and f.flow_type=2002)"
+            ." left join %s m on t2.ass_master_adminid = m.uid"
+            ." left join %s m2 on t1.sys_operator = m2.account"
+            ." left join %s ti on t1.userid = ti.userid"
+            ." where %s  order by $order_by_str ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_init_info::DB_TABLE_NAME,
+            $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -1359,7 +1360,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $promotion_spec_present_lesson=0,
         $contract_from_type=0,
         $from_parent_order_lesson_count=0,
-        $pre_price=0
+        $pre_price=0,
+        $order_price_desc=""
     )
     {
 
@@ -1404,6 +1406,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
             "pre_price"                      => $pre_price,
+            "order_price_desc"                      => $order_price_desc,
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
@@ -2247,7 +2250,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
-            "select promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            "select order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
             ." from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"

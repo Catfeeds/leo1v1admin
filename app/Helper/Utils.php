@@ -944,12 +944,12 @@ class Utils  {
         $type = 0;
         if(in_array($teacher_money_type,[0,1,2,3,7])){
             if($teacher_type==3){
-                $type=3;
+                $type = 3;
             }else{
-                $type=1;
+                $type = 1;
             }
         }elseif(in_array($teacher_money_type,[4,5,6])){
-            $type=2;
+            $type = 2;
         }
         return $type;
     }

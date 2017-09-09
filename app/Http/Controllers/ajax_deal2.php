@@ -717,7 +717,7 @@ class ajax_deal2 extends Controller
         $start_time  = strtotime($this->get_in_str_val("start_time"));
         $end_time    = strtotime($this->get_in_str_val("end_time"))+86400;
         $ret_info = $this->t_lesson_info->get_student_single_subject($start_time,$end_time,$teacherid,$subject,$studentid);
-	
+
         foreach ($ret_info as &$item) {
             # code...
             $this->cache_set_item_teacher_nick($item,"teacherid","teacher_nick");
@@ -988,7 +988,7 @@ class ajax_deal2 extends Controller
         $adminid= $this->get_account_id();
         $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
         $ret_arr=\App\Helper\Utils::json_decode_as_array($ret_str,true);
-        return $this->output_succ(["data" => $ret_arr ]); 
+        return $this->output_succ(["data" => $ret_arr ]);
     }
 
     public function get_lesson_stu_tea_time(){
@@ -1017,7 +1017,7 @@ class ajax_deal2 extends Controller
         }
         $data["stu_time"] = $stu_time;
         $data["tea_time"] = $tea_time;
-        return $this->output_succ(["data" => $data ]); 
+        return $this->output_succ(["data" => $data ]);
     }
 
     //修改学生信息
@@ -1042,7 +1042,7 @@ class ajax_deal2 extends Controller
             }else{
                 $pattern = "/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/i";
                 if ( !preg_match( $pattern, $stu_email )){
-                   return $this->output_err("邮箱格式错误!"); 
+                   return $this->output_err("邮箱格式错误!");
                 }
             }
 
@@ -1070,7 +1070,7 @@ class ajax_deal2 extends Controller
                 "city"     =>$city,
                 "area"     =>$area
             ]);
- 
+
         }
         return $this->output_succ();
     }
@@ -1080,10 +1080,10 @@ class ajax_deal2 extends Controller
         $userid    = $this->get_in_int_val("userid");
         $list = $this->t_student_subject_list->get_info_by_userid($userid);
         foreach($list  as &$item){
-            $item["editionid_str"] =  E\Eregion_version::get_desc ($item["editionid"]);   
-            $item["subject_str"] =  E\Esubject::get_desc ($item["subject"]);   
+            $item["editionid_str"] =  E\Eregion_version::get_desc ($item["editionid"]);
+            $item["subject_str"] =  E\Esubject::get_desc ($item["subject"]);
         }
-        return $this->output_succ(["data"=>$list]); 
+        return $this->output_succ(["data"=>$list]);
     }
 
     //新增学生科目教材
@@ -1103,7 +1103,7 @@ class ajax_deal2 extends Controller
             "subject" => $subject,
             "editionid" =>$editionid
         ]);
-        return $this->output_succ(); 
+        return $this->output_succ();
     }
 
     //修改学生科目教材
@@ -1111,11 +1111,11 @@ class ajax_deal2 extends Controller
         $userid    = $this->get_in_int_val("userid");
         $subject    = $this->get_in_int_val("subject");
         $editionid   = $this->get_in_int_val("editionid");
-        
+
         $this->t_student_subject_list->field_update_list_2($userid,$subject,[
             "editionid" =>$editionid
         ]);
-        return $this->output_succ(); 
+        return $this->output_succ();
     }
 
 
@@ -1124,9 +1124,9 @@ class ajax_deal2 extends Controller
         $userid    = $this->get_in_int_val("userid");
         $subject    = $this->get_in_int_val("subject");
         $editionid =$this->t_student_subject_list->get_editionid($userid,$subject);
-        return $this->output_succ(["editionid"=>$editionid]); 
+        return $this->output_succ(["editionid"=>$editionid]);
     }
- 
+
     //配置教材版本
     public function set_teacher_textbook(){
         $id = $this-> get_in_int_val('id');
@@ -1135,7 +1135,7 @@ class ajax_deal2 extends Controller
         $this->t_location_subject_grade_textbook_info->field_update_list($id,[
             "teacher_textbook"    => $teacher_textbook
         ]);
-        
+
         return $this->output_succ();
     }
 
@@ -1143,7 +1143,7 @@ class ajax_deal2 extends Controller
     public function get_stu_nick_info(){
         $userid    = $this->get_in_int_val("userid",166241);
         $stu_info = $this->t_student_info->field_get_list($userid,"nick,grade,phone");
-        $grade =  E\Egrade::get_desc ($stu_info["grade"]); 
+        $grade =  E\Egrade::get_desc ($stu_info["grade"]);
         $location = \App\Helper\Common::get_phone_location($stu_info["phone"]);
         $location = substr($location,0,-6);
         $tea_info = $this->t_lesson_info_b3->get_teacher_identity($userid);
@@ -1154,10 +1154,51 @@ class ajax_deal2 extends Controller
             }
         }
         $data=["nick"=>$stu_info["nick"],"location"=>$location,"grade"=>$grade,"identity"=>$str];
-        
+
 
         return $this->output_succ(["data"=>$data]);
-        
+
+    }
+    public function get_order_desc_html_str() {
+        $str=$this->get_in_str_val("str");
+        $arr=\App\Helper\Utils::json_decode_as_array($str,true);
+        $tr_str="";
+
+        if ( is_array($arr)){
+            foreach($arr as $item ) {
+                if ($item["succ_flag"]) {
+                    $succ_str="<font color=\"green\">匹配</font>";
+                }else{
+                    $succ_str="<font color=\"red\">未匹配</font>";
+                }
+                $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font>  </tr> ";
+            }
+        }
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  </tr> $tr_str </table>";
+        return $this->output_succ(["html_str" => $html_str ]);
+
+    }
+
+    public function add_textbook_one(){
+        $teacher_textbook = $this->get_in_str_val("teacher_textbook");
+        $grade = $this->get_in_int_val('grade');
+        $subject = $this->get_in_int_val('subject');
+        $province = trim($this->get_in_str_val('province'));
+        $city = trim($this->get_in_str_val('city'));
+        $educational_system = trim($this->get_in_str_val('educational_system'));
+        $is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($province,$city,$grade,$subject);
+        if($is_exist ==1){
+            return $this->output_err("已有相同地区科目信息!");
+        }
+        $this->t_location_subject_grade_textbook_info->row_insert([
+            "province"  =>$province,
+            "city"      =>$city,
+            "subject"   =>$subject,
+            "grade"     =>$grade,
+            "teacher_textbook"=>$teacher_textbook,
+            "educational_system"=>$educational_system
+        ]);
+        return $this->output_succ();
     }
 
 

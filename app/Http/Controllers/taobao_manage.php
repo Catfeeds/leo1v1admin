@@ -53,7 +53,7 @@ class taobao_manage extends Controller
 
     public function get_taobao_tae_items_select($cid,$page_num,&$arr){
         $ret_info = $this->tbShop->taobao_tae_items_select($cid,$page_num);
-
+        dd($ret_info);
         if(isset($ret_info['code']) && $ret_info['code']==27){
             return $ret_info['code'];
         }elseif(isset($ret_info['items']['item_select'])){

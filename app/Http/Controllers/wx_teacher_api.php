@@ -230,9 +230,10 @@ class wx_teacher_api extends Controller
     public function teacher_feed_back_software(){ // 软件反馈处理
         $complaint_type    = $this->get_in_int_val('complaint_type'); // 新增4 软件反馈
         $complaint_info    = $this->get_in_str_val('complaint_info');
-        $serverId_str      = $this->get_in_str_val('serverId_str',''); // 图片ids
+        $serverId_str      = $this->get_in_str_val('serverId_str'); // 图片ids
         $teacherid         = $this->get_teacherid();
         \App\Helper\Utils::logger("wx_software: ".$teacherid);
+        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
 
         $now = time();
 
@@ -248,7 +249,6 @@ class wx_teacher_api extends Controller
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
-        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
         $complaint_img_url = '';
 
         if($serverId_str){
@@ -303,7 +303,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
             }
 
             // 给投诉老师反馈

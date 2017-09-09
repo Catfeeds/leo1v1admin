@@ -20,7 +20,7 @@
      background-color:#ccc;
  }
 </style>
-<section class="content">
+<section class="content li-section">
 
     <div class="row">
 
