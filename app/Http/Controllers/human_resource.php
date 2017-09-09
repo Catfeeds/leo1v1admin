@@ -1983,7 +1983,6 @@ class human_resource extends Controller
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
             $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid
         );
-
         foreach($ret_info["list"] as &$item){
             $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
             $item["end"] = date("Y-m-d H:i:s",$item["answer_end_time"]);
