@@ -131,6 +131,9 @@ class wx_teacher_api extends Controller
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
         // $complaint_type   = $this->get_in_int_val('complaint_type');
+
+        \App\Helper\Utils::logger("serverId_str_work: $serverId_str");
+
         $complaint_type   = 1;
         $now = time();
 
@@ -202,7 +205,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释
+                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释
             }
 
             // 给投诉老师反馈
@@ -230,9 +233,16 @@ class wx_teacher_api extends Controller
     public function teacher_feed_back_software(){ // 软件反馈处理
         $complaint_type    = $this->get_in_int_val('complaint_type'); // 新增4 软件反馈
         $complaint_info    = $this->get_in_str_val('complaint_info');
-        $serverId_str      = $this->get_in_str_val('serverId_str',''); // 图片ids
+        $serverId_str      = $this->get_in_str_val('serverId_str'); // 图片ids
         $teacherid         = $this->get_teacherid();
         \App\Helper\Utils::logger("wx_software: ".$teacherid);
+        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
+        if($serverId_str == '123'){
+            $serverId_str = '';
+        }
+
+        \App\Helper\Utils::logger("wx_serverId_str2: ".$serverId_str);
+
 
         $now = time();
 
@@ -248,7 +258,6 @@ class wx_teacher_api extends Controller
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
-        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
         $complaint_img_url = '';
 
         if($serverId_str){
@@ -461,6 +470,8 @@ class wx_teacher_api extends Controller
         $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
         $ret =\App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);
+        \App\Helper\Utils::logger("teacher_day_teacherid".$teacherid);
+
         if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
             $money = $ret["data"][0]["lesson_price"];
         }else{
