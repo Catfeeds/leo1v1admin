@@ -1359,10 +1359,9 @@ class common extends Controller
                         return $this->output_err($data);
                     }
                 }else{
-                    
+                    $teacher_info['teacherid'] = $data;
                 }
 
-                $teacher_info['teacherid'] = $data;
             }
 
             if($wx_openid){
