@@ -2015,7 +2015,9 @@ class test_code extends Controller
         dd($already_lesson_count_simulate_list);
     }
 
+    public function check_teacher_money_type(){
 
+    }
 
 
 
