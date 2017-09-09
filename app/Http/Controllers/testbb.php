@@ -122,31 +122,11 @@ class testbb extends Controller
 
 
 
-
-    // public function sd(){
-    //     $this->switch_tongji_database();
-    //     $ret = $this->t_teacher_info->get_teacher_openid_list();
-
-    //     $ww = [];
-    //     foreach($ret as $item){
-    //         $agent_arr = json_decode($item['user_agent'],true);
-    //         $version_arr = explode('.',$agent_arr['version']);
-    //         $v = substr($agent_arr['device_model'],0,3);
-    //         if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<=2) || ($version_arr[0]<3 ) ) ){
-    //             dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
-    //         }
-    //     }
-    // }
-
-
+    //以下代码勿删
     public function get_pdf_url(){
-        // $pdf_file_path = "http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=";
-        // $this->set_in_value('file_url',$file_url);
-        // return $this->get_pdf_download_url();
-        $pdf_url = "2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf";
-        $lessonid = 247905;
+        $pdf_url = "1922777cc9f2c412922db85b4e5c8d101504882584907.pdf";
+        $lessonid = 322583;
         $pdf_file_path = $this->gen_download_url($pdf_url);
-
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
@@ -166,9 +146,8 @@ class testbb extends Controller
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
-            dd($file_name_origi_str);
 
-            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
@@ -181,23 +160,6 @@ class testbb extends Controller
 
     }
 
-    // public function get_pdf_download_url($file_url)
-    // {
-    //     if (strlen($file_url) == 0) {
-    //         return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
-    //     }
-
-    //     if (preg_match("/http/", $file_url)) {
-    //         return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
-    //     } else {
-    //         $new_url=$this->gen_download_url($file_url);
-    //         // dd($new_url);
-    //         return $this->output_succ(array('ret' => 0, 'info' => '成功',
-    //                          'file' => urlencode($new_url),
-    //                          'file_ex' => $new_url,
-    //         ));
-    //     }
-    // }
 
     private function gen_download_url($file_url)
     {
@@ -271,7 +233,7 @@ class testbb extends Controller
     }
 
 
-
+    //以上代码勿删
 
 
 
