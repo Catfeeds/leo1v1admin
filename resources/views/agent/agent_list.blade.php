@@ -86,6 +86,7 @@
                         ["总金额(可提现)" , "all_open_cush_money"],
                         ["总金额(已提现)" , "all_have_cush_money"],
 
+                        ["签单总数" , "child_order_count"],
                         ["佣金金额" , "all_money"],
                         ["佣金金额(可提现)" , "order_open_all_money"],
 
@@ -128,6 +129,7 @@
                         <td>{{@$var["all_open_cush_money"]}} </td>
                         <td>{{@$var["all_have_cush_money"]}} </td>
 
+                        <td>{{@$var["child_order_count"]}} </td>
                         <td>{{@$var["all_money"]}} </td>
                         <td>{{@$var["order_open_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_money"]}} </td>
