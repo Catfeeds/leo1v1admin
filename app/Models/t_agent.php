@@ -1144,8 +1144,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $this->field_update_list($child_id,[
                         "agent_status_money_open_flag" => 1
                     ]);
-                    $order_count+=1;
                 }
+                $order_count+=1;
             }else {
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
@@ -1188,7 +1188,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }
             }
         }
-
+        \App\Helper\Utils::logger(" XXXX  $order_count $need_set_open_list_count  ");
 
 
         return  array(($order_count+$need_set_open_list_count)*50*100, $order_count+$succ_lesson_cont ,$l1_agent_status_all_money  );

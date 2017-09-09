@@ -318,8 +318,8 @@ class agent extends Controller
     }
 
     public function check(){
-        // $adminid=$this->get_in_adminid(-1);
         $adminid=314;
+        //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
         $month= strtotime( date("Y-m-01", $start_time));
         $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
@@ -347,6 +347,7 @@ class agent extends Controller
         }
 
 
+        $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
         case "201703" :
