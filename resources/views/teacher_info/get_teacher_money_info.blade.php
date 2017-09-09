@@ -3,7 +3,7 @@
     <script type="text/javascript" >
      var month_info = <?php  echo json_encode($money_list); ?> ;
     </script>
-    <section class="content" id="id_section">
+    <section class="content li-section" id="id_section">
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-info-ly">
