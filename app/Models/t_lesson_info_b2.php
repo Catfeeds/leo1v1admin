@@ -3811,7 +3811,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_start,l.userid,l.teacherid,l.lesson_start,l.lesson_end,"
-                                  ."l.lesson_del_flag,count(lesson_del_flag = 1) count_del,count(lessonid) count,"
+                                  ."l.lesson_del_flag,count(l.lesson_del_flag = 1) count_del,count(l.lessonid) count,"
                                   ."lsl.call_before_time,lsl.call_end_time,"
                                   ."ls.require_adminid adminid,ls.require_adminid"
                                   ." from %s l "
