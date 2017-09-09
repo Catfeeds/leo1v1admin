@@ -141,6 +141,7 @@
          .download{
              margin-top:100px;
              padding:0 20px;
+             height:600px;
          }
          .download>div{
              text-align:center
@@ -190,6 +191,9 @@
              position:absolute;
              top:80px;
              right:100px;
+         }
+         .down-btm .btn:focus{
+             color:#fff;
          }
         </style>
     </head>
@@ -324,8 +328,8 @@
 
                         </div>
                         <div class="down-btm">
-                            <button type="submit" class="btn btn-block btn-blue-ly pc">立即下载</button>
-                            <button type="submit" class="btn btn-block btn-blue-ly pdf hide">立即下载</button>
+                            <button type="submit" class="btn btn-block btn-blue-ly pc download-pc-url">立即下载</button>
+                            <button type="submit" class="btn btn-block btn-blue-ly pdf hide download-pc-url">立即下载</button>
                             <button type="submit" class="btn btn-block btn-blue-ly handout hide">立即下载</button>
                         </div>
                     </div>
