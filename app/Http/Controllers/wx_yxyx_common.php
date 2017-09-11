@@ -174,6 +174,49 @@ class wx_yxyx_common extends Controller
         return $data;
     }
 
+    public function agent_add_send_phone_code () {
+        $phone = trim($this->get_in_str_val('phone'));
+        $code_flag= $this->get_in_int_val("code_flag",0) ;
+
+        if ( strlen($phone) != 11) {
+            return $this->output_err("电话号码出错");
+        }
+        \App\Helper\Utils::logger("sessionid:".session_id());
+
+        $msg_num = \App\Helper\Common::redis_set_json_date_add("STU_PHONE_$phone",1000000);
+        $code    = rand(1000,9999);
+
+        \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
+
+        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
+            "code" => $code,
+            "index" => $msg_num
+        ] );
+
+
+        $ret_arr= ["msg_num" =>$msg_num  ];
+        if ( $code_flag ) {
+            $ret_arr["code"] =  $code;
+        }
+
+        return $this->output_succ($ret_arr);
+
+    }
+
+    public function agent_add_with_code() {
+        $code       = $this->get_in_str_val('code');
+        $phone      = $this->get_in_phone();
+        $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
+
+        \App\Helper\Utils::logger("check_code:".$check_code." code:".$code." sessionid:".session_id());
+        if ($check_code != $code) {
+            return $this->output_err("手机验证码不对,请重新输入");
+        }
+
+        return $this->agent_add();
+    }
+
+
     public function agent_add(){
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
@@ -241,12 +284,13 @@ class wx_yxyx_common extends Controller
 
                     // 优学优享例子分配给 王春雷 [442] [开始]
                     $opt_adminid = 442; // 王春雷
-                    $account=$this->get_account();
                     $opt_account=$this->t_manager_info->get_account($opt_adminid);
                     $self_adminid = 684;
                     $account = '系统';
                     $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
                     // 优学优享例子分配给 王春雷 [结束]
+
+                    \App\Helper\Utils::logger(" yxyx-lizi1 $userid ");
 
 
                     if($userid){
@@ -258,25 +302,21 @@ class wx_yxyx_common extends Controller
                             "global_tq_called_flag" =>0 ,
                             "global_seller_student_status" =>0 ,
                         ]);
-
                     }
                 }
             }else{
-                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                $userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
 
                 // 优学优享例子分配给 王春雷 [442]
-
                 $opt_adminid = 442; // 王春雷
-                $account = $this->get_account();
                 $opt_account=$this->t_manager_info->get_account($opt_adminid);
                 $self_adminid = 684;
                 // $account = $this->get_account();
                 $account = '系统';
                 $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
+                \App\Helper\Utils::logger(" yxyx-lizi2 $userid ");
 
             }
-
-
         }
 
 

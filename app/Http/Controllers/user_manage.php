@@ -1002,9 +1002,7 @@ class user_manage extends Controller
 
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
-
         $refund_info = [];
-
         foreach($ret_info['list'] as &$item){
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1028,7 +1026,10 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
-            if(!empty($refund_qc_list['qc_other_reason']) || !empty($refund_qc_list['qc_analysia']) || !empty($refund_qc_list['qc_reply']) ){
+            if(!empty($refund_qc_list['qc_other_reason'])
+               || !empty($refund_qc_list['qc_analysia'])
+               || !empty($refund_qc_list['qc_reply'])
+            ){
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
@@ -1040,7 +1041,7 @@ class user_manage extends Controller
             }
 
             //处理 投诉分析 [QC-文斌]
-            $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);

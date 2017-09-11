@@ -3,6 +3,26 @@
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
 $(function(){
+    $(".opt-set-server ").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> </select>");
+        var arr=[
+            ["服务器", $server]
+        ];
+        $server.val(opt_data.current_server);
+        $.show_key_value_table("选择服务器", arr, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
+                    "courseid" : opt_data.courseid,
+                    "current_server" :  $server.val()
+                });
+            }
+        });
+
+    });
+
     function load_data( ){
         $.reload_self_page({
             date_type     :	$('#id_date_type').val(),
@@ -30,7 +50,7 @@ $(function(){
             has_video_flag            :	$('#id_has_video_flag').val(),
             lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
             lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -74,7 +94,7 @@ $(function(){
 
 
     $('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
-	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $('#id_origin').val(g_args.origin);
 
 
@@ -1017,7 +1037,7 @@ $(function(){
 
     $(".opt-confirm-test").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        
+
         var $fail_greater_4_hour_flag = $("<select> <option value=0>否</option> <option value=1>是</option>  </select>") ;
         var $success_flag = $("<select><option value=0>未设置</option><option value=1>成功</option><option value=2>失败</option></select>") ;
         var $test_lesson_fail_flag=$("<select></select>") ;
@@ -1420,7 +1440,7 @@ $(function(){
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ||  window.location.pathname =="/tea_manage/lesson_list_seller/" || window.location.pathname =="/tea_manage/lesson_list_ass" || window.location.pathname =="/tea_manage/lesson_list_ass/") {
         $(".opt-seller-ass-record").show();
     }
-    
+
     if (window.location.pathname =="/tea_manage/lesson_list_fulltime" ||  window.location.pathname =="/tea_manage/lesson_list_fulltime/") {
          $("#id_fulltime_teacher_type").parent().parent().hide();
     }
@@ -1890,4 +1910,6 @@ $(function(){
        );
 
     });
+
+
 });
