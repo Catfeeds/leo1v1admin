@@ -288,13 +288,6 @@ class common extends Controller
 
         $str = "提交成功！您的分数为".$totalvalue;
         if(isset($answer) && !empty($answer)){
-            // $ret = $this->check_answer_time($answer["lessonid"]);
-            // if(!$ret){
-            //     header("Content-type: text/html; charset=utf-8");
-            //     echo "超出答题时间!请参加下次培训!";
-            //     return ;
-            // }
-
             $teacher_info = $this->t_teacher_info->get_teacher_info($answer['userid']);
             $old_score    = $this->t_train_lesson_user->get_score($answer['lessonid'],$answer['userid']);
             $level_str    = E\Elevel::get_desc($teacher_info['level']);
@@ -314,15 +307,13 @@ class common extends Controller
 
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
-                   
                 }
                 if($totalvalue>=90){
                     //发送微信通知进行模拟课堂
-                    $check_flag=$this->t_lesson_info->check_train_lesson_new($answer['userid']);
+                    $check_flag = $this->t_lesson_info->check_train_lesson_new($answer['userid']);
                     if(empty($check_flag)){
                         $this->add_trial_train_lesson($teacher_info,1);
                     }
- 
                 }
             }
         }

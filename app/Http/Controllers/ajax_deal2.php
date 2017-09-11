@@ -1201,5 +1201,14 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function  set_lesson_current_server() {
+        $courseid=$this->get_in_courseid();
+        $current_server= $this->get_in_str_val("current_server");
+        $this->t_course_order->field_update_list(
+            $courseid,
+            ["current_server" => $current_server]);
+        return $this->output_succ();
+
+    }
 
 }

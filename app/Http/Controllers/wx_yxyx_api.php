@@ -197,7 +197,7 @@ class wx_yxyx_api extends Controller
             }else{
                 $item["name"]=  $item["phone"];
             }
-            $item["agent_type"]=1; //设置为学员
+
             E\Eagent_type::set_item_value_str($item);
             E\Eagent_student_status::set_item_value_str($item);
             E\Eagent_status::set_item_value_str($item);
@@ -243,65 +243,6 @@ class wx_yxyx_api extends Controller
     }
 
 
-    //不用了
-    public function get_my_num(){
-        $agent_id   = $this->get_agent_id();
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        $ret = [];
-        $ret = $this->t_agent->get_p_list_by_phone($phone);
-        $p_count = [];
-        $p_id = array_column($ret,'p_id');
-        if($ret[0]['p_id']){
-            foreach($p_id as $item){
-                $count = 0;
-                foreach($ret as $info){
-                    if($info['p_id'] == $item && $info['id']){
-                        $count++;
-                    }
-                }
-                $p_count[$item] = $count;
-            }
-            $p_ret = $this->t_agent->get_agent_order_by_phone($p_id);
-            $id = array_column($ret,'id');
-            $ret_new = $this->t_agent_order->get_order_by_id($id);
-            foreach($p_ret as $key=>&$item){
-                $ret_list[$key]['phone'] = $item['phone'];
-                $ret_list[$key]['name'] = $item['nickname']?$item['nickname']:$item['phone'];
-                $ret_list[$key]['status'] = 0;
-                if($item['order_status']){//购课
-                    $ret_list[$key]['status'] = 2;
-                }else{
-                    if($item['userid']){//试听成功
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid'],$item['p_create_time']);
-                        $ret_list[$key]['status'] = $count_item['lessonid']?1:0;
-                    }
-                }
-                foreach($p_count as $k=>$i){
-                    if($k == $item['p_id']){
-                        $ret_list[$key]['count'] = $i;
-                    }
-                }
-                \App\Helper\Utils::unixtime2date_for_item($item,"p_create_time");
-                foreach($ret_new as $k=>$info){
-                    if($info['pid'] == $item['p_id']){
-                        $ret_list[$key]['list'][$k]['name'] = $info['nick'];
-                        $ret_list[$key]['list'][$k]['price'] = $info['price']/100;
-                    }
-                }
-            }
-        }else{
-            $ret_list = [];
-        }
-        return $this->output_succ(["list" =>$ret_list]);
-    }
     public function get_user_money_info() {
         $agent_id = $this->get_agent_id();
 

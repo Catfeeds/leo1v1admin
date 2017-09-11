@@ -48,8 +48,8 @@ class LessonTask extends TaskController
 
             if (isset( $ret_arr["server_list"] ) &&  isset( $ret_arr["server_list"][0])) {
                 $server_config = $ret_arr["server_list"][0];
-                $roomid = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
-                $user_list=Utils::get_room_users($roomid,$server_config);
+                $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+                $user_list = Utils::get_room_users($roomid,$server_config);
 
                 Log::debug("check room info  $roomid  , userid_list:".json_encode($user_list));
 

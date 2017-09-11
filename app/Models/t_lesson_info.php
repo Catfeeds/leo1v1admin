@@ -314,9 +314,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.teacher_quality,"
                      ."    l.teacher_effect,"
                      ."    l.stu_stability,"
-                     ."    b.admin_revisiterid,"
                      ."    t.require_adminid ,"
-                     ."    b.origin as test_lesson_origin,"
                      ."    pi.phone fa_phone,"
                      ."    l.lesson_name,"
                      ."    l.deduct_come_late,"
@@ -332,6 +330,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    tts.confirm_time test_confirm_time,"
                      ."    tts.test_lesson_fail_flag ,"
                      ."    tts.fail_greater_4_hour_flag ,"
+                     ."    c.current_server,"
                      ."    tts.fail_reason "
                      ."    from"
                      ."    db_weiyi.t_lesson_info as l"
@@ -342,9 +341,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    ON s.userid = l.userid"
                      ."    LEFT JOIN db_weiyi.t_parent_info as pi"
                      ."    ON s.parentid = pi.parentid"
-
-                     ."    LEFT JOIN db_weiyi.t_seller_student_info as b"
-                     ."    ON b.st_arrange_lessonid = l.lessonid"
 
                      ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts"
                      ."    ON tts.lessonid = l.lessonid"
@@ -358,6 +354,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    LEFT JOIN  %s as f"
                      ."    ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
 
+                     ."    LEFT JOIN  %s c on (c.courseid=l.courseid) "
+
 
                      ."    LEFT JOIN db_weiyi.t_teacher_info as tt"
                      ."    ON tt.teacherid = l.teacherid "
@@ -367,6 +365,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    %s  "
                      ."    order by lesson_start asc, l.lessonid asc "
                      , t_flow::DB_TABLE_NAME
+                     , t_course_order::DB_TABLE_NAME
                      ,$cond_str
         );
         return $this->main_get_list_by_page($sql, $page_num, 10);

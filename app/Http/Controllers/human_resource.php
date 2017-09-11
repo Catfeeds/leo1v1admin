@@ -1477,6 +1477,7 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
+
         if($adminid==486){
             $tea_subject="";
         }elseif($adminid==952){
@@ -1487,16 +1488,16 @@ class human_resource extends Controller
             $tea_subject="(7,8,9)";
         }
 
-        $grade        = $this->get_in_int_val("grade",-1);
-        $trans_grade  = $this->get_in_int_val("trans_grade",-1);
-        $subject      = $this->get_in_int_val("subject",-1);
-        $status       = $this->get_in_int_val("status",0);
-        $page_num     = $this->get_in_page_num();
-        $phone        = trim($this->get_in_str_val('phone',''));
-        $teacherid    = $this->get_in_int_val('teacherid',-1);
-        $is_test_flag = $this->get_in_int_val('is_test_flag',0);
-        $have_wx = $this->get_in_int_val('have_wx',-1);
-        $full_time = $this->get_in_int_val('full_time',-1);
+        $grade         = $this->get_in_int_val("grade",-1);
+        $trans_grade   = $this->get_in_int_val("trans_grade",-1);
+        $subject       = $this->get_in_int_val("subject",-1);
+        $status        = $this->get_in_int_val("status",0);
+        $page_num      = $this->get_in_page_num();
+        $phone         = trim($this->get_in_str_val('phone',''));
+        $teacherid     = $this->get_in_int_val('teacherid',-1);
+        $is_test_flag  = $this->get_in_int_val('is_test_flag',0);
+        $have_wx       = $this->get_in_int_val('have_wx',-1);
+        $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         if($fulltime_flag==1){
             $full_time=1;
@@ -1673,7 +1674,6 @@ class human_resource extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
-
                 }elseif($status==2){
                     $data['first']="老师您好，很抱歉您没有通过试讲审核。";
                     $data['keyword1']="初试结果";
@@ -1687,7 +1687,6 @@ class human_resource extends Controller
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
                 }
-
 
                 $url="";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

@@ -300,9 +300,6 @@ class tea_manage extends Controller
             $item["lesson_del_flag_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_del_flag"]);
             $item["room_name"] = \App\Helper\Utils::gen_roomid_name($item["lesson_type"],$item["courseid"],$item["lesson_num"]);
 
-            if ($item["test_lesson_origin"]) {
-                $item["origin"]= $item["test_lesson_origin"];
-            }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"confirm_time");
             $item["confirm_admin_nick"] = $this->cache_get_account_nick($item["confirm_adminid"]);
@@ -2248,6 +2245,7 @@ class tea_manage extends Controller
             $res_teacherid,$have_wx,$lecture_status,$opt_date_str,
             $train_email_flag,$full_time
         );
+
         foreach($ret_info['list'] as &$val){
             \App\Helper\Utils::unixtime2date_range($val);
             E\Elesson_status::set_item_value_str($val);

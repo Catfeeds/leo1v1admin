@@ -1196,7 +1196,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     public function wx_noti_agent_status( $id, $create_time,$parentid, $agent_level , $test_lessonid, $phone, $old_agent_status, $agent_status) {
         //$old_agent_status
-        $parentid=1850;
+        // $parentid=1850;
 
         if ($parentid && $old_agent_status < $agent_status ) { //状态升级
             $p_item = $this->field_get_list($parentid,"wx_openid,agent_level");

@@ -57,6 +57,7 @@ interface RowData {
 	real_begin_time	:any;
 	gen_video_grade	:any;
 	assistantid	:any;
+	teacher_money_type	:any;
 	stu_id	:any;
 	stu_phone	:any;
 	stu_nick	:any;
@@ -118,9 +119,7 @@ interface RowData {
 	lesson_num	:any;
 	tea_price	:any;
 	level	:any;
-	admin_revisiterid	:any;
 	require_adminid	:any;
-	test_lesson_origin	:any;
 	fa_phone	:any;
 	lesson_name	:any;
 	deduct_come_late	:any;
@@ -136,6 +135,7 @@ interface RowData {
 	test_confirm_time	:any;
 	test_lesson_fail_flag	:any;
 	fail_greater_4_hour_flag	:any;
+	current_server	:any;
 	fail_reason	:any;
 	number	:any;
 	performance_status	:any;
@@ -157,6 +157,8 @@ interface RowData {
 	is_complained_str	:any;
 	homework_url	:any;
 	lesson_type_str	:any;
+	level_str	:any;
+	teacher_money_type_str	:any;
 	tea_nick	:any;
 	require_admin_nick	:any;
 	teacher_effect_str	:any;

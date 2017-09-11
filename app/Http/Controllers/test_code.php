@@ -2016,11 +2016,58 @@ class test_code extends Controller
         // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
         // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
 
+    }
+
+    public function check_test(){
+        $list = $this->t_teacher_info->get_need_switch_tea_list();
+        dd($list);
+    }
+
+    public function reset_teacher_info(){
+        $arr = $this->t_lesson_info_b3->get_need_reset_list();
+
+        foreach($arr as $val){
+            if($val['new_teacher_money_type']!=$val['old_teacher_money_type'] || $val['new_level']!=$val['old_level']){
+                echo $val['lessonid']."|new_teacher_money_type:".$val["new_teacher_money_type"]
+                                     ."|old_teacher_money_type:".$val['old_teacher_money_type']
+                                     ."|new_level:".$val['new_level']
+                                     ."|old_level:".$val['old_level'];
+                echo "<br>";
+                // $this->t_lesson_info->field_update_list($val['lessonid'],[
+                //     "teacher_money_type" => $val['new_teacher_money_type'],
+                //     "level"              => $val['new_level'],
+                // ]);
+            }
+        }
 
 
     }
 
+    public function push_switch(){
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+        $data['keyword3'] = "即日生效";
+        $data['remark']   = "理优平台在9月份进行薪资体系调整，感谢老师长期以来对理优平台的辛劳付出与长久陪伴。祝您教师节快乐！";
+        foreach($tea_list as $val){
+            $name= mb_substr($val['realname'],0,1,"utf8")."老师";
+            $level_str = E\Enew_level::v2s($val['level'])."级";
+            $data['first']    = "恭喜您，您等级已调整为".$level_str;
+            $data['keyword1'] = $name;
+            $data['keyword2'] = $level_str;
 
+            if($val['wx_openid']!=""){
+                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+            }
+        }
+    }
 
 
 
