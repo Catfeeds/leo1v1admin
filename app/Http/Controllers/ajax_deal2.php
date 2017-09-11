@@ -1226,7 +1226,7 @@ class ajax_deal2 extends Controller
             $arrive_total = $arrive_num_total + $video_num_total;
             if($apply_total>0){
                 $value = round(100*$arrive_total/$apply_total,2);
-                $value .= '%('.$arrive_total/$apply_total.')';
+                $value .= '%('.$arrive_total.'/'.$apply_total.')';
             }else{
                 $value = '0%';
             }
@@ -1241,7 +1241,7 @@ class ajax_deal2 extends Controller
             $arrive_through = $video_through_num_total + $arrive_through_num_total;
             if($arrive_total>0){
                 $value = round(100*$arrive_through/$arrive_total,2);
-                $value .= '%('.$arrive_through/$arrive_total.')';
+                $value .= '%('.$arrive_through.'/'.$arrive_total.')';
             }else{
                 $value = '0%';
             }
@@ -1256,7 +1256,7 @@ class ajax_deal2 extends Controller
 
             if($arrive_through>0){
                 $value = round(100* $second_through_num_total/$arrive_through,2);
-                $value .= '%('. $second_through_num_total/$arrive_through.')';
+                $value .= '%('. $second_through_num_total.'/'.$arrive_through.')';
             }else{
                 $value = '0%';
             }
@@ -1267,7 +1267,7 @@ class ajax_deal2 extends Controller
             $enter_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time); //入职人数
             if($second_through_num_total >0){
                 $value = round(100* $enter_num_total/$second_through_num_total ,2);
-                $value .= '%('. $enter_num_total/$second_through_num_total .')';
+                $value .= '%('. $enter_num_total.'/'.$second_through_num_total .')';
             }else{
                 $value = '0%';
             }
