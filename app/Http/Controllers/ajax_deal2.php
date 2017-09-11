@@ -1200,7 +1200,7 @@ class ajax_deal2 extends Controller
         ]);
         return $this->output_succ();
     }
-    function  fulltime_teacher_data_with_type () {
+    public function  fulltime_teacher_data_with_type () {
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $type= $this->get_in_str_val("type");
         if ($type=="apply_num") {
