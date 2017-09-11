@@ -472,6 +472,7 @@ class fulltime_teacher extends Controller
      */
     public function fulltime_teacher_data(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        //已经移交ajax2处理
         /*
         //本月数据-----------------------------------------------------
         $apply_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time); //成功注册人数
@@ -503,9 +504,6 @@ class fulltime_teacher extends Controller
         $second_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
         //累计入职人数
         $enter_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time); //入职人数
-
-
-
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
         $ret_info['arrive_num'] = $arrive_num[0]['arrive_count'] + $video_num[0]['video_num'];
         $ret_info['arrive_through'] = $arrive_through_num[0]['arrive_through_count'] + $video_through_num[0]['video_through_num'];
