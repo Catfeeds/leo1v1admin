@@ -31,14 +31,17 @@ class test_lesson_review extends Controller
     public function test_lesson_review_add(){
         $adminid = $this->get_account_id();
         $userid = $this->get_in_int_val('userid');
+        $desc = $this->get_in_str_val('desc');
         $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
+
         $this->t_test_lesson_subject_require_review->row_insert([
             "adminid"        => $adminid,
             "group_adminid"  => $group_adminid,
             "master_adminid" => $master_adminid,
             "userid"         => $userid,
+            "desc"           => $desc,
             "create_time"    => time(NULL),
         ],false,false,true);
         return $this->output_succ('审核提交成功!');
