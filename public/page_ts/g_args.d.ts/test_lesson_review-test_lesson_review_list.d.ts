@@ -22,6 +22,7 @@ interface RowData {
 	userid	:any;
 	phone	:any;
 	nick	:any;
+	aid	:any;
 	num	:any;
 	group_nick	:any;
 	master_nick	:any;
