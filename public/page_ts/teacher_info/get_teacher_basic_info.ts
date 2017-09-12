@@ -275,7 +275,7 @@ $(function(){
                         } ,
                         success : function(result){
                             if(result.ret==0){
-                                alert("修改成功！");
+                                // alert("修改成功！");
                                 window.location.reload();
                             }else{
                                 alert(result.info);
