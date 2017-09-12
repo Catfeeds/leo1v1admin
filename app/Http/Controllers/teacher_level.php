@@ -1042,11 +1042,7 @@ class teacher_level extends Controller
             E\Enew_level::set_item_value_str($val);
             $val['batch_str'] = "第".$val['batch']."批次";
             E\Eswitch_status::set_item_value_str($val,"status");
-            if($val['put_time']>0){
-                $val['put_time_str']=\App\Helper\Utils::unixtime2date($val['put_time']);
-            }else{
-                $val['put_time_str']="";
-            }
+            $val['put_time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
@@ -1059,35 +1055,11 @@ class teacher_level extends Controller
         $this->teacher_switch_list();
     }
 
-    /**
-     * 处理老师薪资版本切换
-     * @param id 需要处理的id
-     * @param type 1 提交申请 2 第一次审核 3 最后审核
-     * @param status 0 未申请 1 未审核 2 通过 3 驳回
-     */
     public function switch_upload(){
-        $type   = $this->get_in_int_val("type");
-        $id     = $this->get_in_int_val("id");
-        $status = $this->get_in_int_val("status");
-        $acc    = $this->get_account();
+        $id = $this->get_in_int_val("id");
 
-        $update_arr = [];
-        if($type==2 && $acc!=="Rain"){
-            if($acc!="Rain"){
-                return $this->output_err("你没有第一次审核权限!");
-            }else{
-                $update_arr["confirm_time"]=time();
-            }
-        }elseif($type==3 && $acc!="ted"){
-            if($acc!="ted"){
-                return $this->output_err("你没有最后审核权限!");
-            }else{
-                $update_arr["confirm_time"]=time();
-            }
-        }else{
-            $update_arr['put_time'] = time();
-        }
-        $update_arr['status'] = $status;
+        $update_arr['status']   = E\Eswitch_status::V_1;
+        $update_arr['put_time'] = time();
 
         $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,$update_arr);
         if(!$ret){
@@ -1095,6 +1067,40 @@ class teacher_level extends Controller
         }
         return $this->output_succ();
     }
+
+    /**
+     * 审核切换老师工资类型申请
+     * @param id
+     * @param type 1 一审审核 2 二审审核
+     * @param status 0 不通过 1 通过
+     */
+    public function check_switch_info(){
+        $id     = $this->get_in_int_val("id");
+        $type   = $this->get_in_int_val("type");
+        $status = $this->get_in_int_val("status");
+        $acc    = $this->get_account();
+
+        if(!in_array($acc,["Rain","ted"])){
+            return $this->output_err("你没有审核权限!");
+        }
+        if($type==1){
+            $check_status = $status==1?E\Eswitch_status::V_2:E\Eswitch_status::V_3;
+        }elseif($type==2){
+            $check_status = $status==1?E\Eswitch_status::V_4:E\Eswitch_status::V_5;
+        }else{
+            return $this->output_err("类型出错!");
+        }
+
+        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
+            "confirm_time" => time(),
+            "status"       => $check_status,
+        ]);
+        if(!$ret){
+            return $this->output_err("更新出错!请重试!");
+        }
+        return $this->output_succ();
+    }
+
 
 
 
