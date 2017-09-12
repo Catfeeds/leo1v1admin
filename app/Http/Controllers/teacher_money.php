@@ -323,6 +323,7 @@ class teacher_money extends Controller
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
+        $transfer_time = $simple_info['transfer_time'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
         $list = [];
@@ -378,7 +379,7 @@ class teacher_money extends Controller
             $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                 $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
             //检测是否存在转移记录
-            if($transfer_teacherid>0){
+            if($transfer_teacherid>0 && $transfer_time<$last_month_end && $transfer_time>$last_month_start){
                 $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                     $transfer_teacherid,$last_month_start,$last_month_end);
                 $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
