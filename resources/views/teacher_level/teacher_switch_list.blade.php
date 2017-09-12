@@ -58,6 +58,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["id"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
