@@ -476,9 +476,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
-    public function reset_lesson_teacher_info($teacherid,$teacher_money_type,$level){
+    public function reset_lesson_teacher_info($teacherid,$teacher_money_type,$level,$check_time=0){
         $where_arr = [
             ["teacherid=%u",$teacherid,-1],
+            ["lesson_start>"]
             ["teacher_money_type=%u",$teacher_money_type,-1],
             ["level=%u",$level,-1],
         ];
