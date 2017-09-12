@@ -352,3 +352,17 @@
 .skin-teacher .btm{
     bottom:0;
 }
+
+.skin-teacher .bootstrap-dialog.type-primary .modal-header{
+    background-color:#fff;
+}
+.skin-teacher .bootstrap-dialog.type-primary .modal-content{
+	  border-top:3px solid #00A6FF;
+    border-radius:3px;
+}
+.skin-teacher .bootstrap-dialog.type-primary .bootstrap-dialog-title{
+    color:#00a6ff;
+    font-size:20px;
+    font-weight:600;
+}
+

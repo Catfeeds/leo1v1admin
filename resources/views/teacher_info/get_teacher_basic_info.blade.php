@@ -601,15 +601,7 @@
                 <h3 class="modal-title color-blue"></h3>
             </div>
             <div class="modal-body">
-                <table   class="table table-bordered table-striped"   >
-                    <!-- <tr class="userinfo"><td colspan="2">个人资料</td></tr>
-                         <tr class="userinfo"><td>姓名</td><td><input></td></tr>
-                         <tr class="userinfo"><td>姓别</td><td><input></td></tr>
-                         <tr class="userinfo"><td colspan="2">教学信息</td></tr>
-                         <tr class="userinfo"><td>教龄</td><td><input></td></tr>
-                         <tr class="userinfo"><td>教才版本</td><td><input></td></tr>
-                         <tr class="userinfo"><td>方言备注</td><td><input></td></tr>
-                         <tr class="userinfo"><td>所在地</td><td><input></td></tr> -->
+                <table   class="table table-bordered table-striped">
                 </table>
             </div>
             <div class="modal-footer">
