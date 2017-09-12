@@ -387,9 +387,16 @@ class stu_manage extends Controller
                     $value['stu_point_performance'].=$val['point_name'].":".$val['point_stu_desc']."。";
                 }
             }
-            if(isset($value['stu_intro']['stu_comment']) && $value['stu_intro']['stu_comment']!='')
-                $value['stu_point_performance'].=PHP_EOL."总体评价:".$value['stu_intro']['stu_comment'];
+            if(isset($value['stu_intro']['stu_comment']) && $value['stu_intro']['stu_comment']!=''){
+                if(is_array($value['stu_intro']['stu_comment'])){
+                    $str = json_encode($value['stu_intro']['stu_comment']);
+                }else{
+                    $str = $value['stu_intro']['stu_comment'];
+                }
+                $value['stu_point_performance'].=PHP_EOL."总体评价:".$str;
+            }
         }
+        //dd($ret_lesson);
 
         $args=array(
             "start_time" => $start_time,

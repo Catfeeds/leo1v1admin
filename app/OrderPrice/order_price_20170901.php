@@ -106,6 +106,7 @@ class order_price_20170901 extends order_price_base
             }
 
             //满课时 90课时送 6课时 ,  2*90课时送 2*6课时   ,3*90课时 3*6
+            /*
             list($find_free_lesson_level , $present_lesson_count )=static::get_value_from_config_ex(
                 static::$new_free_lesson_config,  $check_lesson_count , [0,0] );
             if ( $present_lesson_count) {
@@ -114,6 +115,7 @@ class order_price_20170901 extends order_price_base
             }else{
                 $desc_list[]=static::gen_desc("活动-满课时送课",false ,"",$price );
             }
+            */
 
         }
 
