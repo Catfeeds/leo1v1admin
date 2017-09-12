@@ -451,7 +451,7 @@ class main_page extends Controller
         $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
         foreach($teacher_info as $kk=>$vv){
-            if(in_array($kk,[992,891,486,871,1058])){
+            if(in_array($kk,[992,891,486,871,1058,1080])){
                 unset($teacher_info[$kk]);
             }
         }
