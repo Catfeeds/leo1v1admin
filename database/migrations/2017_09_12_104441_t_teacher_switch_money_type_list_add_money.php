@@ -15,8 +15,9 @@ class TTeacherSwitchMoneyTypeListAddMoney extends Migration
         //
         Schema::table('db_weiyi.t_teacher_switch_money_type_list', function( Blueprint $table)
         {
-            t_field($table->string("per_money_different"),"平均每课时工资差别");
+            t_field($table->string("base_money_different"),"基础工资差别");
             t_field($table->string("all_money_different"),"总工资差别");
+            t_field($table->integer("lesson_total"),"月份总课时");
         });
     }
 
@@ -28,11 +29,5 @@ class TTeacherSwitchMoneyTypeListAddMoney extends Migration
     public function down()
     {
         //
-        Schema::table('db_weiyi.t_teacher_switch_money_type_list', function( Blueprint $table)
-        {
-            $table->dropColumn();
-            t_field($table->string("per_money_different"),"平均每课时工资差别");
-            t_field($table->string("all_money_different"),"总工资差别");
-        });
     }
 }
