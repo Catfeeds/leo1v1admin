@@ -2795,9 +2795,11 @@ $(function(){
             });
             html_node.find("table").find(".order_partition").each(function(){
                 $(this).on("click",function(){
-                    var userid = $(this).data("userid");
+                    var parent_orderid = $(this).data("orderid");
 
-                    var subject = $(this).data("subject");
+                    var child_orderid = $(this).data("child_orderid");
+                    alert(parent_orderid);
+                    alert(child_orderid);
                     var id_textbook_new     = $("<select/>");
                     Enum_map.append_option_list("region_version", id_textbook_new, true );
                     var arr=[

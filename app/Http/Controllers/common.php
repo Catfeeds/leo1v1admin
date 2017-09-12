@@ -1786,7 +1786,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $condition_arr[$type][$server_type] = 1;
                 }
                 if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"] + 1 ;
             }else{
                 $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
             }
@@ -1798,7 +1798,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $condition_arr[$type][$server_type] = 1;
                 }
                 if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
             }else{
                 $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
             }
