@@ -1642,6 +1642,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $type=substr($type,1);
             }
         }else{
+            $item=$this->t_phone_to_user-> get_info_by_userid($phone);
+            $role=$item["role"];
             $type   = $this->g_config['utype_to_prefix'][$this->user_model->get_role_by_userid($userid)];
         }
         return $type;
