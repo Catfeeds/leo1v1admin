@@ -22,8 +22,8 @@ class CreateTTeacherSwitchMoneyTypeList extends Migration
             t_field($table->tinyInteger("level"),"原老师工资等级");
             t_field($table->tinyInteger("new_teacher_money_type"),"调整的老师工资类型");
             t_field($table->tinyInteger("new_level"),"调整的老师工资等级");
-            t_field($table->tinyInteger("switch_num"),"调整批次");
-            t_field($table->tinyInteger("switch_status"),"调整状态");
+            t_field($table->tinyInteger("batch"),"调整批次");
+            t_field($table->tinyInteger("status"),"调整状态");
             t_field($table->tinyInteger("put_time"),"提出时间");
             t_field($table->tinyInteger("confirm_time"),"审核时间");
         });

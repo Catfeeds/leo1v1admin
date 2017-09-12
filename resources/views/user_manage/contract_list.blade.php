@@ -743,6 +743,158 @@
 
     </div>
 
+    <div style="display:none;" id="id_dlg_add_contract_new_jack">
+        <div class="row">
+            <div class="col-xs-12 col-md-6  ">
+                <div class="input-group ">
+                    <span class="input-group-addon">学员姓名：</span>
+                    <input type="text" class=" form-control field-nick "      />
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="input-group ">
+                    <span class="input-group-addon">联系电话：</span>
+                    <input type="text"   class=" form-control  field-phone"   />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group ">
+                    <span class="input-group-addon">学生年级：</span>
+                    <select  class=" form-control field-grade  "    >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group ">
+                    <span class="input-group-addon">所选科目：</span>
+                    <select  class=" form-control field-subject "    >
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">奥赛合同：</span>
+                    <select  class="form-control field-competition_flag">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">1000元定金</span>
+                    <select  class="form-control field-pre-money">
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">　总课时：</span>
+                    <input class="form-control field-lesson_count"/>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:blue;">适用促销：</span>
+                    <select  class="form-control field-order_promotion_type">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">　　原价：</span>
+                    <input class="form-control field-discount_price"/>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">优惠说明：</span>
+                    <input class="form-control field-order_promotion_desc"/>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row" >
+            <div class="col-xs-12 col-md-12   field-order_desc_list ">
+
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">特殊申请(或未用活动)：</span>
+                    <select  class="form-control field-order_require_flag">
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">是否分享：</span>
+                    <select  class="form-control field-has_share_activity">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row div-spec" >
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">特殊赠送：</span>
+                    <input class="form-control field-promotion_spec_present_lesson" placeholder="请输入课时数"   />
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">特殊折扣：</span>
+                    <input class="form-control field-promotion_spec_discount_price"   placeholder="请输入金额" />
+                </div>
+            </div>
+        </div>
+        <div class="row div-spec" >
+            <div class="col-xs-12 col-md-12 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">申请原因：</span>
+                    <input class="form-control field-discount_reason" placeholder=""   />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12 ">
+                <div class="input-group ">
+                    <span class="input-group-addon">发票抬头：</span>
+                    <input type="text"  class="form-control field-receipt_title"  />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group ">
+                    <span class="input-group-addon" style="color:blue;">分拆合同：</span>
+                    <select  class="form-control field-order_partition_flag">
+                        <option value="0">否</option>
+                        <option value="1">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
 
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
