@@ -1531,6 +1531,7 @@ class user_manage_new extends Controller
                 }
             }
         }
+        dd($ret_info);
         \App\Helper\Utils::logger("OUTPUT");
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
