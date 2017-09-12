@@ -437,17 +437,36 @@ class test_boby extends Controller
         $s = '<table border=1><tr>'
            .'<td>电话</td>'
            .'<td>老师</td>'
+           .'<td>员工</td>'
+           .'<td>学生</td>'
+           .'<td></td>'
            .'</tr>';
-
+        $admin = [];
         foreach ($arr as $k) {
             $sql = "select teacherid from db_weiyi.t_teacher_info where phone='{$k}'";
             $ret = $this->t_teacher_info->is_teacher($sql);
             if ($ret) {
-                $s = $s."<tr><td>{$k}</td><td>是</td></tr>";
+                $s = $s."<tr><td>{$k}</td><td>老师</td><td></td><td></td><td></td></tr>";
             }else {
-                $s = $s."<tr><td>{$k}</td><td>否</td></tr>";
+
+                $sql = "select create_time from db_weiyi_admin.t_manager_info where phone='{$k}'";
+                $ret = $this->t_teacher_info->is_teacher($sql);
+                if ($ret) {
+                    $s = $s."<tr><td>{$k}</td><td></td><td>员工</td><td></td><td></td></tr>";
+                }else {
+
+                    $sql = "select userid from db_weiyi.t_student_info where phone='{$k}'";
+                    $ret = $this->t_teacher_info->is_teacher($sql);
+                    if ($ret) {
+                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td>学生</td><td></td></tr>";
+                    }else {
+                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td></td><td>其他</td></tr>";
+                    }
+                }
             }
         }
+
+
 
         $s = $s.'</table>';
         return $s;
