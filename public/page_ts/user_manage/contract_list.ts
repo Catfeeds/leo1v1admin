@@ -2920,7 +2920,7 @@ $(function(){
                         child_money = child_money+item["child_order_money"];
                     });
  
-                    if(promotion_spec_discount_int != child_money){
+                    if(promotion_spec_discount_int != child_money && $order_partition_flag.val() ==1){
                         alert("子合同总额不等于订单金额!");
                         return;
                     }

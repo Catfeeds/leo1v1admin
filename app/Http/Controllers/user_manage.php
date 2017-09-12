@@ -1048,12 +1048,7 @@ class user_manage extends Controller
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
-            // if(!empty($arr['list'])){
-                // dd($arr);
-            // }
-
             foreach($arr['key1_value'] as &$v1){
-
                 $key1_name = @$v1['value'].'一级原因';
                 $key2_name = @$v1['value'].'二级原因';
                 $key3_name = @$v1['value'].'三级原因';
