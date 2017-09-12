@@ -2775,8 +2775,8 @@ $(function(){
             alert("已付款合同不能拆分");
             return;
         }
-        var title = "科目教材详情";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>科目</td><td>教材</td><td>操作</td></tr></table></div>");   
+        var title = "编辑子合同";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -2786,10 +2786,14 @@ $(function(){
                 return;
             }
             $.each(data_list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td><a href=\"javascript:;\" class=\"update_textbook\"  data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">修改教材版本</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_stu_subject\" data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">删除科目</a></td></tr>");
+                if(item["child_order_type"]==0){
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
+                }else{
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
+                }
                 
             });
-            html_node.find("table").find(".update_textbook").each(function(){
+            html_node.find("table").find(".order_partition").each(function(){
                 $(this).on("click",function(){
                     var userid = $(this).data("userid");
 
@@ -2845,34 +2849,6 @@ $(function(){
                 message :  html_node   ,
                 closable: true, 
                 buttons:[{
-                    label: '增加科目',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        // alert(1111);
-                        var id_subject_new = $("<select/>");
-                        var id_textbook_new     = $("<select/>");
-                        Enum_map.append_option_list("subject", id_subject_new, true );
-                        Enum_map.append_option_list("region_version", id_textbook_new, true );
-                        var arr=[
-                            ["科目",id_subject_new],
-                            ["教材",id_textbook_new],
-                        ];
-                        $.show_key_value_table("增加", arr ,{
-                            label    : '确认',
-                            cssClass : 'btn-warning',
-                            action   : function(dialog) {
-                                $.do_ajax( '/ajax_deal2/set_user_subject_textbook', {
-                                    "userid"             :g_sid,
-                                    "subject" : id_subject_new.val(),
-                                    "editionid"     : id_textbook_new.val(),
-                                });
-                            }
-                        });
-
-
-                    }
-                    
-                },{
                     label: '返回',
                     cssClass: 'btn',
                     action: function(dialog) {

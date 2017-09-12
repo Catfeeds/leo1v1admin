@@ -796,7 +796,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             ["tla.reference='%s'",$phone,""],
             ["tla.answer_begin_time>%u",$begin_time,0],
-            "t.train_through_new=1",
+            "t.train_through_new_time>0",
             "t.trial_lecture_is_pass=1",
         ];
         if($type==1){

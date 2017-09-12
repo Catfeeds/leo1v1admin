@@ -1715,6 +1715,18 @@ class ss_deal extends Controller
             $data = $this->t_child_order_info->get_all_child_order_info($orderid);
             
         }
+        foreach($data as &$item){
+            if($item["child_order_type"]==0){
+                $item["child_order_type_str"]="默认";
+            }elseif($item["child_order_type"]==1){
+                $item["child_order_type_str"]="首付款";
+            }if($item["child_order_type"]==2){
+                $item["child_order_type_str"]="其他";
+            }
+            
+
+
+        }
         return $this->output_succ(["data"=>$data]);
     }
 
