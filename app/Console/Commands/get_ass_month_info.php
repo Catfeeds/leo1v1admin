@@ -74,6 +74,7 @@ class get_ass_month_info extends Command
             $item["new_stu_num"] = isset($new_info[$k])?$new_info[$k]["num"]:0;
             $item["end_stu_num"] = isset($end_info[$k])?$end_info[$k]["num"]:0;
 
+
             $week_exist = $task->t_ass_weekly_info->get_id_by_unique_record($k,$start_time,2);
             if($week_exist>0){
                 $task->t_ass_weekly_info->field_update_list($week_exist,[
@@ -88,10 +89,11 @@ class get_ass_month_info extends Command
                     "lesson_money"             =>$item["lesson_money"],
                     "refund_student"           =>$item["refund_student"],
                     "refund_money"             =>$item["refund_money"],
-                    "renw_student"             => $item["renw_num"],
-                    "renw_price"               => $item["renw_money"],
+                    "renw_student"             =>$item["renw_num"],
+                    "renw_price"               =>$item["renw_money"],
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
+
                 ]);
             }else{
                 $task->t_ass_weekly_info->row_insert([
@@ -112,11 +114,11 @@ class get_ass_month_info extends Command
                     "renw_price"               => $item["renw_money"],
                     "new_stu_num"              =>$item["new_stu_num"],
                     "end_stu_num"              =>$item["end_stu_num"],
-                    "time_type"                =>2
+                    "time_type"                =>2,
+
+
                 ]);
             }
-
-
         }
 
 

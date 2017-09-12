@@ -100,6 +100,11 @@ class get_ass_stu_info_update extends Command
             $student_all_detail[$value['uid']] = $value['num']; 
         }
 
+
+        $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
+        $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             if(!isset($item["warning_student"])){
                 $item["warning_student"]=0;
@@ -121,7 +126,15 @@ class get_ass_stu_info_update extends Command
             $item["renw_refund_money"]     = @$refund_info[$k]["renw_price"];
             $item["lesson_total_old"]      = @$lesson_count_list_old[$k];
             $item["read_student_new"]      = @$lesson_count_list[$k]["user_count"]; //上课学生-new
-            $item["all_student_new"]      = @$student_all_detail[$k] + @$student_finish_detail[$k]; //在册学员-new
+            $item["all_student_new"]       = @$student_all_detail[$k] + @$student_finish_detail[$k]; //在册学员-new
+
+            //new add
+            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+            $item["new_student"]           = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+            $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+            $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+            $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
             if($adminid_exist){
 
@@ -143,7 +156,13 @@ class get_ass_stu_info_update extends Command
                     "renw_refund_money"     =>$item["renw_refund_money"],
                     "lesson_total_old"      =>$item["lesson_total_old"],
                     "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new"]
+                    "all_student_new"       =>$item["all_student_new"],
+
+                    "lesson_money"          =>$item["lesson_money"],
+                    "new_student"           =>$item["new_student"],
+                    "new_lesson_count"      =>$item["new_lesson_count"],
+                    "end_stu_num"           =>$item["end_stu_num"],
+                    "lesson_student"        =>$item["lesson_student"]
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
@@ -168,7 +187,13 @@ class get_ass_stu_info_update extends Command
                     "lesson_total_old"      =>$item["lesson_total_old"],
                     "kpi_type"              =>1,
                     "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new"]
+                    "all_student_new"       =>$item["all_student_new"],
+
+                    "lesson_money"          =>$item["lesson_money"],
+                    "new_student"           =>$item["new_student"],
+                    "new_lesson_count"      =>$item["new_lesson_count"],
+                    "end_stu_num"           =>$item["end_stu_num"],
+                    "lesson_student"        =>$item["lesson_student"]
                 ]);
 
             }
@@ -249,7 +274,51 @@ class get_ass_stu_info_update extends Command
             }
 
         }
-       
+        
+        //update
+        $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
+        $update_time = [
+            4=>['start_time' => 1490976000,
+                "end_time"   => 1493568000],
+            5=>['start_time' => 1493568000,
+                "end_time"   => 1498838400],
+            6=>['start_time' => 1498838400,
+                "end_time"   => 1496246400],
+            7=>['start_time' => 1496246400,
+                "end_time"   => 1501516800],
+            8=>['start_time' => 1501516800,
+                "end_time"   => 1504195200],
+            9=>['start_time' => 1504195200,
+                "end_time"   => 1506787200],
+        ];
+        foreach ($update_time  as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+            $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+            $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
+            $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+            foreach($ass_list as $k=>&$item){
+                //new add
+                $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+                $item["new_student"]           = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+                $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+                $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+                $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+
+                $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
+                if($adminid_exist){
+                    $update_arr =  [
+                        "lesson_money"          =>$item["lesson_money"],
+                        "new_student"           =>$item["new_student"],
+                        "new_lesson_count"      =>$item["new_lesson_count"],
+                        "end_stu_num"           =>$item["end_stu_num"],
+                        "lesson_student"        =>$item["lesson_student"]
+                    ];
+                    $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+                }       
+            }
+        }
         // dd($ass_list);
     }
 }
