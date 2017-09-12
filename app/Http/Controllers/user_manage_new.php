@@ -1486,6 +1486,9 @@ class user_manage_new extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
+            if($item['main_type_str'] == '助教'){
+                unset($item);
+            }
         }
         // dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){
