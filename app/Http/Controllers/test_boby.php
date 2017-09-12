@@ -430,5 +430,27 @@ class test_boby extends Controller
 
     }
 
+    public function get_role(){
+
+        $arr = $this->get_b_txt();
+        $s = '<table border=1><tr>'
+           .'<td>电话</td>'
+           .'<td>老师</td>'
+           .'</tr>';
+
+        foreach ($arr as $k) {
+            $sql = "select teacherid from db_weiyi.t_teacher_info where phone='{$k}'";
+            $ret = $this->t_teacher_info->is_teacher($sql);
+            if ($ret) {
+                $s = $s."<tr><td>{$k}</td><td>是</td></tr>";
+            }else {
+                $s = $s."<tr><td>{$k}</td><td>否</td></tr>";
+            }
+        }
+
+        $s = $s.'</table>';
+        return $s;
+    }
+
 
 }

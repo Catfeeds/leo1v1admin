@@ -1595,7 +1595,64 @@ jQuery.extend({
     }
     ,check_power:function( powerid ) {
         return g_power_list[powerid];
+    },    tea_show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
+
+        var table_obj=$("<table class=\"table table-bordered \" > <tr> <thead></thead></tr></table>");
+
+        $.each(arr , function( index,element){
+            var row_obj=$("<tr> </tr>" );
+            var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
+            var v=element[0] ;
+            td_obj.append(v);
+            row_obj.append(td_obj);
+            td_obj=$( "<td ></td>" );
+
+            td_obj.append( element[1] );
+            row_obj.append(td_obj);
+            table_obj.append(row_obj);
+        });
+        var all_btn_config=[{
+            label: '返回',
+            action: function(dialog) {
+                dialog.close();
+            }
+        }];
+        if (btn_config){
+            if($.isArray( btn_config)){
+                $.each(btn_config ,function(){
+                    all_btn_config.push(this);
+                });
+            }else{
+                all_btn_config.push(btn_config );
+            }
+        }
+        var closable = true;
+        if (close_flag) {
+            closable=false;
+        }
+
+        var dlg=BootstrapDialog.show({
+            title: title,
+            message :  table_obj ,
+            closable: false,
+            buttons: all_btn_config ,
+            onshown:onshownfunc
+        });
+
+        if (closable) {
+            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
+            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
+            close_btn.on("click",function(){
+                dlg.close();
+            } );
+        }
+
+        if (width) {
+            dlg.getModalDialog().css("width", ""+width+"px");
+        }
+
     }
+
 
 
 });

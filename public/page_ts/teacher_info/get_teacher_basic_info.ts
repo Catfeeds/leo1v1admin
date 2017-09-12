@@ -218,38 +218,38 @@ $(function(){
             $modal_title = '课堂信息';
             var arr= [
                 ["----","个人资料"],
-                ["姓名", id_nick],
-                ["性别", id_gender],
-                ["生日", id_birth],
-                ["电话", id_phone],
-                ["邮箱", id_email],
+                ["姓名：", id_nick],
+                ["性别：", id_gender],
+                ["生日：", id_birth],
+                ["电话：", id_phone],
+                ["邮箱：", id_email],
                 ["----","教学信息"],
-                ["教龄",     id_work_year],
-                ["方言备注", id_dialect_notes],
-                ["所在地",   id_address],
+                ["教龄：",     id_work_year],
+                ["方言备注：", id_dialect_notes],
+                ["所在地：",   id_address],
                 ["----",  "教育背景"],
-                ["毕业院校", id_school],
-                ["最高学历", id_education],
-                ["专业",     id_major],
-                ["兴趣爱好", id_hobby],
-                ["个人特长", id_speciality],
+                ["毕业院校：", id_school],
+                ["最高学历：", id_education],
+                ["专业：",     id_major],
+                ["兴趣爱好：", id_hobby],
+                ["个人特长：", id_speciality],
             ];
         } else {
             $modal_title = '银行卡信息';
             var arr= [
-                ["持卡人",     id_bank_account],
-                ["身份证号",   id_idcard],
-                ["银行卡类型", id_bank_type],
-                ["支行名称",   id_bank_address],
-                ["开户省",     id_bank_province],
-                ["开户市",     id_bank_city],
-                ["卡号",       id_bankcard],
-                ["预留手机号", id_bank_phone],
+                ["持卡人：",     id_bank_account],
+                ["身份证号：",   id_idcard],
+                ["银行卡类型：", id_bank_type],
+                ["支行名称：",   id_bank_address],
+                ["开户省：",     id_bank_province],
+                ["开户市：",     id_bank_city],
+                ["卡号：",       id_bankcard],
+                ["预留手机号：", id_bank_phone],
             ];
 
         }
 
-        $.show_key_value_table($modal_title, arr,{
+        $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
