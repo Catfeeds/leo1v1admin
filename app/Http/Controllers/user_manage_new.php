@@ -1492,13 +1492,13 @@ class user_manage_new extends Controller
             }
             $item['target_money'] = round($item['target_money']);
             $item['los_money'] = round($item['los_money']);
-            if($item['all_price_for_month']){
+            if(isset($item['all_price_for_month'])){
                 $item['all_price_for_month'] = round($item['all_price_for_month']);
             }
-            if($item['ave_price_for_month']){
+            if(isset($item['ave_price_for_month'])){
                 $item['ave_price_for_month'] = round($item['ave_price_for_month']);
             }
-            if($item['los_personal_money']){
+            if(isset($item['los_personal_money'])){
                 $item['los_personal_money'] = round($item['los_personal_money']);
             }
         }
