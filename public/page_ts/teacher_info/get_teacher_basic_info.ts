@@ -217,17 +217,17 @@ $(function(){
         if (title_type == 'user-info') {
             $modal_title = '课堂信息';
             var arr= [
-                ["----","个人资料"],
+                ["merge","个人资料"],
                 ["姓名：", id_nick],
                 ["性别：", id_gender],
                 ["生日：", id_birth],
                 ["电话：", id_phone],
                 ["邮箱：", id_email],
-                ["----","教学信息"],
+                ["merge","教学信息"],
                 ["教龄：",     id_work_year],
                 ["方言备注：", id_dialect_notes],
                 ["所在地：",   id_address],
-                ["----",  "教育背景"],
+                ["merge",  "教育背景"],
                 ["毕业院校：", id_school],
                 ["最高学历：", id_education],
                 ["专业：",     id_major],

@@ -1597,19 +1597,28 @@ jQuery.extend({
         return g_power_list[powerid];
     },    tea_show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
 
-        var table_obj=$("<table class=\"table table-bordered \" > <tr> <thead></thead></tr></table>");
+        var table_obj=$("<table class=\"table table-bordered \"> <tr> <thead></thead></tr></table>");
 
         $.each(arr , function( index,element){
             var row_obj=$("<tr> </tr>" );
-            var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
-            var v=element[0] ;
-            td_obj.append(v);
-            row_obj.append(td_obj);
-            td_obj=$( "<td ></td>" );
+            var v = element[0] ;
+            if ( v === 'merge') {
+                var td_obj=$( "<td colspan=\"2\" style=\"text-align:center;color:#00a6ff\"></td>" );
+                td_obj.append( element[1] );
+                row_obj.append(td_obj);
+                table_obj.append(row_obj);
 
-            td_obj.append( element[1] );
-            row_obj.append(td_obj);
-            table_obj.append(row_obj);
+            } else {
+                var td_obj=$( "<td style=\"text-align:right; width:30%;line-height:33px;\"></td>" );
+                td_obj.append(v);
+                row_obj.append(td_obj);
+                td_obj=$( "<td ></td>" );
+
+                td_obj.append( element[1] );
+                row_obj.append(td_obj);
+                table_obj.append(row_obj);
+
+            }
         });
         var all_btn_config=[{
             label: '返回',
