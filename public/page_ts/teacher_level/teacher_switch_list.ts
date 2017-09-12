@@ -59,7 +59,7 @@ $(function(){
         var arr = [
             ["是否通过",id_status]
         ];
-
+        Enum_map.append_option_list("boolean",id_status);
 
 
 
