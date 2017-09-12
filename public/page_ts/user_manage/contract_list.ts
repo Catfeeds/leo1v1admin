@@ -2819,7 +2819,7 @@ $(function(){
                 ] ,
                 data_list: data_list,
                 onChange:function( data_list, dialog)  {
-                    $add_child_order_list.data("v" , JSON.stringify(data_list));
+                  //  $add_child_order_list.data("v" , JSON.stringify(data_list));
                 }
             });
 
