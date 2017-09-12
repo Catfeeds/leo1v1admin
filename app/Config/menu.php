@@ -21,7 +21,7 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                 ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
-
+                ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
             ]],
 
 
@@ -374,10 +374,6 @@ class menu{
                     ["power_id"=>5, "name"=>"消息统计",   "url"=>"/monitor/aggregate"],
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
                 ]],
-                // ["power_id"=>70, "name"=>"淘宝管理",  "list"=>[
-                //     ["power_id"=>1, "name"=>"app首页设置",  "url"=>"/taobao_manage/taobao_type" ],
-                //     ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
-                // ]],
                 ["power_id"=>11, "name"=>"tmk数据 上传",  "list"=>[
                     ["power_id"=>1, "name"=>"批次列表",  "url"=>"/upload_tmk/post_list" ],
                     ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
@@ -781,6 +777,7 @@ class menu{
                 ["power_id"=>6, "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>7, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                 ["power_id"=>8, "name"=>"兼职老师退费处理",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
+                ["power_id"=>9, "name"=>"薪资版本切换列表",   "url"=>"/teacher_level/teacher_switch_list"],
             ]],
 
 

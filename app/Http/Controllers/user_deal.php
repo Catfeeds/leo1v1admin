@@ -3589,8 +3589,17 @@ class user_deal extends Controller
         switch ( $month ) {
         case "201702" :
         case "201703" :
+        case "201704" :
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                  $month, $adminid, $start_time, $end_time ) ;
+            break;
+
+        case "201705" :
+        case "201706" :
+        case "201707" :
+        case "201708" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201705", $adminid, $start_time, $end_time ) ;
             break;
         default:
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
