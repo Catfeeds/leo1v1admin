@@ -48,7 +48,7 @@ class wx_parent_api extends Controller
         parent::__construct();
 
         if (!$this->get_parentid()  ) {
-            $id = $this->get_parentid();
+            // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
             exit;

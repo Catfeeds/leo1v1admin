@@ -346,8 +346,9 @@ class agent extends Controller
             $start_time = $time;
             $end_time = $time+3600*24;
             $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            $falg_info = $this->t_manager_info->get_up_group_cancle_rate_flag($adminid);
             $ret['ret'] = count($ret_info)?1:2;
-            $ret['rate'] = $del_rate;
+            $ret['rate'] = $del_rate*100;
         }else{//本周取消率
             $start_time = $time-3600*24*($week-2);
             $end_time = time();
