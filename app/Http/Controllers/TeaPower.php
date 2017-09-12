@@ -2886,4 +2886,10 @@ trait TeaPower {
         return $str;
     }
 
+    public function reset_teacher_money_info($teacherid){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        
+    }
+
 }

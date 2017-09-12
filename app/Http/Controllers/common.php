@@ -1624,5 +1624,114 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+    function parse_roomid($roomid)
+    {
+        $tmp_arr                   = explode("y", strtolower(substr($roomid,2)));
+        $lesson_arr['courseid']    = $tmp_arr[0];
+        $lesson_arr['lesson_num']  = $tmp_arr[1];
+        $lesson_arr['lesson_type'] = $tmp_arr[2];
+        return $lesson_arr;
+    }
+
+    private function parse_userid($userid)
+    {
+        $pos = strpos($userid, "_");
+        if($pos != false){
+            $type   = substr($userid, 0, $pos);
+            if (strlen($type)==4 && $type[0]=="p"){
+                $type=substr($type,1);
+            }
+        }else{
+            $type   = $this->g_config['utype_to_prefix'][$this->user_model->get_role_by_userid($userid)];
+        }
+        return $type;
+    }
+
+
+    /**
+     * functions handle xmpp and webrtc notifies
+     */
+    public function notify(){
+        $roomid   = $this->get_in_str_val("roomid"); //l_11Y21Y1
+        $userid   = $this->get_in_str_val("userid"); //par_111, tea_112341 , 1341241
+        $opt_type = $this->get_in_str_val("opt_type"); //login logout stop restart
+        $server_type = $this->get_in_str_val("server_type");
+        $online_userlist = $this->get_in_str_val('online_userlist');
+        $program_id= $this->get_in_int_val('program_id');
+
+        if (preg_match('/_chat$/',$roomid, $matches)) {
+            \App\Helper\Utils::logger(" $roomid no  log");
+            return "";
+        }
+        if ($userid== "supervisor" ){
+            if (trim($online_userlist)==""){
+                return "";
+            }
+        }
+
+
+        $lesson_arr = $this->parse_roomid($roomid);
+        $user_type_arr = array();
+        if($online_userlist != ''){
+            $online_user_arr = explode(',',$online_userlist);
+            foreach($online_user_arr as $key => $value){
+                if($value != '')
+                    $user_type_arr[] = $this->parse_userid($value);
+            }
+        }
+        $utype = $this->parse_userid($userid);
+
+
+        $lessonid=0;
+        if ( $opt_type == "login" || $opt_type == "logout"  || $opt_type == "no_recv_data"  ){
+
+            $this->lesson_manage_model->start_transaction();
+            $ret_arr= $this->lesson_manage_model->get_lesson_condition($lesson_arr['courseid'], $lesson_arr['lesson_num']);
+
+            $condition =$ret_arr["lesson_condition"];
+            $lessonid=$ret_arr["lessonid"];
+            if ( $opt_type != "no_recv_data"  ) {
+                $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
+            }
+            $this->lesson_manage_model->update_lesson_condition($lesson_arr['courseid'], $lesson_arr['lesson_num'],$condition_new);
+
+            $this->lesson_manage_model->commit();
+
+        }
+
+        log::write("lesson_info:$lessonid;$utype;$opt_type");
+
+        if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
+             || $opt_type =="register" ){
+            //get_userid
+            $tmp_userid=split("_" ,$userid)[1];
+            if ($tmp_userid){
+                $userid= $tmp_userid;
+            }
+
+
+            log::write('no_recv_data:2222222');
+            if ($opt_type== "no_recv_data") {
+                $this->do_notity_rejoin_server($this->in["IP_ADDRESS"],$roomid,$userid);
+            }
+
+
+            $server_type_conf = array("webrtc" =>1 , "xmpp" =>2 );
+            $log_type_conf    = array("login" =>1 , "logout" =>2 ,"register"=>3,"no_recv_data"=>4);
+            $server_type      = $server_type_conf[ $server_type];
+            $opt_type         = $log_type_conf[ $opt_type];
+
+
+            $this->lesson_manage_model->add_lesson_log_info($lessonid,time(),$userid,
+                                                            $opt_type,$server_type,
+                                                            ip2long($this->in["IP_ADDRESS"]),$program_id);
+            if ($utype=="tea" &&  $opt_type  ==1   )  {
+                $this->d_t_lesson_info_model->set_real_begin_time($lessonid,time(NULL));
+            }
+        }
+        //
+        log::write('==============notify commited =============', 'notify');
+        //userid
+    }
     
 }

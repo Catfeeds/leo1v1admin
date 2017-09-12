@@ -933,27 +933,6 @@ lesson_type in (0,1) "
 
         }
 
-        /*
-          $this->field_update_list($lessonid,[
-          ["sdx",10]
-          ["sdx",10,"+"]
-          ]);
-
-          $this->row_insert([
-          "sxx"   => 1,
-          "sxw2x" => 1,
-          ]);
-          $this->main_get_row($sql);
-          $this->main_get_list($sql);
-          $this->main_get_list_by_page($sql);
-        */
-        /*
-          self::DB_TABLE_NAME
-
-          z_t_news_info_model::DB_TABLE_NAME
-        */
-
-
         return true;
     }
 
@@ -9120,12 +9099,11 @@ lesson_type in (0,1) "
                                   $file_name_origi_str,
                                   $lessonid
         );
-
         return $this->main_update($sql);
     }
 
     public function get_stu_normal_lesson_num($start_time,$end_time,$user_list){
-        $where_arr=[
+        $where_arr = [
             "lesson_type <>2",
             "lesson_del_flag=0",
             "confirm_flag in(0,1)"
@@ -9140,7 +9118,6 @@ lesson_type in (0,1) "
             return $item["userid"];
         });
     }
-
 
     public function get_first_lesson($userid){
         $where_arr=[
@@ -9160,30 +9137,17 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
-
     public function check_comment_status($lessonid) {
         $sql = $this->gen_sql_new("select t.tea_rate_time from %s t where t.lessonid = %d",
                                   self::DB_TABLE_NAME, $lessonid);
         return $this->main_get_value($sql);
     }
 
-
-
-    public function get_lesson_intro($lessonid) {
-        $sql=$this->gen_sql_new( "select lesson_intro from %s  where  lessonid='%s' ",
-                                 self::DB_TABLE_NAME,
-                                 $lessonid);
-
-        return $this->main_get_value($sql);
-    }
-
     public function get_common_stu_performance($lessonid) {
-
         $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d and t.lesson_del_flag = 0",
                                   self::DB_TABLE_NAME,
                                   $lessonid
         );
-
         return $this->main_get_value($sql);
     }
 
@@ -9217,10 +9181,6 @@ lesson_type in (0,1) "
         );
         return $this->main_get_value($sql);
     }
-
-
-
-
 
     public function get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list){
         $where_arr = [
@@ -9261,9 +9221,7 @@ lesson_type in (0,1) "
         );
 
         return $this->main_get_list($sql);
-
     }
-
 
     public function get_not_free_lesson_list($start_time,$end_time,$teacherid){
         $where_arr = [

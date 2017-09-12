@@ -13,7 +13,7 @@ class TChildOrderInfoChangeFromOrderno extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_child_order_info', function( Blueprint $table)
+        /* Schema::table('db_weiyi.t_child_order_info', function( Blueprint $table)
         {
             $table->dropColumn("from_orderno");
         });
@@ -21,7 +21,7 @@ class TChildOrderInfoChangeFromOrderno extends Migration
         {
             t_field($table->string("from_orderno")->default(null),"第三方订单");
             $table->unique("from_orderno");
-        });
+            });*/
 
 
     }

@@ -1701,9 +1701,11 @@ class ss_deal extends Controller
     //获取子合同信息
     public function get_child_order_list(){
         $orderid  = $this->get_in_int_val("orderid");
-        $orderid =1193;
+        $orderid =1197;
         $data = $this->t_child_order_info->get_all_child_order_info($orderid);
-        dd($data);
+        if(empty($data)){
+            return $this->output_err("没有数据!");  
+        }
         return $this->output_succ(["data"=>$data]);
     }
 
