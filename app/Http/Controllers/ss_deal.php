@@ -1683,7 +1683,17 @@ class ss_deal extends Controller
                 "price"            => $price
             ]);
         }else{
-            
+            $child_order_info = json_decode($child_order_info,true);
+            foreach($child_order_info as $ch){
+                $this->t_child_order_info->row_insert([
+                    "child_order_type" =>$ch["child_order_type"],
+                    "pay_status"       =>0,
+                    "add_time"         =>time(),
+                    "parent_orderid"   =>$orderid,
+                    "price"            => $ch["child_order_money"]
+                ]);
+
+            }
         }
         return $this->output_succ();
     }

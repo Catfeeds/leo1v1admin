@@ -1059,6 +1059,32 @@ class teacher_level extends Controller
         $this->teacher_switch_list();
     }
 
+    /**
+     * 处理老师薪资版本切换
+     * @param id 需要处理的id
+     * @param type 1 提交申请 2 第一次审核 3 最后审核
+     * @param status 0 未申请 1 未审核 2 通过 3 驳回
+     */
+    public function switch_upload(){
+        $type   = $this->get_in_int_val("type");
+        $id     = $this->get_in_int_val("id");
+        $status = $this->get_in_int_val("status");
+        $acc    = $this->get_account();
+
+        if($type==2 && $acc!=="Rain"){
+            return $this->output_err("你没有第一次审核权限!");
+        }elseif($type==3 && $acc!="ted"){
+            return $this->output_err("你没有最后审核权限!");
+        }
+
+
+        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
+            ""
+        ]);
+
+    }
+
+
 
 
 

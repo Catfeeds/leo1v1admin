@@ -19,4 +19,38 @@ $(function(){
 	  $('#id_status').val(g_args.status);
 
 	  $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-switch_upload").on("click",function(){
+        var data = $(this).get_opt_data();
+
+        BootstrapDialog.show({
+	          title   : "切换申请",
+	          message : "是否提交切换申请?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_level/switch_upload",{
+                        "id"     : data.id,
+                        "status" : 1,
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+    });
+
+
+
 });

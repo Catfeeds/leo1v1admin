@@ -195,6 +195,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["add_time>%u",$start,0],
             ["add_time<%u",$end,0],
             ["type=%u",$reward_type,-1],
+            "is_test_user = 0"
         ];
         $lesson_arr = [
             ["lesson_start>%u",$start,0],
