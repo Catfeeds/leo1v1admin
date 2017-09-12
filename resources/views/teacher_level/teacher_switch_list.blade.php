@@ -64,7 +64,7 @@
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["new_level_str"]}} </td>
                         <td>{{@$var["batch_str"]}} </td>
-                        <td>{{@$var["switch_time"]}} </td>
+                        <td>{{@$var["put_time_str"]}} </td>
                         <td>{{@$var["status_str"]}} </td>
                         <td>
                             <div
