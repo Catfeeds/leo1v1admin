@@ -458,10 +458,9 @@ throw new Error('AdminLTE requires jQuery')
     var parentLi     = link.parent()
     var isOpen       = parentLi.hasClass(ClassName.open)
 
-      console.log(3);
+      console.log("tree "+treeviewMenu);
 
     if (!parentLi.is(Selector.treeview)) {
-        console.log(parentLi);
       return
     }
 
@@ -469,7 +468,7 @@ throw new Error('AdminLTE requires jQuery')
       event.preventDefault()
     }
 
-      console.log(4);
+      console.log(isOpen);
 
 
     if (isOpen) {
@@ -487,8 +486,13 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.expand = function (tree, parent) {
     var expandedEvent = $.Event(Event.expanded)
 
+
     if (this.options.accordion) {
-      var openMenuLi = parent.siblings(Selector.open)
+      // var openMenuLi = parent.siblings(Selector.open)
+        var openMenuLi = parent.siblings(Selector.open)
+
+        console.log(Selector.open);
+
       var openTree   = openMenuLi.children(Selector.treeviewMenu)
       this.collapse(openTree, openMenuLi)
     }

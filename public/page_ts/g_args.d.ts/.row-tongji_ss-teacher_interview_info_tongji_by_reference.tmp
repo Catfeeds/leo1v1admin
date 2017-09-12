@@ -1,8 +1,4 @@
 	reference	:any;
-	all_count	:any;
-	suc_count	:any;
 	pass_per	:any;
 	ave_time	:any;
-	all_lesson	:any;
-	have_order	:any;
 	order_per	:any;

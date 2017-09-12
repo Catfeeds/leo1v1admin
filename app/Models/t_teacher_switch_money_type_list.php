@@ -39,7 +39,18 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
         return $this->main_get_list($sql);
     }
 
-
+    public function get_teacher_info_by_id($id){
+        $where_arr = [
+            ["id=%u",$id,0],
+        ];
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,new_teacher_money_type,level,new_level"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
 }

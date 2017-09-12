@@ -15,8 +15,8 @@ class TTeacherSwitchMoneyTypeListModify extends Migration
         //
         Schema::table('db_weiyi.t_teacher_switch_money_type_list', function( Blueprint $table)
         {
-            // $table->dropColumn("put_time");
-            // $table->dropColumn("confirm_time");
+            $table->dropColumn("put_time");
+            $table->dropColumn("confirm_time");
         });
     }
 
