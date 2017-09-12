@@ -1487,6 +1487,7 @@ class seller_student_new extends Controller
 
     public function test_lesson_cancle_rate(){
         $adminid = $this->get_account_id();
+        $userid = $this->get_in_int_val('userid');
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -1510,6 +1511,10 @@ class seller_student_new extends Controller
             $end_time = $time+3600*24;
             $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
             $ret['ret'] = count($ret_info)?1:2;
+            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
+            if($review_suc){
+                $ret['ret'] = 2;
+            }
             $ret['rate'] = $del_rate*100;
         }else{//本周取消率
             $start_time = $time-3600*24*($week-2);
