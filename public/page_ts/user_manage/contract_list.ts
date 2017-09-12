@@ -2918,8 +2918,13 @@ $(function(){
                     $.each(child_list,function(i,item){
                         child_money = child_money+item["child_order_money"];
                     });
-                    alert(child_money);return;
  
+                    if(promotion_spec_discount != child_money){
+                        alert("子合同总额不等于订单金额!");
+                        return;
+                    }
+                    alert(111);
+                    return;
                     $.do_ajax("/ss_deal/seller_add_contract_new",{
                         require_id                    : require_id,
                         contract_type                 : contract_type,

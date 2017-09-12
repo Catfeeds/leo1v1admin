@@ -11,7 +11,7 @@ $(function(){
         });
     }
 
-    Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"));
+    Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"),false,[0,1,2,3]);
     Enum_map.append_option_list("switch_status",$("#id_status"));
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_teacherid').val(g_args.teacherid);

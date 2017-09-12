@@ -52,7 +52,7 @@
                     <td >调整批次属性</td>
                     <td >调整时间</td>
                     <td >调整状态</td>
-                    <td>操作</td>
+                    <td >操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -69,7 +69,13 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="opt-switch-upload" title="切换申请">切换申请</a>
+                                @if(in_array($acc,['ted']))
+                                    <a class="opt-finally_check" title="最终审核">最终审核</a>
+                                @elseif(in_array($acc,['']))
+                                    <a class="opt-first_check" title="第一次审核">审核</a>
+                                @else
+                                    <a class="opt-switch_upload" title="申请">申请</a>
+                                @endif
                             </div>
                         </td>
                     </tr>

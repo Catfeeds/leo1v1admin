@@ -1102,9 +1102,8 @@ class human_resource extends Controller
         $passwd = "142857";
         $md5_passwd = md5(md5($passwd)."#Aaron");
         $this->t_user_info->row_insert([
-
             "passwd"  => md5($passwd)
-        ]) ;
+        ]);
         $assid =  $this->t_user_info->get_last_insertid();
         if($assid === false){
             return outputJson(array('ret' => -1, 'info'  => '插入失败'));

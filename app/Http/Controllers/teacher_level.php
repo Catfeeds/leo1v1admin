@@ -1029,15 +1029,23 @@ class teacher_level extends Controller
 
     public function teacher_switch_list(){
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
-        $teacherid= $this->get_in_int_val("teacherid",-1);
+        $teacherid          = $this->get_in_int_val("teacherid",-1);
         $batch              = $this->get_in_int_val("batch",-1);
         $status             = $this->get_in_int_val("status",-1);
-        
+        $acc = $this->get_account();
+
+        $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list($teacherid,$teacher_money_type,$batch,$status);
+
         $ret_info = [];
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" => $acc
+        ]);
     }
 
+    public function teacher_switch_list_finally(){
+        $this->teacher_switch_list();
+    }
 
 
 
