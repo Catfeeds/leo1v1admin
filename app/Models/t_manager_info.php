@@ -1576,4 +1576,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_up_group_cancle_rate_flag($adminid){
+        $where_arr = [
+            ["uid=%u",$adminid,-1],
+            "del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select uid "
+                                  ." from %s "
+                                  ." left join %s  "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }
