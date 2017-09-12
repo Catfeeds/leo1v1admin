@@ -54,6 +54,7 @@ return array(
     ["db_weiyi","t_test_lesson_subject","test_lesson_subject_id" ],
     ["db_weiyi","t_test_lesson_subject_require","require_id" ],
     ["db_weiyi","t_test_lesson_subject_sub_list","lessonid" ],
+    ["db_weiyi","t_test_lesson_subject_require_review","id" ],
     ["db_weiyi","t_user_authority_group","groupid" ],
 
 

@@ -1895,4 +1895,26 @@ function init_edit() {
 
     });
 
+    $(".opt-test_lesson-review").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $id_userid    = $("<input/>");
+
+        var arr=[
+            ["userid",  $id_userid],
+        ];
+
+        $id_userid.val(opt_data.userid);
+
+        $.show_key_value_table("排课申请", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/test_lesson_review/test_lesson_review_add",{
+                    "userid"        : $id_userid.val(),
+                })
+            }
+        })
+    });
+
+
 }
