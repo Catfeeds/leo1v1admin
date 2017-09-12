@@ -486,8 +486,13 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.expand = function (tree, parent) {
     var expandedEvent = $.Event(Event.expanded)
 
+
     if (this.options.accordion) {
-      var openMenuLi = parent.siblings(Selector.open)
+      // var openMenuLi = parent.siblings(Selector.open)
+        var openMenuLi = parent.siblings(Selector.open)
+
+        console.log(Selector.open);
+
       var openTree   = openMenuLi.children(Selector.treeviewMenu)
       this.collapse(openTree, openMenuLi)
     }

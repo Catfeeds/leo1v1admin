@@ -1098,6 +1098,7 @@ class teacher_level extends Controller
         if(!$ret){
             return $this->output_err("更新出错!请重试!");
         }
+
         if($type==2 && $status==1){
             $teacher_info = $this->t_teacher_switch_money_type_list->get_teacher_info_by_id($id);
             $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
