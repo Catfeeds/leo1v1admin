@@ -62,7 +62,7 @@
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["new_level_str"]}} </td>
-                        <td>{{@$var["batch"]}} </td>
+                        <td>{{@$var["batch_str"]}} </td>
                         <td>{{@$var["switch_time"]}} </td>
                         <td>{{@$var["status_str"]}} </td>
                         <td>

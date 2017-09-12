@@ -1040,7 +1040,7 @@ class teacher_level extends Controller
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val);
-
+            $val['batch_str'] = "第".$val['batch']."批次";
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
