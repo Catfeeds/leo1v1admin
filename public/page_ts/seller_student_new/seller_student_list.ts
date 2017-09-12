@@ -1913,7 +1913,7 @@ function init_edit() {
             action: function(dialog) {
                 $.do_ajax("/test_lesson_review/test_lesson_review_add",{
                     "userid" : opt_data.userid,
-                    "desc"   : $id_desc.val(),
+                    "review_desc"   : $id_desc.val(),
                 })
             }
         })

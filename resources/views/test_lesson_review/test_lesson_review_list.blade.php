@@ -29,8 +29,8 @@
                     <td>组长审核状态 </td>
                     <td>主管 </td>
                     <td>主管审核状态 </td>
-                    <td>申请时间 </td>
                     <td>申请说明 </td>
+                    <td>申请时间 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -44,7 +44,7 @@
                         <td>{!! @$var["group_suc_flag_str"] !!} </td>
                         <td>{{@$var["master_nick"]}} </td>
                         <td>{!! @$var["master_suc_flag_str"] !!} </td>
-                        <td>{{@$var["desc"]}} </td>
+                        <td>{{@$var["review_desc"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
