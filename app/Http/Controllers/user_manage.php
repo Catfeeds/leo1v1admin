@@ -510,10 +510,12 @@ class user_manage extends Controller
             }
         }
 
+        $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
-            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money
+            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
+            "acc"                           => $acc
         ]);
     }
 
@@ -1046,27 +1048,28 @@ class user_manage extends Controller
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
+            // dd($arr);
             foreach($arr['key1_value'] as &$v1){
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-                        $key1_name = $v1['value'].'一级原因';
-                        $key2_name = $v1['value'].'二级原因';
-                        $key3_name = $v1['value'].'三级原因';
-                        $reason_name    = $v1['value'].'reason';
-                        $dep_score_name = $v1['value'].'dep_score';
+                        $key1_name = @$v1['value'].'一级原因';
+                        $key2_name = @$v1['value'].'二级原因';
+                        $key3_name = @$v1['value'].'三级原因';
+                        $reason_name    = @$v1['value'].'reason';
+                        $dep_score_name = @$v1['value'].'dep_score';
 
                         if(isset($v1["$key1_name"])){
-                            $item["$key1_name"] = $item["$key1_name"].'/'.$v2['key2_str'];
-                            $item["$key2_name"] = $item["$key2_name"].'/'.$v2['key3_str'];
-                            $item["$key3_name"] = $item["$key3_name"].'/'.$v2['key4_str'];
-                            $item["$reason_name"]     = $item["$reason_name"].'/'.$v2['reason'];
-                            $item["$dep_score_name"]  = $item["$dep_score_name"].'/'.$v2['score'];
+                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
+                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
+                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
                         }else{
-                            $item["$key1_name"] = $v2['key2_str'];
-                            $item["$key2_name"] = $v2['key3_str'];
-                            $item["$key3_name"] = $v2['key4_str'];
-                            $item["$reason_name"]     = $v2['reason'];
-                            $item["$dep_score_name"]  = $v2['score'];
+                            $item["$key1_name"] = @$v2['key2_str'];
+                            $item["$key2_name"] = @$v2['key3_str'];
+                            $item["$key3_name"] = @$v2['key4_str'];
+                            $item["$reason_name"]     = @$v2['reason'];
+                            $item["$dep_score_name"]  = @$v2['score'];
                         }
                     }
                 }
@@ -1078,6 +1081,7 @@ class user_manage extends Controller
             }
         }
 
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
             "acc"           => $acc,

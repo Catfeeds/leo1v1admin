@@ -2069,6 +2069,66 @@ class test_code extends Controller
         }
     }
 
+    public function add_switch_info(){
+        $arr = $this->get_b_txt();
+        array_filter($arr);
+
+        $money_map     = E\Eteacher_money_type::$desc_map;
+        $level_map     = E\Elevel::$desc_map;
+        $new_level_map = E\Enew_level::$desc_map;
+        $money_s2v     = array_flip($money_map);
+        $level_s2v     = array_flip($level_map);
+        $new_level_s2v = array_flip($new_level_map);
+
+        // 0 realname 1 lesson_total 2 teacher_money_type_str 3 level_str 4 new_level_str
+        // 5 all_money_different 6 base_money_different
+        foreach($arr as $a_val){
+            if($a_val!=""){
+                $tea_info = explode("|",$a_val);
+                $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
+
+                $check_flag = $this->t_teacher_switch_money_type_list->check_is_exists($teacherid);
+                if(!$check_flag){
+                    $teacher_money_type  = $money_s2v[$tea_info[2]];
+                    $level               = $level_s2v[$tea_info[3]];
+                    $new_level           = $new_level_s2v[$tea_info[4]];
+                    $base_money          = $tea_info[6];
+                    $per_money_different = $base_money/$tea_info[1];
+                    $x = $per_money_different;
+                    $y = $base_money;
+                    if($x>0 && $y>0){
+                        $batch = 1;
+                    }elseif($x<=0 && $y>=0){
+                        $batch = 2;
+                    }elseif($x>=0 && $y<=0){
+                        $batch = 3;
+                    }elseif($x>=-2 && $y>=-200){
+                        $batch = 4;
+                    }elseif($x<=-2 && $y>=-200){
+                        $batch = 5;
+                    }elseif($x<=-2 && $y<=-200){
+                        $batch = 6;
+                    }
+
+                    echo $tea_info[0]."|".$x."|".$y."|".$batch;
+                    echo "<br>";
+
+                    $this->t_teacher_switch_money_type_list->row_insert([
+                        "teacherid"              => $teacherid,
+                        "realname"               => $tea_info[0],
+                        "teacher_money_type"     => $teacher_money_type,
+                        "new_teacher_money_type" => 6,
+                        "level"                  => $level,
+                        "new_level"              => $new_level,
+                        "all_money_different"    => $tea_info[5],
+                        "base_money_different"   => $tea_info[6],
+                        "lesson_total"           => $tea_info[1],
+                        "batch"                  => $batch
+                    ]);
+                }
+            }
+        }
+    }
 
 
 
