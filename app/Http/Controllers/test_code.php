@@ -2076,9 +2076,9 @@ class test_code extends Controller
         $money_map     = E\Eteacher_money_type::$desc_map;
         $level_map     = E\Elevel::$desc_map;
         $new_level_map = E\Enew_level::$desc_map;
-        $money_s2v     = array_filp($money_map);
-        $level_s2v     = array_filp($level_map);
-        $new_level_s2v = array_filp($new_level_map);
+        $money_s2v     = array_flip($money_map);
+        $level_s2v     = array_flip($level_map);
+        $new_level_s2v = array_flip($new_level_map);
 
         // 0 realname 1 lesson_total 2 teacher_money_type_str 3 level_str 4 new_level_str
         // 5 all_money_different 6 base_money_different
@@ -2096,18 +2096,27 @@ class test_code extends Controller
                     $batch = 1;
                 }elseif($per_money_different<=0 && $tea_info[6]>=0){
                     $batch = 2;
+                }elseif($per_money_different>=0 && $tea_info[6]<=0){
+                    $batch = 3;
+                }elseif($per_money_different>=-2 && $tea_info[6]>=-200){
+                    $batch = 4;
+                }elseif($per_money_different<=-2 && $tea_info[6]>=-200){
+                    $batch = 5;
+                }elseif($per_money_different<=-2 && $tea_info[6]<=-200){
+                    $batch = 6;
                 }
 
                 $this->t_teacher_switch_money_type_list->row_insert([
-                    "teacherid" => $teacherid,
-                    "realname"  => $tea_info[0],
-                    "teacher_money_type" => $teacher_money_type,
+                    "teacherid"              => $teacherid,
+                    "realname"               => $tea_info[0],
+                    "teacher_money_type"     => $teacher_money_type,
                     "new_teacher_money_type" => 6,
-                    "level" => $level,
-                    "new_level" => $new_level,
-                    "all_money_different" => $tea_info[5],
-                    "base_money_different" => $tea_info[6],
-                    "lesson_total" => $tea_info[1],
+                    "level"                  => $level,
+                    "new_level"              => $new_level,
+                    "all_money_different"    => $tea_info[5],
+                    "base_money_different"   => $tea_info[6],
+                    "lesson_total"           => $tea_info[1],
+                    "batch"                  => $batch
                 ]);
             }
 

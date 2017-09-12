@@ -2574,7 +2574,7 @@ $(function(){
                     userid: id,
                     is_ass_flag: g_account_role==1,
                 },function(resp){
-                    show_add_contract_new(0,3, resp.data,0 );
+                    show_add_contract_new_jack(0,3, resp.data,0 );
                 });
             });
         });

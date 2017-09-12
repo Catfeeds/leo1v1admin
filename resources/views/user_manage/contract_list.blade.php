@@ -882,11 +882,16 @@
         <div class="row">
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group ">
-                    <span class="input-group-addon" style="color:blue;">分拆合同：</span>
+                    <span class="input-group-addon" >拆分合同：</span>
                     <select  class="form-control field-order_partition_flag">
                         <option value="0">否</option>
-                        <option value="1">否</option>
+                        <option value="1">是</option>
                     </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group ">
+                    <button  id="id_add_child_order_list"  class="btn btn-warning field-add_child_order_list" >编辑子合同</button>
                 </div>
             </div>
         </div>
