@@ -1490,8 +1490,12 @@ class user_manage_new extends Controller
             if($item['main_type_str'] == '助教'){
                 unset($ret_info[$key]);
             }
-            $item['target_money'] = round($item['target_money']);
-            $item['los_money'] = round($item['los_money']);
+            if(isset($item['target_money'])){
+                $item['target_money'] = round($item['target_money']);
+            }
+            if(isset($item['los_money'])){
+                $item['los_money'] = round($item['los_money']);
+            }
             if(isset($item['all_price_for_month'])){
                 $item['all_price_for_month'] = round($item['all_price_for_month']);
             }
