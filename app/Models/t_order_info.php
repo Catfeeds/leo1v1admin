@@ -1361,7 +1361,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $contract_from_type=0,
         $from_parent_order_lesson_count=0,
         $pre_price=0,
-        $order_price_desc=""
+        $order_price_desc="",
+        $order_partition_flag =0
     )
     {
 
@@ -1406,7 +1407,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
             "pre_price"                      => $pre_price,
-            "order_price_desc"                      => $order_price_desc,
+            "order_price_desc"               => $order_price_desc,
+            "order_partition_flag"           => $order_partition_flag
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {

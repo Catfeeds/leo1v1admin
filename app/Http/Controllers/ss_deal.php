@@ -1540,6 +1540,8 @@ class ss_deal extends Controller
         $seller_student_status         = $this->get_in_int_val("seller_student_status");
         $has_share_activity_flag = $this->get_in_int_val("has_share_activity_flag");
         $contract_from_type = $this->get_in_e_contract_from_type();
+        $order_partition_flag = $this->get_in_int_val("order_partition_flag",0);
+        $child_order_info = $this->get_in_str_val("child_order_info");
 
         $sys_operator        = $this->get_account();
         $userid              = $this->get_in_userid();
@@ -1645,7 +1647,8 @@ class ss_deal extends Controller
             $promotion_spec_present_lesson,$contract_from_type,
             $from_parent_order_lesson_count,
             $pre_price,
-            $order_price_desc
+            $order_price_desc,
+            $order_partition_flag 
         );
 
 
@@ -1669,6 +1672,28 @@ class ss_deal extends Controller
             $this->t_order_info->field_update_list($orderid,[
                 "promotion_spec_diff_money" =>  $promotion_spec_diff_money
             ]);
+        }
+
+        if($order_partition_flag==0){
+            $this->t_child_order_info->row_insert([
+                "child_order_type" =>0,
+                "pay_status"       =>0,
+                "add_time"         =>time(),
+                "parent_orderid"   =>$orderid,
+                "price"            => $price
+            ]);
+        }else{
+            $child_order_info = json_decode($child_order_info,true);
+            foreach($child_order_info as $ch){
+                $this->t_child_order_info->row_insert([
+                    "child_order_type" =>$ch["child_order_type"],
+                    "pay_status"       =>0,
+                    "add_time"         =>time(),
+                    "parent_orderid"   =>$orderid,
+                    "price"            => $ch["child_order_money"]
+                ]);
+
+            }
         }
         return $this->output_succ();
     }

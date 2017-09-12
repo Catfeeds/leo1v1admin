@@ -30,9 +30,8 @@ class TOrderInfoAddOrderPartitionFlag extends Migration
             t_field($table->string("channel"),"付款渠道");
             t_field($table->string("from_orderno"),"第三方订单id");
             $table->unique("from_orderno");
-
-            
-            
+            $table->index("add_time");
+            $table->index("parent_orderid");                      
         });
 
 

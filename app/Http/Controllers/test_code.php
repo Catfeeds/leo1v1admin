@@ -1949,11 +1949,12 @@ class test_code extends Controller
 
     public function get_reward_list(){
         $start = strtotime("2017-8-1");
-        $end= strtotime("2017-9-1");
-        $list = $this->t_teacher_money_list->get_reward_list($start,$end,6);
+        $end   = strtotime("2017-9-1");
+        $list  = $this->t_teacher_money_list->get_reward_list($start,$end,5);
         foreach($list as $val){
-            echo $val['teacherid']."|".$val['realname']."|".$val['phone']."|银行卡:".$val['bankcard']."|".$val['bank_account']."|".$val['bank_type']
-                                 ."|".($val['money_total']/100);
+            echo $val['teacherid']."|".$val['realname']."|".$val['phone']
+                                  ."|银行卡:".$val['bankcard']."|".$val['bank_account']."|".$val['bank_type']
+                                  ."|".($val['money_total']/100);
             echo "<br>";
         }
     }
@@ -1996,13 +1997,6 @@ class test_code extends Controller
             echo "<br>";
         }
     }
-
-    public function test_reward(){
-        $type=4;
-        $begin_time = strtotime("2017-4-1");
-        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
-    }
-
 
     public function check_redis(){
         $already_lesson_count_key          = "already_lesson_count_month";
