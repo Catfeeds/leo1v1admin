@@ -891,7 +891,7 @@
             </div>
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group ">
-                    <button  id="id_add_child_order_list"  class="btn btn-warning field-add_child_order_list" >编辑子合同</button>
+                    <button  id="id_add_child_order_list"  class="btn btn-warning field-add_child_order_list" style="display:none" >编辑子合同</button>
                 </div>
             </div>
         </div>

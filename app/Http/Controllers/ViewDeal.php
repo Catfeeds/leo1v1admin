@@ -548,7 +548,6 @@ trait  ViewDeal {
             $k_id=0;
             $k_map=[];
 
-            // dd($ret_info);
             foreach( $ret_info["list"][0] as $k=> $v ) {
                 if ( !is_int($k) ) {
                     $k_map[$k]=$k_id;
@@ -564,11 +563,8 @@ trait  ViewDeal {
                     if(!is_int($key)) {
                         $index_str = $index+2;
                         // dd($k_map);
-                        if($k_map[$key] == '教学部一级原因'){
-                            // dd('教学部一级原因');
-                        }
                         $pos_str   = $col_list[$k_map[$key]].$index_str;
-                        echo $pos_str." ~ ".$cell_data."<br>";
+                        // echo $pos_str." ~ ".$cell_data."<br>";
                         $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
                     }
                 }

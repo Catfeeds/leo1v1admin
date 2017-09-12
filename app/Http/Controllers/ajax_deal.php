@@ -471,7 +471,7 @@ class ajax_deal extends Controller
     public  function order_set_promotion_spec_is_not_spec_flag () {
         $orderid = $this->get_in_int_val("orderid");
         $promotion_spec_is_not_spec_flag= $this->get_in_int_val("promotion_spec_is_not_spec_flag" );
-        if (!$this->check_account_in_arr(["jim"]) ) {
+        if (!$this->check_account_in_arr(["jim","sherry"]) ) {
             return  $this->output_err("没有权限");
         }
 

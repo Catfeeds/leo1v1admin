@@ -2756,6 +2756,8 @@ $(function(){
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
         var $discount_reason= html_node.find(".field-discount_reason");
         var $receipt_title= html_node.find(".field-receipt_title");
+        var $order_partition_flag= html_node.find(".field-order_partition_flag");
+        var $add_child_order_list= html_node.find("#id_add_child_order_list");
 
 
 
@@ -2786,6 +2788,14 @@ $(function(){
         $order_require_flag.on("change", opt_spec);
         $order_promotion_type.val(2); //打折
         opt_spec();
+
+        $order_partition_flag.on("change",function(){
+            if($order_partition_flag.val() ==1){
+                $add_child_order_list.show(); 
+            }else{
+                $add_child_order_list.hide(); 
+            }
+        });
 
         var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
@@ -2832,6 +2842,112 @@ $(function(){
         }
         $discount_price.set_input_readonly(true);
         $order_promotion_desc.set_input_readonly(true);
+
+        $add_child_order_list.data("v" , []);
+        $add_child_order_list.on("click",function(){
+            var v=$(this).data("v");
+            if(!v) {
+                v="[]";
+            }
+            var data_list=JSON.parse(v);
+
+            $(this).admin_select_dlg_edit({
+                onAdd:function( call_func ) {
+                    var id_week= $("<select> "+
+                                   "<option value=1>周1</option> "+
+                                   "<option value=2>周2</option> "+
+                                   "<option value=3>周3</option> "+
+                                   "<option value=4>周4</option> "+
+                                   "<option value=5>周5</option> "+
+                                   "<option value=6>周6</option> "+
+                                   "<option value=0>周日</option> "+
+                                   "</select>");
+                    var id_start_time=$("<input/>");
+                    var id_end_time=$("<input/>");
+                    id_start_time.datetimepicker({
+                        datepicker:false,
+                        timepicker:true,
+                        format:'H:i',
+                        step:30,
+                        onChangeDateTime :function(){
+                            var end_time= $.strtotime("1970-01-01 "+id_start_time.val() ) + 7200;
+                            id_end_time.val(  $.DateFormat(end_time, "hh:mm"));
+                        }
+                    });
+                    id_end_time.datetimepicker({
+                        datepicker:false,
+                        timepicker:true,
+                        format:'H:i',
+                        step:30
+                    });
+                    var arr=[
+                        ["周", id_week],
+                        ["开始时间", id_start_time],
+                        ["结束时间", id_end_time],
+                    ];
+                    $.show_key_value_table("增加", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            call_func({
+                                "week" :  id_week.val() ,
+                                "start_time" : $.strtotime( "1970-01-01 "+ id_start_time.val()) ,
+                                "end_time" : $.strtotime ( "1970-01-01 "+ id_end_time.val())
+                            });
+                            dialog.close();
+                        }
+                    });
+
+
+
+
+
+                    /*
+                      var div=$("<div/>");
+                      div.admin_select_date_time_range({
+
+                      onSelect:function(start_time,end_time) {
+                      call_func({
+                      "start_time" : start_time ,
+                      "end_time" : end_time
+                      });
+                      }
+                      });
+                      div.click();
+                    */
+                },
+                sort_func : function(a,b){
+                    var a_time=a["week"]*10000000+a["start_time"];
+                    var b_time=b["week"]*10000000+b["start_time"];
+                    if (a_time==b_time ) {
+                        return 0;
+                    }else{
+                        if (a_time>b_time) return 1;
+                        else return -1;
+                    }
+                }, 'field_list' :[
+                    {
+                        title:"周",
+                        render:function(val,item) {
+                            return Enum_map.get_desc("week", item["week"]*1  );
+                        }
+                    },{
+
+                        title:"时间段",
+                        //width :50,
+                        render:function(val,item) {
+                            return  $.DateFormat(item.start_time, "hh:mm") +"~"+
+                                $.DateFormat(item.end_time, "hh:mm")  ;
+                        }
+                    }
+                ] ,
+                data_list: data_list,
+                onChange:function( data_list, dialog)  {
+                    id_stu_request_lesson_time_info.data("v" , JSON.stringify(data_list));
+                }
+            });
+        }) ;
+
         BootstrapDialog.show({
             title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
             message  : html_node,
