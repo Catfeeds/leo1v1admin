@@ -2088,7 +2088,7 @@ class test_code extends Controller
                 $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
 
                 $check_flag = $this->t_teacher_switch_money_type_list->check_is_exists($teacherid);
-                if(!$check_flag){
+                if(!$check_flag && $teacherid!=0){
                     $teacher_money_type  = $money_s2v[$tea_info[2]];
                     $level               = $level_s2v[$tea_info[3]];
                     $new_level           = $new_level_s2v[$tea_info[4]];

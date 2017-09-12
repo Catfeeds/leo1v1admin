@@ -1018,16 +1018,29 @@ class teacher_level extends Controller
                 $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
             }
             $item["add_time_str"] = date("Y-m-d H:i",$item["add_time"]);
-  
         }
-        
+
         $this->set_in_value("acc",$this->get_account());
         $acc = $this->get_in_str_val("acc");
         return $this->pageView(__METHOD__,$ret_info,[
             "acc" =>$acc
         ]);
-
-
     }
+
+    public function teacher_switch_list(){
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
+        $teacherid= $this->get_in_int_val("teacherid",-1);
+        $batch              = $this->get_in_int_val("batch",-1);
+        $status             = $this->get_in_int_val("status",-1);
+        
+        $ret_info = [];
+        $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+
+
+
 
 }

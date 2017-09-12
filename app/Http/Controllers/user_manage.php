@@ -1048,7 +1048,10 @@ class user_manage extends Controller
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
-            // dd($arr);
+            if(!empty($arr['list'])){
+                // dd($arr);
+            }
+
             foreach($arr['key1_value'] as &$v1){
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
@@ -1071,6 +1074,8 @@ class user_manage extends Controller
                             $item["$reason_name"]     = @$v2['reason'];
                             $item["$dep_score_name"]  = @$v2['score'];
                         }
+                    }else{
+
                     }
                 }
 

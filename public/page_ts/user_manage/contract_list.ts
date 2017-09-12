@@ -2854,7 +2854,7 @@ $(function(){
             $(this).admin_select_dlg_edit({
                 onAdd:function( call_func ) {
                     var id_child_order_type= $("<select> "+
-                                   "<option value=1>定金</option> "+
+                                   "<option value=1>首付款</option> "+
                                    "<option value=2>其他</option> "+
                                    "</select>");
                     var id_child_order_money=$("<input/>");
@@ -2912,6 +2912,14 @@ $(function(){
             },{
                 label  : '确认',
                 action : function(dialog) {
+                    var promotion_spec_discount = $promotion_spec_discount_price.val()*100;
+                    var child_list=JSON.parse($add_child_order_list.data("v"));
+                    var child_money=0;
+                    $.each(child_list,function(i,item){
+                        child_money = child_money+item["child_order_money"];
+                    });
+                    alert(child_money);return;
+ 
                     $.do_ajax("/ss_deal/seller_add_contract_new",{
                         require_id                    : require_id,
                         contract_type                 : contract_type,
