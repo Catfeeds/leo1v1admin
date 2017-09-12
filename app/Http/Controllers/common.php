@@ -1375,7 +1375,7 @@ class common extends Controller
     public function get_ppl_data(){
         $pa=new \Analysis\PhpAnalysis();
         $demand = $this->get_in_str_val("demand","哈哈哈");
-        
+
         $pa->SetSource($demand);
         $pa->resultType=2;
         $pa->differMax=true;
@@ -1384,7 +1384,7 @@ class common extends Controller
         dd($arr);
         echo "<pre>";
         print_r($arr);
-        echo "</pre>"; 
+        echo "</pre>";
     }
 
     //百度有钱花接口
@@ -1397,7 +1397,7 @@ class common extends Controller
         //分期期数
         $period = $this->get_in_int_val("period",12);
 
-        
+
         $orderid = 974;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
@@ -1406,7 +1406,7 @@ class common extends Controller
 
 
 
-        
+
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
 
@@ -1421,8 +1421,8 @@ class common extends Controller
         );
 
         $rsaData = $this->enrsa($endata);
-        
-        
+
+
         $arrParams = array(
             'action' => 'sync_order_info',
             'tpl' => 'tpl',// 分配的tpl
@@ -1464,10 +1464,10 @@ class common extends Controller
         ]);
 
 
-        
-        
-        
- 
+
+
+
+
     }
 
     //查询百度有钱花订单信息
@@ -1492,8 +1492,8 @@ class common extends Controller
         );
 
         $rsaData = $this->enrsa($endata);
-        
-        
+
+
         $arrParams = array(
             'action' => 'get_order_status',
             'tpl' => 'tpl',// 分配的tpl
@@ -1526,11 +1526,11 @@ class common extends Controller
      * rsa 加密(百度有钱花)
      */
     public function enrsa($data){
-        $public_key = '-----BEGIN PUBLIC KEY-----  
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt  
-3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl  
-Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o  
-2n1vP1D+tD3amHsK7QIDAQAB  
+        $public_key = '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
+2n1vP1D+tD3amHsK7QIDAQAB
 -----END PUBLIC KEY-----';
         $pu_key = openssl_pkey_get_public($public_key);
         $str = json_encode($data);
@@ -1593,7 +1593,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $sec = "30819d300d06092a864886f70d010101050003818b0030818702818100da1faeffe420660abea650bea7d21afff96881c1fc0c0b06e6edb9f7bdd4e617da53dd6fe375321cfed3653a6cf09a8e13166a4f5bb15af5122701f0f2bcc7f5d86e8a7b870a4ddf82a68a9a8b2f5a2b963e955b63e7aebb19f282e2194b1dd3d5654a63d05c5a7471088b728616cd1f67726c6629ba39c17b8df73e5ca8b42d020111";
         $pub = substr($sec,-30);
         // dd($sect);
-               
+
         $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=".$pub."%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
         $url = "https://ibsbjstar.ccb.com.cn/app/ccbMain?MERCHANTID=".$merchantid."&POSID=".urlencode($posid)."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".urlencode($curcode)."&TXCODE=".$txcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&MAC=".urlencode($mac)."&TYPE=".$type."&GATEWAY=".$gateway."&CLIENTIP=".$clientip."&REGINFO=".urlencode($reginfo)."&PROINFO=".urlencode($proinfo)."&REFERER=".$referer."&THIRDAPPINFO=".urlencode($thirdappinfo)."&CALLJS=".$calljs."&INSTALLNUM=".$installnum;
         dd($url);
@@ -1644,7 +1644,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
             $item=$this->t_phone_to_user-> get_info_by_userid($phone);
             $role=$item["role"];
-            $type   = $this->g_config['utype_to_prefix'][$this->user_model->get_role_by_userid($userid)];
+            $utype_to_prefix_config = array(
+                1 => 'stu',
+                2 => 'tea',
+                3 => 'ad',
+                4 => 'par'
+            );
+
+            $type   = @$utype_to_prefix_config[$role];
         }
         return $type;
     }
@@ -1685,23 +1692,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
         $lessonid=0;
-        if ( $opt_type == "login" || $opt_type == "logout"  || $opt_type == "no_recv_data"  ){
+        if ( $opt_type == "login" || $opt_type == "logout"    ){
 
-            $this->lesson_manage_model->start_transaction();
-            $ret_arr= $this->lesson_manage_model->get_lesson_condition($lesson_arr['courseid'], $lesson_arr['lesson_num']);
+            $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
 
             $condition =$ret_arr["lesson_condition"];
             $lessonid=$ret_arr["lessonid"];
-            if ( $opt_type != "no_recv_data"  ) {
-                $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
-            }
-            $this->lesson_manage_model->update_lesson_condition($lesson_arr['courseid'], $lesson_arr['lesson_num'],$condition_new);
-
-            $this->lesson_manage_model->commit();
+            $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_condition" => $condition_new
+            ]);
 
         }
 
-        log::write("lesson_info:$lessonid;$utype;$opt_type");
+
 
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
              || $opt_type =="register" ){
@@ -1711,11 +1715,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $userid= $tmp_userid;
             }
 
-
-            log::write('no_recv_data:2222222');
-            if ($opt_type== "no_recv_data") {
-                $this->do_notity_rejoin_server($this->in["IP_ADDRESS"],$roomid,$userid);
-            }
 
 
             $server_type_conf = array("webrtc" =>1 , "xmpp" =>2 );
@@ -1735,5 +1734,72 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         log::write('==============notify commited =============', 'notify');
         //userid
     }
-    
+
+
+    private function update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type)
+    {
+        $condition_arr;
+        if($condition == ""){
+            //xxxx_dis 表明相关服务器的断线次数
+            $condition_arr = array(
+                'stu' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'tea' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'ad' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'par' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'suspend' => 0
+            );
+            if($opt_type != 'stop' && $opt_type != "restart"){
+                foreach($user_type_arr as $key=>$type){
+                    $condition_arr[$type][$server_type] = 1;
+                }
+                if($opt_type == 'logout')
+                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+            }else{
+                $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
+            }
+         }else{
+            $condition_arr = json_decode($condition, true);
+            $this->clear_condition_state($condition_arr, $server_type);
+            if($opt_type != 'stop' && $opt_type != "restart"){
+                foreach($user_type_arr as $key=>$type){
+                    $condition_arr[$type][$server_type] = 1;
+                }
+                if($opt_type == 'logout')
+                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+            }else{
+                $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
+            }
+         }
+        log::write("condition information: " . json_encode($condition_arr), 'notify');
+        return json_encode($condition_arr);
+    }
+
+    private function clear_condition_state(&$condition_arr, $server_type)
+    {
+        $condition_arr['stu'][$server_type] =0;
+        $condition_arr['tea'][$server_type] =0;
+        $condition_arr['par'][$server_type] =0;
+        $condition_arr['ad'][$server_type] =0;
+    }
+
 }
