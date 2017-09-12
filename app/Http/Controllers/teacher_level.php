@@ -1058,10 +1058,10 @@ class teacher_level extends Controller
     public function switch_upload(){
         $id = $this->get_in_int_val("id");
 
-        $update_arr['status']   = E\Eswitch_status::V_1;
-        $update_arr['put_time'] = time();
-
-        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,$update_arr);
+        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
+            "status"   => E\Eswitch_status::V_1,
+            "put_time" => time()
+        ]);
         if(!$ret){
             return $this->output_err("更新失败!请重试!");
         }
