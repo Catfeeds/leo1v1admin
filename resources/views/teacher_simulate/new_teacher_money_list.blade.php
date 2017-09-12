@@ -24,6 +24,18 @@
                         <select id="id_level" class ="opt-change" ></select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >开始月</span>
+                        <select id="id_not_start" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >结束月</span>
+                        <select id="id_not_end" class ="opt-change" ></select>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-6 col-md-2">
@@ -97,7 +109,7 @@
                         <td>{{$var['money_base_different']}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="opt-set_simulate_info" title="重置等级">设置模拟信息</a>
+                                <!-- <a class="opt-set_simulate_info" title="重置等级">设置模拟信息</a> -->
                             </div>
                         </td>
                     </tr>

@@ -754,6 +754,10 @@ class Utils  {
     static public function send_agent_msg_for_wx($openid,$template_id,$data,$url=""){
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
+        $wx->send_template_msg($xy_openid,$template_id,$data,$url);
+        #$jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
+        #$wx->send_template_msg($jim_openid,$template_id,$data,$url);
         $is_success = $wx->send_template_msg($openid,$template_id,$data,$url);
         $task= new \App\Console\Tasks\TaskController();
         $task->t_weixin_msg->row_insert([
@@ -934,10 +938,10 @@ class Utils  {
     /**
      * 2017年09月09日18:29:48
      * 检测老师工资体系
-     * type 1 课时累计由学生决定
+     * type 1 课时累计由学生决定,旧版工资体系,试听课价格为50
      * type 3 课时累计由学生决定,公司全职老师,试听课价格为0
-     * type 2 课时累计由上月常规+试听课时决定
-     * type 4 课时累计由上月常规时决定
+     * type 2 课时累计由上月常规+试听课时决定,试听课价格为30
+     * type 4 课时累计由上月常规时决定,试听课价格为30
      * @param  teacher_money_type 老师工资分类
      * @param  teacher_type 老师类型
      * @return integer
@@ -1204,16 +1208,16 @@ class Utils  {
     //黄嵩婕 71743 所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
     static public function get_teacher_base_money($teacherid,$lesson_info){
-        $check_time = strtotime("2017-9-10");
+        // $check_time = strtotime("2017-9-10");
         $money = $lesson_info['money'];
 
-        if(time()<$check_time){
+        // if(time()<$check_time){
             if($teacherid==71743){
                 $money=60;
             }elseif($teacherid==58812 && $lesson_info['competition_flag']==1){
                 $money=75;
             }
-        }
+        // }
         return $money;
     }
 
@@ -1428,8 +1432,11 @@ class Utils  {
                 }
             }elseif(in_array($teacher_money_type,[2,3])){
                 $level_str = "高级";
+            }elseif($teacher_money_type==6){
+                $level_str = E\Enew_level::$v2s_map[$level];
             }else{
                 $level_str = E\Elevel::$v2s_map[$level];
+                $level_str .="级";
             }
             $level_str.="教师";
         }

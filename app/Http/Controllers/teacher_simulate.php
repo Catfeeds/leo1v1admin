@@ -26,11 +26,16 @@ class teacher_simulate extends Controller
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
-
+        $now_month = date("m",time());
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
         $level              = $this->get_in_int_val("level",-1);
+        $not_start          = $this->get_in_int_val("not_start",-1);
+        $not_end            = $this->get_in_int_val("not_end",$now_month);
         $acc                = $this->get_account();
+
+        $not_start = strtotime("2017-".$not_start."-01");
+        $not_end   = strtotime("2017-".$not_end."-01");
 
         $list                      = [];
         $teacher_money_type_list   = [];
@@ -38,7 +43,7 @@ class teacher_simulate extends Controller
         $all_lesson_price          = 0;
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
-        $lesson_total = 0;
+        $lesson_total              = 0;
         /**
          * 每个老师上个月的累积课时
          */
@@ -50,7 +55,7 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id.".txt";
+        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
@@ -64,7 +69,7 @@ class teacher_simulate extends Controller
 
         if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-                $start_time,$end_time,$teacher_money_type,$level,$teacher_id
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end
             );
             file_put_contents($file_name,json_encode($tea_list));
         }else{
@@ -288,6 +293,7 @@ class teacher_simulate extends Controller
      * 更新老师的模拟信息 
      */
     public function update_teacher_simulate_info(){
+        return $this->output_err("无法修改");
         $teacherid      = $this->get_in_int_val("teacherid");
         $level_simulate = $this->get_in_int_val("level_simulate");
         if(!$teacherid){

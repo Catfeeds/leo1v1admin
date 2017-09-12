@@ -472,23 +472,61 @@ class fulltime_teacher extends Controller
      */
     public function fulltime_teacher_data(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        //已经移交ajax2处理
+        /*
+        //本月数据-----------------------------------------------------
         $apply_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time); //成功注册人数
-        $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total(); //总注册人数
+        //一面到面人数
         $arrive_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//面试人数
         $video_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);//视频试讲人数
+        
+        //一面通过人数
         $arrive_through_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
         $video_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
-
+        //二面通过人数
         $second_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+        //入职人数
+        $enter_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time); //入职人数
 
-        $enter_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time);
-
+        //累计数据-----------------------------------------------------
+        $start_time = 1498838400;
+        $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total($start_time,$end_time); //累计注册人数
+        
+        $arrive_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//累计面试人数
+        $video_num_total   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);//累计视频试讲人数
+        //累计一面到面人数
+        //        $first_total = $arrive_num_total + $video_num_total;//累计一面人数
+        //累计一面通过人数
+        $video_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
+        $arrive_through_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
+        //$second_total = $video_through_num_total + $arrive_through_num_total;
+        //累计二面通过人数
+        $second_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+        //累计入职人数
+        $enter_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time); //入职人数
     	$ret_info['apply_num'] = $apply_num[0]['apply_num'];
-        $ret_info['apply_total'] = $apply_total[0]['apply_total'];
         $ret_info['arrive_num'] = $arrive_num[0]['arrive_count'] + $video_num[0]['video_num'];
         $ret_info['arrive_through'] = $arrive_through_num[0]['arrive_through_count'] + $video_through_num[0]['video_through_num'];
         $ret_info['second_through'] = $second_through_num[0]['through_num'];
         $ret_info['enter_num']      = $enter_num[0]['num'];
+
+        $ret_info['apply_total'] = $apply_total[0]['apply_total'];//累计注册人数
+        $ret_info['arrive_num_total'] = $arrive_num_total[0]['arrive_count'] + $video_num_total[0]['video_num'];//累计一面
+        $ret_info['arrive_through_total'] = $arrive_throught_num_total[0]['arrive_through_count'] + $video_through_num_total[0]['video_through_num'];
+        $ret_info['second_through_total'] = $second_through_num_total[0]['through_num'];
+        $ret_info['enter_num_total']      = $enter_num_total[0]['num'];
+
+        //一面到面率
+        if($ret_info['apply_total']){
+            $ret_info['arrive_num_per'] = round(100*$ret_info['arrive_num_total']/$ret_info['apply_total'],2);
+        }else{
+            $ret_info['arrive_num_per'] = 0;
+        }
+        //一面通过率
+        if($ret_info['arrive_num_total']){
+            $ret_info['arrive_through_per'] = round(100*$ret_info['arr'])
+        }
+        /*
         if($ret_info['apply_total']){
             $ret_info['arrive_num_per'] = round(100*$ret_info['arrive_num']/$ret_info['apply_total'],2);
             $ret_info['arrive_through_per'] = round(100*$ret_info['arrive_through']/$ret_info['apply_total'],2);
@@ -500,9 +538,7 @@ class fulltime_teacher extends Controller
             $ret_info['second_through_per'] = 0;
             $ret_info['enter_num_per'] = 0;
         }
-
-    	return $this->pageView(__METHOD__,null,[
-    		'ret_info'  =>   @$ret_info,
-    	]);
+        */
+    	return $this->pageView(__METHOD__);
     }
 }

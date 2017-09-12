@@ -703,9 +703,9 @@ $(function(){
         var subject  = $(this).get_opt_data("subject");
         var grade   = $(this).get_opt_data("grade");
         $.do_ajax("/tea_manage_new/get_re_submit_num",{
-            "phone" : phone,
-            "subject":subject,
-            "grade":grade
+            "phone"   : phone,
+            "subject" : subject,
+            "grade"   : grade
         },function(result){
             var num = result.num;
             console.log(num);

@@ -2938,7 +2938,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1
+        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
@@ -2950,6 +2950,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_status=2",
             "teacher_type not in (3,4)"
         ];
+        $not_sql = "true";
+        if($not_start>0 && $not_end>0){
+            $not_where = [
+                ["lesson_start>%u",$not_start,0],
+                ["lesson_start<%u",$not_end,0],
+                "lesson_type in (0,1,3)",
+                "lesson_del_flag=0",
+                "confirm_flag!=2",
+                "lesson_status=2",
+            ];
+            $not_sql = $this->gen_sql_new("not exists (select 1 from %s where t.teacherid=teacherid and %s)"
+                                          ,t_lesson_info::DB_TABLE_NAME
+                                          ,$not_where
+            );
+        }
 
         if($teacher_id>0){
             $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
@@ -2986,6 +3001,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s o on ol.orderid=o.orderid"
 
                                   ." where %s"
+                                  ." and %s"
                                   ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
@@ -2994,6 +3010,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,$not_sql
         );
         return $this->main_get_list($sql);
     }
@@ -3596,5 +3613,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr);
         return $this->main_get_list($sql);
     }
+
 
 }
