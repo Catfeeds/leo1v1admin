@@ -1,6 +1,6 @@
 interface GargsStatic {
-	date_type_config:	string;
 	order_by_str:	string;
+	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
@@ -19,12 +19,8 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	reference	:any;
-	all_count	:any;
-	suc_count	:any;
 	pass_per	:any;
 	ave_time	:any;
-	all_lesson	:any;
-	have_order	:any;
 	order_per	:any;
 }
 
@@ -40,6 +36,7 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			order_by_str:	$('#id_order_by_str').val(),
+			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),

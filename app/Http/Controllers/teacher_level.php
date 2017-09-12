@@ -1100,8 +1100,11 @@ class teacher_level extends Controller
         }
         if($type==2 && $status==1){
             $teacher_info = $this->t_teacher_switch_money_type_list->get_teacher_info_by_id($id);
-
-            $this->reset_teacher_money_info();
+            $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
+                "teacher_money_type" => $teacher_info['teacher_money_type'],
+                "level"              => $teacher_info['level'],
+            ]);
+            $this->reset_teacher_money_info($teacherid);
         }
 
         return $this->output_succ();

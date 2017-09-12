@@ -476,7 +476,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function reset_lesson_teacher_info($teacherid,$teacher_money_type,$level){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,-1],
+            ["teacher_money_type=%u",$teacher_money_type,-1],
+            ["level=%u",$level,-1],
+        ];
+        $sql = $this->gen_sql_new("update %s set "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
 
+    }
 
 
 }
