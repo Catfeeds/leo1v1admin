@@ -285,7 +285,7 @@ throw new Error('AdminLTE requires jQuery')
     var windowWidth = $(window).width()
     var isOpen      = !$('body').hasClass(ClassName.collapsed)
 
-      console.log(2);
+      console.log(2)
 
     if (windowWidth <= this.options.collapseScreenSize) {
       isOpen = $('body').hasClass(ClassName.open)
