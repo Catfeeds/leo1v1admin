@@ -2886,4 +2886,8 @@ trait TeaPower {
         return $str;
     }
 
+    public function reset_teacher_money_info(){
+
+    }
+
 }

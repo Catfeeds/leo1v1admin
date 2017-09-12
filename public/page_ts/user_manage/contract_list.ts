@@ -2771,6 +2771,9 @@ $(function(){
 
     $(".opt-order-partition").on("click",function(){
         var data = $(this).get_opt_data(); 
+        if(data.contract_status>0){
+            alert("已付款合同不能拆分");
+        }
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
