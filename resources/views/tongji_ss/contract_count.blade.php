@@ -129,8 +129,7 @@
                                 {{$var["account"]}}
                             </td>
                             <td> {{@$var["all_price"]}} </td>
-                            <td> {{@$var[""]}} </td>
-                            <td> {{@$var[""]}} </td>
+                            <td> {{@$var["all_price_suc"]}}/{{@$var["all_price_fail"]}} </td>
                             <td> {{@$var["new_price"]}}</td>
                             <td> {{@$var["transfer_introduction_price"]}}</td>
                             <td> {{@$var["normal_price"]}}</td>
