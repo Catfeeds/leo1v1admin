@@ -37,8 +37,6 @@ $(function(){
 		            action   : function(dialog) {
                     $.do_ajax("/teacher_level/switch_upload",{
                         "id"     : data.id,
-                        "type"   : 1,
-                        "status" : 1,
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();
@@ -54,19 +52,39 @@ $(function(){
 
     $(".opt-first_check").on("click",function(){
         var data      = $(this).get_opt_data();
-        var id_status = $("<select>");
+        check_switch_info(data,1);
+    });
 
+    $(".opt-finally_check").on("click",function(){
+        var data      = $(this).get_opt_data();
+        check_switch_info(data,2);
+    });
+
+    var check_switch_info = function(data,type){
+        var id_status = $("<select>");
         var arr = [
             ["是否通过",id_status]
         ];
+        Enum_map.append_option_list("boolean",id_status,true);
 
-
-
-
-
-    });
-
-
+        $.show_key_value_table("审核",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_level/check_switch_info",{
+                    "id"     : data.id,
+                    "status" : id_status.val(),
+                    "type"   : type
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+            }
+        });
+    }
 
 
 });

@@ -318,6 +318,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $a = 3.6;
+        // $a = round($a);
+        // $a = ceil($a);
+        $a = floor($a);
+        dd($a);
         $arr = [
             0=>[
                 'id'=>1,

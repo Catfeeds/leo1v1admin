@@ -2548,188 +2548,7 @@ $(function(){
     });
 
 
-    $("#id_add_seller_contract_new").on("click",function(){
-        var btn_add_new=$("<button class=\"btn btn-primary\"> 新签合同 </button>");
-        var btn_add_new_1=$("<button class=\"btn btn-primary\"> 新签合同 新版 </button>");
-        var btn_extend_new_1=$("<button class=\"btn btn-primary\"> 新签合同 扩课 新版 </button>");
-        var btn_add_next=$("<button class=\"btn btn-warning\"> 续费合同 </button>");
-        var btn_add_next_1=$("<button class=\"btn btn-warning\"> 续费合同 新版</button>");
-        btn_add_new.on("click", opt_add_new );
-        btn_add_new_1.on("click", opt_add_new_1_jack );
-        btn_extend_new_1.on("click", opt_extend_new_1 );
-        var btn_add_0=$("<button class=\"btn btn-info\">  课程包特殊赠送  </button>");
-        var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
-        var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
-        var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
-        var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
-        var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
-        var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
-        btn_add_new_no_test_lesson.on("click", opt_add_new_no_test_lesson );
-        btn_add_new_no_test_lesson_1.on("click", opt_add_new_no_test_lesson_1 );
-        btn_add_next.on("click", opt_add_next);
-        //续费
-        btn_add_next_1.on("click",function(){
-            $.admin_select_user( $(this), "student", function(id){
-                $.do_ajax("/ss_deal/get_add_user_order_info_by_userid",{
-                    userid: id,
-                    is_ass_flag: g_account_role==1,
-                },function(resp){
-                    show_add_contract_new_jack(0,3, resp.data,0 );
-                });
-            });
-        });
-
-        btn_add_1.on("click", function(){
-            add_free( 1 );
-        });
-        btn_add_2.on("click", function(){
-            add_free( 2 );
-        });
-        btn_add_3.on("click", function(){
-            add_free( 3 );
-        });
-        btn_add_0.on("click", function(){
-            add_free( 4 );
-        });
-        btn_add_5.on("click", function(){
-            add_free( 5 );
-        });
-
-
-        var arr=[
-            [ "", btn_add_new_1 ],
-            [ "", btn_extend_new_1 ],
-            [ "", btn_add_0 ],
-            [ "", btn_add_1 ],
-            [ "", btn_add_5 ],
-            //[ "", btn_add_2 ],
-            //[ "", btn_add_new_no_test_lesson ],
-            [ "", btn_add_new_no_test_lesson_1 ],
-            [ "", "-----"],
-            //[ "", btn_add_next],
-            [ "", btn_add_next_1],
-        ];
-
-        if(
-            window.location.pathname== "/user_manage/contract_list_seller_add"
-                || window.location.pathname== "/user_manage/contract_list_seller_payed"
-        ) {
-            arr=[
-                //[ "", btn_add_new ],
-                [ "", btn_add_new_1 ],
-                //[ "", btn_extend_new_1 ],
-                //[ "", btn_add_0 ],
-                [ "", btn_add_1 ],
-                //[ "", btn_add_2 ],
-                //[ "", btn_add_new_no_test_lesson ],
-                [ "", btn_add_new_no_test_lesson_1 ],
-                [ "", btn_add_3 ],
-                [ "", btn_add_5 ],
-            ];
-        }else if ( window.location.pathname== "/user_manage/contract_list_ass") {
-            arr=[
-                //[ "", btn_add_next],
-                [ "", btn_add_new_1 ],
-                [ "", btn_extend_new_1 ],
-                //[ "", btn_add_2 ],
-                [ "", btn_add_next_1],
-                [ "", btn_add_0 ],
-                [ "", btn_add_1 ],
-
-                [ "", btn_add_3 ],
-                [ "", btn_add_new_no_test_lesson_1 ],
-                [ "", btn_add_5 ],
-            ];
-        }
-
-        $.show_key_value_table("选择合同类型",arr );
-    });
-
-    var opt_add_new_1_jack =function() {
-        $.admin_select_user( $(this), "student", function(id){
-            if (id<=0) {
-                alert("没有选择学生!");
-                return ;
-            }
-
-            $("<div></div>").admin_select_dlg_ajax({
-                "opt_type" :  "select", // or "list"
-                "url"          : "/ss_deal/get_require_list_js",
-                select_primary_field : "require_id",
-                select_display       : "require_id",
-
-                //其他参数
-                "args_ex" : {
-                    userid:id
-                },
-                //字段列表
-                'field_list' :[
-                    {
-                        title:"渠道",
-                        render:function(val,item) {
-                            return item.origin;
-                        }
-                    },{
-
-                        title:"科目",
-                        render:function(val,item) {
-                            return item.subject_str;
-                        }
-                    },{
-
-                        title:"时间",
-                        render:function(val,item) {
-                            return item.require_time ;
-                        }
-
-                    },{
-                        title:"教务是否接受",
-                        //width :50,
-                        render:function(val,item) {
-                            return $(item.accept_flag_str );
-                        }
-                    },{
-                        title:"课程是否成功",
-                        render:function(val,item) {
-                            return $(item.success_flag_str);
-                        }
-
-                    },{
-                        title:"老师",
-                        render:function(val,item) {
-                            return item.teacher_nick;
-                        }
-                    },{
-                        title:"上课时间",
-                        render:function(val,item) {
-                            return item.lesson_start;
-                        }
-
-                    }
-                ] ,
-                filter_list: [],
-
-                "auto_close"       : true,
-                //选择
-                "onChange"         : function(require_id){
-                    if (require_id <=0 ) {
-                        alert("请选择试听课");
-                    }else{
-                        $.do_ajax("/ss_deal/get_test_lesson_info_by_require_id", {
-                            "require_id" :require_id
-                        },function(resp){
-                            show_add_contract_new(require_id ,0, resp.data,0 );
-                        });
-                    }
-                },
-                //加载数据后，其它的设置
-                "onLoadData"       : null,
-            });
-        },false,{
-            "adminid" :  g_args.self_adminid
-        });
-    }
-
+   
     var show_add_contract_new_jack=function( require_id ,contract_type , data ,contract_from_type){
         //id_order_origin
 
@@ -2950,6 +2769,63 @@ $(function(){
     };
 
 
+    $(".opt-order-partition").on("click",function(){
+        var data = $(this).get_opt_data(); 
+        $.do_ajax("/ss_deal/get_child_order_list",{
+            orderid: data.orderid,
+        },function(resp){
+            var data_list = resp.data; 
+            $(this).admin_select_dlg_edit({
+                onAdd:function( call_func ) {
+                    var id_child_order_type= $("<select> "+
+                                               "<option value=1>首付款</option> "+
+                                               "<option value=2>其他</option> "+
+                                               "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
+                    var arr=[
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
+                    ];
+                    $.show_key_value_table("增加", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            call_func({
+                                "child_order_type" :  id_child_order_type.val() ,
+                                "child_order_money" : id_child_order_money.val()*100,
+                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
+                            });
+                            dialog.close();
+                        }
+                    });
+                },
+                sort_func : function(a,b){
+                },
+                'field_list' :[
+                    {
+                        title:"类型",
+                        render:function(val,item) {
+                            return item["child_order_type_str"];
+                        }
+                    },{
+
+                        title:"金额",
+                        //width :50,
+                        render:function(val,item) {
+                            return item["child_order_money"]/100  ;
+                        }
+                    }
+                ] ,
+                data_list: data_list,
+                onChange:function( data_list, dialog)  {
+                  //  $add_child_order_list.data("v" , JSON.stringify(data_list));
+                }
+            });
+
+        });
+
+    });
 
 
 

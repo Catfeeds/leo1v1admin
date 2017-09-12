@@ -52,11 +52,15 @@ class upload_tmk extends Controller {
     public function upload_xls() {
         $file = Input::file('file');
         $postid=$this->get_in_postid();
+        // dd(1);
+        // dd($file);
+
         if ($file->isValid()) {
             //处理列
-            $realPath = $file -> getRealPath();
-            $this->upload_from_xls_data($postid, $realPath);
+            $realPath = $file->getRealPath();
+            $ret = $this->upload_from_xls_data($postid, $realPath);
 
+            // dd($ret);
             return outputjson_success();
         } else {
             return outputjson_ret(false);
@@ -112,6 +116,7 @@ class upload_tmk extends Controller {
         $objPHPExcel = $objReader->load($obj_file);
         $objPHPExcel->setActiveSheetIndex(0);
         $arr=$objPHPExcel->getActiveSheet()->toArray();
+        // dd($arr);
         foreach ($arr as $index => $item) {
             if ($index== 0) { //标题
                 //验证字段名
@@ -177,7 +182,8 @@ class upload_tmk extends Controller {
                 }
 
                 if ($phone>10000) {
-                    $this->t_upload_student_info->row_insert([
+                    // dd(1);
+                   $ret = $this->t_upload_student_info->row_insert([
                         "postid"=>  $postid,
                         "add_time"=>  $add_time,
                         "phone"=>  $phone,
@@ -189,6 +195,7 @@ class upload_tmk extends Controller {
                         "has_pad"=>  $has_pad,
                         "is_new_flag"=>  $is_new_flag,
                     ],false,true);
+                    // return $ret;
                     //$this->t_upload_student_info.
                 }
             }
