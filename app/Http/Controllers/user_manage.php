@@ -510,10 +510,12 @@ class user_manage extends Controller
             }
         }
 
+        $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
-            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money
+            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
+            "acc"                           => $acc
         ]);
     }
 
@@ -1002,9 +1004,7 @@ class user_manage extends Controller
 
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
-
         $refund_info = [];
-
         foreach($ret_info['list'] as &$item){
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
             $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
@@ -1028,7 +1028,10 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
 
             $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
-            if(!empty($refund_qc_list['qc_other_reason']) || !empty($refund_qc_list['qc_analysia']) || !empty($refund_qc_list['qc_reply']) ){
+            if(!empty($refund_qc_list['qc_other_reason'])
+               || !empty($refund_qc_list['qc_analysia'])
+               || !empty($refund_qc_list['qc_reply'])
+            ){
                 $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
             }
 
@@ -1040,32 +1043,40 @@ class user_manage extends Controller
             }
 
             //处理 投诉分析 [QC-文斌]
-            $arr = $this-> get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
             foreach($arr['key1_value'] as &$v1){
+                $key1_name = @$v1['value'].'一级原因';
+                $key2_name = @$v1['value'].'二级原因';
+                $key3_name = @$v1['value'].'三级原因';
+                $reason_name    = @$v1['value'].'reason';
+                $dep_score_name = @$v1['value'].'dep_score';
+
+                $item["$key1_name"] = '';
+                $item["$key2_name"] = '';
+                $item["$key3_name"] = '';
+                $item["$reason_name"]     = "";
+                $item["$dep_score_name"]  = "";
+
+
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-                        $key1_name = $v1['value'].'一级原因';
-                        $key2_name = $v1['value'].'二级原因';
-                        $key3_name = $v1['value'].'三级原因';
-                        $reason_name    = $v1['value'].'reason';
-                        $dep_score_name = $v1['value'].'dep_score';
 
                         if(isset($v1["$key1_name"])){
-                            $item["$key1_name"] = $item["$key1_name"].'/'.$v2['key2_str'];
-                            $item["$key2_name"] = $item["$key2_name"].'/'.$v2['key3_str'];
-                            $item["$key3_name"] = $item["$key3_name"].'/'.$v2['key4_str'];
-                            $item["$reason_name"]     = $item["$reason_name"].'/'.$v2['reason'];
-                            $item["$dep_score_name"]  = $item["$dep_score_name"].'/'.$v2['score'];
+                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
+                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
+                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
                         }else{
-                            $item["$key1_name"] = $v2['key2_str'];
-                            $item["$key2_name"] = $v2['key3_str'];
-                            $item["$key3_name"] = $v2['key4_str'];
-                            $item["$reason_name"]     = $v2['reason'];
-                            $item["$dep_score_name"]  = $v2['score'];
+                            $item["$key1_name"] = @$v2['key2_str'];
+                            $item["$key2_name"] = @$v2['key3_str'];
+                            $item["$key3_name"] = @$v2['key4_str'];
+                            $item["$reason_name"]     = @$v2['reason'];
+                            $item["$dep_score_name"]  = @$v2['score'];
                         }
                     }
                 }

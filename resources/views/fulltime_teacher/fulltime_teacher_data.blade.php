@@ -60,7 +60,7 @@
 
     </style>
 
-  
+
 
 
     <section class="content " id="id_content" style="max-width:1200px;">
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <hr/>
-           
+
 
             <div class="row">
 
@@ -84,32 +84,54 @@
                         <div class="panel-body">
 
                             <table   class="table table-bordered "   >
-                               
+
                                 <tbody >
                                         <tr>
-                                            <td >成功注册人数</td> 
-                                            <td >一面到面人数</td>
-                                            <td >一面通过人数</td>
-                                            <td >一面到面率</td>
-                                            <td >一面通过率</td>
+                                            <td >属性</td>
+                                            <td >值</td>
+                                        </tr>
 
-                                            <td >二面通过人数</td>
-                                            <td >录用率</td>
-                                            <td >入职人数</td>
-                                            <td >入职率</td>
+                                        <tr>
+                                            <td >成功注册人数</td>
+                                            <td id="id_apply_num" ></td>
                                         </tr>
                                         <tr>
-                                            <td >{{@$ret_info["apply_num"]}}</td>
-                                            <td >{{@$ret_info['arrive_num']}}</td> 
-                                            <td >{{@$ret_info['arrive_through']}}</td> 
-                                            <td >{{@$ret_info['arrive_num_per']}}%({{@$ret_info['arrive_num']}}/{{@$ret_info["apply_total"]}})</td> 
-                                            <td >{{@$ret_info['arrive_through_per']}}%({{$ret_info['arrive_through']}}/{{@$ret_info["apply_total"]}})</td>
+                                            <td >一面到面人数</td>
+                                            <td id="id_arrive_num"></td>
+                                        </tr>
+                                        <tr>
+                                            <td >一面通过人数</td>
+                                            <td id="id_arrive_through"></td>
+                                        </tr>
 
-                                            <td >{{@$ret_info['second_through']}}</td> 
-                                            <td >{{@$ret_info['second_through_per']}}%({{$ret_info['second_through']}}/{{$ret_info['apply_total']}})</td> 
-                                            <td >{{@$ret_info['enter_num']}}</td> 
-                                            <td >{{@$ret_info['enter_num_per']}}%({{$ret_info['enter_num']}}/{{$ret_info['apply_total']}})</td> 
-                                       </tr>
+                                        <tr>
+                                            <td >二面通过人数</td>
+                                            <td id="id_second_through"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td >入职人数</td>
+                                            <td id="id_enter_num"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td >一面到面率</td>
+                                            <td id="id_arrive_num_per"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td >一面通过率</td>
+                                            <td id="id_arrive_through_per"></td>
+                                        </tr>
+                                        <tr>
+                                            <td >录用率</td>
+                                            <td id="id_second_through_per"></td>
+                                        </tr>
+                                        <tr>
+                                            <td >入职率</td>
+                                            <td id="id_enter_num_per"></td>
+                                        </tr>
+
                                 </tbody>
                             </table>
 
@@ -120,5 +142,5 @@
 
         </div>
     </section>
-    
+
 @endsection

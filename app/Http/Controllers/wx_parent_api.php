@@ -47,8 +47,8 @@ class wx_parent_api extends Controller
 
         parent::__construct();
 
-        if (! $this->get_parentid()  ) {
-            $id = $this->get_parentid();
+        if (!$this->get_parentid()  ) {
+            // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
             exit;
@@ -185,7 +185,7 @@ class wx_parent_api extends Controller
             $template_id_teacher = 'D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A';
 
             $data_tea = [
-                'first'    => date('H:i',$lesson_info['start'])."的 $subject_str 课 ".$lesson_info['stu_nick']."同学已经提交了课程评价",
+                'first'    => date('H:i',$lesson_info['lesson_start'])."的 $subject_str 课 ".$lesson_info['stu_nick']."同学已经提交了课程评价",
                 'keyword1' => " $subject_str ",
                 'keyword2' => date('m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i', $lesson_info['lesson_end']),
                 'remark'   => "请登录老师端查看详情，谢谢！",

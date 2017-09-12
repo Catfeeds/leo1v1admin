@@ -485,7 +485,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
                                   "am.uid adminid,am.account,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
-                                  " from %s am left join %s u on am.uid = u.adminid".
+                                  " from %s am ".
+                                  " left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
                                   " left join %s m on g.up_groupid = m.groupid".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
@@ -1576,4 +1577,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_up_group_cancle_rate_flag($adminid){
+        $where_arr = [
+            ["uid=%u",$adminid,-1],
+            "del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select uid "
+                                  ." from %s "
+                                  ." left join %s  "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    
 }

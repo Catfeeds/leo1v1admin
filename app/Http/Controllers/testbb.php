@@ -124,8 +124,8 @@ class testbb extends Controller
 
     //以下代码勿删
     public function get_pdf_url(){
-        $pdf_url = "1922777cc9f2c412922db85b4e5c8d101504882584907.pdf";
-        $lessonid = 322583;
+        $pdf_url   = $this->get_in_str_val('pdf_url');
+        $lessonid  = $this->get_in_int_val('lessonid');
         $pdf_file_path = $this->gen_download_url($pdf_url);
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;

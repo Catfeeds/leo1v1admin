@@ -229,7 +229,7 @@
                     <tr>
                         <td class="lessonid">{{$var["number"]}}/<br/>{{$var["lessonid"]}}</td>
                         <td class="">{{$var["lesson_type_str"]}}</td>
-                        <td class="lesson_time">{{$var["lesson_time"]}} {{$var["room_name"]}} </td>
+                        <td class="lesson_time">{{$var["lesson_time"]}} {{$var["room_name"]}} | {{$var["current_server"]}} </td>
                         <td >{{$var["lesson_end_str"]}}</td>
                         <td >{{$var["real_begin_time_str"]}}</td>
                         <td class="grade_str">{{$var["grade_str"]}}</td>
@@ -363,6 +363,7 @@
                                 <a class="opt-seller-ass-record" title="教学质量反馈" >馈</a>
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
                                 <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a>
+                                <a class="fa-sitemap opt-set-server " title="xmpp" ></a>
                             </div>
                         </td>
                     </tr>

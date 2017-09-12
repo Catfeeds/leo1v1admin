@@ -493,7 +493,6 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account",$account);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
-
         return $this->pageView(__METHOD__,$ret_info, [
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
@@ -1484,5 +1483,52 @@ class seller_student_new extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
+    }
+
+    public function test_lesson_cancle_rate(){
+        $adminid = $this->get_account_id();
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        list($count,$count_del) = [0,0];
+        $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+        foreach($ret_info as $item){
+            if($item['lesson_del_flag']){
+                $count_del++;
+            }
+            $count++;
+        }
+        $del_rate = $count?$count_del/$count:0;
+        if($del_rate>0.25){//今日排课量
+            $start_time = $time;
+            $end_time = $time+3600*24;
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            $ret['ret'] = count($ret_info)?1:2;
+            $ret['rate'] = $del_rate*100;
+        }else{//本周取消率
+            $start_time = $time-3600*24*($week-2);
+            $end_time = time();
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            foreach($ret_info as $item){
+                if($item['lesson_del_flag']){
+                    $count_del++;
+                }
+                $count++;
+            }
+            $del_rate = $count?$count_del/$count:0;
+            if($del_rate>0.2){
+                $ret['ret'] = 3;
+            }else{
+                $ret['ret'] = 4;
+            }
+        }
+
+        return $ret;
     }
 }

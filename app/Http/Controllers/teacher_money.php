@@ -36,24 +36,55 @@ class teacher_money extends Controller
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
 
-        $start = strtotime("-1 month",$start_time);
-        $end   = strtotime("-1 month",$end_time);
-        $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+        $last_month_start = strtotime("-1 month",$start_time);
+        $last_month_end   = strtotime("-1 month",$end_time);
+        //上个月累计常规+试听课时
+        $last_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+            $teacherid,$last_month_start,$last_month_end);
+        //上个月累计常规课时
+        $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+            $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
+        //检测是否存在转移记录
         if($transfer_teacherid>0){
-            $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
-            $last_lesson_count += $old_lesson_count;
+            $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $transfer_teacherid,$last_month_start,$last_month_end);
+            $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
+            $last_all_lesson_count    += $old_all_lesson_count;
+            $last_normal_lesson_count += $old_normal_lesson_count;
         }
+        // $start = strtotime("-1 month",$start_time);
+        // $end   = strtotime("-1 month",$end_time);
+        // $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+        // if($transfer_teacherid>0){
+        //     $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
+        //     $last_lesson_count += $old_lesson_count;
+        // }
 
         $time_list   = [];
         $lesson_list = [];
         $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
         if(!empty($lesson_info)){
-            foreach($lesson_info as $key => &$val){
+            foreach($lesson_info as $key=>&$val){
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                $check_type  = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-                $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
+                //判断课程的老师类型来设置累计课时的数值
+                $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
+                switch($check_type){
+                case 1: case 3:
+                    $already_lesson_count = $val['already_lesson_count'];
+                    break;
+                case 2:
+                    $already_lesson_count = $last_all_lesson_count;
+                    break;
+                case 4:
+                    $already_lesson_count = $last_normal_lesson_count;
+                    break;
+                default:
+                    $already_lesson_count = 0;
+                    break;
+                }
 
                 $val['lesson_base']        = "0";
                 $val['lesson_reward']      = "0";
@@ -338,13 +369,22 @@ class teacher_money extends Controller
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            //拉取上个月累计课时
-            $start_time = strtotime("-1 month",$start);
-            $end_time   = strtotime("-1 month",$end);
-            $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
+            $last_month_start = strtotime("-1 month",$start);
+            $last_month_end   = strtotime("-1 month",$end);
+            //上个月累计常规+试听课时
+            $last_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $teacherid,$last_month_start,$last_month_end);
+            //上个月累计常规课时
+            $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
+            //检测是否存在转移记录
             if($transfer_teacherid>0){
-                $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start_time,$end_time);
-                $last_lesson_count += $old_lesson_count;
+                $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                    $transfer_teacherid,$last_month_start,$last_month_end);
+                $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                    $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
+                $last_all_lesson_count   += $old_all_lesson_count;
+                $last_normal_lesson_count += $old_normal_lesson_count;
             }
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
@@ -352,7 +392,21 @@ class teacher_money extends Controller
                 foreach($lesson_list as $key => &$val){
                     //判断课程的老师类型来设置累计课时的数值
                     $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-                    $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
+                    switch($check_type){
+                    case 1: case 3:
+                        $already_lesson_count = $val['already_lesson_count'];
+                        break;
+                    case 2:
+                        $already_lesson_count = $last_all_lesson_count;
+                        break;
+                    case 4:
+                        $already_lesson_count = $last_normal_lesson_count;
+                        break;
+                    default:
+                        $already_lesson_count = 0;
+                        break;
+                    }
+                    // $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
 
                     if($val['lesson_type'] != 2){

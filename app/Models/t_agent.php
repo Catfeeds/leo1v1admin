@@ -1196,18 +1196,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     public function wx_noti_agent_status( $id, $create_time,$parentid, $agent_level , $test_lessonid, $phone, $old_agent_status, $agent_status) {
         //$old_agent_status
-
-
-
-        $parentid=1850;
-        $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
-        $data = [
-            'first'    => "xcadfa",
-            'keyword1' => $phone,
-            'keyword2' => "状态迁移: $old_agent_status-> $agent_status" ,
-            'keyword3' => date('Y-m-d H:i:s',time()),
-            'remark'   => "sdfadf",
-        ];
+        // $parentid=1850;
 
         if ($parentid && $old_agent_status < $agent_status ) { //状态升级
             $p_item = $this->field_get_list($parentid,"wx_openid,agent_level");
@@ -1369,8 +1358,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-        }else{
-            $agent_status=E\Eagent_status::V_0;
         }
 
 
@@ -1458,7 +1445,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $data = [
                 'first'    => '等级升级提醒',
                 'keyword1' => '水晶会员',
-                'keyword2' => date('Y-m-d H:i:s',time()),
+                'keyword2' => "永久" ,
                 'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
             ];
             $url = '';
@@ -1510,7 +1497,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_level_list($id ) {
         $sql = $this->gen_sql_new(
-            "select  a1.id  agent_id, a1.nickname, a1.phone, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
+            "select  a1.id  agent_id, a1.nickname, a1.phone, a1.agent_status, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
             . " from %s a1"
             . " left join  %s a2 on ( a1.id=a2.parentid and a2.type in (1,3)  )  "
             ." where  a1.parentid=%u group  by a1.id  ",

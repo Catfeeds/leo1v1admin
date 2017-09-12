@@ -621,8 +621,6 @@ $(function(){
               });
             }
         });
-
-
     }) ;
 
     $("#id_set_assistantid").on("click",function(){
@@ -631,10 +629,9 @@ $(function(){
             "type":"assistant",
             "onChange":function(val){
                 var id = val;
-                $.do_ajax( '/stu_manage/set_assistantid',
-                    {
-                        'sid'  : g_sid,
-                'assistantid': id
+                $.do_ajax( '/stu_manage/set_assistantid',{
+                    'sid'         : g_sid,
+                    'assistantid' : id
               });
             }
         });

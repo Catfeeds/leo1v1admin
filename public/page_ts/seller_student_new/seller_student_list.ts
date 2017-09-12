@@ -250,9 +250,12 @@ $(function(){
 
         // $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{
         // } ,function(ret){
-        //     if(ret){
-        //         alert('您有签单失败原因未填写,请先填写完哦!');
-        //         window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
+        //     if(ret.ret==1){
+        //         alert("由于上周您转化率已超过25%,为'+ret.rate+'%,本周将被限制排课,每天可排1节,可点击'排课申请'继续排课");
+        //     }else if(ret.ret==2){
+        //         alert('您已被限制排课,今天可排课程为1节试听课');
+        //     }else if(ret.ret==3){
+        //         alert('您的取消率已达20%,大于25%将被限制排课,每天只能排一节试听课,请谨慎处理');
         //     }
         // });
 
@@ -1891,5 +1894,30 @@ function init_edit() {
         });
 
     });
+
+    $(".opt-test_lesson-review").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var $id_phone = $("<input/>");
+        var $id_desc  = $("<textarea rows='' cols=''>");
+
+        var arr=[
+            ["学生",  $id_phone],
+            ["申请说明",  $id_desc],
+        ];
+
+        $id_phone.val(opt_data.phone);
+
+        $.show_key_value_table("排课申请", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/test_lesson_review/test_lesson_review_add",{
+                    "userid" : opt_data.userid,
+                    "review_desc"   : $id_desc.val(),
+                })
+            }
+        })
+    });
+
 
 }

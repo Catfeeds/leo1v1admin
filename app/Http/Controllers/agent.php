@@ -318,7 +318,12 @@ class agent extends Controller
     }
 
     public function check(){
-        $adminid=830;
+        $this->test_lesson_cancle_rate();
+    }
+
+    public function test_lesson_cancle_rate(){
+        // $adminid = $this->get_account_id();
+        $adminid = 463;
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -337,8 +342,33 @@ class agent extends Controller
             $count++;
         }
         $del_rate = $count?$count_del/$count:0;
-        dd($count,$count_del,$del_rate);
+        if($del_rate>0.25){//今日排课量
+            $start_time = $time;
+            $end_time = $time+3600*24;
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            $falg_info = $this->t_manager_info->get_up_group_cancle_rate_flag($adminid);
+            $ret['ret'] = count($ret_info)?1:2;
+            $ret['rate'] = $del_rate*100;
+        }else{//本周取消率
+            $start_time = $time-3600*24*($week-2);
+            $end_time = time();
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            foreach($ret_info as $item){
+                if($item['lesson_del_flag']){
+                    $count_del++;
+                }
+                $count++;
+            }
+            $del_rate = $count?$count_del/$count:0;
+            if($del_rate>0.2){
+                $ret['ret'] = 3;
+            }else{
+                $ret['ret'] = 4;
+            }
+        }
+        dd($ret);
     }
+
 
     public function agent_add(){
         // $p_phone = '18616626799';

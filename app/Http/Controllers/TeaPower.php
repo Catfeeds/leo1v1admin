@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log ;
 use \App\Enums as E;
 
-trait  TeaPower {
+trait TeaPower {
     public function research_fulltime_teacher_lesson_plan_limit($teacherid,$userid,$lesson_count=0,$lesson_start=0,$lesson_type=-1){
         $admin_info   = $this->t_manager_info->get_account_role_by_teacherid($teacherid);
 
@@ -165,7 +165,6 @@ trait  TeaPower {
                 "teacher_tags"  =>$str
             ]);
         }
-
     }
 
     public function get_teacher_label_new($tea_arr){
@@ -180,7 +179,6 @@ trait  TeaPower {
                     @$arr[$teacherid]["label"][$v]["name"] =E\Etea_label_type::get_desc($v);
                 }
             }
-           
         }
         $str=[];
         foreach($arr as $k=>$label){
@@ -191,7 +189,6 @@ trait  TeaPower {
             }
         }
         return $str;
-
     }
 
     public function get_teacher_label($tea_arr){
@@ -241,41 +238,40 @@ trait  TeaPower {
             }
         }
         return $str;
-
     }
 
     //可删除，没有在用
-    public function get_account_id_by_subject_and_grade($subject,$grade){
-        if($subject==3){
-            if($grade >=100 && $grade<200){
-                return 372;
-            }else{
-                return 329;
-            }
-        }else if($subject==2){
-            if($grade >=100 && $grade<200){
-                return 683;
-            }elseif($grade >=200 && $grade<300){
-                return 481;
-            }else{
-                return 310;
-            }
+    // public function get_account_id_by_subject_and_grade($subject,$grade){
+    //     if($subject==3){
+    //         if($grade >=100 && $grade<200){
+    //             return 372;
+    //         }else{
+    //             return 329;
+    //         }
+    //     }else if($subject==2){
+    //         if($grade >=100 && $grade<200){
+    //             return 683;
+    //         }elseif($grade >=200 && $grade<300){
+    //             return 481;
+    //         }else{
+    //             return 310;
+    //         }
 
-        }else if($subject==1){
-            if($grade >=100 && $grade<200){
-                return 404;
-            }else{
-                return 379;
-            }
+    //     }else if($subject==1){
+    //         if($grade >=100 && $grade<200){
+    //             return 404;
+    //         }else{
+    //             return 379;
+    //         }
 
-        }else if($subject==5){
-            return 793;
-        }else if($subject==4){
-            return 770;
-        }else{
-            return 478;
-        }
-    }
+    //     }else if($subject==5){
+    //         return 793;
+    //     }else if($subject==4){
+    //         return 770;
+    //     }else{
+    //         return 478;
+    //     }
+    // }
 
     public function get_account_id_by_subject_and_grade_new($subject,$grade){
         // $ret = $this->t_admin_main_group_name->get_all_memeber_list(4,"小学科");
@@ -321,7 +317,6 @@ trait  TeaPower {
     }
 
     public function get_account_leader_adminid($account_id){
-
         if($account_id==372){
             return 329;
         }else if($account_id==683 || $account_id==481){
@@ -332,7 +327,6 @@ trait  TeaPower {
             return 1;
         }
     }
-
 
     public function get_tea_subject_and_grade_by_adminid($adminid){
         if($adminid==486 || $adminid==754){
@@ -364,11 +358,10 @@ trait  TeaPower {
             }
 
         }else{
-            $subject=-1;
-            $grade=-1;
+            $subject = -1;
+            $grade   = -1;
         }
         return $arr=["subject"=>$subject,"grade"=>$grade];
-
     }
 
     public function get_tea_subject_and_grade_by_adminid_new($adminid){
@@ -400,7 +393,6 @@ trait  TeaPower {
             $grade=-1;
         }
         return $arr=["subject"=>$subject,"grade"=>$grade];
-
     }
 
     public function get_tea_subject_and_right_by_adminid($adminid){
@@ -468,7 +460,6 @@ trait  TeaPower {
     }
 
     public function get_admin_tea_subject_and_arr($account_id){
-        //$account_id = $this->get_account_id();
         if($account_id==349){
             $account_id=349;
         }
@@ -526,7 +517,6 @@ trait  TeaPower {
         }
         $list=["tea_subject"=>$tea_subject,"subject_grade_arr"=>$subject_grade_arr,"master_flag"=>$master_flag];
         return $list;
-
     }
 
     public function get_admin_group_subject_list($subject){
@@ -548,7 +538,6 @@ trait  TeaPower {
             $arr["754"]="sun";
         }
         return $arr;
-
     }
 
     public function get_accept_adminid_list($account_id){
@@ -596,7 +585,6 @@ trait  TeaPower {
             $str .= E\Egrade::get_desc($item)."、";
         }
         return trim($str,"、");
-
     }
 
     public function get_grade_range_new($grade){
@@ -725,7 +713,6 @@ trait  TeaPower {
                 "试听课一天限排".$limit_num_info["limit_day_lesson_num"]."节!目前老师已排".$test_lesson_num_day."节"
             );
         }
-
     }
 
     public function check_teacher_subject_and_grade_new(
@@ -820,7 +807,6 @@ trait  TeaPower {
                 return $this->output_err("该老师对应年级段已被冻结!");
             }
 
-
             return 1;
         }else{
             return 1;
@@ -845,7 +831,6 @@ trait  TeaPower {
 
         return 1;
     }
-
 
     public function get_seller_limit_require_info($teacherid,$lesson_start,$grade,$subject,$account_role,$master_adminid,$is_green_flag){
         $list = $this->t_teacher_info->field_get_list($teacherid,"subject,second_subject,third_subject,grade_part_ex,second_grade,third_grade,grade_start,grade_end,not_grade");
@@ -981,10 +966,7 @@ trait  TeaPower {
         if($num >= $limit_num){
             return $this->output_err("本月特殊限课已达上限".$limit_num."次");
         }
-
-
     }
-
 
     //常规课表不能连排三节
     public function regular_course_set_check($teacherid,$week,$start_time,$end_time,$old_start_time){
@@ -1047,16 +1029,10 @@ trait  TeaPower {
                                 "不能排三节连续的常规课"
                             );
                         }
-
                     }
-
                 }
-
-
             }
-
         }
-
     }
 
     public function get_teacher_all_grade($teacherid){
@@ -2418,8 +2394,9 @@ trait  TeaPower {
         return $html;
     }
 
-        public function get_qq_group_html($subject){
-        $qq_common = ["问题答疑","528851744","用于薪资，软件等综合问题"];
+    public function get_qq_group_html($subject){
+        // 528851744 原答疑1群，人数已满
+        $qq_common = ["问题答疑","476559597","用于薪资，软件等综合问题"];
         $qq_group  = [
             1=>[
                 ["教研-语文","126321887","处理教学相关事务"],
@@ -2904,14 +2881,9 @@ trait  TeaPower {
             }elseif($grade==300){
                 $str ="wl_senior"; 
             }
-
         }
 
         return $str;
-
-
     }
-
-
 
 }

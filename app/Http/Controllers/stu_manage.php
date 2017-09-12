@@ -186,26 +186,29 @@ class stu_manage extends Controller
 
     public function  set_assistantid() {
         $assistantid=$this->get_in_assistantid();
-        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu"])) {
+        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu","adrian"])) {
             return $this->output_err("没有权限");
         }
 
         if($assistantid==-1){
             return $this->output_err("助教不能不选");
         }
-        
-        $noti_account=$this->t_assistant_info->get_account_by_id($assistantid);
-        $nick = $this->cache_get_student_nick( $this->sid );
-        if ($assistantid >0 &&  \App\Helper\Utils::check_env_is_release() ) {
-            //通知wx
-            //$noti_account=$this->t_assistant_info->get_account_by_id($assistantid);
-            $header_msg="有新签学员给你啦!";
-            $msg="学生:" . $nick;
-            $url="/user_manage/ass_archive_ass";
-            $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
-            if($ret) {
-            }else{
-                return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
+
+        $is_test_user = $this->t_student_info->get_is_test_user($this->sid);
+        if(!$is_test_user){
+            $noti_account = $this->t_assistant_info->get_account_by_id($assistantid);
+            $nick = $this->cache_get_student_nick( $this->sid );
+            if ($assistantid >0 &&  \App\Helper\Utils::check_env_is_release() ) {
+                //通知wx
+                //$noti_account=$this->t_assistant_info->get_account_by_id($assistantid);
+                $header_msg="有新签学员给你啦!";
+                $msg="学生:" . $nick;
+                $url="/user_manage/ass_archive_ass";
+                $ret=$this->t_manager_info->send_wx_todo_msg($noti_account, $this->get_account() ,$header_msg,$msg ,$url);
+                if($ret) {
+                }else{
+                    return $this->output_err("发送WX通知失败,请确认[$noti_account]有绑定微信");
+                }
             }
         }
 
@@ -216,11 +219,13 @@ class stu_manage extends Controller
 
         $this->t_lesson_info->set_user_assistantid( $this->sid,$assistantid  );
         $this->t_course_order->set_user_assistantid( $this->sid,$assistantid  );
-        $seller_adminid = $this->t_seller_student_new->get_admin_revisiterid($this->sid);
-        $ass_adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
-        $wx_id = $this->t_manager_info->get_wx_id($ass_adminid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,"");
 
+        if(!$is_test_user){
+            $seller_adminid = $this->t_seller_student_new->get_admin_revisiterid($this->sid);
+            $ass_adminid    = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+            $wx_id = $this->t_manager_info->get_wx_id($ass_adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id,"");
+        }
 
         return $this->output_succ();
     }
@@ -387,9 +392,16 @@ class stu_manage extends Controller
                     $value['stu_point_performance'].=$val['point_name'].":".$val['point_stu_desc']."。";
                 }
             }
-            if(isset($value['stu_intro']['stu_comment']) && $value['stu_intro']['stu_comment']!='')
-                $value['stu_point_performance'].=PHP_EOL."总体评价:".$value['stu_intro']['stu_comment'];
+            if(isset($value['stu_intro']['stu_comment']) && $value['stu_intro']['stu_comment']!=''){
+                if(is_array($value['stu_intro']['stu_comment'])){
+                    $str = json_encode($value['stu_intro']['stu_comment']);
+                }else{
+                    $str = $value['stu_intro']['stu_comment'];
+                }
+                $value['stu_point_performance'].=PHP_EOL."总体评价:".$str;
+            }
         }
+        //dd($ret_lesson);
 
         $args=array(
             "start_time" => $start_time,

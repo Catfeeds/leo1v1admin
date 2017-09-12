@@ -8,15 +8,22 @@ $(function(){
     $('#id_add_user_parent').on('click', function(){
         var studentid = $(this).parent().data('studentid');
         var $phone=$("<input/>");
+        var $parent_name=$("<input/>");
+        var $parent_type=$("<select><option value=\"1\">父亲</option><option value=\"2\">母亲</option><option value=\"3\">爷爷</option><option value=\"4\">奶奶</option><option value=\"5\">外公</option><option value=\"6\">外婆</option><option value=\"7\">其他</option></select>");
+
         $.do_ajax("/stu_manage/get_stu_parent",{
             'studentid':studentid
         },function(result){
             if(result.phone!=0){
                 $phone.val(result.phone);
+                $parent_type.val(result.parent_type);
+                $parent_name.val(result.parent_name);
             }
 
             var arr=[
-                ["家长电话",$phone]
+                ["家长电话",$phone],
+                ["家长名字",$parent_name],
+                ["家长关系",$parent_type],
             ];
 
             $.show_key_value_table("绑定家长", arr ,{
@@ -29,7 +36,9 @@ $(function(){
                         dataType: 'json',
                         data : {
                             'studentid' : studentid,
-                            'phone'     : $phone.val()
+                            'phone'     : $phone.val(),
+                            'parent_name'     : $parent_name.val(),
+                            'parent_type'     : $parent_type.val()
                   },
                         success: function(data) {
                             if(data.ret==0){
@@ -87,9 +96,9 @@ $(function(){
         html_node.find("#id_name").val(opt_data.nick );
         html_node.find("#id_realname").val(opt_data.realname);
         html_node.find("#id_gender").val(opt_data.gender);
-        html_node.find("#id_parent_name").val(opt_data.parent_name);
+      //  html_node.find("#id_parent_name").val(opt_data.parent_name);
         html_node.find("#id_birth").val(opt_data.birth );
-        html_node.find("#id_parent_type").val(opt_data.parent_type);
+      //  html_node.find("#id_parent_type").val(opt_data.parent_type);
         html_node.find("#id_address").val(opt_data.address);
         html_node.find("#id_school").val(opt_data.school);
         html_node.find("#id_stu_email").val(opt_data.stu_email);
@@ -97,7 +106,7 @@ $(function(){
         Enum_map.append_option_list( "region_version", html_node.find("#id_textbook"), true );
 
         html_node.find("#id_textbook").val(opt_data.editionid );
-        html_node.find("#id_region").val(opt_data.region);
+       // html_node.find("#id_region").val(opt_data.region);
 
         html_node.find("#id_birth").datetimepicker({
             lang:'ch',
@@ -105,21 +114,33 @@ $(function(){
             format:'Ymd'
         });
 
-        var tt ="晋城市";
-        if(tt == ''){
-            tt="选择市（区）";
+        var old_province = opt_data.region;
+        if(old_province == ''){
+            old_province="选择省（市）";
         }
+
+        var old_city = opt_data.city;
+        if(old_city == ''){
+            old_city="选择市（区）";
+        }
+        var old_area = opt_data.area;
+        if(old_area == ''){
+            old_city="选择区（县）";
+        }
+       
+        
+
         var province = html_node.find("#province");  
         var city = html_node.find("#city");  
         var area = html_node.find("#area");  
-        var preProvince = "<option value=\"\">选择省（市）</option>";  
-        var preCity = "<option value=\"\">选择市（区）</option>";  
-        var preArea = "<option value=\"\">选择区（县）</option>";  
+        var preProvince = "<option value=\"\">"+old_province+"</option>";  
+        var preCity = "<option value=\"\">"+old_city+"</option>";  
+        var preArea = "<option value=\"\">"+old_area+"</option>";  
         
         //初始化  
         province.html(preProvince);  
         city.html(preCity);  
-        area.html(preArea);  
+        area.html(preArea);
         
         //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用  
         //func_suc_getXmlProvice进行 省的 解析  
@@ -133,7 +154,12 @@ $(function(){
         province.change(function() {  
             //province.val()  : 返回是每个省对应的下标,序号从0开始  
             if (province.val() != "") {  
+                if(opt_data.region != html_node.find("#province").find("option:selected").text()){
+                    var preCity = "<option value=\"\">选择市（区）</option>";  
+                    var preArea = "<option value=\"\">选择区（县）</option>";   
+                }
                 city.html(preCity);  
+                area.html(preArea);  
                 
                 //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
                 //func_suc_getXmlProvice进行省对应的市的解析  
@@ -148,6 +174,10 @@ $(function(){
         
         //市 下拉选择发生变化触发的事件  
         city.change(function() {  
+            if(opt_data.city != html_node.find("#city").find("option:selected").text()){  
+                var preArea = "<option value=\"\">选择区（县）</option>";   
+            } 
+
             area.html(preArea);  
             $.ajax({  
                 type : "GET",  
@@ -164,7 +194,7 @@ $(function(){
             var value = province.find("option:selected").text()  
                 + city.find("option:selected").text()  
                 + area.find("option:selected").text();  
-            //address.text(value);  
+            html_node.find("#id_address").val(value);  
             $("#txtProCity").val(value);  
         });  
         
@@ -202,7 +232,137 @@ $(function(){
             });  
         } 
 
+        var subject_textbook = html_node.find("#id_set_subject_textbook"); 
+        subject_textbook.on("click",function(){
+            var title = "科目教材详情";
+            var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>科目</td><td>教材</td><td>操作</td></tr></table></div>");                     
 
+            $.do_ajax("/ajax_deal2/get_subject_textbook_list",{
+                "userid" : g_sid
+            },function(result){
+                if(result.ret!=0){
+                    BootstrapDialog.alert(result.info);
+                    return ;
+                }
+
+                $.each(result.data,function(i,item){
+                    html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td><a href=\"javascript:;\" class=\"update_textbook\"  data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">修改教材版本</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_stu_subject\" data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">删除科目</a></td></tr>");
+                                      
+                });
+                html_node.find("table").find(".update_textbook").each(function(){
+                    $(this).on("click",function(){
+                        var userid = $(this).data("userid");
+
+                        var subject = $(this).data("subject");
+                        var id_textbook_new     = $("<select/>");
+                        Enum_map.append_option_list("region_version", id_textbook_new, true );
+                        var arr=[
+                            ["教材",id_textbook_new],
+                        ];
+                        $.show_key_value_table("修改", arr ,{
+                            label    : '确认',
+                            cssClass : 'btn-warning',
+                            action   : function(dialog) {
+                                $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" :          subject,
+                                    "editionid"     : id_textbook_new.val(),
+                                });
+                            }
+                        });
+
+                        
+                    });
+                    
+                });
+
+                html_node.find("table").find(".delete_stu_subject").each(function(){
+                    $(this).on("click",function(){
+                        var userid = $(this).data("userid");
+
+                        var subject = $(this).data("subject");
+                        BootstrapDialog.confirm("确定要删除？", function(val){
+                            if (val) {
+                                $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" :          subject,
+                                });
+
+                            } 
+                        });
+ 
+
+                        
+                    });
+                    
+                });
+
+
+                
+
+                var dlg=BootstrapDialog.show({
+                    title:title, 
+                    message :  html_node   ,
+                    closable: true, 
+                    buttons:[{
+                        label: '增加科目',
+                        cssClass: 'btn-warning',
+                        action: function(dialog) {
+                           // alert(1111);
+                            var id_subject_new = $("<select/>");
+                            var id_textbook_new     = $("<select/>");
+                            Enum_map.append_option_list("subject", id_subject_new, true );
+                            Enum_map.append_option_list("region_version", id_textbook_new, true );
+                            var arr=[
+                                ["科目",id_subject_new],
+                                ["教材",id_textbook_new],
+                            ];
+                            $.show_key_value_table("增加", arr ,{
+                                label    : '确认',
+                                cssClass : 'btn-warning',
+                                action   : function(dialog) {
+                                    $.do_ajax( '/ajax_deal2/set_user_subject_textbook', {
+                                        "userid"             :g_sid,
+                                        "subject" : id_subject_new.val(),
+                                        "editionid"     : id_textbook_new.val(),
+                                    });
+                                }
+                            });
+
+
+                        }
+ 
+                    },{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+                        
+                    }
+
+                });
+
+                dlg.getModalDialog().css("width","1024px");
+
+            });
+
+        });
+
+        var id_editionid= html_node.find("#id_editionid"); 
+        var id_subject= html_node.find("#id_subject");
+        id_subject.on("change",function(){
+            $.do_ajax("/ajax_deal2/get_editionid",{
+                "userid" : g_sid,
+                "subject": id_subject.val()
+            },function(result){
+                id_editionid.val(result.editionid); 
+            });
+ 
+        });
 
         
 
@@ -219,36 +379,52 @@ $(function(){
                 label: '确认',
                 cssClass: 'btn-warning',
                 action: function(dialog) {
+                   
                     var stu_nick     = html_node.find("#id_name").val();
-                    var parent_name  = html_node.find("#id_parent_name").val();
-                    var parent_phone = html_node.find("#id_parent_phone").val();
+                   // var parent_name  = html_node.find("#id_parent_name").val();
+                  //  var parent_phone = html_node.find("#id_parent_phone").val();
                     var stu_phone    = html_node.find("#id_stu_phone").val();
                     var address      = html_node.find("#id_address").val();
                     var school       = html_node.find("#id_school").val();
-                    var region       = html_node.find("#id_region").val();
-                    var parent_type  = html_node.find("#id_parent_type").val();
+                   // var region       = html_node.find("#id_region").val();
+                  //  var parent_type  = html_node.find("#id_parent_type").val();
                     var editionid    = html_node.find("#id_textbook").val();
                     var textbook     = html_node.find("#id_textbook").find("option:selected").text();
                     var sexy         = html_node.find("#id_gender").val();
                     var birth        = html_node.find("#id_birth").val();
                     var stu_email        = html_node.find("#id_stu_email").val();
+                    var region = html_node.find("#province").find("option:selected").text();
+                    var province = html_node.find("#province").val();
+                    var city = html_node.find("#city").find("option:selected").text();
+                    var area = html_node.find("#area").find("option:selected").text();
+                   // alert(province);
+                    if(province==""){
+                        region="";
+                        city="";
+                        area="";
+                    }
+                    //alert(region);
+                   // return;
                     $.ajax({
-                        url: '/stu_manage/change_stu_info',
+                        url: '/ajax_deal2/change_stu_info',
                         type: 'POST',
                         data : {
                             'studentid'   : g_sid,
                             'stu_nick'    : stu_nick,
-                            'parent_name' : parent_name,
+                           // 'parent_name' : parent_name,
                             'address'     : address,
                             'school'      : school,
-                            'parent_type' : parent_type,
+                            //'parent_type' : parent_type,
                             'textbook'    : textbook,
                             'editionid'   : editionid ,
                             "sexy"        : sexy,
                             "region"      : region,
                             "realname"    : html_node.find("#id_realname").val(),
                             'birth'       : birth,
-                            'stu_email'   : stu_email
+                            'stu_email'   : stu_email,
+                            'province'    : province,
+                            'city'        : city,
+                            'area'        : area
                         },
                         dataType: 'json',
                         success: function(data) {
@@ -445,8 +621,6 @@ $(function(){
               });
             }
         });
-
-
     }) ;
 
     $("#id_set_assistantid").on("click",function(){
@@ -455,10 +629,9 @@ $(function(){
             "type":"assistant",
             "onChange":function(val){
                 var id = val;
-                $.do_ajax( '/stu_manage/set_assistantid',
-                    {
-                        'sid'  : g_sid,
-                'assistantid': id
+                $.do_ajax( '/stu_manage/set_assistantid',{
+                    'sid'         : g_sid,
+                    'assistantid' : id
               });
             }
         });
@@ -669,4 +842,5 @@ $(function(){
         });
     });
 
+   
 });
