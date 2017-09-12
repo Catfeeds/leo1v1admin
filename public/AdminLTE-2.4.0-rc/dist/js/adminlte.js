@@ -31,6 +31,7 @@ throw new Error('AdminLTE requires jQuery')
 
   var DataKey = 'lte.layout'
 
+
   var Default = {
     slimscroll : true,
     resetHeight: true
@@ -222,6 +223,9 @@ throw new Error('AdminLTE requires jQuery')
 
   var DataKey = 'lte.pushmenu'
 
+    console.log("A");
+
+
   var Default = {
     collapseScreenSize   : 767,
     expandOnHover        : false,
@@ -411,6 +415,8 @@ throw new Error('AdminLTE requires jQuery')
 +function ($) {
   'use strict'
 
+    console.log("B");
+
   var DataKey = 'lte.tree'
 
   var Default = {
@@ -456,9 +462,10 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.toggle = function (link, event) {
     var treeviewMenu = link.next(Selector.treeviewMenu)
     var parentLi     = link.parent()
+      // var parentLi     = link.parent().parent().parent() // 测试
     var isOpen       = parentLi.hasClass(ClassName.open)
 
-      console.log("tree "+treeviewMenu);
+      console.log("tree "+ClassName.open);
 
     if (!parentLi.is(Selector.treeview)) {
       return
@@ -558,6 +565,7 @@ throw new Error('AdminLTE requires jQuery')
       Plugin.call($(this))
     })
   })
+
 
 }(jQuery)
 

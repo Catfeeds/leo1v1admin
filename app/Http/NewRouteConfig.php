@@ -135,6 +135,7 @@ class NewRouteConfig {
         "/common/add_trial_train_lesson_by_admin"           => true,
         "/common/get_teacher_hornor_list"           => true,
         "/common/upload_qiniu"           => true,
+        "/common/notify"           => true,
         "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,

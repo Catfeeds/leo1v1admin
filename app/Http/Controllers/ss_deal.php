@@ -1704,7 +1704,28 @@ class ss_deal extends Controller
         $orderid =1197;
         $data = $this->t_child_order_info->get_all_child_order_info($orderid);
         if(empty($data)){
-            return $this->output_err("没有数据!");  
+            $price = $this->t_order_info->get_price($orderid);
+            $this->t_child_order_info->row_insert([
+                "child_order_type" =>0,
+                "pay_status"       =>0,
+                "add_time"         =>time(),
+                "parent_orderid"   =>$orderid,
+                "price"            => $price
+            ]);
+            $data = $this->t_child_order_info->get_all_child_order_info($orderid);
+            
+        }
+        foreach($data as &$item){
+            if($item["child_order_type"]==0){
+                $item["child_order_type_str"]="默认";
+            }elseif($item["child_order_type"]==1){
+                $item["child_order_type_str"]="首付款";
+            }if($item["child_order_type"]==2){
+                $item["child_order_type_str"]="其他";
+            }
+            
+
+
         }
         return $this->output_succ(["data"=>$data]);
     }
