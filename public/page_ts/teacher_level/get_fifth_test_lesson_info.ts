@@ -119,6 +119,7 @@ $(function(){
             }
             var lessonid = opt_data.lessonid;
             var teacherid = opt_data.teacherid;
+            var id_train_type = $("<select />");
             var id_jysj =  $("<select class=\"class_score\" />");
             var id_yybd =  $("<select class=\"class_score\" />");
             var id_zyzs =  $("<select class=\"class_score\" />");
@@ -142,6 +143,7 @@ $(function(){
             Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
             Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+            Enum_map.append_option_list("train_type",id_train_type,true,[0,20,21,22,23,24,25,26]);
             var id_score = $("<input readonly/>");
             var id_no_tea_score = $("<input readonly/>");
             var id_record = $("<textarea />");
@@ -149,6 +151,7 @@ $(function(){
 
             var arr=[
                 ["课程有效性", id_lesson_invalid_flag],
+                ["培训类型",id_train_type],
                 ["讲义设计情况评分", id_jysj],
                 ["语言表达能力评分", id_yybd],
                 ["专业知识技能评分", id_zyzs],
@@ -246,7 +249,8 @@ $(function(){
                         "record_monitor_class"               : id_jkqk.val(),
                         "sshd_good"                          :JSON.stringify(sshd_good),
                         "lessonid"                           :lessonid,
-                        "lesson_list"                        :JSON.stringify(lessonid)
+                        "lesson_list"                        :JSON.stringify(lessonid),
+                        "train_type"                         :id_train_type.val(),
                     });
                 }
             },function(){

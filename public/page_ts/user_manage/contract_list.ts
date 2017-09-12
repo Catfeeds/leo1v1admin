@@ -1247,7 +1247,7 @@ $(function(){
         });
     }
 
-        var opt_extend_new_1 =function() {
+    var opt_extend_new_1 =function() {
         $.admin_select_user( $(this), "student", function(id){
             if (id<=0) {
                 alert("没有选择学生!");
@@ -2546,6 +2546,398 @@ $(function(){
         } );
 
     });
+
+
+    $("#id_add_seller_contract_new").on("click",function(){
+        var btn_add_new=$("<button class=\"btn btn-primary\"> 新签合同 </button>");
+        var btn_add_new_1=$("<button class=\"btn btn-primary\"> 新签合同 新版 </button>");
+        var btn_extend_new_1=$("<button class=\"btn btn-primary\"> 新签合同 扩课 新版 </button>");
+        var btn_add_next=$("<button class=\"btn btn-warning\"> 续费合同 </button>");
+        var btn_add_next_1=$("<button class=\"btn btn-warning\"> 续费合同 新版</button>");
+        btn_add_new.on("click", opt_add_new );
+        btn_add_new_1.on("click", opt_add_new_1_jack );
+        btn_extend_new_1.on("click", opt_extend_new_1 );
+        var btn_add_0=$("<button class=\"btn btn-info\">  课程包特殊赠送  </button>");
+        var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
+        var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
+        var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
+        var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
+        var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
+        var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
+        btn_add_new_no_test_lesson.on("click", opt_add_new_no_test_lesson );
+        btn_add_new_no_test_lesson_1.on("click", opt_add_new_no_test_lesson_1 );
+        btn_add_next.on("click", opt_add_next);
+        //续费
+        btn_add_next_1.on("click",function(){
+            $.admin_select_user( $(this), "student", function(id){
+                $.do_ajax("/ss_deal/get_add_user_order_info_by_userid",{
+                    userid: id,
+                    is_ass_flag: g_account_role==1,
+                },function(resp){
+                    show_add_contract_new_jack(0,3, resp.data,0 );
+                });
+            });
+        });
+
+        btn_add_1.on("click", function(){
+            add_free( 1 );
+        });
+        btn_add_2.on("click", function(){
+            add_free( 2 );
+        });
+        btn_add_3.on("click", function(){
+            add_free( 3 );
+        });
+        btn_add_0.on("click", function(){
+            add_free( 4 );
+        });
+        btn_add_5.on("click", function(){
+            add_free( 5 );
+        });
+
+
+        var arr=[
+            [ "", btn_add_new_1 ],
+            [ "", btn_extend_new_1 ],
+            [ "", btn_add_0 ],
+            [ "", btn_add_1 ],
+            [ "", btn_add_5 ],
+            //[ "", btn_add_2 ],
+            //[ "", btn_add_new_no_test_lesson ],
+            [ "", btn_add_new_no_test_lesson_1 ],
+            [ "", "-----"],
+            //[ "", btn_add_next],
+            [ "", btn_add_next_1],
+        ];
+
+        if(
+            window.location.pathname== "/user_manage/contract_list_seller_add"
+                || window.location.pathname== "/user_manage/contract_list_seller_payed"
+        ) {
+            arr=[
+                //[ "", btn_add_new ],
+                [ "", btn_add_new_1 ],
+                //[ "", btn_extend_new_1 ],
+                //[ "", btn_add_0 ],
+                [ "", btn_add_1 ],
+                //[ "", btn_add_2 ],
+                //[ "", btn_add_new_no_test_lesson ],
+                [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_3 ],
+                [ "", btn_add_5 ],
+            ];
+        }else if ( window.location.pathname== "/user_manage/contract_list_ass") {
+            arr=[
+                //[ "", btn_add_next],
+                [ "", btn_add_new_1 ],
+                [ "", btn_extend_new_1 ],
+                //[ "", btn_add_2 ],
+                [ "", btn_add_next_1],
+                [ "", btn_add_0 ],
+                [ "", btn_add_1 ],
+
+                [ "", btn_add_3 ],
+                [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_5 ],
+            ];
+        }
+
+        $.show_key_value_table("选择合同类型",arr );
+    });
+
+    var opt_add_new_1_jack =function() {
+        $.admin_select_user( $(this), "student", function(id){
+            if (id<=0) {
+                alert("没有选择学生!");
+                return ;
+            }
+
+            $("<div></div>").admin_select_dlg_ajax({
+                "opt_type" :  "select", // or "list"
+                "url"          : "/ss_deal/get_require_list_js",
+                select_primary_field : "require_id",
+                select_display       : "require_id",
+
+                //其他参数
+                "args_ex" : {
+                    userid:id
+                },
+                //字段列表
+                'field_list' :[
+                    {
+                        title:"渠道",
+                        render:function(val,item) {
+                            return item.origin;
+                        }
+                    },{
+
+                        title:"科目",
+                        render:function(val,item) {
+                            return item.subject_str;
+                        }
+                    },{
+
+                        title:"时间",
+                        render:function(val,item) {
+                            return item.require_time ;
+                        }
+
+                    },{
+                        title:"教务是否接受",
+                        //width :50,
+                        render:function(val,item) {
+                            return $(item.accept_flag_str );
+                        }
+                    },{
+                        title:"课程是否成功",
+                        render:function(val,item) {
+                            return $(item.success_flag_str);
+                        }
+
+                    },{
+                        title:"老师",
+                        render:function(val,item) {
+                            return item.teacher_nick;
+                        }
+                    },{
+                        title:"上课时间",
+                        render:function(val,item) {
+                            return item.lesson_start;
+                        }
+
+                    }
+                ] ,
+                filter_list: [],
+
+                "auto_close"       : true,
+                //选择
+                "onChange"         : function(require_id){
+                    if (require_id <=0 ) {
+                        alert("请选择试听课");
+                    }else{
+                        $.do_ajax("/ss_deal/get_test_lesson_info_by_require_id", {
+                            "require_id" :require_id
+                        },function(resp){
+                            show_add_contract_new(require_id ,0, resp.data,0 );
+                        });
+                    }
+                },
+                //加载数据后，其它的设置
+                "onLoadData"       : null,
+            });
+        },false,{
+            "adminid" :  g_args.self_adminid
+        });
+    }
+
+    var show_add_contract_new_jack=function( require_id ,contract_type , data ,contract_from_type){
+        //id_order_origin
+
+        var html_node=$.dlg_need_html_by_id( "id_dlg_add_contract_new_jack");
+        //原价
+        var $discount_price       = html_node.find(".field-discount_price");
+        var $order_promotion_desc = html_node.find(".field-order_promotion_desc");
+        var $div_spec             = html_node.find( ".div-spec");
+        var $order_require_flag   = html_node.find(".field-order_require_flag");
+
+        var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+        var $order_desc_list = html_node.find(".field-order_desc_list");
+
+        var $nick    = html_node.find(".field-nick");
+        var $grade   = html_node.find(".field-grade");
+        var $phone   = html_node.find(".field-phone");
+        var $subject = html_node.find(".field-subject");
+        var $lesson_count     = html_node.find(".field-lesson_count");
+        var $competition_flag = html_node.find(".field-competition_flag");
+        var $pre_money        = html_node.find(".field-pre-money");
+
+        var $order_promotion_type = html_node.find(".field-order_promotion_type");
+        var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
+        var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
+        var $discount_reason= html_node.find(".field-discount_reason");
+        var $receipt_title= html_node.find(".field-receipt_title");
+        var $order_partition_flag= html_node.find(".field-order_partition_flag");
+        var $add_child_order_list= html_node.find("#id_add_child_order_list");
+
+
+
+        Enum_map.append_option_list( "boolean", $order_require_flag ,true);
+        Enum_map.append_option_list( "boolean", $has_share_activity_flag,true);
+        Enum_map.append_option_list( "grade", $grade,true);
+        Enum_map.append_option_list( "subject", $subject,true);
+        Enum_map.append_option_list( "boolean", $competition_flag,true);
+        Enum_map.append_option_list( "order_promotion_type", $order_promotion_type,true);
+
+
+        $nick.val(data.nick);
+        $grade.val(data.grade);
+        $phone.val(data.phone);
+        $subject.val(data.subject);
+
+
+        $order_require_flag.val(0);
+
+        var opt_spec=function(){
+            if ($order_require_flag.val()==1) {
+                $div_spec.show();
+            }else{
+                $div_spec.hide();
+            }
+        };
+
+        $order_require_flag.on("change", opt_spec);
+        $order_promotion_type.val(2); //打折
+        opt_spec();
+
+        $order_partition_flag.on("change",function(){
+            if($order_partition_flag.val() ==1){
+                $add_child_order_list.show(); 
+            }else{
+                $add_child_order_list.hide(); 
+            }
+        });
+
+        var reload_present_info = function() {
+            var order_promotion_type=  $order_promotion_type.val();
+            $.do_ajax("/ss_deal/get_order_price_info",{
+                grade: data.grade,
+                competition_flag:$competition_flag.val(),
+                lesson_count:$lesson_count.val()*100,
+                order_promotion_type: order_promotion_type,
+                contract_type: contract_type,
+                require_id :  require_id
+            },function(resp){
+                var data=resp.data;
+                $discount_price.val(data.price );
+                $promotion_spec_present_lesson.val( data.present_lesson_count );
+                $promotion_spec_discount_price.val( data.discount_price );
+                $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
+                    "str" : JSON.stringify(data.desc_list)
+                }, function (resp){
+                    $order_desc_list.html(resp.html_str);
+                } );
+
+                if (order_promotion_type==1) {
+                    $order_promotion_desc.val("赠送:"+ data.present_lesson_count +"课时" );
+                } else if (order_promotion_type==2) {
+                    if (data.discount==100) {
+                        $order_promotion_desc.val("无折扣" );
+                    }else{
+                        $order_promotion_desc.val("打折:"+ data.discount_price +"元("+data.discount_count + "折)" );
+                    }
+                }else{
+                    $order_promotion_desc.val("");
+                }
+            });
+        };
+        $competition_flag.set_input_change_event(reload_present_info);
+        $lesson_count.set_input_change_event(reload_present_info);
+        $order_promotion_type. set_input_change_event(reload_present_info);
+
+        $nick.set_input_readonly(true);
+        $phone.set_input_readonly(true);
+        $grade.set_input_readonly(true);
+        if ($subject.val() ) {
+            $subject.set_input_readonly(true);
+        }
+        $discount_price.set_input_readonly(true);
+        $order_promotion_desc.set_input_readonly(true);
+
+        $add_child_order_list.data("v" , "[]");
+        $add_child_order_list.on("click",function(){
+            var v=$(this).data("v");
+            if(!v) {
+                v="[]";
+            }
+            var data_list=JSON.parse(v);
+
+            $(this).admin_select_dlg_edit({
+                onAdd:function( call_func ) {
+                    var id_child_order_type= $("<select> "+
+                                   "<option value=1>定金</option> "+
+                                   "<option value=2>其他</option> "+
+                                   "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
+                    var arr=[
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
+                    ];
+                    $.show_key_value_table("增加", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            call_func({
+                                "child_order_type" :  id_child_order_type.val() ,
+                                "child_order_money" : id_child_order_money.val()*100,
+                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
+                            });
+                            dialog.close();
+                        }
+                    });
+                },
+                sort_func : function(a,b){
+                },
+                'field_list' :[
+                    {
+                        title:"类型",
+                        render:function(val,item) {
+                            return item["child_order_type_str"];
+                        }
+                    },{
+
+                        title:"金额",
+                        //width :50,
+                        render:function(val,item) {
+                            return item["child_order_money"]/100  ;
+                        }
+                    }
+                ] ,
+                data_list: data_list,
+                onChange:function( data_list, dialog)  {
+                    $add_child_order_list.data("v" , JSON.stringify(data_list));
+                }
+            });
+        }) ;
+
+        BootstrapDialog.show({
+            title    : '创建合同['+ Enum_map.get_desc("contract_type",contract_type) +']' ,
+            message  : html_node,
+            closable : true,
+            buttons: [{
+                label  : '返回',
+                action : function(dialog) {
+                    dialog.close();
+                }
+            },{
+                label  : '确认',
+                action : function(dialog) {
+                    $.do_ajax("/ss_deal/seller_add_contract_new",{
+                        require_id                    : require_id,
+                        contract_type                 : contract_type,
+                        contract_from_type            : contract_from_type,
+                        competition_flag              : $competition_flag.val(),
+                        lesson_total                  : $lesson_count.val()*100,
+                        discount_reason               : $discount_reason.val(),
+                        title                         : $receipt_title.val(),
+                        order_require_flag            : $order_require_flag.val(),
+                        userid                        : data.userid,
+                        pre_money                     : $pre_money.val(),
+                        grade                         : data.grade,
+                        subject                       : data.subject,
+                        origin                        : data.origin,
+                        order_promotion_type          : $order_promotion_type.val(),
+                        promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
+                        promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
+                        has_share_activity_flag       : $has_share_activity_flag.val(),
+                    });
+                }
+            }]
+        });
+    };
+
+
+
 
 
 });

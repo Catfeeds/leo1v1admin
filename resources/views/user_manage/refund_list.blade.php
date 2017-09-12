@@ -187,6 +187,7 @@
                             <td >{{$var["pay_account"]}}</td>
                             <td >{{mb_substr($var["refund_info"],0,50 )}}...</td>
                             <td >{{mb_substr($var["save_info"],0,50 )}}...</td>
+
                             <td >{{$var["apply_time_str"]}}</td>
                             <td >{{$var["refund_user"]}}</td>
                             <td >{!!$var["flow_status_str"]!!}</td>

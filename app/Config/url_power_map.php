@@ -333,6 +333,7 @@ class url_power_map {
 			'/tea_manage_new/get_seller_ass_record_info_seller'	=>1117000,
 			'/tea_manage_new/get_seller_require_commend_teacher_info_seller'	=>1117100,
 			'/seller_student_new/seller_student_list_all'	=>1110100,
+			'/test_lesson_review/test_lesson_review_list'	=>1113800,
 			'/seller_student_new/find_user'	=>1110200,
 			'/seller_student_new/test_lesson_order_fail_list_seller'	=>1110300,
 			'/teacher_apply/teacher_apply_list_one'	=>1115900,
