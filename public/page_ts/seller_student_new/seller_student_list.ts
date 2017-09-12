@@ -1898,7 +1898,7 @@ function init_edit() {
 
     $(".opt-test_lesson-review").on("click",function(){
         var opt_data  = $(this).get_opt_data();
-        var $id_phone = $("<input/>");
+        var $id_phone = $("<input readonly='true' />");
         var $id_desc  = $("<textarea rows='' cols=''>");
 
         var arr=[
