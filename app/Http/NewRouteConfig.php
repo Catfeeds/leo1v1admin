@@ -90,6 +90,7 @@ class NewRouteConfig {
         "custom"                      => true,
         "tq"                          => true,
         "seller_student_new"          => true,
+        "test_lesson_review"          => true,
         "wx_token"                    => true,
         "wx_score"                    => true,
         "main_page"                   => true,

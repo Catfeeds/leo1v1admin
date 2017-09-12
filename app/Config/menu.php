@@ -517,6 +517,7 @@ class menu{
                 ["power_id"=>71, "name"=>"申请推荐试听老师列表",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_seller"],
 
                 ["power_id"=>1, "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
+                ["power_id"=>38, "name"=>"排课审核",   "url"=>"/test_lesson_review/test_lesson_review_list"],
                 ["power_id"=>2, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user"],
                 ["power_id"=>3, "name"=>"试听签单与否反馈", "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
 
