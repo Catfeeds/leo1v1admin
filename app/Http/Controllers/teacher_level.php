@@ -1041,6 +1041,12 @@ class teacher_level extends Controller
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val);
             $val['batch_str'] = "第".$val['batch']."批次";
+            E\Eswitch_status::set_item_value_str($val,"status");
+            if($val['put_time']>0){
+                $val['put_time_str']=\App\Helper\Utils::unixtime2date($val['put_time']);
+            }else{
+                $val['put_time_str']="";
+            }
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 

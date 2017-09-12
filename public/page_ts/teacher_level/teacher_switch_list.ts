@@ -5,7 +5,7 @@ $(function(){
     function load_data(){
         $.reload_self_page({
 			      teacher_money_type : $('#id_teacher_money_type').val(),
-			      teacherid          : $('#id_teacherid').val(),
+			      // teacherid          : $('#id_teacherid').val(),
 			      batch              : $('#id_batch').val(),
 			      status             : $('#id_status').val()
         });

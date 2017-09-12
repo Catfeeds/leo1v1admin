@@ -2913,7 +2913,6 @@ $(function(){
                 label  : '确认',
                 action : function(dialog) {
                     var promotion_spec_discount_int = parseInt($promotion_spec_discount_price.val()*100);
-                    alert(promotion_spec_discount_int);
                     var child_list=JSON.parse($add_child_order_list.data("v"));
                     var child_money=0;
                     $.each(child_list,function(i,item){
@@ -2924,8 +2923,6 @@ $(function(){
                         alert("子合同总额不等于订单金额!");
                         return;
                     }
-                    alert(111);
-                    return;
                     $.do_ajax("/ss_deal/seller_add_contract_new",{
                         require_id                    : require_id,
                         contract_type                 : contract_type,

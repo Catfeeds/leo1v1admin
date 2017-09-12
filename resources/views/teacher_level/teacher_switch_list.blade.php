@@ -58,12 +58,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["id"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["new_level_str"]}} </td>
                         <td>{{@$var["batch_str"]}} </td>
-                        <td>{{@$var["switch_time"]}} </td>
+                        <td>{{@$var["put_time_str"]}} </td>
                         <td>{{@$var["status_str"]}} </td>
                         <td>
                             <div
