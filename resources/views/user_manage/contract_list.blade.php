@@ -13,6 +13,10 @@
       <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
       <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
       <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+      <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+      <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
+      <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+
       <section class="content">
           <div class="row row-query-list">
               <div class="col-xs-12 col-md-4"  data-title="时间段">

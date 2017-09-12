@@ -2843,7 +2843,7 @@ $(function(){
         $discount_price.set_input_readonly(true);
         $order_promotion_desc.set_input_readonly(true);
 
-        $add_child_order_list.data("v" , []);
+        $add_child_order_list.data("v" , "[]");
         $add_child_order_list.on("click",function(){
             var v=$(this).data("v");
             if(!v) {
@@ -2853,97 +2853,49 @@ $(function(){
 
             $(this).admin_select_dlg_edit({
                 onAdd:function( call_func ) {
-                    var id_week= $("<select> "+
-                                   "<option value=1>周1</option> "+
-                                   "<option value=2>周2</option> "+
-                                   "<option value=3>周3</option> "+
-                                   "<option value=4>周4</option> "+
-                                   "<option value=5>周5</option> "+
-                                   "<option value=6>周6</option> "+
-                                   "<option value=0>周日</option> "+
+                    var id_child_order_type= $("<select> "+
+                                   "<option value=1>定金</option> "+
+                                   "<option value=2>其他</option> "+
                                    "</select>");
-                    var id_start_time=$("<input/>");
-                    var id_end_time=$("<input/>");
-                    id_start_time.datetimepicker({
-                        datepicker:false,
-                        timepicker:true,
-                        format:'H:i',
-                        step:30,
-                        onChangeDateTime :function(){
-                            var end_time= $.strtotime("1970-01-01 "+id_start_time.val() ) + 7200;
-                            id_end_time.val(  $.DateFormat(end_time, "hh:mm"));
-                        }
-                    });
-                    id_end_time.datetimepicker({
-                        datepicker:false,
-                        timepicker:true,
-                        format:'H:i',
-                        step:30
-                    });
+                    var id_child_order_money=$("<input/>");
+                    
                     var arr=[
-                        ["周", id_week],
-                        ["开始时间", id_start_time],
-                        ["结束时间", id_end_time],
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
                     ];
                     $.show_key_value_table("增加", arr, {
                         label: '确认',
                         cssClass: 'btn-warning',
                         action: function (dialog) {
                             call_func({
-                                "week" :  id_week.val() ,
-                                "start_time" : $.strtotime( "1970-01-01 "+ id_start_time.val()) ,
-                                "end_time" : $.strtotime ( "1970-01-01 "+ id_end_time.val())
+                                "child_order_type" :  id_child_order_type.val() ,
+                                "child_order_money" : id_child_order_money.val()*100,
+                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
                             });
                             dialog.close();
                         }
                     });
-
-
-
-
-
-                    /*
-                      var div=$("<div/>");
-                      div.admin_select_date_time_range({
-
-                      onSelect:function(start_time,end_time) {
-                      call_func({
-                      "start_time" : start_time ,
-                      "end_time" : end_time
-                      });
-                      }
-                      });
-                      div.click();
-                    */
                 },
                 sort_func : function(a,b){
-                    var a_time=a["week"]*10000000+a["start_time"];
-                    var b_time=b["week"]*10000000+b["start_time"];
-                    if (a_time==b_time ) {
-                        return 0;
-                    }else{
-                        if (a_time>b_time) return 1;
-                        else return -1;
-                    }
-                }, 'field_list' :[
+                },
+                'field_list' :[
                     {
-                        title:"周",
+                        title:"类型",
                         render:function(val,item) {
-                            return Enum_map.get_desc("week", item["week"]*1  );
+                            return item["child_order_type_str"];
                         }
                     },{
 
-                        title:"时间段",
+                        title:"金额",
                         //width :50,
                         render:function(val,item) {
-                            return  $.DateFormat(item.start_time, "hh:mm") +"~"+
-                                $.DateFormat(item.end_time, "hh:mm")  ;
+                            return item["child_order_money"]/100  ;
                         }
                     }
                 ] ,
                 data_list: data_list,
                 onChange:function( data_list, dialog)  {
-                    id_stu_request_lesson_time_info.data("v" , JSON.stringify(data_list));
+                    $add_child_order_list.data("v" , JSON.stringify(data_list));
                 }
             });
         }) ;
