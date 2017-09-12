@@ -379,7 +379,7 @@ class teacher_money extends Controller
             $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                 $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
             //检测是否存在转移记录
-            if($transfer_teacherid>0 && $transfer_time<$last_month_end && $transfer_time>$last_month_start){
+            if($transfer_teacherid>0){
                 $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                     $transfer_teacherid,$last_month_start,$last_month_end);
                 $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(

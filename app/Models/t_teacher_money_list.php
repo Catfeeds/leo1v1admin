@@ -188,7 +188,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     }
 
     /**
-     * 未上过课获得伯乐奖老师列表
+     * 未上过课获得奖金的老师列表
      */
     public function get_reward_list($start,$end,$reward_type){
         $where_arr = [
