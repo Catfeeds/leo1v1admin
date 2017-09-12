@@ -2548,4 +2548,103 @@ $(function(){
     });
 
 
+    $("#id_add_seller_contract_new").on("click",function(){
+        var btn_add_new=$("<button class=\"btn btn-primary\"> 新签合同 </button>");
+        var btn_add_new_1=$("<button class=\"btn btn-primary\"> 新签合同 新版 </button>");
+        var btn_extend_new_1=$("<button class=\"btn btn-primary\"> 新签合同 扩课 新版 </button>");
+        var btn_add_next=$("<button class=\"btn btn-warning\"> 续费合同 </button>");
+        var btn_add_next_1=$("<button class=\"btn btn-warning\"> 续费合同 新版</button>");
+        btn_add_new.on("click", opt_add_new );
+        btn_add_new_1.on("click", opt_add_new_1 );
+        btn_extend_new_1.on("click", opt_extend_new_1 );
+        var btn_add_0=$("<button class=\"btn btn-info\">  课程包特殊赠送  </button>");
+        var btn_add_1=$("<button class=\"btn btn-warning\">  转介绍赠送合同 </button>");
+        var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
+        var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
+        var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
+        var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
+        var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
+        btn_add_new_no_test_lesson.on("click", opt_add_new_no_test_lesson );
+        btn_add_new_no_test_lesson_1.on("click", opt_add_new_no_test_lesson_1 );
+        btn_add_next.on("click", opt_add_next);
+        //续费
+        btn_add_next_1.on("click",function(){
+            $.admin_select_user( $(this), "student", function(id){
+                $.do_ajax("/ss_deal/get_add_user_order_info_by_userid",{
+                    userid: id,
+                    is_ass_flag: g_account_role==1,
+                },function(resp){
+                    show_add_contract_new(0,3, resp.data,0 );
+                });
+            });
+        });
+
+        btn_add_1.on("click", function(){
+            add_free( 1 );
+        });
+        btn_add_2.on("click", function(){
+            add_free( 2 );
+        });
+        btn_add_3.on("click", function(){
+            add_free( 3 );
+        });
+        btn_add_0.on("click", function(){
+            add_free( 4 );
+        });
+        btn_add_5.on("click", function(){
+            add_free( 5 );
+        });
+
+
+        var arr=[
+            [ "", btn_add_new_1 ],
+            [ "", btn_extend_new_1 ],
+            [ "", btn_add_0 ],
+            [ "", btn_add_1 ],
+            [ "", btn_add_5 ],
+            //[ "", btn_add_2 ],
+            //[ "", btn_add_new_no_test_lesson ],
+            [ "", btn_add_new_no_test_lesson_1 ],
+            [ "", "-----"],
+            //[ "", btn_add_next],
+            [ "", btn_add_next_1],
+        ];
+
+        if(
+            window.location.pathname== "/user_manage/contract_list_seller_add"
+                || window.location.pathname== "/user_manage/contract_list_seller_payed"
+        ) {
+            arr=[
+                //[ "", btn_add_new ],
+                [ "", btn_add_new_1 ],
+                //[ "", btn_extend_new_1 ],
+                //[ "", btn_add_0 ],
+                [ "", btn_add_1 ],
+                //[ "", btn_add_2 ],
+                //[ "", btn_add_new_no_test_lesson ],
+                [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_3 ],
+                [ "", btn_add_5 ],
+            ];
+        }else if ( window.location.pathname== "/user_manage/contract_list_ass") {
+            arr=[
+                //[ "", btn_add_next],
+                [ "", btn_add_new_1 ],
+                [ "", btn_extend_new_1 ],
+                //[ "", btn_add_2 ],
+                [ "", btn_add_next_1],
+                [ "", btn_add_0 ],
+                [ "", btn_add_1 ],
+
+                [ "", btn_add_3 ],
+                [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_5 ],
+            ];
+        }
+
+        $.show_key_value_table("选择合同类型",arr );
+    });
+
+
+
 });
