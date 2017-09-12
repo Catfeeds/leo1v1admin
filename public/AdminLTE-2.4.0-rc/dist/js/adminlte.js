@@ -285,6 +285,7 @@ throw new Error('AdminLTE requires jQuery')
     var windowWidth = $(window).width()
     var isOpen      = !$('body').hasClass(ClassName.collapsed)
 
+
     if (windowWidth <= this.options.collapseScreenSize) {
       isOpen = $('body').hasClass(ClassName.open)
     }
@@ -457,7 +458,10 @@ throw new Error('AdminLTE requires jQuery')
     var parentLi     = link.parent()
     var isOpen       = parentLi.hasClass(ClassName.open)
 
+      console.log(3);
+
     if (!parentLi.is(Selector.treeview)) {
+        console.log(parentLi);
       return
     }
 
@@ -465,9 +469,17 @@ throw new Error('AdminLTE requires jQuery')
       event.preventDefault()
     }
 
+      console.log(4);
+
+
     if (isOpen) {
+
+        console.log(5);
       this.collapse(treeviewMenu, parentLi)
+
     } else {
+        console.log(6);
+
       this.expand(treeviewMenu, parentLi)
     }
   }
@@ -504,7 +516,8 @@ throw new Error('AdminLTE requires jQuery')
     var that = this
 
     $(this.element).on('click', this.options.trigger, function (event) {
-      that.toggle($(this), event)
+        console.log(1);
+        that.toggle($(this), event)
     })
   }
 

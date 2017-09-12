@@ -318,6 +318,27 @@ class agent extends Controller
     }
 
     public function check(){
+        $arr = [
+            0=>[
+                'id'=>1,
+                'str'=>'销售',
+            ],
+            1=>[
+                'id'=>2,
+                'str'=>'销售',
+            ],
+            2=>[
+                'id'=>3,
+                'str'=>'助教',
+            ]
+        ];
+        foreach($arr as $key=>&$item){
+            if($item['str'] == '助教'){
+                // dd($item);
+                unset($arr[$key]);
+            }
+        }
+        dd($arr);
         $this->test_lesson_cancle_rate();
     }
 

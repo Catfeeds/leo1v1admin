@@ -2941,6 +2941,8 @@ $(function(){
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
                         promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
                         has_share_activity_flag       : $has_share_activity_flag.val(),
+                        order_partition_flag          : $order_partition_flag.val(),
+                        child_order_info              : $add_child_order_list.data("v")
                     });
                 }
             }]
