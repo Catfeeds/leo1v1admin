@@ -1042,7 +1042,7 @@ class teacher_level extends Controller
             E\Enew_level::set_item_value_str($val);
             $val['batch_str'] = "第".$val['batch']."批次";
             E\Eswitch_status::set_item_value_str($val,"status");
-            $val['put_time_str']=\App\Helper\Utils::unixtime2date($val['put_time']);
+            $val['put_time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
@@ -1058,8 +1058,8 @@ class teacher_level extends Controller
     public function switch_upload(){
         $id = $this->get_in_int_val("id");
 
-        $update_arr['put_time'] = time();
         $update_arr['status']   = E\Eswitch_status::V_1;
+        $update_arr['put_time'] = time();
 
         $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,$update_arr);
         if(!$ret){

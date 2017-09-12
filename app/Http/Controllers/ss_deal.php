@@ -1541,7 +1541,7 @@ class ss_deal extends Controller
         $has_share_activity_flag = $this->get_in_int_val("has_share_activity_flag");
         $contract_from_type = $this->get_in_e_contract_from_type();
         $order_partition_flag = $this->get_in_int_val("order_partition_flag",0);
-        $child_order_info = $this->get_in_str_val("child_order_info");
+        // $child_order_info = $this->get_in_str_val("child_order_info");
 
         $sys_operator        = $this->get_account();
         $userid              = $this->get_in_userid();
@@ -1696,6 +1696,11 @@ class ss_deal extends Controller
             }
         }
         return $this->output_succ();
+    }
+
+    //获取子合同信息
+    public function get_child_order_list(){
+        
     }
 
 
