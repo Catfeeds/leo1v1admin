@@ -28,13 +28,16 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
             ["batch=%u",$batch,-1],
             ["status=%u",$status,-1],
         ];
-        $sql = $this->gen_sql_new("select id,teacherid"
+        $sql = $this->gen_sql_new("select id,teacherid,teacher_money_type,level,new_level,batch,status,realname"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
+
+
+
+
 }

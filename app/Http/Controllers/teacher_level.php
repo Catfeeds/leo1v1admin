@@ -1036,8 +1036,14 @@ class teacher_level extends Controller
 
         $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list($teacherid,$teacher_money_type,$batch,$status);
 
-        $ret_info = [];
+        foreach($ret_info as &$val){
+            E\Eteacher_money_type::set_item_value_str($val);
+            E\Elevel::set_item_value_str($val);
+            E\Enew_level::set_item_value_str($val);
+
+        }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+
         return $this->pageView(__METHOD__,$ret_info,[
             "acc" => $acc
         ]);

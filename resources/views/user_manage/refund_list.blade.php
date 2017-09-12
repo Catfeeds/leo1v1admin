@@ -186,7 +186,7 @@
                             <td >{{$var["invoice"]}}</td>
                             <td >{{$var["pay_account"]}}</td>
                             <td >{{$var["refund_info"]}}</td>
-                            <td >{{$var["save_info"]}}...</td>
+                            <td >{{$var["save_info"]}}</td>
 
                             <td >{{$var["apply_time_str"]}}</td>
                             <td >{{$var["refund_user"]}}</td>
