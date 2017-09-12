@@ -1701,7 +1701,6 @@ class ss_deal extends Controller
     //获取子合同信息
     public function get_child_order_list(){
         $orderid  = $this->get_in_int_val("orderid");
-        $orderid =1197;
         $data = $this->t_child_order_info->get_all_child_order_info($orderid);
         if(empty($data)){
             $price = $this->t_order_info->get_price($orderid);
@@ -1728,6 +1727,36 @@ class ss_deal extends Controller
 
         }
         return $this->output_succ(["data"=>$data]);
+    }
+
+    public function add_child_order_info(){
+        $parent_orderid  = $this->get_in_int_val("parent_orderid");
+        $child_orderid  = $this->get_in_int_val("child_orderid");
+        $child_order_type  = $this->get_in_int_val("child_order_type");
+        $price  = $this->get_in_int_val("price");
+
+        //默认子合同金额更改
+        $old_price = $this->t_child_order_info->get_price($child_orderid);
+        if($price >= $old_price ){
+            return $this->output_err("新增子合同金额大于可拆分金额!!");
+        }
+        $new_price =  $old_price-$price;
+        $this->t_child_order_info->field_update_list($child_orderid,[
+           "price"  =>$new_price 
+        ]);
+
+
+        //新增子合同
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>$child_order_type,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$parent_orderid,
+            "price"            => $price
+        ]);
+
+        return $this->output_succ();
+ 
     }
 
 

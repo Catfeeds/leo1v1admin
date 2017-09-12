@@ -2800,22 +2800,28 @@ $(function(){
                     var child_orderid = $(this).data("child_orderid");
                     alert(parent_orderid);
                     alert(child_orderid);
-                    var id_textbook_new     = $("<select/>");
-                    Enum_map.append_option_list("region_version", id_textbook_new, true );
+                    var id_child_order_type= $("<select> "+
+                                               "<option value=1>首付款</option> "+
+                                               "<option value=2>其他</option> "+
+                                               "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
                     var arr=[
-                        ["教材",id_textbook_new],
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
                     ];
-                    $.show_key_value_table("修改", arr ,{
-                        label    : '确认',
-                        cssClass : 'btn-warning',
-                        action   : function(dialog) {
-                            $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
-                                "userid"             :g_sid,
-                                "subject" :          subject,
-                                "editionid"     : id_textbook_new.val(),
+                    $.show_key_value_table("增加子合同", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            $.do_ajax( '/ss_deal/add_child_order_info', {
+                                "parent_orderid" : parent_orderid,
+                                "child_orderid" : child_orderid,
+                                "child_order_type"     : id_child_order_type.val(),
+                                "price"                : id_child_order_money.val()*100
                             });
                         }
-                    });
+                    });                 
 
                     
                 });
@@ -2829,7 +2835,7 @@ $(function(){
                     var subject = $(this).data("subject");
                     BootstrapDialog.confirm("确定要删除？", function(val){
                         if (val) {
-                            $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                            $.do_ajax( '/ss_deal/add_child_order_info', {
                                 "userid"             :g_sid,
                                 "subject" :          subject,
                             });
@@ -2864,7 +2870,7 @@ $(function(){
 
             });
 
-            dlg.getModalDialog().css("width","1024px");
+            dlg.getModalDialog().css("width","900px");
                                      
         });
 

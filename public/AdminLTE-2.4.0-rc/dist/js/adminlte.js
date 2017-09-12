@@ -266,6 +266,7 @@ throw new Error('AdminLTE requires jQuery')
   }
 
   PushMenu.prototype.init = function () {
+      console.log("CC");
     if (this.options.expandOnHover
       || ($('body').is(Selector.mini + Selector.layoutFixed))) {
       this.expandOnHover()

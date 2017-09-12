@@ -95,6 +95,23 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         return $this->main_get_row($sql,0);
     }
 
+    public function get_master_adminid_by_adminid($adminid,$main_type=-1,$month=0){
+        $where_arr=[
+            ["n.main_type=%u",$main_type,-1]
+        ];
+        $sql=$this->gen_sql_new("select master_adminid from %s u "
+                                ." left join %s n on u.groupid = n.groupid"
+                                ." where adminid=%u and %s",
+                                self::DB_TABLE_NAME,
+                                t_admin_group_name::DB_TABLE_NAME,
+                                $adminid,
+                                $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
 
 }
 

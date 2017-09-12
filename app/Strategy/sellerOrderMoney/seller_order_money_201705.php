@@ -12,7 +12,7 @@ class seller_order_money_201705  extends  seller_order_money_base
         80000 => 8,
         130000 => 10,
         180000 => 12,
-        230000 => 13,
+        230000 => 15,
     ];
 
 

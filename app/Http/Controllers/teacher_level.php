@@ -1091,11 +1091,13 @@ class teacher_level extends Controller
             return $this->output_err("类型出错!");
         }
 
+        $this->start_transaction();
         $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
             "confirm_time" => time(),
             "status"       => $check_status,
         ]);
         if(!$ret){
+            $this->rollback();
             return $this->output_err("更新出错!请重试!");
         }
 
@@ -1105,8 +1107,13 @@ class teacher_level extends Controller
                 "teacher_money_type" => $teacher_info['teacher_money_type'],
                 "level"              => $teacher_info['level'],
             ]);
-            $this->reset_teacher_money_info($teacherid);
+            $ret = $this->reset_teacher_money_info($teacherid);
+            if(!$ret){
+                $this->rollback();
+                return $this->output_err("更新老师课程信息出错!请重试!");
+            }
         }
+        $this->commit();
 
         return $this->output_succ();
     }

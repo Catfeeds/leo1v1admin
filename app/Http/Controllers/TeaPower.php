@@ -2883,12 +2883,20 @@ trait TeaPower {
         return $str;
     }
 
-    public function reset_teacher_money_info($teacherid){
+    /**
+     * 重置老师的课程工资信息
+     * teacher_money_type 和 level
+     */
+    public function reset_teacher_money_info($teacherid,$check_time=0){
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $check_time   = time();
-        $this->t_lesson_info_b3->reset_lesson_teacher_info(
+        if($check_time==0){
+            $check_time = time();
+        }
+
+        $ret = $this->t_lesson_info_b3->reset_lesson_teacher_info(
             $teacherid,$teacher_info['teacher_money_type'],$teacher_info['level'],$check_time
         );
+        return $ret;
     }
 
 
