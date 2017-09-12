@@ -2774,7 +2774,55 @@ $(function(){
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
-            
+            var data_list = resp.data; 
+            $(this).admin_select_dlg_edit({
+                onAdd:function( call_func ) {
+                    var id_child_order_type= $("<select> "+
+                                               "<option value=1>首付款</option> "+
+                                               "<option value=2>其他</option> "+
+                                               "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
+                    var arr=[
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
+                    ];
+                    $.show_key_value_table("增加", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            call_func({
+                                "child_order_type" :  id_child_order_type.val() ,
+                                "child_order_money" : id_child_order_money.val()*100,
+                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
+                            });
+                            dialog.close();
+                        }
+                    });
+                },
+                sort_func : function(a,b){
+                },
+                'field_list' :[
+                    {
+                        title:"类型",
+                        render:function(val,item) {
+                            return item["child_order_type_str"];
+                        }
+                    },{
+
+                        title:"金额",
+                        //width :50,
+                        render:function(val,item) {
+                            return item["child_order_money"]/100  ;
+                        }
+                    }
+                ] ,
+                data_list: data_list,
+                onChange:function( data_list, dialog)  {
+                  //  $add_child_order_list.data("v" , JSON.stringify(data_list));
+                }
+            });
+
         });
 
     });
