@@ -1895,4 +1895,34 @@ function init_edit() {
 
     });
 
+    $(".opt-test_lesson-review").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        alert(opt_data.require_id);
+        var $parentid  = $("<input/>");
+        var $userid    = $("<input/>");
+        var $phone     = $("<input/>");
+        var $type     = $("<select><option value='0'>注册</option><option value='1'>我要报名</option><option value='2'>我要推荐</option><select/>");
+       var $zfb_account     = $("<input/>");
+
+        var arr=[
+            ["上级id",  $parentid],
+            ["userid",  $userid],
+            ["手机",  $phone],
+            ["类型",  $type],
+        ];
+        $.show_key_value_table("新增优学优享账号", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/ajax_deal/agent_add",{
+                    "parentid"      : $parentid.val(),
+                    "phone"         : $phone.val(),
+                    "userid"        : $userid.val(),
+                    "type"          : $type.val(),
+                })
+            }
+        })
+    });
+
+
 }

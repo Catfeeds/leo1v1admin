@@ -493,7 +493,6 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account",$account);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
-
         return $this->pageView(__METHOD__,$ret_info, [
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
