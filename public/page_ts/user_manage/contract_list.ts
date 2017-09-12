@@ -2775,6 +2775,8 @@ $(function(){
             alert("已付款合同不能拆分");
             return;
         }
+        var title = "科目教材详情";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>科目</td><td>教材</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -2783,54 +2785,109 @@ $(function(){
                 alert(resp.info);
                 return;
             }
-            $(this).admin_select_dlg_edit({
-                onAdd:function( call_func ) {
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>其他</option> "+
-                                               "</select>");
-                    var id_child_order_money=$("<input/>");
-                    
+            $.each(data_list,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['subject_str']+"</td><td>"+item['editionid_str']+"</td><td><a href=\"javascript:;\" class=\"update_textbook\"  data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">修改教材版本</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_stu_subject\" data-userid=\""+g_sid+"\" data-subject=\""+item['subject']+"\">删除科目</a></td></tr>");
+                
+            });
+            html_node.find("table").find(".update_textbook").each(function(){
+                $(this).on("click",function(){
+                    var userid = $(this).data("userid");
+
+                    var subject = $(this).data("subject");
+                    var id_textbook_new     = $("<select/>");
+                    Enum_map.append_option_list("region_version", id_textbook_new, true );
                     var arr=[
-                        ["类型", id_child_order_type],
-                        ["金额", id_child_order_money]
+                        ["教材",id_textbook_new],
                     ];
-                    $.show_key_value_table("增加", arr, {
-                        label: '确认',
-                        cssClass: 'btn-warning',
-                        action: function (dialog) {
-                            call_func({
-                                "child_order_type" :  id_child_order_type.val() ,
-                                "child_order_money" : id_child_order_money.val()*100,
-                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
+                    $.show_key_value_table("修改", arr ,{
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
+                            $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
+                                "userid"             :g_sid,
+                                "subject" :          subject,
+                                "editionid"     : id_textbook_new.val(),
                             });
-                            dialog.close();
                         }
                     });
-                },
-                sort_func : function(a,b){
-                },
-                'field_list' :[
-                    {
-                        title:"类型",
-                        render:function(val,item) {
-                            return item["child_order_type_str"];
-                        }
-                    },{
 
-                        title:"金额",
-                        //width :50,
-                        render:function(val,item) {
-                            return item["child_order_money"]/100  ;
-                        }
-                    }
-                ] ,
-                data_list: data_list,
-                onChange:function( data_list, dialog)  {
-                  //  $add_child_order_list.data("v" , JSON.stringify(data_list));
-                }
+                    
+                });
+                
             });
 
+            html_node.find("table").find(".delete_stu_subject").each(function(){
+                $(this).on("click",function(){
+                    var userid = $(this).data("userid");
+
+                    var subject = $(this).data("subject");
+                    BootstrapDialog.confirm("确定要删除？", function(val){
+                        if (val) {
+                            $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                                "userid"             :g_sid,
+                                "subject" :          subject,
+                            });
+
+                        } 
+                    });
+                    
+
+                    
+                });
+                
+            });
+
+
+            
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '增加科目',
+                    cssClass: 'btn-warning',
+                    action: function(dialog) {
+                        // alert(1111);
+                        var id_subject_new = $("<select/>");
+                        var id_textbook_new     = $("<select/>");
+                        Enum_map.append_option_list("subject", id_subject_new, true );
+                        Enum_map.append_option_list("region_version", id_textbook_new, true );
+                        var arr=[
+                            ["科目",id_subject_new],
+                            ["教材",id_textbook_new],
+                        ];
+                        $.show_key_value_table("增加", arr ,{
+                            label    : '确认',
+                            cssClass : 'btn-warning',
+                            action   : function(dialog) {
+                                $.do_ajax( '/ajax_deal2/set_user_subject_textbook', {
+                                    "userid"             :g_sid,
+                                    "subject" : id_subject_new.val(),
+                                    "editionid"     : id_textbook_new.val(),
+                                });
+                            }
+                        });
+
+
+                    }
+                    
+                },{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+                                     
         });
 
     });

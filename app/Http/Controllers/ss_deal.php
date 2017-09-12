@@ -1704,7 +1704,16 @@ class ss_deal extends Controller
         $orderid =1197;
         $data = $this->t_child_order_info->get_all_child_order_info($orderid);
         if(empty($data)){
-            return $this->output_err("没有数据!");  
+            $price = $this->t_order_info->get_price($orderid);
+            $this->t_child_order_info->row_insert([
+                "child_order_type" =>0,
+                "pay_status"       =>0,
+                "add_time"         =>time(),
+                "parent_orderid"   =>$orderid,
+                "price"            => $price
+            ]);
+            $data = $this->t_child_order_info->get_all_child_order_info($orderid);
+            
         }
         return $this->output_succ(["data"=>$data]);
     }

@@ -1670,12 +1670,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         if (preg_match('/_chat$/',$roomid, $matches)) {
             \App\Helper\Utils::logger(" $roomid no  log");
-            return "";
+            return $this->output_succ();
         }
         if ($userid== "supervisor" ){
-            if (trim($online_userlist)==""){
-                return "";
-            }
+            return $this->output_succ();
         }
 
 
@@ -1726,13 +1724,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->lesson_manage_model->add_lesson_log_info($lessonid,time(),$userid,
                                                             $opt_type,$server_type,
                                                             ip2long($this->in["IP_ADDRESS"]),$program_id);
+            $this->t_lesson_opt_log->row_insert([
+                'lessonid'=> $lessonid,
+                'opt_time' => time(),
+                'opt_type'=>  $opt_type,
+                'userid'=>    $userid,
+                'server_type' => $server_type,
+                'server_ip'=>    ip2long($this->in["IP_ADDRESS"]),
+                'program_id'=>    $program_id,
+            ]);
             if ($utype=="tea" &&  $opt_type  ==1   )  {
-                $this->d_t_lesson_info_model->set_real_begin_time($lessonid,time(NULL));
+                $this->t_lesson_info_b3-> set_real_begin_time($lessonid,time(NULL));
             }
         }
-        //
-        log::write('==============notify commited =============', 'notify');
-        //userid
+        return $this->output_succ();
     }
 
 

@@ -501,4 +501,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             self::DB_TABLE_NAME, $courseid, $lesson_num  );
         return $this->main_get_row($sql);
     }
+
+    public function set_real_begin_time( $lessonid, $real_begin_time  ) {
+        $sql= $this->gen_sql(
+            "update %s set  real_begin_time =%u "
+            . "  where lessonid=%u and real_begin_time =0  ",
+            self::DB_TABLE_NAME,
+            $real_begin_time,
+            $lessonid
+        );
+        return $this->main_update($sql);
+    }
+
 }
