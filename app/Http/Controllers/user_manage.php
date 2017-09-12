@@ -1048,12 +1048,7 @@ class user_manage extends Controller
             $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
             $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
 
-            // if(!empty($arr['list'])){
-                // dd($arr);
-            // }
-
             foreach($arr['key1_value'] as &$v1){
-
                 $key1_name = @$v1['value'].'一级原因';
                 $key2_name = @$v1['value'].'二级原因';
                 $key3_name = @$v1['value'].'三级原因';
@@ -1069,11 +1064,6 @@ class user_manage extends Controller
 
                 foreach($arr['list'] as $v2){
                     if($v2['key1_str'] == $v1['value']){
-                        // $key1_name = @$v1['value'].'一级原因';
-                        // $key2_name = @$v1['value'].'二级原因';
-                        // $key3_name = @$v1['value'].'三级原因';
-                        // $reason_name    = @$v1['value'].'reason';
-                        // $dep_score_name = @$v1['value'].'dep_score';
 
                         if(isset($v1["$key1_name"])){
                             $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
@@ -1098,7 +1088,6 @@ class user_manage extends Controller
             }
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
             "acc"           => $acc,

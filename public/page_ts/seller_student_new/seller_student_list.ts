@@ -1896,21 +1896,24 @@ function init_edit() {
     });
 
     $(".opt-test_lesson-review").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var $id_userid    = $("<input/>");
+        var opt_data  = $(this).get_opt_data();
+        var $id_phone = $("<input/>");
+        var $id_desc  = $("<textarea rows='' cols=''>");
 
         var arr=[
-            ["userid",  $id_userid],
+            ["学生",  $id_phone],
+            ["申请说明",  $id_desc],
         ];
 
-        $id_userid.val(opt_data.userid);
+        $id_phone.val(opt_data.phone);
 
         $.show_key_value_table("排课申请", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/test_lesson_review/test_lesson_review_add",{
-                    "userid"        : $id_userid.val(),
+                    "userid" : opt_data.userid,
+                    "review_desc"   : $id_desc.val(),
                 })
             }
         })

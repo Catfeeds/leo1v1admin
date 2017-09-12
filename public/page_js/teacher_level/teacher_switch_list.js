@@ -5,7 +5,7 @@ $(function(){
     function load_data(){
         $.reload_self_page({
 			      teacher_money_type : $('#id_teacher_money_type').val(),
-			      teacherid          : $('#id_teacherid').val(),
+			      // teacherid          : $('#id_teacherid').val(),
 			      batch              : $('#id_batch').val(),
 			      status             : $('#id_status').val()
         });
@@ -19,4 +19,54 @@ $(function(){
 	  $('#id_status').val(g_args.status);
 
 	  $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-switch_upload").on("click",function(){
+        var data = $(this).get_opt_data();
+
+        BootstrapDialog.show({
+	          title   : "切换申请",
+	          message : "是否提交切换申请?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_level/switch_upload",{
+                        "id"     : data.id,
+                        "type"   : 1,
+                        "status" : 1,
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+    });
+
+    $(".opt-first_check").on("click",function(){
+        var data      = $(this).get_opt_data();
+        var id_status = $("<select>");
+
+        var arr = [
+            ["是否通过",id_status]
+        ];
+        Enum_map.append_option_list("boolean",id_status);
+
+
+
+
+    });
+
+
+
+
 });

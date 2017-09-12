@@ -50,28 +50,29 @@
                     <td >原等级</td>
                     <td >拟调整等级</td>
                     <td >调整批次属性</td>
-                    <td >调整时间</td>
                     <td >调整状态</td>
+                    <td >调整时间</td>
                     <td >操作</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["id"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["new_level_str"]}} </td>
-                        <td>{{@$var["batch"]}} </td>
-                        <td>{{@$var["switch_time"]}} </td>
+                        <td>{{@$var["batch_str"]}} </td>
                         <td>{{@$var["status_str"]}} </td>
+                        <td>{{@$var["put_time_str"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 @if(in_array($acc,['ted']))
                                     <a class="opt-finally_check" title="最终审核">最终审核</a>
-                                @elseif(in_array($acc,['']))
+                                @elseif(in_array($acc,['Rain']))
                                     <a class="opt-first_check" title="第一次审核">审核</a>
                                 @else
                                     <a class="opt-switch_upload" title="申请">申请</a>

@@ -1502,7 +1502,7 @@ class teacher_info extends Controller
             $dir= "/";
         }
 
-        $store=new \App\FileStore\file_store_tea();
+        $store = new \App\FileStore\file_store_tea();
         $ret_list=$store->list_dir($teacherid, $dir);
         foreach ( $ret_list  as &$item  ) {
             if (!$item["is_dir"]) {
@@ -1716,6 +1716,7 @@ class teacher_info extends Controller
             E\Eidentity::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
+            E\Eeducation::set_item_value_str($item);
             $now_day      = strtotime( 'today' );
             $first_day    = strtotime( date('Y-m-d', $item['create_time']) );
             $item['days'] = ($now_day - $first_day)/86400;
@@ -1735,19 +1736,22 @@ class teacher_info extends Controller
             //判断完整度
             $msgarr = ['nick','birth','gender','email','phone','work_year','address','dialect_notes','school','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
             $integrity = 0;
+            $able_edit = [];
             foreach ($item as $key=> $val) {
-                if ( $val != "") {
+                if ( $val != "" || $val == 0) {
                     if ($key == 'jianli') {
                         $integrity = $integrity + 37;
                     }
                     if (in_array($key,$msgarr)) {
                         $integrity = $integrity + 3;
                         $item[$key.'_code'] = '<span>'.$val.'</span>';
+                        $able_edit[$key] = $val;
                     }
 
                 } else {
                     if (in_array($key,$msgarr)) {
                         $item[$key.'_code'] = '<span class="color-9">未设置</span>';
+                        $able_edit[$key] = $val;
                     }
                 }
 
@@ -1759,9 +1763,11 @@ class teacher_info extends Controller
                 $show_flag = 1;
             }
         }
+
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info"   => $ret_info['list'][0],
             "show_flag" => $show_flag,
+            "able_edit" => $able_edit,
         ]);
     }
 

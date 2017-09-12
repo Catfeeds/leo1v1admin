@@ -1040,7 +1040,13 @@ class teacher_level extends Controller
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val);
-
+            $val['batch_str'] = "第".$val['batch']."批次";
+            E\Eswitch_status::set_item_value_str($val,"status");
+            if($val['put_time']>0){
+                $val['put_time_str']=\App\Helper\Utils::unixtime2date($val['put_time']);
+            }else{
+                $val['put_time_str']="";
+            }
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
@@ -1052,6 +1058,44 @@ class teacher_level extends Controller
     public function teacher_switch_list_finally(){
         $this->teacher_switch_list();
     }
+
+    /**
+     * 处理老师薪资版本切换
+     * @param id 需要处理的id
+     * @param type 1 提交申请 2 第一次审核 3 最后审核
+     * @param status 0 未申请 1 未审核 2 通过 3 驳回
+     */
+    public function switch_upload(){
+        $type   = $this->get_in_int_val("type");
+        $id     = $this->get_in_int_val("id");
+        $status = $this->get_in_int_val("status");
+        $acc    = $this->get_account();
+
+        $update_arr = [];
+        if($type==2 && $acc!=="Rain"){
+            if($acc!="Rain"){
+                return $this->output_err("你没有第一次审核权限!");
+            }else{
+                $update_arr["confirm_time"]=time();
+            }
+        }elseif($type==3 && $acc!="ted"){
+            if($acc!="ted"){
+                return $this->output_err("你没有最后审核权限!");
+            }else{
+                $update_arr["confirm_time"]=time();
+            }
+        }else{
+            $update_arr['put_time'] = time();
+        }
+        $update_arr['status'] = $status;
+
+        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,$update_arr);
+        if(!$ret){
+            return $this->output_err("更新失败!请重试!");
+        }
+        return $this->output_succ();
+    }
+
 
 
 

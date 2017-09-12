@@ -20,8 +20,10 @@ interface RowData {
 	master_time	:any;
 	create_time	:any;
 	userid	:any;
+	review_desc	:any;
 	phone	:any;
 	nick	:any;
+	aid	:any;
 	num	:any;
 	group_nick	:any;
 	master_nick	:any;

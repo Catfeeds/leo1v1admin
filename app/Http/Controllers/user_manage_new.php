@@ -327,6 +327,7 @@ class user_manage_new extends Controller
         $teacher_money_type       = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
         $transfer_teacherid       = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        $transfer_time            = $this->t_teacher_info->get_transfer_time($teacherid);
         $teacher_honor            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
         $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
@@ -355,7 +356,7 @@ class user_manage_new extends Controller
         $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
             $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
         //检测是否存在转移记录
-        if($transfer_teacherid>0){
+        if($transfer_teacherid>0 ){
             $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                 $transfer_teacherid,$last_month_start,$last_month_end);
             $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
@@ -1424,7 +1425,7 @@ class user_manage_new extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
-        foreach( $ret_info as &$item ){
+        foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
@@ -1486,6 +1487,14 @@ class user_manage_new extends Controller
                 $become_member_num_l2 = 0;
                 $leave_member_num_l2 = 0;
             }
+            if($item['main_type_str'] == '助教'){
+                unset($ret_info[$key]);
+            }
+            $item['target_money'] = round($item['target_money']);
+            $item['los_money'] = round($item['los_money']);
+            $item['all_price_for_month'] = round($item['all_price_for_month']);
+            $item['ave_price_for_month'] = round($item['ave_price_for_month']);
+            $item['los_personal_money'] = round($item['los_personal_money']);
         }
         // dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){

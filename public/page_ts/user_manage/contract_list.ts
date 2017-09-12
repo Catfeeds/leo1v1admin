@@ -2913,19 +2913,16 @@ $(function(){
                 label  : '确认',
                 action : function(dialog) {
                     var promotion_spec_discount_int = parseInt($promotion_spec_discount_price.val()*100);
-                    alert(promotion_spec_discount_int);
                     var child_list=JSON.parse($add_child_order_list.data("v"));
                     var child_money=0;
                     $.each(child_list,function(i,item){
                         child_money = child_money+item["child_order_money"];
                     });
  
-                    if(promotion_spec_discount_int != child_money){
+                    if(promotion_spec_discount_int != child_money && $order_partition_flag.val() ==1){
                         alert("子合同总额不等于订单金额!");
                         return;
                     }
-                    alert(111);
-                    return;
                     $.do_ajax("/ss_deal/seller_add_contract_new",{
                         require_id                    : require_id,
                         contract_type                 : contract_type,
@@ -2944,6 +2941,8 @@ $(function(){
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
                         promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
                         has_share_activity_flag       : $has_share_activity_flag.val(),
+                        order_partition_flag          : $order_partition_flag.val(),
+                        child_order_info              : $add_child_order_list.data("v")
                     });
                 }
             }]
