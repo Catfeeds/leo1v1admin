@@ -814,6 +814,7 @@ return array(
     'TTeacherRecordListAddLessonStart' => $baseDir . '/database/migrations/2017_08_30_183314_t_teacher_record_list_add_lesson_start.php',
     'TTeacherRecordListAddPhoneSpare' => $baseDir . '/database/migrations/2017_06_26_132312_t_teacher_record_list_add_phone_spare.php',
     'TTeacherRecordListAddTeacherDetailScore' => $baseDir . '/database/migrations/2017_08_12_134009_t_teacher_record_list_add_teacher_detail_score.php',
+    'TTeacherRecordListAddTrainType' => $baseDir . '/database/migrations/2017_09_12_115211_t_teacher_record_list_add_train_type.php',
     'TTeacherRecordListAddTrialTrainStatus' => $baseDir . '/database/migrations/2017_06_09_111532_t_teacher_record_list_add_trial_train_status.php',
     'TTeacherRecordListChangePrimaryKey' => $baseDir . '/database/migrations/2017_06_12_163353_t_teacher_record_list_change_primary_key.php',
     'TTeacherRewardRuleList' => $baseDir . '/database/migrations/2017_08_23_194222_t_teacher_reward_rule_list.php',

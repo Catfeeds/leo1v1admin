@@ -846,10 +846,11 @@ class teacher_level extends Controller
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
-        $record_type                     = $this->get_in_int_val("type");
-        $lesson_style                    = $this->get_in_int_val("lesson_style");
-        $id                              = $this->get_in_int_val("id");
-        $lesson_invalid_flag            = $this->get_in_int_val("lesson_invalid_flag");
+        $record_type                      = $this->get_in_int_val("type");
+        $lesson_style                     = $this->get_in_int_val("lesson_style");
+        $id                               = $this->get_in_int_val("id");
+        $lesson_invalid_flag              = $this->get_in_int_val("lesson_invalid_flag");
+        $train_type                       = $this->get_in_int_val("train_type");
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
@@ -875,7 +876,8 @@ class teacher_level extends Controller
                 "record_monitor_class"             => $record_monitor_class,
                 "userid"                           => $userid,
                 "add_time"                         => $add_time,
-                "lesson_invalid_flag"              =>$lesson_invalid_flag
+                "lesson_invalid_flag"              =>$lesson_invalid_flag,
+                "train_type"                       => $train_type,
             ]);
  
         }else{
@@ -901,7 +903,8 @@ class teacher_level extends Controller
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
                 "lesson_invalid_flag"              =>$lesson_invalid_flag,
-                "userid"                           => $userid
+                "userid"                           => $userid,
+                "train_type"                       => $train_type,
             ]);
 
         }
