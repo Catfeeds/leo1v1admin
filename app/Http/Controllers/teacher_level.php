@@ -1071,17 +1071,29 @@ class teacher_level extends Controller
         $status = $this->get_in_int_val("status");
         $acc    = $this->get_account();
 
+        $update_arr = [];
         if($type==2 && $acc!=="Rain"){
-            return $this->output_err("你没有第一次审核权限!");
+            if($acc!="Rain"){
+                return $this->output_err("你没有第一次审核权限!");
+            }else{
+                $update_arr["confirm_time"]=time();
+            }
         }elseif($type==3 && $acc!="ted"){
-            return $this->output_err("你没有最后审核权限!");
+            if($acc!="ted"){
+                return $this->output_err("你没有最后审核权限!");
+            }else{
+                $update_arr["confirm_time"]=time();
+            }
+        }else{
+            $update_arr['put_time'] = time();
         }
+        $update_arr['status'] = $status;
 
-
-        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
-            ""
-        ]);
-
+        $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,$update_arr);
+        if(!$ret){
+            return $this->output_err("更新失败!请重试!");
+        }
+        return $this->output_succ();
     }
 
 

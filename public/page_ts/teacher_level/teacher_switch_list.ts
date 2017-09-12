@@ -37,6 +37,7 @@ $(function(){
 		            action   : function(dialog) {
                     $.do_ajax("/teacher_level/switch_upload",{
                         "id"     : data.id,
+                        "type"   : 1,
                         "status" : 1,
                     },function(result){
                         if(result.ret==0){
@@ -50,6 +51,21 @@ $(function(){
 	          }]
         });
     });
+
+    $(".opt-first_check").on("click",function(){
+        var data      = $(this).get_opt_data();
+        var id_status = $("<select>");
+
+        var arr = [
+            ["是否通过",id_status]
+        ];
+
+
+
+
+
+    });
+
 
 
 
