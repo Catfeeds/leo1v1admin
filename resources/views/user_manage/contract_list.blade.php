@@ -153,11 +153,15 @@
                         <button id="id_add_seller_contract" type="submit"  class="btn  btn-warning">
                             <i class="fa fa-plus"></i>合同
                         </button>
-                        @if($acc=="jim" || $acc=="jack")
-                            <button id="id_add_seller_contract_new" type="submit"  class="btn  btn-warning">
-                                <i class="fa fa-plus"></i>合同-jack
-                            </button>
-                        @endif
+                        <button id="id_add_seller_contract_new" type="submit"  class="btn  btn-warning"
+                                @if($acc=="jim" || $acc=="jack")
+                                style="display:display"
+                                @else
+                                style="display:none"
+                                @endif
+                        >
+                            <i class="fa fa-plus"></i>合同-jack
+                        </button>
                     </div>
                 </div>
             </div>

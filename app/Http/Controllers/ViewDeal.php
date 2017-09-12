@@ -560,8 +560,9 @@ trait  ViewDeal {
                 foreach ( $item as $key => $cell_data ) {
                     if(!is_int($key)) {
                         $index_str = $index+2;
-                        $pos_str   = @$col_list[$k_map[$key]].$index_str;
-                        @$objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
+                        $pos_str   = $col_list[$k_map[$key]].$index_str;
+                        echo $pos_str." ~ ".$cell_data."<br>";
+                        $objPHPExcel->getActiveSheet()->setCellValue( $pos_str, $cell_data);
                     }
                 }
             }

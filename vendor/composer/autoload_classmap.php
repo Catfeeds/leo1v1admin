@@ -817,6 +817,7 @@ return array(
     'TTeacherRecordListAddTrialTrainStatus' => $baseDir . '/database/migrations/2017_06_09_111532_t_teacher_record_list_add_trial_train_status.php',
     'TTeacherRecordListChangePrimaryKey' => $baseDir . '/database/migrations/2017_06_12_163353_t_teacher_record_list_change_primary_key.php',
     'TTeacherRewardRuleList' => $baseDir . '/database/migrations/2017_08_23_194222_t_teacher_reward_rule_list.php',
+    'TTeacherSwitchMoneyTypeListAddLessonTotal' => $baseDir . '/database/migrations/2017_09_12_110336_t_teacher_switch_money_type_list_add_lesson_total.php',
     'TTeacherSwitchMoneyTypeListAddMoney' => $baseDir . '/database/migrations/2017_09_12_104441_t_teacher_switch_money_type_list_add_money.php',
     'TTestLessonRequireTeacherListAddTeacherid' => $baseDir . '/database/migrations/2017_06_16_111946_t_test_lesson_require_teacher_list_add_teacherid.php',
     'TTestLessonSubjectAddHomeworkPdfUrl' => $baseDir . '/database/migrations/2017_08_23_100712_t_test_lesson_subject_add_homework_pdf_url.php',

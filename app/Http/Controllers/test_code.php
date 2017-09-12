@@ -2069,6 +2069,17 @@ class test_code extends Controller
         }
     }
 
+    public function add_switch_info(){
+        $arr = $this->get_b_txt();
+        array_filter($arr);
+
+        // 0 realname 1 lesson_total 2 teacher_money_type_str 3 level_str 4 new_level_str
+        // 5 all_money_different 6 base_money_different
+        foreach($arr as $a_val){
+            $tea_info = explode("|",$a_val);
+           
+        }
+    }
 
 
 
