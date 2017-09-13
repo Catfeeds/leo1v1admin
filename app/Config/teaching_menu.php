@@ -157,6 +157,7 @@ class teaching_menu{
                         [ "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
                         [ "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                         [ "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
+                        ["name"=>"未审核统计",        "url"=>"/user_manage/tongji_check"],
                         [ "name"=>"第一次试听课反馈",   "url"=>"/teacher_level/get_first_test_lesson_info"],
                         [ "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
                         [ "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
@@ -207,6 +208,7 @@ class teaching_menu{
                     [ "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                     [ "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                     [ "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
+                    [ "name"=>"武汉全职老师面试数据","url"=>"/fulltime_teacher/fulltime_teacher_data"],
                 ]],
 
                 [ "name"=>"产品部",  "list"=>[
