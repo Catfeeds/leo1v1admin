@@ -2713,7 +2713,7 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-       /**
+    /**
      * @author    sam
      * @function  质检-录制试讲统计-模拟试听未审核统计
      */
@@ -2765,8 +2765,8 @@ class user_manage extends Controller
            ]
         ];
         foreach ($lz_ret_info as $key => $value) {
-            $ret[1][$value['subject']] = $value['sum'];
-            $ret[1]['sum'] += $value['sum'];
+            ++$ret[1][$value['subject']];
+            ++$ret[1]['sum'];
         }
         foreach ($train_ret_info as $key => $value) {
             $ret[2][$value['subject']] = $value['sum'];
