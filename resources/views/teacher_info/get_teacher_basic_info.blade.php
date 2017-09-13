@@ -16,7 +16,8 @@
     </style>
 
     <script>
-     var able_edit = <?php  echo json_encode($able_edit); ?> ;
+     var able_edit  = <?php  echo json_encode($able_edit); ?> ;
+     var domain_url = '{{$domain_url}}';
     </script>
 
     <section class="content li-section">
@@ -592,7 +593,7 @@
 @endsection
 
 <div class="modal fade" id="modal-default" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:60%;border-top:3px solid #00A6FF;border-radius:3px">
+    <div class="modal-dialog" style="width:900px;border-top:3px solid #00A6FF;border-radius:3px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close tag" data-dismiss="modal" aria-label="Close">

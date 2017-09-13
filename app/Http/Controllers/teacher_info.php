@@ -1540,19 +1540,19 @@ class teacher_info extends Controller
 
         return $this->output_succ();
     }
-    public function get_upload_token() {
-        $store=new \App\FileStore\file_store_tea();
-        $dir = $this->get_in_str_val("dir");
-        $teacherid      = $this->get_login_teacher();
 
-        $pre_dir=$store->get_dir($teacherid,$dir );
-        $token=$store->get_upload_token();
+    public function get_upload_token() {
+        $store     = new \App\FileStore\file_store_tea();
+        $dir       = $this->get_in_str_val("dir");
+        $teacherid = $this->get_login_teacher();
+        $pre_dir   = $store->get_dir($teacherid,$dir );
+        $token     = $store->get_upload_token();
         return $this->output_succ(["upload_token"=> $token, "pre_dir" => $pre_dir ]);
 
     }
     public function get_download_url() {
         $file_path = $this->get_in_str_val("file_path");
-        $teacherid      = $this->get_login_teacher();
+        $teacherid = $this->get_login_teacher();
 
         $store=new \App\FileStore\file_store_tea();
         $auth=$store->get_auth();
@@ -1561,7 +1561,7 @@ class teacher_info extends Controller
         return $this->output_succ(["url" => $authUrl]);
     }
     public function get_share_link() {
-        $teacherid      = $this->get_login_teacher();
+        $teacherid  = $this->get_login_teacher();
         $share_path = $this->get_in_str_val("share_path");
 
         $now=time();
@@ -1768,6 +1768,7 @@ class teacher_info extends Controller
             "my_info"   => $ret_info['list'][0],
             "show_flag" => $show_flag,
             "able_edit" => $able_edit,
+            'domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
 

@@ -1,7 +1,7 @@
 @charset "utf-8";
 .container {
 	width: 400px;
-	margin: 40px auto 0 auto;
+	margin: 40px 400px 0 auto;
 	position: relative;
 	font-family: 微软雅黑;
 	font-size: 12px;
@@ -20,7 +20,7 @@
 }
 .cropped {
 	position: absolute;
-	right: -230px;
+	right: -320px;
 	top: 0;
 	width: 200px;
 	border: 1px #ddd solid;
@@ -72,7 +72,7 @@
   font-size: 20px;
   color: #FFFFFF;
   margin:0px 2px;
-  background-color: #f38e81;
+  background-color: #00c0ef;
   border-radius: 3px;
   text-decoration: none;
   cursor: pointer;
@@ -114,7 +114,7 @@ a.upload-img{
 	line-height: 57px;
 	font-size: 20px;
 	color: #FFFFFF;
-	background-color: #f38e81;
+	background-color: #00c0ef;
 	border-radius: 3px;
 	text-decoration:none;
 	cursor:pointer;
