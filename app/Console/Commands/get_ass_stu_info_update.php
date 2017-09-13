@@ -106,6 +106,69 @@ class get_ass_stu_info_update extends Command
         $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
         $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+
+
+        //主管2数据
+        $month_middle = $start_time+15*86400;
+        $lesson_list_first = $task->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);
+        $userid_list_first=[];
+        $userid_list_first_all=[];
+        foreach($lesson_list_first as $item1){
+            $userid_list_first[$item1["uid"]][]=$item1["userid"];
+            $userid_list_first_all[] = $item1["userid"];
+        }
+        $xq_revisit_first = $task->t_revisit_info->get_ass_xq_revisit_info_new($start_time,$month_middle,$userid_list_first_all,false);
+
+        $lesson_list_second = $task->t_lesson_info_b2->get_all_ass_stu_lesson_info($month_middle,$end_time);
+        $userid_list_second=[];
+        $userid_list_second_all=[];
+        foreach($lesson_list_second as $item2){
+            $userid_list_second[$item2["uid"]][]=$item2["userid"];
+            $userid_list_second_all[] = $item2["userid"];
+        }
+
+        $xq_revisit_second = $task->t_revisit_info->get_ass_xq_revisit_info_new($month_middle,$end_time,$userid_list_second_all,false);
+
+        $warning_info    = $task->t_month_ass_student_info->get_ass_month_info($start_time);
+
+
+        $last_month  = strtotime(date('Y-m-01',$start_time-100));
+        $ass_last_month    = $task->t_month_ass_student_info->get_ass_month_info($last_month,-1,1);
+        $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+
+        $new_info = $task->t_student_info->get_ass_new_stu_first_revisit_info($start_time,$end_time);
+        $new_revisit=[];
+        foreach($new_info as $v){
+            @$new_revisit[$v["uid"]]["new_num"]++;
+            if($v["revisit_time"]>0){
+                @$new_revisit[$v["uid"]]["first_num"]++;
+            }else{
+                @$new_revisit[$v["uid"]]["un_first_num"]++;
+            }
+        }
+
+
+
+        $student_finish = $task->t_student_info->get_ass_first_revisit_info_finish($start_time,$end_time);//结课学生数
+        $student_finish_detail = [];
+        foreach ($student_finish as $key => $value) {  
+            $student_finish_detail[$value['uid']] = $value['num']; 
+        }
+        /*
+          $student_all = $task->t_student_info->get_ass_first_revisit_info();//在册学生数
+          $student_all_detail = [];
+          foreach ($student_all as $key => $value) {  
+          $student_all_detail[$value['uid']] = $value['num']; 
+          }
+        */
+        //dd($new_revisit);
+        $refund_score = $task->get_ass_refund_score($start_time,$end_time);
+
+        $lesson_money_all = $task->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
+        $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
+        $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
+        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
+
         foreach($ass_list as $k=>&$item){
             if(!isset($item["warning_student"])){
                 $item["warning_student"]=0;

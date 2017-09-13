@@ -68,9 +68,6 @@ interface RowData {
 	grade_str	:any;
 	teacher_tags_arr	:any;
 	tags_flag	:any;
-	nick_code	:any;
-	phone_code	:any;
-	email_code	:any;
 	address_code	:any;
 	work_year_code	:any;
 	dialect_notes_code	:any;
