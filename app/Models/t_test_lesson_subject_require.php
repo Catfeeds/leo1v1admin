@@ -2005,7 +2005,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function  get_test_fail_row($cur_require_adminid,$userid = -1)
+    public function  get_test_fail_row($cur_require_adminid,$userid = -1,$flag = -1)
     {
         $time = time(null);
         $where_arr=[
@@ -2014,6 +2014,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_order_fail_flag in (0,null)",
             'contract_status=0 or contract_status is null',
             ['t.userid = %u ',$userid,-1],
+            ['tr.test_lesson_order_fail_flag = %u ',$flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"require_time",1504195200,$time);
         $this->where_arr_add_time_range($where_arr,"l.lesson_end",1504195200,$time);
