@@ -1170,7 +1170,7 @@ class seller_student_new extends Controller
         $origin_info = $this->t_origin_key->get_key1_list_by_origin_level_arr($origin_levle_arr);
         foreach($ret_info["list"] as &$item){
             foreach($origin_info as $info){
-                if($item['origin_level'] == $info['origin_level']){
+                if(($item['origin_level'] == $info['origin_level']) && $item['origin_level']){
                     $item['key1'] = $info['key1'];
                 }
             }
