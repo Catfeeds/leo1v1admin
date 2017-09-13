@@ -2162,10 +2162,8 @@ class test_code extends Controller
         }
     }
 
-
-
     public function reset_teacher_batch(){
-        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1,8);
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,0,8);
         $tea_list=[];
         foreach($list as $l_val){
             $lesson_total=(float)$l_val['lesson_total']/100;
@@ -2189,9 +2187,9 @@ class test_code extends Controller
 
             echo $l_val['realname']."|".$x."|".$y."|".$batch."|".$lesson_total."|";
             echo "<br>";
-            $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
-                "batch"=>$batch
-            ]);
+            // $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
+            //     "batch"=>$batch
+            // ]);
             $tea_list[$batch][]=$l_val['realname'];
         }
         dd($tea_list);
