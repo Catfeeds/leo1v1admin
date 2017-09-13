@@ -2015,10 +2015,12 @@ class test_code extends Controller
                 $data['first'] = "恭喜您，您等级已经调整为".$level_str;
                 $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
                 $data['keyword2'] = $level_str;
-
                 \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
             }
-
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                "teacher_money_type" => $val['teacher_money_type_simulate'],
+                "level"              => $val['level_simulate'],
+            ]);
         }
     }
 
