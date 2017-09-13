@@ -135,7 +135,7 @@ $(function(){
         id_education.val(able_edit.education);
 
         if (title_type == 'user-info') {
-            $modal_title = '课堂信息';
+            $modal_title = '可编辑信息';
             var arr= [
                 ["merge","个人资料"],
                 ["姓名：", id_nick],
@@ -228,7 +228,7 @@ $(function(){
 
                 }
             }
-        },'',false,600);
+        },'',false,600,'padding-right:80px;');
 
     };
 
