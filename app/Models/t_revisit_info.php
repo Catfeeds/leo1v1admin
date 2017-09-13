@@ -311,7 +311,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             // "(s.is_test_user = 0 or s.is_test_user is null)",
             "t.sys_operator <> 'system'",
             "t.sys_operator <> '系统'",
-            "revisit_type in (0,2)"
+            "revisit_type in (0,2,3)"
         ];
 
         $where_arr[]=$this->where_get_in_str("t.userid",$userid_list,$flag);

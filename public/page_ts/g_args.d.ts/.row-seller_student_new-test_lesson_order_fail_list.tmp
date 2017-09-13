@@ -1,4 +1,4 @@
-	key1	:any;
+	origin_level	:any;
 	require_id	:any;
 	lesson_start	:any;
 	lesson_end	:any;
@@ -21,3 +21,4 @@
 	subject_str	:any;
 	grade_str	:any;
 	test_lesson_order_fail_flag_one	:any;
+	key1	:any;
