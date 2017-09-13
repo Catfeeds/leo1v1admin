@@ -4,12 +4,13 @@ namespace App\Strategy\sellerOrderMoney  ;
 use \App\Enums as E;
 class seller_order_money_base {
 
-    static $cur_type = E\Eseller_order_money::V_201705;
+    static $cur_type = E\Eseller_order_money::V_201709;
 
     static $type_config=[
         E\Eseller_order_money::V_201703=>  seller_order_money_201703::class,
         E\Eseller_order_money::V_201702=>  seller_order_money_201702::class,
         E\Eseller_order_money::V_201705=>  seller_order_money_201705::class,
+        E\Eseller_order_money::V_201709=>  seller_order_money_201709::class,
     ];
 
     static $percent_config = [

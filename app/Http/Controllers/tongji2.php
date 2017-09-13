@@ -832,7 +832,7 @@ class tongji2 extends Controller
            $adminid=297;
            }
         $this->set_in_value("adminid",$adminid);
-        return $this->ass_month_kpi_tongji();
+         return $this->ass_month_kpi_tongji();
 
     }
    
@@ -841,7 +841,7 @@ class tongji2 extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $account_id    = $this->get_in_int_val('adminid',-1);
 
-        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
         $month_middle = $start_time+15*86400;
 
         $lesson_list_first = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);
@@ -860,6 +860,7 @@ class tongji2 extends Controller
             $userid_list_second[$item["uid"]][]=$item["userid"];
             $userid_list_second_all[] = $item["userid"];
         }
+
         $xq_revisit_second = $this->t_revisit_info->get_ass_xq_revisit_info_new($month_middle,$end_time,$userid_list_second_all,false);
 
         $warning_info    = $this->t_month_ass_student_info->get_ass_month_info($start_time);
@@ -957,8 +958,9 @@ class tongji2 extends Controller
                 $val["kpi"] += (10-$val["refund_score"]*10);
             }
 	        $val["kpi"] = round($val["kpi"],2);
+
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_group_info($k);
-            $val["group_name"] = $ass_master_adminid["group_name"];
+            $val["group_name"] = $ass_master_adminid["group_name"];//组别
             if($account_id==-1){
 
             }else{

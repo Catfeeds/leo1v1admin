@@ -13,6 +13,7 @@ class seller_menu{
                     ["power_id"=>4, "name"=>"转介绍例子-全部","url"=>"/seller_student_new/ass_master_seller_student_list"],
                     ["power_id"=>5, "name"=>"转介绍例子-主管","url"=>"/seller_student_new/ass_master_seller_master_student_list"],
                     ["power_id"=>6, "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
+                    ["power_id"=>38, "name"=>"排课审核",   "url"=>"/test_lesson_review/test_lesson_review_list"],
                     ["power_id"=>7, "name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user" ],
                     ["power_id"=>8, "name"=>"抢新学生-当前用户","url"=>"/seller_student_new/deal_new_user_tmk"],
                     ["power_id"=>9, "name"=>"公海-抢学生","url"=>"/seller_student_new/get_free_seller_list"],

@@ -90,6 +90,7 @@ class NewRouteConfig {
         "custom"                      => true,
         "tq"                          => true,
         "seller_student_new"          => true,
+        "test_lesson_review"          => true,
         "wx_token"                    => true,
         "wx_score"                    => true,
         "main_page"                   => true,
@@ -134,6 +135,7 @@ class NewRouteConfig {
         "/common/add_trial_train_lesson_by_admin"           => true,
         "/common/get_teacher_hornor_list"           => true,
         "/common/upload_qiniu"           => true,
+        "/common/notify"           => true,
         "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
@@ -240,6 +242,7 @@ class NewRouteConfig {
         "/user_manage/get_stu_grade_info_month"                 => true,
         "/user_manage/get_stu_subject_info_month"               => true,
         "/user_manage/subject_by_month"                         => true,
+        "/user_manage/tongji_check"                             => true,
 
 
 

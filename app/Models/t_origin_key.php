@@ -225,6 +225,15 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
 
     }
 
-
+    public function get_key1_list_by_origin_level_arr($origin_level_arr){
+        $this->where_arr_add_int_or_idlist($where_arr,'origin_level',$origin_level_arr);
+        $sql=$this->gen_sql_new("select * from %s "
+                                ." where %s "
+                                ." group by key1 "
+                                , self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

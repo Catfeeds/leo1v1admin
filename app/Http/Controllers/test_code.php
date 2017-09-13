@@ -1851,6 +1851,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 刷新招师库李的年级和科目信息
+     */
     public function refresh(){
         $subject_map = E\Esubject::$desc_map;
         $grade_map = E\Egrade::$desc_map;
@@ -1917,43 +1920,17 @@ class test_code extends Controller
         return $grade_ex;
     }
 
-    public function get_tea_list(){
-        $start = strtotime("2017-7-1");
-        $end   = strtotime("2017-9-1");
-        $list  = $this->t_teacher_info->get_tea_list($start,$end);
-        $admin_list = $this->t_manager_info->get_admin_list_by_role(3);
-        $tea_num = count($list);
-        $admin_num = count($admin_list);
-        if($admin_num==0){
-            return $this->output_err("教务数量错误！");
-        }
-        $limit_num = ceil($tea_num/$admin_num);
-        \App\Helper\Utils::debug_to_html( $list );
-        $check_num = 1;
-        $key = 0;
-        foreach($list as $t_val){
-            $uid = $admin_list[$key]['uid'];
-            echo $uid."|".$t_val['teacherid']."|".$check_num;
-            echo "<br>";
-            $this->t_teacher_info->field_update_list($t_val['teacherid'],[
-                "assign_jw_adminid" => $uid,
-            ]);
-            $check_num++;
-            if($check_num==$limit_num){
-                $key++;
-                $check_num = 1;
-            }
-
-        }
-    }
-
+    /**
+     * 获取时间内的老师奖励薪资
+     */
     public function get_reward_list(){
         $start = strtotime("2017-8-1");
-        $end= strtotime("2017-9-1");
-        $list = $this->t_teacher_money_list->get_reward_list($start,$end,6);
+        $end   = strtotime("2017-9-1");
+        $list  = $this->t_teacher_money_list->get_reward_list($start,$end,5);
         foreach($list as $val){
-            echo $val['teacherid']."|".$val['realname']."|".$val['phone']."|银行卡:".$val['bankcard']."|".$val['bank_account']."|".$val['bank_type']
-                                 ."|".($val['money_total']/100);
+            echo $val['teacherid']."|".$val['realname']."|".$val['phone']
+                                  ."|银行卡:".$val['bankcard']."|".$val['bank_account']."|".$val['bank_type']
+                                  ."|".($val['money_total']/100);
             echo "<br>";
         }
     }
@@ -1997,28 +1974,221 @@ class test_code extends Controller
         }
     }
 
-    public function test_reward(){
-        $type=4;
-        $begin_time = strtotime("2017-4-1");
-        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
+    public function reset_teacher_info(){
+        $time  = strtotime("2017-9-13 16:00");
+        $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
+        dd($arr);
+        foreach($arr as $val){
+            if($val['new_teacher_money_type']!=$val['old_teacher_money_type'] || $val['new_level']!=$val['old_level']){
+                echo $val['lessonid']."|new_teacher_money_type:".$val["new_teacher_money_type"]
+                                     ."|old_teacher_money_type:".$val['old_teacher_money_type']
+                                     ."|new_level:".$val['new_level']
+                                     ."|old_level:".$val['old_level'];
+                echo "<br>";
+                // $this->t_lesson_info->field_update_list($val['lessonid'],[
+                //     "teacher_money_type" => $val['new_teacher_money_type'],
+                //     "level"              => $val['new_level'],
+                // ]);
+            }
+        }
+    }
+
+    public function reset_teacher_money_type(){
+        $batch = $this->get_in_int_val("batch",1);
+        $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
+
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+        $data['keyword3'] = "16:00";
+        $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
+        foreach($list as $val){
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                "teacher_money_type" => $val['teacher_money_type_simulate'],
+                "level"              => $val['level_simulate'],
+            ]);
+
+            if($val['wx_openid']!=""){
+                $level_str = E\Enew_level::v2s($val['level_simulate']);
+                $data['first'] = "恭喜您，您等级已经调整为".$level_str;
+                $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
+                $data['keyword2'] = $level_str;
+                // \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+            }
+        }
     }
 
 
-    public function check_redis(){
-        $already_lesson_count_key          = "already_lesson_count_month";
-        $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
+    public function push_switch(){
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+        $data['keyword3'] = "即日生效";
+        $data['remark']   = "理优平台在9月份进行薪资体系调整，感谢老师长期以来对理优平台的辛劳付出与长久陪伴。祝您教师节快乐！";
+        foreach($tea_list as $val){
+            $name= mb_substr($val['realname'],0,1,"utf8")."老师";
+            $level_str = E\Enew_level::v2s($val['level'])."级";
+            $data['first']    = "恭喜您，您等级已调整为".$level_str;
+            $data['keyword1'] = $name;
+            $data['keyword2'] = $level_str;
 
-        $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
-            E\Eredis_type::V_GET,$already_lesson_count_simulate_key,[],true);
-        $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
-        dd($already_lesson_count_simulate_list);
-        dd($already_lesson_count_list);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
-
-
-
+            if($val['wx_openid']!=""){
+                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+            }
+        }
     }
+
+    /**
+     * 增加切换薪资版本的老师信息
+     */
+    public function add_switch_info(){
+        $arr = $this->get_b_txt();
+        array_filter($arr);
+
+        $money_map     = E\Eteacher_money_type::$desc_map;
+        $level_map     = E\Elevel::$desc_map;
+        $new_level_map = E\Enew_level::$desc_map;
+        $money_s2v     = array_flip($money_map);
+        $level_s2v     = array_flip($level_map);
+        $new_level_s2v = array_flip($new_level_map);
+
+        // 0 realname 1 lesson_total 2 teacher_money_type_str 3 level_str 4 new_level_str
+        // 5 all_money_different 6 base_money_different
+        foreach($arr as $a_val){
+            if($a_val!=""){
+                $tea_info = explode("|",$a_val);
+                $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
+
+                $check_flag = $this->t_teacher_switch_money_type_list->check_is_exists($teacherid);
+                if(!$check_flag && $teacherid!=0){
+                    $teacher_money_type  = $money_s2v[$tea_info[2]];
+                    $level               = $level_s2v[$tea_info[3]];
+                    $new_level           = $new_level_s2v[$tea_info[4]];
+                    $base_money          = $tea_info[6];
+                    $per_money_different = $base_money/$tea_info[1];
+                    $x = $per_money_different;
+                    $y = $base_money;
+                    if($x>0 && $y>0){
+                        $batch = 1;
+                    }elseif($x<=0 && $y>=0){
+                        $batch = 2;
+                    }elseif($x>=0 && $y<=0){
+                        $batch = 3;
+                    }elseif($x>=-2 && $y>=-200){
+                        $batch = 4;
+                    }elseif($x<=-2 && $y>=-200){
+                        $batch = 5;
+                    }elseif($x<=-2 && $y<=-200){
+                        $batch = 6;
+                    }
+
+                    echo $tea_info[0]."|".$x."|".$y."|".$batch;
+                    echo "<br>";
+
+                    $this->t_teacher_switch_money_type_list->row_insert([
+                        "teacherid"              => $teacherid,
+                        "realname"               => $tea_info[0],
+                        "teacher_money_type"     => $teacher_money_type,
+                        "new_teacher_money_type" => 6,
+                        "level"                  => $level,
+                        "new_level"              => $new_level,
+                        "all_money_different"    => $tea_info[5],
+                        "base_money_different"   => $tea_info[6],
+                        "lesson_total"           => $tea_info[1],
+                        "batch"                  => $batch
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function add_test_switch_info(){
+        $teacherid    = 50728;
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        $ret  = $this->t_teacher_switch_money_type_list->check_is_exists($teacherid);
+        if(!$ret){
+            $this->t_teacher_switch_money_type_list->row_insert([
+                "teacherid" => $teacherid,
+                "realname" => $teacher_info['realname'],
+                "teacher_money_type" => $teacher_info['teacher_money_type'],
+                "level" => $teacher_info['level'],
+                "new_level" => 3,
+            ]);
+        }else{
+            $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
+            $this->t_teacher_switch_money_type_list->field_update_list($id,[
+                "status"       => 0,
+                "put_time"     => 0,
+                "confirm_time" => 0,
+            ]);
+        }
+    }
+
+    public function add_month_time(){
+        $arr = $this->get_b_txt();
+        $arr = array_filter($arr);
+        dd($arr);
+        foreach($arr as $val){
+            $tea_info  = explode("|",$val);
+            $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
+            $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
+            $lesson_total = $tea_info[1]*100;
+            $this->t_teacher_switch_money_type_list->field_update_list($id,[
+                "lesson_total"=>$lesson_total,
+            ]);
+        }
+    }
+
+    public function reset_teacher_batch(){
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,0,8);
+        $tea_list=[];
+        foreach($list as $l_val){
+            $lesson_total=(float)$l_val['lesson_total']/100;
+            $y = (float)$l_val['all_money_different'];
+            $x = (float)$l_val['base_money_different']/$lesson_total;
+            $batch = 0;
+
+            if($x>(float)0 && $y>(float)0){
+                $batch = 1;
+            }elseif($x<=(float)0 && $y>=(float)0){
+                $batch = 2;
+            }elseif($x>=(float)0 && $y<=(float)0){
+                $batch = 3;
+            }elseif($x>=(float)-2 && $y>=(float)-200){
+                $batch = 4;
+            }elseif($x<=(float)-2 && $y>=(float)-200){
+                $batch = 5;
+            }elseif($x<=(float)-2 && $y<=(float)-200){
+                $batch = 6;
+            }
+
+            echo $l_val['realname']."|".$x."|".$y."|".$batch."|".$lesson_total."|";
+            echo "<br>";
+            // $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
+            //     "batch"=>$batch
+            // ]);
+            $tea_list[$batch][]=$l_val['realname'];
+        }
+        dd($tea_list);
+    }
+
+
+
 
 
 

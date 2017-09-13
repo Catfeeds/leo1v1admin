@@ -13,6 +13,10 @@
       <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
       <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
       <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+      <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+      <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
+      <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+
       <section class="content">
           <div class="row row-query-list">
               <div class="col-xs-12 col-md-4"  data-title="时间段">
@@ -280,6 +284,9 @@
                                 <a class="opt-mail-contrat" title="合同运单">运单</a>
                                 <a class="opt-merge_order" title="合并合同">合并</a>
                                 <a class="opt-price_desc fa-list" title="价格生成说明"></a>
+                                @if(in_array($acc,["jack","jim"]) && $var["contract_status"]==0 && $var["price"] >0)
+                                    <a class="opt-order-partition" title="拆分合同">拆分</a>
+                                @endif
                             </div>
                         </td>
             </tr>
@@ -733,6 +740,7 @@
         </div>
 
     </div>
+
 
 
     <script type="text/javascript" src="/page_js/select_course.js"></script>

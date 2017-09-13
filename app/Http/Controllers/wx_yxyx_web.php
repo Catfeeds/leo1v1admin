@@ -31,7 +31,7 @@ class wx_yxyx_web extends Controller
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
-            $url = "$web_html_url/$action.html";
+            $url = "$web_html_url/$action.html?v=1101";
             if($action == 'bind'){
                 // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";

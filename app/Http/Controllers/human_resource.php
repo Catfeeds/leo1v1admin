@@ -851,7 +851,11 @@ class human_resource extends Controller
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
             $item['age']        = $age;
-            E\Elevel::set_item_value_str($item,"level");
+            if($item['teacher_money_type']==6){
+                E\Enew_level::set_item_value_str($item,"level");
+            }else{
+                E\Elevel::set_item_value_str($item,"level");
+            }
             E\Eteacher_money_type::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item); //是否全职
             E\Etextbook_type::set_item_value_str($item);
@@ -1102,9 +1106,8 @@ class human_resource extends Controller
         $passwd = "142857";
         $md5_passwd = md5(md5($passwd)."#Aaron");
         $this->t_user_info->row_insert([
-
             "passwd"  => md5($passwd)
-        ]) ;
+        ]);
         $assid =  $this->t_user_info->get_last_insertid();
         if($assid === false){
             return outputJson(array('ret' => -1, 'info'  => '插入失败'));
@@ -1477,6 +1480,7 @@ class human_resource extends Controller
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
+
         if($adminid==486){
             $tea_subject="";
         }elseif($adminid==952){
@@ -1487,16 +1491,16 @@ class human_resource extends Controller
             $tea_subject="(7,8,9)";
         }
 
-        $grade        = $this->get_in_int_val("grade",-1);
-        $trans_grade  = $this->get_in_int_val("trans_grade",-1);
-        $subject      = $this->get_in_int_val("subject",-1);
-        $status       = $this->get_in_int_val("status",0);
-        $page_num     = $this->get_in_page_num();
-        $phone        = trim($this->get_in_str_val('phone',''));
-        $teacherid    = $this->get_in_int_val('teacherid',-1);
-        $is_test_flag = $this->get_in_int_val('is_test_flag',0);
-        $have_wx = $this->get_in_int_val('have_wx',-1);
-        $full_time = $this->get_in_int_val('full_time',-1);
+        $grade         = $this->get_in_int_val("grade",-1);
+        $trans_grade   = $this->get_in_int_val("trans_grade",-1);
+        $subject       = $this->get_in_int_val("subject",-1);
+        $status        = $this->get_in_int_val("status",0);
+        $page_num      = $this->get_in_page_num();
+        $phone         = trim($this->get_in_str_val('phone',''));
+        $teacherid     = $this->get_in_int_val('teacherid',-1);
+        $is_test_flag  = $this->get_in_int_val('is_test_flag',0);
+        $have_wx       = $this->get_in_int_val('have_wx',-1);
+        $full_time     = $this->get_in_int_val('full_time',-1);
         $fulltime_flag = $this->get_in_int_val('fulltime_flag');
         if($fulltime_flag==1){
             $full_time=1;
@@ -1624,13 +1628,6 @@ class human_resource extends Controller
         $identity                           = $this->get_in_int_val("identity");
         $work_year                          = $this->get_in_int_val("work_year");
         $sshd_good                          = $this->get_in_str_val("sshd_good");
-        $sshd_bad                           = $this->get_in_str_val("sshd_bad");
-        $ktfw_good                          = $this->get_in_str_val("ktfw_good");
-        $ktfw_bad                           = $this->get_in_str_val("ktfw_bad");
-        $skgf_good                          = $this->get_in_str_val("skgf_good");
-        $skgf_bad                           = $this->get_in_str_val("skgf_bad");
-        $jsfg_good                          = $this->get_in_str_val("jsfg_good");
-        $jsfg_bad                           = $this->get_in_str_val("jsfg_bad");
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
         if($identity<=0){
@@ -1673,7 +1670,6 @@ class human_resource extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
-
                 }elseif($status==2){
                     $data['first']="老师您好，很抱歉您没有通过试讲审核。";
                     $data['keyword1']="初试结果";
@@ -1687,7 +1683,6 @@ class human_resource extends Controller
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
                 }
-
 
                 $url="";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
@@ -1731,7 +1726,9 @@ class human_resource extends Controller
             }
 
             if(!empty($teacher_info)){
-                $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
+                // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
+                $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
+                \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
                 $ret = $this->set_teacher_grade($teacher_info,$check_info);
                 if(!$ret){
@@ -1754,6 +1751,10 @@ class human_resource extends Controller
                     "trial_lecture_is_pass" => 1,
                 ];
                 $teacherid = $this->add_teacher_common($add_info);
+                
+                //老师标签
+                $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
+
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
                 //通知推荐人
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($lecture_info['phone']);

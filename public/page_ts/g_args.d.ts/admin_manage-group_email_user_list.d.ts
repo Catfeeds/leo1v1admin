@@ -12,6 +12,14 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	groupid	:any;
+	adminid	:any;
+	email	:any;
+	account	:any;
+	email_create_flag	:any;
+	create_flag	:any;
+	email_create_flag_str	:any;
+	create_flag_str	:any;
 }
 
 /*

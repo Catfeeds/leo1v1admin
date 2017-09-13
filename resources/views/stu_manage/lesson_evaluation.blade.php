@@ -43,7 +43,7 @@
                     <td >{{$var["stu_stability"]}}</td>
                     <td >{{$var["stu_score"]}}</td>
                     <td >{{$var["stu_comment"]}}</td>
-                    <td >{{$var["stu_point_performance"]}}</td>
+                    <td >{{@$var["stu_point_performance"]}}</td>
                     <td class="remove-for-xs">
                         <div class="btn-group">
                         </div>

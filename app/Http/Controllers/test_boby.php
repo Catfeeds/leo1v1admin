@@ -354,19 +354,20 @@ class test_boby extends Controller
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
         // return 'bey';
-        $start_time = strtotime('2017-08-05');
-        $end_time = strtotime('2017-09-01');
-        $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
+        // $start_time = strtotime('2017-08-05');
+        // $end_time = strtotime('2017-09-01');
+        // $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
-        $teacherid = "(180795)";
+        // $teacherid = "(180795)";
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
-        $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
+        $lessonid_list = ['318458','318459','318460','318461','318462'];
+        // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         // foreach ($lessonid_list as $v) {
         //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
         // }
-        // echo 'ok';
-        // exit;
+        echo 'ok';
+        exit;
         $g100 = [];
         $g200 = [];
         $g300 = [];
@@ -404,9 +405,7 @@ class test_boby extends Controller
 
     public function get_teacher(){
 
-        // $sql = 'select sum(l.lesson_count) as lesson_conun,l.teacherid,t.phone,t.nick,t.create_time  from t_lesson_info l force index(teacherid) left join t_teacher_info t  on l.teacherid=t.teacherid where is_test_user=0 and is_quit=0 and l.lesson_type in (0,1,3) group by l.teacherid';
-        $sql = 'select  l.lesson_start, s.userid,  s.phone, t.subject, s.nick  from db_weiyi.t_test_lesson_subject_require tr  join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id  join db_weiyi.t_seller_student_new n  on t.userid=n.userid  join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid  join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid  join db_weiyi.t_student_info s on s.userid = l.userid  join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid   where  lesson_start >0 and accept_flag=1   and s.is_test_user=0 and l.lesson_type=2 and success_flag=1   and l.lesson_start>1483200000 and not exists (select 1 from db_weiyi.t_order_info o where s.userid=o.userid and o.contract_type in (0,3) and contract_status>0) group by s.userid';
-        $ret = $this->t_student_info->get_teacher($sql);
+        exit;
         $s = '<table border=1><tr>'
            .'<td>id</td>'
            .'<td>名字</td>'
@@ -430,56 +429,47 @@ class test_boby extends Controller
         return $s;
 
     }
-    public function get_teacher_lesson(){//p 2
-        // $teacherid = $this->get_teacherid();
 
-        $teacherid = 182903;
-        // \App\Helper\Utils::logger("yuebao".$teacherid);
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
+    public function get_role(){
+
+        // $arr = $this->get_b_txt();
+        $arr = ["13818837473","13644961562","18616626799","13564919422","13918526996","13917648269","15901734113","13661514024","18621185738","18616378968","17191767961","18917858916","15601631902","13162790133","13918687479","15121170382","15026562232","13916587482","13917746147","13774289611","15821340481","15055489510","13847032166","13501745070","15221995128","13501824183","18621363377","15726816337","13564634296","13950285732","15855147510","13916168483","18710558224","18301939443","13764349599","18217081281","13856980100","17196693936","17301630828","15205501210","13681828351","13916612415","15255583503","18817822725","15000622720","13703748675","18210970258","13917025380","18621682027","18516222920","15900501876","15188782853","15221201025","18221316212","18714443052","13917902765","18616755792","18516563396","17725124699","13524443301","13621769873","18221675746","15979785901","15178684140","18616884598","18814884513","13855678785","18355965166","18516633921","15658761209","18321919964","18501644707","15251318621","18724601681","18967834673","17196694580","17305622820","15821208225","15650686093","17621206139","13953453194","18831899877","13816214631","17191766056","15900627679","13564334629","15359600803","17717222553","15776897203","13681828235","15601945121","13636390836","15248403349","13387970862","13866386388","18790256265","13856639322","13247243582","18917568791","18210104340","17721081976","17612150494","17621714898","13262852587","17612142262","18200582660","17191768349","18601658037","17701806961","18726089020","15821620124","15000831397","18408259738","18621564576","18407856636","15955750566","13735891948","15921853702","17130045493","17195867409","17620323276","15655286357","18626340306","15510082390","18721452186","18616276898","13764536022","13032130526","18101722207","18818201176","13566171180","17301782357","18921221906","13917618646","18089821126","13485220118","18516142429","18196649196","15366708034","18816997038","13681848165","15056241136","15821016518","15385648246","18653510412","13879659042","15154723133","18583289050","13761069150","18516097427","13564472708","15512779166","15802218952","18702521049","13862378878","18964692016","13524267179","13953492123","17865603765","13593166089","13515564805","18362963817","13420576836","13503968722","15932685017","17621849099","13693592166","13784671280","18742056656","13671724474","13122226939","18616975453","18700410516","17853552653","13122209160","18773366673","13828760259","18217062993","18681339307","18895390263","17802193367","13791317558","18643520126","13386113316","18667639161","18201873461","13817955475","15001943529","13391270525","18621302696","18946299205","17601333237","18321720481","13402680054","15802998183","13866624638","15161115664","13052116446","18934548730","15949090908","13127672259","18616540171","13585703097","17620052895","15000556402","13755234982","13901588744","15997349193","18721132570","13421239870","15807075768","15618909657"];
+        $s = '<table border=1><tr>'
+           .'<td>电话</td>'
+           .'<td>老师</td>'
+           .'<td>员工</td>'
+           .'<td>学生</td>'
+           .'<td></td>'
+           .'</tr>';
+        $admin = [];
+        foreach ($arr as $k) {
+            $sql = "select teacherid from db_weiyi.t_teacher_info where phone='{$k}'";
+            $ret = $this->t_teacher_info->is_teacher($sql);
+            if ($ret) {
+                $s = $s."<tr><td>{$k}</td><td>老师</td><td></td><td></td><td></td></tr>";
+            }else {
+
+                $sql = "select create_time from db_weiyi_admin.t_manager_info where phone='{$k}'";
+                $ret = $this->t_teacher_info->is_teacher($sql);
+                if ($ret) {
+                    $s = $s."<tr><td>{$k}</td><td></td><td>员工</td><td></td><td></td></tr>";
+                }else {
+
+                    $sql = "select userid from db_weiyi.t_student_info where phone='{$k}'";
+                    $ret = $this->t_teacher_info->is_teacher($sql);
+                    if ($ret) {
+                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td>学生</td><td></td></tr>";
+                    }else {
+                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td></td><td>其他</td></tr>";
+                    }
+                }
+            }
         }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
-        $ret_info['normal_count'] = $ret_info['normal_count']/100;
-        $ret_info['test_count']   = $ret_info['test_count']/100;
-        $ret_info['other_count']  = $ret_info['other_count']/100;
-        return $this->output_succ(["lesson_info"=>$ret_info]);
-    }
 
 
 
-    public function get_tea_lesson_some_info(){//p5
-        $teacherid = 182903;
-        // $teacherid = '404';
-        // $teacherid = $this->get_teacherid();
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-        foreach ($ret_info as &$item) {
-            $item = intval($item);
-        }
-        return $this->output_succ(["list"=>$ret_info]);
-    }
-    public function get_teacher_student(){//p4
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = 182903;
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-        $face       = [];
-        foreach ($ret_info as $item) {
-            $face[] = @$item['face'];
-        }
-        $stu_info['stu_num'] = count($ret_info);
-        $stu_info['face']    = $face;
-        return $this->output_succ(["stu_info"=>$stu_info]);
+        $s = $s.'</table>';
+        return $s;
     }
 
 

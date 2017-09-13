@@ -796,7 +796,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             ["tla.reference='%s'",$phone,""],
             ["tla.answer_begin_time>%u",$begin_time,0],
-            "t.train_through_new=1",
+            "t.train_through_new_time>0",
             "t.trial_lecture_is_pass=1",
         ];
         if($type==1){
@@ -1016,19 +1016,21 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
-    public function get_fulltime_teacher_total(){
+    public function get_fulltime_teacher_total($start_time,$end_time){
         $where_arr = [
             "full_time=1",
-            "id>15246"
+            "id>15246",
+            ['answer_begin_time>%u',$start_time,-1],
+            ['answer_begin_time<%u',$end_time,-1],
         ];
         $sql = $this->gen_sql_new("select count(phone) as apply_total "
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
     public function get_fulltime_teacher_arrive($start_time,$end_time){
         $where_arr = [
@@ -1045,7 +1047,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
     public function get_fulltime_teacher_arrive_video($start_time,$end_time){
         $where_arr = [
@@ -1068,7 +1070,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
     public function get_fulltime_teacher_arrive_through($start_time,$end_time){
         $where_arr = [
@@ -1086,7 +1088,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
     public function get_fulltime_teacher_arrive_video_through($start_time,$end_time){
@@ -1114,7 +1116,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
     public function get_fulltime_teacher_arrive_second_through($start_time,$end_time)
@@ -1126,7 +1128,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "s.type=12",//第2次面试
             "s.trial_train_status =1",
             ["s.add_time>%u",$start_time,-1],
-            ["s.add_time<%u",$end_time,-1]
+            ["s.add_time<%u",$end_time,-1],
         ];
         $sql = $this->gen_sql_new("select count(distinct(l.phone)) as through_num"
                                   ." from %s l "
@@ -1137,7 +1139,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
     public function get_fulltime_teacher_enter($start_time,$end_time)
     {
@@ -1147,15 +1149,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             " t.is_test_user  = 0",
             "t.train_through_new =1",
             ["t.train_through_new_time >%u",$start_time,-1],
-            ["t.train_through_new_time <%u",$end_time,-1]
+            ["t.train_through_new_time <%u",$end_time,-1],
+            "m.phone>0"
         ];
         $sql = $this->gen_sql_new("select count(distinct(l.phone)) as num"
                                   ." from %s l "
+                                  ." left join %s m on m.phone = l.phone"
                                   ." left join %s t on t.phone = l.phone"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 }

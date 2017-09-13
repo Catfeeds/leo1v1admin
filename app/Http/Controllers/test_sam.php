@@ -245,15 +245,56 @@ class test_sam  extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
-    public function tes1t(){
-        $a = 10;
-        $b = 12;
-        $c = 20;
-        $d = 20;
-        $e = 90;
-    }
+
     public function test()
     {
-    
+         $update_time = [
+            4=>['start_time' => 1490976000,
+                "end_time"   => 1493568000],
+            5=>['start_time' => 1493568000,
+                "end_time"   => 1498838400],
+            6=>['start_time' => 1498838400,
+                "end_time"   => 1496246400],
+            7=>['start_time' => 1496246400,
+                "end_time"   => 1501516800],
+            8=>['start_time' => 1501516800,
+                "end_time"   => 1504195200],
+            9=>['start_time' => 1504195200,
+                "end_time"   => 1506787200],
+        ];
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+        foreach ($update_time  as $key => $value) {
+            $start_time = $value['start_time'];
+            $end_time   = $value['end_time'];
+            echo '<pre>';
+            var_dump($start_time);
+            var_dump($end_time);
+            echo '</pre>';
+            $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+            $new_info          = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+            $end_stu_info_new  = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+            $lesson_info       = $this->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+            foreach($ass_list as $k=>&$item){
+                //new add
+                $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+                $item["new_student"]           = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+                $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+                $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+                $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+                print_r(2);
+                $adminid_exist = $this->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
+                if($adminid_exist){
+                    $update_arr =  [
+                        "lesson_money"          =>$item["lesson_money"],
+                        "new_student"           =>$item["new_student"],
+                        "new_lesson_count"      =>$item["new_lesson_count"],
+                        "end_stu_num"           =>$item["end_stu_num"],
+                        "lesson_student"        =>$item["lesson_student"]
+                    ];
+                    print_r(1);
+                    $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+                }       
+            }
+        }
     }
 }

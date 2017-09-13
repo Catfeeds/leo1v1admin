@@ -23,6 +23,32 @@ class ajax_deal2 extends Controller
         \App\Helper\Utils::exec_cmd($cmd);
         return $this->output_succ();
     }
+    public function sync_group_email() {
+        $groupid=$this->get_in_int_val("groupid");
+        $group_info=$this->t_mail_group_name->field_get_list($groupid,"*");
+        $title= $group_info["title"];
+        $group_email= $group_info["email"];
+        $ret_info=$this->t_mail_group_user_list->get_list (null, $groupid, -1);
+        $list= $ret_info["list"];
+        $email_list_str="";
+        foreach ($list as $item) {
+            $email_list_str.=" ".$item["email"] ;
+        }
+
+        $zmcmd=
+              "zmprov ddl $group_email &>/dev/null ;".
+              "zmprov cdl $group_email displayName '$title'  &>/dev/null ;".
+              "zmprov adlm $group_email $email_list_str &>/dev/null ; "
+              . "zmprov gdlm $group_email "
+              ;
+        $cmd="sshpass -p\"yb142857\" ssh -2  -o \"StrictHostKeyChecking no\" -p22 -l\"zimbra\" 115.28.89.73   \"   $zmcmd \"";
+        $ret_str=\App\Helper\Utils::exec_cmd($cmd);
+        $email_list=preg_split("/\n/", $ret_str);
+
+        $this->t_mail_group_user_list->reset_all_create_flag ($groupid, $email_list );
+
+        return $this->output_succ();
+    }
 
 
     //JIM
@@ -1200,7 +1226,93 @@ class ajax_deal2 extends Controller
         ]);
         return $this->output_succ();
     }
+    public function  fulltime_teacher_data_with_type () {
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $type= $this->get_in_str_val("type");
+        if ($type=="apply_num") {
+            $value = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_count($start_time,$end_time); //成功注册人数
+        }else if($type=="arrive_num"){
+            $arrive_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//
+            $video_num   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);//视频试讲人数
+            $value = $arrive_num + $video_num;
+        }else if($type=="arrive_through"){
+            $arrive_through_num = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
+            $video_through_num  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);
+            $value = $arrive_through_num + $video_through_num;
+        }else if($type=="second_through"){
+            $value  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+        }else if($type=="enter_num"){
+            $value = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time);
+        }else if($type=="arrive_num_per"){
+            $start_time = 1498838400;
+            $apply_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_total($start_time,$end_time); //累计注册人数
 
+            $arrive_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);//累计面试人数
+            $video_num_total   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);
+            $arrive_total = $arrive_num_total + $video_num_total;
+            if($apply_total>0){
+                $value = round(100*$arrive_total/$apply_total,2);
+                $value .= '%('.$arrive_total.'/'.$apply_total.')';
+            }else{
+                $value = '0%';
+            }
+        }else if($type=="arrive_through_per"){
+            $start_time = 1498838400;
+            $arrive_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive($start_time,$end_time);
+            $video_num_total   = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video($start_time,$end_time);
+
+            $video_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
+            $arrive_through_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
+            $arrive_total = $arrive_num_total +  $video_num_total;
+            $arrive_through = $video_through_num_total + $arrive_through_num_total;
+            if($arrive_total>0){
+                $value = round(100*$arrive_through/$arrive_total,2);
+                $value .= '%('.$arrive_through.'/'.$arrive_total.')';
+            }else{
+                $value = '0%';
+            }
+
+        }else if($type=="second_through_per"){
+            $start_time = 1498838400;
+            $video_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_video_through($start_time,$end_time);//视频试讲通过人数
+            $arrive_through_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_through($start_time,$end_time);//面试通过人数
+            $arrive_through = $video_through_num_total + $arrive_through_num_total;
+
+
+            $second_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+
+            if($arrive_through>0){
+                $value = round(100* $second_through_num_total/$arrive_through,2);
+                $value .= '%('. $second_through_num_total.'/'.$arrive_through.')';
+            }else{
+                $value = '0%';
+            }
+
+        }else if($type=="enter_num_per"){
+            $start_time = 1498838400;
+            $second_through_num_total  = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_arrive_second_through($start_time,$end_time);
+            $enter_num_total = $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter($start_time,$end_time); //入职人数
+            if($second_through_num_total >0){
+                $value = round(100* $enter_num_total/$second_through_num_total ,2);
+                $value .= '%('. $enter_num_total.'/'.$second_through_num_total .')';
+            }else{
+                $value = '0%';
+            }
+        }
+
+        return $this->output_succ(["value"=>$value]);
+
+    }
+
+    public function  set_lesson_current_server() {
+        $courseid=$this->get_in_courseid();
+        $current_server= $this->get_in_str_val("current_server");
+        $this->t_course_order->field_update_list(
+            $courseid,
+            ["current_server" => $current_server]);
+        return $this->output_succ();
+
+    }
     public function email_group_add()  {
         $title=trim($this->get_in_str_val("title"));
         $email=trim($this->get_in_str_val("email"));
@@ -1220,5 +1332,21 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function  email_group_user_add () {
+        $groupid= $this->get_in_int_val("groupid");
+        $adminid = $this->get_in_adminid();
+        $this->t_mail_group_user_list->row_insert([
+            "groupid" => $groupid,
+            "adminid" => $adminid,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function  email_group_user_del () {
+        $groupid= $this->get_in_int_val("groupid");
+        $adminid = $this->get_in_adminid();
+        $this->t_mail_group_user_list->row_delete_2($groupid,$adminid);
+        return $this->output_succ();
+    }
 
 }

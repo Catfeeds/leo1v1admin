@@ -485,12 +485,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
                                   "am.uid adminid,am.account,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
-                                  " from %s am left join %s u on am.uid = u.adminid".
+                                  " from %s am ".
+                                  " left join %s u on am.uid = u.adminid".
                                   " left join %s g on u.groupid = g.groupid".
                                   " left join %s m on g.up_groupid = m.groupid".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
-                                  " where %s and am.del_flag=0".
+                                  // " where %s and am.del_flag=0".
+                                  " where %s ".
                                   "  group by am.uid",
                                   self::DB_TABLE_NAME,//am
                                   t_admin_group_user::DB_TABLE_NAME,//u
@@ -648,7 +650,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql=$this->gen_sql_new(
             "select uid,account_role,become_member_time  "
-            ." from %s m " 
+            ." from %s m "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
@@ -1105,10 +1107,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }else{
             $where_arr[]=["account_role=%u",$account_role,-1];
         }
-        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
-                                  "where %s and del_flag =0 and uid <> 325 and uid<>74",
+        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
+                                  " from %s m left join %s a on m.phone = a.phone ".
+                                  " left join %s u on m.uid=u.adminid".
+                                  " left join %s n on u.groupid = n.groupid".
+                                  " where %s and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -1574,6 +1581,39 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+
+    }
+
+    public function get_up_group_cancle_rate_flag($adminid){
+        $where_arr = [
+            ["uid=%u",$adminid,-1],
+            "del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select uid "
+                                  ." from %s "
+                                  ." left join %s  "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function reset_all_email_create_flag ( $email_list ) {
+
+        $sql=$this->gen_sql_new("update %s set  email_create_flag=0 ",  self::DB_TABLE_NAME);
+        $this->main_update($sql);
+        foreach ( $email_list as &$email  ) {
+            $email= "'".  trim($email ) . "'";
+        }
+        $email_list_str=join( ",",$email_list );
+
+
+        $sql=$this->gen_sql_new("update %s set email_create_flag=1 where email in (%s) ",
+                                self::DB_TABLE_NAME, [$email_list_str]
+        );
+        $this->main_update($sql);
 
     }
 }

@@ -454,9 +454,77 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_need_reset_list($time){
+        $where_arr = [
+            ["lesson_start>%u",$time,0],
+            // "lesson_start=0",
+            "t.teacher_money_type=6",
+            "lesson_type in (2)",
+            "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level)"
+        ];
+        $sql = $this->gen_sql_new("select lessonid,t.teacher_money_type as new_teacher_money_type,"
+                                  ." l.teacher_money_type as old_teacher_money_type,"
+                                  ." t.level as new_level,"
+                                  ." l.level as old_level"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." limit 400"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
+    public function reset_lesson_teacher_info($teacherid,$teacher_money_type,$level,$check_time=0){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,-1],
+            ["lesson_start>%u",$check_time,0],
+        ];
+        $update_arr = [
+            ["teacher_money_type=%u",$teacher_money_type,-1],
+            ["level=%u",$level,-1],
+        ];
+        $sql = $this->gen_sql_new("update %s set %s"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$update_arr
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
 
+    public function get_lesson_condition_info($courseid, $lesson_num ) {
+        $sql= $this->gen_sql_new(
+            "select lessonid,lesson_condition  from  %s"
+            . "  where courseid= %u and lesson_num =%u ",
+            self::DB_TABLE_NAME, $courseid, $lesson_num  );
+        return $this->main_get_row($sql);
+    }
 
+    public function set_real_begin_time( $lessonid, $real_begin_time  ) {
+        $sql= $this->gen_sql(
+            "update %s set  real_begin_time =%u "
+            . "  where lessonid=%u and real_begin_time =0  ",
+            self::DB_TABLE_NAME,
+            $real_begin_time,
+            $lessonid
+        );
+        return $this->main_update($sql);
+    }
 
-
+    public function get_lesson_count_by_teacherid($teacherid,$time=0){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,-1],
+            ["lesson_start>%u",$time,0],
+        ];
+        $sql = $this->gen_sql_new("select count(1)"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

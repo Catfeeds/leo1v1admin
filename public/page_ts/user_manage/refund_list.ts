@@ -81,6 +81,7 @@ $(function(){
 
     $(".opt-flow-node-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
+       // alert(opt_data.flowid);
         $.flow_show_node_list( opt_data.flowid);
 
     });

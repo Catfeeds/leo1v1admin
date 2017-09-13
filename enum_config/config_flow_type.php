@@ -9,10 +9,8 @@ return array(
     array(2002,"seller_order_require","特殊折扣申请"),
     array(2003,"seller_recheck_lesson_sucess","SELLER课程有效申请"),
 
-
-
     array(3001,"ass_lesson_confirm_flag_4","助教-无效课程,学生不扣，付老师工资"),
     array(3002,"order_exchange","课时转赠"),
-    
+
     array(4001,"confirm_teacher_quit","老师离职申请确认"),
 );

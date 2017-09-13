@@ -21,8 +21,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	origin_level	:any;
 	require_id	:any;
 	lesson_start	:any;
+	lesson_end	:any;
 	userid	:any;
 	teacherid	:any;
 	grade	:any;
@@ -42,6 +44,7 @@ interface RowData {
 	subject_str	:any;
 	grade_str	:any;
 	test_lesson_order_fail_flag_one	:any;
+	key1	:any;
 }
 
 /*

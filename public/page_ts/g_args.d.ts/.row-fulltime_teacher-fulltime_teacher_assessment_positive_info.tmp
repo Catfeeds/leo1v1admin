@@ -15,10 +15,12 @@
 	main_mater_adminid	:any;
 	main_master_assess_time	:any;
 	positive_type	:any;
+	add_time	:any;
 	create_time_str	:any;
 	become_full_member_time_str	:any;
 	assess_time_str	:any;
 	master_assess_time_str	:any;
+	add_time_str	:any;
 	main_master_assess_time_str	:any;
 	assess_admin_nick	:any;
 	mater_admin_nick	:any;

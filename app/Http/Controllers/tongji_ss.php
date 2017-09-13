@@ -950,7 +950,7 @@ class tongji_ss extends Controller
         if (!$origin_ex   )  {
             $origin_ex ="xx" ;
         }
-
+        // dd($origin_ex);
 
         $data_map=[];
         $check_item=$check_field_config[$check_field_id];
@@ -1332,6 +1332,8 @@ class tongji_ss extends Controller
                 $val['new_price'] = @$ret_info[$val['adminid']]['new_price']/100;
                 $val['normal_price'] = @$ret_info[$val['adminid']]['normal_price']/100;
                 $val['extend_price'] = @$ret_info[$val['adminid']]['extend_price']/100;
+                $val['all_price_suc'] = @$ret_info[$val['adminid']]['all_price_suc']/100;
+                $val['all_price_fail'] = @$ret_info[$val['adminid']]['all_price_fail']/100;
             }
         }
         $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);

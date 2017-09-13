@@ -314,9 +314,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.teacher_quality,"
                      ."    l.teacher_effect,"
                      ."    l.stu_stability,"
-                     ."    b.admin_revisiterid,"
                      ."    t.require_adminid ,"
-                     ."    b.origin as test_lesson_origin,"
                      ."    pi.phone fa_phone,"
                      ."    l.lesson_name,"
                      ."    l.deduct_come_late,"
@@ -332,6 +330,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    tts.confirm_time test_confirm_time,"
                      ."    tts.test_lesson_fail_flag ,"
                      ."    tts.fail_greater_4_hour_flag ,"
+                     ."    c.current_server,"
                      ."    tts.fail_reason "
                      ."    from"
                      ."    db_weiyi.t_lesson_info as l"
@@ -342,9 +341,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    ON s.userid = l.userid"
                      ."    LEFT JOIN db_weiyi.t_parent_info as pi"
                      ."    ON s.parentid = pi.parentid"
-
-                     ."    LEFT JOIN db_weiyi.t_seller_student_info as b"
-                     ."    ON b.st_arrange_lessonid = l.lessonid"
 
                      ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts"
                      ."    ON tts.lessonid = l.lessonid"
@@ -358,6 +354,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    LEFT JOIN  %s as f"
                      ."    ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
 
+                     ."    LEFT JOIN  %s c on (c.courseid=l.courseid) "
+
 
                      ."    LEFT JOIN db_weiyi.t_teacher_info as tt"
                      ."    ON tt.teacherid = l.teacherid "
@@ -367,6 +365,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    %s  "
                      ."    order by lesson_start asc, l.lessonid asc "
                      , t_flow::DB_TABLE_NAME
+                     , t_course_order::DB_TABLE_NAME
                      ,$cond_str
         );
         return $this->main_get_list_by_page($sql, $page_num, 10);
@@ -933,27 +932,6 @@ lesson_type in (0,1) "
             }
 
         }
-
-        /*
-          $this->field_update_list($lessonid,[
-          ["sdx",10]
-          ["sdx",10,"+"]
-          ]);
-
-          $this->row_insert([
-          "sxx"   => 1,
-          "sxw2x" => 1,
-          ]);
-          $this->main_get_row($sql);
-          $this->main_get_list($sql);
-          $this->main_get_list_by_page($sql);
-        */
-        /*
-          self::DB_TABLE_NAME
-
-          z_t_news_info_model::DB_TABLE_NAME
-        */
-
 
         return true;
     }
@@ -9116,17 +9094,16 @@ lesson_type in (0,1) "
 
     public function save_tea_pic_url($lessonid, $file_name_origi_str){
         $sql = $this->gen_sql_new("update %s tl ".
-                                  "set tl.tea_cw_pic = '%s' where tl.lessonid=%d",
+                                  "set tl.tea_cw_pic = '%s',tl.tea_cw_pic_flag=1 where tl.lessonid=%d",
                                   self::DB_TABLE_NAME,
                                   $file_name_origi_str,
                                   $lessonid
         );
-
         return $this->main_update($sql);
     }
 
     public function get_stu_normal_lesson_num($start_time,$end_time,$user_list){
-        $where_arr=[
+        $where_arr = [
             "lesson_type <>2",
             "lesson_del_flag=0",
             "confirm_flag in(0,1)"
@@ -9141,7 +9118,6 @@ lesson_type in (0,1) "
             return $item["userid"];
         });
     }
-
 
     public function get_first_lesson($userid){
         $where_arr=[
@@ -9161,30 +9137,17 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
-
     public function check_comment_status($lessonid) {
         $sql = $this->gen_sql_new("select t.tea_rate_time from %s t where t.lessonid = %d",
                                   self::DB_TABLE_NAME, $lessonid);
         return $this->main_get_value($sql);
     }
 
-
-
-    public function get_lesson_intro($lessonid) {
-        $sql=$this->gen_sql_new( "select lesson_intro from %s  where  lessonid='%s' ",
-                                 self::DB_TABLE_NAME,
-                                 $lessonid);
-
-        return $this->main_get_value($sql);
-    }
-
     public function get_common_stu_performance($lessonid) {
-
         $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d and t.lesson_del_flag = 0",
                                   self::DB_TABLE_NAME,
                                   $lessonid
         );
-
         return $this->main_get_value($sql);
     }
 
@@ -9218,10 +9181,6 @@ lesson_type in (0,1) "
         );
         return $this->main_get_value($sql);
     }
-
-
-
-
 
     public function get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list){
         $where_arr = [
@@ -9262,9 +9221,7 @@ lesson_type in (0,1) "
         );
 
         return $this->main_get_list($sql);
-
     }
-
 
     public function get_not_free_lesson_list($start_time,$end_time,$teacherid){
         $where_arr = [

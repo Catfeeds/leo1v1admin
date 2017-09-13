@@ -28,7 +28,7 @@ return [
     "teacher_ref_start_time"    => "2017-07-01",
 
     //新版优学优享开始时间
-    "yxyx_new_start_time"    => "2017-08-01", //
+    "yxyx_new_start_time"    => "2017-09-01", //
     "test" => [
         "username"  =>   'jim',
         "password"  =>   env('TEST_PASSWORD', 'xcwen142857'),
@@ -36,7 +36,7 @@ return [
     "taobao_shop" => [
         'appKey'     => '23277683',
         'secretKey'  => 'c90496e27b10d2fe5c6c78b98753b9b5',
-        'sessionKey' => '61003238879001b35f8d8285aeddff01950f60fdf806cff2338582886',
+        'sessionKey' => '61021139fabdff75a2ddc18a54d1adc9d878cd8c78d071d2338582886',
         'name'       => '理优教育',
     ],
     "wx" => [
@@ -171,7 +171,7 @@ return [
      * lesson_full_num      全勤奖计算的课节数
      * lesson_full_reward   全勤奖奖励金额
      * trial_train_reward   模拟试听通过奖励
-     * trial_base_price     试听课工资 1 所有旧版 2 第三版及平台合作 3 公司全职
+     * trial_base_price     试听课工资 1 所有旧版 2 第三版及平台合作 3 公司全职 4 第四版
      * lesson_cost          老师标准扣款
      * lesson_miss_cost     老师旷课扣款
      */
@@ -184,6 +184,7 @@ return [
             1=>"5000",
             2=>"3000",
             3=>"0",
+            4=>"3000",
         ],
         "lesson_cost"      => "500",
         "lesson_miss_cost" => "10000",
@@ -209,6 +210,7 @@ return [
         "118.190.113.96"=> "120.26.58.183",//q5
         "118.190.135.205"=> "120.26.58.183",//q6
         "118.190.142.55"=> "120.26.58.183",//q7
+        "118.190.142.107"=> "120.26.58.183",//q8
     ],
     "xmpp_server_list"=>[
         "120.27.51.83" => "120.26.58.183" , //q

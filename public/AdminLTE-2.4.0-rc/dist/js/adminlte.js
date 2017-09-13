@@ -31,6 +31,7 @@ throw new Error('AdminLTE requires jQuery')
 
   var DataKey = 'lte.layout'
 
+
   var Default = {
     slimscroll : true,
     resetHeight: true
@@ -222,6 +223,8 @@ throw new Error('AdminLTE requires jQuery')
 
   var DataKey = 'lte.pushmenu'
 
+
+
   var Default = {
     collapseScreenSize   : 767,
     expandOnHover        : false,
@@ -284,6 +287,7 @@ throw new Error('AdminLTE requires jQuery')
   PushMenu.prototype.toggle = function () {
     var windowWidth = $(window).width()
     var isOpen      = !$('body').hasClass(ClassName.collapsed)
+
 
     if (windowWidth <= this.options.collapseScreenSize) {
       isOpen = $('body').hasClass(ClassName.open)
@@ -410,6 +414,7 @@ throw new Error('AdminLTE requires jQuery')
 +function ($) {
   'use strict'
 
+
   var DataKey = 'lte.tree'
 
   var Default = {
@@ -455,6 +460,7 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.toggle = function (link, event) {
     var treeviewMenu = link.next(Selector.treeviewMenu)
     var parentLi     = link.parent()
+
     var isOpen       = parentLi.hasClass(ClassName.open)
 
     if (!parentLi.is(Selector.treeview)) {
@@ -465,8 +471,10 @@ throw new Error('AdminLTE requires jQuery')
       event.preventDefault()
     }
 
+
     if (isOpen) {
       this.collapse(treeviewMenu, parentLi)
+
     } else {
       this.expand(treeviewMenu, parentLi)
     }
@@ -477,6 +485,7 @@ throw new Error('AdminLTE requires jQuery')
 
     if (this.options.accordion) {
       var openMenuLi = parent.siblings(Selector.open)
+
       var openTree   = openMenuLi.children(Selector.treeviewMenu)
       this.collapse(openTree, openMenuLi)
     }
@@ -504,7 +513,7 @@ throw new Error('AdminLTE requires jQuery')
     var that = this
 
     $(this.element).on('click', this.options.trigger, function (event) {
-      that.toggle($(this), event)
+        that.toggle($(this), event)
     })
   }
 
@@ -541,6 +550,7 @@ throw new Error('AdminLTE requires jQuery')
       Plugin.call($(this))
     })
   })
+
 
 }(jQuery)
 

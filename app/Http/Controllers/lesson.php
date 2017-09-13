@@ -83,19 +83,27 @@ class lesson extends TeaWxController
     }
 
     public function get_teacher_money_type() { //协议编号 1018
-        $teacherid = $this->get_teacherid();
-        $teacher_money_type= $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $level= $this->t_teacher_info->get_level($teacherid);
+        $type =$this->get_in_int_val("type");
+        if($type==1){
+            $teacherid = $this->get_in_int_val("teacherid");
+        }else{
+            $teacherid = $this->get_teacherid();
+        }
+
+        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
+        $level = $this->t_teacher_info->get_level($teacherid);
 
         $type=0;
-        if($teacher_money_type == 0 && $level == 3) {
+        if($teacher_money_type == E\Eteacher_money_type::V_0 && $level == 3) {
             $type=0;
-        }else if($teacher_money_type == 2) {
+        }else if($teacher_money_type == E\Eteacher_money_type::V_2) {
             $type=1;
-        }else if($teacher_money_type == 4) {
+        }else if($teacher_money_type == E\Eteacher_money_type::V_4) {
             $type=2;
-        }else if($teacher_money_type == 5) {
+        }else if($teacher_money_type == E\Eteacher_money_type::V_5) {
             $type=4;
+        }else if($teacher_money_type == E\Eteacher_money_type::V_6){
+            $type=5;
         }else{
             $type=3;
         }

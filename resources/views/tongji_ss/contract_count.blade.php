@@ -106,6 +106,8 @@
                         <td>小组 </td>
                         <td>负责人 </td>
                         <td>总金额 </td>
+                        <td>已确认金额 </td>
+                        <td>未确认金额 </td>
                         <td>新签 </td>
                         <td>转介绍 </td>
                         <td>常规续费 </td>
@@ -128,6 +130,8 @@
                                 {{$var["account"]}}
                             </td>
                             <td> {{@$var["all_price"]}} </td>
+                            <td> {{@$var["all_price_suc"]}}</td>
+                            <td> {{@$var["all_price_fail"]}} </td>
                             <td> {{@$var["new_price"]}}</td>
                             <td> {{@$var["transfer_introduction_price"]}}</td>
                             <td> {{@$var["normal_price"]}}</td>

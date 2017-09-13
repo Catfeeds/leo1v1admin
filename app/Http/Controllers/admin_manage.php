@@ -61,15 +61,21 @@ class admin_manage extends Controller
     }
     public function group_email_user_list() {
         $groupid=$this->get_in_int_val("groupid");
-        $adminid= $this->get_in_adminid();
+        $adminid= $this->get_in_adminid(-1);
         $page_info= $this->get_in_page_info();
         if (!($groupid>0) ) {
             return $this->error_view(["没有选择群邮箱"]);
         }
         $ret_info= $this->t_mail_group_user_list->get_list( $page_info , $groupid, $adminid);
+        foreach ($ret_info["list"] as &$item ) {
+            E\Eboolean::set_item_value_color_str($item,"email_create_flag");
+            E\Eboolean::set_item_value_color_str($item,"create_flag");
+        }
         $title=$this->t_mail_group_name->get_title($groupid);
+        $email=$this->t_mail_group_name->get_email($groupid);
         return  $this->pageView(__METHOD__,$ret_info, [
-            "title" => $title
+            "title" => $title,
+            "email" => $email,
         ]);
     }
 

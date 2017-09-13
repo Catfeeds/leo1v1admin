@@ -134,9 +134,7 @@
                     <td >{{$var['tea_nick']}}</td>
                     <td >{{$var['lesson_status_str']}}</td>
                     <td >{!! $var['trial_train_status_str'] !!}</td>
-                    <td >
-                        {{$var['acc']}}
-                    </td>
+                    <td >{{$var['acc']}}</td>
                     <td >{{$var['real_teacherid']}}</td>
                     <td >{{$var['teacher_type_str']}}</td>
                     <td >{{$var['reference_name']}}</td>
@@ -146,11 +144,10 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack"]))
+                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen","jack","zoe"]))
                                 <a class="opt-set-server" title="服务器" >切换</a>
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-edit-new" title="审核-new">审核-new</a>
-                                <a class="opt-del" title="删除">删除</a>
                             @endif
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
@@ -161,8 +158,9 @@
                             @if($var['resume_url']!='')
                                 <a class="opt-resume_url" title="查看简历">简历</a>
                             @endif
-
-
+                            @if(in_array($acc_role,[8,10,12]))
+                                <a class="opt-del" title="删除">删除</a>
+                            @endif
                         </div>
                     </td>
                 </tr>

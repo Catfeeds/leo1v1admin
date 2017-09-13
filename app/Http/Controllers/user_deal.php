@@ -2622,6 +2622,14 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+
+        $ret_info=$this->t_flow_node->get_node_list(2889);
+        
+        dd($ret_info);
+
+        $admin_list = $this->t_manager_info->get_admin_member_list();
+        dd($admin_list);
+
         $r = $this->t_teacher_record_list-> get_two_list_record();
         dd($r);
         $master_adminid_list = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id(1);
@@ -3589,8 +3597,17 @@ class user_deal extends Controller
         switch ( $month ) {
         case "201702" :
         case "201703" :
+        case "201704" :
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
                  $month, $adminid, $start_time, $end_time ) ;
+            break;
+
+        case "201705" :
+        case "201706" :
+        case "201707" :
+        case "201708" :
+            $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_info_by_type(
+                "201705", $adminid, $start_time, $end_time ) ;
             break;
         default:
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(

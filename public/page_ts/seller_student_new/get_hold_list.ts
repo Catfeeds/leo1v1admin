@@ -133,22 +133,28 @@ $(function(){
     });
 
     $("#id_set_no_hold_free").on("click",function(){
-        if (g_account != "jim"  ) {
-            if ($("#id_hold_cur_count").data("value")>50 ) {
-                BootstrapDialog.confirm("要放弃所有的不保留的例子,回流到公海?!",function(val ){
-                    if (val) {
-                        $.do_ajax('/ss_deal/set_no_hold_free', {
-                        });
-                    }
-                });
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_mul",{} ,function(ret){
+            if(ret.ret){
+                alert("回流前签单失败原因不能为'考虑中',请重新设置!");
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+ret.userid;
             }else{
-                alert("当前保留的个数:"+  $("#id_hold_cur_count").data("value") +",没有超过50个,不能操作!,请保留更多的例子 ");
+                if (g_account != "jim"  ) {
+                    if ($("#id_hold_cur_count").data("value")>50 ) {
+                        BootstrapDialog.confirm("要放弃所有的不保留的例子,回流到公海?!",function(val ){
+                            if (val) {
+                                $.do_ajax('/ss_deal/set_no_hold_free', {
+                                });
+                            }
+                        });
+                    }else{
+                        alert("当前保留的个数:"+  $("#id_hold_cur_count").data("value") +",没有超过50个,不能操作!,请保留更多的例子 ");
+                    }
+                }else{
+                    $.do_ajax('/ss_deal/set_no_hold_free', {
+                    });
+                }
             }
-        }else{
-            $.do_ajax('/ss_deal/set_no_hold_free', {
-            });
-        }
-
+        });
     });
 
 

@@ -30,24 +30,6 @@ interface RowData {
 	key4_class	:any;
 	level	:any;
 	create_time	:any;
-	all_count	:any;
-	assigned_count	:any;
-	tmk_assigned_count	:any;
-	tq_no_call_count	:any;
-	tq_called_count	:any;
-	tq_call_fail_count	:any;
-	tq_call_succ_valid_count	:any;
-	tq_call_succ_invalid_count	:any;
-	tq_call_fail_invalid_count	:any;
-	have_intention_a_count	:any;
-	have_intention_b_count	:any;
-	have_intention_c_count	:any;
-	require_count	:any;
-	test_lesson_count	:any;
-	succ_test_lesson_count	:any;
-	order_count	:any;
-	user_count	:any;
-	order_all_money	:any;
 }
 
 /*

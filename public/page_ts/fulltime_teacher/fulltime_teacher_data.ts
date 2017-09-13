@@ -24,6 +24,20 @@ $(function(){
         }
     });
 
+    var config_list=["apply_num","arrive_num","arrive_through","second_through","enter_num",
+                    "arrive_num_per","arrive_through_per","second_through_per","enter_num_per"];
+    
+    $.each( config_list,  function(){
+        var config_type=this; 
+        $.do_ajax("/ajax_deal2/fulltime_teacher_data_with_type",{
+			      start_time: g_args.start_time	,
+			      end_time: g_args.end_time	,
+            "type" :  config_type,
+        } ,function(resp){
+            $("#id_"+config_type).text(resp.value) ;
+        } );
+
+    } );
 
 	$('.opt-change').set_input_change_event(load_data);
 });

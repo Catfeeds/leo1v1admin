@@ -857,7 +857,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql(
             "select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
-            ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,"
+            ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
             ." train_through_new,trial_lecture_is_pass,wx_use_flag"
             ." from %s "
             ." where teacherid=%u"
@@ -2938,7 +2938,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1
+        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
@@ -2950,6 +2950,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_status=2",
             "teacher_type not in (3,4)"
         ];
+        $not_sql = "true";
+        if($not_start>0 && $not_end>0){
+            $not_where = [
+                ["lesson_start>%u",$not_start,0],
+                ["lesson_start<%u",$not_end,0],
+                "lesson_type in (0,1,3)",
+                "lesson_del_flag=0",
+                "confirm_flag!=2",
+                "lesson_status=2",
+            ];
+            $not_sql = $this->gen_sql_new("not exists (select 1 from %s where t.teacherid=teacherid and %s)"
+                                          ,t_lesson_info::DB_TABLE_NAME
+                                          ,$not_where
+            );
+        }
 
         if($teacher_id>0){
             $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
@@ -2986,6 +3001,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s o on ol.orderid=o.orderid"
 
                                   ." where %s"
+                                  ." and %s"
                                   ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
@@ -2994,6 +3010,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,$not_sql
         );
         return $this->main_get_list($sql);
     }
@@ -3314,51 +3331,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
-                                        $phone, $school, $address, $dialect_notes, $education, $major, $hobby,
-                                        $speciality){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "nick"          => $nick,
-            "gender"        => $gender,
-            "birth"         => $birth,
-            "email"         => $email,
-            "work_year"     => $work_year,
-            "phone"         => $phone,
-            "school"        => $school,
-            "address"       => $address,
-            "dialect_notes" => $dialect_notes,
-            "education"     => $education,
-            "major"         => $major,
-            "hobby"         => $hobby,
-            "speciality"    => $speciality,
-        ]);
-        return $res;
-    }
-
-    public function update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "bank_account"  => $bank_account,
-            "idcard"        => $idcard,
-            "bankcard"      => $bankcard,
-            "bank_phone"    => $bank_phone,
-            "bank_type"     => $bank_type,
-            "bank_address"  => $bank_address,
-            "bank_province" => $bank_province,
-            "bank_city"     => $bank_city,
-        ]);
-        return $res;
-
-    }
-
-    public function update_teacher_status($teacherid, $need_test_lesson_flag){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "need_test_lesson_flag"    => $need_test_lesson_flag,
-        ]);
-        return $res;
-    }
 
 
     public function get_train_through_all_list($start_time,$end_time){
@@ -3467,20 +3439,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_tea_list($start,$end){
-        $where_arr = [
-            "need_check_textbook=1",
-            "assign_jw_adminid=0",
-        ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.assign_jw_adminid"
-                                  ." from %s t"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -3596,5 +3554,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr);
         return $this->main_get_list($sql);
     }
+
+    public function is_teacher($sql) {
+        return $this->main_get_value($sql);
+    }
+
+    public function get_need_reset_money_type_list($batch){
+        $where_arr = [
+            // ["batch=%u",$batch,0],
+            "batch in (1,2)",
+            "t.teacher_money_type!=6"
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type_simulate,t.level_simulate,wx_openid,t.realname"
+                                  ." from %s t"
+                                  ." left join %s tw on t.teacherid=tw.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_switch_money_type_list::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
 
 }

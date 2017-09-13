@@ -247,6 +247,19 @@ $(function(){
                 window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
             }
         });
+
+        $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,
+        } ,function(ret){
+            if(ret.ret==1){
+                alert("由于上周您转化率已超过25%,为"+ret.rate+"%,本周将被限制排课,每天可排1节,可点击'排课解冻'继续排课");
+                return;
+            }else if(ret.ret==2){
+                alert('您已被限制排课,今天可排课程为1节试听课');
+            }else if(ret.ret==3){
+                alert('您的取消率已达20%,大于25%将被限制排课,每天只能排一节试听课,请谨慎处理');
+            }
+        });
+
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 
@@ -619,6 +632,13 @@ $(function(){
 
     $(".opt-set_user_free").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
+            if(ret){
+                alert("回流前签单失败原因不能为'考虑中',请重新设置!");
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
+            }
+        });
+
         BootstrapDialog.confirm(
             "设置释放到公海:" + opt_data.phone ,
             function(val){
@@ -1882,5 +1902,40 @@ function init_edit() {
         });
 
     });
+
+    $(".opt-test_lesson-review").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var $id_phone = $("<input readonly='true' />");
+        var $id_desc  = $("<textarea rows='' cols=''>");
+        $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,} ,function(ret){
+            if(ret.ret==1){
+                var arr=[
+                    ["学生",  $id_phone],
+                    ["申请说明",  $id_desc],
+                ];
+
+                $id_phone.val(opt_data.phone);
+
+                $.show_key_value_table("排课申请", arr ,{
+                    label: '确认',
+                    cssClass: 'btn-warning',
+                    action: function(dialog) {
+                        $.do_ajax("/test_lesson_review/test_lesson_review_add",{
+                            "userid" : opt_data.userid,
+                            "review_desc"   : $id_desc.val(),
+                        },function(ret){
+                            if(ret==1){
+                                alert('申请成功!');
+                            }else{
+                                alert('限排后一周最多提交3次申请!');
+                            }
+                            window.location.reload();
+                        })
+                    }
+                })
+            }
+        });
+    });
+
 
 }

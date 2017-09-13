@@ -12,6 +12,8 @@ $(function(){
 			      teacher_id         : $('#id_teacherid').val(),
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      level              : $('#id_level').val(),
+			      not_start: $('#id_not_start').val(),
+			      not_end: $('#id_not_end').val(),
         });
     }
 
@@ -28,10 +30,15 @@ $(function(){
 
     Enum_map.append_option_list( "teacher_money_type", $("#id_teacher_money_type"));
     Enum_map.append_option_list( "level", $("#id_level"));
+    Enum_map.append_option_list( "month", $("#id_not_start"));
+    Enum_map.append_option_list( "month", $("#id_not_end"));
 	  $('#id_teacherid').val(g_args.teacher_id);
+	  $('#id_not_start').val(g_args.not_start);
+	  $('#id_not_end').val(g_args.not_end);
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
+
 
     $(".opt-set_simulate_info").on("click",function(){
 	      var data = $(this).get_opt_data();

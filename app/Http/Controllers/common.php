@@ -288,13 +288,6 @@ class common extends Controller
 
         $str = "提交成功！您的分数为".$totalvalue;
         if(isset($answer) && !empty($answer)){
-            // $ret = $this->check_answer_time($answer["lessonid"]);
-            // if(!$ret){
-            //     header("Content-type: text/html; charset=utf-8");
-            //     echo "超出答题时间!请参加下次培训!";
-            //     return ;
-            // }
-
             $teacher_info = $this->t_teacher_info->get_teacher_info($answer['userid']);
             $old_score    = $this->t_train_lesson_user->get_score($answer['lessonid'],$answer['userid']);
             $level_str    = E\Elevel::get_desc($teacher_info['level']);
@@ -314,15 +307,13 @@ class common extends Controller
 
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
-                   
                 }
                 if($totalvalue>=90){
                     //发送微信通知进行模拟课堂
-                    $check_flag=$this->t_lesson_info->check_train_lesson_new($answer['userid']);
+                    $check_flag = $this->t_lesson_info->check_train_lesson_new($answer['userid']);
                     if(empty($check_flag)){
                         $this->add_trial_train_lesson($teacher_info,1);
                     }
- 
                 }
             }
         }
@@ -396,131 +387,6 @@ class common extends Controller
         return $html;
     }
 
-    public function get_offer_html($teacher_info){
-        $name       = $teacher_info['nick'];
-        $level_str  = E\Elevel::get_desc($teacher_info['level']);
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        $group_html = $this->get_qq_group_html($teacher_info['subject']);
-        $html       = "
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf8'>
-        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1,user-scalable=true'>
-        <style>
-         *{margin:0 auto;padding:0 auto;}
-         body{opacity:100%;color:#666;}
-         html{font-size:10px;}
-         .color333{color:#333;}
-         .fl{float:left;}
-         .fr{float:right;}
-
-         .top-line{margin-top:24px;}
-         .tea_name{position:relative;z-index:1;top:321px;}
-         .tea_level{position:relative;z-index:1;top:410px;}
-         .date{position:relative;z-index:1;top:-215px;left:165px;}
-
-         .todo{margin:20px 0 10px 0;}
-         .todo li{margin:10px 0;}
-
-         .about_us{margin:30px 0 0;}
-         .us_title{margin:0 0 10px;}
-         .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
-
-         .join-us{margin:40px 0;}
-         .join-us-content{width:44%;}
-         .middle-line{
-             width:28%;
-             height:4rem;
-             background:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/7854b16d86652ff547354f84b119d7a51496676904532.png) repeat-x;
-             background-position:0 50%;
-         }
-
-         .size12{font-size:2.4rem;}
-         .size14{font-size:2.8rem;}
-         .size18{font-size:3.6rem;}
-         .size20{font-size:4rem;}
-         .size24{font-size:4.8rem;}
-         .content{width:700px;}
-         .img_position{position:relative;width:700px;}
-
-         @media screen and (max-width: 720px) {
-             .size12{font-size:1.5rem;}
-             .size14{font-size:1.75rem;}
-             .size18{font-size:2.25rem;}
-             .size20{font-size:2.5rem;}
-             .size24{font-size:3rem;}
-             .content{width:400px;}
-             .img_position{width:400px;}
-             .tea_name{top:199px;}
-             .tea_level{top:241px;}
-             .date{top:-135px;left:90px;}
-             .middle-line{height:2.5rem;}
-         }
-        </style>
-    </head>
-<body>
-    <div style='width:100%' align='center'>
-        <div class='content'>
-            <div class='logo top-line' align='center'>
-                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
-            </div>
-            <div>
-                <div class='size24 top-line color:#333'>
-                    您的加入,我们期待已久
-                </div>
-                <div class='size14' style='margin:20px 0 0'>
-                    以下是您的理优教育兼职讲师入职通知
-                    <br/>
-                    请仔细阅读通知书下方待办事项
-                </div>
-            </div>
-            <div>
-                <div class='size12' style='line-height:24px'>
-                    <name class='tea_name'>".$name."</name>
-                    <br/>
-                    <level class='tea_level'>老师等级:".$level_str."</level>
-                    <img class='img_position' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ae57036b08deb686fc7d52b8463a075e1496669999943.png'>
-                     <date class='date'>&nbsp;&nbsp;".$date_str."</date>
-                </div>
-            </div>
-            <div class='todo size12' align='left'>
-                <div class='size20 color333'>待办事项</div>
-                <div class='ul_title size14 color333'>
-                    -加入相关QQ群(请备注 科目-年级-姓名)
-                </div>
-                <ul>".$group_html."</ul>
-                <div class='ul_title size14 color333'>
-                    -理优老师后台链接
-                </div>
-                <ul>
-                    <li>
-                        后台连接:<br>
-                        http://www.leo1v1.com/login/teacher
-                    </li>
-                </ul>
-            </div>
-            <div class='about_us' align='left'>
-                <div class='us_title size20 color333'>关于我们</div>
-                <div class='size14' style='text-indent:2em'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
-                    获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
-                    GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
-                </div>
-                <div class='join-us'>
-                    <div class='middle-line fl'></div>
-                    <div class='join-us-content size14 color333 fl' align='center'>我们欢迎您的加入</div>
-                    <div class='middle-line fr'></div>
-                    <div style='clear:both'></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-";
-        return $html;
-    }
-
     public function show_ruzhi_html(){
         $teacherid = $this->get_in_int_val("teacherid");
         $is_test   = $this->get_in_int_val("is_test");
@@ -544,41 +410,6 @@ class common extends Controller
                 $offer_url        = "http://admin.yb1v1.com/common/show_ruzhi_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
-        }
-        return $html;
-    }
-
-    public function get_qq_group_html($subject){
-        $qq_common = ["问题答疑","528851744","用于薪资，软件等综合问题"];
-        $qq_group  = [
-            1=>[
-                ["教研-语文","126321887","处理教学相关事务"],
-                ["排课-语文","103229898","用于抢课"]
-            ],2=>[
-                ["教研-数学","29759286","处理教学相关事务"],
-                ["排课-数学","132041242","用于排课"],
-            ],3=>[
-                ["教研-英语","451786901","处理教学相关事务"],
-                ["排课-英语","41874330","用于排课"],
-            ],4=>[
-                ["教研-综合","513683916","处理教学相关事务"],
-                ["排课-理化","129811086","用于排课"],
-            ],5=>[
-                ["教研-综合","513683916","处理教学相关事务"],
-                ["排课-文理综合","538808064","用于排课"],
-            ],
-        ];
-        if($subject<=3){
-            $key=$subject;
-        }elseif(in_array($subject,[4,5])){
-            $key=4;
-        }else{
-            $key=5;
-        }
-        $qq_group[$key][]=$qq_common;
-        $html="";
-        foreach($qq_group[$key] as $qq_val){
-            $html .= "<li>【LEO】".$qq_val[0]."<br>群号：".$qq_val[1]."<br>群介绍：".$qq_val[2]."</li>";
         }
         return $html;
     }
@@ -920,13 +751,14 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_gg.png";
+        $phone_qr_name = $phone."_qr_agent_new_mp.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
             $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
-            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
+            // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/7269932fdd7f8ba760b50d8a119a60c01505278377982.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
@@ -934,7 +766,8 @@ class common extends Controller
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopymerge($image_3,$image_2,80,1082,0,0,imagesy($image_2),imagesy($image_2),100);
+            // imagecopymerge($image_3,$image_2,80,1082,0,0,imagesy($image_2),imagesy($image_2),100);
+            imagecopymerge($image_3,$image_2,302,2235,0,0,imagesy($image_2),imagesy($image_2),100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -1544,7 +1377,7 @@ class common extends Controller
     public function get_ppl_data(){
         $pa=new \Analysis\PhpAnalysis();
         $demand = $this->get_in_str_val("demand","哈哈哈");
-        
+
         $pa->SetSource($demand);
         $pa->resultType=2;
         $pa->differMax=true;
@@ -1553,7 +1386,7 @@ class common extends Controller
         dd($arr);
         echo "<pre>";
         print_r($arr);
-        echo "</pre>"; 
+        echo "</pre>";
     }
 
     //百度有钱花接口
@@ -1566,7 +1399,7 @@ class common extends Controller
         //分期期数
         $period = $this->get_in_int_val("period",12);
 
-        
+
         $orderid = 974;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
@@ -1575,7 +1408,7 @@ class common extends Controller
 
 
 
-        
+
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
 
@@ -1590,8 +1423,8 @@ class common extends Controller
         );
 
         $rsaData = $this->enrsa($endata);
-        
-        
+
+
         $arrParams = array(
             'action' => 'sync_order_info',
             'tpl' => 'tpl',// 分配的tpl
@@ -1633,10 +1466,10 @@ class common extends Controller
         ]);
 
 
-        
-        
-        
- 
+
+
+
+
     }
 
     //查询百度有钱花订单信息
@@ -1661,8 +1494,8 @@ class common extends Controller
         );
 
         $rsaData = $this->enrsa($endata);
-        
-        
+
+
         $arrParams = array(
             'action' => 'get_order_status',
             'tpl' => 'tpl',// 分配的tpl
@@ -1695,11 +1528,11 @@ class common extends Controller
      * rsa 加密(百度有钱花)
      */
     public function enrsa($data){
-        $public_key = '-----BEGIN PUBLIC KEY-----  
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt  
-3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl  
-Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o  
-2n1vP1D+tD3amHsK7QIDAQAB  
+        $public_key = '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
+2n1vP1D+tD3amHsK7QIDAQAB
 -----END PUBLIC KEY-----';
         $pu_key = openssl_pkey_get_public($public_key);
         $str = json_encode($data);
@@ -1762,7 +1595,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $sec = "30819d300d06092a864886f70d010101050003818b0030818702818100da1faeffe420660abea650bea7d21afff96881c1fc0c0b06e6edb9f7bdd4e617da53dd6fe375321cfed3653a6cf09a8e13166a4f5bb15af5122701f0f2bcc7f5d86e8a7b870a4ddf82a68a9a8b2f5a2b963e955b63e7aebb19f282e2194b1dd3d5654a63d05c5a7471088b728616cd1f67726c6629ba39c17b8df73e5ca8b42d020111";
         $pub = substr($sec,-30);
         // dd($sect);
-               
+
         $mac = md5("MERCHANTID=".$merchantid."@&POSID=".$posid."@&BRANCHID=".$branchid."@&ORDERID=".$orderNo."@&PAYMENT=".$payment."@&CURCODE=".$curcode."@&TXCODE=".$txcode."@&REMARK1=".$remark1."@&REMARK2=".$remark2."@&TYPE=".$type."@&PUB=".$pub."%@&GATEWAY=".$gateway."@&CLIENTIP=".$clientip."@&REGINFO=".$reginfo."@&PROINFO=".$proinfo."@&REFERER=".$referer."@&THIRDAPPINFO=".$thirdappinfo."@");
         $url = "https://ibsbjstar.ccb.com.cn/app/ccbMain?MERCHANTID=".$merchantid."&POSID=".urlencode($posid)."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".urlencode($curcode)."&TXCODE=".$txcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&MAC=".urlencode($mac)."&TYPE=".$type."&GATEWAY=".$gateway."&CLIENTIP=".$clientip."&REGINFO=".urlencode($reginfo)."&PROINFO=".urlencode($proinfo)."&REFERER=".$referer."&THIRDAPPINFO=".urlencode($thirdappinfo)."&CALLJS=".$calljs."&INSTALLNUM=".$installnum;
         dd($url);
@@ -1793,5 +1626,198 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
-    
+    function parse_roomid($roomid)
+    {
+        $tmp_arr                   = explode("y", strtolower(substr($roomid,2)));
+
+        if (count( $tmp_arr) ==3 )  {
+            $lesson_arr['courseid']    = $tmp_arr[0];
+            $lesson_arr['lesson_num']  = $tmp_arr[1];
+            $lesson_arr['lesson_type'] = $tmp_arr[2];
+            return $lesson_arr;
+        }else{
+            return false;
+        }
+    }
+
+    private function parse_userid($userid)
+    {
+        $pos = strpos($userid, "_");
+        if($pos != false){
+            $type   = substr($userid, 0, $pos);
+            if (strlen($type)==4 && $type[0]=="p"){
+                $type=substr($type,1);
+            }
+        }else{
+            $item=$this->t_phone_to_user-> get_info_by_userid($userid);
+            $role=$item["role"];
+            $utype_to_prefix_config = array(
+                1 => 'stu',
+                2 => 'tea',
+                3 => 'ad',
+                4 => 'par'
+            );
+
+            $type   = @$utype_to_prefix_config[$role];
+        }
+        return $type;
+    }
+
+
+    /**
+     * functions handle xmpp and webrtc notifies
+     */
+    public function notify(){
+        $roomid   = $this->get_in_str_val("roomid"); //l_11Y21Y1
+        $userid   = $this->get_in_str_val("userid"); //par_111, tea_112341 , 1341241
+        $opt_type = $this->get_in_str_val("opt_type"); //login logout stop restart
+        $server_type = $this->get_in_str_val("server_type");
+        $online_userlist = $this->get_in_str_val('online_userlist');
+        $program_id= $this->get_in_int_val('program_id');
+
+        if (preg_match('/_chat$/',$roomid, $matches)) {
+            \App\Helper\Utils::logger(" $roomid no  log");
+            return $this->output_succ();
+        }
+        if ($userid== "supervisor" ){
+            return $this->output_succ();
+        }
+
+
+        $lesson_arr = $this->parse_roomid($roomid);
+        if (!$lesson_arr) {
+            return $this->output_succ();
+        }
+        $user_type_arr = array();
+        if($online_userlist != ''){
+            $online_user_arr = explode(',',$online_userlist);
+            foreach($online_user_arr as $key => $value){
+                if($value != '')
+                    $user_type_arr[] = $this->parse_userid($value);
+            }
+        }
+        $utype = $this->parse_userid($userid);
+
+
+        $lessonid=0;
+        if ( $opt_type == "login" || $opt_type == "logout"    ){
+
+            $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
+
+            $condition =$ret_arr["lesson_condition"];
+            $lessonid=$ret_arr["lessonid"];
+            $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_condition" => $condition_new
+            ]);
+
+        }
+
+
+
+        if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
+             || $opt_type =="register" ){
+            //get_userid
+            $tmp_userid=@preg_split("/_/" ,$userid)[1];
+            if ($tmp_userid){
+                $userid= $tmp_userid;
+            }
+
+
+
+            $server_type_conf = array("webrtc" =>1 , "xmpp" =>2 );
+            $log_type_conf    = array("login" =>1 , "logout" =>2 ,"register"=>3,"no_recv_data"=>4);
+            $server_type      = $server_type_conf[ $server_type];
+            $opt_type         = $log_type_conf[ $opt_type];
+
+
+            $this->t_lesson_opt_log->row_insert([
+                'lessonid'=> $lessonid,
+                'opt_time' => time(),
+                'opt_type'=>  $opt_type,
+                'userid'=>    $userid,
+                'server_type' => $server_type,
+                'server_ip'=>    ip2long($this->get_in_client_ip() ),
+                'program_id'=>    $program_id,
+            ],false, true);
+            if ($utype=="tea" &&  $opt_type  ==1   )  {
+                $this->t_lesson_info_b3-> set_real_begin_time($lessonid,time(NULL));
+            }
+        }
+        return $this->output_succ();
+    }
+
+
+    private function update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type)
+    {
+        $condition_arr;
+        $opt_type_config = array(
+            'login'   => 1,
+            'logout'  => 0,
+            'stop'    => 0,
+            'restart' => 1
+        );
+        if($condition == ""){
+            //xxxx_dis 表明相关服务器的断线次数
+            $condition_arr = array(
+                'stu' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'tea' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'ad' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'par' => array(
+                    'xmpp'       => 0,
+                    'webrtc'     => 0,
+                    'xmpp_dis'   => 0,
+                    'webrtc_dis' => 0
+                ),
+                'suspend' => 0
+            );
+
+            if($opt_type != 'stop' && $opt_type != "restart"){
+                foreach($user_type_arr as $key=>$type){
+                    $condition_arr[$type][$server_type] = 1;
+                }
+                if($opt_type == 'logout')
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"] + 1 ;
+            }else{
+                $condition_arr['suspend'] = $opt_type_config [$opt_type];
+            }
+         }else{
+            $condition_arr = json_decode($condition, true);
+            $this->clear_condition_state($condition_arr, $server_type);
+            if($opt_type != 'stop' && $opt_type != "restart"){
+                foreach($user_type_arr as $key=>$type){
+                    $condition_arr[$type][$server_type] = 1;
+                }
+                if($opt_type == 'logout')
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
+            }else{
+                $condition_arr['suspend'] = $opt_type_config[$opt_type];
+            }
+         }
+        return json_encode($condition_arr);
+    }
+
+    private function clear_condition_state(&$condition_arr, $server_type)
+    {
+        $condition_arr['stu'][$server_type] =0;
+        $condition_arr['tea'][$server_type] =0;
+        $condition_arr['par'][$server_type] =0;
+        $condition_arr['ad'][$server_type] =0;
+    }
+
 }

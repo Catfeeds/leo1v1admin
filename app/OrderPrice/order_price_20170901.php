@@ -17,12 +17,24 @@ class order_price_20170901 extends order_price_base
     ];
 
     static $new_free_lesson_config = [
-        30 => 6,
-        60 => 12,
-        90 => 18,
-        120 => 24,
-        150 => 30,
-        180 => 36,
+        30 => 3,
+        60 => 6,
+        90 => 9,
+        120 => 12,
+        150 => 15,
+        180 => 18,
+        210 => 21,
+        240 => 24,
+        270 => 27,
+        300 => 30,
+        330 => 33,
+        360 => 36,
+        390 => 39,
+        420 => 42,
+        450 => 45,
+        480 => 48,
+        510 => 51,
+        540 => 54,
     ];
 
     static $new_discount_config_1 = [
@@ -106,6 +118,7 @@ class order_price_20170901 extends order_price_base
             }
 
             //满课时 90课时送 6课时 ,  2*90课时送 2*6课时   ,3*90课时 3*6
+
             list($find_free_lesson_level , $present_lesson_count )=static::get_value_from_config_ex(
                 static::$new_free_lesson_config,  $check_lesson_count , [0,0] );
             if ( $present_lesson_count) {

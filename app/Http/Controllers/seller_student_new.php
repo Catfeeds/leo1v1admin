@@ -493,7 +493,6 @@ class seller_student_new extends Controller
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account",$account);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
-
         return $this->pageView(__METHOD__,$ret_info, [
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
@@ -1129,8 +1128,10 @@ class seller_student_new extends Controller
         $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
         $userid=$this->get_in_userid(-1 );
+        $origin_levle_arr = [];
         $ret_info=$this->t_test_lesson_subject_require->get_order_fail_list($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
         foreach ($ret_info["list"] as &$item ) {
+            $origin_levle_arr[] = $item['origin_level'];
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
             $this->cache_set_item_account_nick ($item,"cur_require_adminid",
@@ -1141,6 +1142,7 @@ class seller_student_new extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end","","H:i");
             \App\Helper\Utils::unixtime2date_for_item($item,"test_lesson_order_fail_set_time");
             if(in_array($item['test_lesson_order_fail_flag'],[1001,1002,1003,1004])){//自身原因
                 $item['test_lesson_order_fail_flag_one'] = 10;
@@ -1164,19 +1166,39 @@ class seller_student_new extends Controller
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
         }
+        $origin_levle_arr = array_unique($origin_levle_arr);
+        $origin_info = $this->t_origin_key->get_key1_list_by_origin_level_arr($origin_levle_arr);
+        foreach($ret_info["list"] as &$item){
+            foreach($origin_info as $info){
+                if(($item['origin_level'] == $info['origin_level']) && $item['origin_level']){
+                    $item['key1'] = $info['key1'];
+                }
+            }
+            $item['key1'] = isset($item['key1'])?$item['key1']:'注册';
+        }
         return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function test_lesson_order_fail_list_new(){
+        $userid = $this->get_in_int_val('userid')?$this->get_in_int_val('userid'):-1;
+        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
         $cur_require_adminid = $this->get_account_id();
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
-        $ret = 0;
-        if(isset($ret_info['require_id'])){
-            $ret = $ret_info['require_id'];
-        }
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret = isset($ret_info['require_id'])?$ret_info['require_id']:0;
         return $ret;
     }
 
+    public function test_lesson_order_fail_list_mul(){
+        $admin_revisiterid=$this->get_account_id();
+        $user_list = $this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
+        $userid = isset($user_list[0]['userid'])?$user_list[0]['userid']:-1;
+        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret['ret'] = isset($ret_info['require_id'])?$ret_info['require_id']:0;
+        $ret['userid'] = $userid?$userid:0;
+        return $ret;
+    }
 
 
     public function test_lesson_order_fail_list_ass() {
@@ -1484,5 +1506,57 @@ class seller_student_new extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
+    }
+
+    public function test_lesson_cancle_rate(){
+        $adminid = $this->get_account_id();
+        $userid = $this->get_in_int_val('userid');
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        list($count,$count_del) = [0,0];
+        $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+        foreach($ret_info as $item){
+            if($item['lesson_del_flag']){
+                $count_del++;
+            }
+            $count++;
+        }
+        $del_rate = $count?$count_del/$count:0;
+        if($del_rate>0.25){//今日排课量
+            $start_time = $time;
+            $end_time = $time+3600*24;
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            $ret['ret'] = count($ret_info)?1:2;
+            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
+            if($review_suc){
+                $ret['ret'] = 2;
+            }
+            $ret['rate'] = $del_rate*100;
+        }else{//本周取消率
+            $start_time = $time-3600*24*($week-2);
+            $end_time = time();
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            foreach($ret_info as $item){
+                if($item['lesson_del_flag']){
+                    $count_del++;
+                }
+                $count++;
+            }
+            $del_rate = $count?$count_del/$count:0;
+            if($del_rate>0.2){
+                $ret['ret'] = 3;
+            }else{
+                $ret['ret'] = 4;
+            }
+        }
+
+        return $ret;
     }
 }

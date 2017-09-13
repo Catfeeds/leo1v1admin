@@ -15,6 +15,7 @@ return array(
     ["db_weiyi","t_yxyx_custom_type", "custom_type_id"],
     ["db_weiyi","t_yxyx_new_list", "id"],
 
+    ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
@@ -34,7 +35,7 @@ return array(
     ["db_weiyi","t_cs_proposal_info", "id"],
     ["db_weiyi","t_requirement_info", "id"],
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
-
+    ["db_weiyi","t_child_order_info", "child_orderid"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -57,6 +58,7 @@ return array(
     ["db_weiyi","t_test_lesson_subject","test_lesson_subject_id" ],
     ["db_weiyi","t_test_lesson_subject_require","require_id" ],
     ["db_weiyi","t_test_lesson_subject_sub_list","lessonid" ],
+    ["db_weiyi","t_test_lesson_subject_require_review","id" ],
     ["db_weiyi","t_user_authority_group","groupid" ],
 
 

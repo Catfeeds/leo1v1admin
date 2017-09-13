@@ -6,6 +6,20 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+    <script type="text/javascript" src="/js/cropbox.js"></script>
+    <link rel="stylesheet" href="/css/face-upload-style.css" type="text/css" />
+    <style>
+     #face{
+         cursor:pointer;
+     }
+    </style>
+
+    <script>
+     var able_edit  = <?php  echo json_encode($able_edit); ?> ;
+     var domain_url = '{{$domain_url}}';
+    </script>
+
     <section class="content li-section">
         <div class="row">
             <!-- Left col -->
@@ -17,7 +31,7 @@
                     <div class="box-body">
                         <!-- Profile Image -->
                         <div class="box-body box-profile">
-                            <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
+                            <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" id="face"  data-toggle="modal" data-target="#modal-default" >
                             <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
                             <p class="text-muted text-center">{{$my_info['teacher_title']}}</p>
                         </div>
@@ -271,8 +285,8 @@
                 <div class="box box-info-ly">
                     <div class="box-header">
                         <h3 class="box-title color-blue">基本信息</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-toggle="modal" data-target="#modal-default" data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-blue ft14">编辑</span>
+                        <div class="box-tools pull-right" >
+                            <button type="button" class="btn btn-box-tool opt-edit"  data-name="user-info" ><i class="fa fa-edit"></i>&nbsp;<span class="color-blue ft14">编辑</span>
                             </button>
                         </div>
                     </div>
@@ -287,33 +301,17 @@
                                             <th class="text-cen bg-lblue" style="width:20%">ID</th>
                                             <td id="teacherid">56123</td>
                                             <th class="text-cen bg-lblue" style="width:20%">姓名</th>
-                                            <td>
-                                                {!! $my_info['nick_code'] !!}
-                                                <input type="text" name="nick" class="hide" value="{{$my_info['nick']}}">
-                                            </td>
+                                            <td> {!! $my_info['nick_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >性别</th>
-                                            <td class="form-group">
-                                                <span>{{$my_info['gender_str']}}</span>
-                                                <select name="gender" class="form-control hide">
-                                                    <option value="0" @if($my_info['gender'] == 0) selected @endif >保密</option>
-                                                        <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
-                                                            <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
-                                                </select>
-                                            </td>
+                                            <td class="form-group"> <span>{{$my_info['gender_str']}}</span> </td>
                                             <th class="text-cen bg-lblue" >出生日期</th>
-                                            <td>
-                                                {!! $my_info['birth_code'] !!}
-                                                <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}" placeholder="例如：19900101">
-                                            </td>
+                                            <td> {!! $my_info['birth_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >邮箱</th>
-                                            <td>
-                                                {!! $my_info['email_code'] !!}
-                                                <input type="email" name="email" class="hide" value="{{$my_info['email']}}">
-                                            </td>
+                                            <td> {!! $my_info['email_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >推荐人</th>
                                             <td> {{$my_info['teacher_ref_type_str']}} </td>
                                         </tr>
@@ -321,7 +319,6 @@
                                             <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
                                                 {!! $my_info['phone_code'] !!}
-                                                <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
                                                 @if ($my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
                                                 @endif
@@ -334,10 +331,7 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <th class="text-cen bg-lblue" style="width:20%">教龄</th>
-                                            <td>
-                                                {!! $my_info['work_year_code'] !!}
-                                                <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
-                                            </td>
+                                            <td> {!! $my_info['work_year_code'] !!} </td>
                                             <th class="text-cen bg-lblue" style="width:20%">教材版本</th>
                                             <td>{{$my_info['textbook_type_str']}}</td>
                                         </tr>
@@ -349,18 +343,9 @@
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >方言备注</th>
-                                            <td>
-                                                {!! $my_info['dialect_notes_code'] !!}
-                                                <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
-
-                                            </td>
+                                            <td> {!! $my_info['dialect_notes_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >所在地</th>
-                                            <td>
-                                                {!! $my_info['address_code'] !!}
-                                                <input type="text" name="address" class="hide" value="{{$my_info['address']}}" placeholder="未填写">
-
-                                            </td>
-
+                                            <td> {!! $my_info['address_code'] !!} </td>
                                         </tr>
                                     </table>
                                     <p class="color-9">教学背景</p>
@@ -369,35 +354,19 @@
                                             <th class="text-cen bg-lblue"  style="width:20%">身份</th>
                                             <td>{{$my_info['identity_str']}}</td>
                                             <th class="text-cen bg-lblue"  style="width:20%">毕业院校</th>
-                                            <td>
-                                                {!! $my_info['school_code'] !!}
-                                                <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
-                                            </td>
+                                            <td> {!! $my_info['school_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >最高学历</th>
-                                            <td>
-                                                {!! $my_info['education_code'] !!}
-                                                <input type="text" name="education" class="hide" value="{{$my_info['education']}}"  placeholder="未填写">
-                                            </td>
-
+                                            <td> {{ $my_info['education_str'] }} </td>
                                             <th class="text-cen bg-lblue" >专业</th>
-                                            <td>
-                                                {!! $my_info['major_code'] !!}
-                                                <input type="text" name="major" class="hide" value="{{$my_info['major']}}"  placeholder="未填写">
-                                            </td>
+                                            <td> {!! $my_info['major_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >兴趣爱好</th>
-                                            <td>
-                                                {!! $my_info['hobby_code'] !!}
-                                                <input type="text" name="hobby" class="hide" value="{{$my_info['hobby']}}"  placeholder="未填写">
-                                            </td>
+                                            <td> {!! $my_info['hobby_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >个人特长</th>
-                                            <td>
-                                                {!! $my_info['speciality_code'] !!}
-                                                <input type="text" name="speciality" class="hide" value="{{$my_info['speciality']}}"  placeholder="未填写">
-                                            </td>
+                                            <td> {!! $my_info['speciality_code'] !!} </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -434,60 +403,27 @@
                                     <table class="table table-bordered" data-sub="edit_teacher_bank_info">
                                         <tr>
                                             <th class="text-cen bg-lblue" >持卡人</th>
-                                            <td>
-                                                {!! $my_info['bank_account_code'] !!}
-                                                <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['bank_account_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >身份证号</th>
-                                            <td>
-                                                {!! $my_info['idcard_code'] !!}
-                                                <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['idcard_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue">银行卡类型</th>
-                                            <td>
-                                                {!! $my_info['bank_type_code'] !!}
-                                                <select name="bank_type" class="form-control hide">
-                                                    <option>中国建设银行</option>
-                                                    <option>中国工商银行</option>
-                                                    <option>中国农业银行</option>
-                                                    <option>交通银行</option>
-                                                    <option>招商银行</option>
-                                                    <option>中国银行</option>
-                                                </select>
-
-                                            </td>
+                                            <td> {!! $my_info['bank_type_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >支行名称</th>
-                                            <td>
-                                                {!! $my_info['bank_address_code'] !!}
-                                                <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['bank_address_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >开户省</th>
-                                            <td>
-                                                {!! $my_info['bank_province_code'] !!}
-                                                <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未设置">
-
-                                            </td>
+                                            <td> {!! $my_info['bank_province_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >开户市</th>
-                                            <td>
-                                                {!! $my_info['bank_city_code'] !!}
-                                                <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['bank_city_code'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >卡号</th>
-                                            <td>
-                                                {!! $my_info['bankcard_code'] !!}
-                                                <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['bankcard_code'] !!} </td>
                                             <th class="text-cen bg-lblue" >预留手机号</th>
-                                            <td>
-                                                {!! $my_info['bank_phone_code'] !!}
-                                                <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未设置">
-                                            </td>
+                                            <td> {!! $my_info['bank_phone_code'] !!} </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -496,7 +432,7 @@
                                             hide
                                             @endif
                                             ">
-                                    <button type="button" data-toggle="modal" data-target="#modal-default" class="btn btn-info btn-bank ft18 opt-edit" data-name="bank-info">绑定银行卡</button>
+                                    <button type="button" data-toggle="modal" data-name="bank-info">绑定银行卡</button>
                                 </div>
                             </div>
                         </div>
@@ -505,7 +441,7 @@
                     <div class="box-footer no-border">
                         @if ($my_info['bankcard'])
                             <div class="row text-cen">
-                                <p>如需<a class="color-blue opt-edit"  data-toggle="modal" data-target="#modal-default"  data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
+                                <p>如需<a class="color-blue opt-edit" data-name="bank-info" href="javascript:;" >更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
                         @endif
                     </div>
@@ -657,19 +593,21 @@
 @endsection
 
 <div class="modal fade" id="modal-default" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="width:60%;border-top:3px solid #00A6FF;border-radius:3px">
+    <div class="modal-dialog" style="width:660px;border-top:3px solid #00A6FF;border-radius:3px">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close tag" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h3 class="modal-title color-blue"></h3>
             </div>
             <div class="modal-body">
+                <table   class="table table-bordered table-striped">
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info col-sm-offset-1 col-sm-2 pull-right opt-submit">确认</button>
-                <button type="button" class="btn btn-default col-sm-2 pull-right tag" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-info col-xs-2 pull-right margin-lr-20 opt-submit">确认</button>
+                <button type="button" class="btn btn-default col-xs-2 pull-right" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

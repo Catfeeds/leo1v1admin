@@ -122,31 +122,11 @@ class testbb extends Controller
 
 
 
-
-    // public function sd(){
-    //     $this->switch_tongji_database();
-    //     $ret = $this->t_teacher_info->get_teacher_openid_list();
-
-    //     $ww = [];
-    //     foreach($ret as $item){
-    //         $agent_arr = json_decode($item['user_agent'],true);
-    //         $version_arr = explode('.',$agent_arr['version']);
-    //         $v = substr($agent_arr['device_model'],0,3);
-    //         if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<=2) || ($version_arr[0]<3 ) ) ){
-    //             dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
-    //         }
-    //     }
-    // }
-
-
+    //以下代码勿删
     public function get_pdf_url(){
-        // $pdf_file_path = "http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=";
-        // $this->set_in_value('file_url',$file_url);
-        // return $this->get_pdf_download_url();
-        $pdf_url = "2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf";
-        $lessonid = 247905;
+        $pdf_url   = $this->get_in_str_val('pdf_url');
+        $lessonid  = $this->get_in_int_val('lessonid');
         $pdf_file_path = $this->gen_download_url($pdf_url);
-
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
@@ -166,9 +146,8 @@ class testbb extends Controller
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
-            dd($file_name_origi_str);
 
-            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+            $ret = $this->t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
@@ -181,23 +160,6 @@ class testbb extends Controller
 
     }
 
-    // public function get_pdf_download_url($file_url)
-    // {
-    //     if (strlen($file_url) == 0) {
-    //         return $this->output_err(array( 'info' => '文件名为空', 'file' => $file_url));
-    //     }
-
-    //     if (preg_match("/http/", $file_url)) {
-    //         return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
-    //     } else {
-    //         $new_url=$this->gen_download_url($file_url);
-    //         // dd($new_url);
-    //         return $this->output_succ(array('ret' => 0, 'info' => '成功',
-    //                          'file' => urlencode($new_url),
-    //                          'file_ex' => $new_url,
-    //         ));
-    //     }
-    // }
 
     private function gen_download_url($file_url)
     {
@@ -271,13 +233,44 @@ class testbb extends Controller
     }
 
 
-
+    //以上代码勿删
 
 
 
 
     public function ss(){
-        dd(time());
+        $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
+
+        dd($max_main_type);
+
+        $admin_list = $this->t_manager_info->get_admin_member_list();
+
+        dd($admin_list);
+    }
+
+    public function install(){
+        /**
+           `groupid` int(11) NOT NULL AUTO_INCREMENT COMMENT '分组',
+           `main_type` int(11) NOT NULL,
+           `group_name` varchar(255) COLLATE latin1_bin NOT NULL,
+           `master_adminid` int(11) NOT NULL,
+           `main_assign_percent` varchar(20) COLLATE latin1_bin NOT NULL COMMENT 'e58886e9858de6af94e4be8b',
+           `campus_id` int(11) NOT NULL COMMENT 'e6a0a1e58cba6964',
+
+         **/
+
+        Schema::create('db_weiyi.t_admin_manager_group_name', function( Blueprint $table)
+        {
+            $table->increments("groupid");
+            t_field($table->integer("main_type"),"部门类型");
+            t_field($table->string("group_name"),"组名");
+            t_field($table->integer("master_adminid"),"总监id");
+            t_field($table->string("main_assign_percent"),"组名");
+            t_field($table->integer("campus_id"),"校区id");
+
+            $table->index(["main_type","groupid"]);
+        });
+
     }
 
 

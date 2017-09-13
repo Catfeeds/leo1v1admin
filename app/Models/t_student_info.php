@@ -2068,7 +2068,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." from %s s  "
                                   ." left join %s a on s.assistantid = a.assistantid "
                                   ." left join %s m on a.phone = m.phone "
-                                  ." left join %s r on ( r.userid= s.userid and r.revisit_type in (1,4) and r.sys_operator <> 'system' and r.sys_operator <> '系统' and r.revisit_time >=s.ass_assign_time and (r.revisit_time - s.ass_assign_time)<=86400 )"
+                                  ." left join %s r on ( r.userid= s.userid and r.revisit_type in (1,4,5) and r.sys_operator <> 'system' and r.sys_operator <> '系统' and r.revisit_time >=s.ass_assign_time and (r.revisit_time - s.ass_assign_time)<=86400 )"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
@@ -2918,9 +2918,5 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_value($sql);
     }
-    public function get_teacher($sql){
-        return $this->main_get_list($sql);
-    }
-
 
 }

@@ -451,7 +451,7 @@ class main_page extends Controller
         $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
         foreach($teacher_info as $kk=>$vv){
-            if(in_array($kk,[992,891,486,871,1058])){
+            if(in_array($kk,[992,891,486,871,1058,1080])){
                 unset($teacher_info[$kk]);
             }
         }
@@ -1190,7 +1190,7 @@ class main_page extends Controller
         // @$kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
         $stu_info_all = $this->t_student_info->get_ass_stu_info_new();
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        //  $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"]  = isset($ass_month[$k]["warning_student"])?$ass_month[$k]["warning_student"]:0;
             $item["read_student"]     = isset($ass_month[$k]["read_student"])?$ass_month[$k]["read_student"]:0;
@@ -1199,10 +1199,13 @@ class main_page extends Controller
             $item["month_stop_student"]  = isset($ass_month[$k]["month_stop_student"])?$ass_month[$k]["month_stop_student"]:0;
             $item["lesson_ratio"]  = isset($ass_month[$k]["lesson_ratio"])?$ass_month[$k]["lesson_ratio"]:0;
             $item["lesson_total"]  = isset($ass_month[$k]["lesson_total"])?$ass_month[$k]["lesson_total"]/100:0;
-            $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;
+            // $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;//续费金额
+            $item["renw_price"]  = isset($ass_month[$k]["renw_price"])?$ass_month[$k]["renw_price"]/100:0;//续费金额
+            //$item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;//转介绍金额
+            $item["tran_price"]  = isset($ass_month[$k]["tran_price"])?$ass_month[$k]["tran_price"]/100:0;//转介绍金额
+            //$item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;//续费学生数
+            $item["renw_student"]  = isset($ass_month[$k]["renw_student"])?$ass_month[$k]["renw_student"]:0;//续费学生数
 
-            $item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;
-            $item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
             $item["read_student_last"]  = isset($ass_month[$k]["read_student_last"])?@$ass_month[$k]["read_student_last"]:0;
             $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
@@ -1218,6 +1221,7 @@ class main_page extends Controller
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
+            $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
 
         }
 
@@ -1295,12 +1299,12 @@ class main_page extends Controller
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);
-        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        // $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
         $stu_info_all      = $this->t_student_info->get_ass_stu_info_new();
-        $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+        // $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-        $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        // $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        // $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"]  = isset($ass_month[$k]["warning_student"])?$ass_month[$k]["warning_student"]:0;
             $item["read_student"]     = isset($ass_month[$k]["read_student"])?$ass_month[$k]["read_student"]:0;
@@ -1309,11 +1313,13 @@ class main_page extends Controller
             $item["month_stop_student"]  = isset($ass_month[$k]["month_stop_student"])?$ass_month[$k]["month_stop_student"]:0;
             $item["lesson_ratio"]  = isset($ass_month[$k]["lesson_ratio"])?$ass_month[$k]["lesson_ratio"]:0;
             $item["lesson_total"]  = isset($ass_month[$k]["lesson_total"])?$ass_month[$k]["lesson_total"]/100:0;
-            $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;
-            $item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;
+            // $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;//续费金额
+            $item["renw_price"]  = isset($ass_month[$k]["renw_price"])?$ass_month[$k]["renw_price"]/100:0;//续费金额
+            //$item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;//转介绍金额
+            $item["tran_price"]  = isset($ass_month[$k]["tran_price"])?$ass_month[$k]["tran_price"]/100:0;//转介绍金额
+            //$item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;//续费学生数
+            $item["renw_student"]  = isset($ass_month[$k]["renw_student"])?$ass_month[$k]["renw_student"]:0;//续费学生数
 
-            //$item["renw_student"]  = isset($ass_month[$k]["renw_student"])?$ass_month[$k]["renw_student"]:0;
-            $item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;
             $item["read_student_last"]  = isset($ass_month[$k]["read_student_last"])?@$ass_month[$k]["read_student_last"]:0;
             $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
             $item["lesson_target"]         = $lesson_target;
@@ -1327,15 +1333,23 @@ class main_page extends Controller
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
+            // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
+            $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]/100:0;//课耗收入
+
 
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
             $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
-            $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
-            $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
-            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
+            // $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+            $item["new_student"]  = isset($ass_month[$k]["new_student"])?$ass_month[$k]["new_student"]:0;//新签人数
+            // $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+            $item["new_lesson_count"]  = isset($ass_month[$k]["new_lesson_count"])?$ass_month[$k]["new_lesson_count"]/100:0;//购买课时
+            //$item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+            $item["end_stu_num"]  = isset($ass_month[$k]["end_stu_num"])?$ass_month[$k]["end_stu_num"]:0;//结课学生
+            //$item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+            $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
+
 
         }
 
@@ -1362,7 +1376,8 @@ class main_page extends Controller
         $ass_group=[];
         foreach($ass_list1 as $key=>$val){
             // echo $key;
-            $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            // $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            $master_adminid_ass = $val["master_adminid"];
             @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
             @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
             @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
@@ -1388,10 +1403,12 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_student"]       += $val["new_student"];
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
+            @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
         }
 
         foreach($ass_group as $key=>&$v){
-            $v["account"] = $this->t_manager_info->get_account($key);
+            // $v["account"] = $this->t_manager_info->get_account($key);
             $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
             $v["lesson_target"]         =$lesson_target;
             $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
@@ -1402,7 +1419,9 @@ class main_page extends Controller
         unset($ass_group[0]);
 
         // dd($ass_group);
-        // $account_id=297;
+        if($account_id==349){
+            $account_id=297;
+        }
         $stu_info=@$ass_group[$account_id];
         $ass_list_group=[];
         foreach($ass_list3 as $k=>$item2){
@@ -1430,7 +1449,6 @@ class main_page extends Controller
     }
 
     public function assistant_main_leader_new() {
-
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
@@ -1460,13 +1478,13 @@ class main_page extends Controller
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);
-        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        // $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
         $stu_info_all      = $this->t_student_info->get_ass_stu_info_new();
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-        $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
-        $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
-        $lesson_info = $this->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+        //  $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        // $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        // $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+        //  $lesson_info = $this->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"]  = isset($ass_month[$k]["warning_student"])?$ass_month[$k]["warning_student"]:0;
             $item["read_student"]     = isset($ass_month[$k]["read_student"])?$ass_month[$k]["read_student"]:0;
@@ -1475,10 +1493,12 @@ class main_page extends Controller
             $item["month_stop_student"]  = isset($ass_month[$k]["month_stop_student"])?$ass_month[$k]["month_stop_student"]:0;
             $item["lesson_ratio"]  = isset($ass_month[$k]["lesson_ratio"])?$ass_month[$k]["lesson_ratio"]:0;
             $item["lesson_total"]  = isset($ass_month[$k]["lesson_total"])?$ass_month[$k]["lesson_total"]/100:0;
-            $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;
-            $item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;
-
-            $item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;
+            // $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;//续费金额
+            $item["renw_price"]  = isset($ass_month[$k]["renw_price"])?$ass_month[$k]["renw_price"]/100:0;//续费金额
+            //$item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;//转介绍金额
+            $item["tran_price"]  = isset($ass_month[$k]["tran_price"])?$ass_month[$k]["tran_price"]/100:0;//转介绍金额
+            //$item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;//续费学生数
+            $item["renw_student"]  = isset($ass_month[$k]["renw_student"])?$ass_month[$k]["renw_student"]:0;//续费学生数
 
             $item["read_student_last"]  = isset($ass_month[$k]["read_student_last"])?@$ass_month[$k]["read_student_last"]:0;
             $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
@@ -1492,16 +1512,21 @@ class main_page extends Controller
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
+            // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+            $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]/100:0;//课耗收入
             //$item["lesson_total_old"]  = intval($item["read_student_last"]*$item["lesson_ratio"]);
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
             $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
-            $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
-            $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
-            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
-            $item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;
+            // $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+            $item["new_student"]  = isset($ass_month[$k]["new_student"])?$ass_month[$k]["new_student"]:0;//新签人数
+            // $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+            $item["new_lesson_count"]  = isset($ass_month[$k]["new_lesson_count"])?$ass_month[$k]["new_lesson_count"]/100:0;//购买课时
+            //$item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+            $item["end_stu_num"]  = isset($ass_month[$k]["end_stu_num"])?$ass_month[$k]["end_stu_num"]:0;//结课学生
+            //$item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+            $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
 
 
 
@@ -1529,7 +1554,9 @@ class main_page extends Controller
         $ass_group=[];
         foreach($ass_list1 as $key=>$val){
             // echo $key;
-            $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            //  $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            // $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
+            $master_adminid_ass = $val["master_adminid"];
             @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
             @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
             @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
@@ -1556,17 +1583,21 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
 
 
         }
 
         foreach($ass_group as $key=>&$v){
-            $v["account"] = $this->t_manager_info->get_account($key);
+            // $v["account"] = $this->t_manager_info->get_account($key);
             $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
             $v["lesson_target"]         =$lesson_target;
             $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
             $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
             $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
+            if(empty($v["group_name"])){
+                unset($ass_group[$key]); 
+            }
 
         }
         unset($ass_group[0]);

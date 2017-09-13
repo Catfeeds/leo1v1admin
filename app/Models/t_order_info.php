@@ -1361,7 +1361,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $contract_from_type=0,
         $from_parent_order_lesson_count=0,
         $pre_price=0,
-        $order_price_desc=""
+        $order_price_desc="",
+        $order_partition_flag =0
     )
     {
 
@@ -1406,7 +1407,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
             "pre_price"                      => $pre_price,
-            "order_price_desc"                      => $order_price_desc,
+            "order_price_desc"               => $order_price_desc,
+            "order_partition_flag"           => $order_partition_flag
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
@@ -1508,7 +1510,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   "sum(if(stu_from_type=1,price,0)) transfer_introduction_price,"
                                   ." sum(if(stu_from_type=0,price,0)) new_price,"
                                   ." sum(if(stu_from_type=10,price,0)) normal_price,"
-                                  ." sum(if(stu_from_type=11,price,0)) extend_price "
+                                  ." sum(if(stu_from_type=11,price,0)) extend_price, "
+                                  ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
+                                  ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
@@ -1954,7 +1958,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $ret_arr["group_all_price"] = $group_all_price/100;
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
-        $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
+        // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
+        $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1,date("Y-m-d", $start_time ) )  ;
         return $ret_arr;
     }
 
