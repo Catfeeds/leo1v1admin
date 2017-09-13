@@ -54,5 +54,23 @@ class admin_manage extends Controller
             "last_require_time" => \App\Helper\Utils::unixtime2date($last_require_time),
         ]);
     }
+    public function group_email_list() {
+        $page_info=$this->get_in_page_info();
+        $ret_info=$this->t_mail_group_name->get_list($page_info);
+        return  $this->pageView(__METHOD__,$ret_info);
+    }
+    public function group_email_user_list() {
+        $groupid=$this->get_in_int_val("groupid");
+        $adminid= $this->get_in_adminid();
+        $page_info= $this->get_in_page_info();
+        if (!($groupid>0) ) {
+            return $this->error_view(["没有选择群邮箱"]);
+        }
+        $ret_info= $this->t_mail_group_user_list->get_list( $page_info , $groupid, $adminid);
+        $title=$this->t_mail_group_name->get_title($groupid);
+        return  $this->pageView(__METHOD__,$ret_info, [
+            "title" => $title
+        ]);
+    }
 
 }

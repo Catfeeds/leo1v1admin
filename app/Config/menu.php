@@ -240,6 +240,8 @@ class menu{
             ]],
             ["power_id"=>6, "name"=>"系统设置", "list"=>[
                 ["power_id"=>2, "name"=>"用户管理",   "url"=>"/authority/manager_list"],
+                ["power_id"=>12, "name"=>"邮件组管理",   "url"=>"/admin_manage/group_email_list"],
+
                 ["power_id"=>11, "name"=>"用户管理-考勤",   "url"=>"/authority/manager_list_for_kaoqin"],
                 ["power_id"=>3, "name"=>"用户管理-离职",   "url"=>"/authority/manager_list_offline"],
                 ["power_id"=>20, "name"=>"用户管理-销售",   "url"=>"/authority/manager_list_for_seller"],

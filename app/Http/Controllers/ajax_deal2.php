@@ -1201,5 +1201,24 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function email_group_add()  {
+        $title=trim($this->get_in_str_val("title"));
+        $email=trim($this->get_in_str_val("email"));
+        $this->t_mail_group_name->row_insert([
+            "title" => $title,
+            "email" => $email,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function email_group_edit()  {
+        $groupid= $this->get_in_int_val("groupid");
+        $title=trim($this->get_in_str_val("title"));
+        $this->t_mail_group_name->field_update_list($groupid,[
+            "title" => $title,
+        ]);
+        return $this->output_succ();
+    }
+
 
 }

@@ -925,6 +925,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonIntroVideoInfo' => __DIR__ . '/../..' . '/database/migrations/2017_07_31_094110_t_lesson_intro_video_info.php',
         'TLessonTimeModifyAddIsNoticeAssFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_150401_t_lesson_time_modify_add_is_notice_ass_flag.php',
         'TLessonTimeModifyAddJiaowuDealTime' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_104818_t_lesson_time_modify_add_jiaowu_deal_time.php',
+        'TMailGroup' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_103603_t_mail_group.php',
         'TMainGroupNameMonthAddMainAssignPercent' => __DIR__ . '/../..' . '/database/migrations/2017_04_26_131550_t_main_group_name_month_add_main_assign_percent.php',
         'TManageInfoAddBecomeFullMemberFlag' => __DIR__ . '/../..' . '/database/migrations/2017_04_12_170740_t_manage_info_add_become_full_member_flag.php',
         'TManageInfoAddBecomeFullMemberTime' => __DIR__ . '/../..' . '/database/migrations/2017_06_10_155654_t_manage_info_add_become_full_member_time.php',
