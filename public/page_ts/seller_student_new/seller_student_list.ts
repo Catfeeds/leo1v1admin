@@ -1916,6 +1916,13 @@ function init_edit() {
                         $.do_ajax("/test_lesson_review/test_lesson_review_add",{
                             "userid" : opt_data.userid,
                             "review_desc"   : $id_desc.val(),
+                        },function(ret){
+                            if(ret==1){
+                                alert('申请成功!');
+                            }else{
+                                alert('限排后一周最多提交3次申请!');
+                            }
+                            window.location.reload();
                         })
                     }
                 })
