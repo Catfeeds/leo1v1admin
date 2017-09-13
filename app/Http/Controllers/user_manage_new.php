@@ -1523,6 +1523,7 @@ class user_manage_new extends Controller
                 }
             }
         }
+        dd($member_new,$member);
         foreach($ret_info as &$item){
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
                 unset($item);
