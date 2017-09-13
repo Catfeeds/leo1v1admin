@@ -2721,7 +2721,7 @@ class user_manage extends Controller
     {
 
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1);
         $lz_ret_info = $this->t_teacher_lecture_info->get_tongji_lz($start_time,$end_time); //录制试讲
         $train_ret_info = $this->t_teacher_record_list->tongji_trial_train_lesson_list($start_time,$end_time); //模拟试听
         $arr = [

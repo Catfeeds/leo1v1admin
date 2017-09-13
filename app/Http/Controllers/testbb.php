@@ -239,11 +239,11 @@ class testbb extends Controller
 
 
     public function ss(){
-        $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
+        // $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
 
-        dd($max_main_type);
+        // dd($max_main_type);
 
-        $admin_list = $this->t_manager_info->get_admin_member_list();
+        $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
 
         dd($admin_list);
     }

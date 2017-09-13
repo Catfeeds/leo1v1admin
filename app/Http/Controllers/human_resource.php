@@ -1727,7 +1727,6 @@ class human_resource extends Controller
             }
 
             if(!empty($teacher_info)){
-                // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
                 $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
@@ -1752,7 +1751,10 @@ class human_resource extends Controller
                     "trial_lecture_is_pass" => 1,
                 ];
                 $teacherid = $this->add_teacher_common($add_info);
-
+                if($teacherid===false){
+                    \App\Helper\Utils::logger("teacher lecture is pass,phone:".$lecture_info['phone']);
+                    return $this->output_err("生成老师失败！");
+                }
                 //老师标签
                 $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
