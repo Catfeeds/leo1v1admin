@@ -337,7 +337,12 @@ class agent extends Controller
         $start_time_old = $start_time;
         $end_time_old = $end_time;
         $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-        $ret_info_old = $ret_info;
+        $lessonid_arr = [];
+        $userid_arr = [];
+        foreach($ret_info as $item){
+            $lessonid_arr[] = $item['lessonid'];
+            $userid_arr[] = $item['userid'];
+        }
         foreach($ret_info as $item){
             if($item['lesson_del_flag']){
                 $count_del++;
@@ -372,7 +377,7 @@ class agent extends Controller
                 $ret['ret'] = 4;
             }
         }
-        dd($start_time_old,$end_time_old,$ret_info_old,$count_del,$count,$del_rate,$ret);
+        dd($start_time_old,$end_time_old,$lessonid_arr,$userid_arr,$count_del,$count,$del_rate,$ret);
     }
 
     public function agent_add(){

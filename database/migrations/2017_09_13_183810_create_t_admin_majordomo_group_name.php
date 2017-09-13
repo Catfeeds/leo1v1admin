@@ -13,6 +13,7 @@ class CreateTAdminMajordomoGroupName extends Migration
     public function up()
     {
         //
+        Schema::dropIfExists('db_weiyi_admin.t_admin_majordomo_group_name');
         Schema::create('db_weiyi_admin.t_admin_majordomo_group_name', function( Blueprint $table)
         {
             $table->increments("groupid","分组id");
