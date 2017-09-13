@@ -1596,7 +1596,6 @@ jQuery.extend({
     ,check_power:function( powerid ) {
         return g_power_list[powerid];
     },    tea_show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
-
         var table_obj=$("<table class=\"table table-bordered \"> <tr> <thead></thead></tr></table>");
 
         $.each(arr , function( index,element){
