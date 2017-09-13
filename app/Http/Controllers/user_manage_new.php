@@ -1506,12 +1506,14 @@ class user_manage_new extends Controller
                 $item['los_personal_money'] = round($item['los_personal_money']);
             }
         }
-        dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){
             foreach($member_num as $k=>$info){
                 if(($key+1) == $k){
                     $item['become_member_num'] = $info['become_member_num'];
                     $item['leave_member_num'] = $info['leave_member_num'];
+                }else{
+                    $item['become_member_num'] = '';
+                    $item['leave_member_num'] = '';
                 }
             }
         }
@@ -1520,6 +1522,9 @@ class user_manage_new extends Controller
                 if(($key+1) == $k){
                     $item['become_member_num'] = $info['become_member_num'];
                     $item['leave_member_num'] = $info['leave_member_num'];
+                }else{
+                    $item['become_member_num'] = '';
+                    $item['leave_member_num'] = '';
                 }
             }
         }
