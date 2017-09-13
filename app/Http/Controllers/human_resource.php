@@ -1715,6 +1715,7 @@ class human_resource extends Controller
             "grade"     => $grade,
             "not_grade" => $not_grade,
         ];
+
         if($status==1){
             $teacher_info     = $this->t_teacher_info->get_teacher_info_by_phone($lecture_info['phone']);
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
