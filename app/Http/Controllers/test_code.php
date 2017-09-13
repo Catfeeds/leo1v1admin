@@ -2165,7 +2165,7 @@ class test_code extends Controller
 
 
     public function reset_teacher_batch(){
-        $list = $this->t_teacher_switch_money_type_list->get_teacher_simple_list(-1,-1,-1,-1);
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1);
         dd($list);
         foreach($list as $l_val){
 
