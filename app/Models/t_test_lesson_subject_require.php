@@ -1980,7 +1980,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            [ "test_lesson_order_fail_flag=%u", $test_lesson_order_fail_flag, -1],
            [ "l.userid=%u", $userid, -1],
        ];
-       $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
+       $this->where_arr_add_time_range($where_arr,"require_time",$start_time-3600*24*7,$end_time+3600*24*7);
        $this->where_arr_add_time_range($where_arr,"l.lesson_end",$start_time,$end_time);
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
        $this->where_arr_add_boolean_for_value($where_arr,"origin_userid",$origin_userid_flag );
