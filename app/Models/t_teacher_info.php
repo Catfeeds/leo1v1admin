@@ -3331,51 +3331,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year,
-                                        $phone, $school, $address, $dialect_notes, $education, $major, $hobby,
-                                        $speciality){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "nick"          => $nick,
-            "gender"        => $gender,
-            "birth"         => $birth,
-            "email"         => $email,
-            "work_year"     => $work_year,
-            "phone"         => $phone,
-            "school"        => $school,
-            "address"       => $address,
-            "dialect_notes" => $dialect_notes,
-            "education"     => $education,
-            "major"         => $major,
-            "hobby"         => $hobby,
-            "speciality"    => $speciality,
-        ]);
-        return $res;
-    }
-
-    public function update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "bank_account"  => $bank_account,
-            "idcard"        => $idcard,
-            "bankcard"      => $bankcard,
-            "bank_phone"    => $bank_phone,
-            "bank_type"     => $bank_type,
-            "bank_address"  => $bank_address,
-            "bank_province" => $bank_province,
-            "bank_city"     => $bank_city,
-        ]);
-        return $res;
-
-    }
-
-    public function update_teacher_status($teacherid, $need_test_lesson_flag){
-
-        $res = $this->field_update_list( ["teacherid" => $teacherid],[
-            "need_test_lesson_flag"    => $need_test_lesson_flag,
-        ]);
-        return $res;
-    }
 
 
     public function get_train_through_all_list($start_time,$end_time){
