@@ -2721,17 +2721,58 @@ class user_manage extends Controller
     {
 
         $this->switch_tongji_database();
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $lz_ret_info = $this->t_teacher_lecture_info->get_tongji_lz($start_time,$end_time); //录制试讲
         $train_ret_info = $this->t_teacher_record_list->tongji_trial_train_lesson_list($start_time,$end_time); //模拟试听
-        echo '<pre>';
-        var_dump($lz_ret_info);
-        var_dump($train_ret_info);
-        echo '</pre>';
-        dd(2);
-        $arr['list'] = [];
+        $arr = [
+            "total_num" => "0",
+            "per_page_count" => 10,
+            "page_info" => [
+                "total_num" => "0",
+                "per_page_count" => 10,
+                "page_num" => 1,
+            ],
+            "list" => []
+        ];
+        $ret = [
+            1 => [
+                "name" => "录制试讲",
+                "1" => 0,
+                "2" => 0,
+                "3" => 0,
+                "4" => 0,
+                "5" => 0,
+                "6" => 0,
+                "7" => 0,
+                "8" => 0,
+                "9" => 0,
+                "10" => 0,
+                "sum" => 0,
+            ],
+            2 => [
+                "name" => "模拟试听",
+                "1" => 0,
+                "2" => 0,
+                "3" => 0,
+                "4" => 0,
+                "5" => 0,
+                "6" => 0,
+                "7" => 0,
+                "8" => 0,
+                "9" => 0,
+                "10" => 0,
+                "sum" => 0,
+           ]
+        ];
+        foreach ($lz_ret_info as $key => $value) {
+            $ret[1][$value['subject']] = $value['sum'];
+            $ret[1]['sum'] += $value['sum'];
+        }
+        foreach ($train_ret_info as $key => $value) {
+            $ret[2][$value['subject']] = $value['sum'];
+            $ret[2]['sum'] += $value['sum'];
+        }
+        $arr['list'] = $ret;
         return $this->pageView(__METHOD__, $arr);
     }
 
