@@ -1352,6 +1352,8 @@ class Common {
             }
 
         }
+
+        return $admin_list; // test
         $list=[];
         foreach ($data_map as $key0 => $item0) {
             $data=$item0["data"];
