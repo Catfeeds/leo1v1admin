@@ -86,7 +86,7 @@ $(function(){
             +' <option>招商银行</option>'
             +' <option>中国银行</option> </select>';
 
-        var id_nick          = $("<input/>");
+        var id_nick          = $("<input readonly/>");
         var id_gender        = $('<select class="form-control"/>');
         var id_work_year     = $("<input/>");
         var id_address       = $("<input/>");
@@ -100,15 +100,15 @@ $(function(){
         var id_birth         = $("<input/>");
         var id_dialect_notes = $("<input/>");
         var id_education     = $('<select class="form-control"/>');
-        var id_email         = $("<input/>");
         var id_hobby         = $("<input/>");
         var id_idcard        = $("<input/>");
         var id_major         = $("<input/>");
-        var id_phone         = $("<input/>");
         var id_school        = $("<input/>");
         var id_speciality    = $("<input/>");
 
-        id_nick.val(able_edit.nick);
+        var tea_name = $('#teacher-name').text();
+        // id_nick.text(tea_name);
+        id_nick.val(tea_name);
         id_work_year.val(able_edit.work_year);
         id_address.val(able_edit.address);
         id_bank_account.val(able_edit.bank_account);
@@ -120,11 +120,9 @@ $(function(){
         id_bankcard.val(able_edit.bankcard);
         id_birth.val(able_edit.birth);
         id_dialect_notes.val(able_edit.dialect_notes);
-        id_email.val(able_edit.email);
         id_hobby.val(able_edit.hobby);
         id_idcard.val(able_edit.idcard);
         id_major.val(able_edit.major);
-        id_phone.val(able_edit.phone);
         id_school.val(able_edit.school);
         id_speciality.val(able_edit.speciality);
 
@@ -141,8 +139,6 @@ $(function(){
                 ["姓名：", id_nick],
                 ["性别：", id_gender],
                 ["生日：", id_birth],
-                ["电话：", id_phone],
-                ["邮箱：", id_email],
                 ["merge","教学信息"],
                 ["教龄：",     id_work_year],
                 ["方言备注：", id_dialect_notes],

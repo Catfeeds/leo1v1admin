@@ -301,7 +301,7 @@
                                             <th class="text-cen bg-lblue" style="width:20%">ID</th>
                                             <td id="teacherid">56123</td>
                                             <th class="text-cen bg-lblue" style="width:20%">姓名</th>
-                                            <td> {!! $my_info['nick_code'] !!} </td>
+                                            <td id="teacher-name"> {!! $my_info['nick'] !!} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >性别</th>
@@ -311,14 +311,14 @@
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >邮箱</th>
-                                            <td> {!! $my_info['email_code'] !!} </td>
+                                            <td> {!! $my_info['email'] !!} </td>
                                             <th class="text-cen bg-lblue" >推荐人</th>
                                             <td> {{$my_info['teacher_ref_type_str']}} </td>
                                         </tr>
                                         <tr>
                                             <th class="text-cen bg-lblue" >手机号</th>
                                             <td>
-                                                {!! $my_info['phone_code'] !!}
+                                                {!! $my_info['phone'] !!}
                                                 @if ($my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
                                                 @endif
