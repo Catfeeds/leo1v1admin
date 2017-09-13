@@ -236,7 +236,7 @@ $(function(){
 
     $("#face").on('click', function(){
         var id_model   = $(this).attr('data-target');
-        var content = '<div class="container">'
+        var content = '<div class="container pad-l-5">'
             +'<div class="imageBox">'
             +' <div class="thumbBox"></div>'
             +' <div class="spinner" style="display: none">Loading...</div>'
