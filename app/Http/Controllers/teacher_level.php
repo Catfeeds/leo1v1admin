@@ -1053,6 +1053,7 @@ class teacher_level extends Controller
             }else{
                 $val['time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
             }
+            $val['per_money_different'] = $val['base_money_different']/$val['lesson_total'];
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 

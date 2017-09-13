@@ -1107,10 +1107,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }else{
             $where_arr[]=["account_role=%u",$account_role,-1];
         }
-        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
-                                  "where %s and del_flag =0 and uid <> 325 and uid<>74",
+        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
+                                  " from %s m left join %s a on m.phone = a.phone ".
+                                  " left join %s u on m.uid=u.adminid".
+                                  " left join %s n on u.groupid = n.groupid".
+                                  " where %s and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
                                   $where_arr
         );
 

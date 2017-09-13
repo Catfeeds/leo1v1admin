@@ -243,7 +243,7 @@ $(function(){
             +' </div> <div class="action"> '
             +' <!-- <input type="file" id="file" style=" width: 200px">-->'
             +' <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">'
-            +' <label for="upload-file">上传头像</label> </a>'
+            +' 上传头像</a>'
             +' <input type="file" class="" name="upload-file" id="upload-file" /> </div>'
             +' <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">'
             +' <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >'
@@ -289,7 +289,6 @@ $(function(){
             success : function(result){
                 var ret = JSON.parse(result);
                 pic_token = ret.upload_token;
-                // domain_url = domain_url+ret.pre_dir;
             }
         });
 
@@ -314,9 +313,22 @@ $(function(){
             if ( xhr.readyState == 4 ){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
-                console.log(keyText)
                 picUrl = domain_url+keyText.key;
-                console.log(picUrl)
+                picUrl = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/'+keyText.key;
+                console.log(picUrl);
+                $.ajax({
+                    type    : "post",
+                    url     : "/teacher_info/edit_teacher_face",
+                    dataType: "json",
+                    data    : {'face': picUrl},
+                    success : function(result){
+                        if( result.ret == 0 ){
+                            window.location.reload();
+                        }else{
+                            alert(result.info);
+                        }
+                    }
+                });
             }
         }
 

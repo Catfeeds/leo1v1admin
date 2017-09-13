@@ -223,7 +223,6 @@ throw new Error('AdminLTE requires jQuery')
 
   var DataKey = 'lte.pushmenu'
 
-    console.log("A");
 
 
   var Default = {
@@ -266,7 +265,6 @@ throw new Error('AdminLTE requires jQuery')
   }
 
   PushMenu.prototype.init = function () {
-      console.log("CC");
     if (this.options.expandOnHover
       || ($('body').is(Selector.mini + Selector.layoutFixed))) {
       this.expandOnHover()
@@ -416,7 +414,6 @@ throw new Error('AdminLTE requires jQuery')
 +function ($) {
   'use strict'
 
-    console.log("B");
 
   var DataKey = 'lte.tree'
 
@@ -462,13 +459,7 @@ throw new Error('AdminLTE requires jQuery')
 
   Tree.prototype.toggle = function (link, event) {
     var treeviewMenu = link.next(Selector.treeviewMenu)
-      var parentLi     = link.parent().parent()
-
-      $.each(parentLi,function(i,v){
-          $.each(v,function(ii,vv){
-              console.log(ii+" ~ "+vv);
-          });
-      } );
+    var parentLi     = link.parent()
 
     var isOpen       = parentLi.hasClass(ClassName.open)
 
@@ -480,17 +471,11 @@ throw new Error('AdminLTE requires jQuery')
       event.preventDefault()
     }
 
-      console.log(isOpen);
-
 
     if (isOpen) {
-
-        console.log(5);
       this.collapse(treeviewMenu, parentLi)
 
     } else {
-        console.log(6);
-
       this.expand(treeviewMenu, parentLi)
     }
   }
@@ -528,7 +513,6 @@ throw new Error('AdminLTE requires jQuery')
     var that = this
 
     $(this.element).on('click', this.options.trigger, function (event) {
-        console.log(1);
         that.toggle($(this), event)
     })
   }

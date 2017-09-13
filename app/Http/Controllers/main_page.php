@@ -1494,7 +1494,7 @@ class main_page extends Controller
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
-            $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]:0;//课耗收入
+            $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]/100:0;//课耗收入
             //$item["lesson_total_old"]  = intval($item["read_student_last"]*$item["lesson_ratio"]);
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
@@ -1503,7 +1503,7 @@ class main_page extends Controller
             // $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
             $item["new_student"]  = isset($ass_month[$k]["new_student"])?$ass_month[$k]["new_student"]:0;//新签人数
             // $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
-            $item["new_lesson_count"]  = isset($ass_month[$k]["new_lesson_count"])?$ass_month[$k]["new_lesson_count"]:0;//购买课时
+            $item["new_lesson_count"]  = isset($ass_month[$k]["new_lesson_count"])?$ass_month[$k]["new_lesson_count"]/100:0;//购买课时
             //$item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
             $item["end_stu_num"]  = isset($ass_month[$k]["end_stu_num"])?$ass_month[$k]["end_stu_num"]:0;//结课学生
             //$item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
@@ -1535,7 +1535,9 @@ class main_page extends Controller
         $ass_group=[];
         foreach($ass_list1 as $key=>$val){
             // echo $key;
-            $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            //  $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            // $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
+            $master_adminid_ass = $val["master_adminid"];
             @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
             @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
             @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
@@ -1562,17 +1564,21 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
 
 
         }
 
         foreach($ass_group as $key=>&$v){
-            $v["account"] = $this->t_manager_info->get_account($key);
+            // $v["account"] = $this->t_manager_info->get_account($key);
             $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
             $v["lesson_target"]         =$lesson_target;
             $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
             $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
             $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
+            if(empty($v["group_name"])){
+                unset($ass_group[$key]); 
+            }
 
         }
         unset($ass_group[0]);
