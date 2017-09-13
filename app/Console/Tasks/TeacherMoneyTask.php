@@ -47,7 +47,8 @@ class TeacherMoneyTask extends TaskController
     }
 
     /**
-     * @param type 2 老师的签单奖
+     * @param type 2 兼职老师的签单奖 3 全职老师的签单奖
+
      */
     public function set_teacher_trial_success_reward($type){
         if($type==2){

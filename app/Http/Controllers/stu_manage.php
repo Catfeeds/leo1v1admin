@@ -393,7 +393,7 @@ class stu_manage extends Controller
                     $value['stu_point_performance'].=$val['point_name'].":".$val['point_stu_desc']."。";
                 }
             }
-            $value["stu_comment"] = $this->get_test_lesson_comment_str(json_encode($value["stu_comment"]));
+            $value["stu_comment"] = $this->get_test_lesson_comment_str($value["stu_comment"],1);
             if(isset($value['stu_intro']['stu_comment']) && $value['stu_intro']['stu_comment']!=''){
                 if(is_array($value['stu_intro']['stu_comment'])){
                     $str = json_encode($value['stu_intro']['stu_comment']);
