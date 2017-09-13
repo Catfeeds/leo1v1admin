@@ -2165,10 +2165,27 @@ class test_code extends Controller
 
 
     public function reset_teacher_batch(){
-        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1);
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1,8);
         dd($list);
         foreach($list as $l_val){
-
+            $y = $l_val['all_money_different'];
+            $x = $l_val['base_money_different']/$l_val['lesson_total'];
+            
+            if($x>0 && $y>0){
+                $batch = 1;
+            }elseif($x<=0 && $y>=0){
+                $batch = 2;
+            }elseif($x>=0 && $y<=0){
+                $batch = 3;
+            }elseif($x>=-2 && $y>=-200){
+                $batch = 4;
+            }elseif($x<=-2 && $y>=-200){
+                $batch = 5;
+            }elseif($x<=-2 && $y<=-200){
+                $batch = 6;
+            }
+            echo $x."|".$y."|".$batch;
+            echo "<br>";
         }
 
     }

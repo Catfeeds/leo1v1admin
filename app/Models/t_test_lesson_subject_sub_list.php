@@ -941,7 +941,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "m.account_role=1",
             "l.lesson_type = 2",
             "tr.origin like '%%转介绍%%'",
-            "tt.require_adminid>0"
+            // "tt.require_adminid>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -1021,7 +1021,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
                                   ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
                                   ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
-                                  ." tss.order_confirm_flag,m.name,o.orderid,mm.account "
+                                  ." tss.order_confirm_flag,m.name,o.orderid,mm.account,o.price "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
@@ -1052,7 +1052,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
-            "tt.require_adminid>0",
+            //"tt.require_adminid>0",
             "m.account_role=1",
             "m.del_flag=0",
             "tt.ass_test_lesson_type=0",
@@ -1086,7 +1086,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
-            "tt.require_adminid>0",
+            // "tt.require_adminid>0",
             "m.account_role=1",
             "m.del_flag=0",
             "tt.ass_test_lesson_type=0",
@@ -1125,7 +1125,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
-            "tt.require_adminid>0",
+            // "tt.require_adminid>0",
             "m.account_role=1",
             "m.del_flag=0",
             "tt.ass_test_lesson_type=0",
@@ -1158,7 +1158,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
-            "tt.require_adminid>0",
+            // "tt.require_adminid>0",
             "m.account_role=1",
             "m.del_flag=0",
             "tt.ass_test_lesson_type=0",
