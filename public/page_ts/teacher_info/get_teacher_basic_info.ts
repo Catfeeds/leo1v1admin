@@ -201,11 +201,11 @@ $(function(){
                         dataType : "json",
                         data : {
                             'bankcard'      : id_bankcard.val(),
-                            'bank_phone'    : id_phone.val(),
+                            'bank_phone'    : id_bank_phone.val(),
                             'bank_account'  : id_bank_account.val(),
                             'idcard'        : id_idcard.val(),
                             'bank_type'     : id_bank_type.val(),
-                            'bank_address'  : id_address.val(),
+                            'bank_address'  : id_bank_address.val(),
                             'bank_city'     : id_bank_city.val(),
                             'bank_province' : id_bank_province.val(),
                         } ,
