@@ -3561,9 +3561,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_need_reset_money_type_list($batch){
         $where_arr = [
-            ["batch=%u",$batch,0],
+            // ["batch=%u",$batch,0],
+            "batch in (1,2)",
+            "t.teacher_money_type!=6"
         ];
-        $sql = $this->gen_sql_new("select teacherid,teacher_money_type_simulate,level_simulate,wx_openid,t.realname"
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type_simulate,t.level_simulate,wx_openid,t.realname"
                                   ." from %s t"
                                   ." left join %s tw on t.teacherid=tw.teacherid"
                                   ." where %s"

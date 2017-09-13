@@ -146,7 +146,7 @@ $(function(){
             },function(resp){
                 var  $item=$("<div></div> ");
                 $item.admin_set_lesson_time({
-                    "lessonid" : resp.lessonid  
+                    "lessonid" : resp.lessonid
                 });
                 $item.click();
             });
@@ -154,7 +154,6 @@ $(function(){
             alert( "还没有课程" );
         }
     });
-    
 
     $(".opt-confirm").on("click",function(){
         var opt_data = $(this).get_opt_data();
