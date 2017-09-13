@@ -2944,7 +2944,7 @@ trait TeaPower {
             $data = "试听情况:".@$arr["stu_lesson_content"].";学习态度:".@$arr["stu_lesson_status"].";学习基础情况:".$arr["stu_study_status"].";学生优点:".$arr["stu_advantages"].";学生有待提高:".$arr["stu_disadvantages"].";培训计划:".$arr["stu_lesson_plan"].";教学方向:".$arr["stu_teaching_direction"].";意见、建议等:".$arr["stu_advice"];
         }else{
             foreach($arr as $k=>$v){
-                $data .= $v["stu_info"].":".$v["stu_tip"].";";
+                $data .= $v["stu_tip"].":".$v["stu_info"].";";
             }
         }
         return $data;
