@@ -1190,7 +1190,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_info_by_phone($phone){
         $where_arr = [
             ["phone='%s'",$phone,""],
-            "trial_lecture_is_pass=1",
         ];
         $sql = $this->gen_sql_new("select teacherid,nick,realname,subject,second_subject,third_subject,grade_part_ex, "
                                   ." grade_start,grade_end,not_grade,teacher_ref_type,teacher_type,phone, "
