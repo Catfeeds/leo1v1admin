@@ -79,7 +79,7 @@ $(function(){
 
     var edit_info = function(title_type){
 
-        var bank_select = '<select name="bank_type">'
+        var bank_select = '<select name="bank_type" class="form-control">'
             +' <option>中国建设银行</option>'
             +' <option>中国工商银行</option>'
             +' <option>中国农业银行</option>'
@@ -88,7 +88,7 @@ $(function(){
             +' <option>中国银行</option> </select>';
 
         var id_nick          = $("<input/>");
-        var id_gender        = $("<select/>");
+        var id_gender        = $('<select class="form-control"/>');
         var id_work_year     = $("<input/>");
         var id_address       = $("<input/>");
         var id_bank_account  = $("<input/>");
@@ -100,7 +100,7 @@ $(function(){
         var id_bankcard      = $("<input/>");
         var id_birth         = $("<input/>");
         var id_dialect_notes = $("<input/>");
-        var id_education     = $("<select/>");
+        var id_education     = $('<select class="form-control"/>');
         var id_email         = $("<input/>");
         var id_hobby         = $("<input/>");
         var id_idcard        = $("<input/>");
@@ -285,11 +285,11 @@ $(function(){
         var pic_token;
         $.ajax({
             type    : "post",
-            url     : "/teacher_info/get_upload_token",
+            url     : "/teacher_info/get_pub_upload_token",
             success : function(result){
                 var ret = JSON.parse(result);
                 pic_token = ret.upload_token;
-                domain_url = domain_url+ret.pre_dir;
+                // domain_url = domain_url+ret.pre_dir;
             }
         });
 
@@ -307,13 +307,14 @@ $(function(){
 
     function upload_base64(picStr, pic_token){
         picStr   = picStr.substring(22);
-        var url  = "http://up-z2.qiniu.com/putb64/"+picSize(picStr); 
+        var url  = "http://up-z0.qiniu.com/putb64/"+picSize(picStr); 
         var xhr  = new XMLHttpRequest();
         xhr.onreadystatechange = function()
         {
             if ( xhr.readyState == 4 ){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
+                console.log(keyText)
                 picUrl = domain_url+keyText.key;
                 console.log(picUrl)
             }
@@ -335,7 +336,6 @@ $(function(){
             var indexOf = str.indexOf('=');
             str = str.substring(0,indexOf);
         }
-
         fileSize = parseInt( str.length-(str.length/8)*2 );
         return fileSize;
     }
