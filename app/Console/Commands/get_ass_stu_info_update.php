@@ -129,21 +129,14 @@ class get_ass_stu_info_update extends Command
 
         $xq_revisit_second = $task->t_revisit_info->get_ass_xq_revisit_info_new($month_middle,$end_time,$userid_list_second_all,false);
 
-        $warning_info    = $task->t_month_ass_student_info->get_ass_month_info($start_time);
-
-
-        $last_month  = strtotime(date('Y-m-01',$start_time-100));
-        $ass_last_month    = $task->t_month_ass_student_info->get_ass_month_info($last_month,-1,1);
-        $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-
         $new_info = $task->t_student_info->get_ass_new_stu_first_revisit_info($start_time,$end_time);
         $new_revisit=[];
-        foreach($new_info as $v){
-            @$new_revisit[$v["uid"]]["new_num"]++;
-            if($v["revisit_time"]>0){
-                @$new_revisit[$v["uid"]]["first_num"]++;
+        foreach($new_info as $vu){
+            @$new_revisit[$vu["uid"]]["new_num"]++;
+            if($vu["revisit_time"]>0){
+                @$new_revisit[$vu["uid"]]["first_num"]++;
             }else{
-                @$new_revisit[$v["uid"]]["un_first_num"]++;
+                @$new_revisit[$vu["uid"]]["un_first_num"]++;
             }
         }
 
@@ -154,20 +147,11 @@ class get_ass_stu_info_update extends Command
         foreach ($student_finish as $key => $value) {  
             $student_finish_detail[$value['uid']] = $value['num']; 
         }
-        /*
-          $student_all = $task->t_student_info->get_ass_first_revisit_info();//在册学生数
-          $student_all_detail = [];
-          foreach ($student_all as $key => $value) {  
-          $student_all_detail[$value['uid']] = $value['num']; 
-          }
-        */
-        //dd($new_revisit);
         $refund_score = $task->get_ass_refund_score($start_time,$end_time);
 
         $lesson_money_all = $task->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
         $lesson_count_all = $task->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
-        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
 
         foreach($ass_list as $k=>&$item){
             if(!isset($item["warning_student"])){
@@ -200,6 +184,25 @@ class get_ass_stu_info_update extends Command
             $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]:0;//购买课时
             $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
             $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+
+            //主管2.0数据
+            $item["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
+            $item["userid_list_first_target"] = count($item["userid_list_first"]);
+            $item["userid_list_first_count"] = @$xq_revisit_first[$k]["num"];
+            $item["userid_list_second"] = isset($userid_list_second[$k])?$userid_list_second[$k]:[];
+            $item["userid_list_second_target"] = count($item["userid_list_second"]);
+            $item["userid_list_second_count"] = @$xq_revisit_second[$k]["num"];
+            $item["revisit_target"] = $item["userid_list_first_target"]+$item["userid_list_second_target"];
+            $item["revisit_real"] = $item["userid_list_first_count"]+$item["userid_list_second_count"];
+            $item["tran_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
+            // $item["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
+            $item["first_revisit_num"] = isset($new_revisit[$k]["first_num"])?$new_revisit[$k]["first_num"]:0;
+            $item["un_first_revisit_num"] = isset($new_revisit[$k]["un_first_num"])?$new_revisit[$k]["un_first_num"]:0;
+            // $item["refund_score"] = round((10-@$refund_score[$k])>=0?10-@$refund_score[$k]:0,2);
+            $item["refund_score"] = (round(@$refund_score[$k],2))*100;
+            $item["lesson_money"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
+            $item["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
+
 
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
             if($adminid_exist){

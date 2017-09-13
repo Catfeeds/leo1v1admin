@@ -259,7 +259,7 @@ class testbb extends Controller
 
          **/
 
-        Schema::create('db_weiyi.t_admin_majordomo_group_name', function( Blueprint $table)
+        Schema::create('db_weiyi_admin.t_admin_majordomo_group_name', function( Blueprint $table)
         {
             $table->increments("groupid","分组id");
             t_field($table->integer("main_type"),"部门类型");
@@ -271,7 +271,7 @@ class testbb extends Controller
             $table->index(["main_type","groupid"]);
         });
 
-        Schema::table('db_weiyi.t_admin_main_group_name', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_admin_main_group_name', function( Blueprint $table)
         {
             t_field($table->integer("up_groupid"),"上级groupid");
         });
