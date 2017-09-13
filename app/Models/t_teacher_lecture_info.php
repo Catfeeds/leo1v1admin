@@ -1841,7 +1841,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
 
     }
 }
