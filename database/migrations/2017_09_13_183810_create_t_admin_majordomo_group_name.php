@@ -22,13 +22,9 @@ class CreateTAdminMajordomoGroupName extends Migration
             t_field($table->string("main_assign_percent"),"组名");
             t_field($table->integer("campus_id"),"校区id");
 
-            $table->index(["main_type","groupid"]);
+            $table->index(["main_type","groupid"],'main_type_gid');
         });
 
-        Schema::table('db_weiyi_admin.t_admin_main_group_name', function( Blueprint $table)
-        {
-            t_field($table->integer("up_groupid"),"上级groupid");
-        });
 
 
 

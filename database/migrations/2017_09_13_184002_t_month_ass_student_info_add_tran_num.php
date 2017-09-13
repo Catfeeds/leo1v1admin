@@ -13,6 +13,10 @@ class TMonthAssStudentInfoAddTranNum extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_month_ass_student_info', function( Blueprint $table)
+        {
+            t_field($table->integer("tran_num"),"转介绍人数");
+
     }
 
     /**
