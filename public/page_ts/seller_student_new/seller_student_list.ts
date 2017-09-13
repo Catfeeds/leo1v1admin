@@ -632,6 +632,13 @@ $(function(){
 
     $(".opt-set_user_free").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
+            if(ret){
+                alert("回流前签单失败原因不能为'考虑中',请重新设置!");
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
+            }
+        });
+
         BootstrapDialog.confirm(
             "设置释放到公海:" + opt_data.phone ,
             function(val){
@@ -1916,6 +1923,13 @@ function init_edit() {
                         $.do_ajax("/test_lesson_review/test_lesson_review_add",{
                             "userid" : opt_data.userid,
                             "review_desc"   : $id_desc.val(),
+                        },function(ret){
+                            if(ret==1){
+                                alert('申请成功!');
+                            }else{
+                                alert('限排后一周最多提交3次申请!');
+                            }
+                            window.location.reload();
                         })
                     }
                 })

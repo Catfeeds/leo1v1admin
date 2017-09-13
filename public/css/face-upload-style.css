@@ -1,7 +1,7 @@
 @charset "utf-8";
 .container {
 	  width: 400px;
-	  margin: 40px 400px 0 auto;
+	  margin: 0 400px 0 auto;
 	  position: relative;
 	  font-family: 微软雅黑;
 	  font-size: 12px;
@@ -20,7 +20,7 @@
 }
 .cropped {
 	  position: absolute;
-	  right: -250px;
+	  right: -225px;
 	  top: 0;
 	  width: 200px;
 	  border: 1px #ddd solid;

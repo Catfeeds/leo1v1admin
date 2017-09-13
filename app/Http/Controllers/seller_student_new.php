@@ -1180,12 +1180,11 @@ class seller_student_new extends Controller
     }
 
     public function test_lesson_order_fail_list_new(){
+        $userid = $this->get_in_int_val('userid')?$this->get_in_int_val('userid'):-1;
+        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
         $cur_require_adminid = $this->get_account_id();
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
-        $ret = 0;
-        if(isset($ret_info['require_id'])){
-            $ret = $ret_info['require_id'];
-        }
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret = isset($ret_info['require_id'])?$ret_info['require_id']:0;
         return $ret;
     }
 
