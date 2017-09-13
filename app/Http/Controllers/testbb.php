@@ -248,6 +248,35 @@ class testbb extends Controller
         dd($admin_list);
     }
 
+    public function install(){
+        /**
+           `groupid` int(11) NOT NULL AUTO_INCREMENT COMMENT '分组',
+           `main_type` int(11) NOT NULL,
+           `group_name` varchar(255) COLLATE latin1_bin NOT NULL,
+           `master_adminid` int(11) NOT NULL,
+           `main_assign_percent` varchar(20) COLLATE latin1_bin NOT NULL COMMENT 'e58886e9858de6af94e4be8b',
+           `campus_id` int(11) NOT NULL COMMENT 'e6a0a1e58cba6964',
+
+         **/
+
+        Schema::create('db_weiyi.t_admin_manager_group_name', function( Blueprint $table)
+        {
+            $table->increments("groupid");
+            t_field($table->tinyInteger("child_order_type"),"子合同类型");
+            t_field($table->tinyInteger("pay_status"),"付款状态 0,未付;1,已付");
+            t_field($table->integer("add_time"),"创建时间");
+            t_field($table->integer("pay_time"),"付款时间");
+            t_field($table->integer("parent_orderid"),"父合同id");
+            t_field($table->integer("price"),"合同金额");
+            t_field($table->string("channel"),"付款渠道");
+            t_field($table->string("from_orderno")->nullable(),"第三方订单id");
+            $table->unique("from_orderno");
+            $table->index("add_time");
+            $table->index("parent_orderid");
+        });
+
+    }
+
 
 
 
