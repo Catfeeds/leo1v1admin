@@ -2150,27 +2150,29 @@ class test_code extends Controller
     public function add_month_time(){
         $arr = $this->get_b_txt();
         $arr = array_filter($arr);
+        dd($arr);
         foreach($arr as $val){
             $tea_info  = explode("|",$val);
             $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
             $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
-
+            $lesson_total = $tea_info[1]*100;
             $this->t_teacher_switch_money_type_list->field_update_list($id,[
-                "month_time"=>$tea_info[1],
+                "lesson_total"=>$lesson_total,
             ]);
         }
     }
 
 
 
-
     public function reset_teacher_batch(){
         $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1,8);
-        $count=[];
+        $tea_list=[];
         foreach($list as $l_val){
+            $lesson_total=(float)$l_val['lesson_total']/100;
             $y = (float)$l_val['all_money_different'];
-            $x = (float)$l_val['base_money_different']/$l_val['lesson_total'];
-            
+            $x = (float)$l_val['base_money_different']/$lesson_total;
+            $batch = 0;
+
             if($x>(float)0 && $y>(float)0){
                 $batch = 1;
             }elseif($x<=(float)0 && $y>=(float)0){
@@ -2184,13 +2186,18 @@ class test_code extends Controller
             }elseif($x<=(float)-2 && $y<=(float)-200){
                 $batch = 6;
             }
-            echo $x."|".$y."|".$batch;
-            echo "<br>";
-            \App\Helper\Utils::check_isset_data($count[$batch],1);
-        }
-        dd($count);
 
+            echo $l_val['realname']."|".$x."|".$y."|".$batch."|".$lesson_total."|";
+            echo "<br>";
+            $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
+                "batch"=>$batch
+            ]);
+            $tea_list[$batch][]=$l_val['realname'];
+        }
+        dd($tea_list);
     }
+
+
 
 
 
