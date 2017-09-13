@@ -949,7 +949,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         if($master_flag==1){
 
         }else{
-            // $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
             $where_arr[]= "tr.cur_require_adminid in ($adminid_str)" ;
             $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
         }

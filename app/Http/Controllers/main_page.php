@@ -1535,7 +1535,8 @@ class main_page extends Controller
         $ass_group=[];
         foreach($ass_list1 as $key=>$val){
             // echo $key;
-            $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
             @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
             @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
             @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
@@ -1562,6 +1563,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["group_name"]  = $master_adminid_ass_list["group_name"];
 
 
         }
@@ -1573,6 +1575,9 @@ class main_page extends Controller
             $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
             $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
             $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
+            if(empty($v["group_name"])){
+                unset($ass_group[$key]); 
+            }
 
         }
         unset($ass_group[0]);
