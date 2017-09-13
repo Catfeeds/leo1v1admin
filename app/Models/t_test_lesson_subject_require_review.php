@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_lesson_subject_require_review
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function get_all_list($page_info){
         $where_arr = [
         ];
@@ -37,15 +37,19 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_week_test_lesson_count($adminid,$start_time,$end_time){
+        $where_arr = [
+            ['adminid',$adminid,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,'create_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select count(id) "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
