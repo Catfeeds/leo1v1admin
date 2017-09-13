@@ -170,7 +170,7 @@ $(function(){
         }
         $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
-            cssClass : 'btn-warning',
+            cssClass : 'btn-info',
             action   : function() {
                 if (title_type == 'user-info') {
                     $.ajax({
