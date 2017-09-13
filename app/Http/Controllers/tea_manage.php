@@ -2218,6 +2218,7 @@ class tea_manage extends Controller
         $page_num         = $this->get_in_page_num();
         $adminid          = $this->get_account_id();
         $acc              = $this->get_account();
+        $acc_role         = $this->get_account_role();
         $lessonid         = $this->get_in_int_val("lessonid",-1);
         $res_teacherid    = $this->get_in_int_val("res_teacherid",-1);
         $have_wx          = $this->get_in_int_val("have_wx",-1);
@@ -2294,6 +2295,7 @@ class tea_manage extends Controller
 
         return $this->pageView(__METHOD__,$ret_info,[
             "acc"            => $acc,
+            "acc_role"       => $acc_role,
             "all_num"        => $all_num,
             "wx_num"         => $wx_num,
             "email_num"      => $email_num,

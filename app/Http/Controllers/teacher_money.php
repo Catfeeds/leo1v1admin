@@ -410,7 +410,7 @@ class teacher_money extends Controller
                         $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                     }else{
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price(
-                            $teacher_money_type,$val['teacher_type'],$val['lesson_start']
+                            $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                         );
                         $list[$i]['lesson_trial'] += $val['lesson_base'];
                         $reward = "0";

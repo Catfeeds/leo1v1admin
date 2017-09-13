@@ -116,7 +116,7 @@ trait TeaPower {
         if(!empty($arr)){
 
             $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
-            if($id>0){
+            if($id>0 && $lessonid>0){
                 $this->t_teacher_label->field_update_list($id,[
                     "add_time" =>time(),
                     "label_origin"=>$label_origin,
