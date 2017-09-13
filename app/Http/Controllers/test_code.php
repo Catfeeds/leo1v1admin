@@ -1975,8 +1975,9 @@ class test_code extends Controller
     }
 
     public function reset_teacher_info(){
-        $arr = $this->t_lesson_info_b3->get_need_reset_list();
-
+        $time = time();
+        $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
+        dd($arr);
         foreach($arr as $val){
             if($val['new_teacher_money_type']!=$val['old_teacher_money_type'] || $val['new_level']!=$val['old_level']){
                 echo $val['lessonid']."|new_teacher_money_type:".$val["new_teacher_money_type"]

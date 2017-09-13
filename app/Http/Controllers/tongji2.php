@@ -832,7 +832,7 @@ class tongji2 extends Controller
            $adminid=297;
            }
         $this->set_in_value("adminid",$adminid);
-        return $this->ass_month_kpi_tongji();
+         return $this->ass_month_kpi_tongji();
 
     }
    
@@ -851,6 +851,7 @@ class tongji2 extends Controller
             $userid_list_first[$item["uid"]][]=$item["userid"];
             $userid_list_first_all[] = $item["userid"];
         }
+        dd($userid_list_first);
         $xq_revisit_first = $this->t_revisit_info->get_ass_xq_revisit_info_new($start_time,$month_middle,$userid_list_first_all,false);
 
         $lesson_list_second = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($month_middle,$end_time);
