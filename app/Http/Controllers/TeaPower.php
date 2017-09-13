@@ -2477,7 +2477,7 @@ trait TeaPower {
             }elseif(in_array($adminid,[892,754,683])){
                 $subject=2;
             }elseif(in_array($adminid,[923])){
-                $subject=3;
+                $subject=-1;
             }elseif(in_array($adminid,[793])){
                 $subject=5;
             }else if(in_array($adminid,[770])){

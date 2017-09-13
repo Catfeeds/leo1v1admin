@@ -3559,4 +3559,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_need_reset_money_type_list($batch){
+        $where_arr = [
+            ["batch=%u",$batch,0],
+        ];
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type_simulate,level_simulate,wx_openid,t.realname"
+                                  ." from %s t"
+                                  ." left join %s tw on t.teacherid=tw.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_switch_money_type_list::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
+
 }

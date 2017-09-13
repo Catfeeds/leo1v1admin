@@ -606,8 +606,8 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default col-xs-2 col-xs-offset-6" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info col-xs-2 col-xs-offset-1 opt-submit">确认</button>
+                <button type="button" class="btn btn-default col-xs-2 margin-lr-20 pull-right" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-info col-xs-2 pull-right opt-submit">确认</button>
             </div>
         </div>
     </div>

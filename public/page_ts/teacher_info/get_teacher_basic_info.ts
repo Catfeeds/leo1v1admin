@@ -170,7 +170,7 @@ $(function(){
         }
         $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
-            cssClass : 'btn-info col-xs-2 col-xs-offset-1',
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
                 if (title_type == 'user-info') {
                     $.ajax({
