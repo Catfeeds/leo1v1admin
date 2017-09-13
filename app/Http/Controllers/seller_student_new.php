@@ -1188,6 +1188,17 @@ class seller_student_new extends Controller
         return $ret;
     }
 
+    public function test_lesson_order_fail_list_mul(){
+        $admin_revisiterid=$this->get_account_id();
+        $user_list = $this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
+        $userid = isset($user_list[0]['userid'])?$user_list[0]['userid']:-1;
+        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret['ret'] = isset($ret_info['require_id'])?$ret_info['require_id']:0;
+        $ret['userid'] = $userid?$userid:0;
+        return $ret;
+    }
 
 
     public function test_lesson_order_fail_list_ass() {
