@@ -196,7 +196,8 @@ class teacher_info extends Controller
         return $this->output_succ();
     }
 
-    public function send_wx_apply($adminid,$question_type,$teacherid,$lesson_time,$question_content,$stu_nick){
+    public function send_wx_apply($adminid,$question_type,$teacherid,$lesson_time,$question_content,$stu_nick)
+    {
         $account           = $this->t_manager_info->get_account_by_uid($adminid);
         $question_type_str = $this->get_question_type_str($question_type);
         $wx_url            = "http://admin.yb1v1.com/teacher_apply/teacher_apply_list_one";
@@ -1408,7 +1409,6 @@ class teacher_info extends Controller
         return $this->output_succ();
     }
 
-
     public function add_complaint_info(){
         $msg            = $this->get_in_str_val('complaint_info');
         $teacherid      = $this->get_login_teacher();
@@ -1490,6 +1490,7 @@ class teacher_info extends Controller
         $qc_log   =  $this->send_curl_post($post_url);
 
     }
+
     public function test () {
         return $this->pageView(__METHOD__,[]);
     }
@@ -1550,6 +1551,7 @@ class teacher_info extends Controller
         return $this->output_succ(["upload_token"=> $token, "pre_dir" => $pre_dir ]);
 
     }
+
     public function get_download_url() {
         $file_path = $this->get_in_str_val("file_path");
         $teacherid = $this->get_login_teacher();
@@ -1560,6 +1562,7 @@ class teacher_info extends Controller
         $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
         return $this->output_succ(["url" => $authUrl]);
     }
+
     public function get_share_link() {
         $teacherid  = $this->get_login_teacher();
         $share_path = $this->get_in_str_val("share_path");
@@ -1603,6 +1606,7 @@ class teacher_info extends Controller
         $store->rename_file($teacherid,$old_path,$new_name);
         return $this->output_succ();
     }
+
     public  function file_share() {
 
         $sign=$this->get_in_str_val("sign");
@@ -1816,10 +1820,23 @@ class teacher_info extends Controller
             return $this->output_err('毕业院校不能为空！');
         }
 
-        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email,
-                                                               $work_year, $phone, $school, $address,
-                                                               $dialect_notes, $education, $major, $hobby,
-                                                               $speciality);
+        $ret_info = $this->t_teacher_info->field_update_list(
+            ["teacherid" => $teacherid],[
+                "nick"          => $nick,
+                "gender"        => $gender,
+                "birth"         => $birth,
+                "email"         => $email,
+                "work_year"     => $work_year,
+                "phone"         => $phone,
+                "school"        => $school,
+                "address"       => $address,
+                "dialect_notes" => $dialect_notes,
+                "education"     => $education,
+                "major"         => $major,
+                "hobby"         => $hobby,
+                "speciality"    => $speciality,
+            ]);
+
         return outputjson_success();
     }
 
@@ -1856,7 +1873,18 @@ class teacher_info extends Controller
             return $this->output_err('请填写正确的手机号码！');
         }
 
-        $ret_info = $this->t_teacher_info->update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city);
+        $ret_info = $this->t_teacher_info->field_update_list(
+            ["teacherid" => $teacherid],[
+                "bank_account"  => $bank_account,
+                "idcard"        => $idcard,
+                "bankcard"      => $bankcard,
+                "bank_phone"    => $bank_phone,
+                "bank_type"     => $bank_type,
+                "bank_address"  => $bank_address,
+                "bank_province" => $bank_province,
+                "bank_city"     => $bank_city,
+            ]);
+
         return outputjson_success();
     }
 
@@ -2055,7 +2083,11 @@ class teacher_info extends Controller
             $need_test_lesson_flag = 0;
         }
 
-        $res_info = $this->t_teacher_info->update_teacher_status($teacherid, $need_test_lesson_flag);
+        $res_info = $this->t_teacher_info->field_update_list(
+            ["teacherid" => $teacherid],
+            ["need_test_lesson_flag" => $need_test_lesson_flag,]
+        );
+
         if ($res_info) {
             return outputjson_success();
         } else {
@@ -2070,9 +2102,10 @@ class teacher_info extends Controller
         if ( $field == '' || $url == '' ) {
             $this->output_err("上传信息为空！");
         }
-        $res_info = $this->t_teacher_info->field_update_list(["teacherid" => $teacherid],
-            [$field  => $url]
-        );
+        $res_info = $this->t_teacher_info->field_update_list(
+            ["teacherid" => $teacherid], [
+                $field  => $url
+            ]);
 
         if ($res_info) {
             return outputjson_success();
@@ -2102,5 +2135,31 @@ class teacher_info extends Controller
         // return $this->pageView(__METHOD__,array(),['test'=>$test]);
     }
 
+    public function get_pub_upload_token(){
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $public_bucket = $qiniu["public"]['bucket'];
+        $accessKey     = $qiniu['access_key'];
+        $secretKey     = $qiniu['secret_key'];
+        $auth  = new \Qiniu\Auth ($accessKey, $secretKey);
+        $token = $auth->uploadToken($public_bucket);
+        return $this->output_succ(["upload_token"=> $token]);
+
+    }
+
+    public function edit_teacher_face() {
+        $teacherid = $this->get_login_teacher();
+        $face      = $this->get_in_str_val('face', '');
+        $res_info = $this->t_teacher_info->field_update_list(
+            ["teacherid" => $teacherid],
+            ['face'      => $face]
+        );
+
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
+
+    }
 
 }

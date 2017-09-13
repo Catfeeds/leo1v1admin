@@ -239,8 +239,9 @@ class testbb extends Controller
 
 
     public function ss(){
-        dd($this->get_account_id());
-        dd(time());
+        $admin_list = $this->t_manager_info->get_admin_member_list();
+
+        dd($admin_list);
     }
 
 

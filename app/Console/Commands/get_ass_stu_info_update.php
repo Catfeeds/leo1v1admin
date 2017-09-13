@@ -279,7 +279,7 @@ class get_ass_stu_info_update extends Command
         
         //update
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
-        $update_time = [
+        /* $update_time = [
             4=>['start_time' => 1490976000,
                 "end_time"   => 1493568000],
             5=>['start_time' => 1493568000,
@@ -292,45 +292,48 @@ class get_ass_stu_info_update extends Command
                 "end_time"   => 1504195200],
             9=>['start_time' => 1504195200,
                 "end_time"   => 1506787200],
-        ];
-        foreach ($update_time  as $key => $value) {
-            $start_time = $value['start_time'];
-            $end_time   = $value['end_time'];
-            $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
-            $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
-            $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
-            $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
-            $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-            foreach($ass_list as $k=>&$item){
-                //new add
-                $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入
-                $item["new_student"]           = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
-                $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]:0;//购买课时
-                $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
-                $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+                ];*/
+        // foreach ($update_time  as $key => $value) {
+        //$start_time = $value['start_time'];
+        // $end_time   = $value['end_time'];
+        $end_time= strtotime(date("Y-m-01",time()-86400));
+        $start_time= strtotime(date("Y-m-01",$end_time-86400));
 
-                $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];
-                $item["tran_price"]            = @$assistant_renew_list[$k]["tran_price"];
-                $item["renw_student"]          = @$assistant_renew_list[$k]["all_student"];
+        $lesson_money_list = $task->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        $new_info          = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
+        $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+        $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        foreach($ass_list as $k=>&$item){
+            //new add
+            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"];//课耗收入
+            $item["new_student"]           = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+            $item["new_lesson_count"]      = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]:0;//购买课时
+            $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+            $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+
+            $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];
+            $item["tran_price"]            = @$assistant_renew_list[$k]["tran_price"];
+            $item["renw_student"]          = @$assistant_renew_list[$k]["all_student"];
 
 
-                $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
-                if($adminid_exist){
-                    $update_arr =  [
-                        "lesson_money"          =>$item["lesson_money"],
-                        "new_student"           =>$item["new_student"],
-                        "new_lesson_count"      =>$item["new_lesson_count"],
-                        "end_stu_num"           =>$item["end_stu_num"],
-                        "lesson_student"        =>$item["lesson_student"],
+            $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
+            if($adminid_exist){
+                $update_arr =  [
+                    "lesson_money"          =>$item["lesson_money"],
+                    "new_student"           =>$item["new_student"],
+                    "new_lesson_count"      =>$item["new_lesson_count"],
+                    "end_stu_num"           =>$item["end_stu_num"],
+                    "lesson_student"        =>$item["lesson_student"],
 
-                        "renw_price"            =>$item["renw_price"],
-                        "tran_price"            =>$item["tran_price"],
-                        "renw_student"          =>$item["renw_student"],
-                    ];
-                    $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
-                }       
-            }
+                    "renw_price"            =>$item["renw_price"],
+                    "tran_price"            =>$item["tran_price"],
+                    "renw_student"          =>$item["renw_student"],
+                ];
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+            }       
         }
+            // }
         // dd($ass_list);
     }
 }

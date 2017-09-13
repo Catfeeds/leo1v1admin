@@ -1042,16 +1042,25 @@ class teacher_level extends Controller
         $status = $this->get_in_int_val("status",$status);
 
         $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list($teacherid,$teacher_money_type,$batch,$status);
+        $num=0;
         foreach($ret_info as &$val){
+            $num++;
+            $val['num']=$num;
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val);
             $val['batch_str'] = "第".$val['batch']."批次";
             E\Eswitch_status::set_item_value_str($val,"status");
+            $val['lesson_total'] /= 100;
             if($val['confirm_time']>0){
                 $val['time_str'] = \App\Helper\Utils::unixtime2date($val['confirm_time']);
             }else{
                 $val['time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
+            }
+            if($val['lesson_total']>0){
+                $val['per_money_different'] = $val['base_money_different']/$val['lesson_total'];
+            }else{
+                $val['per_money_different'] = 0;
             }
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);

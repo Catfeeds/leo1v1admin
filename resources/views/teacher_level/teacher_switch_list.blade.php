@@ -49,6 +49,7 @@
             <thead>
                 <tr>
                     <td style="display:none">id</td>
+                    <td >统计</td>
                     <td >姓名</td>
                     <td >原薪资类型</td>
                     <td >原等级</td>
@@ -56,6 +57,10 @@
                     <td >调整批次属性</td>
                     <td >调整状态</td>
                     <td >调整时间</td>
+                    <td >总工资差别</td>
+                    <td >基础工资差别</td>
+                    <td >总课时</td>
+                    <td >平均课时差别</td>
                     <td >操作</td>
                 </tr>
             </thead>
@@ -63,13 +68,18 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["new_level_str"]}} </td>
                         <td>{{@$var["batch_str"]}} </td>
                         <td>{{@$var["status_str"]}} </td>
-                        <td>{{@$var["put_time_str"]}} </td>
+                        <td>{{@$var["time_str"]}} </td>
+                        <td>{{@$var["all_money_different"]}} </td>
+                        <td>{{@$var["base_money_different"]}} </td>
+                        <td>{{@$var["lesson_total"]}} </td>
+                        <td>{{@$var["per_money_different"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

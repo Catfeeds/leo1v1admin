@@ -61,6 +61,7 @@
                         <td >试听申请人 </td>
                         <td >课时确认 </td>
                         <td >结果设置</td>
+                        <td >签单金额</td>
 
                         <td >操作</td>
                     </tr>
@@ -103,6 +104,7 @@
                             </td>
                                
                             <td>{{$var["order_flag"]}}</td>
+                            <td>{{$var["price"]/100}}</td>
 
 
                             <td>

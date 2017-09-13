@@ -1595,9 +1595,9 @@ jQuery.extend({
     }
     ,check_power:function( powerid ) {
         return g_power_list[powerid];
-    },    tea_show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
+    },    tea_show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width , styleCss){
         var table_obj=$("<table class=\"table table-bordered \"> <tr> <thead></thead></tr></table>");
-
+        var styleCss = styleCss;//给第二个td添加自定义属性
         $.each(arr , function( index,element){
             var row_obj=$("<tr> </tr>" );
             var v = element[0] ;
@@ -1611,7 +1611,7 @@ jQuery.extend({
                 var td_obj=$( "<td style=\"text-align:right; width:30%;line-height:33px;\"></td>" );
                 td_obj.append(v);
                 row_obj.append(td_obj);
-                td_obj=$( "<td ></td>" );
+                td_obj=$( "<td style=\""+styleCss+"\"></td>" );
 
                 td_obj.append( element[1] );
                 row_obj.append(td_obj);
@@ -1621,6 +1621,7 @@ jQuery.extend({
         });
         var all_btn_config=[{
             label: '返回',
+            cssClass : 'btn-default col-xs-2 col-xs-offset-7',
             action: function(dialog) {
                 dialog.close();
             }

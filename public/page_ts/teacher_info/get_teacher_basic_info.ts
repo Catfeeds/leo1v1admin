@@ -8,6 +8,9 @@ $(function(){
         });
     };
 
+    $('.opt-change').set_input_change_event(load_data);
+    $('.direct-chat-contacts').css('backgroundColor','#fff');
+
     $("[data-val]").each(function() {
         var opt_field = $(this).attr('data-val');
         custom_upload_file(
@@ -70,16 +73,12 @@ $(function(){
 
     $('.opt-edit').on('click', function () {
         var title_type = $(this).attr('data-name');
-        edit_info(title_type)
+        edit_info(title_type);
 
     });
-
-    $('.direct-chat-contacts').css('backgroundColor','#fff');
-    $('.opt-change').set_input_change_event(load_data);
-
     var edit_info = function(title_type){
 
-        var bank_select = '<select name="bank_type">'
+        var bank_select = '<select name="bank_type" class="form-control">'
             +' <option>中国建设银行</option>'
             +' <option>中国工商银行</option>'
             +' <option>中国农业银行</option>'
@@ -88,7 +87,7 @@ $(function(){
             +' <option>中国银行</option> </select>';
 
         var id_nick          = $("<input/>");
-        var id_gender        = $("<select/>");
+        var id_gender        = $('<select class="form-control"/>');
         var id_work_year     = $("<input/>");
         var id_address       = $("<input/>");
         var id_bank_account  = $("<input/>");
@@ -100,7 +99,7 @@ $(function(){
         var id_bankcard      = $("<input/>");
         var id_birth         = $("<input/>");
         var id_dialect_notes = $("<input/>");
-        var id_education     = $("<select/>");
+        var id_education     = $('<select class="form-control"/>');
         var id_email         = $("<input/>");
         var id_hobby         = $("<input/>");
         var id_idcard        = $("<input/>");
@@ -136,7 +135,7 @@ $(function(){
         id_education.val(able_edit.education);
 
         if (title_type == 'user-info') {
-            $modal_title = '课堂信息';
+            $modal_title = '可编辑信息';
             var arr= [
                 ["merge","个人资料"],
                 ["姓名：", id_nick],
@@ -171,8 +170,8 @@ $(function(){
         }
         $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
+            cssClass : 'btn-info col-xs-2 margin-lr-20',
+            action   : function() {
                 if (title_type == 'user-info') {
                     $.ajax({
                         type     : "post",
@@ -229,7 +228,8 @@ $(function(){
 
                 }
             }
-        },'',false,900);
+        },'',false,600,'padding-right:80px;');
+
     };
 
     //处理头像
@@ -243,7 +243,7 @@ $(function(){
             +' </div> <div class="action"> '
             +' <!-- <input type="file" id="file" style=" width: 200px">-->'
             +' <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">'
-            +' <label for="upload-file">上传头像</label> </a>'
+            +' 上传头像</a>'
             +' <input type="file" class="" name="upload-file" id="upload-file" /> </div>'
             +' <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">'
             +' <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >'
@@ -285,11 +285,10 @@ $(function(){
         var pic_token;
         $.ajax({
             type    : "post",
-            url     : "/teacher_info/get_upload_token",
+            url     : "/teacher_info/get_pub_upload_token",
             success : function(result){
                 var ret = JSON.parse(result);
                 pic_token = ret.upload_token;
-                domain_url = domain_url+ret.pre_dir;
             }
         });
 
@@ -307,7 +306,7 @@ $(function(){
 
     function upload_base64(picStr, pic_token){
         picStr   = picStr.substring(22);
-        var url  = "http://up-z2.qiniu.com/putb64/"+picSize(picStr); 
+        var url  = "http://up-z0.qiniu.com/putb64/"+picSize(picStr); 
         var xhr  = new XMLHttpRequest();
         xhr.onreadystatechange = function()
         {
@@ -315,7 +314,19 @@ $(function(){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
                 picUrl = domain_url+keyText.key;
-                console.log(picUrl)
+                $.ajax({
+                    type    : "post",
+                    url     : "/teacher_info/edit_teacher_face",
+                    dataType: "json",
+                    data    : {'face': picUrl},
+                    success : function(result){
+                        if( result.ret == 0 ){
+                            window.location.reload();
+                        }else{
+                            alert(result.info);
+                        }
+                    }
+                });
             }
         }
 
@@ -327,19 +338,15 @@ $(function(){
 
     }
 
-    function picSize(str)
-    {
+    function picSize(str) {
         var fileSize;
         if(str.indexOf('=')>0)
         {
             var indexOf = str.indexOf('=');
             str = str.substring(0,indexOf);
         }
-
         fileSize = parseInt( str.length-(str.length/8)*2 );
         return fileSize;
     }
-
-
 
 });
