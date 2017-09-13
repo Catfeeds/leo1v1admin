@@ -2102,5 +2102,15 @@ class teacher_info extends Controller
         // return $this->pageView(__METHOD__,array(),['test'=>$test]);
     }
 
+    public function get_pub_upload_token(){
 
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $public_bucket = $qiniu["public"] ['bucket'];
+        $accessKey     = $qiniu['access_key'];
+        $secretKey     = $qiniu['secret_key'];
+        $auth  = new \Qiniu\Auth ($accessKey, $secretKey);
+        $token = $auth->uploadToken($public_bucket);
+
+        return $this->output_succ(["upload_token"=> $token]);
+    }
 }

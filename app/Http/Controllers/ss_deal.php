@@ -1719,7 +1719,9 @@ class ss_deal extends Controller
                 $item["child_order_type_str"]="默认";
             }elseif($item["child_order_type"]==1){
                 $item["child_order_type_str"]="首付款";
-            }if($item["child_order_type"]==2){
+            }elseif($item["child_order_type"]==2){
+                $item["child_order_type_str"]="分期";
+            }elseif($item["child_order_type"]==3){
                 $item["child_order_type_str"]="其他";
             }
 
@@ -1743,7 +1745,7 @@ class ss_deal extends Controller
 
         //默认子合同金额更改
         $old_price = $this->t_child_order_info->get_price($child_orderid);
-        if($price >= $old_price ){
+        if($price > $old_price ){
             return $this->output_err("新增子合同金额大于可拆分金额!!");
         }
         $new_price =  $old_price-$price;
@@ -1802,7 +1804,7 @@ class ss_deal extends Controller
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
 
-        if($price >= ($old_price +$default_info["price"])){
+        if($price > ($old_price +$default_info["price"])){
             return $this->output_err("金额超出未付款总额");
         }
 

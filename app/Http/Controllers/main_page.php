@@ -1459,13 +1459,13 @@ class main_page extends Controller
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);
-        $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
+        // $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
         $stu_info_all      = $this->t_student_info->get_ass_stu_info_new();
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-        $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
-        $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
-        $lesson_info = $this->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
+        //  $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        // $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        // $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+        //  $lesson_info = $this->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"]  = isset($ass_month[$k]["warning_student"])?$ass_month[$k]["warning_student"]:0;
             $item["read_student"]     = isset($ass_month[$k]["read_student"])?$ass_month[$k]["read_student"]:0;
@@ -1493,16 +1493,21 @@ class main_page extends Controller
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
-            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+            // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;//课耗收入
+            $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]:0;//课耗收入
             //$item["lesson_total_old"]  = intval($item["read_student_last"]*$item["lesson_ratio"]);
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
             $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
-            $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
-            $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
-            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
-            $item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+            // $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;//新签人数
+            $item["new_student"]  = isset($ass_month[$k]["new_student"])?$ass_month[$k]["new_student"]:0;//新签人数
+            // $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;//购买课时
+            $item["new_lesson_count"]  = isset($ass_month[$k]["new_lesson_count"])?$ass_month[$k]["new_lesson_count"]:0;//购买课时
+            //$item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
+            $item["end_stu_num"]  = isset($ass_month[$k]["end_stu_num"])?$ass_month[$k]["end_stu_num"]:0;//结课学生
+            //$item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
+            $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
 
 
 
