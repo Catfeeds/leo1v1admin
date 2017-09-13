@@ -2904,6 +2904,52 @@ trait TeaPower {
     }
 
 
+    public function get_test_lesson_comment_str($str){
+        /*        "<tr>"
+                  +"<td>试听情况</td>"
+                  +"<td>"+list.stu_lesson_content+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>学习态度</td>"
+                  +"<td>"+list.stu_lesson_status+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>学习基础情况</td>"
+                  +"<td>"+list.stu_study_status+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>学生优点</td>"
+                  +"<td>"+list.stu_advantages+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>学生有待提高</td>"
+                  +"<td>"+list.stu_disadvantages+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>培训计划</td>"
+                  +"<td>"+list.stu_lesson_plan+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>教学方向</td>"
+                  +"<td>"+list.stu_teaching_direction+"</td>"
+                  +"</tr>"
+                  +"<tr>"
+                  +"<td>意见、建议等</td>"
+                  +"<td><textarea>"+list.stu_advice+"</textarea></td>"
+                  +"</tr>";
+        */
+        $arr = json_decode($str,true);
+        $data="";
+        if(isset($arr["stu_lesson_content"])){
+            $data = "试听情况:".@$arr["stu_lesson_content"].";学习态度:".@$arr["stu_lesson_status"].";学习基础情况:".$arr["stu_study_status"].";学生优点:".$arr["stu_advantages"].";学生有待提高:".$arr["stu_disadvantages"].";培训计划:".$arr["stu_lesson_plan"].";教学方向:".$arr["stu_teaching_direction"].";意见、建议等:".$arr["stu_advice"];
+        }else{
+            foreach($arr as $k=>$v){
+                $data .= $v["stu_tip"].":".$v["stu_info"].";";
+            }
+        }
+        return $data;
+
+    }
 
 
 
