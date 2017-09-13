@@ -1987,13 +1987,13 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
        $this->where_arr_add_boolean_for_value($where_arr,"contract_status",$order_flag,true);
 
        $sql= $this->gen_sql_new(
-           "select tr.require_id, l.lesson_start ,l.lesson_end,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
+           "select k.key1,tr.require_id, l.lesson_start ,l.lesson_end,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
            " from %s tr ".
            " left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id".
            " left join %s tss on tr.current_lessonid = tss.lessonid ".
            " left join %s l on tr.current_lessonid = l.lessonid ".
            " left join %s s on l.userid = s.userid ".
-           // " left join %s k on k.origin_level = s.origin_level ".
+           " left join %s k on k.origin_level = s.origin_level ".
            " left join %s o on tss.lessonid = o.from_test_lesson_id".
            " where %s  order by lesson_start desc ",
            self::DB_TABLE_NAME,//tr
@@ -2001,7 +2001,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            t_test_lesson_subject_sub_list::DB_TABLE_NAME,//tss
            t_lesson_info::DB_TABLE_NAME,//l
            t_student_info::DB_TABLE_NAME,//s
-           // t_origin_key::DB_TABLE_NAME,//k
+           t_origin_key::DB_TABLE_NAME,//k
            t_order_info::DB_TABLE_NAME,//o
            $where_arr);
        return $this->main_get_list_by_page($sql,$page_num);
