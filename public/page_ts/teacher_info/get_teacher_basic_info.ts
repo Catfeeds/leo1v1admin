@@ -254,34 +254,34 @@ $(function(){
         $(id_model+' .modal-body').empty().append(html_code);
 
         var options = {
-		        thumbBox: '.thumbBox',
-		        spinner: '.spinner',
-		        imgSrc: '/img/user.jpg'
-	      }
-	      var cropper = $('.imageBox').cropbox(options);
-	      $('#upload-file').on('change', function(){
-		        var reader = new FileReader();
-		        reader.onload = function(e) {
-			          options.imgSrc = e.target.result;
-			          cropper = $('.imageBox').cropbox(options);
-		        }
-		        reader.readAsDataURL(this.files[0]);
-		        this.files = [];
-	      });
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: '/img/user.jpg'
+        }
+        var cropper = $('.imageBox').cropbox(options);
+        $('#upload-file').on('change', function(){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        });
         var picStr;
-	      $('#btnCrop').on('click', function(){
-		        picStr = cropper.getDataURL();
-		        $('.cropped').html('');
-		        $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
-		        $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
-		        $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
-	      })
-	      $('#btnZoomIn').on('click', function(){
-		        cropper.zoomIn();
-	      })
-	      $('#btnZoomOut').on('click', function(){
-		        cropper.zoomOut();
-	      })
+        $('#btnCrop').on('click', function(){
+            picStr = cropper.getDataURL();
+            $('.cropped').html('');
+            $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+            $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+            $('.cropped').append('<img src="'+picStr+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+        })
+        $('#btnZoomIn').on('click', function(){
+            cropper.zoomIn();
+        })
+        $('#btnZoomOut').on('click', function(){
+            cropper.zoomOut();
+        })
         var pic_token;
         $.ajax({
             type    : "post",
@@ -306,14 +306,14 @@ $(function(){
 
     function upload_base64(picStr, pic_token){
         picStr   = picStr.substring(22);
-        var url  = "http://up-z0.qiniu.com/putb64/"+picSize(picStr); 
+        var url  = "http://up-z0.qiniu.com/putb64/"+picSize(picStr);
         var xhr  = new XMLHttpRequest();
         xhr.onreadystatechange = function()
         {
             if ( xhr.readyState == 4 ){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
-                picUrl = domain_url+keyText.key;
+                picUrl  = domain_url+keyText.key;
                 $.ajax({
                     type    : "post",
                     url     : "/teacher_info/edit_teacher_face",
@@ -330,10 +330,9 @@ $(function(){
             }
         }
 
-
-        xhr.open("POST", url, true); 
-        xhr.setRequestHeader("Content-Type", "application/octet-stream"); 
-        xhr.setRequestHeader("Authorization", "UpToken "+pic_token); 
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/octet-stream");
+        xhr.setRequestHeader("Authorization", "UpToken "+pic_token);
         xhr.send(picStr);
 
     }
