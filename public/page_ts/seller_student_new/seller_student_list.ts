@@ -632,6 +632,13 @@ $(function(){
 
     $(".opt-set_user_free").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{'userid':opt_data.userid} ,function(ret){
+            if(ret){
+                alert('该签单失败原因未填写,请先填写完哦!');
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0&userid='+opt_data.userid;
+            }
+        });
+
         BootstrapDialog.confirm(
             "设置释放到公海:" + opt_data.phone ,
             function(val){
