@@ -1851,6 +1851,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 刷新招师库李的年级和科目信息
+     */
     public function refresh(){
         $subject_map = E\Esubject::$desc_map;
         $grade_map = E\Egrade::$desc_map;
@@ -1917,36 +1920,9 @@ class test_code extends Controller
         return $grade_ex;
     }
 
-    public function get_tea_list(){
-        $start = strtotime("2017-7-1");
-        $end   = strtotime("2017-9-1");
-        $list  = $this->t_teacher_info->get_tea_list($start,$end);
-        $admin_list = $this->t_manager_info->get_admin_list_by_role(3);
-        $tea_num = count($list);
-        $admin_num = count($admin_list);
-        if($admin_num==0){
-            return $this->output_err("教务数量错误！");
-        }
-        $limit_num = ceil($tea_num/$admin_num);
-        \App\Helper\Utils::debug_to_html( $list );
-        $check_num = 1;
-        $key = 0;
-        foreach($list as $t_val){
-            $uid = $admin_list[$key]['uid'];
-            echo $uid."|".$t_val['teacherid']."|".$check_num;
-            echo "<br>";
-            $this->t_teacher_info->field_update_list($t_val['teacherid'],[
-                "assign_jw_adminid" => $uid,
-            ]);
-            $check_num++;
-            if($check_num==$limit_num){
-                $key++;
-                $check_num = 1;
-            }
-
-        }
-    }
-
+    /**
+     * 获取时间内的老师奖励薪资
+     */
     public function get_reward_list(){
         $start = strtotime("2017-8-1");
         $end   = strtotime("2017-9-1");
@@ -1998,25 +1974,6 @@ class test_code extends Controller
         }
     }
 
-    public function check_redis(){
-        $already_lesson_count_key          = "already_lesson_count_month";
-        $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
-
-        $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
-            E\Eredis_type::V_GET,$already_lesson_count_simulate_key,[],true);
-        $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
-        dd($already_lesson_count_simulate_list);
-        dd($already_lesson_count_list);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
-
-    }
-
-    public function check_test(){
-        $list = $this->t_teacher_info->get_need_switch_tea_list();
-        dd($list);
-    }
-
     public function reset_teacher_info(){
         $arr = $this->t_lesson_info_b3->get_need_reset_list();
 
@@ -2033,8 +1990,6 @@ class test_code extends Controller
                 // ]);
             }
         }
-
-
     }
 
     public function push_switch(){
@@ -2063,6 +2018,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 增加切换薪资版本的老师信息
+     */
     public function add_switch_info(){
         $arr = $this->get_b_txt();
         array_filter($arr);
@@ -2140,8 +2098,8 @@ class test_code extends Controller
         }else{
             $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
             $this->t_teacher_switch_money_type_list->field_update_list($id,[
-                "status" => 0,
-                "put_time" => 0,
+                "status"       => 0,
+                "put_time"     => 0,
                 "confirm_time" => 0,
             ]);
         }
