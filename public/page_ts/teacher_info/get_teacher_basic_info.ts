@@ -170,7 +170,7 @@ $(function(){
         }
         $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
-            cssClass : 'btn-info',
+            cssClass : 'btn-info col-xs-2 col-xs-offset-1',
             action   : function() {
                 if (title_type == 'user-info') {
                     $.ajax({
@@ -314,8 +314,6 @@ $(function(){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
                 picUrl = domain_url+keyText.key;
-                picUrl = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/'+keyText.key;
-                console.log(picUrl);
                 $.ajax({
                     type    : "post",
                     url     : "/teacher_info/edit_teacher_face",
