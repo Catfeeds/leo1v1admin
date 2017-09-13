@@ -1742,7 +1742,7 @@ class teacher_info extends Controller
             $integrity = 0;
             $able_edit = [];
             foreach ($item as $key=> $val) {
-                if ( $val != "" || $val == 0) {
+                if ( $val != "" || $val === '0') {
                     if ($key == 'jianli') {
                         $integrity = $integrity + 37;
                     }

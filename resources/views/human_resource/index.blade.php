@@ -530,18 +530,14 @@
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
                                 @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku","low-key"]))
-
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
-
-                                    <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                 @endif
                                 @if(in_array($acc,["ted","夏宏东"]))
                                     <a class="opt-change-lesson-num">修改排课数</a>
                                 @endif
-
-                                @if(in_array($acc,["zoe"]))
+                                @if(in_array($acc,["zoe","amyshen"]))
                                     <a class="opt-change-phone" title="更换老师手机">手机</a>
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
                                     <a class="opt-change-teacher_ref_type">渠道</a>
@@ -549,7 +545,7 @@
                                 @if(in_array($acc,["coco","nick","wander","memo","lemon","CoCo老师","lily","melody","niki"]))
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                 @endif
-                                @if(in_array($acc,["amyshen","low-key","jack","adrian","jim","ted","alan"]))
+                                @if(in_array($acc,["amyshen"]))
                                     <a class="opt-trial-pass div_show"  title="设置试讲/培训通过">通过信息</a>
                                 @endif
                                 @if(in_array($acc,["ted","alan","CoCo老师"]))
@@ -579,5 +575,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection
