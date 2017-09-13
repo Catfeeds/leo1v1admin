@@ -1434,6 +1434,8 @@ class Common {
                 }
             }
         }
+
+        // return $list;// test
         foreach($list as $k=>$item){
             if($item["main_type"] != "未定义"){
                 unset($list[$k]);

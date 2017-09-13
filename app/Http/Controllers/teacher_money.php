@@ -53,13 +53,6 @@ class teacher_money extends Controller
             $last_all_lesson_count    += $old_all_lesson_count;
             $last_normal_lesson_count += $old_normal_lesson_count;
         }
-        // $start = strtotime("-1 month",$start_time);
-        // $end   = strtotime("-1 month",$end_time);
-        // $last_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-        // if($transfer_teacherid>0){
-        //     $old_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
-        //     $last_lesson_count += $old_lesson_count;
-        // }
 
         $time_list   = [];
         $lesson_list = [];
