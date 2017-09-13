@@ -76,7 +76,7 @@
                         <td>{{$var["lesson_start"]}}-{{$var["lesson_end"]}} </td>
                         <td>{{$var["cur_require_admin_nick"]}} </td>
                         <td>{{$var["student_nick"]}} </td>
-                        <td> {{$var["origin_level_str"]}}</td>
+                        <td>{{$var["key1"]}} </td>
                         <td>{{$var["teacher_nick"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
                         <td>{{$var["grade_str"]}} </td>
