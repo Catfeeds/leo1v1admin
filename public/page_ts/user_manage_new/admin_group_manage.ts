@@ -35,7 +35,7 @@ $(function(){
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-1"){
-            // $(this).hide();
+            $(this).hide();
         }
     });
     $(".opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
@@ -43,7 +43,7 @@ $(function(){
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-2"){
-            // $(this).hide();
+            $(this).hide();
         }
     });
     $(".opt-edit-group,.opt-del-group,.opt-assign-group-user,.opt-edit-group-new,.opt-del-group-new,.opt-assign-group-user-new").each(function(){
@@ -51,7 +51,7 @@ $(function(){
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-3"){
-            // $(this).hide();
+            $(this).hide();
         }
     });
 
