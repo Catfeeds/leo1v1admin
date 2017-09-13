@@ -3998,168 +3998,137 @@ class user_manage_new extends Controller
 
 
     public function contract_list_seller_payed_master () {
-        $this->set_in_value("group_adminid",$this->get_account_id() );
+        $adminid = $this->get_account_id();
+        $this->t_admin_main_group_name->get_son_adminid($adminid);
         return $this->contract_list_seller_payed_new();
     }
 
     public function contract_list_seller_payed_new(){
-        $sum_field_list=[
-            "all_count",
-            "all_count_0",
-            "all_count_1",
-            "no_call",
-            "no_call_0",
-            "no_call_1",
-            "call_count",
-            "invalid_count",
-            "no_connect",
-            "valid_count",
-            "require_test_count",
-            "test_lesson_count",
-            "fail_need_pay_count",
-            "order_count",
-            "new_user_count",
-        ];
-        $order_field_arr = array_merge(["account" ] ,$sum_field_list );
-        $grade_list      = $this->get_in_enum_list(E\Egrade::class);
-        $group_adminid   = $this->get_in_int_val("group_adminid",-1);
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
+            1 => array("order_time","下单日期"),
+            2 => array("pay_time", "生效日期"),
+            3 => array("app_time", "申请日期"),
+        ],3);
 
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+        $contract_type     = $this->get_in_int_val('contract_type',-1);
+        $contract_status   = $this->get_in_int_val('contract_status',-1);
+        $config_courseid   = $this->get_in_int_val('config_courseid',-1);
+        $is_test_user      = $this->get_in_int_val('test_user',0);
+        $studentid         = $this->get_in_studentid(-1);
+        $page_num          = $this->get_in_page_num();
+        $has_money         = $this->get_in_int_val("has_money",-1);
+        $sys_operator      = $this->get_in_str_val("sys_operator","");
+        $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
+        $account_role      = $this->get_in_int_val("account_role",-1);
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $grade             = $this->get_in_int_val("grade",-1);
+        $subject           = $this->get_in_int_val("subject",-1);
+        $this->get_in_int_val("self_adminid", $this->get_account_id());
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+        $teacherid         = $this->get_in_teacherid(-1);
+        $origin_userid     = $this->get_in_int_val("origin_userid", -1);
+        $referral_adminid  = $this->get_in_int_val("referral_adminid",-1, "");
+        $assistantid       = $this->get_in_assistantid(-1);
+        $from_key          = $this->get_in_str_val('from_key');
+        $from_url          = $this->get_in_str_val('from_url');
+        $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
-        //   $group_list=$this->t_admin_group_name->get_group_list(2);
-        // $groupid=$this->get_in_int_val("groupid", -1);
-        list($start_time,$end_time)= $this->get_in_date_range_week( 0 );
-
-        $origin_ex           = $this->get_in_str_val("origin_ex");
-
-        $ret_info=$this->t_test_lesson_subject->get_seller_count( $start_time, $end_time, $grade_list , $origin_ex  );
-        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, $grade_list, $origin_ex  );
-
-        $tl_info=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time ,$grade_list , $origin_ex );
-        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time,$grade_list , $origin_ex );
-        //order info
-        $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,$grade_list,"" , $origin_ex );
-
-        $obj_list=&$ret_info["list"] ;
-        foreach ($tl_info["list"] as $tl_item) {
-            $k=$tl_item["admin_revisiterid"];
-
-            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
-            $obj_list[$k]["test_lesson_count"]=$tl_item["test_lesson_count"];
-            $obj_list[$k]["fail_need_pay_count"]=$tl_item["fail_need_pay_count"];
-            $obj_list[$k]["fail_all_count"]=$tl_item["fail_all_count"];
-            $obj_list[$k]["succ_all_count"]=$tl_item["succ_all_count"];
-
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $account = $this->get_account();
+        $show_yueyue_flag = false;
+        if ($account == "yueyue" || $account == "jim") {
+            $show_yueyue_flag = true;
         }
 
+        $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
+        $ret_list = $this->t_order_info->get_order_list_require_adminid(
+            $page_num,$start_time,$end_time,$contract_type,
+            $contract_status,$studentid,$config_courseid,
+            $is_test_user, $show_yueyue_flag, $has_money,
+            -1, $assistantid,"",$stu_from_type,$sys_operator,
+            $account_role,$grade,$subject,$tmk_adminid,-1,
+            $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
+            $referral_adminid,$opt_date_type
+            , " t2.assistantid asc , order_time desc"
+            , $spec_flag
+        );
 
-        foreach ($tr_info["list"] as $tr_item) {
-            $k=$tr_item["admin_revisiterid"];
-            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
-            $obj_list[$k]["require_test_count"]=$tr_item["require_test_count"];
+        $all_lesson_count = 0;
+        $all_promotion_spec_diff_money=0;
+        foreach($ret_list['list'] as &$item ){
+            E\Eboolean::set_item_value_str($item,"is_new_stu");
+            E\Egrade::set_item_value_str($item);
+            E\Econtract_from_type::set_item_value_str($item,"stu_from_type");
+            E\Efrom_parent_order_type::set_item_value_str($item);
+            E\Econtract_status::set_item_value_str($item);
+            E\Econtract_type::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item, 'contract_starttime');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_end');
+            E\Efrom_type::set_item_value_str($item);
+            $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
+            $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );
+            $this->cache_set_item_assistant_nick($item,"assistantid", "assistant_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid", "origin_assistant_nick");
+            $this->cache_set_item_teacher_nick($item);
 
-        }
-
-
-        foreach ($order_info["list"] as $order_item) {
-            $k=$order_item["adminid"];
-            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
-            $obj_list[$k]["order_count"]=$order_item["all_count"];
-            $obj_list[$k]["order_money"]=$order_item["all_price"];
-
-        }
-
-        $date_list=$this->t_id_opt_log-> get_seller_tongji($start_time,$end_time,$grade_list);
-        foreach ($date_list as $date_item) {
-            $k=$date_item["opt_id"];
-            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
-            $obj_list[$k]["assigned_count"]=$date_item["assigned_count"];
-            // $obj_list[$k]["get_new_count"]=$date_item["get_new_count"];
-            $obj_list[$k]["get_histroy_count"]=$date_item["get_histroy_count"];
-        }
-
-
-        //x
-        foreach ($new_user_info['list'] as $new_item) {
-            $k=$new_item['admin_revisiterid'];
-            \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
-            $obj_list[$k]["new_user_count"]=$new_item["new_user_count"];
-        }
-
-
-        $all_item=["account" => "全部","admin_revisiterid" =>-1, ];
-        foreach ($ret_info["list"] as &$item) {
-            $item["valid_count"]=@$item["call_count"]-  @$item["invalid_count"]-@$item["no_connect"];
-            foreach ($item as $key => $value) {
-                if ((!is_int($key)) && ($key != "admin_revisiterid" )) {
-                    $all_item[$key]=(@$all_item[$key])+$value;
+            $item['lesson_total']         = $item['lesson_total']*$item['default_lesson_count']/100;
+            $item['order_left']           = $item['lesson_left']/100;
+            $item['competition_flag_str'] = $item['competition_flag']==0?"否":"是";
+            if (!$item["stu_nick"] ) {
+                $item["stu_nick"]=$item["stu_self_nick"];
+            }
+            if($account == $item["sys_operator"] || $item['assistant_nick'] == $account || $ret_auth ) {
+                $item['price'] = $item['price']/100;
+            }else{
+                $item['price'] = "---";
+            }
+            if($item['discount_price']==0){
+                $item['discount_price']='';
+            }else{
+                $item['discount_price']=$item['discount_price']/100;
+            }
+            if($item['price']>0 && $item['lesson_total']>0){
+                $item['per_price'] = round($item['price']/$item['lesson_total'],2);
+            }else{
+                $item['per_price'] = 0;
+            }
+            \App\Helper\Common::set_item_enum_flow_status($item);
+            $all_lesson_count += $item['lesson_total'] ;
+            $pre_money_info="";
+            if ($item["pre_price"]) {
+                if ($item["pre_pay_time"] ) {
+                    $pre_money_info="已支付";
+                }else{
+                    $pre_money_info="未付";
+                }
+            }else{
+                $pre_money_info="无";
+            }
+            $item["promotion_spec_diff_money"] /= 100;
+            $item["pre_money_info"] = $pre_money_info;
+            $item["promotion_spec_is_not_spec_flag_str"] = "";
+            if ($item["promotion_spec_is_not_spec_flag"]){
+                $item["promotion_spec_is_not_spec_flag_str"]= "<font color=red>已转为非特殊申请</font>";
+            }else{
+                if ( $item["flowid"] ) {
+                    $all_promotion_spec_diff_money+= $item["promotion_spec_diff_money"];
                 }
             }
-            $this->cache_set_item_account_nick($item,"admin_revisiterid","account");
         }
 
-        $ret_info = $ret_info['list'];
-        $admin_info = $this->t_manager_info->get_admin_member_list();
-        $admin_list= & $admin_info['list'] ;
-        if ($group_adminid >0) {
-            $groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($group_adminid);
-            $mark_user_map= $this->t_admin_group_user->get_user_map($groupid);
-        }
-
-        foreach ($admin_list as $vk=>&$val){
-            $adminid=$val['adminid'];
-            if (!isset($ret_info[$adminid ] )
-                || ( $group_adminid >0 &&  !isset($mark_user_map[ $adminid ] ) )  )  {
-                unset( $admin_list[$vk] );
-            }else{
-
-                $val['admin_revisiterid'] = $adminid ;
-                $ret_item=@$ret_info[$adminid];
-                $val['all_count'] = @$ret_item['all_count'];
-                $val['all_count_0'] = @$ret_item['all_count_0'];
-                $val['all_count_1'] = @$ret_item['all_count_1'];
-                $val['no_call'] = @$ret_item['no_call'];
-                $val['no_call_0'] = @$ret_item['no_call_0'];
-                $val['no_call_1'] = @$ret_item['no_call_1'];
-                $val['call_count'] = @$ret_item['account'];
-                $val['all_account'] = @$ret_item['call_count'];
-                $val['invalid_count'] = @$ret_item['invalid_count'];
-                $val['no_connect'] = @$ret_item['no_connect'];
-                $val['valid_count'] = @$ret_item['valid_count'];
-                $val['test_lesson_count'] = @$ret_item['test_lesson_count'];
-                $val['fail_need_pay_count'] = @$ret_item['fail_need_pay_count'];
-                $val['require_test_count'] = @$ret_item['require_test_count'];
-                $val['succ_all_count'] = @$ret_item['succ_all_count'];
-                $val['fail_all_count'] = @$ret_item['fail_all_count'];
-                $val['order_count'] = @$ret_item['order_count'];
-                $val['order_money'] = @$ret_item['order_money'];
-                $val['global_tq_no_call'] = @$ret_item['global_tq_no_call'];
-
-
-                $val['new_user_count'] = @$ret_item['new_user_count'];
-
-                $val['assigned_count'] = @$ret_item['assigned_count'];
-                // $val['get_new_count'] = @$ret_item['get_new_count'];
-                $val['get_histroy_count'] = @$ret_item['get_histroy_count'];
-
-
-            }
-        }
-
-        /*if (!$order_in_db_flag) {
-          \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
-          }
-
-          array_unshift($ret_info, $all_item);*/
-        $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list'],[],0, strtotime( date("Y-m-01",$start_time )   ));
-        /*$ret_info= $this->gen_admin_member_data($admin_info['list']);*/
-        foreach( $ret_info as &$item ) {
-            E\Emain_type::set_item_value_str($item);
-        }
-
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["data_ex_list"=>$ret_info]);
+        $acc = $this->get_account();
+        dd($ret_list);
+        return $this->Pageview(__METHOD__,$ret_list,[
+            "account_role"                  => $this->get_account_role(),
+            "all_lesson_count"              => $all_lesson_count,
+            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
+            "acc"                           => $acc
+        ]);
     }
-
 
 }

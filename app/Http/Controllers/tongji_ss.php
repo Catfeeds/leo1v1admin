@@ -950,7 +950,7 @@ class tongji_ss extends Controller
         if (!$origin_ex   )  {
             $origin_ex ="xx" ;
         }
-
+        // dd($origin_ex);
 
         $data_map=[];
         $check_item=$check_field_config[$check_field_id];

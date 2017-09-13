@@ -851,7 +851,11 @@ class human_resource extends Controller
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
             $item['age']        = $age;
-            E\Elevel::set_item_value_str($item,"level");
+            if($item['teacher_money_type']==6){
+                E\Enew_level::set_item_value_str($item,"level");
+            }else{
+                E\Elevel::set_item_value_str($item,"level");
+            }
             E\Eteacher_money_type::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item); //是否全职
             E\Etextbook_type::set_item_value_str($item);

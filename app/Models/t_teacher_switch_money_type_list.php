@@ -52,5 +52,18 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
         return $this->main_get_row($sql);
     }
 
+    public function get_id_by_teacherid($teacherid){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,-1],
+        ];
+        $sql = $this->gen_sql_new("select id "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 }

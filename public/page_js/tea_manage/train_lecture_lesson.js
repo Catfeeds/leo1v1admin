@@ -425,8 +425,8 @@ $(function(){
 		        cssClass : "btn-warning",
 		        action   : function(dialog) {
                     $.do_ajax("/tea_manage_new/cancel_train_lesson",{
-                        "lessonid"      : opt_data.lessonid,
-                        "lesson_status" : opt_data.lesson_status
+                        "lessonid"           : opt_data.lessonid,
+                        "trial_train_status" : opt_data.trial_train_status
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();
@@ -519,7 +519,7 @@ $(function(){
 
     $(".opt-edit-new").on("click",function(){
         var data           = $(this).get_opt_data();
-        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label>");
+        var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
         var id_reason_all = $("<textarea/>");
 
         var arr = [
@@ -687,6 +687,11 @@ $(function(){
                     //console.log(arr[0][1]);
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                         id_total_score.val(parseInt(id_lecture_combined_score.val())+parseInt( id_lecture_content_design_score.val())+parseInt(id_teacher_language_performance_score.val())+parseInt(id_teacher_explain_rhythm_score.val())+parseInt(id_teacher_point_explanation_score.val())+parseInt(id_course_review_score.val())+parseInt(id_teacher_dif_point_score.val())+parseInt(id_teacher_mental_aura_score.val())+parseInt(id_teacher_class_atm_score.val())+parseInt(id_teacher_blackboard_writing_score.val()));
+                        if(id_total_score.val() <60){
+                            id_res.val(0);
+                        }else{
+                            id_res.val(1);
+                        }
 
                     });
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);
@@ -776,6 +781,12 @@ $(function(){
             }
         });
     });
+
+    $(".opt-resume_url").on("click",function(){
+        var url=$(this).get_opt_data("resume_url");
+        window.open(url, '_blank');
+    });
+
 
    	$('.opt-change').set_input_change_event(load_data);
 });

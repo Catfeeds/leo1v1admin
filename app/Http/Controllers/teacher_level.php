@@ -1031,18 +1031,28 @@ class teacher_level extends Controller
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $batch              = $this->get_in_int_val("batch",-1);
-        $status             = $this->get_in_int_val("status",-1);
         $acc = $this->get_account();
+        if($acc=="傅文莉"){
+            $status=1;
+        }elseif($acc=="ted"){
+            $status=2;
+        }else{
+            $status=-1;
+        }
+        $status = $this->get_in_int_val("status",$status);
 
         $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list($teacherid,$teacher_money_type,$batch,$status);
-
         foreach($ret_info as &$val){
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val);
             $val['batch_str'] = "第".$val['batch']."批次";
             E\Eswitch_status::set_item_value_str($val,"status");
-            $val['put_time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
+            if($val['confirm_time']>0){
+                $val['time_str'] = \App\Helper\Utils::unixtime2date($val['confirm_time']);
+            }else{
+                $val['time_str'] = \App\Helper\Utils::unixtime2date($val['put_time']);
+            }
         }
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
 
@@ -1052,7 +1062,7 @@ class teacher_level extends Controller
     }
 
     public function teacher_switch_list_finally(){
-        $this->teacher_switch_list();
+        return $this->teacher_switch_list();
     }
 
     public function switch_upload(){
@@ -1075,12 +1085,12 @@ class teacher_level extends Controller
      * @param status 0 不通过 1 通过
      */
     public function check_switch_info(){
-        $id     = $this->get_in_int_val("id");
-        $type   = $this->get_in_int_val("type");
-        $status = $this->get_in_int_val("status");
-        $acc    = $this->get_account();
+        $id                     = $this->get_in_int_val("id");
+        $type                   = $this->get_in_int_val("type");
+        $status                 = $this->get_in_int_val("status");
+        $acc                    = $this->get_account();
 
-        if(!in_array($acc,["Rain","ted"])){
+        if(!in_array($acc,["傅文莉","ted"])){
             return $this->output_err("你没有审核权限!");
         }
         if($type==1){
@@ -1091,22 +1101,29 @@ class teacher_level extends Controller
             return $this->output_err("类型出错!");
         }
 
+        $this->t_teacher_switch_money_type_list->start_transaction();
         $ret = $this->t_teacher_switch_money_type_list->field_update_list($id,[
             "confirm_time" => time(),
             "status"       => $check_status,
         ]);
         if(!$ret){
+            $this->t_teacher_switch_money_type_list->rollback();
             return $this->output_err("更新出错!请重试!");
         }
 
         if($type==2 && $status==1){
             $teacher_info = $this->t_teacher_switch_money_type_list->get_teacher_info_by_id($id);
             $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
-                "teacher_money_type" => $teacher_info['teacher_money_type'],
-                "level"              => $teacher_info['level'],
+                "teacher_money_type" => $teacher_info['new_teacher_money_type'],
+                "level"              => $teacher_info['new_level'],
             ]);
-            $this->reset_teacher_money_info($teacherid);
+            $ret = $this->reset_teacher_money_info($teacher_info['teacherid']);
+            if(!$ret){
+                $this->t_teacher_switch_money_type_list->rollback();
+                return $this->output_err("更新老师课程信息出错!请重试!");
+            }
         }
+        $this->t_teacher_switch_money_type_list->commit();
 
         return $this->output_succ();
     }
