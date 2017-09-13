@@ -1003,7 +1003,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             ["s.origin_assistantid = %u",$account_id,-1],
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
-            "tt.require_adminid>0",
+            // "tt.require_adminid>0",
             "m.account_role=1",
             "m.del_flag=0",
             "tt.ass_test_lesson_type=0"

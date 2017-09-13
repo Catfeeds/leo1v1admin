@@ -2145,7 +2145,38 @@ class test_code extends Controller
                 "confirm_time" => 0,
             ]);
         }
+    }
+
+    public function add_month_time(){
+        $arr = $this->get_b_txt();
+        $arr = array_filter($arr);
+        foreach($arr as $val){
+            $tea_info  = explode("|",$val);
+            $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
+            $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
+
+            $this->t_teacher_switch_money_type_list->field_update_list($id,[
+                "month_time"=>$tea_info[1],
+            ]);
+        }
+    }
+
+
+
+
+    public function reset_teacher_batch(){
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_simple_list(-1,-1,-1,-1);
+        dd($list);
+        foreach($list as $l_val){
+
+        }
 
     }
+
+
+
+
+
+
 
 }
