@@ -372,7 +372,7 @@ class agent extends Controller
                 $ret['ret'] = 4;
             }
         }
-        dd($start_time_old,$end_time_old,$ret_info_old,$del_rate,$ret);
+        dd($start_time_old,$end_time_old,$ret_info_old,$count_del,$count,$del_rate,$ret);
     }
 
     public function agent_add(){
