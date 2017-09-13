@@ -1827,4 +1827,21 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
         return $this->main_get_value($sql);
     }
+
+    public function get_tongji_lz($start_time,$end_time){
+        $where_arr = [
+            ["add_time>%u",$start_time,-1],
+            ["add_time<%u",$end_time,-1],
+            "status=0",
+            "is_test_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select subject, count(subject)  as sum "
+                                  ." from %s "
+                                  ." where %s group by subject"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }

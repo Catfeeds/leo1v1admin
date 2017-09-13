@@ -335,18 +335,6 @@ class user_manage_new extends Controller
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time,$studentid);
 
-        // $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
-        // //2017年09月09日19:47:35 更改  原来  $check_type==2
-        // if(in_array($check_type,[2,4])){
-        //     $start = strtotime("-1 month",strtotime(date("Y-m-01",$start_time)));
-        //     $end   = strtotime("+1 month",$start);
-        //     $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
-        //     $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-        //     if($transfer_teacherid>0){
-        //         $old_lesson_count      = $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
-        //         $already_lesson_count += $old_lesson_count;
-        //     }
-        // }
         $last_month_start = strtotime("-1 month",$start_time);
         $last_month_end   = strtotime("-1 month",$end_time);
         //上个月累计常规+试听课时
@@ -466,24 +454,20 @@ class user_manage_new extends Controller
                 $item['pre_reward']   = 0;
                 $item['price']        = 0;
             }else{
-                if($item['lesson_type']==2){
-                    \App\Helper\Utils::check_isset_data($lesson_total_arr['trial_total'],$item['lesson_count']);
-                }elseif($item['lesson_type']<1000){
-                    \App\Helper\Utils::check_isset_data($lesson_total_arr['normal_total'],$item['lesson_count']);
-                }
-
                 $item['lesson_price']  /= 100;
                 if($item["lesson_type"]!=2){
+                    \App\Helper\Utils::check_isset_data($lesson_total_arr['normal_total'],$item['lesson_count']);
                     $item['pre_reward'] = \App\Helper\Utils::get_teacher_lesson_money($item['type'],$already_lesson_count);
                     $item["price"]      = ($pre_price+$item['pre_reward'])*$lesson_count/100
                                         +$item['lesson_full_reward']
                                         -$item['lesson_cost'];
                     $item["pre_price"] = $pre_price;
                 }else{
+                    \App\Helper\Utils::check_isset_data($lesson_total_arr['trial_total'],$item['lesson_count']);
                     $item['pre_reward'] = 0;
                     if($lesson_count>0) {
                         $trial_base = \App\Helper\Utils::get_trial_base_price(
-                            $teacher_money_type,$item['teacher_type'],$item['lesson_start']
+                            $item['teacher_money_type'],$item['teacher_type'],$item['lesson_start']
                         );
 
                         $item["price"]        = $trial_base+$item['lesson_full_reward']-$item['lesson_cost'];

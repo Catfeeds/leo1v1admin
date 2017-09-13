@@ -188,7 +188,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list($sql);
     }
 
-
     public function get_teacher_trial_success_list($start,$type=2){
         $where_arr = [
             ["set_lesson_time>%u",$start,0],
@@ -196,8 +195,9 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.stu_attend>0",
             "l.tea_attend>0",
         ];
+
         if($type==2){
-            $where_arr[] = "l.teacher_money_type>3 ";
+            $where_arr[] = "l.teacher_money_type in (4,5,6) ";
         }elseif($type==3 || $type==4){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }

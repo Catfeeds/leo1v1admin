@@ -1628,13 +1628,6 @@ class human_resource extends Controller
         $identity                           = $this->get_in_int_val("identity");
         $work_year                          = $this->get_in_int_val("work_year");
         $sshd_good                          = $this->get_in_str_val("sshd_good");
-        $sshd_bad                           = $this->get_in_str_val("sshd_bad");
-        $ktfw_good                          = $this->get_in_str_val("ktfw_good");
-        $ktfw_bad                           = $this->get_in_str_val("ktfw_bad");
-        $skgf_good                          = $this->get_in_str_val("skgf_good");
-        $skgf_bad                           = $this->get_in_str_val("skgf_bad");
-        $jsfg_good                          = $this->get_in_str_val("jsfg_good");
-        $jsfg_bad                           = $this->get_in_str_val("jsfg_bad");
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
         if($identity<=0){
@@ -1733,7 +1726,9 @@ class human_resource extends Controller
             }
 
             if(!empty($teacher_info)){
-                $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
+                // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
+                $this->set_teacher_label($teacher_info["teacherid"],0,"",$sshd_good,3);
+                \App\Helper\Utils::logger("set teacher label_list");
                 $this->check_teacher_lecture_is_pass($teacher_info);
                 $ret = $this->set_teacher_grade($teacher_info,$check_info);
                 if(!$ret){
@@ -1756,6 +1751,10 @@ class human_resource extends Controller
                     "trial_lecture_is_pass" => 1,
                 ];
                 $teacherid = $this->add_teacher_common($add_info);
+                
+                //老师标签
+                $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
+
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
                 //通知推荐人
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($lecture_info['phone']);

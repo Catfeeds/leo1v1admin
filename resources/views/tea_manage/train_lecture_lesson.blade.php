@@ -148,7 +148,6 @@
                                 <a class="opt-set-server" title="服务器" >切换</a>
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-edit-new" title="审核-new">审核-new</a>
-                                <a class="opt-del" title="删除">删除</a>
                             @endif
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
@@ -158,6 +157,9 @@
                             @endif
                             @if($var['resume_url']!='')
                                 <a class="opt-resume_url" title="查看简历">简历</a>
+                            @endif
+                            @if(in_array($acc_role,[8,10,12]))
+                                <a class="opt-del" title="删除">删除</a>
                             @endif
                         </div>
                     </td>

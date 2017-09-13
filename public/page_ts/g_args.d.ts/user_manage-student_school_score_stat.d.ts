@@ -34,6 +34,7 @@ interface RowData {
 	realname	:any;
 	school	:any;
 	name	:any;
+	nick	:any;
 	num	:any;
 	semester_str	:any;
 	grade_str	:any;
