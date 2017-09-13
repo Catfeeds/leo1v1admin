@@ -139,36 +139,34 @@ $(function(){
     });
 
     $("#id_add_lesson").on("click",function(){
-        BootstrapDialog.alert("开发中");
-        return false;
+        // BootstrapDialog.alert("开发中");
+        // return false;
 
-        var id_lesson_start = $("<input>");
-        var id_lesson_end = $("<input>");
+        // var id_lesson_start = $("<input>");
+        // var id_lesson_end = $("<input>");
 
-        var arr = [
-            ["开始时间",id_lesson_start],
-            ["结束时间",id_lesson_end]
-        ];
+        // var arr = [
+        //     ["开始时间",id_lesson_start],
+        //     ["结束时间",id_lesson_end]
+        // ];
 
-        $.show_key_value_table("排课",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-                $.do_ajax("/user_deal/add_lesson",{
-                    "courseid"     : g_args.courseid,
-                    "lesson_start" : id_lesson_start.val(),
-                    "lesson_end"   : id_lesson_end.val(),
-                },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
-                });
-            }
-        });
-
-
+        // $.show_key_value_table("排课",arr,{
+        //     label    : "确认",
+        //     cssClass : "btn-warning",
+        //     action   : function(dialog) {
+        //         $.do_ajax("/user_deal/add_lesson",{
+        //             "courseid"     : g_args.courseid,
+        //             "lesson_start" : id_lesson_start.val(),
+        //             "lesson_end"   : id_lesson_end.val(),
+        //         },function(result){
+        //             if(result.ret==0){
+        //                 window.location.reload();
+        //             }else{
+        //                 BootstrapDialog.alert(result.info);
+        //             }
+        //         });
+        //     }
+        // });
         if (g_args.courseid>0) {
             $.do_ajax("/user_deal/lesson_add_lesson",{
                 courseid:g_args.courseid

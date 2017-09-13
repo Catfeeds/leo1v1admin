@@ -81,7 +81,8 @@ class get_ass_stu_info_update extends Command
         $stu_info_all = $task->t_student_info->get_ass_stu_info_new();       
         $userid_list = $task->t_student_info->get_read_student_ass_info();
         $month_stop_all =  $task->t_student_info->get_ass_month_stop_info_new($start_time,$end_time);
-        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);        
+        $lesson_count_list = $task->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time); 
+
         // $lesson_count_list_old = $task->t_manager_info->get_assistant_lesson_count_info_old($start_time,$end_time);        
                    
         $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);

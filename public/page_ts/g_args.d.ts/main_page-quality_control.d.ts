@@ -25,10 +25,12 @@ interface RowData {
 	test_first	:any;
 	test_five	:any;
 	regular_first	:any;
+	regular_five	:any;
 	all_num	:any;
 	test_first_per_str	:any;
 	test_five_per_str	:any;
 	regular_first_per_str	:any;
+	regular_five_per_str	:any;
 	per	:any;
 	all_target_num	:any;
 }

@@ -459,7 +459,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start>%u",$time,0],
             // "lesson_start=0",
             "t.teacher_money_type=6",
-            "lesson_type in (0,1,3)",
+            "lesson_type in (2)",
             "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level)"
         ];
         $sql = $this->gen_sql_new("select lessonid,t.teacher_money_type as new_teacher_money_type,"
