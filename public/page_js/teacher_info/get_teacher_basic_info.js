@@ -86,7 +86,7 @@ $(function(){
             +' <option>招商银行</option>'
             +' <option>中国银行</option> </select>';
 
-        var id_nick          = $("<input readonly/>");
+        var id_nick          = $("<span style=\"line-height:33px;\"/>");
         var id_gender        = $('<select class="form-control"/>');
         var id_work_year     = $("<input/>");
         var id_address       = $("<input/>");
@@ -107,8 +107,8 @@ $(function(){
         var id_speciality    = $("<input/>");
 
         var tea_name = $('#teacher-name').text();
-        // id_nick.text(tea_name);
-        id_nick.val(tea_name);
+        id_nick.text(tea_name);
+        // id_nick.val(tea_name);
         id_work_year.val(able_edit.work_year);
         id_address.val(able_edit.address);
         id_bank_account.val(able_edit.bank_account);
@@ -174,11 +174,8 @@ $(function(){
                         url      : "/teacher_info/edit_teacher_info",
                         dataType : "json",
                         data : {
-                            'nick'          : id_nick.val(),
                             'gender'        : id_gender.val(),
                             'birth'         : id_birth.val(),
-                            'phone'         : id_phone.val(),
-                            'email'         : id_email.val(),
                             'work_year'     : id_work_year.val(),
                             'dialect_notes' : id_dialect_notes.val(),
                             'address'       : id_address.val(),
