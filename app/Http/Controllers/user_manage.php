@@ -2712,4 +2712,28 @@ class user_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+       /**
+     * @author    sam
+     * @function  质检-录制试讲统计-模拟试听未审核统计
+     */
+    public function tongji_check()
+    {
+
+        $this->switch_tongji_database();
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $lz_ret_info = $this->t_teacher_lecture_info->get_tongji_lz($start_time,$end_time); //录制试讲
+        $train_ret_info = $this->t_teacher_record_list->tongji_trial_train_lesson_list($start_time,$end_time); //模拟试听
+        echo '<pre>';
+        var_dump($lz_ret_info);
+        var_dump($train_ret_info);
+        echo '</pre>';
+        dd(2);
+        $arr['list'] = [];
+        return $this->pageView(__METHOD__, $arr);
+    }
+
+
 }
