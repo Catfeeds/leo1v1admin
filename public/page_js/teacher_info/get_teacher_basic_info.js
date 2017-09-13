@@ -8,6 +8,9 @@ $(function(){
         });
     };
 
+    $('.opt-change').set_input_change_event(load_data);
+    $('.direct-chat-contacts').css('backgroundColor','#fff');
+
     $("[data-val]").each(function() {
         var opt_field = $(this).attr('data-val');
         custom_upload_file(
@@ -70,13 +73,9 @@ $(function(){
 
     $('.opt-edit').on('click', function () {
         var title_type = $(this).attr('data-name');
-        edit_info(title_type)
+        edit_info(title_type);
 
     });
-
-    $('.direct-chat-contacts').css('backgroundColor','#fff');
-    $('.opt-change').set_input_change_event(load_data);
-
     var edit_info = function(title_type){
 
         var bank_select = '<select name="bank_type" class="form-control">'
@@ -172,7 +171,7 @@ $(function(){
         $.tea_show_key_value_table($modal_title, arr,{
             label    : '确认',
             cssClass : 'btn-warning',
-            action   : function(dialog) {
+            action   : function() {
                 if (title_type == 'user-info') {
                     $.ajax({
                         type     : "post",
@@ -229,7 +228,8 @@ $(function(){
 
                 }
             }
-        },'',false,900);
+        },'',false,600);
+
     };
 
     //处理头像
@@ -340,8 +340,7 @@ $(function(){
 
     }
 
-    function picSize(str)
-    {
+    function picSize(str) {
         var fileSize;
         if(str.indexOf('=')>0)
         {
@@ -351,7 +350,5 @@ $(function(){
         fileSize = parseInt( str.length-(str.length/8)*2 );
         return fileSize;
     }
-
-
 
 });
