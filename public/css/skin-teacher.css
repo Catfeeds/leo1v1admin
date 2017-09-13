@@ -94,7 +94,7 @@
 .skin-teacher .sidebar-menu > li.active > a
 {
     border-left-color: #fff;
-    background-color: #39BFF8 ;
+    background-color: #3bb1ff;
     opacity:1;
 }
 .skin-teacher .sidebar-menu   {
@@ -136,6 +136,8 @@
 
 .skin-teacher .sidebar a:hover {
   text-decoration: none;
+  background-color: #3bb1ff;
+
 }
 .skin-teacher .sidebar-menu .treeview-menu > li.active > a,
 .skin-teacher .sidebar-menu .treeview-menu > li > a:hover,
@@ -369,4 +371,8 @@
 
 .skin-teacher .Btnsty_peyton{
     width:66px;
+}
+.skin-teacher .modal-footer .margin-lr-20{
+    margin-left:20px;
+    margin-right:20px;
 }

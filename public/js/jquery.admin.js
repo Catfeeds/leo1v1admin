@@ -1621,7 +1621,7 @@ jQuery.extend({
         });
         var all_btn_config=[{
             label: '返回',
-            cssClass : 'btn-default col-xs-2 col-xs-offset-6',
+            cssClass : 'btn-default col-xs-2 col-xs-offset-7',
             action: function(dialog) {
                 dialog.close();
             }
