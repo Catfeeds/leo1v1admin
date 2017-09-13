@@ -17,7 +17,7 @@
 .skin-teacher .main-header .navbar .nav .open > a:hover,
 .skin-teacher .main-header .navbar .nav .open > a:focus,
 .skin-teacher .main-header .navbar .nav > .active > a {
-    background: #DEF4FF;
+    background-color: #DEF4FF;
 }
 .skin-teacher .main-header .navbar .sidebar-toggle {
     padding: 5px 5px;
@@ -83,7 +83,7 @@
 }
 .skin-teacher .sidebar-menu > li.header {
   color: #4b646f;
-  background: #1a2226;
+  background-color: #1a2226;
 }
 .skin-teacher .sidebar-menu > li > a {
   border-left: 3px solid transparent;
@@ -250,31 +250,31 @@
     color:#00A6FF;
 }
 .skin-teacher .bg-set-blue{
-    background:#00A6ff;
+    background-color:#00A6ff;
     color:#fff;
 }
 .skin-teacher .bg-blue{
-    background:#00A6ff;
+    background-color:#00A6ff;
 }
 
 .skin-teacher .bg-lblue{
-    background:#E6fAff;
+    background-color:#E6fAff;
 }
 .skin-teacher .bg-linfo{
-    background:#42b2ff;
+    background-color:#42b2ff;
 }
 
 .skin-teacher .color-fff{
     color:#fff
 }
 .skin-teacher .bg-lgreen{
-    background:#36d68f;
+    background-color:#36d68f;
 }
 .skin-teacher .bg-lpro{
-    background:#6c86e1;
+    background-color:#6c86e1;
 }
 .skin-teacher .bg-lyellow{
-    background:#ef7d50;
+    background-color:#ef7d50;
 }
 .skin-teacher .bor-rds{
     border-radius:5px;
@@ -307,7 +307,7 @@
     overflow:hidden;
 }
 .skin-teacher .direct-chat-contacts{
-    background:#fff;
+    background-color:#fff;
     color:#000;
 }
 .skin-teacher .small-box{
@@ -339,10 +339,11 @@
 }
 
 .skin-teacher .btn-info:hover{
-    background:#0094e3;
+    background-color:#0094e3;
 }
 .skin-teacher .btn-info{
     border:none;
+    background-color:#00A6FF;
 }
 
 .skin-teacher .logo-lg,.logo-mini{
