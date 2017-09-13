@@ -1628,13 +1628,6 @@ class human_resource extends Controller
         $identity                           = $this->get_in_int_val("identity");
         $work_year                          = $this->get_in_int_val("work_year");
         $sshd_good                          = $this->get_in_str_val("sshd_good");
-        $sshd_bad                           = $this->get_in_str_val("sshd_bad");
-        $ktfw_good                          = $this->get_in_str_val("ktfw_good");
-        $ktfw_bad                           = $this->get_in_str_val("ktfw_bad");
-        $skgf_good                          = $this->get_in_str_val("skgf_good");
-        $skgf_bad                           = $this->get_in_str_val("skgf_bad");
-        $jsfg_good                          = $this->get_in_str_val("jsfg_good");
-        $jsfg_bad                           = $this->get_in_str_val("jsfg_bad");
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
         if($identity<=0){
