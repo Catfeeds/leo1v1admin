@@ -134,9 +134,7 @@
                     <td >{{$var['tea_nick']}}</td>
                     <td >{{$var['lesson_status_str']}}</td>
                     <td >{!! $var['trial_train_status_str'] !!}</td>
-                    <td >
-                        {{$var['acc']}}
-                    </td>
+                    <td >{{$var['acc']}}</td>
                     <td >{{$var['real_teacherid']}}</td>
                     <td >{{$var['teacher_type_str']}}</td>
                     <td >{{$var['reference_name']}}</td>
@@ -161,8 +159,6 @@
                             @if($var['resume_url']!='')
                                 <a class="opt-resume_url" title="查看简历">简历</a>
                             @endif
-
-
                         </div>
                     </td>
                 </tr>

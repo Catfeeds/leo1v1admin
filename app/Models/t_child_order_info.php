@@ -13,6 +13,16 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_info_by_parent_orderid($parent_orderid,$child_order_type){
+        $sql = $this->gen_sql_new("select * from %s where parent_orderid = %u and child_order_type=%u",
+                                  self::DB_TABLE_NAME,
+                                  $parent_orderid,
+                                  $child_order_type
+        );
+        return $this->main_get_row($sql);
+
+    }
+
 }
 
 

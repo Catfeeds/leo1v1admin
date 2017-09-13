@@ -2124,6 +2124,28 @@ class test_code extends Controller
         }
     }
 
+    public function add_test_switch_info(){
+        $teacherid    = 50728;
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
+        $ret  = $this->t_teacher_switch_money_type_list->check_is_exists($teacherid);
+        if(!$ret){
+            $this->t_teacher_switch_money_type_list->row_insert([
+                "teacherid" => $teacherid,
+                "realname" => $teacher_info['realname'],
+                "teacher_money_type" => $teacher_info['teacher_money_type'],
+                "level" => $teacher_info['level'],
+                "new_level" => 3,
+            ]);
+        }else{
+            $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
+            $this->t_teacher_switch_money_type_list->field_update_list($id,[
+                "status" => 0,
+                "put_time" => 0,
+                "confirm_time" => 0,
+            ]);
+        }
+
+    }
 
 }

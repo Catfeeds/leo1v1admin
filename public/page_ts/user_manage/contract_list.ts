@@ -2776,7 +2776,7 @@ $(function(){
             return;
         }
         var title = "编辑子合同";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>操作</td></tr></table></div>");   
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>付款</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -2787,49 +2787,105 @@ $(function(){
             }
             $.each(data_list,function(i,item){
                 if(item["child_order_type"]==0){
-                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
                 }else{
-                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
                 }
                 
             });
             html_node.find("table").find(".order_partition").each(function(){
                 $(this).on("click",function(){
-                    var userid = $(this).data("userid");
+                    var parent_orderid = $(this).data("orderid");
 
-                    var subject = $(this).data("subject");
-                    var id_textbook_new     = $("<select/>");
-                    Enum_map.append_option_list("region_version", id_textbook_new, true );
+                    var child_orderid = $(this).data("child_orderid");
+                    var status = $(this).data("status");
+                    if(status >0){
+                        alert("已付款,不能拆分!");
+                        return;
+                    }
+                    var id_child_order_type= $("<select> "+
+                                               "<option value=1>首付款</option> "+
+                                               "<option value=2>其他</option> "+
+                                               "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
                     var arr=[
-                        ["教材",id_textbook_new],
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
                     ];
-                    $.show_key_value_table("修改", arr ,{
-                        label    : '确认',
-                        cssClass : 'btn-warning',
-                        action   : function(dialog) {
-                            $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
-                                "userid"             :g_sid,
-                                "subject" :          subject,
-                                "editionid"     : id_textbook_new.val(),
+                    $.show_key_value_table("增加子合同", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            $.do_ajax( '/ss_deal/add_child_order_info', {
+                                "parent_orderid" : parent_orderid,
+                                "child_orderid" : child_orderid,
+                                "child_order_type"     : id_child_order_type.val(),
+                                "price"                : id_child_order_money.val()*100
                             });
                         }
-                    });
+                    });                 
 
                     
                 });
                 
             });
 
-            html_node.find("table").find(".delete_stu_subject").each(function(){
+            html_node.find("table").find(".update_child_order_info").each(function(){
                 $(this).on("click",function(){
-                    var userid = $(this).data("userid");
+                    var parent_orderid = $(this).data("orderid");
 
-                    var subject = $(this).data("subject");
+                    var child_orderid = $(this).data("child_orderid");
+                    var status = $(this).data("status");
+                    if(status >0){
+                        alert("已付款,不能修改!");
+                        return;
+                    }
+                    var id_child_order_type= $("<select> "+
+                                               "<option value=1>首付款</option> "+
+                                               "<option value=2>其他</option> "+
+                                               "</select>");
+                    var id_child_order_money=$("<input/>");
+                    
+                    var arr=[
+                        ["类型", id_child_order_type],
+                        ["金额", id_child_order_money]
+                    ];
+                    $.show_key_value_table("修改子合同", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            $.do_ajax( '/ss_deal/update_child_order_info', {
+                                "parent_orderid" : parent_orderid,
+                                "child_orderid" : child_orderid,
+                                "child_order_type"     : id_child_order_type.val(),
+                                "price"                : id_child_order_money.val()*100
+                            });
+                        }
+                    });                 
+
+                    
+                });
+                
+            });
+
+
+            html_node.find("table").find(".delete_child_order_info").each(function(){
+                $(this).on("click",function(){
+                    var parent_orderid = $(this).data("orderid");
+
+                    var child_orderid = $(this).data("child_orderid");
+                    var status = $(this).data("status");
+                    if(status >0){
+                        alert("已付款,不能删除!");
+                        return;
+                    }
+
                     BootstrapDialog.confirm("确定要删除？", function(val){
                         if (val) {
-                            $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
-                                "userid"             :g_sid,
-                                "subject" :          subject,
+                            $.do_ajax( '/ss_deal/delete_child_order_info', {
+                                "parent_orderid" : parent_orderid,
+                                "child_orderid" : child_orderid, 
                             });
 
                         } 
@@ -2862,7 +2918,7 @@ $(function(){
 
             });
 
-            dlg.getModalDialog().css("width","1024px");
+            dlg.getModalDialog().css("width","900px");
                                      
         });
 

@@ -1716,7 +1716,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
              || $opt_type =="register" ){
             //get_userid
-            $tmp_userid=split("_" ,$userid)[1];
+            $tmp_userid=@preg_split("/_/" ,$userid)[1];
             if ($tmp_userid){
                 $userid= $tmp_userid;
             }
@@ -1729,16 +1729,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $opt_type         = $log_type_conf[ $opt_type];
 
 
-            $this->lesson_manage_model->add_lesson_log_info($lessonid,time(),$userid,
-                                                            $opt_type,$server_type,
-                                                            ip2long($this->in["IP_ADDRESS"]),$program_id);
             $this->t_lesson_opt_log->row_insert([
                 'lessonid'=> $lessonid,
                 'opt_time' => time(),
                 'opt_type'=>  $opt_type,
                 'userid'=>    $userid,
                 'server_type' => $server_type,
-                'server_ip'=>    ip2long($this->in["IP_ADDRESS"]),
+                'server_ip'=>    ip2long($this->get_in_client_ip() ),
                 'program_id'=>    $program_id,
             ]);
             if ($utype=="tea" &&  $opt_type  ==1   )  {
@@ -1752,6 +1749,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     private function update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type)
     {
         $condition_arr;
+        $opt_type_config = array(
+            'login'   => 1,
+            'logout'  => 0,
+            'stop'    => 0,
+            'restart' => 1
+        );
         if($condition == ""){
             //xxxx_dis 表明相关服务器的断线次数
             $condition_arr = array(
@@ -1781,14 +1784,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 ),
                 'suspend' => 0
             );
+
             if($opt_type != 'stop' && $opt_type != "restart"){
                 foreach($user_type_arr as $key=>$type){
                     $condition_arr[$type][$server_type] = 1;
                 }
                 if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"] + 1 ;
             }else{
-                $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
+                $condition_arr['suspend'] = $opt_type_config [$opt_type];
             }
          }else{
             $condition_arr = json_decode($condition, true);
@@ -1798,9 +1802,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $condition_arr[$type][$server_type] = 1;
                 }
                 if($opt_type == 'logout')
-                    $condition_arr[$utype][$server_type . "_dis"] += 1 ;
+                    $condition_arr[$utype][$server_type . "_dis"] = @$condition_arr[$utype][$server_type . "_dis"]+ 1 ;
             }else{
-                $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
+                $condition_arr['suspend'] = $opt_type_config[$opt_type];
             }
          }
         return json_encode($condition_arr);

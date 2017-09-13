@@ -20,8 +20,8 @@ class pic_manage extends Controller
             E\Epic_time_type::set_item_value_str($item,"time_type");
             E\Epic_usage_type::set_item_value_str($item,"usage_type");
         }
-        return $this->pageView(__METHOD__,$ret_info,array(),['qiniu_upload_domain_url' =>
-                                                             Config::get_qiniu_public_url()."/"
+        return $this->pageView(__METHOD__,$ret_info,array(),[
+            'qiniu_upload_domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
 

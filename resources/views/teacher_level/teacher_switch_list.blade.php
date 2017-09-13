@@ -32,6 +32,10 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- <div class="col-xs-6 col-md-2">
+                     <button class="btn btn-primary" id="id_add_data"> 新增晋升老师 </button>
+                     </div> -->
                 <!-- <div class="col-xs-6 col-md-2">
                      <div class="input-group ">
                      <span class="input-group-addon">老师</span>
@@ -70,11 +74,13 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if(in_array($acc,['ted']))
-                                    <a class="opt-finally_check" title="最终审核">最终审核</a>
-                                @elseif(in_array($acc,['Rain']))
-                                    <a class="opt-first_check" title="第一次审核">审核</a>
-                                @else
+                                @if(in_array($acc,['ted',"傅文莉"]))
+                                    @if($var['status']==2)
+                                        <a class="opt-finally_check" title="最终审核">最终审核</a>
+                                    @elseif($var['status']==1)
+                                        <a class="opt-first_check" title="第一次审核">审核</a>
+                                    @endif
+                                @elseif($var['status']==0)
                                     <a class="opt-switch_upload" title="申请">申请</a>
                                 @endif
                             </div>
