@@ -1150,5 +1150,33 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
 
     }
-    
+
+    public function tongji_trial_train_lesson_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "t.is_test_user=0",
+            "lesson_status=2",
+            "tr.trial_train_status=0",
+            "tr.type=1",
+            "tr.lesson_style=5",
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=4",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select l.subject, count(tr.id) as sum"
+                                  ." from %s tr"
+                                  ." left join %s l on tr.train_lessonid=l.lessonid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s group by l.subject"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
