@@ -1506,7 +1506,6 @@ class user_manage_new extends Controller
                 $item['los_personal_money'] = round($item['los_personal_money']);
             }
         }
-        // dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){
             foreach($member_num as $k=>$info){
                 if(($key+1) == $k){
@@ -1514,6 +1513,8 @@ class user_manage_new extends Controller
                     $item['leave_member_num'] = $info['leave_member_num'];
                 }
             }
+            $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
+            $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
         foreach($member_new as $key=>&$item){
             foreach($member_num_new as $k=>$info){
@@ -1522,6 +1523,8 @@ class user_manage_new extends Controller
                     $item['leave_member_num'] = $info['leave_member_num'];
                 }
             }
+            $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
+            $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
         }
         foreach($ret_info as &$item){
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
