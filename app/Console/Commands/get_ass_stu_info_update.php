@@ -195,15 +195,12 @@ class get_ass_stu_info_update extends Command
             $item["revisit_target"] = $item["userid_list_first_target"]+$item["userid_list_second_target"];
             $item["revisit_real"] = $item["userid_list_first_count"]+$item["userid_list_second_count"];
             $item["tran_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
-            $item["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
+            // $item["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
             $item["first_revisit_num"] = isset($new_revisit[$k]["first_num"])?$new_revisit[$k]["first_num"]:0;
             $item["un_first_revisit_num"] = isset($new_revisit[$k]["un_first_num"])?$new_revisit[$k]["un_first_num"]:0;
             // $item["refund_score"] = round((10-@$refund_score[$k])>=0?10-@$refund_score[$k]:0,2);
-            $item["refund_score"] = round(@$refund_score[$k],2);
-            $item["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
-            $item["kk_succ"] = isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0;
-
-            //$item["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
+            $item["refund_score"] = (round(@$refund_score[$k],2))*100;
+            $item["lesson_money"] = (round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2))*100;
             $item["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
 
 
