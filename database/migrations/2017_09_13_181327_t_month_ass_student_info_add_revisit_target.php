@@ -20,6 +20,8 @@ class TMonthAssStudentInfoAddRevisitTarget extends Migration
             t_field($table->integer("first_revisit_num"),"首次回访量");
             t_field($table->integer("un_first_revisit_num"),"未首次回访量");
             t_field($table->integer("refund_score"),"退费扣分值*100");
+            t_field($table->integer("lesson_price_avg"),"当月平均课时收入");
+            t_field($table->integer("student_finsh"),"当月结课学生");
         });
 
     }
