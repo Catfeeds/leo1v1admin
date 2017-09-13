@@ -1738,13 +1738,13 @@ class teacher_info extends Controller
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag'] = count($item['teacher_tags_arr']);
             //判断完整度
-            $msgarr = ['nick','birth','gender','email','phone','work_year','address','dialect_notes','school','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
+            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','major','hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type','bank_phone','bank_province','bank_city'];
             $integrity = 0;
             $able_edit = [];
             foreach ($item as $key=> $val) {
                 if ( $val != "" || $val === '0') {
                     if ($key == 'jianli') {
-                        $integrity = $integrity + 37;
+                        $integrity = $integrity + 46;
                     }
                     if (in_array($key,$msgarr)) {
                         $integrity = $integrity + 3;
@@ -1767,6 +1767,7 @@ class teacher_info extends Controller
                 $show_flag = 1;
             }
         }
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info"   => $ret_info['list'][0],
@@ -1778,12 +1779,9 @@ class teacher_info extends Controller
 
     public function edit_teacher_info(){
         $teacherid     = $this->get_login_teacher();
-        $nick          = trim( $this->get_in_str_val('nick','') );
         $gender        = $this->get_in_str_val('gender','');
         $birth         = $this->get_in_int_val('birth','');
-        $email         = trim( $this->get_in_str_val('email','') );
         $work_year     = $this->get_in_int_val('work_year','');
-        $phone         = trim( $this->get_in_int_val('phone','') );
         $school        = trim( $this->get_in_str_val('school','') );
         $address       = trim( $this->get_in_str_val('address','') );
         $dialect_notes = trim( $this->get_in_str_val('dialect_notes','') );
@@ -1794,40 +1792,19 @@ class teacher_info extends Controller
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
-        if ($nick == '') {
-            return $this->output_err('姓名不能为空！');
-        }
         if ($birth == '') {
             return $this->output_err('出生日期不能为空！');
         }
-        if ($email == '') {
-            return $this->output_err('邮箱不能为空！');
-        }
 
-        $is_email = preg_match("/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/", $email);
-        if (!$is_email) {
-            return $this->output_err('请填写正确的邮箱地址！');
-        }
-
-        if ($phone == '') {
-            return $this->output_err('手机号不能为空！');
-        }
-        $is_phone = preg_match("/^1[34578]\d{9}$/", $phone);
-        if (!$is_phone) {
-            return $this->output_err('请填写正确的手机号码！');
-        }
         if ($school == '') {
             return $this->output_err('毕业院校不能为空！');
         }
 
         $ret_info = $this->t_teacher_info->field_update_list(
             ["teacherid" => $teacherid],[
-                "nick"          => $nick,
                 "gender"        => $gender,
                 "birth"         => $birth,
-                "email"         => $email,
                 "work_year"     => $work_year,
-                "phone"         => $phone,
                 "school"        => $school,
                 "address"       => $address,
                 "dialect_notes" => $dialect_notes,
@@ -2113,26 +2090,6 @@ class teacher_info extends Controller
             return outputjson_error('发生错误，设置失败！');
         }
 
-    }
-
-    public function get_teacher_student(){
-        $teacherid = $this->get_login_teacher();
-        $test = [
-            ['x'=>'2017-01','y'=> '4435'],
-            ['x'=>'2017-02','y'=> '4621'],
-            ['x'=>'2017-03','y'=> '6521'],
-            ['x'=>'2017-04','y'=> '2643'],
-            ['x'=>'2017-05','y'=> '6321'],
-            ['x'=>'2017-06','y'=> '3221'],
-            ['x'=>'2017-07','y'=> '5221'],
-            ['x'=>'2017-08','y'=> '3226'],
-            ['x'=>'2017-09','y'=> '4341'],
-            ['x'=>'2017-10','y'=> '2321'],
-            ['x'=>'2017-11','y'=> '8521'],
-            ['x'=>'2017-12','y'=> '4621'],
-        ];
-        return 'ok';
-        // return $this->pageView(__METHOD__,array(),['test'=>$test]);
     }
 
     public function get_pub_upload_token(){
