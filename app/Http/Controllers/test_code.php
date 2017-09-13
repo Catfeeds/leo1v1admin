@@ -1993,6 +1993,13 @@ class test_code extends Controller
         }
     }
 
+    public function reset_teacher_money_type(){
+        $batch = $this->get_in_int_val("batch",1);
+        $list = $this->t_teacher_info->get_need_reset_money_type_list($batch);
+
+    }
+
+
     public function push_switch(){
         /**
          * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
