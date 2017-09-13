@@ -1995,8 +1995,28 @@ class test_code extends Controller
 
     public function reset_teacher_money_type(){
         $batch = $this->get_in_int_val("batch",1);
-        $list = $this->t_teacher_info->get_need_reset_money_type_list($batch);
+        $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
 
+
+
+
+        /**
+         * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+         * 标题课程 : 等级升级通知
+         * {{first.DATA}}
+         * 用户昵称：{{keyword1.DATA}}
+         * 最新等级：{{keyword2.DATA}}
+         * 生效时间：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        foreach($list as $val){
+
+            恭喜您，您等级已经调整为X星级
+                用户昵称：X老师
+                最新等级：X等级
+                生效时间： 16:00
+                感谢您长期以来对理优平台的辛劳付出与长久陪伴！
+        }
     }
 
 

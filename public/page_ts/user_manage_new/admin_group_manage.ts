@@ -8,7 +8,7 @@ $(function(){
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
-			monthtime_flag:	$('#id_monthtime_flag').val()
+      monthtime_flag:	$('#id_monthtime_flag').val()
         });
     }
 
@@ -22,58 +22,58 @@ $(function(){
             load_data();
         }
     });
-    
-	$('#id_monthtime_flag').val(g_args.monthtime_flag);
+
+  $('#id_monthtime_flag').val(g_args.monthtime_flag);
 
     $(".common-table" ).table_admin_level_4_init();
 
     if(g_args.monthtime_flag==1){
-        $("#id_copy_now").parent().hide(); 
+        $("#id_copy_now").parent().hide();
     }
     $(".opt-add-main-group,.opt-add-main-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
-        var level    = opt_data.level;        
-        var main_type    = opt_data.main_type;        
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-1"){
             $(this).hide();
-        }       
+        }
     });
     $(".opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
-        var level    = opt_data.level;        
-        var main_type    = opt_data.main_type;        
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-2"){
             $(this).hide();
-        }       
+        }
     });
     $(".opt-edit-group,.opt-del-group,.opt-assign-group-user,.opt-edit-group-new,.opt-del-group-new,.opt-assign-group-user-new").each(function(){
         var opt_data = $(this).get_opt_data();
-        var level    = opt_data.level;        
-        var main_type    = opt_data.main_type;        
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-3"){
             $(this).hide();
-        }       
+        }
     });
 
     $(".opt-del-admin,.opt-del-admin-new").each(function(){
         var opt_data = $(this).get_opt_data();
-        var level    = opt_data.level;        
-        var main_type    = opt_data.main_type;        
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
         if(main_type =="未定义" || level != "l-4"){
             $(this).hide();
-        }       
+        }
     });
 
 
     $(".opt-add-main-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
       //  alert(main_type);
         var id_group_name=$("<input/>");
         var  arr=[
             ["组名" ,  id_group_name]
         ];
-        
+
         $.show_key_value_table("新增主管分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -88,20 +88,20 @@ $(function(){
     });
 
     $(".opt-edit-main-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
         var id_group_name=$("<input/>");
-	    var id_master_adminid=$("<input/>");
+      var id_master_adminid=$("<input/>");
 
 
         var  arr=[
             ["组名" ,  id_group_name],
             ["主管" ,  id_master_adminid]
         ];
-        
+
         id_group_name.val( opt_data.up_group_name );
         id_master_adminid.val( opt_data.up_master_adminid );
-        
+
         $.show_key_value_table("修改分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -120,19 +120,19 @@ $(function(){
                 }
             );
 
-        }); 
+        });
     });
 
     $(".opt-add-main-group-user").on("click",function(){
-       
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
 
-       	var id_child_group_name=$("<input/>");
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+
+        var id_child_group_name=$("<input/>");
         var  arr=[
             ["小组" ,  id_child_group_name]
         ];
-        
+
         $.show_key_value_table("新增小组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -144,15 +144,15 @@ $(function(){
                 });
             }
         });
-       
+
     });
 
     $(".opt-assign-main-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
         var up_groupid =opt_data.up_groupid ;
 
-	    $("<div></div>").admin_select_dlg_ajax({
+      $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_group_list_new",
             //其他参数
@@ -191,11 +191,11 @@ $(function(){
                         "groupid":groupid,
                         "up_groupid":up_groupid
                     },function(resp){
-                        window.location.reload(); 
+                        window.location.reload();
                     });
                 }else{
                     alert( "请选择小组" );
-                }                
+                }
             },
             "onLoadData" : null
         });
@@ -204,7 +204,7 @@ $(function(){
     });
 
     $(".opt-del-main-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();        
+        var opt_data = $(this).get_opt_data();
 
         BootstrapDialog.confirm(
             "要删除主管分组:"+ opt_data.up_group_name   + "?",
@@ -218,21 +218,21 @@ $(function(){
         );
     });
 
-   
+
     $(".opt-edit-group").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
-	    var id_group_name=$("<input/>");
-	    var id_master_adminid=$("<input/>");
+        var opt_data = $(this).get_opt_data();
+      var id_group_name=$("<input/>");
+      var id_master_adminid=$("<input/>");
 
 
         var  arr=[
             ["组名" ,  id_group_name],
             ["助长" ,  id_master_adminid]
         ];
-        
+
         id_master_adminid.val(opt_data.master_adminid);
         id_group_name.val(opt_data.group_name );
-        
+
         $.show_key_value_table("修改分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -254,10 +254,10 @@ $(function(){
         });
 
     });
-   
+
 
     $(".opt-del-group").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
+        var opt_data = $(this).get_opt_data();
         BootstrapDialog.confirm(
             "要删除分组:"+ opt_data.group_name   + "?",
             function(val) {
@@ -272,7 +272,7 @@ $(function(){
 
 
     $(".opt-assign-group-user").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
+        var opt_data = $(this).get_opt_data();
         $.admin_select_user( $("<div></div>") , "admin" , function (adminid){
             if (adminid>0) {
                 $.do_ajax("/user_deal/admin_group_user_add",{
@@ -284,10 +284,10 @@ $(function(){
         });
     });
 
-    
+
     $(".opt-del-admin").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        
+
         BootstrapDialog.confirm(
             "要删除:"+ opt_data.account  + "?",
             function(val) {
@@ -300,12 +300,12 @@ $(function(){
             }
         );
 
-	    
+
     });
 
     $(".opt-set-subject").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
-	    var id_subject=$("<select/>");
+        var opt_data = $(this).get_opt_data();
+      var id_subject=$("<select/>");
 
         Enum_map.append_option_list("subject", id_subject,true );
         var  arr=[
@@ -313,7 +313,7 @@ $(function(){
         ];
         $.do_ajax("/user_deal/get_admin_group_subject",{
             "groupid" : opt_data.groupid
-        },function(result){            
+        },function(result){
             id_subject.val(result.subject);
         });
 
@@ -333,14 +333,14 @@ $(function(){
 
     //alert(111);
     $(".opt-add-main-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
         //  alert(main_type);
         var id_group_name=$("<input/>");
         var  arr=[
             ["组名" ,  id_group_name]
         ];
-        
+
         $.show_key_value_table("新增主管分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -356,20 +356,20 @@ $(function(){
     });
 
     $(".opt-edit-main-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
         var id_group_name=$("<input/>");
-	    var id_master_adminid=$("<input/>");
+      var id_master_adminid=$("<input/>");
 
 
         var  arr=[
             ["组名" ,  id_group_name],
             ["主管" ,  id_master_adminid]
         ];
-        
+
         id_group_name.val( opt_data.up_group_name );
         id_master_adminid.val( opt_data.up_master_adminid );
-        
+
         $.show_key_value_table("修改分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -389,19 +389,19 @@ $(function(){
                 }
             );
 
-        }); 
+        });
     });
 
     $(".opt-add-main-group-user-new").on("click",function(){
-        
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
 
-       	var id_child_group_name=$("<input/>");
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+
+        var id_child_group_name=$("<input/>");
         var  arr=[
             ["小组" ,  id_child_group_name]
         ];
-        
+
         $.show_key_value_table("新增小组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -414,15 +414,15 @@ $(function(){
                 });
             }
         });
-        
+
     });
 
     $(".opt-assign-main-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();       
-        var main_type    = opt_data.main_type;        
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
         var up_groupid =opt_data.up_groupid ;
 
-	    $("<div></div>").admin_select_dlg_ajax({
+      $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_group_list_new_month",
             //其他参数
@@ -463,11 +463,11 @@ $(function(){
                         "up_groupid":up_groupid,
                         "start_time" : g_args.start_time
                     },function(resp){
-                        window.location.reload(); 
+                        window.location.reload();
                     });
                 }else{
                     alert( "请选择小组" );
-                }                
+                }
             },
             "onLoadData" : null
         });
@@ -476,7 +476,7 @@ $(function(){
     });
 
     $(".opt-del-main-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();        
+        var opt_data = $(this).get_opt_data();
 
         BootstrapDialog.confirm(
             "要删除主管分组:"+ opt_data.up_group_name   + "?",
@@ -491,21 +491,21 @@ $(function(){
         );
     });
 
-    
+
     $(".opt-edit-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
-	    var id_group_name=$("<input/>");
-	    var id_master_adminid=$("<input/>");
+        var opt_data = $(this).get_opt_data();
+      var id_group_name=$("<input/>");
+      var id_master_adminid=$("<input/>");
 
 
         var  arr=[
             ["组名" ,  id_group_name],
             ["助长" ,  id_master_adminid]
         ];
-        
+
         id_master_adminid.val(opt_data.master_adminid);
         id_group_name.val(opt_data.group_name );
-        
+
         $.show_key_value_table("修改分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -528,10 +528,10 @@ $(function(){
         });
 
     });
-    
+
 
     $(".opt-del-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
+        var opt_data = $(this).get_opt_data();
         BootstrapDialog.confirm(
             "要删除分组:"+ opt_data.group_name   + "?",
             function(val) {
@@ -547,7 +547,7 @@ $(function(){
 
 
     $(".opt-assign-group-user-new").on("click",function(){
-        var opt_data = $(this).get_opt_data(); 
+        var opt_data = $(this).get_opt_data();
                // alert(g_args.start_time);
         $.admin_select_user( $("<div></div>") , "admin" , function (adminid){
             if (adminid>0) {
@@ -561,10 +561,10 @@ $(function(){
         });
     });
 
-    
+
     $(".opt-del-admin-new").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        
+
         BootstrapDialog.confirm(
             "要删除:"+ opt_data.account  + "?",
             function(val) {
@@ -578,12 +578,12 @@ $(function(){
             }
         );
 
-	    
+
     });
 
     $("#id_copy_now").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        
+
         BootstrapDialog.confirm(
             "确定要复制当前数据吗?",
             function(val) {
@@ -594,9 +594,9 @@ $(function(){
                 }
             }
         );
- 
+
     });
-   
+
 
 
   $('.opt-change').set_input_change_event(load_data);
