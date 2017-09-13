@@ -2805,7 +2805,8 @@ $(function(){
                     }
                     var id_child_order_type= $("<select> "+
                                                "<option value=1>首付款</option> "+
-                                               "<option value=2>其他</option> "+
+                                               "<option value=2>分期</option> "+
+                                               "<option value=3>其他</option> "+
                                                "</select>");
                     var id_child_order_money=$("<input/>");
                     

@@ -462,17 +462,15 @@ throw new Error('AdminLTE requires jQuery')
 
   Tree.prototype.toggle = function (link, event) {
     var treeviewMenu = link.next(Selector.treeviewMenu)
-    var parentLi     = link.parent()
+      var parentLi     = link.parent().parent()
 
-      // console.log("tagName: "+link.tagName);
-      $.each(link,function(i,v){
-          console.log("each "+i+'  '+v);
-      });
-      // console.log("link: "+link);
-      // var parentLi     = link.parent().parent().parent().parent().parent() // 测试
+      $.each(parentLi,function(i,v){
+          $.each(v,function(ii,vv){
+              console.log(ii+" ~ "+vv);
+          });
+      } );
+
     var isOpen       = parentLi.hasClass(ClassName.open)
-
-      console.log("tree "+ClassName.open);
 
     if (!parentLi.is(Selector.treeview)) {
       return
@@ -500,12 +498,8 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.expand = function (tree, parent) {
     var expandedEvent = $.Event(Event.expanded)
 
-
     if (this.options.accordion) {
-      // var openMenuLi = parent.siblings(Selector.open)
-        var openMenuLi = parent.siblings(Selector.open)
-
-        console.log(Selector.open);
+      var openMenuLi = parent.siblings(Selector.open)
 
       var openTree   = openMenuLi.children(Selector.treeviewMenu)
       this.collapse(openTree, openMenuLi)
