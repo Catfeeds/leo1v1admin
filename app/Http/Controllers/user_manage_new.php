@@ -1506,7 +1506,7 @@ class user_manage_new extends Controller
                 $item['los_personal_money'] = round($item['los_personal_money']);
             }
         }
-        // dd($member_new,$member_num_new,$member,$member_num);
+        dd($member_new,$member_num_new,$member,$member_num);
         foreach($member as $key=>&$item){
             foreach($member_num as $k=>$info){
                 if(($key+1) == $k){
@@ -1523,7 +1523,6 @@ class user_manage_new extends Controller
                 }
             }
         }
-        dd($member_new,$member);
         foreach($ret_info as &$item){
             if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
                 unset($item);
