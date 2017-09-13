@@ -1,3 +1,4 @@
+	key1	:any;
 	require_id	:any;
 	lesson_start	:any;
 	lesson_end	:any;
