@@ -1975,7 +1975,7 @@ class test_code extends Controller
     }
 
     public function reset_teacher_info(){
-        $time = time();
+        $time  = strtotime("2017-9-13 16:00");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
