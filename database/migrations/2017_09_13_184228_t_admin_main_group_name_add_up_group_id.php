@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TMonthAssStudentInfoAddTranNum extends Migration
+class TAdminMainGroupNameAddUpGroupId extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class TMonthAssStudentInfoAddTranNum extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_month_ass_student_info', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_admin_main_group_name', function( Blueprint $table)
         {
-            t_field($table->integer("tran_num"),"转介绍人数");
-           
+            t_field($table->integer("up_groupid"),"上级groupid");
         });
+
+
     }
 
     /**
