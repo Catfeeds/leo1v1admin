@@ -1,5 +1,7 @@
+	key1	:any;
 	require_id	:any;
 	lesson_start	:any;
+	lesson_end	:any;
 	userid	:any;
 	teacherid	:any;
 	grade	:any;

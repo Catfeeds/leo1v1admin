@@ -1140,6 +1140,7 @@ class seller_student_new extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end","","H:i");
             \App\Helper\Utils::unixtime2date_for_item($item,"test_lesson_order_fail_set_time");
             if(in_array($item['test_lesson_order_fail_flag'],[1001,1002,1003,1004])){//自身原因
                 $item['test_lesson_order_fail_flag_one'] = 10;
