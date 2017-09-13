@@ -2721,8 +2721,6 @@ class user_manage extends Controller
     {
 
         $this->switch_tongji_database();
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $lz_ret_info = $this->t_teacher_lecture_info->get_tongji_lz($start_time,$end_time); //录制试讲
         $train_ret_info = $this->t_teacher_record_list->tongji_trial_train_lesson_list($start_time,$end_time); //模拟试听
@@ -2749,6 +2747,7 @@ class user_manage extends Controller
                 "8" => 0,
                 "9" => 0,
                 "10" => 0,
+                "sum" => 0,
             ],
             2 => [
                 "name" => "模拟试听",
@@ -2762,13 +2761,16 @@ class user_manage extends Controller
                 "8" => 0,
                 "9" => 0,
                 "10" => 0,
+                "sum" => 0,
            ]
         ];
         foreach ($lz_ret_info as $key => $value) {
             $ret[1][$value['subject']] = $value['sum'];
+            $ret[1]['sum'] += $value['sum'];
         }
         foreach ($train_ret_info as $key => $value) {
             $ret[2][$value['subject']] = $value['sum'];
+            $ret[2]['sum'] += $value['sum'];
         }
         $arr['list'] = $ret;
         return $this->pageView(__METHOD__, $arr);

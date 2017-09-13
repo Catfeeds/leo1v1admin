@@ -98,7 +98,7 @@
                                             <td >历史</td>
                                             <td >地理</td>
                                             <td >科学</td>
-
+                                            <td >总计</td>
                                         </tr>
                                         @foreach ( $table_data_list as $var )
                                         <tr>
@@ -112,7 +112,8 @@
                                             <td >{{@$var['7']}}</td> 
                                             <td >{{@$var['8']}}</td> 
                                             <td >{{@$var['9']}}</td> 
-                                            <td >{{@$var['10']}}</td> 
+                                            <td >{{@$var['10']}}</td>
+                                            <td >{{@$var['sum']}}</td>
                                              
                                         </tr>
                                         @endforeach

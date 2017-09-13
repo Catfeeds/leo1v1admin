@@ -759,6 +759,7 @@ class menu{
                     ["power_id"=>15, "name"=>"教学质量反馈标准（旧）",   "url"=>"/human_resource/teacher_record_detail_info"],
                     ["power_id"=>29, "name"=>"教学质量反馈标准（新)",   "url"=>"/human_resource/teacher_record_detail_info_new"],
                 ]],
+                ["power_id"=>50, "name"=>"未审核统计",   "url"=>"/user_manage/tongji_check"],
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[

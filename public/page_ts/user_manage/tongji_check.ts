@@ -1,27 +1,3 @@
-interface GargsStatic {
-	date_type_config:	string;
-	date_type:	number;
-	opt_date_type:	number;
-	start_time:	string;
-	end_time:	string;
-}
-declare module "g_args" {
-    export = g_args;
-}
-declare var g_args: GargsStatic;
-declare var g_account: string;
-declare var g_account_role: any;
-declare var g_adminid: any;
-interface RowData {
-	name	:any;
-	sum	:any;
-}
-
-/*
-
-tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/tongji_check.ts
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-tongji_check.d.ts" />
 
@@ -52,8 +28,3 @@ $(function(){
 	$('.opt-change').set_input_change_event(load_data);
 });
 
-
-
-*/
-/* HTML ...
-*/
