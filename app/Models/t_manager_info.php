@@ -687,7 +687,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql=$this->gen_sql_new(
             "select uid,account_role,become_member_time  "
-            ." from %s m " 
+            ." from %s m "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
@@ -1637,5 +1637,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
-    
+    public function reset_all_email_create_flag ( $email_list ) {
+
+        $sql=$this->gen_sql_new("update %s set  email_create_flag=0 ",  self::DB_TABLE_NAME);
+        $this->main_update($sql);
+        foreach ( $email_list as &$email  ) {
+            $email= "'".  trim($email ) . "'";
+        }
+        $email_list_str=join( ",",$email_list );
+
+
+        $sql=$this->gen_sql_new("update %s set email_create_flag=1 where email in (%s) ",
+                                self::DB_TABLE_NAME, [$email_list_str]
+        );
+        $this->main_update($sql);
+
+    }
 }

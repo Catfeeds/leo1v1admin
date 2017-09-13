@@ -659,7 +659,6 @@ class Utils  {
         $ret = "";
         while(!feof($fp)) {
             $ret .=fread($fp, 1024);
-            echo $ret;
         }
         fclose($fp);
         return $ret;
