@@ -318,38 +318,12 @@ class agent extends Controller
     }
 
     public function check(){
-        $a = 3.6;
-        // $a = round($a);
-        // $a = ceil($a);
-        $a = floor($a);
-        dd($a);
-        $arr = [
-            0=>[
-                'id'=>1,
-                'str'=>'销售',
-            ],
-            1=>[
-                'id'=>2,
-                'str'=>'销售',
-            ],
-            2=>[
-                'id'=>3,
-                'str'=>'助教',
-            ]
-        ];
-        foreach($arr as $key=>&$item){
-            if($item['str'] == '助教'){
-                // dd($item);
-                unset($arr[$key]);
-            }
-        }
-        dd($arr);
         $this->test_lesson_cancle_rate();
     }
 
     public function test_lesson_cancle_rate(){
-        // $adminid = $this->get_account_id();
-        $adminid = 463;
+        $adminid = 882;
+        $userid = $this->get_in_int_val('userid');
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -360,6 +334,8 @@ class agent extends Controller
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         list($count,$count_del) = [0,0];
+        $start_time_old = $start_time;
+        $end_time_old = $end_time;
         $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
         foreach($ret_info as $item){
             if($item['lesson_del_flag']){
@@ -372,8 +348,11 @@ class agent extends Controller
             $start_time = $time;
             $end_time = $time+3600*24;
             $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-            $falg_info = $this->t_manager_info->get_up_group_cancle_rate_flag($adminid);
             $ret['ret'] = count($ret_info)?1:2;
+            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
+            if($review_suc){
+                $ret['ret'] = 2;
+            }
             $ret['rate'] = $del_rate*100;
         }else{//本周取消率
             $start_time = $time-3600*24*($week-2);
@@ -392,9 +371,8 @@ class agent extends Controller
                 $ret['ret'] = 4;
             }
         }
-        dd($ret);
+        dd($start_time_old,$end_time_old,$ret_info,$del_rate,$ret);
     }
-
 
     public function agent_add(){
         // $p_phone = '18616626799';
