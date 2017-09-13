@@ -17,9 +17,9 @@ class TMonthAssStudentInfoAddRevisitTarget extends Migration
         {
             t_field($table->integer("revisit_target"),"回访目标量");
             t_field($table->integer("revisit_real"),"实际回访量");
-            t_field($table->integer("lesson_student"),"在读学生");
-            t_field($table->integer("new_student"),"新签人数");
-            t_field($table->integer("new_lesson_count"),"购买课时");
+            t_field($table->integer("first_revisit_num"),"首次回访量");
+            t_field($table->integer("un_first_revisit_num"),"未首次回访量");
+            t_field($table->integer("refund_score"),"退费扣分值*100");
         });
 
     }
