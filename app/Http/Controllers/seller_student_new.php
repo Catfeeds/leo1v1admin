@@ -1174,7 +1174,7 @@ class seller_student_new extends Controller
                     $item['key1'] = $info['key1'];
                 }
             }
-            $item['key1'] = isset($item['key1'])?$item['key1']:'';
+            $item['key1'] = isset($item['key1'])?$item['key1']:'注册';
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
