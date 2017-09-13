@@ -1752,10 +1752,9 @@ class human_resource extends Controller
                     "trial_lecture_is_pass" => 1,
                 ];
                 $teacherid = $this->add_teacher_common($add_info);
-                
+
                 //老师标签
                 $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
-
                 \App\Helper\Utils::logger("add teacher info, teacherid is:".$teacherid);
                 //通知推荐人
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($lecture_info['phone']);
