@@ -259,9 +259,9 @@ class testbb extends Controller
 
          **/
 
-        Schema::create('db_weiyi.t_admin_manager_group_name', function( Blueprint $table)
+        Schema::create('db_weiyi.t_admin_majordomo_group_name', function( Blueprint $table)
         {
-            $table->increments("groupid");
+            $table->increments("groupid","分组id");
             t_field($table->integer("main_type"),"部门类型");
             t_field($table->string("group_name"),"组名");
             t_field($table->integer("master_adminid"),"总监id");
