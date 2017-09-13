@@ -2218,9 +2218,6 @@ trait TeaPower {
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
         }
 
-        // $this->add_trial_train_lesson($teacher_info);
-        //$str .= "<br>您培训已通过，请登陆老师后台进行模拟试听课程。";
-
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
         if(!empty($reference_info['teacherid']) && !$check_flag){
@@ -2251,7 +2248,7 @@ trait TeaPower {
                     "money"      => $ref_price*100,
                     "money_info" => $teacher_info['teacherid'],
                     "add_time"   => time(),
-                    "type"       => 6,
+                    "type"       => E\Ereward_type::V_6,
                 ]);
 
                 if($wx_openid!=""){

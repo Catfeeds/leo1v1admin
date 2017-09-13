@@ -2775,6 +2775,8 @@ $(function(){
             alert("已付款合同不能拆分");
             return;
         }
+        var title = "编辑子合同";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -2783,54 +2785,85 @@ $(function(){
                 alert(resp.info);
                 return;
             }
-            $(this).admin_select_dlg_edit({
-                onAdd:function( call_func ) {
-                    var id_child_order_type= $("<select> "+
-                                               "<option value=1>首付款</option> "+
-                                               "<option value=2>其他</option> "+
-                                               "</select>");
-                    var id_child_order_money=$("<input/>");
-                    
+            $.each(data_list,function(i,item){
+                if(item["child_order_type"]==0){
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
+                }else{
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\"  data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
+                }
+                
+            });
+            html_node.find("table").find(".order_partition").each(function(){
+                $(this).on("click",function(){
+                    var userid = $(this).data("userid");
+
+                    var subject = $(this).data("subject");
+                    var id_textbook_new     = $("<select/>");
+                    Enum_map.append_option_list("region_version", id_textbook_new, true );
                     var arr=[
-                        ["类型", id_child_order_type],
-                        ["金额", id_child_order_money]
+                        ["教材",id_textbook_new],
                     ];
-                    $.show_key_value_table("增加", arr, {
-                        label: '确认',
-                        cssClass: 'btn-warning',
-                        action: function (dialog) {
-                            call_func({
-                                "child_order_type" :  id_child_order_type.val() ,
-                                "child_order_money" : id_child_order_money.val()*100,
-                                "child_order_type_str" :  id_child_order_type.find("option:selected").text()
+                    $.show_key_value_table("修改", arr ,{
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
+                            $.do_ajax( '/ajax_deal2/update_user_subject_textbook', {
+                                "userid"             :g_sid,
+                                "subject" :          subject,
+                                "editionid"     : id_textbook_new.val(),
                             });
-                            dialog.close();
                         }
                     });
-                },
-                sort_func : function(a,b){
-                },
-                'field_list' :[
-                    {
-                        title:"类型",
-                        render:function(val,item) {
-                            return item["child_order_type_str"];
-                        }
-                    },{
 
-                        title:"金额",
-                        //width :50,
-                        render:function(val,item) {
-                            return item["child_order_money"]/100  ;
-                        }
-                    }
-                ] ,
-                data_list: data_list,
-                onChange:function( data_list, dialog)  {
-                  //  $add_child_order_list.data("v" , JSON.stringify(data_list));
-                }
+                    
+                });
+                
             });
 
+            html_node.find("table").find(".delete_stu_subject").each(function(){
+                $(this).on("click",function(){
+                    var userid = $(this).data("userid");
+
+                    var subject = $(this).data("subject");
+                    BootstrapDialog.confirm("确定要删除？", function(val){
+                        if (val) {
+                            $.do_ajax( '/ajax_deal2/delete_user_subject_textbook', {
+                                "userid"             :g_sid,
+                                "subject" :          subject,
+                            });
+
+                        } 
+                    });
+                    
+
+                    
+                });
+                
+            });
+
+
+            
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+                                     
         });
 
     });

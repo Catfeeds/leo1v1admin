@@ -1627,10 +1627,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     function parse_roomid($roomid)
     {
         $tmp_arr                   = explode("y", strtolower(substr($roomid,2)));
-        $lesson_arr['courseid']    = $tmp_arr[0];
-        $lesson_arr['lesson_num']  = $tmp_arr[1];
-        $lesson_arr['lesson_type'] = $tmp_arr[2];
-        return $lesson_arr;
+
+        if (count( $tmp_arr) ==3 )  {
+            $lesson_arr['courseid']    = $tmp_arr[0];
+            $lesson_arr['lesson_num']  = $tmp_arr[1];
+            $lesson_arr['lesson_type'] = $tmp_arr[2];
+            return $lesson_arr;
+        }else{
+            return false;
+        }
     }
 
     private function parse_userid($userid)
@@ -1642,7 +1647,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $type=substr($type,1);
             }
         }else{
-            $item=$this->t_phone_to_user-> get_info_by_userid($phone);
+            $item=$this->t_phone_to_user-> get_info_by_userid($userid);
             $role=$item["role"];
             $utype_to_prefix_config = array(
                 1 => 'stu',
@@ -1670,16 +1675,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         if (preg_match('/_chat$/',$roomid, $matches)) {
             \App\Helper\Utils::logger(" $roomid no  log");
-            return "";
+            return $this->output_succ();
         }
         if ($userid== "supervisor" ){
-            if (trim($online_userlist)==""){
-                return "";
-            }
+            return $this->output_succ();
         }
 
 
         $lesson_arr = $this->parse_roomid($roomid);
+        if (!$lesson_arr) {
+            return $this->output_succ();
+        }
         $user_type_arr = array();
         if($online_userlist != ''){
             $online_user_arr = explode(',',$online_userlist);
@@ -1726,13 +1732,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->lesson_manage_model->add_lesson_log_info($lessonid,time(),$userid,
                                                             $opt_type,$server_type,
                                                             ip2long($this->in["IP_ADDRESS"]),$program_id);
+            $this->t_lesson_opt_log->row_insert([
+                'lessonid'=> $lessonid,
+                'opt_time' => time(),
+                'opt_type'=>  $opt_type,
+                'userid'=>    $userid,
+                'server_type' => $server_type,
+                'server_ip'=>    ip2long($this->in["IP_ADDRESS"]),
+                'program_id'=>    $program_id,
+            ]);
             if ($utype=="tea" &&  $opt_type  ==1   )  {
-                $this->d_t_lesson_info_model->set_real_begin_time($lessonid,time(NULL));
+                $this->t_lesson_info_b3-> set_real_begin_time($lessonid,time(NULL));
             }
         }
-        //
-        log::write('==============notify commited =============', 'notify');
-        //userid
+        return $this->output_succ();
     }
 
 
@@ -1790,7 +1803,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $condition_arr['suspend'] = $this->g_config['opt_type'][$opt_type];
             }
          }
-        log::write("condition information: " . json_encode($condition_arr), 'notify');
         return json_encode($condition_arr);
     }
 
