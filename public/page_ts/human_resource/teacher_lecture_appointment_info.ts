@@ -212,33 +212,42 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var id       = opt_data.id;
 
-        var id_lecture_appointment_status = $("<select/>");        
-        var id_reference                  = $("<input/>");        
-        var id_phone                      = $("<input/>");        
-        var id_email                      = $("<input/>"); 
+        var id_lecture_appointment_status = $("<select/>");
+        var id_reference                  = $("<input/>");
+        var id_phone                      = $("<input/>");
+        var id_email                      = $("<input/>");
+        var id_name                       = $("<input/>");
+        var id_qq                         = $("<input/>");
         Enum_map.append_option_list("lecture_appointment_status", id_lecture_appointment_status, true );
 
-        var arr=[
+        var arr = [
+            ["老师姓名", id_name],
+            ["QQ", id_qq],
             ["状态", id_lecture_appointment_status],
             ["推荐人号码",id_reference],
             ["号码",id_phone],
             ["邮箱",id_email]
         ];
+
         id_reference.val(opt_data.reference);
         id_phone.val(opt_data.phone);
         id_email.val(opt_data.email);
         id_lecture_appointment_status.val(opt_data.lecture_appointment_status);
+        id_name.val(opt_data.name);
+        id_qq.val(opt_data.qq);
 
         $.show_key_value_table("修改状态", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax( '/ss_deal/update_lecture_appointment_status',{
-                    "id" : id,
+                $.do_ajax('/ss_deal/update_lecture_appointment_status',{
+                    "id"                         : id,
                     "lecture_appointment_status" : id_lecture_appointment_status.val(),
-                    "reference" : id_reference.val(),
-                    "phone"     : id_phone.val(),
-                    "email"     : id_email.val()
+                    "reference"                  : id_reference.val(),
+                    "phone"                      : id_phone.val(),
+                    "email"                      : id_email.val(),
+                    "name"                       : id_name.val(),
+                    "qq"                         : id_qq.val(),
                 });
             }
         });

@@ -1722,6 +1722,12 @@ class ss_deal extends Controller
             }if($item["child_order_type"]==2){
                 $item["child_order_type_str"]="其他";
             }
+
+            if($item["pay_status"]==0){
+                $item["pay_status_str"]="未付款"; 
+            }elseif($item["pay_status"]==1){
+                $item["pay_status_str"]="已付款"; 
+            }
             
 
 
@@ -1758,6 +1764,73 @@ class ss_deal extends Controller
         return $this->output_succ();
  
     }
+
+    //删除子合同
+    public function delete_child_order_info(){
+        $parent_orderid  = $this->get_in_int_val("parent_orderid");
+        $child_orderid  = $this->get_in_int_val("child_orderid");
+        $old_price = $this->t_child_order_info->get_price($child_orderid);
+        $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
+
+        if($default_info["pay_status"]>0){
+            return $this->output_err("默认子合同已付款,不能删除当前子合同");
+        }
+
+        //删除子合同
+        $this->t_child_order_info->row_delete($child_orderid);
+
+        //更新默认合同信息
+        $new_price = $old_price+$default_info["price"];
+        $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
+            "price"  =>$new_price 
+        ]);
+        
+        return $this->output_succ();
+        
+
+        
+
+    }
+
+    //修改子合同
+    public function update_child_order_info(){
+        $parent_orderid  = $this->get_in_int_val("parent_orderid");
+        $child_orderid  = $this->get_in_int_val("child_orderid");
+        $child_order_type  = $this->get_in_int_val("child_order_type");
+        $price  = $this->get_in_int_val("price");
+
+        $old_price = $this->t_child_order_info->get_price($child_orderid);
+        $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
+
+        if($price >= ($old_price +$default_info["price"])){
+            return $this->output_err("金额超出未付款总额");
+        }
+
+        if($default_info["pay_status"]>0){
+            return $this->output_err("默认子合同已付款,不能修改当前子合同");
+        }
+
+        //修改子合同
+        $this->t_child_order_info->field_update_list($child_orderid,[
+            "price"  =>$price,
+            "child_order_type"=>$child_order_type
+        ]);
+
+        
+
+        //更新默认合同信息
+        $new_price = $old_price+$default_info["price"]-$price;
+        $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
+            "price"  =>$new_price 
+        ]);
+        
+        return $this->output_succ();
+        
+
+        
+
+    }
+
 
 
 
@@ -3417,6 +3490,8 @@ class ss_deal extends Controller
         $reference = trim($this->get_in_str_val("reference"));
         $phone     = trim($this->get_in_str_val("phone"));
         $email     = trim($this->get_in_str_val("email"));
+        $name      = trim($this->get_in_str_val("name"));
+        $qq        = trim($this->get_in_str_val("qq"));
 
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
@@ -3434,7 +3509,9 @@ class ss_deal extends Controller
             "lecture_appointment_status" => $lecture_appointment_status,
             "reference"                  => $reference,
             "phone"                      => $phone,
-            "email"                      => $email
+            "email"                      => $email,
+            "name"                       => $name,
+            "qq"                         => $qq,
         ]);
         if(!$ret){
             return $this->output_err("更新失败！请重试!");

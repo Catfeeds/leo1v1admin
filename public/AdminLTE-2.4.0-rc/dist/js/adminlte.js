@@ -463,7 +463,13 @@ throw new Error('AdminLTE requires jQuery')
   Tree.prototype.toggle = function (link, event) {
     var treeviewMenu = link.next(Selector.treeviewMenu)
     var parentLi     = link.parent()
-      // var parentLi     = link.parent().parent().parent() // 测试
+
+      // console.log("tagName: "+link.tagName);
+      $.each(link,function(i,v){
+          console.log("each "+i+'  '+v);
+      });
+      // console.log("link: "+link);
+      // var parentLi     = link.parent().parent().parent().parent().parent() // 测试
     var isOpen       = parentLi.hasClass(ClassName.open)
 
       console.log("tree "+ClassName.open);

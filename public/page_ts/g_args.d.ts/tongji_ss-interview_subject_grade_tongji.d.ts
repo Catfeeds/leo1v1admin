@@ -14,13 +14,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	grade_ex	:any;
+	subject	:any;
 	all_num	:any;
 	all_count	:any;
 	suc_count	:any;
 	time_count	:any;
 	succ	:any;
-	grade_ex_str	:any;
+	subject_str	:any;
 }
 
 /*

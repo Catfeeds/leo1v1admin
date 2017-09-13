@@ -425,8 +425,8 @@ $(function(){
 		        cssClass : "btn-warning",
 		        action   : function(dialog) {
                     $.do_ajax("/tea_manage_new/cancel_train_lesson",{
-                        "lessonid"      : opt_data.lessonid,
-                        "lesson_status" : opt_data.lesson_status
+                        "lessonid"           : opt_data.lessonid,
+                        "trial_train_status" : opt_data.trial_train_status
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();

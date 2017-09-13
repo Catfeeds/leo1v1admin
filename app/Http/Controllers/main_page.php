@@ -1430,7 +1430,6 @@ class main_page extends Controller
     }
 
     public function assistant_main_leader_new() {
-
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
@@ -1475,10 +1474,12 @@ class main_page extends Controller
             $item["month_stop_student"]  = isset($ass_month[$k]["month_stop_student"])?$ass_month[$k]["month_stop_student"]:0;
             $item["lesson_ratio"]  = isset($ass_month[$k]["lesson_ratio"])?$ass_month[$k]["lesson_ratio"]:0;
             $item["lesson_total"]  = isset($ass_month[$k]["lesson_total"])?$ass_month[$k]["lesson_total"]/100:0;
-            $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;//续费金额
-            $item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;//转介绍金额
-
-            $item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;//续费学生数
+            // $item["renw_price"]  = isset($assistant_renew_list[$k]["renw_price"])?$assistant_renew_list[$k]["renw_price"]/100:0;//续费金额
+            $item["renw_price"]  = isset($ass_month[$k]["renw_price"])?$ass_month[$k]["renw_price"]/100:0;//续费金额
+            //$item["tran_price"]  = isset($assistant_renew_list[$k]["tran_price"])?$assistant_renew_list[$k]["tran_price"]/100:0;//转介绍金额
+            $item["tran_price"]  = isset($ass_month[$k]["tran_price"])?$ass_month[$k]["tran_price"]/100:0;//转介绍金额
+            //$item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;//续费学生数
+            $item["renw_student"]  = isset($ass_month[$k]["renw_student"])?$ass_month[$k]["renw_student"]:0;//续费学生数
 
             $item["read_student_last"]  = isset($ass_month[$k]["read_student_last"])?@$ass_month[$k]["read_student_last"]:0;
             $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
