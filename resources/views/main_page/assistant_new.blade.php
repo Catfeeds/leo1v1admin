@@ -99,7 +99,7 @@
                                         </tr>
                                         <tr>
                                             <td>在读学员</td> 
-                                            <td>{{@$stu_info["read_student"]}} </td>
+                                            <td>{{@$stu_info["lesson_student"]}} </td>
                                         </tr>
                                         <tr>
                                             <td>当周上课人数</td> 

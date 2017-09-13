@@ -1851,6 +1851,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 刷新招师库李的年级和科目信息
+     */
     public function refresh(){
         $subject_map = E\Esubject::$desc_map;
         $grade_map = E\Egrade::$desc_map;
@@ -1917,36 +1920,9 @@ class test_code extends Controller
         return $grade_ex;
     }
 
-    public function get_tea_list(){
-        $start = strtotime("2017-7-1");
-        $end   = strtotime("2017-9-1");
-        $list  = $this->t_teacher_info->get_tea_list($start,$end);
-        $admin_list = $this->t_manager_info->get_admin_list_by_role(3);
-        $tea_num = count($list);
-        $admin_num = count($admin_list);
-        if($admin_num==0){
-            return $this->output_err("教务数量错误！");
-        }
-        $limit_num = ceil($tea_num/$admin_num);
-        \App\Helper\Utils::debug_to_html( $list );
-        $check_num = 1;
-        $key = 0;
-        foreach($list as $t_val){
-            $uid = $admin_list[$key]['uid'];
-            echo $uid."|".$t_val['teacherid']."|".$check_num;
-            echo "<br>";
-            $this->t_teacher_info->field_update_list($t_val['teacherid'],[
-                "assign_jw_adminid" => $uid,
-            ]);
-            $check_num++;
-            if($check_num==$limit_num){
-                $key++;
-                $check_num = 1;
-            }
-
-        }
-    }
-
+    /**
+     * 获取时间内的老师奖励薪资
+     */
     public function get_reward_list(){
         $start = strtotime("2017-8-1");
         $end   = strtotime("2017-9-1");
@@ -1998,25 +1974,6 @@ class test_code extends Controller
         }
     }
 
-    public function check_redis(){
-        $already_lesson_count_key          = "already_lesson_count_month";
-        $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
-
-        $already_lesson_count_simulate_list = \App\Helper\Utils::redis(
-            E\Eredis_type::V_GET,$already_lesson_count_simulate_key,[],true);
-        $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
-        dd($already_lesson_count_simulate_list);
-        dd($already_lesson_count_list);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_key);
-        // \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$already_lesson_count_simulate_key);
-
-    }
-
-    public function check_test(){
-        $list = $this->t_teacher_info->get_need_switch_tea_list();
-        dd($list);
-    }
-
     public function reset_teacher_info(){
         $arr = $this->t_lesson_info_b3->get_need_reset_list();
 
@@ -2033,8 +1990,6 @@ class test_code extends Controller
                 // ]);
             }
         }
-
-
     }
 
     public function push_switch(){
@@ -2063,6 +2018,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 增加切换薪资版本的老师信息
+     */
     public function add_switch_info(){
         $arr = $this->get_b_txt();
         array_filter($arr);
@@ -2140,8 +2098,8 @@ class test_code extends Controller
         }else{
             $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
             $this->t_teacher_switch_money_type_list->field_update_list($id,[
-                "status" => 0,
-                "put_time" => 0,
+                "status"       => 0,
+                "put_time"     => 0,
                 "confirm_time" => 0,
             ]);
         }
@@ -2150,27 +2108,27 @@ class test_code extends Controller
     public function add_month_time(){
         $arr = $this->get_b_txt();
         $arr = array_filter($arr);
+        dd($arr);
         foreach($arr as $val){
             $tea_info  = explode("|",$val);
             $teacherid = $this->t_teacher_info->get_teacherid_by_name($tea_info[0]);
             $id = $this->t_teacher_switch_money_type_list->get_id_by_teacherid($teacherid);
-
+            $lesson_total = $tea_info[1]*100;
             $this->t_teacher_switch_money_type_list->field_update_list($id,[
-                "month_time"=>$tea_info[1],
+                "lesson_total"=>$lesson_total,
             ]);
         }
     }
 
-
-
-
     public function reset_teacher_batch(){
-        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,-1,8);
-        $count=[];
+        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,0,8);
+        $tea_list=[];
         foreach($list as $l_val){
+            $lesson_total=(float)$l_val['lesson_total']/100;
             $y = (float)$l_val['all_money_different'];
-            $x = (float)$l_val['base_money_different']/$l_val['lesson_total'];
-            
+            $x = (float)$l_val['base_money_different']/$lesson_total;
+            $batch = 0;
+
             if($x>(float)0 && $y>(float)0){
                 $batch = 1;
             }elseif($x<=(float)0 && $y>=(float)0){
@@ -2184,13 +2142,18 @@ class test_code extends Controller
             }elseif($x<=(float)-2 && $y<=(float)-200){
                 $batch = 6;
             }
-            echo $x."|".$y."|".$batch;
-            echo "<br>";
-            \App\Helper\Utils::check_isset_data($count[$batch],1);
-        }
-        dd($count);
 
+            echo $l_val['realname']."|".$x."|".$y."|".$batch."|".$lesson_total."|";
+            echo "<br>";
+            // $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
+            //     "batch"=>$batch
+            // ]);
+            $tea_list[$batch][]=$l_val['realname'];
+        }
+        dd($tea_list);
     }
+
+
 
 
 

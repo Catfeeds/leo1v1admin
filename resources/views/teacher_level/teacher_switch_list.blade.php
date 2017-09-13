@@ -49,6 +49,7 @@
             <thead>
                 <tr>
                     <td style="display:none">id</td>
+                    <td >统计</td>
                     <td >姓名</td>
                     <td >原薪资类型</td>
                     <td >原等级</td>
@@ -67,6 +68,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["teacher_money_type_str"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
