@@ -1128,8 +1128,10 @@ class seller_student_new extends Controller
         $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
         $userid=$this->get_in_userid(-1 );
+        $origin_levle_arr = [];
         $ret_info=$this->t_test_lesson_subject_require->get_order_fail_list($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
         foreach ($ret_info["list"] as &$item ) {
+            $origin_levle_arr[] = $item['origin_level'];
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
             $this->cache_set_item_account_nick ($item,"cur_require_adminid",
@@ -1163,6 +1165,16 @@ class seller_student_new extends Controller
             }else{//未设置
                 $item['test_lesson_order_fail_flag_one'] = 0;
             }
+        }
+        $origin_levle_arr = array_unique($origin_levle_arr);
+        $origin_info = $this->t_origin_key->get_key1_list_by_origin_level_arr($origin_levle_arr);
+        foreach($ret_info["list"] as &$item){
+            foreach($origin_info as $info){
+                if($item['origin_level'] == $info['origin_level']){
+                    $item['key1'] = $info['key1'];
+                }
+            }
+            $item['key1'] = isset($item['key1'])?$item['key1']:'';
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
