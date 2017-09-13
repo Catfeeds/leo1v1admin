@@ -79,7 +79,7 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
-                            CC转化率统计
+                            录制试讲模拟试讲未审核统计
                         </div>
                         <div class="panel-body">
 

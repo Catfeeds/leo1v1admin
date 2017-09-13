@@ -2761,7 +2761,8 @@ class user_manage extends Controller
                 "7" => 0,
                 "8" => 0,
                 "9" => 0,
-                "10" => 0,           
+                "10" => 0,
+           ]
         ];
         foreach ($lz_ret_info as $key => $value) {
             $ret[1][$value['subject']] = $value['sum'];
