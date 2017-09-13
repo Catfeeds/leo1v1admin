@@ -58,6 +58,7 @@
                     <td>上课时间 </td>
                     <td> 申请人</td>
                     <td> 学生</td>
+                    <td> 渠道key1</td>
                     <td> 老师</td>
                     <td> 科目</td>
                     <td> 年级</td>
@@ -75,6 +76,7 @@
                         <td>{{$var["lesson_start"]}}-{{$var["lesson_end"]}} </td>
                         <td>{{$var["cur_require_admin_nick"]}} </td>
                         <td>{{$var["student_nick"]}} </td>
+                        <td>{{$var["key1"]}} </td>
                         <td>{{$var["teacher_nick"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
                         <td>{{$var["grade_str"]}} </td>
