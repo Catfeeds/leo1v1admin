@@ -1134,6 +1134,7 @@ class seller_student_new extends Controller
             $this->cache_set_item_teacher_nick($item);
             $this->cache_set_item_account_nick ($item,"cur_require_adminid",
                                                 "cur_require_admin_nick");
+            E\Eorigin_level::set_item_value_str($item);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);
             E\Econtract_status::set_item_value_str($item);
