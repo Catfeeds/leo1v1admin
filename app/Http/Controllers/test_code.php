@@ -1997,9 +1997,6 @@ class test_code extends Controller
         $batch = $this->get_in_int_val("batch",1);
         $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
 
-
-
-
         /**
          * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
          * 标题课程 : 等级升级通知
@@ -2009,13 +2006,19 @@ class test_code extends Controller
          * 生效时间：{{keyword3.DATA}}
          * {{remark.DATA}}
          */
+        $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+        $data['keyword3'] = "16:00";
+        $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
         foreach($list as $val){
+            if($val['wx_openid']!=""){
+                $level_str = E\Enew_level::v2s($val['level_simulate']);
+                $data['first'] = "恭喜您，您等级已经调整为".$level_str;
+                $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
+                $data['keyword2'] = $level_str;
 
-            恭喜您，您等级已经调整为X星级
-                用户昵称：X老师
-                最新等级：X等级
-                生效时间： 16:00
-                感谢您长期以来对理优平台的辛劳付出与长久陪伴！
+                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+            }
+
         }
     }
 

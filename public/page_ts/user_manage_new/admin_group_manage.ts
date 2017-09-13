@@ -8,7 +8,7 @@ $(function(){
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
-      monthtime_flag:	$('#id_monthtime_flag').val()
+            monthtime_flag:	$('#id_monthtime_flag').val()
         });
     }
 
@@ -23,7 +23,7 @@ $(function(){
         }
     });
 
-  $('#id_monthtime_flag').val(g_args.monthtime_flag);
+    $('#id_monthtime_flag').val(g_args.monthtime_flag);
 
     $(".common-table" ).table_admin_level_4_init();
 
@@ -68,7 +68,7 @@ $(function(){
     $(".opt-add-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-      //  alert(main_type);
+        //  alert(main_type);
         var id_group_name=$("<input/>");
         var  arr=[
             ["组名" ,  id_group_name]
@@ -91,7 +91,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
         var id_group_name=$("<input/>");
-      var id_master_adminid=$("<input/>");
+        var id_master_adminid=$("<input/>");
 
 
         var  arr=[
@@ -152,7 +152,7 @@ $(function(){
         var main_type    = opt_data.main_type;
         var up_groupid =opt_data.up_groupid ;
 
-      $("<div></div>").admin_select_dlg_ajax({
+        $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_group_list_new",
             //其他参数
@@ -221,8 +221,8 @@ $(function(){
 
     $(".opt-edit-group").on("click",function(){
         var opt_data = $(this).get_opt_data();
-      var id_group_name=$("<input/>");
-      var id_master_adminid=$("<input/>");
+        var id_group_name=$("<input/>");
+        var id_master_adminid=$("<input/>");
 
 
         var  arr=[
@@ -305,7 +305,7 @@ $(function(){
 
     $(".opt-set-subject").on("click",function(){
         var opt_data = $(this).get_opt_data();
-      var id_subject=$("<select/>");
+        var id_subject=$("<select/>");
 
         Enum_map.append_option_list("subject", id_subject,true );
         var  arr=[
@@ -359,7 +359,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
         var id_group_name=$("<input/>");
-      var id_master_adminid=$("<input/>");
+        var id_master_adminid=$("<input/>");
 
 
         var  arr=[
@@ -422,7 +422,7 @@ $(function(){
         var main_type    = opt_data.main_type;
         var up_groupid =opt_data.up_groupid ;
 
-      $("<div></div>").admin_select_dlg_ajax({
+        $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_group_list_new_month",
             //其他参数
@@ -494,8 +494,8 @@ $(function(){
 
     $(".opt-edit-group-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
-      var id_group_name=$("<input/>");
-      var id_master_adminid=$("<input/>");
+        var id_group_name=$("<input/>");
+        var id_master_adminid=$("<input/>");
 
 
         var  arr=[
@@ -548,7 +548,7 @@ $(function(){
 
     $(".opt-assign-group-user-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
-               // alert(g_args.start_time);
+        // alert(g_args.start_time);
         $.admin_select_user( $("<div></div>") , "admin" , function (adminid){
             if (adminid>0) {
                 $.do_ajax("/user_deal/admin_group_user_add_new",{
@@ -599,5 +599,5 @@ $(function(){
 
 
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
