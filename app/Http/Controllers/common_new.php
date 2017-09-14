@@ -243,7 +243,7 @@ class common_new extends Controller
             return $this->output_err("该手机号已提交过了,不能重新提交!");
         }
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
-        if(!empty($teacher_info)){
+        if(!empty($teacher_info) && $teacher_info['trial_lecture_is_pass']==1){
             return $this->output_err("该手机号已通过试讲,不能重新提交!");
         }
         if($qq!="" && !ctype_digit(trim($qq,""))){

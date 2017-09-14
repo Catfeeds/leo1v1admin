@@ -1,6 +1,6 @@
 interface GargsStatic {
-	db_name:	string;
-	sql:	string;
+	groupid:	number;
+	adminid:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -17,27 +17,30 @@ interface RowData {
 	email	:any;
 	account	:any;
 	email_create_flag	:any;
+	create_flag	:any;
+	email_create_flag_str	:any;
+	create_flag_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../table_manage; vi  ../table_manage/query.ts
+	 mkdir -p ../admin_manage; vi  ../admin_manage/group_email_user_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/table_manage-query.d.ts" />
+/// <reference path="../g_args.d.ts/admin_manage-group_email_user_list.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			db_name:	$('#id_db_name').val(),
-			sql:	$('#id_sql').val()
+			groupid:	$('#id_groupid').val(),
+			adminid:	$('#id_adminid').val()
         });
     }
 
 
-	$('#id_db_name').val(g_args.db_name);
-	$('#id_sql').val(g_args.sql);
+	$('#id_groupid').val(g_args.groupid);
+	$('#id_adminid').val(g_args.adminid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -50,15 +53,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">db_name</span>
-                <input class="opt-change form-control" id="id_db_name" />
+                <span class="input-group-addon">groupid</span>
+                <input class="opt-change form-control" id="id_groupid" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">sql</span>
-                <input class="opt-change form-control" id="id_sql" />
+                <span class="input-group-addon">adminid</span>
+                <input class="opt-change form-control" id="id_adminid" />
             </div>
         </div>
 */

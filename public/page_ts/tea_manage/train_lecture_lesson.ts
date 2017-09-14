@@ -589,7 +589,7 @@ $(function(){
                     var not_grade_arr=check_data_to_arr(not_grade,",");
                     id_identity.val(identity);
 
-                    var arr=[
+                    var arr = [
                         ["讲义内容设计", id_lecture_content_design_score],
                         ["讲练结合情况", id_lecture_combined_score],
                         ["知识点正确率", id_teacher_point_explanation_score],

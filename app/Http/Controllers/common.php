@@ -1739,7 +1739,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 'server_type' => $server_type,
                 'server_ip'=>    ip2long($this->get_in_client_ip() ),
                 'program_id'=>    $program_id,
-            ]);
+            ],false, true);
             if ($utype=="tea" &&  $opt_type  ==1   )  {
                 $this->t_lesson_info_b3-> set_real_begin_time($lessonid,time(NULL));
             }
