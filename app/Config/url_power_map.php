@@ -341,7 +341,7 @@ class url_power_map {
 			'/teacher_apply/teacher_apply_list_one'	=>1115900,
 			'/user_manage/contract_list_seller_add'	=>1112000,
 			'/user_manage/contract_list_seller_payed'	=>1112100,
-			'/user_manage_new/contract_list_seller_payed_new'	=>1112900,
+			'/user_manage_new/contract_list_seller_payed_new'	=>1112200,
 			'/seller_student_new/seller_seller_student_list'	=>1114000,
 			'/seller_student_new/get_hold_list'	=>1115300,
 			'/seller_student_new/get_free_seller_list'	=>1115400,

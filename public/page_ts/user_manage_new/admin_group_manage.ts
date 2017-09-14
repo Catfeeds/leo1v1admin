@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-main-group,.opt-add-main-group-new,.opt-add-major-group").each(function(){
+    $(".opt-add-major-group,.opt-edit-major-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -44,7 +44,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
+    $(".opt-add-main-group,.opt-add-main-group-new, .opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -52,7 +52,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-edit-group,.opt-del-group,.opt-assign-group-user,.opt-edit-group-new,.opt-del-group-new,.opt-assign-group-user-new").each(function(){
+    $(".opt-del-group,.opt-assign-group-user,.opt-del-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -61,7 +61,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    $(".opt-assign-group-user,.opt-assign-group-user-new,.opt-edit-group-new,.opt-edit-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -70,14 +70,14 @@ $(function(){
         }
     });
 
-    // $(".opt-del-admin,.opt-del-admin-new").each(function(){
-    //     var opt_data = $(this).get_opt_data();
-    //     var level    = opt_data.level;
-    //     var main_type    = opt_data.main_type;
-    //     if(main_type =="未定义" || level != "l-5"){
-    //         $(this).hide();
-    //     }
-    // });
+    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+        var opt_data = $(this).get_opt_data();
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
+        if(main_type =="未定义" || level != "l-5"){
+            $(this).hide();
+        }
+    });
 
 
 
