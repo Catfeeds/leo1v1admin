@@ -1327,7 +1327,9 @@ class Common {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
-                //$item['account']=
+
+                $item['first_group_name']="未定义";// 修改中.
+
             }
 
 
