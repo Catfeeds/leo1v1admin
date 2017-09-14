@@ -122,7 +122,7 @@ $(function(){
             }
             var lessonid = opt_data.lessonid;
             var teacherid = opt_data.teacherid;
-            var id_train_type = $("<select />");
+            //var id_train_type = $("<select />");
             var id_jysj =  $("<select class=\"class_score\" />");
             var id_yybd =  $("<select class=\"class_score\" />");
             var id_zyzs =  $("<select class=\"class_score\" />");
@@ -135,7 +135,7 @@ $(function(){
             var id_lcgf =  $("<select class=\"class_score\" />");                  
             var id_lesson_invalid_flag =  $("<select ><option value=\"1\">有效课程</option><option value=\"2\">无效课程</option></select>");                  
             var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
-
+            var id_train_type=$("<label><input name=\"Train\" type=\"checkbox\" value=\"20\" />教学PPT设计培训 </label> <label><input name=\"Train\" type=\"checkbox\" value=\"21\" />课程设计培训 </label><label><input name=\"Train\" type=\"checkbox\" value=\"22\" />沟通话术培训</label><label><input name=\"Train\" type=\"checkbox\" value=\"23\" />试听课培训 </label>");
             Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -146,7 +146,7 @@ $(function(){
             Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
             Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
-            Enum_map.append_option_list("train_type",id_train_type,true,[0,20,21,22,23,24,25,26]);
+           // Enum_map.append_option_list("train_type",id_train_type,true,[0,20,21,22,23,24,25,26]);
             var id_score = $("<input readonly/>");
             var id_no_tea_score = $("<input readonly/>");
             var id_record = $("<textarea />");
@@ -228,6 +228,11 @@ $(function(){
                     id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                         sshd_good.push($(this).val());
                     });
+                    var train_type=[];
+                    id_sshd.find("input:checkbox[name='Train']:checked").each(function(i) {
+                        train_type.push($(this).val());
+                    });
+
                     
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
@@ -252,7 +257,7 @@ $(function(){
                         "sshd_good"                          :JSON.stringify(sshd_good),
                         "lessonid"                           :lessonid,
                         "lesson_list"                        :JSON.stringify(lessonid),
-                        "train_type"                         :id_train_type.val(),
+                        "train_type"                         :JSON.stringify(train_type),
                     });
                 }
             },function(){
