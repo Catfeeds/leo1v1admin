@@ -12,6 +12,22 @@ class ajax_deal2 extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function  manger_info_set_info () {
+
+        $adminid = $this->get_in_adminid();
+        $groupid = $this->get_in_int_val("groupid");
+        $email =trim($this->get_in_str_val("email"));
+        $name=trim ($this->get_in_str_val("name"));
+        $this->t_manager_info->field_update_list($adminid,[
+            "email" =>$email,
+            "name" =>$name,
+        ]);
+        $this->t_mail_group_user_list->field_update_list_2($groupid,$adminid,[
+            "create_flag" =>0,
+        ]);
+        return $this->output_succ();
+
+    }
 
     public function sync_email() {
         $email=$this->get_in_str_val( "email" );

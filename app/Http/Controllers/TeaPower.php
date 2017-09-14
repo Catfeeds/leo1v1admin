@@ -1522,9 +1522,6 @@ trait TeaPower {
         if($appointment_info['full_time']==1){
             $update_arr['teacher_type']=3;
         }
-        // if($teacher_info['level']==0){
-        //     $update_arr['level']=1;
-        // }
         if($teacher_info['trial_lecture_is_pass']==0){
             $update_arr['trial_lecture_is_pass']=1;
         }

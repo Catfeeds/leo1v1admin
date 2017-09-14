@@ -666,15 +666,13 @@ $(function(){
         var id_level              = $("<select/>");
         var id_start_time         = $("<input/>");
 
-        Enum_map.append_option_list("level", id_level, true );
         Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
 
         id_teacher_money_type.val(opt_data.teacher_money_type);
-        id_level.val(opt_data.level);
         id_start_time.datetimepicker({
-            datepicker:true,
-            timepicker:false,
-            format:'Y-m-d'
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d'
         });
         id_start_time.val(opt_data.lesson_confirm_start_time );
 
@@ -696,6 +694,20 @@ $(function(){
                     "teacher_money_type" : id_teacher_money_type.val()
                 });
             }
+        },function(){
+            var reset_level_map = function(){
+                id_level.empty();
+                if(id_teacher_money_type.val()==6){
+                    Enum_map.append_option_list("new_level", id_level, true );
+                }else{
+                    Enum_map.append_option_list("level", id_level, true );
+                }
+                id_level.val(opt_data.level);
+            }
+            reset_level_map();
+            id_teacher_money_type.on("change",function(){
+                reset_level_map();
+            });
         });
     }
 

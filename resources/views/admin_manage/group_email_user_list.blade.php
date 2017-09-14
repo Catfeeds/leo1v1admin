@@ -32,6 +32,7 @@
                 <tr>
                     <td>adminid</td>
                     <td>账号 </td>
+                    <td>姓名</td>
                     <td>邮箱 </td>
                     <td>是否已创建 </td>
                     <td>同步到邮箱服务器</td>
@@ -43,6 +44,7 @@
                     <tr>
                         <td>{{@$var["adminid"]}} </td>
                         <td>{{@$var["account"]}} </td>
+                        <td>{{@$var["name"]}} </td>
                         <td>{{@$var["email"]}} </td>
                         <td>{!!  @$var["email_create_flag_str"] !!} </td>
                         <td>{!!  @$var["create_flag_str"] !!} </td>
@@ -50,6 +52,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="fa fa-edit opt-edit" title="修改"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>

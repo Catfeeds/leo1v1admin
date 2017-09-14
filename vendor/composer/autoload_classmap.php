@@ -17,6 +17,7 @@ return array(
     'CreateTStudentSubjectList' => $baseDir . '/database/migrations/2017_09_05_165658_create_t_student_subject_list.php',
     'CreateTSummerWeekRegularCourse' => $baseDir . '/database/migrations/2017_06_09_164211_create_t_summer_week_regular_course.php',
     'CreateTTeacherDayLuckDrawAndTWxShare' => $baseDir . '/database/migrations/2017_09_02_143724_create_t_teacher_day_luck_draw_and_t_wx_share.php',
+    'CreateTTeacherSalaryList' => $baseDir . '/database/migrations/2017_09_13_192046_create_t_teacher_salary_list.php',
     'CreateTTeacherSwitchMoneyTypeList' => $baseDir . '/database/migrations/2017_09_12_095000_create_t_teacher_switch_money_type_list.php',
     'CreateTUserLoginLog' => $baseDir . '/database/migrations/2017_06_14_132733_create_t_user_login_log.php',
     'CreateTWxShare' => $baseDir . '/database/migrations/2017_09_02_160423_create_t_wx_share.php',

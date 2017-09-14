@@ -255,7 +255,7 @@
                         </div>
                         <div class="login-mig row">
                             <div class="col-xs-6">
-                                <label class="color-9"><input class="bor-no" type="checkbox" name="hold"> 记住密码</label>
+                                <label class="color-9"><input class="bor-no" type="checkbox" id="id_remember"> 记住密码</label>
                             </div>
                             <div class="col-xs-6">
                                 <a href="" class="color-blue">忘记密码？</a>
