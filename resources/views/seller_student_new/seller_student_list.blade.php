@@ -829,94 +829,25 @@
                         </div>
 
                     </div>
-
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-2  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">家长姓名：</span>
-                            <input type="text" class=" form-control "  id="id_par_nick"  />
+                            <span class="input-group-addon">班级排名：</span>
+                            <input type="text" class=" form-control "  id="id_class_rank"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3">
+                    <div class="col-xs-12 col-md-2  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">学生性别：</span>
-                            <select id="id_stu_gender" class=" form-control "   >
-                            </select>
+                            <span class="input-group-addon">年级排名：</span>
+                            <input type="text" class=" form-control "  id="id_grade_rank"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-2 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">学生年级：</span>
-                            <select id="id_stu_grade" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">　　科目：</span>
-                            <select id="id_stu_subject" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">在读学校：</span>
-                            <input type="text" id="id_stu_school"  class="form-control"  />
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">教材版本：</span>
-                            <select id="id_stu_editionid" class=" form-control "   >
+                            <span class="input-group-addon">升学目标：</span>
+                            <select id="id_academic_goal" class=" form-control "   >
                             </select>
                         </div>
 
-                    </div>
-
-
-                    
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">是否有pad：</span>
-                            <select id="id_stu_has_pad" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-2">
-                        <div class="input-group ">
-                            <span class="input-group-addon">省</span>
-                            <select class="form-control" id="province" name="province">
-                            </select>
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-2">
-                        <div class="input-group ">
-                            <span class="input-group-addon">市</span>
-                            <select class="form-control" id="city" name="city">
-                            </select>
-
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-2">
-                        <div class="input-group ">
-                            <span class="input-group-addon">区(县)</span>
-                            <select class="form-control" id="area" name="area">
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-md-6 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">家庭住址：</span>
-                            <input type="text" id="id_stu_addr"  class="form-control" />
-                        </div>
                     </div>
                 </div>
             </div>

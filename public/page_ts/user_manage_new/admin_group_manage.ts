@@ -117,9 +117,9 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/user_deal/admin_main_group_add",{
-                    // "main_type" : main_type,
-                    // "group_name" : id_group_name.val()
+                $.do_ajax("/user_deal/admin_major_group_add",{
+                    "main_type" : main_type,
+                    "group_name" : id_group_name.val()
                 });
             }
         });

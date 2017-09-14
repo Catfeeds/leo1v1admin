@@ -1659,6 +1659,18 @@ class user_deal extends Controller
 
     }
 
+    public function admin_major_group_add(){
+        $main_type  = $this->get_in_str_val("main_type");
+        $group_name = $this->get_in_str_val("group_name");
+
+        $this->t_admin_majordomo_group_name->row_insert([
+            "main_type"   => $main_type ,
+            "group_name"  => $group_name,
+        ]);
+
+        return $this->output_succ();
+    }
+
     public function admin_main_group_add_new() {
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
@@ -2624,7 +2636,7 @@ class user_deal extends Controller
     {
         $cur_start = strtotime("2017-08-01");
         $ret_info= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-        
+
         dd($ret_info);
 
         $admin_list = $this->t_manager_info->get_admin_member_list();
@@ -2644,7 +2656,7 @@ class user_deal extends Controller
         foreach($list as $val){
             $userid = $this->t_lesson_info->get_userid($val["train_lessonid"]);
             $this->t_teacher_record_list->field_update_list($val["id"],[
-               "userid"  =>$userid 
+               "userid"  =>$userid
             ]);
         }
         dd($list);
@@ -2706,7 +2718,7 @@ class user_deal extends Controller
         dd($list);
         foreach($list as $val){
             $task->t_teacher_info->field_update_list($val["teacherid"],[
-                "two_week_test_lesson_num"   =>$val["num"] 
+                "two_week_test_lesson_num"   =>$val["num"]
             ]);
         }
 
@@ -2933,7 +2945,7 @@ class user_deal extends Controller
             }
             $item["textbook"] = trim($item["textbook"],",");
 
-             
+
 
         }
 
@@ -2951,12 +2963,12 @@ class user_deal extends Controller
         $ret = $this->t_teacher_label->get_teacher_all_label_info();
         foreach($ret as $val){
             $arr = json_decode($val["tea_label_type"],true);
- 
+
             // dd($arr);
             if(!empty($arr)){
                 $list=[];
                 foreach($arr as $v){
-                    $s =  E\Etea_label_type::get_desc($v); 
+                    $s =  E\Etea_label_type::get_desc($v);
                     $list[$s] = $s;
                 }
                 //dd($list);
@@ -2987,7 +2999,7 @@ class user_deal extends Controller
                     "teacher_tags"  =>$str
                 ]);
             }
-            
+
         }
         dd($ret);
         $rr = $this->delete_train_lesson_before(1,4,200,289273);
@@ -2998,7 +3010,7 @@ class user_deal extends Controller
         $ret = $this->t_teacher_info->get_teacher_identity_list_new();
         foreach($ret as $val){
             $this->t_teacher_info->field_update_list($val["teacherid"],[
-               "identity" =>$val["identity_ex"] 
+               "identity" =>$val["identity_ex"]
             ]);
         }
         dd($ret);
@@ -3010,7 +3022,7 @@ class user_deal extends Controller
             ]);
         }
         dd($ret_info);
-       
+
 
     }
 
@@ -5296,7 +5308,7 @@ class user_deal extends Controller
         $id = $this->get_in_int_val("id");
         $this->t_teacher_record_list->field_update_list($id,["acc"=>""]);
         return $this->output_succ();
-        
+
     }
 
     public function set_new_train_lesson(){
@@ -5314,7 +5326,7 @@ class user_deal extends Controller
         $trial_train_num = $this->t_lesson_info->get_trial_train_num($lessonid);
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        
+
         $this->add_trial_train_lesson($teacher_info,2,$trial_train_num);
 
         return $this->output_succ();
@@ -5331,7 +5343,7 @@ class user_deal extends Controller
         }elseif(empty($str)){
             $data = $info;
         }else{
-            $data = $info.";".$str; 
+            $data = $info.";".$str;
         }
         return $this->output_succ(["data"=>$data]);
     }
@@ -5363,13 +5375,13 @@ class user_deal extends Controller
         $phone = $this->t_teacher_info->get_phone($teacherid);
         $info = $this->t_teacher_lecture_info->get_passed_interview_by_phone($phone,$subject,$grade);
         $str = $this->t_teacher_record_list->get_passed_interview_by_phone($teacherid,$subject,$grade);
-        
+
         if(empty($info)){
             $data = $str;
         }elseif(empty($str)){
             $data = $info;
         }else{
-            $data = $info.";".$str; 
+            $data = $info.";".$str;
         }
         return $this->output_succ(["data"=>$data]);
 

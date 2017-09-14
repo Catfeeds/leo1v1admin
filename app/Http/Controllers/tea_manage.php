@@ -2850,7 +2850,6 @@ class tea_manage extends Controller
             E\Etrain_type::set_item_value_str($item);
             E\Etrain_status::set_item_value_str($item);
         }
-	dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
