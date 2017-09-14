@@ -1289,7 +1289,7 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" &&  $k!="first_group_name" 
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" &&  $k!="first_group_name"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
@@ -1352,6 +1352,13 @@ class Common {
 
                 $key0_map=&$data_map[""];
                 $add_data($key0_map, $item );
+
+                /**
+                 *开发中
+
+
+
+                 */
 
                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
                 $key1_map=&$key0_map["sub_list"][$main_type];
