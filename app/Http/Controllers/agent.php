@@ -348,7 +348,6 @@ class agent extends Controller
         \App\Helper\Utils::order_list($test_lesson_fail_per,"value",1);
         \App\Helper\Utils::order_list($test_lesson_fail_count,"value",1);
         \App\Helper\Utils::order_list($test_lesson_all_count,"value",1);
-        dd($test_lesson_fail_count,$test_lesson_all_count,$test_lesson_fail_per);
         $this->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$test_lesson_fail_per);
         $this->t_tongji_seller_top_info->update_list(
             E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_COUNT
