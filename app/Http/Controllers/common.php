@@ -1706,10 +1706,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->t_lesson_info->field_update_list($lessonid,[
                 "lesson_condition" => $condition_new
             ]);
-
         }
-
-
 
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
              || $opt_type =="register" ){

@@ -64,6 +64,16 @@ $(function(){
         }
     });
 
+    // $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    //     var opt_data = $(this).get_opt_data();
+    //     var level    = opt_data.level;
+    //     var main_type    = opt_data.main_type;
+    //     if(main_type =="未定义" || level != "l-5"){
+    //         $(this).hide();
+    //     }
+    // });
+
+
 
     $(".opt-add-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();

@@ -405,7 +405,6 @@ class supervisor extends Controller
     }
 
     public function lesson_all_info () {
-
         $date                = $this->get_in_str_val('date',date('Y-m-d', time(NULL)));
         $st_application_nick = $this->get_in_str_val('st_application_nick',"");
         $require_adminid     = $this->get_in_int_val('require_adminid', -1 );
@@ -416,7 +415,7 @@ class supervisor extends Controller
 
         $start_time  = strtotime($date);
         $end_time    = $start_time + 86400;
-        $lessonid            = $this->get_in_int_val('lessonid');
+        $lessonid    = $this->get_in_int_val('lessonid');
 
         $ret_info = $this->t_lesson_info->get_lesson_info_by_lessonid($lessonid);
 
