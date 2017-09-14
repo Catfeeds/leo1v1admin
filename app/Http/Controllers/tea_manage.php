@@ -2845,7 +2845,7 @@ class tea_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"through_time");
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
-            $this->cache_set_item_account_nick($item,"teacherid","teacher_nick" );
+            $this->cache_set_item_teacher_nick($item);
             E\Esubject::set_item_value_str($item);
             E\Etrain_type::set_item_value_str($item);
             E\Etrain_status::set_item_value_str($item);
