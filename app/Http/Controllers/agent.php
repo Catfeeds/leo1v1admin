@@ -318,7 +318,18 @@ class agent extends Controller
     }
 
     public function check(){
-        dd('a');
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid=882,$start_time,$tongji_type);
+        dd($self_top_info);
     }
 
     public function test_lesson_cancle_rate(){
