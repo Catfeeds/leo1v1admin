@@ -8087,4 +8087,8 @@ class tongji_ss extends Controller
 
     }
 
+    public function tongji_lesson_record_info(){
+        $list = $this->t_teacher_record_list->get_record_score_list(1);
+    }
+
 }

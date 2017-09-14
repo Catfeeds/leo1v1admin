@@ -2188,7 +2188,7 @@ class test_code extends Controller
     }
 
     public function reset_teacher_subject_info(){
-        
+        $list = $this->t_teacher_info->get_teacher_subject_info();
     }
 
 
