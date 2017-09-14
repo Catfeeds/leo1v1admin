@@ -851,7 +851,7 @@ class teacher_level extends Controller
         $id                               = $this->get_in_int_val("id");
         $lesson_invalid_flag              = $this->get_in_int_val("lesson_invalid_flag");
         $train_type                       = $this->get_in_str_val("train_type");
-	$subject                          = $this->get_in_int_val("subject");
+        $subject                          = $this->get_in_int_val("subject");
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
@@ -879,7 +879,7 @@ class teacher_level extends Controller
 
 
 
-        
+
         //更新teacher_info里面train_type字段值
         $ret_train_type = $this->t_teacher_info->get_train_type($teacherid);
         $ret_train_type = trim($ret_train_type,'[]');
