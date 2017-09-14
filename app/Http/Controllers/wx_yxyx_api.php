@@ -272,7 +272,10 @@ class wx_yxyx_api extends Controller
         */
         //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
 
+
+        $id_map=[];
         foreach ( $list as &$item ) {
+
             $userid=$item["userid"];
             $price=$item["o_price"]/100; //提成
             $pay_price=$item["o_from_price"]/100; //订单定额
@@ -292,6 +295,10 @@ class wx_yxyx_api extends Controller
             $item=[];
 
             if ($p_price) { //第一级有金额
+                if (isset($id_map[$p_userid ]) ) {
+                    continue;
+                }
+                $id_map[$p_userid]=true;
                 $item["userid"]=$p_userid;
                 $item["price"]=$p_price;
                 $item["pay_price"]=$p_pay_price;
@@ -303,6 +310,10 @@ class wx_yxyx_api extends Controller
 
                 $ret_list[]= $item;
             }else if ($price)  { //第二级有金额
+                if (isset($id_map[$userid ]) ) {
+                    continue;
+                }
+                $id_map[$userid]=true;
                 $item["userid"]=$userid;
                 $item["price"]=$price;
                 $item["pay_price"]=$pay_price;

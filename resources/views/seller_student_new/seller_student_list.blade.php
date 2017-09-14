@@ -226,19 +226,19 @@
                 <tr>
                     <td >电话</td>
                     <td >渠道</td>
-                    <td style=" display:none;  min-width:140px;">个人信息</td>
-                    <td style="width:60px" class="th-opt-time-field" ></td>
+                    <td style="display:none; min-width:140px;">个人信息</td>
+                    <td style="display:none;width:60px" class="th-opt-time-field"></td>
                     <td style="display:none;">资源进来时间</td>
                     <td style="display:none;" >来源</td>
                     <!-- <td style="display:block;" >来源</td> -->
                     <td >姓名</td>
                     <td >回访状态</td>
-                    <td >TQ状态</td>
+                    <td style="display:none;">TQ状态</td>
                     <td style="display:none;" >用户备注(all)</td>
                     <td >年级</td>
                     <td >科目</td>
                     <td >是否有pad</td>
-                    <td  >试卷</td>
+                    <td  style="display:none;">试卷</td>
                     <td style=" display:none; min-width:200px;" >回访信息</td>
                     <td style="display:none;">下次跟进时间</td>
 
@@ -246,17 +246,17 @@
 
                     <td style="display:none;" >分配时间</td>
                     <td style="display:none;" >最后一次回访时间</td>
-                    <td style=""  >最后一次回访记录</td>
+                    <td style="display:none;">最后一次回访记录</td>
                     <td style=" display:none; min-width:120px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ?"display:none;":""}}"   >课程信息</td>
                     <td style=" display:none; min-width:240px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ? "display:none;":""}}"   >课程确认</td>
-                    <td style="" >教务</td>
-                    <td style="" >老师</td>
-                    <td style="" >上课信息</td>
-                    <td style="" >确认成功</td>
-                    <td style="" >出错是否付工资</td>
-                    <td style="" >原因</td>
-                    <td>申请更改时间</td>
-                    <td>合同金额</td>
+                    <td style="display:none;" >教务</td>
+                    <td style="display:none;" >老师</td>
+                    <td style="display:none;" >上课信息</td>
+                    <td style="display:none;" >确认成功</td>
+                    <td style="display:none;" >出错是否付工资</td>
+                    <td style="display:none;" >原因</td>
+                    <td style="display:none;" >申请更改时间</td>
+                    <td style="display:none;" >合同金额</td>
                     <td style="display:none;" >未签单分类</td>
                     <td style="display:none;" >未签单说明</td>
                     <td style="min-width:120px;" >操作</td>
@@ -707,30 +707,66 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-md-6  ">
+            <div class="col-xs-12 col-md-12  ">
+                <span>基本信息</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-6  ">
+                    <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
                             <span class="input-group-addon">学员姓名：</span>
                             <input type="text" class=" form-control "  id="id_stu_nick"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon">家长姓名：</span>
                             <input type="text" class=" form-control "  id="id_par_nick"  />
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-3">
                         <div class="input-group ">
                             <span class="input-group-addon">学生性别：</span>
                             <select id="id_stu_gender" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学生年级：</span>
+                            <select id="id_stu_grade" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">　　科目：</span>
+                            <select id="id_stu_subject" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">在读学校：</span>
+                            <input type="text" id="id_stu_school"  class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">教材版本：</span>
+                            <select id="id_stu_editionid" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                   
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon">是否有pad：</span>
                             <select id="id_stu_has_pad" class=" form-control "   >
@@ -739,49 +775,44 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-md-12 ">
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group ">
+                            <span class="input-group-addon">省</span>
+                            <select class="form-control" id="province" name="province">
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group ">
+                            <span class="input-group-addon">市</span>
+                            <select class="form-control" id="city" name="city">
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <div class="input-group ">
+                            <span class="input-group-addon">区(县)</span>
+                            <select class="form-control" id="area" name="area">
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 ">
                         <div class="input-group ">
                             <span class="input-group-addon">家庭住址：</span>
                             <input type="text" id="id_stu_addr"  class="form-control" />
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-xs-12 col-md-6 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">学生年级：</span>
-                            <select id="id_stu_grade" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">　　科目：</span>
-                            <select id="id_stu_subject" class=" form-control "   >
-                            </select>
-                        </div>
-                    </div>
-
+            </div>
+            <div class="row ">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>学习情况</span>
                 </div>
-                <div class="row ">
-
-                    <div class="col-xs-12 col-md-6 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">在读学校：</span>
-                            <input type="text" id="id_stu_school"  class="form-control"  />
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">教材版本：</span>
-                            <select id="id_stu_editionid" class=" form-control "   >
-                            </select>
-                        </div>
-
-                    </div>
-                </div>
-
+ 
                 <div class="row ">
 
                     <div class="col-xs-12 col-md-7 ">

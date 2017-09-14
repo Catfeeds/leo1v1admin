@@ -226,6 +226,10 @@ class ss_deal extends Controller
         $ret["stu_test_ipad_flag"]    = $ss_item["stu_test_ipad_flag"];
         $ret["stu_request_test_lesson_time"]    = \App\Helper\Utils::unixtime2date($tt_item["stu_request_test_lesson_time"], 'Y-m-d H:i');
         $ret["stu_request_test_lesson_demand"]    = $tt_item["stu_request_test_lesson_demand"];
+        $ret["province"]                          = $student["province"];
+        $ret["city"]                              = $student["city"];
+        $ret["area"]                              = $student["area"];
+        $ret["region"]                            = $student["region"];
 
         return $this->output_succ(["data" => $ret ]);
     }
