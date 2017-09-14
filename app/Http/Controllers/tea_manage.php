@@ -2828,4 +2828,30 @@ class tea_manage extends Controller
     }
 
 
+
+     /**
+     * @author    sam
+     * @function  用户建议信息录入
+     */
+    public function  teacher_train_list () {
+
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        //$userid = 99;
+        $page_info=$this->get_in_page_info();
+
+        $ret_info=$this->t_teacher_train_info->get_list($page_info);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"through_time");
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+            $this->cache_set_item_teacher_nick($item);
+            E\Esubject::set_item_value_str($item);
+            E\Etrain_type::set_item_value_str($item);
+            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+
 }

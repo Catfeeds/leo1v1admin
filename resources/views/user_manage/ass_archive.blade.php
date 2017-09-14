@@ -64,7 +64,7 @@
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="input-group ">
-                <input type="text" value="" class=" form-control click_on put_name for_input"  data-field="user_name" id="id_user_name"  placeholder="学生/家长姓名,userid,手机, 回车查找" />
+                <input type="text" value="" class=" form-control click_on put_name for_input"  data-field="user_name" id="id_user_name"  placeholder="学生/家长姓名,userid,手机,地区 回车查找" />
             </div>
         </div>
         <div class="col-xs-6 col-md-2">

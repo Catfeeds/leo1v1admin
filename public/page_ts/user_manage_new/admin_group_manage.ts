@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-main-group,.opt-add-main-group-new").each(function(){
+    $(".opt-add-main-group,.opt-add-main-group-new,.opt-add-major-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -102,6 +102,30 @@ $(function(){
         });
 
     });
+
+
+    $(".opt-add-major-group").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        //  alert(main_type);
+        var id_group_name=$("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增总监分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_major_group_add",{
+                    "main_type" : main_type,
+                    "group_name" : id_group_name.val()
+                });
+            }
+        });
+
+    });
+
 
     $(".opt-edit-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();

@@ -4,7 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	monthtime_flag:	number;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -14,25 +15,27 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	main_type_str	:any;
+	id	:any;
+	create_time	:any;
+	create_adminid	:any;
+	username	:any;
+	phone	:any;
+	complaint_user_type	:any;
+	content	:any;
+	operator	:any;
+	assign_time	:any;
+	num	:any;
+	complaint_user_type_str	:any;
+	create_admin_nick	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/admin_group_manage.ts
+	 mkdir -p ../tea_manage; vi  ../tea_manage/teacher_train_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-admin_group_manage.d.ts" />
+/// <reference path="../g_args.d.ts/tea_manage-teacher_train_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -41,8 +44,7 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			monthtime_flag:	$('#id_monthtime_flag').val()
+			end_time:	$('#id_end_time').val()
         });
     }
 
@@ -57,7 +59,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_monthtime_flag').val(g_args.monthtime_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -67,11 +68,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">monthtime_flag</span>
-                <input class="opt-change form-control" id="id_monthtime_flag" />
-            </div>
-        </div>
 */

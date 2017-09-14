@@ -897,14 +897,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function reset_user_info_test_lesson($id,$userid, $is_test_user, $check_time) {
         //重置试听信息
         $lessonid = 0;
+        $lesson_info=null;
         if($userid && $is_test_user == 0 ) {
             $lessonid=0;
-            $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
-            if ($ret) {
-                $lessonid = $ret['lessonid'];
+            $lesson_info= $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
+            if ($lesson_info ) {
+                $lessonid = $lesson_info['lessonid'];
             }
         }
-        return $lessonid;
+        return array($lessonid, $lesson_info)  ;
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
@@ -958,6 +959,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_wx_openid = $p_pp_info['pp_wx_openid'];
         $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
+        $orderid=0;
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
             if ($order_info) {
@@ -1056,6 +1058,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
 
         }
+        return $orderid;
     }
     public function eval_agent_student_status(  $stu_info, $lesson_info ){
         $agent_student_status=0;
@@ -1216,7 +1219,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword1' =>"测评课" ,
                         'keyword2' => date('Y-m-d H:i:s',time()),
                         'keyword3' => $phone ,
-                        'remark'   => "如课程老师成功联系学员，将再获得5元奖励。" 
+                        'remark'   => "如课程老师成功联系学员，将再获得5元奖励。"
                     ];
                     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
@@ -1312,22 +1315,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $is_test_user = $student_info['is_test_user'];
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
-            $test_lessonid=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
-            $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+            list($test_lessonid ,$lesson_info)=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $orderid=$this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
 
             //是学员
             if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
                 //检查合同
-                if ($this->task->t_agent_order->check_aid($id) ) {
+                if ($orderid ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
                     $agent_status=E\Eagent_status::V_40;
+                    if ( $orderid &&  $lesson_info && $lesson_info["lesson_user_online_status"]!=1  ) {
+                        //下单,试听一定成功
+                        $this->task->t_lesson_info->field_update_list($lesson_info["lessonid"],[
+                            "lesson_user_online_status" => 1
+                        ]);
+
+                    }
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
 
-                    $lesson_info=null;
-                    if ( $test_lessonid ) {
-                        $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
-                    }
                     $agent_student_status= $this->eval_agent_student_status(  $stu_info, $lesson_info );
                     $agent_status= $this->eval_agent_status( $stu_info, $lesson_info );
 

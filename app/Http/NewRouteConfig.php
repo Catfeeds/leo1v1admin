@@ -349,7 +349,8 @@ class NewRouteConfig {
         "/tea_manage/set_test_lesson_comment"      => true,
         "/tea_manage/get_teacher_info_by_phone"    => true,
         "/tea_manage/trial_train_no_pass_list"     => true,
-        
+        "/tea_manage/teacher_train_list"           => true,
+
 
         "/small_class/index"                    => true,
         "/small_class/index_ass"                => true,

@@ -404,7 +404,8 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/DdBO9OC10ic8tJ1oRmm6TNYTSQE7NZH5o0hGlufNvd7LXvSkY96ntibaAU1LX6wTLaMxiceYSE4tkhlcGzib7JJdSQ/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/activity',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/activity',
+                'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_student_side/activity.html',
 
             );
 
@@ -431,7 +432,8 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/DdBO9OC10icicYdFxtz1HrGOD1WbNnsZgjXx6M1pRwJuQXZDBhCfR0cgAQMQj9d7ax9dibff8kia3YSHK0trVNGwEg/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/student_side_manual_ipad',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/student_side_manual_ipad',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_student_side/student_side_manual_ipad.html"
 
             );
 
@@ -443,7 +445,8 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/DdBO9OC10icicYdFxtz1HrGOD1WbNnsZgjrd0ILzqCsBBXx9KBqasKhIgEiaouNVQwNSfLWLMbUr8wgxibd94AAtAg/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/student_side_manual_pc',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/student_side_manual_pc',
+                'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_student_side/student_side_manual_pc.html',
 
 
             );

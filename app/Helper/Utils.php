@@ -751,6 +751,7 @@ class Utils  {
     }
 
     static public function send_agent_msg_for_wx($openid,$template_id,$data,$url=""){
+        //return ;
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
