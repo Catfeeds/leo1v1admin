@@ -1186,9 +1186,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.subject=%u",$subject,-1],
             "tr.record_score>0"
         ];
-        $sql = $this->gen_sql_new("select count(*) num,l.record_score "
-                                  ."from %s where %s group by record_score",
+        $sql = $this->gen_sql_new("select count(*) num,record_score "
+                                  ."from %s tr left join %s l on tr.train_lessonid = l.lessonid "
+                                  ." where %s group by record_score",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
