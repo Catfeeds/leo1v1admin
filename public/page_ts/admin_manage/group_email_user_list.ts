@@ -13,6 +13,7 @@ $(function(){
 
 
 
+
     $.admin_select_user(
         $('#id_adminid'),
         "admin", load_data);
@@ -22,23 +23,36 @@ $(function(){
 
 
     $("#id_add").on("click",function(){
-        var $adminid=$("<input/>");
+        $.admin_select_user($(this), "admin" ,function( adminid){
+            $.do_ajax("/ajax_deal2/email_group_user_add" , {
+                "groupid" : g_args.groupid,
+                adminid: adminid
+            } )
+        });
+    });
+
+
+    $(".opt-edit").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $email=$("<input/>");
+        var $name=$("<input/>");
         var arr=[
-            ["账号", $adminid ] ,
+            ["邮件地址",$email ],
+            ["姓名",$name],
         ];
+        $email.val(opt_data.email);
+        $name.val(opt_data.name);
 
-
-        $.show_key_value_table("添加组邮件", arr ,{
+        $.show_key_value_table("修改", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/ajax_deal2/email_group_user_add" , {
-                    "groupid" : g_args.groupid,
-                    adminid: $adminid.val()
+                $.do_ajax("/ajax_deal2/manger_info_set_info" , {
+                    "adminid" : opt_data.adminid,
+                    "email" : $email.val(),
+                    "name" : $name.val(),
                 } );
             }
-        },function(){
-            $.admin_select_user($adminid, "admin" );
         });
     });
 

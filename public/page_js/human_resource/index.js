@@ -40,7 +40,8 @@ $(function(){
             month_stu_num:	$('#id_month_stu_num').val(),
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
-			tea_label_type:	$('#id_tea_label_type').val()
+			tea_label_type:	$('#id_tea_label_type').val(),
+			plan_level:	$('#id_plan_level').val()
         });
     }
 
@@ -102,6 +103,7 @@ $(function(){
 	$('#id_record_score_num').val(g_args.record_score_num);
 	$('#id_identity').val(g_args.identity);
 	$('#id_tea_label_type').val(g_args.tea_label_type);
+	$('#id_plan_level').val(g_args.plan_level);
 
 
 
@@ -664,15 +666,13 @@ $(function(){
         var id_level              = $("<select/>");
         var id_start_time         = $("<input/>");
 
-        Enum_map.append_option_list("level", id_level, true );
         Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
 
         id_teacher_money_type.val(opt_data.teacher_money_type);
-        id_level.val(opt_data.level);
         id_start_time.datetimepicker({
-            datepicker:true,
-            timepicker:false,
-            format:'Y-m-d'
+            datepicker : true,
+            timepicker : false,
+            format     : 'Y-m-d'
         });
         id_start_time.val(opt_data.lesson_confirm_start_time );
 
@@ -694,6 +694,20 @@ $(function(){
                     "teacher_money_type" : id_teacher_money_type.val()
                 });
             }
+        },function(){
+            var reset_level_map = function(){
+                id_level.empty();
+                if(id_teacher_money_type.val()==6){
+                    Enum_map.append_option_list("new_level", id_level, true );
+                }else{
+                    Enum_map.append_option_list("level", id_level, true );
+                }
+                id_level.val(opt_data.level);
+            }
+            reset_level_map();
+            id_teacher_money_type.on("change",function(){
+                reset_level_map();
+            });
         });
     }
 
@@ -822,24 +836,7 @@ $(function(){
         $(".opt-user-info").hide();
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
-    }else{
-        $(".opt-meeting").hide();
-        $(".opt-interview-assess").hide();
-        $(".opt-edit").hide();
-        $(".opt-set-grade-range").hide();
-        $(".opt-teacher-freeze").hide();
-        $(".opt-set-teacher-record-new").hide();
-        $(".opt-get-teacher-record").hide();
-        $(".opt-set-research_note").hide();
-        $(".opt-limit-plan-lesson").hide();
-    }
-
-
-
-
-
-
-    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" ) {
+    }else if(window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_tea_qua_zj" || window.location.pathname=="/human_resource/index_tea_qua_zj/" ){
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
@@ -857,6 +854,8 @@ $(function(){
         $(".opt-user-info").show(); //　erick　修改
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
+
+        
     }else{
         $(".opt-meeting").hide();
         $(".opt-interview-assess").hide();
@@ -868,6 +867,7 @@ $(function(){
         $(".opt-set-research_note").hide();
         $(".opt-limit-plan-lesson").hide();
     }
+
 
 
 

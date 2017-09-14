@@ -21,12 +21,13 @@ return [
             "bucket" =>'lessonpic',
         ],
     ],
-    'api_url'     => env('API_URL', 'http://api.yb1v1.com/'),
-    'monitor_url' => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
-    'monitor_new_url' => env('MONITOR_NEW_URL', 'http://admin.yb1v1.com'),
+    'api_url'                   => env('API_URL', 'http://api.yb1v1.com/'),
+    'monitor_url'               => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
+    'monitor_new_url'           => env('MONITOR_NEW_URL', 'http://admin.yb1v1.com'),
+    //课时审查时间节点
     "lesson_confirm_start_time" => "2017-08-01",
+    //老师伯乐奖累计计算时间
     "teacher_ref_start_time"    => "2017-07-01",
-
     //新版优学优享开始时间
     "yxyx_new_start_time"    => "2017-09-01", //
     "test" => [
@@ -50,13 +51,13 @@ return [
     "teacher_wx" => [
         "appid"     => "wxa99d0de03f407627" ,
         "appsecret" => "61bbf741a09300f7f2fd0a861803f920",
-        "url" => "http://wx-teacher.leo1v1.com",
+        "url"       => "http://wx-teacher.leo1v1.com",
     ],
 
     "yxyx_wx" => [
         "appid"     => env('YXYX_WX_APPID', "wxb4f28794ec117af0") ,
         "appsecret" => env('YXYX_WX_APPSECRET', "4a4bc7c543698b8ac499e5c72c22f242" )  ,
-        "url" =>  env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
+        "url"       => env('YXYX_WX_URL',  "http://wx-yxyx.leo1v1.com" ) ,
     ],
     "teacher_wx_url" => [
         "normal_url"  => "http://wx-teacher.leo1v1.com/jump_page?url=comment_normal.html?lessonid=",
@@ -78,15 +79,15 @@ return [
         3  => 8 ,
 
         100  => 24 ,
-        101  => 24,
-        102  => 24,
+        101  => 24 ,
+        102  => 24 ,
         200  => 24 ,
         201  => 24 ,
         202  => 24 ,
 
 
         300  => 16,
-        301  => 16 ,
+        301  => 16,
 
 
         400  => 8,
@@ -121,9 +122,7 @@ return [
         1  => 10,
         2  => 7,
         3  => 6
-
     ],
-
     "seller_hold_test_lesson_user_count" => [
         -1 => 20,
         0  => 20,
@@ -177,7 +176,7 @@ return [
      */
     "teacher_money" => [
         "lesson_full_num"    => "20",
-        // "lesson_full_reward" => "10000",
+        "lesson_full_reward" => "10000",
         "lesson_full_reward" => "0",
         "trial_train_reward" => "2000",
         "trial_base_price"   => [

@@ -509,14 +509,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_admin_member_list_tmp(  $main_type = -1 ,$adminid=-1){
         $where_arr=[
-            // [ "tm.main_type =%u ", $main_type,-1] , // 测试
-            [ "m.main_type =%u ", $main_type,-1] ,
+            [ "tm.main_type =%u ", $main_type,-1] , // 测试
+            // [ "m.main_type =%u ", $main_type,-1] ,
             [  "am.account not like 'c\_%s%%'", "",  1] ,
             [  "am.account not like 'q\_%s%%'", "",  1] ,
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
-        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
+        $sql = $this->gen_sql_new("select tm.group_name first_group_name, g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
                                   "am.uid adminid,am.account,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am ".
