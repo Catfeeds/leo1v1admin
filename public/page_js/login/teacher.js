@@ -6,12 +6,15 @@ $(function(){
     $('#verify_image').attr('src', '/login/get_verify_code?r='+Math.random());
 
     var ua = window.navigator.userAgent.toLowerCase();
+    $('#id_remember').on('click', function (){
+        $(this).toggleClass('remember');
+    })
 
-  function login_fun(){
+    function login_fun(){
         var account = $('#id_account').val();
         var password = $('#id_password').val();
         var seccode  = $('#id_seccode').val();
-
+        var remember = $('#id_remember').hasClass('remember');
         if (!check_account() || !check_password() || !check_seccode()) {
             $('#verify_image').attr('src', '/login/get_verify_code?r='+Math.random());
             return;
@@ -21,7 +24,7 @@ $(function(){
         $.ajax({
             'url':'/login/login_teacher',
             'type': 'POST',
-            'data': {'account':account,'password':password,'seccode':seccode},
+            'data': {'account':account,'password':password,'seccode':seccode,'remember':remember},
             'dataType': 'jsonp',
             success: function(data) {
                 if (data['ret'] == 0) {
@@ -44,11 +47,11 @@ $(function(){
 
 
 
-  $(window).keypress(function(e) {
-    if (e.which == 13) {
-      login_fun();
-    }
-  });
+    $(window).keypress(function(e) {
+        if (e.which == 13) {
+            login_fun();
+        }
+    });
 
     $('#verify_image').on('click', function(){
         $(this).attr('src', '/login/get_verify_code?r='+Math.random());
@@ -66,7 +69,7 @@ $(function(){
 
 function check_account() {
     if ( $('#account').val() == '' ) {
-    alert('用户名不能为空');
+        alert('用户名不能为空');
         return false;
     }
     return true;
