@@ -163,6 +163,7 @@ return array(
     ["db_weiyi","t_change_teacher_list","id"] ,
     ["db_weiyi","t_seller_and_ass_record_list","id"] ,
     ["db_weiyi","t_teacher_leave_info","id"] ,
+    ["db_weiyi","t_teacher_train_info","id"],
     ["db_weiyi","t_fulltime_teacher_assessment_list","id"] ,
     ["db_weiyi","t_fulltime_teacher_positive_require_list","id"] ,
     ["db_weiyi","t_location_subject_grade_textbook_info","id"] ,
