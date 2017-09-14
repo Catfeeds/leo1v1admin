@@ -319,8 +319,11 @@ class agent extends Controller
 
     public function check(){
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid=287);
-        $son_adminid_new = $this->t_admin_main_group_name->get_son_adminid($adminid=455);
-        dd($son_adminid,$son_adminid_new);
+        $son_adminid_arr = [];
+        foreach($son_adminid as $item){
+            $son_adminid_arr[] = $item['adminid'];
+        }
+        dd($son_adminid_arr);
         $this->test_lesson_cancle_rate();
     }
 
