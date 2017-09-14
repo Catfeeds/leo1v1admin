@@ -102,24 +102,28 @@ class table_manage extends Controller
             "db_weiyi"       => "t_student_info",
             "db_tool"        => "t_school_info",
             "db_weiyi_admin" => "t_admin_users",
-            "db_account" => "t_user_info",
+            "db_account"     => "t_user_info",
         ];
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
-
         $table_name=$this->get_in_str_val("table_name", $config_arr[$db_name]);
 
         //得到table 注释
         $table=$this->get_table($db_name);
-
-        $db_table_name=$this-> get_db_table_name( $db_name,$table_name );
+        $db_table_name=$this->get_db_table_name( $db_name,$table_name );
 
         $sql=$table->gen_sql( " select TABLE_NAME,TABLE_COMMENT from  information_schema.TABLES where TABLE_SCHEMA='%s' and TABLE_NAME <> 't_opt_table_log' " ,$db_name);
         $table_list=$table->main_get_list($sql);
+        foreach($table_list as &$t_item){
+            $table_comment=@hex2bin($t_item["TABLE_COMMENT"]);
+            if ($table_comment) {
+                $t_item["TABLE_COMMENT"]=$table_comment;
+            }
+        }
 
         //得到列信息
-        $sql=$table->gen_sql( "show FULL COLUMNS  FROM %s" ,$db_table_name );
-        $list=$table->main_get_list($sql);
-        foreach ($list as &$item) {
+        $sql  = $table->gen_sql( "show FULL COLUMNS  FROM %s" ,$db_table_name );
+        $list = $table->main_get_list($sql);
+        foreach($list as &$item){
             $comment=@hex2bin($item["Comment"]);
             if ($comment) {
                 $item["Comment"]=$comment;

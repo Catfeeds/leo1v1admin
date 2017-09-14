@@ -874,7 +874,6 @@ class teacher_level extends Controller
             }
         }
 
-
         //更新teacher_info里面train_type字段值
         $ret_train_type = $this->t_teacher_info->get_train_type($teacherid);
         $ret_train_type = trim($ret_train_type,'[]');
