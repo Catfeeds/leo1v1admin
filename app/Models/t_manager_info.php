@@ -507,6 +507,43 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
+    public function get_admin_member_list_tmp(  $main_type = -1 ,$adminid=-1){
+        $where_arr=[
+            // [ "tm.main_type =%u ", $main_type,-1] , // 测试
+            [ "m.main_type =%u ", $main_type,-1] ,
+            [  "am.account not like 'c\_%s%%'", "",  1] ,
+            [  "am.account not like 'q\_%s%%'", "",  1] ,
+        ];
+        $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
+
+        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
+                                  "am.uid adminid,am.account,".
+                                  "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
+                                  " from %s am ".
+                                  " left join %s u on am.uid = u.adminid".
+                                  " left join %s g on u.groupid = g.groupid".
+                                  " left join %s m on g.up_groupid = m.groupid".
+                                  " left join %s ss on am.uid = ss.admin_revisiterid ".
+                                  " left join %s t on ss.userid = t.userid ".
+                                  " left join %s tm on tm.groupid=m.up_groupid".
+                                  // " where %s and am.del_flag=0".
+                                  " where %s ".
+                                  "  group by am.uid",
+                                  self::DB_TABLE_NAME,//am
+                                  t_admin_group_user::DB_TABLE_NAME,//u
+                                  t_admin_group_name::DB_TABLE_NAME,//g
+                                  t_admin_main_group_name::DB_TABLE_NAME,//m
+                                  t_seller_student_new::DB_TABLE_NAME,//ss
+                                  t_test_lesson_subject::DB_TABLE_NAME,//t
+                                  t_admin_majordomo_group_name::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item['adminid'];
+        });
+    }
+
+
     public function get_admin_member_list_new( $month, $main_type = -1 ,$adminid=-1){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
@@ -650,7 +687,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql=$this->gen_sql_new(
             "select uid,account_role,become_member_time  "
-            ." from %s m " 
+            ." from %s m "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
@@ -1600,5 +1637,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
-    
+    public function reset_all_email_create_flag ( $email_list ) {
+
+        $sql=$this->gen_sql_new("update %s set  email_create_flag=0 ",  self::DB_TABLE_NAME);
+        $this->main_update($sql);
+        foreach ( $email_list as &$email  ) {
+            $email= "'".  trim($email ) . "'";
+        }
+        $email_list_str=join( ",",$email_list );
+
+
+        $sql=$this->gen_sql_new("update %s set email_create_flag=1 where email in (%s) ",
+                                self::DB_TABLE_NAME, [$email_list_str]
+        );
+        $this->main_update($sql);
+
+    }
 }
