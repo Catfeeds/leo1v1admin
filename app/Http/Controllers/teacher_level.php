@@ -873,11 +873,6 @@ class teacher_level extends Controller
                 ]);
             }
         }
-        dd(20);
-
-
-
-
 
 
         //更新teacher_info里面train_type字段值
