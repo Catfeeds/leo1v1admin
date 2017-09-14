@@ -133,6 +133,17 @@ class main_page extends Controller
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
         $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
 
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        $week_start_time = date('m/d',$start_time);
+        $week_end_time = date('m/d',$end_time);
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -145,6 +156,8 @@ class main_page extends Controller
             "is_group_leader_flag"   => $is_group_leader_flag,
             "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
             "self_money"             => $self_money,
+            "start_time"             => $week_start_time,
+            "end_time"               => $week_end_time,
         ]);
     }
 
