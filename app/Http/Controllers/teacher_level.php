@@ -873,7 +873,6 @@ class teacher_level extends Controller
                 ]);
             }
         }
-        dd(20);
 
 
 
