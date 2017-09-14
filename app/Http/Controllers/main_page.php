@@ -132,7 +132,7 @@ class main_page extends Controller
         $money_info = $this->seller_month_money_list();
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
         $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
-
+        //上周试听取消率
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -144,6 +144,11 @@ class main_page extends Controller
         $start_time = $end_time-3600*24*7;
         $week_start_time = date('m/d',$start_time);
         $week_end_time = date('m/d',$end_time);
+        $test_fail_info = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
+        $self_top_info[13]["value"] = isset($test_fail_info[13]["value"])?$test_fail_info[13]["value"]:0;
+        $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
+        $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
+        $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
