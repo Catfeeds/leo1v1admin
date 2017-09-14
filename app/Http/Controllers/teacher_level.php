@@ -854,6 +854,31 @@ class teacher_level extends Controller
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
+        //insert t_teacher_train_info
+        $te = $train_type;
+        $te  = trim($te,'[]');
+        if($te){
+            $te  = explode(",", $te);
+            foreach ($te as $key => $value) {
+                $type = intval(trim($value,'"'));
+                $ret = $this->t_teacher_train_info->row_insert([
+                    "create_time"    => time(),
+                    "create_adminid" => $this->get_account_id(),
+                    "train_type"     => $type,
+                    "teacherid"      => $teacherid,
+                    "subject"        => $subject,
+                    "lessonid"       => $lessonid,
+                    "status"         => 1,//no 
+                ]);
+            }
+        }
+        dd(20);
+
+
+
+
+
+        
         //更新teacher_info里面train_type字段值
         $ret_train_type = $this->t_teacher_info->get_train_type($teacherid);
         $ret_train_type = trim($ret_train_type,'[]');
@@ -866,7 +891,12 @@ class teacher_level extends Controller
 
         $te = $train_type;
         $te  = trim($te,'[]');
-        $te  = explode(",", $te);
+        if($te){
+            $te  = explode(",", $te);
+        }else{
+            $te = [];
+        }
+        
 
 
         foreach($te as $k =>&$v) {
@@ -876,7 +906,12 @@ class teacher_level extends Controller
         $ret_train_type = implode(',', $ret_train_type);
         $ret_train_type = '['.$ret_train_type.']';
         $this->t_teacher_info->field_update_list($teacherid,['train_type' => $ret_train_type]);
+
+
         
+
+
+        //
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         $add_time = time();
         if($id>0){

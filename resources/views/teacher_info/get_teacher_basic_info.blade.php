@@ -12,7 +12,6 @@
 
     <script>
      var able_edit  = <?php  echo json_encode($able_edit); ?> ;
-     var domain_url = '{{$domain_url}}';
     </script>
     <section class="content li-section">
         <div class="row">

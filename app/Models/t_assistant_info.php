@@ -42,7 +42,7 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
             $where_arr[] = "rate_score > 50 ";
         }
 
-        $sql=$this->gen_sql_new ("select nick,assistant_type,gender,birth,phone,"
+        $sql=$this->gen_sql_new ("select nick,assistant_type,gender,birth,phone,assign_lesson_count ,"
                                  ." email,rate_score,assistantid,school,prize,work_year"
                                  ." from %s "
                                  ." where is_quit=0 "
