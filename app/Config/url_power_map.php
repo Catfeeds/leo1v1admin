@@ -509,6 +509,7 @@ class url_power_map {
 			'/human_resource/teacher_record_detail_info'	=>1373215,
 			'/human_resource/teacher_record_detail_info_new'	=>1373229,
 			'/user_manage/tongji_check'	=>1375000,
+			'/tongji_ss/tongji_lesson_record_info'	=>1375100,
 			'/main_page/zs_teacher'	=>1350100,
 			'/tea_manage/train_lesson_list_research'	=>1350400,
 			'/tea_manage/train_not_through_list_px'	=>1350500,

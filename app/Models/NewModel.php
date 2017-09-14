@@ -408,6 +408,10 @@ abstract class NewModel
         }
     }
 
+
+    function row_insert_ignore( $arr  ) {
+        return $this->row_insert($arr,false,true);
+    }
     /**
      * 插入数据库数据
      */

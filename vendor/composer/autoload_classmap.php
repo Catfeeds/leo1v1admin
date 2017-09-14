@@ -868,6 +868,7 @@ return array(
     'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => $baseDir . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
     'TTestLessonSubjectSubListAddTopSellerFlag' => $baseDir . '/database/migrations/2017_08_31_182154_t_test_lesson_subject_sub_list_add_top_seller_flag.php',
     'TTodo' => $baseDir . '/database/migrations/2017_06_28_175835_t_todo.php',
+    'TTongjiLog' => $baseDir . '/database/migrations/2017_09_14_105723_t_tongji_log.php',
     'TTqCallInfoAddAdminRole' => $baseDir . '/database/migrations/2017_08_24_135640_t_tq_call_info_add_admin_role.php',
     'TTqCallInfoAddAdminid' => $baseDir . '/database/migrations/2017_08_24_134744_t_tq_call_info_add_adminid.php',
     'TTrainLessonUserAddTrainType' => $baseDir . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',
