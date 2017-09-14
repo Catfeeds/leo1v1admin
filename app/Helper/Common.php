@@ -1260,7 +1260,7 @@ class Common {
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
 
-        $admin_list=$admin_list["list"] ;
+        $admin_list=$admin_list["list"];
 
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {

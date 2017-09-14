@@ -22,10 +22,10 @@ class send_error_mail extends Job implements ShouldQueue
     {
         parent::__construct();
         $this->mail_info = [
-            "to"      => $to,
-            "title"   => $title,
-            "content" => $content,
-            "report_error_type"=> $report_error_type,
+            "to"                => $to,
+            "title"             => $title,
+            "content"           => $content,
+            "report_error_type" => $report_error_type,
         ];
         //
     }
