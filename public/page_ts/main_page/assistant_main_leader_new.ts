@@ -66,9 +66,9 @@ $(function(){
 
     $(".opt_kk_suc").on("click",function(){
         var uid= $(this).data("uid");
-        if(uid > 0){
+        if(uid > 0 || uid==-1){
             var title = "扩课成功学生详情";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>助教</td><td>科目</td><td>老师</td><td>第一次常规课时间</td><tr></table></div>");
 
             $.do_ajax('/tongji_ss/get_ass_stu_kk_suc_info',{
                 "adminid"  : uid,
@@ -82,7 +82,7 @@ $(function(){
                     var time     = item["time"];
                     var subject  = item["subject_str"];
                     var realname    = item["realname"];
-                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+nick+"</td><td>"+subject+"</td><td>"+realname+"</td><td>"+time+"</td></tr>");
+                    html_node.find("table").append("<tr><td>"+userid+"</td><td>"+nick+"</td><td>"+item["ass_nick"]+"</td><td>"+subject+"</td><td>"+realname+"</td><td>"+time+"</td></tr>");
                 });
             });
 

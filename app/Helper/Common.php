@@ -1355,13 +1355,31 @@ class Common {
 
                 /**
                  *开发中
-
-                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
-                 $key1_map=&$key0_map["sub_list"][$main_type];
-                 $add_data($key1_map, $item );
-
-
                  */
+                $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
+                $key1_map=&$key0_map["sub_list"][$main_type];
+                // $add_data($key1_map, $item );
+
+                $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"first_group_name");
+                $key2_map=&$key1_map["sub_list"][$up_group_name];
+                // $add_data($key2_map, $item );
+
+
+                $check_init_map_item($key2_map["sub_list"] , $up_group_name ,"up_group_name");
+                $key3_map=&$key2_map["sub_list"][$up_group_name];
+                // $add_data($key2_map, $item );
+
+                $check_init_map_item($key3_map["sub_list"] , $group_name ,"group_name","",$groupid);
+                $key4_map=&$key3_map["sub_list"][$group_name];
+                // $add_data($key3_map, $item );
+
+                $check_init_map_item($key4_map["sub_list"] , $account,"account",$adminid,$groupid);
+                $key5_map=&$key4_map["sub_list"][$account];
+                // $add_data($key4_map, $item,true );
+
+
+
+                /* 原始代码
 
                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
                 $key1_map=&$key0_map["sub_list"][$main_type];
@@ -1378,6 +1396,10 @@ class Common {
                 $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid);
                 $key4_map=&$key3_map["sub_list"][$account];
                 $add_data($key4_map, $item,true );
+                */
+
+
+
             }
 
         }
@@ -1456,6 +1478,27 @@ class Common {
 
                             $list[]=$data;
                         }
+
+                        // foreach ($item3["sub_list"] as $key4 => $item4) {
+                        //     $data=$item4["data"];
+                        //     $data["main_type"]=$key1;
+                        //     $data["up_group_name"]=$key2;
+                        //     $data["group_name"]=$key3;
+                        //     $data["account"]=$key4;
+                        //     $data["main_type_class"]=$item1["key_class"];
+                        //     $data["up_group_name_class"]=$item2["key_class"];
+                        //     $data["group_name_class"]=$item3["key_class"];
+                        //     $data["account_class"]=$item4["key_class"];
+                        //     $data['adminid'] = $item4['adminid'];
+                        //     $data['groupid'] = $item4['groupid'];
+                        //     $data["level"]="l-4";
+
+                        //     $list[]=$data;
+                        // }
+
+
+
+
                     }
                 }
             }
