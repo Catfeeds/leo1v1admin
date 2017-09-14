@@ -338,9 +338,10 @@ class agent extends Controller
         //     $count++;
         // }
         $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
+        $self_top_info_old =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid=730,  $start_time );
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent_row($adminid=730,$start_time,$tongji_type);
         $self_top_info_new =$this->t_tongji_seller_top_info->get_admin_week_fail_percent_row($adminid=975,$start_time,$tongji_type);
-        dd($self_top_info,$self_top_info_new);
+        dd($self_top_info_old,$self_top_info,$self_top_info_new);
     }
 
     public function test_lesson_cancle_rate(){
