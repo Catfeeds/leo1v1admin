@@ -1880,7 +1880,7 @@ $(function(){
             }
 
 
-            if (from_parent_order_type == 0  || from_parent_order_type == 4 || from_parent_order_type == 3) {
+            if (from_parent_order_type == 0  || from_parent_order_type == 4 || from_parent_order_type == 3 || from_parent_order_type == 6) {
                 var $lesson_count=$("<input/>");
                 var $order_require_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
                 var $order_require_reason=$("<textarea/>");
@@ -1895,6 +1895,11 @@ $(function(){
                 var opt_change_order_require_flag=function () {
                     $order_require_reason.key_value_table_show($order_require_flag.val()==1);
                 };
+
+                if(from_parent_order_type==6){
+                    $order_require_flag.parent().parent().hide();
+                    $order_require_flag.val(0);
+                }
 
                 $.show_key_value_table ( "赠送课时", arr ,{
                     label: '确认',
@@ -2033,7 +2038,7 @@ $(function(){
         btn_add_5.on("click", function(){
              add_free( 5 );
         });
-        btn_add_5.on("click", function(){
+        btn_add_6.on("click", function(){
             add_free( 6 );
         });
 
