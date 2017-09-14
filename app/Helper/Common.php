@@ -1345,7 +1345,7 @@ class Common {
                 $main_type=$item['main_type'];
                 $up_group_name=$item["up_group_name"];
                 $group_name=$item["group_name"];
-                $account=$item["account"];
+                $account = $item["account"];
                 $groupid = $item['groupid'];
 
                 $first_group_name = $item['first_group_name']; // 开发中
