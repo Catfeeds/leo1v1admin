@@ -1,6 +1,7 @@
 <?php
 return array(
 
+    ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
     ["db_weiyi_admin","t_admin_majordomo_group_name", "groupid"],

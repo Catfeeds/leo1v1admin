@@ -273,6 +273,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 
     public static $classMap = array (
         'CreateAgent' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_175008_create_agent.php',
+        'CreateTAdminMajordomoGroupName' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_183810_create_t_admin_majordomo_group_name.php',
         'CreateTComplaintAssignInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173101_create_t_complaint_assign_info.php',
         'CreateTComplaintDealInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173113_create_t_complaint_deal_info.php',
         'CreateTComplaintInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173043_create_t_complaint_info.php',
@@ -839,6 +840,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TAdminChannelList' => __DIR__ . '/../..' . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
         'TAdminChannelUser' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_174001_t_admin_channel_user.php',
         'TAdminGroupNameAddSubject' => __DIR__ . '/../..' . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
+        'TAdminMainGroupNameAddUpGroupId' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_184228_t_admin_main_group_name_add_up_group_id.php',
         'TAdminSelfMenuList' => __DIR__ . '/../..' . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
         'TAgent' => __DIR__ . '/../..' . '/database/migrations/2017_06_02_190744_t_agent.php',
         'TAgentAddBankInfo' => __DIR__ . '/../..' . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
@@ -954,6 +956,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TMonthAssStudentInfoAddNewRefundMoney' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_113010_t_month_ass_student_info_add_new_refund_money.php',
         'TMonthAssStudentInfoAddReadStudentLast' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_140859_t_month_ass_student_info_add_read_student_last.php',
         'TMonthAssStudentInfoAddReadStudentNewAllStudentNew' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_141340_t_month_ass_student_info_add_read_student_new_all_student_new.php',
+        'TMonthAssStudentInfoAddRevisitTarget' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_181327_t_month_ass_student_info_add_revisit_target.php',
+        'TMonthAssStudentInfoAddTranNum' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_184002_t_month_ass_student_info_add_tran_num.php',
         'TMonthAssWarningStudentInfoAddDoneFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_163142_t_month_ass_warning_student_info_add_done_flag.php',
         'TMonthAssWarningStudentInfoModefiyPrimary' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_160459_t_month_ass_warning_student_info_modefiy_primary.php',
         'TOrderInfoAddChannel' => __DIR__ . '/../..' . '/database/migrations/2017_07_12_164151_t_order_info_add_channel.php',
@@ -1127,6 +1131,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
         'TTestLessonSubjectSubListAddTopSellerFlag' => __DIR__ . '/../..' . '/database/migrations/2017_08_31_182154_t_test_lesson_subject_sub_list_add_top_seller_flag.php',
         'TTodo' => __DIR__ . '/../..' . '/database/migrations/2017_06_28_175835_t_todo.php',
+        'TTongjiLog' => __DIR__ . '/../..' . '/database/migrations/2017_09_14_105723_t_tongji_log.php',
         'TTqCallInfoAddAdminRole' => __DIR__ . '/../..' . '/database/migrations/2017_08_24_135640_t_tq_call_info_add_admin_role.php',
         'TTqCallInfoAddAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_08_24_134744_t_tq_call_info_add_adminid.php',
         'TTrainLessonUserAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',

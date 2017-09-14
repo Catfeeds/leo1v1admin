@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateAgent' => $baseDir . '/database/migrations/2017_06_01_175008_create_agent.php',
+    'CreateTAdminMajordomoGroupName' => $baseDir . '/database/migrations/2017_09_13_183810_create_t_admin_majordomo_group_name.php',
     'CreateTComplaintAssignInfo' => $baseDir . '/database/migrations/2017_06_13_173101_create_t_complaint_assign_info.php',
     'CreateTComplaintDealInfo' => $baseDir . '/database/migrations/2017_06_13_173113_create_t_complaint_deal_info.php',
     'CreateTComplaintInfo' => $baseDir . '/database/migrations/2017_06_13_173043_create_t_complaint_info.php',
@@ -573,6 +574,7 @@ return array(
     'TAdminChannelList' => $baseDir . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
     'TAdminChannelUser' => $baseDir . '/database/migrations/2017_08_26_174001_t_admin_channel_user.php',
     'TAdminGroupNameAddSubject' => $baseDir . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
+    'TAdminMainGroupNameAddUpGroupId' => $baseDir . '/database/migrations/2017_09_13_184228_t_admin_main_group_name_add_up_group_id.php',
     'TAdminSelfMenuList' => $baseDir . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
     'TAgent' => $baseDir . '/database/migrations/2017_06_02_190744_t_agent.php',
     'TAgentAddBankInfo' => $baseDir . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
@@ -688,6 +690,8 @@ return array(
     'TMonthAssStudentInfoAddNewRefundMoney' => $baseDir . '/database/migrations/2017_06_01_113010_t_month_ass_student_info_add_new_refund_money.php',
     'TMonthAssStudentInfoAddReadStudentLast' => $baseDir . '/database/migrations/2017_06_01_140859_t_month_ass_student_info_add_read_student_last.php',
     'TMonthAssStudentInfoAddReadStudentNewAllStudentNew' => $baseDir . '/database/migrations/2017_08_17_141340_t_month_ass_student_info_add_read_student_new_all_student_new.php',
+    'TMonthAssStudentInfoAddRevisitTarget' => $baseDir . '/database/migrations/2017_09_13_181327_t_month_ass_student_info_add_revisit_target.php',
+    'TMonthAssStudentInfoAddTranNum' => $baseDir . '/database/migrations/2017_09_13_184002_t_month_ass_student_info_add_tran_num.php',
     'TMonthAssWarningStudentInfoAddDoneFlag' => $baseDir . '/database/migrations/2017_07_20_163142_t_month_ass_warning_student_info_add_done_flag.php',
     'TMonthAssWarningStudentInfoModefiyPrimary' => $baseDir . '/database/migrations/2017_07_20_160459_t_month_ass_warning_student_info_modefiy_primary.php',
     'TOrderInfoAddChannel' => $baseDir . '/database/migrations/2017_07_12_164151_t_order_info_add_channel.php',
@@ -861,6 +865,7 @@ return array(
     'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => $baseDir . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
     'TTestLessonSubjectSubListAddTopSellerFlag' => $baseDir . '/database/migrations/2017_08_31_182154_t_test_lesson_subject_sub_list_add_top_seller_flag.php',
     'TTodo' => $baseDir . '/database/migrations/2017_06_28_175835_t_todo.php',
+    'TTongjiLog' => $baseDir . '/database/migrations/2017_09_14_105723_t_tongji_log.php',
     'TTqCallInfoAddAdminRole' => $baseDir . '/database/migrations/2017_08_24_135640_t_tq_call_info_add_admin_role.php',
     'TTqCallInfoAddAdminid' => $baseDir . '/database/migrations/2017_08_24_134744_t_tq_call_info_add_adminid.php',
     'TTrainLessonUserAddTrainType' => $baseDir . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',
