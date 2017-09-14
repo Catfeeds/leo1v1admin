@@ -329,7 +329,7 @@ class agent extends Controller
         $start_time = $end_time-3600*24*7;
         $this->t_order_info->switch_tongji_database();
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
+        $tongji_type= E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         $test_lesson_fail_per = $test_lesson_list["list"];
         $test_lesson_all_count= [] ;
@@ -351,10 +351,10 @@ class agent extends Controller
         dd($test_lesson_fail_count,$test_lesson_all_count,$test_lesson_fail_per);
         $this->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$test_lesson_fail_per);
         $this->t_tongji_seller_top_info->update_list(
-            E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_COUNT
+            E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_COUNT
             ,$start_time,$test_lesson_fail_count);
         $this->t_tongji_seller_top_info->update_list(
-            E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
+            E\Etongji_type::V_SELLER_WEEK_ALL_LESSON_COUNT,
             $start_time,$test_lesson_all_count);
     }
 
