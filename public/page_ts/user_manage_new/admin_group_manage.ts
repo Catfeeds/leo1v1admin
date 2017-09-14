@@ -118,8 +118,8 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_deal/admin_main_group_add",{
-                    "main_type" : main_type,
-                    "group_name" : id_group_name.val()
+                    // "main_type" : main_type,
+                    // "group_name" : id_group_name.val()
                 });
             }
         });

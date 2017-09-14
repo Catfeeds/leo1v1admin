@@ -535,7 +535,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_type in (0,1,3)",
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,"
-                                  ." sum(if(confirm_flag!=2 and lesson_del_flag=0,lesson_count,0)),"
+                                  ." sum(if(confirm_flag!=2 and lesson_del_flag=0,lesson_count,0)) as lesson_total,"
                                   ." "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
