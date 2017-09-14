@@ -3584,14 +3584,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "tl.status=1",
             "t.is_test_user=0",
             "t.trial_lecture_is_pass=1",
-            "subject=0",
+            "t.subject=0",
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.phone,group_concat(distinct(tl.subject)) as subject,"
                                   ." group_concat(distinct(tl.grade)) as grade"
                                   ." from %s t"
                                   ." left join %s tl on t.phone=tl.phone"
                                   ." where %s"
+                                  ." group by t.teacherid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

@@ -2192,7 +2192,11 @@ class test_code extends Controller
      */
     public function reset_teacher_subject_info(){
         $list = $this->t_teacher_info->reset_teacher_subject_info();
-
+        dd($list);
+        foreach($list as $val){
+            echo $val['subject'];
+            echo "<br>";
+        }
     }
 
 
