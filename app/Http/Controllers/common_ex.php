@@ -54,6 +54,7 @@ class common_ex extends Controller
 
     public function book_free_lesson()
     {
+
         $nick     = $this->get_in_str_val("nick");
         $phone    = $this->get_in_str_val("phone");
         $origin_phone = $this->get_in_str_val("origin_phone");
@@ -72,7 +73,7 @@ class common_ex extends Controller
         $qq           = $this->get_in_int_val("qq");
         $add_to_main_flag = $this->get_in_int_val("add_to_main_flag",0);
 
-        if(!preg_match("/^1\d{10}$/",$phone)){
+        if(!preg_match( "/^1[34578]{1}\d{9}$/",$phone)){
             return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
         }
         if($origin_phone!="" && $origin_phone==$phone){
