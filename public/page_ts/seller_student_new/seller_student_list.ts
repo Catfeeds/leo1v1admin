@@ -2030,6 +2030,8 @@ function init_edit() {
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
             var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
             var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
+            var id_advice_flag = html_node.find("#id_advice_flag");
+            
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){
@@ -2192,6 +2194,7 @@ function init_edit() {
             Enum_map.append_option_list("pad_type", id_has_pad, true);
             Enum_map.append_option_list("subject", id_subject, true);
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+            Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
             id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',

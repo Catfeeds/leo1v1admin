@@ -2202,7 +2202,9 @@ class test_code extends Controller
         }
     }
 
-
+    public function get_teacher_full_lesson(){
+        $list = $this->t_lesson_info_b3->get_teacher_full_lesson();
+    }
 
 
 

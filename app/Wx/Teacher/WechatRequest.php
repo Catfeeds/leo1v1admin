@@ -513,7 +513,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml6MUooCw5Ylg8H04YNM6kv5keTjRg7iaibwzgMHDx9TWm7nAoAiab35nudc8WAFELeRLg3SqvPx5picsg/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_chinese',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_chinese',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_chinese.html"
             );
 
             $tuwenList[] = array(
@@ -524,7 +525,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5wfZguFN5Sib6H0sHGzE77PqBg0wvSLgwQmiaByySeb7W1OmwknKgH3VGFcOjoicHPsdlCZmPKv7D7Q/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_physics',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_physics',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_physics.html"
             );
 
 
