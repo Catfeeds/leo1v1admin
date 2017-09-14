@@ -125,8 +125,22 @@ class test_sam  extends Controller
     }
 
     public function tt(){
-        // $this->t_manager_info->field_update_list($uid,$set_field_arr);
-        new       \App\Http\Controllers\common();
+        $ret = '["21","23"]';
+        $ret = trim($ret,'[]');
+        $ret = explode(",",$ret);
+
+        $te = '["21","23","24"]';
+        $te = trim($te,'[]');
+        $te = explode(",", $te);
+
+
+        foreach($te as $k =>&$v) {
+            if(!in_array($v, $ret))
+                array_push($ret, $v);
+        }
+        $ret = implode(',', $ret);
+        $ret = '['.$ret.']';
+        dd($ret);
 
     }
 
