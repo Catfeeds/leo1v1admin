@@ -254,7 +254,8 @@
 
 
 
-                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;"><img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%90%9C%E7%B4%A2%E4%B8%8B%E8%BD%BD-new1.gif" class=" __bg_gif" data-ratio="1.7786666666666666" data-w="375" src="http://mmbiz.qpic.cn/mmbiz_gif/DdBO9OC10ic9a8icsVzc4gF4ic4cBdCPQmXUmg57dnVVvqQdCar0CLbOznSGqcpkZs3f6fiaeI94H5aVGEQdjcMc6A/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" style="width: auto !important; height: auto !important; visibility: visible !important;" data-order="0" data-fail="0"><br></section></section>
+                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;">
+                                <img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%90%9C%E7%B4%A2%E4%B8%8B%E8%BD%BD-new2.gif" class=" __bg_gif" data-ratio="1.7786666666666666" data-w="375"  style="width: auto !important; height: auto !important; visibility: visible !important;" data-order="0" data-fail="0"><br></section></section>
 
 
 
