@@ -1265,7 +1265,7 @@ class Common {
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {
 
-        // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
+            // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
 
             global $cur_key_index;
             if (!isset($item [$key])) {
@@ -1699,11 +1699,33 @@ class Common {
         }
     }
 
-        static function check_phone($phone){
-            if(preg_match("/^1[34578]{1}\d{9}$/",$phone)){
-                return $phone;
-            }else{
-                return "";
-            }
+    static function check_phone($phone){
+        if(preg_match("/^1[34578]{1}\d{9}$/",$phone)){
+            return $phone;
+        }else{
+            return "";
         }
+    }
+
+        static public function gen_day_time_list($time_list,$start_time,$end_time, $field_time="logtime", $field_value="value" ) {
+        if (count($time_list) != 1440 ) {
+            $t=$start_time;
+            $tmp_list=[];
+            foreach ( $time_list as $item ) {
+                $c_time=$item[ $field_time];
+                while ( $t < $c_time -60  ) {
+                    $tmp_list[]= [$field_value =>null];
+                    $t+=60;
+                }
+                $tmp_list[]= $item;
+                $t+=60;
+            }
+            for ( ; $t<$end_time; $t+=60  ) {
+                $tmp_list[]= [ $field_value =>null];
+            }
+            $time_list=$tmp_list;
+        }
+        return $time_list;
+
+    }
 };

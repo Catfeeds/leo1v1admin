@@ -740,23 +740,10 @@ class tongji extends Controller
         list($start_time ,$end_time)=$this->get_in_date_range_day(0);
         $week_flag=$this->get_in_int_val("week_flag", 1, E\Eboolean::class );
         $time_list=$this->t_online_count_log->get_list($start_time,$end_time);
-        if (count($time_list) != 1440 ) {
-            $t=$start_time;
-            $tmp_list=[];
-            foreach ( $time_list as $item ) {
-                $c_time=$item["logtime"];
-                while ( $t < $c_time -60  ) {
-                    $tmp_list[]= ["online_count"=>null];
-                    $t+=60;
-                }
-                $tmp_list[]= $item;
-                $t+=60;
-            }
-            for ( ; $t<$end_time; $t+=60  ) {
-                $tmp_list[]= ["online_count"=>null];
-            }
-            $time_list=$tmp_list;
-        }
+        $time_list=\App\Helper\Common::gen_day_time_list($time_list,$start_time,$end_time,'logtime', "online_count" );
+        $need_deal_count_list=$this->t_tongji_log->get_list(
+            E\Etongji_log_type::V_SYS_NEED_GEN_LESSON_VIDEO_COUNT, $start_time,$end_time);
+        $need_deal_count_list=\App\Helper\Common::gen_day_time_list( $need_deal_count_list,$start_time,$end_time);
 
 
         $def_time_list=[];
@@ -774,7 +761,7 @@ class tongji extends Controller
 
         return $this->pageView(__METHOD__,null,[
             "data_ex_list" =>[
-                "time_list" => [$time_list, $def_time_list],
+                "time_list" => [$time_list, $def_time_list, $need_deal_count_list],
             ]
         ] );
 
