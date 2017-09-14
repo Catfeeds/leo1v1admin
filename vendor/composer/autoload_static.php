@@ -1133,6 +1133,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
         'TTestLessonSubjectSubListAddTopSellerFlag' => __DIR__ . '/../..' . '/database/migrations/2017_08_31_182154_t_test_lesson_subject_sub_list_add_top_seller_flag.php',
         'TTodo' => __DIR__ . '/../..' . '/database/migrations/2017_06_28_175835_t_todo.php',
+        'TTongjiLog' => __DIR__ . '/../..' . '/database/migrations/2017_09_14_105723_t_tongji_log.php',
         'TTqCallInfoAddAdminRole' => __DIR__ . '/../..' . '/database/migrations/2017_08_24_135640_t_tq_call_info_add_admin_role.php',
         'TTqCallInfoAddAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_08_24_134744_t_tq_call_info_add_adminid.php',
         'TTrainLessonUserAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',

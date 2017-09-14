@@ -141,6 +141,8 @@ class common_new extends Controller
 
         $ret = $this->t_lesson_info_b2->get_finish_lessons();
         $finish_count=  count($ret);
+        $this->t_tongji_log->add(E\Etongji_log_type::V_SYS_NEED_GEN_LESSON_VIDEO_COUNT,
+                                 $opt_time,$finish_count);
 
         return date("Y-m-d H:i:s")." ".$online_count ."\n";
     }

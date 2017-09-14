@@ -844,7 +844,7 @@ class tongji2 extends Controller
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
         $month_middle = $start_time+15*86400;
 
-        $lesson_list_first = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);
+        /* $lesson_list_first = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);
         $userid_list_first=[];
         $userid_list_first_all=[];
         foreach($lesson_list_first as $item){
@@ -861,14 +861,14 @@ class tongji2 extends Controller
             $userid_list_second_all[] = $item["userid"];
         }
 
-        $xq_revisit_second = $this->t_revisit_info->get_ass_xq_revisit_info_new($month_middle,$end_time,$userid_list_second_all,false);
+        $xq_revisit_second = $this->t_revisit_info->get_ass_xq_revisit_info_new($month_middle,$end_time,$userid_list_second_all,false);*/
 
         $warning_info    = $this->t_month_ass_student_info->get_ass_month_info($start_time);
 
 
         $last_month  = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month,-1,1);
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        /* $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
 
         $new_info = $this->t_student_info->get_ass_new_stu_first_revisit_info($start_time,$end_time);
         $new_revisit=[];
@@ -887,7 +887,7 @@ class tongji2 extends Controller
         $student_finish_detail = [];
         foreach ($student_finish as $key => $value) {  
             $student_finish_detail[$value['uid']] = $value['num']; 
-        }
+            }*/
         /*
         $student_all = $this->t_student_info->get_ass_first_revisit_info();//在册学生数
         $student_all_detail = [];
@@ -896,45 +896,58 @@ class tongji2 extends Controller
         }
         */
         //dd($new_revisit);
-        $refund_score = $this->get_ass_refund_score($start_time,$end_time);
+        /*  $refund_score = $this->get_ass_refund_score($start_time,$end_time);
 
         $lesson_money_all = $this->t_manager_info->get_assistant_lesson_money_info_all($start_time,$end_time);
         $lesson_count_all = $this->t_manager_info->get_assistant_lesson_count_info_all($start_time,$end_time);
         $lesson_price_avg = !empty($lesson_count_all)?$lesson_money_all/$lesson_count_all:0;
-        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
+        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);*/
         //$kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time,"c.add_time");
         // $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
 
         $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
         foreach($ass_list as $k=>&$val){
-            $val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
+            /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
             $val["userid_list_first_count"] = @$xq_revisit_first[$k]["num"];
             $val["userid_list_second"] = isset($userid_list_second[$k])?$userid_list_second[$k]:[];
             $val["userid_list_second_target"] = count($val["userid_list_second"]);
             $val["userid_list_second_count"] = @$xq_revisit_second[$k]["num"];
             $val["revisit_target"] = $val["userid_list_first_target"]+$val["userid_list_second_target"];
-            $val["revisit_real"] = $val["userid_list_first_count"]+$val["userid_list_second_count"];
+            $val["revisit_real"] = $val["userid_list_first_count"]+$val["userid_list_second_count"];*/
+            $val["revisit_target"] = isset($ass_month[$k])?$ass_month[$k]["revisit_target"]:0;
+            $val["revisit_real"] = isset($ass_month[$k])?$ass_month[$k]["revisit_real"]:0;
             $val["revisit_per"] = !empty( $val["revisit_target"])?round($val["revisit_real"]/$val["revisit_target"]*100,2):0;
             $val["renw_target"]  = @$ass_last_month[$k]["warning_student"]*0.8*7000;
-            $val["renw_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+            // $val["renw_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+            $val["renw_price"] = isset($ass_month[$k])?$ass_month[$k]["renw_price"]/100:0;
             $val["renw_per"] = !empty( $val["renw_target"])?round($val["renw_price"]/$val["renw_target"]*100,2):0;
-            $val["tran_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_price"]/100:0;
-            $val["all_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["all_price"]/100:0;
-            $val["tran_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
-            $val["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
-            $val["first_revisit_num"] = isset($new_revisit[$k]["first_num"])?$new_revisit[$k]["first_num"]:0;
-            $val["un_first_revisit_num"] = isset($new_revisit[$k]["un_first_num"])?$new_revisit[$k]["un_first_num"]:0;
+            // $val["tran_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_price"]/100:0;
+            $val["tran_price"] = isset($ass_month[$k])?$ass_month[$k]["tran_price"]/100:0;
+            // $val["all_price"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["all_price"]/100:0;
+            $val["all_price"] = $val["renw_price"]+$val["tran_price"];
+            // $val["tran_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
+            $val["tran_num"] = isset($ass_month[$k])?$ass_month[$k]["tran_num"]/100:0;
+            // $val["new_num"] = isset($new_revisit[$k])?$new_revisit[$k]["new_num"]:0;
+            //$val["first_revisit_num"] = isset($new_revisit[$k]["first_num"])?$new_revisit[$k]["first_num"]:0;
+            $val["first_revisit_num"] = isset($ass_month[$k])?$ass_month[$k]["first_revisit_num"]:0;
+            $val["un_first_revisit_num"] = isset($ass_month[$k])?$ass_month[$k]["un_first_revisit_num"]:0;
+            $val["new_num"] = $val["first_revisit_num"]+$val["un_first_revisit_num"];
+            //$val["un_first_revisit_num"] = isset($new_revisit[$k]["un_first_num"])?$new_revisit[$k]["un_first_num"]:0;
             // $val["refund_score"] = round((10-@$refund_score[$k])>=0?10-@$refund_score[$k]:0,2);
-            $val["refund_score"] = round(@$refund_score[$k],2);
-            $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
+            // $val["refund_score"] = round(@$refund_score[$k],2);
+            $val["refund_score"] = isset($ass_month[$k])?$ass_month[$k]["refund_score"]/100:0;
+            // $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
+            $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
             $val["kk_succ"] = isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0;
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
-            $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
+            // $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
+            $val["student_finish"] = isset($ass_month[$k])?$ass_month[$k]["student_finsh"]:0;
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
-            $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
+            //  $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
+            $val["student_online"] = isset($ass_month[$k])?$ass_month[$k]["read_student_new"]:0;
             //$val["student_all"] += $val["student_finish"];
             $val["student_all"] =  isset($ass_month[$k]["all_student_new"])?$ass_month[$k]["all_student_new"]:0;
             if($val['student_all'] > 0){
