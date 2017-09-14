@@ -229,11 +229,12 @@ $(function(){
                         sshd_good.push($(this).val());
                     });
                     var train_type=[];
-                    id_sshd.find("input:checkbox[name='Train']:checked").each(function(i) {
+                    id_train_type.find("input:checkbox[name='Train']:checked").each(function(i) {
                         train_type.push($(this).val());
                     });
 
-                    
+                    alert(train_type);
+                    alert(JSON.stringify(train_type);
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
                         "lesson_invalid_flag"    : id_lesson_invalid_flag.val(),
