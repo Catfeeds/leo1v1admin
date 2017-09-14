@@ -325,9 +325,15 @@ class agent extends Controller
         //     echo "do $start_time, $end_time \n";
 
         // }else{
-            $now=time(NULL);
-            $start_time=strtotime( date("Y-m-01",$now));
-            $end_time=$now;
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
         // }
         $this->t_order_info->switch_tongji_database();
         $this->t_test_lesson_subject_require->switch_tongji_database();
