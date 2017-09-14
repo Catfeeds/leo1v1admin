@@ -3988,7 +3988,7 @@ class user_manage_new extends Controller
 
     public function contract_list_seller_payed_new(){
         $adminid = $this->get_account_id();
-        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid=743);
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
         foreach($son_adminid as $item){
             $son_adminid_arr[] = $item['adminid'];
