@@ -1880,7 +1880,7 @@ $(function(){
             }
 
 
-            if (from_parent_order_type == 0  || from_parent_order_type == 4 || from_parent_order_type == 3) {
+            if (from_parent_order_type == 0  || from_parent_order_type == 4 || from_parent_order_type == 3 || from_parent_order_type == 6) {
                 var $lesson_count=$("<input/>");
                 var $order_require_flag=$("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
                 var $order_require_reason=$("<textarea/>");
@@ -1895,6 +1895,11 @@ $(function(){
                 var opt_change_order_require_flag=function () {
                     $order_require_reason.key_value_table_show($order_require_flag.val()==1);
                 };
+
+                if(from_parent_order_type==6){
+                    $order_require_flag.parent().parent().hide();
+                    $order_require_flag.val(0);
+                }
 
                 $.show_key_value_table ( "赠送课时", arr ,{
                     label: '确认',
@@ -2000,6 +2005,7 @@ $(function(){
         var btn_add_2=$("<button class=\"btn btn-warning\"> 试听24小时内 签约赠送 合同  </button>");
         var btn_add_3=$("<button class=\"btn btn-warning\">  特批赠送 合同  </button>");
         var btn_add_5=$("<button class=\"btn btn-warning\"> 转赠课时 </button>");
+        var btn_add_6=$("<button class=\"btn btn-warning\"> 助教配额赠送课时 </button>");
         var btn_add_new_no_test_lesson=$("<button class=\"btn btn-primary\"> 新签 未听报 </button>");
         var btn_add_new_no_test_lesson_1=$("<button class=\"btn btn-primary\"> 新签 未听报 新版 </button>");
         btn_add_new_no_test_lesson.on("click", opt_add_new_no_test_lesson );
@@ -2032,6 +2038,10 @@ $(function(){
         btn_add_5.on("click", function(){
              add_free( 5 );
         });
+        btn_add_6.on("click", function(){
+            add_free( 6 );
+        });
+
 
 
         var arr=[
@@ -2077,6 +2087,7 @@ $(function(){
                 [ "", btn_add_3 ],
                 [ "", btn_add_new_no_test_lesson_1 ],
                 [ "", btn_add_5 ],
+                [ "", btn_add_6 ],
             ];
         }
 
