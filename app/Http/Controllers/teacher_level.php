@@ -875,13 +875,8 @@ class teacher_level extends Controller
         }
         $ret_train_type = implode(',', $ret_train_type);
         $ret_train_type = '['.$ret_train_type.']';
-        dd($ret_train_type);
         $this->t_teacher_info->field_update_list($teacherid,['train_type' => $ret_train_type]);
         
-        
-
-
-       
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         $add_time = time();
         if($id>0){
