@@ -250,10 +250,10 @@ $(function(){
         $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,
         } ,function(ret){
             if(ret.ret==1){
-                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,本周已被限制排课,可点击'排课解冻'继续排课");
+                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,本周已被限制排课,可点击'排课解冻'申请排课");
                 return;
             }else if(ret.ret==2){
-                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,今天只能排1节试听课");
+                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,还能排1节试听课");
             }else if(ret.ret==3){
                 alert('您本周取消率已达20%,为'+ret.rate+'%,大于25%下周将被限制排课,每天将只能排1试听课,请谨慎处理');
             }
