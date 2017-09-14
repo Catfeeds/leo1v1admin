@@ -686,6 +686,9 @@ $(function(){
         $("#id_record_status").parent().parent().hide();
         $("#id_lecture_revisit_type_new").parent().parent().hide();
         $("#id_fulltime_teacher_type").parent().parent().hide();
+        $("#id_second_train_status").parent().parent().hide();
+        $("#id_teacher_pass_type").parent().parent().hide();
+
     }
 
     $(".opt-trans_info").on("click",function(){

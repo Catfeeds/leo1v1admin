@@ -69,7 +69,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         $ret_2=$this->main_get_row($sql);
         return array_merge($ret_1,$ret_2);
     }
-    public function get_list_ex($adminid, $seller_new_count_type,$start_time, $end_time )  {
+    public function get_list_for_check_work($adminid, $seller_new_count_type,$start_time, $end_time )  {
 
         $where_arr=[
             ["adminid=%d",$adminid , -1],
@@ -86,7 +86,9 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             t_seller_new_count_get_detail::DB_TABLE_NAME,
             $where_arr  );
 
-        return $this->main_get_list($sql );
+        return $this->main_get_list($sql,function($item) {
+            return $item["start_time"];
+        });
 
     }
 

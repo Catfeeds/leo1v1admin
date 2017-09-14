@@ -44,10 +44,8 @@ class seller_new_count_day_gen extends cmd_base
         $seller_new_count_type=E\Eseller_new_count_type::V_DAY ;
         $value_ex=0;
         $check_start_time= strtotime( date("Y-m-d")) -7*86400;
-        $check_end_time =  $check_start_time + 7*86400 +1;
+        $check_end_time =  $check_start_time + 6*86400 +1;
 
-        $this->task->t_seller_new_count->get_list_ex($adminid,$seller_new_count_type,
-                                                     $start_time,$end_time);
         foreach($admin_list as $item ) {
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
@@ -55,6 +53,9 @@ class seller_new_count_day_gen extends cmd_base
             if ($def_count ) {
                 $count = $def_count+ $add_count_ex;
             }
+
+            $last_day_list=$this->task->t_seller_new_count-> get_list_for_check_work($adminid,$seller_new_count_type,
+                                                         $check_start_time,$check_end_time);
 
             $start_time=strtotime(date("Y-m-d"), time(NULL));
             $end_time=$start_time+86400-1;
@@ -67,5 +68,15 @@ class seller_new_count_day_gen extends cmd_base
                     $start_time,$end_time, $seller_new_count_type,$count  ,$adminid,$value_ex);
             }
         }
+    }
+
+    public function check_last_day_list( $last_day_list, $base_time )  {
+        foreach ( $last_day_list as &$item ) {
+            $item["left_count"] = $item["count"] -$item["get_count"];
+        }
+        $check_count_fun= function ( $base_time, $last_day_list,  $day)  {
+            if ($last_day_list )
+        }
+
     }
 }

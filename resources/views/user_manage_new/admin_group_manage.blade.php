@@ -64,8 +64,8 @@
             <thead>
                 <tr>
                     <td>类型 </td>
-                    <td >总监 </td>
-                    <td>主管 </td>
+                    <td>总监 </td>
+                    <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
                     <td> 操作  </td>

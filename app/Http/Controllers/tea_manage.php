@@ -2681,21 +2681,21 @@ class tea_manage extends Controller
         }
 
         //更新试讲预约老师类型
-        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);        
+        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
-        
+
         $teacher_detail_score = array(
-                'lecture_content_design_score'   =>   $lecture_content_design_score,
-                'lecture_combined_score'         =>   $lecture_combined_score,
-                'course_review_score'            =>   $course_review_score,
-                'teacher_mental_aura_score'      =>   $teacher_mental_aura_score,
-                'teacher_point_explanation_score'=>   $teacher_point_explanation_score,
-                'teacher_class_atm_score'        =>   $teacher_class_atm_score,
-                'teacher_dif_point_score'        =>   $teacher_dif_point_score,
-                'teacher_blackboard_writing_score'=>   $teacher_blackboard_writing_score,
-                'teacher_explain_rhythm_score'   =>   $teacher_explain_rhythm_score,
-                'teacher_language_performance_score'   =>   $teacher_language_performance_score
-        );  //1
+            'lecture_content_design_score'   =>   $lecture_content_design_score,
+            'lecture_combined_score'         =>   $lecture_combined_score,
+            'course_review_score'            =>   $course_review_score,
+            'teacher_mental_aura_score'      =>   $teacher_mental_aura_score,
+            'teacher_point_explanation_score'=>   $teacher_point_explanation_score,
+            'teacher_class_atm_score'        =>   $teacher_class_atm_score,
+            'teacher_dif_point_score'        =>   $teacher_dif_point_score,
+            'teacher_blackboard_writing_score'=>   $teacher_blackboard_writing_score,
+            'teacher_explain_rhythm_score'   =>   $teacher_explain_rhythm_score,
+            'teacher_language_performance_score'   =>   $teacher_language_performance_score
+        );
         $teacher_detail_score = json_encode($teacher_detail_score);
         $teacher_lecture_score              = $this->get_in_int_val("total_score");//2
         $identity                           = $this->get_in_int_val("identity");
@@ -2726,6 +2726,12 @@ class tea_manage extends Controller
         }
 
         $appointment_info = $this->t_teacher_lecture_appointment_info->get_simple_info($teacher_info['phone']);
+        if($appointment_info['teacher_type']!=$identity){
+            $this->t_teacher_lecture_appointment_info->field_update_list($appointment_info['id'],[
+                "teacher_type" => $identity
+            ]);
+        }
+
         $full_time = $appointment_info['full_time'];
         //微信通知老师
         $wx_openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
