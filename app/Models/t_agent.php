@@ -897,16 +897,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function reset_user_info_test_lesson($id,$userid, $is_test_user, $check_time) {
         //重置试听信息
         $lessonid = 0;
-        $lesson_user_online_status =0;
+        $lesson_info=null;
         if($userid && $is_test_user == 0 ) {
             $lessonid=0;
-            $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
-            if ($ret) {
-                $lessonid = $ret['lessonid'];
-                $lesson_user_online_status  = $ret["lesson_user_online_status"];
+            $lesson_info= $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
+            if ($lesson_info ) {
+                $lessonid = $lesson_info['lessonid'];
             }
         }
-        return array($lessonid, $lesson_user_online_status)  ;
+        return array($lessonid, $lesson_info)  ;
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
@@ -1316,7 +1315,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $is_test_user = $student_info['is_test_user'];
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
-            list($test_lessonid ,$lesson_user_online_status )=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            list($test_lessonid ,$lesson_info)=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
             $orderid=$this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
 
             //是学员
@@ -1328,10 +1327,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
 
-                    $lesson_info=null;
-                    if ( $test_lessonid ) {
-                        $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
-                    }
                     $agent_student_status= $this->eval_agent_student_status(  $stu_info, $lesson_info );
                     $agent_status= $this->eval_agent_status( $stu_info, $lesson_info );
 
