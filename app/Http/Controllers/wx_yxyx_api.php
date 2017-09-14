@@ -319,6 +319,7 @@ class wx_yxyx_api extends Controller
         //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
         $cash=0;
         $a_list=[];
+        $id_map=[];
 
         foreach ( $ret_list as $item ) {
 

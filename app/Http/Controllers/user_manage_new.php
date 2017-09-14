@@ -1194,9 +1194,9 @@ class user_manage_new extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $monthtime_flag = $this->get_in_int_val("monthtime_flag",1);
         // $admin_info = $this->t_manager_info->get_admin_member_list();
-        // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
+        $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
 
-        $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
+        // $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
         // dd($list);
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
