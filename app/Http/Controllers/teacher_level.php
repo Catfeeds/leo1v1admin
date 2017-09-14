@@ -856,7 +856,23 @@ class teacher_level extends Controller
         }
         //更新teacher_info里面train_type字段值
         $ret_train_type = $this->t_teacher_info->get_train_type($teacherid);
-        dd($train_type);
+        $ret_train_type = trim($ret_train_type,'[]');
+        $ret_train_type = explode(",",$ret_train_type);
+
+        $te = $train_type;
+        $te  = trim($te,'[]');
+        $te  = explode(",", $te);
+
+
+        foreach($te as $k =>&$v) {
+            if(!in_array($v, $ret_train_type))
+                array_push($ret_train_type, $v);
+        }
+        $ret_train_type = implode(',', $ret_train_type);
+        $ret_train_type = '['.$ret_train_type.']';
+        dd($ret_train_type);
+        $this->t_teacher_info->field_update_list($teacherid,['train_type' => $ret_train_type]);
+        
         
 
 
