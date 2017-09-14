@@ -37,7 +37,7 @@
                         <td>{{$var['teacher_nick']}}</td>
                         <td>{{$var['subject_str']}}</td>
                         <td>{{$var['train_type_str']}}</td>
-                        <td>{{$var['status']}}</td>
+                        <td>{{$var['train_status_str']}}</td>
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
