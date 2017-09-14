@@ -243,41 +243,13 @@ class testbb extends Controller
 
         // dd($max_main_type);
 
-        $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
+        // $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
+        $admin_list = $this->t_manager_info->get_admin_member_list();
+
 
         dd($admin_list);
     }
 
-    public function install(){
-        /**
-           `groupid` int(11) NOT NULL AUTO_INCREMENT COMMENT '分组',
-           `main_type` int(11) NOT NULL,
-           `group_name` varchar(255) COLLATE latin1_bin NOT NULL,
-           `master_adminid` int(11) NOT NULL,
-           `main_assign_percent` varchar(20) COLLATE latin1_bin NOT NULL COMMENT 'e58886e9858de6af94e4be8b',
-           `campus_id` int(11) NOT NULL COMMENT 'e6a0a1e58cba6964',
-
-         **/
-
-        Schema::create('db_weiyi_admin.t_admin_majordomo_group_name', function( Blueprint $table)
-        {
-            $table->increments("groupid","分组id");
-            t_field($table->integer("main_type"),"部门类型");
-            t_field($table->string("group_name"),"组名");
-            t_field($table->integer("master_adminid"),"总监id");
-            t_field($table->string("main_assign_percent"),"组名");
-            t_field($table->integer("campus_id"),"校区id");
-
-            $table->index(["main_type","groupid"]);
-        });
-
-        Schema::table('db_weiyi_admin.t_admin_main_group_name', function( Blueprint $table)
-        {
-            t_field($table->integer("up_groupid"),"上级groupid");
-        });
-
-
-    }
 
 
 

@@ -3,188 +3,83 @@
 <!--headTrap<body></body><head></head><html></html>--><html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="format-detection" content="telephone=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
 
+        <script nonce="933014691" type="text/javascript">
+         var biz = "MzAxMTUxMDcwMw=="||"";
+         var sn = "" || ""|| "2d4871227cfbd3c1a8e41611d415312a";
+         var mid = "506210427" || ""|| "506210427";
+         var idx = "1" || "" || "1";
+         window.__allowLoadResFromMp = true; 
+         
+        </script>
 
-<script nonce="933014691" type="text/javascript">
- window.logs = {
-     pagetime: {}
- };
- window.logs.pagetime['html_begin'] = (+new Date());
-</script>
+        <script src="http://admin.yb1v1.com/js/jquery-2.1.4.js" type="text/javascript"></script>
+        <script type="text/javascript" src="http://admin.yb1v1.com/js/jquery.md5.js"></script>
+        <script type="text/javascript" src="http://admin.yb1v1.com/js/jquery.query.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script src="http://admin.yb1v1.com/js/wx_parent.js"></script>
 
-<script nonce="933014691" type="text/javascript">
- var biz = "MzAxMTUxMDcwMw=="||"";
- var sn = "" || ""|| "2d4871227cfbd3c1a8e41611d415312a";
- var mid = "506210427" || ""|| "506210427";
- var idx = "1" || "" || "1";
- window.__allowLoadResFromMp = true; 
- 
-</script>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-
-<script type="text.javascript">
-
-$(function () {
-    onFormStatusChange();
-    $('.leo-form .form-btn').click(function () {
-        sumitTrial($(this))
-    });
-    wxShare(geturl("index"));
-
-})
-
-function wxShare(index) {
-
-    var weixinTitle = titles[index];
-    // var weixinLink = 'http://wx-parent-web.leo1v1.com/anniversary_day/index.html';
-    var weixinLink = window.location.href;
-    var weixinImageUrl = "http://wx-parent-web.leo1v1.com/wx-invite-article/img/" + imgs[index];
-    var weixinDesc = descs[index];
-    //var parentid = geturl('parentid');
-    $.ajax({
-        "url": 'http://wx-parent.leo1v1.com/wx_parent_api/get_wx_tec_js_config?_parentid=50240',
-        "type": "POST",
-        "dataType": "jsonp",
-        "data": {},
-        async:true,
-        success: function(result) {
-           // alert("优学优享")
-           // alert(JSON.stringify(result))
-            appId = result.appId;
-            timestamp = result.timestamp;
-            nonceStr = result.nonceStr;
-            signature = result.signature;
-            jsApiList=result.jsApiList;
-            wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                appId: appId, // 必填，公众号的唯一标识
-                timestamp: timestamp, // 必填，生成签名的时间戳
-                nonceStr: nonceStr, // 必填，生成签名的随机串
-                signature: signature,// 必填，签名，见附录1
-                jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-            });
-            wx.ready(function(){
-                wx.onMenuShareTimeline({
-                    title: weixinTitle,
-                    link: weixinLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    desc: weixinDesc, // 分享描述
-                    imgUrl: weixinImageUrl, // 分享图标
-                    success: function () {
-                        // 用户确认分享后执行的回调函数
-                        //alert("onMenuShareTimeline suc")
-                    },
-                    fail: function () {
-                        // 用户确认分享后执行的回调函数
-                        //alert("onMenuShareTimeline fail")
-                    },
-                    cancel: function () {
-                        // 用户取消分享后执行的回调函数
-                    }
-                });
-
-                wx.onMenuShareAppMessage({
-                    title: weixinTitle, // 分享标题
-                   // desc: weixinDesc, // 分享描述
-                    link: weixinLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    imgUrl: weixinImageUrl, // 分享图标
-                    desc: weixinDesc, // 分享描述
-                    type: '', // 分享类型,music、video或link，不填默认为link
-                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                    success: function () {
-                        // 用户确认分享后执行的回调函数
-                       // alert("onMenuShareAppMessage suc")
-                    },
-                    fail: function () {
-                        // 用户确认分享后执行的回调函数
-                       // alert("onMenuShareAppMessage fail")
-                    },
-                    cancel: function () {
-                        // 用户取消分享后执行的回调函数
-                       // alert("onMenuShareAppMessage cancel")
-                    }
-                });
-                // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-            });
-            wx.error(function(res){
-                //alert("error")
-
-                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-            });
-        }
-    });
-}
-
-
-
-</script>
-
-
-<script nonce="933014691" type="text/javascript">
- var page_begintime=+new Date,is_rumor="",norumor="";
- 1*is_rumor&&!(1*norumor)&&biz&&mid&&(document.referrer&&-1!=document.referrer.indexOf("mp.weixin.qq.com/mp/rumor")||(location.href="http://mp.weixin.qq.com/mp/rumor?action=info&__biz="+biz+"&mid="+mid+"&idx="+idx+"&sn="+sn+"#wechat_redirect")),
-     document.domain="qq.com";
-</script>
-<script nonce="933014691" type="text/javascript">
-var MutationObserver=window.WebKitMutationObserver||window.MutationObserver||window.MozMutationObserver,isDangerSrc=function(t){
-if(t){
-var e=t.match(/http(?:s)?:\/\/([^\/]+?)(\/|$)/);
-if(e&&!/qq\.com(\:8080)?$/.test(e[1])&&!/weishi\.com$/.test(e[1]))return!0;
-}
-return!1;
-},ishttp=0==location.href.indexOf("http://");
--1==location.href.indexOf("safe=0")&&ishttp&&"function"==typeof MutationObserver&&"mp.weixin.qq.com"==location.host&&(window.__observer_data={
-count:0,
-exec_time:0,
-list:[]
-},window.__observer=new MutationObserver(function(t){
-window.__observer_data.count++;
-var e=new Date,r=[];
-t.forEach(function(t){
-for(var e=t.addedNodes,o=0;o<e.length;o++){
-var n=e[o];
-if("SCRIPT"===n.tagName){
-var i=n.src;
-isDangerSrc(i)&&(window.__observer_data.list.push(i),r.push(n)),!i&&window.__nonce_str&&n.getAttribute("nonce")!=window.__nonce_str&&(window.__observer_data.list.push("inlinescript_without_nonce"),
-r.push(n));
-}
-}
-});
-for(var o=0;o<r.length;o++){
-var n=r[o];
-n.parentNode&&n.parentNode.removeChild(n);
-}
-window.__observer_data.exec_time+=new Date-e;
-}),window.__observer.observe(document,{
-subtree:!0,
-childList:!0
-})),function(){
-if(-1==location.href.indexOf("safe=0")&&Math.random()<.01&&ishttp&&HTMLScriptElement.prototype.__lookupSetter__&&"undefined"!=typeof Object.defineProperty){
-window.__danger_src={
-xmlhttprequest:[],
-script_src:[],
-script_setAttribute:[]
-};
-var t="$"+Math.random();
-HTMLScriptElement.prototype.__old_method_script_src=HTMLScriptElement.prototype.__lookupSetter__("src"),
-HTMLScriptElement.prototype.__defineSetter__("src",function(t){
-t&&isDangerSrc(t)&&window.__danger_src.script_src.push(t),this.__old_method_script_src(t);
-});
-var e="element_setAttribute"+t;
-Object.defineProperty(Element.prototype,e,{
-value:Element.prototype.setAttribute,
-enumerable:!1
-}),Element.prototype.setAttribute=function(t,r){
-"SCRIPT"==this.tagName&&"src"==t&&isDangerSrc(r)&&window.__danger_src.script_setAttribute.push(r),
-this[e](t,r);
-};
-}
-}();
-</script>
+        <script nonce="933014691" type="text/javascript">
+         var MutationObserver=window.WebKitMutationObserver||window.MutationObserver||window.MozMutationObserver,isDangerSrc=function(t){
+             if(t){
+                 var e=t.match(/http(?:s)?:\/\/([^\/]+?)(\/|$)/);
+                 if(e&&!/qq\.com(\:8080)?$/.test(e[1])&&!/weishi\.com$/.test(e[1]))return!0;
+             }
+             return!1;
+         },ishttp=0==location.href.indexOf("http://");
+                 -1==location.href.indexOf("safe=0")&&ishttp&&"function"==typeof MutationObserver&&"mp.weixin.qq.com"==location.host&&(window.__observer_data={
+                     count:0,
+                     exec_time:0,
+                     list:[]
+                 },window.__observer=new MutationObserver(function(t){
+                     window.__observer_data.count++;
+                     var e=new Date,r=[];
+                     t.forEach(function(t){
+                         for(var e=t.addedNodes,o=0;o<e.length;o++){
+                             var n=e[o];
+                             if("SCRIPT"===n.tagName){
+                                 var i=n.src;
+                                 isDangerSrc(i)&&(window.__observer_data.list.push(i),r.push(n)),!i&&window.__nonce_str&&n.getAttribute("nonce")!=window.__nonce_str&&(window.__observer_data.list.push("inlinescript_without_nonce"),
+                                                                                                                                                                       r.push(n));
+                             }
+                         }
+                     });
+                     for(var o=0;o<r.length;o++){
+                         var n=r[o];
+                         n.parentNode&&n.parentNode.removeChild(n);
+                     }
+                     window.__observer_data.exec_time+=new Date-e;
+                 }),window.__observer.observe(document,{
+                     subtree:!0,
+                     childList:!0
+                 })),function(){
+                     if(-1==location.href.indexOf("safe=0")&&Math.random()<.01&&ishttp&&HTMLScriptElement.prototype.__lookupSetter__&&"undefined"!=typeof Object.defineProperty){
+                         window.__danger_src={
+                             xmlhttprequest:[],
+                             script_src:[],
+                             script_setAttribute:[]
+                         };
+                         var t="$"+Math.random();
+                         HTMLScriptElement.prototype.__old_method_script_src=HTMLScriptElement.prototype.__lookupSetter__("src"),
+                             HTMLScriptElement.prototype.__defineSetter__("src",function(t){
+                                 t&&isDangerSrc(t)&&window.__danger_src.script_src.push(t),this.__old_method_script_src(t);
+                             });
+                         var e="element_setAttribute"+t;
+                         Object.defineProperty(Element.prototype,e,{
+                             value:Element.prototype.setAttribute,
+                             enumerable:!1
+                         }),Element.prototype.setAttribute=function(t,r){
+                             "SCRIPT"==this.tagName&&"src"==t&&isDangerSrc(r)&&window.__danger_src.script_setAttribute.push(r),
+                             this[e](t,r);
+                         };
+                     }
+                 }();
+        </script>
 
         <link rel="dns-prefetch" href="//res.wx.qq.com">
 <link rel="dns-prefetch" href="//mmbiz.qpic.cn">
@@ -355,30 +250,18 @@ this[e](t,r);
 
 
 
-                                    <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="padding: 10px; max-width: 100%; box-sizing: border-box; display: inline-block; width: 668px; border-width: 0px 0px 0px 10px; border-style: solid; border-left-color: rgb(0, 166, 255); border-right-color: rgb(0, 166, 255); border-radius: 5px 0px 0px 5px; box-shadow: rgb(153, 153, 153) 0px 3px 3px; background-color: rgb(254, 255, 255); word-wrap: break-word !important;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">一、理优升学帮是什么</p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; transform: translate3d(0px, 0px, 0px); word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style=""><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">理优升学帮是一款为上海中小学学生家长提供全面精准的升学咨询、试卷和政策的APP</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">院校库收录了上海320所初中、230所高中的学校攻略</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">题库覆盖近五年上海地区中小学各科试卷，共计5000多份</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">提供上海各重点高中历年录取分数线查询</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">升学政策专业解读</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">更有“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;">陪读</strong>”功能，手机实时观察孩子课堂情况，掌握上课实况的同时也不会打扰到孩子学习。</span></p><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(112, 218, 101); word-wrap: break-word !important;">温馨提示：</span><span style="max-width: 100%; box-sizing: border-box; letter-spacing: 0px; color: rgb(142, 201, 101); word-wrap: break-word !important;">公开课需向老师索取相关课程二维码，用“理优升学帮”App的“扫一扫”功能，扫码即可进入课堂</span></p></li></ol></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="padding: 10px; max-width: 100%; box-sizing: border-box; display: inline-block; width: 668px; border-width: 0px 0px 0px 10px; border-style: solid; border-left-color: rgb(0, 166, 255); border-right-color: rgb(0, 166, 255); border-radius: 5px 0px 0px 5px; box-shadow: rgb(153, 153, 153) 0px 3px 3px; background-color: rgb(254, 255, 255); word-wrap: break-word !important;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">二、如何下载理优升学帮（ios、安卓）</p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-bottom: 1px solid rgb(0, 166, 255); display: inline-block; word-wrap: break-word !important;"><section class="" style="padding-right: 0.2em; padding-left: 0.2em; max-width: 100%; box-sizing: border-box; display: inline-block; line-height: 1.3; color: rgb(255, 255, 255); background-color: rgb(0, 166, 255); word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">方法一</p></section><section class="" style="padding-right: 0.5em; padding-left: 0.5em; max-width: 100%; box-sizing: border-box; display: inline-block; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">搜索下载</p></section></section></section></section>
-
-
-                    <!-- <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; ">
-                         <section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;"></section>
+                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="padding: 10px; max-width: 100%; box-sizing: border-box; display: inline-block; width: 668px; border-width: 0px 0px 0px 10px; border-style: solid; border-left-color: rgb(0, 166, 255); border-right-color: rgb(0, 166, 255); border-radius: 5px 0px 0px 5px; box-shadow: rgb(153, 153, 153) 0px 3px 3px; background-color: rgb(254, 255, 255); word-wrap: break-word !important;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">一、理优升学帮是什么</p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; transform: translate3d(0px, 0px, 0px); word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style=""><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">理优升学帮是一款为上海中小学学生家长提供全面精准的升学咨询、试卷和政策的APP</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">院校库收录了上海320所初中、230所高中的学校攻略</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">题库覆盖近五年上海地区中小学各科试卷，共计5000多份</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">提供上海各重点高中历年录取分数线查询</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">升学政策专业解读</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">更有“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;">陪读</strong>”功能，手机实时观察孩子课堂情况，掌握上课实况的同时也不会打扰到孩子学习。</span></p><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(112, 218, 101); word-wrap: break-word !important;">温馨提示：</span><span style="max-width: 100%; box-sizing: border-box; letter-spacing: 0px; color: rgb(142, 201, 101); word-wrap: break-word !important;">公开课需向老师索取相关课程二维码，用“理优升学帮”App的“扫一扫”功能，扫码即可进入课堂</span></p></li></ol></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="padding: 10px; max-width: 100%; box-sizing: border-box; display: inline-block; width: 668px; border-width: 0px 0px 0px 10px; border-style: solid; border-left-color: rgb(0, 166, 255); border-right-color: rgb(0, 166, 255); border-radius: 5px 0px 0px 5px; box-shadow: rgb(153, 153, 153) 0px 3px 3px; background-color: rgb(254, 255, 255); word-wrap: break-word !important;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">二、如何下载理优升学帮（ios、安卓）</p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-bottom: 1px solid rgb(0, 166, 255); display: inline-block; word-wrap: break-word !important;"><section class="" style="padding-right: 0.2em; padding-left: 0.2em; max-width: 100%; box-sizing: border-box; display: inline-block; line-height: 1.3; color: rgb(255, 255, 255); background-color: rgb(0, 166, 255); word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">方法一</p></section><section class="" style="padding-right: 0.5em; padding-left: 0.5em; max-width: 100%; box-sizing: border-box; display: inline-block; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">搜索下载</p></section></section></section></section>
 
 
 
+                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;">
+                                <img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%90%9C%E7%B4%A2%E4%B8%8B%E8%BD%BD-new2.gif" class=" __bg_gif" data-ratio="1.7786666666666666" data-w="375"  style="width: auto !important; height: auto !important; visibility: visible !important;" data-order="0" data-fail="0"><br></section></section>
 
+                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; transform: translate3d(0px, 0px, 0px); word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style=""><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">iPhone用户打开<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">App Store</span></strong>（苹果应用商店），安卓用户可以打开各大<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">应用商店</span></strong></p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">打开<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">搜索功能</span></strong></p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">输入文字“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">理优升学帮</span></strong>”</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">点击“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">安装</span></strong>”按钮</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">等待下载</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">完成下载</p></li></ol></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p><br  /></p><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-bottom: 1px solid rgb(0, 166, 255); display: inline-block; word-wrap: break-word !important;">
 
-                         </section>
-                       -->
-
-
-                    <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;"><img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%90%9C%E7%B4%A2%E4%B8%8B%E8%BD%BD.gif" class=" __bg_gif" data-ratio="1.7786666666666666" data-w="375" src="http://mmbiz.qpic.cn/mmbiz_gif/DdBO9OC10ic9a8icsVzc4gF4ic4cBdCPQmXUmg57dnVVvqQdCar0CLbOznSGqcpkZs3f6fiaeI94H5aVGEQdjcMc6A/0?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" style="width: auto !important; height: auto !important; visibility: visible !important;" data-order="0" data-fail="0"><br></section></section>
-
-
-
-
-
-                    <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; transform: translate3d(0px, 0px, 0px); word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><ol class=" list-paddingleft-2" style=""><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">iPhone用户打开<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">App Store</span></strong>（苹果应用商店），安卓用户可以打开各大<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">应用商店</span></strong></p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">打开<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">搜索功能</span></strong></p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">输入文字“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">理优升学帮</span></strong>”</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">点击“<strong style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><span style="max-width: 100%; box-sizing: border-box; color: rgb(11, 206, 255); word-wrap: break-word !important;">安装</span></strong>”按钮</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">等待下载</p></li><li><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">完成下载</p></li></ol></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><p><br  /></p><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;"><br  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-bottom: 1px solid rgb(0, 166, 255); display: inline-block; word-wrap: break-word !important;">
-
-                        <section class="" style="padding-right: 0.2em; padding-left: 0.2em; max-width: 100%; box-sizing: border-box; display: inline-block; line-height: 1.3; color: rgb(255, 255, 255); background-color: rgb(0, 166, 255); word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">方法二</p></section><section class="" style="padding-right: 0.5em; padding-left: 0.5em; max-width: 100%; box-sizing: border-box; display: inline-block; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">扫码下载<br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;">
-                            <img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%89%AB%E7%A0%81%E4%B8%8B%E8%BD%BD_new1.gif " class="" data-ratio="1.7786666666666666" data-w="375"  /><br  />
+                                <section class="" style="padding-right: 0.2em; padding-left: 0.2em; max-width: 100%; box-sizing: border-box; display: inline-block; line-height: 1.3; color: rgb(255, 255, 255); background-color: rgb(0, 166, 255); word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">方法二</p></section><section class="" style="padding-right: 0.5em; padding-left: 0.5em; max-width: 100%; box-sizing: border-box; display: inline-block; word-wrap: break-word !important;"><p style="max-width: 100%; box-sizing: border-box; min-height: 1em; word-wrap: break-word !important;">扫码下载<br style="max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"  /></p></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 10px; margin-bottom: 10px; max-width: 100%; box-sizing: border-box; text-align: center; word-wrap: break-word !important;">
+                                    <img data-type="gif" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E6%95%99%E8%82%B2%E5%9C%A8%E7%BA%BF-%E5%8E%9F%E5%9B%BE/%E5%AE%B6%E9%95%BF%E7%AB%AF%E6%89%8B%E5%86%8C/iOS%E6%89%AB%E7%A0%81%E4%B8%8B%E8%BD%BD-new2.gif
+                                                              " class="" data-ratio="1.7786666666666666" data-w="375"  /><br  />
 
                         </section></section>
 
@@ -398,7 +281,14 @@ this[e](t,r);
                                                                            " data-type="png" style="text-align: center; box-sizing: border-box; vertical-align: middle; word-wrap: break-word !important;"  />
 
 
-                            <br  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"><br  /></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-top: 0.5em; margin-left: 200.391px; max-width: 100%; box-sizing: border-box; line-height: 1em; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; width: 0px; display: inline-block; vertical-align: bottom; border-bottom: 13px solid rgb(0, 166, 255); word-wrap: break-word !important; border-left: 13px solid transparent !important; border-right: 13px solid transparent !important;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; "><section class="" style="margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; height: 2.4em; border-radius: 1em; background-color: rgb(0, 166, 255); text-align: center; word-wrap: break-word !important;">
+                            <br  /></p></section></section></section>
+
+                            <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; ">
+                                <section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; border-top: 1px dashed rgb(11, 206, 255); word-wrap: break-word !important;"><br  /></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; ">
+                                    <section class="" style="margin-top: 0.5em;     text-align: center; max-width: 100%; box-sizing: border-box; line-height: 1em; word-wrap: break-word !important;"><section class="" style="max-width: 100%; box-sizing: border-box; width: 0px; display: inline-block; vertical-align: bottom; border-bottom: 13px solid rgb(0, 166, 255); word-wrap: break-word !important; border-left: 13px solid transparent !important; border-right: 13px solid transparent !important;"></section></section></section>
+
+                                    <section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style=" font-size: 16px; white-space: normal; max-width: 100%; box-sizing: border-box; color: rgb(62, 62, 62) ; ; ; ; ; ; ; ; ">
+                                        <section class="" style="margin-bottom: 0.5em; max-width: 100%; box-sizing: border-box; word-wrap: break-word !important;"><section class="" style="max-width: 100%; line-height: 39px; box-sizing: border-box; height: 2.4em; border-radius: 1em; background-color: rgb(0, 166, 255); text-align: center; word-wrap: break-word !important;">
                                 <!-- <img class="" data-ratio="0.6578947" data-w="38" data-src="http://mmbiz.qpic.cn/mmbiz_png/vBEBCN05Kibs2jVibhY1x1UPRMesOMibbbjINdTWJq8dCRReR0BXtKM8rrdkc5kCGvTcKkIxzm6FPmOopNYSZpgHA/0?" style="margin: 0.3em 0.5em; box-sizing: border-box; vertical-align: top; height: 25px !important; word-wrap: break-word !important; width: 38px !important;"  /> -->
                                 <span style="color: rgb(255, 255, 255); font-size: 14.4px;">理1对1 中</span><span style="color: rgb(255, 255, 255); font-size: 14.4px;">小学在线提分专家</span></section></section></section><p><br  /></p>
                 </div>

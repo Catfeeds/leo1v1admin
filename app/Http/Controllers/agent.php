@@ -318,10 +318,7 @@ class agent extends Controller
     }
 
     public function check(){
-        list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid=882,  $start_time );
-        dd($self_top_info);
-        $this->test_lesson_cancle_rate();
+        dd('a');
     }
 
     public function test_lesson_cancle_rate(){

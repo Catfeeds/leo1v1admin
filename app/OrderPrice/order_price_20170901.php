@@ -6,7 +6,7 @@ class order_price_20170901 extends order_price_base
 {
 
     static $grade_price_config = [
-        99 => 280, //
+        99 => 370, //
         101 => 280,
         201 => 310,
         202 => 330,
@@ -78,7 +78,9 @@ class order_price_20170901 extends order_price_base
         $present_lesson_count=0;
         $check_lesson_count= $lesson_count /3 ;
 
-        if ($grade<=106) {
+        if ($grade ==99 ) {
+            $check_grade=99;
+        } else if ($grade<=106) {
             $check_grade=101;
         }else{
             $check_grade=$grade;
@@ -91,7 +93,7 @@ class order_price_20170901 extends order_price_base
         $old_price = $grade_price/3*$lesson_count;
         $desc_list =  [];
         $price=$old_price;
-        $desc_list[]=static::gen_desc("原价",1, " $lesson_count 课时 $old_price 元 ", $price);
+        $desc_list[]=static::gen_desc("原价",1, " $lesson_count 课时 $old_price 元, 一次课 单价:$grade_price ", $price);
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             /*

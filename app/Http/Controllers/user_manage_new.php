@@ -482,7 +482,8 @@ class user_manage_new extends Controller
             }
 
             $item['lesson_reward'] = $item['pre_reward']*$lesson_count/100;
-            $item['tea_level'] = E\Elevel::get_desc($item['level']);
+            // $item['tea_level'] = E\Elevel::get_desc($item['level']);
+            $item['tea_level'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Econfirm_flag::set_item_value_str($item);

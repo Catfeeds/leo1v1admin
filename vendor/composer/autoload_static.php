@@ -1097,6 +1097,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTeacherRecordListAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_115211_t_teacher_record_list_add_train_type.php',
         'TTeacherRecordListAddTrialTrainStatus' => __DIR__ . '/../..' . '/database/migrations/2017_06_09_111532_t_teacher_record_list_add_trial_train_status.php',
         'TTeacherRecordListChangePrimaryKey' => __DIR__ . '/../..' . '/database/migrations/2017_06_12_163353_t_teacher_record_list_change_primary_key.php',
+        'TTeacherRecordListUpdateTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_09_14_101845_t_teacher_record_list_update_train_type.php',
         'TTeacherRewardRuleList' => __DIR__ . '/../..' . '/database/migrations/2017_08_23_194222_t_teacher_reward_rule_list.php',
         'TTeacherSwitchMoneyTypeListAddLessonTotal' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_110336_t_teacher_switch_money_type_list_add_lesson_total.php',
         'TTeacherSwitchMoneyTypeListAddMoney' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_104441_t_teacher_switch_money_type_list_add_money.php',
