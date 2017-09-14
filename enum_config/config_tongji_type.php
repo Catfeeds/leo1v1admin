@@ -13,4 +13,7 @@ return array(
     array(10,"seller_month_fail_lesson_percent","销售月度试听课取消率"),
     array(11,"seller_month_all_lesson_count","销售月度试听课数"),
     array(12,"seller_month_fail_lesson_count","销售月度试听课取消数"),
+    array(13,"seller_week_all_lesson_count","销售周试听课数"),
+    array(14,"seller_week_fail_lesson_count","销售周试听课取消数"),
+    array(15,"seller_week_fail_lesson_percent","销售周试听课取消率"),
 );
