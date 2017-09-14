@@ -313,7 +313,7 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
             if($group_adminid){
                 return $group_adminid;
             }else{
-                return 0;
+                return [];
             }
         }
     }
