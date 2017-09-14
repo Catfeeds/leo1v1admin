@@ -1265,7 +1265,7 @@ class Common {
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {
 
-            //                $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
+        // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
 
             global $cur_key_index;
             if (!isset($item [$key])) {
