@@ -3576,6 +3576,26 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    /**
+     * 重置试讲通过的老师科目和年级
+     */
+    public function reset_teacher_subject_info(){
+        $where_arr = [
+            "tl.status=1",
+            "t.is_test_user=0",
+            "t.trial_lecture_is_pass=1",
+            "subject=0",
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.phone,group_concat(distinct(tl.subject)) as subject,"
+                                  ." group_concat(distinct(tl.grade)) as grade"
+                                  ." from %s t"
+                                  ." left join %s tl on t.phone=tl.phone"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }

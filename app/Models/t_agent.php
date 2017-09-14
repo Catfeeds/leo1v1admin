@@ -1324,7 +1324,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
 
-                    $test_lessonid=$agent_info["test_lessonid"];
                     $lesson_info=null;
                     if ( $test_lessonid ) {
                         $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
