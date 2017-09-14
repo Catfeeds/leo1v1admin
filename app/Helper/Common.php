@@ -1472,7 +1472,7 @@ class Common {
                             $data["main_type"]=$key1;
                             $data["up_group_name"]=$key2;
                             $data["group_name"]=$key3;
-                            $data["account"]=$key4;
+                            $data["account"]="";
                             $data["main_type_class"]=$item1["key_class"];
                             $data["first_group_name_class"]=$item2["key_class"];
                             $data["up_group_name_class"]=$item3["key_class"];
@@ -1491,7 +1491,7 @@ class Common {
                                 $data["main_type"]=$key1;
                                 $data["up_group_name"]=$key2;
                                 $data["group_name"]=$key3;
-                                $data["account"]=$key4;
+                                $data["account"]=$key5;
                                 $data["main_type_class"]=$item1["key_class"];
                                 $data["first_group_name_class"]=$item2["key_class"];
                                 $data["up_group_name_class"]=$item3["key_class"];

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
 
-class Common {
+class Common_old {
 
     static public function  merge_row_data( &$row_list_1,$row_list_2,$field_name ) {
         foreach ($row_list_2 as  $item ) {
