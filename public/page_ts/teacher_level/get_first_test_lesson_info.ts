@@ -37,9 +37,9 @@ $(function(){
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_record_flag'));
 
-	  $('#id_teacherid').val(g_args.teacherid);
-	  $('#id_subject').val(g_args.subject);
-	  $('#id_record_flag').val(g_args.record_flag);
+	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_subject').val(g_args.subject);
+	$('#id_record_flag').val(g_args.record_flag);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $(".opt-first-lesson-video").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -108,7 +108,7 @@ $(function(){
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
         console.log(opt_data.id);
-	console.log(opt_data);
+	    console.log(opt_data);
         $.do_ajax("/teacher_level/set_teacher_record_acc",{
             "teacherid"    : opt_data.teacherid,
             "type"         : 1,
@@ -258,6 +258,7 @@ $(function(){
                         "lessonid"                           :lessonid,
                         "lesson_list"                        :JSON.stringify(lessonid),
                         "train_type"                         :JSON.stringify(train_type),
+                        "subject"                            :opt_data.subject,
                     });
                 }
             },function(){

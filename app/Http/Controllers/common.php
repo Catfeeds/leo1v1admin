@@ -1673,7 +1673,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $opt_type = $this->get_in_str_val("opt_type"); //login logout stop restart
         $server_type = $this->get_in_str_val("server_type");
         $online_userlist = $this->get_in_str_val('online_userlist');
-        $program_id= $this->get_in_int_val('program_id');
+        $program_id = $this->get_in_int_val('program_id');
 
         if (preg_match('/_chat$/',$roomid, $matches)) {
             \App\Helper\Utils::logger(" $roomid no  log");
@@ -1682,7 +1682,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         if ($userid== "supervisor" ){
             return $this->output_succ();
         }
-
 
         $lesson_arr = $this->parse_roomid($roomid);
         if (!$lesson_arr) {
@@ -1698,22 +1697,16 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
         $utype = $this->parse_userid($userid);
 
-
         $lessonid=0;
         if ( $opt_type == "login" || $opt_type == "logout"    ){
-
             $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
-
             $condition =$ret_arr["lesson_condition"];
             $lessonid=$ret_arr["lessonid"];
             $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
             $this->t_lesson_info->field_update_list($lessonid,[
                 "lesson_condition" => $condition_new
             ]);
-
         }
-
-
 
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )
              || $opt_type =="register" ){
@@ -1723,25 +1716,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $userid= $tmp_userid;
             }
 
-
-
             $server_type_conf = array("webrtc" =>1 , "xmpp" =>2 );
             $log_type_conf    = array("login" =>1 , "logout" =>2 ,"register"=>3,"no_recv_data"=>4);
             $server_type      = $server_type_conf[ $server_type];
             $opt_type         = $log_type_conf[ $opt_type];
 
-
             $this->t_lesson_opt_log->row_insert([
-                'lessonid'=> $lessonid,
-                'opt_time' => time(),
-                'opt_type'=>  $opt_type,
-                'userid'=>    $userid,
+                'lessonid'    => $lessonid,
+                'opt_time'    => time(),
+                'opt_type'    => $opt_type,
+                'userid'      => $userid,
                 'server_type' => $server_type,
-                'server_ip'=>    ip2long($this->get_in_client_ip() ),
-                'program_id'=>    $program_id,
+                'server_ip'   => ip2long($this->get_in_client_ip() ),
+                'program_id'  => $program_id,
             ],false, true);
-            if ($utype=="tea" &&  $opt_type  ==1   )  {
-                $this->t_lesson_info_b3-> set_real_begin_time($lessonid,time(NULL));
+            if($utype=="tea" && $opt_type==1){
+                $this->t_lesson_info_b3->set_real_begin_time($lessonid,time(NULL));
             }
         }
         return $this->output_succ();
