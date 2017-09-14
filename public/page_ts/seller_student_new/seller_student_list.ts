@@ -2285,7 +2285,7 @@ function init_edit() {
                 var value = province.find("option:selected").text()  
                     + city.find("option:selected").text()  
                     + area.find("option:selected").text();  
-                html_node.find("#id_address").val(value);  
+                id_address.val(value);  
                 $("#txtProCity").val(value);  
             });  
             
