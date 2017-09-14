@@ -318,9 +318,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '12324589561';
-        $phone = \App\Helper\Common::check_phone($phone);
-        dd($phone);
+        $adminid = $this->get_account_id();
+        $userid = $this->get_in_int_val('userid');
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -330,9 +329,18 @@ class agent extends Controller
         }
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
+        list($count,$count_del) = [0,0];
+        // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+        // foreach($ret_info as $item){
+        //     if($item['lesson_del_flag']){
+        //         $count_del++;
+        //     }
+        //     $count++;
+        // }
         $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid=882,$start_time,$tongji_type);
-        dd($self_top_info);
+        $self_top_info_old = $this->t_tongji_seller_top_info->get_admin_top_list( $adminid=730,$start_time);
+        $self_top_info_new =$this->t_tongji_seller_top_info->get_admin_top_list($adminid=975,$start_time);
+        dd($self_top_info_old,$self_top_info_new);
     }
 
     public function test_lesson_cancle_rate(){
