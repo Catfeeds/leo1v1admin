@@ -1347,13 +1347,7 @@ class ss_deal extends Controller
         if (!$tt_item) {
             return $this->output_err("没有找到上级合同");
         }
-        if($from_parent_order_type==6){
-            $adm = $this->get_account();
-            if(!in_array($adm,["jim","jack"])){
-                return $this->output_err("该功能开发中");
-            }
-        }
-
+        
         $userid  = $tt_item["userid"];
         $grade   = $tt_item["grade"];
         $subject = $tt_item["subject"];
@@ -1410,6 +1404,16 @@ class ss_deal extends Controller
             $grade = $this->t_student_info->get_grade($userid);
 
 
+        }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
+            $adm = $this->get_account();
+            if(!in_array($adm,["jim","jack"])){
+                return $this->output_err("该功能开发中");
+            }
+            $assistantid = $this->t_assistant_info->get_assistantid($adm);
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+            if($assign_lesson_count < $lesson_total){
+                return $this->output_err("可分配课时不足,剩余:".($assign_lesson_count/100)."课时");
+            }
         }else{
             if($this->t_order_info->check_order_free_to_self($parent_order_id)) {
                 return $this->output_err("该新签合同已经有赠送合同了!");
@@ -1453,6 +1457,18 @@ class ss_deal extends Controller
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ORDER_EXCHANGE,
                 $this->get_account_id(),$order_require_reason, $orderid);
+        }elseif($from_parent_order_type == E\Efrom_parent_order_type::V_6){
+            $assign_lesson_count_left = $assign_lesson_count - $lesson_total;
+            $this->t_assistant_info->field_update_list($assistantid,[
+               "assign_lesson_count" =>$assign_lesson_count_left 
+            ]);
+            //合同状态更新
+            $this->t_order_info->field_update_list($orderid,[
+                "contract_status"=>1,
+                "order_status"   =>1,
+                "check_money_flag"=>1,
+                "check_money_time"=>time()
+            ]);
         }else{
             if($order_require_flag) {
                 $this->t_flow->add_flow(
