@@ -3987,9 +3987,6 @@ class user_manage_new extends Controller
     }
 
     public function contract_list_seller_payed_new(){
-        $contract_status = $this->get_in_int_val('contract_status', -1);
-        $this->set_in_value("contract_status", $contract_status);
-
         $adminid = $this->get_account_id();
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
@@ -3998,7 +3995,7 @@ class user_manage_new extends Controller
         }
         array_unshift($son_adminid_arr,$adminid);
         $son_adminid_arr = array_unique($son_adminid_arr);
-        $this->set_in_value("contract_status", -2);
+        // $this->set_in_value("contract_status", -2);
 
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("order_time","下单日期"),
