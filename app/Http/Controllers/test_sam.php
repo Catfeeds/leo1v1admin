@@ -125,22 +125,16 @@ class test_sam  extends Controller
     }
 
     public function tt(){
-        $ret = '["21","23"]';
-        $ret = trim($ret,'[]');
-        $ret = explode(",",$ret);
+
 
         $te = '["21","23","24"]';
         $te = trim($te,'[]');
         $te = explode(",", $te);
-
-
-        foreach($te as $k =>&$v) {
-            if(!in_array($v, $ret))
-                array_push($ret, $v);
+        foreach ($te as $key => $value) {
+            $t = intval(trim($value,'"'));
+            var_dump($t);
         }
-        $ret = implode(',', $ret);
-        $ret = '['.$ret.']';
-        dd($ret);
+        dd($te);
 
     }
 
