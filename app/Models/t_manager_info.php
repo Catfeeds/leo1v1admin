@@ -516,7 +516,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
-        $sql = $this->gen_sql_new("select tm.group_name first_group_name, g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,".
+        $sql = $this->gen_sql_new("select tm.group_name first_group_name, g.main_type,g.group_name group_name,g.groupid groupid,tm.group_name up_group_name,".
                                   "am.uid adminid,am.account,".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am ".
@@ -535,7 +535,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_admin_main_group_name::DB_TABLE_NAME,//m
                                   t_seller_student_new::DB_TABLE_NAME,//ss
                                   t_test_lesson_subject::DB_TABLE_NAME,//t
-                                  t_admin_majordomo_group_name::DB_TABLE_NAME,
+                                  t_admin_majordomo_group_name::DB_TABLE_NAME,//tm
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){

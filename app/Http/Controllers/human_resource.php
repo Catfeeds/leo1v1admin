@@ -3962,7 +3962,7 @@ class human_resource extends Controller
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
             $item['age']        = $age;
-            E\Elevel::set_item_value_str($item,"level");
+            $item['level_str'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Eteacher_money_type::set_item_value_str($item);
             E\Etextbook_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time","_str");
