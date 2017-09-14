@@ -41,7 +41,7 @@ class send_error_mail extends Job implements ShouldQueue
         $to        = $mail_info["to"];
         $title     = $mail_info["title"];
         $content   = $mail_info["content"];
-        $report_error_type= $mail_info["report_error_type"];
+        $report_error_type= @$mail_info["report_error_type"];
 
         \App\Helper\Utils::logger("send_error_mail:$to");
         if (!$to) {
