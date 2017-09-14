@@ -1427,6 +1427,7 @@ class Common {
                 $data["group_name"]="";
                 $data["account"]="";
                 $data["main_type_class"]=$item1["key_class"];
+                $data["first_group_name_class"]=""; // 开发中
                 $data["up_group_name_class"]="";
                 $data["group_name_class"]="";
                 $data["account_class"]="";
@@ -1442,7 +1443,9 @@ class Common {
                     $data["group_name"]="";
                     $data["account"]="";
                     $data["main_type_class"]=$item1["key_class"];
-                    $data["up_group_name_class"]=$item2["key_class"];
+                    $data["first_group_name_class"]=$item2["key_class"];
+                    $data["up_group_name_class"]="";
+                    // $data["up_group_name_class"]=$item2["key_class"];
                     $data["group_name_class"]="";
                     $data["account_class"]="";
                     $data["level"]="l-2";
@@ -1455,8 +1458,10 @@ class Common {
                         $data["group_name"]=$key3;
                         $data["account"]="";
                         $data["main_type_class"]=$item1["key_class"];
-                        $data["up_group_name_class"]=$item2["key_class"];
-                        $data["group_name_class"]=$item3["key_class"];
+                        $data["first_group_name_class"]=$item2["key_class"];
+                        $data["up_group_name_class"]=$item3["key_class"];
+                        $data["group_name_class"]="";
+                        // $data["group_name_class"]=$item3["key_class"];
                         $data["account_class"]="";
                         $data['groupid'] = $item3['groupid'];
                         $data["level"]="l-3";
@@ -1469,32 +1474,39 @@ class Common {
                             $data["group_name"]=$key3;
                             $data["account"]=$key4;
                             $data["main_type_class"]=$item1["key_class"];
-                            $data["up_group_name_class"]=$item2["key_class"];
-                            $data["group_name_class"]=$item3["key_class"];
-                            $data["account_class"]=$item4["key_class"];
+                            $data["first_group_name_class"]=$item2["key_class"];
+                            $data["up_group_name_class"]=$item3["key_class"];
+                            $data["group_name_class"]=$item4["key_class"];
+                            $data["account_class"]="";
+                            // $data["account_class"]=$item4["key_class"];
                             $data['adminid'] = $item4['adminid'];
                             $data['groupid'] = $item4['groupid'];
                             $data["level"]="l-4";
 
                             $list[]=$data;
+
+                            // 开发中
+                            foreach ($item4["sub_list"] as $key5 => $item5) {
+                                $data=$item5["data"];
+                                $data["main_type"]=$key1;
+                                $data["up_group_name"]=$key2;
+                                $data["group_name"]=$key3;
+                                $data["account"]=$key4;
+                                $data["main_type_class"]=$item1["key_class"];
+                                $data["first_group_name_class"]=$item2["key_class"];
+                                $data["up_group_name_class"]=$item3["key_class"];
+                                $data["group_name_class"]=$item4["key_class"];
+                                $data["account_class"]=$item5["key_class"];
+                                $data['adminid'] = $item5['adminid'];
+                                $data['groupid'] = $item5['groupid'];
+                                $data["level"]="l-5";
+
+                                $list[]=$data;
+                            }
+
+
                         }
 
-                        // foreach ($item3["sub_list"] as $key4 => $item4) {
-                        //     $data=$item4["data"];
-                        //     $data["main_type"]=$key1;
-                        //     $data["up_group_name"]=$key2;
-                        //     $data["group_name"]=$key3;
-                        //     $data["account"]=$key4;
-                        //     $data["main_type_class"]=$item1["key_class"];
-                        //     $data["up_group_name_class"]=$item2["key_class"];
-                        //     $data["group_name_class"]=$item3["key_class"];
-                        //     $data["account_class"]=$item4["key_class"];
-                        //     $data['adminid'] = $item4['adminid'];
-                        //     $data['groupid'] = $item4['groupid'];
-                        //     $data["level"]="l-4";
-
-                        //     $list[]=$data;
-                        // }
 
 
 
