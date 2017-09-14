@@ -802,7 +802,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
             . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  ao1.p_open_price o_p_open_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
-            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
@@ -1363,6 +1363,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         //重置当前等级
         list($agent_level, $star_count)=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
+        if ($agent_level < $agent_level_old ) {
+            $agent_level= $agent_level_old;
+        }
 
         //佣金提成信息
         $order_open_all_money= $level_count_info["l1_child_open_price"] +$level_count_info["l2_child_open_price"];

@@ -433,7 +433,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD/%E8%80%81%E5%B8%88%E7%AB%AF%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD_%E5%B0%81%E9%9D%A2.png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_software',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_software',
+                'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_software.html'
 
             );
 
@@ -446,7 +447,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-ipad%E7%AB%AF/%E5%B0%81%E9%9D%A2',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_ipad',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_ipad',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_ipad.html",
 
             );
 
@@ -458,7 +460,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-PC%E7%AB%AF/0.png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_pc',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_pc',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_pc.html"
 
             );
 
@@ -471,7 +474,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E7%99%BD%E6%9D%BF/%E7%99%BD%E6%9D%BF.png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard',
+                'url' => 'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_whiteboard.html',
             );
 
 
@@ -485,7 +489,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4sqb8Xr7LTXMyUia5bFziaqyaqfslQr5sWpTc3hqz3KF0QLpAmmLjeI6xNGlNic2PibPynJSIHrU903w/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_math',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_math',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_math.html"
             );
 
             $tuwenList[] = array(
@@ -496,7 +501,8 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4eLBb4Cluv6icfGh2Z5u8fO6LBGO3Q2EpBErwkFCXzKgLd5qeCibagCSo0SxM6enfzNhGYoicCcxwdw/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_english',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_english',
+                'url' => "http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_video_english.html"
             );
 
             $tuwenList[] = array(

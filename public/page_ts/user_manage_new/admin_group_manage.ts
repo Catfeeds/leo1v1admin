@@ -25,78 +25,13 @@ $(function(){
 
 
 
-    // table_admin_level_4_init:function(show_flag) {
-
-    //     var $table=$(this);
-    //     if (!show_flag) {
-    //         $.each($table.find(".l-2,.l-3,.l-4,.l-5"),function(){
-    //             $(this).hide();
-    //         });
-    //     }
-    //     var link_css=        {
-    //         color: "#3c8dbc",
-    //         cursor:"pointer"
-    //     };
-
-    //     $table.find(".l-1 .main_type").css(link_css);
-    //     $table.find(".l-2 .first_group_name").css(link_css);
-    //     $table.find(".l-3 .up_group_name").css(link_css);
-    //     $table.find(".l-4 .group_name").css(link_css);
-    //     var switch_show_flag=function($item, self_class,  parent_class  ,  level_count ) {
-    //         var show_flag= $item.data("show");
-    //         if (!show_flag) {
-    //             show_flag=0;
-    //         }
-    //         if (!level_count) {
-    //             level_count=4;
-    //         }
-    //         show_flag= (show_flag+1)% level_count;
-    //         $item.data("show" ,show_flag) ;
-
-    //         var class_name= $item.data("class_name");
-
-    //         var $opt_item=null;
-    //         var select_class= "."+self_class+"."+class_name;
-    //         if (show_flag ==1 ) {
-    //             $opt_item=$table.find( select_class).parent("." +parent_class  );
-    //             $opt_item.show();
-    //         } else  if (show_flag ==2 ) {
-    //             $opt_item=$table.find(select_class),
-    //             $opt_item.parent().show();
-    //         } else  if (show_flag ==3 ) {
-    //             $opt_item=$table.find(select_class),
-    //             $opt_item.parent().show();
-    //         }else{
-    //             $table.find(select_class).parent().hide();
-    //         }
-    //         $item.parent().show();
-    //         return show_flag;
-    //     };
-
-
-    //     $table.find(".l-1 .main_type").on("click",function(){
-    //         switch_show_flag($(this), "up_group_name","l-2");
-    //     });
-
-    //     $table.find(".l-2 .first_group_name").on("click",function(){
-    //         switch_show_flag($(this), "group_name","l-3");
-    //     });
-
-
-    //     $table.find(".l-3 .up_group_name").on("click",function(){
-    //         switch_show_flag($(this), "group_name","l-4");
-    //     });
-
-    //     $table.find(".l-4 .group_name").on("click",function(){
-    //         switch_show_flag($(this), "account","l-5",2);
-    //     });
-    // },
 
 
 
     $('#id_monthtime_flag').val(g_args.monthtime_flag);
 
-    $(".common-table" ).table_admin_level_4_init();
+    // $(".common-table" ).table_admin_level_5_init(); // 开发中
+    $(".common-table" ).table_admin_level_4_init(); // 原始
 
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();

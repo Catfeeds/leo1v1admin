@@ -193,6 +193,7 @@ class NewRouteConfig {
         "/user_manage/del_contract"                => true,
         "/user_manage/contract_list_seller_add"                 => true,
         "/user_manage/contract_list_seller_payed"               => true,
+        "/user_manage/contract_list_seller_mix"                 => true,
         "/user_manage/set_refund_order"                         => true,
         "/user_manage/refund_list"                 => true,
         "/user_manage/set_contract_starttime"                   => true,

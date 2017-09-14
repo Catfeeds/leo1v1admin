@@ -220,7 +220,7 @@
                         <td >{{$var["grade_str"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["phone"]}}</td>
-                        <td >{{$var["contract_status_str"]}}</td>
+                        <td style="{{$var['status_color']}}" >{{$var["contract_status_str"]}}</td>
                         <td >
                             @if ($var["contract_type"]==1)
                                 {{$var["from_parent_order_type_str"]}}

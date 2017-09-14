@@ -3987,6 +3987,15 @@ class user_manage_new extends Controller
     }
 
     public function contract_list_seller_payed_new(){
+        $adminid = $this->get_account_id();
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+        $son_adminid_arr = [];
+        foreach($son_adminid as $item){
+            $son_adminid_arr[] = $item['adminid'];
+        }
+        array_unshift($son_adminid_arr,$adminid);
+        $son_adminid_arr = array_unique($son_adminid_arr);
+        dd($son_adminid_arr);
         $this->set_in_value("sys_operator", $this->get_account());
         $this->set_in_value("contract_status", -2);
 
