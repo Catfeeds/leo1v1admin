@@ -533,11 +533,14 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["lesson_start>%u",$start_time,-1],
             ["lesson_start<%u",$end_time,-1],
             "lesson_type in (0,1,3)",
-            "(lesson_del_flag=0 or )",
         ];
-        $sql = $this->gen_sql_new("select "
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,"
+                                  ." sum(if(confirm_flag!=2 and lesson_del_flag=0,lesson_count,0)),"
+                                  ." "
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
+                                  ." group by l.teacherid"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

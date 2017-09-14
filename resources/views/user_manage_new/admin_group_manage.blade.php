@@ -91,6 +91,7 @@
 
 
                                @if($monthtime_flag==1)
+                                   <a class="opt-add-major-group">新增总监分组</a>
                                    <a class="opt-add-main-group">新增主管分组</a>
                                    <a class="opt-assign-main-group">分配小组</a>
                                    <a class="opt-edit-main-group">修改</a>

@@ -1219,7 +1219,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'keyword1' =>"测评课" ,
                         'keyword2' => date('Y-m-d H:i:s',time()),
                         'keyword3' => $phone ,
-                        'remark'   => "如课程老师成功联系学员，将再获得5元奖励。" 
+                        'remark'   => "如课程老师成功联系学员，将再获得5元奖励。"
                     ];
                     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
 
@@ -1324,6 +1324,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 if ($orderid ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
                     $agent_status=E\Eagent_status::V_40;
+                    if ( $orderid &&  $lesson_info && $lesson_info["lesson_user_online_status"]!=1  ) {
+                        //下单,试听一定成功
+                        $this->task->t_lesson_info->field_update_list($lesson_info["lessonid"],[
+                            "lesson_user_online_status" => 1
+                        ]);
+
+                    }
                 }else{
                     $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
 

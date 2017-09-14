@@ -1688,6 +1688,33 @@ class main_page extends Controller
 
         }
 
+        //田梦茹数据
+        $ruby_info =@$ass_month[386];
+        $ruby_info_last = @$ass_last_month[386];
+        if(!empty($ruby_info)){
+            $ruby_info["lesson_total"] = @$ruby_info["lesson_total"]/100;
+            $ruby_info["tran_price"] = @$ruby_info["tran_price"]/100;
+            $ruby_info["renw_price"] = @$ruby_info["renw_price"]/100;
+            $ruby_info["all_price"] = $ruby_info["tran_price"]+$ruby_info["renw_price"];
+            $ruby_info["lesson_target"] = $lesson_target;
+            $ruby_info["renw_target"] = @$ruby_info_last["warning_student"]*0.8*8000;
+            $ruby_info["renw_per"] = !empty($ruby_info["renw_target"])?round($ruby_info["all_price"]/$ruby_info["renw_target"]*100,2):0;
+            $ruby_info["renw_stu_target"] = @$ruby_info_last["warning_student"]*0.8;
+            $ruby_info["renw_stu_per"] = !empty($ruby_info["renw_target"])?round($ruby_info["all_price"]/$ruby_info["renw_target"]*100,2):0;
+            $ruby_info["kk_suc"] = $ruby_info["kk_num"];
+            $ruby_info["lesson_money"] = $ruby_info["lesson_money"]/100;
+            $ruby_info["lesson_total_old"] = @$ruby_info["lesson_total_old"]/100;
+            $ruby_info["new_refund_money"]  = $ruby_info["new_refund_money"]/100;
+            $ruby_info["renw_refund_money"]  = $ruby_info["renw_refund_money"]/100;          
+            $ruby_info["new_lesson_count"]  = $ruby_info["new_lesson_count"]/100;
+            $ruby_info["account"]="田梦茹";
+            $ruby_info["nick"]="田梦茹";
+
+            array_push($ass_list,$ruby_info);
+
+        }
+
+
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,

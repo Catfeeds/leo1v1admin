@@ -823,6 +823,15 @@
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
+                            <span class="input-group-addon">有无进步：</span>
+                            <select id="id_advice_flag" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
                             <span class="input-group-addon">家长姓名：</span>
                             <input type="text" class=" form-control "  id="id_par_nick"  />
                         </div>
