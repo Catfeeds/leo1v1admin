@@ -334,6 +334,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if ($user_name) {
             $where_arr[]= " (nick like '%" . $user_name . "%' "
                 ." or parent_name like '%" . $user_name . "%' "
+                ." or phone_location like '%" . $user_name . "%' "
                 ." or realname like '%" . $user_name . "%') ";
         }
 

@@ -3441,7 +3441,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $sql= $this->gen_sql_new(
-            " select l.lessonid "
+            " select l.lessonid , l.lesson_user_online_status  "
             . " from %s l "
             . " where %s order by  l.lesson_user_online_status  desc, l.lesson_start asc limit 1 ",
             t_lesson_info::DB_TABLE_NAME,

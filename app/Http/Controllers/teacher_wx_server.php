@@ -42,10 +42,13 @@ class  teacher_wx_server extends Controller
             array('id'=>'2', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'帮助中心', 'type'=>'', 'code'=>''),
 
-            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
-            array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
+            // array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
+            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_about_me.html'),
+            // array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
+            array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_interview.html'),
 
-            array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_agent'),
+            // array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_agent'),
+            array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_agent.html'),
 
             array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
 
@@ -60,7 +63,8 @@ class  teacher_wx_server extends Controller
             // array('id'=>'13', 'pid'=>'3', 'name'=>'建议反馈', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_complain/feedback.html'),
             array('id'=>'16', 'pid'=>'2', 'name'=>'邀请有奖', 'type'=>'click', 'code'=>'invitation' ),
 
-            array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'view', 'code'=>'http://www.jiuqitian.com/help3'),
+            // array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'view', 'code'=>'http://www.jiuqitian.com/help3'),
+            array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/wx_teacher_share/leo_teacher_help/leo_teacher_help.html'),
         );
 
 

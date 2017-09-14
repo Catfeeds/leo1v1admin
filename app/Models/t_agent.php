@@ -897,14 +897,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function reset_user_info_test_lesson($id,$userid, $is_test_user, $check_time) {
         //重置试听信息
         $lessonid = 0;
+        $lesson_user_online_status =0;
         if($userid && $is_test_user == 0 ) {
             $lessonid=0;
             $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
             if ($ret) {
                 $lessonid = $ret['lessonid'];
+                $lesson_user_online_status  = $ret["lesson_user_online_status"];
             }
         }
-        return $lessonid;
+        return array($lessonid, $lesson_user_online_status)  ;
     }
 
     public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
@@ -958,6 +960,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_wx_openid = $p_pp_info['pp_wx_openid'];
         $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
+        $orderid=0;
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
             if ($order_info) {
@@ -1056,6 +1059,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
 
         }
+        return $orderid;
     }
     public function eval_agent_student_status(  $stu_info, $lesson_info ){
         $agent_student_status=0;
@@ -1312,13 +1316,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $is_test_user = $student_info['is_test_user'];
             $create_time = $agent_info['create_time'];
             $now=time(NULL);
-            $test_lessonid=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
-            $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+            list($test_lessonid ,$lesson_user_online_status )=$this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $orderid=$this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
 
             //是学员
             if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
                 //检查合同
-                if ($this->task->t_agent_order->check_aid($id) ) {
+                if ($orderid ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
                     $agent_status=E\Eagent_status::V_40;
                 }else{
