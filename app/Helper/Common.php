@@ -1293,11 +1293,15 @@ class Common {
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
+                        \App\Helper\Utils::logger(" first11 $k ~ $v");
+
                     }else{
                         if (!isset($arr[$k])) {
                             $arr[$k]=0;
                         }
                         $arr[$k]+=$v;
+                        \App\Helper\Utils::logger(" first22 $k ~ $v");
+
                     }
                 }
             }
