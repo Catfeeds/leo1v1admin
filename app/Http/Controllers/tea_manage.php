@@ -2848,9 +2848,8 @@ class tea_manage extends Controller
             $this->cache_set_item_teacher_nick($item);
             E\Esubject::set_item_value_str($item);
             E\Etrain_type::set_item_value_str($item);
-            E\Etrain_status::set_item_value_str($item);
+            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
         }
-	dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
