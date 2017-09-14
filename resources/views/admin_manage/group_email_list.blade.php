@@ -10,32 +10,35 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
+                <div class="col-xs-6 col-md-2"  >
+                    <button id="id_add" class="btn btn-primary" >增加邮件群组 </button>
                 </div>
+
             </div>
         </div>
         <hr/>
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td> id</td>
+                    <td> 组名</td>
+                    <td> email</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["groupid"]}} </td>
+                        <td>{{@$var["title"]}} </td>
+                        <td>{{@$var["email"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-users opt-show-user-list" title="用户列表"> </a>
 
                             </div>
                         </td>
@@ -45,4 +48,5 @@
         </table>
         @include("layouts.page")
     </section>
+
 @endsection

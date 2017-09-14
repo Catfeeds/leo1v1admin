@@ -2187,6 +2187,12 @@ class test_code extends Controller
         dd($tea_list);
     }
 
+    public function reset_teacher_subject_info(){
+        
+    }
+
+
+
 
 
 

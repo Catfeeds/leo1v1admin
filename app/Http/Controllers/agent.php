@@ -318,7 +318,44 @@ class agent extends Controller
     }
 
     public function check(){
-        $this->test_lesson_cancle_rate();
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
+        }
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        $this->t_order_info->switch_tongji_database();
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $tongji_type= E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_PERCENT;
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        $test_lesson_fail_per = $test_lesson_list["list"];
+        $test_lesson_all_count= [] ;
+        $test_lesson_fail_count= [] ;
+        foreach($test_lesson_fail_per as &$item){
+            $adminid=$item["admin_revisiterid"];
+            $item["adminid"] = $adminid ;
+            if($item['test_lesson_count'] != 0){
+                $item['value'] = round($item['fail_all_count']/$item['test_lesson_count'],2)*100;
+            }else{
+                $item['value']=0;
+            }
+            $test_lesson_all_count[]= [ "adminid" =>$adminid , "value"=> $item['test_lesson_count']  ] ;
+            $test_lesson_fail_count[]= [ "adminid" =>$adminid , "value"=> $item['fail_all_count']  ] ;
+        }
+        \App\Helper\Utils::order_list($test_lesson_fail_per,"value",1);
+        \App\Helper\Utils::order_list($test_lesson_fail_count,"value",1);
+        \App\Helper\Utils::order_list($test_lesson_all_count,"value",1);
+        dd($test_lesson_fail_count,$test_lesson_all_count,$test_lesson_fail_per);
+        $this->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$test_lesson_fail_per);
+        $this->t_tongji_seller_top_info->update_list(
+            E\Etongji_type::V_SELLER_MONTH_FAIL_LESSON_COUNT
+            ,$start_time,$test_lesson_fail_count);
+        $this->t_tongji_seller_top_info->update_list(
+            E\Etongji_type::V_SELLER_MONTH_ALL_LESSON_COUNT,
+            $start_time,$test_lesson_all_count);
     }
 
     public function test_lesson_cancle_rate(){

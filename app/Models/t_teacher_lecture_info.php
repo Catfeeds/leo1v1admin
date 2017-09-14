@@ -1829,6 +1829,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_tongji_lz($start_time,$end_time){
+        /*
         $where_arr = [
             ["add_time>%u",$start_time,-1],
             ["add_time<%u",$end_time,-1],
@@ -1842,6 +1843,36 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+        */
 
+        $where_arr = [
+            ["b.add_time>%u",$start_time,0],
+            ["b.add_time<%u",$end_time,0],
+            'b.status=0',
+            'b.is_test_flag=0',
+            ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
+             self::DB_TABLE_NAME,""],
+        ];
+        $group_str = "group by b.phone,b.subject";
+
+        $sql = $this->gen_sql_new("select b.subject,b.id "
+                                  ." from %s as b"
+                                  ." left join %s la on b.phone=la.phone"
+                                  ." left join %s t on t.phone=la.reference"
+                                  ." left join %s tt on b.phone=tt.phone"
+                                  ." left join %s ttt on b.phone=ttt.phone"
+                                  ." left join %s m on la.accept_adminid = m.uid"
+                                  ." where %s "
+                                  ." %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,$group_str
+        );
+        return $this->main_get_list($sql);
     }
 }

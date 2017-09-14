@@ -659,7 +659,6 @@ class Utils  {
         $ret = "";
         while(!feof($fp)) {
             $ret .=fread($fp, 1024);
-            echo $ret;
         }
         fclose($fp);
         return $ret;
@@ -1414,9 +1413,15 @@ class Utils  {
         return (int)$grade;
     }
 
+    /**
+     * 获取老师等级描述
+     * 所有第四版都是星级等级描述
+     * 旧版老师使用初,中,高等级描述
+     * 非平台老师都为招师代理
+     */
     static public function get_teacher_level_str($teacher_info){
         self::set_default_value($teacher_type,$teacher_info,E\Eteacher_type::V_0,"teacher_type");
-        self::set_default_value($teacher_money_type,$teacher_info,E\Eteacher_money_type::V_4,"teacher_money_type");
+        self::set_default_value($teacher_money_type,$teacher_info,E\Eteacher_money_type::V_6,"teacher_money_type");
         self::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
 
         if($teacher_type>20){
@@ -1441,6 +1446,20 @@ class Utils  {
             $level_str.="教师";
         }
         return $level_str;
+    }
+
+    /**
+     * 检测老师工资类型获取老师等级(字母形式:C,B,A...)
+     */
+    static public function get_teacher_letter_level($teacher_money_type,$level){
+
+        if($teacher_money_type==E\Eteacher_money_type::V_6){
+            $letter_level = E\Enew_level::get_desc($level);
+        }else{
+            $letter_level = E\Elevel::get_desc($level);
+        }
+
+        return $letter_level;
     }
 
     static public function seconds_to_string($secs=0){
