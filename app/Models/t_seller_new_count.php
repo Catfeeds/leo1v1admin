@@ -71,6 +71,23 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
     }
     public function get_list_ex($adminid, $seller_new_count_type,$start_time, $end_time )  {
 
+        $where_arr=[
+            ["adminid=%d",$adminid , -1],
+            ["seller_new_count_type=%d",$seller_new_count_type ,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"start_time" ,$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select n.adminid,  add_time, start_time, end_time, seller_new_count_type ,value_ex, count , sum(get_time>0) as get_count "
+            ."from %s n "
+            ."left join %s nd on nd.new_count_id=n.new_count_id"
+            ." where %s "
+            ." group by  n.new_count_id   "
+            ,self::DB_TABLE_NAME ,
+            t_seller_new_count_get_detail::DB_TABLE_NAME,
+            $where_arr  );
+
+        return $this->main_get_list_by_page($sql,$page_num,10,true, "order by add_time ");
+
     }
 
     public function get_free_new_count_id($adminid) {
