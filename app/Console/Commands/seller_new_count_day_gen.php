@@ -74,8 +74,32 @@ class seller_new_count_day_gen extends cmd_base
         foreach ( $last_day_list as &$item ) {
             $item["left_count"] = $item["count"] -$item["get_count"];
         }
-        $check_count_fun= function ( $base_time, $last_day_list,  $day)  {
-            if ($last_day_list )
+        $check_count_fun= function (  $day) use( $base_time, $last_day_list  )  {
+            $time= $base_time + $day *86400;
+            if (  !isset ($last_day_list [$time]) ) {
+                return true;
+            }
+            if ($item["left_count"]>0 ) {
+                return false;
+            }else{
+                return true;
+            }
+        };
+        $f1=$check_count_fun(-1 );
+        $f2=$check_count_fun(-2 );
+        $f3=$check_count_fun(-3 );
+        $f4=$check_count_fun(-4 );
+        $f5=$check_count_fun(-5 );
+        $f6=$check_count_fun(-6 );
+        $f7=$check_count_fun(-7 );
+        if ($f1) { // 
+
+        }else { //
+            if ($f2) {
+                return -1;
+            }
+
+
         }
 
     }
