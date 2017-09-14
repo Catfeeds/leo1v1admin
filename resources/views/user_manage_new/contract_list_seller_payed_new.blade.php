@@ -167,7 +167,7 @@
                 <tr>
                     <td style="display:none">userid</td>
                     <td style="display:none">orderid</td>
-                    <td class="td-origin" >渠道</td>
+                    <td style="display:none" class="td-origin" >渠道</td>
                     <td >学员姓名</td>
                     <td style="display:none;" >家长姓名</td>
                     <td style="display:none;" >地区</td>
