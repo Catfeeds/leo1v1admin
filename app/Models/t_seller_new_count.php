@@ -81,12 +81,12 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             ."from %s n "
             ."left join %s nd on nd.new_count_id=n.new_count_id"
             ." where %s "
-            ." group by  n.new_count_id   "
+            ." group by  n.new_count_id  order by start_time "
             ,self::DB_TABLE_NAME ,
             t_seller_new_count_get_detail::DB_TABLE_NAME,
             $where_arr  );
 
-        return $this->main_get_list_by_page($sql,$page_num,10,true, "order by add_time ");
+        return $this->main_get_list_by_page($sql,$page_num );
 
     }
 

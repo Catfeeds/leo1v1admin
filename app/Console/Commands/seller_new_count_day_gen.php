@@ -43,18 +43,20 @@ class seller_new_count_day_gen extends cmd_base
 
         $seller_new_count_type=E\Eseller_new_count_type::V_DAY ;
         $value_ex=0;
+        //$last_check_start_start_time=1``
+        $this->task->t_seller_new_count->get_list_ex($adminid,$seller_new_count_type,
+                                                     $start_time,$end_time);
         foreach($admin_list as $item ) {
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
-            $count=@$config[$seller_level];
-            if ($count) {
-                $count+= $add_count_ex;
+            $def_count=@$config[$seller_level];
+            if ($def_count ) {
+                $count = $def_count+ $add_count_ex;
             }
 
             $start_time=strtotime(date("Y-m-d"), time(NULL));
             $end_time=$start_time+86400-1;
 
-            
 
 
             $existed_flag=$this->task->t_seller_new_count->check_adminid_seller_new_count_type_start_time (  $adminid, $seller_new_count_type, $start_time  );
