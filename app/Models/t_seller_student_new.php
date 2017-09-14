@@ -93,6 +93,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function book_free_lesson_new($nick,$phone,$grade, $origin, $subject, $has_pad,$user_desc="",$parent_name="" ) {
+
         $reg_channel = $origin;
         $passwd = md5("123456");
         $region = "";
@@ -2085,7 +2086,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account){
 
-        //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规 
+        //$opt_type, $userid,  $opt_adminid // 被分配人, $this->get_account_id(), $opt_account, $account,$seller_resource_type //0  常规
         $phone = $this->get_phone($userid);
 
         $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
