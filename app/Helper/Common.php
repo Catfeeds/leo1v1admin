@@ -1254,8 +1254,8 @@ class Common {
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
         if($monthtime_flag==1){
-            // $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
-            $admin_list = $t_manager_info->get_admin_member_list();
+            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
+            // $admin_list = $t_manager_info->get_admin_member_list();
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
@@ -1287,8 +1287,8 @@ class Common {
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
-                    && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" &&  $k!="first_group_name" 
+                    && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
                     }else{
