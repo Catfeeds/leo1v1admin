@@ -149,7 +149,7 @@ class gen_top_info extends Command
             $start_time,$test_lesson_all_count);
 
         //dd($test_lesson_fail_per);
-        // $this->update_week_test_lesson_fail();
+        $this->update_week_test_lesson_fail();
     }
 
     public function update_week_test_lesson_fail(){
