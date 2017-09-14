@@ -1661,6 +1661,9 @@ class main_page extends Controller
         $melon_info =@$ass_month[773];
         $melon_info_last = @$ass_last_month[773];
         if(!empty($melon_info)){
+            $melon_info["lesson_total"] = @$melon_info["lesson_total"]/100;
+            $melon_info["tran_price"] = @$melon_info["tran_price"]/100;
+            $melon_info["renw_price"] = @$melon_info["renw_price"]/100;
             $melon_info["all_price"] = $melon_info["tran_price"]+$melon_info["renw_price"];
             $melon_info["lesson_target"] = $lesson_target;
             $melon_info["renw_target"] = @$melon_info_last["warning_student"]*0.8*8000;
@@ -1670,6 +1673,14 @@ class main_page extends Controller
             $melon_info["kk_suc"] = $melon_info["kk_num"];
             $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
             $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
+            $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
+            $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;          
+            $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
+            $melon_info["account"]="田梦影";
+            $melon_info["nick"]="田梦影";
+
+            array_push($ass_list,$melon_info);
+
         }
 
         return $this->pageView(__METHOD__ ,null, [
