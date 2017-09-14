@@ -226,19 +226,19 @@
                 <tr>
                     <td >电话</td>
                     <td >渠道</td>
-                    <td style=" display:none;  min-width:140px;">个人信息</td>
-                    <td style="width:60px" class="th-opt-time-field" ></td>
+                    <td style="display:none; min-width:140px;">个人信息</td>
+                    <td style="display:none;width:60px" class="th-opt-time-field"></td>
                     <td style="display:none;">资源进来时间</td>
                     <td style="display:none;" >来源</td>
                     <!-- <td style="display:block;" >来源</td> -->
                     <td >姓名</td>
                     <td >回访状态</td>
-                    <td >TQ状态</td>
+                    <td style="display:none;">TQ状态</td>
                     <td style="display:none;" >用户备注(all)</td>
                     <td >年级</td>
                     <td >科目</td>
                     <td >是否有pad</td>
-                    <td  >试卷</td>
+                    <td  style="display:none;">试卷</td>
                     <td style=" display:none; min-width:200px;" >回访信息</td>
                     <td style="display:none;">下次跟进时间</td>
 
@@ -246,17 +246,17 @@
 
                     <td style="display:none;" >分配时间</td>
                     <td style="display:none;" >最后一次回访时间</td>
-                    <td style=""  >最后一次回访记录</td>
+                    <td style="display:none;">最后一次回访记录</td>
                     <td style=" display:none; min-width:120px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ?"display:none;":""}}"   >课程信息</td>
                     <td style=" display:none; min-width:240px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ? "display:none;":""}}"   >课程确认</td>
-                    <td style="" >教务</td>
-                    <td style="" >老师</td>
-                    <td style="" >上课信息</td>
-                    <td style="" >确认成功</td>
-                    <td style="" >出错是否付工资</td>
-                    <td style="" >原因</td>
-                    <td>申请更改时间</td>
-                    <td>合同金额</td>
+                    <td style="display:none;" >教务</td>
+                    <td style="display:none;" >老师</td>
+                    <td style="display:none;" >上课信息</td>
+                    <td style="display:none;" >确认成功</td>
+                    <td style="display:none;" >出错是否付工资</td>
+                    <td style="display:none;" >原因</td>
+                    <td style="display:none;" >申请更改时间</td>
+                    <td style="display:none;" >合同金额</td>
                     <td style="display:none;" >未签单分类</td>
                     <td style="display:none;" >未签单说明</td>
                     <td style="min-width:120px;" >操作</td>

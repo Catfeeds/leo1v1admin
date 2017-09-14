@@ -381,9 +381,16 @@ class user_manage extends Controller
         return $this->contract_list();
     }
 
-    public function contract_list_seller_payed () {
+    public function contract_list_seller_mix () {
+        $contract_status = $this->get_in_int_val('contract_status', -1);
+        $this->set_in_value("contract_status", $contract_status);
         $this->set_in_value("sys_operator", $this->get_account());
+        return $this->contract_list();
+    }
+
+    public function contract_list_seller_payed () {
         $this->set_in_value("contract_status", -2);
+        $this->set_in_value("sys_operator", $this->get_account());
         return $this->contract_list();
     }
 
@@ -507,6 +514,12 @@ class user_manage extends Controller
                 if ( $item["flowid"] ) {
                     $all_promotion_spec_diff_money+= $item["promotion_spec_diff_money"];
                 }
+            }
+
+            if ($item['contract_status'] == 0) {
+                $item['status_color'] = 'color:red';
+            } else {
+                $item['status_color'] = 'color:green';
             }
         }
 
