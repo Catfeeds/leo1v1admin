@@ -138,6 +138,9 @@ class common_new extends Controller
         $online_count=  count($ret_list);
         $this->t_online_count_log->add($logtime-$logtime%60,$online_count);
 
+        $ret = $this->t_lesson_info_b2->get_finish_lessons();
+        $finish_count=  count($ret);
+
         return date("Y-m-d H:i:s")." ".$online_count ."\n";
     }
 

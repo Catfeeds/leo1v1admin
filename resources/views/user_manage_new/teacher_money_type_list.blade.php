@@ -15,11 +15,11 @@
                         <select class="opt-change"  id="id_level"   > </select>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2">
-                    <div class="input-group ">
-                        <button class="btn btn-primary" id="id_add_teacher_money_type">修改当前工资配置</button>
-                    </div>
-                </div>
+                <!-- <div class="col-xs-12 col-md-2">
+                     <div class="input-group ">
+                     <button class="btn btn-primary" id="id_add_teacher_money_type">修改当前工资配置</button>
+                     </div>
+                     </div> -->
             </div>
         </div>
         <hr/>

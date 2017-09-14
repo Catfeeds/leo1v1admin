@@ -1302,7 +1302,6 @@ class Common {
 
         };
 
-
         $check_init_map_item($data_map,"","");
         foreach ($admin_list as &$item) {
             $adminid=$item["adminid"];

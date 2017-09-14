@@ -273,6 +273,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
 
     public static $classMap = array (
         'CreateAgent' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_175008_create_agent.php',
+        'CreateTAdminMajordomoGroupName' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_183810_create_t_admin_majordomo_group_name.php',
         'CreateTComplaintAssignInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173101_create_t_complaint_assign_info.php',
         'CreateTComplaintDealInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173113_create_t_complaint_deal_info.php',
         'CreateTComplaintInfo' => __DIR__ . '/../..' . '/database/migrations/2017_06_13_173043_create_t_complaint_info.php',
@@ -839,6 +840,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TAdminChannelList' => __DIR__ . '/../..' . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
         'TAdminChannelUser' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_174001_t_admin_channel_user.php',
         'TAdminGroupNameAddSubject' => __DIR__ . '/../..' . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
+        'TAdminMainGroupNameAddUpGroupId' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_184228_t_admin_main_group_name_add_up_group_id.php',
         'TAdminSelfMenuList' => __DIR__ . '/../..' . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
         'TAgent' => __DIR__ . '/../..' . '/database/migrations/2017_06_02_190744_t_agent.php',
         'TAgentAddBankInfo' => __DIR__ . '/../..' . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
@@ -954,6 +956,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TMonthAssStudentInfoAddNewRefundMoney' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_113010_t_month_ass_student_info_add_new_refund_money.php',
         'TMonthAssStudentInfoAddReadStudentLast' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_140859_t_month_ass_student_info_add_read_student_last.php',
         'TMonthAssStudentInfoAddReadStudentNewAllStudentNew' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_141340_t_month_ass_student_info_add_read_student_new_all_student_new.php',
+        'TMonthAssStudentInfoAddRevisitTarget' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_181327_t_month_ass_student_info_add_revisit_target.php',
+        'TMonthAssStudentInfoAddTranNum' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_184002_t_month_ass_student_info_add_tran_num.php',
         'TMonthAssWarningStudentInfoAddDoneFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_163142_t_month_ass_warning_student_info_add_done_flag.php',
         'TMonthAssWarningStudentInfoModefiyPrimary' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_160459_t_month_ass_warning_student_info_modefiy_primary.php',
         'TOrderInfoAddChannel' => __DIR__ . '/../..' . '/database/migrations/2017_07_12_164151_t_order_info_add_channel.php',
@@ -1093,6 +1097,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTeacherRecordListAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_115211_t_teacher_record_list_add_train_type.php',
         'TTeacherRecordListAddTrialTrainStatus' => __DIR__ . '/../..' . '/database/migrations/2017_06_09_111532_t_teacher_record_list_add_trial_train_status.php',
         'TTeacherRecordListChangePrimaryKey' => __DIR__ . '/../..' . '/database/migrations/2017_06_12_163353_t_teacher_record_list_change_primary_key.php',
+        'TTeacherRecordListUpdateTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_09_14_101845_t_teacher_record_list_update_train_type.php',
         'TTeacherRewardRuleList' => __DIR__ . '/../..' . '/database/migrations/2017_08_23_194222_t_teacher_reward_rule_list.php',
         'TTeacherSwitchMoneyTypeListAddLessonTotal' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_110336_t_teacher_switch_money_type_list_add_lesson_total.php',
         'TTeacherSwitchMoneyTypeListAddMoney' => __DIR__ . '/../..' . '/database/migrations/2017_09_12_104441_t_teacher_switch_money_type_list_add_money.php',

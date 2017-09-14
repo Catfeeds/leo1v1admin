@@ -2622,8 +2622,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-
-        $ret_info=$this->t_flow_node->get_node_list(2889);
+        $cur_start = strtotime("2017-08-01");
+        $ret_info= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
         
         dd($ret_info);
 

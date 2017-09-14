@@ -13,7 +13,7 @@ class t_mail_group_user_list extends \App\Models\Zgen\z_t_mail_group_user_list
             ["adminid =%u", $adminid ,-1 ],
         ];
         $sql=$this->gen_sql_new(
-            " select eg.groupid,   eg.adminid , m.email, m.account, m.email_create_flag , eg.create_flag "
+            " select eg.groupid,   eg.adminid , m.name, m.email, m.account, m.email_create_flag , eg.create_flag "
             ." from %s eg "
             ." left join  %s m on eg.adminid = m.uid "
             ." where %s",

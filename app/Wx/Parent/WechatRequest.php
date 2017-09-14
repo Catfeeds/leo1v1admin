@@ -357,7 +357,9 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_jpg/DdBO9OC10ic8KLMK1GjXLLYGtbBTXfnBuPXBZzokyv3CpwL5o9kC5ercljmH6TiaKk2BfhbAm6r1KzmT8rctZ3LQ/0?wx_fmt=jpeg',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                //http://wx-parent.leo1v1.com/
+                // 'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                'url' => 'http://wx-parent.leo1v1.com/article_wx/parent_side_manual',
 
             );
 
@@ -415,7 +417,9 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
 
                 'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/DdBO9OC10icicYdFxtz1HrGOD1WbNnsZgjfUruthic0JRaqmT59opL9d8EJtNNCkJ7V51GygyaEQcA55U0hYg2NGA/0?wx_fmt=png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                // 'url' => 'http://admin.yb1v1.com/article_wx/parent_side_manual',
+                'url' => 'http://wx-parent.leo1v1.com/article_wx/parent_side_manual',
+
 
             );
 
