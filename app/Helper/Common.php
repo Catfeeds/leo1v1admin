@@ -1293,11 +1293,15 @@ class Common {
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
+                        \App\Helper\Utils::logger(" first11 $k ~ $v");
+
                     }else{
                         if (!isset($arr[$k])) {
                             $arr[$k]=0;
                         }
                         $arr[$k]+=$v;
+                        \App\Helper\Utils::logger(" first22 $k ~ $v");
+
                     }
                 }
             }
@@ -1306,7 +1310,7 @@ class Common {
 
         $check_init_map_item($data_map,"","");
 
-        // return $data_map;
+        // return $admin_list;
 
         foreach ($admin_list as &$item) {
             $adminid=$item["adminid"];
@@ -1341,7 +1345,7 @@ class Common {
                 $main_type=$item['main_type'];
                 $up_group_name=$item["up_group_name"];
                 $group_name=$item["group_name"];
-                $account=$item["account"];
+                $account = $item["account"];
                 $groupid = $item['groupid'];
 
                 $first_group_name = $item['first_group_name']; // 开发中
@@ -1351,24 +1355,24 @@ class Common {
 
                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
                 $key1_map=&$key0_map["sub_list"][$main_type];
-                $add_data($key1_map, $item );
+                // $add_data($key1_map, $item );
 
                 $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"up_group_name");
                 $key2_map=&$key1_map["sub_list"][$up_group_name];
-                $add_data($key2_map, $item );
+                // $add_data($key2_map, $item );
 
                 $check_init_map_item($key2_map["sub_list"] , $group_name ,"group_name","",$groupid);
                 $key3_map=&$key2_map["sub_list"][$group_name];
-                $add_data($key3_map, $item );
+                // $add_data($key3_map, $item );
 
                 $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid);
                 $key4_map=&$key3_map["sub_list"][$account];
-                $add_data($key4_map, $item,true );
+                // $add_data($key4_map, $item,true );
             }
 
         }
 
-        // return $data_map; // test
+        return $data_map; // test
 
         $list=[];
         foreach ($data_map as $key0 => $item0) {

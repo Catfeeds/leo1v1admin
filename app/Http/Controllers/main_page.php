@@ -1657,6 +1657,13 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
+        //田梦影数据
+        $melon_info =@$ass_month[773];
+        if(!empty($melon_info)){
+            $mo=[
+                ""
+            ];
+        }
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
