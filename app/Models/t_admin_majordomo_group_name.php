@@ -14,6 +14,12 @@ class t_admin_majordomo_group_name extends \App\Models\Zgen\z_t_admin_majordomo_
         return $this->main_get_list($sql);
     }
 
+    public function get_max_main_type(){
+        $sql = $this->gen_sql_new("select max(main_type) from %s ",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
+
 
 }
 
