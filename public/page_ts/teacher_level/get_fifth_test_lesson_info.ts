@@ -254,6 +254,7 @@ $(function(){
                         "lessonid"                           :lessonid,
                         "lesson_list"                        :JSON.stringify(lessonid),
                         "train_type"                         :JSON.stringify(train_type),
+                        "subject"                            :opt_data.subject,
                     });
                 }
             },function(){

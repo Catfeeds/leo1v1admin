@@ -250,7 +250,9 @@ $(function(){
                         "record_monitor_class"               : id_jkqk.val(),
                         "sshd_good"                          :JSON.stringify(sshd_good),
                         "lessonid"                           :lessonid,
-                        "lesson_list"                        :JSON.stringify(lessonid)
+                        "lesson_list"                        :JSON.stringify(lessonid),
+                        "train_type"                         :'',
+                        "subject"                            :'',
                     });
                 }
             },function(){

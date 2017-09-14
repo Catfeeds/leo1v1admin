@@ -318,34 +318,12 @@ class agent extends Controller
     }
 
     public function check(){
-        $adminid = $this->get_account_id();
-        $userid = $this->get_in_int_val('userid');
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
-        $week = date('w',$time);
-        if($week == 0){
-            $week = 7;
-        }elseif($week == 1){
-            $week = 8;
-        }
-        $end_time = $time-3600*24*($week-2);
-        $start_time = $end_time-3600*24*7;
-        list($count,$count_del) = [0,0];
-        // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-        // foreach($ret_info as $item){
-        //     if($item['lesson_del_flag']){
-        //         $count_del++;
-        //     }
-        //     $count++;
-        // }
-        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
-        $self_top_info_old =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid=730,  $start_time );
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent_row($adminid=730,$start_time,$tongji_type);
-        $self_top_info_new =$this->t_tongji_seller_top_info->get_admin_week_fail_percent_row($adminid=975,$start_time,$tongji_type);
-        dd($self_top_info_old,$self_top_info,$self_top_info_new);
+        $this->test_lesson_cancle_rate();
     }
 
     public function test_lesson_cancle_rate(){
-        $adminid = 882;
+        $adminid = 730;
+        // $adminid = 975;
         $userid = $this->get_in_int_val('userid');
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
@@ -357,33 +335,20 @@ class agent extends Controller
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         list($count,$count_del) = [0,0];
-        $start_time_old = $start_time;
-        $end_time_old = $end_time;
-        $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-        $lessonid_arr = [];
-        $userid_arr = [];
-        foreach($ret_info as $item){
-            $lessonid_arr[] = $item['lessonid'];
-            $userid_arr[] = $item['userid'];
-        }
-        foreach($ret_info as $item){
-            if($item['lesson_del_flag']){
-                $count_del++;
-            }
-            $count++;
-        }
-        $del_rate = $count?$count_del/$count:0;
-        if($del_rate>0.25){//今日排课量
+        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
+        $self_top_info_old = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
+        if($self_top_info>25){//上周取消率>25%,查看当天是否排课
             $start_time = $time;
             $end_time = $time+3600*24;
-            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-            $ret['ret'] = count($ret_info)?1:2;
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
+            $ret['ret'] = $ret_info?1:2;
             $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
             if($review_suc){
                 $ret['ret'] = 2;
             }
-            $ret['rate'] = $del_rate*100;
-        }else{//本周取消率
+            $ret['rate'] = $self_top_info;
+        }else{//当前取消率
             $start_time = $time-3600*24*($week-2);
             $end_time = time();
             $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
@@ -393,14 +358,15 @@ class agent extends Controller
                 }
                 $count++;
             }
-            $del_rate = $count?$count_del/$count:0;
-            if($del_rate>0.2){
+            $del_rate = ($count?($count_del/$count):0)*100;
+            if($del_rate>20){
                 $ret['ret'] = 3;
             }else{
                 $ret['ret'] = 4;
             }
+            $ret['rate'] = $del_rate;
         }
-        dd($start_time_old,$end_time_old,$lessonid_arr,$userid_arr,$count_del,$count,$del_rate,$ret);
+        dd($self_top_info_old,$ret,$ret_info,$review_suc);
     }
 
     public function agent_add(){

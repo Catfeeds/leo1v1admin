@@ -72,6 +72,7 @@
                                     <td> 手机 </td>
                                     <td> 邮箱</td>
                                     <td> 评价 </td>
+                                    <td> 可分配课时 </td>
                                     <td> 操作 </td>
                                 </tr>
                             </thead>
@@ -88,6 +89,7 @@
                                         <td>{{@$var["phone"]}} </td>
                                         <td>{{@$var["email"]}} </td>
                                         <td>{{@$var["rate_score"]}} </td>
+                                        <td>{{@$var["assign_lesson_count"]/100}} </td>
                                         <td>
                                             <div
                                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

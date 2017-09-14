@@ -1773,7 +1773,6 @@ class teacher_info extends Controller
             "my_info"   => $ret_info['list'][0],
             "show_flag" => $show_flag,
             "able_edit" => $able_edit,
-            'domain_url' =>Config::get_qiniu_public_url()."/"
         ]);
     }
 
@@ -2105,7 +2104,10 @@ class teacher_info extends Controller
 
     public function edit_teacher_face() {
         $teacherid = $this->get_login_teacher();
-        $face      = $this->get_in_str_val('face', '');
+        $face    = $this->get_in_str_val('face', '');
+        $pub_url = Config::get_qiniu_public_url()."/";
+        $face    = $pub_url.$face;
+
         $res_info = $this->t_teacher_info->field_update_list(
             ["teacherid" => $teacherid],
             ['face'      => $face]

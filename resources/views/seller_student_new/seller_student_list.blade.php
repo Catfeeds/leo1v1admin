@@ -477,6 +477,9 @@
                                 <a title="TMK 信息" class="opt-tmk-valid ">TMK</a>
                                 <a class="btn  fa-chevron-left  opt-set_user_free" title="回流公海"></a>
                                 <a title="排课申请" class="opt-test_lesson-review">排课解冻</a>
+                                @if(in_array($acc,["jack","jim"]))
+                                    <a title="录入回访信息" class="opt-edit-new">录</a> 
+                                @endif
                             </div>
 
                         </td>
@@ -696,6 +699,216 @@
             </div>
         </div>
     </div>
+
+    <div style="display:none;" id="id_dlg_post_user_info_new">
+
+        <div class="alert alert-danger note-info" style="margin-bottom:0px" >
+            <strong>重要提示:</strong> <span>  xx </span>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学员姓名：</span>
+                            <input type="text" class=" form-control "  id="id_stu_nick"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">家长姓名：</span>
+                            <input type="text" class=" form-control "  id="id_par_nick"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学生性别：</span>
+                            <select id="id_stu_gender" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">是否有pad：</span>
+                            <select id="id_stu_has_pad" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">家庭住址：</span>
+                            <input type="text" id="id_stu_addr"  class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学生年级：</span>
+                            <select id="id_stu_grade" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">　　科目：</span>
+                            <select id="id_stu_subject" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">在读学校：</span>
+                            <input type="text" id="id_stu_school"  class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">教材版本：</span>
+                            <select id="id_stu_editionid" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-7 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">回访状态：</span>
+                            <select id="id_stu_status" class=" form-control "   >
+                            </select>
+                            <span> &gt </span>
+                            <select id="id_seller_student_sub_status" class=" form-control "   >
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-5 ">
+                        <a class="btn  " id="id_stu_rev_info" >回访记录</a>
+                        <a class="btn  btn-primary " id="id_send_sms" >发短信给家长</a>
+                    </div>
+                </div>
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">下次回访：</span>
+                            <input id="id_next_revisit_time" class=" form-control " />
+
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_next_revisit_time"  title="取消下次回访">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">是否高意向：</span>
+                            <select id="id_intention_level" class=" form-control "   >
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select> 
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span >成绩情况:</span>
+                            <input type="text" value=""   id="id_stu_score_info"  class="form-control" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span >性格特点:</span>
+                            <input type="text" value=""   id="id_stu_character_info" class="form-control"  placeholder="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row ">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听内容：</span>
+                            <select id="id_stu_test_lesson_level" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon"> 连线测试 ：</span>
+                            <select id="id_stu_test_ipad_flag" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听时间：</span>
+                            <input id="id_stu_request_test_lesson_time" class=" form-control "   />
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <button class="btn  btn-primary " id="id_stu_request_test_lesson_time_info"  title=""> 试听其他时段 </button>
+                        <button class="btn  btn-primary " id="id_stu_request_lesson_time_info"  title=""> 正式课时段 </button>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听需求：</span>
+                            <textarea class="form-control" style="height:60px;"
+                                      id="id_stu_request_test_lesson_demand" > </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >　　备注：</span>
+                            <textarea class="form-control" style="height:70px;" id="id_stu_user_desc" > </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >回访信息：</span>
+                            <textarea class="form-control" style="height:130px;" id="id_stu_revisite_info"  > </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 

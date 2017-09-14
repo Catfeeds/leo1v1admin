@@ -840,6 +840,8 @@ return array(
     'TTeacherSwitchMoneyTypeListAddMonth' => $baseDir . '/database/migrations/2017_09_13_111550_t_teacher_switch_money_type_list_add_month.php',
     'TTeacherSwitchMoneyTypeListModify' => $baseDir . '/database/migrations/2017_09_12_160340_t_teacher_switch_money_type_list_modify.php',
     'TTeacherSwitchMoneyTypeListModifyTime' => $baseDir . '/database/migrations/2017_09_12_160919_t_teacher_switch_money_type_list_modify_time.php',
+    'TTeacherTrainInfo' => $baseDir . '/database/migrations/2017_09_14_152408_t_teacher_train_info.php',
+    'TTeacherTrainInfoDeleteLessonid' => $baseDir . '/database/migrations/2017_09_14_162139_t_teacher_train_info_delete_lessonid.php',
     'TTestLessonRequireTeacherListAddTeacherid' => $baseDir . '/database/migrations/2017_06_16_111946_t_test_lesson_require_teacher_list_add_teacherid.php',
     'TTestLessonReviewDropDesc' => $baseDir . '/database/migrations/2017_09_12_144614_t_test_lesson_review_drop_desc.php',
     'TTestLessonSubjectAddHomeworkPdfUrl' => $baseDir . '/database/migrations/2017_08_23_100712_t_test_lesson_subject_add_homework_pdf_url.php',
