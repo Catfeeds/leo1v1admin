@@ -3826,5 +3826,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_week_lesson_row($start_time,$end_time,$adminid){
+        $where_arr=[
+            ["l.lesson_type=%u",2,-1],
+            ["lsl.set_lesson_time >= %u",$start_time,-1],
+            ["lsl.set_lesson_time < %u",$end_time,-1],
+            ["ls.require_adminid = %u",$adminid,-1],
+        ];
+
+        $sql = $this->gen_sql_new(" select l.lessonid,l.userid,l.lesson_start,l.lesson_end,l.lesson_del_flag,"
+                                  ."lsl.call_before_time,lsl.call_end_time,"
+                                  ."ls.require_adminid adminid,ls.require_adminid"
+                                  ." from %s l "
+                                  ." left join %s lsl on lsl.lessonid=l.lessonid "
+                                  ." left join %s lsr on lsr.require_id=lsl.require_id "
+                                  ." left join %s ls on ls.test_lesson_subject_id=lsr.test_lesson_subject_id "
+                                  ." where %s limit 1",
+                                  self::DB_TABLE_NAME,//l
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,//lsl
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,//lsr
+                                  t_test_lesson_subject::DB_TABLE_NAME,//ls
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 }
