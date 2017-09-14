@@ -669,7 +669,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         ];
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,s.nick,tt.realname "
+        $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,"
+                                  ."s.nick,tt.realname,s.assistantid ,a.nick ass_nick "
                                   ." from %s tss  join %s tr on tss.require_id =tr.require_id"
                                   ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ."  join %s l on tss.lessonid = l.lessonid"
@@ -680,7 +681,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." (select min(lesson_start) from %s where teacherid =l.teacherid and userid=l.userid and subject = l.subject and lesson_type in (0,3) and lesson_status =2 and confirm_flag in (0,1)) and ll.lesson_start>= %u and ll.lesson_start < %u) "
                                   ." left join %s s on t.userid= s.userid"
                                   ." left join %s tt on l.teacherid = tt.teacherid"
-                                  ." where %s ",
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s order by ll.lesson_start desc",
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
@@ -691,6 +693,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   $end_time,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

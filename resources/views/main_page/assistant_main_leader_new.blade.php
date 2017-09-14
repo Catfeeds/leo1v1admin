@@ -116,7 +116,7 @@
                                         </tr>
                                         <tr>
                                             <td>扩课成功数</td> 
-                                            <td>{{@$stu_info["kk_suc"]}} </td>
+                                            <td class="opt_kk_suc" data-uid="-1"> <a href="javascript:;" >{{@$stu_info["kk_suc"]}}</a> </td>
                                         </tr>
                                         <tr>
                                             <td>扩课申请数</td> 

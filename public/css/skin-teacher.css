@@ -379,3 +379,7 @@
 .skin-teacher .pad-l-5{
     padding-left:5px;
 }
+
+#face{
+    cursor:pointer;
+}

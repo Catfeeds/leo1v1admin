@@ -97,7 +97,7 @@ $(function(){
         var id_bank_province = $("<input/>");
         var id_bank_type     = $(bank_select);
         var id_bankcard      = $("<input/>");
-        var id_birth         = $("<input/>");
+        var id_birth         = $("<input placeholder=\"格式如19910101\"/>");
         var id_dialect_notes = $("<input/>");
         var id_education     = $('<select class="form-control"/>');
         var id_hobby         = $("<input/>");
@@ -340,5 +340,11 @@ $(function(){
         fileSize = parseInt( str.length-(str.length/8)*2 );
         return fileSize;
     }
+
+
+        //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
 
 });
