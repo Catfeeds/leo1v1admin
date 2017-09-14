@@ -3984,14 +3984,10 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
-
-    public function contract_list_seller_payed_master () {
-        $adminid = $this->get_account_id();
-        $this->t_admin_main_group_name->get_son_adminid($adminid);
-        return $this->contract_list_seller_payed_new();
-    }
-
     public function contract_list_seller_payed_new(){
+        $this->set_in_value("sys_operator", $this->get_account());
+        $this->set_in_value("contract_status", -2);
+
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("order_time","下单日期"),
             2 => array("pay_time", "生效日期"),
@@ -4110,7 +4106,6 @@ class user_manage_new extends Controller
         }
 
         $acc = $this->get_account();
-        dd($ret_list);
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
