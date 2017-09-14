@@ -1721,7 +1721,7 @@ class user_deal extends Controller
 
     }
 
-    public function admin_major_group_edit( ) {
+    public function admin_major_group_edit( ) { // 开发中
         $groupid=$this->get_in_int_val("groupid");
         $group_name=$this->get_in_str_val("group_name");
         $master_adminid=$this->get_in_str_val("master_adminid");

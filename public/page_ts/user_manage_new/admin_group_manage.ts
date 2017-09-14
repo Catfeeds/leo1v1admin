@@ -144,8 +144,8 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/user_deal/admin_main_group_edit",{
-                    "groupid" :opt_data.up_groupid ,
+                $.do_ajax("/user_deal/admin_major_group_edit",{
+                    "groupid" : opt_data.up_groupid ,
                     "group_name" : id_group_name.val(),
                     "master_adminid" : id_master_adminid.val()
                 });
