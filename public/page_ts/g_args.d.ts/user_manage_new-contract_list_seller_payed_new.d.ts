@@ -12,7 +12,6 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	has_money:	number;
-	sys_operator:	string;
 	stu_from_type:	number;
 	account_role:	number;
 	seller_groupid_ex:	string;
@@ -152,7 +151,6 @@ $(function(){
 			test_user:	$('#id_test_user').val(),
 			studentid:	$('#id_studentid').val(),
 			has_money:	$('#id_has_money').val(),
-			sys_operator:	$('#id_sys_operator').val(),
 			stu_from_type:	$('#id_stu_from_type').val(),
 			account_role:	$('#id_account_role').val(),
 			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
@@ -188,7 +186,6 @@ $(function(){
 	$('#id_test_user').val(g_args.test_user);
 	$('#id_studentid').val(g_args.studentid);
 	$('#id_has_money').val(g_args.has_money);
-	$('#id_sys_operator').val(g_args.sys_operator);
 	$('#id_stu_from_type').val(g_args.stu_from_type);
 	$('#id_account_role').val(g_args.account_role);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
@@ -252,13 +249,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">has_money</span>
                 <input class="opt-change form-control" id="id_has_money" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">sys_operator</span>
-                <input class="opt-change form-control" id="id_sys_operator" />
             </div>
         </div>
 

@@ -3988,14 +3988,13 @@ class user_manage_new extends Controller
 
     public function contract_list_seller_payed_new(){
         $adminid = $this->get_account_id();
-        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid=743);
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
         foreach($son_adminid as $item){
             $son_adminid_arr[] = $item['adminid'];
         }
         array_unshift($son_adminid_arr,$adminid);
         $son_adminid_arr = array_unique($son_adminid_arr);
-        // $this->set_in_value("sys_operator", $this->get_account());
         $this->set_in_value("contract_status", -2);
 
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
@@ -4011,7 +4010,6 @@ class user_manage_new extends Controller
         $studentid         = $this->get_in_studentid(-1);
         $page_num          = $this->get_in_page_num();
         $has_money         = $this->get_in_int_val("has_money",-1);
-        // $sys_operator      = $this->get_in_str_val("sys_operator","");
         $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
         $account_role      = $this->get_in_int_val("account_role",-1);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
@@ -4046,7 +4044,6 @@ class user_manage_new extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag
         );
-        dd($ret_list);
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
