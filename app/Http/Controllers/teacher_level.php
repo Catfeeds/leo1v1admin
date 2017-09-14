@@ -860,6 +860,8 @@ class teacher_level extends Controller
 
         if($ret_train_type){
             $ret_train_type = explode(",",$ret_train_type);
+        }else{
+            $ret_train_type = [];
         }
 
         $te = $train_type;
