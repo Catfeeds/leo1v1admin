@@ -788,6 +788,7 @@ return array(
     'TTeacherInfoAddTeacherSaturdayLessonNum' => $baseDir . '/database/migrations/2017_04_14_155724_t_teacher_info_add_teacher_saturday_lesson_num.php',
     'TTeacherInfoAddTestQuit' => $baseDir . '/database/migrations/2017_08_12_183728_t_teacher_info_add_test_quit.php',
     'TTeacherInfoAddTextbookCheckFlag' => $baseDir . '/database/migrations/2017_09_02_101302_t_teacher_info_add_textbook_check_flag.php',
+    'TTeacherInfoAddTrainType' => $baseDir . '/database/migrations/2017_09_14_104506_t_teacher_info_add_train_type.php',
     'TTeacherInfoAddTransferInfo' => $baseDir . '/database/migrations/2017_07_12_153152_t_teacher_info_add_transfer_info.php',
     'TTeacherInfoAddTrialTrainFlag' => $baseDir . '/database/migrations/2017_06_07_201823_t_teacher_info_add_trial_train_flag.php',
     'TTeacherInfoAddTwoWeekLessonNum' => $baseDir . '/database/migrations/2017_08_23_185252_t_teacher_info_add_two_week_lesson_num.php',

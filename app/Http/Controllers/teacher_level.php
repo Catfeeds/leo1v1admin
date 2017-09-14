@@ -854,6 +854,11 @@ class teacher_level extends Controller
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
+        //更新teacher_info里面train_type字段值
+        $ret_train_type = $this->t_teacher_info->get_train_type($teacherid);
+        dd($train_type);
+        
+
 
        
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
