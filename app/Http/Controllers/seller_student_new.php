@@ -1520,7 +1520,7 @@ class seller_student_new extends Controller
         }
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
-        // list($count,$count_del) = [0,0];
+        list($count,$count_del) = [0,0];
         // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
         // foreach($ret_info as $item){
         //     if($item['lesson_del_flag']){
