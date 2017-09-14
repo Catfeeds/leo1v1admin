@@ -3577,7 +3577,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     /**
-     * 重置试讲通过的老师科目和年级
+     * 重置试讲通过,但科目未设置的老师科目和年级
      */
     public function reset_teacher_subject_info(){
         $where_arr = [
