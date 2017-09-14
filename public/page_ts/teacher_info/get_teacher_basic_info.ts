@@ -310,7 +310,7 @@ $(function(){
                     type    : "post",
                     url     : "/teacher_info/edit_teacher_face",
                     dataType: "json",
-                    data    : {'face': keyText},
+                    data    : {'face': keyText.key},
                     success : function(result){
                         if( result.ret == 0 ){
                             window.location.reload();
