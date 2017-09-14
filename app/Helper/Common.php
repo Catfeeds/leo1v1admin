@@ -1281,6 +1281,8 @@ class Common {
         };
 
         $add_data=function (&$item, $add_item , $self_flag=false)  use (&$no_need_sum_list) {
+            //                $key0_map=&$data_map[""];                 $add_data($key0_map, $item );
+
             $arr=&$item["data"];
             if ($self_flag) {
                 //dd( $item);
@@ -1328,9 +1330,11 @@ class Common {
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
 
-                $item['first_group_name']="未定义";// 修改中.
+                $item['first_group_name']="未定义";// 开发中.
 
             }
+
+            // return $admin_list;
 
 
             if($item['main_type']=="未定义"){
@@ -1339,6 +1343,9 @@ class Common {
                 $group_name=$item["group_name"];
                 $account=$item["account"];
                 $groupid = $item['groupid'];
+
+                $first_group_name = $item['first_group_name']; // 开发中
+
                 $key0_map=&$data_map[""];
                 $add_data($key0_map, $item );
 
