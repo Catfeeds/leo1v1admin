@@ -1254,18 +1254,18 @@ class Common {
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
         if($monthtime_flag==1){
-            // $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
-            $admin_list = $t_manager_info->get_admin_member_list();
+            $admin_list = $t_manager_info->get_admin_member_list_tmp(); // test
+            // $admin_list = $t_manager_info->get_admin_member_list();
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
 
-        $admin_list=$admin_list["list"] ;
+        $admin_list=$admin_list["list"];
 
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {
 
-            //                $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
+        // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
 
             global $cur_key_index;
             if (!isset($item [$key])) {
@@ -1281,14 +1281,16 @@ class Common {
         };
 
         $add_data=function (&$item, $add_item , $self_flag=false)  use (&$no_need_sum_list) {
+            //                $key0_map=&$data_map[""];                 $add_data($key0_map, $item );
+
             $arr=&$item["data"];
             if ($self_flag) {
                 //dd( $item);
             }
 
             foreach ($add_item as $k => $v) {
-                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag"
-                    && ($self_flag || !in_array( $k,$no_need_sum_list ) ) ) {
+                if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" &&  $k!="first_group_name" 
+                    && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
                     if ($self_flag) {
                         $arr[$k]=$v;
                     }else{
@@ -1303,6 +1305,9 @@ class Common {
         };
 
         $check_init_map_item($data_map,"","");
+
+        // return $data_map;
+
         foreach ($admin_list as &$item) {
             $adminid=$item["adminid"];
             //g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid
@@ -1324,8 +1329,12 @@ class Common {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
-                //$item['account']=
+
+                $item['first_group_name']="未定义";// 开发中.
+
             }
+
+            // return $admin_list;
 
 
             if($item['main_type']=="未定义"){
@@ -1334,6 +1343,9 @@ class Common {
                 $group_name=$item["group_name"];
                 $account=$item["account"];
                 $groupid = $item['groupid'];
+
+                $first_group_name = $item['first_group_name']; // 开发中
+
                 $key0_map=&$data_map[""];
                 $add_data($key0_map, $item );
 

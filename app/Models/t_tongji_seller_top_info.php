@@ -16,6 +16,14 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
         });
     }
 
+    public function get_admin_week_fail_percent($adminid,$logtime,$tongji_type) {
+        $sql=$this->gen_sql("select value from %s where logtime=%u and adminid=%u and tongji_type=%u limit 1",
+                            self::DB_TABLE_NAME, $logtime ,$adminid,$tongji_type);
+
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_admin_top_trend_list($adminid,$logtime ) {
         $sql=$this->gen_sql("select  * from %s where logtime >= %u and adminid=%u and tongji_type=6",
                             self::DB_TABLE_NAME, $logtime ,$adminid );
