@@ -1528,6 +1528,8 @@ class seller_student_new extends Controller
             }
             $count++;
         }
+        // $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
+        // $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
         $del_rate = $count?$count_del/$count:0;
         if($del_rate>0.25){//今日排课量
             $start_time = $time;
