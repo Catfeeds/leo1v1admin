@@ -339,8 +339,19 @@ class agent extends Controller
         // }
         $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
         $self_top_info_old = $this->t_tongji_seller_top_info->get_admin_top_list( $adminid=730,$start_time);
-        $self_top_info_new =$this->t_tongji_seller_top_info->get_admin_top_list($adminid=975,$start_time);
-        dd($self_top_info_old,$self_top_info_new);
+        $self_top_info_new = $this->t_tongji_seller_top_info->get_admin_top_list($adminid=975,$start_time);
+
+        $start_time = $time-3600*24*($week-2);
+        $end_time = time();
+        $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid=975);
+        foreach($ret_info as $item){
+            if($item['lesson_del_flag']){
+                $count_del++;
+            }
+            $count++;
+        }
+        $del_rate = ($count?($count_del/$count):0)*100;
+        dd($self_top_info_old,$self_top_info_new,$ret_info,$del_rate);
     }
 
     public function test_lesson_cancle_rate(){
