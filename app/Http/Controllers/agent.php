@@ -318,6 +318,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '12324589561';
+        $phone = \App\Helper\Common::check_phone($phone);
+        dd($phone);
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
