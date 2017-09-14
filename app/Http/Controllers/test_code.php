@@ -2187,8 +2187,16 @@ class test_code extends Controller
         dd($tea_list);
     }
 
+    /**
+     * 重置试讲通过,但科目未设置的老师科目和年级
+     */
     public function reset_teacher_subject_info(){
-        $list = $this->t_teacher_info->get_teacher_subject_info();
+        $list = $this->t_teacher_info->reset_teacher_subject_info();
+        dd($list);
+        foreach($list as $val){
+            echo $val['subject'];
+            echo "<br>";
+        }
     }
 
 
