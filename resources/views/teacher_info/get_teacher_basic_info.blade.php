@@ -9,17 +9,11 @@
 
     <script type="text/javascript" src="/js/cropbox.js"></script>
     <link rel="stylesheet" href="/css/face-upload-style.css" type="text/css" />
-    <style>
-     #face{
-         cursor:pointer;
-     }
-    </style>
 
     <script>
      var able_edit  = <?php  echo json_encode($able_edit); ?> ;
      var domain_url = '{{$domain_url}}';
     </script>
-
     <section class="content li-section">
         <div class="row">
             <!-- Left col -->

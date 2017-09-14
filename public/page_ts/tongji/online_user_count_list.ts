@@ -36,6 +36,8 @@ $(function(){
         $.each(item_list ,function(i, item){
             if (j==0) {
                 online_count_list[j].push([i*60000, item["online_count"] ]);
+            }else if(j==2){
+                online_count_list[j].push([i*60000, item["value"] ]);
             }else{
                 online_count_list[j].push([i*300000, item ]);
             }
@@ -65,13 +67,21 @@ $(function(){
 
                     color: "red",
                 });
-            }else{
+            }else if (i==1 ){
                 plot_data_list.push({
                     data: online_count_list[i],
                     lines: { show: true,
                              lineWidth:1
                            },
                     label: "预期",
+                });
+            }else{
+                plot_data_list.push({
+                    data: online_count_list[i],
+                    lines: { show: true,
+                             lineWidth:1
+                           },
+                    label: "课后视频未处理",
                 });
             }
 

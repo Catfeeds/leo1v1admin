@@ -132,7 +132,7 @@ class main_page extends Controller
         $money_info = $this->seller_month_money_list();
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
         $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
-
+        //上周试听取消率
         $time = strtotime(date('Y-m-d',time()).'00:00:00');
         $week = date('w',$time);
         if($week == 0){
@@ -144,6 +144,11 @@ class main_page extends Controller
         $start_time = $end_time-3600*24*7;
         $week_start_time = date('m/d',$start_time);
         $week_end_time = date('m/d',$end_time);
+        $test_fail_info = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
+        $self_top_info[13]["value"] = isset($test_fail_info[13]["value"])?$test_fail_info[13]["value"]:0;
+        $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
+        $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
+        $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -1659,10 +1664,28 @@ class main_page extends Controller
 
         //田梦影数据
         $melon_info =@$ass_month[773];
+        $melon_info_last = @$ass_last_month[773];
         if(!empty($melon_info)){
-            $mo=[
-                ""
-            ];
+            $melon_info["lesson_total"] = @$melon_info["lesson_total"]/100;
+            $melon_info["tran_price"] = @$melon_info["tran_price"]/100;
+            $melon_info["renw_price"] = @$melon_info["renw_price"]/100;
+            $melon_info["all_price"] = $melon_info["tran_price"]+$melon_info["renw_price"];
+            $melon_info["lesson_target"] = $lesson_target;
+            $melon_info["renw_target"] = @$melon_info_last["warning_student"]*0.8*8000;
+            $melon_info["renw_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+            $melon_info["renw_stu_target"] = @$melon_info_last["warning_student"]*0.8;
+            $melon_info["renw_stu_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+            $melon_info["kk_suc"] = $melon_info["kk_num"];
+            $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
+            $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
+            $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
+            $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;          
+            $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
+            $melon_info["account"]="田梦影";
+            $melon_info["nick"]="田梦影";
+
+            array_push($ass_list,$melon_info);
+
         }
 
         return $this->pageView(__METHOD__ ,null, [

@@ -269,7 +269,7 @@ class common extends Controller
      * 培训课程问卷星接口
      * userid=dXNlcmlkPTUwNzI4Jmxlc3NvbmlkPTExMTQxMw==&sojumpindex=5&totalvalue=10
      * sojumpindex累计提交次数
-     * @param userid base64编码加密的字符串 userid=123&lessonid=123
+     * @param userid base64编码加密的字符串 解析后如:userid=123&lessonid=123
      * @param totalvalue 用户答题分数
      */
     public function train_user_answer(){

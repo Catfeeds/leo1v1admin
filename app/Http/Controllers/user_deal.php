@@ -3117,10 +3117,11 @@ class user_deal extends Controller
 
 
     public function set_seller_month_money(){
-        $groupid   = $this->get_in_int_val("groupid");
-        $month_money   = $this->get_in_int_val("month_money");
-        $month   = $this->get_in_str_val("month");
+        $groupid     = $this->get_in_int_val("groupid");
+        $month_money = $this->get_in_int_val("month_money");
+        $month       = $this->get_in_str_val("month");
         $ret = $this->t_admin_group_month_time->field_get_list_2($groupid, $month,"groupid");
+        // dd($ret);
         if($ret){
             $this->t_admin_group_month_time->field_update_list_2($groupid, $month,[
                 "month_money"=>$month_money,
