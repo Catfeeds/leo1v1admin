@@ -272,4 +272,5 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         );
         return $this->main_get_row($sql);
     }
+
 }
