@@ -1659,10 +1659,17 @@ class main_page extends Controller
 
         //田梦影数据
         $melon_info =@$ass_month[773];
+        $melon_info_last = @$ass_last_month[773];
         if(!empty($melon_info)){
-            $mo=[
-                ""
-            ];
+            $melon_info["all_price"] = $melon_info["tran_price"]+$melon_info["renw_price"];
+            $melon_info["lesson_target"] = $lesson_target;
+            $melon_info["renw_target"] = @$melon_info_last["warning_student"]*0.8*8000;
+            $melon_info["renw_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+            $melon_info["renw_stu_target"] = @$melon_info_last["warning_student"]*0.8;
+            $melon_info["renw_stu_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+            $melon_info["kk_suc"] = $melon_info["kk_num"];
+            $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
+            $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
         }
 
         return $this->pageView(__METHOD__ ,null, [
