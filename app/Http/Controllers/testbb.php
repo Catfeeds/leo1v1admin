@@ -243,7 +243,9 @@ class testbb extends Controller
 
         // dd($max_main_type);
 
-        $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
+        // $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
+        $admin_list = $this->t_manager_info->get_admin_member_list();
+
 
         dd($admin_list);
     }

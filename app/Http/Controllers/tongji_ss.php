@@ -8089,7 +8089,14 @@ class tongji_ss extends Controller
 
     public function tongji_lesson_record_info(){
         $list = $this->t_teacher_record_list->get_record_score_list(1,1);
-        dd($list);
+        $data = $this->t_teacher_record_list->get_record_score_list(1,2);
+        $arr = $this->t_teacher_record_list->get_record_score_list(1,3);
+        return $this->pageView(__METHOD__,null,[
+            "list"  =>$list,
+            "data"  =>$data,
+            "arr"   =>$arr
+        ]);
+        // dd($list);
     }
 
 }
