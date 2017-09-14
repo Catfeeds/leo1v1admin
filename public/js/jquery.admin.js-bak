@@ -2,7 +2,6 @@ jQuery.fn.extend({
 
 
 
-
     table_admin_level_4_init:function(show_flag) {
 
         var $table=$(this);
