@@ -1534,6 +1534,10 @@ class Common_new {
                 $up_group_list = $task->t_main_group_name_month->get_group_list($i,$month);
             }
 
+            // foreach(){
+
+            // }
+
             foreach($up_group_list as $item){
                 $list[] = ["main_type"=>$i,"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-2","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];
                 if($monthtime_flag==1){

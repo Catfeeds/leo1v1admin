@@ -1347,10 +1347,15 @@ class ss_deal extends Controller
         if (!$tt_item) {
             return $this->output_err("没有找到上级合同");
         }
-        if($from_parent_order_type==6){
+        if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
             $adm = $this->get_account();
             if(!in_array($adm,["jim","jack"])){
                 return $this->output_err("该功能开发中");
+            }
+            $assistantid = $this->t_assistant_info->get_assistantid($adm);
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+            if($assign_lesson_count < $from_parent_order_lesson_count){
+                return $this->output_err("可分配课时不足,剩余:".$assign_lesson_count/100."课时");
             }
         }
 
@@ -1453,6 +1458,8 @@ class ss_deal extends Controller
             $this->t_flow->add_flow(
                 E\Eflow_type::V_ORDER_EXCHANGE,
                 $this->get_account_id(),$order_require_reason, $orderid);
+        }elseif($from_parent_order_type == E\Efrom_parent_order_type::V_6){
+            
         }else{
             if($order_require_flag) {
                 $this->t_flow->add_flow(
