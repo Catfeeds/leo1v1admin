@@ -1699,4 +1699,11 @@ class Common {
         }
     }
 
+        static function check_phone($phone){
+            if(preg_match("/^1[34578]{1}\d{9}$/",$phone)){
+                return $phone;
+            }else{
+                return "";
+            }
+        }
 };
