@@ -2193,8 +2193,11 @@ class test_code extends Controller
     public function reset_teacher_subject_info(){
         $list = $this->t_teacher_info->reset_teacher_subject_info();
         foreach($list as $val){
+            $grade_range = \App\Helper\Utils::change_grade_to_grade_range($val['grade']);
             $this->t_teacher_info->field_update_list($val['teacherid'],[
-                
+                "subject"     => $val['subject'],
+                "grade_start" => $grade_range['gradde_start'],
+                "grade_end"   => $grade_range['gradde_end'],
             ]);
         }
     }
