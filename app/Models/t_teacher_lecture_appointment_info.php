@@ -1145,7 +1145,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     {
        $where_arr = [
             "l.full_time=1",
-            "l.id>15246",
+            // "l.id>15246",
             " t.is_test_user  = 0",
             "t.train_through_new =1",
             ["t.train_through_new_time >%u",$start_time,-1],

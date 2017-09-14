@@ -54,6 +54,7 @@ class seller_new_count_day_gen extends cmd_base
             $start_time=strtotime(date("Y-m-d"), time(NULL));
             $end_time=$start_time+86400-1;
 
+            
 
 
             $existed_flag=$this->task->t_seller_new_count->check_adminid_seller_new_count_type_start_time (  $adminid, $seller_new_count_type, $start_time  );

@@ -823,7 +823,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">有无进步：</span>
+                            <span class="input-group-addon">是否进步：</span>
                             <select id="id_advice_flag" class=" form-control "   >
                             </select>
                         </div>
@@ -853,6 +853,51 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>核心诉求</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">近期成绩：</span>
+                            <input type="text" class=" form-control "  id="id_recent_results"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">是否进步：</span>
+                            <select id="id_advice_flag" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-2  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">班级排名：</span>
+                            <input type="text" class=" form-control "  id="id_class_rank"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">年级排名：</span>
+                            <input type="text" class=" form-control "  id="id_grade_rank"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-2 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">升学目标：</span>
+                            <select id="id_academic_goal" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
 

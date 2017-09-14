@@ -126,6 +126,41 @@ $(function(){
 
     });
 
+    $(".opt-edit-major-group").on("click",function(){ // 开发中
+        var opt_data     = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var id_group_name=$("<input/>");
+        var id_master_adminid=$("<input/>");
+
+        var  arr=[
+            ["组名" ,  id_group_name],
+            ["总监" ,  id_master_adminid]
+        ];
+
+        id_group_name.val( opt_data.first_group_name );
+        id_master_adminid.val( opt_data.first_master_adminid );
+
+        $.show_key_value_table("修改分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_main_group_edit",{
+                    "groupid" :opt_data.up_groupid ,
+                    "group_name" : id_group_name.val(),
+                    "master_adminid" : id_master_adminid.val()
+                });
+            }
+        },function(){
+            $.admin_select_user(
+                id_master_adminid ,
+                "admin", null,true, {
+                    "main_type": $('#id_main_type').val()//分配用户
+                }
+            );
+
+        });
+    });
+
 
     $(".opt-edit-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();

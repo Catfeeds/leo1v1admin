@@ -69,6 +69,8 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         $ret_2=$this->main_get_row($sql);
         return array_merge($ret_1,$ret_2);
     }
+    public function check_last_day_server()  {
+    }
 
     public function get_free_new_count_id($adminid) {
 

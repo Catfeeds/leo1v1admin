@@ -1536,7 +1536,7 @@ class Common_new {
             }
 
             foreach($first_group_list as $value){
-                $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2"];
+                $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2", "first_master_adminid"=>$item["master_adminid"]];
                 if($monthtime_flag==1){
                     $up_group_list = $task->t_admin_main_group_name->get_group_list($i);
                 }else{
@@ -1546,7 +1546,7 @@ class Common_new {
 
                 $s = $num;
                 foreach($up_group_list as $item){
-                    $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name"=>"first_group_name-".$s ,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-3","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];
+                    $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s ,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-3","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];
                     if($monthtime_flag==1){
                         $group_list = $task->t_admin_group_name->get_group_name_list($i,$item["groupid"]);
                     }else{
@@ -1555,7 +1555,7 @@ class Common_new {
 
                     $m = $num;
                     foreach($group_list as $val){
-                        $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"main_type-".$n,"first_group_name"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-4","master_adminid"=>$val["master_adminid"]];
+                        $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-4","master_adminid"=>$val["master_adminid"]];
                         if($monthtime_flag==1){
                             $admin_list = $task->t_admin_group_user->get_user_list_new($val["groupid"]);
                         }else{
@@ -1564,7 +1564,7 @@ class Common_new {
 
                         $c = $num;
                         foreach($admin_list as $v){
-                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5"];
+                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5"];
 
                         }
                     }
