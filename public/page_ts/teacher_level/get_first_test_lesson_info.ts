@@ -108,6 +108,7 @@ $(function(){
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
         console.log(opt_data.id);
+	console.log(opt_data);
         $.do_ajax("/teacher_level/set_teacher_record_acc",{
             "teacherid"    : opt_data.teacherid,
             "type"         : 1,

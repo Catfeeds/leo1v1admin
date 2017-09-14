@@ -18,6 +18,7 @@ interface RowData {
 	gender	:any;
 	birth	:any;
 	phone	:any;
+	assign_lesson_count	:any;
 	email	:any;
 	rate_score	:any;
 	assistantid	:any;

@@ -1896,11 +1896,7 @@ $(function(){
                     $order_require_reason.key_value_table_show($order_require_flag.val()==1);
                 };
 
-                if(from_parent_order_type==6){
-                    $order_require_flag.parent().parent().hide();
-                    $order_require_flag.val(0);
-                }
-
+               
                 $.show_key_value_table ( "赠送课时", arr ,{
                     label: '确认',
                     cssClass: 'btn-warning',
@@ -1909,6 +1905,11 @@ $(function(){
                     }
                 },function(){
                     opt_change_order_require_flag();
+                    if(from_parent_order_type==6){
+                        $order_require_flag.parent().parent().hide();
+                        $order_require_flag.val(0);
+                    }
+
                 });
             }else{ //转介绍 , 试听24小时内赠送课时
                 do_post_add_free( parent_order_id, 6,0,"",0,0);

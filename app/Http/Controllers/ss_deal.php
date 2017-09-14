@@ -1347,6 +1347,12 @@ class ss_deal extends Controller
         if (!$tt_item) {
             return $this->output_err("没有找到上级合同");
         }
+        if($from_parent_order_type==6){
+            $adm = $this->get_account();
+            if(!in_array($adm,["jim","jack"])){
+                return $this->output_err("该功能开发中");
+            }
+        }
 
         $userid  = $tt_item["userid"];
         $grade   = $tt_item["grade"];

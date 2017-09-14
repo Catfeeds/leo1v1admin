@@ -1511,11 +1511,6 @@ class Common_new {
 
 
                         }
-
-
-
-
-
                     }
                 }
             }
@@ -1532,7 +1527,7 @@ class Common_new {
         $max_main_type = $task->t_admin_main_group_name->get_max_main_type();
         for ($i=1; $i<=$max_main_type; $i++) {
             $n = $num;
-            $list[] = ["main_type"=>$i,"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
+            $list[] = ["main_type"=>$i,"first_group_name"=>"","up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
             if($monthtime_flag==1){
                 $up_group_list = $task->t_admin_main_group_name->get_group_list($i);
             }else{
