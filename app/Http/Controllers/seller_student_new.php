@@ -1521,13 +1521,6 @@ class seller_student_new extends Controller
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         list($count,$count_del) = [0,0];
-        // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-        // foreach($ret_info as $item){
-        //     if($item['lesson_del_flag']){
-        //         $count_del++;
-        //     }
-        //     $count++;
-        // }
         $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
         if($self_top_info>25){//上周取消率>25%,查看当天是否排课
@@ -1556,6 +1549,7 @@ class seller_student_new extends Controller
             }else{
                 $ret['ret'] = 4;
             }
+            $ret['rate'] = $del_rate;
         }
 
         return $ret;
