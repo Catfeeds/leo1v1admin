@@ -43,7 +43,9 @@ class seller_new_count_day_gen extends cmd_base
 
         $seller_new_count_type=E\Eseller_new_count_type::V_DAY ;
         $value_ex=0;
-        //$last_check_start_start_time=1``
+        $check_start_time= strtotime( date("Y-m-d")) -7*86400;
+        $check_end_time =  $check_start_time + 7*86400 +1;
+
         $this->task->t_seller_new_count->get_list_ex($adminid,$seller_new_count_type,
                                                      $start_time,$end_time);
         foreach($admin_list as $item ) {

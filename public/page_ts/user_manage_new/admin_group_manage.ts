@@ -30,8 +30,8 @@ $(function(){
 
     $('#id_monthtime_flag').val(g_args.monthtime_flag);
 
-    // $(".common-table" ).table_admin_level_5_init(); // 开发中
-    $(".common-table" ).table_admin_level_4_init(); // 原始
+    $(".common-table" ).table_admin_level_5_init(); // 开发中
+    // $(".common-table" ).table_admin_level_4_init(); // 原始
 
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();

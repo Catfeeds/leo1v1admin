@@ -86,7 +86,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             t_seller_new_count_get_detail::DB_TABLE_NAME,
             $where_arr  );
 
-        return $this->main_get_list_by_page($sql,$page_num );
+        return $this->main_get_list($sql );
 
     }
 
