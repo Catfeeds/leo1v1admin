@@ -232,7 +232,7 @@ $(function(){
                     id_train_type.find("input:checkbox[name='Train']:checked").each(function(i) {
                         train_type.push($(this).val());
                     });
-
+                    console.log(opt_data);
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
                         "lesson_invalid_flag"    : id_lesson_invalid_flag.val(),

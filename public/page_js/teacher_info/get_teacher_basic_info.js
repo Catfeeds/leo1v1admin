@@ -306,12 +306,11 @@ $(function(){
             if ( xhr.readyState == 4 ){
                 var keyText = xhr.responseText;
                 keyText = JSON.parse(keyText);
-                picUrl  = domain_url+keyText.key;
                 $.ajax({
                     type    : "post",
                     url     : "/teacher_info/edit_teacher_face",
                     dataType: "json",
-                    data    : {'face': picUrl},
+                    data    : {'face': keyText},
                     success : function(result){
                         if( result.ret == 0 ){
                             window.location.reload();

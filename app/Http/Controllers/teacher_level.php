@@ -866,7 +866,12 @@ class teacher_level extends Controller
 
         $te = $train_type;
         $te  = trim($te,'[]');
-        $te  = explode(",", $te);
+        if($te){
+            $te  = explode(",", $te);
+        }else{
+            $te = [];
+        }
+        
 
 
         foreach($te as $k =>&$v) {
