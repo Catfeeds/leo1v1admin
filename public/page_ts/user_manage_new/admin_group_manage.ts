@@ -129,8 +129,8 @@ $(function(){
     $(".opt-edit-major-group").on("click",function(){ // 开发中
         var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-        var id_group_name=$("<input/>");
-        var id_master_adminid=$("<input/>");
+        var id_group_name     = $("<input/>");
+        var id_master_adminid = $("<input/>");
 
         var  arr=[
             ["组名" ,  id_group_name],
