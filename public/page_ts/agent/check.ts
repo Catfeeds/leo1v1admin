@@ -8,12 +8,12 @@ $(function(){
         });
     }
 
-    setInterval ("showTime()", 5000);
-    function showTime()
-    {
-        var today = new Date();
-        alert("The time is: " + today.toString ());
-    }
+    // function get_condition() {
+    //     alert('a');
+    // }
+    // get_condition();
+    // setInterval(get_condition, 3000);
+            // });
 
     $('.opt-change').set_input_change_event(load_data);
 });
