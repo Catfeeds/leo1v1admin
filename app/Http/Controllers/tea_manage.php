@@ -2893,7 +2893,7 @@ class tea_manage extends Controller
         $subject          = $this->get_in_int_val("subject",-1);
         $grade_part_ex    = $this->get_in_int_val("grade_part_ex",-1);
         //$status     = $this->get_in_int_val("status",-1);
-        $teacherid = $this->get_in_teacherid(-1);
+        $teacherid                = $this->get_in_int_val('teacherid',-1);
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
