@@ -35,20 +35,21 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+
+        $account=@$_SESSION["acc"];
+
+        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
+
+        foreach( $e->getTrace() as &$bt_item ) {
+            //$args=json_encode($bt_item["args"]);
+            $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
+                @$bt_item["file"].":".@$bt_item["line"].
+                "<br/>";
+        }
+
+        $ip=@$_SERVER["REMOTE_ADDR"];
+
         if( \App\Helper\Utils::check_env_is_release() ) {
-
-            $account=@$_SESSION["acc"];
-
-            $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
-
-            foreach( $e->getTrace() as &$bt_item ) {
-                //$args=json_encode($bt_item["args"]);
-                $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
-                    @$bt_item["file"].":".@$bt_item["line"].
-                    "<br/>";
-            }
-
-            $ip=@$_SERVER["REMOTE_ADDR"];
             if ( substr($ip,0,9 )!= "121.42.0."  ) { //阿里云盾
 
                 dispatch( new \App\Jobs\send_error_mail(
@@ -56,12 +57,10 @@ class Handler extends ExceptionHandler
                     "$bt_str".
                     "<br>client_ip:$ip", \App\Enums\Ereport_error_from_type::V_1
                 ));
-                \App\Helper\Utils::logger("LOG_HANDER: " .$bt_str.",ip:$ip");
             }
-        }else {
-            //\App\Helper\Utils::logger("ERROR:".json_encode(session() ));
-            //dd($_SESSION);
         }
+        $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );
+        \App\Helper\Utils::logger( "LOG_HANDER:". $e->getMessage()."\n $list_str ");
 
         parent::report($e);
     }

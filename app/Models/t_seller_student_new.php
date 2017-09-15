@@ -844,6 +844,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_new_list($page_num,$start_time,$end_time,$grade, $has_pad, $subject,$origin,$phone,$not_adminid , $t_flag=0)
     {
         $check_time =  time(NULL)  - 3600;
+
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
             ["has_pad=%u", $has_pad, -1 ],
@@ -857,7 +858,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "fl.adminid is null ",
             "lesson_count_all=0",
             "tmk_adminid=0",
-            "origin_level <> 99",
             "origin_userid=0 ",
             "sys_invaild_flag=0",
             "competition_call_time<$check_time",
@@ -872,18 +872,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         // E\Etq_called_flag
         $seller_level= $this->t_manager_info->get_seller_level($not_adminid);
+        $seller_level_flag= floor( $seller_level/100);
         // E\Eseller_level
         // E\Eorigin_level
-        $seller_level_flag= floor( $seller_level/100);
         \App\Helper\Utils::logger("seller_level_flag:$seller_level_flag");
 
         $before_24_time=time(NULL) -3600*6;
         if ($seller_level_flag<=3) { //b类以上
             $before_24_time= time(NULL) -3600*3;
+        }else{
+            $where_arr[] = "origin_level <> 99";
         }
 
         $before_48_time= $before_24_time - 86400;
-        $check_no_call_time_str=" (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) ";
+        $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
 
         switch ( $seller_level_flag ) {
@@ -917,12 +919,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, origin_level  "
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, origin_level , if(origin_level=99, 0, origin_level ) origin_level_power "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
             ." left join %s fl on (fl.userid=n.userid  and fl.adminid = $not_adminid ) "
-            ." where  %s order by   competition_call_time asc, origin_level asc , n.add_time  $order_by_src ",
+            ." where  %s order by   competition_call_time asc, origin_level_power asc , n.add_time  $order_by_src ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
