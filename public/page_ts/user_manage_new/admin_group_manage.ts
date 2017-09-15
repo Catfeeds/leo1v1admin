@@ -280,7 +280,7 @@ $(function(){
     $(".opt-assign-major-group-new").on("click",function(){
         var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-        var up_groupid   = opt_data.first_groupid;
+        var first_groupid   = opt_data.first_groupid;
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
@@ -320,7 +320,7 @@ $(function(){
                 if (groupid>0) {
                     $.do_ajax("/user_deal/set_first_groupid_new",{
                         "groupid"    : groupid,
-                        "up_groupid" : first_groupid,
+                        "first_groupid" : first_groupid,
                         "start_time" : g_args.start_time
                     },function(resp){
                         window.location.reload();
