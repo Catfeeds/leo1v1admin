@@ -1799,19 +1799,18 @@ class teacher_info extends Controller
             return $this->output_err('毕业院校不能为空！');
         }
 
-        $ret_info = $this->t_teacher_info->field_update_list(
-            ["teacherid" => $teacherid],[
-                "gender"        => $gender,
-                "birth"         => $birth,
-                "work_year"     => $work_year,
-                "school"        => $school,
-                "address"       => $address,
-                "dialect_notes" => $dialect_notes,
-                "education"     => $education,
-                "major"         => $major,
-                "hobby"         => $hobby,
-                "speciality"    => $speciality,
-            ]);
+        $ret_info = $this->t_teacher_info->field_update_list($teacherid,[
+            "gender"        => $gender,
+            "birth"         => $birth,
+            "work_year"     => $work_year,
+            "school"        => $school,
+            "address"       => $address,
+            "dialect_notes" => $dialect_notes,
+            "education"     => $education,
+            "major"         => $major,
+            "hobby"         => $hobby,
+            "speciality"    => $speciality,
+        ]);
 
         return outputjson_success();
     }
@@ -1849,17 +1848,16 @@ class teacher_info extends Controller
             return $this->output_err('请填写正确的手机号码！');
         }
 
-        $ret_info = $this->t_teacher_info->field_update_list(
-            ["teacherid" => $teacherid],[
-                "bank_account"  => $bank_account,
-                "idcard"        => $idcard,
-                "bankcard"      => $bankcard,
-                "bank_phone"    => $bank_phone,
-                "bank_type"     => $bank_type,
-                "bank_address"  => $bank_address,
-                "bank_province" => $bank_province,
-                "bank_city"     => $bank_city,
-            ]);
+        $ret_info = $this->t_teacher_info->field_update_list( $teacherid,[
+            "bank_account"  => $bank_account,
+            "idcard"        => $idcard,
+            "bankcard"      => $bankcard,
+            "bank_phone"    => $bank_phone,
+            "bank_type"     => $bank_type,
+            "bank_address"  => $bank_address,
+            "bank_province" => $bank_province,
+            "bank_city"     => $bank_city,
+        ]);
 
         return outputjson_success();
     }
@@ -2059,9 +2057,7 @@ class teacher_info extends Controller
             $need_test_lesson_flag = 0;
         }
 
-        $res_info = $this->t_teacher_info->field_update_list(
-            ["teacherid" => $teacherid],
-            ["need_test_lesson_flag" => $need_test_lesson_flag,]
+        $res_info = $this->t_teacher_info->field_update_list($teacherid, ["need_test_lesson_flag" => $need_test_lesson_flag,]
         );
 
         if ($res_info) {
@@ -2078,10 +2074,7 @@ class teacher_info extends Controller
         if ( $field == '' || $url == '' ) {
             $this->output_err("上传信息为空！");
         }
-        $res_info = $this->t_teacher_info->field_update_list(
-            ["teacherid" => $teacherid], [
-                $field  => $url
-            ]);
+        $res_info = $this->t_teacher_info->field_update_list($teacherid, [$field  => $url]);
 
         if ($res_info) {
             return outputjson_success();
@@ -2108,10 +2101,7 @@ class teacher_info extends Controller
         $pub_url = Config::get_qiniu_public_url()."/";
         $face    = $pub_url.$face;
 
-        $res_info = $this->t_teacher_info->field_update_list(
-            ["teacherid" => $teacherid],
-            ['face'      => $face]
-        );
+        $res_info = $this->t_teacher_info->field_update_list($teacherid, ['face' => $face]);
 
         if ($res_info) {
             return outputjson_success();
