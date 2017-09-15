@@ -22,6 +22,8 @@ interface GargsStatic {
 	teacher_ref_type:	string;//枚举列表: App\Enums\Eteacher_ref_type
  	fulltime_teacher_type:	number;
 	accept_adminid:	number;
+	second_train_status:	number;
+	teacher_pass_type:	number;
 	tea_adminid:	number;
 	fulltime_flag:	number;
 	next_day:	number;
@@ -65,9 +67,11 @@ interface RowData {
 	reason	:any;
 	record_info	:any;
 	train_lessonid	:any;
+	interviewer_teacherid	:any;
 	reference_name	:any;
 	teacherid	:any;
 	account	:any;
+	zs_name	:any;
 	train_teacherid	:any;
 	qq	:any;
 	wx_openid	:any;
@@ -75,10 +79,13 @@ interface RowData {
 	hand_flag	:any;
 	full_status	:any;
 	full_record_info	:any;
+	teacher_pass_type	:any;
+	no_pass_reason	:any;
 	begin	:any;
 	end	:any;
 	answer_time	:any;
 	teacher_type_str	:any;
+	interviewer_teacher_str	:any;
 	lecture_appointment_status_str	:any;
 	lecture_revisit_type_str	:any;
 	full_time_str	:any;
@@ -92,6 +99,7 @@ interface RowData {
 	have_wx_flag	:any;
 	lecture_revisit_type_new_str	:any;
 	train_through_new_time_str	:any;
+	grade_ex_str	:any;
 }
 
 /*
@@ -126,6 +134,8 @@ $(function(){
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
 			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 			accept_adminid:	$('#id_accept_adminid').val(),
+			second_train_status:	$('#id_second_train_status').val(),
+			teacher_pass_type:	$('#id_teacher_pass_type').val(),
 			tea_adminid:	$('#id_tea_adminid').val(),
 			fulltime_flag:	$('#id_fulltime_flag').val(),
 			next_day:	$('#id_next_day').val()
@@ -160,6 +170,8 @@ $(function(){
 	$.enum_multi_select( $('#id_teacher_ref_type'), 'teacher_ref_type', function(){load_data();} )
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_accept_adminid').val(g_args.accept_adminid);
+	$('#id_second_train_status').val(g_args.second_train_status);
+	$('#id_teacher_pass_type').val(g_args.teacher_pass_type);
 	$('#id_tea_adminid').val(g_args.tea_adminid);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 	$('#id_next_day').val(g_args.next_day);
@@ -282,6 +294,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">accept_adminid</span>
                 <input class="opt-change form-control" id="id_accept_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">second_train_status</span>
+                <input class="opt-change form-control" id="id_second_train_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_pass_type</span>
+                <input class="opt-change form-control" id="id_teacher_pass_type" />
             </div>
         </div>
 
