@@ -80,6 +80,31 @@ $(function(){
     });
 
 
+    // opt-show_change_log
+    $(".opt-show_change_log").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var id_group_name=$("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增主管分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_main_group_add",{
+                    "main_type" : main_type,
+                    "group_name" : id_group_name.val()
+                });
+            }
+        });
+
+    });
+
+
+
+
 
     $(".opt-add-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();

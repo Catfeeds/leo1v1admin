@@ -12,12 +12,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	groupid	:any;
-	month	:any;
-	main_type	:any;
-	group_name	:any;
-	master_adminid	:any;
-	main_assign_percent	:any;
+	id	:any;
+	add_time	:any;
+	userid	:any;
+	do_adminid	:any;
 }
 
 /*
