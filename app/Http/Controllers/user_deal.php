@@ -5186,4 +5186,15 @@ class user_deal extends Controller
 
     }
 
+    public function set_ass_hand_kk_num(){
+        $adminid = $this->get_in_int_val($adminid);
+        $month   = $this->get_in_int_val($month);
+        $kpi_type = $this->get_in_int_val($kpi_type);
+        $hand_kk_num = $this->get_in_int_val($hand_kk_num);
+        $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,$kpi_type,[
+            "hand_kk_num"  =>$hand_kk_num
+        ]);
+
+    }
+
 }
