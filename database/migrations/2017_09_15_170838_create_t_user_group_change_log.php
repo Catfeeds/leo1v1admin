@@ -18,12 +18,11 @@ class CreateTUserGroupChangeLog extends Migration
             $table->increments("id","分组id");
             t_field($table->integer("add_time"),"添加时间");
             t_field($table->integer("userid"),"被添加组员id");
-            t_field($table->string("group_name"),"组名");
-            t_field($table->integer("master_adminid"),"总监id");
-            t_field($table->integer("main_assign_percent"),"分配比率");
+            t_field($table->string("do_adminid"),"操作人");
 
-            // $table->index(["groupid","month"],'main_type_gid');
-            // $table->index("main_type");
+            $table->index("add_time");
+            $table->index("userid");
+            $table->index("do_adminid");
         });
 
 
