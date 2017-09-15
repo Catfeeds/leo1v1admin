@@ -116,6 +116,8 @@
                                        <a class="opt-set-subject">配置科目</a>
                                    @endif
                                @else
+                                   <a class="opt-add-major-group-new">新增总监分组</a>
+
                                    <a class="opt-add-main-group-new">新增经理分组</a>
                                    <a class="opt-assign-main-group-new">分配小组</a>
 

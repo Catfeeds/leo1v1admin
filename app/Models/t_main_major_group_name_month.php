@@ -17,6 +17,14 @@ class t_main_major_group_name_month extends \App\Models\Zgen\z_t_main_major_grou
         return $this->main_get_list($sql);
     }
 
+    public function get_max_groupid($month){
+        $sql = $this->gen_sql_new("select max(groupid) from %s where month= %u",
+                                  self::DB_TABLE_NAME,
+                                  $month
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 }
 

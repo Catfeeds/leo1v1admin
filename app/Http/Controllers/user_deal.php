@@ -1686,8 +1686,25 @@ class user_deal extends Controller
         ]);
 
         return $this->output_succ();
-
     }
+
+    public function admin_major_group_add_new() {
+        $main_type   = $this->get_in_str_val("main_type");
+        $group_name  = $this->get_in_str_val("group_name");
+        $month       = strtotime($this->get_in_str_val("start_time"));
+
+        $max_groupid = $this->t_main_major_group_name_month->get_max_groupid($month);
+        $groupid = $max_groupid + 1;
+        $this->t_main_major_group_name_month->row_insert([
+            "month"       => $month,
+            "main_type"   => $main_type ,
+            "group_name"  => $group_name,
+            "groupid"     => $groupid
+        ]);
+
+        return $this->output_succ();
+    }
+
 
 
 
@@ -2674,10 +2691,10 @@ class user_deal extends Controller
                "teacher_textbook" =>$str 
             ]);
             }*/
-        $ret = $this->t_student_info->get_stu_by_textbook(30004);
+        $ret = $this->t_student_info->get_stu_by_textbook(30018);
         foreach($ret as $val){
             $this->t_student_info->field_update_list($val["userid"],[
-               "editionid" =>29 
+               "editionid" =>6
             ]);
         }
         dd($ret);
