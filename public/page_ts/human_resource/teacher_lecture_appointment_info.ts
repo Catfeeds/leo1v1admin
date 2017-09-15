@@ -20,8 +20,10 @@ $(function(){
 			lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
 			have_wx                    : $('#id_have_wx').val(),
 			full_time                  : $('#id_full_time').val(),
-			fulltime_teacher_type                  : $('#id_fulltime_teacher_type').val(),
-			accept_adminid:	$('#id_accept_adminid').val(),
+			fulltime_teacher_type      : $('#id_fulltime_teacher_type').val(),
+			accept_adminid             : $('#id_accept_adminid').val(),
+            second_train_status        : $('#id_second_train_status').val(),
+			teacher_pass_type          : $('#id_teacher_pass_type').val(),
         });
     }
 
@@ -92,6 +94,9 @@ $(function(){
 	$('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_accept_adminid').val(g_args.accept_adminid);
+	$('#id_second_train_status').val(g_args.second_train_status);
+	$('#id_teacher_pass_type').val(g_args.teacher_pass_type);
+
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -1009,6 +1014,42 @@ $(function(){
 
         }
         
+    });
+
+    $(".opt-set-teacher-pass-type").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var id_teacher_pass_type        = $("<select/>");
+        var id_no_pass_reason = $("<textarea />");
+        var flag_html      = "<option value='0'>未设置</option>"
+            +"<option value='2'>未入职</option>";
+        id_teacher_pass_type.append(flag_html);
+        id_teacher_pass_type.val(data.teacher_pass_type);
+        id_no_pass_reason.val(data.no_pass_reason);
+
+        var arr = [
+            ["入职状态",id_teacher_pass_type],
+            ["理由",id_no_pass_reason],
+        ];
+
+        $.show_key_value_table("编辑入职状态",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/set_teacher_pass_type",{
+                    "id"       : data.id,
+                    "teacher_pass_type":id_teacher_pass_type.val(),
+                    "no_pass_reason" : id_no_pass_reason.val()
+                },function(result){
+                    console.log(result);
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+
     });
 
 });

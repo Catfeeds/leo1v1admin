@@ -8117,7 +8117,7 @@ class tongji_ss extends Controller
             "first_test"     =>$first_test,
             "first_regular"  =>$first_regular,
             "fifth_regular"  =>$fifth_regular,
-            "fifth_test"     =>$fifth_test
+            "fifth_test"     =>$fifth_test,
             "all_record_info"=>$all_record_info,
         ]);
         // dd($list);

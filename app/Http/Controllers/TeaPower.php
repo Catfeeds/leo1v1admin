@@ -450,7 +450,7 @@ trait TeaPower {
             $tea_subject="";
             $qz_flag=0;
         }
-        if($adminid==480){
+        if($adminid==480 || $adminid==349){
             $tea_right=1;
             $tea_subject="";
             $qz_flag=0;

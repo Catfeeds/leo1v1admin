@@ -318,4 +318,12 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         }
     }
 
+    public function update_by_up_groupid($up_groupid) {
+        $sql = $this->gen_sql_new("update %s set up_groupid = 0 where up_groupid=%u",
+                                  self::DB_TABLE_NAME
+                                  ,$up_groupid );
+        return $this->main_update($sql);
+    }
+
+
 }

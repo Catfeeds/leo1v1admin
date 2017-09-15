@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-major-group,.opt-edit-major-group").each(function(){
+    $(".opt-add-major-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -44,7 +44,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-add-main-group-new,.opt-add-main-group,.opt-assign-major-group,.opt-assign-major-group-new").each(function(){
+    $(".opt-add-main-group-new,.opt-add-main-group,.opt-assign-major-group,.opt-assign-major-group-new,.opt-edit-major-group,.opt-edit-major-group-new,.opt-del-major-group,.opt-del-major-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -84,7 +84,6 @@ $(function(){
     $(".opt-add-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-        //  alert(main_type);
         var id_group_name=$("<input/>");
         var  arr=[
             ["组名" ,  id_group_name]
@@ -126,7 +125,7 @@ $(function(){
 
     });
 
-    $(".opt-edit-major-group").on("click",function(){ // 开发中
+    $(".opt-edit-major-group").on("click",function(){ 
         var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
         var id_group_name     = $("<input/>");
@@ -145,7 +144,7 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/user_deal/admin_major_group_edit",{
-                    "groupid" : opt_data.up_groupid ,
+                    "groupid" : opt_data.first_groupid ,
                     "group_name" : id_group_name.val(),
                     "master_adminid" : id_master_adminid.val()
                 });
@@ -332,6 +331,23 @@ $(function(){
             "onLoadData" : null
         });
     });
+
+
+    $(".opt-del-major-group").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+
+        BootstrapDialog.confirm(
+            "要删除经理分组:"+ opt_data.first_group_name   + "?",
+            function(val) {
+                if  (val)  {
+                    $.do_ajax( "/user_deal/admin_major_group_del", {
+                        "groupid": opt_data.first_groupid
+                    });
+                }
+            }
+        );
+    });
+
 
     $(".opt-del-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();

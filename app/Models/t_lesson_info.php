@@ -2661,7 +2661,8 @@ lesson_type in (0,1) "
             ['lesson_start<=%u',$end_time,0],
             "confirm_flag<2",
             "lesson_status=2",
-            "lesson_comment_send_email_flag=0"
+            "lesson_comment_send_email_flag=0",
+            "lesson_del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select l.lessonid,l.stu_performance,s.nick stu_nick,t.nick tea_nick,s.stu_email,"
@@ -2942,7 +2943,8 @@ lesson_type in (0,1) "
             ['lesson_end<=%u',$end_time,0],
             "confirm_flag<2",
             "lesson_status=2",
-            "lesson_end_todo_flag=0"
+            "lesson_end_todo_flag=0",
+            "lesson_del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select lesson_start,lesson_end,tea_cw_url,l.lessonid,l.userid,"
