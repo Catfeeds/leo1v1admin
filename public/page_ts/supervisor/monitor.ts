@@ -45,14 +45,6 @@ $(function(){
         }
     );
 
-    if (window.location.pathname =="/supervisor/monitor_seller" ) {
-        $("#id_test_seller_id").parent().parent().hide();
-        $("#id_lesson_type").parent().parent().hide();
-        if(self_groupid != 0 && is_group_leader_flag == 0){
-            $("#id_teacherid").parent().parent().hide();
-        }
-        $(".opt-confirm").hide();
-    }
 
     $("#id_tongji").on("click", function () {
         $.do_ajax("/supervisor/get_tongji", {

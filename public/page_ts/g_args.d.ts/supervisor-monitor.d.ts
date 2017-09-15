@@ -3,7 +3,7 @@ interface GargsStatic {
 	st_application_nick:	string;
 	require_adminid:	number;
 	test_seller_id:	number;
-	test_seller_adminid:	number;
+	seller_flag:	number;
 	userid:	number;
 	teacherid:	number;
 	run_flag:	number;
@@ -59,7 +59,7 @@ $(function(){
 			st_application_nick:	$('#id_st_application_nick').val(),
 			require_adminid:	$('#id_require_adminid').val(),
 			test_seller_id:	$('#id_test_seller_id').val(),
-			test_seller_adminid:	$('#id_test_seller_adminid').val(),
+			seller_flag:	$('#id_seller_flag').val(),
 			userid:	$('#id_userid').val(),
 			teacherid:	$('#id_teacherid').val(),
 			run_flag:	$('#id_run_flag').val(),
@@ -72,7 +72,7 @@ $(function(){
 	$('#id_st_application_nick').val(g_args.st_application_nick);
 	$('#id_require_adminid').val(g_args.require_adminid);
 	$('#id_test_seller_id').val(g_args.test_seller_id);
-	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
+	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_userid').val(g_args.userid);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_run_flag').val(g_args.run_flag);
@@ -117,8 +117,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">test_seller_adminid</span>
-                <input class="opt-change form-control" id="id_test_seller_adminid" />
+                <span class="input-group-addon">seller_flag</span>
+                <input class="opt-change form-control" id="id_seller_flag" />
             </div>
         </div>
 
