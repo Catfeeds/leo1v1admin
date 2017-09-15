@@ -789,9 +789,9 @@ class user_deal extends Controller
             $adminid               = $this->t_manager_info->get_id_by_account($sys_operator);
             if (!$flowid  ){
                 if ( $price<10000) {
-                    $count=6;
+                    $count=3;
                 }else{
-                    $count=10;
+                    $count=5;
                 }
 
                 if (!$this->t_seller_new_count->check_adminid_seller_new_count_type_value_ex($adminid,$seller_new_count_type,$value_ex)) {
@@ -1721,6 +1721,17 @@ class user_deal extends Controller
 
     }
 
+    public function admin_major_group_edit( ) { // 开发中
+        $groupid=$this->get_in_int_val("groupid");
+        $group_name=$this->get_in_str_val("group_name");
+        $master_adminid=$this->get_in_str_val("master_adminid");
+        $this->t_admin_main_group_name->field_update_list($groupid, [
+            "group_name"  => $group_name,
+            "master_adminid"=>$master_adminid
+        ]);
+        return $this->output_succ();
+    }
+
 
     public function admin_main_group_edit( ) {
         $groupid=$this->get_in_int_val("groupid");
@@ -1731,7 +1742,6 @@ class user_deal extends Controller
             "master_adminid"=>$master_adminid
         ]);
         return $this->output_succ();
-
     }
 
     public function admin_main_group_edit_new( ) {

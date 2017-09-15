@@ -30,13 +30,13 @@ $(function(){
 
     $('#id_monthtime_flag').val(g_args.monthtime_flag);
 
-    // $(".common-table" ).table_admin_level_5_init(); // 开发中
-    $(".common-table" ).table_admin_level_4_init(); // 原始
+    $(".common-table" ).table_admin_level_5_init(); // 开发中
+    // $(".common-table" ).table_admin_level_4_init(); // 原始
 
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-main-group,.opt-add-main-group-new,.opt-add-major-group").each(function(){
+    $(".opt-add-major-group,.opt-edit-major-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -44,7 +44,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
+    $(".opt-add-main-group-new,.opt-add-main-group,.opt-assign-major-group,.opt-assign-major-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -52,7 +52,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-edit-group,.opt-del-group,.opt-assign-group-user,.opt-edit-group-new,.opt-del-group-new,.opt-assign-group-user-new").each(function(){
+    $(".opt-assign-main-group,.opt-assign-main-group-new, .opt-edit-main-group,.opt-edit-main-group-new,.opt-add-main-group-user,.opt-del-main-group,.opt-add-main-group-user-new,.opt-del-main-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -61,7 +61,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    $(".opt-assign-group-user,.opt-assign-group-user-new,.opt-edit-group-new,.opt-edit-group,.opt-del-group,.opt-del-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -70,14 +70,14 @@ $(function(){
         }
     });
 
-    // $(".opt-del-admin,.opt-del-admin-new").each(function(){
-    //     var opt_data = $(this).get_opt_data();
-    //     var level    = opt_data.level;
-    //     var main_type    = opt_data.main_type;
-    //     if(main_type =="未定义" || level != "l-5"){
-    //         $(this).hide();
-    //     }
-    // });
+    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+        var opt_data = $(this).get_opt_data();
+        var level    = opt_data.level;
+        var main_type    = opt_data.main_type;
+        if(main_type =="未定义" || level != "l-5"){
+            $(this).hide();
+        }
+    });
 
 
 
@@ -124,6 +124,41 @@ $(function(){
             }
         });
 
+    });
+
+    $(".opt-edit-major-group").on("click",function(){ // 开发中
+        var opt_data     = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var id_group_name     = $("<input/>");
+        var id_master_adminid = $("<input/>");
+
+        var  arr=[
+            ["组名" ,  id_group_name],
+            ["总监" ,  id_master_adminid]
+        ];
+
+        id_group_name.val( opt_data.first_group_name );
+        id_master_adminid.val( opt_data.first_master_adminid );
+
+        $.show_key_value_table("修改分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_major_group_edit",{
+                    "groupid" : opt_data.up_groupid ,
+                    "group_name" : id_group_name.val(),
+                    "master_adminid" : id_master_adminid.val()
+                });
+            }
+        },function(){
+            $.admin_select_user(
+                id_master_adminid ,
+                "admin", null,true, {
+                    "main_type": $('#id_main_type').val()//分配用户
+                }
+            );
+
+        });
     });
 
 
@@ -187,6 +222,63 @@ $(function(){
 
     });
 
+    
+    $(".opt-assign-major-group").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var up_groupid =opt_data.up_groupid ;
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/user_deal/get_group_list_new",
+            //其他参数
+            "args_ex" : {
+                "main_type":main_type
+            },
+
+            select_primary_field   : "groupid",
+            select_display         : "package_name",
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]",
+
+            //字段列表
+            'field_list' :[
+                {
+                    title:"groupid",
+                    width :50,
+                    field_name:"groupid"
+                },{
+                    title:"组名",
+                    field_name:"group_name"
+                },{
+                    title:"助长",
+                    field_name:"group_master_nick"
+                }
+            ] ,
+            //查询列表
+            filter_list:[
+            ],
+            "auto_close" : true,
+            "onChange"   : function( val) {
+                var groupid = val ;
+                var me=this;
+                if (groupid>0) {
+                    $.do_ajax("/user_deal/set_up_groupid",{
+                        "groupid":groupid,
+                        "up_groupid":up_groupid
+                    },function(resp){
+                        window.location.reload();
+                    });
+                }else{
+                    alert( "请选择小组" );
+                }
+            },
+            "onLoadData" : null
+        });
+    });
+
+
+
     $(".opt-assign-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
@@ -239,8 +331,6 @@ $(function(){
             },
             "onLoadData" : null
         });
-
-
     });
 
     $(".opt-del-main-group").on("click",function(){

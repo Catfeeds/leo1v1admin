@@ -1662,34 +1662,40 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
-        //田梦影数据
-        $melon_info =@$ass_month[773];
-        $melon_info_last = @$ass_last_month[773];
-        if(!empty($melon_info)){
-            $melon_info["lesson_total"] = @$melon_info["lesson_total"]/100;
-            $melon_info["tran_price"] = @$melon_info["tran_price"]/100;
-            $melon_info["renw_price"] = @$melon_info["renw_price"]/100;
-            $melon_info["all_price"] = $melon_info["tran_price"]+$melon_info["renw_price"];
-            $melon_info["lesson_target"] = $lesson_target;
-            $melon_info["renw_target"] = @$melon_info_last["warning_student"]*0.8*8000;
-            $melon_info["renw_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
-            $melon_info["renw_stu_target"] = @$melon_info_last["warning_student"]*0.8;
-            $melon_info["renw_stu_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
-            $melon_info["kk_suc"] = $melon_info["kk_num"];
-            $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
-            $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
-            $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
-            $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;          
-            $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
-            $melon_info["account"]="田梦影";
-            $melon_info["nick"]="田梦影";
+        //查询离职助教
+        $del_flag = $this->t_manager_info->get_del_ass_list(1);
+        foreach($del_flag as $tp){
+            $melon_info =@$ass_month[$tp["uid"]];
+            $melon_info_last = @$ass_last_month[$tp["uid"]];
+            if(!empty($melon_info)){
+                $melon_info["lesson_total"] = @$melon_info["lesson_total"]/100;
+                $melon_info["tran_price"] = @$melon_info["tran_price"]/100;
+                $melon_info["renw_price"] = @$melon_info["renw_price"]/100;
+                $melon_info["all_price"] = $melon_info["tran_price"]+$melon_info["renw_price"];
+                $melon_info["lesson_target"] = $lesson_target;
+                $melon_info["renw_target"] = @$melon_info_last["warning_student"]*0.8*8000;
+                $melon_info["renw_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+                $melon_info["renw_stu_target"] = @$melon_info_last["warning_student"]*0.8;
+                $melon_info["renw_stu_per"] = !empty($melon_info["renw_target"])?round($melon_info["all_price"]/$melon_info["renw_target"]*100,2):0;
+                $melon_info["kk_suc"] = $melon_info["kk_num"];
+                $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
+                $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
+                $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
+                $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;          
+                $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
+                $melon_info["account"]=$tp["name"];
+                $melon_info["nick"]=$tp["name"];
 
-            array_push($ass_list,$melon_info);
+                array_push($ass_list,$melon_info);
 
+            }
+ 
         }
 
+        //田梦影数据
+        
         //田梦茹数据
-        $ruby_info =@$ass_month[386];
+        /* $ruby_info =@$ass_month[386];
         $ruby_info_last = @$ass_last_month[386];
         if(!empty($ruby_info)){
             $ruby_info["lesson_total"] = @$ruby_info["lesson_total"]/100;
@@ -1712,7 +1718,7 @@ class main_page extends Controller
 
             array_push($ass_list,$ruby_info);
 
-        }
+            }*/
 
 
         return $this->pageView(__METHOD__ ,null, [

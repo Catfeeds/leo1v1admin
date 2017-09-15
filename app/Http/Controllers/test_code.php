@@ -2207,7 +2207,13 @@ class test_code extends Controller
         $start_time = strtotime("2017-$month");
         $end_time = strtotime("+1 month",$start_time);
         $list = $this->t_lesson_info_b3->get_teacher_full_lesson_total($start_time,$end_time);
-        dd($list);
+        echo "姓名|手机|课时|请假|迟到";
+        echo "<br>";
+        foreach($list as $val){
+            $lesson_total=$val['lesson_total']/100;
+            echo $val['realname']."|".$val['phone']."|".$lesson_total."|".$val['change_class']."|".$val['come_late'];
+            echo "<br>";
+        }
     }
 
 

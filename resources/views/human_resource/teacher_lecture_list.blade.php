@@ -151,7 +151,8 @@
                                 @if(in_array($account_role,["9","10","11","12"]) || $acc=="CoCo")
                                     <a class="opt-reset">重置</a>
                                 @endif
-                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby","ted"]) || $var["account"]=="")
+                                @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","ted"]) || $var["account"]==""
+                                    || $account_role==8 )
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     @if($var['status']==0)
                                         <a class="opt-video_error" title="视频出错短信通知">视频出错</a>
@@ -161,7 +162,7 @@
                                     @endif
                                     @if($var["account"]!="" || in_array($acc,["adrian"]))
                                         @if($account_role != 8) 
-                                            <!-- 蔡老师要求　招师不可见   -->
+                                            <!-- 蔡老师要求　招师不可见 -->
                                             <a class="opt-update_lecture_status" title="更改状态">更改状态</a>
                                         @endif
                                         @if(($var['status']!=2 || in_array($acc,["adrian"]) ) && $account_role !=8)
