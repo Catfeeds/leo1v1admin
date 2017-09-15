@@ -295,6 +295,16 @@
                                 @endif
                             </td>
                         @endif
+                        <td>
+                            @if($var["train_through_new_time"]>0)
+                                {{@$var["train_through_new_time_str"]}}
+                            @elseif($var["teacher_pass_type"]==2)
+                                未入职<br>
+                                理由:{{@$var["no_pass_reason"]}}
+                            @elseif($var["teacher_pass_type"]==0)
+                                未设置
+                            @endif
+                        </td>
                         <td>{{@$var["user_agent"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >

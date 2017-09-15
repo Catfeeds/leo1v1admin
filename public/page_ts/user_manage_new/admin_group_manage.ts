@@ -278,13 +278,13 @@ $(function(){
 
 
     $(".opt-assign-major-group-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();
+        var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-        var up_groupid =opt_data.up_groupid ;
+        var up_groupid   = opt_data.up_groupid;
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/user_deal/get_group_list_new_month",
+            "url"      : "/user_deal/get_main_group_list_new_month",
             //其他参数
             "args_ex" : {
                 "main_type":main_type,
@@ -319,8 +319,8 @@ $(function(){
                 var me=this;
                 if (groupid>0) {
                     $.do_ajax("/user_deal/set_up_groupid_new",{
-                        "groupid":groupid,
-                        "up_groupid":up_groupid,
+                        "groupid"    : groupid,
+                        "up_groupid" : first_groupid,
                         "start_time" : g_args.start_time
                     },function(resp){
                         window.location.reload();

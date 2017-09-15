@@ -2842,7 +2842,7 @@ class user_deal extends Controller
         $page_num     = $this->get_in_page_num();
         $month        = strtotime($this->get_in_str_val("start_time"));
         $ret_info   = $this->t_main_group_name_month->get_group_list_new($page_num,$main_type,$month);
-        $ret_info   = $this->t_group_name_month->get_group_list_new($page_num,$main_type,$month);
+        // $ret_info   = $this->t_group_name_month->get_group_list_new($page_num,$main_type,$month);
         foreach($ret_info['list'] as &$item){
             $item['group_master_nick']= $this->cache_get_account_nick($item['master_adminid']);
         }
