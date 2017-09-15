@@ -8,12 +8,12 @@ $(function(){
         });
     }
 
-    var c=0;
-    var t;
-    function timedCount(){
-        $('#txt').attr('value',c);
-        c=c+1;
-        t=setTimeout("timedCount()",1000);
-    }
+    // function get_condition() {
+    //     alert('a');
+    // }
+    // get_condition();
+    // setInterval(get_condition, 3000);
+            // });
+
     $('.opt-change').set_input_change_event(load_data);
 });

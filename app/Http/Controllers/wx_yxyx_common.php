@@ -282,6 +282,7 @@ class wx_yxyx_common extends Controller
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
                     $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
 
+                    /*
                     // 优学优享例子分配给 王春雷 [442] [开始]
                     $opt_adminid = 442; // 王春雷
                     $opt_account=$this->t_manager_info->get_account($opt_adminid);
@@ -289,6 +290,7 @@ class wx_yxyx_common extends Controller
                     $account = '系统';
                     $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
                     // 优学优享例子分配给 王春雷 [结束]
+                    */
 
                     \App\Helper\Utils::logger(" yxyx-lizi1 $userid ");
 

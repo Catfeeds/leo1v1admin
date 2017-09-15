@@ -105,6 +105,7 @@ class supervisor extends Controller
 
         $start_time  = strtotime($date);
         $end_time    = $start_time + 86400;
+        $group_type = 0;
         if($test_seller_adminid != -1){
             $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
             $son_adminid_arr = [];
@@ -113,6 +114,7 @@ class supervisor extends Controller
             }
             array_unshift($son_adminid_arr,$adminid);
             $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
             $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
                 $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid_arr);
         }else{
@@ -167,6 +169,7 @@ class supervisor extends Controller
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
+            "group_type"           => $group_type,
             "self_groupid"         => $self_groupid,
             "is_group_leader_flag" => $is_group_leader_flag
         ]);

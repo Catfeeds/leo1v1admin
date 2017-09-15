@@ -372,11 +372,11 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_lesson_condition_list_ex_new($start, $end, $teacherid, $studentid  , $lessonid ,$lesson_type,$subject,
-                                                 $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
-                                                 $lesson_status=-1, $test_seller_id_arr,$has_performance, $origin="",
-                                                 $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
-                                                 $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
-                                                 $lesson_del_flag=-1,$fulltime_teacher_type=-1
+                                          $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
+                                          $lesson_status=-1, $test_seller_id_arr,$test_seller_adminid,$has_performance, $origin="",
+                                          $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
+                                          $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
+                                          $lesson_del_flag=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = [];
         if ($lessonid == -1 ) {
@@ -398,7 +398,11 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             }
 
             $sub_arr=[];
-            $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_id_arr);
+            if($test_seller_adminid == -1){
+                $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_id_arr);
+            }else{
+                $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_adminid);
+            }
             $sub_arr[] = [ "l.assistantid=%u",$assistantid,-1];
             $where_arr[]= "(". $this->where_str_gen($sub_arr, "or" )  .")";
 
@@ -680,7 +684,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                               $run_flag,$assistantid,$require_adminid
     ){
         $sub_arr = [
-            ["st_application_nick like '%%%s%%'", $st_application_nick,""] ,
             ["require_adminid=%u", $require_adminid,-1] ,
         ];
         $sub_where_str = "(".$this->where_str_gen($sub_arr, "or").")";
@@ -709,10 +712,9 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type,i.st_application_nick ".
+            " lesson_num,c.current_server,server_type ".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
-            " left join %s i on l.lessonid = i.st_arrange_lessonid ".
             " left join %s tss on l.lessonid = tss.lessonid ".
             " left join %s tr on tr.require_id = tss.require_id ".
             " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
@@ -723,7 +725,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             " order by lesson_start asc, lessonid asc",
             self::DB_TABLE_NAME,
             t_course_order::DB_TABLE_NAME,
-            t_seller_student_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_test_lesson_subject_require::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -741,7 +742,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                               $run_flag,$assistantid,$require_adminid_arr
     ){
         $sub_arr = [
-            ["st_application_nick like '%%%s%%'", $st_application_nick,""] ,
         ];
         $sub_where_str = "(".$this->where_str_gen($sub_arr, "or").")";
 
@@ -769,10 +769,9 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type,i.st_application_nick ".
+            " lesson_num,c.current_server,server_type  ".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
-            " left join %s i on l.lessonid = i.st_arrange_lessonid ".
             " left join %s tss on l.lessonid = tss.lessonid ".
             " left join %s tr on tr.require_id = tss.require_id ".
             " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
@@ -783,7 +782,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             " order by lesson_start asc, lessonid asc",
             self::DB_TABLE_NAME,
             t_course_order::DB_TABLE_NAME,
-            t_seller_student_info::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_test_lesson_subject_require::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -1897,11 +1895,6 @@ lesson_type in (0,1) "
     public function get_lesson_conditions($start,$end,$st_application_nick,$userid,$teacherid,$run_flag, $assistantid,$require_adminid)
     {
 
-        $sub_arr=[
-            ["st_application_nick like '%%%s%%'", $st_application_nick,""] ,
-            ["require_adminid=%u", $require_adminid,-1] ,
-        ];
-        $sub_where_str="(".$this->where_str_gen($sub_arr, "or").")";
 
 
         $sub_arr_2=[
@@ -1915,8 +1908,8 @@ lesson_type in (0,1) "
         $where_arr=[
             ["l.userid =%u", $userid,-1] ,
             ["l.teacherid=%u", $teacherid,-1] ,
+            ["require_adminid=%u", $require_adminid,-1] ,
             "confirm_flag not in (2, 3)",
-            $sub_where_str,
             $sub_where_str_2,
         ];
 
@@ -1930,10 +1923,9 @@ lesson_type in (0,1) "
 
         $sql = $this->gen_sql_new(
             "select l.lessonid,  require_adminid,  account, l.userid,  l.teacherid ,   l.assistantid , lesson_start, lesson_end, l.courseid,  l.lesson_type, " .
-            " lesson_num,   c.current_server ,  server_type , i.st_application_nick,l.lesson_condition,lesson_status ".
+            " lesson_num,   c.current_server ,  server_type , l.lesson_condition,lesson_status ".
             " from    %s l " .
             " left join %s c on c.courseid = l.courseid  ".
-            " left join %s i on l.lessonid = i.st_arrange_lessonid ".
             " left join %s tss on l.lessonid = tss.lessonid ".
             " left join %s tr on tr.require_id = tss.require_id ".
             " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
@@ -1946,7 +1938,6 @@ lesson_type in (0,1) "
             ."  order by lesson_start asc, lessonid asc  ",
             self::DB_TABLE_NAME,
             t_course_order::DB_TABLE_NAME ,
-            t_seller_student_info::DB_TABLE_NAME ,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_test_lesson_subject_require::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
@@ -8714,7 +8705,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new(
             "select l.lessonid , require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type,i.st_application_nick ".
+            " lesson_num,c.current_server,server_type ".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s i on l.lessonid = i.st_arrange_lessonid ".

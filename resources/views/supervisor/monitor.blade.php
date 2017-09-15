@@ -21,6 +21,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var group_type = "{{$group_type}}";
      var self_groupid = "{{$self_groupid}}";
      var is_group_leader_flag   = "{{$is_group_leader_flag}}";
     </script>
@@ -107,7 +108,7 @@
                         <td   >
                             {{$var["ip"]}}:{{$var["port"]}}<span style="display:none;">: {{$var["room_id"]}} </span> ({{$var["region"]}})<br/>
                             {{$var["lesson_type_str"]}} |语音通道:({{$var["server_type_str"]}})
-                            <br>{{$var["index"]}}: 课程id:{{$var["lessonid"]}}  <span style="display:none;"> <br>  {{$var["ip"]}}H{{$var["port"]}}H{{$var["room_id"]}} </span> |销售: {{$var["st_application_nick"]  }} {{$var["account"] }}
+                            <br>{{$var["index"]}}: 课程id:{{$var["lessonid"]}}  <span style="display:none;"> <br>  {{$var["ip"]}}H{{$var["port"]}}H{{$var["room_id"]}} </span> |销售: {{@$var["st_application_nick"]  }} {{$var["account"] }}
                         </td>
                         <td  >
                             {{$var["assistantid"]}}:

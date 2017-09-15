@@ -215,7 +215,7 @@
                     <td style="display:none">id</td>
                     <td>教师姓名</td>
                     <td>报名时间</td>
-                    <td>入职时间</td>
+                    <td style="display:none">入职时间</td>
                     <td>电话</td>
                     <td>QQ</td>
                     <td>邮箱</td>
@@ -236,6 +236,7 @@
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
+                    <td>入职状态</td>
                     <td style="width:220px;display:none" >客户端版本</td>
                     <td >操作</td>
                 </tr>
@@ -294,6 +295,16 @@
                                 @endif
                             </td>
                         @endif
+                        <td>
+                            @if($var["train_through_new_time"]>0)
+                                {{@$var["train_through_new_time_str"]}}
+                            @elseif($var["teacher_pass_type"]==2)
+                                未入职<br>
+                                理由:{{@$var["no_pass_reason"]}}
+                            @elseif($var["teacher_pass_type"]==0)
+                                未设置
+                            @endif
+                        </td>
                         <td>{{@$var["user_agent"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >

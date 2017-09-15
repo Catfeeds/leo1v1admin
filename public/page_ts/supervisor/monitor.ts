@@ -13,15 +13,15 @@ $(function(){
         });
     }
 
-  $('#id_date').val(g_args.date);
-  $('#id_st_application_nick').val(g_args.st_application_nick);
-  $('#id_userid').val(g_args.userid);
-  $('#id_teacherid').val(g_args.teacherid);
-  $('#id_run_flag').val(g_args.run_flag);
-  $('#id_assistantid').val(g_args.assistantid);
+    $('#id_date').val(g_args.date);
+    $('#id_st_application_nick').val(g_args.st_application_nick);
+    $('#id_userid').val(g_args.userid);
+    $('#id_teacherid').val(g_args.teacherid);
+    $('#id_run_flag').val(g_args.run_flag);
+    $('#id_assistantid').val(g_args.assistantid);
 
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 
     $.admin_select_user($("#id_teacherid"),"teacher", load_data);
 
@@ -163,8 +163,12 @@ $(function(){
                 }
             });
     }
-    get_condition();
-    setInterval(get_condition, 3000);
+    if(group_type == 1){//组长&主管
+        setInterval(get_condition, 300000);
+    }else{
+        get_condition();
+        setInterval(get_condition, 3000);
+    }
 
     /*
     //其它参数变化, 服务器地址,语音通道,时间更改,
