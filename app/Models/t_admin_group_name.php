@@ -31,8 +31,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                 self::DB_TABLE_NAME, $main_type);
         return $this->main_get_list_by_page($sql,$page_num);
     }
-    
-   
+
+
 
 
     public function get_group_name_list($main_type,$up_groupid){
