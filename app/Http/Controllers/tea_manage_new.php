@@ -91,6 +91,15 @@ class tea_manage_new extends Controller
                     "seller_require_flag"        =>$seller_require_flag
                 ]);
             }
+
+            $old_week_lesson_count = $old_week_lesson_count/100;
+            $week_lesson_count = $week_lesson_count/100;
+            if($old_week_lesson_count != $week_lesson_count){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"理优监课组","老师周课时更改",$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count.",操作人:".$account,"");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (448,"理优监课组","老师周课时更改",$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count.",操作人:".$account,"");
+               
+
+            }
         }
         return $this->output_succ();
     }
