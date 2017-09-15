@@ -120,6 +120,8 @@
                                    <a class="opt-add-major-group-new">新增总监分组</a>
                                    <a class="opt-add-main-group-new">新增-经理</a>
                                    <a class="opt-assign-main-group-new">分配小组</a>
+                                   <a class="fa fa-list-alt opt-show_change_log btn" title="组员添加记录"></a>
+
 
                                    <a class="opt-assign-major-group-new">分配-经理</a>
                                    <a class="opt-edit-major-group-new">修改-经理</a>
