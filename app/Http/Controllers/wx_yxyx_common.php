@@ -567,7 +567,7 @@ class wx_yxyx_common extends Controller
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
         // $wx_openid = $this->get_in_str_val('wx_openid', 0);
-        $wx_openid = $this->get_wx_openid();
+        $wx_openid = $this->get_user_wx_openid();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
@@ -600,7 +600,7 @@ class wx_yxyx_common extends Controller
         return $this->output_succ(["home_info"=>$ret_info]);
     }
 
-    public function get_wx_openid(){
+    public function get_user_wx_openid(){
 
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
