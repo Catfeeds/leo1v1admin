@@ -737,6 +737,66 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function get_lesson_condition_list_new($start,$end,$st_application_nick,$userid,$teacherid,
+                                              $run_flag,$assistantid,$require_adminid_arr
+    ){
+        $sub_arr = [
+            ["st_application_nick like '%%%s%%'", $st_application_nick,""] ,
+        ];
+        $sub_where_str = "(".$this->where_str_gen($sub_arr, "or").")";
+
+        $sub_arr_2 = [
+            ["s.assistantid=%u", $assistantid,-1] ,
+        ];
+        $sub_where_str_2 = "(".$this->where_str_gen($sub_arr_2, "or").")";
+
+        $where_arr = [
+            ["l.userid =%u", $userid,-1] ,
+            ["l.teacherid=%u", $teacherid,-1] ,
+            "confirm_flag not in ( 2, 3 )",
+            $sub_where_str,
+            $sub_where_str_2,
+        ];
+
+        if ($run_flag==1) {
+            $now=time(NULL);
+            $where_arr[] =  sprintf ( "((lesson_start -600 <%u and lesson_end+ 600> %u ) or lesson_status = 1) ", $now ,$now );
+        }else if ($run_flag==2) {
+            $where_arr[] = "lesson_type=2";
+        }
+        $where_arr[] = "l.lesson_del_flag=0";
+        $this->where_arr_add_int_or_idlist($where_arr,'require_adminid',$require_adminid_arr);
+        $sql = $this->gen_sql_new(
+            "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
+            " l.courseid,l.lesson_type,".
+            " lesson_num,c.current_server,server_type,i.st_application_nick ".
+            " from %s l " .
+            " left join %s c on c.courseid = l.courseid  ".
+            " left join %s i on l.lessonid = i.st_arrange_lessonid ".
+            " left join %s tss on l.lessonid = tss.lessonid ".
+            " left join %s tr on tr.require_id = tss.require_id ".
+            " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
+            " left join %s m on t.require_adminid=m.uid ".
+            " left join %s s on l.userid=s.userid".
+            " where lesson_start > %u ".
+            " and lesson_start < %u and %s".
+            " order by lesson_start asc, lessonid asc",
+            self::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            t_seller_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $start, $end, $where_arr
+        );
+
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item["lessonid"];
+        });
+    }
+
     public function get_book_user_lesson_time($userid){
         $sql = $this->gen_sql("select lesson_start from %s where userid = %u order by lesson_start desc"
                               ,self::DB_TABLE_NAME
