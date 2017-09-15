@@ -1377,6 +1377,18 @@ class tea_manage_new extends Controller
     }
 
 
+    public function set_teacher_pass_type(){
+        $id = $this->get_in_int_val("id");
+        $teacher_pass_type   = $this->get_in_int_val("teacher_pass_type");
+        $no_pass_reason     = trim($this->get_in_str_val("no_pass_reason"));
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "teacher_pass_type" =>$teacher_pass_type,
+            "no_pass_reason"    =>$no_pass_reason
+        ]);
+        return $this->output_succ();
+
+    }
+
 
 
 }

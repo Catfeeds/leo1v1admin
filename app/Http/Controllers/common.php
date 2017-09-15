@@ -567,8 +567,10 @@ class common extends Controller
         }
 
         return $this->output_succ([
-            'data' => $ret,
-            "webrtc_xmpp_server_list" => \App\Helper\Config::get_config("audio_server_list")
+            'data'                    => $ret,
+            "webrtc_xmpp_server_list" => \App\Helper\Config::get_config("audio_server_list"),
+            "audio_server_list"       => \App\Helper\Config::get_config("audio_server_list"),
+            "xmpp_server_list"        => \App\Helper\Config::get_config("xmpp_server_list"),
         ]);
     }
 

@@ -371,6 +371,218 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list_by_page($sql, $page_num, 10);
     }
 
+    public function get_lesson_condition_list_ex_new($start, $end, $teacherid, $studentid  , $lessonid ,$lesson_type,$subject,
+                                                 $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
+                                                 $lesson_status=-1, $test_seller_id_arr,$has_performance, $origin="",
+                                                 $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
+                                                 $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
+                                                 $lesson_del_flag=-1,$fulltime_teacher_type=-1
+    ){
+        $where_arr = [];
+        if ($lessonid == -1 ) {
+            $where_arr[] = sprintf("lesson_start > %d and lesson_start < %d", $start,$end  );
+            $where_arr[] = [ "l.teacherid=%d", $teacherid ,-1];
+            $where_arr[] = [ "l.userid=%d", $studentid,-1];
+            $where_arr[] = $this->where_get_in_str_query("s.grade", $grade );
+            $where_arr[] = $this->where_get_in_str_query("l.confirm_flag ", $confirm_flag );//04-21
+            $where_arr[] = [ "s.seller_adminid=%d", $seller_adminid,-1];
+            $where_arr[] = [ "s.origin like '%s%%'", $origin ,""];
+            $where_arr[] = [ "l.lesson_count=%u ", $lesson_count,-1];
+            $where_arr[] = [ "l.lesson_del_flag=%u ", $lesson_del_flag,-1];
+            $where_arr[] = [ "l.lesson_cancel_reason_type=%u ", $lesson_cancel_reason_type,-1];
+            $where_arr[] = [ "m.fulltime_teacher_type=%u ", $fulltime_teacher_type,-1];
+            if ($lesson_type==-2) {
+                $where_arr[] = "l.lesson_type in(0,1,3 )";
+            }else{
+                $where_arr[] = ["l.lesson_type=%u ",$lesson_type,-1];
+            }
+
+            $sub_arr=[];
+            $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_id_arr);
+            $sub_arr[] = [ "l.assistantid=%u",$assistantid,-1];
+            $where_arr[]= "(". $this->where_str_gen($sub_arr, "or" )  .")";
+
+            $where_arr[] = [ "l.subject=%d", $subject, -1];
+            if($lesson_type<1000){
+                $where_arr[] = [ "(s.is_test_user=%u or s.is_test_user is null )",$is_with_test_user,-1];
+            }
+            $where_arr[] = [ "l.lesson_status=%u",$lesson_status,-1];
+
+            if($has_performance==0){
+                $where_arr[]="l.stu_performance=''";
+            }elseif($has_performance==1){
+                $where_arr[]="l.stu_performance!=''";
+            }
+            $this->where_arr_add_boolean_for_value($where_arr,"lesson_upload_time",$has_video_flag);
+
+        }else{
+            $where_arr[] = sprintf("l.lessonid=%u",$lessonid);
+        }
+
+        $this->where_arr_add_int_field($where_arr,"lesson_user_online_status", $lesson_user_online_status);
+        if($fulltime_flag==0){
+            $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
+        }elseif($fulltime_flag==1){
+            $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
+        }
+
+
+        if(!empty($tea_subject)){
+            $where_arr[]="l.subject in ".$tea_subject;
+        }
+        $cond_str=$this->where_str_gen($where_arr);
+
+        $sql=sprintf(" select"
+                     ."    m.account cc_account,"
+                     ."    l.lessonid,"
+                     ."    l.lesson_del_flag,"
+                     ."    l.courseid,"
+                     ."    l.pcm_file_all_size,"
+                     ."    l.pcm_file_count,"
+                     ."    l.lesson_type,"
+                     ."    l.lesson_count,"
+                     ."    l.lesson_cancel_reason_type,"
+                     ."    l.lesson_user_online_status,"
+                     ."    l.teacherid,"
+                     ."    l.origin,"
+                     ."    l.system_version,"
+                     ."    l.record_audio_server1,"
+                     ."    l.record_audio_server2,"
+                     ."    l.system_version,"
+                     ."    l.lesson_cancel_time_type,"
+                     ."    l.lesson_start, l.lesson_end,l.real_begin_time,"
+                     ."    l.gen_video_grade,"
+                     ."    l.assistantid,"
+                     ."    l.teacher_money_type,"
+                     ."    s.userid as stu_id,"
+                     ."    s.phone as stu_phone,"
+                     ."    s.nick as stu_nick,"
+                     ."    s.user_agent as stu_user_agent,"
+                     ."    s.origin as origin_str,"
+                     ."    s.stu_email,"
+                     .""
+                     ."    h.work_intro,"
+                     ."    h.work_status,"
+                     ."    h.issue_url,"
+                     ."    h.finish_url,"
+                     ."    h.check_url,"
+                     ."    h.tea_research_url,"
+                     ."    h.ass_research_url,     "
+                     ."    h.score,     "
+                     ."    h.issue_time,"
+                     ."    h.finish_time,"
+                     ."    h.check_time,"
+                     ."    h.tea_research_time,"
+                     ."    h.ass_research_time,     "
+
+                     ."    l.enable_video,"
+                     ."    l.lesson_status,"
+                     ."    l.stu_score,"
+                     ."    l.stu_comment,"
+                     ."    l.stu_attitude,"
+                     ."    l.stu_attention,"
+                     ."    l.stu_ability,"
+                     ."    l.stu_stability,"
+                     ."    l.teacher_score,"
+                     ."    l.teacher_comment,"
+                     ."    l.tea_rate_time,"
+                     ."    l.lesson_intro,"
+                     ."    l.teacher_effect,"
+                     ."    l.teacher_quality,"
+                     ."    l.teacher_interact,"
+                     ."    l.stu_praise,"
+                     ."    l.stu_cw_upload_time,"
+                     ."    l.stu_cw_status,"
+                     ."    l.stu_cw_url,"
+                     ."    l.tea_cw_name,"
+                     ."    l.tea_cw_upload_time,"
+                     ."    l.tea_cw_status,"
+                     ."    l.use_ppt,"
+                     ."    l.tea_cw_url,"
+                     ."    l.is_complained,"
+                     ."    l.complain_note,"
+                     ."    l.lesson_upload_time,"
+                     ."    l.stu_performance,"
+                     ."    l.audio,"
+                     ."    l.draw,"
+                     ."    l.lesson_cancel_reason_type,"
+                     ."    l.lesson_cancel_reason_next_lesson_time,"
+                     ."    l.draw,"
+                     ."    l.lesson_quiz,"
+                     ."    l.lesson_quiz_status,"
+                     ."    l.subject,"
+                     ."    l.grade,"
+                     ."    l.confirm_flag,"
+                     ."    l.confirm_adminid,"
+                     ."    l.confirm_time,"
+                     ."    l.confirm_reason,"
+                     ."    l.lesson_num,"
+                     ."    l.tea_price,"
+                     ."    l.level,"
+                     ."    l.grade,"
+                     ."    l.teacher_interact,"
+                     ."    l.teacher_comment,"
+                     ."    l.teacher_quality,"
+                     ."    l.teacher_effect,"
+                     ."    l.stu_stability,"
+                     ."    t.require_adminid ,"
+                     ."    pi.phone fa_phone,"
+                     ."    l.lesson_name,"
+                     ."    l.deduct_come_late,"
+                     ."    l.deduct_change_class,"
+                     ."    l.deduct_upload_cw,"
+                     ."    l.deduct_rate_student,"
+                     ."    l.deduct_check_homework,"
+                     ."    l.lesson_full_num,"
+                     ."    t.ass_test_lesson_type, "
+                     ."    f.flow_status as require_lesson_success_flow_status,  "
+                     ."    tts.success_flag,"
+                     ."    tts.confirm_adminid test_confirm_adminid,"
+                     ."    tts.confirm_time test_confirm_time,"
+                     ."    tts.test_lesson_fail_flag ,"
+                     ."    tts.fail_greater_4_hour_flag ,"
+                     ."    c.current_server,"
+                     ."    tts.fail_reason "
+                     ."    from"
+                     ."    db_weiyi.t_lesson_info as l"
+                     ."    LEFT JOIN db_weiyi.t_homework_info as h"
+                     ."    ON l.lessonid = h.lessonid "
+
+                     ."    LEFT JOIN db_weiyi.t_student_info as s"
+                     ."    ON s.userid = l.userid"
+                     ."    LEFT JOIN db_weiyi.t_parent_info as pi"
+                     ."    ON s.parentid = pi.parentid"
+
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list as tts"
+                     ."    ON tts.lessonid = l.lessonid"
+
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject_require as tr"
+                     ."    ON tr.require_id = tts.require_id "
+
+                     ."    LEFT JOIN db_weiyi.t_test_lesson_subject as t"
+                     ."    ON t.test_lesson_subject_id = tr.test_lesson_subject_id "
+
+                     ."    LEFT JOIN  %s as f"
+                     ."    ON ( f.flow_type=2003 and l.lessonid=f.from_key_int  ) "
+
+                     ."    LEFT JOIN  %s c on (c.courseid=l.courseid) "
+
+
+                     ."    LEFT JOIN db_weiyi.t_teacher_info as tt"
+                     ."    ON tt.teacherid = l.teacherid "
+                     ."    LEFT JOIN db_weiyi_admin.t_manager_info as m"
+                     ."    ON tt.phone = m.phone "
+                     ."    where"
+                     ."    %s  "
+                     ."    order by lesson_start asc, l.lessonid asc "
+                     , t_flow::DB_TABLE_NAME
+                     , t_course_order::DB_TABLE_NAME
+                     ,$cond_str
+        );
+        return $this->main_get_list_by_page($sql, $page_num, 10);
+    }
+
     public function lesson_record_server_list($page_num,$record_audio_server1 ) {
         $start_time=strtotime(date("Y-m-d"));
         $where_arr=[
@@ -494,6 +706,66 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         }
         $where_arr[] = "l.lesson_del_flag=0";
 
+        $sql = $this->gen_sql_new(
+            "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
+            " l.courseid,l.lesson_type,".
+            " lesson_num,c.current_server,server_type,i.st_application_nick ".
+            " from %s l " .
+            " left join %s c on c.courseid = l.courseid  ".
+            " left join %s i on l.lessonid = i.st_arrange_lessonid ".
+            " left join %s tss on l.lessonid = tss.lessonid ".
+            " left join %s tr on tr.require_id = tss.require_id ".
+            " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
+            " left join %s m on t.require_adminid=m.uid ".
+            " left join %s s on l.userid=s.userid".
+            " where lesson_start > %u ".
+            " and lesson_start < %u and %s".
+            " order by lesson_start asc, lessonid asc",
+            self::DB_TABLE_NAME,
+            t_course_order::DB_TABLE_NAME,
+            t_seller_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $start, $end, $where_arr
+        );
+
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item["lessonid"];
+        });
+    }
+
+    public function get_lesson_condition_list_new($start,$end,$st_application_nick,$userid,$teacherid,
+                                              $run_flag,$assistantid,$require_adminid_arr
+    ){
+        $sub_arr = [
+            ["st_application_nick like '%%%s%%'", $st_application_nick,""] ,
+        ];
+        $sub_where_str = "(".$this->where_str_gen($sub_arr, "or").")";
+
+        $sub_arr_2 = [
+            ["s.assistantid=%u", $assistantid,-1] ,
+        ];
+        $sub_where_str_2 = "(".$this->where_str_gen($sub_arr_2, "or").")";
+
+        $where_arr = [
+            ["l.userid =%u", $userid,-1] ,
+            ["l.teacherid=%u", $teacherid,-1] ,
+            "confirm_flag not in ( 2, 3 )",
+            $sub_where_str,
+            $sub_where_str_2,
+        ];
+
+        if ($run_flag==1) {
+            $now=time(NULL);
+            $where_arr[] =  sprintf ( "((lesson_start -600 <%u and lesson_end+ 600> %u ) or lesson_status = 1) ", $now ,$now );
+        }else if ($run_flag==2) {
+            $where_arr[] = "lesson_type=2";
+        }
+        $where_arr[] = "l.lesson_del_flag=0";
+        $this->where_arr_add_int_or_idlist($where_arr,'require_adminid',$require_adminid_arr);
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
@@ -2389,7 +2661,8 @@ lesson_type in (0,1) "
             ['lesson_start<=%u',$end_time,0],
             "confirm_flag<2",
             "lesson_status=2",
-            "lesson_comment_send_email_flag=0"
+            "lesson_comment_send_email_flag=0",
+            "lesson_del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select l.lessonid,l.stu_performance,s.nick stu_nick,t.nick tea_nick,s.stu_email,"
@@ -2670,7 +2943,8 @@ lesson_type in (0,1) "
             ['lesson_end<=%u',$end_time,0],
             "confirm_flag<2",
             "lesson_status=2",
-            "lesson_end_todo_flag=0"
+            "lesson_end_todo_flag=0",
+            "lesson_del_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select lesson_start,lesson_end,tea_cw_url,l.lessonid,l.userid,"

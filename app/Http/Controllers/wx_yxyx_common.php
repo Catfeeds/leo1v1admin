@@ -268,7 +268,7 @@ class wx_yxyx_common extends Controller
             }
             $type_new = $ret_info['type']=0?$type:3;
             $this->t_agent->field_update_list($ret_info['id'],[
-                "parentid" => $parentid,
+                //"parentid" => $parentid,
                 "type"     => $type_new,
             ]);
             $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);

@@ -18,6 +18,13 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         parent::__construct();
     }
 
+    public function get_group_list_for_major ($main_type,$up_groupid) {
+        $sql=$this->gen_sql_new("select groupid,group_name,main_assign_percent,master_adminid  from %s where main_type=%u and up_groupid=%d order by group_name  asc " ,
+                                self::DB_TABLE_NAME, $main_type,$up_groupid);
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_group_list ($main_type) {
         $sql=$this->gen_sql_new("select groupid,group_name,main_assign_percent,master_adminid  from %s where main_type=%u order by group_name  asc " ,
                                 self::DB_TABLE_NAME, $main_type);
@@ -317,5 +324,13 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
             }
         }
     }
+
+    public function update_by_up_groupid($up_groupid) {
+        $sql = $this->gen_sql_new("update %s set up_groupid = 0 where up_groupid=%u",
+                                  self::DB_TABLE_NAME
+                                  ,$up_groupid );
+        return $this->main_update($sql);
+    }
+
 
 }
