@@ -99,7 +99,7 @@
 
                                @if($monthtime_flag==1)
                                    <a class="opt-add-major-group">新增总监分组</a>
-                                   <a class="opt-add-main-group">新增主管分组</a>
+                                   <a class="opt-add-main-group">新增经理分组</a>
                                    <!-- <a class="opt-edit-major-group">修改</a> -->
                                    <a class="opt-assign-major-group">分配经理</a>
 
@@ -115,8 +115,11 @@
                                        <a class="opt-set-subject">配置科目</a>
                                    @endif
                                @else
-                                   <a class="opt-add-main-group-new">新增主管分组</a>
+                                   <a class="opt-add-main-group-new">新增经理分组</a>
                                    <a class="opt-assign-main-group-new">分配小组</a>
+
+                                   <a class="opt-assign-major-group-new">分配经理</a>
+
                                    <a class="opt-edit-main-group-new">修改</a>
                                    <a class="opt-del-main-group-new">删除</a>
                                    <a class="opt-add-main-group-user-new">新增小组</a>

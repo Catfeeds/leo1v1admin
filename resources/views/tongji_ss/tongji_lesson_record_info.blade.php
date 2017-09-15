@@ -4,54 +4,80 @@
 
     <section class="content ">
         <div class="row">
-            <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 col-md-12">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading center-title ">
-                        语文
+                        概况
                     </div>
                     <div class="panel-body">
 
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>分数</td>
-                                    <td>个数</td>
+                                    <td>老师总数</td>
+                                    <td>已反馈老师数</td>
+                                    <td>在读学生总数</td>
+                                    <td>已反馈学生数</td>
+
                                    
                                 </tr>
                             </thead>
-                            <tbody id="id_ass_group">
-                                @foreach ( $list as $key=> $var )
+                            <tbody >
+                              
                                     <tr>
-                                        <td>{{@$var["record_score"]}} </td>
-                                        <td>{{@$var["num"]}} </td>
+                                        <td>{{@$var["teacher_num"]}} </td>
+                                        <td>{{@$var["have_record_tea"]}} </td>
+                                        <td>{{@$var["stu_num"]}} </td>
+                                        <td>{{@$var["have_record_stu"]}} </td>
                                     </tr>
-                                @endforeach
                             </tbody>
                         </table>
 
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-2">
+            <div class="col-xs-12 col-md-12">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading center-title ">
-                        数学
+                        第一次试听反馈
                     </div>
                     <div class="panel-body">
 
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>分数</td>
-                                    <td>个数</td>
+                                    <td>科目</td>
+                                    <td>0-40</td>
+                                    <td>40-50</td>
+                                    <td>50-60</td>
+                                    <td>60-65</td>
+                                    <td>65-70</td>
+                                    <td>70-75</td>
+                                    <td>75-80</td>
+                                    <td>80-85</td>
+                                    <td>85-90</td>
+                                    <td>90-95</td>
+                                    <td>95-100</td>
+                                    <td>总计</td>
                                     
                                 </tr>
                             </thead>
-                            <tbody id="id_ass_group">
-                                @foreach ( $data as $key=> $var )
+                            <tbody >
+                                @foreach ( $first_test as $key=> $var )
                                     <tr>
-                                        <td>{{@$var["record_score"]}} </td>
-                                        <td>{{@$var["num"]}} </td>
+                                        <td>{{@$var["subject_str"]}} </td>
+                                        <td>{{@$var["first_score"]}} </td>
+                                        <td>{{@$var["second_score"]}} </td>
+                                        <td>{{@$var["third_score"]}} </td>
+                                        <td>{{@$var["fourth_score"]}} </td>
+                                        <td>{{@$var["fifth_score"]}} </td>
+                                        <td>{{@$var["sixth_score"]}} </td>
+                                        <td>{{@$var["seventh_score"]}} </td>
+                                        <td>{{@$var["eighth_score"]}} </td>
+                                        <td>{{@$var["ninth_score"]}} </td>
+                                        <td>{{@$var["tenth_score"]}} </td>
+                                        <td>{{@$var["eleventh_score"]}} </td>
+                                        <td>{{@$var["all_num"]}} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -60,90 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-2">
-                <div class="panel panel-warning"  >
-                    <div class="panel-heading center-title ">
-                        英语
-                    </div>
-                    <div class="panel-body">
-
-                        <table   class="table table-bordered "   >
-                            <thead>
-                                <tr>
-                                    <td>分数</td>
-                                    <td>个数</td>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="id_ass_group">
-                                @foreach ( $arr as $key=> $var )
-                                    <tr>
-                                        <td>{{@$var["record_score"]}} </td>
-                                        <td>{{@$var["num"]}} </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-2">
-                <div class="panel panel-warning"  >
-                    <div class="panel-heading center-title ">
-                        物理
-                    </div>
-                    <div class="panel-body">
-
-                        <table   class="table table-bordered "   >
-                            <thead>
-                                <tr>
-                                    <td>分数</td>
-                                    <td>个数</td>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="id_ass_group">
-                                @foreach ( $wuli as $key=> $var )
-                                    <tr>
-                                        <td>{{@$var["record_score"]}} </td>
-                                        <td>{{@$var["num"]}} </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-2">
-                <div class="panel panel-warning"  >
-                    <div class="panel-heading center-title ">
-                        化学
-                    </div>
-                    <div class="panel-body">
-
-                        <table   class="table table-bordered "   >
-                            <thead>
-                                <tr>
-                                    <td>分数</td>
-                                    <td>个数</td>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="id_ass_group">
-                                @foreach ( $huaxue as $key=> $var )
-                                    <tr>
-                                        <td>{{@$var["record_score"]}} </td>
-                                        <td>{{@$var["num"]}} </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
+            
 
 
         </div>
