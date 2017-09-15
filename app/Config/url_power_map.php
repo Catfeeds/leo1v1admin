@@ -332,6 +332,7 @@ class url_power_map {
 			'/human_resource/index_new_seller_hold'	=>1117600,
 			'/supervisor/monitor_seller'	=>1116600,
 			'/tea_manage/lesson_list_seller'	=>1116400,
+			'/tea_manage/lesson_list_new'	=>1118100,
 			'/tea_manage_new/get_seller_ass_record_info_seller'	=>1117000,
 			'/tea_manage_new/get_seller_require_commend_teacher_info_seller'	=>1117100,
 			'/seller_student_new/seller_student_list_all'	=>1110100,

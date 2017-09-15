@@ -1362,43 +1362,20 @@ class Common_new {
 
                 $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"first_group_name");
                 $key2_map=&$key1_map["sub_list"][$up_group_name];
-                // $add_data($key2_map, $item );
+                $add_data($key2_map, $item );
 
 
                 $check_init_map_item($key2_map["sub_list"] , $up_group_name ,"up_group_name");
                 $key3_map=&$key2_map["sub_list"][$up_group_name];
-                // $add_data($key2_map, $item );
+                $add_data($key2_map, $item );
 
                 $check_init_map_item($key3_map["sub_list"] , $group_name ,"group_name","",$groupid);
                 $key4_map=&$key3_map["sub_list"][$group_name];
-                // $add_data($key3_map, $item );
+                $add_data($key3_map, $item );
 
                 $check_init_map_item($key4_map["sub_list"] , $account,"account",$adminid,$groupid);
                 $key5_map=&$key4_map["sub_list"][$account];
-                // $add_data($key4_map, $item,true );
-
-
-
-                /* 原始代码
-
-                $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
-                $key1_map=&$key0_map["sub_list"][$main_type];
-                $add_data($key1_map, $item );
-
-                $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"up_group_name");
-                $key2_map=&$key1_map["sub_list"][$up_group_name];
-                $add_data($key2_map, $item );
-
-                $check_init_map_item($key2_map["sub_list"] , $group_name ,"group_name","",$groupid);
-                $key3_map=&$key2_map["sub_list"][$group_name];
-                $add_data($key3_map, $item );
-
-                $check_init_map_item($key3_map["sub_list"] , $account,"account",$adminid,$groupid);
-                $key4_map=&$key3_map["sub_list"][$account];
                 $add_data($key4_map, $item,true );
-                */
-
-
 
             }
 
