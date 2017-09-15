@@ -61,7 +61,11 @@
                         <td>{{$var['teacher_nick']}}</td>
                         <td>{{$var['subject_str']}}</td>
                         <td>{{$var['train_type_str']}}</td>
-                        <td>{{$var['train_status_str']}}</td>
+                        @if ($var['status'] == 3)
+                            <td>{{$var['train_status_str']}}<br/>通过时间:{{$var['through_time']}}</td>
+                        @else
+                            <td>{{$var['train_status_str']}}</td>
+                        @endif
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
