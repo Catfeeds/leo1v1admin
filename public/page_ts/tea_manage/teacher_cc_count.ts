@@ -29,8 +29,48 @@ $(function(){
     Enum_map.append_option_list("grade_part_ex",$("#id_grade_part_ex"));
     $("#id_subject").val(g_args.subject);
     $("#id_grade_part_ex").val(g_args.grade_part_ex);
-    $.admin_select_user($("#id_teacherid"), "teacherid",function(){
-        load_data();
+    $.admin_select_user($("#id_teacherid"), "teacher", load_data);
+
+
+     $("#id_add_train_info").on("click", function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid         = $("<input />");  //teacherid
+        var subject           = $("<select />");  //科目
+        var train_type        = $("<select />");  //培训类型
+
+        Enum_map.append_option_list("subject",subject,true);
+        Enum_map.append_option_list("train_type",train_type,true,[0,20,21,22,23]);
+
+        var arr = [
+            ["姓名", teacherid],
+            ["科目", subject],
+            ["培训类型", train_type],
+        ];
+        $.show_key_value_table("添加老师培训信息", arr, {
+            label    :  "确认",
+            cssClass :  'btn-waring',
+            action   :   function(dialog){
+                if(teacherid.val() === ''){
+                    alert("请选择培训老师");
+                    return;
+                }
+                if(subject.val() === ''){
+                    alert("请选择培训科目");
+                    return;
+                }
+                if(train_type.val() <= 0){
+                    alert("请选择培训类型");
+                    return;
+                }
+                $.do_ajax("/ajax_deal2/add_train_info",{
+                    "teacherid"          : teacherid.val(),
+                    'subject'            : subject.val(),
+                    'train_type'         : train_type.val(),
+                });
+            }
+        },function(){
+            $.admin_select_user(teacherid, "teacher" );
+        });
     });
 	  $('.opt-change').set_input_change_event(load_data);
 });
