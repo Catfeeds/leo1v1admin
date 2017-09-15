@@ -1197,7 +1197,7 @@ class user_manage_new extends Controller
         // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
 
         $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
-        dd($list);
+        // dd($list);
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
