@@ -1208,16 +1208,15 @@ class Utils  {
     //黄嵩婕 71743 所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
     static public function get_teacher_base_money($teacherid,$lesson_info){
-        // $check_time = strtotime("2017-9-10");
         $money = $lesson_info['money'];
 
-        // if(time()<$check_time){
+        if($lesson_info['teacher_money_type']!=6){
             if($teacherid==71743){
                 $money=60;
             }elseif($teacherid==58812 && $lesson_info['competition_flag']==1){
                 $money=75;
             }
-        // }
+        }
         return $money;
     }
 
