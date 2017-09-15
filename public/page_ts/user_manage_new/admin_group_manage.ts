@@ -222,6 +222,63 @@ $(function(){
 
     });
 
+    
+    $(".opt-assign-major-group").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var up_groupid =opt_data.up_groupid ;
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/user_deal/get_group_list_new",
+            //其他参数
+            "args_ex" : {
+                "main_type":main_type
+            },
+
+            select_primary_field   : "groupid",
+            select_display         : "package_name",
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]",
+
+            //字段列表
+            'field_list' :[
+                {
+                    title:"groupid",
+                    width :50,
+                    field_name:"groupid"
+                },{
+                    title:"组名",
+                    field_name:"group_name"
+                },{
+                    title:"助长",
+                    field_name:"group_master_nick"
+                }
+            ] ,
+            //查询列表
+            filter_list:[
+            ],
+            "auto_close" : true,
+            "onChange"   : function( val) {
+                var groupid = val ;
+                var me=this;
+                if (groupid>0) {
+                    $.do_ajax("/user_deal/set_up_groupid",{
+                        "groupid":groupid,
+                        "up_groupid":up_groupid
+                    },function(resp){
+                        window.location.reload();
+                    });
+                }else{
+                    alert( "请选择小组" );
+                }
+            },
+            "onLoadData" : null
+        });
+    });
+
+
+
     $(".opt-assign-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
@@ -274,8 +331,6 @@ $(function(){
             },
             "onLoadData" : null
         });
-
-
     });
 
     $(".opt-del-main-group").on("click",function(){

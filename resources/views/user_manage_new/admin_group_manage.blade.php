@@ -64,8 +64,8 @@
             <thead>
                 <tr>
                     <td>类型 </td>
-                    <td >总监 </td>
-                    <td>主管 </td>
+                    <td>总监 </td>
+                    <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
                     <td> 操作  </td>
@@ -101,6 +101,8 @@
                                    <a class="opt-add-major-group">新增总监分组</a>
                                    <a class="opt-add-main-group">新增主管分组</a>
                                    <!-- <a class="opt-edit-major-group">修改</a> -->
+                                   <a class="opt-assign-major-group">分配经理</a>
+
                                    <a class="opt-assign-main-group">分配小组</a>
                                    <a class="opt-edit-main-group">修改</a>
                                    <a class="opt-del-main-group">删除</a>

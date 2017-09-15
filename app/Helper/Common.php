@@ -1676,4 +1676,26 @@ class Common {
         }
     }
 
+
+    static public function gen_day_time_list($time_list,$start_time,$end_time, $field_time="logtime", $field_value="value" ) {
+        if (count($time_list) != 1440 ) {
+            $t=$start_time;
+            $tmp_list=[];
+            foreach ( $time_list as $item ) {
+                $c_time=$item[ $field_time];
+                while ( $t < $c_time -60  ) {
+                    $tmp_list[]= [$field_value =>null];
+                    $t+=60;
+                }
+                $tmp_list[]= $item;
+                $t+=60;
+            }
+            for ( ; $t<$end_time; $t+=60  ) {
+                $tmp_list[]= [ $field_value =>null];
+            }
+            $time_list=$tmp_list;
+        }
+        return $time_list;
+
+    }
 };
