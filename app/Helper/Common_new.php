@@ -1515,7 +1515,8 @@ class Common_new {
             foreach($first_group_list as $value){
                 $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2", "first_master_adminid"=>$value["master_adminid"],"first_groupid"=>$value["groupid"]];
                 if($monthtime_flag==1){
-                    $up_group_list = $task->t_admin_main_group_name->get_group_list($i);
+                    // $up_group_list = $task->t_admin_main_group_name->get_group_list($i);//old
+                    $up_group_list = $task->t_admin_main_group_name->get_group_list_for_major($i,$value['groupid']);
                 }else{
                     $up_group_list = $task->t_main_group_name_month->get_group_list($i,$month);
                 }
