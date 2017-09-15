@@ -20,10 +20,6 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-                <div class="input-group " >
-                    <span class="input-group-addon">销售</span>
-                    <input id="id_test_seller_id" style="width:100px" class="opt-change" />
-                </div>
             </div>
         </div>
 
@@ -51,7 +47,11 @@
                     <div class="panel-heading">
                         本月-我的数据
                     </div>
-                    
+                    <div class="input-group " >
+                        <span class="input-group-addon">销售</span>
+                        <input id="id_test_seller_id" style="width:100px" class="opt-change" />
+                    </div>
+
                     <div class="panel-body">
                         <table   class="table table-bordered "   >
                             <thead>
