@@ -163,10 +163,10 @@ $(function(){
                 }
             });
     }
-    get_condition();
     if(group_type == 1){//组长&主管
         setInterval(get_condition, 300000);
     }else{
+        get_condition();
         setInterval(get_condition, 3000);
     }
 
