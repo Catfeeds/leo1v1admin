@@ -1225,14 +1225,20 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     }
 
-    public function get_record_flag_info($lesson_invalid_flag){
+    public function get_record_flag_info($lesson_invalid_flag=-1){
         $where_arr=[
             // ["lesson_style=%u",$lesson_style,-1],
             ["lesson_invalid_flag=%u",$lesson_invalid_flag,-1],
+            "type=1",
+            "lesson_style in (1,2,3,4)"
         ];
         $sql = $this->gen_sql_new("select count(distinct teacherid) teacher_num,"
-                                  ." count(distinct u)"
+                                  ." count(distinct userid) stu_num"
+                                  ." from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
+        return $this->main_get_list($sql);
 
     }
 

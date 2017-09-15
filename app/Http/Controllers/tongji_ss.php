@@ -8098,7 +8098,9 @@ class tongji_ss extends Controller
         $fifth_test = $this->t_teacher_record_list->tongji_record_score_rank_list(2);
         $first_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(3);
         $fifth_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(4);
-        dd($first_test);
+        $all_record_info = $this->t_teacher_record_list->get_record_flag_info(-1);
+        $have_record_info = $this->t_teacher_record_list->get_record_flag_info(1);
+        dd($all_record_info);
         return $this->pageView(__METHOD__,null,[
             "list"  =>$list,
             "data"  =>$data,
