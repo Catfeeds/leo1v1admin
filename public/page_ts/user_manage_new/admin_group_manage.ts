@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-major-group,.opt-edit-major-group").each(function(){
+    $(".opt-add-major-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -160,6 +160,9 @@ $(function(){
 
         });
     });
+
+
+
 
 
     $(".opt-edit-main-group").on("click",function(){
