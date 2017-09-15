@@ -18,6 +18,7 @@ interface RowData {
 	master_adminid	:any;
 	main_assign_percent	:any;
 	campus_id	:any;
+	up_groupid	:any;
 }
 
 /*

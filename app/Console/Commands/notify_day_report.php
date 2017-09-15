@@ -78,6 +78,7 @@ class notify_day_report extends Command
     public function handle()
     {
         $opt_date=date("Y-m-d",time(NULL)-86400);
+        $l2_opt_date=date("Y-m-d",time(NULL)-86400*2);
 
 
 
@@ -87,19 +88,29 @@ class notify_day_report extends Command
 
         $order_money=$data["order_money"];
         $order_user_count=$data["order_user_count"];
-
-        $no_pay_order_money=$data["no_pay_order_money"];
+        $no_pay_order_money=intval($data["no_pay_order_money"]);
         $no_pay_order_user_count=$data["no_pay_order_user_count"];
+
         $test_lesson_count=$data["test_lesson_count"];
         $test_lesson_fail_percent=$data["test_lesson_fail_percent"];
 
+
+        $l2_data= $this->get_day_data_from_time("", strtotime( $l2_opt_date ) );
+
+        $l2_order_money=$l2_data["order_money"];
+        $l2_order_user_count=$l2_data["order_user_count"];
+        $l2_no_pay_order_money=intval( $l2_data["no_pay_order_money"]);
+        $l2_no_pay_order_user_count=$l2_data["no_pay_order_user_count"];
+
         echo "22222\n";
-        //$admin_list=["jim","xixi"] ;
+        $admin_list=["jim","xixi","louis"] ;
         $admin_list=["jim"] ;
         foreach ( $admin_list as $account ) {
             $this->task->t_manager_info->send_wx_todo_msg(
                 $account, "系统日报",
-                "$opt_date 新签\n确认   $order_money 元/$order_user_count \n 未确认 $no_pay_order_money 元/$no_pay_order_user_count  " ,"试听数:$test_lesson_count , 试听失败率: $test_lesson_fail_percent%","/tongji_ss/day_report?start_time=$opt_date");
+                "(前天)$l2_opt_date 新签\n确认   $l2_order_money 元/$l2_order_user_count 个 \n 未确认 $l2_no_pay_order_money 元/$l2_no_pay_order_user_count 个\n ".
+                "\n (昨天)$opt_date 新签\n确认   $order_money 元/$order_user_count 个 \n 未确认 $no_pay_order_money 元/$no_pay_order_user_count 个 "
+                ,"试听数:$test_lesson_count , 试听失败率: $test_lesson_fail_percent%","/tongji_ss/day_report?start_time=$opt_date");
 
         }
         echo "33333\n";
