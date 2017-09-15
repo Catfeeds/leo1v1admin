@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_main_group_name_month extends \App\Models\Zgen\z_t_main_group_name_month
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_group_list ($main_type,$month) {
         $sql=$this->gen_sql_new("select groupid,group_name,main_assign_percent,master_adminid  from %s where main_type=%u and month=%u order by group_name  asc " ,
@@ -49,16 +49,24 @@ class t_main_group_name_month extends \App\Models\Zgen\z_t_main_group_name_month
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function update_by_up_groupid($up_groupid,$month) {
+        $sql = $this->gen_sql_new("update %s set up_groupid = 0 where up_groupid=%u and month=%u",
+                                  self::DB_TABLE_NAME
+                                  ,$up_groupid
+                                  ,$month
+        );
+        return $this->main_update($sql);
+    }
+
+    public function row_delete_for_major($groupid,$month){
+        $sql=$this->gen_sql_new("delete from %s  where groupid =%d and month=%d ",
+                                self::DB_TABLE_NAME,
+                                $groupid,
+                                $month
+        );
+        return $this->main_update($sql);
+
+    }
+
 
 }
-
-
-
-
-
-
-
-
-
-
-

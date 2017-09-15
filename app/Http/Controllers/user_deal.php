@@ -1812,6 +1812,16 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function admin_major_group_del_new ()  {
+
+        $groupid=$this->get_in_int_val("groupid");
+        $month = strtotime($this->get_in_str_val("start_time"));
+        $this->t_main_major_group_name_month->row_delete_for_major($groupid,$month);
+        $this->t_main_group_name_month->update_by_up_groupid($groupid,$month);
+        return $this->output_succ();
+    }
+
+
     public function admin_main_group_del_new ()  {
 
         $groupid=$this->get_in_int_val("groupid");
