@@ -70,7 +70,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    $(".opt-del-admin,.opt-del-admin-new,.opt-show_change_log,.opt-show_change_log-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
