@@ -32,6 +32,7 @@ class seller_menu{
                     ["power_id"=>4, "name"=>"申请推荐试听老师推荐",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_seller"],
                     ["power_id"=>5, "name"=>"课程状态-销售",   "url"=>"/supervisor/monitor_seller"],
                     ["power_id"=>6, "name"=>"课程列表-销售",   "url"=>"/tea_manage/lesson_list_seller"],
+                    ["power_id"=>81, "name"=>"课程列表-销售-主管",   "url"=>"/tea_manage/lesson_list_new"],
                     ["power_id"=>7, "name"=>"未绑定的试听课",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>8, "name"=>"教务排课明细",   "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
                     ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
