@@ -2897,7 +2897,6 @@ class tea_manage extends Controller
 
         $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,-1,1); 
         dd($ret_info);
-        //dd($ret_info);
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;

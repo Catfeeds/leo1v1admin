@@ -2789,5 +2789,11 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__, $arr);
     }
 
+    //助教未试听扩课
+    public function ass_no_test_lesson_kk_list(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 ); 
+
+    }
 
 }
