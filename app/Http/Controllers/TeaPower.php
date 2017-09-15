@@ -28,7 +28,7 @@ trait TeaPower {
         $tea_arr   = [107884,53289,78733,59896,55161,164508,190394,176999,240348,211290];
         $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28"];
         $lesson_start_date = date("Y-m-d",$lesson_start);
-        if($account_role==4 && !in_array($lesson_start_date,$day_arr)){
+        if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
             if($admin_info["uid"] != 325){
                 /*if($lesson_type==2){
                    $month_start = strtotime(date("Y-m-01",$lesson_start));

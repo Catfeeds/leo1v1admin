@@ -25,6 +25,17 @@ class t_main_major_group_name_month extends \App\Models\Zgen\z_t_main_major_grou
         return $this->main_get_value($sql);
     }
 
+    public function row_delete_for_major($groupid,$month){
+        $sql=$this->gen_sql_new("delete from %s  where groupid =%d and month=%d ",
+                                self::DB_TABLE_NAME,
+                                $groupid,
+                                $month
+        );
+        return $this->main_update($sql);
+    }
+
+
+
 
 }
 
