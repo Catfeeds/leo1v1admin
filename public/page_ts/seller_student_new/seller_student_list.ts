@@ -918,6 +918,11 @@ function init_edit() {
             Enum_map.append_option_list("subject", id_subject, true);
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
+            Enum_map.append_option_list("test_stress", id_test_stress, true);
+            Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
+            Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
+            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+            Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
             id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',
                 timepicker:true,
