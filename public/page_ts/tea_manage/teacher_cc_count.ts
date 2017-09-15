@@ -37,7 +37,7 @@ $(function(){
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
 
-     $("#id_add_train_info").on("click", function(){
+    $("#id_add_train_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var teacherid         = $("<input />");  //teacherid
         var subject           = $("<select />");  //科目
@@ -45,7 +45,7 @@ $(function(){
 
         Enum_map.append_option_list("subject",subject,true);
         Enum_map.append_option_list("train_type",train_type,true,[0,20,21,22,23]);
-
+        teacherid.val(opt_data.teacherid);
         var arr = [
             ["姓名", teacherid],
             ["科目", subject],
