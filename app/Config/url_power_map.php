@@ -405,6 +405,7 @@ class url_power_map {
 			'/user_manage_new/get_two_weeks_old_stu_seller'	=>1135500,
 			'/user_manage/student_school_score_stat'	=>1132500,
 			'/user_manage/student_single_subject'	=>1134200,
+			'/user_manage/ass_no_test_lesson_kk_list'	=>1134300,
 			'/main_page/assistant'	=>1120100,
 			'/main_page/assistant_new'	=>1125300,
 			'/user_manage_new/ass_warning_stu_info'	=>1125400,

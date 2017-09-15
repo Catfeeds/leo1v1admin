@@ -244,6 +244,8 @@ class NewRouteConfig {
         "/user_manage/get_stu_subject_info_month"               => true,
         "/user_manage/subject_by_month"                         => true,
         "/user_manage/tongji_check"                             => true,
+        "/user_manage/ass_no_test_lesson_kk_list"               => true,
+        
 
 
 
@@ -350,7 +352,7 @@ class NewRouteConfig {
         "/tea_manage/get_teacher_info_by_phone"    => true,
         "/tea_manage/trial_train_no_pass_list"     => true,
         "/tea_manage/teacher_train_list"           => true,
-
+        "/tea_manage/teacher_cc_count"             => true,
 
         "/small_class/index"                    => true,
         "/small_class/index_ass"                => true,

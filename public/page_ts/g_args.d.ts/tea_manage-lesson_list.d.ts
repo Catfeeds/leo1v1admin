@@ -23,6 +23,7 @@ interface GargsStatic {
 	lesson_del_flag:	number;
 	has_video_flag:	number;//\App\Enums\Eboolean
 	is_with_test_user:	number;
+	seller_flag:	number;
 	lessonid:	number;
 	origin:	string;
 	page_num:	number;
@@ -217,6 +218,7 @@ $(function(){
 			lesson_del_flag:	$('#id_lesson_del_flag').val(),
 			has_video_flag:	$('#id_has_video_flag').val(),
 			is_with_test_user:	$('#id_is_with_test_user').val(),
+			seller_flag:	$('#id_seller_flag').val(),
 			lessonid:	$('#id_lessonid').val(),
 			origin:	$('#id_origin').val(),
 			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
@@ -257,6 +259,7 @@ $(function(){
 	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
 	$('#id_has_video_flag').val(g_args.has_video_flag);
 	$('#id_is_with_test_user').val(g_args.is_with_test_user);
+	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_lessonid').val(g_args.lessonid);
 	$('#id_origin').val(g_args.origin);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
@@ -402,6 +405,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">is_with_test_user</span>
                 <input class="opt-change form-control" id="id_is_with_test_user" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_flag</span>
+                <input class="opt-change form-control" id="id_seller_flag" />
             </div>
         </div>
 

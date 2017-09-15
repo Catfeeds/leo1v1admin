@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-major-group").each(function(){
+    $(".opt-add-major-group,.opt-add-major-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -70,7 +70,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    $(".opt-del-admin,.opt-del-admin-new,.opt-show_change_log,.opt-show_change_log-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -78,6 +78,31 @@ $(function(){
             $(this).hide();
         }
     });
+
+
+    // opt-show_change_log
+    $(".opt-show_change_log").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var id_group_name=$("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增主管分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                // $.do_ajax("/user_deal/admin_main_group_add",{
+                //     "main_type" : main_type,
+                //     "group_name" : id_group_name.val()
+                // });
+            }
+        });
+
+    });
+
+
 
 
 
@@ -275,6 +300,65 @@ $(function(){
             "onLoadData" : null
         });
     });
+
+
+    $(".opt-assign-major-group-new").on("click",function(){
+        var opt_data     = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var first_groupid   = opt_data.first_groupid;
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" : "select", // or "list"
+            "url"      : "/user_deal/get_main_group_list_new_month",
+            //其他参数
+            "args_ex" : {
+                "main_type"  : main_type,
+                "start_time" : g_args.start_time
+            },
+
+            select_primary_field   : "groupid",
+            select_display         : "package_name",
+            select_no_select_value : 0,
+            select_no_select_title : "[未设置]",
+
+            //字段列表
+            'field_list' :[
+                {
+                    title:"groupid",
+                    width :50,
+                    field_name:"groupid"
+                },{
+                    title:"组名",
+                    field_name:"group_name"
+                },{
+                    title:"助长",
+                    field_name:"group_master_nick"
+                }
+            ] ,
+            //查询列表
+            filter_list:[
+            ],
+            "auto_close" : true,
+            "onChange"   : function( val) {
+                var groupid = val ;
+                var me=this;
+                if (groupid>0) {
+                    $.do_ajax("/user_deal/set_first_groupid_new",{
+                        "groupid"    : groupid,
+                        "first_groupid" : first_groupid,
+                        "start_time" : g_args.start_time
+                    },function(resp){
+                        window.location.reload();
+                    });
+                }else{
+                    alert( "请选择小组" );
+                }
+            },
+            "onLoadData" : null
+        });
+
+    });
+
 
 
 
@@ -477,6 +561,28 @@ $(function(){
     });
 
 
+    $(".opt-add-major-group-new").on("click",function(){ // 开发中
+        var opt_data      = $(this).get_opt_data();
+        var main_type     = opt_data.main_type;
+        var id_group_name = $("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增总监分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_major_group_add_new",{
+                    "main_type"  : main_type,
+                    "group_name" : id_group_name.val(),
+                    "start_time" : g_args.start_time
+                });
+            }
+        });
+    });
+
+
     //alert(111);
     $(".opt-add-main-group-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -487,7 +593,7 @@ $(function(){
             ["组名" ,  id_group_name]
         ];
 
-        $.show_key_value_table("新增主管分组", arr ,{
+        $.show_key_value_table("新增经理分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
@@ -498,7 +604,6 @@ $(function(){
                 });
             }
         });
-
     });
 
     $(".opt-edit-main-group-new").on("click",function(){
@@ -636,6 +741,23 @@ $(function(){
             }
         );
     });
+
+    $(".opt-del-major-group-new").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+
+        BootstrapDialog.confirm(
+            "要删除总监分组:"+ opt_data.first_group_name   + "?",
+            function(val) {
+                if  (val)  {
+                    $.do_ajax( "/user_deal/admin_major_group_del_new", {
+                        "groupid": opt_data.first_groupid,
+                        "start_time" : g_args.start_time
+                    });
+                }
+            }
+        );
+    });
+
 
 
     $(".opt-edit-group-new").on("click",function(){

@@ -2789,5 +2789,24 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__, $arr);
     }
 
+    //助教未试听扩课
+    public function ass_no_test_lesson_kk_list(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 ); 
+
+        $list= $this->t_month_ass_student_info->get_ass_hand_kk_num($start_time);
+        $ass_lead = $this->t_admin_group_name->get_leader_list(1);
+        $account_id = $this->get_account_id();
+        // $account_id =297;
+        if(in_array($account_id,$ass_lead)){
+            foreach($list["list"] as $k=>$val){
+                if($account_id != $val["master_adminid"]){
+                    unset($list["list"][$k]);
+                }
+            }
+  
+        }
+        return $this->pageView(__METHOD__, $list);
+    }
 
 }

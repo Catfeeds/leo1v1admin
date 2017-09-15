@@ -282,6 +282,7 @@ class wx_yxyx_common extends Controller
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
                     $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
 
+                    /*
                     // 优学优享例子分配给 王春雷 [442] [开始]
                     $opt_adminid = 442; // 王春雷
                     $opt_account=$this->t_manager_info->get_account($opt_adminid);
@@ -289,6 +290,7 @@ class wx_yxyx_common extends Controller
                     $account = '系统';
                     $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
                     // 优学优享例子分配给 王春雷 [结束]
+                    */
 
                     \App\Helper\Utils::logger(" yxyx-lizi1 $userid ");
 
@@ -307,6 +309,7 @@ class wx_yxyx_common extends Controller
             }else{
                 $userid = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
 
+                /*
                 // 优学优享例子分配给 王春雷 [442]
                 $opt_adminid = 442; // 王春雷
                 $opt_account=$this->t_manager_info->get_account($opt_adminid);
@@ -314,6 +317,7 @@ class wx_yxyx_common extends Controller
                 // $account = $this->get_account();
                 $account = '系统';
                 $this->t_seller_student_new->allot_userid_to_cc($opt_adminid, $opt_account, $userid, $self_adminid,$account);
+                */
                 \App\Helper\Utils::logger(" yxyx-lizi2 $userid ");
 
             }
@@ -561,47 +565,7 @@ class wx_yxyx_common extends Controller
         // dd($ret_info);
     }
 
-    public function test_openid(){
-        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
-        $grade     = $this->get_in_int_val('grade',-1);
-        $subject   = $this->get_in_int_val('subject',-1);
-        $test_type = $this->get_in_int_val('test_type',-1);
-        // $wx_openid = $this->get_in_str_val('wx_openid', 0);
-        $wx_openid = $this->get_user_wx_openid();
-        $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
-        $start_time = strtotime('-14 days');
-        $end_time   = strtotime('tomorrow');
-        foreach ($ret_info['list'] as &$item) {
-            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
-                $item['flag'] = 0;
-            } else {
-                $item['flag'] = 1;
-            }
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-        }
-
-        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒叙
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
-        $count_num  = count($all_id)-1;
-        $poster_arr = [];
-        $num_arr    = [];
-        $loop_num   = 0;
-        $max_loop  = $count_num >10?10:$count_num;
-        while ( $loop_num < $max_loop) {
-            $key = mt_rand(0, $count_num);
-            if( !in_array($key, $num_arr)) {
-                $num_arr[]    = $key;
-                $poster_arr[] = $all_id[$key];
-                $loop_num++;
-            }
-        }
-        $ret_info['poster'] = $poster_arr;
-        return $this->output_succ(["home_info"=>$ret_info]);
-    }
-
-    public function get_user_wx_openid(){
-
+    public function get_wx_openid(){
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );

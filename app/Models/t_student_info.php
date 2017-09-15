@@ -2920,4 +2920,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
+    public function get_stu_by_textbook($editionid){
+        $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
+        return $this->main_get_list($sql);
+    }
+
 }
