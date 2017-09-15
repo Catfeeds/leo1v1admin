@@ -759,7 +759,7 @@ abstract class NewModel
     //     "sdd=1" ,
     // ));
     public function sub_where_str_gen( $where_arr , $join_cmd="and" ) {
-       return "(".$this->where_str_gen($where_arr, "join_cmd").")";
+       return "(".$this->where_str_gen($where_arr, "$join_cmd").")";
     }
 
     public function where_str_gen( $where_arr , $join_cmd="and" ){

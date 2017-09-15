@@ -2896,9 +2896,10 @@ class tea_manage extends Controller
         $page_info=$this->get_in_page_info();
 
         $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,-1,1); 
+        dd($ret_info);
         //dd($ret_info);
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
-        foreach( $ret_info["list"] as $key => &$item ) {
+        foreach( $ret_info as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time");
             $item['subject_str']  =  E\Esubject::get_desc($item['subject']);

@@ -2056,6 +2056,7 @@ class human_resource extends Controller
             }else{
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
+            
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
 
             if(empty($item["grade_ex"])){
