@@ -56,6 +56,19 @@ class main_page extends Controller
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01" )  );
         $adminid=$this->get_account_id();
+
+        //组长&主管
+        $test_seller_id      = $this->get_in_int_val("test_seller_id",-1 );
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+        $son_adminid_arr = [];
+        foreach($son_adminid as $item){
+            $son_adminid_arr[] = $item['adminid'];
+        }
+        array_unshift($son_adminid_arr,$adminid);
+        $require_adminid_arr = array_unique($son_adminid_arr);
+        $group_type = count($require_adminid_arr)>1?1:0;
+        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
+        $adminid = $test_seller_id!=-1?$test_seller_id:$adminid;
         /* if($adminid==349){
            $adminid=397;
            }*/
@@ -163,6 +176,7 @@ class main_page extends Controller
             "self_money"             => $self_money,
             "start_time"             => $week_start_time,
             "end_time"               => $week_end_time,
+            "group_type"             => $group_type,
         ]);
     }
 

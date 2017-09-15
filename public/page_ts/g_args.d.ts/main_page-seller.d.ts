@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	test_seller_id:	number;
 	groupid:	number;
 	self_groupid:	number;
 	is_group_leader_flag:	number;
@@ -39,6 +40,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			test_seller_id:	$('#id_test_seller_id').val(),
 			groupid:	$('#id_groupid').val(),
 			self_groupid:	$('#id_self_groupid').val(),
 			is_group_leader_flag:	$('#id_is_group_leader_flag').val(),
@@ -58,6 +60,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_self_groupid').val(g_args.self_groupid);
 	$('#id_is_group_leader_flag').val(g_args.is_group_leader_flag);
@@ -71,6 +74,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_seller_id</span>
+                <input class="opt-change form-control" id="id_test_seller_id" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

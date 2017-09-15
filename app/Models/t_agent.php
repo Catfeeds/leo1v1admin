@@ -797,8 +797,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.type agent_type, "
             . " a.test_lessonid  test_lessonid ,"
             . " a1.agent_status_money   p_agent_status_money ,"
-
             . " a1.agent_status_money_open_flag   p_agent_status_money_open_flag ,"
+
+            . " a2.pp_agent_status_money   pp_agent_status_money ,"
+            . " a2.pp_agent_status_money_open_flag   pp_agent_status_money_open_flag ,"
+
+
 
 
             . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  ao1.p_open_price o_p_open_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
@@ -856,6 +860,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
             E\Eboolean::set_item_value_color_str($item,"p_agent_status_money_open_flag" );
+            E\Eboolean::set_item_value_color_str($item,"pp_agent_status_money_open_flag" );
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
                 $map[$pid]=$item ;
@@ -889,6 +894,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
                     "p2_p_price"              => $p2["o_price"]/100,
                     "p2_p_open_price"              => $p2["o_open_price"]/100,
+
+                    "p1_agent_status_money"              => $p1["pp_agent_status_money"]/100,
+                    "p1_agent_status_money_open_flag_str" => $p1["pp_agent_status_money_open_flag_str"],
                 ] ;
             }
         }
@@ -1139,13 +1147,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $l2_agent_status_all_money=0;
         foreach( $l2_child_list as $item ) {
             $child_id=$item["id"];
-            $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
-            $l2_agent_status_all_money +=$item["agent_status_money"];
+            $pp_agent_status_money_open_flag = $item["pp_agent_status_money_open_flag"];
+            $l2_agent_status_all_money +=$item["pp_agent_status_money"];
             $orderid=$item["orderid"];
             if ($orderid) { //有订单
-                if ($agent_status_money_open_flag !=1 ) {
+                if ($pp_agent_status_money_open_flag !=1 ) {
                     $this->field_update_list($child_id,[
-                        "agent_status_money_open_flag" => 1
+                        "pp_agent_status_money_open_flag" => 1
                     ]);
                 }
                 $order_count+=1;
@@ -1153,12 +1161,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 if ($item["lesson_user_online_status"] ==1 ) {
                     $set_open_list[]=[
                         "id" => $child_id,
-                        "agent_status_money_open_flag" =>$agent_status_money_open_flag,
+                        "pp_agent_status_money_open_flag" =>$pp_agent_status_money_open_flag,
                     ];
                 }else{
-                    if ($agent_status_money_open_flag !=0 ) { //没有开放
+                    if ($pp_agent_status_money_open_flag !=0 ) { //没有开放
                         $this->field_update_list($child_id,[
-                            "agent_status_money_open_flag" => 0
+                            "pp_agent_status_money_open_flag" => 0
                         ]);
                     }
                 }
@@ -1166,8 +1174,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
 
-            //agent_status_money_open_flag
-            //a.id, lesson_user_online_status ,
         }
 
         //8倍提现
@@ -1176,17 +1182,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         foreach ( $set_open_list as  $index => $item  ) {
             $child_id=$item["id"];
-            $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
+            $pp_agent_status_money_open_flag = $item["pp_agent_status_money_open_flag"];
             if ($index < $need_set_open_list_count) { //可提现范围
-                if ($agent_status_money_open_flag !=1 ) {
+                if ($pp_agent_status_money_open_flag !=1 ) {
                     $this->field_update_list($child_id,[
-                        "agent_status_money_open_flag" => 1
+                        "pp_agent_status_money_open_flag" => 1
                     ]);
                 }
             }else{
-                if ($agent_status_money_open_flag !=0 ) { //没有开放
+                if ($pp_agent_status_money_open_flag !=0 ) { //没有开放
                     $this->field_update_list($child_id,[
-                        "agent_status_money_open_flag" => 0
+                        "pp_agent_status_money_open_flag" => 0
                     ]);
                 }
             }
@@ -1413,6 +1419,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $l1_agent_status_all_money =0;
         $l1_agent_status_all_open_money=0;
 
+        $l2_agent_status_all_open_money=0;
+        $l2_agent_status_test_lesson_succ_count=0;
+        $l2_agent_status_all_money=0;
+
         $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
         if ($agent_type == E\Eagent_type::V_2  || $agent_type == E\Eagent_type::V_3 ) {
@@ -1420,6 +1430,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                    $l1_agent_status_test_lesson_succ_count,
                    $l1_agent_status_all_money )
                 =$this->reset_user_info_l1_money_open_flag($id);
+
+            list(  $l2_agent_status_all_open_money,
+                   $l2_agent_status_test_lesson_succ_count,
+                   $l2_agent_status_all_money )
+                =$this->reset_user_info_l2_money_open_flag($id);
         }
 
         //不能降级
@@ -1427,8 +1442,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $agent_status= $old_agent_status;
         }
 
+        $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
+            if ($agent_status_money=5000) {
+                $pp_agent_status_money= 2500;
+            }
         }
 
 
@@ -1464,10 +1483,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
             "agent_status" => $agent_status,
             "agent_status_money" => $agent_status_money,
+            "pp_agent_status_money" => $pp_agent_status_money,
+
             "l1_agent_status_all_money" =>  $l1_agent_status_all_money,
             "l1_agent_status_all_open_money" =>  $l1_agent_status_all_open_money,
-
             "l1_agent_status_test_lesson_succ_count" =>  $l1_agent_status_test_lesson_succ_count,
+
+            "l2_agent_status_all_money" =>  $l2_agent_status_all_money,
+            "l2_agent_status_all_open_money" =>  $l2_agent_status_all_open_money,
+            "l2_agent_status_test_lesson_succ_count" =>  $l2_agent_status_test_lesson_succ_count,
 
             "all_yxyx_money" => $all_yxyx_money,
             "all_open_cush_money" => $all_open_cush_money,
@@ -1570,8 +1594,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
         $sql = $this->gen_sql_new(
-            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money, ao.orderid  "
+            "select a.id, l.lesson_user_online_status , a.pp_agent_status_money_open_flag , "
+            . " a.pp_agent_status_money, ao.orderid  "
             . " from %s a_p "
             . " join %s a on a_p.id=a.parentid "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
