@@ -18,7 +18,6 @@ interface RowData {
 	group_name	:any;
 	master_adminid	:any;
 	main_assign_percent	:any;
-	up_groupid	:any;
 }
 
 /*

@@ -1694,6 +1694,7 @@ class user_deal extends Controller
         $month       = strtotime($this->get_in_str_val("start_time"));
 
         $max_groupid = $this->t_main_major_group_name_month->get_max_groupid($month);
+        dd($max_groupid);
         $groupid = $max_groupid + 1;
         $this->t_main_major_group_name_month->row_insert([
             "month"       => $month,
