@@ -53,7 +53,7 @@ class teaching_menu{
                         [ "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                         [ "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
                         ["name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
-
+                        ["name"=>"待培训名单",   "url"=>"/tea_manage/teacher_cc_count"],
                     ]],
 
                     [ "name"=>"运营组",  "list"=>[
