@@ -2836,6 +2836,21 @@ class user_deal extends Controller
 
     }
 
+    public function get_main_group_list_new_month()
+    {
+        $main_type    = $this->get_in_int_val("main_type");
+        $page_num     = $this->get_in_page_num();
+        $month        = strtotime($this->get_in_str_val("start_time"));
+        $ret_info   = $this->t_main_group_name_month->get_group_list_new($page_num,$main_type,$month);
+        // $ret_info   = $this->t_group_name_month->get_group_list_new($page_num,$main_type,$month);
+        foreach($ret_info['list'] as &$item){
+            $item['group_master_nick']= $this->cache_get_account_nick($item['master_adminid']);
+        }
+        $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
+        return outputjson_success(array('data' => $ret_info));
+
+    }
+
 
     public function get_group_list_new_month()
     {
@@ -2863,6 +2878,14 @@ class user_deal extends Controller
         $groupid          = $this->get_in_int_val("groupid");
         $first_groupid    = $this->get_in_int_val("first_groupid");
         $this->t_admin_main_group_name->field_update_list($groupid,['up_groupid'=>$first_groupid]);
+        return $this->output_succ();
+    }
+
+    public function set_first_groupid_new(){
+        $groupid    = $this->get_in_int_val("groupid");
+        $up_groupid    = $this->get_in_int_val("first_groupid");
+        $month        = strtotime($this->get_in_str_val("start_time"));
+        $this->t_main_group_name_month->field_update_list_2($groupid,$month,['up_groupid'=>$up_groupid]);
         return $this->output_succ();
     }
 

@@ -43,6 +43,12 @@ class t_main_group_name_month extends \App\Models\Zgen\z_t_main_group_name_month
         return $this->main_get_list($sql);
     }
 
+    public function get_group_list_new($page_num,$main_type,$month){
+        $sql=$this->gen_sql_new("select groupid,group_name,master_adminid from %s where main_type=%u and month=%u " ,
+                                self::DB_TABLE_NAME, $main_type,$month);
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
 
 }
 
