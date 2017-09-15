@@ -37,7 +37,7 @@ $(function(){
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
 
-    $("#id_add_train_info").on("click", function(){
+    $(".id_add_train_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var teacherid         = $("<input />");  //teacherid
         var subject           = $("<select />");  //科目
