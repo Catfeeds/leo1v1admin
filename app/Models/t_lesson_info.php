@@ -372,11 +372,11 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_lesson_condition_list_ex_new($start, $end, $teacherid, $studentid  , $lessonid ,$lesson_type,$subject,
-                                                 $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
-                                                 $lesson_status=-1, $test_seller_id_arr,$has_performance, $origin="",
-                                                 $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
-                                                 $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
-                                                 $lesson_del_flag=-1,$fulltime_teacher_type=-1
+                                          $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
+                                          $lesson_status=-1, $test_seller_id_arr,$test_seller_adminid,$has_performance, $origin="",
+                                          $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
+                                          $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
+                                          $lesson_del_flag=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = [];
         if ($lessonid == -1 ) {
@@ -398,7 +398,11 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             }
 
             $sub_arr=[];
-            $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_id_arr);
+            if($test_seller_adminid == -1){
+                $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_id_arr);
+            }else{
+                $this->where_arr_add_int_or_idlist($where_arr,'tr.cur_require_adminid',$test_seller_adminid);
+            }
             $sub_arr[] = [ "l.assistantid=%u",$assistantid,-1];
             $where_arr[]= "(". $this->where_str_gen($sub_arr, "or" )  .")";
 

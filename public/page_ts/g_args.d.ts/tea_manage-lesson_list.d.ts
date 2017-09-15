@@ -1,4 +1,5 @@
 interface GargsStatic {
+	test_seller_id:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -11,8 +12,7 @@ interface GargsStatic {
 	lesson_status:	number;
 	assistantid:	number;
 	grade:	string;//枚举列表: App\Enums\Egrade
- 	test_seller_id:	number;
-	test_seller_adminid:	number;
+ 	test_seller_adminid:	number;
 	has_performance:	number;
 	fulltime_flag:	number;
 	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
@@ -193,6 +193,7 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			test_seller_id:	$('#id_test_seller_id').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -205,7 +206,6 @@ $(function(){
 			lesson_status:	$('#id_lesson_status').val(),
 			assistantid:	$('#id_assistantid').val(),
 			grade:	$('#id_grade').val(),
-			test_seller_id:	$('#id_test_seller_id').val(),
 			test_seller_adminid:	$('#id_test_seller_adminid').val(),
 			has_performance:	$('#id_has_performance').val(),
 			fulltime_flag:	$('#id_fulltime_flag').val(),
@@ -236,6 +236,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_studentid').val(g_args.studentid);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_confirm_flag').val(g_args.confirm_flag);
@@ -245,7 +246,6 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_grade').val(g_args.grade);
 	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
-	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_has_performance').val(g_args.has_performance);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
@@ -269,6 +269,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_seller_id</span>
+                <input class="opt-change form-control" id="id_test_seller_id" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -316,13 +323,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">grade</span>
                 <input class="opt-change form-control" id="id_grade" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">test_seller_id</span>
-                <input class="opt-change form-control" id="id_test_seller_id" />
             </div>
         </div>
 

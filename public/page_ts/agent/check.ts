@@ -8,12 +8,12 @@ $(function(){
         });
     }
 
-    var c=0;
-    var t;
-    function timedCount(){
-        $('#txt').attr('value',c);
-        c=c+1;
-        t=setTimeout("timedCount()",1000);
+    setInterval ("showTime()", 5000);
+    function showTime()
+    {
+        var today = new Date();
+        alert("The time is: " + today.toString ());
     }
+
     $('.opt-change').set_input_change_event(load_data);
 });
