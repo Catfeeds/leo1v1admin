@@ -44,8 +44,9 @@ $(function(){
             }]
         }
     );
-
-
+    if(group_type == 0){
+        $('#id_seller_new').attr('style','display:none');
+    }
     $("#id_tongji").on("click", function () {
         $.do_ajax("/supervisor/get_tongji", {
             "date": $("#id_date").val()
