@@ -65,6 +65,9 @@ class agent extends Controller
             $item["all_money"]/= 100;
             $item["l1_agent_status_all_money"]/= 100;
             $item["l1_agent_status_all_open_money"]/= 100;
+
+            $item["l2_agent_status_all_money"]/= 100;
+            $item["l2_agent_status_all_open_money"]/= 100;
             $item["all_yxyx_money"]/= 100;
             $item["all_open_cush_money"]/= 100;
             $item["all_have_cush_money"]/= 100;
