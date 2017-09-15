@@ -145,4 +145,15 @@
         @include("layouts.page")
     </section>
 
+    <div style="display:none;" >
+        <div id="id_assign_log">
+            <table   class="table table-bordered "   >
+                <tr>  <th> 分配时间 <th>分配人 <th>接受人 <th>分配备注  </tr>
+                    <tbody class="data-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+
 @endsection

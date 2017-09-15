@@ -133,7 +133,7 @@
                                     <th class='text-cen' >时间</th>
                                     <th class='text-cen' >状态</th>
                                     <th class='text-cen' >扣款</th>
-                                    <th class='text-cen' >金额</th>
+                                    <th class='text-cen' >到账金额</th>
                                 </tr>
                             </thead>
                             @foreach($money_list as $list_key=>$list_val)

@@ -28,6 +28,9 @@ class agent extends Controller
                                                "l2_child_count" => "a.l2_child_count",
                                                "l1_agent_status_all_money" => "a.l1_agent_status_all_money",
                                                "l1_agent_status_all_open_money" => "a.l1_agent_status_all_open_money",
+
+                                               "l2_agent_status_all_money" => "a.l2_agent_status_all_money",
+                                               "l2_agent_status_all_open_money" => "a.l2_agent_status_all_open_money",
                                                "all_money" => "a.all_money",
 
                                                "all_yxyx_money" => "a.all_yxyx_money",
@@ -62,6 +65,9 @@ class agent extends Controller
             $item["all_money"]/= 100;
             $item["l1_agent_status_all_money"]/= 100;
             $item["l1_agent_status_all_open_money"]/= 100;
+
+            $item["l2_agent_status_all_money"]/= 100;
+            $item["l2_agent_status_all_open_money"]/= 100;
             $item["all_yxyx_money"]/= 100;
             $item["all_open_cush_money"]/= 100;
             $item["all_have_cush_money"]/= 100;

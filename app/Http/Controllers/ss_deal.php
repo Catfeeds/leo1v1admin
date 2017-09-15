@@ -1351,7 +1351,7 @@ class ss_deal extends Controller
         if (!$tt_item) {
             return $this->output_err("没有找到上级合同");
         }
-        
+
         $userid  = $tt_item["userid"];
         $grade   = $tt_item["grade"];
         $subject = $tt_item["subject"];
@@ -1464,7 +1464,7 @@ class ss_deal extends Controller
         }elseif($from_parent_order_type == E\Efrom_parent_order_type::V_6){
             $assign_lesson_count_left = $assign_lesson_count - $lesson_total;
             $this->t_assistant_info->field_update_list($assistantid,[
-               "assign_lesson_count" =>$assign_lesson_count_left 
+               "assign_lesson_count" =>$assign_lesson_count_left
             ]);
             //合同状态更新
             $this->t_order_info->field_update_list($orderid,[
@@ -1674,7 +1674,7 @@ class ss_deal extends Controller
             $from_parent_order_lesson_count,
             $pre_price,
             $order_price_desc,
-            $order_partition_flag 
+            $order_partition_flag
         );
 
 
@@ -1738,7 +1738,7 @@ class ss_deal extends Controller
                 "price"            => $price
             ]);
             $data = $this->t_child_order_info->get_all_child_order_info($orderid);
-            
+
         }
         foreach($data as &$item){
             if($item["child_order_type"]==0){
@@ -1752,11 +1752,11 @@ class ss_deal extends Controller
             }
 
             if($item["pay_status"]==0){
-                $item["pay_status_str"]="未付款"; 
+                $item["pay_status_str"]="未付款";
             }elseif($item["pay_status"]==1){
-                $item["pay_status_str"]="已付款"; 
+                $item["pay_status_str"]="已付款";
             }
-            
+
 
 
         }
@@ -1776,7 +1776,7 @@ class ss_deal extends Controller
         }
         $new_price =  $old_price-$price;
         $this->t_child_order_info->field_update_list($child_orderid,[
-           "price"  =>$new_price 
+           "price"  =>$new_price
         ]);
 
 
@@ -1790,7 +1790,7 @@ class ss_deal extends Controller
         ]);
 
         return $this->output_succ();
- 
+
     }
 
     //删除子合同
@@ -1810,13 +1810,13 @@ class ss_deal extends Controller
         //更新默认合同信息
         $new_price = $old_price+$default_info["price"];
         $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
-            "price"  =>$new_price 
+            "price"  =>$new_price
         ]);
-        
-        return $this->output_succ();
-        
 
-        
+        return $this->output_succ();
+
+
+
 
     }
 
@@ -1844,18 +1844,18 @@ class ss_deal extends Controller
             "child_order_type"=>$child_order_type
         ]);
 
-        
+
 
         //更新默认合同信息
         $new_price = $old_price+$default_info["price"]-$price;
         $this->t_child_order_info->field_update_list($default_info["child_orderid"],[
-            "price"  =>$new_price 
+            "price"  =>$new_price
         ]);
-        
-        return $this->output_succ();
-        
 
-        
+        return $this->output_succ();
+
+
+
 
     }
 
@@ -2586,7 +2586,7 @@ class ss_deal extends Controller
                 if(empty($val[0]) || $k==0 ){
                     unset($arr[$k]);
                 }
-               
+
             }
             $str="";
 
@@ -2594,7 +2594,7 @@ class ss_deal extends Controller
                 $userid = $this->t_student_info->get_userid_by_name($v[2],$v[1]);
                 $str .= $userid.",";
             }
-           
+
             $this->t_teacher_info->field_update_list(240314,[
                 "limit_plan_lesson_reason" =>trim($str,",")
             ]);
@@ -2628,7 +2628,7 @@ class ss_deal extends Controller
                 if(empty($val[0]) || $k==0 || $k==1){
                     unset($arr[$k]);
                 }
-               
+
             }
             foreach($arr as $item){
                 $middle = $item[3];
@@ -2670,10 +2670,10 @@ class ss_deal extends Controller
                 ]);
 
 
-                
+
             }
 
-           
+
             //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
@@ -5879,5 +5879,11 @@ class ss_deal extends Controller
         }
 
         return $price;
+    }
+
+    public function get_user_change_log(){
+        $adminid = $this->get_in_int_val('adminid');
+
+        $change_log = $this->t_user_group_change_log->get_user_change_log($adminid);
     }
 }

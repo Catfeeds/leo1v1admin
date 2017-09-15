@@ -36,11 +36,6 @@
                         <input id="id_teacherid"  />
                     </div>
                 </div>
-                <div class="row">
-                   <div class="col-xs-6 col-md-2">
-                        <button class="btn btn-warning" id="id_add_train_info">添加培训信息</button>
-                    </div>
-                </div>
                 </div>
 
         </div>
@@ -73,6 +68,7 @@
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a class="fa id_add_train_info">添加培训课程</a>
                             </div>
                         </td>
                     </tr>
