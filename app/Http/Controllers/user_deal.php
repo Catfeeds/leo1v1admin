@@ -5194,6 +5194,7 @@ class user_deal extends Controller
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$start_time,$kpi_type,[
             "hand_kk_num"  =>$hand_kk_num
         ]);
+        return $this->output_succ();
 
     }
 
