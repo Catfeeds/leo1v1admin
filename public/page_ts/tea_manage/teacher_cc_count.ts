@@ -12,6 +12,7 @@ $(function(){
             subject       : $('#id_subject').val(),
             grade_part_ex : $("#id_grade_part_ex").val(),
             teacherid     : $("#id_teacherid").val(),
+            tranfer_per   : $("#id_tranfer_per").val(),
         });
     }
 
@@ -28,9 +29,11 @@ $(function(){
     });
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("grade_part_ex",$("#id_grade_part_ex"));
+    Enum_map.append_option_list("tranfer_per",$("#id_tranfer_per"));
     $("#id_subject").val(g_args.subject);
     $("#id_grade_part_ex").val(g_args.grade_part_ex);
     $('#id_teacherid').val(g_args.teacherid);
+    $('#id_tranfer_per').val(g_args.tranfer_per);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
 
