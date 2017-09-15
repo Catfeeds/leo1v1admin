@@ -2888,14 +2888,15 @@ class tea_manage extends Controller
     public function  teacher_cc_count () {
 
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
-        //$train_type = $this->get_in_int_val("train_type",-1);
-        //$subject    = $this->get_in_int_val("subject",-1);
+        $subject          = $this->get_in_int_val("subject",-1);
+        $grade_part_ex    = $this->get_in_int_val("grade_part_ex",-1);
         //$status     = $this->get_in_int_val("status",-1);
-
+        $teacherid = $this->get_in_teacherid(-1);
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,-1,1); 
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid); 
+        dd($ret_info);
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info['list'] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;

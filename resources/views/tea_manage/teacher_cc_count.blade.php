@@ -10,23 +10,22 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group">
-                        <span>培训类型</span>
-                        <select id="" class="opt-change" >
+                        <span>科目</span>
+                        <select id="id_subject" class="opt-change" >
                         </select>
                     </div>
                 </div>
                  <div class="col-xs-6 col-md-2">
                     <div class="input-group">
-                        <span>1</span>
-                        <select id="" class="opt-change" >
+                        <span>年级</span>
+                        <select id="id_grade_part_ex" class="opt-change" >
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group">
-                        <span>2</span>
-                        <select id="" class="opt-change" >
-                        </select>
+                <div class="col-xs-1 col-md-2">
+                    <div class="input-group ">
+                        <span >老师</span>
+                        <input id="id_teacherid"  />
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +48,6 @@
                     <td>培训通过时间</td>
                     <td>培训添加人</td>
                     <td>联系方式</td>
-                    <td>转化率</td>
                     <td></td>
                 </tr>
             </thead>
@@ -61,9 +59,10 @@
                         <td>{{$var['subject_str']}}</td>
                         <td>{{$var['grade_part_ex_str']}}</td>
                         <td>{{$var['train_through_new_time']}}</td>
-                        <td>2</td>
+                        <td>{{$var['']}}</td>
+                       
                         <td>{{$var['phone']}}</td>
-                        <td>{{$var['per']}}({{$var['person_num']}}/{{$var['have_order']}})</td>
+                    
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
