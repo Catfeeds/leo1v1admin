@@ -861,34 +861,39 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">近期成绩：</span>
-                            <input type="text" class=" form-control "  id="id_recent_results"  />
+                            <span class="input-group-addon">应试压力：</span>
+                            <select id="id_test_stress" class=" form-control "   >
+                            </select>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">是否进步：</span>
-                            <select id="id_advice_flag" class=" form-control "   >
+                            <span class="input-group-addon">升学学校要求：</span>
+                            <select id="id_entrance_school_type" class=" form-control "   >
                             </select>
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-md-2  ">
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">班级排名：</span>
-                            <input type="text" class=" form-control "  id="id_class_rank"  />
+                            <span class="input-group-addon">趣味培养：</span>
+                            <select id="id_interest_cultivation" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">课外提高：</span>
+                            <select id="id_extra_improvement" class=" form-control "   >
+                            </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2  ">
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">年级排名：</span>
-                            <input type="text" class=" form-control "  id="id_grade_rank"  />
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-2 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">升学目标：</span>
-                            <select id="id_academic_goal" class=" form-control "   >
+                            <span class="input-group-addon">习惯重塑：</span>
+                            <select id="id_habit_remodel" class=" form-control "   >
                             </select>
                         </div>
 
