@@ -36,7 +36,7 @@ $(function(){
     if(g_args.monthtime_flag==1){
         $("#id_copy_now").parent().hide();
     }
-    $(".opt-add-major-group").each(function(){
+    $(".opt-add-major-group,.opt-add-major-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -223,9 +223,9 @@ $(function(){
 
 
     $(".opt-assign-major-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        var main_type    = opt_data.main_type;
-        var up_groupid =opt_data.up_groupid ;
+        var opt_data   = $(this).get_opt_data();
+        var main_type  = opt_data.main_type;
+        var first_groupid = opt_data.first_groupid;
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
@@ -262,9 +262,9 @@ $(function(){
                 var groupid = val ;
                 var me=this;
                 if (groupid>0) {
-                    $.do_ajax("/user_deal/set_up_groupid",{
+                    $.do_ajax("/user_deal/set_main_groupid",{
                         "groupid":groupid,
-                        "up_groupid":up_groupid
+                        "first_groupid": first_groupid
                     },function(resp){
                         window.location.reload();
                     });
@@ -477,6 +477,28 @@ $(function(){
     });
 
 
+    $(".opt-add-major-group-new").on("click",function(){ // 开发中
+        var opt_data      = $(this).get_opt_data();
+        var main_type     = opt_data.main_type;
+        var id_group_name = $("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增总监分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/user_deal/admin_major_group_add_new",{
+                    "main_type"  : main_type,
+                    "group_name" : id_group_name.val(),
+                    "start_time" : g_args.start_time
+                });
+            }
+        });
+    });
+
+
     //alert(111);
     $(".opt-add-main-group-new").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -487,7 +509,7 @@ $(function(){
             ["组名" ,  id_group_name]
         ];
 
-        $.show_key_value_table("新增主管分组", arr ,{
+        $.show_key_value_table("新增经理分组", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
@@ -498,7 +520,6 @@ $(function(){
                 });
             }
         });
-
     });
 
     $(".opt-edit-main-group-new").on("click",function(){

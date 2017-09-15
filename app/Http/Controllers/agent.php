@@ -318,13 +318,9 @@ class agent extends Controller
     }
 
     public function check(){
-        $a = -1;
-        if($a == -1){
-            dd('a');
-        }else{
-            dd('b');
-        }
-        $this->test_lesson_cancle_rate();
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function test_lesson_cancle_rate(){

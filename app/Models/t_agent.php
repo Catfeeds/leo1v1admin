@@ -1131,6 +1131,72 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             return 0;
         }
     }
+
+    public function reset_user_info_l2_money_open_flag($id ){
+        $l2_child_list=$this-> get_l2_test_lesson_order_list($id);
+        $set_open_list=[];
+        $order_count=0;
+        $l2_agent_status_all_money=0;
+        foreach( $l2_child_list as $item ) {
+            $child_id=$item["id"];
+            $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
+            $l2_agent_status_all_money +=$item["agent_status_money"];
+            $orderid=$item["orderid"];
+            if ($orderid) { //有订单
+                if ($agent_status_money_open_flag !=1 ) {
+                    $this->field_update_list($child_id,[
+                        "agent_status_money_open_flag" => 1
+                    ]);
+                }
+                $order_count+=1;
+            }else {
+                if ($item["lesson_user_online_status"] ==1 ) {
+                    $set_open_list[]=[
+                        "id" => $child_id,
+                        "agent_status_money_open_flag" =>$agent_status_money_open_flag,
+                    ];
+                }else{
+                    if ($agent_status_money_open_flag !=0 ) { //没有开放
+                        $this->field_update_list($child_id,[
+                            "agent_status_money_open_flag" => 0
+                        ]);
+                    }
+                }
+            }
+
+
+
+            //agent_status_money_open_flag
+            //a.id, lesson_user_online_status ,
+        }
+
+        //8倍提现
+        $succ_lesson_cont=count($set_open_list );
+        $need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %8 ;
+
+        foreach ( $set_open_list as  $index => $item  ) {
+            $child_id=$item["id"];
+            $agent_status_money_open_flag = $item["agent_status_money_open_flag"];
+            if ($index < $need_set_open_list_count) { //可提现范围
+                if ($agent_status_money_open_flag !=1 ) {
+                    $this->field_update_list($child_id,[
+                        "agent_status_money_open_flag" => 1
+                    ]);
+                }
+            }else{
+                if ($agent_status_money_open_flag !=0 ) { //没有开放
+                    $this->field_update_list($child_id,[
+                        "agent_status_money_open_flag" => 0
+                    ]);
+                }
+            }
+        }
+        \App\Helper\Utils::logger(" XXXX  $order_count $need_set_open_list_count  ");
+
+
+        return  array(($order_count+$need_set_open_list_count)*25*100, $order_count+$succ_lesson_cont ,$l2_agent_status_all_money  );
+
+    }
     //return 可提现金额
     public function reset_user_info_l1_money_open_flag($id ){
         $l1_child_list=$this-> get_l1_test_lesson_order_list($id);
@@ -1492,6 +1558,26 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " left join  %s l on a.test_lessonid =l.lessonid  "
             . " left join  %s ao on a.id =ao.aid "
             ." where  a.parentid=%u  and a.create_time > %u  order by l.lesson_start asc ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            $id,$check_time
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_l2_test_lesson_order_list($id) {
+        $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+
+        $sql = $this->gen_sql_new(
+            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
+            . " a.agent_status_money, ao.orderid  "
+            . " from %s a_p "
+            . " join %s a on a_p.id=a.parentid "
+            . " left join  %s l on a.test_lessonid =l.lessonid  "
+            . " left join  %s ao on a.id =ao.aid "
+            ." where  a_p.parentid=%u  and a.create_time > %u  order by l.lesson_start asc ",
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_agent_order::DB_TABLE_NAME,

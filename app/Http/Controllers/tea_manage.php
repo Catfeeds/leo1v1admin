@@ -150,6 +150,7 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
     public function lesson_list_seller() {
+        $this->set_in_value("test_seller_adminid", $this->get_in_int_val('test_seller_id',-1));
         $adminid = $this->get_account_id();
         $this->set_in_value("test_seller_id", $adminid);
         $this->set_in_value("lesson_type",  2);
@@ -199,6 +200,7 @@ class tea_manage extends Controller
         $assistantid     = $this->get_in_assistantid(-1);
         $grade           = $this->get_in_enum_list(E\Egrade::class);
         $test_seller_id  = $this->get_in_int_val("test_seller_id",-1 );
+        $test_seller_adminid  = $this->get_in_int_val("test_seller_adminid",-1 );
         $has_performance = $this->get_in_int_val("has_performance",-1 );
         $fulltime_flag   = $this->get_in_int_val("fulltime_flag",-1 );
         $lesson_user_online_status = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
@@ -234,7 +236,7 @@ class tea_manage extends Controller
             $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex_new(
                 $start_time,$end_time, $teacherid,$studentid, $lessonid ,
                 $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
-                $confirm_flag,$assistantid,$lesson_status,$test_seller_id_arr,$has_performance,
+                $confirm_flag,$assistantid,$lesson_status,$test_seller_id_arr,$test_seller_adminid,$has_performance,
                 $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
                 $has_video_flag, $lesson_user_online_status,$fulltime_flag,
                 $lesson_del_flag,$fulltime_teacher_type
@@ -472,7 +474,7 @@ class tea_manage extends Controller
     }
     public function lesson_list_ass(){
         $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()));
-        $this->set_in_value("test_seller_id",$this->get_account_id());
+        // $this->set_in_value("test_seller_id",$this->get_account_id());
         return $this->lesson_list();
     }
 
