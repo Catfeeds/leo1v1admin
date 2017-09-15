@@ -284,6 +284,13 @@ abstract class NewModel
                 }
             }
         }
+        if (count($ret_list) ==0 ) {
+            $tmp_sql=$sql."  limit 1,1";
+            $row=$this->main_get_row($tmp_sql );
+            if($row) {
+                $ret_list[]=$row;
+            }
+        }
 
         return \App\Helper\Utils::list_to_page_info($ret_list);
     }

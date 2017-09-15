@@ -400,7 +400,6 @@ class teacher_money extends Controller
                         $already_lesson_count = 0;
                         break;
                     }
-                    // $already_lesson_count = $check_type!=2?$val['already_lesson_count']:$last_lesson_count;
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
 
                     if($val['lesson_type'] != 2){
