@@ -2654,7 +2654,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {        
-        $ret = $this->t_teacher_info->get_textbook_by_id(30018);
+        /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
             $arr = explode(",",$val["teacher_textbook"]);
             $i=0;
@@ -2672,6 +2672,12 @@ class user_deal extends Controller
             $str = implode(",",$arr);
             $this->t_teacher_info->field_update_list($val["teacherid"],[
                "teacher_textbook" =>$str 
+            ]);
+            }*/
+        $ret = $this->t_student_info->get_stu_by_textbook(30004);
+        foreach($ret as $val){
+            $this->t_student_info->field_update_list($val["userid"],[
+               "editionid" =>29 
             ]);
         }
         dd($ret);

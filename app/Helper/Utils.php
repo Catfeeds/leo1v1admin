@@ -1211,7 +1211,7 @@ class Utils  {
         $money = $lesson_info['money'];
 
         if($lesson_info['teacher_money_type']!=6){
-            if($teacherid==71743){
+            if($teacherid==71743 && $lesson_info['teacher_money_type']==3){
                 $money=60;
             }elseif($teacherid==58812 && $lesson_info['competition_flag']==1){
                 $money=75;

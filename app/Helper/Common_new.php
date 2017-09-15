@@ -1516,7 +1516,7 @@ class Common_new {
                 if($monthtime_flag==1){
                     $up_group_list = $task->t_admin_main_group_name->get_group_list_for_major($i,$value['groupid']);
                 }else{
-                    $up_group_list = $task->t_main_group_name_month->get_group_list($i,$month);
+                    $up_group_list = $task->t_main_group_name_month->get_group_list_for_major($i,$month,$value['groupid']);
                 }
 
 
