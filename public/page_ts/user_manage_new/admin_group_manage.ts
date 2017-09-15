@@ -721,7 +721,7 @@ $(function(){
         var opt_data = $(this).get_opt_data();
 
         BootstrapDialog.confirm(
-            "要删除主管分组:"+ opt_data.up_group_name   + "?",
+            "要删除总监分组:"+ opt_data.up_group_name   + "?",
             function(val) {
                 if  (val)  {
                     $.do_ajax( "/user_deal/admin_main_group_del_new", {
