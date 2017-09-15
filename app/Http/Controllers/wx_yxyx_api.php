@@ -104,6 +104,23 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["list" => $list]);
     }
 
+    public function get_l2_invite_money_list() {
+        $agent_id= $this->get_agent_id();
+        $agent_status_money_open_flag = $this-> get_in_int_val("agent_status_money_open_flag",-1);
+        $test_lesson_succ_flag        = $this-> get_in_int_val("test_lesson_succ_flag",-1);
+        $list=$this->t_agent-> get_l2_invite_money_list($agent_id, $test_lesson_succ_flag , $agent_status_money_open_flag );
+        foreach ($list  as &$item) {
+            E\Eagent_status::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item["agent_status_money"]/=100;
+            $item["nick"]= $item["nickname"]."/". $item["phone"];
+            E\Eboolean::set_item_value_str($item,"agent_status_money_open_flag");
+        }
+
+        return $this->output_succ(["list" => $list]);
+    }
+
+
 
     public function get_user_info(){
         $agent_id   = $this->get_agent_id();
