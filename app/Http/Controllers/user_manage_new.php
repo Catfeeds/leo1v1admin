@@ -2501,7 +2501,7 @@ class user_manage_new extends Controller
                 if($k==="all"){
                     $data['level_str'] = "";
                 }else{
-                    $data['level_str'] = E\Elevel::get_desc($k);
+                    $data['level_str'] = \App\Helper\Utils::get_teacher_letter_level($key,$k);
                 }
 
                 $data['tea_num']              = $v['tea_num'];
@@ -2707,11 +2707,6 @@ class user_manage_new extends Controller
                     $lesson_1v1   = $val['lesson_1v1']/100;
                     $lesson_trial = $val['lesson_trial']/100;
                     $lesson_total = $val['lesson_total']/100;
-                    // $lesson_price = $val['lesson_price']/100;
-
-                    // \App\Helper\Utils::check_isset_data($count_list[$date_str]["all"]["all"]["lesson_money"],$lesson_price);
-                    // \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type]["all"]["lesson_money"],$lesson_price);
-                    // \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type][$level]["lesson_money"],$lesson_price);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str]["all"]["all"]["lesson_1v1"],$lesson_1v1);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type]["all"]["lesson_1v1"],$lesson_1v1);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type][$level]["lesson_1v1"],$lesson_1v1);

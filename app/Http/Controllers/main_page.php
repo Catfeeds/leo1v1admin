@@ -1233,7 +1233,7 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
             //$item["kk_suc"]                =@$kk_suc[$k]["lesson_count"];
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
@@ -1346,7 +1346,9 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            // $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
+
             //$item["kk_suc"]                =@$kk_suc[$k]["lesson_count"];
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
@@ -1526,7 +1528,9 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            // $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
+
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];

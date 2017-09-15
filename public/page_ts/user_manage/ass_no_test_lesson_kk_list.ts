@@ -43,15 +43,6 @@ $(function(){
                     "month"                    : opt_data.month,
                     "kpi_type"                      : opt_data.kpi_type,
                     "hand_kk_num"                   : id_hand_kk_num.val(),
-                },function(res){
-                    if(res.ret==-1){
-                        BootstrapDialog.alert(res.info);
-                    }else if(res.ret==1){
-                        BootstrapDialog.alert(res.info,function(){
-                            window.location.reload();
-                        });
-
-                    }
                 });
             }
         });
