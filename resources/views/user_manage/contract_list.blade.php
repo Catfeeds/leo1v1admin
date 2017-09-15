@@ -66,7 +66,7 @@
                       <input class="opt-change form-control" id="id_seller_groupid_ex" />
                   </div>
               </div>
-              <div class="col-xs-1 col-md-2">
+              <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span >学生</span>
                       <input id="id_studentid"  />
