@@ -102,7 +102,7 @@
                                    <a class="opt-add-main-group">新增-经理</a>
                                    <a class="opt-edit-major-group">修改-经理</a>
                                    <a class="opt-assign-major-group">分配-经理</a>
-                                   <a class="opt-del-major-group">删除-经理</a>
+                                   <a class="opt-del-major-group">删除-总监</a>
 
                                    <a class="opt-assign-main-group">分配小组</a>
                                    <a class="opt-edit-main-group">修改</a>
@@ -118,12 +118,12 @@
                                @else
                                    <a class="opt-add-major-group-new">新增总监分组</a>
 
-                                   <a class="opt-add-main-group-new">新增经理分组</a>
+                                   <a class="opt-add-main-group-new">新增-经理</a>
                                    <a class="opt-assign-main-group-new">分配小组</a>
 
-                                   <a class="opt-assign-major-group-new">分配经理</a>
+                                   <a class="opt-assign-major-group-new">分配-经理</a>
                                    <a class="opt-edit-major-group-new">修改-经理</a>
-                                   <a class="opt-del-major-group-new">删除经理</a>
+                                   <a class="opt-del-major-group-new">删除-总监</a>
 
 
                                    <a class="opt-edit-main-group-new">修改</a>

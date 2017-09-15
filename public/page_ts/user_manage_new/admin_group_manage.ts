@@ -717,6 +717,23 @@ $(function(){
         );
     });
 
+    $(".opt-del-major-group-new").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+
+        BootstrapDialog.confirm(
+            "要删除总监分组:"+ opt_data.first_group_name   + "?",
+            function(val) {
+                if  (val)  {
+                    $.do_ajax( "/user_deal/admin_major_group_del_new", {
+                        "groupid": opt_data.first_groupid,
+                        "start_time" : g_args.start_time
+                    });
+                }
+            }
+        );
+    });
+
+
 
     $(".opt-edit-group-new").on("click",function(){
         var opt_data = $(this).get_opt_data();

@@ -395,7 +395,7 @@ class login extends Controller
         $account  = strtolower(trim($this->get_in_str_val("account")));
         $password = $this->get_in_str_val('password');
         $seccode  = $this->get_in_str_val('seccode') ;
-        $remember  = $this->get_in_str_val('remember') ;
+        // $remember  = $this->get_in_str_val('remember') ;
         $ip       = $this->get_in_client_ip();
 
 
@@ -425,11 +425,11 @@ class login extends Controller
 
         session($sess);
 
-        if ( $remember ) {
-            $sessionId   = session()->getId();
-            $sessionName = session()->getName();
-            setcookie($sessionName, $sessionId, time()+3600*24*7);//有效期7天
-        }
+        // if ( $remember ) {
+        //     $sessionId   = session()->getId();
+        //     $sessionName = session()->getName();
+        //     setcookie($sessionName, $sessionId, time()+3600*24*7);//有效期7天
+        // }
         return $this->output_succ();
 
     }

@@ -154,6 +154,7 @@ class tea_manage extends Controller
         $adminid = $this->get_account_id();
         $this->set_in_value("test_seller_id", $adminid);
         $this->set_in_value("lesson_type",  2);
+        $this->set_in_value("seller_flag",  1);
         return $this->lesson_list();
     }
 
@@ -216,6 +217,7 @@ class tea_manage extends Controller
         $has_video_flag            = $this->get_in_e_boolean(-1,"has_video_flag");
 
         $is_with_test_user = $this->get_in_int_val('is_with_test_user', 0);
+        $seller_flag = $this->get_in_int_val('seller_flag', 0);
         $lessonid          = $this->get_in_lessonid(-1);
         $origin            = $this->get_in_str_val("origin");
         $page_num          = $this->get_in_page_num();
@@ -224,7 +226,7 @@ class tea_manage extends Controller
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
         }
 
-        if($test_seller_id != -1){//销售
+        if($seller_flag==1){//销售
             $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
             $son_adminid_arr = [];
             foreach($son_adminid as $item){
@@ -474,7 +476,7 @@ class tea_manage extends Controller
     }
     public function lesson_list_ass(){
         $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()));
-        // $this->set_in_value("test_seller_id",$this->get_account_id());
+        $this->set_in_value("test_seller_id",$this->get_account_id());
         return $this->lesson_list();
     }
 
