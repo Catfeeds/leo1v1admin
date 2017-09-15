@@ -1695,13 +1695,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     {
         $where_arr=[
             "is_test_user=0" ,
-            "contract_status>0" ,
             "contract_type=0" ,
         ];
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
-        $sql=$this->gen_sql_new("select count(distinct o.userid) as order_user_count, sum(price)/100  order_money "
+        $sql=$this->gen_sql_new("select sum( contract_status>0 ) as order_user_count, sum(if( contract_status>0, price, 0) )/100  order_money,  sum( contract_status=0 ) as no_pay_order_user_count, sum(if( contract_status=0, price, 0) )/100  no_pay_order_money  "
                                 ." from %s o "
                                 ." join %s s on s.userid=o.userid "
                                 ." left join %s m on o.sys_operator =m.account "
@@ -1713,7 +1712,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         $ret= $this->main_get_row($sql);
         $ret["order_money"]= intval( $ret["order_money"]);
-        $ret["pre_price"]= $ret["order_user_count"] ?  intval( $ret["order_money"]/$ret["order_user_count"]):0;
 
         return $ret;
     }

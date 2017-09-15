@@ -40,7 +40,7 @@ class notify_day_report extends Command
 
     public function get_day_data_from_time($name,$start_time)  {
         $end_time=$start_time+86400;
-        
+
         $seller_count=$this->task->t_seller_month_money_target->get_seller_num_day($start_time);
         if ($seller_count==0) {
             $seller_count=1;
@@ -59,7 +59,7 @@ class notify_day_report extends Command
         $tq_arr["tq_duration_count_avg_str"] =  \App\Helper\Common::get_time_format( $tq_arr["tq_duration_count_avg"]);
 
 
-        
+
         //排课
         $set_lesson_arr=$this->task->t_test_lesson_subject_sub_list->get_set_lesson_count_info($start_time,$end_time);
         //试听课
@@ -78,25 +78,29 @@ class notify_day_report extends Command
     public function handle()
     {
         $opt_date=date("Y-m-d",time(NULL)-86400);
-        
-        
+
+
 
         $data= $this->get_day_data_from_time("本日", strtotime($opt_date) );
         echo "111\n";
-        
+
 
         $order_money=$data["order_money"];
         $order_user_count=$data["order_user_count"];
+
+        $no_pay_order_money=$data["no_pay_order_money"];
+        $no_pay_order_user_count=$data["no_pay_order_user_count"];
         $test_lesson_count=$data["test_lesson_count"];
         $test_lesson_fail_percent=$data["test_lesson_fail_percent"];
-                
+
         echo "22222\n";
-        $admin_list=["jim","xixi"] ;
+        //$admin_list=["jim","xixi"] ;
+        $admin_list=["jim"] ;
         foreach ( $admin_list as $account ) {
             $this->task->t_manager_info->send_wx_todo_msg(
                 $account, "系统日报",
-                "$opt_date 新签金额[$order_money],新签人数[$order_user_count] " ,"试听数:$test_lesson_count , 试听失败率: $test_lesson_fail_percent%","/tongji_ss/day_report?start_time=$opt_date");
-           
+                "$opt_date 新签\n确认   $order_money 元/$order_user_count \n 未确认 $no_pay_order_money 元/$no_pay_order_user_count  " ,"试听数:$test_lesson_count , 试听失败率: $test_lesson_fail_percent%","/tongji_ss/day_report?start_time=$opt_date");
+
         }
         echo "33333\n";
     }
