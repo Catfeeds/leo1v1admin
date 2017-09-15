@@ -58,7 +58,7 @@ class main_page extends Controller
         $adminid=$this->get_account_id();
 
         //组长&主管
-        $test_seller_id      = $this->get_in_int_val("test_seller_id",-1 );
+        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
         $son_adminid_arr = [];
         foreach($son_adminid as $item){
@@ -67,8 +67,8 @@ class main_page extends Controller
         array_unshift($son_adminid_arr,$adminid);
         $require_adminid_arr = array_unique($son_adminid_arr);
         $group_type = count($require_adminid_arr)>1?1:0;
-        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
-        $adminid = $test_seller_id!=-1?$test_seller_id:$adminid;
+
+        $adminid = in_array($test_seller_id,$require_adminid_arr)?$test_seller_id:$adminid;
         /* if($adminid==349){
            $adminid=397;
            }*/
@@ -142,7 +142,7 @@ class main_page extends Controller
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
         // dd($self_top_info);
         //提成刺激
-        $money_info = $this->seller_month_money_list();
+        $money_info = $this->seller_month_money_list($adminid);
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
         $self_money['differ_money'] = $money_info['next_money']-$money_info['money'];
         //上周试听取消率
@@ -180,9 +180,8 @@ class main_page extends Controller
         ]);
     }
 
-    public function seller_month_money_list() {
+    public function seller_month_money_list($adminid) {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $adminid=$this->get_account_id();
         $month= date("Ym",$start_time);
         switch ( $month ) {
         case "201702" :
@@ -515,7 +514,7 @@ class main_page extends Controller
 
          //第5次试听
         $test_five = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,2,$subject);
-       
+
         $test_five_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,2,$subject);
         //第一次常规
         //dd($test_first_per);
@@ -524,7 +523,7 @@ class main_page extends Controller
 
         //第5次常规
         $regular_five = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,4,$subject);
-       
+
         $regular_five_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,4,$subject);
 
 
@@ -748,8 +747,8 @@ class main_page extends Controller
                     "regular_first"=>$regular_first_all,
                     "regular_five"=>$regular_five_all,
                     "all_num"=>$all_num,
-                    "test_first_per_str" => $total_test_first_per_str, 
-                    "test_five_per_str" => $total_test_five_per_str, 
+                    "test_first_per_str" => $total_test_first_per_str,
+                    "test_five_per_str" => $total_test_five_per_str,
                   "regular_first_per_str" => $total_regular_first_per_str,
                   "regular_five_per_str" => $total_regular_five_per_str,
             ];
@@ -1120,7 +1119,7 @@ class main_page extends Controller
         for($i=1;$i<=10;$i++){
             $video_pass[$i] = $this->t_teacher_lecture_info->get_teacher_passed_num_by_subject_grade($start_time,$end_time,$i);
             $one_pass[$i] = $this->t_teacher_record_list->get_teacher_passes_num_by_subject_grade($start_time,$end_time,$i);
- 
+
         }
         foreach($zs_video_list as &$ui){
             $uid      = $ui["uid"];
@@ -1141,9 +1140,9 @@ class main_page extends Controller
             $ui["gzsw"] = @$video_pass[6][$uid]["senior_num"];
             $ui["kx"] = @$video_pass[10][$uid]["primary_num"]+@$video_pass[10][$uid]["middle_num"]+@$video_pass[10][$uid]["senior_num"];
             $ui["other"] = @$video_pass[7][$uid]["primary_num"]+@$video_pass[7][$uid]["middle_num"]+@$video_pass[7][$uid]["senior_num"]+@$video_pass[8][$uid]["primary_num"]+@$video_pass[8][$uid]["middle_num"]+@$video_pass[8][$uid]["senior_num"]+@$video_pass[9][$uid]["primary_num"]+@$video_pass[9][$uid]["middle_num"]+@$video_pass[9][$uid]["senior_num"];
-           
+
         }
-        
+
         foreach($zs_one_list as &$uy){
             $uid      = $uy["uid"];
             $uy["xxyw"] = @$one_pass[1][$uid]["primary_num"];
@@ -1163,14 +1162,14 @@ class main_page extends Controller
             $uy["gzsw"] = @$one_pass[6][$uid]["senior_num"];
             $uy["kx"] = @$one_pass[10][$uid]["primary_num"]+@$one_pass[10][$uid]["middle_num"]+@$one_pass[10][$uid]["senior_num"];
             $uy["other"] = @$one_pass[7][$uid]["primary_num"]+@$one_pass[7][$uid]["middle_num"]+@$one_pass[7][$uid]["senior_num"]+@$one_pass[8][$uid]["primary_num"]+@$one_pass[8][$uid]["middle_num"]+@$one_pass[8][$uid]["senior_num"]+@$one_pass[9][$uid]["primary_num"]+@$one_pass[9][$uid]["middle_num"]+@$one_pass[9][$uid]["senior_num"];
-           
+
         }
 
         // print_r($zs_video_list);
         //print_r($zs_one_list);
         // dd($rrrr);
 
-        
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
@@ -1632,7 +1631,7 @@ class main_page extends Controller
             $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
             $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
             if(empty($v["group_name"])){
-                unset($ass_group[$key]); 
+                unset($ass_group[$key]);
             }
 
         }
@@ -1699,7 +1698,7 @@ class main_page extends Controller
                 $melon_info["lesson_money"] = $melon_info["lesson_money"]/100;
                 $melon_info["lesson_total_old"] = @$melon_info["lesson_total_old"]/100;
                 $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
-                $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;          
+                $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;
                 $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
                 $melon_info["account"]=$tp["name"];
                 $melon_info["nick"]=$tp["name"];
@@ -1707,11 +1706,11 @@ class main_page extends Controller
                 array_push($ass_list,$melon_info);
 
             }
- 
+
         }
 
         //田梦影数据
-        
+
         //田梦茹数据
         /* $ruby_info =@$ass_month[386];
         $ruby_info_last = @$ass_last_month[386];
@@ -1729,7 +1728,7 @@ class main_page extends Controller
             $ruby_info["lesson_money"] = $ruby_info["lesson_money"]/100;
             $ruby_info["lesson_total_old"] = @$ruby_info["lesson_total_old"]/100;
             $ruby_info["new_refund_money"]  = $ruby_info["new_refund_money"]/100;
-            $ruby_info["renw_refund_money"]  = $ruby_info["renw_refund_money"]/100;          
+            $ruby_info["renw_refund_money"]  = $ruby_info["renw_refund_money"]/100;
             $ruby_info["new_lesson_count"]  = $ruby_info["new_lesson_count"]/100;
             $ruby_info["account"]="田梦茹";
             $ruby_info["nick"]="田梦茹";
@@ -1761,10 +1760,10 @@ class main_page extends Controller
         $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2); //教务普通排课总体
 
         //咨询
-        $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1); 
-        $top_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,1,1); 
-        $green_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,2,1); 
-        $normal_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,3,1); 
+        $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1);
+        $top_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,1,1);
+        $green_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,2,1);
+        $normal_seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,3,1);
         foreach($seller_all as $k=>&$val){
             $val["per"] = !empty($val["person_num"])?round($val["have_order"]/$val["person_num"]*100,2):0;
             $val["top_num"] = @$top_seller_all[$k]["person_num"];
@@ -1787,12 +1786,12 @@ class main_page extends Controller
         }
 
         //老师
-        $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1); 
-        $top_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,1,1); 
-        $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1); 
-        $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1); 
+        $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1);
+        $top_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,1,1);
+        $green_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,2,1);
+        $normal_tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,3,1);
         foreach($tea_all as $kk=>&$valll){
-            
+
             $valll["per"] = !empty($valll["person_num"])?round($valll["have_order"]/$valll["person_num"]*100,2):0;
             $valll["top_num"] = @$top_tea_all[$kk]["person_num"];
             $valll["top_order"] = @$top_tea_all[$kk]["have_order"];
@@ -1817,10 +1816,10 @@ class main_page extends Controller
         }
 
         //教务
-        $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2); 
-        $top_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,1,2); 
-        $green_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,2,2); 
-        $normal_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,3,2); 
+        $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2);
+        $top_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,1,2);
+        $green_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,2,2);
+        $normal_jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,3,2);
         foreach($jw_all as $kk=>&$vall){
             $vall["per"] = !empty($vall["person_num"])?round($vall["have_order"]/$vall["person_num"]*100,2):0;
             $vall["top_num"] = @$top_jw_all[$kk]["person_num"];
@@ -1836,10 +1835,10 @@ class main_page extends Controller
         }
 
         \App\Helper\Utils::order_list( $jw_all,"per", 0 );
-       
 
 
-                
+
+
 
 
 
@@ -1849,10 +1848,10 @@ class main_page extends Controller
             "normal_jw_total" => $normal_jw_total,
             "top_seller_total" => $top_seller_total,
             "green_seller_total" => $green_seller_total,
-            "normal_seller_total" => $normal_seller_total,       
-            "seller_all" => $seller_all,       
-            "tea_all" => $tea_all,       
-            "jw_all" => $jw_all,       
+            "normal_seller_total" => $normal_seller_total,
+            "seller_all" => $seller_all,
+            "tea_all" => $tea_all,
+            "jw_all" => $jw_all,
         ]);
 
 
