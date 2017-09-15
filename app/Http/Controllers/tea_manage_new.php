@@ -62,6 +62,7 @@ class tea_manage_new extends Controller
         $seller_require_flag         = $this->get_in_int_val('seller_require_flag',0);
         $week_lesson_count        = $this->get_in_int_val('week_lesson_count',18);
         $old_week_num = $this->t_teacher_info->get_limit_week_lesson_num($teacherid);
+        $old_week_lesson_count = $this->t_teacher_info->get_week_lesson_count($teacherid);
         $tea_nick = $this->cache_get_teacher_nick($teacherid);
         $account = $this->get_account();
 

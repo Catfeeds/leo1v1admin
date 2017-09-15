@@ -70,7 +70,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new").each(function(){
+    $(".opt-del-admin,.opt-del-admin-new,.opt-show_change_log,.opt-show_change_log-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -78,6 +78,31 @@ $(function(){
             $(this).hide();
         }
     });
+
+
+    // opt-show_change_log
+    $(".opt-show_change_log").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var main_type    = opt_data.main_type;
+        var id_group_name=$("<input/>");
+        var  arr=[
+            ["组名" ,  id_group_name]
+        ];
+
+        $.show_key_value_table("新增主管分组", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                // $.do_ajax("/user_deal/admin_main_group_add",{
+                //     "main_type" : main_type,
+                //     "group_name" : id_group_name.val()
+                // });
+            }
+        });
+
+    });
+
+
 
 
 
@@ -721,11 +746,11 @@ $(function(){
         var opt_data = $(this).get_opt_data();
 
         BootstrapDialog.confirm(
-            "要删除总监分组:"+ opt_data.up_group_name   + "?",
+            "要删除总监分组:"+ opt_data.first_group_name   + "?",
             function(val) {
                 if  (val)  {
-                    $.do_ajax( "/user_deal/admin_main_group_del_new", {
-                        "groupid": opt_data.up_groupid,
+                    $.do_ajax( "/user_deal/admin_major_group_del_new", {
+                        "groupid": opt_data.first_groupid,
                         "start_time" : g_args.start_time
                     });
                 }

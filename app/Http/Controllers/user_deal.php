@@ -1739,7 +1739,7 @@ class user_deal extends Controller
 
     }
 
-    public function admin_major_group_edit( ) { 
+    public function admin_major_group_edit( ) {
         $groupid=$this->get_in_int_val("groupid");
         $group_name=$this->get_in_str_val("group_name");
         $master_adminid=$this->get_in_str_val("master_adminid");
@@ -1812,6 +1812,16 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function admin_major_group_del_new ()  {
+
+        $groupid=$this->get_in_int_val("groupid");
+        $month = strtotime($this->get_in_str_val("start_time"));
+        $this->t_main_major_group_name_month->row_delete_for_major($groupid,$month);
+        $this->t_main_group_name_month->update_by_up_groupid($groupid,$month);
+        return $this->output_succ();
+    }
+
+
     public function admin_main_group_del_new ()  {
 
         $groupid=$this->get_in_int_val("groupid");
@@ -1837,6 +1847,14 @@ class user_deal extends Controller
             "groupid"   => $groupid,
             "adminid"   => $adminid,
         ]);
+
+        // 添加到 日志表
+        $this->t_user_group_change_log->row_insert([
+            "add_time"   => time(),
+            "userid"     => $adminid,
+            "do_adminid" => $this->get_account_id()
+        ]);
+
         return $this->output_succ();
     }
 
@@ -1857,6 +1875,14 @@ class user_deal extends Controller
             "adminid"   => $adminid,
             "month"     => $month
         ]);
+
+        // 添加到 日志表
+        $this->t_user_group_change_log->row_insert([
+            "add_time"   => time(),
+            "userid"     => $adminid,
+            "do_adminid" => $this->get_account_id()
+        ]);
+
         return $this->output_succ();
     }
 
@@ -2671,7 +2697,7 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {        
+    {
         /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
             $arr = explode(",",$val["teacher_textbook"]);
@@ -2685,11 +2711,11 @@ class user_deal extends Controller
                 }
             }
             if($i==0){
-                $arr[] = 6; 
+                $arr[] = 6;
             }
             $str = implode(",",$arr);
             $this->t_teacher_info->field_update_list($val["teacherid"],[
-               "teacher_textbook" =>$str 
+               "teacher_textbook" =>$str
             ]);
             }*/
         $ret = $this->t_student_info->get_stu_by_textbook(30018);
@@ -2736,7 +2762,7 @@ class user_deal extends Controller
                     dispatch( new \App\Jobs\SendEmail(
                         "jack@leoedu.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
                         "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."、".@$ret_info['point_name'][2]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li><li><i>".@$ret_info['point_name'][2]."</i><p>".@$ret_info['point_stu_desc'][2]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    )); 
+                    ));
                     echo 1111;
                 }elseif($num== 2){
                     dispatch( new \App\Jobs\SendEmail(
@@ -2760,7 +2786,7 @@ class user_deal extends Controller
                 $this->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
                 \App\Helper\Utils::logger("send email.lessonid:".$item['lessonid']." date:".date("Y-m-d H:i",time()));
             }
-            
+
         }
 
 
@@ -5173,6 +5199,18 @@ class user_deal extends Controller
             $data = $info.";".$str;
         }
         return $this->output_succ(["data"=>$data]);
+
+    }
+
+    public function set_ass_hand_kk_num(){
+        $adminid = $this->get_in_int_val("adminid");
+        $month   = $this->get_in_int_val("month");
+        $kpi_type = $this->get_in_int_val("kpi_type");
+        $hand_kk_num = $this->get_in_int_val("hand_kk_num");
+        $this->t_month_ass_student_info->get_field_update_arr($adminid,$month,$kpi_type,[
+            "hand_kk_num"  =>$hand_kk_num
+        ]);
+        return $this->output_succ();
 
     }
 

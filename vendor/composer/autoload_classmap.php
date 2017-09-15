@@ -600,6 +600,7 @@ return array(
     'TAgentOrderAddAid' => $baseDir . '/database/migrations/2017_07_07_182216_t_agent_order_add_aid.php',
     'TAgentOrderAddOpenPrice' => $baseDir . '/database/migrations/2017_09_07_131729_t_agent_order_add_open_price.php',
     'TAgentOrderModifyAid' => $baseDir . '/database/migrations/2017_09_05_110347_t_agent_order_modify_aid.php',
+    'TAgentPpAgentStatusMoneyOpenFlag' => $baseDir . '/database/migrations/2017_09_15_174212_t_agent_pp_agent_status_money_open_flag.php',
     'TAssWarningRenwFlagModefiyListAddIndex' => $baseDir . '/database/migrations/2017_07_21_113059_t_ass_warning_renw_flag_modefiy_list_add_index.php',
     'TAssWarningRenwFlagModefiyListAddRenwEndDay' => $baseDir . '/database/migrations/2017_07_26_130928_t_ass_warning_renw_flag_modefiy_list_add_renw_end_day.php',
     'TAssWarningRenwFlagModefiyListAddRenwWeek' => $baseDir . '/database/migrations/2017_07_26_104549_t_ass_warning_renw_flag_modefiy_list_add_renw_week.php',

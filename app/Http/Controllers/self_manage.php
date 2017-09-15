@@ -285,7 +285,7 @@ class self_manage extends Controller
             $imagecreatefrom = "imagecreatefromjpeg";
             $image  = "imagejpeg";
         }else{
-            $imagecreatefrom = "imagecreatefrom".$extension;  
+            $imagecreatefrom = "imagecreatefrom".$extension;
             $image  = "image".$extension;
         }
 
@@ -307,11 +307,10 @@ class self_manage extends Controller
         $dheight = (int)$info[1] * $calc;     
         $paddingx = (int)($width - $dwidth) / 2;   
         $paddingy = (int)($height - $dheight) / 2;
-        imagecopyresampled($tim, $dim, $paddingx, $paddingy, 
-                            0, 0, 
-                            $dwidth, $dheight, 
-                            $info[0], $info[1]);   
-
+        imagecopyresampled($tim,$dim,$paddingx,$paddingy,
+                           0, 0,
+                           $dwidth, $dheight,
+                           $info[0], $info[1]);
         //imagepng($tim);
         //$dim = imagecreatefrompng($tim);
         $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";

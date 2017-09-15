@@ -94,6 +94,11 @@
                         ["1级试听提成金额(可提现)" , "l1_agent_status_all_open_money"],
 
 
+                        ["2级试听提成金额" , "l2_agent_status_all_money"],
+                        ["2级试听提成金额(可提现)" , "l2_agent_status_all_open_money"],
+
+
+
                         ["1级人数" , "l1_child_count"],
                         ["2级人数" , "l2_child_count"],
                        ]) !!}
@@ -134,6 +139,9 @@
                         <td>{{@$var["order_open_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_money"]}} </td>
                         <td>{{@$var["l1_agent_status_all_open_money"]}} </td>
+
+                        <td>{{@$var["l2_agent_status_all_money"]}} </td>
+                        <td>{{@$var["l2_agent_status_all_open_money"]}} </td>
 
 
                         <td>{{@$var["l1_child_count"]}} </td>

@@ -56,6 +56,19 @@ class main_page extends Controller
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01" )  );
         $adminid=$this->get_account_id();
+
+        //组长&主管
+        $test_seller_id      = $this->get_in_int_val("test_seller_id",-1 );
+        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+        $son_adminid_arr = [];
+        foreach($son_adminid as $item){
+            $son_adminid_arr[] = $item['adminid'];
+        }
+        array_unshift($son_adminid_arr,$adminid);
+        $require_adminid_arr = array_unique($son_adminid_arr);
+        $group_type = count($require_adminid_arr)>1?1:0;
+        $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
+        $adminid = $test_seller_id!=-1?$test_seller_id:$adminid;
         /* if($adminid==349){
            $adminid=397;
            }*/
@@ -163,6 +176,7 @@ class main_page extends Controller
             "self_money"             => $self_money,
             "start_time"             => $week_start_time,
             "end_time"               => $week_end_time,
+            "group_type"             => $group_type,
         ]);
     }
 
@@ -1233,7 +1247,7 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
             //$item["kk_suc"]                =@$kk_suc[$k]["lesson_count"];
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
@@ -1346,7 +1360,9 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            // $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
+
             //$item["kk_suc"]                =@$kk_suc[$k]["lesson_count"];
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
@@ -1526,7 +1542,9 @@ class main_page extends Controller
             $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
             $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
             $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            // $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_suc"]                = (isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k]["hand_kk_num"])?$ass_month[$k]["hand_kk_num"]:0);
+
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];

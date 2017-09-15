@@ -22,8 +22,7 @@ class teacher_money extends Controller
      * 老师工资明细
      */
     public function get_teacher_money_list(){
-        $teacherid  = $this->get_in_int_val("teacherid");
-        $acc = $this->get_account();
+        $teacherid = $this->get_in_int_val("teacherid");
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
@@ -264,7 +263,6 @@ class teacher_money extends Controller
     public function get_teacher_total_money(){
         $type      = $this->get_in_str_val("type","wx");
         $teacherid = $this->get_in_int_val("teacherid");
-        $acc       = $this->get_account();
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }

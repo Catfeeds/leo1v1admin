@@ -56,7 +56,7 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
             ["month=%u",$month,-1],
             ["kpi_type=%u",$kpi_type,-1]
         ];
-        $sql = $this->gen_sql_new("select ma.adminid,ma.hand_kk_num,m.name,n.master_adminid "
+        $sql = $this->gen_sql_new("select ma.adminid,ma.hand_kk_num,m.name,n.master_adminid,ma.month,ma.kpi_type "
                                   ."from %s ma left join %s m on ma.adminid = m.uid"
                                   ." left join %s u on ma.adminid = u.adminid"
                                   ." left join %s n on u.groupid = n.groupid"

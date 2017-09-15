@@ -940,7 +940,8 @@ class tongji2 extends Controller
             $val["refund_score"] = isset($ass_month[$k])?$ass_month[$k]["refund_score"]/100:0;
             // $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
-            $val["kk_succ"] = isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0;
+            $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
+            
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             // $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
