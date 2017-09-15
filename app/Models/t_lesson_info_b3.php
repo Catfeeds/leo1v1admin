@@ -428,7 +428,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tss.top_seller_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
-
+        $having = '';
         if($tranfer_per == 1){
             $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
         }else if($tranfer_per == 2){
@@ -440,8 +440,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }else if($tranfer_per == 4){
             $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20";
         }
-
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        if($having != ''){
+            $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2) as per"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -464,7 +464,32 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $having
-        );
+          );
+        }else{
+           $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2) as per"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s group by l.teacherid " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+          );
+        }
         return $this->main_get_list_by_page($sql,$page_info,10,true);
         /*return $this->main_get_list($sql,function($item){
             return $item["teacherid"];
