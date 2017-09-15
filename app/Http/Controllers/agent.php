@@ -318,6 +318,12 @@ class agent extends Controller
     }
 
     public function check(){
+        $a = -1;
+        if($a == -1){
+            dd('a');
+        }else{
+            dd('b');
+        }
         $this->test_lesson_cancle_rate();
     }
 
