@@ -25,10 +25,6 @@
             </div>
         </div>
 
-        <input type="button" id="timer" value="开始计时！" >
-        <input type="text" id="txt">
-        <p>请点击上面的按钮。输入框会从 0 开始一直进行计时。</p>
-
         <hr/>
         <table     class="common-table"  >
             <thead>

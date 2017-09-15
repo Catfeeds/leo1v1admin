@@ -739,7 +739,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_lesson_condition_list_new($start,$end,$st_application_nick,$userid,$teacherid,
-                                              $run_flag,$assistantid,$require_adminid_arr
+                                                  $run_flag,$assistantid,$require_adminid_arr
     ){
         $sub_arr = [
         ];

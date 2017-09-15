@@ -13,7 +13,6 @@ $(function(){
     // }
     // get_condition();
     // setInterval(get_condition, 3000);
-            // });
 
     $('.opt-change').set_input_change_event(load_data);
 });

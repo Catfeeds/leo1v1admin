@@ -75,7 +75,12 @@
                     <input type="text"   class="form-control opt-change" id="id_assistantid"  />
                 </div>
             </div>
-
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">销售</span>
+                    <input id="id_test_seller_id" class="opt-change" />
+                </div>
+            </div>
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group  ">
