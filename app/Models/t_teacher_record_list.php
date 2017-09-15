@@ -1184,7 +1184,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         $where_arr=[
             ["lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
-            "tr.record_score>0"
+            "tr.record_score>0",
+            "type=1"
         ];
         $sql = $this->gen_sql_new("select count(*) num,record_score "
                                   ."from %s tr left join %s l on tr.train_lessonid = l.lessonid "
@@ -1199,7 +1200,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     public function tongji_record_score_rank_list($lesson_style){
         $where_arr=[
             ["lesson_style=%u",$lesson_style,-1],
-            "tr.lesson_invalid_flag=1"
+            "tr.lesson_invalid_flag=1",
+            "type=1"
         ];
         $sql = $this->gen_sql_new("select l.subject,sum(if(tr.record_score<40,1,0)) first_score, "
                                   ." sum(if(tr.record_score>=40 and tr.record_score<50,1,0)) second_score,"
@@ -1220,6 +1222,17 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   $where_arr
         );
         return $this->main_get_list($sql);
+
+    }
+
+    public function get_record_flag_info($lesson_invalid_flag){
+        $where_arr=[
+            // ["lesson_style=%u",$lesson_style,-1],
+            ["lesson_invalid_flag=%u",$lesson_invalid_flag,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(distinct teacherid) teacher_num,"
+                                  ." count(distinct u)"
+        );
 
     }
 
