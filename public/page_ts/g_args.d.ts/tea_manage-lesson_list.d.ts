@@ -1,5 +1,4 @@
 interface GargsStatic {
-	test_seller_id:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -12,7 +11,8 @@ interface GargsStatic {
 	lesson_status:	number;
 	assistantid:	number;
 	grade:	string;//枚举列表: App\Enums\Egrade
- 	test_seller_adminid:	number;
+ 	test_seller_id:	number;
+	test_seller_adminid:	number;
 	has_performance:	number;
 	fulltime_flag:	number;
 	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
@@ -23,6 +23,7 @@ interface GargsStatic {
 	lesson_del_flag:	number;
 	has_video_flag:	number;//\App\Enums\Eboolean
 	is_with_test_user:	number;
+	seller_flag:	number;
 	lessonid:	number;
 	origin:	string;
 	page_num:	number;
@@ -193,7 +194,6 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			test_seller_id:	$('#id_test_seller_id').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -206,6 +206,7 @@ $(function(){
 			lesson_status:	$('#id_lesson_status').val(),
 			assistantid:	$('#id_assistantid').val(),
 			grade:	$('#id_grade').val(),
+			test_seller_id:	$('#id_test_seller_id').val(),
 			test_seller_adminid:	$('#id_test_seller_adminid').val(),
 			has_performance:	$('#id_has_performance').val(),
 			fulltime_flag:	$('#id_fulltime_flag').val(),
@@ -217,6 +218,7 @@ $(function(){
 			lesson_del_flag:	$('#id_lesson_del_flag').val(),
 			has_video_flag:	$('#id_has_video_flag').val(),
 			is_with_test_user:	$('#id_is_with_test_user').val(),
+			seller_flag:	$('#id_seller_flag').val(),
 			lessonid:	$('#id_lessonid').val(),
 			origin:	$('#id_origin').val(),
 			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
@@ -236,7 +238,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_studentid').val(g_args.studentid);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_confirm_flag').val(g_args.confirm_flag);
@@ -246,6 +247,7 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_grade').val(g_args.grade);
 	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
+	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_has_performance').val(g_args.has_performance);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
@@ -257,6 +259,7 @@ $(function(){
 	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
 	$('#id_has_video_flag').val(g_args.has_video_flag);
 	$('#id_is_with_test_user').val(g_args.is_with_test_user);
+	$('#id_seller_flag').val(g_args.seller_flag);
 	$('#id_lessonid').val(g_args.lessonid);
 	$('#id_origin').val(g_args.origin);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
@@ -269,13 +272,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">test_seller_id</span>
-                <input class="opt-change form-control" id="id_test_seller_id" />
-            </div>
-        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -323,6 +319,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">grade</span>
                 <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_seller_id</span>
+                <input class="opt-change form-control" id="id_test_seller_id" />
             </div>
         </div>
 
@@ -402,6 +405,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">is_with_test_user</span>
                 <input class="opt-change form-control" id="id_is_with_test_user" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">seller_flag</span>
+                <input class="opt-change form-control" id="id_seller_flag" />
             </div>
         </div>
 
