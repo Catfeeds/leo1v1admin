@@ -2,6 +2,7 @@ interface GargsStatic {
 	date:	string;
 	st_application_nick:	string;
 	require_adminid:	number;
+	test_seller_adminid:	number;
 	userid:	number;
 	teacherid:	number;
 	run_flag:	number;
@@ -56,6 +57,7 @@ $(function(){
 			date:	$('#id_date').val(),
 			st_application_nick:	$('#id_st_application_nick').val(),
 			require_adminid:	$('#id_require_adminid').val(),
+			test_seller_adminid:	$('#id_test_seller_adminid').val(),
 			userid:	$('#id_userid').val(),
 			teacherid:	$('#id_teacherid').val(),
 			run_flag:	$('#id_run_flag').val(),
@@ -67,6 +69,7 @@ $(function(){
 	$('#id_date').val(g_args.date);
 	$('#id_st_application_nick').val(g_args.st_application_nick);
 	$('#id_require_adminid').val(g_args.require_adminid);
+	$('#id_test_seller_adminid').val(g_args.test_seller_adminid);
 	$('#id_userid').val(g_args.userid);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_run_flag').val(g_args.run_flag);
@@ -99,6 +102,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">require_adminid</span>
                 <input class="opt-change form-control" id="id_require_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_seller_adminid</span>
+                <input class="opt-change form-control" id="id_test_seller_adminid" />
             </div>
         </div>
 
