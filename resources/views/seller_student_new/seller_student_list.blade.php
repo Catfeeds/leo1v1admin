@@ -883,14 +883,14 @@
 
                     </div>
 
-                    <div class="col-xs-12 col-md-2  ">
+                    <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
                             <span class="input-group-addon">课外提高：</span>
                             <select id="id_extra_improvement" class=" form-control "   >
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2 ">
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon">习惯重塑：</span>
                             <select id="id_habit_remodel" class=" form-control "   >

@@ -750,6 +750,11 @@ function init_edit() {
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
             var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
             var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
+            var id_test_stress = html_node.find("#id_test_stress");
+            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
+            var id_extra_improvement = html_node.find("#id_extra_improvement");
+            var id_habit_remodel = html_node.find("#id_habit_remodel");
+            var id_interest_cultivation = html_node.find("#id_interest_cultivation");
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){

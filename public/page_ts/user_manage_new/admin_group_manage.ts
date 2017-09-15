@@ -126,14 +126,11 @@ $(function(){
              },
              success: function (result) {
                  if (result['ret'] == 0) {
-                     var data = result['data'];
 
                      var html_str = "";
-                     $.each(data, function (i, item) {
-                         var cls = "success";
+                     var cls = "success";
 
-                         html_str += "<tr class=\"" + cls + "\" > <td>" + item.add_time_formate  + "<td>" + item.do_adminid_nick + "</tr>";
-                     });
+                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick + "</tr>";
 
                      html_node.find(".data-body").html(html_str);
 
