@@ -2839,7 +2839,7 @@ class tea_manage extends Controller
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info=$this->t_teacher_train_info->get_list($page_info);
+        $ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");

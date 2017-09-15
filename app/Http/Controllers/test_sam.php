@@ -125,16 +125,7 @@ class test_sam  extends Controller
     }
 
     public function tt(){
-
-
-        $te = '["21","23","24"]';
-        $te = trim($te,'[]');
-        $te = explode(",", $te);
-        foreach ($te as $key => $value) {
-            $t = intval(trim($value,'"'));
-            var_dump($t);
-        }
-        dd($te);
+        $this->t_teacher_lecture_appointment_info->get_fulltime_teacher_enter(1501516800,1504195200);
 
     }
 
