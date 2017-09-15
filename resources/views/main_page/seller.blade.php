@@ -47,7 +47,7 @@
                     <div class="panel-heading">
                         本月-我的数据
                     </div>
-                    <div class="input-group " >
+                    <div class="input-group " id="id_seller_new">
                         <span class="input-group-addon">销售</span>
                         <input id="id_test_seller_id" style="width:100px" class="opt-change" />
                     </div>
