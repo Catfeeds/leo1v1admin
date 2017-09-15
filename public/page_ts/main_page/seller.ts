@@ -7,14 +7,15 @@ $(function(){
             groupid= -1;
         }
         $.reload_self_page ( {
-            date_type:	$('#id_date_type').val(),
-            opt_date_type:	$('#id_opt_date_type').val(),
-            start_time:	$('#id_start_time').val(),
-            end_time:	$('#id_end_time').val(),
-            groupid: groupid
+            date_type      : $('#id_date_type').val(),
+            opt_date_type  : $('#id_opt_date_type').val(),
+            start_time     : $('#id_start_time').val(),
+            end_time       : $('#id_end_time').val(),
+            groupid        : groupid,
+            test_seller_id : $("#id_test_seller_id").val(),
         });
     }
-
+    $("#id_test_seller_id").val(g_args.test_seller_id);
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
@@ -30,7 +31,22 @@ $(function(){
         $("#id_query_row").hide();
     }
 
-
+    $.admin_select_user(
+        $('#id_test_seller_id'),
+        "admin", load_data ,false, {
+            "main_type": 2, //分配用户
+            select_btn_config: [{
+                "label": "所有非销售",
+                "value":  -3
+            },{
+                "label": "所有销售",
+                "value":  -2
+            }]
+        }
+    );
+    if(group_type == 0){
+        $('#id_seller_new').attr('style','display:none');
+    }
 
     function show_top( $person_body_list) {
 
