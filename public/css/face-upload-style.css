@@ -34,12 +34,12 @@
 	  position: relative;
 	  height: 400px;
 	  width: 400px;
-	  border: 1px solid #aaa;
+	  border: 1px solid #ddd;
 	  background: #fff;
 	  overflow: hidden;
 	  background-repeat: no-repeat;
 	  cursor: move;
-	  box-shadow: 4px 4px 12px #B0B0B0; 
+	  /* box-shadow: 4px 4px 12px #B0B0B0;  */
 }
 .imageBox .thumbBox {
 	  position: absolute;
