@@ -2881,6 +2881,14 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function set_first_groupid_new(){
+        $groupid    = $this->get_in_int_val("groupid");
+        $up_groupid    = $this->get_in_int_val("first_groupid");
+        $month        = strtotime($this->get_in_str_val("start_time"));
+        $this->t_group_name_month->field_update_list_2($groupid,$month,['up_groupid'=>$up_groupid]);
+        return $this->output_succ();
+    }
+
 
     public function set_up_groupid_new(){
         $groupid    = $this->get_in_int_val("groupid");

@@ -318,7 +318,7 @@ $(function(){
                 var groupid = val ;
                 var me=this;
                 if (groupid>0) {
-                    $.do_ajax("/user_deal/set_up_groupid_new",{
+                    $.do_ajax("/user_deal/set_first_groupid_new",{
                         "groupid"    : groupid,
                         "up_groupid" : first_groupid,
                         "start_time" : g_args.start_time
