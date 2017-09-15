@@ -2816,5 +2816,21 @@ ORDER BY require_time ASC";
 
         return $this->main_get_list($sql);
     }
+    public function get_test_lesson_require_row($start_time,$end_time,$adminid){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr,'t.require_adminid',$adminid);
+        $this->where_arr_add_time_range($where_arr,'tr.require_time',$start_time,$end_time);
 
+        $sql=$this->gen_sql_new(
+            "select tr.require_id "
+            ." from %s tr "
+            ." left join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." where %s limit 1 "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

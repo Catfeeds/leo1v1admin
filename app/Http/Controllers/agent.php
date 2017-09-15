@@ -318,16 +318,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $account = $this->get_account();
-        $adminid = $this->get_account_id();
-        $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
-        $son_account_arr = [];
-        foreach($son_adminid as $item){
-            $son_account_arr[] = $this->cache_get_account_nick($item['adminid']);
-        }
-        array_unshift($son_account_arr,$account);
-        $son_account_arr = array_unique($son_account_arr);
-        dd($son_account_arr);
         $this->test_lesson_cancle_rate();
     }
 
@@ -351,8 +341,9 @@ class agent extends Controller
         if($self_top_info>25){//上周取消率>25%,查看当天是否排课
             $start_time = $time;
             $end_time = $time+3600*24;
-            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
-            $ret['ret'] = $ret_info?1:2;
+            // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
+            $require_id = $this->t_test_lesson_subject_require->get_test_lesson_require_row($start_time,$end_time,$adminid);
+            $ret['ret'] = $require_id?1:2;
             $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
             if($review_suc){
                 $ret['ret'] = 2;
@@ -376,7 +367,7 @@ class agent extends Controller
             }
             $ret['rate'] = $del_rate;
         }
-        dd($self_top_info_old,$ret,$ret_info,$review_suc);
+        dd($self_top_info_old,$ret,$ret_info);
     }
 
     public function agent_add(){
