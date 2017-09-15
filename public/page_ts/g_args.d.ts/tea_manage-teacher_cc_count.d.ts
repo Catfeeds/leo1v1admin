@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	subject:	number;
 	grade_part_ex:	number;
+	tranfer_per:	number;
 	teacherid:	number;
 	page_num:	number;
 	page_count:	number;
@@ -51,6 +52,7 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			subject:	$('#id_subject').val(),
 			grade_part_ex:	$('#id_grade_part_ex').val(),
+			tranfer_per:	$('#id_tranfer_per').val(),
 			teacherid:	$('#id_teacherid').val()
         });
     }
@@ -68,6 +70,7 @@ $(function(){
     });
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade_part_ex').val(g_args.grade_part_ex);
+	$('#id_tranfer_per').val(g_args.tranfer_per);
 	$('#id_teacherid').val(g_args.teacherid);
 
 
@@ -90,6 +93,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">grade_part_ex</span>
                 <input class="opt-change form-control" id="id_grade_part_ex" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tranfer_per</span>
+                <input class="opt-change form-control" id="id_tranfer_per" />
             </div>
         </div>
 

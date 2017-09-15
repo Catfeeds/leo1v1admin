@@ -645,6 +645,7 @@ class stu_manage extends Controller
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Elesson_cancel_reason_type::set_item_value_str($item);
+            $item['level_str'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Elevel::set_item_value_str($item);
             E\Eteacher_money_type::set_item_value_str($item);
         }

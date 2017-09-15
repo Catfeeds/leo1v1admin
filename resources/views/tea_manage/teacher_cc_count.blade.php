@@ -6,8 +6,16 @@
         <div>
             <div class="row">
                <div class="col-xs-12 col-md-4">
-                    <div id="id_date_range"></div>
-                </div>
+                   <div id="id_date_range"></div>
+               </div>
+               <div class="col-xs-6 col-md-2">
+                   <div class="input-group">
+                       <span>转化率</span>
+                       <select id="id_tranfer_per" class="opt-change" >
+                       </select>
+                   </div>
+               </div>
+               
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group">
                         <span>科目</span>
