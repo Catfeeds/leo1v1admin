@@ -107,39 +107,39 @@ $(function(){
 
      $(".opt-show_change_log").on("click",function(){
 
-        var data            = $(this).get_opt_data();
-        var complaint_id    = data.complaint_id;
-        var html_node    = $.obj_copy_node("#id_assign_log");
+         var data            = $(this).get_opt_data();
+         var complaint_id    = data.complaint_id;
+         var html_node    = $.obj_copy_node("#id_assign_log");
 
-        BootstrapDialog.show({
-            title: "分配列表",
-            message: html_node,
-            closable: true
-        });
+         BootstrapDialog.show({
+             title: "分配列表",
+             message: html_node,
+             closable: true
+         });
 
-        $.ajax({
-            type: "post",
-            url: "/ss_deal/get_assign_log",
-            dataType: "json",
-            data: {
-                'adminid': data.adminid,
-            },
-            success: function (result) {
-                if (result['ret'] == 0) {
-                    var data = result['data'];
+         $.ajax({
+             type: "post",
+             url: "/ss_deal/get_assign_log",
+             dataType: "json",
+             data: {
+                 'adminid': data.adminid,
+             },
+             success: function (result) {
+                 if (result['ret'] == 0) {
+                     var data = result['data'];
 
-                    var html_str = "";
-                    $.each(data, function (i, item) {
-                        var cls = "success";
+                     var html_str = "";
+                     $.each(data, function (i, item) {
+                         var cls = "success";
 
-                        html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
-                    });
+                         html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
+                     });
 
-                    html_node.find(".data-body").html(html_str);
+                     html_node.find(".data-body").html(html_str);
 
-                }
-            }
-        });
+                 }
+             }
+         });
 
     });
 
