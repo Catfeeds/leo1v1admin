@@ -88,7 +88,8 @@ class tea_manage_new extends Controller
                     "acc"                =>$account,
                     "limit_week_lesson_num_new"  =>$limit_week_lesson_num,
                     "limit_week_lesson_num_old"  =>$old_week_num,
-                    "seller_require_flag"        =>$seller_require_flag
+                    "seller_require_flag"        =>$seller_require_flag,
+                    "record_info"        =>$tea_nick."老师"."周排课数由".$old_week_num."节改为".$limit_week_lesson_num."节"
                 ]);
             }
 
@@ -97,9 +98,23 @@ class tea_manage_new extends Controller
             if($old_week_lesson_count != $week_lesson_count){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"理优监课组","老师周课时更改",$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count.",操作人:".$account,"");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (448,"理优监课组","老师周课时更改",$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count.",操作人:".$account,"");
+                $this->t_teacher_record_list->row_insert([
+                    "teacherid"          =>$teacherid,
+                    "type"               =>7,
+                    "add_time"           =>time(),
+                    "acc"                =>$account,
+                    "limit_week_lesson_num_new"  =>$limit_week_lesson_num,
+                    "limit_week_lesson_num_old"  =>$old_week_num,
+                    "seller_require_flag"        =>$seller_require_flag,
+                    "record_info"        =>$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count
+                ]);
+
                
 
             }
+
+            
+
         }
         return $this->output_succ();
     }
