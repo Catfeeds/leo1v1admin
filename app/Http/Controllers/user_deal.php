@@ -2654,20 +2654,20 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {        
-        $ret = $this->t_teacher_info->get_textbook_by_id(30004);
+        $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
             $arr = explode(",",$val["teacher_textbook"]);
             $i=0;
             foreach($arr as $k=>$v){
-                if($v==30004){
+                if($v==30018){
                     unset($arr[$k]);
                 }
-                if($v==29){
+                if($v==6){
                     $i=1;
                 }
             }
             if($i==0){
-                $arr[] = 29; 
+                $arr[] = 6; 
             }
             $str = implode(",",$arr);
             $this->t_teacher_info->field_update_list($val["teacherid"],[
