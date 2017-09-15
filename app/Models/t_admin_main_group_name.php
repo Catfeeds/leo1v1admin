@@ -332,5 +332,12 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_update($sql);
     }
 
+    public function get_main_group_list($page_num,$main_type){
+        $sql=$this->gen_sql_new("select groupid,group_name,master_adminid from %s where main_type=%u  " ,
+                                self::DB_TABLE_NAME, $main_type);
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+
 
 }

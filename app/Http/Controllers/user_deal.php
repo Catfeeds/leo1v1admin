@@ -2653,8 +2653,28 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {
-        
+    {        
+        $ret = $this->t_teacher_info->get_textbook_by_id(30018);
+        foreach($ret as $val){
+            $arr = explode(",",$val["teacher_textbook"]);
+            $i=0;
+            foreach($arr as $k=>$v){
+                if($v==30018){
+                    unset($arr[$k]);
+                }
+                if($v==6){
+                    $i=1;
+                }
+            }
+            if($i==0){
+                $arr[] = 6; 
+            }
+            $str = implode(",",$arr);
+            $this->t_teacher_info->field_update_list($val["teacherid"],[
+               "teacher_textbook" =>$str 
+            ]);
+        }
+        dd($ret);
         $start_time = strtotime(date("Y-m-d",time()))-15*86400;
         $end_time   = time();
         $level      = [0=>"",1=>"加油",2=>"还行",3=>"不错",4=>"良好",5=>"优秀"];
@@ -2678,27 +2698,40 @@ class user_deal extends Controller
                 }
                 $num  = count(@$ret_info['point_stu_desc']);
                 $time = date('Y-m-d H:i:s',time());
+
+                if(is_array($ret_info['stu_comment'])){
+                    $str = json_encode($ret_info['stu_comment']);
+                    $str = "总结如下:<br>".$this->get_test_lesson_comment_str($str);
+                }else{
+                    $str = $ret_info['stu_comment'];
+                }
+                $ret_info['stu_comment'] = $str;
+
                 if($num>=3){
                     $num = 3;
                     dispatch( new \App\Jobs\SendEmail(
-                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
+                        "jack@leoedu.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
                         "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."、".@$ret_info['point_name'][2]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li><li><i>".@$ret_info['point_name'][2]."</i><p>".@$ret_info['point_stu_desc'][2]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
                     )); 
+                    echo 1111;
                 }elseif($num== 2){
                     dispatch( new \App\Jobs\SendEmail(
                         "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
                         "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    )); 
+                    ));
+                    echo 1112;
                 }elseif($num==1 ){
                     dispatch( new \App\Jobs\SendEmail(
                         "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
                         "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    )); 
+                    ));
+                    echo 1113;
                 }else{
                     dispatch( new \App\Jobs\SendEmail(
                         "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
                         "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    )); 
+                    ));
+                    echo 1114;
                 }
                 $this->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
                 \App\Helper\Utils::logger("send email.lessonid:".$item['lessonid']." date:".date("Y-m-d H:i",time()));
@@ -2737,11 +2770,13 @@ class user_deal extends Controller
     }
 
 
-    public function get_group_list_major ()
+    public function get_major_group_list ()
     {
         $main_type    = $this->get_in_int_val("main_type");
         $page_num     = $this->get_in_page_num();
-        $ret_info     = $this->t_admin_group_name->get_group_list_new($page_num,$main_type);
+
+        // $ret_info     = $this->t_admin_group_name->get_group_list_new($page_num,$main_type);// old
+        $ret_info     = $this->t_admin_main_group_name->get_main_group_list($page_num,$main_type);
         foreach($ret_info['list'] as &$item){
             $item['group_master_nick']= $this->cache_get_account_nick($item['master_adminid']);
         }
@@ -2800,6 +2835,14 @@ class user_deal extends Controller
         $this->t_admin_group_name->field_update_list($groupid,['up_groupid'=>$up_groupid]);
         return $this->output_succ();
     }
+
+    public function set_main_groupid(){
+        $groupid          = $this->get_in_int_val("groupid");
+        $first_groupid    = $this->get_in_int_val("first_groupid");
+        $this->t_admin_main_group_name->field_update_list($groupid,['up_groupid'=>$first_groupid]);
+        return $this->output_succ();
+    }
+
 
     public function set_up_groupid_new(){
         $groupid    = $this->get_in_int_val("groupid");

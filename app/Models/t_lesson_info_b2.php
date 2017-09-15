@@ -170,11 +170,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $now=time(NULL);
         $sql = $this->gen_sql_new(
             "select lessonid, c.courseid,lesson_num,lesson_type,real_begin_time,real_end_time, l.teacherid , current_server, lesson_start, lesson_end ,server_type"
-            . " from %s l, %s c ".
-            " where l.courseid = c.courseid and lesson_upload_time = 0 and lesson_status = 2 and real_begin_time != 0 and lesson_type != 4001 and   ".
-            "  lesson_start > %u  and lesson_start <%u and  lesson_end<%u and lesson_del_flag=0 order by   gen_video_grade desc,   lesson_start asc ",
+            . " from %s l"
+            . " join %s c  on l.courseid = c.courseid  "
+            . " join %s s  on l.userid = s.userid "
+            ." where lesson_upload_time = 0 and lesson_status = 2 and real_begin_time != 0 and lesson_type != 4001 and   confirm_flag<2  and s.is_test_user=0 and "
+            . "  lesson_start > %u  and lesson_start <%u and  lesson_end<%u and lesson_del_flag=0 order by   gen_video_grade desc,   lesson_start asc ",
             self::DB_TABLE_NAME ,
             t_course_order::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
             $now - 86400*3, $now+3600*5 , $now );
         return $this->main_get_list($sql);
     }
