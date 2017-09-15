@@ -2912,7 +2912,7 @@ trait TeaPower {
             }
         }else{
             foreach($arr as $k=>$v){
-                $data .= @$v["stu_tip"].":".@$v["stu_info"].";";
+                $data .= @$v["stu_tip"]." ".@$v["stu_info"].";";
             }
         }
         return $data;

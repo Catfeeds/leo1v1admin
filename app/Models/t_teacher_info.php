@@ -3600,4 +3600,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_textbook_by_id($id){
+        $sql = $this->gen_sql_new("select teacher_textbook,teacherid from %s where teacher_textbook like '%%%s%%'",self::DB_TABLE_NAME,$id);
+        return $this->main_get_list($sql);
+    }
 }
