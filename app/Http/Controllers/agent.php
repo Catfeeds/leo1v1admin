@@ -65,6 +65,9 @@ class agent extends Controller
             $item["all_money"]/= 100;
             $item["l1_agent_status_all_money"]/= 100;
             $item["l1_agent_status_all_open_money"]/= 100;
+
+            $item["l2_agent_status_all_money"]/= 100;
+            $item["l2_agent_status_all_open_money"]/= 100;
             $item["all_yxyx_money"]/= 100;
             $item["all_open_cush_money"]/= 100;
             $item["all_have_cush_money"]/= 100;
@@ -321,6 +324,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $test_seller_id = in_array(3,[0,1])?1:2;
+        dd($test_seller_id);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
         return $this->pageView(__METHOD__,$ret_info);

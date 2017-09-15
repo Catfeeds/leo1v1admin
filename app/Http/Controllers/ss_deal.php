@@ -5884,6 +5884,15 @@ class ss_deal extends Controller
     public function get_user_change_log(){
         $adminid = $this->get_in_int_val('adminid');
 
-        $change_log = $this->t_user_group_change_log->get_user_change_log($adminid);
+        $log_info_arr = $this->t_user_group_change_log->get_user_change_log($adminid);
+
+        $ret_info = [];
+
+        if($log_info_arr){
+            $ret_info['add_time_formate'] = date('Y-m-d H:i:s',$log_info_arr['add_time']);
+            $ret_info['do_adminid_nick']  = $this->cache_get_account_nick($log_info_arr['do_adminid']);
+        }
+
+        return $this->output_succ($ret_info);
     }
 }

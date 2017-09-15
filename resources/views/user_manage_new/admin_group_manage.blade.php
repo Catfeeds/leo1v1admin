@@ -148,7 +148,7 @@
     <div style="display:none;" >
         <div id="id_assign_log">
             <table   class="table table-bordered "   >
-                <tr>  <th> 分配时间 <th>分配人 <th>接受人 <th>分配备注  </tr>
+                <tr>  <th> 操作时间 <th>操作人   </tr>
                     <tbody class="data-body">
                     </tbody>
             </table>

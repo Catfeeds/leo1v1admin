@@ -83,16 +83,28 @@
 
                         <tr>
                             <td>
-                               邀请奖励/可提现
+                               l1邀请奖励/可提现
                             <td id="id_invite_money_info"> </td>
                         </tr>
 
                         <tr>
                             <td>
-                               邀请试听不可提现
+                               l1邀请试听不可提现
                             <td id="id_invite_money_not_open_not_lesson_succ"> </td>
                         </tr>
 
+
+                        <tr>
+                            <td>
+                               l2邀请奖励/可提现
+                            <td id="id_l2_invite_money_info"> </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                               l2邀请试听不可提现
+                            <td id="id_l2_invite_money_not_open_not_lesson_succ"> </td>
+                        </tr>
 
                     </tbody>
 

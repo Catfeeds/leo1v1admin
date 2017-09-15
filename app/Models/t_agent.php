@@ -212,6 +212,36 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
 
+    public function get_l2_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
+
+        $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
+        $where_arr=[
+            "a.type in (1,3)",
+            ["pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
+            "create_time> $yxyx_check_time",
+
+        ];
+        if ( $test_lesson_succ_flag ==1 ) {
+            $where_arr[] ="pp_agent_status_money=5000 ";
+        }else if ( $test_lesson_succ_flag ==0 ) {
+            $where_arr[] ="pp_agent_status_money<5000 ";
+        }
+
+
+        $sql=$this->gen_sql_new (
+            "select  a.create_time, a.id, a.nickname,a.phone,  a.agent_status, a.pp_agent_status_money as agent_status_money , a.pp_agent_status_money_open_flag as agent_status_money_open_flag  "
+            ." from %s a_p "
+            ." join %s a on a.parentid = a_p.id "
+            ." where a_p.parentid=%u and %s "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$id,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_invite_money_list($id, $test_lesson_succ_flag , $agent_status_money_open_flag ){
 
         $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
@@ -895,8 +925,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     "p2_p_price"              => $p2["o_price"]/100,
                     "p2_p_open_price"              => $p2["o_open_price"]/100,
 
-                    "p1_agent_status_money"              => $p1["pp_agent_status_money"]/100,
-                    "p1_agent_status_money_open_flag_str" => $p1["pp_agent_status_money_open_flag_str"],
+                    "p2_agent_status_money"              => $p2["pp_agent_status_money"]/100,
+                    "p2_agent_status_money_open_flag_str" => $p2["pp_agent_status_money_open_flag_str"],
                 ] ;
             }
         }
@@ -1445,7 +1475,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            if ($agent_status_money=5000) {
+            if ($agent_status_money==5000) {
                 $pp_agent_status_money= 2500;
             }
         }
