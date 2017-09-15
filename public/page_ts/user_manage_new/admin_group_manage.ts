@@ -112,14 +112,14 @@ $(function(){
          var html_node    = $.obj_copy_node("#id_assign_log");
 
          BootstrapDialog.show({
-             title: "分配列表",
+             title: "添加信息列表",
              message: html_node,
              closable: true
          });
 
          $.ajax({
              type: "post",
-             url: "/ss_deal/get_assign_log",
+             url: "/ss_deal/get_user_change_log",
              dataType: "json",
              data: {
                  'adminid': data.adminid,
@@ -132,7 +132,7 @@ $(function(){
                      $.each(data, function (i, item) {
                          var cls = "success";
 
-                         html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
+                         html_str += "<tr class=\"" + cls + "\" > <td>" + item.add_time_formate  + "<td>" + item.do_adminid_nick + "</tr>";
                      });
 
                      html_node.find(".data-body").html(html_str);
