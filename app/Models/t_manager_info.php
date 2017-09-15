@@ -1653,4 +1653,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->main_update($sql);
 
     }
+
+    public function get_del_ass_list($account_role){
+        $sql = $this->gen_sql_new("select uid,name from %s where account_role = %u and del_flag=1",self::DB_TABLE_NAME,$account_role);
+        return $this->main_get_list($sql);
+    }
 }

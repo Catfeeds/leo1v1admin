@@ -64,8 +64,8 @@
             <thead>
                 <tr>
                     <td>类型 </td>
-                    <!-- <td >总监 </td> -->
-                    <td>主管 </td>
+                    <td>总监 </td>
+                    <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
                     <td> 操作  </td>
@@ -77,10 +77,17 @@
                     <tr class="{{$var["level"]}}">
 
 
+
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
-                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+
+                        <td  data-class_name="{{@$var["first_group_name_class"]}}" class=" first_group_name  {{$var["main_type_class"]}} {{@$var["first_group_name_class"]}}  " >{{@$var["first_group_name"]}}</td>
+
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name {{@$var["first_group_name_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
+
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
+
 
 
 
@@ -92,7 +99,11 @@
 
                                @if($monthtime_flag==1)
                                    <a class="opt-add-major-group">新增总监分组</a>
-                                   <a class="opt-add-main-group">新增主管分组</a>
+                                   <a class="opt-add-main-group">新增-经理</a>
+                                   <a class="opt-edit-major-group">修改-经理</a>
+                                   <a class="opt-assign-major-group">分配-经理</a>
+                                   <a class="opt-del-major-group">删除-经理</a>
+
                                    <a class="opt-assign-main-group">分配小组</a>
                                    <a class="opt-edit-main-group">修改</a>
                                    <a class="opt-del-main-group">删除</a>
@@ -105,8 +116,14 @@
                                        <a class="opt-set-subject">配置科目</a>
                                    @endif
                                @else
-                                   <a class="opt-add-main-group-new">新增主管分组</a>
+                                   <a class="opt-add-main-group-new">新增经理分组</a>
                                    <a class="opt-assign-main-group-new">分配小组</a>
+
+                                   <a class="opt-assign-major-group-new">分配经理</a>
+                                   <a class="opt-edit-major-group-new">修改-经理</a>
+                                   <a class="opt-del-major-group-new">删除经理</a>
+
+
                                    <a class="opt-edit-main-group-new">修改</a>
                                    <a class="opt-del-main-group-new">删除</a>
                                    <a class="opt-add-main-group-user-new">新增小组</a>

@@ -511,6 +511,7 @@ class menu{
                 ["power_id"=>66, "name"=>"课堂状态-销售",   "url"=>"/supervisor/monitor_seller"],
 
                 ["power_id"=>64, "name"=>"课程列表-销售",   "url"=>"/tea_manage/lesson_list_seller"],
+                ["power_id"=>81, "name"=>"课程列表-销售-主管",   "url"=>"/tea_manage/lesson_list_new"],
                 ["power_id"=>70, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_seller"],
                 ["power_id"=>71, "name"=>"申请推荐试听老师列表",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_seller"],
 
@@ -521,8 +522,8 @@ class menu{
 
                 ["power_id"=>59, "name"=>"讲师申请帮助",   "url"=>"/teacher_apply/teacher_apply_list_one" ],
 
-                ["power_id"=>20, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
-                ["power_id"=>21, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
+                // ["power_id"=>20, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
+                // ["power_id"=>21, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
                 // ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller_mix"],
                 ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
                 // ["power_id"=>29, "name"=>"合同-已付费-主管",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],

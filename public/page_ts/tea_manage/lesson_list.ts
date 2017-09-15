@@ -5,7 +5,9 @@ var notify_cur_playpostion =null;
 $(function(){
     $(".opt-set-server ").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> </select>");
+        var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> "
+                       + "<option value=\"a_01\" >青岛_27</option> "
+                       +" </select>");
         var arr=[
             ["服务器", $server]
         ];

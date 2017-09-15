@@ -148,6 +148,31 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span class="input-group-addon">二面状态</span>
+                        <select class="opt-change form-control" id="id_second_train_status" >
+                            <option value="-1">全部</option>
+                            <option value='0'>不通过</option>
+                            <option value='1'>通过</option>
+                            <option value='2'>老师未到</option>
+                            <option value='3'>待定</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span class="input-group-addon">入职状态</span>
+                        <select class="opt-change form-control" id="id_teacher_pass_type" >
+                            <option value="-1">全部</option>
+                            <option value='0'>未设置</option>
+                            <option value='1'>已入职</option>
+                            <option value='2'>未入职</option>
+                        </select>
+                    </div>
+                </div>
+
 
 
                 <div class="col-xs-6 col-md-4" data-always_show="1">
@@ -292,6 +317,7 @@
                                     <a class="opt-edit-hand" title="修改" >修改</a>
                                 @endif
                                 <a class="opt-1v1-lesson-set-new">1v1-new</a>
+                                <a class="opt-set-teacher-pass-type" title="修改入职状态">入</a>
                             </div>
                         </td>
                     </tr>

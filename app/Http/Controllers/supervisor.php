@@ -79,6 +79,7 @@ class supervisor extends Controller
     {
         $this->set_in_value("st_application_nick", $this->get_account() );
         $this->set_in_value("require_adminid", $this->get_account_id() );
+        $this->set_in_value("test_seller_adminid", $this->get_account_id() );
         $this->set_in_value("run_flag",-1);
         return $this->monitor();
     }
@@ -92,9 +93,11 @@ class supervisor extends Controller
 
     public function monitor()
     {
+        $adminid             = $this->get_account_id();
         $date                = $this->get_in_str_val('date',date('Y-m-d', time(NULL)));
         $st_application_nick = $this->get_in_str_val('st_application_nick',"");
         $require_adminid     = $this->get_in_int_val('require_adminid', -1 );
+        $test_seller_adminid = $this->get_in_int_val('test_seller_adminid', -1 );
         $userid              = $this->get_in_userid(-1);
         $teacherid           = $this->get_in_teacherid(-1);
         $run_flag            = $this->get_in_int_val("run_flag",1);
@@ -102,8 +105,20 @@ class supervisor extends Controller
 
         $start_time  = strtotime($date);
         $end_time    = $start_time + 86400;
-        $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
-            $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid);
+        if($test_seller_adminid != -1){
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
+                $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid_arr);
+        }else{
+            $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
+                $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid);
+        }
         $monitor_key = $this->session_gen_key($date,$st_application_nick,$userid,$teacherid,$run_flag) ;
 
         $adminid          = $this->get_account_id();

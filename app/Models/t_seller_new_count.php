@@ -69,6 +69,28 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         $ret_2=$this->main_get_row($sql);
         return array_merge($ret_1,$ret_2);
     }
+    public function get_list_for_check_work($adminid, $seller_new_count_type,$start_time, $end_time )  {
+
+        $where_arr=[
+            ["adminid=%d",$adminid , -1],
+            ["seller_new_count_type=%d",$seller_new_count_type ,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"start_time" ,$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select n.adminid,  add_time, start_time, end_time, seller_new_count_type ,value_ex, count , sum(get_time>0) as get_count "
+            ."from %s n "
+            ."left join %s nd on nd.new_count_id=n.new_count_id"
+            ." where %s "
+            ." group by  n.new_count_id  order by start_time "
+            ,self::DB_TABLE_NAME ,
+            t_seller_new_count_get_detail::DB_TABLE_NAME,
+            $where_arr  );
+
+        return $this->main_get_list($sql,function($item) {
+            return $item["start_time"];
+        });
+
+    }
 
     public function get_free_new_count_id($adminid) {
 
@@ -101,9 +123,11 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         return true;
     }
 
-    public function get_list($page_num,$adminid , $seller_new_count_type )   {
+    public function get_list($page_num,$adminid , $seller_new_count_type, $time=0 )   {
 
-        $time=time(NULL);
+        if (!$time) {
+            $time=time(NULL);
+        }
         $where_arr=[
             "end_time>$time",
             "start_time<$time",
@@ -228,7 +252,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
     }
     public function tongji_get_admin_list_count($adminid ,$start_time, $end_time )   {
 
-        
+
         $where_arr=[
             ["adminid=%d",$adminid , -1],
         ];

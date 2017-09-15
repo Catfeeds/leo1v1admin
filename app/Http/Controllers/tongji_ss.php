@@ -8089,17 +8089,36 @@ class tongji_ss extends Controller
     }
 
     public function tongji_lesson_record_info(){
-        $list = $this->t_teacher_record_list->get_record_score_list(1,1);
-        $data = $this->t_teacher_record_list->get_record_score_list(1,2);
-        $arr = $this->t_teacher_record_list->get_record_score_list(1,3);
-        $wuli = $this->t_teacher_record_list->get_record_score_list(1,5);
-        $huaxue = $this->t_teacher_record_list->get_record_score_list(1,4);
+       
+        $first_test = $this->t_teacher_record_list->tongji_record_score_rank_list(1);
+        foreach($first_test as &$v){
+           $v['subject_str']   = E\Esubject::get_desc($v['subject']); 
+        }
+        $fifth_test = $this->t_teacher_record_list->tongji_record_score_rank_list(2);
+        foreach($fifth_test as &$vv){
+            $vv['subject_str']   = E\Esubject::get_desc($vv['subject']); 
+        }
+
+        $first_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(3);
+        foreach($first_regular as &$vvv){
+            $vvv['subject_str']   = E\Esubject::get_desc($vvv['subject']); 
+        }
+
+        $fifth_regular = $this->t_teacher_record_list->tongji_record_score_rank_list(4);
+        foreach($fifth_regular as &$vvvv){
+            $vvvv['subject_str']   = E\Esubject::get_desc($vvvv['subject']); 
+        }
+
+        $all_record_info = $this->t_teacher_record_list->get_record_flag_info(-1);
+        $have_record_info = $this->t_teacher_record_list->get_record_flag_info(1);
+        $all_record_info["have_record_tea"] = $have_record_info["teacher_num"];
+        $all_record_info["have_record_stu"] = $have_record_info["stu_num"];
         return $this->pageView(__METHOD__,null,[
-            "list"  =>$list,
-            "data"  =>$data,
-            "arr"   =>$arr,
-            "wuli"  =>$wuli,
-            "huaxue"=>$huaxue
+            "first_test"     =>$first_test,
+            "first_regular"  =>$first_regular,
+            "fifth_regular"  =>$fifth_regular,
+            "fifth_test"     =>$fifth_test,
+            "all_record_info"=>$all_record_info,
         ]);
         // dd($list);
     }

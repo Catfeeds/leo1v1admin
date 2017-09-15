@@ -447,7 +447,7 @@ class lesson extends TeaWxController
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $now);
 
             /***
-                ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+                Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
                 {{first.DATA}}
                 课程名称：{{keyword1.DATA}}
                 课程时间：{{keyword2.DATA}}
@@ -479,7 +479,7 @@ class lesson extends TeaWxController
                 ];
 
                 $wx  = new \App\Helper\Wx();
-                $template_id_parent = 'ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+                $template_id_parent = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
                 if($lesson_info['wx_openid']){
                     $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_par ,'');
                 }

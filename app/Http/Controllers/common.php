@@ -567,8 +567,10 @@ class common extends Controller
         }
 
         return $this->output_succ([
-            'data' => $ret,
-            "webrtc_xmpp_server_list" => \App\Helper\Config::get_config("audio_server_list")
+            'data'                    => $ret,
+            "webrtc_xmpp_server_list" => \App\Helper\Config::get_config("audio_server_list"),
+            "audio_server_list"       => \App\Helper\Config::get_config("audio_server_list"),
+            "xmpp_server_list"        => \App\Helper\Config::get_config("xmpp_server_list"),
         ]);
     }
 
@@ -674,7 +676,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_hw.png";
+        $phone_qr_name = $phone."_qr_agent_hk.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
