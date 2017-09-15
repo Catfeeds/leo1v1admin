@@ -1,18 +1,17 @@
 interface GargsStatic {
+	contract_status:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	contract_type:	number;
-	contract_status:	number;
 	config_courseid:	number;
 	test_user:	number;
 	studentid:	number;
 	page_num:	number;
 	page_count:	number;
 	has_money:	number;
-	sys_operator:	string;
 	stu_from_type:	number;
 	account_role:	number;
 	seller_groupid_ex:	string;
@@ -141,18 +140,17 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			contract_status:	$('#id_contract_status').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			contract_type:	$('#id_contract_type').val(),
-			contract_status:	$('#id_contract_status').val(),
 			config_courseid:	$('#id_config_courseid').val(),
 			test_user:	$('#id_test_user').val(),
 			studentid:	$('#id_studentid').val(),
 			has_money:	$('#id_has_money').val(),
-			sys_operator:	$('#id_sys_operator').val(),
 			stu_from_type:	$('#id_stu_from_type').val(),
 			account_role:	$('#id_account_role').val(),
 			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
@@ -182,13 +180,12 @@ $(function(){
             load_data();
         }
     });
-	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
+	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_config_courseid').val(g_args.config_courseid);
 	$('#id_test_user').val(g_args.test_user);
 	$('#id_studentid').val(g_args.studentid);
 	$('#id_has_money').val(g_args.has_money);
-	$('#id_sys_operator').val(g_args.sys_operator);
 	$('#id_stu_from_type').val(g_args.stu_from_type);
 	$('#id_account_role').val(g_args.account_role);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
@@ -215,15 +212,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">contract_type</span>
-                <input class="opt-change form-control" id="id_contract_type" />
+                <span class="input-group-addon">contract_status</span>
+                <input class="opt-change form-control" id="id_contract_status" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">contract_status</span>
-                <input class="opt-change form-control" id="id_contract_status" />
+                <span class="input-group-addon">contract_type</span>
+                <input class="opt-change form-control" id="id_contract_type" />
             </div>
         </div>
 
@@ -252,13 +249,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">has_money</span>
                 <input class="opt-change form-control" id="id_has_money" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">sys_operator</span>
-                <input class="opt-change form-control" id="id_sys_operator" />
             </div>
         </div>
 

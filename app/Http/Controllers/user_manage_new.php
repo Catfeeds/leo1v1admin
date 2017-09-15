@@ -3995,9 +3995,7 @@ class user_manage_new extends Controller
         }
         array_unshift($son_adminid_arr,$adminid);
         $son_adminid_arr = array_unique($son_adminid_arr);
-        dd($son_adminid_arr);
-        $this->set_in_value("sys_operator", $this->get_account());
-        $this->set_in_value("contract_status", -2);
+        // $this->set_in_value("contract_status", -2);
 
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
             1 => array("order_time","下单日期"),
@@ -4012,7 +4010,6 @@ class user_manage_new extends Controller
         $studentid         = $this->get_in_studentid(-1);
         $page_num          = $this->get_in_page_num();
         $has_money         = $this->get_in_int_val("has_money",-1);
-        $sys_operator      = $this->get_in_str_val("sys_operator","");
         $stu_from_type     = $this->get_in_int_val("stu_from_type",-1);
         $account_role      = $this->get_in_int_val("account_role",-1);
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
@@ -4036,18 +4033,17 @@ class user_manage_new extends Controller
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
-        $ret_list = $this->t_order_info->get_order_list_require_adminid(
+        $ret_list = $this->t_order_info->get_order_list_require_adminid_new(
             $page_num,$start_time,$end_time,$contract_type,
             $contract_status,$studentid,$config_courseid,
             $is_test_user, $show_yueyue_flag, $has_money,
-            -1, $assistantid,"",$stu_from_type,$sys_operator,
+            -1, $assistantid,"",$stu_from_type,$son_adminid_arr,
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
             , $spec_flag
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){

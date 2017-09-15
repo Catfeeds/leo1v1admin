@@ -318,15 +318,16 @@ class agent extends Controller
     }
 
     public function check(){
+        $account = $this->get_account();
         $adminid = $this->get_account_id();
         $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
-        $son_adminid_arr = [];
+        $son_account_arr = [];
         foreach($son_adminid as $item){
-            $son_adminid_arr[] = $item['adminid'];
+            $son_account_arr[] = $this->cache_get_account_nick($item['adminid']);
         }
-        array_unshift($son_adminid_arr,$adminid);
-        $son_adminid_arr = array_unique($son_adminid_arr);
-        dd($son_adminid_arr);
+        array_unshift($son_account_arr,$account);
+        $son_account_arr = array_unique($son_account_arr);
+        dd($son_account_arr);
         $this->test_lesson_cancle_rate();
     }
 
