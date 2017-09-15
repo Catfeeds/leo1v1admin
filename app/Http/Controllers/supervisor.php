@@ -97,6 +97,7 @@ class supervisor extends Controller
         $date                = $this->get_in_str_val('date',date('Y-m-d', time(NULL)));
         $st_application_nick = $this->get_in_str_val('st_application_nick',"");
         $require_adminid     = $this->get_in_int_val('require_adminid', -1 );
+        $test_seller_id      = $this->get_in_int_val("test_seller_id",-1 );
         $test_seller_adminid = $this->get_in_int_val('test_seller_adminid', -1 );
         $userid              = $this->get_in_userid(-1);
         $teacherid           = $this->get_in_teacherid(-1);

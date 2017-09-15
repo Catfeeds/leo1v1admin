@@ -4,12 +4,13 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-      date:	$('#id_date').val(),
-      st_application_nick:	$('#id_st_application_nick').val(),
-      userid:	$('#id_userid').val(),
-      teacherid:	$('#id_teacherid').val() ,
-      run_flag:	$('#id_run_flag').val(),
-      assistantid:	$('#id_assistantid').val()
+            date                :	$('#id_date').val(),
+            st_application_nick :	$('#id_st_application_nick').val(),
+            userid              :	$('#id_userid').val(),
+            teacherid           :	$('#id_teacherid').val() ,
+            run_flag            :	$('#id_run_flag').val(),
+            assistantid         :	$('#id_assistantid').val(),
+            test_seller_id      : $("#id_test_seller_id").val(),
         });
     }
 
@@ -19,7 +20,7 @@ $(function(){
     $('#id_teacherid').val(g_args.teacherid);
     $('#id_run_flag').val(g_args.run_flag);
     $('#id_assistantid').val(g_args.assistantid);
-
+    $("#id_test_seller_id").val(g_args.test_seller_id);
 
     $('.opt-change').set_input_change_event(load_data);
 
@@ -30,7 +31,28 @@ $(function(){
     $.admin_select_user($("#id_assistantid"),"assistant" ,load_data);
 
 
+    $.admin_select_user(
+        $('#id_test_seller_id'),
+        "admin", load_data ,false, {
+            "main_type": 2, //分配用户
+            select_btn_config: [{
+                "label": "所有非销售",
+                "value":  -3
+            },{
+                "label": "所有销售",
+                "value":  -2
+            }]
+        }
+    );
 
+    if (window.location.pathname =="/supervisor/monitor_seller" ) {
+        $("#id_test_seller_id").parent().parent().hide();
+        $("#id_lesson_type").parent().parent().hide();
+        if(self_groupid != 0 && is_group_leader_flag == 0){
+            $("#id_teacherid").parent().parent().hide();
+        }
+        $(".opt-confirm").hide();
+    }
 
     $("#id_tongji").on("click", function () {
         $.do_ajax("/supervisor/get_tongji", {
