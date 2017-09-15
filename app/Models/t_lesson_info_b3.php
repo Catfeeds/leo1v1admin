@@ -663,6 +663,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
