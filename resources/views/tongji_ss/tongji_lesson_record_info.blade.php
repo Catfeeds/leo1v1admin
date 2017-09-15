@@ -25,10 +25,10 @@
                             <tbody >
                               
                                     <tr>
-                                        <td>{{@$var["teacher_num"]}} </td>
-                                        <td>{{@$var["have_record_tea"]}} </td>
-                                        <td>{{@$var["stu_num"]}} </td>
-                                        <td>{{@$var["have_record_stu"]}} </td>
+                                        <td>{{@$all_record_info["teacher_num"]}} </td>
+                                        <td>{{@$all_record_info["have_record_tea"]}} </td>
+                                        <td>{{@$all_record_info["stu_num"]}} </td>
+                                        <td>{{@$all_record_info["have_record_stu"]}} </td>
                                     </tr>
                             </tbody>
                         </table>

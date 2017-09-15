@@ -44,7 +44,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-add-main-group-new,.opt-add-main-group,.opt-assign-major-group,.opt-assign-major-group-new").each(function(){
+    $(".opt-add-main-group-new,.opt-add-main-group,.opt-assign-major-group,.opt-assign-major-group-new,.opt-edit-major-group,.opt-edit-major-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
