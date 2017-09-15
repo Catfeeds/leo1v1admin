@@ -105,20 +105,20 @@ class supervisor extends Controller
 
         $start_time  = strtotime($date);
         $end_time    = $start_time + 86400;
-        // if($test_seller_adminid != -1){
-        //     $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
-        //     $son_adminid_arr = [];
-        //     foreach($son_adminid as $item){
-        //         $son_adminid_arr[] = $item['adminid'];
-        //     }
-        //     array_unshift($son_adminid_arr,$adminid);
-        //     $require_adminid_arr = array_unique($son_adminid_arr);
-        //     $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
-        //         $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid_arr);
-        // }else{
+        if($test_seller_adminid != -1){
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $ret_info    = $this->t_lesson_info->get_lesson_condition_list_new(
+                $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid_arr);
+        }else{
             $ret_info    = $this->t_lesson_info->get_lesson_condition_list(
                 $start_time,$end_time,$st_application_nick,$userid,$teacherid,$run_flag,$assistantid,$require_adminid);
-        // }
+        }
         $monitor_key = $this->session_gen_key($date,$st_application_nick,$userid,$teacherid,$run_flag) ;
 
         $adminid          = $this->get_account_id();
