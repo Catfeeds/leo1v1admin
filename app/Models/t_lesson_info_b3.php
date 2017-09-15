@@ -401,12 +401,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     //
-    public function get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,$require_type=-1,$set_type=1){
+    public function get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,$require_type=-1,$set_type=1,$subject,$grade_part_ex,$teacherid){
         $where_arr = [
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
             "mm.account_role=2 ",
+            ["t.subject=%u",$subject,-1],
+            ["t.grade_part_ex=%u",$grade_part_ex,-1],
+            ["t.teacherid=%u",$teacherid,-1]
             // "mm.del_flag=0",
         ];
         if($set_type==1){
@@ -448,7 +451,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_info,true);
         /*return $this->main_get_list($sql,function($item){
             return $item["teacherid"];
