@@ -50,6 +50,26 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_ass_hand_kk_num($month,$adminid=-1,$kpi_type=1){
+        $where_arr=[
+            ["adminid=%u",$adminid,-1],
+            ["month=%u",$month,-1],
+            ["kpi_type=%u",$kpi_type,-1]
+        ];
+        $sql = $this->gen_sql_new("select ma.adminid,ma.hand_kk_num,m.name,n.master_adminid "
+                                  ."from %s ma left join %s m on ma.adminid = m.uid"
+                                  ." left join %s u on ma.adminid = u.adminid"
+                                  ." left join %s n on u.groupid = n.groupid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list_as_page($sql);
+    }
+
+
 
 }
 

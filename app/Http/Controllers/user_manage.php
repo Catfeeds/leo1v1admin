@@ -2794,7 +2794,8 @@ class user_manage extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 ); 
 
-        $list= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        $list= $this->t_month_ass_student_info->get_ass_hand_kk_num($start_time);
+        dd($list);
     }
 
 }
