@@ -658,7 +658,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.train_type=4",
             "l.subject=0",
         ];
-        $sql = $this->gen_sql_new("select l.lessonid,l.teacherid"
+        $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.subject"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"

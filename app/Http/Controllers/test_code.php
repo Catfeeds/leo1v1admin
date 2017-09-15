@@ -2204,7 +2204,12 @@ class test_code extends Controller
 
     public function reset_train_subject(){
         $list = $this->t_lesson_info_b3->reset_train_subject();
-        
+        dd($list);
+        foreach($list as $val){
+            $this->t_lesson_info->field_update_list($val['lessonid'],[
+                "subject"=>$val['subject']
+            ]);
+        }
     }
 
 
