@@ -11,6 +11,7 @@ $(function(){
 			      end_time:	$('#id_end_time').val(),
             subject       : $('#id_subject').val(),
             grade_part_ex : $("#id_grade_part_ex").val(),
+            teacherid     : $("#id_teacherid").val(),
         });
     }
 
@@ -29,6 +30,7 @@ $(function(){
     Enum_map.append_option_list("grade_part_ex",$("#id_grade_part_ex"));
     $("#id_subject").val(g_args.subject);
     $("#id_grade_part_ex").val(g_args.grade_part_ex);
+    $('#id_teacherid').val(g_args.teacherid);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
 
