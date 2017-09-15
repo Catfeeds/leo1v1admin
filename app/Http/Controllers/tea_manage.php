@@ -2881,6 +2881,32 @@ class tea_manage extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
+    /**
+     * @author    sam
+     * @function  培训进度列表
+     */
+    public function  teacher_cc_count () {
+
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        //$train_type = $this->get_in_int_val("train_type",-1);
+        //$subject    = $this->get_in_int_val("subject",-1);
+        //$status     = $this->get_in_int_val("status",-1);
+
+        //$userid = 99;
+        $page_info=$this->get_in_page_info();
+
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,-1,1); 
+        //dd($ret_info);
+        //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time");
+            $item['subject_str']  =  E\Esubject::get_desc($item['subject']);
+            $item['grade_part_ex_str'] = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
 
 
 }
