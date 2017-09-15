@@ -2655,14 +2655,14 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
-        $start_time = strtotime(date("Y-m-d",time()))-20*86400;
+        $start_time = strtotime(date("Y-m-d",time()))-15*86400;
         $end_time   = time();
         $level      = [0=>"",1=>"加油",2=>"还行",3=>"不错",4=>"良好",5=>"优秀"];
 
         $lesson_info = $this->t_lesson_info->get_performance_stu_new($start_time,$end_time);
         foreach ($lesson_info as $item){
             $item["stu_email"] = "jhp0416@163.com";
-            if(!empty($item['stu_performance']) && !empty($item['stu_email']) && $item["lessonid"]==166077){
+            if(!empty($item['stu_performance']) && !empty($item['stu_email']) && $item["lessonid"]==315060){
                 $ret_info     = json_decode($item['stu_performance'],true);
                 $lesson_start = date('Y-m-d H:i',$item['lesson_start']);
                 $lesson_end   = date('H:i',$item['lesson_end']);
