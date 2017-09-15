@@ -6,7 +6,10 @@
 <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
 <section class="content " >
     <div class="row ">
-        
+        <div class="col-xs-12 col-md-5">
+            <div id="id_date_range" >
+            </div>
+        </div> 
     </div>
     <hr/>
         <table   class=" common-table "    >

@@ -2797,7 +2797,7 @@ class user_manage extends Controller
         $list= $this->t_month_ass_student_info->get_ass_hand_kk_num($start_time);
         $ass_lead = $this->t_admin_group_name->get_leader_list(1);
         $account_id = $this->get_account_id();
-        $account_id =297;
+        // $account_id =297;
         if(in_array($account_id,$ass_lead)){
             foreach($list["list"] as $k=>$val){
                 if($account_id != $val["master_adminid"]){

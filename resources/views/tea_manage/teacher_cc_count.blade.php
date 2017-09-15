@@ -59,7 +59,7 @@
                         <td>{{$var['subject_str']}}</td>
                         <td>{{$var['grade_part_ex_str']}}</td>
                         <td>{{$var['train_through_new_time']}}</td>
-                        <td>{{$var['']}}</td>
+                        <td>2</td>
                        
                         <td>{{$var['phone']}}</td>
                     
