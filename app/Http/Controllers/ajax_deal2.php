@@ -1415,6 +1415,7 @@ class ajax_deal2 extends Controller
         $status          = $this->get_in_int_val('status');
         $create_adminid  = $this->get_account_id();
         $create_time     = time();
+        $through_time    = time();
         $data = [
             'id'                       => $id,
             'create_time'              => $create_time,
@@ -1424,6 +1425,10 @@ class ajax_deal2 extends Controller
             'status'                   => $status,
          ];
 
+        if($status == 3){
+            $data['through_time'] = $through_time;
+        }
+        dd($data);
         $ret = $this->t_teacher_train_info->field_update_list($id,$data);
         return $this->output_succ();
     }
