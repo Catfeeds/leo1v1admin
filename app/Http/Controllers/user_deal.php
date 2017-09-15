@@ -2653,395 +2653,92 @@ class user_deal extends Controller
 
 
     public function cancel_lesson_by_userid()
-    {
-        $cur_start = strtotime("2017-08-01");
-        $ret_info= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-
-        dd($ret_info);
-
-        $admin_list = $this->t_manager_info->get_admin_member_list();
-        dd($admin_list);
-
-        $r = $this->t_teacher_record_list-> get_two_list_record();
-        dd($r);
-        $master_adminid_list = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id(1);
-        $master_list=[];
-        foreach($master_adminid_list as $tt){
-            $master_list[$tt["master_adminid"]]=$tt["master_adminid"];
-        }
-        dd($master_list);
-        $num_all_new = count($master_list);
-        $list = $this->t_teacher_record_list->get_two_list_record();
-        dd($list);
-        foreach($list as $val){
-            $userid = $this->t_lesson_info->get_userid($val["train_lessonid"]);
-            $this->t_teacher_record_list->field_update_list($val["id"],[
-               "userid"  =>$userid
-            ]);
-        }
-        dd($list);
-        $this->switch_tongji_database();
-        $start_time = strtotime("2017-08-01");
-        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
-        dd($ass_month);
-
-        $end_time = strtotime("2017-09-01");
-        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
-        dd($lesson_count_list);
-
-        // $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
-        // $account_role = $this->t_manager_info->get_account_role($require_adminid);
-        $lesson_start = strtotime("2017-09-08");
-        $require_adminid = 457;
-        $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
-        $rank = @$self_top_info[6]["top_index"];
-        dd($rank);
-
-        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-        $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
-        dd($lesson_count_list);
-
-        $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
-        $arr=[];
-        $i=1;
-        foreach($ass_leader_list as $val){
-            if($val["uid"]==513 || $val["uid"]==492){
-                $arr[$i] = $val["uid"];
-                $i++;
-                $arr[$i] = $val["uid"];
-                $i++;
-            }else{
-                $arr[$i] = $val["uid"];
-                $i++;
-                $arr[$i] = $val["uid"];
-                $i++;
-                $arr[$i] = $val["uid"];
-                $i++;
-
-            }
-        }
-        dd($arr);
-
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-08-30");
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson_detail($start_time,$end_time);
-        dd($ret_info);
-
-        $tran_require = $this->t_test_lesson_subject_sub_list->tongji_from_ass_test_tran_lesson($start_time,$end_time);
-        $agent = $this->t_test_lesson_subject_sub_list->tongji_agent_tran_lesson($start_time,$end_time);
-        dd($list);
-        $start_time = time()-14*86400;
-        $end_time = time();
-        $list = $this->t_lesson_info_b2->get_test_lesson_num($start_time,$end_time);
-        dd($list);
-        foreach($list as $val){
-            $task->t_teacher_info->field_update_list($val["teacherid"],[
-                "two_week_test_lesson_num"   =>$val["num"]
-            ]);
-        }
-
-        $nick=111;
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (349 ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
-        dd(111);
-
-        $list = $this->t_teacher_lecture_appointment_info->get_no_right_reference_list();
-        foreach($list as &$item){
-            $item["num"] = substr($item["reference"],0,11);
-            $this->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
-               "reference"  => $item["num"]
-            ]);
-        }
-        dd($list);
-        $start_time = strtotime("2017-08-01");
-        $end_time = strtotime("2017-09-01");
-        $no_assign_total = $this->t_test_lesson_subject_require->get_no_assign_total_info_detail($start_time,$end_time);
-        dd($no_assign_total);
-
-        $account_id=793;
-        $accept_adminid_list = $this->get_accept_adminid_list($account_id);
-        dd($accept_adminid_list);
-
-        $this->switch_tongji_database();
-        $teacherid                = $this->get_in_int_val('teacherid',-1);
-        $is_freeze                = $this->get_in_int_val('is_freeze',-1);
-        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
-        $teacher_ref_type         = $this->get_in_int_val("teacher_ref_type",-1);
-        $level                    = $this->get_in_int_val("level",-1);
-        $page_num                 = $this->get_in_page_num();
-        $need_test_lesson_flag    = $this->get_in_int_val("need_test_lesson_flag",1);
-        $textbook_type            = $this->get_in_int_val("textbook_type",-1);
-        $is_good_flag             = $this->get_in_int_val("is_good_flag",-1);
-        $is_new_teacher           = $this->get_in_int_val("is_new_teacher",1);
-        $gender                   = $this->get_in_int_val("gender",-1);
-        $free_time                = $this->get_in_str_val("free_time","");
-        $grade_part_ex            = $this->get_in_int_val("grade_part_ex",-1);
-        $subject                  = $this->get_in_int_val("subject",-1);
-        $second_subject           = $this->get_in_int_val("second_subject",-1);
-        $trial_flag               = $this->get_in_int_val("trial_flag",0);
-        $test_flag                = $this->get_in_int_val("test_flag",0);
-        $seller_flag              = $this->get_in_int_val("seller_flag",0);
-        $is_test_user             = $this->get_in_int_val("is_test_user",-1);
-        $is_quit                  = $this->get_in_int_val("is_quit",0);
-        $address                  = trim($this->get_in_str_val('address',''));
-        $limit_plan_lesson_type   = $this->get_in_int_val("limit_plan_lesson_type",-1);
-        $is_record_flag           = $this->get_in_int_val("is_record_flag",-1);
-        $test_lesson_full_flag    = $this->get_in_int_val("test_lesson_full_flag",-1);
-        $train_through_new        = $this->get_in_int_val("train_through_new",-1);
-        $lesson_hold_flag         = $this->get_in_int_val("lesson_hold_flag",-1);
-        $test_transfor_per        = $this->get_in_int_val("test_transfor_per",-1);
-        $week_liveness            = $this->get_in_int_val("week_liveness",-1);
-        $interview_score          = $this->get_in_int_val("interview_score",-1);
-        $set_leave_flag           = $this->get_in_int_val("set_leave_flag",-1);
-        $second_interview_score   = $this->get_in_int_val("second_interview_score",-1);
-        $lesson_hold_flag_adminid = $this->get_in_int_val("lesson_hold_flag_adminid",-1);
-        $fulltime_flag            = $this->get_in_int_val("fulltime_flag",-1);
-        $teacher_type             = $this->get_in_int_val("teacher_type",-1);
-        $seller_hold_flag         = $this->get_in_int_val("seller_hold_flag",-1);
-        $have_wx                  = $this->get_in_int_val("have_wx",-1);
-        $grade_plan               = $this->get_in_int_val("grade_plan",-1);
-        $subject_plan             = $this->get_in_int_val("subject_plan",-1);
-        $fulltime_teacher_type    = $this->get_in_int_val("fulltime_teacher_type", -1);
-
-        if(!empty($free_time)){
-            $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
-            $arr       = explode(",",$free_time);
-            $time = strtotime($arr[0]);
-        }else{
-            $teacherid_arr=[];
-            $time = time();
-        }
-
-        $adminid     = $this->get_account_id();
-        $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
-        $tea_subject = $right_list["tea_subject"];
-        $tea_right   = $right_list["tea_right"];
-        $qz_flag     = $right_list["qz_flag"];
-        if($adminid==486 || $adminid==478 ){
-            $tea_subject= "";
-        }
-
-        $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
-        $date_week    = \App\Helper\Utils::get_week_range($time,1);
-        $lstart       = $date_week["sdate"];
-        $lend         = $date_week["edate"];
-
-        $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
-            $page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type,
-            $is_good_flag,$is_new_teacher,$gender,$grade_part_ex,$subject,
-            $trial_flag,$address,$test_flag,$is_test_user,$second_subject,
-            $level,$is_freeze,$tea_subject,$limit_plan_lesson_type,$is_record_flag,
-            $test_lesson_full_flag,$lstart,$lend,$train_through_new,$lesson_hold_flag,$test_transfor_per,
-            $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
-            $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
-            $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type
-        );
-
-        dd($ret_info);
-        $tea_list = [];
-        foreach($ret_info["list"] as $val){
-            $tea_list[] = $val["teacherid"];
-        }
-        $lesson_tea_list = $this->t_lesson_info->get_teacher_lesson_list_by_week($tea_list);
-        $arr_tea_list    = [];
-        foreach($lesson_tea_list as &$item){
-            $teacherid = $item['teacherid'];
-            $start     = date('m-d H:i:s',$item['lesson_start']);
-            $end       = date('H:i:s',$item['lesson_end']);
-            E\Esubject::set_item_value_str($item,"subject");
-            $subject = $item['subject_str'];
-            @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
-        }
-
-        // $label_list = $this->get_teacher_label($tea_list);
-
-        foreach($ret_info['list'] as  &$item){
-            $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);
-            $item["class_will_type"]     = $revisit_info["class_will_type"];
-            $item["class_will_sub_type"] = $revisit_info["class_will_sub_type"];
-            $item["revisit_add_time"]    = $revisit_info["add_time"];
-            $item["recover_class_time"]  = $revisit_info["recover_class_time"];
-            $item["revisit_record_info"] = $revisit_info["record_info"];
-            $birth_year = substr((string)$item['birth'],0,4);
-            $age        = (int)date('Y',time())-(int)$birth_year;
-            E\Eteacher_type::set_item_value_str($item,"teacher_type");
-            E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
-            E\Egender::set_item_value_str($item,"gender");
-            E\Esubject::set_item_value_str($item,"subject");
-            E\Esubject::set_item_value_str($item,"second_subject");
-            E\Esubject::set_item_value_str($item,"third_subject");
-            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
-            E\Egrade_part_ex::set_item_value_str($item,"second_grade");
-            E\Egrade_part_ex::set_item_value_str($item,"third_grade");
-            E\Eidentity::set_item_value_str($item);
-            $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
-            $item['age']        = $age;
-            E\Elevel::set_item_value_str($item,"level");
-            E\Eteacher_money_type::set_item_value_str($item);
-            E\Eteacher_ref_type::set_item_value_str($item); //是否全职
-            E\Etextbook_type::set_item_value_str($item);
-            E\Eteacher_is_good::set_item_value_str($item,"is_good_flag");
-            E\Elimit_plan_lesson_type::set_item_value_str($item,"limit_plan_lesson_type");
-            \App\Helper\Utils::unixtime2date_for_item($item,"freeze_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"limit_plan_lesson_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"train_through_new_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_hold_flag_time","_str");
-            E\Eclass_will_type::set_item_value_str($item);
-            E\Eclass_will_sub_type::set_item_value_str($item);
-            E\Egrade_range::set_item_value_str($item,"grade_start");
-            E\Egrade_range::set_item_value_str($item,"grade_end");
-            \App\Helper\Utils::unixtime2date_for_item($item, "revisit_add_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
-
-            if($item["train_through_new_time"] !=0){
-                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
-            }else{
-                $item["work_day"] ="";
-            }
-            $item["is_freeze_str"]         = $item["is_freeze"]==0?"非冻结":"已冻结";
-            $item["lesson_info_week"]      = @$arr_tea_list[$item['teacherid']];
-            $item["test_user_str"]         = $item['is_test_user']==0?"否":"是";
-            $item["train_through_new_str"] = $item['train_through_new']==0?"否":"是";
-
-            $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
-
-            $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
-            if(!empty($item["freeze_adminid"])){
-                $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
-            }else{
-                $item["freeze_adminid_str"]="";
-            }
-
-            if($item["limit_plan_lesson_type"]>0){
-                $item["week_left_num"]=$item["limit_plan_lesson_type"]-$item["week_lesson_num"];
-            }else{
-                $ret_num = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($item["teacherid"],time());
-                if($ret_num==1){
-                    $item["week_left_num"]=$item["limit_week_lesson_num"]-$item["week_lesson_num"];
-                }else{
-                    $item["week_left_num"]=6-$item["week_lesson_num"];
-                }
-            }
-            if($item["week_left_num"]<0){
-                $item["week_left_num"]=0;
-            }
-
-            if(empty( $item["interview_access"])){
-                $item["interview_access"] = $this->t_teacher_info->get_interview_access($item["teacherid"]);
-                if($item['interview_access']==""){
-                    $item['interview_access'] = $this->t_teacher_record_list->get_teacher_interview_access($item['teacherid']);
-
-                }
-            }
-
-            // $item["label"] = @$label_list[$item["teacherid"]];
-            $not_grade_arr = explode(",",$item["not_grade"]);
-            $not_grade_str = "";
-            if(!empty($not_grade_arr)){
-                foreach($not_grade_arr as $ss){
-                    $not_grade_str  .= E\Egrade::get_desc($ss).",";
-                }
-            }
-            $item["not_grade_str"] = trim($not_grade_str,",");
-            $acc1 = $this->t_teacher_lecture_info->get_interview_acc($item["phone"]);
-            $acc2 = $this->t_teacher_record_list->get_interview_acc($item["phone"]);
-            if(!empty($acc1)){
-                $item["interview_acc"]=$acc1;
-            }elseif(!empty($acc2)){
-                $item["interview_acc"]=$acc2;
-            }else{
-                $item["interview_acc"]="";
-            }
-
-            if(empty($item["address"])){
-                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
-            }
-
-            $arr_text= explode(",",$item["teacher_textbook"]);
-            foreach($arr_text as $vall){
-                @$item["textbook"] .=  E\Eregion_version::get_desc ($vall).",";
-            }
-            $item["textbook"] = trim($item["textbook"],",");
-
-
-
-        }
-
-        $account_role    = $this->t_manager_info->get_account_role($this->get_account_id());
-        $week_num_person = $this->t_teacher_info->get_week_info_new();
-        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
-        return $this->pageView(__METHOD__,$ret_info,[
-            "week_num_person" => $week_num_person,
-            "acc"             => session("acc"),
-            "tea_right"       => $tea_right,
-            "account_role"    => $account_role,
-            "jw_teacher_list" => $jw_teacher_list
-        ]);
-
-        $ret = $this->t_teacher_label->get_teacher_all_label_info();
+    {        
+        $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
-            $arr = json_decode($val["tea_label_type"],true);
-
-            // dd($arr);
-            if(!empty($arr)){
-                $list=[];
-                foreach($arr as $v){
-                    $s =  E\Etea_label_type::get_desc($v);
-                    $list[$s] = $s;
+            $arr = explode(",",$val["teacher_textbook"]);
+            $i=0;
+            foreach($arr as $k=>$v){
+                if($v==30018){
+                    unset($arr[$k]);
                 }
-                //dd($list);
-                $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
-                \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
-                \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
-                $teacher_tags = trim($teacher_tags,",");
-                $tags= explode(",",$teacher_tags);
-                $str ="";
-                if(empty($tags) || empty($teacher_tags)){
-                    foreach($list as $k){
-                        $str .= $k.",";
-                    }
-                }else{
-                    $tags_list=[];
-                    foreach($tags as $v){
-                        $tags_list[$v]=$v;
-                    }
-                    foreach($list as $k){
-                        if(!isset($tags_list[$k]) && !empty($k)){
-                            $tags[] = $k;
-                        }
-                    }
-                    $str = implode(",",$tags);
-                    $str .= ",";
+                if($v==6){
+                    $i=1;
                 }
-                $this->t_teacher_info->field_update_list($val["teacherid"],[
-                    "teacher_tags"  =>$str
-                ]);
             }
-
-        }
-        dd($ret);
-        $rr = $this->delete_train_lesson_before(1,4,200,289273);
-        dd($rr);
-        $ret = $this->get_not_free_time_list(1,200);
-        dd($ret);
-        // $this->switch_tongji_database();
-        $ret = $this->t_teacher_info->get_teacher_identity_list_new();
-        foreach($ret as $val){
+            if($i==0){
+                $arr[] = 6; 
+            }
+            $str = implode(",",$arr);
             $this->t_teacher_info->field_update_list($val["teacherid"],[
-               "identity" =>$val["identity_ex"]
+               "teacher_textbook" =>$str 
             ]);
         }
         dd($ret);
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_teacher_type_list();
-        dd(111);
-        foreach($ret_info as $val){
-            $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
-               "teacher_type"  =>0
-            ]);
+        $start_time = strtotime(date("Y-m-d",time()))-15*86400;
+        $end_time   = time();
+        $level      = [0=>"",1=>"加油",2=>"还行",3=>"不错",4=>"良好",5=>"优秀"];
+
+        $lesson_info = $this->t_lesson_info->get_performance_stu_new($start_time,$end_time);
+        foreach ($lesson_info as $item){
+            $item["stu_email"] = "jhp0416@163.com";
+            if(!empty($item['stu_performance']) && !empty($item['stu_email']) && $item["lessonid"]==315060){
+                $ret_info     = json_decode($item['stu_performance'],true);
+                $lesson_start = date('Y-m-d H:i',$item['lesson_start']);
+                $lesson_end   = date('H:i',$item['lesson_end']);
+                $stu_email    = trim($item['stu_email']);
+                $level_stu    = $level[$ret_info['total_judgement']];
+                if(isset($ret_info['point_note_list']) && is_array($ret_info['point_note_list'])){
+                    foreach($ret_info['point_note_list'] as $key => $val){
+                        \App\Helper\Utils::logger("send_code_stu1".json_encode($val));
+
+                        $ret_info['point_name'][$key]     = @$val['point_name'];
+                        $ret_info['point_stu_desc'][$key] = @$val['point_stu_desc'];
+                    }
+                }
+                $num  = count(@$ret_info['point_stu_desc']);
+                $time = date('Y-m-d H:i:s',time());
+
+                if(is_array($ret_info['stu_comment'])){
+                    $str = json_encode($ret_info['stu_comment']);
+                    $str = "总结如下:<br>".$this->get_test_lesson_comment_str($str);
+                }else{
+                    $str = $ret_info['stu_comment'];
+                }
+                $ret_info['stu_comment'] = $str;
+
+                if($num>=3){
+                    $num = 3;
+                    dispatch( new \App\Jobs\SendEmail(
+                        "jack@leoedu.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
+                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."、".@$ret_info['point_name'][2]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li><li><i>".@$ret_info['point_name'][2]."</i><p>".@$ret_info['point_stu_desc'][2]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
+                    )); 
+                    echo 1111;
+                }elseif($num== 2){
+                    dispatch( new \App\Jobs\SendEmail(
+                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
+                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
+                    ));
+                    echo 1112;
+                }elseif($num==1 ){
+                    dispatch( new \App\Jobs\SendEmail(
+                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
+                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
+                    ));
+                    echo 1113;
+                }else{
+                    dispatch( new \App\Jobs\SendEmail(
+                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
+                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
+                    ));
+                    echo 1114;
+                }
+                $this->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
+                \App\Helper\Utils::logger("send email.lessonid:".$item['lessonid']." date:".date("Y-m-d H:i",time()));
+            }
+            
         }
-        dd($ret_info);
+
 
 
     }
@@ -3071,6 +2768,23 @@ class user_deal extends Controller
                                           ]);
         return $this->output_bool_ret($ret);
     }
+
+
+    public function get_major_group_list ()
+    {
+        $main_type    = $this->get_in_int_val("main_type");
+        $page_num     = $this->get_in_page_num();
+
+        // $ret_info     = $this->t_admin_group_name->get_group_list_new($page_num,$main_type);// old
+        $ret_info     = $this->t_admin_main_group_name->get_main_group_list($page_num,$main_type);
+        foreach($ret_info['list'] as &$item){
+            $item['group_master_nick']= $this->cache_get_account_nick($item['master_adminid']);
+        }
+        $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
+        return outputjson_success(array('data' => $ret_info));
+
+    }
+
 
     public function get_group_list_new ()
     {
@@ -3121,6 +2835,14 @@ class user_deal extends Controller
         $this->t_admin_group_name->field_update_list($groupid,['up_groupid'=>$up_groupid]);
         return $this->output_succ();
     }
+
+    public function set_main_groupid(){
+        $groupid          = $this->get_in_int_val("groupid");
+        $first_groupid    = $this->get_in_int_val("first_groupid");
+        $this->t_admin_main_group_name->field_update_list($groupid,['up_groupid'=>$first_groupid]);
+        return $this->output_succ();
+    }
+
 
     public function set_up_groupid_new(){
         $groupid    = $this->get_in_int_val("groupid");

@@ -125,7 +125,7 @@ $(function(){
 
     });
 
-    $(".opt-edit-major-group").on("click",function(){ 
+    $(".opt-edit-major-group").on("click",function(){
         var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
         var id_group_name     = $("<input/>");
@@ -221,15 +221,15 @@ $(function(){
 
     });
 
-    
+
     $(".opt-assign-major-group").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        var main_type    = opt_data.main_type;
-        var up_groupid =opt_data.up_groupid ;
+        var opt_data   = $(this).get_opt_data();
+        var main_type  = opt_data.main_type;
+        var first_groupid = opt_data.first_groupid;
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/user_deal/get_group_list_new",
+            "url"      : "/user_deal/get_major_group_list",
             //其他参数
             "args_ex" : {
                 "main_type":main_type
@@ -262,9 +262,9 @@ $(function(){
                 var groupid = val ;
                 var me=this;
                 if (groupid>0) {
-                    $.do_ajax("/user_deal/set_up_groupid",{
+                    $.do_ajax("/user_deal/set_main_groupid",{
                         "groupid":groupid,
-                        "up_groupid":up_groupid
+                        "first_groupid": first_groupid
                     },function(resp){
                         window.location.reload();
                     });

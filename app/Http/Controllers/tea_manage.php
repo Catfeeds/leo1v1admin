@@ -472,7 +472,7 @@ class tea_manage extends Controller
     }
     public function lesson_list_ass(){
         $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()));
-        $this->set_in_value("test_seller_id",$this->get_account_id());
+        // $this->set_in_value("test_seller_id",$this->get_account_id());
         return $this->lesson_list();
     }
 

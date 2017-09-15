@@ -86,7 +86,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
 
     public function get_other_info($id_str, $create_time) {
         $where_arr = [
-            ['id in %s', $id_str, 1],
+            ['id in (%s)', $id_str, 1],
             "create_time<$create_time",
         ];
         $sql = $this->gen_sql_new("select id, test_title, poster"
@@ -107,6 +107,8 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         $sql = $this->gen_sql_new("select id, poster"
                                   ." from %s"
                                   ." where %s"
+                                  ." order by create_time desc"
+                                  ." limit 100"
                                   , self::DB_TABLE_NAME
                                   , $where_arr
         );

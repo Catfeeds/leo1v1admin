@@ -447,6 +447,7 @@ class wx_yxyx_common extends Controller
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
         $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        // $wx_openid = $this->get_wx_openid();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
@@ -454,11 +455,14 @@ class wx_yxyx_common extends Controller
         foreach ($ret_info['list'] as &$item) {
             if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
                 $item['flag'] = 0;
+            } else {
+                $item['flag'] = 1;
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //随机获取十张海报/不足十张，取所有?取14天之内的
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time,$end_time);
+
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒叙
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
@@ -496,10 +500,10 @@ class wx_yxyx_common extends Controller
             E\Etest_type::set_item_value_str($ret_info,"test_type");
             $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
             unset($ret_info['pic']);
-            //获取所有id，随机选取三个(当天之前的14天之内)
-            $start_time = strtotime('-15 days');
-            $end_time   = strtotime('today');
-            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time, $end_time);
+            //获取所有id，随机选取三个(当天之前的14天之内)->改为取１００条，时间倒叙
+            // $start_time = strtotime('-15 days');
+            $end_time  = strtotime('today');
+            $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, 0, $end_time);
             $count_num = count($all_id)-1;
             $id_arr    = [];
             $num_arr   = [];
@@ -507,15 +511,19 @@ class wx_yxyx_common extends Controller
             $max_loop  = $count_num >3?3:$count_num;
             while ( $loop_num < $max_loop) {
                 $key = mt_rand(0, $count_num);
-                if( !in_array($key, $num_arr)) {
+                if( !in_array($key, $num_arr) ) {
                     $num_arr[] = $key;
                     $id_arr[]  = $all_id[$key]['id'];
                     $loop_num++;
                 }
             }
-            $id_str = '('.join($id_arr,',').')';
-            $create_time = strtotime('today');
-            $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+            if ( count($id_arr) ) {
+                $id_str = join($id_arr,',');
+                $create_time = strtotime('today');
+                $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+            } else {
+                $ret_info['other'] = [];
+            }
             return $this->output_succ(['list' => $ret_info]);
         } else {
             return $this->output_err("您查看的信息不存在！");
@@ -553,5 +561,53 @@ class wx_yxyx_common extends Controller
         // dd($ret_info);
     }
 
+    public function test_openid(){
+        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        // $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_user_wx_openid();
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('tomorrow');
+        foreach ($ret_info['list'] as &$item) {
+            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+                $item['flag'] = 0;
+            } else {
+                $item['flag'] = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒叙
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        $max_loop  = $count_num >10?10:$count_num;
+        while ( $loop_num < $max_loop) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        $ret_info['poster'] = $poster_arr;
+        return $this->output_succ(["home_info"=>$ret_info]);
+    }
+
+    public function get_user_wx_openid(){
+
+        $code       = $this->get_in_str_val("code");
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $token_info = $wx->get_token_from_code($code);
+        $openid     = @$token_info["openid"];
+        return $openid;
+    }
 
 }
