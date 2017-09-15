@@ -24,7 +24,8 @@ $(function(){
         $.ajax({
             'url':'/login/login_teacher',
             'type': 'POST',
-            'data': {'account':account,'password':password,'seccode':seccode,'remember':remember},
+            'data': {'account':account,'password':password,'seccode':seccode},
+            // 'data': {'account':account,'password':password,'seccode':seccode,'remember':remember},
             'dataType': 'jsonp',
             success: function(data) {
                 if (data['ret'] == 0) {
