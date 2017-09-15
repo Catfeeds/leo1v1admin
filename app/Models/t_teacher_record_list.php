@@ -1196,4 +1196,31 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
     }
 
+    public function tongji_record_score_rank_list($lesson_style){
+        $where_arr=[
+            ["lesson_style=%u",$lesson_style,-1],
+            "tr.lesson_invalid_flag=1"
+        ];
+        $sql = $this->gen_sql_new("select l.subject,sum(if(tr.record_score<40,1,0)) first_score, "
+                                  ." sum(if(tr.record_score>=40 and tr.record_score<50,1,0)) second_score,"
+                                  ." sum(if(tr.record_score>=50 and tr.record_score<60,1,0)) third_score,"
+                                  ." sum(if(tr.record_score>=60 and tr.record_score<65,1,0)) fourth_score,"
+                                  ." sum(if(tr.record_score>=65 and tr.record_score<70,1,0)) fifth_score,"
+                                  ." sum(if(tr.record_score>=70 and tr.record_score<75,1,0)) sixth_score,"
+                                  ." sum(if(tr.record_score>=75 and tr.record_score<80,1,0)) seventh_score,"
+                                  ." sum(if(tr.record_score>=80 and tr.record_score<85,1,0)) eighth_score,"
+                                  ." sum(if(tr.record_score>=85 and tr.record_score<90,1,0)) ninth_score,"
+                                  ." sum(if(tr.record_score>=90 and tr.record_score<95,1,0)) tenth_score,"
+                                  ." sum(if(tr.record_score>=95 and tr.record_score<=100,1,0)) eleventh_score, "
+                                  ." count(*) all_num"
+                                  ." from %s tr left join %s l on tr.train_lessonid = l.lessonid "
+                                  ." where %s group by l.subject",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }

@@ -44,7 +44,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-add-main-group,.opt-add-main-group-new, .opt-edit-main-group,.opt-add-main-group-user,.opt-del-main-group,.opt-assign-main-group,.opt-edit-main-group-new,.opt-add-main-group-user-new,.opt-del-main-group-new,.opt-assign-main-group-new").each(function(){
+    $(".opt-add-main-group-new,.opt-add-main-group").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -52,7 +52,7 @@ $(function(){
             $(this).hide();
         }
     });
-    $(".opt-del-group,.opt-assign-group-user,.opt-del-group-new").each(function(){
+    $(".opt-assign-main-group,.opt-assign-main-group-new, .opt-edit-main-group,.opt-edit-main-group-new,.opt-add-main-group-user,.opt-del-main-group,.opt-add-main-group-user-new,.opt-del-main-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -61,7 +61,7 @@ $(function(){
         }
     });
 
-    $(".opt-assign-group-user,.opt-assign-group-user-new,.opt-edit-group-new,.opt-edit-group").each(function(){
+    $(".opt-assign-group-user,.opt-assign-group-user-new,.opt-edit-group-new,.opt-edit-group,.opt-del-group,.opt-del-group-new").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;

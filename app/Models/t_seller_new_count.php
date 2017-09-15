@@ -123,9 +123,11 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         return true;
     }
 
-    public function get_list($page_num,$adminid , $seller_new_count_type )   {
+    public function get_list($page_num,$adminid , $seller_new_count_type, $time=0 )   {
 
-        $time=time(NULL);
+        if (!$time) {
+            $time=time(NULL);
+        }
         $where_arr=[
             "end_time>$time",
             "start_time<$time",

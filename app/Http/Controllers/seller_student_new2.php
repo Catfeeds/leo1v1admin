@@ -419,8 +419,9 @@ class seller_student_new2 extends Controller
         $adminid=$this->get_in_int_val("adminid",-1);
         $seller_new_count_type = $this-> get_in_int_val("seller_new_count_type",-1, E\Eseller_new_count_type::class);
         $page_num              = $this->get_in_page_num();
+        list($start_time, $end_time)=$this->get_in_date_range_day(0);
 
-        $ret_info=$this->t_seller_new_count->get_list($page_num,$adminid,$seller_new_count_type);
+        $ret_info=$this->t_seller_new_count->get_list($page_num,$adminid,$seller_new_count_type,$start_time +1 );
         foreach ( $ret_info["list"] as &$item ){
             $this->cache_set_item_account_nick($item);
             E\Eseller_new_count_type::set_item_value_str($item);
