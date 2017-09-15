@@ -151,7 +151,6 @@ class tea_manage extends Controller
     }
     public function lesson_list_seller() {
         $adminid = $this->get_account_id();
-
         $this->set_in_value("test_seller_id", $adminid);
         $this->set_in_value("lesson_type",  2);
         return $this->lesson_list();
@@ -223,14 +222,33 @@ class tea_manage extends Controller
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
         }
 
-        $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex(
-            $start_time,$end_time, $teacherid,$studentid, $lessonid ,
-            $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
-            $confirm_flag,$assistantid,$lesson_status,$test_seller_id,$has_performance,
-            $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
-            $has_video_flag, $lesson_user_online_status,$fulltime_flag,
-            $lesson_del_flag,$fulltime_teacher_type
-        );
+        if($test_seller_id){//销售
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $test_seller_id_arr = array_unique($son_adminid_arr);
+
+            $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex_new(
+                $start_time,$end_time, $teacherid,$studentid, $lessonid ,
+                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
+                $confirm_flag,$assistantid,$lesson_status,$test_seller_id_arr,$has_performance,
+                $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
+                $has_video_flag, $lesson_user_online_status,$fulltime_flag,
+                $lesson_del_flag,$fulltime_teacher_type
+            );
+        }else{
+            $ret_info = $this->t_lesson_info->get_lesson_condition_list_ex(
+                $start_time,$end_time, $teacherid,$studentid, $lessonid ,
+                $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
+                $confirm_flag,$assistantid,$lesson_status,$test_seller_id,$has_performance,
+                $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
+                $has_video_flag, $lesson_user_online_status,$fulltime_flag,
+                $lesson_del_flag,$fulltime_teacher_type
+            );
+        }
 
         $lesson_list       = array();
         $lesson_status_cfg = array( 0 => "未上", 1 => "进行",2 => "结束",3=>"终结");
@@ -2327,7 +2345,7 @@ class tea_manage extends Controller
         }
 
         //更新试讲预约老师类型
-        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);        
+        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
 
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
