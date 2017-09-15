@@ -280,14 +280,14 @@ $(function(){
     $(".opt-assign-major-group-new").on("click",function(){
         var opt_data     = $(this).get_opt_data();
         var main_type    = opt_data.main_type;
-        var up_groupid   = opt_data.up_groupid;
+        var up_groupid   = opt_data.first_groupid;
 
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
             "url"      : "/user_deal/get_main_group_list_new_month",
             //其他参数
             "args_ex" : {
-                "main_type":main_type,
+                "main_type"  : main_type,
                 "start_time" : g_args.start_time
             },
 
