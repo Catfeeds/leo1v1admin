@@ -1148,7 +1148,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         foreach( $l2_child_list as $item ) {
             $child_id=$item["id"];
             $pp_agent_status_money_open_flag = $item["pp_agent_status_money_open_flag"];
-            $l2_agent_status_all_money +=$item["agent_status_money"];
+            $l2_agent_status_all_money +=$item["pp_agent_status_money"];
             $orderid=$item["orderid"];
             if ($orderid) { //有订单
                 if ($pp_agent_status_money_open_flag !=1 ) {
@@ -1594,8 +1594,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
 
         $sql = $this->gen_sql_new(
-            "select a.id, l.lesson_user_online_status , a.agent_status_money_open_flag , "
-            . " a.agent_status_money, ao.orderid  "
+            "select a.id, l.lesson_user_online_status , a.pp_agent_status_money_open_flag , "
+            . " a.pp_agent_status_money, ao.orderid  "
             . " from %s a_p "
             . " join %s a on a_p.id=a.parentid "
             . " left join  %s l on a.test_lessonid =l.lessonid  "
