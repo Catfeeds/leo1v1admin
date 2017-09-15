@@ -2857,15 +2857,18 @@ class tea_manage extends Controller
 
      /**
      * @author    sam
-     * @function  用户建议信息录入
+     * @function  培训进度列表
      */
     public function  teacher_train_list () {
 
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $train_type = $this->get_in_int_val("train_type",-1);
+        $subject    = $this->get_in_int_val("subject",-1);
+        $status     = $this->get_in_int_val("status",-1);
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time);
+        $ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");

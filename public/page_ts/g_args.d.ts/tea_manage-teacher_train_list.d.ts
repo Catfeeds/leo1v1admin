@@ -4,6 +4,9 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	train_type:	number;
+	subject:	number;
+	status:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -18,15 +21,18 @@ interface RowData {
 	id	:any;
 	create_time	:any;
 	create_adminid	:any;
-	username	:any;
-	phone	:any;
-	complaint_user_type	:any;
-	content	:any;
-	operator	:any;
-	assign_time	:any;
+	train_type	:any;
+	teacherid	:any;
+	subject	:any;
+	status	:any;
+	through_time	:any;
+	lessonid	:any;
 	num	:any;
-	complaint_user_type_str	:any;
 	create_admin_nick	:any;
+	teacher_nick	:any;
+	subject_str	:any;
+	train_type_str	:any;
+	train_status_str	:any;
 }
 
 /*
@@ -44,7 +50,10 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
+			end_time:	$('#id_end_time').val(),
+			train_type:	$('#id_train_type').val(),
+			subject:	$('#id_subject').val(),
+			status:	$('#id_status').val()
         });
     }
 
@@ -59,6 +68,9 @@ $(function(){
             load_data();
         }
     });
+	$('#id_train_type').val(g_args.train_type);
+	$('#id_subject').val(g_args.subject);
+	$('#id_status').val(g_args.status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -68,4 +80,25 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">train_type</span>
+                <input class="opt-change form-control" id="id_train_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">status</span>
+                <input class="opt-change form-control" id="id_status" />
+            </div>
+        </div>
 */

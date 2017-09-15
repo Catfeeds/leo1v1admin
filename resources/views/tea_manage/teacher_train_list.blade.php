@@ -8,13 +8,36 @@
                <div class="col-xs-12 col-md-4">
                     <div id="id_date_range"></div>
                 </div>
-            </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>培训类型</span>
+                        <select id="id_train_type" class="opt-change" >
+                        </select>
+                    </div>
+                </div>
+                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>学科</span>
+                        <select id="id_subject" class="opt-change" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group">
+                        <span>培训状态</span>
+                        <select id="id_status" class="opt-change" >
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                   <div class="col-xs-6 col-md-2">
+                        <button class="btn btn-warning" id="id_add_train_info">添加培训信息</button>
+                    </div>
+                </div>
+                </div>
+
         </div>
-        <div class="row">
-           <div class="col-xs-6 col-md-2">
-                <button class="btn btn-warning" id="id_add_complaint_user_info">添加培训信息</button>
-            </div>
-        </div>
+        
         <hr/>
         <table class="common-table"> 
             <thead>
@@ -26,6 +49,7 @@
                     <td>学科</td>
                     <td>培训类型</td>
                     <td>培训状态</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
