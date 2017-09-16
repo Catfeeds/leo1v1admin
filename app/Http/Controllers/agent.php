@@ -324,7 +324,9 @@ class agent extends Controller
     }
 
     public function check(){
-        $adminid = 99;
+        $adminid = 1032;
+        $ret = $this->t_test_lesson_subject_require_review->get_list_by_adminid($adminid);
+        dd($ret);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid);
         dd($ret_info);
