@@ -16,8 +16,8 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".row-data");
-                var userid = opt_data.data("userid");
-                if(userid>0){
+                var teacherid = opt_data.data("teacherid");
+                if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -38,8 +38,8 @@ $(function(){
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/ajax_deal2/get_stu_nick_info",{
-                        "userid"       : userid
+                    $.do_ajax("/ajax_deal2/get_three_month_stu_num",{
+                        "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
                         $tr.find(".nick").text(resp.data.nick); 

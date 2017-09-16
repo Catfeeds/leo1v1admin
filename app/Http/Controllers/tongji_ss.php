@@ -8005,12 +8005,13 @@ class tongji_ss extends Controller
 
     public function get_reference_teacher_money_info(){
        
+        $this->switch_tongji_database();
         $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
         foreach($list["list"] as &$item){
             if($item['grade_start']>0){
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
                     ."-".E\Egrade_range::get_desc($item['grade_end']);
-            }elseif(is_numeric($item['grade_part_ex'])){
+            }else{
                 $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
             }
             $item['subject_ex']   = E\Esubject::get_desc($item['subject']);
