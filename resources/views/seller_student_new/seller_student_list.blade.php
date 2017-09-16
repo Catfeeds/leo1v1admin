@@ -242,7 +242,8 @@
                            <button  class="btn  " id="id_lesson_today"></button>
                            <button  class="btn  " id="id_lesson_tomorrow" ></button>
                            <button  class="btn  " id="id_require_count" ></button>
-                           <button class="btn  " id="id_return_back_count" ></button>
+                           <button class="btn  " id="id_return_back_count"></button>
+                           <button class="btn  " id="id_favorite_count"></button>
 
                        </div>
                    </div>

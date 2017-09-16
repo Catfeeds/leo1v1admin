@@ -1561,6 +1561,7 @@ function init_edit() {
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
         init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
+        init_noit_btn("id_favorite_count", resp.return_back_count, "收藏夹","您收藏的例子个数" );
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1635,6 +1636,13 @@ function init_edit() {
 
 
     $("#id_return_back_count").on("click",function(){
+        init_and_reload(function(now){
+            $.filed_init_date_range( 3,  0, now-14*86400,  now);
+            $('#id_seller_student_status').val(110 );
+        });
+    });
+
+    $("#id_favorite_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );

@@ -767,7 +767,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
-    public function get_tea_test_succ_count($start_time,$end_time){
+    public function get_tea_succ_count_test($start_time,$end_time){
         $where_arr = [
             ["lesson_start>%u",$start_time,-1],
             ["lesson_start<%u",$end_time,-1],
@@ -790,6 +790,5 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
-
 
 }
