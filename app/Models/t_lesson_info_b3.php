@@ -728,25 +728,22 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_tea_succ_count($start_time,$end_time){
         $where_arr = [
-            ["l.lesson_start>%u",$start_time,-1],
-            ["l.lesson_start<%u",$end_time,-1],
-            "l.lesson_type = 2",
-            "l.lesson_del_flag = 0",
-            "l.lesson_user_online_status != 2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
         ];
         $sql = $this->gen_sql_new(
             "select l.teacherid,group_concat(distinct(l.grade)),group_concat(distinct(l.subject)),"
             ."count(l.lessonid) as trial_num,sum(if(money_info>0,1,0)) as trial_succ"
-            .", sum(ll.lesson_count) as normal"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info and type=2"
-            ." left join %s ll on ll.teacherid=l.teacherid and ll.lesson_type in (0,1,3) and ll.lesson_start>{$start_time} and ll.lesson_start < {$end_time} and ll.lesson_del_flag=0 and ll.lesson_user_online_status !=2 "
             // ." left join %s t on l.teacherid=t.teacherid"
             ." where %s"
             ." group by l.teacherid"
             ,self::DB_TABLE_NAME
             ,t_teacher_money_list::DB_TABLE_NAME
-            ,self::DB_TABLE_NAME
             // ,t_teacher_info::DB_TABLE_NAME
             ,$where_arr
         );
