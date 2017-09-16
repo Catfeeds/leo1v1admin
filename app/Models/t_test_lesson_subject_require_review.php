@@ -56,8 +56,7 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
     }
 
     public function get_list_by_adminid($adminid){
-        $where_arr = [
-        ];
+        $where_arr = [];
         $this->where_arr_add_int_field($where_arr,'adminid',$adminid);
         $sql=$this->gen_sql_new (" select * "
                                  ." from %s "
