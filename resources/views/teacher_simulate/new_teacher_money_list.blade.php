@@ -26,14 +26,20 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >开始月</span>
+                        <span >未上课开始月</span>
                         <select id="id_not_start" class ="opt-change" ></select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >结束月</span>
+                        <span >未上课结束月</span>
                         <select id="id_not_end" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师模拟工资类型</span>
+                        <select id="id_teacher_money_type_simulate" class ="opt-change" ></select>
                     </div>
                 </div>
             </div>

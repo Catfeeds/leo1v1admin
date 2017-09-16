@@ -1439,6 +1439,18 @@ class ajax_deal2 extends Controller
         $teacherid              = $this->get_in_int_val("teacherid");
         $start_time = time()-90*86400;
         $end_time = time();
+        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
+        $num=0;
+        foreach($list as $v){
+            $userid = $v["userid"];
+            $min = $this->t_lesson_info_b3->get_first_regular_lesson_time($teacherid,$userid);
+            $max = $this->t_lesson_info_b3->get_last_regular_lesson_time($teacherid,$userid);
+            if(($max - $min) >= 90*86400){
+                $num++;
+            }
+        }
+        return $this->output_succ(["data"=>$num]);
+
         
     }
 

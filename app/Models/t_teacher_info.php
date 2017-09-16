@@ -2937,7 +2937,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0
+        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0,$teacher_money_type_simulate=-1
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
@@ -2968,7 +2968,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($teacher_id>0){
             $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
         }else{
-            $where_arr[]=["t.teacher_money_type=%u",$teacher_money_type,-1];
+            $where_arr[] = $this->where_get_in_str_query("t.teacher_money_type", $teacher_money_type);
+            $where_arr[] = $this->where_get_in_str_query("t.teacher_money_type_simulate", $teacher_money_type_simulate);
             $where_arr[]=["t.level=%u",$level,-1];
         }
 
