@@ -48,5 +48,18 @@ $(function(){
         }
     });
 
+    $(".opt-del").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "要删除id为:" + opt_data.id + "的数据吗？",
+            function(val) {
+                if (val) {
+                    $.do_ajax("/test_lesson_review/test_lesson_review_del", {
+                        "id": opt_data.id
+                    })
+                }
+            })
+    });
+
     $('.opt-change').set_input_change_event(load_data);
 });
