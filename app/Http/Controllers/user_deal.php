@@ -1650,10 +1650,12 @@ class user_deal extends Controller
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
 
-        $this->t_admin_main_group_name->row_insert([
+       $ret = $this->t_admin_main_group_name->row_insert([
             "main_type"  => $main_type ,
             "group_name"  => $group_name,
         ]);
+
+        dd($ret);
 
         return $this->output_succ();
 
