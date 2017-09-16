@@ -534,7 +534,7 @@ class test_boby extends Controller
         // $arr = [5,6,7,8];
         // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
         // echo "<br>";
-        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td></tr>';
+        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
         $month      = $this->get_in_int_val("month",1);
         $start_time = strtotime("2017-$month");
         $end_time   = strtotime("+1 month",$start_time);
@@ -542,8 +542,14 @@ class test_boby extends Controller
 
         foreach ($list as $k=>$v){
             $nick = $this->cache_get_teacher_nick($v['teacherid']);
-            echo '<tr><td>'.$month.'</td><td>'.$nick.'</td><td>'.$v["group_concat(distinct(l.subject))"].'</td>'
-                           .'<td>'.$v["group_concat(distinct(l.grade))"].'</td><td>'.$v["trial_num"].'</td><td>'.$v["trial_succ"].'</td></tr>';
+            echo '<tr><td>'.$month.'</td><td>'
+                           .$nick.'</td><td>'
+                           .$v["group_concat(distinct(l.subject))"] .'</td><td>'
+                           .$v["group_concat(distinct(l.grade))"].'</td><td>'
+                           .$v["trial_num"].'</td><td>'
+                           .$v["trial_succ"].'</td><td>'
+                           .$v["normal"].'</td></tr>';
+
         }
 
     }
