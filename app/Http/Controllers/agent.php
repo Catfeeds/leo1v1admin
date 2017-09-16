@@ -324,6 +324,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $adminid = 99;
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid);
+        dd($ret_info);
+
         // $page_info = $this->get_in_page_info();
         // $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
         // return $this->pageView(__METHOD__,$ret_info);
