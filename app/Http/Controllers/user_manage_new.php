@@ -2374,8 +2374,7 @@ class user_manage_new extends Controller
         // $list = array_merge($list,$reward_list);
 
 
-
-        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
+        $file_name = "/tmp/teacher_money".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
