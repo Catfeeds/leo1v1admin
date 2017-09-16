@@ -33,7 +33,7 @@ $(function(){
 
     $.admin_select_user(
         $('#id_test_seller_id'),
-        "admin", load_data ,false, {
+        "seller_group", load_data ,false, {
             "main_type": 2, //分配用户
             select_btn_config: [{
                 "label": "所有非销售",
