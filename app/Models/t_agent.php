@@ -229,7 +229,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
         $sql=$this->gen_sql_new (
-            "select  a.create_time, a.id, a.nickname,a.phone,  agent_status, pp_agent_status_money as agent_status_money , pp_agent_status_money_open_flag as agent_status_money_open_flag  "
+            "select  a.create_time, a.id, a.nickname,a.phone,  a.agent_status, a.pp_agent_status_money as agent_status_money , a.pp_agent_status_money_open_flag as agent_status_money_open_flag  "
             ." from %s a_p "
             ." join %s a on a.parentid = a_p.id "
             ." where a_p.parentid=%u and %s "
@@ -925,8 +925,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     "p2_p_price"              => $p2["o_price"]/100,
                     "p2_p_open_price"              => $p2["o_open_price"]/100,
 
-                    "p1_agent_status_money"              => $p1["pp_agent_status_money"]/100,
-                    "p1_agent_status_money_open_flag_str" => $p1["pp_agent_status_money_open_flag_str"],
+                    "p2_agent_status_money"              => $p2["pp_agent_status_money"]/100,
+                    "p2_agent_status_money_open_flag_str" => $p2["pp_agent_status_money_open_flag_str"],
                 ] ;
             }
         }
@@ -1475,7 +1475,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $pp_agent_status_money=0;
         if ($agent_info["create_time"] > $yxyx_check_time)  {
             $agent_status_money= $this->eval_agent_status_money($agent_status);
-            if ($agent_status_money=5000) {
+            if ($agent_status_money==5000) {
                 $pp_agent_status_money= 2500;
             }
         }

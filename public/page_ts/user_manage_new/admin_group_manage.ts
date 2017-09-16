@@ -70,7 +70,7 @@ $(function(){
         }
     });
 
-    $(".opt-del-admin,.opt-del-admin-new,.opt-show_change_log,.opt-show_change_log-new").each(function(){
+    $(".opt-del-admin,.opt-del-admin-new,.opt-show_change_log").each(function(){
         var opt_data = $(this).get_opt_data();
         var level    = opt_data.level;
         var main_type    = opt_data.main_type;
@@ -80,31 +80,6 @@ $(function(){
     });
 
 
-    // opt-show_change_log
-    // $(".opt-show_change_log").on("click",function(){
-    //     var opt_data = $(this).get_opt_data();
-    //     var main_type    = opt_data.main_type;
-    //     var id_group_name=$("<input/>");
-    //     var  arr=[
-    //         ["组名" ,  id_group_name]
-    //     ];
-
-    //     $.show_key_value_table("新增主管分组", arr ,{
-    //         label: '确认',
-    //         cssClass: 'btn-warning',
-    //         action: function(dialog) {
-    //             // $.do_ajax("/user_deal/admin_main_group_add",{
-    //             //     "main_type" : main_type,
-    //             //     "group_name" : id_group_name.val()
-    //             // });
-    //         }
-    //     });
-
-    // });
-
-
-
-
      $(".opt-show_change_log").on("click",function(){
 
          var data            = $(this).get_opt_data();
@@ -112,28 +87,25 @@ $(function(){
          var html_node    = $.obj_copy_node("#id_assign_log");
 
          BootstrapDialog.show({
-             title: "分配列表",
+             title: "添加信息列表",
              message: html_node,
              closable: true
          });
 
          $.ajax({
              type: "post",
-             url: "/ss_deal/get_assign_log",
+             url: "/ss_deal/get_user_change_log",
              dataType: "json",
              data: {
                  'adminid': data.adminid,
              },
              success: function (result) {
                  if (result['ret'] == 0) {
-                     var data = result['data'];
 
                      var html_str = "";
-                     $.each(data, function (i, item) {
-                         var cls = "success";
+                     var cls = "success";
 
-                         html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "<td>" + item.assign_remarks+ "</tr>";
-                     });
+                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick + "</tr>";
 
                      html_node.find(".data-body").html(html_str);
 

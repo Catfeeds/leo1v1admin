@@ -15,10 +15,10 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
-    function load_invite_list(test_lesson_succ_flag,  agent_status_money_open_flag  ){
+    function load_invite_list(test_lesson_succ_flag,  agent_status_money_open_flag , field_str ){
         $.ajax({
             type : "get",
-            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_l1_invite_money_list?_agent_id="+g_args.id+"&test_lesson_succ_flag="+ test_lesson_succ_flag + "&agent_status_money_open_flag=" + agent_status_money_open_flag,
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_"+field_str+"_invite_money_list?_agent_id="+g_args.id+"&test_lesson_succ_flag="+ test_lesson_succ_flag + "&agent_status_money_open_flag=" + agent_status_money_open_flag,
             dataType : "jsonp",//数据类型为jsonp
             success : function(data){
                 var invite_list= data.list;
@@ -42,14 +42,24 @@ $(function(){
     };
 
     $("#id_invite_money_not_open_not_lesson_succ").on("click",function(){
-        load_invite_list(-1,0);
+        load_invite_list(-1,0,"l1");
     });
 
 
 
     $("#id_invite_money_info").on("click",function(){
-        load_invite_list(1,1);
+        load_invite_list(1,1,"l1");
     });
+
+
+    $("#id_l2_invite_money_not_open_not_lesson_succ").on("click",function(){
+        load_invite_list(-1,0,"l2");
+    });
+
+    $("#id_l2_invite_money_info").on("click",function(){
+        load_invite_list(1,1,"l2");
+    });
+
 
 
 
@@ -68,6 +78,8 @@ $(function(){
             $("#id_order_money_info").text(""+ user. order_money_info.all_money+"/"+ user.order_money_info.open_moeny  );
             $("#id_invite_money_info").text(""+ user. invite_money_info.all_money+"/"+ user.invite_money_info.open_moeny );
             $("#id_invite_money_not_open_not_lesson_succ").text(user.invite_money_info.all_money- user.invite_money_info.open_moeny   );
+            $("#id_l2_invite_money_info").text(""+ user. l2_invite_money_info.all_money+"/"+ user.l2_invite_money_info.open_moeny );
+            $("#id_l2_invite_money_not_open_not_lesson_succ").text(user.l2_invite_money_info.all_money- user.l2_invite_money_info.open_moeny   );
             $("#id_order_user_count").text(user.order_user_count);
             $("#id_child_all_count").text(user.child_all_count);
 

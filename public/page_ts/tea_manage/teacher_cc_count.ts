@@ -46,6 +46,7 @@ $(function(){
         Enum_map.append_option_list("subject",subject,true);
         Enum_map.append_option_list("train_type",train_type,true,[0,20,21,22,23]);
         teacherid.val(opt_data.teacherid);
+        subject.val(opt_data.subject);
         var arr = [
             ["姓名", teacherid],
             ["科目", subject],
