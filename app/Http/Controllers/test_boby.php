@@ -541,36 +541,41 @@ class test_boby extends Controller
             $start_time = strtotime("2017-$month");
             $end_time = strtotime("+1 month",$start_time);
             $list = $this->t_lesson_info_b3->get_tea_succ_count($start_time,$end_time);
-            // $new = [];
-            // foreach($list as $v){
-
-            // }
             $nick = '';
             $num =0;
             $succ =0;
             $kehao =0;
-            $par = 0;
+            $new = [];
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
+                // echo $v['nick'],'<br>';
                 if ($nick == $v['nick']) {
                     $num =  $num+1;
-                    $kehao =  $kehao + $v['xiaohao'];
-                    $succ =  $succ + $v['succ'];
-                    $par++;
-                } else if ($par != 0){
-                    $nick = $v['nick'];
-                    $kehao =$v['xiaohao'];
-                    $succ =$v['succ'];
-                    $num = 1;
+                    $kehao = $kehao + $v['xiaohao'];
+                    $succ = $succ + $v['succ'];
+                    $new[$nick]['kehao'] = $kehao;
+                    $new[$nick]['succ'] = $succ;
+                    $new[$nick]['num'] = $num;
+                    $new[$nick]['subject'] = $v['subject_str'];
+                    $new[$nick]['grade'] = $v['grade_str'];
                 } else {
-                    echo '<tr><td>'.$month.'</td><td>'.$v["nick"].'</td><td>'.$v["subject_str"].'</td><td>'.$v["grade_str"].'</td><td>'.$num.'</td><td>'.$succ.'</td><td>'.$kehao.'</td></tr>';
                     $nick = $v['nick'];
                     $kehao =$v['xiaohao'];
                     $succ =$v['succ'];
                     $num = 1;
-                    $par = 0;
+                    $new[$nick]['kehao'] = $kehao;
+                    $new[$nick]['succ'] = $succ;
+                    $new[$nick]['num'] = $num;
+                    $new[$nick]['subject'] = $v['subject_str'];
+                    $new[$nick]['grade'] = $v['grade_str'];
+
                 }
+            }
+
+            foreach ($new as $k=>$v){
+                echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"].'</td></tr>';
+
             }
         }
     }
