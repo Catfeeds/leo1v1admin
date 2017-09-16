@@ -1841,10 +1841,9 @@ class user_deal extends Controller
 
         $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
         if ($db_groupid ) {//
-
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
-            // $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
-            return $this->output_err("此人已在[$group_name]中,不能添加");
+            $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
+            // return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 
         $this->t_admin_group_user->row_insert([
@@ -1857,7 +1856,7 @@ class user_deal extends Controller
             "add_time"   => time(),
             "userid"     => $adminid,
             "do_adminid" => $this->get_account_id(),
-            // "old_group"  =>
+            "old_group"  => $group_name
         ]);
 
         return $this->output_succ();
