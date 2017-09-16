@@ -695,13 +695,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["lesson_start>%u",$start_time,-1],
             ["lesson_start<%u",$end_time,-1],
-            // "lesson_type = 2",
+            "lesson_type = 2",
             "lesson_del_flag = 0",
             "lesson_user_online_status != 2",
         ];
         $sql = $this->gen_sql_new(
             "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid,l.lesson_type"
-            .", if(tl.type=2,1,0) as succ ,if( l.lesson_type in (0,1,3),l.lesson_count,0) as xiaohao"
+            .", if(tl.type=2,1,0) as succ"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info"
             ." left join %s t on l.teacherid=t.teacherid"

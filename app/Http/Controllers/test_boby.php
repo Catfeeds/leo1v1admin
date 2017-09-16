@@ -550,15 +550,12 @@ class test_boby extends Controller
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
-                // if ($nick == $v['nick']) {
                 $par = $month.$v['teacherid'];
                 if (in_array($par, $tid) & $v['lesson_type'] == 2) {
                     $num =  $num+1;
-                    $kehao = $kehao + $v['xiaohao'];
+                    // $kehao = $kehao + $v['xiaohao'];
                     $succ = $succ + $v['succ'];
-
-
-                    $new[$nick]['kehao'] = $kehao;
+                    // $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
@@ -566,32 +563,25 @@ class test_boby extends Controller
                 } else if ($v['lesson_type'] == 2){
                     $tid[] = $month.$v['teacherid'];
                     $nick = $v['nick'];
-                    $kehao =$v['xiaohao'];
+                    // $kehao =$v['xiaohao'];
                     $succ =$v['succ'];
                     $num = 1;
 
-                    $new[$nick]['kehao'] = $kehao;
+                    // $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
+                    // $kehap = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
 
                 }
 
-                if (in_array($par, $tid) & in_array($v['lesson_type'],[0,1,3]) ) {
-                    $kehao = $kehao + $v['xiaohao'];
-                    $new[$nick]['kehao'] = $kehao;
-                } else if ( in_array($v['lesson_type'],[0,1,3]) ){
-                    $tid[] = $month.$v['teacherid'];
-                    $kehao =$v['xiaohao'];
-                    $new[$nick]['kehao'] = $kehao;
-                }
 
             }
 
             foreach ($new as $k=>$v){
                 if(@$v['subject']){
-                    echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"]/100 .'</td></tr>';
+                    echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.@$v["kehao"]/100 .'</td></tr>';
 
                 }
             }
