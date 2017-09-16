@@ -349,8 +349,10 @@ class agent extends Controller
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
         $self_top_info_old = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
         if($self_top_info>25){//上周取消率>25%,查看当天是否排课
-            $start_time = $time;
-            $end_time = $time+3600*24;
+            // $start_time = $time;
+            // $end_time = $time+3600*24;
+            $start_time = $time-3600*24;
+            $end_time = $time;
             // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
             $require_id = $this->t_test_lesson_subject_require->get_test_lesson_require_row($start_time,$end_time,$adminid);
             $ret['ret'] = $require_id?1:2;
@@ -377,7 +379,7 @@ class agent extends Controller
             }
             $ret['rate'] = $del_rate;
         }
-        dd($self_top_info_old,$ret);
+        dd($self_top_info_old,$ret,$require_id,$review_suc);
     }
 
     public function agent_add(){
