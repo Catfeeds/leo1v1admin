@@ -532,7 +532,7 @@ class test_boby extends Controller
 
     public function get_tea_succ_count(){
         $arr = [5,6,7,8];
-        echo "月份｜老师｜科目|年级|课数|成功数";
+        echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
         echo "<br>";
 
         foreach ($arr as $v) {
@@ -547,13 +547,16 @@ class test_boby extends Controller
             // }
             $nick = '';
             $num =0;
+            $kehao =0;
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 if ($nick == $v['nick']) {
                     $num =  $num+1;
+                    $kehao =  $kehao + $v['xiaohao'];
                 } else {
-                    echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$num."|".$v['succ'];
+                    echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$num."|".$v['succ'].'|'.$kehao/100;
                     $nick = $v['nick'];
+                    $kehao =$v['xiaohao'];
                     $num = 1;
 
                 }
