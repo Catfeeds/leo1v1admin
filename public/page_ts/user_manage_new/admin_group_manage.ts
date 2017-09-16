@@ -105,7 +105,7 @@ $(function(){
                      var html_str = "";
                      var cls = "success";
 
-                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick + "</tr>";
+                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick +"<td>"+ result.old_group + "</tr>";
 
                      html_node.find(".data-body").html(html_str);
 
@@ -614,6 +614,7 @@ $(function(){
                 $.do_ajax("/user_deal/admin_main_group_add_new",{
                     "main_type" : main_type,
                     "group_name" : id_group_name.val(),
+                    "first_groupid": opt_data.first_groupid,
                     "start_time" : g_args.start_time
                 });
             }

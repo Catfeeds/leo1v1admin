@@ -2057,6 +2057,9 @@ function init_edit() {
             var id_need_teacher_style = html_node.find("#id_need_teacher_style");
             var id_intention_level = html_node.find("#id_intention_level");
             var id_test_paper = html_node.find("#id_test_paper");
+            var id_demand_urgency = html_node.find("#id_demand_urgency");
+            var id_quotation_reaction = html_node.find("#id_quotation_reaction");
+            
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
            
            
@@ -2240,6 +2243,9 @@ function init_edit() {
             Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
             Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
             Enum_map.append_option_list("intention_level", id_intention_level, true);
+            Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
+            Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
+
             
 
             

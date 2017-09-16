@@ -206,10 +206,9 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_value($sql);
     }
 
-    //get_group_name_by_groupid
-    public function get_group_name_by_groupid($adminid){
-        $sql=$this->gen_sql_new("select  group_name from %s where master_adminid=%u  ",
-                                self::DB_TABLE_NAME, $adminid) ;
+    public function get_group_name_by_groupid($groupid){
+        $sql=$this->gen_sql_new("select  group_name from %s where groupid=%u  ",
+                                self::DB_TABLE_NAME, $groupid) ;
         return $this->main_get_value($sql);
     }
 

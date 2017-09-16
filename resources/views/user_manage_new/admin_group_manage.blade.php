@@ -152,7 +152,7 @@
     <div style="display:none;" >
         <div id="id_assign_log">
             <table   class="table table-bordered "   >
-                <tr>  <th> 操作时间 <th>操作人   </tr>
+                <tr>  <th> 操作时间 <th>操作人 <th> 原来小组  </tr>
                     <tbody class="data-body">
                     </tbody>
             </table>

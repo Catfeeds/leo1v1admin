@@ -353,12 +353,14 @@ class ss_deal extends Controller
             $next_revisit_time =0;
         }
 
-        if ($next_revisit_time   ) {
-            if ($next_revisit_time-time() > 7*86400) {
-                return $this->output_err("下次回访时间只能设置最近一周时间");
-            }
-        }else{
-            $next_revisit_time=time();
+        $diff=$next_revisit_time-time();
+
+        if ( $next_revisit_time==0 ) {
+            return $this->output_err("下次回访时间 需要设置");
+        } if ( $diff > 7*86400 ) {
+            return $this->output_err("下次回访时间只能设置最近一周时间");
+        }else if (  $diff<0 ) {
+            return $this->output_err("下次回访时间不能早于当前");
         }
 
         if ($stu_request_test_lesson_time) {
@@ -5952,6 +5954,7 @@ class ss_deal extends Controller
         if($log_info_arr){
             $ret_info['add_time_formate'] = date('Y-m-d H:i:s',$log_info_arr['add_time']);
             $ret_info['do_adminid_nick']  = $this->cache_get_account_nick($log_info_arr['do_adminid']);
+            $ret_info['old_group']        = $log_info_arr['old_group'];
         }
 
         return $this->output_succ($ret_info);
