@@ -1313,11 +1313,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select count(*) from %s where admin_revisiterid=%u and next_revisit_time>=%u and next_revisit_time < %u  ",
             self::DB_TABLE_NAME,
             $admin_revisiterid,
-            $today-864000,
+            $today-86400*7,
             $today+86400
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_today_next_revisit_need_free_count( $admin_revisiterid )
+    {
+        $today=strtotime( date("Y-m-d" )) ;
+        $sql = $this->gen_sql(
+            "select count(*) from %s where admin_revisiterid=%u and next_revisit_time>=%u and next_revisit_time < %u  ",
+            self::DB_TABLE_NAME,
+            $admin_revisiterid,
+            $today-86400*2,
+            $today-86400
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 
 
