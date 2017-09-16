@@ -324,23 +324,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
-        $week = date('w',$time);
-        if($week == 0){
-            $week = 7;
-        }elseif($week == 1){
-            $week = 8;
-        }
-        $start_time = $time-3600*24*($week-2);
-        $end_time = $start_time+3600*24*7;
-        $adminid = 1032;
-        $userid = $this->get_in_int_val('userid');
-        $review_desc = $this->get_in_str_val('review_desc');
-        $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
-        $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
-        $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
-        $count = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
-        dd($count);
+        dd('a');
         $agent_info = $this->t_agent->get_son_userid_by_phone($phone='13421239870');
         $userid_arr = array_unique(array_column($agent_info,'userid'));
 

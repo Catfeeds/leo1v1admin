@@ -25,7 +25,7 @@ class test_lesson_review extends Controller
             $item["master_suc_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["master_suc_flag"]);
             $item['create_time'] = \App\Helper\Utils::unixtime2date($item['create_time']);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,['adminid'=>$adminid]);
     }
 
     public function test_lesson_review_add(){
@@ -88,6 +88,12 @@ class test_lesson_review extends Controller
             ]);
             return $this->output_succ();
         }
+    }
+
+    public function test_lesson_review_del(){
+        $id=$this->get_in_id();
+        $this->t_test_lesson_subject_require_review->row_delete($id);
+        return $this->output_succ();
     }
 
 }
