@@ -543,32 +543,41 @@ class test_boby extends Controller
             $list = $this->t_lesson_info_b3->get_tea_succ_count($start_time,$end_time);
             $new = [];
             foreach ($list as $v) {
+                E\Esubject::set_item_value_str($v);
                 if ($v['grade'] < 200) {
                     $new[1]['grade'] = '小学';
                     $new[1]['num'] = @$new[1]['num']+1;
                     $new[1]['succ'] = @$new[1]['succ'] + $v['succ'];
                     $new[1]['subject'] = $v['subject'];
+                    $new[1]['nick'] = $v['nick'];
+                    $new[1]['subject'] = $v['subject_str'];
                 } else if($v['grade'] < 300) {
                     $new[2]['grade'] = '初中';
                     $new[2]['num'] = @$new[2]['num']+1;
                     $new[2]['succ'] = @$new[2]['succ'] + $v['succ'];
                     $new[2]['subject'] = $v['subject'];
+                    $new[2]['nick'] = $v['nick'];
+                    $new[2]['subject'] = $v['subject_str'];
                 } else if ($v['grade'] <400){
                     $new[3]['grade'] = '高中';
                     $new[3]['num'] = @$new[3]['num']+1;
                     $new[3]['succ'] = @$new[3]['succ'] + $v['succ'];
                     $new[3]['subject'] = $v['subject'];
+                    $new[3]['nick'] = $v['nick'];
+                    $new[3]['subject'] = $v['subject_str'];
                 } else if ($v['grade'] <500){
                     $new[4]['grade'] = '大学';
                     $new[4]['num'] = @$new[4]['num']+1;
                     $new[4]['succ'] = @$new[4]['succ'] + $v['succ'];
                     $new[4]['subject'] = $v['subject'];
+                    $new[4]['subject'] = $v['subject_str'];
+                    $new[4]['nick'] = $v['nick'];
                 }
                 
 
             }
             foreach($new as $v){
-                echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
+                echo $month."|".$v['nick']."|".$v['subject'].'|'.$v['grade']."|".$v['num']."|".$v['succ'];
                 echo "<br>";
             }
         }
