@@ -46,6 +46,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	favorite_adminid	:any;
 	require_id	:any;
 	lessonid	:any;
 	call_end_time	:any;
