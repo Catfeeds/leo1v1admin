@@ -532,9 +532,9 @@ class test_boby extends Controller
 
     public function get_tea_succ_count(){
         $arr = [5,6,7,8];
-        echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
-        echo "<br>";
-
+        // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
+        // echo "<br>";
+        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
         foreach ($arr as $v) {
             $month = $v;
             // $month = $this->get_in_int_val("month",1);
@@ -547,21 +547,26 @@ class test_boby extends Controller
             // }
             $nick = '';
             $num =0;
+            $succ =0;
             $kehao =0;
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
+                E\Egrade::set_item_value_str($v);
                 if ($nick == $v['nick']) {
                     $num =  $num+1;
                     $kehao =  $kehao + $v['xiaohao'];
+                    $succ =  $succ + $v['succ'];
                 } else {
-                    echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$num."|".$v['succ'].'|'.$kehao/100;
+                    // echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$num."|".$v['succ'].'|'.$kehao/100;
+                    echo '<tr><td>'.$month.'</td><td>'.$v["nick"].'</td><td>'.$v["subject_str"].'</td><td>'.$v["grade_str"].'</td><td>'.$num.'</td><td>'.$succ.'</td><td>'.$kehao.'</td></tr>';
                     $nick = $v['nick'];
                     $kehao =$v['xiaohao'];
+                    $succ =$v['succ'];
                     $num = 1;
 
                 }
                 // echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$v['lessonid']."|".$v['succ'];
-                echo "<br>";
+                // echo "<br>";
             }
         }
     }
