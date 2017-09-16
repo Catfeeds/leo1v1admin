@@ -922,14 +922,14 @@
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">学习习惯：</span>
-                            <input type="text" class=" form-control "  id="id_study_habit"  />
+                            <span class="input-group-addon"> 性格特点：</span>
+                            <input type="text" class=" form-control "  id="id_character_type"  />
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">学习习惯：</span>
-                            <input type="text" class=" form-control "  id="id_study_habit"  />
+                            <span class="input-group-addon">所需老师风格：</span>
+                            <input type="text" class=" form-control "  id="id_need_teacher_style"  />
                         </div>
                     </div>
 
