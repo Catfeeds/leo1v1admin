@@ -57,6 +57,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->main_update($sql);
     }
 
+    public function get_list_for_select_new($id_arr,$gender, $nick_phone,  $page_num,$main_type)
+    {
+        $where_arr = array(
+        );
+        $this->where_arr_add_int_or_idlist($where_arr,'uid',$id_arr);
+        if ($nick_phone!=""){
+            $where_arr[]=sprintf( "(account like '%%%s%%' or name like '%%%s%%'  )",
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone));
+        }
+        $where_arr[]=["account_role=%u", $main_type, -1];
+        $sql =  $this->gen_sql_new( "select uid as id ,  account as  nick,   name as realname,  phone,'' as gender  from %s    where %s ",
+                                    self::DB_TABLE_NAME,  $where_arr );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+        $this->main_update($sql);
+    }
+
     public function get_group_master_for_select($id,$gender, $nick_phone,  $page_num,$main_type )
     {
         $where_arr = array(

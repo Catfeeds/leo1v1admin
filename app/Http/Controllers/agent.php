@@ -324,8 +324,10 @@ class agent extends Controller
     }
 
     public function check(){
-        $test_seller_id = in_array(3,[0,1])?1:2;
-        dd($test_seller_id);
+        $adminid = 99;
+        $test_seller_id = $this->get_in_int_val('test_seller_id',-1);
+        $adminid = $test_seller_id!=-1?$test_seller_id:$adminid;
+        dd($adminid);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
         return $this->pageView(__METHOD__,$ret_info);

@@ -726,7 +726,19 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
+        }else if($type=="seller_group"){//销售下级id
+            //组长&主管
+            $adminid = $this->get_account_id();
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $ret_list= $this->t_manager_info->get_list_for_select_new($require_adminid_arr,$gender, $nick_phone, $page_num,$main_type);
         }
+
 
 
 
