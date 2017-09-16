@@ -549,6 +549,7 @@ class test_boby extends Controller
             $num =0;
             $succ =0;
             $kehao =0;
+            $par = 0;
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
@@ -556,17 +557,20 @@ class test_boby extends Controller
                     $num =  $num+1;
                     $kehao =  $kehao + $v['xiaohao'];
                     $succ =  $succ + $v['succ'];
+                    $par++;
+                } else if ($par != 0){
+                    $nick = $v['nick'];
+                    $kehao =$v['xiaohao'];
+                    $succ =$v['succ'];
+                    $num = 1;
                 } else {
-                    // echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$num."|".$v['succ'].'|'.$kehao/100;
                     echo '<tr><td>'.$month.'</td><td>'.$v["nick"].'</td><td>'.$v["subject_str"].'</td><td>'.$v["grade_str"].'</td><td>'.$num.'</td><td>'.$succ.'</td><td>'.$kehao.'</td></tr>';
                     $nick = $v['nick'];
                     $kehao =$v['xiaohao'];
                     $succ =$v['succ'];
                     $num = 1;
-
+                    $par = 0;
                 }
-                // echo $month."|".$v['nick']."|".$v['subject_str'].'|'.$v['grade']."|".$v['lessonid']."|".$v['succ'];
-                // echo "<br>";
             }
         }
     }
