@@ -682,7 +682,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             // "o.contract_status!=0",
         ];
         $sql = $this->gen_sql_new(
-            "select s.userid,l.grade "
+            "select l.lessonid,l.grade"
             .", if(o.pay_time>0 and o.contract_type in (0,3) and o.contract_status>0,1,0) as succ "
             ." from %s l"
             ." left join %s s on l.userid=s.userid"
