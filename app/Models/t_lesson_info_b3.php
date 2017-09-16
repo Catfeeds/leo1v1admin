@@ -733,6 +733,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_tea_test_succ_count($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
+        ];
+        $sql = $this->gen_sql_new(
+            "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid"
+            .", if(tl.type=2,1,0) as succ"
+            ." from %s l"
+            ." left join %s tl on l.lessonid=tl.money_info"
+            ." left join %s t on l.teacherid=t.teacherid"
+            ." where %s"
+            // ." group by l.teacherid"
+            ,self::DB_TABLE_NAME
+            ,t_teacher_money_list::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }
