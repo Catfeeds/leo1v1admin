@@ -1378,10 +1378,10 @@ class tongji_ss extends Controller
     public function test_lesson_plan_detail_list() {
         list($start_time,$end_time)=$this->get_in_date_range_day(0);
         $page_num= $this->get_in_page_num();
-        $set_lesson_adminid=$this->get_in_int_val("set_lesson_adminid", -1);
+        $set_lesson_adminid = $this->get_in_int_val("set_lesson_adminid", -1);
         $subject = $this->get_in_subject(-1);
-        $grade= $this->get_in_grade(-1);
-        $success_flag= $this->get_in_int_val("success_flag", -1, E\Eset_boolean::class);
+        $grade  = $this->get_in_grade(-1);
+        $success_flag = $this->get_in_int_val("success_flag", -1, E\Eset_boolean::class);
         $test_lesson_fail_flag = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
         $userid=$this->get_in_userid(-1);
         $require_admin_type=$this->get_in_int_val("require_admin_type", -1, E\Eaccount_role::class);
