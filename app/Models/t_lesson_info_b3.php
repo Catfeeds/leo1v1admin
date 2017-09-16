@@ -714,6 +714,25 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+    public function get_tea_count($teacherid,$start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
+            "l.teacherid=$teacherid",
+        ];
+        $sql = $this->gen_sql_new(
+            "select count(lesson_count)"
+            ." from %s l"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 
 }

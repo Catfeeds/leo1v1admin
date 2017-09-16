@@ -572,7 +572,8 @@ class test_boby extends Controller
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
-                    // $kehap = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
+                    $kehao = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
+                    $new[$nick]['kehao'] = $kehao;
 
                 }
 
