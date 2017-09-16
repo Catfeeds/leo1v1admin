@@ -1760,6 +1760,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function  get_type1_lesson_count_by_start_time ( $start_time ) {
+        $sql=$this->gen_sql_new(
+            "select  sum(lesson_total * default_lesson_count) as lesson_count  from %s  "
+            . " where order_time >%u and contract_type=1 and from_parent_order_type=0 "
+            ,self::DB_TABLE_NAME
+            ,$start_time
+        );
+        return $this->main_get_value($sql);
+    }
+
+
+
     public function  get_type1_lesson_count ($orderid) {
         $sql=$this->gen_sql_new(
             "select  lesson_total * default_lesson_count as lesson_count  from %s  "
