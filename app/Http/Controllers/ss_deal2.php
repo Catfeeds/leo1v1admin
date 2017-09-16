@@ -401,5 +401,47 @@ class ss_deal2 extends Controller
 
     }
 
+    public function get_stu_interests_hobbies_list(){
+        $interests_hobbies = $this->get_in_str_val('interests_hobbies',"");
+        // $textbook = "2,3";
+        $list    = E\Einterests_hobbies::$desc_map;
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["interests_hobbies"=>$val,"num"=>$i];
+            $data[]=$val;
+        }
+        if(!empty($interests_hobbies)){
+            $interests_hobbies = trim($interests_hobbies,",");
+            $arr = explode(",",$interests_hobbies);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["interests_hobbies"]){
+                            $item["has_interests_hobbies"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_stu_interests_hobbies_name(){
+        $interests_hobbies = $this->get_in_str_val('interests_hobbies',"");
+        $list    = E\Einterests_hobbies::$desc_map;
+        $arr = json_decode($interests_hobbies,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+
+    }
+
+
 
 }

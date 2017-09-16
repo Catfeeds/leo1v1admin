@@ -2042,6 +2042,9 @@ function init_edit() {
             var id_interest_cultivation = html_node.find("#id_interest_cultivation");
             var id_study_habit = html_node.find("#id_study_habit");
             var id_interests_hobbies = html_node.find("#id_interests_hobbies");
+            var id_character_type = html_node.find("#id_character_type");
+            var id_need_teacher_style = html_node.find("#id_need_teacher_style");
+
             
              
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
@@ -2307,6 +2310,88 @@ function init_edit() {
                 });
                 
             });
+
+            id_character_type.data("v","");
+            id_character_type.on("click",function(){
+                // var character_type= data.character_type;
+                var character_type  = id_character_type.data("v");
+                $.do_ajax("/ss_deal2/get_stu_character_type_list",{
+                    "character_type" : character_type
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["character_type"]  ]);
+
+                        if (this["has_character_type"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_character_type_name",{
+                                "character_type" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_character_type.val(res.data); 
+                                id_character_type.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+            id_need_teacher_style.data("v","");
+            id_need_teacher_style.on("click",function(){
+                // var need_teacher_style= data.need_teacher_style;
+                var need_teacher_style  = id_need_teacher_style.data("v");
+                $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
+                    "need_teacher_style" : need_teacher_style
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["need_teacher_style"]  ]);
+
+                        if (this["has_need_teacher_style"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
+                                "need_teacher_style" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_need_teacher_style.val(res.data); 
+                                id_need_teacher_style.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+
 
 
             var old_province = data.region;
