@@ -56,9 +56,10 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>项目</td>
-                                    <td>数值</td>
-                                    <td>公司排名</td>
+                                    <td style="width:140px"><strong><font color="#3c8dbc">项目</font><strong></td>
+                                        <td><strong><font color="#3c8dbc">数值</font><strong></td>
+                                            <!-- <td><strong><font color="#3c8dbc">昨日数值</font><strong></td> -->
+                                            <td><strong><font color="#3c8dbc">公司排名</font><strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_self_body">
@@ -93,14 +94,14 @@
                                     </td>
                                     <td>{{@$self_top_info[10]["top_index"]}} </td>
                                 </tr>
-                                <tr>
-                                    <td>上周({{@$start_time}}-{{@$end_time}})试听取消率</td>
-                                    <td>
+                                <tr rowspan="2">
+                                    <td >上周({{@$start_time}}-{{@$end_time}})试听取消率</td>
+                                    <td >
                                         {{@$self_top_info[15]["value"]*1}}%
                                         <a href="javascript:;" id="id_show_fail_lesson_list">  ({{@$self_top_info[14]["value"]*1}}/{{@$self_top_info[13]["value"]*1}})  </a>
 
                                     </td>
-                                    <td>{{@$self_top_info[15]["top_index"]}} </td>
+                                    <td >{{@$self_top_info[15]["top_index"]}} </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
