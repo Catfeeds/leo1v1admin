@@ -530,5 +530,49 @@ class test_boby extends Controller
         }
     }
 
+    public function get_tea_succ_count(){
+        $arr = [5,6,7,8];
+        echo "月份｜老师｜科目|年级|课数|成功数";
+        echo "<br>";
+
+        foreach ($arr as $v) {
+            $month = $v;
+            // $month = $this->get_in_int_val("month",1);
+            $start_time = strtotime("2017-$month");
+            $end_time = strtotime("+1 month",$start_time);
+            $list = $this->t_lesson_info_b3->get_tea_succ_count($start_time,$end_time);
+            $new = [];
+            foreach ($list as $v) {
+                if ($v['grade'] < 200) {
+                    $new[1]['grade'] = '小学';
+                    $new[1]['num'] = @$new[1]['num']+1;
+                    $new[1]['succ'] = @$new[1]['succ'] + $v['succ'];
+                    $new[1]['subject'] = $v['subject'];
+                } else if($v['grade'] < 300) {
+                    $new[2]['grade'] = '初中';
+                    $new[2]['num'] = @$new[2]['num']+1;
+                    $new[2]['succ'] = @$new[2]['succ'] + $v['succ'];
+                    $new[2]['subject'] = $v['subject'];
+                } else if ($v['grade'] <400){
+                    $new[3]['grade'] = '高中';
+                    $new[3]['num'] = @$new[3]['num']+1;
+                    $new[3]['succ'] = @$new[3]['succ'] + $v['succ'];
+                    $new[3]['subject'] = $v['subject'];
+                } else if ($v['grade'] <500){
+                    $new[4]['grade'] = '大学';
+                    $new[4]['num'] = @$new[4]['num']+1;
+                    $new[4]['succ'] = @$new[4]['succ'] + $v['succ'];
+                    $new[4]['subject'] = $v['subject'];
+                }
+                
+
+            }
+            foreach($new as $v){
+                echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
+                echo "<br>";
+            }
+        }
+    }
+
 
 }
