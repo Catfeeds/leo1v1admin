@@ -105,7 +105,7 @@ $(function(){
                      var html_str = "";
                      var cls = "success";
 
-                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick + "</tr>";
+                     html_str += "<tr class=\"" + cls + "\" > <td>" + result.add_time_formate  + "<td>" + result.do_adminid_nick +"<td>"+ result.old_group + "</tr>";
 
                      html_node.find(".data-body").html(html_str);
 
