@@ -389,7 +389,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
         $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
         if($favorite_flag){
-            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_adminid);
+            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
         }
 
 
