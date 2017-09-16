@@ -401,5 +401,89 @@ class ss_deal2 extends Controller
 
     }
 
+    public function get_stu_character_type_list(){
+        $character_type = $this->get_in_str_val('character_type',"");
+        // $textbook = "2,3";
+        $list    = E\Echaracter_type::$desc_map;
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["character_type"=>$val,"num"=>$i];
+            $data[]=$val;
+        }
+        if(!empty($character_type)){
+            $character_type = trim($character_type,",");
+            $arr = explode(",",$character_type);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["character_type"]){
+                            $item["has_character_type"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_stu_character_type_name(){
+        $character_type = $this->get_in_str_val('character_type',"");
+        $list    = E\Echaracter_type::$desc_map;
+        $arr = json_decode($character_type,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+
+    }
+
+    public function get_stu_need_teacher_style_list(){
+        $need_teacher_style = $this->get_in_str_val('need_teacher_style',"");
+        // $textbook = "2,3";
+        $list    = E\Eneed_teacher_style::$desc_map;
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["need_teacher_style"=>$val,"num"=>$i];
+            $data[]=$val;
+        }
+        if(!empty($need_teacher_style)){
+            $need_teacher_style = trim($need_teacher_style,",");
+            $arr = explode(",",$need_teacher_style);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["need_teacher_style"]){
+                            $item["has_need_teacher_style"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_stu_need_teacher_style_name(){
+        $need_teacher_style = $this->get_in_str_val('need_teacher_style',"");
+        $list    = E\Eneed_teacher_style::$desc_map;
+        $arr = json_decode($need_teacher_style,true);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+
+    }
+
+
+
 
 }
