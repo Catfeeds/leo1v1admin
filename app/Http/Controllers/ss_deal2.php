@@ -320,7 +320,7 @@ class ss_deal2 extends Controller
     }
 
     public function get_stu_study_habit_list(){
-        $study_habit = $this->get_in_str_val('study_habit',"课前积极预习独立思考,课堂认真听讲大胆提问");
+        $study_habit = $this->get_in_str_val('study_habit',"");
         // $textbook = "2,3";
         $list    = E\Estudy_habit::$desc_map;
         $res = [];
@@ -345,6 +345,20 @@ class ss_deal2 extends Controller
             }
         }
         return $this->output_succ(["data"=> $res]);
+    }
+
+    public function get_stu_study_habit_name(){
+        $study_habit = $this->get_in_str_val('study_habit',"");
+        $list    = E\Estudy_habit::$desc_map;
+        $study_habit = trim($study_habit,",");
+        $arr = explode(",",$study_habit);
+        $data="";
+        foreach($arr as $v){
+            $data .= $list[$v].",";
+        }
+        $data = trim($data,",");
+        return $this->output_succ(["data"=> $data]);
+
     }
 
 }
