@@ -2373,6 +2373,31 @@ class user_manage_new extends Controller
         // );
         // $list = array_merge($list,$reward_list);
 
+
+        $file_name = "/tmp/teacher_money".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
+        //需要重新拉取  flag  0 不需要  1 需要
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
+
+        if($flag){
+            $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end
+            );
+            file_put_contents($file_name,json_encode($tea_list));
+        }else{
+            $tea_list=json_decode($file_info,true);
+        }
+
+
+
+
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
         $all_lesson_1v1   = 0;
