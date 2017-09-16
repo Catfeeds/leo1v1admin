@@ -1557,8 +1557,8 @@ function init_edit() {
         init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
         init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
         init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
-        init_noit_btn("id_lesson_today",  resp.today,  "今天上课须通知数" ,"");
-        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课须通知数","" );
+        init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
+        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
         init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
     });
@@ -2814,18 +2814,13 @@ function init_edit() {
                 dlg.close();
             } );
             var th = setTimeout(function(){
-                $.do_ajax( "/common/get_bucket_info",{
-                    is_public: 0
-                },function(ret){
-                    var domain_name=ret.domain;
-                    $.custom_upload_file('id_upload_test_paper', true,function (up, info, file) {
-                        var res = $.parseJSON(info);
-                        console.log(res);
-                        id_test_paper.val("http://"+domain_name +'/'+ res.key);
+                $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    console.log(res);
+                    id_test_paper.val(res.key);
 
-                    }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);  
-                    clearTimeout(th);
-                });
+                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);  
+                clearTimeout(th);
             }, 1000);
 
 
