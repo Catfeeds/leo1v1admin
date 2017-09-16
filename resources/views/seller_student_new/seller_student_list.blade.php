@@ -1023,6 +1023,41 @@
 
         </div>
 
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>其他</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">需求急迫性：</span>
+                            <select id="id_demand_urgency" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">报价反应：</span>
+                            <select id="id_quotation_reaction" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                   
+
+
+                    
+                    
+
+                </div>
+            </div>
+
+        </div>
+
+
 
 
     </div>
