@@ -581,7 +581,7 @@ class test_boby extends Controller
             }
 
             foreach ($new as $k=>$v){
-                echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"].'</td></tr>';
+                echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"]/100 .'</td></tr>';
 
             }
         }

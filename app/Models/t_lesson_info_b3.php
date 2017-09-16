@@ -701,7 +701,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $sql = $this->gen_sql_new(
             "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid"
-            .", if(tl.type=2,1,0) as succ ,if(l.lesson_type in (0,1,3),l.lesson_count,0) as xiaohao"
+            .", if(tl.type=2,1,0) as succ ,if(l.lesson_type=0,l.lesson_count,0) as xiaohao"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info"
             ." left join %s t on l.teacherid=t.teacherid"
