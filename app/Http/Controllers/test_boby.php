@@ -531,7 +531,7 @@ class test_boby extends Controller
     }
 
     public function get_tea_succ_count(){
-        $arr = [5,6,7,8];
+        // $arr = [5,6,7,8];
         // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
         // echo "<br>";
         echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
@@ -551,11 +551,11 @@ class test_boby extends Controller
                 $par = $month.$v['teacherid'];
                 if (in_array($par, $tid) ) {
                     $num =  $num+1;
-                    $succ = $succ + $v['succ'];
-                    $new[$nick]['succ'] = $succ;
+                    $new[$nick]['succ'] = $new[$nick]['succ']+$v['succ'];
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
+                    $succ = 0;
                 } else {
                     $tid[] = $month.$v['teacherid'];
                     $nick = $v['nick'];
