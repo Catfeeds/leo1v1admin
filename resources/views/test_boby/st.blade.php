@@ -12,6 +12,7 @@
                 <div class="col-xs-6 col-md-4">
                     <div class="input-group ">
                         <input class="opt-change form-control" id="id_nick_phone" placeholder="输入电话查询"/>
+                        <ul id="cur_ret"> </ul>
                     </div>
                 </div>
             </div>
