@@ -54,7 +54,7 @@ class t_location_subject_grade_textbook_info extends \App\Models\Zgen\z_t_locati
     public function get_no_educational_system_info(){
         $sql = $this->gen_sql_new("select id, city,educational_system "
                                   ." from %s"
-                                  ." where educational_system = ''",
+                                  ." where educational_system = '' and city <>'' limit 0,500",
                                   self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);

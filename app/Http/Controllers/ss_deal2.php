@@ -318,4 +318,33 @@ class ss_deal2 extends Controller
         }
 
     }
+
+    public function get_stu_study_habit_list(){
+        $study_habit = $this->get_in_str_val('study_habit',"课前积极预习独立思考,课堂认真听讲大胆提问");
+        // $textbook = "2,3";
+        $list    = E\Estudy_habit::$desc_map;
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["study_habit"=>$val,"num"=>$i];
+            $data[]=$val;
+        }
+        if(!empty($study_habit)){
+            $study_habit = trim($study_habit,",");
+            $arr = explode(",",$study_habit);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["study_habit"]){
+                            $item["has_study_habit"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
 }
