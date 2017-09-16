@@ -138,9 +138,7 @@ class main_page extends Controller
         foreach ($half_week_info["list"] as $key=> &$item) {
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
         }
-
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
-        // dd($self_top_info);
         //提成刺激
         $money_info = $this->seller_month_money_list($adminid);
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
