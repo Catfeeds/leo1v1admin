@@ -544,8 +544,8 @@ class test_boby extends Controller
             $nick = $this->cache_get_teacher_nick($v['teacherid']);
             echo '<tr><td>'.$month.'</td><td>'.$nick.'</td><td>'.$v["group_concat(distinct(l.subject))"].'</td>'
                            .'<td>'.$v["group_concat(distinct(l.grade))"].'</td><td>'.$v["trial_num"].'</td><td>'.$v["trial_succ"].'</td></tr>';
-
         }
+
     }
 
     public function get_tea_count(){

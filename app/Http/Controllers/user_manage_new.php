@@ -333,7 +333,8 @@ class user_manage_new extends Controller
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time,$studentid);
+        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+            $teacherid,$start_time,$end_time,$studentid,"admin");
 
         $last_month_start = strtotime("-1 month",$start_time);
         $last_month_end   = strtotime("-1 month",$end_time);
