@@ -1843,6 +1843,14 @@ class user_deal extends Controller
             return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 
+        /*
+          $groupid=$this->get_in_int_val("groupid");
+          $adminid=$this->get_in_int_val("adminid");
+          $this->t_admin_group_user->row_delete_2( $groupid, $adminid);
+
+        **/
+
+
         $this->t_admin_group_user->row_insert([
             "groupid"   => $groupid,
             "adminid"   => $adminid,

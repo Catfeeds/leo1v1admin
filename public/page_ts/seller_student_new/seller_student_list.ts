@@ -2047,12 +2047,7 @@ function init_edit() {
             var id_intention_level = html_node.find("#id_intention_level");
             var id_test_paper = html_node.find("#id_test_paper");
            // var id_upload_test_paper = html_node.find("#id_upload_test_paper");
-            $.custom_upload_file("id_upload_test_paper",true,function (up, info, file) {
-                var res = $.parseJSON(info);
-
-                // $("#change_reason_url").val(res.key);
-            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
-
+           
            // id_upload_test_paper.on("click",function(){
            
            // });
@@ -2809,6 +2804,13 @@ function init_edit() {
 
         });
     });
+
+    $.custom_upload_file("id_upload_test_paper",true,function (up, info, file) {
+        var res = $.parseJSON(info);
+
+        // $("#change_reason_url").val(res.key);
+    }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
 
 
 
