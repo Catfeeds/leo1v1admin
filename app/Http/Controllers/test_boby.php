@@ -543,11 +543,22 @@ class test_boby extends Controller
 
         foreach ($list as $k=>$v){
             $nick = $this->cache_get_teacher_nick($v['teacherid']);
+            $subject = explode(',',$v['group_concat(distinct(l.subject))']);
+            $grade = explode(',',$v['group_concat(distinct(l.grade))']);
+            $sstr = '';
+            $gstr = '';
+            foreach($subject as $s){
+               $sstr = $sstr.','. E\Esubject::$desc_map[$s];
+            }
+            foreach($grade as $s){
+                $gstr = $gstr.','. E\Egrade::$desc_map[$s];
+            }
+
             $kehao = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
             echo '<tr><td>'.$month.'</td><td>'
                            .$nick.'</td><td>'
-                           .$v["group_concat(distinct(l.subject))"] .'</td><td>'
-                           .$v["group_concat(distinct(l.grade))"].'</td><td>'
+                           .$sstr .'</td><td>'
+                           .$gstr.'</td><td>'
                            .$v["trial_num"].'</td><td>'
                            .$v["trial_succ"].'</td><td>'
                            .$kehao/100 .'</td></tr>';
