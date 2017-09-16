@@ -498,44 +498,20 @@ class test_boby extends Controller
 
         foreach ($arr as $v) {
             $month = $v;
-            // $month = $this->get_in_int_val("month",1);
             $start_time = strtotime("2017-$month");
             $end_time = strtotime("+1 month",$start_time);
-            $list = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
-            $new = [];
-            foreach ($list as $v) {
-                if ($v['grade'] < 200) {
-                    $new[1]['grade'] = '小学';
-                    $new[1]['num'] = @$new[1]['num']+1;
-                    $new[1]['succ'] = @$new[1]['succ'] + $v['succ'];
-                } else if($v['grade'] < 300) {
-                    $new[2]['grade'] = '初中';
-                    $new[2]['num'] = @$new[2]['num']+1;
-                    $new[2]['succ'] = @$new[2]['succ'] + $v['succ'];
-                } else if ($v['grade'] <400){
-                    $new[3]['grade'] = '高中';
-                    $new[3]['num'] = @$new[3]['num']+1;
-                    $new[3]['succ'] = @$new[3]['succ'] + $v['succ'];
-                } else if ($v['grade'] <500){
-                    $new[4]['grade'] = '大学';
-                    $new[4]['num'] = @$new[4]['num']+1;
-                    $new[4]['succ'] = @$new[4]['succ'] + $v['succ'];
-                }
-
-            }
-            foreach($new as $v){
-                echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
-                echo "<br>";
-            }
+            $v = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
+            echo $month."|".'小学'."|".$v['min']."|".$v['min_succ'];
+            echo "<br>";
+            echo $month."|".'初中'."|".$v['mid']."|".$v['mid_succ'];
+            echo "<br>";
+            echo $month."|".'高中'."|".$v['heigh']."|".$v['heigh_succ'];
+            echo "<br>";
         }
     }
 
     public function get_tea_succ_count(){
-        // $arr = [5,6,7,8];
-        // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
-        // echo "<br>";
         echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
-        // echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td></tr>';
         $month      = $this->get_in_int_val("month",1);
         $start_time = strtotime("2017-$month");
         $end_time   = strtotime("+1 month",$start_time);
@@ -565,7 +541,6 @@ class test_boby extends Controller
                            .$v["trial_num"].'</td><td>'
                            .$v["trial_succ"].'</td><td>'
                            .$kehao/100 .'</td></tr>';
-                           // .$v["trial_succ"].'</td></tr>';
 
         }
     }

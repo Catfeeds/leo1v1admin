@@ -42,11 +42,8 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".nick").text(resp.data.nick); 
-                        $tr.find(".grade").text(resp.data.grade); 
-                        $tr.find(".identity").text(resp.data.identity); 
-                        $tr.find(".location").text(resp.data.location); 
-                       
+                        $tr.find(".three_num").text(resp.data); 
+                                             
 
                        
                         

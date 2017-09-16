@@ -26,9 +26,10 @@ class teacher_simulate extends Controller
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
-        $now_month = date("m",time());
+        $now_month          = date("m",time());
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
+        $teacher_money_type = $this->get_in_enum_list(E\Eteacher_money_type::class);
+        $teacher_money_type_simulate = $this->get_in_enum_list(E\Eteacher_money_type::class);
         $level              = $this->get_in_int_val("level",-1);
         $not_start          = $this->get_in_int_val("not_start",-1);
         $not_end            = $this->get_in_int_val("not_end",$now_month);
@@ -55,26 +56,26 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
+        // $file_name = "/tmp/teacher_simulate_".$now_date."_".json_encode($teacher_money_type)."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
-        $flag = 0;
-        if(is_file($file_name)){
-            $file_info = file_get_contents($file_name);
-            if(empty($file_info) || $file_info==""){
-                $flag = 1;
-            }
-        }else{
-            $flag = 1;
-        }
+        // $flag = 0;
+        // if(is_file($file_name)){
+        //     $file_info = file_get_contents($file_name);
+        //     if(empty($file_info) || $file_info==""){
+        //         $flag = 1;
+        //     }
+        // }else{
+        //     $flag = 1;
+        // }
 
-        if($flag){
+        // if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end,$teacher_money_type_simulate
             );
-            file_put_contents($file_name,json_encode($tea_list));
-        }else{
-            $tea_list=json_decode($file_info,true);
-        }
+        //     file_put_contents($file_name,json_encode($tea_list));
+        // }else{
+        //     $tea_list=json_decode($file_info,true);
+        // }
 
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];

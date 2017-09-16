@@ -31,10 +31,10 @@ class t_test_lesson_require_teacher_list extends \App\Models\Zgen\z_t_test_lesso
                                   ." left join %s s on t.userid = s.userid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
-                                  t_test_lesson_subject_require::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME, //tr
+                                  t_test_lesson_subject::DB_TABLE_NAME, //t
+                                  t_seller_student_new::DB_TABLE_NAME, //ss
+                                  t_student_info::DB_TABLE_NAME, //s
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
