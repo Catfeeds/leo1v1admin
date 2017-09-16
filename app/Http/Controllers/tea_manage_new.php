@@ -108,13 +108,7 @@ class tea_manage_new extends Controller
                     "seller_require_flag"        =>$seller_require_flag,
                     "record_info"        =>$tea_nick."老师"."周课时由".$old_week_lesson_count."改为".$week_lesson_count
                 ]);
-
-               
-
             }
-
-            
-
         }
         return $this->output_succ();
     }
@@ -128,30 +122,27 @@ class tea_manage_new extends Controller
         $work_year             = $this->get_in_int_val('work_year', 0);
         $email                 = $this->get_in_str_val('email',"");
         $base_intro            = $this->get_in_str_val('base_intro',"");
-        $advantage             = $this->get_in_str_val('advantage',"");
         $need_test_lesson_flag = $this->get_in_str_val("need_test_lesson_flag","");
         $wx_openid             = $this->get_in_str_val("wx_openid",null);
         $subject               = $this->get_in_int_val('subject',-1);
         $second_subject        = $this->get_in_int_val('second_subject',-1);
-        $third_subject         = $this->get_in_int_val('third_subject',-1);
         $grade_part_ex         = $this->get_in_int_val('grade_part_ex',-1);
         $second_grade          = $this->get_in_int_val('second_grade',-1);
-        $third_grade           = $this->get_in_int_val('third_grade',-1);
-        $textbook_type         = $this->get_in_int_val('textbook_type');
         $address               = $this->get_in_str_val('address',"");
         $school                = $this->get_in_str_val('school',"");
-        $teacher_textbook      = $this->get_in_str_val('teacher_textbook',"");
+        $identity              = $this->get_in_int_val('identity');
         $phone_spare           = $this->get_in_str_val('phone_spare',"");
 
         $subject_old        = $this->t_teacher_info->get_subject($teacherid);
         $grade_part_ex_old  = $this->t_teacher_info->get_grade_part_ex($teacherid);
         $second_subject_old = $this->t_teacher_info->get_second_subject($teacherid);
         $second_grade_old   = $this->t_teacher_info->get_second_grade($teacherid);
+
         if($_SERVER['HTTP_HOST']=="admin.yb1v1.com" && !$this->check_account_in_arr(["ted","adrian"]) && $subject==0 && $subject_old!=0){
             return $this->output_err("没有权限修改第一科目至未设置,请找Erick");
         }
 
-        $sub_arr  = [$subject,$second_subject,$third_subject];
+        $sub_arr  = [$subject,$second_subject];
         $sub_pass = $this->t_teacher_lecture_info->get_teacher_subject($teacherid);
         $adminid  = $this->get_account_id();
         $account  = $this->get_account();
@@ -166,18 +157,14 @@ class tea_manage_new extends Controller
             'email'                 => $email,
             'wx_openid'             => $wx_openid,
             'base_intro'            => $base_intro,
-            'advantage'             => $advantage,
             'need_test_lesson_flag' => $need_test_lesson_flag,
             'address'               => $address,
             'school'                => $school,
+            'identity'              => $identity,
             'subject'               => $subject,
             'grade_part_ex'         => $grade_part_ex,
             'second_grade'          => $second_grade,
-            'third_grade'           => $third_grade,
             'second_subject'        => $second_subject,
-            'third_subject'         => $third_subject,
-            'teacher_textbook'      => $teacher_textbook,
-            'textbook_type'         => $textbook_type,
             'phone_spare'           => $phone_spare,
         ]);
 

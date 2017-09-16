@@ -1533,7 +1533,7 @@ function init_edit() {
             "html":true
         });
         var value =btn.data("value");
-        btn.text(value);
+        btn.text(title+":"+ value);
         if (!value_class) value_class="btn-warning";
         if (value >0 ) {
             btn.addClass(value_class);

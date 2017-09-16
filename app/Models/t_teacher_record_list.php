@@ -1228,10 +1228,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     public function get_record_flag_info($lesson_invalid_flag=-1){
         $where_arr=[
             // ["lesson_style=%u",$lesson_style,-1],
-            ["lesson_invalid_flag=%u",$lesson_invalid_flag,-1],
+            // ["lesson_invalid_flag=%u",$lesson_invalid_flag,-1],
             "type=1",
             "lesson_style in (1,2,3,4)"
         ];
+        if($lesson_invalid_flag==1){
+            $where_arr[] ="lesson_invalid_flag>0";
+        }
         $sql = $this->gen_sql_new("select count(distinct teacherid) teacher_num,"
                                   ." count(distinct userid) stu_num"
                                   ." from %s where %s",
@@ -1240,6 +1243,26 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         );
         return $this->main_get_row($sql);
 
+    }
+
+    public function get_record_score_avg($lesson_style_flag){
+        $where_arr=[
+            "lesson_invalid_flag=1",
+            "type=1"
+        ];
+        if($lesson_style_flag==1){
+             $where_arr[] ="lesson_style in (1,2)";
+        }else{
+            $where_arr[] ="lesson_style in (3,4)";
+        }
+        $sql = $this->gen_sql_new("select AVG(record_score)"
+                                  ." from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+ 
     }
 
 }

@@ -3411,27 +3411,27 @@ lesson_type in (0,1) "
                                     ,$str
             );
         }elseif($type==2){
-            $sql=$this->gen_sql_new("select count(distinct(o.userid)) as num,l.%s"
-                                    ." from %s o"
-                                    ." left join %s l on l.userid=o.userid"
-                                    ." left join %s s on s.userid=o.userid"
-                                    ." where s.is_test_user=0"
-                                    ." and o.contract_status>0"
-                                    ." and o.contract_type=0"
-                                    ." and l.userid in ("
-                                    ." select userid "
-                                    ." from %s "
-                                    ." where %s"
-                                    ." and lesson_type=2"
-                                    .")"
-                                    ." group by l.%s"
-                                    ,$str
-                                    ,t_order_info::DB_TABLE_NAME
-                                    ,self::DB_TABLE_NAME
-                                    ,t_student_info::DB_TABLE_NAME
-                                    ,self::DB_TABLE_NAME
-                                    ,$where_arr
-                                    ,$str
+            $sql = $this->gen_sql_new("select count(distinct(o.userid)) as num,l.%s"
+                                      ." from %s o"
+                                      ." left join %s l on l.userid=o.userid"
+                                      ." left join %s s on s.userid=o.userid"
+                                      ." where s.is_test_user=0"
+                                      ." and o.contract_status>0"
+                                      ." and o.contract_type=0"
+                                      ." and l.userid in ("
+                                      ." select userid "
+                                      ." from %s "
+                                      ." where %s"
+                                      ." and lesson_type=2"
+                                      .")"
+                                      ." group by l.%s"
+                                      ,$str
+                                      ,t_order_info::DB_TABLE_NAME
+                                      ,self::DB_TABLE_NAME
+                                      ,t_student_info::DB_TABLE_NAME
+                                      ,self::DB_TABLE_NAME
+                                      ,$where_arr
+                                      ,$str
             );
         }
         return $this->main_get_list($sql);
@@ -5856,14 +5856,14 @@ lesson_type in (0,1) "
         $where_arr=[
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "lesson_status=2"
         ];
 
         $sql=$this->gen_sql_new("select sum(lesson_count)/100 "
                                 ." from %s l"
                                 ." left join %s s on l.userid=s.userid "
                                 ." where %s "
-                                ." and lesson_type=2"
-                                ." and lesson_status=2"
                                 ." and confirm_flag<2"
                                 ." and lesson_del_flag=0"
                                 ." and s.is_test_user=0"

@@ -3560,7 +3560,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_need_reset_money_type_list($batch){
         $where_arr = [
-            // ["batch=%u",$batch,0],
             "batch in (1,2)",
             "t.teacher_money_type!=6"
         ];
@@ -3573,7 +3572,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
     /**

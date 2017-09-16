@@ -203,10 +203,10 @@
                                 <tbody >
                                     @foreach ($record_server_list as $var) 
                                         <tr>
-                                            <td>{{$var["server"]}}</td>
-                                            <td>{{$var["active_count"]}}</td>
+                                            <td>{{@$var["server"]}}</td>
+                                            <td>{{@$var["active_count"]}}</td>
                                             <td>{{@$var["max_record_count"]}}</td>
-                                            <td>{{$var["count"]}}</td>
+                                            <td>{{@$var["count"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

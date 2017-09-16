@@ -18,6 +18,8 @@
                                     <td>已反馈老师数</td>
                                     <td>在读学生总数</td>
                                     <td>已反馈学生数</td>
+                                    <td>试听课平均得分</td>
+                                    <td>常规课平均得分</td>
 
                                    
                                 </tr>
@@ -29,6 +31,8 @@
                                         <td>{{@$all_record_info["have_record_tea"]}} </td>
                                         <td>{{@$all_record_info["stu_num"]}} </td>
                                         <td>{{@$all_record_info["have_record_stu"]}} </td>
+                                        <td>{{@$all_record_info["test_lesson_score"]}} </td>
+                                        <td>{{@$all_record_info["regular_lesson_score"]}} </td>
                                     </tr>
                             </tbody>
                         </table>

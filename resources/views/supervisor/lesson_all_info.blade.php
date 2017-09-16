@@ -82,7 +82,7 @@
                     <span >语音通道:</span> {{$var["server_type_str"]}} <br/>
                     <span >课程id:</span> {{$var["lessonid"]}} <br/>
                     <span >负责人:</span> {{$stu_info["cur_require_admin_nick"]}}
-                    {{$var["st_application_nick"]}} {{$var["account"] }}
+                    {{$var["account"] }}
                     <br/>
                     <span >上课时间:</span> {{$var["lesson_time"] }}<br/>
                     <span >room_id:</span> {{$var["room_id"]}}<br/>
@@ -198,7 +198,7 @@
                                         <div class="col-xs-8 col-md-7  row-td-field-value">
                                             <span  > 
                                             {{$stu_info["cur_require_admin_nick"]}} |
-                                            {{$var["st_application_nick"]}} {{$var["account"] }}
+                                            {{@$var["st_application_nick"]}} {{$var["account"] }}
                                             </span>
                                         </div>
                                     </div>

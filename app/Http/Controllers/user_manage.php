@@ -1340,7 +1340,7 @@ class user_manage extends Controller
         dispatch($job);
 
         if($ret_type == 0){
-            $this->update_agent_order($orderid,$userid,$order_info['price']);
+            //$this->update_agent_order($orderid,$userid,$order_info['price']);
         }
 
         return $this->output_succ();
@@ -1390,7 +1390,7 @@ class user_manage extends Controller
                     'orderid'     => $orderid,
                     'aid'         => $aid,
                     'pid'         => $pid,
-                    'p_price'     => $p_level,
+                    'p_price'     => $p_price,
                     'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,

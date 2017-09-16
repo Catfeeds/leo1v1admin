@@ -44,13 +44,13 @@ trait TeaPower {
                     );
                 }
 
-                if($day==6 && !in_array($teacherid,$tea_arr)){
+                if($day==6){
                     if(!empty($lesson_count)){
                         if($week_left < $lesson_count){
                             return $this->output_err("该教研老师周六剩余可排课时为".$week_left);
                         }
                     }
-                }elseif($day>=2 && $day <=5  && !in_array($teacherid)){
+                }elseif($day>=2 && $day <=5){
                     if(!empty($lesson_start)){
                         if($h <18){
                             return $this->output_err("教研老师周二至周五只能18点以后排课");
