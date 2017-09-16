@@ -535,9 +535,7 @@ class test_boby extends Controller
         // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
         // echo "<br>";
         echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
-        foreach ($arr as $v) {
-            $month = $v;
-            // $month = $this->get_in_int_val("month",1);
+            $month = $this->get_in_int_val("month",1);
             $start_time = strtotime("2017-$month");
             $end_time = strtotime("+1 month",$start_time);
             $list = $this->t_lesson_info_b3->get_tea_succ_count($start_time,$end_time);
@@ -551,30 +549,24 @@ class test_boby extends Controller
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
                 $par = $month.$v['teacherid'];
-                if (in_array($par, $tid) & $v['lesson_type'] == 2) {
+                if (in_array($par, $tid) ) {
                     $num =  $num+1;
-                    // $kehao = $kehao + $v['xiaohao'];
                     $succ = $succ + $v['succ'];
-                    // $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
-                } else if ($v['lesson_type'] == 2){
+                } else {
                     $tid[] = $month.$v['teacherid'];
                     $nick = $v['nick'];
-                    // $kehao =$v['xiaohao'];
                     $succ =$v['succ'];
                     $num = 1;
-
-                    // $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
                     $kehao = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
                     $new[$nick]['kehao'] = $kehao;
-
                 }
 
 
@@ -586,7 +578,6 @@ class test_boby extends Controller
 
                 }
             }
-        }
     }
 
 
