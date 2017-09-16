@@ -133,7 +133,7 @@ class teacher_simulate extends Controller
 
             $check_type_simulate = \App\Helper\Utils::check_teacher_money_type(
                 $val['teacher_money_type_simulate'],$val['teacher_type']);
-            if(in_array($check_type,[1,3])){
+            if(in_array($check_type_simulate,[1,3])){
                 $already_lesson_count_si = $val['already_lesson_count'];
             }elseif($check_type==2){
                 $already_lesson_count_si = $already_lesson_count_simulate;
@@ -143,9 +143,10 @@ class teacher_simulate extends Controller
                 $already_lesson_count_si = 0;
             }
 
-            //老师实际的累计课时
+            //老师实际的课时奖励
             $reward = \App\Helper\Utils::get_teacher_lesson_money(
                 $val['type'],$already_lesson_count);
+            //老师模拟的课时奖励
             $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money(
                 $val['type_simulate'],$already_lesson_count_si);
 
@@ -168,7 +169,7 @@ class teacher_simulate extends Controller
 
             $lesson_price = $val['lesson_price']/100;
             if(in_array($val['contract_type'],[0,3])){
-                $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+                // $lesson_price_simulate = $this->get_lesson_price_simulate($val);
                 $lesson_price_simulate = 0;
             }else{
                 $lesson_price_simulate = 0;
