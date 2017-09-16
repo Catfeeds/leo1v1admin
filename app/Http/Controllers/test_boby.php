@@ -550,7 +550,7 @@ class test_boby extends Controller
                            .$v["group_concat(distinct(l.grade))"].'</td><td>'
                            .$v["trial_num"].'</td><td>'
                            .$v["trial_succ"].'</td><td>'
-                           .$kehao.'</td></tr>';
+                           .$kehao/100 .'</td></tr>';
                            // .$v["trial_succ"].'</td></tr>';
 
         }
