@@ -58,7 +58,6 @@
                                 <tr>
                                     <td style="width:140px"><strong><font color="#3c8dbc">项目</font><strong></td>
                                         <td><strong><font color="#3c8dbc">数值</font><strong></td>
-                                            <!-- <td><strong><font color="#3c8dbc">昨日数值</font><strong></td> -->
                                             <td><strong><font color="#3c8dbc">公司排名</font><strong></td>
                                 </tr>
                             </thead>
