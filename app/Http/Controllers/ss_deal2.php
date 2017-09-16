@@ -326,17 +326,17 @@ class ss_deal2 extends Controller
         $res = [];
         $data=[];
         foreach($list as $i=>$val){
-            $res[]=["textbook"=>$val,"num"=>$i];
-            $data[]=$i;
+            $res[]=["study_habit"=>$val,"num"=>$i];
+            $data[]=$val;
         }
-        if(!empty($textbook)){
-            $textbook = trim($textbook,",");
-            $arr = explode(",",$textbook);
+        if(!empty($study_habit)){
+            $study_habit = trim($study_habit,",");
+            $arr = explode(",",$study_habit);
             foreach ($arr as $k) {
                 if( in_array($k,$data)){
                     foreach($res as $kk=>&$item){
-                        if($k == $item["num"]){
-                            $item["has_textbook"] = in_array($k,$data)?1:0;
+                        if($k == $item["study_habit"]){
+                            $item["has_study_habit"] = in_array($k,$data)?1:0;
                         }
                     }
 
