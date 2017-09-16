@@ -2229,27 +2229,32 @@ function init_edit() {
             id_study_habit.on("click",function(){
                // var study_habit= data.study_habit;
                 var study_habit  = "";
-                $.do_ajax("/ss_deal/get_stu_study_habit_list",{
+                $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
                 },function(response){
                     var data_list   = [];
                     var select_list = [];
                     $.each( response.data,function(){
-                        data_list.push([this["num"], this["textbook"]  ]);
+                        data_list.push([this["num"], this["study_habit"]  ]);
 
-                        if (this["has_textbook"]) {
+                        if (this["has_study_habit"]) {
                             select_list.push (this["num"]) ;
                         }
 
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","教材版本" ],
+                        header_list     : [ "id","学习习惯" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                            id_teacher_textbook.val(select_list);
+                            $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
+                                "study_habit" : select_list
+                            },function(response){
+                                id_study_habit.val(select_list); 
+                            });
+
                             dlg.close();
                         }
                     });
