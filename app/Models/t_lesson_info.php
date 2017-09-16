@@ -3058,7 +3058,7 @@ lesson_type in (0,1) "
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
-            // "lesson_status=2"
+            "lesson_status=2"
             // "lesson_status=0"
         ];
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";

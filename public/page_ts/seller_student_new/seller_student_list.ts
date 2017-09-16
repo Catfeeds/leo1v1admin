@@ -2057,6 +2057,9 @@ function init_edit() {
             var id_need_teacher_style = html_node.find("#id_need_teacher_style");
             var id_intention_level = html_node.find("#id_intention_level");
             var id_test_paper = html_node.find("#id_test_paper");
+            var id_demand_urgency = html_node.find("#id_demand_urgency");
+            var id_test_paper = html_node.find("#id_test_paper");
+            
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
            
            
