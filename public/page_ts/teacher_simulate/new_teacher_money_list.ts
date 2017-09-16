@@ -36,7 +36,7 @@ $(function(){
 	  $('#id_teacherid').val(g_args.teacher_id);
 	  $('#id_not_start').val(g_args.not_start);
 	  $('#id_not_end').val(g_args.not_end);
-	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
+	  // $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 

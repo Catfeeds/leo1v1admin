@@ -15,7 +15,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >工资分类</span>
-                        <select id="id_teacher_money_type" class ="opt-change" ></select>
+                        <input  placeholder="工资分类" id="id_teacher_money_type" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -39,7 +39,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >老师模拟工资类型</span>
-                        <select id="id_teacher_money_type_simulate" class ="opt-change" ></select>
+                        <input  placeholder="老师模拟工资分类" id="id_teacher_money_type_simulate" />
                     </div>
                 </div>
             </div>
