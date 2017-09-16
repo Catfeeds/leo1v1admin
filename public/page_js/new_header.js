@@ -979,7 +979,7 @@ function do_role() {
     if(typeof(g_account_role)!="undefined"){
         get_self_todo_list();
 
-        if (g_account_role==2 && !$.check_in_phone() ) {
+        if ( (g_account_role==7 || g_account_role==2) && !$.check_in_phone() ) {
             var $noti_info=$("#_id_noti_info");
 
             $.do_ajax( "/ss_deal/seller_noti_info",{},function(resp){

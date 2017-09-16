@@ -552,7 +552,6 @@ class test_boby extends Controller
                            // .$v["normal"].'</td></tr>';
                            .$v["trial_succ"].'</td></tr>';
 
-
         }
     }
 

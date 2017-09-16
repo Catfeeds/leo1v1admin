@@ -3700,7 +3700,14 @@ class ss_deal extends Controller
         $teacher_type                 = $this->get_in_int_val("teacher_type");
         $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
         $reference                    = $this->get_in_str_val("reference");
+        $phone                   = $this->get_in_str_val("phone");
         $acc                          = $this->get_account();
+
+        $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+        if($id_old>0){
+            return $this->output_err("该手机号已存在");
+        }
+
 
         if(empty($answer_begin_time) || empty($name)){
             return $this->output_err("答题时间/手机号/名字不能为空");
