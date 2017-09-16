@@ -497,27 +497,30 @@ class test_boby extends Controller
         $end_time = strtotime("+1 month",$start_time);
         $list = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
         $new = [];
-        $suss = [];
         foreach ($list as $v) {
             if ($v['grade'] < 200) {
-                $new['小学'] = @$new['小学']+1;
-                $suss['小学'] = @$suss['小学']+$v['succ'];
+                $new[1]['grade'] = '小学';
+                $new[1]['num'] = @$new[1]['num']+1;
+                $new[1]['succ'] = @$new[1]['succ'] + $v['succ'];
             } else if($v['grade'] < 300) {
-                    $new['初中'] = @$new['初中']+1;
-                $suss['初中'] = @$suss['初中']+$v['succ'];
+                $new[2]['grade'] = '初中';
+                $new[2]['num'] = @$new[2]['num']+1;
+                $new[2]['succ'] = @$new[2]['succ'] + $v['succ'];
             } else if ($v['grade'] <400){
-                $new['高中'] = @$new['高中']+1;
-                $suss['高中'] = @$suss['高中']+$v['succ'];
+                $new[3]['grade'] = '高中';
+                $new[3]['num'] = @$new[3]['num']+1;
+                $new[3]['succ'] = @$new[3]['succ'] + $v['succ'];
             } else if ($v['grade'] <500){
-                $new['大学'] = @$new['大学']+1;
-                $suss['大学'] = @$suss['大学']+$v['succ'];
+                $new[4]['grade'] = '大学';
+                $new[4]['num'] = @$new[4]['num']+1;
+                $new[4]['succ'] = @$new[4]['succ'] + $v['succ'];
             }
 
         }
         echo "月份｜年级|人数|成功数";
         echo "<br>";
-        foreach($new as $k =>$v){
-            echo $month."|".$k."|".$v."|".$suss[$k];
+        foreach($new as $v){
+            echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
             echo "<br>";
         }
     }
