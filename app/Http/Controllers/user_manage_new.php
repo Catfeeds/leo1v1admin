@@ -1201,7 +1201,7 @@ class user_manage_new extends Controller
 
         foreach($list as &$val){
             if($val['level'] == 'l-5'){
-
+                // $val['log_info'] = $this->ge
             }
         }
 
