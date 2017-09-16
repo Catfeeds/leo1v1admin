@@ -90,7 +90,7 @@
                     <tr>
                         <td>{{$var['realname']}}</td>
                         <td>{{$var['lesson_count']}}</td>
-                        <td>{{$var['teacher_money_type_str']}}</td>
+                        <td>{{$var['now_money_type_str']}}</td>
                         <td>{{$var['level_str']}}</td>
                         <td>{{$var['money']}}</td>
                         <td>{{$var['money_base']}}</td>
