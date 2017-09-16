@@ -978,7 +978,7 @@
                             <span class="input-group-addon">上传试卷：</span>
                             <input type="text" class=" form-control "  id="id_test_paper"  />
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary " id="id_upload_test_paper"  title="上传">
+                                <button class="btn  btn-primary upload_test_paper"  title="上传">
                                     上传
                                 </button>
                             </div>

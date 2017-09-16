@@ -546,24 +546,31 @@ class test_boby extends Controller
             $succ =0;
             $kehao =0;
             $new = [];
+            $tid = [];
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
-                // echo $v['nick'],'<br>';
-                if ($nick == $v['nick']) {
+                // if ($nick == $v['nick']) {
+                $par = $month.$v['teacherid'];
+                if (in_array($par, $tid)) {
                     $num =  $num+1;
                     $kehao = $kehao + $v['xiaohao'];
                     $succ = $succ + $v['succ'];
+
+
                     $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
                     $new[$nick]['subject'] = $v['subject_str'];
                     $new[$nick]['grade'] = $v['grade_str'];
                 } else {
+                    $tid[] = $month.$v['teacherid'];
                     $nick = $v['nick'];
                     $kehao =$v['xiaohao'];
                     $succ =$v['succ'];
                     $num = 1;
+
+
                     $new[$nick]['kehao'] = $kehao;
                     $new[$nick]['succ'] = $succ;
                     $new[$nick]['num'] = $num;
@@ -574,7 +581,7 @@ class test_boby extends Controller
             }
 
             foreach ($new as $k=>$v){
-                echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"].'</td></tr>';
+                echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.$v["kehao"]/100 .'</td></tr>';
 
             }
         }
