@@ -2040,9 +2040,8 @@ function init_edit() {
             var id_extra_improvement = html_node.find("#id_extra_improvement");
             var id_habit_remodel = html_node.find("#id_habit_remodel");
             var id_interest_cultivation = html_node.find("#id_interest_cultivation");
-
-           
-            
+            var id_study_habit = html_node.find("#id_study_habit");
+             
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){
@@ -2225,6 +2224,38 @@ function init_edit() {
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
                 id_stu_request_test_lesson_time.val("");
+            });           
+
+            id_study_habit.on("click",function(){
+                var textbook  = "";
+                console.log(textbook);
+                $.do_ajax("/user_deal/get_teacher_textbook",{
+                    "textbook" : textbook
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["textbook"]  ]);
+
+                        if (this["has_textbook"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","教材版本" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            id_teacher_textbook.val(select_list);
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
             });
 
             var old_province = data.region;
