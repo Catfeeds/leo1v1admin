@@ -5953,4 +5953,5 @@ class ss_deal extends Controller
 
         return $this->output_succ($ret_info);
     }
+
 }

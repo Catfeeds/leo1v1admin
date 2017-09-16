@@ -2227,10 +2227,10 @@ function init_edit() {
             });           
 
             id_study_habit.on("click",function(){
-                var textbook  = "";
-                console.log(textbook);
-                $.do_ajax("/user_deal/get_teacher_textbook",{
-                    "textbook" : textbook
+               // var study_habit= data.study_habit;
+                var study_habit  = "";
+                $.do_ajax("/ss_deal/get_stu_study_habit_list",{
+                    "study_habit" : study_habit
                 },function(response){
                     var data_list   = [];
                     var select_list = [];
