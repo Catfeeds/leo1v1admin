@@ -173,13 +173,15 @@ class teacher_simulate extends Controller
 
             $lesson_total += $lesson_count;
         }
-
         \App\Helper\Utils::check_isset_data($all_count,0,0);
         \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($down_count['all'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['all'],0,0);
 
+        /**
+         * 统计变动数量
+         */
         foreach($list as &$l_val){
             \App\Helper\Utils::check_isset_data($all_count,1);
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);

@@ -2994,11 +2994,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
-
                                   ." left join %s ol on l.lessonid=ol.lessonid"
-
                                   ." left join %s o on ol.orderid=o.orderid"
-
                                   ." where %s"
                                   ." and %s"
                                   ." group by l.lessonid"
