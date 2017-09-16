@@ -39,15 +39,18 @@
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/iCheck/all.css" type="text/css" >
   <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
 
-        <style>
-         .content  .row  .input-group >select {
-             display:table-cell;
-         }
-         .content  .row  .input-group >input{
-             display:table-cell;
-         }
+  <style>
+   .content  .row  .input-group >select {
+       display:table-cell;
+   }
+   .content  .row  .input-group >input{
+       display:table-cell;
+   }
+   .wrapper {
+       position :static;
+   }
 
-        </style>
+  </style>
   <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
 
 
@@ -60,7 +63,7 @@
 
 </head>
 <body class="hold-transition skin-blue-light isidebar-mini">
-    <div class="wrapper">
+    <div class="">
 
         <header class="main-header">
             <!-- Logo -->
@@ -131,7 +134,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="" class="img-circle" alt="User Image" />
+                                    <img src="{{$_face_pic}}" width="90px" height="90px" class="img-circle" alt="上传头像" />
                                     <p>
                                         {{$_account}}
                                         -
@@ -150,7 +153,7 @@
                                     <div class="pull-right" style="margin-bottom: 3px;">
 
                                         <a href="#" class="btn btn-default btn-flat" id="id_ssh_open">SSH 开启(开发)</a>
-                                        <a href="#" class="btn btn-default btn-flat" id="id_new_seller_system">新版客服系统</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_call_check_systen">电话辅助系统</a>
                                     </div>
 
                                     <div class="pull-right">
@@ -227,9 +230,9 @@
 
         <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
 
-        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
         <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
 
         <!-- 全局变量  -->
         {!!  @$js_values_str !!}

@@ -68,8 +68,7 @@
                     <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
-                    <td style="display:none;" >分配人</td>
-                    <td style="display:none;" >分配人</td>
+                    <td style="display:none;" >分配信息</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -90,6 +89,7 @@
 
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}} </td>
 
+                        <td>{{$var['log_info']}}</td>
 
 
 
@@ -152,7 +152,7 @@
     <div style="display:none;" >
         <div id="id_assign_log">
             <table   class="table table-bordered "   >
-                <tr>  <th> 操作时间 <th>操作人   </tr>
+                <tr>  <th> 操作时间 <th>操作人 <th> 原来小组  </tr>
                     <tbody class="data-body">
                     </tbody>
             </table>

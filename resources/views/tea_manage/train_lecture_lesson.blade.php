@@ -158,7 +158,7 @@
                             @if($var['resume_url']!='')
                                 <a class="opt-resume_url" title="查看简历">简历</a>
                             @endif
-                            @if(in_array($acc_role,[8,10,12]))
+                            @if(in_array($acc_role,[8,10,12]) || $acc=="李明玉")
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
                         </div>

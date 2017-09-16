@@ -9,6 +9,20 @@
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
+<script type="text/javascript" src="/page_js/select_course.js"></script>
+<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+<script type="text/javascript" src="/page_js/select_user.js"></script>
+<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+<script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
+<script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -228,7 +242,8 @@
                            <button  class="btn  " id="id_lesson_today"></button>
                            <button  class="btn  " id="id_lesson_tomorrow" ></button>
                            <button  class="btn  " id="id_require_count" ></button>
-                           <button class="btn  " id="id_return_back_count" ></button>
+                           <button class="btn  " id="id_return_back_count"></button>
+                           <button class="btn  " id="id_favorite_count"></button>
 
                        </div>
                    </div>
@@ -1008,6 +1023,41 @@
             </div>
 
         </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>其他</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">需求急迫性：</span>
+                            <select id="id_demand_urgency" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">报价反应：</span>
+                            <select id="id_quotation_reaction" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                   
+
+
+                    
+                    
+
+                </div>
+            </div>
+
+        </div>
+
 
 
 

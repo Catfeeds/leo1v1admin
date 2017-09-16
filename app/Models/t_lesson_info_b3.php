@@ -401,17 +401,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     //
-    public function get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,$require_type=-1,$set_type=1,$subject,$grade_part_ex,$teacherid,$tranfer_per){
+    public function get_seller_test_lesson_tran_tea_count( $page_info,$start_time,$end_time,$require_type=-1,$set_type=1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num){
         $where_arr = [
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
-            "mm.account_role=2 ",
+            // "mm.account_role=2 ",
             ["t.subject=%u",$subject,-1],
             ["t.grade_part_ex=%u",$grade_part_ex,-1],
             ["t.teacherid=%u",$teacherid,-1]
             // "mm.del_flag=0",
         ];
+        if($test_lesson_flag==1){
+            $where_arr[]="mm.account_role=2";
+        }
         if($set_type==1){
             $where_arr[]= ["lesson_start >= %u",$start_time,-1];
             $where_arr[]= ["lesson_start < %u",$end_time,-1];
@@ -429,18 +432,50 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
         }
         $having = '';
-        if($tranfer_per == 1){
-            $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0";
-        }else if($tranfer_per == 2){
-            $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
-        }else if($tranfer_per == 3){
-            $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15";
+        if($test_lesson_num==-1){
+            if($tranfer_per == 1){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0";
+            }else if($tranfer_per == 2){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
+            }else if($tranfer_per == 3){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15";
  
-        }else if($tranfer_per == 4){
-            $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20";
+            }else if($tranfer_per == 4){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20";
 
-        }else if($tranfer_per == 5){
-            $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20";
+            }else if($tranfer_per == 5){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20";
+            }
+        }elseif($test_lesson_num==1){
+            if($tranfer_per == 1){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0 and count(l.lessonid) >=5";
+            }else if($tranfer_per == 2){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) >=5";
+            }else if($tranfer_per == 3){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) >=5";
+ 
+            }else if($tranfer_per == 4){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) >=5";
+
+            }else if($tranfer_per == 5){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20 and count(l.lessonid) >=5";
+            }
+
+        }elseif($test_lesson_num==2){
+            if($tranfer_per == 1){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0 and count(l.lessonid) <5";
+            }else if($tranfer_per == 2){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) <5";
+            }else if($tranfer_per == 3){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) <5";
+ 
+            }else if($tranfer_per == 4){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) <5";
+
+            }else if($tranfer_per == 5){
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20 and count(l.lessonid) <5";
+            }
+
         }
         if($having != ''){
             $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
@@ -700,8 +735,50 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_user_online_status != 2",
         ];
         $sql = $this->gen_sql_new(
+            "select l.teacherid,group_concat(distinct(l.grade)),group_concat(distinct(l.subject)),"
+            ."count(l.lessonid) as trial_num,sum(if(money_info>0,1,0)) as trial_succ"
+            ." from %s l"
+            ." left join %s tl on l.lessonid=tl.money_info and type=2"
+            // ." left join %s t on l.teacherid=t.teacherid"
+            ." where %s"
+            ." group by l.teacherid"
+            ,self::DB_TABLE_NAME
+            ,t_teacher_money_list::DB_TABLE_NAME
+            // ,t_teacher_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    public function get_tea_count($teacherid,$start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
+            "l.teacherid=$teacherid",
+        ];
+        $sql = $this->gen_sql_new(
+            "select sum(lesson_count)"
+            ." from %s l"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_tea_succ_count_test($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
+        ];
+        $sql = $this->gen_sql_new(
             "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid"
-            .", if(tl.type=2,1,0) as succ ,if(l.lesson_type=0,l.lesson_count,0) as xiaohao"
+            .", if(tl.type=2,1,0) as succ"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info"
             ." left join %s t on l.teacherid=t.teacherid"
@@ -715,5 +792,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_stu_three_month_info(){
+        $end_time = time();
+        $start_time = time()-90*86400;
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.userid) num,l.teacherid,t.realname,"
+                                  ."t.subject,t.grade_part_ex,t.grade_end,t.grade_start "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
 
 }

@@ -39,15 +39,18 @@
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/iCheck/all.css" type="text/css" >
   <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
 
-        <style>
-         .content  .row  .input-group >select {
-             display:table-cell;
-         }
-         .content  .row  .input-group >input{
-             display:table-cell;
-         }
+  <style>
+   .content  .row  .input-group >select {
+       display:table-cell;
+   }
+   .content  .row  .input-group >input{
+       display:table-cell;
+   }
+   .wrapper {
+       position :static;
+   }
 
-        </style>
+  </style>
   <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
 
 

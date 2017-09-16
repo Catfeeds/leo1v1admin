@@ -734,6 +734,7 @@ $(function(){
         var id_name                         = $("<input />");
         var id_email                        = $("<input />");
         var id_qq                           = $("<input />");
+        var id_phone                        = $("<input />");
         var id_grade_ex                     = $("<select />");
         var id_subject_ex                   = $("<select />");
         var id_textbook                     = $("<input />");
@@ -766,6 +767,7 @@ $(function(){
             ["姓名", id_name],           
             ["邮箱", id_email],          
             ["qq", id_qq],          
+            ["手机", id_phone],          
             ["年级段", id_grade_ex],         
             ["科目", id_subject_ex],                     
             ["毕业院校", id_school],           
@@ -784,6 +786,7 @@ $(function(){
         id_teacher_type.val(opt_data.teacher_type);
         id_reference.val(opt_data.reference);
         id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        id_phone.val(opt_data.phone);
 
         $.show_key_value_table("修改试讲预约", arr ,{
             label    : '确认',
@@ -795,6 +798,7 @@ $(function(){
                     "name"                         : id_name.val(),
                     "email"                        : id_email.val(),
                     "qq"                           : id_qq.val(),
+                    "phone"                        : id_phone.val(),
                     "grade_ex"                     : id_grade_ex.val(),
                     "subject_ex"                   : id_subject_ex.val(),
                     "school"                       : id_school.val(),

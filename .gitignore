@@ -19,3 +19,4 @@ common_app/*
 node_modules/
 fonts/
 tmp/
+public/page_ts/g_args.d.ts/table_manage-query.d.ts

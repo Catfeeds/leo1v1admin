@@ -25,7 +25,7 @@ class test_lesson_review extends Controller
             $item["master_suc_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["master_suc_flag"]);
             $item['create_time'] = \App\Helper\Utils::unixtime2date($item['create_time']);
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info,['adminid'=>$adminid]);
     }
 
     public function test_lesson_review_add(){
@@ -67,7 +67,6 @@ class test_lesson_review extends Controller
         $group_suc_flag  = $this->get_in_int_val('group_suc_flag');
         if($adminid == $group_adminid){
             $ret = $this->t_test_lesson_subject_require_review->field_update_list($id,[
-                "id"             => $id,
                 "group_suc_flag" => $group_suc_flag,
                 "group_time"     => time(NULL),
             ]);
@@ -82,12 +81,17 @@ class test_lesson_review extends Controller
         $master_suc_flag = $this->get_in_int_val('master_suc_flag');
         if($adminid == $master_adminid){
             $ret = $this->t_test_lesson_subject_require_review->field_update_list($id,[
-                "id"              => $id,
                 "master_suc_flag" => $master_suc_flag,
                 "master_time"     => time(NULL),
             ]);
             return $this->output_succ();
         }
+    }
+
+    public function test_lesson_review_del(){
+        $id=$this->get_in_id();
+        $this->t_test_lesson_subject_require_review->row_delete($id);
+        return $this->output_succ();
     }
 
 }

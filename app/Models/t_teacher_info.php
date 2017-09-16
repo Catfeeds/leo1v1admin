@@ -2946,7 +2946,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_del_flag = 0",
             "confirm_flag!=2",
             "lesson_type in (0,1,3)",
-            "lesson_status=2",
+            // "lesson_status=2",
             "teacher_type not in (3,4)"
         ];
         $not_sql = "true";
@@ -2972,12 +2972,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]=["t.level=%u",$level,-1];
         }
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
+        $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type,l.level,t.realname,"
                                   ." t.level_simulate,t.teacher_money_type_simulate,t.teacher_ref_type,"
                                   ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
                                   ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type,"
                                   ." o.contract_type,o.lesson_total,o.default_lesson_count,o.grade as order_grade,"
-                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start"
+                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start,"
+                                  ." t.teacher_money_type as now_money_type,t.level as now_level"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
@@ -2994,11 +2995,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
-
                                   ." left join %s ol on l.lessonid=ol.lessonid"
-
                                   ." left join %s o on ol.orderid=o.orderid"
-
                                   ." where %s"
                                   ." and %s"
                                   ." group by l.lessonid"
