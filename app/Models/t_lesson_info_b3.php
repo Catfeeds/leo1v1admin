@@ -681,7 +681,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "select l.lessonid,l.grade"
             .", if(tl.type=2,1,0) as succ "
             ." from %s l"
-            ." left join %s tl on l.lessonid=tl.lessonid"
+            ." left join %s tl on l.lessonid=tl.money_info"
             ." where %s"
             ." group by l.lessonid"
             ,self::DB_TABLE_NAME
