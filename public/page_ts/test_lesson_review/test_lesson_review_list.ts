@@ -45,22 +45,6 @@ $(function(){
                     })
                 }
             })
-        }else if(opt_data.aid == 831){
-            var $master_suc_flag = $("<select/>");
-            Enum_map.append_option_list("master_suc_flag",$master_suc_flag ,true );
-            $master_suc_flag.val(opt_data.master_suc_flag);
-            var arr=[
-                ["审核",$master_suc_flag],
-            ];
-            $.show_key_value_table("排课审核", arr ,{
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    $.do_ajax("/test_lesson_review/test_lesson_review_edit",{
-                        "id":opt_data.id,
-                    })
-                }
-            })
         }
     });
 

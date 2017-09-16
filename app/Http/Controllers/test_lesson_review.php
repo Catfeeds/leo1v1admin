@@ -88,18 +88,6 @@ class test_lesson_review extends Controller
         }
     }
 
-    public function test_lesson_review_edit(){
-        $id      = $this->get_in_int_val('id');
-        $adminid = $this->get_account_id();
-        if($adminid == 831){
-            $ret = $this->t_test_lesson_subject_require_review->field_update_list($id,[
-                "group_suc_flag" => 1,
-                "master_suc_flag" => 1,
-            ]);
-            return $this->output_succ();
-        }
-    }
-
     public function test_lesson_review_del(){
         $id=$this->get_in_id();
         $this->t_test_lesson_subject_require_review->row_delete($id);
