@@ -352,6 +352,15 @@ class ss_deal extends Controller
         } else {
             $next_revisit_time =0;
         }
+
+        if ($next_revisit_time   ) {
+            if ($next_revisit_time-time() > 7*86400) {
+                return $this->output_err("下次回访时间只能设置最近一周时间");
+            }
+        }else{
+            $next_revisit_time=time();
+        }
+
         if ($stu_request_test_lesson_time) {
             $stu_request_test_lesson_time=strtotime( $stu_request_test_lesson_time);
         } else {
