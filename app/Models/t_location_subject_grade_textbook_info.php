@@ -30,7 +30,7 @@ class t_location_subject_grade_textbook_info extends \App\Models\Zgen\z_t_locati
     }
 
     public function check_is_exist($province,$city,$grade,$subject){
-        $sql = $this->gen_sql_new("select 1 from %s "
+        $sql = $this->gen_sql_new("select id from %s "
                                   ." where province ='%s' and city='%s' and subject = %u and grade=%u",
                                   self::DB_TABLE_NAME,
                                   $province,

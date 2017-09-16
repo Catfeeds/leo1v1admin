@@ -27,6 +27,7 @@ class test_boby extends Controller
         $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__,$ret_info);
     }
+
     public function  ss() {
 
         $page_info= $this->get_in_page_info();
@@ -49,31 +50,45 @@ class test_boby extends Controller
         $ret_info = $this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__, $ret_info);
     }
+
     public function st() {
-        // list($start_time,$end_time) = $this->get_in_date_range(-365, 0 );
-        // $page_info = $this->get_in_page_info();
-        // $orderid = $this->get_in_str_val("orderid");
-        // $account_role = $this->get_in_el_account_role();
-        // $this->get_in_int_val("account_role"); //没什么作用?
-        // $ret_info = $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
-        $idstr = $this->get_in_str_val("idstr");
-        $ret_info = $this->t_manager_info->get_tea_sub_list_by_orderid($idstr);
+        list($start_time,$end_time) = $this->get_in_date_range(-365, 0 );
+        $page_info = $this->get_in_page_info();
+        $orderid = $this->get_in_str_val("orderid");
+        $nick_phone = $this->get_in_int_val("nick_phone",'');
+        $account_role = $this->get_in_el_account_role();
+        $this->get_in_int_val("account_role"); //没什么作用?
+        $ret_info = $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
+        // $idstr = $this->get_in_str_val("idstr");
+        // $ret_info = $this->t_manager_info->get_tea_sub_list_by_orderid($idstr);
+        // // dd($ret_info);
+        // $s = '<table border=1><tr><td>id</td><td>ss';
+        // $id =  0;
+        // foreach( $ret_info as &$item ) {
+        //     E\Esubject::set_item_value_str($item);
+        //     if ($id == $item['orderid']) {
+        //         $s = $s.",{$item['nick']}/{$item['subject_str']}";
+        //     } else {
+        //         $s = $s."</td></tr><tr><td>{$item['orderid']}</td><td>{$item['nick']}/{$item['subject_str']}";
+        //     }
+        //     $id = $item['orderid'];
+        // }
+        // $s = $s."</td></tr></table>";
+        // return $s;
         // dd($ret_info);
-        $s = '<table border=1><tr><td>id</td><td>ss';
-        $id =  0;
-        foreach( $ret_info as &$item ) {
-            E\Esubject::set_item_value_str($item);
-            if ($id == $item['orderid']) {
-                $s = $s.",{$item['nick']}/{$item['subject_str']}";
-            } else {
-                $s = $s."</td></tr><tr><td>{$item['orderid']}</td><td>{$item['nick']}/{$item['subject_str']}";
-            }
-            $id = $item['orderid'];
-        }
-        $s = $s."</td></tr></table>";
-        return $s;
-        dd($ret_info);
         return $this->pageView( __METHOD__, $ret_info);
+    }
+
+    public function ajax() {
+        $phone = $this->get_in_str_val('phone');
+        $arr = [1313,34645132,3546312,645413,6846312,64513268,635312686,31684,641,87,987,61,35,4,876,46416,49,8464,68,74964,6];
+        $newArr = [];
+        foreach($arr as $k) {
+            if( strpos($k, $phone) !== false ) {
+                $newArr[] = $k;
+            }
+        }
+        return json_encode($newArr);
     }
     public function test_one(){
         $phone    = $this->get_in_phone();
@@ -177,6 +192,7 @@ class test_boby extends Controller
 
         dd($ret_info);
     }
+
     public function get_money_origin_rate(){
         $n = $this->get_in_int_val('yue');
         $start_time = strtotime("2017-0".$n."-01");
@@ -304,8 +320,6 @@ class test_boby extends Controller
 
     }
 
-
-
     //获取某个月在读学生，上课-堂数——人数
     public function get_lesson_student_by_month(){
 
@@ -351,9 +365,10 @@ class test_boby extends Controller
         return $s;
 
     }
+
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
-        // return 'bey';
+        return 'bey';
         // $start_time = strtotime('2017-08-05');
         // $end_time = strtotime('2017-09-01');
         // $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
@@ -401,7 +416,6 @@ class test_boby extends Controller
         echo 'ok';
         exit;
     }
-
 
     public function get_teacher(){
 

@@ -1229,7 +1229,7 @@ class ajax_deal2 extends Controller
         $city = trim($this->get_in_str_val('city'));
         $educational_system = trim($this->get_in_str_val('educational_system'));
         $is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($province,$city,$grade,$subject);
-        if($is_exist ==1){
+        if($is_exist > 0 ){
             return $this->output_err("已有相同地区科目信息!");
         }
         $this->t_location_subject_grade_textbook_info->row_insert([

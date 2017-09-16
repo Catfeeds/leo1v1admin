@@ -2290,19 +2290,17 @@ class tea_manage extends Controller
                 $val['lecture_status_str']="无试讲";
             }else{
                 $val['lecture_status_str']  = E\Echeck_status::get_desc($val['lecture_status_ex']);
-
             }
             if(empty($val["acc"])){
                 $val["acc"] = $val["account"];
             }
             $val["add_time_str"] = date("Y-m-d H:i:s",$val["add_time"]);
             if($val["wx_openid"]){
-                $val["have_wx_flag"]="是";
+                $val["have_wx_flag"] = "是";
             }else{
-                $val["have_wx_flag"]="否";
+                $val["have_wx_flag"] = "否";
             }
             E\Eidentity::set_item_value_str($val,"teacher_type");
-            // $val["reference_name"] = $this->t_teacher_info->get_realname($val["reference"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(

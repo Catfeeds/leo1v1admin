@@ -6,7 +6,8 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
-	nick_phone:	string;
+	orderid:	string;
+	nick_phone:	number;
 	account_role:	number;
 }
 declare module "g_args" {
@@ -23,8 +24,6 @@ interface RowData {
 	name	:any;
 	phone	:any;
 	create_time	:any;
-	account_role_str	:any;
-	unick	:any;
 }
 
 /*
@@ -43,6 +42,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			orderid:	$('#id_orderid').val(),
 			nick_phone:	$('#id_nick_phone').val(),
 			account_role:	$('#id_account_role').val()
         });
@@ -59,6 +59,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_orderid').val(g_args.orderid);
 	$('#id_nick_phone').val(g_args.nick_phone);
 	$('#id_account_role').val(g_args.account_role);
 
@@ -70,6 +71,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">orderid</span>
+                <input class="opt-change form-control" id="id_orderid" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
