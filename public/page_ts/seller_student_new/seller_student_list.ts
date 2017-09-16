@@ -2044,6 +2044,18 @@ function init_edit() {
             var id_interests_hobbies = html_node.find("#id_interests_hobbies");
             var id_character_type = html_node.find("#id_character_type");
             var id_need_teacher_style = html_node.find("#id_need_teacher_style");
+            var id_intention_level = html_node.find("#id_intention_level");
+            var id_test_paper = html_node.find("#id_test_paper");
+            var id_upload_test_paper = html_node.find("#id_upload_test_paper");
+            
+            $.custom_upload_file('id_upload_test_paper',true,function (up, info, file) {
+                console.log(info);
+                var res = $.parseJSON(info);
+
+                $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
+            
 
             
              
@@ -2217,6 +2229,8 @@ function init_edit() {
             Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
             Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
             Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
+            Enum_map.append_option_list("intention_level", id_intention_level, true);
+            
 
             
             id_stu_request_test_lesson_time.datetimepicker( {
