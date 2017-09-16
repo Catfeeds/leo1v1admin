@@ -1677,6 +1677,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
         $month = strtotime($this->get_in_str_val("start_time"));
+        $first_groupid = $this->get_in_int_val("first_groupid");
 
         $max_groupid = $this->t_main_group_name_month->get_max_groupid($month);
         $groupid = $max_groupid + 1;
@@ -1684,7 +1685,8 @@ class user_deal extends Controller
             "month"       => $month,
             "main_type"   => $main_type ,
             "group_name"  => $group_name,
-            "groupid"     => $groupid
+            "groupid"     => $groupid,
+            "up_groupid"  => $first_groupid
         ]);
 
         return $this->output_succ();
