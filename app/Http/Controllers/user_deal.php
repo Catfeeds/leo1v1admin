@@ -3734,12 +3734,14 @@ class user_deal extends Controller
         if($subject==2){
             $accept_adminid = 754;
         }elseif($subject==5){
-             $accept_adminid = 793;
+            $accept_adminid = 478;
         }elseif($subject==4){
-            $accept_adminid=770;
+            $accept_adminid=478;
         }else{
             $accept_adminid = 486;
         }
+        //更新处理人
+        // $accept_adminid = 478;
         $res =  $this->t_change_teacher_list->row_insert([
             "teacherid"  =>$teacherid,
             "userid"     =>$userid,

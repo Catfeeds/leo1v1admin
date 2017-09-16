@@ -419,7 +419,7 @@ throw new Error('AdminLTE requires jQuery')
 
   var Default = {
     animationSpeed: 500,
-    accordion     : true,
+    accordion     : false,
     followLink    : false,
     trigger       : '.treeview a'
   }
