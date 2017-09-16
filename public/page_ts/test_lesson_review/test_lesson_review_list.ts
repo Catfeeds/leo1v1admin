@@ -9,7 +9,7 @@ $(function(){
     }
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        if((opt_data.aid == opt_data.group_adminid) || (opt_data.aid == 831)){
+        if(opt_data.aid == opt_data.group_adminid){
             var $group_suc_flag = $("<select/>");
             Enum_map.append_option_list("group_suc_flag",$group_suc_flag ,true );
             $group_suc_flag.val(opt_data.group_suc_flag);
@@ -42,6 +42,22 @@ $(function(){
                         "id":opt_data.id,
                         "master_adminid" : opt_data.master_adminid,
                         "master_suc_flag" : $master_suc_flag.val(),
+                    })
+                }
+            })
+        }else if(opt_data.aid == 831){
+            var $master_suc_flag = $("<select/>");
+            Enum_map.append_option_list("master_suc_flag",$master_suc_flag ,true );
+            $master_suc_flag.val(opt_data.master_suc_flag);
+            var arr=[
+                ["审核",$master_suc_flag],
+            ];
+            $.show_key_value_table("排课审核", arr ,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax("/test_lesson_review/test_lesson_review_edit",{
+                        "id":opt_data.id,
                     })
                 }
             })
