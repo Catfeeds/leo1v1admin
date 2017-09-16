@@ -83,11 +83,12 @@ class teacher_simulate extends Controller
             $tea_arr                   = $list[$teacherid];
             $tea_arr["teacherid"]      = $teacherid;
             $tea_arr["level_simulate"] = $val["level_simulate"];
-
             E\Eteacher_money_type::set_item_value_str($val);
             E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
-            E\Elevel::set_item_value_str($val);
-            E\Enew_level::set_item_value_str($val,"level_simulate");
+            $val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($val['teacher_money_type'],$val['level']);
+            $val['level_simulate_str'] = \App\Helper\Utils::get_teacher_letter_level(
+                $val['teacher_money_type_simulate'],$val['level_simulate']
+            );
             \App\Helper\Utils::check_isset_data($tea_arr['realname'],$val['realname'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_str'],$val['teacher_money_type_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_simulate_str'],$val['teacher_money_type_simulate_str'],0);
@@ -135,16 +136,14 @@ class teacher_simulate extends Controller
 
             $money_base          = $val['money']*$lesson_count;
             $money_simulate_base = $val['money_simulate']*$lesson_count;
-            // $money            = $val['money']*$lesson_count+$reward;
-            $money            = $money_base+$reward;
-            // $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
-            $money_simulate   = $money_simulate_base+$reward_simulate;
+            $money               = $money_base+$reward;
+            $money_simulate      = $money_simulate_base+$reward_simulate;
 
             if($val['teacher_money_type']==5){
                 $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start'],$val['teacher_ref_type']);
                 if($teacher_ref_rate>0){
-                    $teacher_ref_money = $money*$teacher_ref_rate;
-                    $money+=$teacher_ref_money;
+                    $teacher_ref_money  = $money*$teacher_ref_rate;
+                    $money             += $teacher_ref_money;
                 }
             }
 
@@ -174,13 +173,15 @@ class teacher_simulate extends Controller
 
             $lesson_total += $lesson_count;
         }
-
         \App\Helper\Utils::check_isset_data($all_count,0,0);
         \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($down_count['all'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['all'],0,0);
 
+        /**
+         * 统计变动数量
+         */
         foreach($list as &$l_val){
             \App\Helper\Utils::check_isset_data($all_count,1);
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);
