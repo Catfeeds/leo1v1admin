@@ -792,4 +792,26 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_stu_three_month_info(){
+        $end_time = time();
+        $start_time = time()-90*86400;
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.userid) num,l.teacherid,t.realname,"
+                                  ."t.subject,t.grade_part_ex,t.grade_end,t.grade_start "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
 }

@@ -83,14 +83,14 @@ class teacher_simulate extends Controller
             $tea_arr                   = $list[$teacherid];
             $tea_arr["teacherid"]      = $teacherid;
             $tea_arr["level_simulate"] = $val["level_simulate"];
-            E\Eteacher_money_type::set_item_value_str($val);
+            E\Eteacher_money_type::set_item_value_str($val,"now_money_type");
             E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
-            $val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($val['teacher_money_type'],$val['level']);
+            $val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($val['now_money_type'],$val['now_level']);
             $val['level_simulate_str'] = \App\Helper\Utils::get_teacher_letter_level(
                 $val['teacher_money_type_simulate'],$val['level_simulate']
             );
             \App\Helper\Utils::check_isset_data($tea_arr['realname'],$val['realname'],0);
-            \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_str'],$val['teacher_money_type_str'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['now_money_type_str'],$val['now_money_type_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_simulate_str'],$val['teacher_money_type_simulate_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
