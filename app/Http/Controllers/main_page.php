@@ -72,6 +72,7 @@ class main_page extends Controller
         $group_type = count($require_adminid_arr)>1?1:0;
 
         $adminid = in_array($test_seller_id,$require_adminid_arr)?$test_seller_id:$adminid;
+        $this->set_in_value("test_seller_id", $adminid);
         /* if($adminid==349){
            $adminid=397;
            }*/

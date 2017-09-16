@@ -9,7 +9,7 @@ $(function(){
     }
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        if(opt_data.aid == opt_data.group_adminid){
+        if((opt_data.aid == opt_data.group_adminid) || (opt_data.aid == 831)){
             var $group_suc_flag = $("<select/>");
             Enum_map.append_option_list("group_suc_flag",$group_suc_flag ,true );
             $group_suc_flag.val(opt_data.group_suc_flag);
