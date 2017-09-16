@@ -534,7 +534,8 @@ class test_boby extends Controller
         // $arr = [5,6,7,8];
         // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
         // echo "<br>";
-        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
+        // echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
+        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td></tr>';
         $month      = $this->get_in_int_val("month",1);
         $start_time = strtotime("2017-$month");
         $end_time   = strtotime("+1 month",$start_time);
@@ -547,57 +548,13 @@ class test_boby extends Controller
                            .$v["group_concat(distinct(l.subject))"] .'</td><td>'
                            .$v["group_concat(distinct(l.grade))"].'</td><td>'
                            .$v["trial_num"].'</td><td>'
-                           .$v["trial_succ"].'</td><td>'
-                           .$v["normal"].'</td></tr>';
+                           // .$v["trial_succ"].'</td><td>'
+                           // .$v["normal"].'</td></tr>';
+                           .$v["trial_succ"].'</td></tr>';
+
 
         }
     }
-
-    public function get_tea_count(){
-        // $arr = [5,6,7,8];
-        // echo "月份｜老师｜科目|年级|试听课数|成功数|课耗";
-        // echo "<br>";
-        echo '<table border=1> <tr><td>月</td><td>老师</td><td>科目</td><td>年级</td><td>试听课数</td><td>成功数</td><td>常规课耗</td></tr>';
-            $month = $this->get_in_int_val("month",1);
-            $start_time = strtotime("2017-$month");
-            $end_time = strtotime("+1 month",$start_time);
-            $list = $this->t_lesson_info_b3->get_tea_succ_count_test($start_time,$end_time);
-            $nick = '';
-            $kehao =0;
-            $new = [];
-            $tid = [];
-            foreach($list as $v){
-                E\Esubject::set_item_value_str($v);
-                E\Egrade::set_item_value_str($v);
-                $par = $month.$v['teacherid'];
-                if (in_array($par, $tid) ) {
-                    $new[$nick]['succ'] = $new[$nick]['succ'] + $v['succ'];
-                    $new[$nick]['num'] = $new[$nick]['num']++;
-                    $new[$nick]['subject'] = $v['subject_str'];
-                    $new[$nick]['grade'] = $v['grade_str'];
-                    $succ = 0;
-                } else {
-                    $tid[] = $month.$v['teacherid'];
-                    $nick = $v['nick'];
-                    $new[$nick]['succ'] = $v['succ'];
-                    $new[$nick]['num'] = 1;
-                    $new[$nick]['subject'] = $v['subject_str'];
-                    $new[$nick]['grade'] = $v['grade_str'];
-                    $kehao = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
-                    $new[$nick]['kehao'] = $kehao;
-                }
-
-
-            }
-
-            foreach ($new as $k=>$v){
-                if(@$v['subject']){
-                    echo '<tr><td>'.$month.'</td><td>'.$k.'</td><td>'.$v["subject"].'</td><td>'.$v["grade"].'</td><td>'.$v["num"].'</td><td>'.$v["succ"].'</td><td>'.@$v["kehao"]/100 .'</td></tr>';
-
-                }
-            }
-    }
-
 
 
 }
