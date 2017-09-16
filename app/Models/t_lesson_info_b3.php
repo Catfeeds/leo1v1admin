@@ -669,4 +669,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_test_succ_count($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "lesson_user_online_status != 2",
+            "s.is_test_user=0",
+            "o.pay_time>0",
+            "o.contract_type=0",
+            "o.contract_status!=0",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,l.grade"
+                                  ." from %s l"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s o on s.userid=o.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }
