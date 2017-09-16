@@ -1197,13 +1197,28 @@ class user_manage_new extends Controller
         // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
 
         $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
-        // dd($list);
 
         foreach($list as &$val){
-            if($val['level'] == 'l-5'){
-                // $val['log_info'] = $this->ge
+            if($val['level'] == 'l-5' && $val['main_type'] != "未定义"){
+                $log_info_arr = $this->t_user_group_change_log->get_user_change_log($val['adminid']);
+
+                $add_time_formate = $log_info_arr['add_time']?date('Y-m-d H:i:s',$log_info_arr['add_time']):"";
+
+                $do_adminid_nick  = $log_info_arr['do_adminid']?$this->cache_get_account_nick($log_info_arr['do_adminid']):"";
+
+                $old_group        = $log_info_arr['old_group']?$log_info_arr['old_group']:"";
+
+                if($add_time_formate !="" || $do_adminid_nick!="" || $old_group!=""){
+                    $val['log_info'] = "分配时间:$add_time_formate 操作人:$do_adminid_nick 原来组别:$old_group";
+                }else{
+                    $val['log_info'] = "";
+                }
+            }else{
+                $val['log_info'] = "";
             }
         }
+
+        // dd($list);
 
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);

@@ -13,6 +13,8 @@ $(function(){
             grade_part_ex : $("#id_grade_part_ex").val(),
             teacherid     : $("#id_teacherid").val(),
             tranfer_per   : $("#id_tranfer_per").val(),
+		    test_lesson_flag:	$('#id_test_lesson_flag').val(),
+			test_lesson_num:	$('#id_test_lesson_num').val()
         });
     }
 
@@ -34,6 +36,9 @@ $(function(){
     $("#id_grade_part_ex").val(g_args.grade_part_ex);
     $('#id_teacherid').val(g_args.teacherid);
     $('#id_tranfer_per').val(g_args.tranfer_per);
+	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+	$('#id_test_lesson_num').val(g_args.test_lesson_num);
+
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
 

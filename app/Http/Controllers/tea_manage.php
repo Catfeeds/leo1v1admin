@@ -2891,11 +2891,13 @@ class tea_manage extends Controller
         $subject          = $this->get_in_int_val("subject",-1);
         $grade_part_ex    = $this->get_in_int_val("grade_part_ex",-1);
         $tranfer_per      = $this->get_in_int_val("tranfer_per",-1);
-        $teacherid                = $this->get_in_int_val('teacherid',-1);
+        $teacherid             = $this->get_in_int_val('teacherid',-1);
+        $test_lesson_flag      = $this->get_in_int_val('test_lesson_flag',-1);
+        $test_lesson_num      = $this->get_in_int_val('test_lesson_num',-1);
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per); 
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num); 
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info['list'] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;

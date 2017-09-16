@@ -356,7 +356,9 @@ class ss_deal extends Controller
         $diff=$next_revisit_time-time();
 
         if ( $next_revisit_time==0 ) {
-            return $this->output_err("下次回访时间 需要设置");
+            if (session( "account_role") ==E\Eaccount_role::V_2  ) {
+                return $this->output_err("下次回访时间 需要设置");
+            }
         } if ( $diff > 7*86400 ) {
             return $this->output_err("下次回访时间只能设置最近一周时间");
         }else if (  $diff<0 ) {
