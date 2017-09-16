@@ -2249,10 +2249,11 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
+                           
                             $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
                                 "study_habit" : select_list
-                            },function(response){
-                                id_study_habit.val(select_list); 
+                            },function(res){
+                                id_study_habit.val(res.data); 
                             });
 
                             dlg.close();
