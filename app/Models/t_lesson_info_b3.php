@@ -679,9 +679,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         $sql = $this->gen_sql_new(
             "select l.lessonid,l.grade"
-            .", if(tl.type=2 and tl.money_info=l.lessonid,1,0) as succ "
+            .", if(tl.type=2,1,0) as succ "
             ." from %s l"
-            ." left join %s tl on l.teacherid=tl.teacherid"
+            ." left join %s tl on l.lessonid=tl.lessonid"
             ." where %s"
             ." group by l.lessonid"
             ,self::DB_TABLE_NAME

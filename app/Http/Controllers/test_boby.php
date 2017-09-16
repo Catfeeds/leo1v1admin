@@ -517,7 +517,7 @@ class test_boby extends Controller
             }
 
         }
-        echo "月份｜年级|人数|成功数";
+        echo "月份｜年级|数|成功数";
         echo "<br>";
         foreach($new as $v){
             echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
