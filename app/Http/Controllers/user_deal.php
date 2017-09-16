@@ -1655,8 +1655,6 @@ class user_deal extends Controller
             "group_name"  => $group_name,
         ]);
 
-        dd($ret);
-
         return $this->output_succ();
 
     }
