@@ -2946,7 +2946,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_del_flag = 0",
             "confirm_flag!=2",
             "lesson_type in (0,1,3)",
-            "lesson_status=2",
+            // "lesson_status=2",
             "teacher_type not in (3,4)"
         ];
         $not_sql = "true";

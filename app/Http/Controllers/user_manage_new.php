@@ -1198,6 +1198,13 @@ class user_manage_new extends Controller
 
         $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
         // dd($list);
+
+        foreach($list as &$val){
+            if($val['level'] == 'l-5'){
+                // $val['log_info'] = $this->ge
+            }
+        }
+
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }

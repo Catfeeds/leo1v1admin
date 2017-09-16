@@ -121,16 +121,33 @@ class teacher_simulate extends Controller
             }
 
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
-            if($check_type==2){
-                $already_lesson_count = $already_lesson_count_simulate;
-            }else{
+            if(in_array($check_type,[1,3])){
                 $already_lesson_count = $val['already_lesson_count'];
+            }elseif($check_type==2){
+                $already_lesson_count = $already_lesson_count_simulate;
+            }elseif($check_type==4){
+                $already_lesson_count = $already_lesson_count_simulate_2;
+            }else{
+                $already_lesson_count = 0;
             }
 
+            $check_type_simulate = \App\Helper\Utils::check_teacher_money_type(
+                $val['teacher_money_type_simulate'],$val['teacher_type']);
+            if(in_array($check_type,[1,3])){
+                $already_lesson_count_si = $val['already_lesson_count'];
+            }elseif($check_type==2){
+                $already_lesson_count_si = $already_lesson_count_simulate;
+            }elseif($check_type==4){
+                $already_lesson_count_si = $already_lesson_count_simulate_2;
+            }else{
+                $already_lesson_count_si = 0;
+            }
+
+            //老师实际的累计课时
             $reward = \App\Helper\Utils::get_teacher_lesson_money(
                 $val['type'],$already_lesson_count);
             $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money(
-                $val['type_simulate'],$already_lesson_count_simulate_2);
+                $val['type_simulate'],$already_lesson_count_si);
 
             $lesson_count     = $val['lesson_count']/100;
             $reward          *= $lesson_count;
