@@ -713,17 +713,21 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_user_online_status != 2",
         ];
         $sql = $this->gen_sql_new(
-            "select l.lessonid,l.grade"
-            .", if(tl.type=2,1,0) as succ "
+            "select "
+            ." sum( if(l.grade <200,1,0)) as min,"
+            ." sum( if(l.grade <200 and tl.type=2,1,0)) as min_succ,"
+            ." sum( if(l.grade <300 and grade>=200,1,0)) as mid,"
+            ." sum( if(l.grade <300 and grade>=200 and tl.type=2,1,0)) as mid_succ,"
+            ." sum( if(l.grade >300,1,0)) as heigh,"
+            ." sum( if(l.grade >300 and tl.type=2,1,0)) as heigh_succ"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info"
             ." where %s"
-            ." group by l.lessonid"
             ,self::DB_TABLE_NAME
             ,t_teacher_money_list::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_tea_succ_count($start_time,$end_time){
@@ -739,12 +743,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ."count(l.lessonid) as trial_num,sum(if(money_info>0,1,0)) as trial_succ"
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info and type=2"
-            // ." left join %s t on l.teacherid=t.teacherid"
             ." where %s"
             ." group by l.teacherid"
             ,self::DB_TABLE_NAME
             ,t_teacher_money_list::DB_TABLE_NAME
-            // ,t_teacher_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -766,30 +768,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,$where_arr
         );
         return $this->main_get_value($sql);
-    }
-
-    public function get_tea_succ_count_test($start_time,$end_time){
-        $where_arr = [
-            ["lesson_start>%u",$start_time,-1],
-            ["lesson_start<%u",$end_time,-1],
-            "lesson_type = 2",
-            "lesson_del_flag = 0",
-            "lesson_user_online_status != 2",
-        ];
-        $sql = $this->gen_sql_new(
-            "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid"
-            .", if(tl.type=2,1,0) as succ"
-            ." from %s l"
-            ." left join %s tl on l.lessonid=tl.money_info"
-            ." left join %s t on l.teacherid=t.teacherid"
-            ." where %s"
-            // ." group by l.teacherid"
-            ,self::DB_TABLE_NAME
-            ,t_teacher_money_list::DB_TABLE_NAME
-            ,t_teacher_info::DB_TABLE_NAME
-            ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function get_teacher_stu_three_month_info(){
