@@ -938,6 +938,61 @@
 
         </div>
 
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>试听需求</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">知识点定位：</span>
+                            <input type="text" class=" form-control "  id="id_knowledge_point_location"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">上课意向：</span>
+                            <select id="id_intention_level" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听时间：</span>
+                            <input id="id_stu_request_test_lesson_time" class=" form-control "   />
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                 
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">上传试卷：</span>
+                            <input type="text" class=" form-control "  id="id_test_paper"  />
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_upload_test_paper"  title="上传">
+                                    上传
+                                </button>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
 
     </div>
 
