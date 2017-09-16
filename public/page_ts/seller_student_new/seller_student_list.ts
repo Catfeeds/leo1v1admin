@@ -1527,37 +1527,40 @@ function init_edit() {
 
     });
 
-    var init_noit_btn_ex=function( id_name, count, title, value_class) {
+    var init_noit_btn_ex=function( id_name, count, title,desc ,value_class) {
         var btn=$('#'+id_name);
         count=count*1;
         btn.data("value",count);
         btn.tooltip({
-            "title":title,
+            "title":title + "("+desc+")",
             "html":true
         });
+        btn.addClass("btn-app") ;
+
         var value =btn.data("value");
-        btn.text(title+":"+ value);
-        if (!value_class) value_class="btn-warning";
+
+        var str="<span class=\"badge  \">"+count+"</span>" + title;
+        btn.html(str);
+        if (!value_class) value_class="bg-yellow";
         if (value >0 ) {
             btn.addClass(value_class);
+            btn.find("span"). addClass(value_class);
         }
     };
-    var init_noit_btn=function( id_name, count, title) {
-        init_noit_btn_ex( id_name, count, title, null);
+    var init_noit_btn=function( id_name, count, title,desc) {
+        init_noit_btn_ex( id_name, count, title, desc, null);
     };
 
 
     $.do_ajax( "/ss_deal/seller_noti_info",{},function(resp){
-        init_noit_btn_ex("id_tmk_new_no_called_count",   resp.tmk_new_no_call_count,    "微信-新分配例子未回访数", "btn-danger" );
-        init_noit_btn("id_new_no_called_count",   resp.new_not_call_count,    "新分配例子未回访数" );
-        init_noit_btn("id_no_called_count",   resp.not_call_count,    "例子未回访数" );
-        init_noit_btn("id_next_revisit",   resp.next_revisit_count,    "需再次回访数" );
-        init_noit_btn("id_lesson_today",  resp.today,  "今天上课须通知数" );
-        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课须通知数" );
-        init_noit_btn("id_return_back_count", resp.return_back_count, "被驳回未处理的个数" );
-        init_noit_btn("id_require_count",  resp.require_count,"已预约未排数" );
-        init_noit_btn("id_no_confirm_count",  resp.no_confirm_count,"课程未确认数" );
-       // init_noit_btn("id_end_class_stu",resp.end_class_stu_num,"一个月内结课学生数" );
+        init_noit_btn("id_new_no_called_count",   resp.new_not_call_count,    "从未联系", "未回访" );
+        init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
+        init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
+        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
+        init_noit_btn("id_lesson_today",  resp.today,  "今天上课须通知数" ,"");
+        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课须通知数","" );
+        init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
+        init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1622,6 +1625,14 @@ function init_edit() {
         });
 
     });
+
+    $("#id_today_free").on("click",function(){
+        init_and_reload(function(now){
+            $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
+        });
+
+    });
+
 
     $("#id_return_back_count").on("click",function(){
         init_and_reload(function(now){
@@ -2046,11 +2057,17 @@ function init_edit() {
             var id_need_teacher_style = html_node.find("#id_need_teacher_style");
             var id_intention_level = html_node.find("#id_intention_level");
             var id_test_paper = html_node.find("#id_test_paper");
-           // var id_upload_test_paper = html_node.find("#id_upload_test_paper");
+            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
+           /* $.custom_upload_file("id_upload_test_paper",true,function (up, info, file) {
+                var res = $.parseJSON(info);
+
+                // $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);*/
+
            
-           // id_upload_test_paper.on("click",function(){
-           
-           // });
+           html_node.find("#id_upload_test_paper").on("click",function(){
+               alert(111);
+           });
             
            
             
@@ -2805,12 +2822,7 @@ function init_edit() {
         });
     });
 
-    $.custom_upload_file("id_upload_test_paper",true,function (up, info, file) {
-        var res = $.parseJSON(info);
-
-        // $("#change_reason_url").val(res.key);
-    }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
-
+   
 
 
 

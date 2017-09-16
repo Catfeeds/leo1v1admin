@@ -219,6 +219,9 @@ class teacher_simulate extends Controller
         ];
 
         $this->check_month_redis_key($show_data);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list,true);
+        \App\Helper\Utils::redis(
+            E\Eredis_type::V_SET,$this->already_lesson_count_simulate_key,$already_lesson_count_simulate_list,true);
 
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
         $show_data["final_money"] = $final_money_list;
