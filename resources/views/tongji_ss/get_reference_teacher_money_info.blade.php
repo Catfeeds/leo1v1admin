@@ -34,12 +34,9 @@
                         <td>{{@$var["num"]}} </td>
                         <td class="three_num"></td>
                        
-                       
-                       
-
-                       
+                                              
                         <td>
-                            <div class="row-data" data-userid="{{$var}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

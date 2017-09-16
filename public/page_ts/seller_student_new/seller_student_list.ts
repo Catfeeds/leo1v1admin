@@ -34,7 +34,8 @@ function load_data(){
         seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
         tmk_student_status:	$('#id_tmk_student_status').val(),
        // end_class_flag:$("#id_end_class_flag").val(),
-        seller_resource_type:	$('#id_seller_resource_type').val()
+        seller_resource_type:	$('#id_seller_resource_type').val(),
+        favorite_flag:	$('#id_favorite_flag').val(),
     });
 }
 
@@ -61,6 +62,7 @@ $(function(){
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
     Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
+    Enum_map.append_option_list("seller_favorite_flag",$("#id_favorite_flag"));
 
     $('#id_origin_assistant_role').val(g_args.origin_assistant_role);
 
@@ -199,6 +201,7 @@ $(function(){
     $('#id_tq_called_flag').val(g_args.tq_called_flag);
     $('#id_seller_require_change_flag').val(g_args.seller_require_change_flag);
     $('#id_tmk_student_status').val(g_args.tmk_student_status);
+    $('#id_favorite_flag').val(g_args.favorite_flag);
    // $('#id_end_class_flag').val(g_args.end_class_flag);
 
     $.admin_select_user(
@@ -1561,7 +1564,7 @@ function init_edit() {
         init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
         init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
         init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
-        init_noit_btn("id_favorite_count", resp.return_back_count, "收藏夹","您收藏的例子个数" );
+        init_noit_btn("id_favorite_count", resp.favorite_count, "收藏夹","您收藏的例子个数" );
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1645,7 +1648,7 @@ function init_edit() {
     $("#id_favorite_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
-            $('#id_seller_student_status').val(110 );
+            $('#id_favorite_flag').val(1);
         });
     });
 
@@ -1954,6 +1957,16 @@ function init_edit() {
                         })
                     }
                 })
+            }
+        });
+    });
+
+    $(".opt-favorite").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        $.do_ajax("/ajax_deal/seller_student_new_favorite",{'userid':opt_data.userid,} ,function(ret){
+            if(ret){
+                alert('收藏成功!');
+                window.location.reload();
             }
         });
     });
