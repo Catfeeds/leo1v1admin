@@ -550,7 +550,6 @@ class test_boby extends Controller
             foreach($list as $v){
                 E\Esubject::set_item_value_str($v);
                 E\Egrade::set_item_value_str($v);
-                // echo $v['nick'],'<br>';
                 // if ($nick == $v['nick']) {
                 $par = $month.$v['teacherid'];
                 if (in_array($par, $tid)) {
