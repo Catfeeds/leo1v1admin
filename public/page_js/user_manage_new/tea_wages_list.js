@@ -133,7 +133,6 @@ $(function(){
                     $tr.find(".lesson_total").text(data.lesson_total);
 
                     teacher_money       += parseFloat(data.lesson_price);
-                    teacher_ref_money   += parseFloat(data.lesson_ref_money);
                     teacher_money_tax   += parseFloat(data.lesson_price_tax);
                     teacher_trial       += parseFloat(data.lesson_trial);
                     teacher_normal      += parseFloat(data.lesson_normal);
