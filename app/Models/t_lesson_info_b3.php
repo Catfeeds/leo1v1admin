@@ -724,7 +724,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.teacherid=$teacherid",
         ];
         $sql = $this->gen_sql_new(
-            "select count(lesson_count)"
+            "select sum(lesson_count)"
             ." from %s l"
             ." where %s"
             ,self::DB_TABLE_NAME
