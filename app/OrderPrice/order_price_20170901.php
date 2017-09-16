@@ -18,6 +18,7 @@ class order_price_20170901 extends order_price_base
 
     static $new_free_lesson_config = [
         30 => 3,
+        45 => 4.5,
         60 => 6,
         90 => 9,
         120 => 12,
@@ -124,8 +125,23 @@ class order_price_20170901 extends order_price_base
             list($find_free_lesson_level , $present_lesson_count )=static::get_value_from_config_ex(
                 static::$new_free_lesson_config,  $check_lesson_count , [0,0] );
             if ( $present_lesson_count) {
+                $task= self::get_task_controler();
+                $use_count=$task->t_order_info->get_type1_lesson_count_by_start_time(strtotime("2017-09-16") );
+                $use_count/=100;
+                $max_present_count=500 ;
+                $use_desc_str="";
+
+                if ($use_count+ $present_lesson_count*2 >=  $max_present_count*3  ) {
+                    $use_desc_str="<br/>500次课特殊赠送  结束";
+                }else{ //500次赠送
+                    $present_lesson_count*=2;
+                    $left_count=($max_present_count*3- $use_count )/3;
+                    $use_desc_str= "<br/>500次课特殊赠送 剩余 $left_count 次课";
+
+                }
                 $tmp= $present_lesson_count/3;
-                $desc_list[]=static::gen_desc("活动-满课时送课",true, "$find_free_lesson_level 次课 送 $tmp 次课", $price );
+
+                $desc_list[]=static::gen_desc("活动-满课时送课",true, "$find_free_lesson_level 次课 送 $tmp 次课   $use_desc_str ", $price );
             }else{
                 $desc_list[]=static::gen_desc("活动-满课时送课",false ,"",$price );
             }
