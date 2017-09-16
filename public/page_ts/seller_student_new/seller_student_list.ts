@@ -2052,6 +2052,27 @@ function init_edit() {
             var id_habit_remodel = html_node.find("#id_habit_remodel");
             var id_interest_cultivation = html_node.find("#id_interest_cultivation");
             var id_study_habit = html_node.find("#id_study_habit");
+            var id_interests_hobbies = html_node.find("#id_interests_hobbies");
+            var id_character_type = html_node.find("#id_character_type");
+            var id_need_teacher_style = html_node.find("#id_need_teacher_style");
+            var id_intention_level = html_node.find("#id_intention_level");
+            var id_test_paper = html_node.find("#id_test_paper");
+            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
+           /* $.custom_upload_file("id_upload_test_paper",true,function (up, info, file) {
+                var res = $.parseJSON(info);
+
+                // $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);*/
+
+           
+           html_node.find("#id_upload_test_paper").on("click",function(){
+               alert(111);
+           });
+            
+           
+            
+
+            
              
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
@@ -2223,6 +2244,8 @@ function init_edit() {
             Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
             Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
             Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
+            Enum_map.append_option_list("intention_level", id_intention_level, true);
+            
 
             
             id_stu_request_test_lesson_time.datetimepicker( {
@@ -2237,9 +2260,10 @@ function init_edit() {
                 id_stu_request_test_lesson_time.val("");
             });           
 
+            id_study_habit.data("v","");
             id_study_habit.on("click",function(){
                // var study_habit= data.study_habit;
-                var study_habit  = "";
+                var study_habit  = id_study_habit.data("v");
                 $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
                 },function(response){
@@ -2262,9 +2286,10 @@ function init_edit() {
                         onChange        : function( select_list,dlg) {
                            
                             $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
-                                "study_habit" : select_list
+                                "study_habit" : JSON.stringify(select_list)                                
                             },function(res){
                                 id_study_habit.val(res.data); 
+                                id_study_habit.data("v",res.data);
                             });
 
                             dlg.close();
@@ -2274,6 +2299,129 @@ function init_edit() {
                 });
                 
             });
+
+            id_interests_hobbies.data("v","");
+            id_interests_hobbies.on("click",function(){
+                // var interests_hobbies= data.interests_hobbies;
+                var interests_hobbies  = id_interests_hobbies.data("v");
+                $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
+                    "interests_hobbies" : interests_hobbies
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["interests_hobbies"]  ]);
+
+                        if (this["has_interests_hobbies"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","兴趣爱好" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
+                                "interests_hobbies" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_interests_hobbies.val(res.data); 
+                                id_interests_hobbies.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+            id_character_type.data("v","");
+            id_character_type.on("click",function(){
+                // var character_type= data.character_type;
+                var character_type  = id_character_type.data("v");
+                $.do_ajax("/ss_deal2/get_stu_character_type_list",{
+                    "character_type" : character_type
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["character_type"]  ]);
+
+                        if (this["has_character_type"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_character_type_name",{
+                                "character_type" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_character_type.val(res.data); 
+                                id_character_type.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+            id_need_teacher_style.data("v","");
+            id_need_teacher_style.on("click",function(){
+                // var need_teacher_style= data.need_teacher_style;
+                var need_teacher_style  = id_need_teacher_style.data("v");
+                $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
+                    "need_teacher_style" : need_teacher_style
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["need_teacher_style"]  ]);
+
+                        if (this["has_need_teacher_style"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
+                                "need_teacher_style" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_need_teacher_style.val(res.data); 
+                                id_need_teacher_style.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+
+
 
             var old_province = data.region;
             if(old_province == ''){
@@ -2660,6 +2808,7 @@ function init_edit() {
                     }
                 }]
             });
+           
 
             dlg.getModalDialog().css("width","98%");
 
@@ -2672,6 +2821,8 @@ function init_edit() {
 
         });
     });
+
+   
 
 
 

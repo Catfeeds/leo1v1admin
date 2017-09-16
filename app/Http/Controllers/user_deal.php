@@ -1650,7 +1650,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
 
-        $this->t_admin_main_group_name->row_insert([
+       $ret = $this->t_admin_main_group_name->row_insert([
             "main_type"  => $main_type ,
             "group_name"  => $group_name,
         ]);
@@ -1839,7 +1839,9 @@ class user_deal extends Controller
 
         $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
         if ($db_groupid ) {//
+
             $group_name=$this->t_admin_group_name->get_group_name($db_groupid);
+            // $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
             return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 

@@ -45,6 +45,7 @@ class test_lesson_review extends Controller
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
         $count = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
+        $ret = 0;
         if($count<3){
             $this->t_test_lesson_subject_require_review->row_insert([
                 "adminid"        => $adminid,
@@ -54,9 +55,9 @@ class test_lesson_review extends Controller
                 "review_desc"    => $review_desc,
                 "create_time"    => time(NULL),
             ],false,false,true);
-            return 1;
+            $ret = 1;
         }
-        return 0;
+        return $ret;
     }
 
     public function test_lesson_review_group_edit(){
