@@ -3058,6 +3058,8 @@ lesson_type in (0,1) "
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
+            // "lesson_status=2"
+            // "lesson_status=0"
         ];
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
@@ -3081,7 +3083,6 @@ lesson_type in (0,1) "
                                   ." end )"
                                   ." and %s "
                                   ." where %s "
-                                  ." and lesson_status=2 "
                                   ." and (confirm_flag!=2 or deduct_change_class>0) "
                                   ." and lesson_type<1000 "
                                   ." and lesson_del_flag=0 "

@@ -2650,12 +2650,12 @@ class ss_deal extends Controller
                 }
 
                 $small_str =  implode(",",$small_list);
-                
+
                 // $is_exist3 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],100,2);
                 $is_exist3=0;
                 if($is_exist3>0){
                     $this->t_location_subject_grade_textbook_info->field_update_list($is_exist3,[
-                        "teacher_textbook" =>$small_str 
+                        "teacher_textbook" =>$small_str
                     ]);
                 }else{
                     $this->t_location_subject_grade_textbook_info->row_insert([
@@ -2669,7 +2669,7 @@ class ss_deal extends Controller
                 }
 
 
-                
+
                 $middle = $item[3];
                 $middle_arr = explode("、",$middle);
                 $middle_list=[];
@@ -2680,12 +2680,12 @@ class ss_deal extends Controller
                 }
 
                 $middle_str =  implode(",",$middle_list);
-                
+
                 //$is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],200,2);
                 $is_exist=0;
                 if($is_exist>0){
                     $this->t_location_subject_grade_textbook_info->field_update_list($is_exist,[
-                       "teacher_textbook" =>$middle_str 
+                       "teacher_textbook" =>$middle_str
                     ]);
                 }else{
                     $this->t_location_subject_grade_textbook_info->row_insert([
@@ -3049,6 +3049,8 @@ class ss_deal extends Controller
 
         $adminid=$this->get_account_id();
         $next_revisit_count = $this->t_seller_student_new->get_today_next_revisit_count($adminid);
+        $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid);
+
         $require_info     = $this->t_test_lesson_subject->get_require_and_return_back_count($adminid);
         $notify_lesson_info = $this->t_test_lesson_subject_require->get_notify_lesson_info($adminid);
         $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid );
@@ -3060,7 +3062,8 @@ class ss_deal extends Controller
             array_merge($row_item, $require_info,$notify_lesson_info , [
                 "next_revisit_count"=> $next_revisit_count,
                 "no_confirm_count"=> $no_confirm_count,
-                "end_class_stu_num"=>$end_class_stu_num
+                "end_class_stu_num"=>$end_class_stu_num,
+                "today_free_count"  => $today_free_count,
             ] )
         );
 

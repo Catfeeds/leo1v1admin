@@ -9,6 +9,20 @@
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
+<script type="text/javascript" src="/page_js/select_course.js"></script>
+<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+<script type="text/javascript" src="/page_js/select_user.js"></script>
+<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+<script src='/page_js/select_teacher_free_time.js?{{@$_publish_version}}'></script>
+<script src='/page_js/set_lesson_time.js?{{@$_publish_version}}'></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+
+
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -52,6 +66,23 @@
         onKDAReady();
     }
 </script>
+
+<style>
+ .btn-app {
+     border-radius: 3px;
+     position: relative;
+     padding: 10px 10px 10px 10px;
+     margin: 10px 10px 10px 10px;
+     min-width: 0px;
+     height: 40px;
+     text-align: center;
+     color: #666;
+     border: 1px solid #ddd;
+     background-color: #f4f4f4;
+     font-size: 12px;
+ }
+ 
+</style>
 
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
@@ -204,15 +235,15 @@
                    <div class=" col-xs-12 col-md-12" >
 
                        <div class="input-group">
-                           <button class="btn  " id="id_tmk_new_no_called_count" ></button>
                            <button class="btn  " id="id_new_no_called_count" ></button>
                            <button class="btn  " id="id_no_called_count" ></button>
                            <button class="btn  " id="id_next_revisit" ></button>
+                           <button class="btn  " id="id_today_free" ></button>
                            <button  class="btn  " id="id_lesson_today"></button>
                            <button  class="btn  " id="id_lesson_tomorrow" ></button>
-                           <button class="btn  " id="id_return_back_count" ></button>
                            <button  class="btn  " id="id_require_count" ></button>
-                           <button  class="btn  " id="id_no_confirm_count" ></button>
+                           <button class="btn  " id="id_return_back_count" ></button>
+
                        </div>
                    </div>
 

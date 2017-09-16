@@ -133,6 +133,7 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/user_deal/admin_main_group_add",{
                     "main_type" : main_type,
+                    "first_groupid": opt_data.first_groupid,
                     "group_name" : id_group_name.val()
                 });
             }
