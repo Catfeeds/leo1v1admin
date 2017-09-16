@@ -2041,6 +2041,8 @@ function init_edit() {
             var id_habit_remodel = html_node.find("#id_habit_remodel");
             var id_interest_cultivation = html_node.find("#id_interest_cultivation");
             var id_study_habit = html_node.find("#id_study_habit");
+            var id_interests_hobbies = html_node.find("#id_interests_hobbies");
+            
              
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
@@ -2265,6 +2267,47 @@ function init_edit() {
                 });
                 
             });
+
+            id_study_habit.data("v","");
+            id_study_habit.on("click",function(){
+                // var study_habit= data.study_habit;
+                var study_habit  = id_study_habit.data("v");
+                $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
+                    "study_habit" : study_habit
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["study_habit"]  ]);
+
+                        if (this["has_study_habit"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
+                                "study_habit" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_study_habit.val(res.data); 
+                                id_study_habit.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
 
             var old_province = data.region;
             if(old_province == ''){
