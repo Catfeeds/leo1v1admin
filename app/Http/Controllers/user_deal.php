@@ -1653,6 +1653,7 @@ class user_deal extends Controller
        $ret = $this->t_admin_main_group_name->row_insert([
             "main_type"  => $main_type ,
             "group_name"  => $group_name,
+            // "up_groupid"  =>
         ]);
 
         return $this->output_succ();
