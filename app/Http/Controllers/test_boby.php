@@ -550,8 +550,11 @@ class test_boby extends Controller
             foreach($subject as $s){
                $sstr = $sstr.','. E\Esubject::$desc_map[$s];
             }
+
             foreach($grade as $s){
-                $gstr = $gstr.','. E\Egrade::$desc_map[$s];
+                if($s >=0) {
+                    $gstr = $gstr.','. E\Egrade::$desc_map[$s];
+                }
             }
 
             $kehao = $this->t_lesson_info_b3->get_tea_count($v['teacherid'],$start_time,$end_time);
