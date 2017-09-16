@@ -95,6 +95,7 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
+            //上个月累计常规+试听课时
             $month_key = date("Y-m",$val['lesson_start']);
             if(!isset($already_lesson_count_list[$month_key][$teacherid])){
                 $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
@@ -107,6 +108,7 @@ class teacher_simulate extends Controller
                 $already_lesson_count_simulate = $already_lesson_count_list[$month_key][$teacherid];
             }
 
+            //上个月累计常规课时
             if(!isset($already_lesson_count_simulate_list[$month_key][$teacherid])){
                 $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
                 $now_month_end   = strtotime("+1 month",strtotime(date("Y-m-01",$val['lesson_start'])));

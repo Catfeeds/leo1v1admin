@@ -614,6 +614,7 @@ $(function(){
                 $.do_ajax("/user_deal/admin_main_group_add_new",{
                     "main_type" : main_type,
                     "group_name" : id_group_name.val(),
+                    "first_groupid": opt_data.first_groupid,
                     "start_time" : g_args.start_time
                 });
             }
