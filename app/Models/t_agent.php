@@ -1673,4 +1673,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+
+    public function get_son_userid_by_phone($phone){
+        $where_arr = [
+            ['aa.phone = %d',$phone,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.userid "
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
