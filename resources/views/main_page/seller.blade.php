@@ -6,7 +6,7 @@
          text-align:center;
      }
      .font_thead{
-         size:4px;
+         font-size:17px;
          color:#3c8dbc;
      }
     </style>
@@ -125,7 +125,7 @@
                                 <tr>
                                     <td><strong><font class="font_thead" >排名</font></strong></td>
                                     <td><strong><font class="font_thead" >销售人</font></strong></td>
-                                    <td><strong><font class="font_thead" >签单率<></font></strong></td>
+                                    <td><strong><font class="font_thead" >签单率</font></strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_ret_info_num">
