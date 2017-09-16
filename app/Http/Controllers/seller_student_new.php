@@ -1553,7 +1553,6 @@ class seller_student_new extends Controller
             }
             $ret['rate'] = $del_rate;
         }
-        $ret['ret'] = 1;
         return $ret;
     }
 }

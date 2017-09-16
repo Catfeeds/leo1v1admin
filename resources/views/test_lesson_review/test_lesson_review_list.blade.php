@@ -2,7 +2,7 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -19,7 +19,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>序号 </td>
@@ -51,8 +51,9 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
+                                @if(@$adminid  == 831)
                                 <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -61,6 +62,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
