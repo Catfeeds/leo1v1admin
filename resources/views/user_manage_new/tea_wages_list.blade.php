@@ -149,6 +149,7 @@
                         <td>试听课课时</td>
                         <td>总课时</td>
                         <td>计算课时</td>
+                        <td>代理工资</td>
                         <td>税前</td>
                         <td>税后</td>
                         <td>状态</td>
@@ -174,6 +175,9 @@
                             <td>{{$var['lesson_total']}}</td>
                             <td>
                                 <span class="lesson_total"></span>
+                            </td>
+                            <td>
+                                <span class="lesson_ref_money"></span>
                             </td>
                             <td>
                                 <span class="lesson_price_tax"></span>

@@ -47,8 +47,7 @@ class test_lesson_review extends Controller
         $count = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
         $ret = 0;
         if($count<3){
-            dd('a');
-            $ret = $this->t_test_lesson_subject_require_review->row_insert([
+            $this->t_test_lesson_subject_require_review->row_insert([
                 "adminid"        => $adminid,
                 "group_adminid"  => $group_adminid,
                 "master_adminid" => $master_adminid,
@@ -56,8 +55,8 @@ class test_lesson_review extends Controller
                 "review_desc"    => $review_desc,
                 "create_time"    => time(NULL),
             ],false,false,true);
+            $ret = 1;
         }
-        dd($ret,$count);
         return $ret;
     }
 

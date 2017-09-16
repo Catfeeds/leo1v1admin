@@ -54,4 +54,18 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_list_by_adminid($adminid){
+        $where_arr = [
+        ];
+        $this->where_arr_add_int_field($where_arr,'adminid',$adminid);
+        $sql=$this->gen_sql_new (" select * "
+                                 ." from %s "
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
