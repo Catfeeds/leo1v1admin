@@ -29,10 +29,13 @@ class main_page extends Controller
         $lesson_info=$this->t_lesson_info->tongji_count($start_time, $end_time);
         $record_server_list=$this->t_lesson_info->tongji_record_server_info($start_time, $end_time);
         $server_map= $this->t_audio_record_server->get_server_map();
+        $all_max_record_count=0;
 
         foreach ($record_server_list as &$s_item ) {
             $s_item["max_record_count"]= @$server_map[ $s_item["server"]]["max_record_count"];
+            $all_max_record_count+= $s_item["max_record_count"];
         }
+        $record_server_list[]=["max_record_count" => $all_max_record_count ];
 
         foreach ($sms_list as &$item)  {
             E\Esms_type::set_item_value_str($item, "type");

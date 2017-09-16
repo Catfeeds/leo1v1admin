@@ -8115,6 +8115,9 @@ class tongji_ss extends Controller
         $have_record_info = $this->t_teacher_record_list->get_record_flag_info(1);
         $all_record_info["have_record_tea"] = $have_record_info["teacher_num"];
         $all_record_info["have_record_stu"] = $have_record_info["stu_num"];
+
+        $all_record_info["test_lesson_score"]= $this->t_teacher_record_list->get_record_score_avg(1);
+        $all_record_info["regular_lesson_score"] = $this->t_teacher_record_list->get_record_score_avg(2);
         return $this->pageView(__METHOD__,null,[
             "first_test"     =>$first_test,
             "first_regular"  =>$first_regular,

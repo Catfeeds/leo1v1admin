@@ -569,15 +569,13 @@ $(function(){
                     Enum_map.append_option_list("teacher_lecture_score",id_teacher_language_performance_score,true,[0,1,2,3,4,5,6,7,8,9,10]);
                     Enum_map.append_option_list("identity",id_identity,false,[5,6,7,8]);
 
-                    if(data.identity==11){
-                        var identity=2;
-                    }
                     var not_grade         = data.not_grade;
                     var grade_start       = data.grade_start;
                     var grade_end         = data.grade_end;
                     var trans_grade_start = data.trans_grade_start;
                     var trans_grade_end   = data.trans_grade_end;
                     var trans_grade       = data.trans_grade;
+                    var identity          = data.teacher_type;
                     if(trans_grade>0){
                         grade_start = trans_grade_start;
                         grade_end   = trans_grade_end;
@@ -603,7 +601,7 @@ $(function(){
                         ["总分",id_total_score],
                         ["结果",id_res],
                         ["原因或意见或建议",id_reason],
-                        ["老师类型",id_identity],
+                        ["老师身份",id_identity],
                         ["工作年限",id_work_year],
                         ["禁止年级",id_not_grade],
                         ["老师标签",id_sshd]

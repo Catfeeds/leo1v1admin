@@ -201,7 +201,7 @@
 
                @else
 
-                   <div class=" col-xs-12 col-md-5" >
+                   <div class=" col-xs-12 col-md-12" >
 
                        <div class="input-group">
                            <button class="btn  " id="id_tmk_new_no_called_count" ></button>

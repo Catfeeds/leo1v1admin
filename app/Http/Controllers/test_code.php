@@ -2227,7 +2227,14 @@ class test_code extends Controller
         }
     }
 
+    public function get_trial_lesson(){
+        $month = $this->get_in_int_val("month");
 
+        $start_time = strtotime("2017-$month");
+        $end_time = strtotime("+1 month",$start_time);
+
+        $list = $this->t_lesson_info_b3->get_trial_lesson();
+    }
 
 
 

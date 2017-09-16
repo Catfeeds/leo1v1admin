@@ -272,8 +272,6 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
-        console.log(opt_data.not_grade);
-        console.log(opt_data.not_grade_str);
         var id_tea_nick               = $("<input/>");
         var id_phone_spare            = $("<input/>");
         var id_teacher_money_type     = $("<select/>");
@@ -283,47 +281,38 @@ $(function(){
         var id_work_year              = $("<input/>");
         var id_email                  = $("<input/>");
         var id_realname               = $("<input/>");
-        var id_advantage              = $("<input/>");
         var id_base_intro             = $("<textarea/>");
         var id_need_test_lesson_flag  = $("<select/>");
         var id_wx_openid              = $("<input/>");
         var id_address                = $("<input/>");
         var id_school                 = $("<input/>");
-        var id_limit_day_lesson_num   = $("<input/>");
-        var id_limit_week_lesson_num  = $("<input/>");
-        var id_limit_month_lesson_num = $("<input/>");
-        var id_teacher_textbook       = $("<input/>");
+        var id_identity               = $("<select/>");
         var id_subject                = $("<select/>");
         var id_second_subject         = $("<select/>");
-        var id_third_subject          = $("<select/>");
         var id_grade_part_ex          = $("<select/>");
         var id_second_grade_part_ex   = $("<select/>");
-        var id_third_grade_part_ex    = $("<select/>");
-        var id_textbook_type          = $("<select />");
 
-        Enum_map.append_option_list("textbook_type",id_textbook_type,true);
         Enum_map.append_option_list("gender", id_gender, true );
         Enum_map.append_option_list("level", id_level, true );
         Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
         Enum_map.append_option_list("boolean", id_need_test_lesson_flag,true );
+        Enum_map.append_option_list("identity", id_identity, true );
         Enum_map.append_option_list("subject", id_subject, true );
         Enum_map.append_option_list("subject", id_second_subject, true );
-        Enum_map.append_option_list("subject", id_third_subject, true );
         Enum_map.append_option_list("grade_part_ex", id_grade_part_ex, true );
         Enum_map.append_option_list("grade_part_ex", id_second_grade_part_ex, true );
-        Enum_map.append_option_list("grade_part_ex", id_third_grade_part_ex, true );
 
-      id_birth.datetimepicker({
-        lang       : 'ch',
-        timepicker : false,
-        format     : 'Y-m-d',
+        id_birth.datetimepicker({
+            lang       : 'ch',
+            timepicker : false,
+            format     : 'Y-m-d',
             "onChangeDateTime" : function() {
             }
-      });
+        });
 
         id_tea_nick.val(opt_data.nick);
         id_gender.val(opt_data.gender);
-        var birth=""+opt_data.birth;
+        var birth = ""+opt_data.birth;
         birth= birth.substr(0,4)+"-"+ birth.substr(4,2) + "-"+ birth.substr(6,2) ;
         id_birth.val( birth );
         id_work_year.val(opt_data.work_year );
@@ -332,23 +321,16 @@ $(function(){
         id_email.val(opt_data.email);
         id_teacher_money_type.val(opt_data.teacher_money_type);
         id_level.val(opt_data.level);
-        id_advantage.val(opt_data.advantage );
         id_base_intro.val(opt_data.base_intro );
         id_need_test_lesson_flag.val(opt_data.need_test_lesson_flag );
         id_wx_openid.val(opt_data.wx_openid);
         id_address.val(opt_data.address);
         id_school.val(opt_data.school);
+        id_identity.val(opt_data.identity);
         id_subject.val(opt_data.subject);
-        id_teacher_textbook.val(opt_data.teacher_textbook);
         id_second_subject.val(opt_data.second_subject);
-        id_third_subject.val(opt_data.third_subject);
         id_grade_part_ex.val(opt_data.grade_part_ex);
         id_second_grade_part_ex.val(opt_data.second_grade);
-        id_third_grade_part_ex.val(opt_data.third_grade);
-        id_limit_day_lesson_num.val(opt_data.limit_day_lesson_num);
-        id_limit_week_lesson_num.val(opt_data.limit_week_lesson_num);
-        id_limit_month_lesson_num.val(opt_data.limit_month_lesson_num);
-        id_textbook_type.val(opt_data.textbook_type);
 
         var arr=[
             ["昵称", id_tea_nick],
@@ -359,16 +341,12 @@ $(function(){
             ["工作年限", id_work_year],
             ["所在地", id_address],
             ["学校", id_school],
+            ["老师身份", id_identity],
             ["第一科目", id_subject],
             ["第一科目对应年级段", id_grade_part_ex],
             ["第二科目", id_second_subject],
             ["第二科目对应年级段", id_second_grade_part_ex],
-            ["第三科目", id_third_subject],
-            ["第三科目对应年级段", id_third_grade_part_ex],
-            ["擅长教材",id_teacher_textbook],
-            ["教材版本",id_textbook_type],
             ["电子邮件", id_email],
-            ["教学特长", id_advantage],
             ["个人介绍", id_base_intro],
             ["是否需要试听课", id_need_test_lesson_flag],
             ["微信openid", id_wx_openid],
@@ -389,19 +367,15 @@ $(function(){
                     "birth"                 : birth,
                     "work_year"             : id_work_year.val(),
                     "email"                 : id_email.val(),
-                    "advantage"             : id_advantage.val(),
                     "base_intro"            : id_base_intro.val(),
                     "need_test_lesson_flag" : id_need_test_lesson_flag.val(),
                     "address"               : id_address.val(),
                     "school"                : id_school.val(),
+                    "identity"              : id_identity.val(),
                     "subject"               : id_subject.val(),
                     "second_subject"        : id_second_subject.val(),
-                    "third_subject"         : id_third_subject.val(),
                     "grade_part_ex"         : id_grade_part_ex.val(),
                     "second_grade"          : id_second_grade_part_ex.val(),
-                    "third_grade"           : id_third_grade_part_ex.val(),
-                    "teacher_textbook"      : id_teacher_textbook.val(),
-                    "textbook_type"         : id_textbook_type.val(),
                     "wx_openid"             : id_wx_openid.val()
                 });
             }
@@ -854,8 +828,6 @@ $(function(){
         $(".opt-user-info").show(); //　erick　修改
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
-
-        
     }else{
         $(".opt-meeting").hide();
         $(".opt-interview-assess").hide();

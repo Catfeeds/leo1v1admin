@@ -2625,12 +2625,42 @@ class ss_deal extends Controller
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
-                if(empty($val[0]) || $k==0 || $k==1){
+                if(empty($val[0]) || $k==0 || $k==1 || $k==2){
                     unset($arr[$k]);
                 }
 
             }
             foreach($arr as $item){
+                $small = $item[2];
+                $small_arr = explode("、",$small);
+                $small_list=[];
+                foreach($small_arr as $v){
+                    if(isset($list_new[$v])){
+                        $small_list[] = $list_new[$v];
+                    }
+                }
+
+                $small_str =  implode(",",$small_list);
+                
+                // $is_exist3 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],100,2);
+                $is_exist3=0;
+                if($is_exist3>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist3,[
+                        "teacher_textbook" =>$small_str 
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>100,
+                        "teacher_textbook"=>$small_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
+
+
+                
                 $middle = $item[3];
                 $middle_arr = explode("、",$middle);
                 $middle_list=[];
@@ -2641,14 +2671,23 @@ class ss_deal extends Controller
                 }
 
                 $middle_str =  implode(",",$middle_list);
-                $this->t_location_subject_grade_textbook_info->row_insert([
-                    "province"  =>$item[0],
-                    "city"      =>$item[1],
-                    "subject"   =>5,
-                    "grade"     =>200,
-                    "teacher_textbook"=>$middle_str,
-                    "educational_system" =>$item[2]
-                ]);
+                
+                //$is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],200,2);
+                $is_exist=0;
+                if($is_exist>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist,[
+                       "teacher_textbook" =>$middle_str 
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>200,
+                        "teacher_textbook"=>$middle_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
 
 
                 $senior = $item[4];
@@ -2660,14 +2699,24 @@ class ss_deal extends Controller
                     }
                 }
                 $senior_str =  implode(",",$senior_list);
-                $this->t_location_subject_grade_textbook_info->row_insert([
-                    "province"  =>$item[0],
-                    "city"      =>$item[1],
-                    "subject"   =>5,
-                    "grade"     =>300,
-                    "teacher_textbook"=>$senior_str,
-                    "educational_system" =>$item[2]
-                ]);
+                // $is_exist2 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],300,2);
+                $is_exist2=0;
+                if($is_exist2>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist2,[
+                        "teacher_textbook" =>$senior_str
+                    ]);
+
+                }else{
+
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>300,
+                        "teacher_textbook"=>$senior_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
 
 
 
