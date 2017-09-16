@@ -5951,11 +5951,11 @@ class ss_deal extends Controller
 
         $ret_info = [];
 
-        if($log_info_arr){
-            $ret_info['add_time_formate'] = date('Y-m-d H:i:s',$log_info_arr['add_time']);
-            $ret_info['do_adminid_nick']  = $this->cache_get_account_nick($log_info_arr['do_adminid']);
-            $ret_info['old_group']        = $log_info_arr['old_group'];
-        }
+        $ret_info['add_time_formate'] = $log_info_arr['add_time']?date('Y-m-d H:i:s',$log_info_arr['add_time']):"";
+
+        $ret_info['do_adminid_nick']  = $log_info_arr['do_adminid']?$this->cache_get_account_nick($log_info_arr['do_adminid']):"";
+
+        $ret_info['old_group']        = $log_info_arr['old_group']?$log_info_arr['old_group']:"";
 
         return $this->output_succ($ret_info);
     }
