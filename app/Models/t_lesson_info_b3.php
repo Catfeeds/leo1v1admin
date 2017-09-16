@@ -700,8 +700,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_user_online_status != 2",
         ];
         $sql = $this->gen_sql_new(
-            "select l.teacherid,l.grade,t.nick,l.subject,count(l.lessonid)"
-            .", sum( if(tl.type=2,1,0) ) as succ "
+            "select l.teacherid,l.grade,t.nick,l.subject,l.lessonid"
+            .", if(tl.type=2,1,0) as succ "
             ." from %s l"
             ." left join %s tl on l.lessonid=tl.money_info"
             ." left join %s t on l.teacherid=t.teacherid"
