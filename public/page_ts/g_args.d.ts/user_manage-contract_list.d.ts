@@ -1,11 +1,11 @@
 interface GargsStatic {
-	contract_status:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	contract_type:	number;
+	contract_status:	number;
 	config_courseid:	number;
 	test_user:	number;
 	studentid:	number;
@@ -142,13 +142,13 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			contract_status:	$('#id_contract_status').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			contract_type:	$('#id_contract_type').val(),
+			contract_status:	$('#id_contract_status').val(),
 			config_courseid:	$('#id_config_courseid').val(),
 			test_user:	$('#id_test_user').val(),
 			studentid:	$('#id_studentid').val(),
@@ -183,8 +183,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_contract_type').val(g_args.contract_type);
+	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_config_courseid').val(g_args.config_courseid);
 	$('#id_test_user').val(g_args.test_user);
 	$('#id_studentid').val(g_args.studentid);
@@ -216,15 +216,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">contract_status</span>
-                <input class="opt-change form-control" id="id_contract_status" />
+                <span class="input-group-addon">contract_type</span>
+                <input class="opt-change form-control" id="id_contract_type" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">contract_type</span>
-                <input class="opt-change form-control" id="id_contract_type" />
+                <span class="input-group-addon">contract_status</span>
+                <input class="opt-change form-control" id="id_contract_status" />
             </div>
         </div>
 
