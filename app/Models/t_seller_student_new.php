@@ -297,9 +297,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0
     ) {
-
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
@@ -389,6 +388,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
         $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
+        if($favorite_flag){
+            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_adminid);
+        }
 
 
 
@@ -1316,7 +1318,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_row($sql);
     }
 
+    public function get_favorite_num($adminid) {
+        $sql = $this->gen_sql_new(
+            " select "
+            ." count(userid) "
+            ." from %s "
+            ." where favorite_adminid=%u ",
+            self::DB_TABLE_NAME
+            ,$adminid
+        );
 
+        return $this->main_get_value($sql);
+    }
 
     public function get_userid_by_phone($phone) {
         $sql=$this->gen_sql_new(

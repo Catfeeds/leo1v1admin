@@ -338,6 +338,16 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function seller_student_new_favorite(){
+        $userid  = $this->get_in_int_val('userid');
+        $adminid = $this->get_account_id();
+        $this->t_seller_student_new->field_update_list($userid,[
+            "favorite_adminid" => $adminid,
+        ]);
+
+        return $this->output_succ();
+    }
+
     public function teacher_apply_add() {
         $teacher_id=$this->get_in_int_val("teacher_id",0);
         $cc_id=$this->get_in_cc_id();
