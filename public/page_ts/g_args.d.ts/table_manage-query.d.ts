@@ -12,9 +12,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	groupid	:any;
-	adminid	:any;
-	assign_percent	:any;
+	zjs_unallot_count	:any;
+	all_unallot_count	:any;
+	all_unallot_count_hight_school	:any;
+	all_unallot_count_Y	:any;
+	all_uncall_count	:any;
+	by_hand_all_uncall_count	:any;
+	tmk_unallot_count	:any;
 }
 
 /*

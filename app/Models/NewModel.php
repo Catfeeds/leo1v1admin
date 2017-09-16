@@ -313,7 +313,7 @@ abstract class NewModel
         }
 
 
-        $pattern     = '/select\s+(.*?)\s+from\s+(.*)/i';
+        $pattern     = '/select\s+(.*?)\s+from\s+(.*)/is';
         $replacement = 'from $2';
         $count_query = preg_replace($pattern, $replacement, $sql);
 
