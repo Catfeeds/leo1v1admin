@@ -683,6 +683,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ." from %s l"
             ." left join %s tl on l.teacherid=tl.teacherid"
             ." where %s"
+            ." group by l.lessonid"
             ,self::DB_TABLE_NAME
             ,t_teacher_money_list::DB_TABLE_NAME
             ,$where_arr
