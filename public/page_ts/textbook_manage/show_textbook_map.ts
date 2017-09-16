@@ -2028,8 +2028,8 @@
                  len+=2;
              }
          }
-         if(len>=12){
-             return str.substr(0,50)+"...";
+         if(len>=90){
+             return str.substr(0,90)+"...";
          }else{
              return str;
          }

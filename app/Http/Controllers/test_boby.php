@@ -490,4 +490,32 @@ class test_boby extends Controller
         $sessionName = session()->getName();
         setcookie($sessionId,$sessionName, time()+3600*24*7);//有效期7天
     }
+
+    public function get_test_succ_count(){
+        $month = $this->get_in_int_val("month",1);
+        $start_time = strtotime("2017-$month");
+        $end_time = strtotime("+1 month",$start_time);
+        $list = $this->t_lesson_info_b3->get_test_succ_count($start_time,$end_time);
+        $new = [];
+        foreach ($list as $v) {
+            if ($v['grade'] < 200) {
+                $new['小学'] = @$new['小学']+1;
+            } else if($v['grade'] < 300) {
+                    $new['初中'] = @$new['初中']+1;
+            } else if ($v['grade'] <400){
+                $new['高中'] = @$new['高中']+1;
+            } else if ($v['grade'] <500){
+                $new['大学'] = @$new['大学']+1;
+            }
+
+        }
+        echo "月份｜年级|人数";
+        echo "<br>";
+        foreach($new as $k =>$v){
+            echo $month."|".$k."|".$v;
+            echo "<br>";
+        }
+    }
+
+
 }
