@@ -57,7 +57,7 @@ class test_lesson_review extends Controller
                 "create_time"    => time(NULL),
             ],false,false,true);
         }
-        dd($ret);
+        dd($ret,$count);
         return $ret;
     }
 
