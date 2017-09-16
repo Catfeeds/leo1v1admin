@@ -2226,9 +2226,10 @@ function init_edit() {
                 id_stu_request_test_lesson_time.val("");
             });           
 
+            id_study_habit.data("v","");
             id_study_habit.on("click",function(){
                // var study_habit= data.study_habit;
-                var study_habit  = "";
+                var study_habit  = id_study_habit.data("v");
                 $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
                 },function(response){
@@ -2251,9 +2252,10 @@ function init_edit() {
                         onChange        : function( select_list,dlg) {
                            
                             $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
-                                "study_habit" : select_list
+                                "study_habit" : JSON.stringify(select_list)                                
                             },function(res){
                                 id_study_habit.val(res.data); 
+                                id_study_habit.data("v",res.data);
                             });
 
                             dlg.close();

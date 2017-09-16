@@ -350,8 +350,7 @@ class ss_deal2 extends Controller
     public function get_stu_study_habit_name(){
         $study_habit = $this->get_in_str_val('study_habit',"");
         $list    = E\Estudy_habit::$desc_map;
-        $study_habit = trim($study_habit,",");
-        $arr = explode(",",$study_habit);
+        $arr = json_decode($study_habit,true);
         $data="";
         foreach($arr as $v){
             $data .= $list[$v].",";
