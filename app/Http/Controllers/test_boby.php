@@ -539,16 +539,12 @@ class test_boby extends Controller
         $start_time = strtotime("2017-$month");
         $end_time   = strtotime("+1 month",$start_time);
         $list       = $this->t_lesson_info_b3->get_tea_succ_count($start_time,$end_time);
-        $count_list =[];
-        dd($list);
 
         foreach ($list as $k=>$v){
-            $nick = $this->cache_set_item_teacher_nick($v['teacherid']);
-            if(@$v['subject']){
-                echo '<tr><td>'.$month.'</td><td>'.$nick.'</td><td>'.$v["group_concat(distinct(l.subject))"].'</td>'
-                               .'<td>'.$v["group_concat(distinct(l.grade))"].'</td><td>'.$v["trial_num"].'</td><td>'.$v["trial_succ"].'</td></tr>';
+            $nick = $this->cache_get_teacher_nick($v['teacherid']);
+            echo '<tr><td>'.$month.'</td><td>'.$nick.'</td><td>'.$v["group_concat(distinct(l.subject))"].'</td>'
+                           .'<td>'.$v["group_concat(distinct(l.grade))"].'</td><td>'.$v["trial_num"].'</td><td>'.$v["trial_succ"].'</td></tr>';
 
-            }
         }
     }
 
