@@ -3703,9 +3703,12 @@ class ss_deal extends Controller
         $phone                   = $this->get_in_str_val("phone");
         $acc                          = $this->get_account();
 
-        $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
-        if($id_old>0){
-            return $this->output_err("该手机号已存在");
+        $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+        if($old_phone != $phone){
+            $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+            if($id_old>0){
+                return $this->output_err("该手机号已存在");
+            }
         }
 
 
