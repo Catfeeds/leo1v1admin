@@ -305,7 +305,7 @@ class tea_manage extends Controller
             $item['is_complained_str']      = E\Eboolean::get_desc ($item['is_complained' ]) ;
             $item['homework_url']           = $this->get_work_url($item);
             $item['lesson_type_str']        = E\Econtract_type::get_desc($item["lesson_type"]);
-            E\Elevel::set_item_value_str($item);
+            $item['level_str'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Eteacher_money_type::set_item_value_str($item);
             $item['teacher_score']        = sprintf("%.2f",($item["teacher_effect"]+$item["teacher_quality"]+$item["teacher_interact"])/3 );
             $item["tea_nick"]             = $this->cache_get_teacher_nick($item["teacherid"]);

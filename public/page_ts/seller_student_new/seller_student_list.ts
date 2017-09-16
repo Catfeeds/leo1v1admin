@@ -2268,36 +2268,36 @@ function init_edit() {
                 
             });
 
-            id_study_habit.data("v","");
-            id_study_habit.on("click",function(){
-                // var study_habit= data.study_habit;
-                var study_habit  = id_study_habit.data("v");
-                $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
-                    "study_habit" : study_habit
+            id_interests_hobbies.data("v","");
+            id_interests_hobbies.on("click",function(){
+                // var interests_hobbies= data.interests_hobbies;
+                var interests_hobbies  = id_interests_hobbies.data("v");
+                $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
+                    "interests_hobbies" : interests_hobbies
                 },function(response){
                     var data_list   = [];
                     var select_list = [];
                     $.each( response.data,function(){
-                        data_list.push([this["num"], this["study_habit"]  ]);
+                        data_list.push([this["num"], this["interests_hobbies"]  ]);
 
-                        if (this["has_study_habit"]) {
+                        if (this["has_interests_hobbies"]) {
                             select_list.push (this["num"]) ;
                         }
 
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
+                        header_list     : [ "id","兴趣爱好" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
                             
-                            $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
-                                "study_habit" : JSON.stringify(select_list)                                
+                            $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
+                                "interests_hobbies" : JSON.stringify(select_list)                                
                             },function(res){
-                                id_study_habit.val(res.data); 
-                                id_study_habit.data("v",res.data);
+                                id_interests_hobbies.val(res.data); 
+                                id_interests_hobbies.data("v",res.data);
                             });
 
                             dlg.close();
