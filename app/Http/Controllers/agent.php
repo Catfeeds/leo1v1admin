@@ -324,9 +324,9 @@ class agent extends Controller
     }
 
     public function check(){
-        // $adminid = 1032;
-        // $ret = $this->t_test_lesson_subject_require_review->get_list_by_adminid($adminid);
-        // dd($ret);
+        $adminid = 1032;
+        $ret = $this->t_test_lesson_subject_require_review->get_list_by_adminid($adminid);
+        dd($ret);
         $agent_info = $this->t_agent->get_son_userid_by_phone($phone='13421239870');
         $userid_arr = array_unique(array_column($agent_info,'userid'));
 
