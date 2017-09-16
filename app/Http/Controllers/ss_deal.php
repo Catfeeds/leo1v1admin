@@ -356,8 +356,10 @@ class ss_deal extends Controller
         $diff=$next_revisit_time-time();
 
         if ( $next_revisit_time==0 ) {
-            return $this->output_err("下次回访时间 需要设置");
-        } if ( $diff > 7*86400 ) {
+            if (session( "account_role") ==E\Eaccount_role::V_2  ) {
+                return $this->output_err("下次回访时间 需要设置");
+            }
+        }else if ( $diff > 7*86400 ) {
             return $this->output_err("下次回访时间只能设置最近一周时间");
         }else if (  $diff<0 ) {
             return $this->output_err("下次回访时间不能早于当前");
@@ -3700,7 +3702,17 @@ class ss_deal extends Controller
         $teacher_type                 = $this->get_in_int_val("teacher_type");
         $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
         $reference                    = $this->get_in_str_val("reference");
+        $phone                   = $this->get_in_str_val("phone");
         $acc                          = $this->get_account();
+
+        $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+        if($old_phone != $phone){
+            $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+            if($id_old>0){
+                return $this->output_err("该手机号已存在");
+            }
+        }
+
 
         if(empty($answer_begin_time) || empty($name)){
             return $this->output_err("答题时间/手机号/名字不能为空");

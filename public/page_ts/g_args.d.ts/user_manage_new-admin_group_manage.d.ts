@@ -25,6 +25,7 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	log_info	:any;
 	main_type_str	:any;
 }
 

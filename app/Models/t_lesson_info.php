@@ -3052,14 +3052,16 @@ lesson_type in (0,1) "
     /**
      * 老师工资相关的课程
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='wx'){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
-            // "lesson_status=2"
         ];
+        if($type=='wx'){
+            $where_arr[]="lesson_status=2";
+        }
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"

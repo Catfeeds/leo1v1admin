@@ -8,6 +8,8 @@ interface GargsStatic {
 	grade_part_ex:	number;
 	tranfer_per:	number;
 	teacherid:	number;
+	test_lesson_flag:	number;
+	test_lesson_num:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -19,19 +21,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	person_num	:any;
-	lesson_num	:any;
-	have_order	:any;
-	teacherid	:any;
-	realname	:any;
-	subject	:any;
-	train_through_new_time	:any;
-	grade_part_ex	:any;
-	phone	:any;
-	per	:any;
-	num	:any;
-	subject_str	:any;
-	grade_part_ex_str	:any;
 }
 
 /*
@@ -53,7 +42,9 @@ $(function(){
 			subject:	$('#id_subject').val(),
 			grade_part_ex:	$('#id_grade_part_ex').val(),
 			tranfer_per:	$('#id_tranfer_per').val(),
-			teacherid:	$('#id_teacherid').val()
+			teacherid:	$('#id_teacherid').val(),
+			test_lesson_flag:	$('#id_test_lesson_flag').val(),
+			test_lesson_num:	$('#id_test_lesson_num').val()
         });
     }
 
@@ -72,6 +63,8 @@ $(function(){
 	$('#id_grade_part_ex').val(g_args.grade_part_ex);
 	$('#id_tranfer_per').val(g_args.tranfer_per);
 	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+	$('#id_test_lesson_num').val(g_args.test_lesson_num);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -107,6 +100,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_flag</span>
+                <input class="opt-change form-control" id="id_test_lesson_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">test_lesson_num</span>
+                <input class="opt-change form-control" id="id_test_lesson_num" />
             </div>
         </div>
 */

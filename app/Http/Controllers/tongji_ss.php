@@ -8004,23 +8004,22 @@ class tongji_ss extends Controller
     }
 
     public function get_reference_teacher_money_info(){
-        global $_SESSION;
-        $_SESSION["arr"]=1;
-        dd($_SESSION);
-        // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
-        // $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
-        // $ret_info = $this->t_teacher_info->get_train_through_teacher_info_new();
-        // dd($ret_info);
-        // $this->set_in_value("end_time","2017-08-01");
-        // $end_time = $this->get_in_int_val("end_time");
-        // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
-        // $ret_info = $this->t_lesson_info_b3->get_have_order_lesson_list_new($start_time,$end_time);
-        
-        // dd($ret_info);
        
-        $data = $this->t_teacher_info->get_limit_plan_lesson_reason(240314);
-        $list = explode(",",$data);
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+        $this->switch_tongji_database();
+        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+        foreach($list["list"] as &$item){
+            if($item['grade_start']>0){
+                $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
+                    ."-".E\Egrade_range::get_desc($item['grade_end']);
+            }else{
+                $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
+            }
+            $item['subject_ex']   = E\Esubject::get_desc($item['subject']);
+
+        }
+        return $this->pageView(__METHOD__,$list);
+
+        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
         //  foreach($ret_info["list"] as &$item){
             /* if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";

@@ -1433,4 +1433,13 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+    //获取老师所带学习超过三个月的学生
+    public function get_three_month_stu_num(){
+        $teacherid              = $this->get_in_int_val("teacherid");
+        $start_time = time()-90*86400;
+        $end_time = time();
+        
+    }
+
 }
