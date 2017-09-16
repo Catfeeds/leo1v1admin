@@ -279,7 +279,7 @@ trait TeaPower {
         $grade_list = [1=>[1,4],2=>[2,4,5],3=>[3,5,7]];
         $grade_arr = $grade_list[$grade];
 
-        if($subject==3 || $subject==1){
+        /* if($subject==3 || $subject==1){
             $list = $this->t_admin_main_group_name->get_all_memeber_list(4,"文综组");
             foreach($list as $item){
                 if(in_array($item["grade_part_ex"],$grade_arr) && $subject ==$item["subject"]){
@@ -298,7 +298,9 @@ trait TeaPower {
             $adminid= $this->t_admin_group_name->get_master_adminid_by_subject($subject);
             //$list = $this->t_admin_main_group_name->get_all_memeber_list(4,"小学科");
             return $adminid;
-        }
+            }*/
+        //改为张科老师处理
+        return 478;
     }
 
     public function get_tea_adminid_by_subject($subject){

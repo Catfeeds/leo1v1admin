@@ -499,20 +499,28 @@ class test_boby extends Controller
         $new = [];
         foreach ($list as $v) {
             if ($v['grade'] < 200) {
-                $new['小学'] = @$new['小学']+1;
+                $new[1]['grade'] = '小学';
+                $new[1]['num'] = @$new[1]['num']+1;
+                $new[1]['succ'] = @$new[1]['succ'] + $v['succ'];
             } else if($v['grade'] < 300) {
-                    $new['初中'] = @$new['初中']+1;
+                $new[2]['grade'] = '初中';
+                $new[2]['num'] = @$new[2]['num']+1;
+                $new[2]['succ'] = @$new[2]['succ'] + $v['succ'];
             } else if ($v['grade'] <400){
-                $new['高中'] = @$new['高中']+1;
+                $new[3]['grade'] = '高中';
+                $new[3]['num'] = @$new[3]['num']+1;
+                $new[3]['succ'] = @$new[3]['succ'] + $v['succ'];
             } else if ($v['grade'] <500){
-                $new['大学'] = @$new['大学']+1;
+                $new[4]['grade'] = '大学';
+                $new[4]['num'] = @$new[4]['num']+1;
+                $new[4]['succ'] = @$new[4]['succ'] + $v['succ'];
             }
 
         }
-        echo "月份｜年级|人数";
+        echo "月份｜年级|数|成功数";
         echo "<br>";
-        foreach($new as $k =>$v){
-            echo $month."|".$k."|".$v;
+        foreach($new as $v){
+            echo $month."|".$v['grade']."|".$v['num']."|".$v['succ'];
             echo "<br>";
         }
     }

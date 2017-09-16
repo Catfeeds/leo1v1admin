@@ -2357,20 +2357,39 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        $tea_list = $this->t_lesson_info->get_tea_month_list(
-            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
-        );
-        //公司全职老师列表 full_tea_list
-        $full_start_time = strtotime("-1 month",$start_time);
-        $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-            $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
-        );
-        $list = array_merge($tea_list,$full_tea_list);
-        // 规定时间内没有上课但有额外奖励的老师列表
-        // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
-        //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
-        // );
-        // $list = array_merge($list,$reward_list);
+        $now_date  = date("Y-m",$start_time);
+        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.".txt";
+        //需要重新拉取  flag  0 不需要  1 需要
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
+
+        if($flag){
+            $tea_list = $this->t_lesson_info->get_tea_month_list(
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
+            );
+            //公司全职老师列表 full_tea_list
+            $full_start_time = strtotime("-1 month",$start_time);
+            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+                $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
+            );
+            $list = array_merge($tea_list,$full_tea_list);
+            // 规定时间内没有上课但有额外奖励的老师列表
+            // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
+            //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
+            // );
+            // $list = array_merge($list,$reward_list);
+
+            file_put_contents($file_name,json_encode($list));
+        }else{
+            $list = json_decode($file_info,true);
+        }
 
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);

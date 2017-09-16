@@ -902,6 +902,47 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>非智力因素</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学习习惯：</span>
+                            <input type="text" class=" form-control "  id="id_study_habit"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">升学学校要求：</span>
+                            <select id="id_entrance_school_type" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">趣味培养：</span>
+                            <select id="id_interest_cultivation" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-3  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">课外提高：</span>
+                            <select id="id_extra_improvement" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 
     </div>
 
