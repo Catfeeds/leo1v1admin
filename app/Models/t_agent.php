@@ -218,7 +218,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr=[
             "a.type in (1,3)",
             ["a.pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
-            "create_time> $yxyx_check_time",
+            "a.create_time> $yxyx_check_time",
 
         ];
         if ( $test_lesson_succ_flag ==1 ) {
