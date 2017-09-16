@@ -792,4 +792,66 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_teacher_stu_three_month_list($teacherid){
+        $end_time = time();
+        $start_time = time()-90*86400;
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.confirm_flag <2",
+            ["lesson_start>%u",$start_time,-1],
+            ["lesson_start<%u",$end_time,-1],
+            ["l.teacherid=%u",$teacherid,-1],
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select distinct l.userid "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_first_regular_lesson_time($teacherid,$userid){
+        $where_arr=[
+            "lesson_del_flag=0",
+            "lesson_type in (0,1,3)",
+            "confirm_flag <2",
+            ["teacherid=%u",$teacherid,-1],
+            ["userid=%u",$userid,-1],
+            "lesson_status>0"
+        ];
+        $sql = $this->gen_sql_new("select min(lesson_start) "
+                                  ." from %s "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+    public function get_last_regular_lesson_time($teacherid,$userid){
+        $where_arr=[
+            "lesson_del_flag=0",
+            "lesson_type in (0,1,3)",
+            "confirm_flag <2",
+            ["teacherid=%u",$teacherid,-1],
+            ["userid=%u",$userid,-1],
+            "lesson_status>0"
+        ];
+        $sql = $this->gen_sql_new("select max(lesson_start) "
+                                  ." from %s "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+
+
 }
