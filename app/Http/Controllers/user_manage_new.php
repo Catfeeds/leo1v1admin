@@ -1933,9 +1933,8 @@ class user_manage_new extends Controller
 
     function record_audio_server_del() {
         $ip=$this->get_in_str_val("ip");
-        //$this->t_audio_record_server->row_delete($ip);
-        echo "sadfaadf";
-        //return $this->output_succ();
+        $this->t_audio_record_server->row_delete($ip);
+        return $this->output_succ();
     }
 
     function record_audio_server_set() {
