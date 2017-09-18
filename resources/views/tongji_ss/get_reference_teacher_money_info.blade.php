@@ -15,32 +15,28 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>userid </td>
-                    <td>姓名</td>
+                    <td>teacherid </td>
+                    <td>老师</td>
+                    <td>科目</td>
                     <td>年级</td>
-                    <td>老师类型</td>
-                    <td>地区</td>
-                                     
-                   
-
+                    <td>常规学生数</td>
+                    <td>3个月学生数</td>                                                      
                     <td> 操作</td>
                 </tr>
             </thead>
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var}} </td>
-                        <td class="nick"></td>
-                        <td class="grade"></td>
-                        <td class="identity"></td>
-                        <td class="location"></td>
+                        <td>{{@$var["teacherid"]}} </td>
+                        <td>{{@$var["realname"]}} </td>
+                        <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["grade_ex"]}} </td>
+                        <td>{{@$var["num"]}} </td>
+                        <td class="three_num"></td>
                        
-                       
-                       
-
-                       
+                                              
                         <td>
-                            <div class="row-data" data-userid="{{$var}}" >
+                            <div class="row-data" data-teacherid="{{$var["teacherid"]}}" >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>
                             </div>
 

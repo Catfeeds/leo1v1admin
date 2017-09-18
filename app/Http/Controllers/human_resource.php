@@ -2079,9 +2079,11 @@ class human_resource extends Controller
         $next_day = strtotime(date("Y-m-d",time()+86400));
         $this->set_in_value("next_day",$next_day);
         $next_day = $this->get_in_int_val("next_day");
+        $acc= $this->get_account();
         return $this->pageView(__METHOD__,$ret_info,[
             "account_id"     => $account_id,
-            "show_full_time" => $show_full_time
+            "show_full_time" => $show_full_time,
+            "acc"            => $acc
         ]);
     }
 

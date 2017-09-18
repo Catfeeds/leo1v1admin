@@ -123,17 +123,13 @@ $(function(){
                         lesson_ref_money    += parseFloat(data.lesson_ref_money);
                         $(id_teacher_ref_money).val(teacher_ref_money);
                         $(id_lesson_ref_money).val(lesson_ref_money);
+                        $tr.find(".lesson_ref_money").text(data.lesson_ref_money);
                     }
 
                     $tr.find(".lesson_price_tax").text(data.lesson_price_tax);
                     $tr.find(".lesson_price").text(data.lesson_price);
-                    // $tr.find(".lesson_normal").text(data.lesson_normal);
-                    // $tr.find(".lesson_trial").text(data.lesson_trial);
-                    // $tr.find(".lesson_reward").text(data.lesson_reward);
-                    // $tr.find(".lesson_reward_ex").text(data.lesson_reward_ex);
                     $tr.find(".lesson_cost").text(data.lesson_cost);
                     $tr.find(".lesson_cost_normal").text(data.lesson_cost_normal);
-                    // $tr.find(".lesson_cost_tax").text(data.lesson_cost_tax);
                     $tr.find(".lesson_total").text(data.lesson_total);
 
                     teacher_money       += parseFloat(data.lesson_price);
@@ -173,7 +169,7 @@ $(function(){
     $("#id_reset_lesson_count_all").on("click",function(){
         var row_list=$("#id_tbody tr");
         var do_index=0;
-	    
+
         function do_one(  ) {
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
@@ -191,7 +187,6 @@ $(function(){
             }
         };
         do_one();
-
     });
 
 });

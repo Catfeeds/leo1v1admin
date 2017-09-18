@@ -2,7 +2,7 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -74,7 +74,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>上课时间 </td>
@@ -120,6 +120,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

@@ -352,6 +352,19 @@ class ss_deal extends Controller
         } else {
             $next_revisit_time =0;
         }
+
+        $diff=$next_revisit_time-time();
+
+        if ( $next_revisit_time==0 ) {
+            if (session( "account_role") ==E\Eaccount_role::V_2  ) {
+                return $this->output_err("下次回访时间 需要设置");
+            }
+        }else if ( $diff > 7*86400 ) {
+            return $this->output_err("下次回访时间只能设置最近一周时间");
+        }else if (  $diff<0 ) {
+            return $this->output_err("下次回访时间不能早于当前");
+        }
+
         if ($stu_request_test_lesson_time) {
             $stu_request_test_lesson_time=strtotime( $stu_request_test_lesson_time);
         } else {
@@ -2625,12 +2638,42 @@ class ss_deal extends Controller
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
-                if(empty($val[0]) || $k==0 || $k==1){
+                if(empty($val[0]) || $k==0 || $k==1 || $k==2){
                     unset($arr[$k]);
                 }
 
             }
             foreach($arr as $item){
+                $small = $item[2];
+                $small_arr = explode("、",$small);
+                $small_list=[];
+                foreach($small_arr as $v){
+                    if(isset($list_new[$v])){
+                        $small_list[] = $list_new[$v];
+                    }
+                }
+
+                $small_str =  implode(",",$small_list);
+
+                // $is_exist3 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],100,2);
+                $is_exist3=0;
+                if($is_exist3>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist3,[
+                        "teacher_textbook" =>$small_str
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>100,
+                        "teacher_textbook"=>$small_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
+
+
+
                 $middle = $item[3];
                 $middle_arr = explode("、",$middle);
                 $middle_list=[];
@@ -2641,14 +2684,23 @@ class ss_deal extends Controller
                 }
 
                 $middle_str =  implode(",",$middle_list);
-                $this->t_location_subject_grade_textbook_info->row_insert([
-                    "province"  =>$item[0],
-                    "city"      =>$item[1],
-                    "subject"   =>5,
-                    "grade"     =>200,
-                    "teacher_textbook"=>$middle_str,
-                    "educational_system" =>$item[2]
-                ]);
+
+                //$is_exist = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],200,2);
+                $is_exist=0;
+                if($is_exist>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist,[
+                       "teacher_textbook" =>$middle_str
+                    ]);
+                }else{
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>200,
+                        "teacher_textbook"=>$middle_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
 
 
                 $senior = $item[4];
@@ -2660,14 +2712,24 @@ class ss_deal extends Controller
                     }
                 }
                 $senior_str =  implode(",",$senior_list);
-                $this->t_location_subject_grade_textbook_info->row_insert([
-                    "province"  =>$item[0],
-                    "city"      =>$item[1],
-                    "subject"   =>5,
-                    "grade"     =>300,
-                    "teacher_textbook"=>$senior_str,
-                    "educational_system" =>$item[2]
-                ]);
+                // $is_exist2 = $this->t_location_subject_grade_textbook_info->check_is_exist($item[0],$item[1],300,2);
+                $is_exist2=0;
+                if($is_exist2>0){
+                    $this->t_location_subject_grade_textbook_info->field_update_list($is_exist2,[
+                        "teacher_textbook" =>$senior_str
+                    ]);
+
+                }else{
+
+                    $this->t_location_subject_grade_textbook_info->row_insert([
+                        "province"  =>$item[0],
+                        "city"      =>$item[1],
+                        "subject"   =>3,
+                        "grade"     =>300,
+                        "teacher_textbook"=>$senior_str,
+                        // "educational_system" =>$item[2]
+                    ]);
+                }
 
 
 
@@ -2991,18 +3053,23 @@ class ss_deal extends Controller
 
         $adminid=$this->get_account_id();
         $next_revisit_count = $this->t_seller_student_new->get_today_next_revisit_count($adminid);
+        $today_free_count= $this->t_seller_student_new-> get_today_next_revisit_need_free_count($adminid);
+
         $require_info     = $this->t_test_lesson_subject->get_require_and_return_back_count($adminid);
         $notify_lesson_info = $this->t_test_lesson_subject_require->get_notify_lesson_info($adminid);
         $row_item=$this->t_seller_student_new-> get_lesson_status_count($adminid );
         $no_confirm_count = $this->t_test_lesson_subject_require->get_no_confirm_count($adminid);
         $end_class_stu_num = $this->t_seller_student_new->get_end_class_stu_num($adminid);
+        $favorite_count = $this->t_seller_student_new->get_favorite_num($adminid);
 
 
         return $this->output_succ(
             array_merge($row_item, $require_info,$notify_lesson_info , [
                 "next_revisit_count"=> $next_revisit_count,
                 "no_confirm_count"=> $no_confirm_count,
-                "end_class_stu_num"=>$end_class_stu_num
+                "end_class_stu_num"=>$end_class_stu_num,
+                "today_free_count"  => $today_free_count,
+                "favorite_count"  => $favorite_count,
             ] )
         );
 
@@ -3635,7 +3702,17 @@ class ss_deal extends Controller
         $teacher_type                 = $this->get_in_int_val("teacher_type");
         $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
         $reference                    = $this->get_in_str_val("reference");
+        $phone                   = $this->get_in_str_val("phone");
         $acc                          = $this->get_account();
+
+        $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+        if($old_phone != $phone){
+            $id_old = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+            if($id_old>0){
+                return $this->output_err("该手机号已存在");
+            }
+        }
+
 
         if(empty($answer_begin_time) || empty($name)){
             return $this->output_err("答题时间/手机号/名字不能为空");
@@ -5888,11 +5965,13 @@ class ss_deal extends Controller
 
         $ret_info = [];
 
-        if($log_info_arr){
-            $ret_info['add_time_formate'] = date('Y-m-d H:i:s',$log_info_arr['add_time']);
-            $ret_info['do_adminid_nick']  = $this->cache_get_account_nick($log_info_arr['do_adminid']);
-        }
+        $ret_info['add_time_formate'] = $log_info_arr['add_time']?date('Y-m-d H:i:s',$log_info_arr['add_time']):"";
+
+        $ret_info['do_adminid_nick']  = $log_info_arr['do_adminid']?$this->cache_get_account_nick($log_info_arr['do_adminid']):"";
+
+        $ret_info['old_group']        = $log_info_arr['old_group']?$log_info_arr['old_group']:"";
 
         return $this->output_succ($ret_info);
     }
+
 }

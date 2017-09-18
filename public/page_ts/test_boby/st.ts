@@ -21,11 +21,42 @@ $(function(){
             load_data();
         }
     });
-
-
+    var prev_phone = '';
+    $('#id_nick_phone').keyup(function(){
+        var cur_phone = $.trim( $(this).val() );
+        if ( prev_phone != cur_phone & cur_phone != '') {
+            prev_phone = cur_phone;
+            $.ajax({
+                url:'/test_boby/ajax',
+                type: 'post',
+			          dataType : "json",
+                data: {'phone': cur_phone},
+                success:function(ret){
+                    $('#cur_ret').empty();
+                    if (ret.length) {
+                        var add_li = '';
+                        for(var i=0; i<ret.length; i++) {
+                            add_li = add_li+'<li>'+ret[i]+'</li>';
+                        }
+                        $('#cur_ret').append(add_li);
+                        $('#cur_ret>li').css('cursor','pointer');
+                        $('#cur_ret>li').css('border','1px solid #ccc');
+                        $('#cur_ret>li').on('click', function() {
+                            var phone = $(this).text();
+                            $('#id_nick_phone').val(phone);
+	                          load_data();
+                        });
+                    }
+                },
+            });
+        }
+        if(cur_phone == '') {
+            $('#cur_ret').empty();
+        }
+    });
 
 	  $('#id_nick_phone').val(g_args.nick_phone);
-	  $('.opt-change').set_input_change_event(load_data);
+	  // $('.opt-change').set_input_change_event(load_data);
 });
 
 

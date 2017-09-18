@@ -592,11 +592,27 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="modal-title color-blue"></h3>
+                <h3 class="modal-title color-blue">修改头像</h3>
             </div>
-            <div class="modal-body">
-                <table   class="table table-bordered table-striped">
-                </table>
+            <div class="modal-body" style="border:1px solid #eee">
+                <div class="container pad-l-5">
+                    <div class="imageBox">
+                        <div class="thumbBox"></div>
+                        <div class="spinner" style="display: none">Loading...</div>
+                    </div>
+                    <div class="action">
+                        <!-- <input type="file" id="file" style=" width: 200px">-->
+                        <div class="new-contentarea tc">
+                            <a href="javascript:void(0)" class="upload-img"> 上传头像</a>
+                            <input type="file" class="" name="upload-file" id="upload-file" />
+                        </div>
+                            <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+                            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+                            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+                    </div>
+                    <div class="cropped"></div>
+                </div>
+                <p class="text-cen color-9"><br>上传头像后，点击剪切会在右方生成预览图，然后点击确认即可上传头像。</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info col-xs-2 pull-right margin-lr-20 opt-submit">确认</button>

@@ -297,9 +297,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $subject=-1,$phone_location="", $has_pad=-1, $seller_resource_type=-1 ,$origin_assistantid=-1,
         $tq_called_flag=-1,$phone="", $nick="" ,$origin_assistant_role=-1,$success_flag=-1,
         $seller_require_change_flag=-1, $adminid_list="" ,$group_seller_student_status =-1, $tmk_student_status =-1,
-        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1
+        $require_adminid_list=[], $page_count=10,$require_admin_type =-1, $origin_userid=-1,$end_class_flag=-1,$seller_level=-1, $current_require_id_flag =-1,$favorite_flag = 0
     ) {
-
         if ($userid >0 || $phone || $nick) {
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
@@ -389,11 +388,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr[]=["ss.admin_revisiterid=%u",$admin_revisiterid, -1];
         $where_arr[]=["t.require_adminid=%u",$admin_revisiterid, -1];
-
+        if($favorite_flag){
+            $this->where_arr_add_int_field($where_arr,'ss.favorite_adminid',$favorite_flag);
+        }
 
 
         $sql=$this->gen_sql_new(
-            "select   tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
+            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
@@ -614,6 +615,111 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         // dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
+
+    public function get_assign_list_new (
+            $page_num, $page_count,$userid_arr, $admin_revisiterid, $seller_student_status ,
+            $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
+            $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
+            $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
+            $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$main_master_flag=0,$self_adminid=-1
+    ) {
+
+
+        if (count($userid_arr)>0) {
+            $this->where_arr_add_int_or_idlist($where_arr,'ss.userid',$userid_arr);
+            if ( $sub_assign_adminid_2 >0 ) { //
+                $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+            }
+        }else{
+            $where_arr=[
+                ["t.subject=%u",$subject, -1],
+                ["s.origin like '%%%s%%'", $this->ensql( $origin), ""],
+                // "s.lesson_count_all=0",
+                ["ss.phone_location like '%%%s%%'",$phone_location, ""],
+                ["ss.seller_resource_type = %d " ,$seller_resource_type, -1],
+                ["ss.tq_called_flag = %d " ,$tq_called_flag, -1],
+                ["ss.global_tq_called_flag = %d " ,$global_tq_called_flag, -1],
+                // "t.require_admin_type=2",
+            ];
+
+            if($do_filter <1){
+                $where_arr[] = "t.require_admin_type=2";
+                $where_arr[] = "s.lesson_count_all=0";
+            }
+
+            $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);
+
+            $where_arr[]=$this->where_get_in_str_query("s.grade",$grade);
+            $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level );
+            $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
+            $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
+            $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
+            //wx
+            $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
+            if ($has_pad==-2) {
+                $where_arr[]="ss.has_pad <>10";
+            }else{
+                $where_arr[]=["ss.has_pad=%u",$has_pad, -1];
+            }
+            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            $this->where_arr_add__2_setid_field($where_arr,"origin_assistantid", $origin_assistantid );
+            $this->where_arr_add__2_setid_field($where_arr,"first_seller_adminid", $first_seller_adminid);
+            $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid", $tmk_adminid);
+            if ($publish_flag==0) {
+                $where_arr[]="t.seller_student_status =50";
+            }else if($publish_flag ==1 ){
+                $where_arr[]="t.seller_student_status <>50";
+            }
+
+            $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+            $where_arr[]= $ret_in_str;
+
+            $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
+            $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
+            $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
+            $where_arr[]=['m.del_flag=%d', $admin_del_flag ,-1];
+
+            $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
+            $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
+
+        }
+
+        if($main_master_flag==1){
+            $where_arr[] = ["sub_assign_adminid_1=%u",$self_adminid,-1];
+            $where_arr[] = "sub_assign_adminid_1>0";
+        }
+
+        if ( !$order_by_str ) {
+            $order_by_str= " order by $opt_date_str desc";
+        }
+
+
+        $sql=$this->gen_sql_new(
+            "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
+            . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status "
+            ." from %s t "
+            ." left join %s ss on  ss.userid = t.userid "
+            ." left join %s s on ss.userid=s.userid "
+            ." left join %s m on  ss.admin_revisiterid =m.uid "
+            ." left join %s a on  a.userid =ss.userid "
+            ." left join %s aa on  aa.id =a.parentid "
+            ." where  %s  $order_by_str  "
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , self::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_manager_info::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            , t_agent::DB_TABLE_NAME
+            ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list_by_page($sql,$page_num,$page_count);
+    }
+
+
+
     public function get_un_assign_info( $sub_assign_adminid_2 ) {
 
     }
@@ -1211,7 +1317,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_row($sql);
     }
 
+    public function get_favorite_num($adminid) {
+        $sql = $this->gen_sql_new(
+            " select "
+            ." count(userid) "
+            ." from %s "
+            ." where favorite_adminid=%u ",
+            self::DB_TABLE_NAME
+            ,$adminid
+        );
 
+        return $this->main_get_value($sql);
+    }
 
     public function get_userid_by_phone($phone) {
         $sql=$this->gen_sql_new(
@@ -1313,11 +1430,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select count(*) from %s where admin_revisiterid=%u and next_revisit_time>=%u and next_revisit_time < %u  ",
             self::DB_TABLE_NAME,
             $admin_revisiterid,
-            $today-864000,
+            $today-86400*7,
             $today+86400
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_today_next_revisit_need_free_count( $admin_revisiterid )
+    {
+        $today=strtotime( date("Y-m-d" )) ;
+        $sql = $this->gen_sql(
+            "select count(*) from %s where admin_revisiterid=%u and next_revisit_time>=%u and next_revisit_time < %u  ",
+            self::DB_TABLE_NAME,
+            $admin_revisiterid,
+            $today-86400*2,
+            $today-86400
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 
 

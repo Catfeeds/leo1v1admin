@@ -333,7 +333,8 @@ class user_manage_new extends Controller
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
-        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time,$studentid);
+        $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
+            $teacherid,$start_time,$end_time,$studentid,"admin");
 
         $last_month_start = strtotime("-1 month",$start_time);
         $last_month_end   = strtotime("-1 month",$end_time);
@@ -1197,7 +1198,29 @@ class user_manage_new extends Controller
         // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
 
         $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
+
+        foreach($list as &$val){
+            if($val['level'] == 'l-5' && $val['main_type'] != "未定义"){
+                $log_info_arr = $this->t_user_group_change_log->get_user_change_log($val['adminid']);
+
+                $add_time_formate = $log_info_arr['add_time']?date('Y-m-d H:i:s',$log_info_arr['add_time']):"";
+
+                $do_adminid_nick  = $log_info_arr['do_adminid']?$this->cache_get_account_nick($log_info_arr['do_adminid']):"";
+
+                $old_group        = $log_info_arr['old_group']?$log_info_arr['old_group']:"";
+
+                if($add_time_formate !="" || $do_adminid_nick!="" || $old_group!=""){
+                    $val['log_info'] = "分配时间:$add_time_formate 操作人:$do_adminid_nick 原来组别:$old_group";
+                }else{
+                    $val['log_info'] = "";
+                }
+            }else{
+                $val['log_info'] = "";
+            }
+        }
+
         // dd($list);
+
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
@@ -1933,9 +1956,8 @@ class user_manage_new extends Controller
 
     function record_audio_server_del() {
         $ip=$this->get_in_str_val("ip");
-        //$this->t_audio_record_server->row_delete($ip);
-        echo "sadfaadf";
-        //return $this->output_succ();
+        $this->t_audio_record_server->row_delete($ip);
+        return $this->output_succ();
     }
 
     function record_audio_server_set() {
@@ -2358,20 +2380,39 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        $tea_list = $this->t_lesson_info->get_tea_month_list(
-            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
-        );
-        //公司全职老师列表 full_tea_list
-        $full_start_time = strtotime("-1 month",$start_time);
-        $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-            $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
-        );
-        $list = array_merge($tea_list,$full_tea_list);
-        // 规定时间内没有上课但有额外奖励的老师列表
-        // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
-        //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
-        // );
-        // $list = array_merge($list,$reward_list);
+        $now_date  = date("Y-m",$start_time);
+        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.".txt";
+        //需要重新拉取  flag  0 不需要  1 需要
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
+
+        if($flag){
+            $tea_list = $this->t_lesson_info->get_tea_month_list(
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
+            );
+            //公司全职老师列表 full_tea_list
+            $full_start_time = strtotime("-1 month",$start_time);
+            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+                $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
+            );
+            $list = array_merge($tea_list,$full_tea_list);
+            // 规定时间内没有上课但有额外奖励的老师列表
+            // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
+            //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
+            // );
+            // $list = array_merge($list,$reward_list);
+
+            file_put_contents($file_name,json_encode($list));
+        }else{
+            $list = json_decode($file_info,true);
+        }
 
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);

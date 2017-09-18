@@ -5,6 +5,10 @@
          font-size:20px;
          text-align:center;
      }
+     .font_thead{
+         font-size:17px;
+         color:#3c8dbc;
+     }
     </style>
     <script type="text/javascript" >
      var group_type = "{{$group_type}}";
@@ -56,9 +60,9 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>项目</td>
-                                    <td>数值</td>
-                                    <td>公司排名</td>
+                                    <td style="width:140px"><strong><font class="font_thead">项目</font><strong></td>
+                                        <td><strong><font class="font_thead">数值</font><strong></td>
+                                            <td><strong><font class="font_thead">公司排名</font><strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_self_body">
@@ -93,14 +97,14 @@
                                     </td>
                                     <td>{{@$self_top_info[10]["top_index"]}} </td>
                                 </tr>
-                                <tr>
-                                    <td>上周({{@$start_time}}-{{@$end_time}})试听取消率</td>
-                                    <td>
+                                <tr rowspan="2">
+                                    <td >上周({{@$start_time}}-{{@$end_time}})试听取消率</td>
+                                    <td >
                                         {{@$self_top_info[15]["value"]*1}}%
                                         <a href="javascript:;" id="id_show_fail_lesson_list">  ({{@$self_top_info[14]["value"]*1}}/{{@$self_top_info[13]["value"]*1}})  </a>
 
                                     </td>
-                                    <td>{{@$self_top_info[15]["top_index"]}} </td>
+                                    <td >{{@$self_top_info[15]["top_index"]}} </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
@@ -119,9 +123,9 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>排名</td>
-                                    <td> 销售人 </td>
-                                    <td>签单率</td>
+                                    <td><strong><font class="font_thead" >排名</font></strong></td>
+                                    <td><strong><font class="font_thead" >销售人</font></strong></td>
+                                    <td><strong><font class="font_thead" >签单率</font></strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_ret_info_num">
@@ -149,10 +153,10 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>排名</td>
-                                    <td>销售人 </td>
-                                    <td>签单数</td>
-                                    <td>总金额</td>
+                                    <td><strong><font class="font_thead" >排名</font></strong></td>
+                                    <td><strong><font class="font_thead" >销售人</font></strong> </td>
+                                    <td><strong><font class="font_thead" >签单数</font></strong> </td>
+                                    <td><strong><font class="font_thead" >总金额</font></strong> </td>
                                 </tr>
                             </thead>
                             <tbody id="id_person_body">
@@ -180,10 +184,10 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>排名</td>
-                                    <td>销售人 </td>
-                                    <td>签单数</td>
-                                    <td>总金额</td>
+                                    <td><strong><font class="font_thead" >排名</font></strong></td>
+                                    <td><strong><font class="font_thead" >销售人</font></strong> </td>
+                                    <td><strong><font class="font_thead" >签单数</font></strong></td>
+                                    <td><strong><font class="font_thead" >总金额</font></strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_person_body">
@@ -214,10 +218,10 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>排名</td>
-                                    <td>团队 </td>
-                                    <td>签单数</td>
-                                    <td>总金额</td>
+                                    <td><strong><font class="font_thead" >排名</font></strong></td>
+                                    <td><strong><font class="font_thead" >团队 </font></strong></td>
+                                    <td><strong><font class="font_thead" >签单数</font></strong></td>
+                                    <td><strong><font class="font_thead" >总金额</font></strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_group_body">
@@ -244,10 +248,10 @@
                         <table   class="table table-bordered "   >
                             <thead>
                                 <tr>
-                                    <td>排名</td>
-                                    <td> 销售人 </td>
-                                    <td>签单数</td>
-                                    <td>总金额</td>
+                                    <td><strong><font class="font_thead" >排名</font></strong></td>
+                                    <td><strong><font class="font_thead" > 销售人 </font></strong></td>
+                                    <td><strong><font class="font_thead" >签单数</font></strong></td>
+                                    <td><strong><font class="font_thead" >总金额</font></strong></td>
                                 </tr>
                             </thead>
                             <tbody id="id_group_self_body">

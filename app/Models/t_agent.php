@@ -217,14 +217,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $yxyx_check_time=strtotime( \App\Helper\Config::get_config("yxyx_new_start_time"));
         $where_arr=[
             "a.type in (1,3)",
-            ["pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
-            "create_time> $yxyx_check_time",
+            ["a.pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
+            "a.create_time> $yxyx_check_time",
 
         ];
         if ( $test_lesson_succ_flag ==1 ) {
-            $where_arr[] ="pp_agent_status_money=5000 ";
+            $where_arr[] ="a.pp_agent_status_money=5000 ";
         }else if ( $test_lesson_succ_flag ==0 ) {
-            $where_arr[] ="pp_agent_status_money<5000 ";
+            $where_arr[] ="a.pp_agent_status_money<5000 ";
         }
 
 
@@ -1494,8 +1494,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //总提成信息
-        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money;
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id);
 
 
@@ -1673,4 +1673,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+
+    public function get_son_userid_by_phone($phone){
+        $where_arr = [
+            ['aa.phone = %d',$phone,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.userid "
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

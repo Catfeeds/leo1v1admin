@@ -15,7 +15,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >工资分类</span>
-                        <select id="id_teacher_money_type" class ="opt-change" ></select>
+                        <input  placeholder="工资分类" id="id_teacher_money_type" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -26,14 +26,20 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >开始月</span>
+                        <span >未上课开始月</span>
                         <select id="id_not_start" class ="opt-change" ></select>
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >结束月</span>
+                        <span >未上课结束月</span>
                         <select id="id_not_end" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师模拟工资类型</span>
+                        <input  placeholder="老师模拟工资分类" id="id_teacher_money_type_simulate" />
                     </div>
                 </div>
             </div>
@@ -90,7 +96,7 @@
                     <tr>
                         <td>{{$var['realname']}}</td>
                         <td>{{$var['lesson_count']}}</td>
-                        <td>{{$var['teacher_money_type_str']}}</td>
+                        <td>{{$var['now_money_type_str']}}</td>
                         <td>{{$var['level_str']}}</td>
                         <td>{{$var['money']}}</td>
                         <td>{{$var['money_base']}}</td>

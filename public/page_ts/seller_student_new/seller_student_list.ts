@@ -34,7 +34,8 @@ function load_data(){
         seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
         tmk_student_status:	$('#id_tmk_student_status').val(),
        // end_class_flag:$("#id_end_class_flag").val(),
-        seller_resource_type:	$('#id_seller_resource_type').val()
+        seller_resource_type:	$('#id_seller_resource_type').val(),
+        favorite_flag:	$('#id_favorite_flag').val(),
     });
 }
 
@@ -61,6 +62,7 @@ $(function(){
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
     Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
+    Enum_map.append_option_list("seller_favorite_flag",$("#id_favorite_flag"));
 
     $('#id_origin_assistant_role').val(g_args.origin_assistant_role);
 
@@ -199,6 +201,7 @@ $(function(){
     $('#id_tq_called_flag').val(g_args.tq_called_flag);
     $('#id_seller_require_change_flag').val(g_args.seller_require_change_flag);
     $('#id_tmk_student_status').val(g_args.tmk_student_status);
+    $('#id_favorite_flag').val(g_args.favorite_flag);
    // $('#id_end_class_flag').val(g_args.end_class_flag);
 
     $.admin_select_user(
@@ -239,23 +242,12 @@ $(function(){
     $(".opt-post-test-lesson").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
+
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
             if(ret){
                 alert('您有签单失败原因未填写,请先填写完哦!');
                 window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
-            }
-        });
-
-        $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,
-        } ,function(ret){
-            if(ret.ret==1){
-                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,本周已被限制排课,可点击'排课解冻'申请排课");
-                return;
-            }else if(ret.ret==2){
-                alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,还能排1节试听课");
-            }else if(ret.ret==3){
-                alert('您本周取消率已达20%,为'+ret.rate+'%,大于25%下周将被限制排课,每天将只能排1试听课,请谨慎处理');
             }
         });
 
@@ -424,7 +416,21 @@ $(function(){
                 return;
             }
 
-            do_add_test_lesson();
+            //取消率
+            $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,} ,function(ret){
+                if(ret.ret==1){
+                    alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,本周已被限制排课,可点击'排课解冻'申请排课");
+                    return;
+                }else{
+                    if(ret.ret==2){
+                        alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,还能排1节试听课");
+                    }else if(ret.ret==3){
+                        alert('您本周取消率已达20%,为'+ret.rate+'%,大于25%下周将被限制排课,每天将只能排1试听课,请谨慎处理');
+                    }
+                    do_add_test_lesson();
+                }
+            });
+            // do_add_test_lesson();
         } );
     });
 
@@ -750,11 +756,6 @@ function init_edit() {
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
             var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
             var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
-            var id_test_stress = html_node.find("#id_test_stress");
-            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
-            var id_extra_improvement = html_node.find("#id_extra_improvement");
-            var id_habit_remodel = html_node.find("#id_habit_remodel");
-            var id_interest_cultivation = html_node.find("#id_interest_cultivation");
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){
@@ -1529,37 +1530,41 @@ function init_edit() {
 
     });
 
-    var init_noit_btn_ex=function( id_name, count, title, value_class) {
+    var init_noit_btn_ex=function( id_name, count, title,desc ,value_class) {
         var btn=$('#'+id_name);
         count=count*1;
         btn.data("value",count);
         btn.tooltip({
-            "title":title,
+            "title":title + "("+desc+")",
             "html":true
         });
+        btn.addClass("btn-app") ;
+
         var value =btn.data("value");
-        btn.text(value);
-        if (!value_class) value_class="btn-warning";
+
+        var str="<span class=\"badge  \">"+count+"</span>" + title;
+        btn.html(str);
+        if (!value_class) value_class="bg-yellow";
         if (value >0 ) {
             btn.addClass(value_class);
+            btn.find("span"). addClass(value_class);
         }
     };
-    var init_noit_btn=function( id_name, count, title) {
-        init_noit_btn_ex( id_name, count, title, null);
+    var init_noit_btn=function( id_name, count, title,desc) {
+        init_noit_btn_ex( id_name, count, title, desc, null);
     };
 
 
     $.do_ajax( "/ss_deal/seller_noti_info",{},function(resp){
-        init_noit_btn_ex("id_tmk_new_no_called_count",   resp.tmk_new_no_call_count,    "微信-新分配例子未回访数", "btn-danger" );
-        init_noit_btn("id_new_no_called_count",   resp.new_not_call_count,    "新分配例子未回访数" );
-        init_noit_btn("id_no_called_count",   resp.not_call_count,    "例子未回访数" );
-        init_noit_btn("id_next_revisit",   resp.next_revisit_count,    "需再次回访数" );
-        init_noit_btn("id_lesson_today",  resp.today,  "今天上课须通知数" );
-        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课须通知数" );
-        init_noit_btn("id_return_back_count", resp.return_back_count, "被驳回未处理的个数" );
-        init_noit_btn("id_require_count",  resp.require_count,"已预约未排数" );
-        init_noit_btn("id_no_confirm_count",  resp.no_confirm_count,"课程未确认数" );
-       // init_noit_btn("id_end_class_stu",resp.end_class_stu_num,"一个月内结课学生数" );
+        init_noit_btn("id_new_no_called_count",   resp.new_not_call_count,    "从未联系", "未回访" );
+        init_noit_btn("id_no_called_count",   resp.not_call_count,    "所有未回访","新例子+公海获取例子" );
+        init_noit_btn_ex("id_today_free",   resp.today_free_count,    "今日回流"," 今晚24点自动回流公海, 若需保留 请设置下次回访时间","bg-red" );
+        init_noit_btn_ex("id_next_revisit",   resp.next_revisit_count,    "今日需回访"," , 下次回访时间 设置在今日的例子","bg-red" );
+        init_noit_btn("id_lesson_today",  resp.today,  "今天上课" ,"今天上课须通知数");
+        init_noit_btn("id_lesson_tomorrow", resp.tomorrow, "明天上课","明天上课须通知数" );
+        init_noit_btn("id_return_back_count", resp.return_back_count, "排课失败","被教务驳回 未处理的课程个数" );
+        init_noit_btn("id_require_count",  resp.require_count,"预约未排","已预约未排数" );
+        init_noit_btn("id_favorite_count", resp.favorite_count, "收藏夹","您收藏的例子个数" );
     });
 
     var init_and_reload=function(  set_func ) {
@@ -1625,10 +1630,25 @@ function init_edit() {
 
     });
 
+    $("#id_today_free").on("click",function(){
+        init_and_reload(function(now){
+            $.filed_init_date_range( 1,  1, now-2*86400,   now-2*86400 );
+        });
+
+    });
+
+
     $("#id_return_back_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 3,  0, now-14*86400,  now);
             $('#id_seller_student_status').val(110 );
+        });
+    });
+
+    $("#id_favorite_count").on("click",function(){
+        init_and_reload(function(now){
+            // $.filed_init_date_range( 3,  0, now-14*86400,  now);
+            $('#id_favorite_flag').val(1);
         });
     });
 
@@ -1941,6 +1961,16 @@ function init_edit() {
         });
     });
 
+    $(".opt-favorite").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        $.do_ajax("/ajax_deal/seller_student_new_favorite",{'userid':opt_data.userid,} ,function(ret){
+            if(ret){
+                alert('收藏成功!');
+                window.location.reload();
+            }
+        });
+    });
+
     $(".opt-edit-new").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -2037,8 +2067,32 @@ function init_edit() {
             var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
             var id_advice_flag = html_node.find("#id_advice_flag");
             var id_academic_goal = html_node.find("#id_academic_goal");
+            var id_test_stress = html_node.find("#id_test_stress");
+            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
+            var id_extra_improvement = html_node.find("#id_extra_improvement");
+            var id_habit_remodel = html_node.find("#id_habit_remodel");
+            var id_interest_cultivation = html_node.find("#id_interest_cultivation");
+            var id_study_habit = html_node.find("#id_study_habit");
+            var id_interests_hobbies = html_node.find("#id_interests_hobbies");
+            var id_character_type = html_node.find("#id_character_type");
+            var id_need_teacher_style = html_node.find("#id_need_teacher_style");
+            var id_intention_level = html_node.find("#id_intention_level");
+            var id_test_paper = html_node.find("#id_test_paper");
+            var id_demand_urgency = html_node.find("#id_demand_urgency");
+            var id_quotation_reaction = html_node.find("#id_quotation_reaction");
+            
+            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
+           
+           
+           /*html_node.find("#id_upload_test_paper").on("click",function(){
+               alert(111);
+           });*/
+            
            
             
+
+            
+             
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){
@@ -2204,6 +2258,17 @@ function init_edit() {
             Enum_map.append_option_list("boolean", id_advice_flag, true);
             Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
+            Enum_map.append_option_list("test_stress", id_test_stress, true);
+            Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
+            Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
+            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+            Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
+            Enum_map.append_option_list("intention_level", id_intention_level, true);
+            Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
+            Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
+
+            
+
             
             id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',
@@ -2215,7 +2280,170 @@ function init_edit() {
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
                 id_stu_request_test_lesson_time.val("");
+            });           
+
+            id_study_habit.data("v","");
+            id_study_habit.on("click",function(){
+               // var study_habit= data.study_habit;
+                var study_habit  = id_study_habit.data("v");
+                $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
+                    "study_habit" : study_habit
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["study_habit"]  ]);
+
+                        if (this["has_study_habit"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                           
+                            $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
+                                "study_habit" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_study_habit.val(res.data); 
+                                id_study_habit.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
             });
+
+            id_interests_hobbies.data("v","");
+            id_interests_hobbies.on("click",function(){
+                // var interests_hobbies= data.interests_hobbies;
+                var interests_hobbies  = id_interests_hobbies.data("v");
+                $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
+                    "interests_hobbies" : interests_hobbies
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["interests_hobbies"]  ]);
+
+                        if (this["has_interests_hobbies"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","兴趣爱好" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
+                                "interests_hobbies" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_interests_hobbies.val(res.data); 
+                                id_interests_hobbies.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+            id_character_type.data("v","");
+            id_character_type.on("click",function(){
+                // var character_type= data.character_type;
+                var character_type  = id_character_type.data("v");
+                $.do_ajax("/ss_deal2/get_stu_character_type_list",{
+                    "character_type" : character_type
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["character_type"]  ]);
+
+                        if (this["has_character_type"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_character_type_name",{
+                                "character_type" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_character_type.val(res.data); 
+                                id_character_type.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+            id_need_teacher_style.data("v","");
+            id_need_teacher_style.on("click",function(){
+                // var need_teacher_style= data.need_teacher_style;
+                var need_teacher_style  = id_need_teacher_style.data("v");
+                $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
+                    "need_teacher_style" : need_teacher_style
+                },function(response){
+                    var data_list   = [];
+                    var select_list = [];
+                    $.each( response.data,function(){
+                        data_list.push([this["num"], this["need_teacher_style"]  ]);
+
+                        if (this["has_need_teacher_style"]) {
+                            select_list.push (this["num"]) ;
+                        }
+
+                    });
+
+                    $(this).admin_select_dlg({
+                        header_list     : [ "id","学习习惯" ],
+                        data_list       : data_list,
+                        multi_selection : true,
+                        select_list     : select_list,
+                        onChange        : function( select_list,dlg) {
+                            
+                            $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
+                                "need_teacher_style" : JSON.stringify(select_list)                                
+                            },function(res){
+                                id_need_teacher_style.val(res.data); 
+                                id_need_teacher_style.data("v",res.data);
+                            });
+
+                            dlg.close();
+                        }
+                    });
+                    
+                });
+                
+            });
+
+
+
 
             var old_province = data.region;
             if(old_province == ''){
@@ -2602,6 +2830,7 @@ function init_edit() {
                     }
                 }]
             });
+           
 
             dlg.getModalDialog().css("width","98%");
 
@@ -2611,9 +2840,21 @@ function init_edit() {
             close_btn.on("click",function(){
                 dlg.close();
             } );
+            var th = setTimeout(function(){
+                $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    console.log(res);
+                    id_test_paper.val(res.key);
+
+                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);  
+                clearTimeout(th);
+            }, 1000);
+
 
         });
     });
+
+   
 
 
 

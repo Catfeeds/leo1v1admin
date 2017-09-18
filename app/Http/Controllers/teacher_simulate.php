@@ -26,9 +26,10 @@ class teacher_simulate extends Controller
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
-        $now_month = date("m",time());
+        $now_month          = date("m",time());
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
+        $teacher_money_type = $this->get_in_enum_list(E\Eteacher_money_type::class);
+        $teacher_money_type_simulate = $this->get_in_enum_list(E\Eteacher_money_type::class);
         $level              = $this->get_in_int_val("level",-1);
         $not_start          = $this->get_in_int_val("not_start",-1);
         $not_end            = $this->get_in_int_val("not_end",$now_month);
@@ -55,26 +56,26 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_simulate_".$now_date."_".$teacher_money_type."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
+        // $file_name = "/tmp/teacher_simulate_".$now_date."_".json_encode($teacher_money_type)."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
-        $flag = 0;
-        if(is_file($file_name)){
-            $file_info = file_get_contents($file_name);
-            if(empty($file_info) || $file_info==""){
-                $flag = 1;
-            }
-        }else{
-            $flag = 1;
-        }
+        // $flag = 0;
+        // if(is_file($file_name)){
+        //     $file_info = file_get_contents($file_name);
+        //     if(empty($file_info) || $file_info==""){
+        //         $flag = 1;
+        //     }
+        // }else{
+        //     $flag = 1;
+        // }
 
-        if($flag){
+        // if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end,$teacher_money_type_simulate
             );
-            file_put_contents($file_name,json_encode($tea_list));
-        }else{
-            $tea_list=json_decode($file_info,true);
-        }
+        //     file_put_contents($file_name,json_encode($tea_list));
+        // }else{
+        //     $tea_list=json_decode($file_info,true);
+        // }
 
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
@@ -83,17 +84,19 @@ class teacher_simulate extends Controller
             $tea_arr                   = $list[$teacherid];
             $tea_arr["teacherid"]      = $teacherid;
             $tea_arr["level_simulate"] = $val["level_simulate"];
-
-            E\Eteacher_money_type::set_item_value_str($val);
+            E\Eteacher_money_type::set_item_value_str($val,"now_money_type");
             E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
-            E\Elevel::set_item_value_str($val);
-            E\Enew_level::set_item_value_str($val,"level_simulate");
+            $val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($val['now_money_type'],$val['now_level']);
+            $val['level_simulate_str'] = \App\Helper\Utils::get_teacher_letter_level(
+                $val['teacher_money_type_simulate'],$val['level_simulate']
+            );
             \App\Helper\Utils::check_isset_data($tea_arr['realname'],$val['realname'],0);
-            \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_str'],$val['teacher_money_type_str'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['now_money_type_str'],$val['now_money_type_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_simulate_str'],$val['teacher_money_type_simulate_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
+            //上个月累计常规+试听课时
             $month_key = date("Y-m",$val['lesson_start']);
             if(!isset($already_lesson_count_list[$month_key][$teacherid])){
                 $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
@@ -106,6 +109,7 @@ class teacher_simulate extends Controller
                 $already_lesson_count_simulate = $already_lesson_count_list[$month_key][$teacherid];
             }
 
+            //上个月累计常规课时
             if(!isset($already_lesson_count_simulate_list[$month_key][$teacherid])){
                 $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
                 $now_month_end   = strtotime("+1 month",strtotime(date("Y-m-01",$val['lesson_start'])));
@@ -117,48 +121,35 @@ class teacher_simulate extends Controller
                 $already_lesson_count_simulate_2 = $already_lesson_count_simulate_list[$month_key][$teacherid];
             }
 
-            // $key = "already_lesson_count_".$month_key."_".$teacherid;
-            // Redis::del($key);
-            // if(!isset($already_lesson_count_list[$key])){
-            //     $already_lesson_count_simulate = Redis::get($key);
-            //     if($already_lesson_count_simulate === null){
-            //         $already_lesson_count_simulate = $this->get_already_lesson_count(
-            //             $start_time,$end_time,$teacherid,$val['teacher_money_type']
-            //         );
-            //         Redis::set($key,$already_lesson_count_simulate);
-            //     }
-            //     $already_lesson_count_list[$key] = $already_lesson_count_simulate;
-            // }else{
-            //     $already_lesson_count_simulate = $already_lesson_count_list[$key];
-            // }
-            // $simulate_key = "already_lesson_count_".$month_key."_".$teacherid."_simulate";
-            // Redis::del($simulate_key);
-            // if(!isset($already_lesson_count_list[$simulate_key])){
-            //     $already_lesson_count_simulate_2 = Redis::get($simulate_key);
-            //     if($already_lesson_count_simulate_2===null){
-            //         $already_lesson_count_simulate_2 = $this->get_already_lesson_count(
-            //             $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
-            //         );
-            //         Redis::set($simulate_key,$already_lesson_count_simulate_2);
-            //     }
-            //     $already_lesson_count_list[$simulate_key] = $already_lesson_count_simulate_2;
-            // }else{
-            //     $already_lesson_count_simulate_2 = $already_lesson_count_list[$simulate_key];
-            // }
-
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
-            if($check_type==2){
-                $already_lesson_count = $already_lesson_count_simulate;
-            }else{
+            if(in_array($check_type,[1,3])){
                 $already_lesson_count = $val['already_lesson_count'];
+            }elseif($check_type==2){
+                $already_lesson_count = $already_lesson_count_simulate;
+            }elseif($check_type==4){
+                $already_lesson_count = $already_lesson_count_simulate_2;
+            }else{
+                $already_lesson_count = 0;
             }
 
-            // $reward           = \App\Helper\Utils::get_teacher_lesson_money_simulate(
-            $reward           = \App\Helper\Utils::get_teacher_lesson_money(
+            $check_type_simulate = \App\Helper\Utils::check_teacher_money_type(
+                $val['teacher_money_type_simulate'],$val['teacher_type']);
+            if(in_array($check_type_simulate,[1,3])){
+                $already_lesson_count_si = $val['already_lesson_count'];
+            }elseif($check_type==2){
+                $already_lesson_count_si = $already_lesson_count_simulate;
+            }elseif($check_type==4){
+                $already_lesson_count_si = $already_lesson_count_simulate_2;
+            }else{
+                $already_lesson_count_si = 0;
+            }
+
+            //老师实际的课时奖励
+            $reward = \App\Helper\Utils::get_teacher_lesson_money(
                 $val['type'],$already_lesson_count);
-            // $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money_simulate(
+            //老师模拟的课时奖励
             $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money(
-                $val['type_simulate'],$already_lesson_count_simulate_2);
+                $val['type_simulate'],$already_lesson_count_si);
 
             $lesson_count     = $val['lesson_count']/100;
             $reward          *= $lesson_count;
@@ -166,22 +157,20 @@ class teacher_simulate extends Controller
 
             $money_base          = $val['money']*$lesson_count;
             $money_simulate_base = $val['money_simulate']*$lesson_count;
-            // $money            = $val['money']*$lesson_count+$reward;
-            $money            = $money_base+$reward;
-            // $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
-            $money_simulate   = $money_simulate_base+$reward_simulate;
+            $money               = $money_base+$reward;
+            $money_simulate      = $money_simulate_base+$reward_simulate;
 
             if($val['teacher_money_type']==5){
                 $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start'],$val['teacher_ref_type']);
                 if($teacher_ref_rate>0){
-                    $teacher_ref_money = $money*$teacher_ref_rate;
-                    $money+=$teacher_ref_money;
+                    $teacher_ref_money  = $money*$teacher_ref_rate;
+                    $money             += $teacher_ref_money;
                 }
             }
 
             $lesson_price = $val['lesson_price']/100;
             if(in_array($val['contract_type'],[0,3])){
-                $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+                // $lesson_price_simulate = $this->get_lesson_price_simulate($val);
                 $lesson_price_simulate = 0;
             }else{
                 $lesson_price_simulate = 0;
@@ -205,13 +194,15 @@ class teacher_simulate extends Controller
 
             $lesson_total += $lesson_count;
         }
-
         \App\Helper\Utils::check_isset_data($all_count,0,0);
         \App\Helper\Utils::check_isset_data($down_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($down_count['all'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['base'],0,0);
         \App\Helper\Utils::check_isset_data($up_count['all'],0,0);
 
+        /**
+         * 统计变动数量
+         */
         foreach($list as &$l_val){
             \App\Helper\Utils::check_isset_data($all_count,1);
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);
@@ -229,6 +220,7 @@ class teacher_simulate extends Controller
                 $up_count['all']++;
             }
         }
+
         $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
@@ -249,6 +241,10 @@ class teacher_simulate extends Controller
         ];
 
         $this->check_month_redis_key($show_data);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list,true);
+        \App\Helper\Utils::redis(
+            E\Eredis_type::V_SET,$this->already_lesson_count_simulate_key,$already_lesson_count_simulate_list,true);
+
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
         $show_data["final_money"] = $final_money_list;
         $list = \App\Helper\Utils::list_to_page_info($list);

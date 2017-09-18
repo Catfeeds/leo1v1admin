@@ -1649,10 +1649,12 @@ class user_deal extends Controller
     public function admin_main_group_add() {
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
+        $first_gruopid = $this->get_in_int_val('first_groupid');
 
-        $this->t_admin_main_group_name->row_insert([
+       $ret = $this->t_admin_main_group_name->row_insert([
             "main_type"  => $main_type ,
             "group_name"  => $group_name,
+            "up_groupid"  => $first_gruopid
         ]);
 
         return $this->output_succ();
@@ -1675,6 +1677,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_str_val("main_type");
         $group_name=$this->get_in_str_val("group_name");
         $month = strtotime($this->get_in_str_val("start_time"));
+        $first_groupid = $this->get_in_int_val("first_groupid");
 
         $max_groupid = $this->t_main_group_name_month->get_max_groupid($month);
         $groupid = $max_groupid + 1;
@@ -1682,7 +1685,8 @@ class user_deal extends Controller
             "month"       => $month,
             "main_type"   => $main_type ,
             "group_name"  => $group_name,
-            "groupid"     => $groupid
+            "groupid"     => $groupid,
+            "up_groupid"  => $first_groupid
         ]);
 
         return $this->output_succ();
@@ -1839,8 +1843,9 @@ class user_deal extends Controller
 
         $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
         if ($db_groupid ) {//
-            $group_name=$this->t_admin_group_name->get_group_name($db_groupid);
-            return $this->output_err("此人已在[$group_name]中,不能添加");
+            $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
+            $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
+            // return $this->output_err("此人已在[$group_name]中,不能添加");
         }
 
         $this->t_admin_group_user->row_insert([
@@ -1852,7 +1857,8 @@ class user_deal extends Controller
         $this->t_user_group_change_log->row_insert([
             "add_time"   => time(),
             "userid"     => $adminid,
-            "do_adminid" => $this->get_account_id()
+            "do_adminid" => $this->get_account_id(),
+            "old_group"  => $group_name
         ]);
 
         return $this->output_succ();
@@ -3734,12 +3740,14 @@ class user_deal extends Controller
         if($subject==2){
             $accept_adminid = 754;
         }elseif($subject==5){
-             $accept_adminid = 793;
+            $accept_adminid = 478;
         }elseif($subject==4){
-            $accept_adminid=770;
+            $accept_adminid=478;
         }else{
             $accept_adminid = 486;
         }
+        //更新处理人
+        // $accept_adminid = 478;
         $res =  $this->t_change_teacher_list->row_insert([
             "teacherid"  =>$teacherid,
             "userid"     =>$userid,

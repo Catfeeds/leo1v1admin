@@ -3052,13 +3052,16 @@ lesson_type in (0,1) "
     /**
      * 老师工资相关的课程
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='wx'){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
         ];
+        if($type=='wx'){
+            $where_arr[]="lesson_status=2";
+        }
         $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
@@ -3081,7 +3084,6 @@ lesson_type in (0,1) "
                                   ." end )"
                                   ." and %s "
                                   ." where %s "
-                                  ." and lesson_status=2 "
                                   ." and (confirm_flag!=2 or deduct_change_class>0) "
                                   ." and lesson_type<1000 "
                                   ." and lesson_del_flag=0 "
@@ -3411,27 +3413,27 @@ lesson_type in (0,1) "
                                     ,$str
             );
         }elseif($type==2){
-            $sql=$this->gen_sql_new("select count(distinct(o.userid)) as num,l.%s"
-                                    ." from %s o"
-                                    ." left join %s l on l.userid=o.userid"
-                                    ." left join %s s on s.userid=o.userid"
-                                    ." where s.is_test_user=0"
-                                    ." and o.contract_status>0"
-                                    ." and o.contract_type=0"
-                                    ." and l.userid in ("
-                                    ." select userid "
-                                    ." from %s "
-                                    ." where %s"
-                                    ." and lesson_type=2"
-                                    .")"
-                                    ." group by l.%s"
-                                    ,$str
-                                    ,t_order_info::DB_TABLE_NAME
-                                    ,self::DB_TABLE_NAME
-                                    ,t_student_info::DB_TABLE_NAME
-                                    ,self::DB_TABLE_NAME
-                                    ,$where_arr
-                                    ,$str
+            $sql = $this->gen_sql_new("select count(distinct(o.userid)) as num,l.%s"
+                                      ." from %s o"
+                                      ." left join %s l on l.userid=o.userid"
+                                      ." left join %s s on s.userid=o.userid"
+                                      ." where s.is_test_user=0"
+                                      ." and o.contract_status>0"
+                                      ." and o.contract_type=0"
+                                      ." and l.userid in ("
+                                      ." select userid "
+                                      ." from %s "
+                                      ." where %s"
+                                      ." and lesson_type=2"
+                                      .")"
+                                      ." group by l.%s"
+                                      ,$str
+                                      ,t_order_info::DB_TABLE_NAME
+                                      ,self::DB_TABLE_NAME
+                                      ,t_student_info::DB_TABLE_NAME
+                                      ,self::DB_TABLE_NAME
+                                      ,$where_arr
+                                      ,$str
             );
         }
         return $this->main_get_list($sql);
@@ -5856,14 +5858,14 @@ lesson_type in (0,1) "
         $where_arr=[
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "lesson_status=2"
         ];
 
         $sql=$this->gen_sql_new("select sum(lesson_count)/100 "
                                 ." from %s l"
                                 ." left join %s s on l.userid=s.userid "
                                 ." where %s "
-                                ." and lesson_type=2"
-                                ." and lesson_status=2"
                                 ." and confirm_flag<2"
                                 ." and lesson_del_flag=0"
                                 ." and s.is_test_user=0"

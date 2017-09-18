@@ -2937,7 +2937,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0
+        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0,$teacher_money_type_simulate=-1
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
@@ -2946,7 +2946,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_del_flag = 0",
             "confirm_flag!=2",
             "lesson_type in (0,1,3)",
-            "lesson_status=2",
+            // "lesson_status=2",
             "teacher_type not in (3,4)"
         ];
         $not_sql = "true";
@@ -2968,16 +2968,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         if($teacher_id>0){
             $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
         }else{
-            $where_arr[]=["t.teacher_money_type=%u",$teacher_money_type,-1];
+            $where_arr[] = $this->where_get_in_str_query("t.teacher_money_type", $teacher_money_type);
+            $where_arr[] = $this->where_get_in_str_query("t.teacher_money_type_simulate", $teacher_money_type_simulate);
             $where_arr[]=["t.level=%u",$level,-1];
         }
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
+        $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type,l.level,t.realname,"
                                   ." t.level_simulate,t.teacher_money_type_simulate,t.teacher_ref_type,"
                                   ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
                                   ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type,"
                                   ." o.contract_type,o.lesson_total,o.default_lesson_count,o.grade as order_grade,"
-                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start"
+                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start,"
+                                  ." t.teacher_money_type as now_money_type,t.level as now_level"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
@@ -2994,11 +2996,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
-
                                   ." left join %s ol on l.lessonid=ol.lessonid"
-
                                   ." left join %s o on ol.orderid=o.orderid"
-
                                   ." where %s"
                                   ." and %s"
                                   ." group by l.lessonid"
@@ -3560,7 +3559,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_need_reset_money_type_list($batch){
         $where_arr = [
-            // ["batch=%u",$batch,0],
             "batch in (1,2)",
             "t.teacher_money_type!=6"
         ];
@@ -3573,7 +3571,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
     /**

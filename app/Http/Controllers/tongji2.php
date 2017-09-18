@@ -1072,6 +1072,12 @@ class tongji2 extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function tongji_teacher_stu_three_month(){
+        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+        return $this->pageView(__METHOD__,$list);
+        // dd($list);
+    }
+
 
 
 }

@@ -47,7 +47,8 @@ return array(
     array(44,"","IGCES"),
     array(45,"","JOIN IN剑桥英语"),
     array(46,"","letsgo英语"),
-    array(47,"","Manhattan 出版（New Way Chemistry for Hong Kong A-Level  ，简称CHM）"),
+    // array(47,"","Manhattan 出版（New Way Chemistry for Hong Kong A-Level  ，简称CHM）"),
+    array(47,"","Manhattan"),
     array(48,"","NEW香港朗文"),
     array(49,"","Oxford 出版社"),
     array(50,"","PEP"),
@@ -238,6 +239,7 @@ return array(
     array(235,"","自然与生化科技"),
     array(236,"","综合科学"),
     array(237,"","天津英语"),
+    array(238,"","江教版"),
 
     array(30001,"","上海牛津"),
     array(30002,"","译林牛津"),

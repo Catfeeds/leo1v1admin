@@ -305,7 +305,7 @@ class tea_manage extends Controller
             $item['is_complained_str']      = E\Eboolean::get_desc ($item['is_complained' ]) ;
             $item['homework_url']           = $this->get_work_url($item);
             $item['lesson_type_str']        = E\Econtract_type::get_desc($item["lesson_type"]);
-            E\Elevel::set_item_value_str($item);
+            $item['level_str'] = \App\Helper\Utils::get_teacher_letter_level($item['teacher_money_type'],$item['level']);
             E\Eteacher_money_type::set_item_value_str($item);
             $item['teacher_score']        = sprintf("%.2f",($item["teacher_effect"]+$item["teacher_quality"]+$item["teacher_interact"])/3 );
             $item["tea_nick"]             = $this->cache_get_teacher_nick($item["teacherid"]);
@@ -2290,19 +2290,17 @@ class tea_manage extends Controller
                 $val['lecture_status_str']="无试讲";
             }else{
                 $val['lecture_status_str']  = E\Echeck_status::get_desc($val['lecture_status_ex']);
-
             }
             if(empty($val["acc"])){
                 $val["acc"] = $val["account"];
             }
             $val["add_time_str"] = date("Y-m-d H:i:s",$val["add_time"]);
             if($val["wx_openid"]){
-                $val["have_wx_flag"]="是";
+                $val["have_wx_flag"] = "是";
             }else{
-                $val["have_wx_flag"]="否";
+                $val["have_wx_flag"] = "否";
             }
             E\Eidentity::set_item_value_str($val,"teacher_type");
-            // $val["reference_name"] = $this->t_teacher_info->get_realname($val["reference"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(
@@ -2893,11 +2891,13 @@ class tea_manage extends Controller
         $subject          = $this->get_in_int_val("subject",-1);
         $grade_part_ex    = $this->get_in_int_val("grade_part_ex",-1);
         $tranfer_per      = $this->get_in_int_val("tranfer_per",-1);
-        $teacherid                = $this->get_in_int_val('teacherid',-1);
+        $teacherid             = $this->get_in_int_val('teacherid',-1);
+        $test_lesson_flag      = $this->get_in_int_val('test_lesson_flag',-1);
+        $test_lesson_num      = $this->get_in_int_val('test_lesson_num',-1);
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per); 
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num); 
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info['list'] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
