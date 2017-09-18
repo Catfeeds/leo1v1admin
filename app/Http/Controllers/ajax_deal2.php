@@ -1427,10 +1427,28 @@ class ajax_deal2 extends Controller
         if($status == 3){
             $data['through_time'] = $through_time;
         }
-        dd($data);
         $ret = $this->t_teacher_train_info->field_update_list($id,$data);
         return $this->output_succ();
     }
+        /**
+     *@author    sam
+     *@function  更改培训状态
+     *@path      teacher_info/get_train_list
+     */
+    public function change_train_status(){
+
+        $id              = $this->get_in_int_val("id");
+        $status          = $this->get_in_int_val('status');
+        $data = [
+            'status'                   => $status,
+         ];
+        if($status == 3){
+            $data['through_time'] = time();
+        }
+        $ret = $this->t_teacher_train_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
 
 
     //获取老师所带学习超过三个月的学生

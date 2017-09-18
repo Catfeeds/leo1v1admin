@@ -2114,11 +2114,29 @@ class teacher_info extends Controller
     }
 
     public function get_train_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        //list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $start_date  = $this->get_in_str_val('start_date',date('Y-m-d', time(NULL) ));
+        $end_date    = $this->get_in_str_val('end_date',date('Y-m-d', time(NULL)+86400*7 ));
+
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date)+86400;
+        $train_type = $this->get_in_int_val("train_type",-1);
+        $subject    = $this->get_in_int_val("subject",-1);
+        $status     = $this->get_in_int_val("status",-1);
         $teacherid = $this->get_login_teacher();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_train_info->get_train_list($page_info,$teacherid,$start_time,$end_time);
-
+        $ret_info = $this->t_teacher_train_info->get_train_list($page_info,$teacherid,$start_time,$end_time,$train_type,$subject,$status);
+        //  dd($ret_info);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"through_time");
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+            $this->cache_set_item_teacher_nick($item);
+            E\Esubject::set_item_value_str($item);
+            E\Etrain_type::set_item_value_str($item);
+            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
+        }
         return $this->pageView(__METHOD__, $ret_info);
     }
 }
