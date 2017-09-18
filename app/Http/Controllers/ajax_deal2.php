@@ -1374,7 +1374,6 @@ class ajax_deal2 extends Controller
         $teacherid       = $this->get_in_int_val('teacherid');
         $subject         = $this->get_in_int_val('subject');
         $train_type      = $this->get_in_int_val('train_type');
-
         $create_adminid  = $this->get_account_id();
         $create_time     = time();
 
@@ -1382,54 +1381,10 @@ class ajax_deal2 extends Controller
             'create_time'              => $create_time,
             'create_adminid'           => $create_adminid,
             'train_type'               => $train_type,
-            'teacherid'                => $teacherid,
             'subject'                  => $subject,
+            'teacherid'                => $teacherid,
             'status'                   => 1,
          ]);
-        return $this->output_succ();
-    }
-
-     /**
-     *@author   sam
-     *@function 删除老师培训信息
-     *@path     tea_manage/teacher_train_list
-     */
-    public function del_train_info(){
-        $id = $this->get_in_int_val('id');
-        $this->t_teacher_train_info->field_update_list($id,[
-            "status" => 4,
-        ]);
-        return $this->output_succ();
-    }
-
-    /**
-     *@author    sam
-     *@function  修改意向用户记录
-     *@path      customer_service/complaint_info
-     */
-    public function edit_train_info(){
-
-        $id              = $this->get_in_int_val("id");
-        $subject         = $this->get_in_int_val('subject');
-        $train_type      = $this->get_in_int_val('train_type');
-        $status          = $this->get_in_int_val('status');
-        $create_adminid  = $this->get_account_id();
-        $create_time     = time();
-        $through_time    = time();
-        $data = [
-            'id'                       => $id,
-            'create_time'              => $create_time,
-            'create_adminid'           => $create_adminid,
-            'train_type'               => $train_type,
-            'subject'                  => $subject,
-            'status'                   => $status,
-         ];
-
-        if($status == 3){
-            $data['through_time'] = $through_time;
-        }
-        dd($data);
-        $ret = $this->t_teacher_train_info->field_update_list($id,$data);
         return $this->output_succ();
     }
 

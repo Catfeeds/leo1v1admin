@@ -2111,4 +2111,12 @@ class teacher_info extends Controller
 
     }
 
+    public function get_train_list(){
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $teacherid = $this->get_login_teacher();
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_train_info->get_train_list($page_info,$teacherid,$start_time,$end_time);
+
+        return $this->pageView(__METHOD__, $ret_info);
+    }
 }
