@@ -245,9 +245,6 @@ class NewRouteConfig {
         "/user_manage/subject_by_month"                         => true,
         "/user_manage/tongji_check"                             => true,
         "/user_manage/ass_no_test_lesson_kk_list"               => true,
-        
-
-
 
         "/authority/get_account_role" => true,
         "/authority/set_account_role"        => true,
@@ -259,6 +256,8 @@ class NewRouteConfig {
         "/authority/get_group_user_list_ex"  => true,
         "/authority/add_manager"             => true,
         "/authority/del_manager"             => true,
+        "/authority/add_or_update_gift"      => true,
+        "/authority/del_gift"                => true,
         "/authority/manager_list_for_seller" => true,
         "/authority/manager_list_for_ass"    => true,
         "/authority/manager_list_for_qz"    => true,
@@ -415,7 +414,7 @@ class NewRouteConfig {
         "/stu_manage/test_lesson_list"         => true,
         "/stu_manage/regular_course_stu"         => true,
         "/stu_manage/user_login_list"         => true,
-        
+
         "/appoint/index2"                  => true,
         "/appoint/get_package_simple_info" => true,
         "/appoint/get_package_pic"         => true,
@@ -547,8 +546,8 @@ class NewRouteConfig {
         "/human_resource/quit_teacher_info"                   => true,
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime" => true,
-       
-        
+
+
 
         "/ass_manage/add_manager" => true,
         "/ass_manage/add_assistant"     => true,
@@ -564,7 +563,7 @@ class NewRouteConfig {
         "/authority/edit_member_info" => true,
         "/authority/set_fulltime_teacher_type" => true,
         "/fulltime_teacher/fulltime_teacher_count" => true,
-        
+
 
         "/revisit/get_revisit_info"     => true,
         "/revisit/update_revisit"       => true,

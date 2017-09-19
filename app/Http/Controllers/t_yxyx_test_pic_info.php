@@ -48,8 +48,7 @@ class t_yxyx_test_pic_info extends Controller
 
     }
 
-    public function add_test_info()
-    {
+    public function add_test_info() {
         $test_title  = $this->get_in_str_val('test_title','');
         $test_des    = $this->get_in_str_val('test_des','');
         $grade       = $this->get_in_int_val('grade','');
@@ -69,8 +68,7 @@ class t_yxyx_test_pic_info extends Controller
         return outputjson_success();
     }
 
-    public function update_test_info()
-    {
+    public function update_test_info() {
         $id         = $this->get_in_int_val('id','');
         $test_title = $this->get_in_str_val('test_title','');
         $test_des   = $this->get_in_str_val('test_des','');
@@ -90,10 +88,7 @@ class t_yxyx_test_pic_info extends Controller
         return outputjson_success();
     }
 
-
-
-    public function del_test_info()
-    {
+    public function del_test_info() {
         $id = $this->get_in_int_val('id',-1);
         $ret_info = $this->t_yxyx_test_pic_info->row_delete($id);
         return outputjson_success();
