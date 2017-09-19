@@ -133,7 +133,7 @@ $(function(){
         id_education.val(able_edit.education);
 
         if (title_type == 'user-info') {
-            $modal_title = '可编辑信息';
+            var modal_title = '可编辑信息';
             var arr= [
                 ["merge","个人资料"],
                 ["姓名：", id_nick],
@@ -151,7 +151,7 @@ $(function(){
                 ["个人特长：", id_speciality],
             ];
         } else {
-            $modal_title = '银行卡信息';
+            var modal_title = '银行卡信息';
             var arr= [
                 ["持卡人：",     id_bank_account],
                 ["身份证号：",   id_idcard],
@@ -164,7 +164,7 @@ $(function(){
             ];
 
         }
-        $.tea_show_key_value_table($modal_title, arr,{
+        $.tea_show_key_value_table(modal_title, arr,{
             label    : '确认',
             cssClass : 'btn-info col-xs-2 margin-lr-20',
             action   : function() {
