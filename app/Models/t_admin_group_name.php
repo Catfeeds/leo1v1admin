@@ -333,7 +333,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function get_seller_num(){
-        $sql = $this->gen_sql_new("  select u.adminid from %s n"
+        $sql = $this->gen_sql_new("  select u.adminid,u.groupid from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
                                   ." where main_type=2 and n.up_groupid>0 "
                                   ,self::DB_TABLE_NAME
