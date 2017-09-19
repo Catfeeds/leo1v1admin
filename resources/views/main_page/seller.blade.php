@@ -251,7 +251,7 @@
                                             @elseif($key==2)
                                                 <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                             @elseif($key>count($group_list)-4)
-                                                <a title="" class=" fa-frown-o fa" ></a>
+                                                <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/ee5945233280f4ffcfa7e516e8ce548b1505817757901.png" width="20px" height="20px" alt="" />
                                             @else
                                                 {{$key+1}}
                                             @endif
@@ -298,7 +298,7 @@
                                                 @elseif($key==2)
                                                     <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                                 @elseif($key>count($group_list)-4)
-                                                    <a title="" class=" fa-frown-o fa" ></a>
+                                                    <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/ee5945233280f4ffcfa7e516e8ce548b1505817757901.png" width="20px" height="20px" alt="" />
                                                 @else
                                                     {{$key+1}}
                                                 @endif

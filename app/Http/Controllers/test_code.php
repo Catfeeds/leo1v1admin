@@ -2134,7 +2134,7 @@ class test_code extends Controller
      * 获取之前第三版的等级和转换后的
      */
     public function get_teacher_list(){
-        
+        $list = $this->t_teacher_info->get_old_teacher_money_type_list();
 
 
     }
