@@ -160,9 +160,14 @@
                                 </tr>
                             </thead>
                             <tbody id="id_person_body">
-                                @foreach ( $table_data_list as $var )
+                                @foreach ( $table_data_list as $key=>$var )
                                     <tr>
-                                        <td> <span> {{$var["index"]}} </span> </td>
+                                        <td>
+                                            <span> {{$var["index"]}} </span>
+                                            @if($var["index"] < 4)
+                                                <a title="" class="fa-trophy"></a>
+                                            @endif
+                                        </td>
                                         <td>{{$var["sys_operator"]}} </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
