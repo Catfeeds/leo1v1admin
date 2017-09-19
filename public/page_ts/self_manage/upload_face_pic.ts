@@ -25,6 +25,20 @@ $(function(){
 
     }, null,["png", "jpg",'jpeg','bmp','gif']);
 
+    $.custom_upload_file('id_upload_group_img',1,function (up, info, file) {
+        var res = $.parseJSON(info);
+        $.ajax({
+            url: '/self_manage/set_group_img',
+            type: 'POST',
+            data: {
+                'face':res.key,
+            },
+            dataType: 'json',
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    }, null,["png", "jpg",'jpeg','bmp','gif']);
 
 
   $('.opt-change').set_input_change_event(load_data);
