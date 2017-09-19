@@ -3101,12 +3101,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_formal_order_info( $start_time,$end_time ) {
 
+        $check_time = time() - 30*86400;
         $where_arr = [
             "is_test_user=0",
             "contract_type =0 ",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
+            //become_full_member_time
         ];
 
 

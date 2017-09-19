@@ -21,7 +21,7 @@ class TLessonInfoAddXmppServer extends Migration
 
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
         {
-            t_field( $table->string("xmpp_server_name"), "xmpp 服务器 from t_xmpp_server_config ");
+            t_field( $table->string("xmpp_server_name",20), "xmpp 服务器 from t_xmpp_server_config ");
         });
         //
     }
