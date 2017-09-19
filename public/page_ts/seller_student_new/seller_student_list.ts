@@ -1652,17 +1652,6 @@ function init_edit() {
     $("#id_favorite_count").on("click",function(){
         init_and_reload(function(now){
             // $.filed_init_date_range( 3,  0, now-14*86400,  now);
-            $('#id_subject').val(-1);
-            $('#id_grade').val(-1);
-            $('#id_seller_student_status').val(-1);
-            $("#id_phone_name").val("");
-            $("#id_phone_location").val("");
-            $("#id_has_pad").val(-1);
-            $("#id_userid").val(-1);
-            $("#id_seller_resource_type").val(-1);
-            $("#id_origin_assistantid").val(-1);
-            $("#id_success_flag").val(-1);
-            $("#id_tmk_student_status").val(-1);
             $('#id_favorite_flag').val(1);
         });
     });
