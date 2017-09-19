@@ -288,33 +288,38 @@ class taobao_manage extends Controller
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-
+    /**
+     * 获取/更新淘宝信息
+     * @param type 1 获取 2 更新
+     * @param open_iid 商品的混淆id,唯一
+     * @param product_id 产品id
+     * @param sort_order 显示顺序排序
+     * @param title  商品名称
+     * @param price  商品价格
+     */
     public function set_taobao_info(){
         $type       = $this->get_in_int_val("type");
         $open_iid   = $this->get_in_str_val("open_iid");
-        $product_id = $this->get_in_int_val("product_id");
         $sort_order = $this->get_in_int_val("sort_order");
+        $title      = $this->get_in_str_val("title");
+        $price      = $this->get_in_int_val("price");
 
         if($type==1){
             $ret=$this->t_taobao_item->get_taobao_item($open_iid);
             return $this->output_succ(['data'=>$ret]);
         }elseif($type==2){
-            $check_flag=$this->t_taobao_item->check_taobao_product($product_id);
-            if($check_flag>0){
-                return $this->output_err(-1,"此商品ID已存在!请重新确认!");
-            }
-
             if($open_iid!=''){
                 $ret = $this->t_taobao_item->field_update_list($open_iid,[
-                    "product_id" => $product_id,
                     "sort_order" => $sort_order,
+                    "title" => $title,
+                    "price" => $price,
                 ]);
             }else{
-                return $this->output_err(-1,"商品ID错误!");
+                return $this->output_err("混淆id出错,不能为空!");
             }
 
             if($ret==0){
-                return $this->output_err(-1,"插入失败!");
+                return $this->output_err("更新失败!");
             }
             return $this->output_succ();
         }else{

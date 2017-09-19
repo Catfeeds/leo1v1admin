@@ -54,17 +54,20 @@ $(function(){
             ["商品排序",id_sort_order],
             ["商品价格(单位/元)",id_price],
         ];
+        id_title.val(data.title);
+        id_sort_order.val(data.sort_order);
+        id_price.val(data.price);
 
         $.show_key_value_table("修改商品信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
-
                 $.do_ajax("/taobao_manage/set_taobao_info",{
                     "type"       : 2,
                     "open_iid"   : open_iid,
-                    "product_id" : id_product.val(),
-                    "sort_order" : id_sort_order.val()
+                    "sort_order" : id_sort_order.val(),
+                    "title"      : id_title.val(),
+                    "price"      : id_price.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
@@ -76,7 +79,6 @@ $(function(){
             }
         });
     });
-});
 
     $('.opt-change').set_input_change_event(load_data);
 });

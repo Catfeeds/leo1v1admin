@@ -656,7 +656,6 @@ jQuery.extend({
 
     },
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
-
         var init_upload=function( ret ) {
             var domain_name=ret.domain;
             var token=ret.token;

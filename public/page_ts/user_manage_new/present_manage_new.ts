@@ -413,16 +413,16 @@ $(function(){
 
         id_item["onshown_init"]=function () {
             if (pic_url) {
-                var pic_thumb = '<img src="'+pic_url+'" width="100">';
+                var pic_thumb = '<img src="'+pic_url+'" width="200">';
                 $("#img").append(pic_thumb);
             }
 
             custom_upload_file(
-                btn_id,0,function(up, file, info) {
+                btn_id,true,function(up, file, info) {
                     var res = $.parseJSON(file);
                     if(res.key != ""){
                         pic_url = pub_domain+res.key;
-                        var pic_thumb = '<img src="'+pic_url+'">';
+                        var pic_thumb = '<img src="'+pic_url+'" width="200">';
                         $("#img").empty();
                         $("#img").append(pic_thumb);
                     }

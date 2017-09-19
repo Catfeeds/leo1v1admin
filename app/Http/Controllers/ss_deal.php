@@ -593,6 +593,10 @@ class ss_deal extends Controller
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
         $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
         
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -2018,6 +2022,12 @@ class ss_deal extends Controller
                 $item["pay_status_str"]="已付款";
             }
 
+            if($item["child_order_type"]==2){
+                $item["period_num_info"] = $item["period_num"]."期";
+            }else{
+                $item["period_num_info"] =""; 
+            }
+
 
 
         }
@@ -2028,6 +2038,7 @@ class ss_deal extends Controller
         $parent_orderid  = $this->get_in_int_val("parent_orderid");
         $child_orderid  = $this->get_in_int_val("child_orderid");
         $child_order_type  = $this->get_in_int_val("child_order_type");
+        $period_num  = $this->get_in_int_val("period_num");
         $price  = $this->get_in_int_val("price");
 
         //默认子合同金额更改
@@ -2040,6 +2051,10 @@ class ss_deal extends Controller
            "price"  =>$new_price
         ]);
 
+        if($child_order_type != 2){
+            $period_num=0;
+        }
+
 
         //新增子合同
         $this->t_child_order_info->row_insert([
@@ -2047,7 +2062,8 @@ class ss_deal extends Controller
             "pay_status"       =>0,
             "add_time"         =>time(),
             "parent_orderid"   =>$parent_orderid,
-            "price"            => $price
+            "price"            => $price,
+            "period_num"       => $period_num
         ]);
 
         return $this->output_succ();
@@ -2087,6 +2103,7 @@ class ss_deal extends Controller
         $child_orderid  = $this->get_in_int_val("child_orderid");
         $child_order_type  = $this->get_in_int_val("child_order_type");
         $price  = $this->get_in_int_val("price");
+        $period_num  = $this->get_in_int_val("period_num");
 
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
@@ -2099,10 +2116,17 @@ class ss_deal extends Controller
             return $this->output_err("默认子合同已付款,不能修改当前子合同");
         }
 
+        if($child_order_type != 2){
+            $period_num=0;
+        }
+
+
+
         //修改子合同
         $this->t_child_order_info->field_update_list($child_orderid,[
             "price"  =>$price,
-            "child_order_type"=>$child_order_type
+            "child_order_type"=>$child_order_type,
+            "period_num"   =>$period_num
         ]);
 
 
