@@ -571,6 +571,21 @@ $(function(){
         });
     }
 
+    $.custom_upload_file('id_upload_group_img',1,function (up, info, file) {
+        var res = $.parseJSON(info);
+        $.ajax({
+            url: '/authority/set_manager_face',
+            type: 'POST',
+            data: {
+                'face':res.key,
+            },
+            dataType: 'json',
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+
+    }, null,["png", "jpg",'jpeg','bmp','gif']);  
 
 
 

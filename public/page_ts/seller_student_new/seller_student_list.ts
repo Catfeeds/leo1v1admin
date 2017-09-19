@@ -2018,20 +2018,20 @@ function init_edit() {
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
             var id_user_desc         = html_node.find("#id_stu_user_desc");
-            var id_revisite_info     = html_node.find("#id_stu_revisite_info");
+           // var id_revisite_info     = html_node.find("#id_stu_revisite_info");
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
             var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
-            var id_stu_score_info = html_node.find("#id_stu_score_info");
-            var id_stu_character_info = html_node.find("#id_stu_character_info");
-            var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
+           // var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
+          //  var id_stu_score_info = html_node.find("#id_stu_score_info");
+           // var id_stu_character_info = html_node.find("#id_stu_character_info");
+           // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
             var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
-            var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
-            var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
+           // var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
+           // var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
             var id_advice_flag = html_node.find("#id_advice_flag");
             var id_academic_goal = html_node.find("#id_academic_goal");
             var id_test_stress = html_node.find("#id_test_stress");
@@ -2088,7 +2088,7 @@ function init_edit() {
                 id_stu_request_test_lesson_time.val("");
             });           
 
-            id_study_habit.data("v","");
+            id_study_habit.data("v",opt_data.study_habit);
             id_study_habit.on("click",function(){
                 // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
@@ -2128,7 +2128,7 @@ function init_edit() {
                 
             });
 
-            id_interests_hobbies.data("v","");
+            id_interests_hobbies.data("v",opt_data.interests_hobbies);
             id_interests_hobbies.on("click",function(){
                 // var interests_hobbies= data.interests_hobbies;
                 var interests_hobbies  = id_interests_hobbies.data("v");
@@ -2168,7 +2168,7 @@ function init_edit() {
                 
             });
 
-            id_character_type.data("v","");
+            id_character_type.data("v",opt_data.character_type);
             id_character_type.on("click",function(){
                 // var character_type= data.character_type;
                 var character_type  = id_character_type.data("v");
@@ -2208,7 +2208,7 @@ function init_edit() {
                 
             });
 
-            id_need_teacher_style.data("v","");
+            id_need_teacher_style.data("v",opt_data.need_teacher_style);
             id_need_teacher_style.on("click",function(){
                 // var need_teacher_style= data.need_teacher_style;
                 var need_teacher_style  = id_need_teacher_style.data("v");
@@ -2528,7 +2528,7 @@ function init_edit() {
             id_subject.val(data.subject);
             id_status.val(data.status);
             id_user_desc.val(data.user_desc);
-            id_revisite_info.val(data.revisite_info);
+           // id_revisite_info.val(data.revisite_info);
             id_has_pad.val(data.has_pad);
             id_school.val(data.school);
             id_editionid.val(data.editionid);
@@ -2558,11 +2558,11 @@ function init_edit() {
 
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
-            id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
-            id_stu_score_info.val(data.stu_score_info);
-            id_stu_test_lesson_level.val(data.stu_test_lesson_level);
+          //  id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
+           // id_stu_score_info.val(data.stu_score_info);
+           // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
-            id_stu_character_info.val(data.stu_character_info);
+           // id_stu_character_info.val(data.stu_character_info);
 
             id_next_revisit_time.datetimepicker( {
                 lang:'ch',
@@ -2604,8 +2604,22 @@ function init_edit() {
                             return;
                         }
 
-                        $.do_ajax("/ss_deal/save_user_info",{
-                            userid        : opt_data.userid,
+                        var region = html_node.find("#province").find("option:selected").text();
+                        var province = html_node.find("#province").val();
+                        var city = html_node.find("#city").find("option:selected").text();
+                        var area = html_node.find("#area").find("option:selected").text();
+                        // alert(province);
+                        if(province==""){
+                            region="";
+                            city="";
+                            area="";
+                        }
+
+
+                        $.do_ajax("/ss_deal/save_user_info_new",{
+                            new_demand_flag   : 1,
+                            click_type        : click_type,
+                            userid            : opt_data.userid,
                             test_lesson_subject_id : opt_data.test_lesson_subject_id,
                             phone: opt_data.phone,
                             stu_nick      : id_stu_nick.val(),
@@ -2617,20 +2631,42 @@ function init_edit() {
                             seller_student_status : id_status.val(),
                             seller_student_sub_status : id_seller_student_sub_status.val(),
                             user_desc     : id_user_desc.val(),
-                            revisite_info : id_revisite_info.val(),
+                           // revisite_info : id_revisite_info.val(),
                             next_revisit_time : id_next_revisit_time.val(),
                             editionid : id_editionid.val(),
                             school: id_school.val(),
                             stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                            stu_score_info:id_stu_score_info.val(),
-                            stu_test_lesson_level:id_stu_test_lesson_level.val(),
+                          //  stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
+                           // stu_score_info:id_stu_score_info.val(),
+                           // stu_test_lesson_level:id_stu_test_lesson_level.val(),
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            stu_character_info:id_stu_character_info.val(),
-                            stu_request_test_lesson_time_info:id_stu_request_test_lesson_time_info.data("v"),
-                            stu_request_lesson_time_info:id_stu_request_lesson_time_info.data("v"),
+                          //  stu_character_info:id_stu_character_info.val(),
+                          //  stu_request_test_lesson_time_info:id_stu_request_test_lesson_time_info.data("v"),
+                          //  stu_request_lesson_time_info:id_stu_request_lesson_time_info.data("v"),
                             has_pad       : id_has_pad.val(),
-                            intention_level       : id_intention_level.val()
+                            intention_level       : id_intention_level.val(),
+                            class_rank: html_node.find("#id_class_rank").val(),
+                            grade_rank: html_node.find("#id_grade_rank").val(),
+                            academic_goal: html_node.find("#id_academic_goal").val(),
+                            test_stress: html_node.find("#id_test_stress").val(),
+                            entrance_school_type: html_node.find("#id_entrance_school_type").val(),
+                            interest_cultivation: html_node.find("#id_interest_cultivation").val(),
+                            extra_improvement : html_node.find("#id_extra_improvement").val(),
+                            habit_remodel: html_node.find("#id_habit_remodel").val(),
+                            study_habit : html_node.find("#id_study_habit").val(),
+                            interests_and_hobbies: html_node.find("#id_interests_and_hobbies").val(),
+                            character_type: html_node.find("#id_character_type").val(),
+                            need_teacher_style: html_node.find("#id_need_teacher_style").val(),
+                            demand_urgency: html_node.find("#id_demand_urgency").val(),
+                            quotation_reaction: html_node.find("#id_quotation_reaction").val(),
+                            knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
+                            recent_results: html_node.find("#id_recent_results").val(),
+                            advice_flag: html_node.find("#id_advice_flag").val(),
+                            province: province,
+                            city: city,
+                            area: area,
+                            region: region,
+                            test_paper: html_node.find("#id_test_paper").val(),
                         });
 
                     }
