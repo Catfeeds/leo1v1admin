@@ -64,6 +64,7 @@ interface RowData {
 	leave_time	:any;
 	become_time	:any;
 	day_new_user_flag_str	:any;
+	group_flag	:any;
 }
 
 /*
