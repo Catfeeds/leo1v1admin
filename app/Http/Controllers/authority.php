@@ -554,9 +554,43 @@ class authority extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function add_or_update_gift(){
+        $giftid     = $this->get_in_int_val('giftid',0);
+        $gift_name  = $this->get_in_str_val('gift_name');
+        $gift_type  = $this->get_in_int_val('gift_type');
+        $gift_intro = $this->get_in_str_val('gift_intro');
+        $gift_pic   = $this->get_in_str_val('pic_url');
+        $current_praise = $this->get_in_int_val('praise');
 
-    public function set_manager_face(){
-        $uid = $this->get_account_id();
+        if (!$giftid) {
+            $ret_info = $this->t_gift_info->row_insert([
+                'gift_name'      => $gift_name,
+                'gift_type'      => $gift_type,
+                'gift_intro'     => $gift_intro,
+                'gift_pic'       => $gift_pic,
+                'current_praise' => $current_praise,
+            ]);
+        } else {
+            $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], [
+                                                                  'gift_name'      => $gift_name,
+                                                                  'gift_type'      => $gift_type,
+                                                                  'gift_intro'     => $gift_intro,
+                                                                  'gift_pic'       => $gift_pic,
+                                                                  'current_praise' => $current_praise,
+                                                              ]);
+        }
+
+        return outputjson_success();
+    }
+
+    public function del_gift(){
+        $giftid     = $this->get_in_int_val('giftid',0);
+        $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], ['del_flag' => 1]);
+        return outputjson_success();
+    }
+
+    public function set_group_img(){
+        $adminid = $this->get_account_id();
         $face = $this->get_in_str_val("face");
         $domain = config('admin')['qiniu']['public']['url'];
         $face = $domain.'/'.$face;
@@ -593,21 +627,22 @@ class authority extends Controller
                            0, 0,
                            $dwidth, $dheight,
                            $info[0], $info[1]);
-        $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
-        $image_bg = imagecreatefrompng($bg_pic);
-        imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
+        // $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
+        // $image_bg = imagecreatefrompng($bg_pic);
+        // imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
         $image($tim, $filename);
         $file_name = \App\Helper\Utils::qiniu_upload($filename);
         if($file_name!=''){
             $cmd_rm = "rm ".$filename;
             \App\Helper\Utils::exec_cmd($cmd_rm);
         }
-        imagedestroy($image_bg);
+        // imagedestroy($image_bg);
         imagedestroy($tim);
         imagedestroy($dim);
-        $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
-        $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
-        $_SESSION['face_pic']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        // $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $group_img = "7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $group_img = str_replace(' ','',$group_img);
+        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid=314,$group_img);
         return $this->output_succ();
     }
 

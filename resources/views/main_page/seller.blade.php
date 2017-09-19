@@ -176,10 +176,8 @@
                                             </span>
                                         </td>
                                         <td>
+                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             {{$var["sys_operator"]}}
-                                            @if($var["index"]<4)
-                                                <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                            @endif
                                         </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
