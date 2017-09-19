@@ -160,14 +160,14 @@
                                 </tr>
                             </thead>
                             <tbody id="id_person_body">
-                                @foreach ( $table_data_list as $key=>$var )
+                                @foreach ( $table_data_list as $var )
                                     <tr>
                                         <td>
                                             <span> {{$var["index"]}} </span>
                                             @if($var["index"]==1)
                                                 <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
                                             @elseif($var["index"]==2)
-                                                <a title="" class=" fa-trophy fa" style="color:#d0d0d0;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
                                             @elseif($var["index"]==3)
                                                 <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
                                             @endif
@@ -236,7 +236,22 @@
                             <tbody id="id_group_body">
                                 @foreach ( $group_list as $key=> $var )
                                     <tr>
-                                        <td> <span> {{$key+1}} </span> </td>
+                                        <td>
+                                            <span> {{$key+1}} </span>
+                                            @if($var["index"]==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                            @elseif($var["index"]==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
+                                            @elseif($var["index"]==3)
+                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
+                                            @elseif($var["index"]==12)
+                                                <a title="" class=" fa-meh-o fa" ></a>
+                                            @elseif($var["index"]==13)
+                                                <a title="" class=" fa-meh-o fa" ></a>
+                                            @elseif($var["index"]==14)
+                                                <a title="" class=" fa-meh-o fa" ></a>
+                                            @endif
+                                        </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
                                         <td class="all_price">{{$var["all_price"]/100}} </td>
