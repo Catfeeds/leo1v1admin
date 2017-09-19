@@ -407,6 +407,7 @@ class channel_manage extends Controller
             "main_type"=>''
         ];
 	    $m = $num;
+        dd($ret_info);
         foreach ($ret_info as $key => $value) {
             if($value['channel_id'] == null){
                 $arr = [
