@@ -418,7 +418,7 @@ $(function(){
             }
 
             custom_upload_file(
-                btn_id,0,function(up, file, info) {
+                btn_id,true,function(up, file, info) {
                     var res = $.parseJSON(file);
                     if(res.key != ""){
                         pic_url = pub_domain+res.key;
