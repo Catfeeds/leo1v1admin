@@ -1967,22 +1967,21 @@ function init_edit() {
 
     $(".opt-favorite").on("click",function(){
         var opt_data  = $(this).get_opt_data();
-        $.do_ajax("/ajax_deal/seller_student_new_favorite",{'userid':opt_data.userid,} ,function(ret){
-            if(ret){
-                alert('收藏成功!');
-                window.location.reload();
-            }
-        });
-    });
-
-    $(".opt-favorite_del").on("click",function(){
-        var opt_data  = $(this).get_opt_data();
-        $.do_ajax("/ajax_deal/seller_student_new_favorite_del",{'userid':opt_data.userid,} ,function(ret){
-            if(ret){
-                alert('取消成功!');
-                window.location.reload();
-            }
-        });
+        if(opt_data.favorite_adminid == 0){
+            $.do_ajax("/ajax_deal/seller_student_new_favorite",{'userid':opt_data.userid,} ,function(ret){
+                if(ret){
+                    alert('收藏成功!');
+                    window.location.reload();
+                }
+            });
+        }else{
+            $.do_ajax("/ajax_deal/seller_student_new_favorite_del",{'userid':opt_data.userid,} ,function(ret){
+                if(ret){
+                    alert('取消收藏成功!');
+                    window.location.reload();
+                }
+            });
+        }
     });
 
     $(".opt-edit-new").on("click",function(){
