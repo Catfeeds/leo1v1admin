@@ -86,8 +86,10 @@ class main_page extends Controller
         }
 
         $month = date('Y-m-01');
-        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month);
+        $main_type = 2;// 销售
+        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type);
 
+        dd($seller_target_income);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 
