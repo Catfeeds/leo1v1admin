@@ -253,7 +253,5 @@ class test_sam  extends Controller
 
        $ret_info = $this->t_assistant_info->set_assign_lesson_count(61884,0,10);
 
-       dd($ret_info);
-       dd($ass_list);
     }
 }
