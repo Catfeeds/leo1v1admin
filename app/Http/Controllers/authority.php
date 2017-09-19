@@ -558,7 +558,6 @@ class authority extends Controller
     public function set_group_img(){
         $adminid = $this->get_account_id();
         $face = $this->get_in_str_val("face");
-        dd($adminid,$face);
         $domain = config('admin')['qiniu']['public']['url'];
         $face = $domain.'/'.$face;
         $origin_pic = $face;
