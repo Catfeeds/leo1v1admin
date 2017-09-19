@@ -317,29 +317,6 @@
             </div>
         </div>
 
-        <div id="id_dlg_set_server" style="display:none;">
-            <div class="row">
-                <div class="col-xs-0 col-md-3">
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                  <select id="id_region" class="form-control">
-                      <option value="h">杭州</option>
-                      <option value="b">北京</option>
-                      <option value="q">青岛-测试</option>
-                    </select>
-                </div>
-                <div class="col-xs-6 col-md-3">
-                    <select id="id_server" class="form-control">
-                      <option value="00">1</option>
-                      <option value="01">2</option>
-                      <option value="02">3</option>
-                      <option value="03">4</option>
-                      <option value="04">5</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <div class="opt-set-audio-server-type" style="display:none">
             <div class="row">
                 <div class="input-group ">
