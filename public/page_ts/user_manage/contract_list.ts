@@ -2908,6 +2908,7 @@ $(function(){
                                 "parent_orderid" : parent_orderid,
                                 "child_orderid" : child_orderid,
                                 "child_order_type"     : id_child_order_type.val(),
+                                "period_num"           : id_period_num.val(),
                                 "price"                : id_child_order_money.val()*100
                             });
                         }
