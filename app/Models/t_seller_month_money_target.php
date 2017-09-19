@@ -119,7 +119,7 @@ class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_mone
     }
 
     public function get_all_target($month){
-
+        $sql = $this->gen_sql_new(" select  ");
     }
 
 

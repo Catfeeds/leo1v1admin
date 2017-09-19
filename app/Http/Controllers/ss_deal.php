@@ -593,6 +593,10 @@ class ss_deal extends Controller
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
         $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
         
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -2016,6 +2020,12 @@ class ss_deal extends Controller
                 $item["pay_status_str"]="未付款";
             }elseif($item["pay_status"]==1){
                 $item["pay_status_str"]="已付款";
+            }
+
+            if($item["child_order_type"]==2){
+                $item["period_num_info"] = $item["period_num"]."期";
+            }else{
+                $item["period_num_info"] =""; 
             }
 
 
