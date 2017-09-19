@@ -75,4 +75,8 @@ class wx_teacher_web extends Controller
         header("Location: $url");
     }
 
+    public function wx_comment(){
+        
+    }
+
 }
