@@ -811,7 +811,7 @@
                    
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">是否有pad：</span>
+                            <span class="input-group-addon">上课设备：</span>
                             <select id="id_stu_has_pad" class=" form-control "   >
                             </select>
                         </div>

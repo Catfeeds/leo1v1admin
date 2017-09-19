@@ -1457,16 +1457,21 @@ class common extends Controller
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         $result = json_decode($ret, true);
-        dd($result);
+        // dd($result);
 
-        print_r($result);
+        // print_r($result);
 
 
         //返回信息成功后处理
-        $this->t_orderid_orderno_list->row_insert([
-            "order_no"  =>$orderNo,
-            "orderid"   =>$orderid
-        ]);
+        if($result["status"]==0){
+            $this->t_orderid_orderno_list->row_insert([
+                "order_no"  =>$orderNo,
+                "orderid"   =>$orderid
+            ]);
+        }
+
+        return $this->output_succ(["result"=>$result]);
+
 
 
 
