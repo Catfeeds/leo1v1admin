@@ -22,17 +22,17 @@ class teacher_simulate extends Controller
     var $money_month_key              = "money_month";
     var $teacher_money_type_month_key = "teacher_money_type_month";
 
-
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
         $now_month          = date("m",time());
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
         $teacher_money_type = $this->get_in_enum_list(E\Eteacher_money_type::class);
-        $teacher_money_type_simulate = $this->get_in_enum_list(E\Eteacher_money_type::class);
+        $teacher_money_type_simulate = $this->get_in_enum_list(E\Eteacher_money_type::class,-1,"teacher_money_type_simulate");
         $level              = $this->get_in_int_val("level",-1);
         $not_start          = $this->get_in_int_val("not_start",-1);
         $not_end            = $this->get_in_int_val("not_end",$now_month);
+        $batch              = $this->get_in_int_val("batch",-1);
         $acc                = $this->get_account();
 
         $not_start = strtotime("2017-".$not_start."-01");
@@ -56,26 +56,26 @@ class teacher_simulate extends Controller
             E\Eredis_type::V_GET,$this->already_lesson_count_simulate_key,[],true);
 
         $now_date  = date("Y-m",$start_time);
-        // $file_name = "/tmp/teacher_simulate_".$now_date."_".json_encode($teacher_money_type)."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
-        //需要重新拉取  flag  0 不需要  1 需要
-        // $flag = 0;
-        // if(is_file($file_name)){
-        //     $file_info = file_get_contents($file_name);
-        //     if(empty($file_info) || $file_info==""){
-        //         $flag = 1;
-        //     }
-        // }else{
-        //     $flag = 1;
-        // }
+        $file_name = "/tmp/teacher_simulate_".$now_date."_".json_encode($teacher_money_type)."_".$level."_".$teacher_id."_".$not_start."_".$not_end.".txt";
+        // 需要重新拉取  flag  0 不需要  1 需要
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
 
-        // if($flag){
+        if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end,$teacher_money_type_simulate
+                $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end,$teacher_money_type_simulate,$batch
             );
-        //     file_put_contents($file_name,json_encode($tea_list));
-        // }else{
-        //     $tea_list=json_decode($file_info,true);
-        // }
+            file_put_contents($file_name,json_encode($tea_list));
+        }else{
+            $tea_list = json_decode($file_info,true);
+        }
 
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
@@ -136,9 +136,9 @@ class teacher_simulate extends Controller
                 $val['teacher_money_type_simulate'],$val['teacher_type']);
             if(in_array($check_type_simulate,[1,3])){
                 $already_lesson_count_si = $val['already_lesson_count'];
-            }elseif($check_type==2){
+            }elseif($check_type_simulate==2){
                 $already_lesson_count_si = $already_lesson_count_simulate;
-            }elseif($check_type==4){
+            }elseif($check_type_simulate==4){
                 $already_lesson_count_si = $already_lesson_count_simulate_2;
             }else{
                 $already_lesson_count_si = 0;

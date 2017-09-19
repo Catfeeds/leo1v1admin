@@ -25,9 +25,10 @@ class test_code extends Controller
     var $month_money_key          = "month_money";
     var $lesson_total_key         = "lesson_total";
 
-    var $already_lesson_count_key     = "already_lesson_count_month";
-    var $money_month_key              = "money_month";
-    var $teacher_money_type_month_key = "teacher_money_type_month";
+    var $already_lesson_count_key          = "already_lesson_count_month";
+    var $already_lesson_count_simulate_key = "already_lesson_count_simulate_month";
+    var $money_month_key                   = "money_month";
+    var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     public function __construct(){
         $this->switch_tongji_database();
@@ -2096,12 +2097,38 @@ class test_code extends Controller
 
         $start_time = strtotime("2017-$month");
         $end_time = strtotime("+1 month",$start_time);
-
-
     }
 
+    public function reset_tea_already_lesson_count(){
+        $tea_list = $this->t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end);
+        if(!empty($tea_list) && is_array($tea_list)){
+            foreach($tea_list as $val){
+                $stu_list = $this->t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
+                if(!empty($stu_list) && is_array($stu_list)){
+                    foreach($stu_list as $item){
+                        $this->t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
+                    }
+                }
+            }
+        }
+    }
 
+    public function reset_already_lesson_count(){
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_key);
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_simulate_key);
+    }
 
+    public function reset_teacher_simulate_info(){
+        $list =$this->t_teacher_switch_money_type_list->get_need_reset_list();
+        dd($list);
+        foreach($list as $val){
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                "teacher_money_type_simulate"=>$val['teacher_money_type'],
+                "level_simulate"=>$val['level'],
+            ]);
+        }
+
+    }
 
 
 

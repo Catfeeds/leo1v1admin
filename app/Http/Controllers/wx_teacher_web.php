@@ -75,5 +75,4 @@ class wx_teacher_web extends Controller
         header("Location: $url");
     }
 
-    //http://wx-teacher-web.leo1v1.com/wx_complain/feedback.html
 }

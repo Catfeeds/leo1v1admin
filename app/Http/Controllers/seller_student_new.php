@@ -486,12 +486,13 @@ class seller_student_new extends Controller
         //销售主管以上列表
         $seller_master_list = $this->t_admin_group_name->get_all_master_adminid_list(2);
 
-        $seller_master_list[] = "349";
-        if(in_array($adminid,$seller_master_list)){
+         $seller_master_list[] = "349";
+        $seller_master_list[] = "448";
+        //if(in_array($adminid,$seller_master_list)){
             $is_seller_master= 1;
-        }else{
-            $is_seller_master= 0;
-        }
+        //}else{
+        //$is_seller_master= 0;
+        // }
         //test
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("account",$account);

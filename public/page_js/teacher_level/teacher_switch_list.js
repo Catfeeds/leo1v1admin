@@ -7,16 +7,22 @@ $(function(){
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      // teacherid          : $('#id_teacherid').val(),
 			      batch              : $('#id_batch').val(),
-			      status             : $('#id_status').val()
+			      status             : $('#id_status').val(),
+			      not_start: $('#id_not_start').val(),
+			      not_end: $('#id_not_end').val(),
         });
     }
 
     Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"),false,[0,1,2,3]);
     Enum_map.append_option_list("switch_status",$("#id_status"));
+    Enum_map.append_option_list( "month", $("#id_not_start"));
+    Enum_map.append_option_list( "month", $("#id_not_end"));
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_batch').val(g_args.batch);
 	  $('#id_status').val(g_args.status);
+	  $('#id_not_start').val(g_args.not_start);
+	  $('#id_not_end').val(g_args.not_end);
 
 	  $('.opt-change').set_input_change_event(load_data);
 

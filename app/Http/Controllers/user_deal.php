@@ -3630,9 +3630,9 @@ class user_deal extends Controller
         $lend      = $date_week["edate"];
 
         $num = $this->t_change_teacher_list->get_require_num(-1,$commend_type,$lstart,$lend);
-        if($num>=15){
+        /* if($num>=15){
             return $this->output_err("本月申请次数已达上限".$num."次");
-        }
+            }*/
         //  $accept_adminid=349;
         $adminid = $this->get_account_id();
         $res =  $this->t_change_teacher_list->row_insert([

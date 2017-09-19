@@ -13,6 +13,7 @@ $(function(){
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      teacher_money_type_simulate: $('#id_teacher_money_type_simulate').val(),
 			      level              : $('#id_level').val(),
+			      batch: $('#id_batch').val(),
 			      not_start: $('#id_not_start').val(),
 			      not_end: $('#id_not_end').val(),
         });
