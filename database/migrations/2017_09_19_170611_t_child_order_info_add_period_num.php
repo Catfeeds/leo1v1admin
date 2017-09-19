@@ -13,6 +13,13 @@ class TChildOrderInfoAddPeriodNum extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_child_order_info', function( Blueprint $table)
+        {
+            
+            t_field($table->integer("period_num"),"分期期数");                       
+                      
+        });
+
     }
 
     /**
