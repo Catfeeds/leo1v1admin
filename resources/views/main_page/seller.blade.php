@@ -238,17 +238,17 @@
                                     <tr>
                                         <td>
                                             <span> {{$key+1}} </span>
-                                            @if($var["index"]==1)
+                                            @if($key==0)
                                                 <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
-                                            @elseif($var["index"]==2)
+                                            @elseif($key==1)
                                                 <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
-                                            @elseif($var["index"]==3)
+                                            @elseif($key==2)
                                                 <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
-                                            @elseif($var["index"]==12)
+                                            @elseif($key==11)
                                                 <a title="" class=" fa-meh-o fa" ></a>
-                                            @elseif($var["index"]==13)
+                                            @elseif($key==12)
                                                 <a title="" class=" fa-meh-o fa" ></a>
-                                            @elseif($var["index"]==14)
+                                            @elseif($key==13)
                                                 <a title="" class=" fa-meh-o fa" ></a>
                                             @endif
                                         </td>
