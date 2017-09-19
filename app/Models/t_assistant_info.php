@@ -315,5 +315,14 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         return $this->main_get_value($sql);
     }
 
-
+    public function  set_assign_lesson_count($assistantid,$assign_lesson_count,$assign_lesson){
+      $sql = sprintf("update %s set assign_lesson_count  = %s+%s where assistantid = %u",
+                       self::DB_TABLE_NAME,
+                       $assign_lesson_count,
+                       $assign_lesson,
+                       $assistantid
+        );
+      dd($sql);
+        return $this->main_update( $sql  );
+    }
 }
