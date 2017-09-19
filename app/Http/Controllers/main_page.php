@@ -57,14 +57,27 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+            1 => array("require_time","申请时间"),
+            2 => array("stu_request_test_lesson_time", "期待试听时间"),
+            4 => array("lesson_start", "上课时间"),
+            5 => array("seller_require_change_time ", "销售申请更换时间"),
+        ]);
+
+
         $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入]
         // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
         // dd($income_num);
-        // $half_week_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time, [-1],"limit 10000" );
-        // dd($half_week_info);
-        // $month_kpi = $this->t
+        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time);
+
+        $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+
+        // $aver_money = $
+
+        $ret_info = [];
+        return $this->pageView(__METHOD__, $ret_info);
 
 
     }

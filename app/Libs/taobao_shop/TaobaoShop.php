@@ -42,5 +42,5 @@ class TaobaoShop{
 
         return $ret;
     }
-    
+
 }

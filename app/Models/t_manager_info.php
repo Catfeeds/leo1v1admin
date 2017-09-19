@@ -1680,4 +1680,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select  s.assistantid  from db_weiyi_admin.t_manager_info m left join t_assistant_info s on s.phone = m.phone where  m.phone > 0 and s.phone > 0 and m.uid = %s",$uid);
         return $this->main_get_value($sql);
     }
+
+    public function get_formal_num($start_time, $end_time){
+        $check_time = time() - 30*86400;
+        $where_arr = [
+            "m.account_role=2",
+            "m.become_full_member_time <= $check_time"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(*) from %s m "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }
