@@ -1107,6 +1107,15 @@
 
                         </div>
                     </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon"> 连线测试 ：</span>
+                            <select id="id_stu_test_ipad_flag" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
                    
 
                 </div>

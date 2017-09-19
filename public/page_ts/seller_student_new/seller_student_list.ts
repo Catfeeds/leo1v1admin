@@ -2018,7 +2018,7 @@ function init_edit() {
             var id_status            = html_node.find("#id_stu_status");
             var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
             var id_user_desc         = html_node.find("#id_stu_user_desc");
-           // var id_revisite_info     = html_node.find("#id_stu_revisite_info");
+            var id_revisite_info     = html_node.find("#id_stu_revisite_info");
             var id_has_pad           = html_node.find("#id_stu_has_pad");
             var id_editionid         = html_node.find("#id_stu_editionid");
             var id_school            = html_node.find("#id_stu_school");
@@ -2053,172 +2053,7 @@ function init_edit() {
             }
             
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
-            
-            
-            /*html_node.find("#id_upload_test_paper").on("click",function(){
-              alert(111);
-              });*/
-            
-            
-            
-
-            
-            
-            id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
-            id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
-            id_stu_request_lesson_time_info.on("click",function(){
-                var v=$(this).data("v");
-                if(!v) {
-                    v="[]";
-                }
-                var data_list=JSON.parse(v);
-
-                $(this).admin_select_dlg_edit({
-                    onAdd:function( call_func ) {
-                        var id_week= $("<select> "+
-                                       "<option value=1>周1</option> "+
-                                       "<option value=2>周2</option> "+
-                                       "<option value=3>周3</option> "+
-                                       "<option value=4>周4</option> "+
-                                       "<option value=5>周5</option> "+
-                                       "<option value=6>周6</option> "+
-                                       "<option value=0>周日</option> "+
-                                       "</select>");
-                        var id_start_time=$("<input/>");
-                        var id_end_time=$("<input/>");
-                        id_start_time.datetimepicker({
-                            datepicker:false,
-                            timepicker:true,
-                            format:'H:i',
-                            step:30,
-                            onChangeDateTime :function(){
-                                var end_time= $.strtotime("1970-01-01 "+id_start_time.val() ) + 7200;
-                                id_end_time.val(  $.DateFormat(end_time, "hh:mm"));
-                            }
-                        });
-                        id_end_time.datetimepicker({
-                            datepicker:false,
-                            timepicker:true,
-                            format:'H:i',
-                            step:30
-                        });
-                        var arr=[
-                            ["周", id_week],
-                            ["开始时间", id_start_time],
-                            ["结束时间", id_end_time],
-                        ];
-                        $.show_key_value_table("增加", arr, {
-                            label: '确认',
-                            cssClass: 'btn-warning',
-                            action: function (dialog) {
-                                call_func({
-                                    "week" :  id_week.val() ,
-                                    "start_time" : $.strtotime( "1970-01-01 "+ id_start_time.val()) ,
-                                    "end_time" : $.strtotime ( "1970-01-01 "+ id_end_time.val())
-                                });
-                                dialog.close();
-                            }
-                        });
-
-
-
-
-
-                        /*
-                          var div=$("<div/>");
-                          div.admin_select_date_time_range({
-
-                          onSelect:function(start_time,end_time) {
-                          call_func({
-                          "start_time" : start_time ,
-                          "end_time" : end_time
-                          });
-                          }
-                          });
-                          div.click();
-                        */
-                    },
-                    sort_func : function(a,b){
-                        var a_time=a["week"]*10000000+a["start_time"];
-                        var b_time=b["week"]*10000000+b["start_time"];
-                        if (a_time==b_time ) {
-                            return 0;
-                        }else{
-                            if (a_time>b_time) return 1;
-                            else return -1;
-                        }
-                    }, 'field_list' :[
-                        {
-                            title:"周",
-                            render:function(val,item) {
-                                return Enum_map.get_desc("week", item["week"]*1  );
-                            }
-                        },{
-
-                            title:"时间段",
-                            //width :50,
-                            render:function(val,item) {
-                                return  $.DateFormat(item.start_time, "hh:mm") +"~"+
-                                    $.DateFormat(item.end_time, "hh:mm")  ;
-                            }
-                        }
-                    ] ,
-                    data_list: data_list,
-                    onChange:function( data_list, dialog)  {
-                        id_stu_request_lesson_time_info.data("v" , JSON.stringify(data_list));
-                    }
-                });
-            }) ;
-
-            id_stu_request_test_lesson_time_info.on("click",function(){
-                var v=$(this).data("v");
-                if(!v) {
-                    v="[]";
-                }
-                var data_list=JSON.parse(v);
-
-                $(this).admin_select_dlg_edit({
-                    onAdd:function( call_func ) {
-                        var div=$("<div/>");
-                        div.admin_select_date_time_range({
-
-                            onSelect:function(start_time,end_time) {
-                                call_func({
-                                    "start_time" : start_time ,
-                                    "end_time" : end_time
-                                });
-                            }
-                        });
-                        div.click();
-                    },
-                    sort_func : function(a,b){
-                        var a_time=a["start_time"];
-                        var b_time=b["start_time"];
-                        if (a_time==b_time ) {
-                            return 0;
-                        }else{
-                            if (a_time>b_time) return 1;
-                            else return -1;
-                        }
-                    }, 'field_list' :[
-                        {
-                            title:"时间段",
-                            //width :50,
-                            render:function(val,item) {
-                                return  $.DateFormat(item.start_time, "yyyy-MM-dd hh:mm") +"~"+
-                                    $.DateFormat(item.end_time, "hh:mm")  ;
-                            }
-                        }
-                    ] ,
-                    data_list: data_list,
-                    onChange:function( data_list, dialog)  {
-                        id_stu_request_test_lesson_time_info.data("v" , JSON.stringify(data_list));
-                    }
-                });
-
-
-            }) ;
-
+           
             html_node.find("#id_stu_reset_next_revisit_time").on("click",function(){
                 id_next_revisit_time.val("");
             });
@@ -2227,7 +2062,7 @@ function init_edit() {
             Enum_map.append_option_list("subject", id_subject, true);
             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
             Enum_map.append_option_list("boolean", id_advice_flag, true);
-            Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
+          //  Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
             Enum_map.append_option_list("test_stress", id_test_stress, true);
             Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);

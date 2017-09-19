@@ -58,7 +58,12 @@ class main_page extends Controller
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
         $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入]
-        dd($income);
+        // dd($income);
+
+        $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 签单人数
+        dd($income_num);
+        $half_week_info= $this->t_order_info->get_1v1_order_seller_list($hw_start_time,$hw_end_time, [-1],"limit 5" );
+
         // $month_kpi = $this->t
 
 
