@@ -27,4 +27,13 @@ class lesson_manage extends Controller
     }
 
 
+    public function get_lesson_info() {
+        $lessonid     = $this->get_in_lessonid();
+        $row_data     = $this->t_lesson_info->field_get_list($lessonid,"*");
+        $lesson_count = $this->t_course_order->get_default_lesson_count($row_data['courseid']);
+        return $this->output_succ( ["data"=>$row_data,"lesson_count"=>$lesson_count]);
+
+    }
+
+
 }

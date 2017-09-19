@@ -855,8 +855,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     public function get_real_xmpp_server($lessonid ) {
-        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server");
-        $xmpp_server= $lesson_info["xmpp_server"];
+        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
+        $xmpp_server= $lesson_info["xmpp_server_name"];
         if(!$xmpp_server) {
             $xmpp_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
         }

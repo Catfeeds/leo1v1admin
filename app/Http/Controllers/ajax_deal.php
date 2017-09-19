@@ -100,6 +100,24 @@ class ajax_deal extends Controller
     }
 
 
+    public function set_xmpp_server_list() {
+
+        $xmpp_server_name=$this->get_in_str_val("xmpp_server_name","" );
+        $id_list_str= $this->get_in_str_val("id_list");
+        $id_list=\App\Helper\Utils::json_decode_as_int_array($id_list_str);
+        if ( count($id_list) ==0 ) {
+            return $this->output_err("还没选择例子");
+        }
+        foreach ($id_list as $lessonid ) {
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "xmpp_server_name" =>  $xmpp_server_name,
+            ]);
+        }
+
+        return $this->output_succ();
+    }
+
+
     //
 
     public function tongji_fail_lesson_list_js () {
