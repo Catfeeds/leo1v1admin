@@ -54,6 +54,9 @@ $(function(){
             ["商品排序",id_sort_order],
             ["商品价格(单位/元)",id_price],
         ];
+        id_title.val(data.title);
+        id_sort_order.val(data.sort_order);
+        id_price.val(data.price);
 
         $.show_key_value_table("修改商品信息",arr,{
             label    : "确认",
