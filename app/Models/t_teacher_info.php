@@ -3607,4 +3607,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacher_textbook,teacherid from %s where teacher_textbook like '%%%s%%'",self::DB_TABLE_NAME,$id);
         return $this->main_get_list($sql);
     }
+
+    public function get_old_teacher_money_type_list(){
+
+        $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
+                                  ." from %s t"
+                                  ." left join %s l on t.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
