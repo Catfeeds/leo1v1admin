@@ -14,7 +14,7 @@ class channel_manage extends Controller
 
     public function admin_channel_manage(){
         $ret_info = $this->t_admin_channel_list->get_admin_channel_info();
-        //dd($ret_info);
+        // dd($ret_info);
         $list=[];
         $num=1;
         foreach($ret_info as $s)   {
@@ -111,7 +111,6 @@ class channel_manage extends Controller
             }
             $num++;
         }
-        // dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
       

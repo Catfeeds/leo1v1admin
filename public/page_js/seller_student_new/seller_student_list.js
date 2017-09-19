@@ -255,7 +255,7 @@ $(function(){
             $.do_ajax("/ss_deal/get_user_info",{
                 "userid"                 : opt_data.userid ,
                 "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
-            } ,function(ret){
+            },function(ret){
                 ret=ret.data;
 
                 if( ret.editionid == 0) {
@@ -275,103 +275,98 @@ $(function(){
                     return; 
                 }
 
-
-
-            var require_time= $.strtotime( ret.stu_request_test_lesson_time);
-            var need_start_time=0;
-            var now=(new Date()).getTime()/1000;
-            var min_date_time="";
-            var nowDayOfWeek = (new Date()).getDay();
-            if ( (new Date()).getHours() <18 ) {
-                min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
-            }else{
-                if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
-
-                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                var require_time= $.strtotime( ret.stu_request_test_lesson_time);
+                var need_start_time=0;
+                var now=(new Date()).getTime()/1000;
+                var min_date_time="";
+                var nowDayOfWeek = (new Date()).getDay();
+                if ( (new Date()).getHours() <18 ) {
+                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
                 }else{
-                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+                    if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
+
+                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                    }else{
+                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+                    }
                 }
-            }
-            need_start_time=$.strtotime(min_date_time );
-            if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
-                alert("年级不对,请确认准确年级!"+ ret.grade );
-                $(me).parent().find(".opt-edit").click();
-                return;
-            }
+                need_start_time=$.strtotime(min_date_time );
+                if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
+                    alert("年级不对,请确认准确年级!"+ ret.grade );
+                    $(me).parent().find(".opt-edit").click();
+                    return;
+                }
 
-            if (require_time < need_start_time ) {
-                alert("申请时间不能早于 "+ min_date_time );
-                $(me).parent().find(".opt-edit").click();
-                return;
-                //申请时间
-            }
+                if (require_time < need_start_time ) {
+                    alert("申请时间不能早于 "+ min_date_time );
+                    $(me).parent().find(".opt-edit").click();
+                    return;
+                    //申请时间
+                }
 
-            var id_stu_test_ipad_flag = $("<select/>");
-            var id_not_test_ipad_reason = $("<textarea>");
-            var id_user_agent = $("<div />");
+                var id_stu_test_ipad_flag   = $("<select/>");
+                var id_not_test_ipad_reason = $("<textarea>");
+                var id_user_agent           = $("<div />");
+                var id_grade_select         = $("<select />");
 
-            var id_grade_select = $("<select />");
+                Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+                Enum_map.append_option_list("grade", id_grade_select, true);
 
-
-
-            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
-            Enum_map.append_option_list("grade", id_grade_select, true);
-
-            if(ret.user_agent ==""){
-                id_user_agent.html("您还没有设备信息!");
-                id_user_agent.css("color","red");
-            }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
-                id_user_agent.html(ret.user_agent);
-                id_user_agent.css("color","red");
-            }else{
-                id_user_agent.html(ret.user_agent);
-            }
-
-            var arr=[
-                ["姓名",  ret.stu_nick ],
-                ["年级", id_grade_select ],
-                ["科目", ret.subject_str ],
-                ["学校", ret.school ],
-                ["试听时间",  ret.stu_request_test_lesson_time ],
-                ["试听需求",  ret.stu_request_test_lesson_demand ],
-                ["机器版本",  id_user_agent ],
-                ["是否已经连线测试 ", id_stu_test_ipad_flag],
-                ["未连线测试原因", id_not_test_ipad_reason]
-            ];
-
-            id_grade_select.val(ret.grade);
-
-            id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
-            id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
-
-            id_stu_test_ipad_flag.on("change",function(){
-                if(id_stu_test_ipad_flag.val() == 1){
-                    id_not_test_ipad_reason.parent().parent().hide();
+                if(ret.user_agent ==""){
+                    id_user_agent.html("您还没有设备信息!");
+                    id_user_agent.css("color","red");
+                }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
+                    id_user_agent.html(ret.user_agent);
+                    id_user_agent.css("color","red");
                 }else{
-                    id_not_test_ipad_reason.parent().parent().show();
+                    id_user_agent.html(ret.user_agent);
                 }
+
+                var arr=[
+                    ["姓名",  ret.stu_nick ],
+                    ["年级", id_grade_select ],
+                    ["科目", ret.subject_str ],
+                    ["学校", ret.school ],
+                    ["试听时间",  ret.stu_request_test_lesson_time ],
+                    ["试听需求",  ret.stu_request_test_lesson_demand ],
+                    ["机器版本",  id_user_agent ],
+                    ["是否已经连线测试 ", id_stu_test_ipad_flag],
+                    ["未连线测试原因", id_not_test_ipad_reason]
+                ];
+
+                id_grade_select.val(ret.grade);
+
+                id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
+                id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
+
+                id_stu_test_ipad_flag.on("change",function(){
+                    if(id_stu_test_ipad_flag.val() == 1){
+                        id_not_test_ipad_reason.parent().parent().hide();
+                    }else{
+                        id_not_test_ipad_reason.parent().parent().show();
+                    }
+                });
+
+                $.show_key_value_table("试听申请", arr, {
+                    label: '确认',
+                    cssClass: 'btn-warning',
+                    action: function (dialog) {
+                        $.do_ajax("/ss_deal/require_test_lesson", {
+                            "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
+                            "userid" : opt_data.userid ,
+                            "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
+                            "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
+                            "test_stu_grade" : id_grade_select.val(),
+                        });
+                    }
+                },function(){
+                    if(id_stu_test_ipad_flag.val() == 1){
+                        id_not_test_ipad_reason.parent().parent().hide();
+                    }else{
+                        id_not_test_ipad_reason.parent().parent().show();
+                    }
+                });
             });
-
-            $.show_key_value_table("试听申请", arr, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function (dialog) {
-                    $.do_ajax("/ss_deal/require_test_lesson", {
-                        "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
-                        "userid" : opt_data.userid ,
-                        "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
-                        "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
-                        "test_stu_grade" : id_grade_select.val(),
-                    });
-                }
-            },function(){
-                if(id_stu_test_ipad_flag.val() == 1){
-                    id_not_test_ipad_reason.parent().parent().hide();
-                }else{
-                    id_not_test_ipad_reason.parent().parent().show();
-                }
-            });
-        });
         };
 
         $.do_ajax("/ajax_deal2/check_add_test_lesson",{
@@ -384,7 +379,6 @@ $(function(){
                 }
                 return;
             }
-
             if (!opt_data.parent_wx_openid &&
                 g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186 && g_args.jack_flag!=944)
             {
@@ -392,26 +386,9 @@ $(function(){
                 $(me).parent().find(".opt-seller-qr-code").click();
                 return;
             }
+            do_add_test_lesson();
 
-            /*
-            //取消率
-            $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,} ,function(ret){
-                if(ret.ret==1){
-                    alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,本周已被限制排课,可点击'排课解冻'申请排课");
-                    return;
-                }else{
-                    if(ret.ret==2){
-                        alert("由于您上周试听排课取消率已超过25%,为"+ret.rate+"%,还能排1节试听课");
-                    }else if(ret.ret==3){
-                        alert('您本周取消率已达20%,为'+ret.rate+'%,大于25%下周将被限制排课,每天将只能排1试听课,请谨慎处理');
-                    }
-                    do_add_test_lesson();
-                }
-            });
-            */
-             do_add_test_lesson();
-
-        } );
+        });
     });
 
 

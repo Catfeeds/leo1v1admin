@@ -988,14 +988,15 @@ class ajax_deal2 extends Controller
     }
 
     public function check_add_test_lesson() {
-        $userid = $this->get_in_userid();
-        $adminid=$this->get_account_id();
-        $seller_level=$this->t_manager_info->get_seller_level($adminid);
+        $userid       = $this->get_in_userid();
+        $adminid      = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        $seller_level = $this->t_manager_info->get_seller_level($adminid);
 
 
         $user_test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         $user_test_lesson_count = count( $user_test_lesson_list) ;
-        if ( $user_test_lesson_count >5 ) {
+        if ($user_test_lesson_count>5 && $account_role !=12) {
             return $this->output_err("已经 $user_test_lesson_count 次试听了，超过5次，不可试听");
         }
 
