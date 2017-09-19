@@ -161,34 +161,19 @@
                             </thead>
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
-                                    @if($var["index"] < 4)
-                                        <tr>
-                                            <td colspan="4">
-                                                <div class="row">
-                                                    <div class="col-xs-4" id="">
-                                                        <span>
-                                                            @if($var["index"]==1)
-                                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-xs-4" id="">
-                                                        @if($var["index"]==2)
-                                                            <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-xs-4" id="">
-                                                        @if($var["index"]==3)
-                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @else 
                                     <tr>
                                         <td>
-                                            <span> {{$var["index"]}} </span>
+                                            <span>
+                                            @if($var["index"]==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                            @elseif($var["index"]==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                            @elseif($var["index"]==3)
+                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                            @else
+                                                {{$var["index"]}}
+                                            @endif
+                                            </span>
                                         </td>
                                         <td>
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
@@ -197,7 +182,6 @@
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
-                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -314,7 +298,7 @@
                                                 @elseif($key==2)
                                                     <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                                 @elseif($key>count($group_list)-4)
-                                                    <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/ee5945233280f4ffcfa7e516e8ce548b1505817757901.png" width="20px" height="20px" alt="" />
+                                                    <a title="" class=" fa-frown-o fa" ></a>
                                                 @else
                                                     {{$key+1}}
                                                 @endif
