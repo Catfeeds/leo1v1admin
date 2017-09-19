@@ -606,8 +606,8 @@ class authority extends Controller
         imagedestroy($tim);
         imagedestroy($dim);
         $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        dd($adminid,$group_img);
         $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
-        dd($ret,$adminid,$group_img);
         $_SESSION['group_img']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         return $this->output_succ();
     }
