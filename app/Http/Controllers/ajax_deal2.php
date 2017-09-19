@@ -1374,7 +1374,6 @@ class ajax_deal2 extends Controller
         $teacherid       = $this->get_in_int_val('teacherid');
         $subject         = $this->get_in_int_val('subject');
         $train_type      = $this->get_in_int_val('train_type');
-
         $create_adminid  = $this->get_account_id();
         $create_time     = time();
 
@@ -1382,8 +1381,8 @@ class ajax_deal2 extends Controller
             'create_time'              => $create_time,
             'create_adminid'           => $create_adminid,
             'train_type'               => $train_type,
-            'teacherid'                => $teacherid,
             'subject'                  => $subject,
+            'teacherid'                => $teacherid,
             'status'                   => 1,
          ]);
         return $this->output_succ();
@@ -1428,19 +1427,29 @@ class ajax_deal2 extends Controller
         if($status == 3){
             $data['through_time'] = $through_time;
         }
-        dd($data);
+        $ret = $this->t_teacher_train_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+        /**
+     *@author    sam
+     *@function  更改培训状态
+     *@path      teacher_info/get_train_list
+     */
+    public function change_train_status(){
+
+        $id              = $this->get_in_int_val("id");
+        $status          = $this->get_in_int_val('status');
+        $data = [
+            'status'                   => $status,
+         ];
+        if($status == 3){
+            $data['through_time'] = time();
+        }
         $ret = $this->t_teacher_train_info->field_update_list($id,$data);
         return $this->output_succ();
     }
 
 
-    //获取老师所带学习超过三个月的学生
-    public function get_three_month_stu_num(){
-        $teacherid              = $this->get_in_int_val("teacherid");
-        $start_time = time()-90*86400;
-        $end_time = time();
-
-    }
     public function xmpp_server_add() {
         $ip=trim($this->get_in_str_val("ip"));
         $server_name=trim($this->get_in_str_val("server_name"));
@@ -1475,6 +1484,26 @@ class ajax_deal2 extends Controller
         $id=$this->get_in_id();
         $this->t_xmpp_server_config->row_delete($id);
         return $this->output_succ();
+
+    }
+
+    //获取老师所带学习超过三个月的学生
+    public function get_three_month_stu_num(){
+        $teacherid              = $this->get_in_int_val("teacherid");
+        $start_time = time()-90*86400;
+        $end_time = time();
+
+        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
+        $num=0;
+        foreach($list as $v){
+            $userid = $v["userid"];
+            $min = $this->t_lesson_info_b3->get_first_regular_lesson_time($teacherid,$userid);
+            $max = $this->t_lesson_info_b3->get_last_regular_lesson_time($teacherid,$userid);
+            if(($max - $min) >= 90*86400){
+                $num++;
+            }
+        }
+        return $this->output_succ(["data"=>$num]);
     }
 
 }

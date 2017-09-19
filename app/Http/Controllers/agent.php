@@ -324,7 +324,12 @@ class agent extends Controller
     }
 
     public function check(){
-        dd('a');
+        $favorite_flag = $this->get_in_str_val("favorite_flag",-1);
+        $favorite_flag = $favorite_flag!=-1?$this->get_account_id():0;
+        dd($favorite_flag);
+
+        $favorite_count = $this->t_seller_student_new->get_favorite_num($adminid=$this->get_account_id());
+        dd($favorite_count);
         $agent_info = $this->t_agent->get_son_userid_by_phone($phone='13421239870');
         $userid_arr = array_unique(array_column($agent_info,'userid'));
 

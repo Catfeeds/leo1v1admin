@@ -219,12 +219,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "a.type in (1,3)",
             ["a.pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
             "a.create_time> $yxyx_check_time",
+            "a.pp_agent_status_money >0",
 
         ];
         if ( $test_lesson_succ_flag ==1 ) {
-            $where_arr[] ="a.pp_agent_status_money=5000 ";
+            $where_arr[] ="a.pp_agent_status_money=2500 ";
         }else if ( $test_lesson_succ_flag ==0 ) {
-            $where_arr[] ="a.pp_agent_status_money<5000 ";
+            $where_arr[] ="a.pp_agent_status_money<2500 ";
         }
 
 
@@ -1494,8 +1495,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
         //总提成信息
-        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money;
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id);
 
 
