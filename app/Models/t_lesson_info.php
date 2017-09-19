@@ -9533,7 +9533,7 @@ lesson_type in (0,1) "
     { 
         if($assistantid < 0){
            $where_arr = [
-                "s.assistantid < 0",
+                "s.assistantid>0",
                 "c.course_type  =0",
                 "c.course_status =0",
                 "c.teacherid!=0",
@@ -9550,7 +9550,7 @@ lesson_type in (0,1) "
             "s.is_test_user=0"
         ];
         }
-        $sql = $this->gen_sql_new("select c.teacherid,t.phone,t.grade_part_ex ,t.subject"
+        $sql = $this->gen_sql_new("select s.assistantid,c.teacherid,t.phone,t.grade_part_ex ,t.subject"
                                   ." from %s s"
                                   ." left join %s c on s.userid = c.userid "
                                   ." left join %s t on c.teacherid = t.teacherid "
