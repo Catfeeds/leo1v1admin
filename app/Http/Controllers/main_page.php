@@ -103,9 +103,9 @@ class main_page extends Controller
         $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
         $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
         $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-        $new_num = $this->t_admin_group_name->get_group_seller_num($new_group);// 新人营
-        dd($first_num.' ~ '.$second_num.' ~ '.$third_num.' ~ '.$new_num);
-
+        $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+        // $train_num = $this->
+        //
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
