@@ -65,7 +65,12 @@ class main_page extends Controller
         ]);
 
 
-        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
+        $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
+        if($income_arr['all_count']>0){
+            $aver_count = $income_arr['all_price']/$income_arr['all_count'];//平均单笔
+        }else{
+            $aver_count = 0;
+        }
         // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
@@ -88,6 +93,11 @@ class main_page extends Controller
         $month = date('Y-m-01');
         $main_type = 2;// 销售
         $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
+
+        // 计算电销人数
+        $this->t_admin_group_name->get_seller_num();
+
+
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
