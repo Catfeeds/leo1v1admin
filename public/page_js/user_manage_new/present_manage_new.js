@@ -258,7 +258,7 @@ $(function(){
                     $(".bootstrap-dialog-body .show_pic").append(
                         '<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
                             '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
-                            'http://'+domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
+                            domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
                 }, null,[ "png", "jpg"]);
                 clearTimeout(ta);
             });
@@ -406,7 +406,7 @@ $(function(){
     var gen_upload_item = function(btn_id,pic_url){
         var id_item = $(
             "<div class=\"row\"> "+
-                "<div id=\"img\"></div>"+
+                "<div class=\"col-md-12\" id=\"img\"></div>"+
                 "<div class=\" col-md-2\">" +
                 "<button class=\"btn btn-primary\" id=\""+btn_id+"\">上传</button>"+
                 "</div></div>"
