@@ -175,7 +175,7 @@
                                         <td>
                                             {{$var["sys_operator"]}}
                                             @if($var["index"]<4)
-                                                <img src="{{$var["face_pic"]}}" width="10px" height="10px" alt="" />
+                                                <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             @endif
                                         </td>
                                         <td>{{$var["all_count"]}} </td>
