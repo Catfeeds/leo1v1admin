@@ -21,19 +21,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	person_num	:any;
-	lesson_num	:any;
-	have_order	:any;
-	teacherid	:any;
-	realname	:any;
-	subject	:any;
-	train_through_new_time	:any;
-	grade_part_ex	:any;
-	phone	:any;
-	per	:any;
-	num	:any;
-	subject_str	:any;
-	grade_part_ex_str	:any;
 }
 
 /*

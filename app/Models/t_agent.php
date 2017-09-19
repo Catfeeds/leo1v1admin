@@ -219,12 +219,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "a.type in (1,3)",
             ["a.pp_agent_status_money_open_flag=%s", $agent_status_money_open_flag,-1],
             "a.create_time> $yxyx_check_time",
+            "a.pp_agent_status_money >0",
 
         ];
         if ( $test_lesson_succ_flag ==1 ) {
-            $where_arr[] ="a.pp_agent_status_money=5000 ";
+            $where_arr[] ="a.pp_agent_status_money=2500 ";
         }else if ( $test_lesson_succ_flag ==0 ) {
-            $where_arr[] ="a.pp_agent_status_money<5000 ";
+            $where_arr[] ="a.pp_agent_status_money<2500 ";
         }
 
 
