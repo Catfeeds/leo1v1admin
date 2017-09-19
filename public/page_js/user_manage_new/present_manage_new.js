@@ -55,138 +55,6 @@ $(function(){
         });
     });
 
-    $("opt-gift-modify").on("click", function(){
-        var html_node = $("<div></div>").html(dlg_get_html_by_class('dlg_modify_gift'));
-
-        var giftid = $(this).parent().data('giftid');
-        var pre_gift_name = $(this).parents("td").siblings(".gift_type").text();
-
-        html_node.find(".gift_type").children().filter( function(index) {
-            var ret = $(this).text().localeCompare( pre_gift_name );
-            return ret == 0;
-        }).attr("selected", true);
-        html_node.find(".gift_name").val($(this).get_opt_data().gift_name);                                                 ;
-        html_node.find(".gift_intro").val($(this).get_opt_data().gift_intro);
-        html_node.find(".gift_praise").val($(this).get_opt_data().current_praise);
-        html_node.find(".gift_type").val($(this).get_opt_data().gift_type);
-
-        html_node.find(".gift_url").val($(this).parents("td").siblings(".gift_url").children("a").attr("href"));
-        html_node.find(".preview_gift_pic").attr("href", $(this).parents("td").siblings(".gift_url").children("a").attr("href"));
-
-        html_node.find(".upload_gift_pic").attr('id', 'opt-upload-gift-pic');
-        html_node.find(".upload_gift_pic").parent().attr('id', 'opt-upload-gift-pic-parent');
-
-        BootstrapDialog.show({
-            title: "修改商品信息",
-            message : function(dialog) {
-
-                html_node.find(".preview_gift_pic").fancybox({
-                    helpers: {
-                        title : {
-                            type : 'outside'
-                        },
-                        overlay : {
-                            speedOut : 0
-                        }
-                    }
-                });
-
-                return html_node;
-            },
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    var gift_type      = html_node.find(".gift_type").val();
-                    var gift_name      = html_node.find(".gift_name").val();
-                    var gift_intro     = html_node.find(".gift_intro").val();
-                    var current_praise = html_node.find(".gift_praise").val();
-                    var gift_pic       = html_node.find(".gift_url").val();
-
-                    $.ajax({
-                        type     :"post",
-                        url      :"/authority/modify_gift_info",
-                        dataType :"json",
-                        data     :{"giftid": giftid, "gift_type":gift_type,"gift_name":gift_name,
-                                   "gift_intro":gift_intro,"praise":current_praise,"gift_pic":gift_pic},
-                        success  : function(result){
-                            if(result.ret != 0){
-                                BootstrapDialog.alert(result['info']);
-                            }else{
-                                window.location.reload();
-                            }
-                        }
-                    });
-                    dialog.close();
-                }
-            }]
-        });
-
-        var th = setTimeout(function(){
-            do_ajax( "/common/get_bucket_info",{
-                is_public: 1
-            },function(ret){
-                var domain_name=ret.domain;
-                custom_upload_file('opt-upload-gift-pic', 1,function (up, info, file) {
-                    var res = $.parseJSON(info);
-                    console.log(res);
-                    $(".bootstrap-dialog-body .gift_url").val("http://"+domain_name +'/'+ res.key);
-                    $(".bootstrap-dialog-body .preview_gift_pic").attr("href","http://"+ domain_name +'/'+ res.key);
-
-                }, null,["png", "jpg"]);
-                clearTimeout(th);
-            });
-        }, 1000);
-
-    });
-    $("opt-add-gift").on("click", function(){
-
-        var html_node = $("<div></div>").html($.dlg_get_html_by_class('dlg_add_gift'));
-
-        BootstrapDialog.show({
-            title: "",
-            message : html_node ,
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-
-                    var gift_type      = html_node.find(".gift_type").val();
-                    var gift_name      = html_node.find(".gift_name").val();
-                    var gift_intro     = html_node.find(".gift_intro").val();
-                    var current_praise = html_node.find(".gift_praise").val();
-                    var gift_pic       = html_node.find(".gift_url").val();
-
-                    $.ajax({
-                        type     :"post",
-                        url      :"/authority/add_gift",
-                        dataType :"json",
-                        data     :{"gift_type":gift_type,"gift_name":gift_name,"gift_intro":gift_intro,"praise":current_praise,"gift_pic":gift_pic},
-                        success  : function(result){
-                            if(result.ret != 0){
-                                BootstrapDialog.alert(result['info']);
-                            }else{
-                                window.location.reload();
-                            }
-                        }
-                    });
-
-                    dialog.close();
-                }
-            }]
-        });
-    });
-
     $(".opt-gift-desc").on("click", function(){
         var html_node = $("<div></div>").html($.dlg_get_html_by_class('dlg_modify_gift_desc'));
         var gift_desc_str = $(this).get_opt_data().gift_desc_str;
@@ -258,7 +126,7 @@ $(function(){
                     $(".bootstrap-dialog-body .show_pic").append(
                         '<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
                             '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
-                            'http://'+domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
+                            domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
                 }, null,[ "png", "jpg"]);
                 clearTimeout(ta);
             });
@@ -402,10 +270,11 @@ $(function(){
         add_or_update_info(0,opt_data);
     });
 
+    var pic_url;
     var gen_upload_item = function(btn_id,pic_url){
         var id_item = $(
             "<div class=\"row\"> "+
-                "<div id=\"img\"></div>"+
+                "<div class=\"col-md-12\" id=\"img\"></div>"+
                 "<div class=\" col-md-2\">" +
                 "<button class=\"btn btn-primary\" id=\""+btn_id+"\">上传</button>"+
                 "</div></div>"
@@ -421,7 +290,8 @@ $(function(){
                 btn_id,true,function(up, file, info) {
                     var res = $.parseJSON(file);
                     if(res.key != ""){
-                        pic_url = pub_domain+res.key;
+                        pic_url  = pub_domain+res.key;
+                        gift_url = pic_url;
                         var pic_thumb = '<img src="'+pic_url+'" width="200">';
                         $("#img").empty();
                         $("#img").append(pic_thumb);
@@ -433,7 +303,6 @@ $(function(){
         return id_item;
     };
 
-    var pic_url;
     var add_or_update_info = function(flag, opt_data){
         var select_type = '<select class="gift_type" >'
             +' <option value="0">系统礼包</option> '
@@ -443,6 +312,7 @@ $(function(){
 
         if(flag == 0) {
             pic_url = opt_data.gift_pic;
+            gift_url = pic_url;
         } else {
             pic_url = '';
         }
@@ -484,7 +354,7 @@ $(function(){
                         'giftid'     : giftid,
                         'gift_name'  : id_gift_name.val(),
                         'gift_type'  : id_gift_type.val(),
-                        'pic_url'    : pic_url,
+                        'pic_url'    : gift_url,
                         'praise'     : id_gift_praise.val(),
                         'gift_intro' : id_gift_intro.val(),
                     } ,

@@ -2801,7 +2801,7 @@ $(function(){
                 if(item["child_order_type"]==0){
                     html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
                 }else{
-                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-pnum=\""+item["period_num"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-type=\""+item["child_order_type"]+"\" data-price=\""+item["price"]+"\" data-pnum=\""+item["period_num"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
                 }
                 
             });
@@ -2810,7 +2810,6 @@ $(function(){
                     var parent_orderid = $(this).data("orderid");
 
                     var child_orderid = $(this).data("child_orderid");
-                    var period_num = $(this).data("period_num");
                     var status = $(this).data("status");
                     if(status >0){
                         alert("已付款,不能拆分!");
@@ -2829,6 +2828,7 @@ $(function(){
                                          "</select>");
 
                     var id_child_order_money=$("<input/>");
+                                       
                     
                     var arr=[
                         ["类型", id_child_order_type],
@@ -2855,6 +2855,13 @@ $(function(){
                                 "price"                : id_child_order_money.val()*100
                             });
                         }
+                    },function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+
                     });                 
 
                     
@@ -2868,6 +2875,10 @@ $(function(){
 
                     var child_orderid = $(this).data("child_orderid");
                     var status = $(this).data("status");
+                    var child_oeder_type = $(this).data("type");
+                    var child_oeder_mpney = $(this).data("price");
+                    var period_num = $(this).data("pnum");
+                   
                     if(status >0){
                         alert("已付款,不能修改!");
                         return;
@@ -2886,6 +2897,9 @@ $(function(){
 
 
                     var id_child_order_money=$("<input/>");
+                     id_child_order_type.val(child_oeder_type); 
+                    id_period_num.val(period_num); 
+                    id_child_order_money.val(child_oeder_mpney/100); 
                     
                     var arr=[
                         ["类型", id_child_order_type],
@@ -2912,6 +2926,13 @@ $(function(){
                                 "price"                : id_child_order_money.val()*100
                             });
                         }
+                    },function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+
                     });                 
 
                     
