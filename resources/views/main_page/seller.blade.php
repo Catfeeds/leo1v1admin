@@ -164,8 +164,8 @@
                                     <tr>
                                         <td>
                                             <span> {{$var["index"]}} </span>
-                                            @if($var["index"] < 4)
-                                                <a title="" class="fa-trophy"></a>
+                                            @if($var["index"]<4)
+                                                <a title="" class=" fa-trophy fa"></a>
                                             @endif
                                         </td>
                                         <td>{{$var["sys_operator"]}} </td>
