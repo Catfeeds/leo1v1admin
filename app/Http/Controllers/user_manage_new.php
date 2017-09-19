@@ -323,6 +323,7 @@ class user_manage_new extends Controller
             return $this->Pageview(__METHOD__,$ret_list);
         }
         $studentid = $this->get_in_int_val("studentid",-1);
+        $type      = $this->get_in_str_val("type","current");
 
         $teacher_money_type       = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
