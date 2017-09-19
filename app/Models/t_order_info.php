@@ -3040,7 +3040,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
 
+    public function get_income_for_month($start_time, $end_time){
+        $where_arr = [
+            "o.stu_from_type in (0,1)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("  select sum(price)/100 as all_price from %s o"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

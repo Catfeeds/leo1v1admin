@@ -375,6 +375,9 @@ class tea_manage_new extends Controller
         return $this->get_teacher_complaints_info();
     }
 
+    public function get_seller_require_commend_teacher_info_yy(){
+        return  $this->get_seller_require_commend_teacher_info();
+    }
     public function get_seller_require_commend_teacher_info(){
         $id= $this->get_in_int_val("id",-1);
         $account_id = $this->get_account_id();

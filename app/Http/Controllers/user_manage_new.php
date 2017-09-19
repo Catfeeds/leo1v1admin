@@ -3021,7 +3021,7 @@ class user_manage_new extends Controller
         $id = $this->get_in_int_val("id",-1);
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $adminid = $this->get_account_id();
-        if(in_array($adminid,[349,72,448,99])){
+        if(in_array($adminid,[349,72,448,99,478])){
             $adminid=-1;
         }
         $page_num        = $this->get_in_page_num();
