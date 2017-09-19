@@ -244,11 +244,11 @@
                                                 <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
                                             @elseif($key==2)
                                                 <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
-                                            @elseif($key==count($group_list)-2)
-                                                <a title="" class=" fa-frown-o fa" ></a>
                                             @elseif($key==count($group_list)-1)
                                                 <a title="" class=" fa-frown-o fa" ></a>
                                             @elseif($key==count($group_list))
+                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @elseif($key==count($group_list)+1)
                                                 <a title="" class=" fa-frown-o fa" ></a>
                                             @endif
                                         </td>
