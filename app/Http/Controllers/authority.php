@@ -641,8 +641,7 @@ class authority extends Controller
         // imagedestroy($image_bg);
         imagedestroy($tim);
         imagedestroy($dim);
-        // $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
-        $group_img = "7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         $group_img = str_replace(' ','',$group_img);
         $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid=314,$group_img);
         return $this->output_succ();
