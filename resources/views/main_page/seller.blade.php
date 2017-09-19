@@ -172,7 +172,12 @@
                                                 <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
                                             @endif
                                         </td>
-                                        <td>{{$var["sys_operator"]}} </td>
+                                        <td>
+                                            {{$var["sys_operator"]}}
+                                            @if($var["index"]<4)
+                                                <img src="{{$var["face_pic"]}}" width="2px" height="2px" alt="" />
+                                            @endif
+                                        </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
