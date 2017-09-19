@@ -555,8 +555,8 @@ class authority extends Controller
     }
 
 
-    public function set_manager_face(){
-        $uid = $this->get_account_id();
+    public function set_group_img(){
+        $adminid = $this->get_account_id();
         $face = $this->get_in_str_val("face");
         $domain = config('admin')['qiniu']['public']['url'];
         $face = $domain.'/'.$face;
@@ -606,8 +606,9 @@ class authority extends Controller
         imagedestroy($tim);
         imagedestroy($dim);
         $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
-        $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
-        $_SESSION['face_pic']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
+        dd($ret,$adminid,$group_img);
+        $_SESSION['group_img']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         return $this->output_succ();
     }
 
