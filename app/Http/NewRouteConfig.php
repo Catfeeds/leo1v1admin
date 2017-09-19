@@ -267,6 +267,7 @@ class NewRouteConfig {
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
         "/authority/seller_edit_log_list"          => true,
+        "/authority/set_group_img"          => true,
         "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
