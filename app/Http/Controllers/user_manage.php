@@ -2750,6 +2750,7 @@ class user_manage extends Controller
             $item["teacher_nick"]      = $this->cache_get_teacher_nick ($item["teacherid"] );
             $item["assistant_nick"]      = $this->cache_get_assistant_nick ($item["assistantid"] );
         }
+        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
     /**
