@@ -3108,7 +3108,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            //become_full_member_time
+            "m.become_full_member_time <= $check_time"
         ];
 
 
