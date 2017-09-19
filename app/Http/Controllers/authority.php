@@ -462,9 +462,6 @@ class authority extends Controller
         $this->set_in_value("assign_account_role",E\Eaccount_role::V_2);
         //$this->set_in_value("creater_adminid",$this->get_account_id() );
         return $this->manager_list();
-
-
-
     }
 
     public function manager_list_for_kaoqin() {
@@ -555,6 +552,63 @@ class authority extends Controller
         }
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+    public function set_manager_face(){
+        $uid = $this->get_account_id();
+        $face = $this->get_in_str_val("face");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $face = $domain.'/'.$face;
+        $origin_pic = $face;
+        $filename = pathinfo($origin_pic);
+        $extension = $filename['extension'];
+        $filename = "/tmp/".$filename['filename']."test".".".$extension;
+        if($extension == "jpg"){
+            $imagecreatefrom = "imagecreatefromjpeg";
+            $image  = "imagejpeg";
+        }else{
+            $imagecreatefrom = "imagecreatefrom".$extension;
+            $image  = "image".$extension;
+        }
+        $width = 750;
+        $height = 750;
+        // 计算缩放比例
+        $info = getimagesize($origin_pic);
+        $calc = min($width / $info[0], $height / $info[1]);
+
+        $dim = $imagecreatefrom($origin_pic);
+        // 创建缩略画布
+        $tim = imagecreatetruecolor($width, $height);
+         // 创建白色填充缩略画布
+        $white = imagecolorallocate($tim, 255, 255, 255);
+          // 填充缩略画布
+        imagefill($tim, 0, 0, $white);
+
+        $dwidth = (int)$info[0] * $calc;
+        $dheight = (int)$info[1] * $calc;
+        $paddingx = (int)($width - $dwidth) / 2;
+        $paddingy = (int)($height - $dheight) / 2;
+        imagecopyresampled($tim,$dim,$paddingx,$paddingy,
+                           0, 0,
+                           $dwidth, $dheight,
+                           $info[0], $info[1]);
+        $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
+        $image_bg = imagecreatefrompng($bg_pic);
+        imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
+        $image($tim, $filename);
+        $file_name = \App\Helper\Utils::qiniu_upload($filename);
+        if($file_name!=''){
+            $cmd_rm = "rm ".$filename;
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+        }
+        imagedestroy($image_bg);
+        imagedestroy($tim);
+        imagedestroy($dim);
+        $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
+        $_SESSION['face_pic']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        return $this->output_succ();
     }
 
 }

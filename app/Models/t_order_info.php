@@ -944,13 +944,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $sql = $this->gen_sql_new("select g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
-
                                   ." where ".
                                   " o.userid = s.userid   and   ".
                                   " o.sys_operator =m.account   and   ".
                                   " m.uid=gu.adminid  and   ".
                                   " gu.groupid =g.groupid and   ".
-
                                   "  %s group by g.groupid order by all_price desc  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
