@@ -95,8 +95,8 @@ class main_page extends Controller
         $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
         // 计算电销人数
-        $this->t_admin_group_name->get_seller_num();
-
+        $group_info = $this->t_admin_group_name->get_seller_num();
+        dd($group_info);
 
 
         $ret_info = [];
