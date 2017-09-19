@@ -164,8 +164,12 @@
                                     <tr>
                                         <td>
                                             <span> {{$var["index"]}} </span>
-                                            @if($var["index"]<4)
-                                                <a title="" class=" fa-trophy fa"></a>
+                                            @if($var["index"]==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                            @elseif($var["index"]==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#d0d0d0;"></a>
+                                            @elseif($var["index"]==3)
+                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
                                             @endif
                                         </td>
                                         <td>{{$var["sys_operator"]}} </td>
