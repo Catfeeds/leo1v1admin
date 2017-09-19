@@ -244,4 +244,16 @@ class test_sam  extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
+    public function test(){
+       $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+       foreach($ass_list as $k=>&$item){
+            $ret = $this->t_manager_info->get_assistant_id($k);
+            var_dump($ret);
+       }
+
+       $ret_info = $this->t_assistant_info->set_assign_lesson_count(61884,0,10);
+
+       dd($ret_info);
+       dd($ass_list);
+    }
 }

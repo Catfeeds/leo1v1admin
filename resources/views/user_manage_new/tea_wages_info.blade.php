@@ -29,6 +29,15 @@
             </div>
             <div class="col-xs-12 col-md-2">
                 <div class="input-group ">
+                    <span >课程核算类型:</span>
+                    <select id="id_show_type" class="opt-change">
+                        <option value="current">当前消耗</option>
+                        <option value="all">本月所有</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-2">
+                <div class="input-group ">
                     <button class="btn btn-primary" id="id_reset_already_lesson_count">重置累计课时</button>
                 </div>
             </div>

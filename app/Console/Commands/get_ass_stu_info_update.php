@@ -284,6 +284,53 @@ class get_ass_stu_info_update extends Command
             }
 
             if(date("d",time())=="01"){
+                //add 课耗活动-------------------------------------------------------------------------------
+                $item["lesson_ratio_month"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,3):0; //课程系数
+                $item["effective_student"] = $student_all_detail[$k]; //带学生人数
+
+                //ca
+                $assign_lesson  = 0;
+                if($item['lesson_ratio_month'] < 14.220){
+                    $assign_lesson = 0;
+                }elseif($item['lesson_ratio_month'] < 15.642){
+                    $assign_lesson = 900;  //3
+                }elseif($item['lesson_ratio_month'] < 17.064){
+                    $assign_lesson = 1500; //5
+                }elseif($item['lesson_ratio_month'] < 18.486){
+                    $assign_lesson = 2100; //7
+                }else{
+                    $assign_lesson = 2700; //9
+                }
+                if($item['effective_student'] < 30){ 
+                    $assign_lesson = $assign_lesson * 0.2;
+                }elseif ($item['effective_student'] < 50) {
+                    $assign_lesson = $assign_lesson * 0.4;
+                }elseif ($item['effective_student'] < 70) {
+                    $assign_lesson = $assign_lesson * 0.6;
+                }elseif ($item['effective_student'] < 90) {
+                    $assign_lesson = $assign_lesson * 0.8;
+                }
+
+                //update assign_lesson in t_month_ass_student_info 
+                $update_arr =  [
+                    "assign_lesson"              =>$assign_lesson
+                ];
+                $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+
+                //get assistantid
+                $ret_assistantid = $task->t_manager_info->get_assistant_id($k);
+                //get assign_lesson_count
+                $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+                if($assign_lesson_count == ''){
+                    $assign_lesson_count = 0;
+                }
+
+                //update assign_lesson_count
+                $task->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+                //end---------------------------------------------
+
+
+
                 $month = strtotime(date("Y-m-01",time()));
                 $userid_arr = @$userid_list[$k];
                 $userid_list_last = json_decode($userid_arr,true);
