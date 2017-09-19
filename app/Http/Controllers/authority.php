@@ -557,4 +557,40 @@ class authority extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function add_or_update_gift(){
+        $giftid     = $this->get_in_int_val('giftid',0);
+        $gift_name  = $this->get_in_str_val('gift_name');
+        $gift_type  = $this->get_in_int_val('gift_type');
+        $gift_intro = $this->get_in_str_val('gift_intro');
+        $gift_pic   = $this->get_in_str_val('pic_url');
+        $current_praise = $this->get_in_int_val('praise');
+
+        // $ret_info = $this->t_gift_info->add_gift($gift_name, $gift_type, $gift_pic, $gift_intro);
+        if (!$giftid) {
+            $ret_info = $this->t_gift_info->row_insert([
+                'gift_name'      => $gift_name,
+                'gift_type'      => $gift_type,
+                'gift_intro'     => $gift_intro,
+                'gift_pic'       => $gift_pic,
+                'current_praise' => $current_praise,
+            ]);
+        } else {
+            $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], [
+                                                                  'gift_name'      => $gift_name,
+                                                                  'gift_type'      => $gift_type,
+                                                                  'gift_intro'     => $gift_intro,
+                                                                  'gift_pic'       => $gift_pic,
+                                                                  'current_praise' => $current_praise,
+                                                              ]);
+        }
+
+        return outputjson_success();
+    }
+
+    public function del_gift(){
+        $giftid     = $this->get_in_int_val('giftid',0);
+        $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], ['del_flag' => 1]);
+        return outputjson_success();
+    }
+
 }

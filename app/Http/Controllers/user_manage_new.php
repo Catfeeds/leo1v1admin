@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Helper\Config;
 
 
 class user_manage_new extends Controller
@@ -2322,7 +2323,9 @@ class user_manage_new extends Controller
 
             $item["gift_desc_str"]  = json_encode($pic_list);
         }
-        return $this->pageView(__METHOD__, $ret_info );
+        $pub_domain = Config::get_qiniu_public_url()."/";
+
+        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain]);
     }
 
     public function stu_all_info(){
