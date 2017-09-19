@@ -251,28 +251,6 @@ $(function(){
             }
         });
 
-        /*
-          if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
-
-          if ( !opt_data.stu_test_paper_flow_status)  {
-          BootstrapDialog.confirm(
-          "没有上传试卷,要特殊申请吗?!" ,
-          function(val){
-          $.show_input("原因:",  "", function(val){
-          val=$.trim(val);
-          $.do_ajax( "/ss_deal/requrie_test_lesson_without_test_paper",{
-          "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
-          "reason" : val
-          });
-          });
-          });
-          }else{
-          alert ("还在审批中,请让你的主管审批通过");
-          }
-
-          return ;
-          }
-        */
         var do_add_test_lesson= function() {
             $.do_ajax("/ss_deal/get_user_info",{
                 "userid"                 : opt_data.userid ,
@@ -285,7 +263,6 @@ $(function(){
                     $(me).parent().find(".opt-edit").click();
                     return;
                 }
-
 
                 if( ret.stu_request_test_lesson_time  =="无" ) {
                     alert("没有试听时间!");

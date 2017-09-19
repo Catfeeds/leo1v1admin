@@ -31,6 +31,25 @@ class TTestLessonSubjectAddRecentResults extends Migration
                       
         });
 
+        Schema::table('db_weiyi.t_test_lesson_subject', function( Blueprint $table)
+        {
+            t_field($table->string("class_rank",32),"班级排名");
+            t_field($table->string("grade_rank",32),"年级排名");
+            t_field($table->tinyInteger("academic_goal"),"升学目标");
+            t_field($table->tinyInteger("test_stress"),"应试压力");
+            t_field($table->tinyInteger("entrance_school_type"),"升学学校要求");
+            t_field($table->tinyInteger("interest_cultivation"),"趣味培养");
+            t_field($table->tinyInteger("extra_improvement"),"课外提高");
+            t_field($table->tinyInteger("habit_remodel"),"习惯重塑");
+            t_field($table->string("study_habit"),"学习习惯");
+            t_field($table->string("interests_and_hobbies"),"兴趣爱好");
+            t_field($table->string("character_type"),"学习习惯");
+            t_field($table->string("need_teacher_style"),"所需老师风格");
+            
+                      
+        });
+
+
     }
 
     /**
