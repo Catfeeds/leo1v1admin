@@ -49,6 +49,11 @@ $(function(){
         var id_price      = $("<input/>");
         var open_iid      = data.open_iid;
 
+        var arr = [
+            ["商品id",id_product],
+            ["商品排序",id_sort_order],
+            ["商品价格(单位/元)",id_price],
+        ];
 
         $.show_key_value_table("修改商品信息",arr,{
             label    : "确认",
