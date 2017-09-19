@@ -822,6 +822,7 @@ class main_page extends Controller
 
         array_unshift($teacher_info,$arr);
         $ret_info = \App\Helper\Utils::list_to_page_info($teacher_info);
+
         return $this->pageView(__METHOD__,$ret_info);
 
 
