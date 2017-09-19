@@ -1,6 +1,7 @@
 <?php
 return array(
     ["db_weiyi_admin","t_user_group_change_log", "id"],
+    ["db_weiyi","t_xmpp_server_config", "id"],
     ["db_weiyi_admin","t_main_major_group_name_month", "groupid"],
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],

@@ -1439,7 +1439,42 @@ class ajax_deal2 extends Controller
         $teacherid              = $this->get_in_int_val("teacherid");
         $start_time = time()-90*86400;
         $end_time = time();
-        
+
+    }
+    public function xmpp_server_add() {
+        $ip=trim($this->get_in_str_val("ip"));
+        $server_name=trim($this->get_in_str_val("server_name"));
+        $server_desc=$this->get_in_str_val("server_desc");
+        $xmpp_port= $this->get_in_int_val("xmpp_port") ;
+        $webrtc_port= $this->get_in_int_val("webrtc_port") ;
+        $websocket_port= $this->get_in_int_val("websocket_port") ;
+        $weights= $this->get_in_int_val("weights") ;
+
+        $this->t_xmpp_server_config->row_insert([
+            "ip" => $ip,
+            "server_desc" => $server_desc,
+            "server_name" => $server_name,
+            "xmpp_port"  => $xmpp_port,
+            "webrtc_port"  => $webrtc_port,
+            "websocket_port"  => $websocket_port,
+            "weights"  => $weights,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function xmpp_server_set() {
+        $id=$this->get_in_id();
+
+        $weights= $this->get_in_int_val("weights") ;
+        $this->t_xmpp_server_config->field_update_list($id,[
+            "weights"  => $weights,
+        ]);
+        return $this->output_succ();
+    }
+    public function xmpp_server_del() {
+        $id=$this->get_in_id();
+        $this->t_xmpp_server_config->row_delete($id);
+        return $this->output_succ();
     }
 
 }
