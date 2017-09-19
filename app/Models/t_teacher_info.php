@@ -3611,6 +3611,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_old_teacher_money_type_list(){
 
         $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
+                                  ." t.teacher_money_type as now_teacher_money_type,t.level as now_level"
                                   ." from %s t"
                                   ." left join %s l on t.teacherid=l.teacherid"
                                   ." where %s"

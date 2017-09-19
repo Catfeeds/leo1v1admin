@@ -340,9 +340,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   ,t_admin_group_user::DB_TABLE_NAME
         );
 
-        return $this->main_get_list($sql,function($item){
-            return $item['groupid'];
-        });
+        return $this->main_get_list($sql);
     }
 
 }
