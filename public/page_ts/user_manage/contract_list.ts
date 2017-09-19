@@ -2855,6 +2855,13 @@ $(function(){
                                 "price"                : id_child_order_money.val()*100
                             });
                         }
+                    },function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+
                     });                 
 
                     
@@ -2912,6 +2919,13 @@ $(function(){
                                 "price"                : id_child_order_money.val()*100
                             });
                         }
+                    },function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+
                     });                 
 
                     
