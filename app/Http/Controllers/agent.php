@@ -324,6 +324,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $group_img = 'a bc';
+        $group_img = str_replace(' ','',$group_img);
+        dd($group_img);
         $favorite_flag = $this->get_in_str_val("favorite_flag",-1);
         $favorite_flag = $favorite_flag!=-1?$this->get_account_id():0;
         dd($favorite_flag);
