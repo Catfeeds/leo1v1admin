@@ -245,6 +245,7 @@ class NewRouteConfig {
         "/user_manage/subject_by_month"                         => true,
         "/user_manage/tongji_check"                             => true,
         "/user_manage/ass_no_test_lesson_kk_list"               => true,
+        "/user_manage/stu_all_teacher_all"                      => true,
 
         "/authority/get_account_role" => true,
         "/authority/set_account_role"        => true,

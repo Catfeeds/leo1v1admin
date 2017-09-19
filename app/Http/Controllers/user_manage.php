@@ -2737,6 +2737,21 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+
+    public function stu_all_teacher_all()
+    {
+        $assistantid=$this->get_in_assistantid(-1);
+        $page_info=$this->get_in_page_info();
+        $ret_info = $this->t_lesson_info->get_stu_all_teacher($page_info,$assistantid);
+        foreach($ret_info['list'] as $key => &$item){
+            $ret_info['list'][$key]['num'] = $key + 1;
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            $item["teacher_nick"]      = $this->cache_get_teacher_nick ($item["teacherid"] );
+            $item["assistant_nick"]      = $this->cache_get_assistant_nick ($item["assistantid"] );
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
     /**
      * @author    sam
      * @function  质检-录制试讲统计-模拟试听未审核统计

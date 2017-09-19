@@ -332,4 +332,15 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_update($sql);
     }
 
+    public function get_seller_num(){
+        $sql = $this->gen_sql_new("  select u.adminid,u.groupid from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." where main_type=2 and n.up_groupid>0 "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }

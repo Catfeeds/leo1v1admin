@@ -83,6 +83,9 @@
                         <a href="{{$ret_info['face_pic']}}" target= "_blank">下载</a>
                         <br/>
                         <b ><font color="red">提示：请上传正方形头像，防止头像上传过程中拉伸变形。（可以使用手机软件或者在线裁剪头像）</font></b>
+                        @if($ret_info["groupid"])
+                            <button style="margin-left:10px"  id="id_upload_group_img" type="button" class="btn btn-primary" >上传小组头像</button> 
+                        @endif
                         </div>
                     </div>
                 </div>

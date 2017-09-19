@@ -36,7 +36,9 @@
                         <span>试听课类型</span>
                         <select id="id_test_lesson_flag" class="opt-change" >
                             <option value="-1">全部</option>
-                            <option value="1">CC</option>
+                            <option value="1">CR</option>
+                            <option value="2">CC</option>
+
                         </select>
                     </div>
                 </div>
