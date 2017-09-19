@@ -33,7 +33,7 @@
                     <tr>
                         <td>{{@$var["num"]}} </td>
                         <td><a href="{{url('teacher_info_admin/index?teacherid=').$var['teacherid']}}" target="_blank">{{@$var["teacher_nick"]}}</a> </td>
-                        <td>{{@$var['assistant_nick']}}</td>
+                        <td>{{@$var['assistant_nick']}}<br/> {{@$var['assistantid']}}</td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["grade_part_ex_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
