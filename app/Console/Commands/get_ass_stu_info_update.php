@@ -301,7 +301,6 @@ class get_ass_stu_info_update extends Command
                 }else{
                     $assign_lesson = 2700; //9
                 }
-
                 if($item['effective_student'] < 30){ 
                     $assign_lesson = $assign_lesson * 0.2;
                 }elseif ($item['effective_student'] < 50) {
@@ -318,12 +317,17 @@ class get_ass_stu_info_update extends Command
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
 
-                $update_a = [
-                    "assign_lesson_count" => $assign_lesson
-                ];
-                
+                //get assistantid
+                $ret_assistantid = $task->t_manager_info->get_assistant_id($k);
+                //get assign_lesson_count
+                $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+                if($assign_lesson_count == ''){
+                    $assign_lesson_count = 0;
+                }
 
-
+                //update assign_lesson_count
+                $task->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+                //end---------------------------------------------
 
 
 
