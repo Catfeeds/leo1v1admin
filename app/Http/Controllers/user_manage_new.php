@@ -319,12 +319,13 @@ class user_manage_new extends Controller
     public function tea_wages_info(){
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         $teacherid = $this->get_in_teacherid(0);
+        $studentid = $this->get_in_int_val("studentid",-1);
+        $show_type = $this->get_in_str_val("show_type","current");
+
         if($teacherid==0){
             $ret_list=\App\Helper\Utils::list_to_page_info([]);
             return $this->Pageview(__METHOD__,$ret_list);
         }
-        $studentid = $this->get_in_int_val("studentid",-1);
-        $show_type = $this->get_in_str_val("show_type","current");
 
         $teacher_money_type       = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);

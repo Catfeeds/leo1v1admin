@@ -326,9 +326,9 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function update_group_img_by_master_adminid($master_adminid,$group_img) {
-        $sql = $this->gen_sql_new("update %s set group_img = %s where master_adminid=%u",
+        $sql = $this->gen_sql_new("update %s set group_img = '".$group_img."' where master_adminid=%u",
                                   self::DB_TABLE_NAME
-                                  ,$group_img,$master_adminid);
+                                  ,$master_adminid);
         return $this->main_update($sql);
     }
 
