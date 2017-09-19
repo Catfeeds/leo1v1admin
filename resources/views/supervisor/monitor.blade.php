@@ -51,7 +51,7 @@
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group  " >
-                    <input type="text"   class="form-control opt-change" id="id_st_application_nick" placeholder="试听销售" />
+                    <input type="text"   class="form-control opt-change" id="id_st_application_nick" placeholder="试听cc" />
                 </div>
             </div>
 
@@ -78,7 +78,7 @@
 
             <div class="col-xs-6 col-md-2" id="id_seller_new">
                 <div class="input-group ">
-                    <span class="input-group-addon">销售</span>
+                    <span class="input-group-addon">cc</span>
                     <input id="id_test_seller_id" class="opt-change" />
                 </div>
             </div>
@@ -113,7 +113,7 @@
                         <td   >
                             {{$var["ip"]}}:{{$var["port"]}}<span style="display:none;">: {{$var["room_id"]}} </span> ({{$var["region"]}})<br/>
                             {{$var["lesson_type_str"]}} |语音通道:({{$var["server_type_str"]}})
-                            <br>{{$var["index"]}}: 课程id:{{$var["lessonid"]}}  <span style="display:none;"> <br>  {{$var["ip"]}}H{{$var["port"]}}H{{$var["room_id"]}} </span> |销售: {{@$var["st_application_nick"]  }} {{$var["account"] }}
+                            <br>{{$var["index"]}}: 课程id:{{$var["lessonid"]}}  <span style="display:none;"> <br>  {{$var["ip"]}}H{{$var["port"]}}H{{$var["room_id"]}} </span> |cc: {{$var["account"] }}
                         </td>
                         <td  >
                             {{$var["assistantid"]}}:
