@@ -271,6 +271,7 @@ $(function(){
     });
 
     var pic_url;
+    var ratio = parseInt($('#ratio').text() );
     var gen_upload_item = function(btn_id,pic_url){
         var id_item = $(
             "<div class=\"row\"> "+
@@ -315,12 +316,14 @@ $(function(){
             gift_url = pic_url;
         } else {
             pic_url = '';
+            gift_url = '';
         }
         var id_gift_url=gen_upload_item("upload_pic",pic_url);
-
         var id_gift_name   = $("<input/>");
         var id_gift_type   = $(select_type);
-        var id_gift_praise = $("<input/>");
+        var id_cost_price  = $("<input id=\"price\" type=\"number\" min=\"0\"/>");
+        var id_shop_link   = $("<input/>");
+        var id_gift_praise = $("<span id=\"praise\"/>");
         var id_gift_intro  = $("<textarea/>");
         if (flag == 1) {
             var modal_title = '添加礼品';
@@ -330,7 +333,9 @@ $(function(){
             var giftid = opt_data.giftid;
             id_gift_name.val(opt_data.gift_name);
             id_gift_type.val(opt_data.gift_type);
-            id_gift_praise.val(opt_data.current_praise);
+            id_cost_price.val(opt_data.cost_price);
+            id_gift_praise.text(opt_data.current_praise);
+            id_shop_link.val(opt_data.shop_link);
             id_gift_intro.val(opt_data.gift_intro);
         }
 
@@ -338,7 +343,9 @@ $(function(){
             ["礼品名称：", id_gift_name],
             ["礼品类型：", id_gift_type],
             ["封面图片：", id_gift_url],
+            ["商品原价：", id_cost_price],
             ["所需赞数：", id_gift_praise],
+            ["购买链接：", id_shop_link],
             ["礼品简介：", id_gift_intro],
         ];
 
@@ -346,6 +353,7 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-info',
             action   : function() {
+                var praise = $('#praise').text();
                 $.ajax({
                     type     : "post",
                     url      : "/authority/add_or_update_gift",
@@ -355,7 +363,9 @@ $(function(){
                         'gift_name'  : id_gift_name.val(),
                         'gift_type'  : id_gift_type.val(),
                         'pic_url'    : gift_url,
-                        'praise'     : id_gift_praise.val(),
+                        'cost_price' : id_cost_price.val(),
+                        'praise'     : praise,
+                        'shop_link'  : id_shop_link.val(),
                         'gift_intro' : id_gift_intro.val(),
                     } ,
                     success : function(result){
@@ -369,6 +379,12 @@ $(function(){
             }
         },function(){
                 id_gift_url["onshown_init"]();
+            $('#price').keyup(function(){
+                var new_praise = parseInt($(this).val()) * ratio;
+                if (new_praise) {
+                    $('#praise').text( new_praise );
+                }
+            });
             }, false,600);
 
     };

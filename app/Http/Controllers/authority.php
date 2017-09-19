@@ -117,7 +117,6 @@ class authority extends Controller
                 $item["seller_level_str"] = "未设置";
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-            $item['group_flag'] = in_array(77,$arr)?1:0;
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -561,6 +560,8 @@ class authority extends Controller
         $gift_type  = $this->get_in_int_val('gift_type');
         $gift_intro = $this->get_in_str_val('gift_intro');
         $gift_pic   = $this->get_in_str_val('pic_url');
+        $shop_link  = $this->get_in_str_val('shop_link');
+        $cost_price = $this->get_in_int_val('cost_price');
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
@@ -569,6 +570,8 @@ class authority extends Controller
                 'gift_type'      => $gift_type,
                 'gift_intro'     => $gift_intro,
                 'gift_pic'       => $gift_pic,
+                'cost_price'     => $cost_price,
+                'shop_link'      => $shop_link,
                 'current_praise' => $current_praise,
             ]);
         } else {
@@ -577,6 +580,8 @@ class authority extends Controller
                                                                   'gift_type'      => $gift_type,
                                                                   'gift_intro'     => $gift_intro,
                                                                   'gift_pic'       => $gift_pic,
+                                                                  'cost_price'     => $cost_price,
+                                                                  'shop_link'      => $shop_link,
                                                                   'current_praise' => $current_praise,
                                                               ]);
         }
@@ -590,5 +595,60 @@ class authority extends Controller
         return outputjson_success();
     }
 
+    public function set_group_img(){
+        $adminid = $this->get_account_id();
+        $face = $this->get_in_str_val("face");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $face = $domain.'/'.$face;
+        $origin_pic = $face;
+        $filename = pathinfo($origin_pic);
+        $extension = $filename['extension'];
+        $filename = "/tmp/".$filename['filename']."test".".".$extension;
+        if($extension == "jpg"){
+            $imagecreatefrom = "imagecreatefromjpeg";
+            $image  = "imagejpeg";
+        }else{
+            $imagecreatefrom = "imagecreatefrom".$extension;
+            $image  = "image".$extension;
+        }
+        $width = 750;
+        $height = 750;
+        // 计算缩放比例
+        $info = getimagesize($origin_pic);
+        $calc = min($width / $info[0], $height / $info[1]);
+
+        $dim = $imagecreatefrom($origin_pic);
+        // 创建缩略画布
+        $tim = imagecreatetruecolor($width, $height);
+         // 创建白色填充缩略画布
+        $white = imagecolorallocate($tim, 255, 255, 255);
+          // 填充缩略画布
+        imagefill($tim, 0, 0, $white);
+
+        $dwidth = (int)$info[0] * $calc;
+        $dheight = (int)$info[1] * $calc;
+        $paddingx = (int)($width - $dwidth) / 2;
+        $paddingy = (int)($height - $dheight) / 2;
+        imagecopyresampled($tim,$dim,$paddingx,$paddingy,
+                           0, 0,
+                           $dwidth, $dheight,
+                           $info[0], $info[1]);
+        // $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
+        // $image_bg = imagecreatefrompng($bg_pic);
+        // imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
+        $image($tim, $filename);
+        $file_name = \App\Helper\Utils::qiniu_upload($filename);
+        if($file_name!=''){
+            $cmd_rm = "rm ".$filename;
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+        }
+        // imagedestroy($image_bg);
+        imagedestroy($tim);
+        imagedestroy($dim);
+        $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $group_img = str_replace(' ','',$group_img);
+        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid=314,$group_img);
+        return $this->output_succ();
+    }
 
 }

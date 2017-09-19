@@ -2313,6 +2313,7 @@ class user_manage_new extends Controller
     {
         $page_num = $this->get_in_page_num();
         $ret_info = $this->t_gift_info->get_gift_info($page_num);
+        $cur_ratio = Config::get_current_ratio();
         foreach($ret_info['list'] as &$item){
             E\Egift_type::set_item_value_str($item,"gift_type");
             $pic_list = array();
@@ -2324,10 +2325,11 @@ class user_manage_new extends Controller
             }
 
             $item["gift_desc_str"]  = json_encode($pic_list);
+            $item['cost_price_str'] = $item['cost_price']/100;
         }
         $pub_domain = Config::get_qiniu_public_url()."/";
 
-        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain]);
+        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain,'cur_ratio'=>$cur_ratio]);
     }
 
     public function stu_all_info(){
