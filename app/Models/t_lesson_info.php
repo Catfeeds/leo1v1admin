@@ -3052,7 +3052,7 @@ lesson_type in (0,1) "
     /**
      * 老师工资相关的课程
      */
-    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='wx'){
+    public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1,$type='current'){
         $where_arr = [
             ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],

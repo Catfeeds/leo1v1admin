@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning" style="display:none;" >
                     <div class="panel-heading">
                         本月-签单率排行榜
                     </div>
@@ -162,8 +162,23 @@
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
                                     <tr>
-                                        <td> <span> {{$var["index"]}} </span> </td>
-                                        <td>{{$var["sys_operator"]}} </td>
+                                        <td>
+                                            <span>
+                                            @if($var["index"]==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                            @elseif($var["index"]==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                            @elseif($var["index"]==3)
+                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                            @else
+                                                {{$var["index"]}}
+                                            @endif
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
+                                            {{$var["sys_operator"]}}
+                                        </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
@@ -176,7 +191,7 @@
 
 
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning"  style="display:none;">
                     <div class="panel-heading">
                         本旬-个人排行榜
                     </div>
@@ -227,7 +242,21 @@
                             <tbody id="id_group_body">
                                 @foreach ( $group_list as $key=> $var )
                                     <tr>
-                                        <td> <span> {{$key+1}} </span> </td>
+                                        <td>
+                                            <span>
+                                            @if($key==0)
+                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                            @elseif($key==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                            @elseif($key==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                            @elseif($key>count($group_list)-4)
+                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @else
+                                                {{$key+1}}
+                                            @endif
+                                            </span>
+                                        </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
                                         <td class="all_price">{{$var["all_price"]/100}} </td>
@@ -257,7 +286,21 @@
                             <tbody id="id_group_self_body">
                                 @foreach ( $group_self_list as $key=> $var )
                                     <tr>
-                                        <td> <span> {{$key+1}} </span> </td>
+                                        <td>
+                                            <span>
+                                                @if($key==0)
+                                                    <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                                @elseif($key==1)
+                                                    <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                                @elseif($key==2)
+                                                    <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                                @elseif($key>count($group_list)-4)
+                                                    <a title="" class=" fa-frown-o fa" ></a>
+                                                @else
+                                                    {{$key+1}}
+                                                @endif
+                                            </span>
+                                        </td>
                                         <td>{{$var["sys_operator"]}} </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]/100}} </td>

@@ -386,6 +386,8 @@ class menu{
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
+                ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
+
                 ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
                 ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
                 ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
@@ -785,6 +787,7 @@ class menu{
                 ["power_id"=>7, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                 ["power_id"=>8, "name"=>"兼职老师退费处理",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
                 ["power_id"=>9, "name"=>"薪资版本切换列表",   "url"=>"/teacher_level/teacher_switch_list"],
+                ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
             ]],
 
 

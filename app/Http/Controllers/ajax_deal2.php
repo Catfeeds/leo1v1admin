@@ -988,14 +988,15 @@ class ajax_deal2 extends Controller
     }
 
     public function check_add_test_lesson() {
-        $userid = $this->get_in_userid();
-        $adminid=$this->get_account_id();
-        $seller_level=$this->t_manager_info->get_seller_level($adminid);
+        $userid       = $this->get_in_userid();
+        $adminid      = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        $seller_level = $this->t_manager_info->get_seller_level($adminid);
 
 
         $user_test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         $user_test_lesson_count = count( $user_test_lesson_list) ;
-        if ( $user_test_lesson_count >5 ) {
+        if ($user_test_lesson_count>5 && $account_role !=12) {
             return $this->output_err("已经 $user_test_lesson_count 次试听了，超过5次，不可试听");
         }
 
@@ -1009,7 +1010,7 @@ class ajax_deal2 extends Controller
 
 
 
-        if ($test_lesson_count > $cur_test_lesson_count_max) {
+        if ($test_lesson_count > $cur_test_lesson_count_max  && $account_role!=12) {
             return $this->output_err(
                 "目前当前已试听数 $test_lesson_count,　超过 $cur_test_lesson_count_max ,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ",
                 ["flag" => "goto_test_lesson_list"]);
@@ -1017,15 +1018,11 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ();
     }
+
     public function seller_test_lesson_list( ) {
         $this->get_account_id();
+    }
 
-        //$this->t_seller_student_new->get_
-    }
-    public function test(){
-        sleep(5);
-        return  $this->output_succ();
-    }
     public function get_rcrai_login_info() {
         $adminid= $this->get_account_id();
         $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
@@ -1450,12 +1447,49 @@ class ajax_deal2 extends Controller
     }
 
 
+    public function xmpp_server_add() {
+        $ip=trim($this->get_in_str_val("ip"));
+        $server_name=trim($this->get_in_str_val("server_name"));
+        $server_desc=$this->get_in_str_val("server_desc");
+        $xmpp_port= $this->get_in_int_val("xmpp_port") ;
+        $webrtc_port= $this->get_in_int_val("webrtc_port") ;
+        $websocket_port= $this->get_in_int_val("websocket_port") ;
+        $weights= $this->get_in_int_val("weights") ;
+
+        $this->t_xmpp_server_config->row_insert([
+            "ip" => $ip,
+            "server_desc" => $server_desc,
+            "server_name" => $server_name,
+            "xmpp_port"  => $xmpp_port,
+            "webrtc_port"  => $webrtc_port,
+            "websocket_port"  => $websocket_port,
+            "weights"  => $weights,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function xmpp_server_set() {
+        $id=$this->get_in_id();
+
+        $weights= $this->get_in_int_val("weights") ;
+        $this->t_xmpp_server_config->field_update_list($id,[
+            "weights"  => $weights,
+        ]);
+        return $this->output_succ();
+    }
+    public function xmpp_server_del() {
+        $id=$this->get_in_id();
+        $this->t_xmpp_server_config->row_delete($id);
+        return $this->output_succ();
+
+    }
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
         $teacherid              = $this->get_in_int_val("teacherid");
         $start_time = time()-90*86400;
         $end_time = time();
+
         $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
         $num=0;
         foreach($list as $v){
@@ -1467,8 +1501,6 @@ class ajax_deal2 extends Controller
             }
         }
         return $this->output_succ(["data"=>$num]);
-
-        
     }
 
 }

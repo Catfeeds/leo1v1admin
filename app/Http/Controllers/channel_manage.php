@@ -14,7 +14,7 @@ class channel_manage extends Controller
 
     public function admin_channel_manage(){
         $ret_info = $this->t_admin_channel_list->get_admin_channel_info();
-        //dd($ret_info);
+        // dd($ret_info);
         $list=[];
         $num=1;
         foreach($ret_info as $s)   {
@@ -111,7 +111,6 @@ class channel_manage extends Controller
             }
             $num++;
         }
-        // dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
       
@@ -375,6 +374,71 @@ class channel_manage extends Controller
                
             }
         }
+
+        //非渠道推荐
+	    $n = $num;
+        $list_no_ref=[];
+        $list_no_ref[] = [
+            "channel_id"=>-1, //
+            "channel_name"=>'非渠道推荐', //
+            "up_group_name"=>"",
+            "group_name"=>"",
+            "account"=>"",
+            "main_type_class"=>"campus_id-".$n,
+            "up_group_name_class"=>"",
+            "group_name_class"=>"",
+            "account_class"=>"",
+            "level"=>"l-1" //
+        ];
+        $list_no_ref[] = [
+            "channel_id"=>-1, //
+            "channel_name"=>'非渠道推荐',//
+            "up_group_name"=>'',
+            "group_name"=>'非渠道推荐', //
+            "account"=>"",
+
+            "main_type_class"=>"campus_id-".$n,
+            "up_group_name_class"=>"up_group_name-".++$num,
+            "group_name_class"=>"",
+            "account_class"=>"",
+
+            "level"=>"l-2",
+            "up_master_adminid"=>'',
+            "group_id"=>-1, //
+            "main_type"=>''
+        ];
+	    $m = $num;
+        foreach ($ret_info as $key => $value) {
+            if($value['channel_id'] == null && empty($value['teacher_ref_type'])){
+                $arr = [
+                    "channel_id"=>-1, //
+                    "channel_name"=>'非渠道推荐',//
+                    "group_name"=>'非渠道推荐', // admin_id
+                    "group_id"=>-1,
+                    "account"=>"",
+
+                    "main_type_class"=>"campus_id-".$n,
+                    "up_group_name_class"=>"up_group_name-".$m,
+                    "group_name_class"=>"group_name-".++$num,
+                    "account_class"=>"",
+
+                    "admin_id"=>'',
+                    "admin_name"=>'',
+                    "level"=>"l-3",
+                    "master_adminid"=>'',
+                    "main_type"=>'',
+                    "admin_phone" => @$value['phone'],
+                ];
+                $arr = array_merge($value,$arr);
+                $list_no_ref[] = $arr;
+
+            }
+        }
+        $list_no_ref = array_reverse($list_no_ref);
+        foreach ($list_no_ref as $key => $value) {
+            array_unshift($list,$value);
+        }
+
         //undefined 
 	    $n = $num;
         $list_undefined=[];
@@ -409,7 +473,7 @@ class channel_manage extends Controller
         ];
 	    $m = $num;
         foreach ($ret_info as $key => $value) {
-            if($value['channel_id'] == null){
+            if($value['channel_id'] == null && !empty($value['teacher_ref_type'])){
                 $arr = [
                     "channel_id"=>-1, //
                     "channel_name"=>'未定义',//

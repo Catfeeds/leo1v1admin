@@ -14,19 +14,18 @@ $(function(){
             url: '/self_manage/set_manager_face',
             type: 'POST',
             data: {
-				        'face':  res.key,
+                'face':  res.key,
                 'uid':g_uid
-			      },
+            },
             dataType: 'json',
             success: function(data) {
                 window.location.reload();
             }
         });
 
-    }, null,["png", "jpg",'jpeg','bmp','gif']);  
+    }, null,["png", "jpg",'jpeg','bmp','gif']);
 
 
 
-	$('.opt-change').set_input_change_event(load_data);
+  $('.opt-change').set_input_change_event(load_data);
 });
-

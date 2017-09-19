@@ -548,7 +548,7 @@ trait TeaPower {
             $account_id=349;
         }
         $adminid_list =$this->t_admin_main_group_name->get_adminid_list_by_master_adminid(-1,4);
-        if(in_array($account_id,["72","448","99","486","349"])){
+        if(in_array($account_id,["72","448","99","486","349","478"])){
             $accept_adminid_list=[];
         }else if(in_array($account_id,$master_adminid)){
            $accept_adminid_list = $this->t_admin_main_group_name->get_adminid_list_by_master_adminid($account_id,4);
