@@ -57,14 +57,58 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入]
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+            1 => array("require_time","申请时间"),
+            2 => array("stu_request_test_lesson_time", "期待试听时间"),
+            4 => array("lesson_start", "上课时间"),
+            5 => array("seller_require_change_time ", "销售申请更换时间"),
+        ]);
+
+
+        $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
+        if($income_arr['all_count']>0){
+            $aver_count = $income_arr['all_price']/$income_arr['all_count'];//平均单笔
+        }else{
+            $aver_count = 0;
+        }
         // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
         // dd($income_num);
-        // $half_week_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time, [-1],"limit 10000" );
-        // dd($half_week_info);
-        // $month_kpi = $this->t
+        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+
+        $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+
+        $total_price = 0;
+        foreach($formal_info as $item){
+            $total_price += $item['all_price'];
+        }
+
+        if($formal_num>0){
+            $aver_money = $total_price/$formal_num; //平均人效
+        }else{
+            $aver_money = 0;
+        }
+
+        $month = date('Y-m-01');
+        $main_type = 2;// 销售
+        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
+
+        // 计算电销人数
+        $first_group  = '咨询一部';
+        $second_group = '咨询二部';
+        $third_group  = '咨询三部';
+        $new_group    = '新人营';
+        $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
+        $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+        $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+        $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+        $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+        // $train_num = $this->
+        //
+
+        $ret_info = [];
+        return $this->pageView(__METHOD__, $ret_info);
 
 
     }
@@ -804,6 +848,7 @@ class main_page extends Controller
 
         array_unshift($teacher_info,$arr);
         $ret_info = \App\Helper\Utils::list_to_page_info($teacher_info);
+
         return $this->pageView(__METHOD__,$ret_info);
 
 

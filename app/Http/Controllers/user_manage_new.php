@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Helper\Config;
 
 
 class user_manage_new extends Controller
@@ -318,12 +319,13 @@ class user_manage_new extends Controller
     public function tea_wages_info(){
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         $teacherid = $this->get_in_teacherid(0);
+        $studentid = $this->get_in_int_val("studentid",-1);
+        $show_type = $this->get_in_str_val("show_type","current");
+
         if($teacherid==0){
             $ret_list=\App\Helper\Utils::list_to_page_info([]);
             return $this->Pageview(__METHOD__,$ret_list);
         }
-        $studentid = $this->get_in_int_val("studentid",-1);
-        $show_type = $this->get_in_str_val("show_type","current");
 
         $teacher_money_type       = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
@@ -2311,6 +2313,7 @@ class user_manage_new extends Controller
     {
         $page_num = $this->get_in_page_num();
         $ret_info = $this->t_gift_info->get_gift_info($page_num);
+        $cur_ratio = Config::get_current_ratio();
         foreach($ret_info['list'] as &$item){
             E\Egift_type::set_item_value_str($item,"gift_type");
             $pic_list = array();
@@ -2322,8 +2325,11 @@ class user_manage_new extends Controller
             }
 
             $item["gift_desc_str"]  = json_encode($pic_list);
+            $item['cost_price_str'] = $item['cost_price']/100;
         }
-        return $this->pageView(__METHOD__, $ret_info );
+        $pub_domain = Config::get_qiniu_public_url()."/";
+
+        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain,'cur_ratio'=>$cur_ratio]);
     }
 
     public function stu_all_info(){
@@ -2373,7 +2379,8 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list() {
-        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
         $level                       = $this->get_in_int_val("level",-1);

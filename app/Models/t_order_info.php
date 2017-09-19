@@ -942,7 +942,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_status in(1,2)",
             "m.account_role=2",
         ];
-        $sql = $this->gen_sql_new("select g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
                                   ." where ".
                                   " o.userid = s.userid   and   ".
@@ -3101,12 +3101,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_formal_order_info( $start_time,$end_time ) {
 
+        $check_time = time() - 30*86400;
         $where_arr = [
             "is_test_user=0",
             "contract_type =0 ",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
+            "m.become_full_member_time <= $check_time"
         ];
 
 

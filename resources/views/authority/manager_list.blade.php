@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/page_js/select_course.js"></script>
@@ -152,7 +159,6 @@
                                     <a href="javascript:;" title="生成助教账号" class="opt-gen-ass">助</a>
                                     <a href="javascript:;" title="用户操作日志" class="opt-log">log</a>
                                     <a href="javascript:;" title="刷新回访" class="opt-refresh_call_end">刷新回访</a>
-                                    <a href="javascript:;" title="上传小组头像" id="id_upload_group_img" class="fa-photo fa"></a>
                                     @if($var["account_role"]==5)
                                         <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
                                         <a href="javascript:;" title="修改老师等级" class="opt-set-teacher-level">等</a>

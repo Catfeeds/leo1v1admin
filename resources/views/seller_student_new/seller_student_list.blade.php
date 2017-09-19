@@ -520,7 +520,7 @@
                                 @else
                                     <a title="取消收藏" class=" fa-star  opt-favorite"></a>
                                 @endif
-                                @if(in_array($acc,["jack","jim"]))
+                                @if(in_array($acc,["jack","jim","夏宏东"]))
                                     <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif
                             </div>
@@ -811,7 +811,7 @@
                    
                     <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">是否有pad：</span>
+                            <span class="input-group-addon">上课设备：</span>
                             <select id="id_stu_has_pad" class=" form-control "   >
                             </select>
                         </div>

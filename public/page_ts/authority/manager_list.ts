@@ -128,9 +128,9 @@ $(function(){
             action: function(dialog){
                 if(opt_data.del_flag == del_flag.val()){
                     if(del_flag.val() == 1){
-                        var time_new = opt_data.leave_member_time; 
+                        var time_new = opt_data.leave_member_time;
                     }else{
-                        var time_new = opt_data.become_member_time; 
+                        var time_new = opt_data.become_member_time;
                     }
                 }else{
                     var time_new = time.val();
@@ -571,23 +571,6 @@ $(function(){
         });
     }
 
-    $.custom_upload_file('id_upload_group_img',1,function (up, info, file) {
-        var res = $.parseJSON(info);
-        $.ajax({
-            url: '/authority/set_manager_face',
-            type: 'POST',
-            data: {
-                'face':res.key,
-            },
-            dataType: 'json',
-            success: function(data) {
-                window.location.reload();
-            }
-        });
-
-    }, null,["png", "jpg",'jpeg','bmp','gif']);  
-
-
 
     $('.opt-change').set_input_change_event(load_data);
 
@@ -827,7 +810,7 @@ $(function(){
 
             }
         });
- 
+
     });
 
 });

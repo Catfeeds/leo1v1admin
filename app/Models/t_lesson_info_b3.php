@@ -406,15 +406,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
-            // "mm.account_role=2 ",
+            ["mm.account_role=%u",$test_lesson_flag,-1],
             ["t.subject=%u",$subject,-1],
             ["t.grade_part_ex=%u",$grade_part_ex,-1],
             ["t.teacherid=%u",$teacherid,-1]
             // "mm.del_flag=0",
         ];
-        if($test_lesson_flag==1){
+        /*if($test_lesson_flag==1){
             $where_arr[]="mm.account_role=2";
-        }
+            }*/
         if($set_type==1){
             $where_arr[]= ["lesson_start >= %u",$start_time,-1];
             $where_arr[]= ["lesson_start < %u",$end_time,-1];

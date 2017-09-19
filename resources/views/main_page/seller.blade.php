@@ -176,10 +176,8 @@
                                             </span>
                                         </td>
                                         <td>
+                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             {{$var["sys_operator"]}}
-                                            @if($var["index"]<4)
-                                                <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                            @endif
                                         </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
@@ -253,13 +251,16 @@
                                             @elseif($key==2)
                                                 <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                             @elseif($key>count($group_list)-4)
-                                                <a title="" class=" fa-frown-o fa" ></a>
+                                                <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/ee5945233280f4ffcfa7e516e8ce548b1505817757901.png" width="20px" height="20px" alt="" />
                                             @else
                                                 {{$key+1}}
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}">
+                                            <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
+                                            {{$var["group_name"]}}
+                                        </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
                                         <td class="all_price">{{$var["all_price"]/100}} </td>
                                     </tr>

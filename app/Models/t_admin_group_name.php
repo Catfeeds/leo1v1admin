@@ -326,10 +326,54 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function update_group_img_by_master_adminid($master_adminid,$group_img) {
-        $sql = $this->gen_sql_new("update %s set group_img = %s where master_adminid=%u",
+        $sql = $this->gen_sql_new("update %s set group_img = '".$group_img."' where master_adminid=%u",
                                   self::DB_TABLE_NAME
-                                  ,$group_img,$master_adminid);
+                                  ,$master_adminid);
         return $this->main_update($sql);
     }
+
+    public function get_seller_num(){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_group_seller_num($group_name){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 and mg.group_name='$group_name' "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_group_new_count($group_name){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 and n.group_name='$group_name' "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
+
+
 
 }

@@ -283,9 +283,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     //获取浏览的用户信息
     public function get_show_manage_info($uid){
-        $sql=sprintf("select * from %s where uid= %u",
-                     SELF::DB_TABLE_NAME,
-                     $uid);
+        $sql=sprintf(
+            " select m.*,g.groupid from %s m "
+            ." left join %s g on g.master_adminid = m.uid "
+            ." where uid= %u",
+            SELF::DB_TABLE_NAME,
+            t_admin_group_name::DB_TABLE_NAME,
+            $uid
+        );
         return $this->main_get_row($sql);
     }
 
@@ -1678,6 +1683,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_assistant_id($uid){
         $sql = $this->gen_sql_new("select  s.assistantid  from db_weiyi_admin.t_manager_info m left join t_assistant_info s on s.phone = m.phone where  m.phone > 0 and s.phone > 0 and m.uid = %s",$uid);
+        return $this->main_get_value($sql);
+    }
+
+    public function get_formal_num($start_time, $end_time){
+        $check_time = time() - 30*86400;
+        $where_arr = [
+            "m.account_role=2",
+            "m.become_full_member_time <= $check_time"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(*) from %s m "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
         return $this->main_get_value($sql);
     }
 }

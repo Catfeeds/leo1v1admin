@@ -538,6 +538,239 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function save_user_info_new()
+    {
+        $userid                 = $this->get_in_userid();
+        $phone                  = $this->get_in_phone();
+        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
+
+        $grade         = $this->get_in_grade();
+        $gender        = $this->get_in_int_val("gender");
+        $address       = $this->get_in_str_val("address");
+        $stu_nick      = $this->get_in_str_val("stu_nick");
+        $par_nick      = $this->get_in_str_val("par_nick");
+        $editionid     = $this->get_in_int_val("editionid");
+        $school        = $this->get_in_str_val("school");
+
+
+        $has_pad       = $this->get_in_int_val("has_pad");
+        $intention_level       = $this->get_in_int_val("intention_level");
+        $user_desc     = $this->get_in_str_val("user_desc");
+        $next_revisit_time     = $this->get_in_str_val("next_revisit_time");
+        $stu_test_ipad_flag    = $this->get_in_str_val("stu_test_ipad_flag");
+        // $stu_score_info        = $this->get_in_str_val("stu_score_info");
+        // $stu_character_info    = $this->get_in_str_val("stu_character_info");
+        $seller_student_sub_status= $this->get_in_int_val("seller_student_sub_status");
+
+
+        $subject       = $this->get_in_subject();
+        $seller_student_status = $this->get_in_int_val("seller_student_status");
+        $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");
+        // $stu_request_test_lesson_time_info = $this->get_in_str_val("stu_request_test_lesson_time_info");
+        // $stu_request_lesson_time_info      = $this->get_in_str_val("stu_request_lesson_time_info");
+        //  $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
+        // $stu_test_lesson_level = $this->get_in_str_val("stu_test_lesson_level");
+
+
+        // $revisite_info = trim($this->get_in_str_val("revisite_info"));
+
+        //新增字段
+        $class_rank     = $this->get_in_str_val("class_rank");//班级排名
+        $grade_rank     = $this->get_in_str_val("grade_rank");//年级排名
+        $academic_goal  = $this->get_in_int_val("academic_goal");//升学目标
+        $test_stress    = $this->get_in_int_val("test_stress");//应试压力
+        $new_demand_flag    = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
+        $entrance_school_type  = $this->get_in_int_val("升学学校要求");//升学目标
+        $interest_cultivation  = $this->get_in_int_val("interest_cultivation");//趣味培养
+        $extra_improvement  = $this->get_in_int_val("extra_improvement");//课外提高
+        $habit_remodel  = $this->get_in_int_val("habit_remodel");//习惯重塑
+        $study_habit     = $this->get_in_str_val("study_habit");//学习习惯
+        $interests_and_hobbies     = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
+        $character_type     = $this->get_in_str_val("character_type");//学习习惯
+        $need_teacher_style     = $this->get_in_str_val("need_teacher_style");//所需老师风格
+        $demand_urgency    = $this->get_in_int_val("demand_urgency");//需求急迫性
+        $quotation_reaction    = $this->get_in_int_val("quotation_reaction");//报价反应
+        $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
+        $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        
+        if ($next_revisit_time) {
+            $next_revisit_time =strtotime($next_revisit_time);
+        } else {
+            $next_revisit_time =0;
+        }
+
+        $diff=$next_revisit_time-time();
+
+        if ( $next_revisit_time==0 ) {
+            if (session( "account_role") ==E\Eaccount_role::V_2  ) {
+                return $this->output_err("下次回访时间 需要设置");
+            }
+        }else if ( $diff > 7*86400 ) {
+            return $this->output_err("下次回访时间只能设置最近一周时间");
+        }else if (  $diff<0 ) {
+            return $this->output_err("下次回访时间不能早于当前");
+        }
+
+        if ($stu_request_test_lesson_time) {
+            $stu_request_test_lesson_time=strtotime( $stu_request_test_lesson_time);
+        } else {
+            $stu_request_test_lesson_time=0;
+        }
+
+        $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,seller_student_status, stu_request_test_lesson_time ,stu_request_test_lesson_demand");
+
+        if ( $db_tt_item["seller_student_status"] ==  E\Eseller_student_status::V_200  &&
+             $db_tt_item["stu_request_test_lesson_time"] != $stu_request_test_lesson_time
+        )  {
+            return $this->output_err("预约-未排课，不能修改时间,可以取消");
+        }
+
+
+        $stu_arr=[
+            "gender"      => $gender,
+            "address"     => $address,
+            "nick"        => $stu_nick,
+            "parent_name" => $par_nick,
+            "editionid"   => $editionid,
+            "school"      => $school,
+        ];
+        $this->cache_del_student_nick($userid);
+
+        //"grade" =>$grade,
+        $db_grade=$this->t_student_info->get_grade($userid);
+        if ($db_grade!= $grade) {
+            if($this->t_order_info->has_1v1_order($userid)) {
+                return $this->output_err("有合同了,不能修改年级");
+            }else{
+                $stu_arr["grade"] = $grade ;
+
+            }
+        }
+
+        $this->t_student_info->field_update_list($userid,$stu_arr);
+        if($db_grade!= $grade && !$this->t_order_info->has_1v1_order($userid)){
+            $this->t_book_revisit->row_insert([
+                "phone"  => $phone,
+                "revisit_time"  =>time(),
+                "operator_note" =>"年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]",
+                "sys_operator"  =>$this->get_account()
+            ]);
+            $this->t_field_modified_list->row_insert([
+                "modified_time"  =>time(),
+                "last_value"     =>$db_grade,
+                "cur_value"      =>$grade,
+                "adminid"        =>$this->get_account_id(),
+                "t_name"         =>"t_student_info",
+                "f_name"         =>"grade",
+                "userid"         =>$userid
+            ]);
+        }
+
+        $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
+        if ( $ss_item["user_desc"] != $user_desc) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
+        }
+
+        if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新试听需求:$stu_request_test_lesson_demand" , $this->get_account());
+
+        }
+
+        if ($ss_item["stu_score_info"] != $stu_score_info) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新成绩情况:$stu_score_info" , $this->get_account());
+
+        }
+
+        if ($ss_item["stu_character_info"] != $stu_character_info) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新性格特点:$stu_character_info" , $this->get_account());
+
+        }
+
+
+
+
+
+        //last_revisit_msg ='%s', last_revisit_time =%u
+        $ss_arr=[
+            "has_pad" =>$has_pad,
+            "user_desc" =>$user_desc,
+            "next_revisit_time" =>$next_revisit_time,
+            "stu_test_ipad_flag" =>$stu_test_ipad_flag,
+            "stu_score_info" =>$stu_score_info,
+            "stu_character_info" =>$stu_character_info,
+        ];
+
+        if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
+            $ss_arr["first_seller_status"]=$seller_student_status;
+        }
+
+        //更新首次回访时间
+        if (! $ss_item["first_revisit_time"])  {
+            $ss_arr["first_revisit_time"]=time(NULL);
+        }
+        if ( $revisite_info  ) {
+            $ss_arr["last_revisit_time"]=time(NULL);
+            $ss_arr["last_revisit_msg"]=$revisite_info;
+            $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
+        }
+
+
+        $this->t_seller_student_new->field_update_list($userid,$ss_arr);
+
+
+        $textbook = E\Eregion_version::get_desc($editionid);
+        $tt_arr=[
+            "subject" =>$subject,
+            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
+            "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
+            "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
+            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            "stu_test_lesson_level" =>$stu_test_lesson_level,
+            "seller_student_sub_status" => $seller_student_sub_status,
+            "textbook"                  => $textbook,
+            "intention_level"                    => $intention_level
+        ];
+
+        if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
+
+            $require_count=$this->t_test_lesson_subject_require->get_count_by_test_lesson_subject_id($test_lesson_subject_id );
+            if ($require_count>0) {
+                return $this->output_err("已有试听申请,不能修改科目");
+            }
+            if($this->t_test_lesson_subject->check_subject($userid,$subject)){
+                return $this->output_err("已经有该科目了" );
+            }
+            $tt_arr["subject"]=$subject;
+        }
+
+        $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
+
+        //更新 seller_student_status
+        if ($db_tt_item["seller_student_status"] != $seller_student_status) {
+            $this->t_test_lesson_subject->set_seller_student_status( $test_lesson_subject_id, $seller_student_status,  $this->get_account() );
+        }
+
+        if($seller_student_status==420){
+            $this->t_student_info->field_update_list($userid,[
+                "type" =>0
+            ]);
+        }
+
+        $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        if($current_require_id>0){
+            $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
+                "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
+            ]);
+        }
+        return $this->output_succ();
+    }
+
+
 
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
@@ -1789,6 +2022,12 @@ class ss_deal extends Controller
                 $item["pay_status_str"]="已付款";
             }
 
+            if($item["child_order_type"]==2){
+                $item["period_num_info"] = $item["period_num"]."期";
+            }else{
+                $item["period_num_info"] =""; 
+            }
+
 
 
         }
@@ -1799,6 +2038,7 @@ class ss_deal extends Controller
         $parent_orderid  = $this->get_in_int_val("parent_orderid");
         $child_orderid  = $this->get_in_int_val("child_orderid");
         $child_order_type  = $this->get_in_int_val("child_order_type");
+        $period_num  = $this->get_in_int_val("period_num");
         $price  = $this->get_in_int_val("price");
 
         //默认子合同金额更改
@@ -1811,6 +2051,10 @@ class ss_deal extends Controller
            "price"  =>$new_price
         ]);
 
+        if($child_order_type != 2){
+            $period_num=0;
+        }
+
 
         //新增子合同
         $this->t_child_order_info->row_insert([
@@ -1818,7 +2062,8 @@ class ss_deal extends Controller
             "pay_status"       =>0,
             "add_time"         =>time(),
             "parent_orderid"   =>$parent_orderid,
-            "price"            => $price
+            "price"            => $price,
+            "period_num"       => $period_num
         ]);
 
         return $this->output_succ();
@@ -1858,6 +2103,7 @@ class ss_deal extends Controller
         $child_orderid  = $this->get_in_int_val("child_orderid");
         $child_order_type  = $this->get_in_int_val("child_order_type");
         $price  = $this->get_in_int_val("price");
+        $period_num  = $this->get_in_int_val("period_num");
 
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
@@ -1870,10 +2116,17 @@ class ss_deal extends Controller
             return $this->output_err("默认子合同已付款,不能修改当前子合同");
         }
 
+        if($child_order_type != 2){
+            $period_num=0;
+        }
+
+
+
         //修改子合同
         $this->t_child_order_info->field_update_list($child_orderid,[
             "price"  =>$price,
-            "child_order_type"=>$child_order_type
+            "child_order_type"=>$child_order_type,
+            "period_num"   =>$period_num
         ]);
 
 

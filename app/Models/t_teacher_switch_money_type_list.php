@@ -102,7 +102,6 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
 
 }

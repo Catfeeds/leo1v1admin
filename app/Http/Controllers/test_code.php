@@ -2123,14 +2123,36 @@ class test_code extends Controller
         dd($list);
         foreach($list as $val){
             $this->t_teacher_info->field_update_list($val['teacherid'],[
-                "teacher_money_type_simulate"=>$val['teacher_money_type'],
-                "level_simulate"=>$val['level'],
+                "teacher_money_type_simulate" => $val['teacher_money_type'],
+                "level_simulate"              => $val['level'],
             ]);
         }
 
     }
 
+    /**
+     * 获取之前第三版的等级和转换后的
+     */
+    public function get_teacher_list(){
+        // $start = strtotime("2017-5-1");
+        // $end   = strtotime("2017-9-1");
+        // $list  = $this->t_teacher_info->get_old_teacher_money_type_list($start,$end);
+        $info = $this->get_b_txt();
+        dd($info);
+        foreach($arr as $val){
+            if($val!=""){
+                $teacher_info = explode("\t",$val);
+                $teacherid = $teacher_info[0];
+                $teacher_money_type_simulate = $teacher_info[1];
+                $level_simulate = $teacher_info[2];
 
+                $this->t_teacher_info->field_update_list($teacherid,[
+                    "teacher_money_type_simulate"=>$teacher_money_type_simulate,
+                    "level_simulate"=>$level_simulate,
+                ]);
+            }
+        }
+    }
 
 
 }
