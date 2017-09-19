@@ -627,22 +627,20 @@ class authority extends Controller
                            0, 0,
                            $dwidth, $dheight,
                            $info[0], $info[1]);
-        $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
-        $image_bg = imagecreatefrompng($bg_pic);
-        imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
+        // $bg_pic     = "http://7u2f5q.com2.z0.glb.qiniucdn.com/0d26a106be32a52a51fd61d57133deff1504766326652.png";
+        // $image_bg = imagecreatefrompng($bg_pic);
+        // imagecopymerge($tim,$image_bg, 0, 557, 0, 0, 750, 193, 100);
         $image($tim, $filename);
         $file_name = \App\Helper\Utils::qiniu_upload($filename);
         if($file_name!=''){
             $cmd_rm = "rm ".$filename;
             \App\Helper\Utils::exec_cmd($cmd_rm);
         }
-        imagedestroy($image_bg);
+        // imagedestroy($image_bg);
         imagedestroy($tim);
         imagedestroy($dim);
         $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
-        dd($adminid,$group_img);
-        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
-        $_SESSION['group_img']    = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
+        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid=314,$group_img);
         return $this->output_succ();
     }
 
