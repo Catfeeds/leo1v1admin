@@ -36,16 +36,16 @@ class ResetTeacherLessonCount extends Command
     public function handle()
     {
         $day = $this->option('day');
-        $end = strtotime(date("Y-m-d",time()+86400));
-        if($day===null){
-            $start = strtotime(date("Y-m-01",time())); 
-        }else{
-            $start = strtotime(date("Y-m-d",(time()-$day*86400)));
-        }
-        \App\Helper\Utils::logger("reset teacher command start:".$start);
+        // $end = strtotime(date("Y-m-d",time()+86400));
+        // if($day===null){
+        $start = strtotime(date("Y-m-01",time()));
+        $end   = strtotime("+1 month",$start);
+        // }else{
+        //     $start = strtotime(date("Y-m-d",(time()-$day*86400)));
+        // }
+        \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
 
         $t_lesson_info = new \App\Models\t_lesson_info();
-
         $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end);
         if(!empty($tea_list) && is_array($tea_list)){
             foreach($tea_list as $val){

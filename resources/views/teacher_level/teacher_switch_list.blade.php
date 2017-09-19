@@ -32,6 +32,19 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >未上课开始月</span>
+                        <select id="id_not_start" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >未上课结束月</span>
+                        <select id="id_not_end" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
 
                 <!-- <div class="col-xs-6 col-md-2">
                      <button class="btn btn-primary" id="id_add_data"> 新增晋升老师 </button>

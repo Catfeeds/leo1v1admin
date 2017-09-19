@@ -416,6 +416,7 @@ $(function(){
                 return;
             }
 
+            /*
             //取消率
             $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{'userid':opt_data.userid,} ,function(ret){
                 if(ret.ret==1){
@@ -430,7 +431,9 @@ $(function(){
                     do_add_test_lesson();
                 }
             });
-            // do_add_test_lesson();
+            */
+             do_add_test_lesson();
+
         } );
     });
 

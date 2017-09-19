@@ -1079,9 +1079,12 @@ class teacher_level extends Controller
     }
 
     public function teacher_switch_list(){
+        $now_month          = date("m",time());
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $batch              = $this->get_in_int_val("batch",-1);
+        $not_start          = $this->get_in_int_val("not_start",-1);
+        $not_end            = $this->get_in_int_val("not_end",$now_month);
         $acc = $this->get_account();
         if($acc=="傅文莉"){
             $status=1;
@@ -1092,7 +1095,12 @@ class teacher_level extends Controller
         }
         $status = $this->get_in_int_val("status",$status);
 
-        $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list($teacherid,$teacher_money_type,$batch,$status);
+        $not_start = strtotime("2017-".$not_start."-01");
+        $not_end   = strtotime("2017-".$not_end."-01");
+
+        $ret_info = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(
+            $teacherid,$teacher_money_type,$batch,$status,-1,$not_start,$not_end
+        );
         $num=0;
         foreach($ret_info as &$val){
             $num++;
