@@ -2883,7 +2883,7 @@ class tea_manage extends Controller
     }
     /**
      * @author    sam
-     * @function  培训进度列表
+     * @function  待培训名单
      */
     public function  teacher_cc_count () {
 
@@ -2907,7 +2907,4 @@ class tea_manage extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
-
-
-
 }
