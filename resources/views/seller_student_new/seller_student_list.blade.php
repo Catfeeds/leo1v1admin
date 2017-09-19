@@ -516,6 +516,7 @@
                                 <a class="btn  fa-chevron-left  opt-set_user_free" title="回流公海"></a>
                                 <a title="排课申请" class="opt-test_lesson-review">排课解冻</a>
                                 <a title="收藏" class="opt-favorite">收藏</a>
+                                <a title="收藏" class="opt-favorite_del">取消收藏</a>
                                 @if(in_array($acc,["jack","jim"]))
                                     <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif

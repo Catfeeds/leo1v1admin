@@ -1975,6 +1975,16 @@ function init_edit() {
         });
     });
 
+    $(".opt-favorite_del").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        $.do_ajax("/ajax_deal/seller_student_new_favorite_del",{'userid':opt_data.userid,} ,function(ret){
+            if(ret){
+                alert('取消成功!');
+                window.location.reload();
+            }
+        });
+    });
+
     $(".opt-edit-new").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
