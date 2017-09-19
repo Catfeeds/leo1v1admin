@@ -2038,6 +2038,7 @@ class ss_deal extends Controller
         $parent_orderid  = $this->get_in_int_val("parent_orderid");
         $child_orderid  = $this->get_in_int_val("child_orderid");
         $child_order_type  = $this->get_in_int_val("child_order_type");
+        $period_num  = $this->get_in_int_val("period_num");
         $price  = $this->get_in_int_val("price");
 
         //默认子合同金额更改
@@ -2050,6 +2051,10 @@ class ss_deal extends Controller
            "price"  =>$new_price
         ]);
 
+        if($child_order_type != 2){
+            $period_num=0;
+        }
+
 
         //新增子合同
         $this->t_child_order_info->row_insert([
@@ -2057,7 +2062,8 @@ class ss_deal extends Controller
             "pay_status"       =>0,
             "add_time"         =>time(),
             "parent_orderid"   =>$parent_orderid,
-            "price"            => $price
+            "price"            => $price,
+            "period_num"       => $period_num
         ]);
 
         return $this->output_succ();

@@ -5,6 +5,8 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	teacherid:	number;
+	studentid:	number;
+	show_type:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -80,7 +82,9 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val()
+			teacherid:	$('#id_teacherid').val(),
+			studentid:	$('#id_studentid').val(),
+			show_type:	$('#id_show_type').val()
         });
     }
 
@@ -96,6 +100,8 @@ $(function(){
         }
     });
 	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_studentid').val(g_args.studentid);
+	$('#id_show_type').val(g_args.show_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -110,6 +116,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">studentid</span>
+                <input class="opt-change form-control" id="id_studentid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">show_type</span>
+                <input class="opt-change form-control" id="id_show_type" />
             </div>
         </div>
 */
