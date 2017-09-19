@@ -163,16 +163,24 @@
                                 @foreach ( $table_data_list as $var )
                                     <tr>
                                         <td>
-                                            <span> {{$var["index"]}} </span>
+                                            <span>
                                             @if($var["index"]==1)
-                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
                                             @elseif($var["index"]==2)
-                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
                                             @elseif($var["index"]==3)
-                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                            @else
+                                                {{$var["index"]}}
+                                            @endif
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{$var["sys_operator"]}}
+                                            @if($var["index"]<4)
+                                                <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             @endif
                                         </td>
-                                        <td>{{$var["sys_operator"]}} </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
@@ -237,20 +245,19 @@
                                 @foreach ( $group_list as $key=> $var )
                                     <tr>
                                         <td>
-                                            <span> {{$key+1}} </span>
+                                            <span>
                                             @if($key==0)
-                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
                                             @elseif($key==1)
-                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
+                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
                                             @elseif($key==2)
-                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
-                                            @elseif($key==count($group_list)-3)
+                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                            @elseif($key>count($group_list)-4)
                                                 <a title="" class=" fa-frown-o fa" ></a>
-                                            @elseif($key==count($group_list)-2)
-                                                <a title="" class=" fa-frown-o fa" ></a>
-                                            @elseif($key==count($group_list)-1)
-                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @else
+                                                {{$key+1}}
                                             @endif
+                                            </span>
                                         </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
@@ -281,7 +288,21 @@
                             <tbody id="id_group_self_body">
                                 @foreach ( $group_self_list as $key=> $var )
                                     <tr>
-                                        <td> <span> {{$key+1}} </span> </td>
+                                        <td>
+                                            <span>
+                                                @if($key==0)
+                                                    <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                                @elseif($key==1)
+                                                    <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                                @elseif($key==2)
+                                                    <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                                @elseif($key>count($group_list)-4)
+                                                    <a title="" class=" fa-frown-o fa" ></a>
+                                                @else
+                                                    {{$key+1}}
+                                                @endif
+                                            </span>
+                                        </td>
                                         <td>{{$var["sys_operator"]}} </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]/100}} </td>

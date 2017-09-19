@@ -338,6 +338,6 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-
+    
 
 }

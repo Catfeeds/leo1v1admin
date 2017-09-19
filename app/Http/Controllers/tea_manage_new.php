@@ -24,12 +24,12 @@ class tea_manage_new extends Controller
         $start_time                = $this->get_in_start_time_from_str();
         $lesson_confirm_start_time = strtotime( \App\Helper\Config::get_lesson_confirm_start_time());
 
-        if ($start_time< $lesson_confirm_start_time) {
+        if ($start_time<$lesson_confirm_start_time) {
             $start_time = $lesson_confirm_start_time;
         }
 
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");
-        if ( !$this->check_account_in_arr( ["jim","fly","adrian","low-key"] ) ) {
+        if(!$this->check_account_in_arr(["jim","fly","adrian","low-key"])){
             return $this->output_err("没有权限:". $account);
         }
 
@@ -375,6 +375,9 @@ class tea_manage_new extends Controller
         return $this->get_teacher_complaints_info();
     }
 
+    public function get_seller_require_commend_teacher_info_yy(){
+        return  $this->get_seller_require_commend_teacher_info();
+    }
     public function get_seller_require_commend_teacher_info(){
         $id= $this->get_in_int_val("id",-1);
         $account_id = $this->get_account_id();

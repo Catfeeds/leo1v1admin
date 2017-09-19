@@ -1675,4 +1675,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid,name from %s where account_role = %u and del_flag=1",self::DB_TABLE_NAME,$account_role);
         return $this->main_get_list($sql);
     }
+
+    public function get_assistant_id($uid){
+        $sql = $this->gen_sql_new("select  s.assistantid  from db_weiyi_admin.t_manager_info m left join t_assistant_info s on s.phone = m.phone where  m.phone > 0 and s.phone > 0 and m.uid = %s",$uid);
+        return $this->main_get_value($sql);
+    }
 }

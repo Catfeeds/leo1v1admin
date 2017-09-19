@@ -988,14 +988,15 @@ class ajax_deal2 extends Controller
     }
 
     public function check_add_test_lesson() {
-        $userid = $this->get_in_userid();
-        $adminid=$this->get_account_id();
-        $seller_level=$this->t_manager_info->get_seller_level($adminid);
+        $userid       = $this->get_in_userid();
+        $adminid      = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        $seller_level = $this->t_manager_info->get_seller_level($adminid);
 
 
         $user_test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         $user_test_lesson_count = count( $user_test_lesson_list) ;
-        if ( $user_test_lesson_count >5 ) {
+        if ($user_test_lesson_count>5 && $account_role !=12) {
             return $this->output_err("已经 $user_test_lesson_count 次试听了，超过5次，不可试听");
         }
 
@@ -1009,7 +1010,7 @@ class ajax_deal2 extends Controller
 
 
 
-        if ($test_lesson_count > $cur_test_lesson_count_max) {
+        if ($test_lesson_count > $cur_test_lesson_count_max  && $account_role!=12) {
             return $this->output_err(
                 "目前当前已试听数 $test_lesson_count,　超过 $cur_test_lesson_count_max ,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ",
                 ["flag" => "goto_test_lesson_list"]);
@@ -1017,15 +1018,11 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ();
     }
+
     public function seller_test_lesson_list( ) {
         $this->get_account_id();
+    }
 
-        //$this->t_seller_student_new->get_
-    }
-    public function test(){
-        sleep(5);
-        return  $this->output_succ();
-    }
     public function get_rcrai_login_info() {
         $adminid= $this->get_account_id();
         $ret_str=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
