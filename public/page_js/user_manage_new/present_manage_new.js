@@ -423,7 +423,7 @@ $(function(){
                     if(res.key != ""){
                         pic_url = pub_domain+res.key;
                         var pic_thumb = '<img src="'+pic_url+'">';
-                        $("#img").empgty();
+                        $("#img").empty();
                         $("#img").append(pic_thumb);
                     }
                 }, [], ["bmp","jpg","png","gif"],function(){}
