@@ -117,7 +117,6 @@ class authority extends Controller
                 $item["seller_level_str"] = "未设置";
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-            $item['group_flag'] = in_array(77,$arr)?1:0;
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -561,6 +560,8 @@ class authority extends Controller
         $gift_type  = $this->get_in_int_val('gift_type');
         $gift_intro = $this->get_in_str_val('gift_intro');
         $gift_pic   = $this->get_in_str_val('pic_url');
+        $shop_link  = $this->get_in_str_val('shop_link');
+        $cost_price = $this->get_in_int_val('cost_price');
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
@@ -569,6 +570,8 @@ class authority extends Controller
                 'gift_type'      => $gift_type,
                 'gift_intro'     => $gift_intro,
                 'gift_pic'       => $gift_pic,
+                'cost_price'     => $cost_price,
+                'shop_link'      => $shop_link,
                 'current_praise' => $current_praise,
             ]);
         } else {
@@ -577,6 +580,8 @@ class authority extends Controller
                                                                   'gift_type'      => $gift_type,
                                                                   'gift_intro'     => $gift_intro,
                                                                   'gift_pic'       => $gift_pic,
+                                                                  'cost_price'     => $cost_price,
+                                                                  'shop_link'      => $shop_link,
                                                                   'current_praise' => $current_praise,
                                                               ]);
         }
@@ -642,7 +647,7 @@ class authority extends Controller
         imagedestroy($dim);
         $group_img = "http://7u2f5q.com2.z0.glb.qiniucdn.com/".$file_name;
         $group_img = str_replace(' ','',$group_img);
-        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid,$group_img);
+        $ret = $this->t_admin_group_name->update_group_img_by_master_adminid($adminid=314,$group_img);
         return $this->output_succ();
     }
 
