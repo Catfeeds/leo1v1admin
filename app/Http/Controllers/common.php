@@ -1405,16 +1405,15 @@ class common extends Controller
         $orderid = 22455;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
-        dd($dealmoney);
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
 
 
 
-        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        //$url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
-        // $url="https://rdtest.umoney.baidu.com/edu/openapi/post";
+        $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
 
         $userid = $this->t_order_info->get_userid($orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");

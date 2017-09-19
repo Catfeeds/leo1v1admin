@@ -72,9 +72,9 @@ class main_page extends Controller
         // dd($income_num);
         $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time);
 
-        $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time);
-        // dd($half_week_info);
-        // $month_kpi = $this->t
+        $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+
+        // $aver_money = $
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
