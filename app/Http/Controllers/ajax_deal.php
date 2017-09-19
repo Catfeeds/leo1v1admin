@@ -100,26 +100,6 @@ class ajax_deal extends Controller
     }
 
 
-    public function xmpp_del() {
-        $lessonid=$this->get_in_lessonid();
-        $lesson_info=$this->t_lesson_info->field_get_list($lessonid,"*");
-        $courseid=$lesson_info["courseid"];
-        $lesson_type=$lesson_info["lesson_type"];
-        $lesson_num=$lesson_info["lesson_num"];
-        $teacherid= $lesson_info["teacherid"];
-        $userid= $lesson_info["userid"];
-        $roomid = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
-        $ret_arr  = \App\Helper\Net::get_server_info(array($courseid));
-
-        if (isset( $ret_arr["server_list"] ) &&  isset( $ret_arr["server_list"][0])) {
-            $server_config = $ret_arr["server_list"][0];
-            \App\Helper\Utils::del_room($teacherid,$roomid,$server_config);
-            \App\Helper\Utils::del_room($userid,$roomid,$server_config);
-            echo "succ\n";
-        }else{
-            echo " ERROR get_server_info\n";
-        }
-    }
     //
 
     public function tongji_fail_lesson_list_js () {
