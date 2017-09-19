@@ -311,6 +311,8 @@ class taobao_manage extends Controller
             if($open_iid!=''){
                 $ret = $this->t_taobao_item->field_update_list($open_iid,[
                     "sort_order" => $sort_order,
+                    "title" => $title,
+                    "price" => $price,
                 ]);
             }else{
                 return $this->output_err("混淆id出错,不能为空!");
