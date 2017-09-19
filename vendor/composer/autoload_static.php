@@ -932,6 +932,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TLessonInfoAddTrainTypeIndex' => __DIR__ . '/../..' . '/database/migrations/2017_08_11_220612_t_lesson_info_add_train_type_index.php',
         'TLessonInfoAddUserAgent' => __DIR__ . '/../..' . '/database/migrations/2017_07_14_161623_t_lesson_info_add_user_agent.php',
         'TLessonInfoAddWxSendFlag' => __DIR__ . '/../..' . '/database/migrations/2017_08_07_151057_t_lesson_info_add_wx_send_flag.php',
+        'TLessonInfoAddXmppServer' => __DIR__ . '/../..' . '/database/migrations/2017_09_19_140133_t_lesson_info_add_xmpp_server.php',
         'TLessonInfoDropColumns' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_141108_t_lesson_info_drop_columns.php',
         'TLessonInfoLessonLoginStatus' => __DIR__ . '/../..' . '/database/migrations/2017_04_18_202521_t_lesson_info_lesson_login_status.php',
         'TLessonIntroVideoInfo' => __DIR__ . '/../..' . '/database/migrations/2017_07_31_094110_t_lesson_intro_video_info.php',
