@@ -562,8 +562,6 @@ class authority extends Controller
         $gift_pic   = $this->get_in_str_val('pic_url');
         $current_praise = $this->get_in_int_val('praise');
 
-        echo $gift_pic;
-        exit;
         if (!$giftid) {
             $ret_info = $this->t_gift_info->row_insert([
                 'gift_name'      => $gift_name,

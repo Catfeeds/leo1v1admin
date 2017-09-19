@@ -402,6 +402,7 @@ $(function(){
         add_or_update_info(0,opt_data);
     });
 
+    var pic_url;
     var gen_upload_item = function(btn_id,pic_url){
         var id_item = $(
             "<div class=\"row\"> "+
@@ -421,7 +422,8 @@ $(function(){
                 btn_id,true,function(up, file, info) {
                     var res = $.parseJSON(file);
                     if(res.key != ""){
-                        pic_url = pub_domain+res.key;
+                        pic_url  = pub_domain+res.key;
+                        gift_url = pic_url;
                         var pic_thumb = '<img src="'+pic_url+'" width="200">';
                         $("#img").empty();
                         $("#img").append(pic_thumb);
@@ -433,7 +435,6 @@ $(function(){
         return id_item;
     };
 
-    var pic_url;
     var add_or_update_info = function(flag, opt_data){
         var select_type = '<select class="gift_type" >'
             +' <option value="0">系统礼包</option> '
@@ -443,6 +444,7 @@ $(function(){
 
         if(flag == 0) {
             pic_url = opt_data.gift_pic;
+            gift_url = pic_url;
         } else {
             pic_url = '';
         }
@@ -484,7 +486,7 @@ $(function(){
                         'giftid'     : giftid,
                         'gift_name'  : id_gift_name.val(),
                         'gift_type'  : id_gift_type.val(),
-                        'pic_url'    : pic_url,
+                        'pic_url'    : gift_url,
                         'praise'     : id_gift_praise.val(),
                         'gift_intro' : id_gift_intro.val(),
                     } ,
