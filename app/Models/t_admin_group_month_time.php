@@ -33,7 +33,9 @@ class t_admin_group_month_time extends \App\Models\Zgen\z_t_admin_group_month_ti
 
     }
 
-    public function get_all_target($month){
-        $sql = $this->gen_sql_new(" select ");
+    public function get_all_target($month, $main_type){
+        $sql = $this->gen_sql_new("  select sum(month_money) from %s n "
+                                  ." left join %s on n.groupid"
+        );
     }
 }

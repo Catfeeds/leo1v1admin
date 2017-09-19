@@ -2810,9 +2810,7 @@ $(function(){
                     var parent_orderid = $(this).data("orderid");
 
                     var child_orderid = $(this).data("child_orderid");
-                    var period_num = $(this).data("pnum");
                     var status = $(this).data("status");
-                    var type = $(this).data("type");
                     if(status >0){
                         alert("已付款,不能拆分!");
                         return;
@@ -2830,8 +2828,7 @@ $(function(){
                                          "</select>");
 
                     var id_child_order_money=$("<input/>");
-                    
-                    
+                                       
                     
                     var arr=[
                         ["类型", id_child_order_type],
@@ -2878,6 +2875,10 @@ $(function(){
 
                     var child_orderid = $(this).data("child_orderid");
                     var status = $(this).data("status");
+                    var child_oeder_type = $(this).data("type");
+                    var child_oeder_mpney = $(this).data("price");
+                    var period_num = $(this).data("pnum");
+                   
                     if(status >0){
                         alert("已付款,不能修改!");
                         return;
@@ -2896,6 +2897,9 @@ $(function(){
 
 
                     var id_child_order_money=$("<input/>");
+                     id_child_order_type.val(child_oeder_type); 
+                    id_period_num.val(period_num); 
+                    id_child_order_money.val(child_oeder_mpney/100); 
                     
                     var arr=[
                         ["类型", id_child_order_type],
