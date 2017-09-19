@@ -333,7 +333,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function get_seller_num(){
-        
+        $sql = $this->gen_sql_new(" select  ");
     }
 
 }
