@@ -257,7 +257,10 @@
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}">
+                                            <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
+                                            {{$var["group_name"]}}
+                                        </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
                                         <td class="all_price">{{$var["all_price"]/100}} </td>
                                     </tr>
