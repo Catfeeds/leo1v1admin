@@ -231,6 +231,25 @@ class ss_deal extends Controller
         $ret["area"]                              = $student["area"];
         $ret["region"]                            = $student["region"];
 
+        //新增加信息
+        $ret["class_rank"]    = $ss_item["class_rank"];
+        $ret["grade_rank"]    = $ss_item["grade_rank"];
+        $ret["academic_goal"]    = $ss_item["academic_goal"];
+        $ret["test_stress"]    = $ss_item["test_stress"];
+        $ret["entrance_school_type"]    = $ss_item["entrance_school_type"];
+        $ret["interest_cultivation"]    = $ss_item["interest_cultivation"];
+        $ret["extra_improvement"]    = $ss_item["extra_improvement"];
+        $ret["habit_remodel"]    = $ss_item["habit_remodel"];
+        $ret["study_habit"]    = $ss_item["study_habit"];
+        $ret["interests_and_hobbies"]    = $ss_item["interests_and_hobbies"];
+        $ret["character_type"]    = $ss_item["character_type"];
+        $ret["need_teacher_style"]    = $ss_item["need_teacher_style"];
+        $ret["demand_urgency"]    = $tt_item["demand_urgency"];
+        $ret["quotation_reaction"]    = $tt_item["quotation_reaction"];
+        $ret["knowledge_point_location"]    = $tt_item["knowledge_point_location"];
+        $ret["recent_results"]    = $tt_item["recent_results"];
+        $ret["advice_flag"]    = $tt_item["advice_flag"];
+
         return $this->output_succ(["data" => $ret ]);
     }
 

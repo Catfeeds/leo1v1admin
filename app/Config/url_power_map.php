@@ -264,6 +264,7 @@ class url_power_map {
 			'/news_info/stu_message_list'	=>1090700,
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/user_manage_new/record_audio_server_list'	=>1090800,
+			'/admin_manage/xmpp_server_list'	=>1098100,
 			'/order_refund_confirm_config/refund_info'	=>1093000,
 			'/user_manage_new/parent_report'	=>1093100,
 			'/user_manage/qc_complaint'	=>1093300,

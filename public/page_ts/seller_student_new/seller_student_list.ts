@@ -1938,9 +1938,9 @@ function init_edit() {
         }
     });
 
-    $(".opt-edit-new").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
+    var edit_user_info_new=function(opt_data,opt_obj,click_type){
+       // var opt_data=$(this).get_opt_data();
+        //var opt_obj=this;
 
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
@@ -2047,19 +2047,23 @@ function init_edit() {
             var id_test_paper = html_node.find("#id_test_paper");
             var id_demand_urgency = html_node.find("#id_demand_urgency");
             var id_quotation_reaction = html_node.find("#id_quotation_reaction");
+            var id_revisit_info_new = html_node.find("#id_revisit_info_new");
+            if(click_type==1){
+                //id_revisit_info_new.hide();
+            }
             
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
-           
-           
-           /*html_node.find("#id_upload_test_paper").on("click",function(){
-               alert(111);
-           });*/
             
-           
+            
+            /*html_node.find("#id_upload_test_paper").on("click",function(){
+              alert(111);
+              });*/
+            
+            
             
 
             
-             
+            
             id_stu_request_test_lesson_time_info.data("v" , data. stu_request_test_lesson_time_info  );
             id_stu_request_lesson_time_info.data("v" , data.stu_request_lesson_time_info);
             id_stu_request_lesson_time_info.on("click",function(){
@@ -2251,7 +2255,7 @@ function init_edit() {
 
             id_study_habit.data("v","");
             id_study_habit.on("click",function(){
-               // var study_habit= data.study_habit;
+                // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
                 $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
@@ -2273,7 +2277,7 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                           
+                            
                             $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
                                 "study_habit" : JSON.stringify(select_list)                                
                             },function(res){
@@ -2797,7 +2801,7 @@ function init_edit() {
                     }
                 }]
             });
-           
+            
 
             dlg.getModalDialog().css("width","98%");
 
@@ -2819,6 +2823,15 @@ function init_edit() {
 
 
         });
+        
+    };
+    $(".opt-edit-new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var opt_obj=this;
+        var click_type=1;
+
+        edit_user_info_new(opt_data,opt_obj,click_type);
+           
     });
 
    

@@ -323,7 +323,7 @@ class user_manage_new extends Controller
             return $this->Pageview(__METHOD__,$ret_list);
         }
         $studentid = $this->get_in_int_val("studentid",-1);
-        $type      = $this->get_in_str_val("type","current");
+        $show_type = $this->get_in_str_val("show_type","current");
 
         $teacher_money_type       = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_type             = $this->t_teacher_info->get_teacher_type($teacherid);
@@ -335,7 +335,7 @@ class user_manage_new extends Controller
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
-            $teacherid,$start_time,$end_time,$studentid,"all");
+            $teacherid,$start_time,$end_time,$studentid,$show_type);
 
         $last_month_start = strtotime("-1 month",$start_time);
         $last_month_end   = strtotime("-1 month",$end_time);

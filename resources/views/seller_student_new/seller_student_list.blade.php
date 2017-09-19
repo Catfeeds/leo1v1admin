@@ -1069,6 +1069,63 @@
 
         </div>
 
+        <div class="row" id="id_revisit_info_new">
+            <div class="col-xs-12 col-md-12  ">
+                <span>回访信息</span>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-7 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">回访状态：</span>
+                            <select id="id_stu_status" class=" form-control "   >
+                            </select>
+                            <span> &gt </span>
+                            <select id="id_seller_student_sub_status" class=" form-control "   >
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-5 ">
+                        <a class="btn  " id="id_stu_rev_info" >回访记录</a>
+                        <a class="btn  btn-primary " id="id_send_sms" >发短信给家长</a>
+                    </div>
+                </div>
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">下次回访：</span>
+                            <input id="id_next_revisit_time" class=" form-control " />
+
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_next_revisit_time"  title="取消下次回访">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >　　备注：</span>
+                            <textarea class="form-control" style="height:70px;" id="id_stu_user_desc" > </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
 
 
 

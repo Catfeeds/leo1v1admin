@@ -5,16 +5,16 @@ $(function(){
     var notify_cur_playpostion =null;
     function load_data(){
         $.reload_self_page ( {
-			      date_type_config:	$('#id_date_type_config').val(),
-			      date_type:	$('#id_date_type').val(),
-			      opt_date_type:	$('#id_opt_date_type').val(),
-			      start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val(),
-			      teacherid:	$('#id_teacherid').val(),
-			      studentid:	$('#id_studentid').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      teacherid        : $('#id_teacherid').val(),
+			      studentid        : $('#id_studentid').val(),
+			      show_type        : $('#id_show_type').val(),
         });
     }
-
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -26,28 +26,26 @@ $(function(){
             load_data();
         }
     });
+
 	  $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_studentid').val(g_args.studentid);
-
-
-	$('.opt-change').set_input_change_event(load_data);
-
+	  $('#id_show_type').val(g_args.show_type);
+	  $('.opt-change').set_input_change_event(load_data);
     $('#id_teacherid').val(g_args.teacherid);
     $('#id_studentid').val(g_args.studentid);
-    
+
     $(".opt-goto-lesson").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.wopen("/tea_manage/lesson_list?lessonid=" + opt_data.lessonid);
     });
 
     var link_css = {
-        color: "#3c8dbc",
-        cursor:"pointer"
+        color  : "#3c8dbc",
+        cursor : "pointer"
     };
 
     $(".l-1 .key1").css(link_css);
     $(".l-2 .key2").css(link_css);
-
     $(".l-1 .key1").on("click",function(){
         var $this      = $(this);
         var class_name = $this.data("class_name");
@@ -62,8 +60,8 @@ $(function(){
     });
 
     $(".l-2 .key2").on("click",function(){
-        var $this=$(this);
-        var class_name= $this.data("class_name");
+        var $this      = $(this);
+        var class_name = $this.data("class_name");
         if ($this.data("show") ==true) {
             $(".key3."+class_name ).parent().hide();
         }else{
@@ -461,6 +459,7 @@ $(function(){
             }
         });
     });
+
 
     $(".opt-reset_lesson").on("click",function(){
 	      var data = $(this).get_opt_data();

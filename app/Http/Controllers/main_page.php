@@ -57,7 +57,8 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍
+        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入]
+        // $month_kpi = $this->t
 
 
     }
