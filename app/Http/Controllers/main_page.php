@@ -70,11 +70,23 @@ class main_page extends Controller
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
         // dd($income_num);
-        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time);
+        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
         $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
-        // $aver_money = $
+        $total_price = 0;
+        foreach($formal_info as $item){
+            $total_price += $item['all_price'];
+        }
+
+        if($formal_num>0){
+            $aver_money = $total_price/$formal_num; //平均人效
+        }else{
+            $aver_money = 0;
+        }
+
+        $month = date('Y-m-01');
+        $seller_target_income = $this->t_seller_month_money_target->get_all_target($month);
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
@@ -817,6 +829,7 @@ class main_page extends Controller
 
         array_unshift($teacher_info,$arr);
         $ret_info = \App\Helper\Utils::list_to_page_info($teacher_info);
+
         return $this->pageView(__METHOD__,$ret_info);
 
 

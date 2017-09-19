@@ -2788,7 +2788,7 @@ $(function(){
             return;
         }
         var title = "编辑子合同";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>付款</td><td>操作</td></tr></table></div>");   
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
@@ -2820,12 +2820,28 @@ $(function(){
                                                "<option value=2>分期</option> "+
                                                "<option value=3>其他</option> "+
                                                "</select>");
+                    var id_period_num= $("<select> "+
+                                         "<option value=3>3期</option> "+
+                                         "<option value=6>6期</option> "+
+                                         "<option value=9>9期</option> "+
+                                         "<option value=12>12期</option> "+
+                                         "</select>");
+
                     var id_child_order_money=$("<input/>");
                     
                     var arr=[
                         ["类型", id_child_order_type],
+                        ["分期期数", id_period_num],
                         ["金额", id_child_order_money]
                     ];
+
+                    id_child_order_type.on("change",function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+                    });
                     $.show_key_value_table("增加子合同", arr, {
                         label: '确认',
                         cssClass: 'btn-warning',
@@ -2856,14 +2872,32 @@ $(function(){
                     }
                     var id_child_order_type= $("<select> "+
                                                "<option value=1>首付款</option> "+
-                                               "<option value=2>其他</option> "+
+                                               "<option value=2>分期</option> "+
+                                               "<option value=3>其他</option> "+
                                                "</select>");
+                    var id_period_num= $("<select> "+
+                                         "<option value=3>3期</option> "+
+                                         "<option value=6>6期</option> "+
+                                         "<option value=9>9期</option> "+
+                                         "<option value=12>12期</option> "+
+                                         "</select>");
+
+
                     var id_child_order_money=$("<input/>");
                     
                     var arr=[
                         ["类型", id_child_order_type],
+                        ["分期期数", id_period_num],
                         ["金额", id_child_order_money]
                     ];
+                    id_child_order_type.on("change",function(){
+                        if(id_child_order_type.val() ==2){
+                            id_period_num.parent().parent().show(); 
+                        }else{
+                            id_period_num.parent().parent().hide(); 
+                        } 
+                    });
+
                     $.show_key_value_table("修改子合同", arr, {
                         label: '确认',
                         cssClass: 'btn-warning',
