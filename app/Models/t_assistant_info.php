@@ -322,7 +322,6 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
                        $assign_lesson,
                        $assistantid
         );
-      dd($sql);
         return $this->main_update( $sql  );
     }
 }
