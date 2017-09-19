@@ -1651,6 +1651,7 @@ function init_edit() {
     $("#id_favorite_count").on("click",function(){
         init_and_reload(function(now){
             // $.filed_init_date_range( 3,  0, now-14*86400,  now);
+            $('#id_seller_student_status').val(0);
             $('#id_favorite_flag').val(1);
         });
     });
