@@ -85,6 +85,9 @@ class main_page extends Controller
             $aver_money = 0;
         }
 
+        $month = date('Y-m-01');
+        $seller_target_income = $this->t_seller_month_money_target->get_all_target($month);
+
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 

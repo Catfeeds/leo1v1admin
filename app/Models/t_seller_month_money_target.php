@@ -7,10 +7,10 @@ use \App\Enums as E;
 
 class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_money_target
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_seller_month_time_info($start_time){
         $where_arr=[
@@ -56,7 +56,7 @@ class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_mone
                 }
                 $leave_and_overtime = json_decode($item['leave_and_overtime'],true);
                 if(!empty($leave_and_overtime)){
-                    foreach($leave_and_overtime as $v){                      
+                    foreach($leave_and_overtime as $v){
                         if(substr($v[0],11,1) ==2 && substr($v[0],0,10) == $day){
                             $num--;
                         }
@@ -66,11 +66,11 @@ class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_mone
 
                     }
                 }
-                
+
             }
- 
+
         }
-        return $num;       
+        return $num;
     }
     public function get_seller_list_day($time){
         $where_arr=[];
@@ -98,7 +98,7 @@ class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_mone
                 }
                 $leave_and_overtime = json_decode($item['leave_and_overtime'],true);
                 if(!empty($leave_and_overtime)){
-                    foreach($leave_and_overtime as $v){                      
+                    foreach($leave_and_overtime as $v){
                         if(substr($v[0],11,1) ==2 && substr($v[0],0,10) == $day){
                             $add_flag=false;
                         }
@@ -111,24 +111,16 @@ class t_seller_month_money_target extends \App\Models\Zgen\z_t_seller_month_mone
                 if ($add_flag) {
                     $admin_list[]=$adminid;
                 }
-                
+
             }
- 
+
         }
-        return $admin_list;       
+        return $admin_list;
+    }
+
+    public function get_all_target($month){
+
     }
 
 
-
 }
-
-
-
-
-
-
-
-
-
-
-

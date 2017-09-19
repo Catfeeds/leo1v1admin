@@ -2820,10 +2820,18 @@ $(function(){
                                                "<option value=2>分期</option> "+
                                                "<option value=3>其他</option> "+
                                                "</select>");
+                    var id_period_num= $("<select> "+
+                                         "<option value=3>3期</option> "+
+                                         "<option value=6>6期</option> "+
+                                         "<option value=9>9期</option> "+
+                                         "<option value=12>12期</option> "+
+                                         "</select>");
+
                     var id_child_order_money=$("<input/>");
                     
                     var arr=[
                         ["类型", id_child_order_type],
+                        ["分期期数", id_period_num],
                         ["金额", id_child_order_money]
                     ];
                     $.show_key_value_table("增加子合同", arr, {
