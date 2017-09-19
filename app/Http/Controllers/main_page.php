@@ -86,7 +86,7 @@ class main_page extends Controller
         }
 
         $month = date('Y-m-01');
-        $seller_target_income = $this->t_seller_month_money_target->get_all_target($month);
+        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month);
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
