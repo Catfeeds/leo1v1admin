@@ -65,7 +65,7 @@ class main_page extends Controller
         ]);
 
 
-        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入]
+        $income = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
         // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
@@ -87,9 +87,8 @@ class main_page extends Controller
 
         $month = date('Y-m-01');
         $main_type = 2;// 销售
-        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type);
+        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
-        dd($seller_target_income);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 
