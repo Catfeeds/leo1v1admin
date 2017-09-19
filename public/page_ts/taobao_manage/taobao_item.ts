@@ -46,8 +46,18 @@ $(function(){
         var data          = $(this).get_opt_data();
         var id_product    = $("<input/>");
         var id_sort_order = $("<input/>");
-        var id_price = $("<input/>");
+        var id_price      = $("<input/>");
         var open_iid      = data.open_iid;
+
+
+        $.show_key_value_table("修改商品信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
+
 
         $.do_ajax("/taobao_manage/set_taobao_info",{
             "type"     : 1,
