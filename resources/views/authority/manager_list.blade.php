@@ -159,9 +159,6 @@
                                     <a href="javascript:;" title="生成助教账号" class="opt-gen-ass">助</a>
                                     <a href="javascript:;" title="用户操作日志" class="opt-log">log</a>
                                     <a href="javascript:;" title="刷新回访" class="opt-refresh_call_end">刷新回访</a>
-                                    @if($var["group_flag"]==1)
-                                        <a href="javascript:;" id="id_upload_group_img" title="上传小组头像" class="fa-photo fa"></a>
-                                    @endif
                                     @if($var["account_role"]==5)
                                         <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
                                         <a href="javascript:;" title="修改老师等级" class="opt-set-teacher-level">等</a>
