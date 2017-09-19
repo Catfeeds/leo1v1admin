@@ -3,9 +3,9 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			parent_cid : $('#id_parent_cid').val(),
-			cid        : $('#id_cid').val(),
-			status     : $('#id_status').val()
+			      parent_cid : $('#id_parent_cid').val(),
+			      cid        : $('#id_cid').val(),
+			      status     : $('#id_status').val()
         });
     }
 
@@ -44,13 +44,13 @@ $(function(){
 
     $(".opt-info").on("click",function(){
         var data          = $(this).get_opt_data();
-        var id_product    = $("<input/>");
+        var id_title      = $("<input/>");
         var id_sort_order = $("<input/>");
         var id_price      = $("<input/>");
         var open_iid      = data.open_iid;
 
         var arr = [
-            ["商品id",id_product],
+            ["商品名称",id_title],
             ["商品排序",id_sort_order],
             ["商品价格(单位/元)",id_price],
         ];
@@ -59,44 +59,24 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
+
+                $.do_ajax("/taobao_manage/set_taobao_info",{
+                    "type"       : 2,
+                    "open_iid"   : open_iid,
+                    "product_id" : id_product.val(),
+                    "sort_order" : id_sort_order.val()
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+
             }
         });
-
-
-
-        $.do_ajax("/taobao_manage/set_taobao_info",{
-            "type"     : 1,
-            "open_iid" : open_iid
-        },function(result){
-            var arr=[
-                ["商品ID",id_product ],
-                ["商品排序",id_sort_order],
-            ];
-
-            id_product.val(result.data.product_id);
-            id_sort_order.val(result.data.sort_order);
-
-            $.show_key_value_table("修改",arr,{
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                    $.do_ajax( '/taobao_manage/set_taobao_info',{
-                        "type"       : 2,
-                        "open_iid"   : open_iid,
-                        "product_id" : id_product.val(),
-                        "sort_order" : id_sort_order.val()
-                    },function(data){
-                        if (data.ret!=0) {
-                            alert(data.info);
-                        }else{
-                            window.location.reload();
-                        }
-                    });
-                }
-            });
-
-        });
     });
+});
 
     $('.opt-change').set_input_change_event(load_data);
 });

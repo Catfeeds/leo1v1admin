@@ -72,6 +72,11 @@ class main_page extends Controller
         // dd($income_num);
         $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time);
 
+        $total_price = 0;
+        foreach($formal_info as $item){
+            
+        }
+
         $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
         // $aver_money = $
