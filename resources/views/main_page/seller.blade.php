@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning" style="display:none;" >
                     <div class="panel-heading">
                         本月-签单率排行榜
                     </div>
@@ -181,7 +181,7 @@
 
 
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning"  style="display:none;">
                     <div class="panel-heading">
                         本旬-个人排行榜
                     </div>
