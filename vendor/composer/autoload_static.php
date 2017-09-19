@@ -1160,6 +1160,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TUserReport' => __DIR__ . '/../..' . '/database/migrations/2017_05_19_160742_t_user_report.php',
         'TUserReportAddFromKeyAndFromType' => __DIR__ . '/../..' . '/database/migrations/2017_05_20_102933_t_user_report_add_from_key_and_from_type.php',
         'TUserReportDropUniqueAddIndex' => __DIR__ . '/../..' . '/database/migrations/2017_05_20_154201_t_user_report_drop_unique_add_index.php',
+        'TXmppServerConfig' => __DIR__ . '/../..' . '/database/migrations/2017_09_19_111446_t_xmpp_server_config.php',
         'TYxyxTestPicInfoAddCustomType' => __DIR__ . '/../..' . '/database/migrations/2017_08_16_095337_t_yxyx_test_pic_info_add_custom_type.php',
         'TYxyxTestPicVisitInfoAddFlag' => __DIR__ . '/../..' . '/database/migrations/2017_08_12_184209_t_yxyx_test_pic_visit_info_add_flag.php',
         'TYxyxTestPicVisitInfoAddTestPicInfoId' => __DIR__ . '/../..' . '/database/migrations/2017_08_22_143910_t_yxyx_test_pic_visit_info_add_test_pic_info_id.php',

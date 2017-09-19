@@ -894,6 +894,7 @@ return array(
     'TUserReport' => $baseDir . '/database/migrations/2017_05_19_160742_t_user_report.php',
     'TUserReportAddFromKeyAndFromType' => $baseDir . '/database/migrations/2017_05_20_102933_t_user_report_add_from_key_and_from_type.php',
     'TUserReportDropUniqueAddIndex' => $baseDir . '/database/migrations/2017_05_20_154201_t_user_report_drop_unique_add_index.php',
+    'TXmppServerConfig' => $baseDir . '/database/migrations/2017_09_19_111446_t_xmpp_server_config.php',
     'TYxyxTestPicInfoAddCustomType' => $baseDir . '/database/migrations/2017_08_16_095337_t_yxyx_test_pic_info_add_custom_type.php',
     'TYxyxTestPicVisitInfoAddFlag' => $baseDir . '/database/migrations/2017_08_12_184209_t_yxyx_test_pic_visit_info_add_flag.php',
     'TYxyxTestPicVisitInfoAddTestPicInfoId' => $baseDir . '/database/migrations/2017_08_22_143910_t_yxyx_test_pic_visit_info_add_test_pic_info_id.php',

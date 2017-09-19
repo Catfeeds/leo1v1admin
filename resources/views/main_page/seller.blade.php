@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning" style="display:none;" >
                     <div class="panel-heading">
                         本月-签单率排行榜
                     </div>
@@ -162,8 +162,22 @@
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
                                     <tr>
-                                        <td> <span> {{$var["index"]}} </span> </td>
-                                        <td>{{$var["sys_operator"]}} </td>
+                                        <td>
+                                            <span> {{$var["index"]}} </span>
+                                            @if($var["index"]==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                            @elseif($var["index"]==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
+                                            @elseif($var["index"]==3)
+                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{$var["sys_operator"]}}
+                                            @if($var["index"]<4)
+                                                <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
+                                            @endif
+                                        </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
@@ -176,7 +190,7 @@
 
 
 
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning"  style="display:none;">
                     <div class="panel-heading">
                         本旬-个人排行榜
                     </div>
@@ -227,7 +241,22 @@
                             <tbody id="id_group_body">
                                 @foreach ( $group_list as $key=> $var )
                                     <tr>
-                                        <td> <span> {{$key+1}} </span> </td>
+                                        <td>
+                                            <span> {{$key+1}} </span>
+                                            @if($key==0)
+                                                <a title="" class=" fa-trophy fa" style="color:#FFDC35;"></a>
+                                            @elseif($key==1)
+                                                <a title="" class=" fa-trophy fa" style="color:#BEBEBE;"></a>
+                                            @elseif($key==2)
+                                                <a title="" class=" fa-trophy fa" style="color:#844200;"></a>
+                                            @elseif($key==count($group_list)-3)
+                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @elseif($key==count($group_list)-2)
+                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @elseif($key==count($group_list)-1)
+                                                <a title="" class=" fa-frown-o fa" ></a>
+                                            @endif
+                                        </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}"> {{$var["group_name"]}} </td>
                                         <td class="all_count">{{$var["all_count"]}} </td>
                                         <td class="all_price">{{$var["all_price"]/100}} </td>

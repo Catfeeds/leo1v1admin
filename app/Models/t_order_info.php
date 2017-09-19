@@ -856,7 +856,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count  "
+        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "

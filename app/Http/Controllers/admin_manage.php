@@ -78,5 +78,13 @@ class admin_manage extends Controller
             "email" => $email,
         ]);
     }
+    public function xmpp_server_list () {
+        $page_info= $this->get_in_page_info();
+        $ret_info=$this->t_xmpp_server_config->get_list($page_info);
+        foreach ($ret_info["list"] as &$item ) {
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 
 }
