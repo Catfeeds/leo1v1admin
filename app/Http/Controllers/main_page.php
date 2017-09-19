@@ -70,16 +70,20 @@ class main_page extends Controller
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
         // dd($income_num);
-        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time);
-
-        $total_price = 0;
-        foreach($formal_info as $item){
-            
-        }
+        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
         $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
-        // $aver_money = $
+        $total_price = 0;
+        foreach($formal_info as $item){
+            $total_price += $item['all_price'];
+        }
+
+        if($formal_num>0){
+            $aver_money = $total_price/$formal_num; //平均人效
+        }else{
+            $aver_money = 0;
+        }
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);

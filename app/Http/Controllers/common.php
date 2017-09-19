@@ -1396,13 +1396,13 @@ class common extends Controller
         $orderid = $this->get_in_int_val("orderid");
 
         //期待贷款额度(分单位)
-        $money = $this->get_in_int_val("money",100);
+        $money = $this->get_in_int_val("money",10000);
 
         //分期期数
         $period = $this->get_in_int_val("period",12);
 
 
-        $orderid = 22455;
+        $orderid = 22167;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
         //订单id
