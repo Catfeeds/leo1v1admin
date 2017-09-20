@@ -2192,8 +2192,8 @@ class test_code extends Controller
 
         if(is_array($lesson_list)){
             foreach($lesson_list as $val){
-
-
+                if($save_lesson_total==0){
+                }
 
 
 
