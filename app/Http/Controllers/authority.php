@@ -561,8 +561,9 @@ class authority extends Controller
         $gift_intro = $this->get_in_str_val('gift_intro');
         $gift_pic   = $this->get_in_str_val('pic_url');
         $shop_link  = $this->get_in_str_val('shop_link');
-        $cost_price = $this->get_in_int_val('cost_price');
+        $cost_price = ( $this->get_in_int_val('cost_price')) * 100;
         $del_flag   = $this->get_in_int_val('del_flag');
+        $sale       = $this->get_in_int_val('sale');
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
