@@ -309,7 +309,6 @@ class test_sam  extends Controller
         $end_date = date("Y-m-d",$end_time);
         $start_time = $end_time - 7 * 86400;
         $start_date = date("Y-m-d",$start_time);
-        dd($start_time,$start_date,$end_time,$end_date);
 
         $subject = $this->get_in_int_val("subject",-1);
         $date = date("Y-m-d",time()-100);
