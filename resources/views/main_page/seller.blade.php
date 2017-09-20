@@ -183,15 +183,15 @@
                                                         <p>{{$var["all_price"]}} </p>
                                                     </div>
                                     @elseif($var['index'] == 3)
-                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}});">
-                                                        <div style="background:none">
+                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}});position: relative;">
+                                                        <div style="position: absolute; left: 0; bottom: 0; background: none;">
                                                             <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                                         </div>
-                                                        <div style="background:none">
+                                                        <div style="position: absolute; left: 0; bottom: 0; background: none;">
                                                             {{$var["sys_operator"]}}</div>
-                                                        <div style="background:none">
+                                                        <div style="position: absolute; left: 0; bottom: 0; background: none;">
                                                             {{$var["all_count"]}} </div>
-                                                        <div style="background:none">
+                                                        <div style="position: absolute; left: 0; bottom: 0; background: none;">
                                                             {{$var["all_price"]}}</div> 
                                                     </div>
                                                 </div>
