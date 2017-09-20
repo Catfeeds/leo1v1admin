@@ -1191,8 +1191,10 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
     }
 
     public function get_seller_schedule_num($start_time){
-        $where_arr = [];
-        $sql = $this->gen_sql_new();
+        $where_arr = [
+            "tsl.set_lesson_time > $start_time"
+        ];
+        $sql = $this->gen_sql_new(" select ");
     }
 
 
