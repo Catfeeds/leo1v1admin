@@ -402,6 +402,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function get_qz_tea_lesson_info_b2($start_time,$end_time){
+        $where_arr=[
+            "m.account_role=5",
+            "m.del_flag=0",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag in (0,1)",
+            "(tss.success_flag is null or tss.success_flag in (0,1))"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select lesson_type,lesson_count,tss.success_flag,m.uid,m.account_role,l.train_type "
+                                  ." from %s l left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_off_time_lesson_info($lesson_start,$lesson_end){
         $where_arr=[
             "m.account_role=5",
