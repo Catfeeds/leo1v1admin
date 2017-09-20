@@ -2920,9 +2920,9 @@ trait TeaPower {
     }
 
     /**
-     * 
+     * 获取某个老师时间节点内的工资总体
      */
-    public function teacher_total_money($start_time,$end_time){
+    public function teacher_total_money($teacherid,$start_time,$end_time){
 
     }
 
