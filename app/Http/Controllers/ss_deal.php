@@ -249,6 +249,8 @@ class ss_deal extends Controller
         $ret["knowledge_point_location"]    = $tt_item["knowledge_point_location"];
         $ret["recent_results"]    = $tt_item["recent_results"];
         $ret["advice_flag"]    = $tt_item["advice_flag"];
+        $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
+        $ret["intention_level"]    = $tt_item["intention_level"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -580,7 +582,7 @@ class ss_deal extends Controller
         $academic_goal  = $this->get_in_int_val("academic_goal");//升学目标
         $test_stress    = $this->get_in_int_val("test_stress");//应试压力
         $new_demand_flag    = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
-        $entrance_school_type  = $this->get_in_int_val("升学学校要求");//升学目标
+        $entrance_school_type  = $this->get_in_int_val("entrance_school_type");//升学目标
         $interest_cultivation  = $this->get_in_int_val("interest_cultivation");//趣味培养
         $extra_improvement  = $this->get_in_int_val("extra_improvement");//课外提高
         $habit_remodel  = $this->get_in_int_val("habit_remodel");//习惯重塑
@@ -597,6 +599,7 @@ class ss_deal extends Controller
         $area      = $this->get_in_str_val("area");//县市
         $region      = $this->get_in_str_val("region");//地区,省
         $province      = $this->get_in_int_val("province");//省
+        $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
         
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -758,6 +761,7 @@ class ss_deal extends Controller
             "knowledge_point_location"           =>$knowledge_point_location,
             "recent_results"                     =>$recent_results,
             "advice_flag"                        =>$advice_flag,
+            "stu_test_paper"                     =>$stu_test_paper
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致

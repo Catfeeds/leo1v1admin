@@ -2316,13 +2316,14 @@ class user_manage_new extends Controller
     public function present_manage_new()
     {
         $page_num = $this->get_in_page_num();
+        $del_flag = $this->get_in_int_val('del_flag', -1);
 
 
         // list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
         //     =$this->get_in_order_by_str([],"",["cost_prise" => "cost_price"]);
 
 
-        $ret_info = $this->t_gift_info->get_gift_info($page_num);
+        $ret_info = $this->t_gift_info->get_all_gift($page_num, $del_flag);
         $cur_ratio = Config::get_current_ratio();
         foreach($ret_info['list'] as &$item){
             E\Egift_type::set_item_value_str($item,"gift_type");
@@ -2333,7 +2334,10 @@ class user_manage_new extends Controller
                     $pic_list[] = trim($pic_info);
                 }
             }
-
+            $item['del_flag_str'] = '<span style="color:green">已上架</span>';
+            if ($item['del_flag']) {
+                $item['del_flag_str'] = '<span style="color:red"> 已下架</span>';
+            }
             $item["gift_desc_str"]  = json_encode($pic_list);
             $item['cost_price_str'] = $item['cost_price']/100;
         }
