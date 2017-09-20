@@ -3134,7 +3134,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $where_arr = [
             "is_test_user=0",
-            "o.stu_from_type in (0,1)",
+            "o.stu_from_type=1",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
@@ -3142,7 +3142,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*)as all_count  "
+        $sql = $this->gen_sql_new("select sum(price)/100 as all_price "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3154,7 +3154,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
 
 
     }
