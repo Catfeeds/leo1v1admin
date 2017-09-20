@@ -165,38 +165,29 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="row">
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}});">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
                                                         </p>
-                                                        <p>
-                                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                                            {{$var["sys_operator"]}}
-                                                        </p>
+                                                        <p>{{$var["sys_operator"]}}</p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
                                                     </div>
                                     @elseif($var['index'] == 2)
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}});">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
                                                         </p>
-                                                        <p>
-                                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                                            {{$var["sys_operator"]}}
-                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
                                                     </div>
                                     @elseif($var['index'] == 3)
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}});">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                                         </p>
-                                                        <p>
-                                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                                            {{$var["sys_operator"]}}
-                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
                                                     </div>
