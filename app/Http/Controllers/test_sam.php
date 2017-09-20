@@ -100,6 +100,23 @@ class test_sam  extends Controller
               @$arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
               @$arr[$key]['cross_time'] = "10.9-".date('m-d',1507478400+$arr[$key]['day_num']*86400);
           }
+
+
+          $admin_list = [944];
+          foreach($admin_list as $yy){
+            foreach ($arr as $key => $value) {
+               $task->t_manager_info->send_wx_todo_msg_by_adminid (
+                  $yy,
+                  "国庆延休统计",
+                  "延休数据汇总",
+                  "\n老师:".$value['realname'].
+                  "\n时间:2017-10-1 0:0:0 ~ 2017-10-8 22:0:0".
+                  "\n累计上课课时:".$value['lesson_count'].
+                  "\n延休天数:".$value['day_num'].
+                  "\n延休日期:".$value['cross_time']);
+              }
+          }
+
           dd($arr);
 
           $name_list ="";
