@@ -154,7 +154,9 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
     public function get_user_list_new($groupid) {
-        $sql=$this->gen_sql_new("select u.adminid,m.account from %s u,%s m where u.adminid= m.uid and groupid=%u ",
+        $sql=$this->gen_sql_new("select u.adminid,m.account,"
+                                ."m.create_time,m.become_member_time,m.leave_member_time,m.del_flag "
+                                ." from %s u,%s m where u.adminid= m.uid and groupid=%u ",
                                 self::DB_TABLE_NAME,
                                 t_manager_info::DB_TABLE_NAME,
                                 $groupid);
