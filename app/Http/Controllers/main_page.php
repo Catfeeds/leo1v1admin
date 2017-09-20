@@ -119,9 +119,15 @@ class main_page extends Controller
 
         $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
 
-        $has_tq_succ = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time);
+        $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
-        dd($test_lesson_succ_num);
+
+
+        //  外呼情况
+        //  呼出量
+        // $seller_call_num = $this->t_tq_call_info->
+
+        dd($ret_info['has_tq_succ']);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 

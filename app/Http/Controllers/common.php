@@ -1587,6 +1587,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $status = $this->get_in_int_val("status");
         $period_new = $this->get_in_int_val("period");
         $sign = $this->get_in_str_val("sign");
+        $data = $_REQUEST;
+        foreach($data as $k=>$v){
+            if($k=="_url" || $k=="_ctl" || $k =="_act" || $k=="_role" || $k=="_userid" || $k=="sign"){
+                unset($data[$k]);
+            }
+        }
         $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
         $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
         if(empty($check_exist)){
@@ -1639,7 +1645,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             );
 
             $strSecretKey = '9v4DvTxOz3';// 分配的key
-            $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+            $arrParams['sign'] = $this->createBaseSign($data, $strSecretKey);
             if($arrParams['sign'] != $sign){
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
             }else{
