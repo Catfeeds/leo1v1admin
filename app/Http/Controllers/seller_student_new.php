@@ -1452,7 +1452,6 @@ class seller_student_new extends Controller
         E\Epad_type::set_item_value_str($user_info,"has_pad");
         \App\Helper\Utils::unixtime2date_for_item($user_info,"add_time");
         $this->cache_set_item_account_nick($user_info, "admin_revisiterid", "admin_revisiter_nick" );
-
         return $this->pageView(
             __METHOD__ , null,
             ["user_info"=>$user_info , "count_info"=>$count_info]
