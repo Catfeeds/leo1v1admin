@@ -3433,7 +3433,7 @@ class user_manage_new extends Controller
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
-                                                                              $seller_adminid,$ass_adminid_list);
+                                                                              $seller_adminid,$ass_adminid_list,$student_type);
         foreach($warning_list as $val){
             if(!isset($stu_list[$val["userid"]])){
                 $stu_list[$val["userid"]] = $val["userid"];
