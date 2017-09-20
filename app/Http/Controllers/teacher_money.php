@@ -374,7 +374,7 @@ class teacher_money extends Controller
                     $transfer_teacherid,$last_month_start,$last_month_end);
                 $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                     $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-                $last_all_lesson_count   += $old_all_lesson_count;
+                $last_all_lesson_count    += $old_all_lesson_count;
                 $last_normal_lesson_count += $old_normal_lesson_count;
             }
 
