@@ -565,6 +565,7 @@ class authority extends Controller
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
+            $max_num = pow(2,32)-1;
             $ret_info = $this->t_gift_info->row_insert([
                 'gift_name'      => $gift_name,
                 'gift_type'      => $gift_type,
@@ -573,6 +574,13 @@ class authority extends Controller
                 'cost_price'     => $cost_price,
                 'shop_link'      => $shop_link,
                 'current_praise' => $current_praise,
+                'primary_praise' => $current_praise,
+                'primary_num'    => $max_num,
+                'current_num'    => $max_num,
+                'per_num'        => $max_num,
+                'valid_start'    => 0,
+                'valid_end'      => $max_num,
+                'gift_status'    => 1,
             ]);
         } else {
             $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], [

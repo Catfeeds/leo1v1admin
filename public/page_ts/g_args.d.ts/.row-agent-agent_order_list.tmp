@@ -7,9 +7,12 @@
 	aid	:any;
 	p_level	:any;
 	pp_level	:any;
+	p_open_price	:any;
+	pp_open_price	:any;
 	userid	:any;
 	phone	:any;
 	nickname	:any;
+	a_create_time	:any;
 	p_phone	:any;
 	p_nickname	:any;
 	pp_phone	:any;
