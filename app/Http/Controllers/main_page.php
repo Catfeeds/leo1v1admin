@@ -112,7 +112,8 @@ class main_page extends Controller
 
         dd($referral_money." ~ ".$high_school_money.' ~ '.$primary_money);
 
-        //
+        // 转化率
+        // $seller_
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);

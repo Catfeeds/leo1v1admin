@@ -593,10 +593,10 @@ class ss_deal extends Controller
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
         $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $city      = $this->get_in_str_val("city");//市.区
+        $area      = $this->get_in_str_val("area");//县市
+        $region      = $this->get_in_str_val("region");//地区,省
+        $province      = $this->get_in_int_val("province");//省
         
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);

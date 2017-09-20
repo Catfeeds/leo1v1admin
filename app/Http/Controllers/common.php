@@ -1419,7 +1419,6 @@ class common extends Controller
 
         $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
-        dd($user_info);
 
         // RSA加密数据
         $endata = array(
