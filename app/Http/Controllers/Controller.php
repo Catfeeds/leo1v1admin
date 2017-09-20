@@ -15,7 +15,6 @@ require_once( app_path() ."/Helper/functions.php"  );
 /**
  * @property  \App\Models\t_lesson_info_b2       $t_lesson_info_b2
  * @property  \App\Models\t_lesson_info_b3       $t_lesson_info_b3
-
  */
 class Controller extends ControllerEx
 {
@@ -33,8 +32,9 @@ class Controller extends ControllerEx
         }
         $this->setUpTraits();
     }
+
     protected function switch_tongji_database( $flag = true) {
-        $this->switch_tongji_database_flag=$flag;
+        $this->switch_tongji_database_flag = $flag;
     }
 
     protected function setUpTraits()
@@ -45,7 +45,8 @@ class Controller extends ControllerEx
             $this->CacheNickInit();
         }
     }
-    public function __get( $name ) {
+
+    public function __get( $name ){
         if (substr($name ,0,2  ) == "t_" || $name=="users") {
             $reflectionObj = new \ReflectionClass( "App\\Models\\$name");
             $this->$name= $reflectionObj->newInstanceArgs();
@@ -59,6 +60,7 @@ class Controller extends ControllerEx
             throw new \Exception() ;
         }
     }
+
     public function __call($method,$arg )  {
         if ( preg_match("/^get_in_e_(.*)$/",$method,$ret_arr)) {
             $def_value=0;
@@ -82,7 +84,6 @@ class Controller extends ControllerEx
             }
             $class_name= "\\App\\Enums\\E{$ret_arr[1]}";
             return $this->get_in_enum_list ( $class_name, $def_value ,$field_name);
-
         }
 
         throw new \Exception("$method  no find ");

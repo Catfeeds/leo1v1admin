@@ -113,7 +113,6 @@ class main_page extends Controller
         // 转化率
         $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
 
-        dd($seller_invit_num);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 
