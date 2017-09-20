@@ -4,9 +4,12 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            order_by_str  : g_args.order_by_str,
+            del_flag : $('#id_del_flag').val(),
         })
     }
+
+    Enum_map.append_option_list("gift_del_flag", $("#id_del_flag"));
+    $('#id_del_flag').val(g_args.del_flag);
 
     $('.fancybox-effects-a').fancybox({
         helpers: {
@@ -24,8 +27,8 @@ $(function(){
         var giftid = $(this).parent().data("giftid");
         var del_name = '<span style="color:red">'+gift_name+'</span>';
         BootstrapDialog.show({
-            title: "删除礼品",
-            message : "确认是否删除礼品" + del_name ,
+            title: "下架礼品",
+            message : "确认是否下架礼品" + del_name ,
             buttons: [{
                 label: '返回',
                 action: function(dialog) {
@@ -324,7 +327,9 @@ $(function(){
         var id_cost_price  = $("<input id=\"price\" type=\"number\" min=\"0\"/>");
         var id_shop_link   = $("<input/>");
         var id_gift_praise = $("<span id=\"praise\"/>");
+        var id_del_flag    = $("<select/>");
         var id_gift_intro  = $("<textarea/>");
+        Enum_map.append_option_list("gift_del_flag", id_del_flag,true);
         if (flag == 1) {
             var modal_title = '添加礼品';
             var giftid = 0;
@@ -336,8 +341,10 @@ $(function(){
             id_cost_price.val(opt_data.cost_price);
             id_gift_praise.text(opt_data.current_praise);
             id_shop_link.val(opt_data.shop_link);
+            id_del_flag.val(opt_data.del_flag);
             id_gift_intro.val(opt_data.gift_intro);
         }
+
 
         var arr= [
             ["礼品名称：", id_gift_name],
@@ -345,11 +352,13 @@ $(function(){
             ["封面图片：", id_gift_url],
             ["商品原价：", id_cost_price],
             ["所需赞数：", id_gift_praise],
+            ["商品状态：", id_del_flag],
             ["购买链接：", id_shop_link],
             ["礼品简介：", id_gift_intro],
         ];
 
         $.show_key_value_table(modal_title, arr,{
+
             label    : '确认',
             cssClass : 'btn-info',
             action   : function() {
@@ -366,6 +375,7 @@ $(function(){
                         'cost_price' : id_cost_price.val(),
                         'praise'     : praise,
                         'shop_link'  : id_shop_link.val(),
+                        'del_flag'   : id_del_flag.val(),
                         'gift_intro' : id_gift_intro.val(),
                     } ,
                     success : function(result){
