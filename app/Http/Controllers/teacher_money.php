@@ -175,7 +175,6 @@ class teacher_money extends Controller
         $this->get_array_data_by_count($all_reward_list,$reward_compensate);
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
 
-        \App\Helper\Utils::logger("teacherid11233:$teacherid,".json_encode($lesson_list));
         return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
     }
 

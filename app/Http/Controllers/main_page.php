@@ -57,12 +57,12 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
-            1 => array("require_time","申请时间"),
-            2 => array("stu_request_test_lesson_time", "期待试听时间"),
-            4 => array("lesson_start", "上课时间"),
-            5 => array("seller_require_change_time ", "销售申请更换时间"),
-        ]);
+        // list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+        //     1 => array("require_time","申请时间"),
+        //     2 => array("stu_request_test_lesson_time", "期待试听时间"),
+        //     4 => array("lesson_start", "上课时间"),
+        //     5 => array("seller_require_change_time ", "销售申请更换时间"),
+        // ]);
 
 
         $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
