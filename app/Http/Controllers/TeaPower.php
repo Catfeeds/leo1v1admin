@@ -2537,8 +2537,24 @@ trait TeaPower {
         return $already_lesson_count;
     }
 
+    /**
+     * 获取老师上个月的累计常规课时和累计常规+常规课时
+     */
     public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
-
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count($start_time,$end_time,$teacherid,0);
+        $last_lesson_count['all_normal_count'] = $this->get_already_lesson_count(
+            $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
+        );
+        if($transfer_teacherid>0){
+            $old_all_lesson_count = $this->get_already_lesson_count($start,$end,$transfer_teacherid);
+            $old_normal_lesson_count = $this->get_already_lesson_count(
+                $start,$end,$transfer_teacherid,E\Eteacher_money_type::V_6
+            );
+            $last_lesson_count['all_lesson_count']+= $old_all_lesson_count;
+            $last_lesson_count['all_normal_count']+= $old_normal_lesson_count;
+        }
+        return $last_lesson_count;
     }
 
     /**

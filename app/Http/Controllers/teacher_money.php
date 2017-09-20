@@ -357,19 +357,12 @@ class teacher_money extends Controller
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            //上个月累计常规+试听课时
-            $last_all_lesson_count = $this->get_already_lesson_count($start,$end,$teacherid);
-            //上个月累计常规课时
-            $last_normal_lesson_count = $this->get_already_lesson_count($start,$end,$teacherid,E\Eteacher_money_type::V_6);
-            //检测是否存在转移记录
-            if($transfer_teacherid>0){
-                $old_all_lesson_count = $this->get_already_lesson_count($start,$end,$transfer_teacherid);
-                $old_normal_lesson_count = $this->get_already_lesson_count(
-                    $start,$end,$transfer_teacherid,E\Eteacher_money_type::V_6
-                );
-                $last_all_lesson_count    += $old_all_lesson_count;
-                $last_normal_lesson_count += $old_normal_lesson_count;
-            }
+            /**
+             * 
+             */
+            $last_month_info = $this->get_last_lesson_count_info($start,$end,$teacherid);
+            $last_all_lesson_count    = $last_month_info['all_lesson_count'];
+            $last_normal_lesson_count = $last_month_info['all_normal_count'];
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){
