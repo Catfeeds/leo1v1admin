@@ -199,13 +199,14 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
 
     public function get_done_stu_info_seller( $start_time, $end_time,$all_flag, $userid,$grade, $status,
                                                        $user_name, $phone, $teacherid, $assistantid, $test_user,
-                                                       $originid, $seller_adminid,$ass_adminid_list=[]
+                                                       $originid, $seller_adminid,$ass_adminid_list=[],$student_type
 ){
         //  $last_two_weeks_time = time(NULL)-86400*14;
         $where_arr=[
             ["s.userid=%u", $userid, -1] ,
             ["s.grade=%u", $grade, -1] ,
             ["s.status=%u", $status, -1] ,
+            ["s.type=%u",$student_type,-1],
             ["s.assistantid=%u", $assistantid, -1] ,
             ["s.is_test_user=%u ", $test_user , -1] ,
             ["s.originid=%u ", $originid , -1] ,

@@ -66,11 +66,13 @@ class test_sam  extends Controller
         $day_time = date("Y-m-d H:i:s",$day_time);
         $lesson_end = date("Y-m-d H:i:s",$lesson_end);
         $lesson_start = date("Y-m-d H:i:s",$lesson_start);
+
+        //
         $time = 1507464000;
         $date_time = date("Y-m-d",$time);       
         if($date_time == "2017-10-08"){
             //deal 2017-10-08 22:00:00
-            
+
         }
        
     }        

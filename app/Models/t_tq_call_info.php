@@ -423,6 +423,5 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
 
         return $this->main_get_value($sql);
-
     }
 }

@@ -2480,8 +2480,8 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list() {
-        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
-        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
+        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
         $level                       = $this->get_in_int_val("level",-1);
@@ -3398,6 +3398,7 @@ class user_manage_new extends Controller
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $order_type     = $this->get_in_int_val("order_type",-1);
+        $student_type   = $this->get_in_int_val("student_type",-1);
         $page_num       = $this->get_in_page_num();
         $status         = -1;
         $userid         = $this->get_in_userid(-1);
@@ -3422,7 +3423,7 @@ class user_manage_new extends Controller
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
-                                                                              $seller_adminid,$ass_adminid_list);
+                                                                          $seller_adminid,$ass_adminid_list,$student_type);
         foreach($list as $val){
             if(!isset($stu_list[$val["userid"]])){
                 $stu_list[$val["userid"]] = $val["userid"];
@@ -3432,7 +3433,7 @@ class user_manage_new extends Controller
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
-                                                                              $seller_adminid,$ass_adminid_list);
+                                                                              $seller_adminid,$ass_adminid_list,$student_type);
         foreach($warning_list as $val){
             if(!isset($stu_list[$val["userid"]])){
                 $stu_list[$val["userid"]] = $val["userid"];

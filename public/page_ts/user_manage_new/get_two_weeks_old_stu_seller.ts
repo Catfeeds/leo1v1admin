@@ -3,6 +3,30 @@
 
 
 $(function(){
+    function load_data(){
+        if ($.trim($("#id_user_name").val()) != g_args.user_name ) {
+            $.do_ajax("/user_deal/set_item_list_add",{
+                "item_key" :show_name_key,
+                "item_name":  $.trim($("#id_user_name").val())
+            },function(){});
+        }
+        
+        $.reload_self_page({
+            test_user   : $("#id_test_user").val(),
+            originid    : $("#id_originid").val(),
+            grade       : $("#id_grade").val(),
+            user_name   : $("#id_user_name").val(),
+            phone       : $("#id_phone").val(),
+            assistantid : $("#id_assistantid").val(),
+            student_type: $("#id_student_type").val(),
+            order_type : $("#id_order_type").val(),
+            seller_adminid : $("#id_seller_adminid").val(),
+            seller_groupid_ex:  $('#id_seller_groupid_ex').val(),
+            start_time: $('#id_start_time').val(),
+                  end_time: $('#id_end_time').val()
+
+        });
+    }
     var show_name_key="stu_info_name_"+g_adminid;
 
     $( "#id_user_name" ).autocomplete({
@@ -118,17 +142,18 @@ $(function(){
     Enum_map.append_option_list("grade", $("#id_grade"));
     Enum_map.append_option_list("test_user", $("#id_test_user"));
     Enum_map.append_option_list("stu_origin", $("#id_originid"));
+    Enum_map.append_option_list("student_type", $("#id_student_type"));
     Enum_map.td_show_desc("grade", $(".td-grade"));
     Enum_map.td_show_desc("relation_ship", $(".td-parent-type"));
 
-	$("#id_grade").val(g_args.grade);
-	$("#id_test_user").val(g_args.test_user);
-	$("#id_originid").val(g_args.originid);
-	$("#id_user_name").val(g_args.user_name);
-	$("#id_phone").val(g_args.phone);
-	$("#id_seller_adminid").val(g_args.seller_adminid);
-	$("#id_order_type").val(g_args.order_type);
-
+	  $("#id_grade").val(g_args.grade);
+	  $("#id_test_user").val(g_args.test_user);
+	  $("#id_originid").val(g_args.originid);
+	  $("#id_user_name").val(g_args.user_name);
+	  $("#id_phone").val(g_args.phone);
+	  $("#id_seller_adminid").val(g_args.seller_adminid);
+	  $("#id_order_type").val(g_args.order_type);
+    $("#id_student_type").val(g_args.student_type);
     $("#id_assistantid").val(g_args.assistantid);
 
     $.admin_select_user($("#id_assistantid"), "assistant", load_data);
@@ -152,29 +177,7 @@ $(function(){
         $.wopen('/stu_manage/course_list?sid='+userid );
     });
 	
-	function load_data(){
-        if ($.trim($("#id_user_name").val()) != g_args.user_name ) {
-            $.do_ajax("/user_deal/set_item_list_add",{
-                "item_key" :show_name_key,
-                "item_name":  $.trim($("#id_user_name").val())
-            },function(){});
-        }
-        
-        $.reload_self_page({
-            test_user   : $("#id_test_user").val(),
-            originid    : $("#id_originid").val(),
-            grade       : $("#id_grade").val(),
-            user_name   : $("#id_user_name").val(),
-            phone       : $("#id_phone").val(),
-            assistantid : $("#id_assistantid").val(),
-            order_type : $("#id_order_type").val(),
-            seller_adminid : $("#id_seller_adminid").val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-            start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val()
-
-        });
-	}
+	
 
     //设置是否为测试用户
     Enum_map.append_option_list("test_user",$("#id_set_channel"),true);
