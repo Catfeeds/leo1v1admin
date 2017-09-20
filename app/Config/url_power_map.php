@@ -155,6 +155,7 @@ class url_power_map {
 			'/user_manage_new/lesson_student_grade_list'	=>1040504,
 			'/user_manage_new/tea_wages_list'	=>1040507,
 			'/user_manage_new/tea_wages_info'	=>1040505,
+			'/user_manage_new/tea_wages_info_new'	=>1040506,
 			'/user_manage_new/teacher_money_type_list'	=>1040508,
 			'/user_manage_new/tea_wages_count_list'	=>1040509,
 			'/human_resource/get_lesson_full_list'	=>1040511,
