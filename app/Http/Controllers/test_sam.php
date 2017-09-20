@@ -307,7 +307,7 @@ class test_sam  extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         $date = date("Y-m-d",time()-100);
         //dd($date);
-        $date = "2017-09-19";
+        $date = "2017-09-19 20:0:0";
         $account_role = 9;
         $kpi_flag = 1;
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
