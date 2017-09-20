@@ -387,9 +387,10 @@ $(function(){
                 }
                 return;
             }
-            if (!opt_data.parent_wx_openid &&
-                g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186 && g_args.jack_flag!=944)
-            {
+            if(!opt_data.parent_wx_openid && g_args.account_role != 12 && g_args.jack_flag !=349 && g_args.jack_flag !=99
+                && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186
+                && g_args.jack_flag!=944
+              ){
                 alert("家长未关注微信,不能提交试听课");
                 $(me).parent().find(".opt-seller-qr-code").click();
                 return;

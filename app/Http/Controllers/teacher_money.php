@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 class teacher_money extends Controller
 {
     use CacheNick;
+    use TeaPower;
     var $check_login_flag = false;
     var $teacher_money;
     var $late_num   = 0;
@@ -26,32 +27,16 @@ class teacher_money extends Controller
         if(!$teacherid){
             return $this->output_err("老师id错误!");
         }
-
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
         $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $simple_info['teacher_money_type'];
-        $teacher_type       = $simple_info['teacher_type'];
-        $transfer_teacherid = $simple_info['transfer_teacherid'];
+        $teacher_type = $simple_info['teacher_type'];
 
-        $last_month_start = strtotime("-1 month",$start_time);
-        $last_month_end   = strtotime("-1 month",$end_time);
-        //上个月累计常规+试听课时
-        $last_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-            $teacherid,$last_month_start,$last_month_end);
-        //上个月累计常规课时
-        $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-            $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-        //检测是否存在转移记录
-        if($transfer_teacherid>0){
-            $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                $transfer_teacherid,$last_month_start,$last_month_end);
-            $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-            $last_all_lesson_count    += $old_all_lesson_count;
-            $last_normal_lesson_count += $old_normal_lesson_count;
-        }
+        //拉取上个月的课时信息
+        $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
+        $last_all_lesson_count    = $last_month_info['all_lesson_count'];
+        $last_normal_lesson_count = $last_month_info['all_normal_count'];
 
         $time_list   = [];
         $lesson_list = [];
@@ -210,8 +195,8 @@ class teacher_money extends Controller
                     $info            = "课前４小时内取消上课！";
                 }else{
                     $this->change_num++;
-                    $info            = "本月第".$this->change_num."次换课";
                     $lesson_all_cost = 0;
+                    $info            = "本月第".$this->change_num."次换课";
                 }
             }
             if(isset($info)){
@@ -312,8 +297,6 @@ class teacher_money extends Controller
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
-        $transfer_teacherid = $simple_info['transfer_teacherid'];
-        $transfer_time      = $simple_info['transfer_time'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
         $list = [];
@@ -360,23 +343,10 @@ class teacher_money extends Controller
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
-            $last_month_start = strtotime("-1 month",$start);
-            $last_month_end   = strtotime("-1 month",$end);
-            //上个月累计常规+试听课时
-            $last_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                $teacherid,$last_month_start,$last_month_end);
-            //上个月累计常规课时
-            $last_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                $teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-            //检测是否存在转移记录
-            if($transfer_teacherid>0){
-                $old_all_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                    $transfer_teacherid,$last_month_start,$last_month_end);
-                $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-                    $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-                $last_all_lesson_count    += $old_all_lesson_count;
-                $last_normal_lesson_count += $old_normal_lesson_count;
-            }
+            //拉取上个月的课时信息
+            $last_month_info = $this->get_last_lesson_count_info($start,$end,$teacherid);
+            $last_all_lesson_count    = $last_month_info['all_lesson_count'];
+            $last_normal_lesson_count = $last_month_info['all_normal_count'];
 
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){

@@ -228,6 +228,7 @@ class user_manage extends Controller
         }
 
         $month_start = strtotime(date("Y-m-01",time()));
+        $month_time = $month_start;
         $m = date("m",time());
         $y = date("Y",time());
         $d = date("d",time());
@@ -295,6 +296,13 @@ class user_manage extends Controller
             E\Eboolean::set_item_value_str($item, "ass_revisit_week_flag");
             E\Eboolean::set_item_value_str($item, "ass_revisit_month_flag");
 
+            //add 本月是否开始添加成绩记录
+            $item['status'] = $this->t_student_score_info->get_is_status($item['userid'],$month_time);
+            if($item['status'] > 0){
+                $item['status_str'] = "是";
+            }else{
+                $item['status_str'] = "否";
+            }
             $item['cur'] = @$ret_revisit_info_cur[$item['userid']]['num'];
             if(isset($item['cur']) && $item['cur']>0){
                 $item['cur'] = 1;

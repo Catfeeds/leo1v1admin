@@ -2250,4 +2250,33 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
+
+    public function get_tq_succ_num($start_time, $end_time){
+        $where_arr = [
+            "o.global_tq_called_flag = 2",
+            "s.is_test_user = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"o.add_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(distinct(s.userid)) from %s o "
+                                  ." left join %s s on s.userid=o.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
+    public function get_all_stu_uid(){
+        $sql = $this->gen_sql_new("  select phone,userid from %s "
+                                  ." where global_call_parent_flag<2 and phone>0 and userid>0 "
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

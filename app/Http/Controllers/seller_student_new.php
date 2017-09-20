@@ -474,6 +474,7 @@ class seller_student_new extends Controller
         $cur_page       = $this->get_in_int_val("cur_page");
         $page_hide_list = $this->get_page_hide_list($cur_page);
         $account        = $this->get_account();
+        $account_role   = $this->get_account_role();
 
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
@@ -486,18 +487,14 @@ class seller_student_new extends Controller
         //销售主管以上列表
         $seller_master_list = $this->t_admin_group_name->get_all_master_adminid_list(2);
 
-         $seller_master_list[] = "349";
+        $seller_master_list[] = "349";
         $seller_master_list[] = "448";
-        //if(in_array($adminid,$seller_master_list)){
-            $is_seller_master= 1;
-        //}else{
-        //$is_seller_master= 0;
-        // }
-        //test
+        $is_seller_master= 1;
         $this->set_filed_for_js("jack_flag",$adminid);
+        $this->set_filed_for_js("account_role",$account_role);
         $this->set_filed_for_js("account",$account);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
-        return $this->pageView(__METHOD__,$ret_info, [
+        return $this->pageView(__METHOD__,$ret_info,[
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
             "is_seller_master" => $is_seller_master,

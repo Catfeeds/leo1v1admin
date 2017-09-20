@@ -2524,17 +2524,37 @@ trait TeaPower {
     /**
      * 获取老师上月累计课时
      * @param teacher_money_type 老师工资类型
-     * @param teacher_type 老师类型
-     * @param start_time 开始时间
-     * @param end_time 结束时间
+     * @param teacherid  老师id
+     * @param start_time 本月开始时间
+     * @param end_time   本月结束时间
      */
-    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){
+    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type=0){
         $last_start_time = strtotime("-1 month",$start_time);
         $last_end_time   = strtotime("-1 month",$end_time);
         $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
             $teacherid,$last_start_time,$last_end_time,$teacher_money_type
         );
         return $already_lesson_count;
+    }
+
+    /**
+     * 获取老师上个月的累计常规课时和累计常规+常规课时
+     */
+    public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+        $last_lesson_count['all_lesson_count'] = $this->get_already_lesson_count($start_time,$end_time,$teacherid,0);
+        $last_lesson_count['all_normal_count'] = $this->get_already_lesson_count(
+            $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
+        );
+        if($transfer_teacherid>0){
+            $old_all_lesson_count = $this->get_already_lesson_count($start_time,$end_time,$transfer_teacherid);
+            $old_normal_lesson_count = $this->get_already_lesson_count(
+                $start_time,$end_time,$transfer_teacherid,E\Eteacher_money_type::V_6
+            );
+            $last_lesson_count['all_lesson_count']+= $old_all_lesson_count;
+            $last_lesson_count['all_normal_count']+= $old_normal_lesson_count;
+        }
+        return $last_lesson_count;
     }
 
     /**
@@ -2920,13 +2940,11 @@ trait TeaPower {
     }
 
     /**
-     * 
+     * 获取某个老师时间节点内的工资总体
      */
-    public function teacher_total_money($start_time,$end_time){
+    public function teacher_total_money($teacherid,$start_time,$end_time){
 
     }
-
-
 
 
 }

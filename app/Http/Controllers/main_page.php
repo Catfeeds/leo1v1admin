@@ -116,7 +116,18 @@ class main_page extends Controller
         $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
 
         $test_lesson_succ_num = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-        dd($test_lesson_succ_num);
+
+        $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
+
+        $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+
+
+
+        //  外呼情况
+        //  呼出量
+        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);
+
+        dd($ret_info['has_tq_succ']);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 

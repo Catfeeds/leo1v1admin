@@ -161,27 +161,57 @@
                             </thead>
                             <tbody id="id_person_body">
                                 @foreach ( $table_data_list as $var )
+                                    @if($var['index'] == 1)
+                                        <tr>
+                                            <td colspan="4">
+                                                <div class="row">
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                                        </p>
+                                                        <p>
+                                                            {{$var["sys_operator"]}}
+                                                        </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
+                                                    </div>
+                                    @elseif($var['index'] == 2)
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
+                                                    </div>
+                                    @elseif($var['index'] == 3)
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @else
                                     <tr>
                                         <td>
-                                            <span>
-                                            @if($var["index"]==1)
-                                                <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
-                                            @elseif($var["index"]==2)
-                                                <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
-                                            @elseif($var["index"]==3)
-                                                <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
-                                            @else
-                                                {{$var["index"]}}
-                                            @endif
-                                            </span>
+                                            <span> {{$var["index"]}} </span>
                                         </td>
-                                        <td>
+                                        <td style="text-align:left">
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             {{$var["sys_operator"]}}
                                         </td>
                                         <td>{{$var["all_count"]}} </td>
                                         <td>{{$var["all_price"]}} </td>
                                     </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -257,7 +287,7 @@
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}">
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left">
                                             <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
                                             {{$var["group_name"]}}
                                         </td>
