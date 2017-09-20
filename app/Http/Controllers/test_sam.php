@@ -67,11 +67,33 @@ class test_sam  extends Controller
         $lesson_end = date("Y-m-d H:i:s",$lesson_end);
         $lesson_start = date("Y-m-d H:i:s",$lesson_start);
 
-        //
+        //t
         $time = 1507464000;
         $date_time = date("Y-m-d",$time);       
         if($date_time == "2017-10-08"){
             //deal 2017-10-08 22:00:00
+          //$start_time = 1506787200;//2017/10/1 0:0:0
+          $end_time   = 1507471200;//2017/10/8 22:0:0
+          $start_time = 1504195200; //2017/9/1 0:0:0
+          $end_time   = 1504879200; //2017/9/8 22:0:0
+
+          $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info_b2($start_time,$end_time);
+          $list=[];
+          foreach($lesson_info as $val){
+              if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                  @$list[$val["uid"]] += 0.8;
+              }elseif($val["lesson_type"]==2){
+                  @$list[$val["uid"]] += 1.5;
+              }else{
+                  @$list[$val["uid"]] += $val["lesson_count"]/100;
+              }
+          }
+          dd($list);
+
+          $name_list ="";
+          $num=0;
+          $name_list_research="";
+          $num_research=0;
 
         }
        

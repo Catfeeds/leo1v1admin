@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         // Commands\Inspire::class,
+        Commands\reset_parent_call_status::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,
         Commands\deal_pdf_to_png::class,

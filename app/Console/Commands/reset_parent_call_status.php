@@ -11,7 +11,7 @@ class reset_parent_call_status extends Command
      *
      * @var string
      */
-    protected $signature = 'command:res';
+    protected $signature = 'command:reset_parent_call_status';
 
     /**
      * The console command description.
@@ -55,7 +55,6 @@ class reset_parent_call_status extends Command
                 ]);
             }
         }
-
 
     }
 }
