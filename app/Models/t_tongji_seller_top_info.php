@@ -90,6 +90,16 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
         return $this->main_get_list($sql);
     }
 
+    public function get_invit_num($start_time){
+        $where_arr = [
+            ["ts.logtime = %d",$start_time]
+        ];
+
+        $sql = $this->gen_sql_new("  select sum(value) from %s ts "
+                                  ." left join %s m on m."
+        );
+    }
+
     /*
     public function get_top_index( $tongji_type,$logtime,$adminid ) {
         $sql=$this->gen_sql_new(

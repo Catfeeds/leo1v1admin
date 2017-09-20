@@ -113,7 +113,7 @@ class main_page extends Controller
         dd($referral_money." ~ ".$high_school_money.' ~ '.$primary_money);
 
         // 转化率
-        // $seller_
+        $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time);
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
