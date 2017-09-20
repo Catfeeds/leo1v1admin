@@ -412,11 +412,10 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
         $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
 
-
         $sql=$this->gen_sql_new("  select count(id) from %s tq"
                                 ." left  join %s n on  n.phone= tq.phone  "
                                 ." left  join %s t on  t.userid= n.userid "
-                                ." where  %s order by start_time ",
+                                ." where  %s ",
                                 self::DB_TABLE_NAME,
                                 t_seller_student_new::DB_TABLE_NAME,
                                 t_test_lesson_subject::DB_TABLE_NAME,
