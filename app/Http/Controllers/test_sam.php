@@ -90,12 +90,12 @@ class test_sam  extends Controller
           }
           $arr = [];
           foreach ($list as $key => $value) {
-              $arr[$key]['teacherid'] = $key;
-              $arr[$key]['realname']  = $this->t_teacher_info->get_realname($teacherid);
-              $arr[$key]['lesson_count'] = $value;
-              $arr[$key]['day_num'] = floor($value/10.5);
-              $arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
-              $arr[$key]['cross_time'] = "10.9-".date('m-d',1507478400+$arr[$key]['day_num']*86400);
+              @$arr[$key]['teacherid'] = $key;
+              @$arr[$key]['realname']  = $this->t_teacher_info->get_realname($arr[$key]['teacherid']);
+              @$arr[$key]['lesson_count'] = $value;
+              @$arr[$key]['day_num'] = floor($value/10.5);
+              @$arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
+              @$arr[$key]['cross_time'] = "10.9-".date('m-d',1507478400+$arr[$key]['day_num']*86400);
           }
           dd($arr);
 
