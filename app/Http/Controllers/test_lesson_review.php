@@ -38,9 +38,11 @@ class test_lesson_review extends Controller
         }
         $start_time = $time-3600*24*($week-2);
         $end_time = $start_time+3600*24*7;
+        $account = $this->get_account();
         $adminid = $this->get_account_id();
         $userid = $this->get_in_int_val('userid');
         $review_desc = $this->get_in_str_val('review_desc');
+        $phone = $this->t_phone_to_user->get_phone($userid);
         $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
@@ -55,8 +57,29 @@ class test_lesson_review extends Controller
                 "review_desc"    => $review_desc,
                 "create_time"    => time(NULL),
             ],false,false,true);
-            // $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
-            // $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
+            $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
+            $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
+            $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+            $url = 'http://admin.yb1v1.com/test_lesson_review/test_lesson_review_list';
+            $wx              = new \App\Helper\Wx();
+            if($group_wx_openid){
+                $ret             = $wx->send_template_msg($group_wx_openid,$template_id,[
+                    "first" => '排课解冻',
+                    "keyword1" => '申请人:'.$account,
+                    "keyword2" => '解冻学生:'.$phone,
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => '申请说明:'.$review_desc,
+                ],$url);
+            }
+            if($master_wx_openid){
+                $ret             = $wx->send_template_msg($master_wx_openid,$template_id,[
+                    "first" => '排课解冻',
+                    "keyword1" => '申请人:'.$account,
+                    "keyword2" => '解冻学生:'.$phone,
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => '申请说明:'.$review_desc,
+                ],$url);
+            }
             $ret = 1;
         }
         return $ret;
