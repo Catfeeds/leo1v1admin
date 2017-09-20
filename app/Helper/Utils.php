@@ -1205,12 +1205,14 @@ class Utils  {
         return $grade_range;
     }
 
-    //黄嵩婕 71743 所有都是60元/课时
+    //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时
     static public function get_teacher_base_money($teacherid,$lesson_info){
-        $money = $lesson_info['money'];
-        $huang_check_time=strtotime("2017-9-20");
-        if($teacherid==71743){
+        $money            = $lesson_info['money'];
+        //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
+        $huang_check_time = strtotime("2017-9-20");
+
+        if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
             $money=60;
         }elseif($teacherid==58812 && $lesson_info['competition_flag']==1){
             $money=75;
