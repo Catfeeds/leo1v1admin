@@ -303,13 +303,13 @@ class test_sam  extends Controller
         //$end_time=time();
         //
         $end_time = strtotime(date("Y-m-d",time()))+86400;
-        $end_time = 1506787200;
         $start_date = date("Y-m-01",time());
         $start_time = strtotime($start_date);
 
         $day = date("d",$end_time);
         if($day == '01'){
           $end_date = date("Y-m-d",$end_time);
+
           $subject = $this->get_in_int_val("subject",-1);
           $account_role = 9;
           $kpi_flag = 1;
@@ -497,5 +497,7 @@ class test_sam  extends Controller
           }
           dd($teacher_info);
         }
+
+                  dd($start_date,$start_time,$end_time);
     }        
 }
