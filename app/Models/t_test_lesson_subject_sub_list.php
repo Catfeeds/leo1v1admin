@@ -1195,7 +1195,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "tsl.set_lesson_time > $start_time",
             "m.account_role=3"
         ];
-        $sql = $this->gen_sql_new("  select sum(if(tsl.current_lessonid>0,1,0)) as sche_num from %s tsl "
+        $sql = $this->gen_sql_new("  select sum(if(tsr.current_lessonid>0,1,0)) as sche_num from %s tsl "
                                   ." left join %s tsr on tsr.require_id=tsl.require_id "
                                   ." left join %s ts on ts.test_lesson_subject_id=tsr.test_lesson_subject_id "
                                   ." left join %s m on m.uid=set_lesson_adminid  "
