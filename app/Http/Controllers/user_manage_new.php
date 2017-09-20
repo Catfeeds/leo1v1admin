@@ -1226,7 +1226,7 @@ class user_manage_new extends Controller
                 $val['log_info'] = "";
             }
 
-            if($val['level'] == "l-4" ){
+            if($val['level'] == "l-5" ){
                 \App\Helper\Utils::unixtime2date_for_item($val,"become_member_time");
                 \App\Helper\Utils::unixtime2date_for_item($val,"leave_member_time");
                 $val["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($val["del_flag"]);
@@ -1242,7 +1242,7 @@ class user_manage_new extends Controller
                 $val['leave_member_num'] = '';
             }
 
-            if($val['level'] == 'l-3'){
+            if($val['level'] == 'l-4'){
                 $member[] = [
                     "up_group_name"     => $val['up_group_name'],
                     "group_name"        => $val['group_name'],
@@ -1256,7 +1256,7 @@ class user_manage_new extends Controller
                 $leave_member_num_l3 = 0;
             }
 
-            if($val['level'] == 'l-2'){
+            if($val['level'] == 'l-3'){
                 $member_new[] = [
                     "up_group_name" => $val['up_group_name'],
                     "group_name"    => $val['group_name'],
@@ -1294,7 +1294,7 @@ class user_manage_new extends Controller
             if(($item['main_type'] == '未定义') or ($item['main_type'] == '助教')){
                 unset($item);
             }else{
-                if($item['level'] == 'l-2'){
+                if($item['level'] == 'l-3'){
                     foreach($member_new as $info){
                         if($item['up_group_name'] == $info['up_group_name']){
                             $item['become_member_num'] = $info['become_member_num'];
@@ -1302,7 +1302,7 @@ class user_manage_new extends Controller
                         }
                     }
                 }else{
-                    if($item['level'] == 'l-3'){
+                    if($item['level'] == 'l-4'){
                         foreach($member as $info){
                             if($item['group_name'] == $info['group_name']){
                                 $item['become_member_num'] = $info['become_member_num'];
@@ -1316,7 +1316,7 @@ class user_manage_new extends Controller
                 }
             }
         }
-
+        // dd($list);
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
