@@ -2272,6 +2272,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_stu_uid(){
-        
+        $sql = $this->gen_sql_new("  select phone from %s "
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
     }
 }
