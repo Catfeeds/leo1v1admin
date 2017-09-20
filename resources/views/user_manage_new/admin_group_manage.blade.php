@@ -68,6 +68,9 @@
                     <td>经理 </td>
                     <td>小组 </td>
                     <td>成员 </td>
+                    <td>入职时间 </td>
+                    <td>离职时间 </td>
+                    <td>是否离职 </td>
                     <td style="display:none;" >分配信息</td>
                     <td> 操作  </td>
                 </tr>
@@ -89,6 +92,9 @@
 
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}} </td>
 
+                        <td>{{$var['log_info']}}</td>
+                        <td>{{$var['log_info']}}</td>
+                        <td>{{$var['log_info']}}</td>
                         <td>{{$var['log_info']}}</td>
 
 

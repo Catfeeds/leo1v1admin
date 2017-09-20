@@ -250,6 +250,7 @@ class ss_deal extends Controller
         $ret["recent_results"]    = $tt_item["recent_results"];
         $ret["advice_flag"]    = $tt_item["advice_flag"];
         $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
+        $ret["intention_level"]    = $tt_item["intention_level"];
 
         return $this->output_succ(["data" => $ret ]);
     }

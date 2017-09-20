@@ -1263,7 +1263,7 @@ class Common_new {
         $admin_list=$admin_list["list"];
 
         $cur_key_index=1;
-        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="") {
+        $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
 
             // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
 
@@ -1275,6 +1275,10 @@ class Common_new {
                     "key_class" => $key_class."-".$cur_key_index,
                     "sub_list"=>[] ,
                     "data" => array(),
+                    "become_member_time"=>$become_member_time,
+                    "leave_member_time" =>$leave_member_time,
+                    "create_time"  =>$create_time,
+                    "del_flag"  =>$del_flag
                 ];
                 $cur_key_index++;
             }
@@ -1322,6 +1326,10 @@ class Common_new {
                 $item['group_name']=$admin_item["group_name"];
                 $item['groupid']=$admin_item["groupid"];
                 $item['account']=$admin_item["account"];
+                $item['become_member_time']=$admin_item["become_member_time"];
+                $item['leave_member_time']=$admin_item["leave_member_time"];
+                $item['create_time']=$admin_item["create_time"];
+                $item['del_flag']=$admin_item["del_flag"];
             }else{
 
             }
@@ -1333,6 +1341,10 @@ class Common_new {
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
+                $item['become_member_time']=0;
+                $item['leave_member_time']=0;
+                $item['create_time']=0;
+                $item['del_flag']=0;
 
                 $item['first_group_name']="未定义";// 开发中.
 
@@ -1347,7 +1359,10 @@ class Common_new {
                 $group_name=$item["group_name"];
                 $account = $item["account"];
                 $groupid = $item['groupid'];
-
+                $become_member_time = $item['become_member_time'];
+                $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
+                $create_time        = isset($item['create_time'])?$item['create_time']:0;
+                $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
                 $first_group_name = $item['first_group_name']; // 开发中
 
                 $key0_map=&$data_map[""];
@@ -1482,7 +1497,10 @@ class Common_new {
                                 $data['adminid'] = $item5['adminid'];
                                 $data['groupid'] = $item5['groupid'];
                                 $data["level"]="l-5";
-
+                                $data['become_member_time']=$item4["become_member_time"];
+                                $data['leave_member_time']=$item4["leave_member_time"];
+                                $data['create_time']=$item4["create_time"];
+                                $data['del_flag']=$item4["del_flag"];
                                 $list[]=$data;
                             }
 

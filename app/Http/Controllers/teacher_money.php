@@ -308,13 +308,12 @@ class teacher_money extends Controller
 
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
-
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
-        $transfer_time = $simple_info['transfer_time'];
+        $transfer_time      = $simple_info['transfer_time'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
         $list = [];
@@ -450,13 +449,16 @@ class teacher_money extends Controller
             $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
             $item['lesson_total']        = strval($item['lesson_total']);
             $item['lesson_price_tax']    = strval($item['lesson_price']);
+            //计算平台合作的抽成费用
             if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
                 $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
                 $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
                 $item['teacher_ref_rate']  = $teacher_ref_rate;
             }
 
+            //teacher_money_flag=1 多卡用户,不扣管理费
             if($teacher_money_flag!=1){
+                //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
                 if(in_array($teacher_money_type,[0,1,2,3])){
                     if($item['lesson_price']>800){
                         $tax_price = $item['lesson_price']-800;

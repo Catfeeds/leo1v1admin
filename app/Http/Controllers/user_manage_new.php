@@ -1201,8 +1201,12 @@ class user_manage_new extends Controller
         // $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time); // 原始数据
 
         $list=\App\Helper\Common_new::gen_admin_member_data_new($monthtime_flag,$start_time); // 开发中
-
+        // dd($list);
         foreach($list as &$val){
+            // $val["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
+            // $val["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
+            // $val["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
+
             if($val['level'] == 'l-5' && $val['main_type'] != "未定义"){
                 $log_info_arr = $this->t_user_group_change_log->get_user_change_log($val['adminid']);
 
