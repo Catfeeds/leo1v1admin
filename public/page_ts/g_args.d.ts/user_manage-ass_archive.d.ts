@@ -55,6 +55,8 @@ interface RowData {
 	ass_revisit_month_flag	:any;
 	ass_revisit_week_flag_str	:any;
 	ass_revisit_month_flag_str	:any;
+	status	:any;
+	status_str	:any;
 	cur	:any;
 	last	:any;
 	cur_str	:any;
