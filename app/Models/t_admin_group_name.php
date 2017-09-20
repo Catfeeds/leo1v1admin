@@ -333,14 +333,47 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function get_seller_num(){
-        $sql = $this->gen_sql_new("  select u.adminid,u.groupid from %s n"
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
-                                  ." where main_type=2 and n.up_groupid>0 "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 "
                                   ,self::DB_TABLE_NAME
                                   ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
+
+    public function get_group_seller_num($group_name){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 and mg.group_name='$group_name' "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_group_new_count($group_name){
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." where mg.main_type=2 and n.group_name='$group_name' "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
+
+
 
 }

@@ -2379,7 +2379,8 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list() {
-        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
         $level                       = $this->get_in_int_val("level",-1);

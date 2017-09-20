@@ -3608,16 +3608,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_old_teacher_money_type_list(){
-
+    public function get_old_teacher_money_type_list($start,$end){
+        $where_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
+        ];
         $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
                                   ." t.teacher_money_type as now_teacher_money_type,t.level as now_level"
                                   ." from %s t"
                                   ." left join %s l on t.teacherid=l.teacherid"
                                   ." where %s"
+                                  ." order by lesson_start desc"
+                                  ." group by t.teacherid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

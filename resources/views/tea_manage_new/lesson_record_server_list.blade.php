@@ -2,13 +2,20 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-12 col-md-4">
                     <div class="input-group ">
                         <span class="input-group-addon">声音服务器</span>
                         <input class="opt-change form-control" id="id_record_audio_server1" />
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group ">
+                        <span class="input-group-addon">xmpp服务器</span>
+                        <input class="opt-change form-control" id="id_xmpp_server_name" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -16,10 +23,16 @@
                         <button class="btn btn-primary" id="id_set_select_list">批量分配声音服务器</button>
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <button class="btn btn-primary" id="id_set_select_list_xmpp">批量分配xmpp</button>
+                    </div>
+                </div>
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
 
@@ -29,6 +42,7 @@
                     </td>
 
                     <td>声音服务器</td>
+                    <td>xmpp服务器</td>
                     <td>上课时间</td>
                     <td>学生</td>
                     <td>老师</td>
@@ -41,6 +55,7 @@
 
                         <td> <input type="checkbox" class="opt-select-item" data-id="{{$var["lessonid"]}}"/>   {{$var["index"]}} </td>
                         <td>{{@$var["record_audio_server1"]}} </td>
+                        <td>{{@$var["xmpp_server_name"]}} </td>
                         <td>{{@$var["lesson_time"]}} </td>
                         <td>{{@$var["student_nick"]}} </td>
                         <td>{{@$var["teacher_nick"]}} </td>

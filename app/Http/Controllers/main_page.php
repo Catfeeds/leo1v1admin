@@ -95,10 +95,17 @@ class main_page extends Controller
         $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
         // 计算电销人数
-        // $group_info = $this->t_admin_group_name->get_seller_num();
-        $first_group = $this->t_admin_group_name->get_first_seller_num();
-        dd($group_info);
-
+        $first_group  = '咨询一部';
+        $second_group = '咨询二部';
+        $third_group  = '咨询三部';
+        $new_group    = '新人营';
+        $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
+        $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+        $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+        $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+        $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+        // $train_num = $this->
+        //
 
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
