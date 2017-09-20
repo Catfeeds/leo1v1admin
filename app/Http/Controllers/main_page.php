@@ -104,11 +104,13 @@ class main_page extends Controller
         $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
         $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-        // $train_num = $this->
 
         // 金额转化率占比
         $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
         $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+        $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+        dd($referral_money." ~ ".$high_school_money.' ~ '.$primary_money);
 
         //
 
