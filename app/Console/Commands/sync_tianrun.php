@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class sync_tianrun extends Command
+class sync_tianrun extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -21,21 +21,6 @@ class sync_tianrun extends Command
     protected $description = 'Command description';
 
 
-    /**
-     * @var  \App\Console\Tasks\TaskController
-     */
-    public $task;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->task= new \App\Console\Tasks\TaskController();
-    }
 
 
 
@@ -68,9 +53,6 @@ class sync_tianrun extends Command
             $index_start+=$limit_count;
 
         }while ( count($ret["msg" ]["data"]) == $limit_count );
-
-
-
     }
     public function do_record ($item) {
         /*
@@ -143,7 +125,7 @@ class sync_tianrun extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function do_handle()
     {
 
         $day=$this->option('day');

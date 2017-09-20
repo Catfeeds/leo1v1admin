@@ -76,26 +76,28 @@
     <table class="common-table">
         <thead>
             <tr>
-                {!!\App\Helper\Utils::th_order_gen([
-                    ["分配时间","ass_assign_time" ],
-                    ["id","userid" ],
-                    ["姓名","nick" ],
-                    ["地区","location" ],
-                    ["学员类型","type" ],
-                    ["家长姓名","parent_name" ],
-                    ["助教","assistant_nick" ],
-                    ["关系","parent_type" ],
-                    ["联系电话","phone" ],
-                    ["年级","grade"],
-                    ["科目数量","course_list_total"],
-                    ["签约课时","lesson_count_all" ],
-                    ["剩余课时","lesson_count_left" ],
-                    ["已上课时","lesson_count_done" ],
-                    ["每周总课时","lesson_total" ],
-                    ["赞","praise" ],
-                   ])  !!}
+                <td >分配时间</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["id","userid" ],
+                        ["姓名","nick" ],
+                        ["地区","location" ],
+                        ["学员类型","type" ],
+                        ["家长姓名","parent_name" ],
+                        ["助教","assistant_nick" ],
+                        ["关系","parent_type" ],
+                        ["联系电话","phone" ],
+                        ["年级","grade"],
+                        ["科目数量","course_list_total"],
+                        ["签约课时","lesson_count_all" ],
+                        ["剩余课时","lesson_count_left" ],
+                        ["已上课时","lesson_count_done" ],
+                        ["每周总课时","lesson_total" ],
+                        ["赞","praise" ],
+                       ])  !!}
 
                 <td >回访  {{@$last_time_str}}/{{@$cur_time_str}}</td>
+                <td >本月成绩记录</td>
                 <td style="display:none">回访 学情/月度</td>
                 <td style="display:none; width:160px;">版本信息</td>
                 <td style="display:none;">版本信息-all</td>
@@ -128,6 +130,7 @@
                         <font color="{{ $var["cur"]?"green":"red" }}">{{ $var["cur_str"]  }} </font>
                         
                     </td>
+                    <td >  <font color="{{ $var["status"]?"green":"red" }}">{{$var['status_str']}}</font></td>
                     <td >
                         <font color="{{ $var["ass_revisit_week_flag"]?"green":"red" }}">{{ $var["ass_revisit_week_flag_str"]  }} </font> /
                         <font color="{{ $var["ass_revisit_month_flag"]?"green":"red" }}">{{ $var["ass_revisit_month_flag_str"]  }} </font> 
