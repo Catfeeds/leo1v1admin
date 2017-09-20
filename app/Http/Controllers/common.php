@@ -1402,7 +1402,7 @@ class common extends Controller
         $money = $this->t_child_order_info->get_price($orderid);
 
         //分期期数
-        $period = $this->get_in_int_val("period",12);
+        $period = $this->t_child_order_info->get_period_num($orderid);
         //成交价格
         $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
         $dealmoney = $this->t_order_info->get_price($parent_orderid);
@@ -1417,8 +1417,9 @@ class common extends Controller
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
         $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
 
-        $userid = $this->t_order_info->get_userid($orderid);
+        $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+        dd($user_info);
 
         // RSA加密数据
         $endata = array(
