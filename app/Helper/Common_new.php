@@ -1259,9 +1259,7 @@ class Common_new {
         }else{
             $admin_list = $t_manager_info->get_admin_member_list_new($month);
         }
-
         $admin_list=$admin_list["list"];
-
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
 
@@ -1314,8 +1312,6 @@ class Common_new {
 
         $check_init_map_item($data_map,"","");
 
-        // return $admin_list;
-
         foreach ($admin_list as &$item) {
             $adminid=$item["adminid"];
             //g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid
@@ -1334,22 +1330,20 @@ class Common_new {
 
             }
 
-
             if (empty($item['main_type'])) {
                 $item['main_type']="未定义";
                 $item['up_group_name']="未定义";
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
-                $item['become_member_time']=0;
-                $item['leave_member_time']=0;
-                $item['create_time']=0;
-                $item['del_flag']=0;
+                $become_member_time = isset($item['become_member_time'])?$item['become_member_time']:0;
+                $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
+                $create_time        = isset($item['create_time'])?$item['create_time']:0;
+                $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
 
                 $item['first_group_name']="未定义";// 开发中.
 
             }
-
             // return $admin_list;
 
 
@@ -1368,7 +1362,7 @@ class Common_new {
                 $key0_map=&$data_map[""];
                 $add_data($key0_map, $item );
 
-                /**
+               /**
                  *开发中
                  */
                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );

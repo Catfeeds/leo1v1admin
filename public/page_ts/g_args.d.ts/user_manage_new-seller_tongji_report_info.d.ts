@@ -13,6 +13,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	target_money	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
