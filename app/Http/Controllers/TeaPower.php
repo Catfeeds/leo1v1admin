@@ -2524,9 +2524,9 @@ trait TeaPower {
     /**
      * 获取老师上月累计课时
      * @param teacher_money_type 老师工资类型
-     * @param teacher_type 老师类型
+     * @param teacherid  老师id
      * @param start_time 本月开始时间
-     * @param end_time 本月结束时间
+     * @param end_time   本月结束时间
      */
     public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){
         $last_start_time = strtotime("-1 month",$start_time);
