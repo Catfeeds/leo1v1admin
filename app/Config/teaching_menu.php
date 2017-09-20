@@ -151,8 +151,8 @@ class teaching_menu{
 
 
                     [ "name"=>"质监组",  "list"=>[
-                        [ "name"=>"首页", "url"=>"/main_page/quality_control"],
-                        [ "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
+                        [ "name"=>"首页", "url"=>"/main_page/quality_control_kpi"],
+                        //[ "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
                         [ "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
                         [ "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                         [ "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],

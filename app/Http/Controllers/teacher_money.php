@@ -308,13 +308,12 @@ class teacher_money extends Controller
 
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
-
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
-        $transfer_time = $simple_info['transfer_time'];
+        $transfer_time      = $simple_info['transfer_time'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
         $list = [];
@@ -375,7 +374,7 @@ class teacher_money extends Controller
                     $transfer_teacherid,$last_month_start,$last_month_end);
                 $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                     $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-                $last_all_lesson_count   += $old_all_lesson_count;
+                $last_all_lesson_count    += $old_all_lesson_count;
                 $last_normal_lesson_count += $old_normal_lesson_count;
             }
 

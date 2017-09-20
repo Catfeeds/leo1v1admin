@@ -113,7 +113,8 @@ class main_page extends Controller
         // 转化率
         $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
 
-        $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time);
+        $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
+        dd($seller_schedule_num);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 
@@ -547,7 +548,6 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );
         $subject = $this->get_in_int_val("subject",-1);
-
         $account_role = $this->get_in_int_val("account_role",-2);
         $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
