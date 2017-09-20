@@ -258,9 +258,9 @@ class testbb extends Controller
 
 
 
-            $table->increments("groupid","分组id");
-            t_field($table->integer("month"),"月度时间,以每月一日");
-            t_field($table->integer("main_type"),"部门类型");
+            $table->increments("id","id");
+            t_field($table->integer("all_money"),"总收入");
+            t_field($table->integer("order_num"),"下单总人数");
             t_field($table->string("group_name"),"组名");
             t_field($table->integer("master_adminid"),"总监id");
             t_field($table->integer("main_assign_percent"),"分配比率");
