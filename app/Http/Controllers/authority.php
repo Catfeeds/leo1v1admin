@@ -562,6 +562,7 @@ class authority extends Controller
         $gift_pic   = $this->get_in_str_val('pic_url');
         $shop_link  = $this->get_in_str_val('shop_link');
         $cost_price = $this->get_in_int_val('cost_price');
+        $del_flag   = $this->get_in_int_val('del_flag');
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
@@ -581,6 +582,7 @@ class authority extends Controller
                 'valid_start'    => 0,
                 'valid_end'      => $max_num,
                 'gift_status'    => 1,
+                'del_flag'       => $del_flag,
             ]);
         } else {
             $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], [
@@ -591,6 +593,7 @@ class authority extends Controller
                                                                   'cost_price'     => $cost_price,
                                                                   'shop_link'      => $shop_link,
                                                                   'current_praise' => $current_praise,
+                                                                  'del_flag'       => $del_flag,
                                                               ]);
         }
 
