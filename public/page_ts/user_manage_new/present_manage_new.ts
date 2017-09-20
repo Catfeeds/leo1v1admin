@@ -379,6 +379,7 @@ $(function(){
                         'praise'     : praise,
                         'shop_link'  : id_shop_link.val(),
                         'del_flag'   : id_del_flag.val(),
+                        'sale'       : id_sale.val(),
                         'gift_intro' : id_gift_intro.val(),
                     } ,
                     success : function(result){
