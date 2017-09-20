@@ -444,7 +444,7 @@ class test_sam  extends Controller
                 "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
                 "\n模拟试听审核数(二审):".$value['train_second_all'].
                 "\n第一次试听审核:".$value['test_first'].
-                "\n第一次常规审核:".$value['regular_first'],
+                "\n第一次常规审核:".$value['regular_first'].
                 "\n总体完成率:".$value['per'].'%',
                 "http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
             }
