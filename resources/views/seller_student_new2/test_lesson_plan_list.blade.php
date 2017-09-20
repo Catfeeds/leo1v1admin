@@ -332,9 +332,13 @@
                                     知识点定位  : {{$var["knowledge_point_location"]}} <br/>
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
-                                    报价反应: {{ $var["quotation_reaction_str"] }} <br/>
-                                    @if ($var["is_green_flag"]==1)
-                                        <font color="green"> 已申请绿色通道</font>
+                                    报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
+                                    @if($var["seller_top_flag"]==1)
+                                        申请类型: <font color="blue"> 销售top25</font>
+                                    @elseif ($var["is_green_flag"]==1)
+                                        申请类型: <font color="green"> 已申请绿色通道</font>
+                                    @else
+                                        申请类型: 常规申请
                                     @endif
 
                                 @endif

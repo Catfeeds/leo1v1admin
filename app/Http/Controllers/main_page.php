@@ -114,6 +114,8 @@ class main_page extends Controller
         $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
 
         $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
+
+        $test_lesson_succ_num = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time);
         dd($seller_schedule_num);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);

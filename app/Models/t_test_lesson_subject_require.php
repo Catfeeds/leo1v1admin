@@ -267,7 +267,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." t.demand_urgency,t.quotation_reaction,t.knowledge_point_location,t.recent_results,t.advice_flag,"
             ." ss.class_rank,ss.grade_rank,ss.academic_goal,ss.test_stress,ss.entrance_school_type,ss.interest_cultivation,"
             ." ss.extra_improvement ,ss.habit_remodel ,ss.study_habit,ss.interests_and_hobbies,ss.character_type,"
-            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name "
+            ." ss.need_teacher_style,ss.new_demand_flag,s.address,s.parent_name,tr.seller_top_flag "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
