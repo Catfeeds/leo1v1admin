@@ -892,8 +892,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         ];
         //lesson_user_online_status
 
-        $sql = $this->gen_sql_new("  select sum(if(lesson_user_online_status=1,1,0) from %s  "
-                                  ." "
+        $sql = $this->gen_sql_new("  select sum(if(lesson_user_online_status=1,1,0) from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid "
         );
 
     }
