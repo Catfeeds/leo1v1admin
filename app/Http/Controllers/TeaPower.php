@@ -26,7 +26,7 @@ trait TeaPower {
         $week_left = $saturday_lesson_num-$lesson_count_ex;
         $h         = date("H",$lesson_start);
         $tea_arr   = [107884,53289,78733,59896,55161,164508,190394,176999,240348,211290];
-        $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28"];
+        $day_arr   = ["2017-04-02","2017-04-03","2017-04-04","2017-05-01","2017-05-29","2017-05-30","2017-05-28","2017-10-01","2017-10-02","2017-10-03","2017-10-04","2017-10-05","2017-10-06","2017-10-07","2017-10-08"];
         $lesson_start_date = date("Y-m-d",$lesson_start);
         if($account_role ==4 && !in_array($lesson_start_date,$day_arr)){
             if($admin_info["uid"] != 325){
@@ -2920,9 +2920,9 @@ trait TeaPower {
     }
 
     /**
-     *
+     * 
      */
-    public function teacher_total_money(){
+    public function teacher_total_money($start_time,$end_time){
 
     }
 

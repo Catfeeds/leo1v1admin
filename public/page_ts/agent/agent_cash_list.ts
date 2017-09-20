@@ -80,6 +80,19 @@ $(function(){
     });
 
 
+    $(".opt-wechat-desc").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_user_wechat?id="+ opt_data.aid);
+    });
+
+
+    $(".opt-user-link").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_user_link?id="+ opt_data.aid);
+    });
+
+
+
 
     $('.opt-change').set_input_change_event(load_data);
 });

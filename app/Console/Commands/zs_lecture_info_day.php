@@ -124,7 +124,7 @@ class zs_lecture_info_day extends Command
 
 
         //质监信息推送
-        $subject=-1;
+        /*  $subject=-1;
         $tea_subject="";
         $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
         $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
@@ -169,7 +169,7 @@ class zs_lecture_info_day extends Command
 
         foreach($admin_list as $yy){
             $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"质检日报","质监月项目进度汇总","\n面试数通过人数:".$all_tea_ex."/".$video_real["all_count"]."\n模拟试听审核数(一审):".$train_first_all["pass_num"]."/".$train_first_all["all_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all."\n第五次试听审核:".$test_five_all."\n第五次常规审核:".$regular_five_all,"http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
-        }
+            }*/
 
 
 

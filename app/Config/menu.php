@@ -34,8 +34,6 @@ class menu{
                 ["power_id"=>4, "name"=>"家长档案",   "url"=>"/user_manage/parent_archive"],
                 ["power_id"=>8, "name"=>"家长<>学生",   "url"=>"/user_manage/pc_relationship"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
-                    ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
-                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
@@ -290,7 +288,6 @@ class menu{
                     ["power_id"=>4, "name"=>"开发信息",   "url"=>"/table_manage/dev_info"]]]]
             ],
 
-
             ["power_id"=>7, "name"=>"市场", "list"=>[
                 ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
@@ -328,6 +325,18 @@ class menu{
                     ["power_id"=>1, "name"=>"电话明细",   "url"=>"/tq/get_list"],
                     ["power_id"=>2, "name"=>"拨打者统计",   "url"=>"/tq/tongji_list"],
                 ]],
+
+                ["power_id"=>1, "name"=>"退费处理", "list"=>[
+                    ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
+                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
+                    ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
+                ]],
+                ["power_id"=>2, "name"=>"投诉处理", "list"=>[
+                    ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
+                    ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
+                    ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
+                ]],
+
 
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
 
@@ -388,12 +397,8 @@ class menu{
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
 
-                ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
-                ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
                 ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
                 ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
-                ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
-                ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
