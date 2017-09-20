@@ -424,4 +424,21 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
         return $this->main_get_value($sql);
     }
+
+
+    public function check_call_status($phone) {
+        $where_arr=[
+            ["tq.phone='%s'", $phone, ''] ,
+        ];
+
+        $sql=$this->gen_sql_new(" select tq.is_called_phone from %s tq"
+                                ."  where  %s ",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
 }
