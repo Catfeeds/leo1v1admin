@@ -3158,7 +3158,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
-    public function get_high_money_for_month($start_time, $end_time){ // 转介绍
+    public function get_high_money_for_month($start_time, $end_time){ // 高中
 
         $where_arr = [
             "is_test_user=0",
@@ -3187,11 +3187,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
 
-        public function get_high_money_for_month($start_time, $end_time){ // 转介绍
+    public function get_junior_money_for_month($start_time, $end_time){ // 初中
 
         $where_arr = [
             "is_test_user=0",
-            "o.grade>=300",
+            "o.grade>=200",
+            "o.grade<300",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
