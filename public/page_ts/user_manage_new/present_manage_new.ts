@@ -325,6 +325,7 @@ $(function(){
         var id_gift_name   = $("<input/>");
         var id_gift_type   = $(select_type);
         var id_cost_price  = $("<input id=\"price\" type=\"number\" min=\"0\"/>");
+        var id_sale        = $("<input id=\"sale\" type=\"number\" min=\"1\" min=\"1\" value=\"100\"/>");
         var id_shop_link   = $("<input/>");
         var id_gift_praise = $("<span id=\"praise\"/>");
         var id_del_flag    = $("<select/>");
@@ -342,6 +343,7 @@ $(function(){
             id_gift_praise.text(opt_data.current_praise);
             id_shop_link.val(opt_data.shop_link);
             id_del_flag.val(opt_data.del_flag);
+            id_sale.val(opt_data.sale);
             id_gift_intro.val(opt_data.gift_intro);
         }
 
@@ -351,6 +353,7 @@ $(function(){
             ["礼品类型：", id_gift_type],
             ["封面图片：", id_gift_url],
             ["商品原价：", id_cost_price],
+            ["商品优惠：", id_sale],
             ["所需赞数：", id_gift_praise],
             ["商品状态：", id_del_flag],
             ["购买链接：", id_shop_link],
@@ -388,14 +391,14 @@ $(function(){
                 });
             }
         },function(){
-                id_gift_url["onshown_init"]();
-            $('#price').keyup(function(){
-                var new_praise = parseInt($(this).val()) * ratio;
+            id_gift_url["onshown_init"]();
+            $('#price, #sale').keyup(function(){
+                var new_praise = parseInt($("#price").val()) * ratio * parseInt($('#sale').val()) /10000;
                 if (new_praise) {
                     $('#praise').text( new_praise );
                 }
             });
-            }, false,600);
+        }, false,600);
 
     };
 
