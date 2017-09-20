@@ -732,7 +732,7 @@ class ss_deal extends Controller
         if (! $ss_item["first_revisit_time"])  {
             $ss_arr["first_revisit_time"]=time(NULL);
         }
-        if ( $revisite_info  ) {
+        if ( $user_desc  ) {
             $ss_arr["last_revisit_time"]=time(NULL);
             $ss_arr["last_revisit_msg"]=$user_desc;
             $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());

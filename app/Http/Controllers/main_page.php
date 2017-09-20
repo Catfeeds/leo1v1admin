@@ -111,7 +111,7 @@ class main_page extends Controller
         $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
         // 转化率
-        $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time);
+        $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
 
         dd($seller_invit_num);
         $ret_info = [];

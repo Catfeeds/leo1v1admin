@@ -99,6 +99,10 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
 
         $sql = $this->gen_sql_new("  select sum(value) as invit_num from %s m "
                                   ." left join %s ts on m.uid = ts.adminid"
+                                  ." where %s "
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
 
         return $this->main_get_value($sql);
