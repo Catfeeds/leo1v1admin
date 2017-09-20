@@ -735,8 +735,8 @@ class menu{
             ]],
 
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
-                ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
-                ["power_id"=>4, "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
+                ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control_kpi"],
+                //["power_id"=>4, "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
                 ["power_id"=>2, "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                 // ["power_id"=>8, "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
