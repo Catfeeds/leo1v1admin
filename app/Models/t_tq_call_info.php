@@ -431,7 +431,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ["tq.phone='%s'", $phone, ''] ,
         ];
 
-        $sql=$this->gen_sql_new(" select tq.is_called_phone from %s tq"
+        $sql=$this->gen_sql_new(" select max(tq.is_called_phone) from %s tq"
                                 ."  where  %s ",
                                 self::DB_TABLE_NAME,
                                 $where_arr

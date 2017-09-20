@@ -165,39 +165,38 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="row">
-                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}}); background-size: cover; height: 100px;background-repeat: no-repeat;">
-                                                        <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a><br><br><br>
-                                                        {{$var["sys_operator"]}}<br>
-                                                        {{$var["all_count"]}} <br>
-                                                        {{$var["all_price"]}}
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                                        </p>
+                                                        <p>
+                                                            {{$var["sys_operator"]}}
+                                                        </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
                                                     </div>
                                     @elseif($var['index'] == 2)
-                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}}); background-size: cover; height: 100px;background-repeat: no-repeat;">
-                                                        <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a><br><br><br>
-                                                        {{$var["sys_operator"]}}<br>
-                                                        {{$var["all_count"]}} <br>
-                                                        {{$var["all_price"]}}
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
                                                     </div>
                                     @elseif($var['index'] == 3)
-                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}}); background-size: cover; height: 100px;background-repeat: no-repeat;">
-                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a><br><br><br>
-                                                            {{$var["sys_operator"]}}<br>
-                                                            {{$var["all_count"]}} <br>
-                                                            {{$var["all_price"]}}
+                                                    <div class="col-xs-4">
+                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                                        </p>
+                                                        <p> {{$var["sys_operator"]}} </p>
+                                                        <p>{{$var["all_count"]}} </p>
+                                                        <p>{{$var["all_price"]}} </p>
                                                     </div>
-                                                    </<div class="" id="">
-                                                        {{$var["all_count"]}} <br>
-                                                        {{$var["all_price"]}}
-                                                    </div>
-                                    @elseif($var['index'] == 3)
-                                                    <div class="col-xs-4" style="background-image:url({{$var["face_pic"]}}); background-size: cover; height: 100px;background-repeat: no-repeat;">
-                                                        <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a><br><br><br>
-                                                        {{$var["sys_operator"]}}<br>
-                                                        {{$var["all_count"]}} <br>
-                                                        {{$var["all_price"]}}
-                                                    </div>
-                                                </div asdfa
-                    </div>>
+                                                </div>
                                             </td>
                                         </tr>
                                     @else
@@ -205,7 +204,7 @@
                                         <td>
                                             <span> {{$var["index"]}} </span>
                                         </td>
-                                        <td>
+                                        <td style="text-align:left">
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             {{$var["sys_operator"]}}
                                         </td>
@@ -288,7 +287,7 @@
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}">
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left">
                                             <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
                                             {{$var["group_name"]}}
                                         </td>
