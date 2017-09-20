@@ -251,6 +251,7 @@ class ss_deal extends Controller
         $ret["advice_flag"]    = $tt_item["advice_flag"];
         $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
         $ret["intention_level"]    = $tt_item["intention_level"];
+        $ret["new_demand_flag"]    = $ss_item["new_demand_flag"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -884,8 +885,24 @@ class ss_deal extends Controller
         }else{
             //更新试听申请意向
             $info = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"current_require_id,intention_level");
+
+            //判断是否top25
+
+            $require_adminid = $this->get_account_id();
+            $account_role = $this->t_manager_info->get_account_role($require_adminid);
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+            $rank = @$self_top_info[6]["top_index"];
+            if(($account_role ==2 && $rank<=25) || $require_adminid == 349){
+                $seller_top_flag=1;
+            }else{
+                $seller_top_flag=0;
+            }
+            
+
             $this->t_test_lesson_subject_require->field_update_list($info["current_require_id"],[
-               "intention_level" =>$info["intention_level"]
+                "intention_level" =>$info["intention_level"],
+                "seller_top_flag" =>$seller_top_flag
             ]);
             $stu_type = $this->t_student_info->get_type($userid);
             if($stu_type==0){

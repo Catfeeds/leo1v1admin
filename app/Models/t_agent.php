@@ -1497,7 +1497,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //总提成信息
         $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money;
         $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money;
-        $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id);
+        $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
 
 

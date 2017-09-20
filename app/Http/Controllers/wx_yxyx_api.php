@@ -575,6 +575,7 @@ class wx_yxyx_api extends Controller
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $cash          = $this->get_in_str_val("cash"); //要提现
+        $cash*=100;
         $id            = $agent_id;
         if (!($cash>0)) {
             return $this->output_err("提现金额不对!");
@@ -583,7 +584,7 @@ class wx_yxyx_api extends Controller
 
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
-        $have_cash =  $agent_info["all_have_cush_money"];
+        $have_cash = $this->t_agent_cash->get_have_cash($agent_id);
         $cash_new = $cash + $have_cash;
         if($cash_new > $total_cash){
             return $this->output_err("超出可提现金额!");
@@ -623,7 +624,7 @@ class wx_yxyx_api extends Controller
         }
         $ret_new = $this->t_agent_cash->row_insert([
             "aid"         => $id,
-            "cash"        => $cash*100,
+            "cash"        => $cash,
             "is_suc_flag" => 0,
             "type"        => 1,
             "create_time" => time(null),

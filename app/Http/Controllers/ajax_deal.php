@@ -299,6 +299,8 @@ class ajax_deal extends Controller
             "check_money_desc"    => $check_money_desc,
             "check_money_time"    => time(),
         ]);
+        $aid=$this->t_agent_cash->get_aid($id);
+        $this->t_agent->reset_user_info($aid);
 
         return $this->output_succ();
 
@@ -322,6 +324,9 @@ class ajax_deal extends Controller
 
     public function agent_cash_del(){
         $id=$this->get_in_int_val('id');
+        if (!$this->check_account_in_arr(["jim"]) ) {
+            return $this->output_err("没有权限");
+        }
 
         $this->t_agent_cash->row_delete($id);
 
