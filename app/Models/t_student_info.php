@@ -204,7 +204,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
     public function get_student_search_two_weeks_list( $start_time, $end_time,$all_flag, $userid,$grade, $status,
                                                        $user_name, $phone, $teacherid, $assistantid, $test_user,
-                                                       $originid, $seller_adminid,$ass_adminid_list=[]
+                                                       $originid, $seller_adminid,$ass_adminid_list=[],$student_type
     ){
         $last_two_weeks_time = time(NULL)-86400*14;
         $where_arr=[
@@ -215,6 +215,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["s.is_test_user=%u ", $test_user , -1] ,
             ["s.originid=%u ", $originid , -1] ,
             ["s.seller_adminid=%u ", $seller_adminid, -1] ,
+            ["s.type=%u",$student_type,-1],
             "s.lesson_count_all>0",
             "s.lesson_count_left<100",
             "s.last_lesson_time<$last_two_weeks_time"

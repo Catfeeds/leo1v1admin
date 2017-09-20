@@ -3398,6 +3398,7 @@ class user_manage_new extends Controller
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $order_type     = $this->get_in_int_val("order_type",-1);
+        $student_type   = $this->get_in_int_val("student_type",-1);
         $page_num       = $this->get_in_page_num();
         $status         = -1;
         $userid         = $this->get_in_userid(-1);
@@ -3422,7 +3423,7 @@ class user_manage_new extends Controller
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
-                                                                              $seller_adminid,$ass_adminid_list);
+                                                                          $seller_adminid,$ass_adminid_list,$student_type);
         foreach($list as $val){
             if(!isset($stu_list[$val["userid"]])){
                 $stu_list[$val["userid"]] = $val["userid"];
