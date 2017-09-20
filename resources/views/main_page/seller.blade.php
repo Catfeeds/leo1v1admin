@@ -204,7 +204,7 @@
                                         <td>
                                             <span> {{$var["index"]}} </span>
                                         </td>
-                                        <td>
+                                        <td style="text-align:left">
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
                                             {{$var["sys_operator"]}}
                                         </td>
@@ -287,7 +287,7 @@
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}">
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left">
                                             <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
                                             {{$var["group_name"]}}
                                         </td>
