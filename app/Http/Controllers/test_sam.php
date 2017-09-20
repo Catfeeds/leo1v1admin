@@ -304,7 +304,7 @@ class test_sam  extends Controller
         //
         $end_time = strtotime(date("Y-m-d",time()))+86400;
         $end_time = 1506787200;
-        $start_date = date("Y-m-01",$end_time);
+        $start_date = date("Y-m-01",time());
         $start_time = strtotime($start_date);
 
         $day = date("d",$end_time);
