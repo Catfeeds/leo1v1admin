@@ -2272,8 +2272,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function get_all_stu_uid(){
-        $sql = $this->gen_sql_new("  select phone from %s "
-                                  ." where global_call_parent_flag<2"
+        $sql = $this->gen_sql_new("  select phone,userid from %s "
+                                  ." where global_call_parent_flag<2 and phone>0 and userid>0"
                                   ,self::DB_TABLE_NAME
         );
 

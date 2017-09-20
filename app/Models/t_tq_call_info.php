@@ -428,27 +428,16 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     public function check_call_status($phone) {
         $where_arr=[
-            ["tq.adminid=%u", $uid, -1] ,
-            ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
         ];
-        if (!$phone) {
-            $where_arr[]= ["tq.start_time>=%u", $start_time, -1] ;
-            $where_arr[]=["tq.start_time<%u", $end_time, -1] ;
 
-            $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status );
-        }
-        $sql=$this->gen_sql_new(
-            "select tq.*, admin_role ,seller_student_status from %s tq"
-            . " left  join %s n on  n.phone= tq.phone  "
-            . " left  join %s t on  t.userid= n.userid "
-            ."  where  %s order by start_time ",
-            self::DB_TABLE_NAME,
-            t_seller_student_new::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            $where_arr);
+        $sql=$this->gen_sql_new(" select tq.is_called_phone from %s tq"
+                                ."  where  %s ",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
 
-        return $this->main_get_list_by_page($sql,$page_num);
+        return $this->main_get_value($sql);
 
     }
 
