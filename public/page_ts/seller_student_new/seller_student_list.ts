@@ -2562,6 +2562,7 @@ function init_edit() {
             html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             html_node.find("#id_recent_results").val(data.recent_results);
             html_node.find("#id_advice_flag").val(data.advice_flag);
+            html_node.find("#id_test_paper").val(data.stu_test_paper);
            
 
 

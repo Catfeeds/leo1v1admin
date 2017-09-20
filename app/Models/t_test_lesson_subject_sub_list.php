@@ -770,7 +770,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
     }
 
 
-    
+
     public function get_set_lesson_adminid_by_lessonid($lessonid){
         $where_arr = [
             ['lessonid=%d',$lessonid,0],
@@ -1190,6 +1190,10 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
     }
 
+    public function get_seller_schedule_num($start_time){
+        $where_arr = [];
+        $sql = $this->gen_sql_new();
+    }
 
 
 
