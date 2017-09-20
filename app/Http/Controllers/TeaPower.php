@@ -2919,7 +2919,12 @@ trait TeaPower {
         return $data;
     }
 
+    /**
+     *
+     */
+    public function teacher_total_money(){
 
+    }
 
 
 

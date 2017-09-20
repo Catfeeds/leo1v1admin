@@ -1418,7 +1418,7 @@ class common extends Controller
 
         //$url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
-        $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
+        $url="http://test.umoney.baidu.com/edu/openapi/post";
 
         $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
