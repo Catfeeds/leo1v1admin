@@ -42,5 +42,10 @@ class reset_parent_call_status extends Command
 
         $seller_student_arr = $task->t_seller_student_new->get_all_stu_uid();
 
+        foreach($seller_student_arr as $val){
+            $call_flag = $task->t_tq_call_info->check_call_status($val['phone']);
+        }
+
+
     }
 }
