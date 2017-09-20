@@ -8,7 +8,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 		parent::__construct();
 	}
     public function get_agent_cash_list($page_info){
-        $sql=$this->gen_sql_new("select ac.*,a.nickname,a.phone,a.bankcard,a.bank_type,a.zfb_name,a.zfb_account "
+        $sql=$this->gen_sql_new("select ac.*,a.nickname,a.phone,a.bankcard,a.bank_type,a.zfb_name,a.zfb_account , all_yxyx_money ,all_open_cush_money, all_have_cush_money "
                                 ." from %s ac "
                                 ." left join %s a on a.id = ac.aid "
                                 ,self::DB_TABLE_NAME
@@ -46,13 +46,17 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
         return $this->main_get_row($sql);
     }
 
-    public function get_have_cash($aid){
+    public function get_have_cash($aid, $check_money_flag= -1 ){
+        $where_arr =[
+            ["check_money_flag=%u", $check_money_flag, -1 ]
+        ];
+
         $sql = $this->gen_sql_new(
             "select sum(cash) have_cash "
             ." from %s  "
-            ." where aid=%u "
+            ." where aid=%u and %s "
             ,self::DB_TABLE_NAME
-            ,$aid
+            ,$aid, $where_arr
         );
         return $this->main_get_value($sql);
     }

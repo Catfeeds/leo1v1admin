@@ -313,7 +313,9 @@ class agent extends Controller
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
         foreach($ret_info['list'] as &$item){
             $item['agent_check_money_flag'] = $item['check_money_flag'];
-            $item['cash'] = $item['cash']?$item['cash']/100:0;
+            $item['cash'] /=100 ;
+            $item['all_open_cush_money'] /=100;
+            $item['all_have_cush_money'] /=100;
             $item["check_money_admin_nick"]= $this->cache_get_account_nick( $item["check_money_adminid"] );
             $item['check_money_desc'] = $item['check_money_desc']?$item['check_money_desc']:'';
             E\Eagent_check_money_flag::set_item_value_str($item);

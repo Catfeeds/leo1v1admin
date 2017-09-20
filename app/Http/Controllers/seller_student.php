@@ -287,8 +287,6 @@ class seller_student extends Controller
             $item["create_time_str"] = date("Y-m-d",$item["create_time"]);
         }
 
-        // dd($key2_list);
-
         return $this->pageView(
             __METHOD__, $ret_info, [
             "key1_list"=>$key1_list,

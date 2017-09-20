@@ -15,6 +15,8 @@
                     <td>id </td>
                     <td>申请人 </td>
                     <td>手机 </td>
+                    <td>可提现 </td>
+                    <td>已提现 </td>
                     <td>提现金额 </td>
                     <td>提现类型 </td>
                     <td>银行卡号 </td>
@@ -35,6 +37,8 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["all_open_cush_money"]}} </td>
+                        <td>{{@$var["all_have_cush_money"]}} </td>
                         <td>{{@$var["cash"]}} </td>
                         @if($var['type'] == 1)
                             <td>银行卡</td>
@@ -58,7 +62,10 @@
                             >
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
-                                <!-- <a class="fa fa-times opt-del" title="删除"> </a> -->
+                                <!--  <a class="fa fa-times opt-del" title="删除"> </a> -->
+
+                                <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
+                                <a class="fa fa-group  opt-user-link"  title="下线"> </a>
                             </div>
                         </td>
                     </tr>
