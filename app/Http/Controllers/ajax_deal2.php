@@ -993,22 +993,18 @@ class ajax_deal2 extends Controller
         $account_role = $this->get_account_role();
         $seller_level = $this->t_manager_info->get_seller_level($adminid);
 
-
         $user_test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         $user_test_lesson_count = count( $user_test_lesson_list) ;
         if ($user_test_lesson_count>5 && $account_role !=12) {
             return $this->output_err("已经 $user_test_lesson_count 次试听了，超过5次，不可试听");
         }
 
-        $test_lesson_list= $this->t_seller_student_new->get_test_lesson_list($adminid);
+        $test_lesson_list = $this->t_seller_student_new->get_test_lesson_list($adminid);
 
-        $test_lesson_count= count( $test_lesson_list);
+        $test_lesson_count = count( $test_lesson_list);
         $seller_hold_test_lesson_user_count_config= \App\Helper\Config::get_config("seller_hold_test_lesson_user_count");
         $cur_test_lesson_count_max= @$seller_hold_test_lesson_user_count_config[$seller_level];
-
         \App\Helper\Utils::logger("cur_require_count:$test_lesson_count,   cur_require_count_max: $cur_test_lesson_count_max" );
-
-
 
         if ($test_lesson_count > $cur_test_lesson_count_max  && $account_role!=12) {
             return $this->output_err(
