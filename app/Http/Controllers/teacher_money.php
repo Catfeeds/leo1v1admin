@@ -31,11 +31,10 @@ class teacher_money extends Controller
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
 
         $simple_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $teacher_money_type = $simple_info['teacher_money_type'];
-        $teacher_type       = $simple_info['teacher_type'];
+        $teacher_type = $simple_info['teacher_type'];
 
         //拉取上个月的课时信息
-        $last_month_info = $this->get_last_lesson_count_info($start,$end,$teacherid);
+        $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
         $last_all_lesson_count    = $last_month_info['all_lesson_count'];
         $last_normal_lesson_count = $last_month_info['all_normal_count'];
 
