@@ -92,12 +92,17 @@ class t_tongji_seller_top_info extends \App\Models\Zgen\z_t_tongji_seller_top_in
 
     public function get_invit_num($start_time){
         $where_arr = [
-            ["ts.logtime = %d",$start_time]
+            ["ts.logtime = %d",$start_time],
+            "m.account_role = 2",
+            "ts.tongji_type = 1"
         ];
 
-        $sql = $this->gen_sql_new("  select sum(value) from %s ts "
-                                  ." left join %s m on m."
+        $sql = $this->gen_sql_new("  select sum(value) as invit_num from %s m "
+                                  ." left join %s ts on m.uid = ts.adminid"
         );
+
+        return $this->main_get_value($sql);
+
     }
 
     /*

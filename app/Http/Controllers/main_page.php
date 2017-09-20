@@ -110,11 +110,10 @@ class main_page extends Controller
         $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
         $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
-        dd($referral_money." ~ ".$high_school_money.' ~ '.$primary_money);
-
         // 转化率
         $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time);
 
+        dd($seller_invit_num);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 

@@ -746,13 +746,18 @@ class ss_deal extends Controller
         $tt_arr=[
             "subject" =>$subject,
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
-            "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
-            "stu_test_lesson_level" =>$stu_test_lesson_level,
+            // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
+            //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
+            //"stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            // "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
             "textbook"                  => $textbook,
-            "intention_level"                    => $intention_level
+            "intention_level"                    => $intention_level,
+            "demand_urgency"                     =>$demand_urgency,
+            "quotation_reaction"                 =>$quotation_reaction,
+            "knowledge_point_location"           =>$knowledge_point_location,
+            "recent_results"                     =>$recent_results,
+            "advice_flag"                        =>$advice_flag,
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
@@ -780,12 +785,12 @@ class ss_deal extends Controller
             ]);
         }
 
-        $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        /* $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
                 "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
             ]);
-        }
+            }*/
         return $this->output_succ();
     }
 
