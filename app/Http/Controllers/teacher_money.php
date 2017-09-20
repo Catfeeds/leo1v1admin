@@ -262,6 +262,7 @@ class teacher_money extends Controller
      */
     public function get_teacher_total_money(){
         $type      = $this->get_in_str_val("type","wx");
+        $show_type = $this->get_in_str_val("show_type","current");
         $teacherid = $this->get_in_int_val("teacherid");
         if(!$teacherid){
             return $this->output_err("老师id错误!");
@@ -379,7 +380,7 @@ class teacher_money extends Controller
                 $last_normal_lesson_count += $old_normal_lesson_count;
             }
 
-            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
+            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key => &$val){
                     //判断课程的老师类型来设置累计课时的数值

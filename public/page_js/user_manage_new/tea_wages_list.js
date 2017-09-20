@@ -3,15 +3,16 @@
 
 $(function(){
     function load_data(){
-        $.reload_self_page ( {
-			date_type           : $('#id_date_type').val(),
-			opt_date_type       : $('#id_opt_date_type').val(),
-			start_time          : $('#id_start_time').val(),
-			end_time            : $('#id_end_time').val(),
-			teacher_ref_type    : $('#id_teacher_ref_type').val(),
-			teacher_money_type  : $('#id_teacher_money_type').val(),
-			level               : $('#id_level').val(),
-			show_data           : $('#id_show_data').val(),
+        $.reload_self_page({
+			      date_type           : $('#id_date_type').val(),
+			      opt_date_type       : $('#id_opt_date_type').val(),
+			      start_time          : $('#id_start_time').val(),
+			      end_time            : $('#id_end_time').val(),
+			      teacher_ref_type    : $('#id_teacher_ref_type').val(),
+			      teacher_money_type  : $('#id_teacher_money_type').val(),
+			      level               : $('#id_level').val(),
+			      show_data           : $('#id_show_data').val(),
+			      show_type           : $('#id_show_type').val(),
         });
     }
 
@@ -26,9 +27,10 @@ $(function(){
         }
     });
 
-	$('.opt-change').set_input_change_event(load_data);
+    $("#id_show_type").val(g_args.show_type);
+	  $('.opt-change').set_input_change_event(load_data);
     $(".opt-show").on("click",function(){
-        var opt_data=$(this).get_opt_data();
+        var opt_data = $(this).get_opt_data();
         $.wopen("/user_manage_new/tea_wages_info"
                 +"?teacherid="+ opt_data.teacherid
                 + "&start_time="+ g_args.start_time
@@ -107,7 +109,8 @@ $(function(){
                     "teacherid"  : opt_data.teacherid,
                     "start_time" : g_args.start_time,
                     "end_time"   : g_args.end_time,
-                    "type"       : "admin"
+                    "type"       : "admin",
+                    "show_type"  : $("#id_show_type").val()
                 },function(result){
                     var data = result.data[0];
                     if(teacher_ref_type>0){

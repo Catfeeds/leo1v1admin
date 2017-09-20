@@ -858,7 +858,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
             ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
-            ." train_through_new,trial_lecture_is_pass,wx_use_flag"
+            ." train_through_new,trial_lecture_is_pass,wx_use_flag,teacher_money_type_simulate,level_simulate"
             ." from %s "
             ." where teacherid=%u"
             ,self::DB_TABLE_NAME

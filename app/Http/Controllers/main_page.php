@@ -214,6 +214,8 @@ class main_page extends Controller
         }elseif($week == 1){
             $week = 8;
         }
+        // dd($self_top_info);
+
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         $week_start_time = date('m/d',$start_time);

@@ -5418,14 +5418,19 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level){
+    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"){
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
             ["l.lesson_start<%u",$end,0],
             ["t.teacher_ref_type=%u",$teacher_ref_type,-1],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             ["t.level=%u",$level,-1],
+            "l.lesson_type<1000",
+            "t.is_test_user=0",
         ];
+        if($show_type=="current"){
+            $where_arr[]="l.lesson_status=2";
+        }
         if($teacher_type!=3){
             $where_arr[] = "(t.teacher_type!=3 or l.teacherid in (51094,99504,97313))";
         }else{
@@ -5442,9 +5447,6 @@ lesson_type in (0,1) "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
-                                  ." and l.lesson_type<1000"
-                                  ." and l.lesson_status=2"
-                                  ." and t.is_test_user=0"
                                   ." group by t.teacherid"
                                   ." order by lesson_total desc"
                                   ,self::DB_TABLE_NAME
