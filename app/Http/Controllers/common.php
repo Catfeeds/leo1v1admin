@@ -1395,7 +1395,7 @@ class common extends Controller
 
     //百度有钱花接口
     public function send_baidu_money_charge(){
-        $orderid = $this->get_in_int_val("orderid");
+        $orderid = $this->get_in_int_val("orderid",);
 
         //期待贷款额度(分单位)
         $money = $this->get_in_int_val("money",10000);
