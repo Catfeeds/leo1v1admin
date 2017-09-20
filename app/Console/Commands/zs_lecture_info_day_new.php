@@ -19,7 +19,7 @@ class zs_lecture_info_day_new extends Command
      *
      * @var string
      */
-    protected $description = '质监每日,每周,每月推送数据';
+    protected $description = '质监每日推送数据';
 
     /**
      * Create a new command instance.
@@ -200,7 +200,6 @@ class zs_lecture_info_day_new extends Command
                 "\n面试数通过人数:".
                 $value['real_num']."/".
                 $value['suc_count'].
-                "\nname".$value['name'],
                 "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
                 "\n模拟试听审核数(二审):".$value['train_second_all'].
                 "\n第一次试听审核:".$value['test_first'].
