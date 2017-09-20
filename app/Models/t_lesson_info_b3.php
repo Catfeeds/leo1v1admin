@@ -439,7 +439,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
             }else if($tranfer_per == 3){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15";
- 
+
             }else if($tranfer_per == 4){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20";
 
@@ -453,7 +453,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) >=5";
             }else if($tranfer_per == 3){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) >=5";
- 
+
             }else if($tranfer_per == 4){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) >=5";
 
@@ -468,7 +468,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) <5";
             }else if($tranfer_per == 3){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) <5";
- 
+
             }else if($tranfer_per == 4){
                 $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) <5";
 
@@ -886,15 +886,28 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
-    public function get_test_lesson_succ_num($start_time){
+    public function get_test_lesson_succ_num($start_time,$end_time){
         $where_arr = [
-            ""
+            "l.lesson_user_online_status = 1",
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
         ];
-        //lesson_user_online_status
 
-        $sql = $this->gen_sql_new("  select sum(if(lesson_user_online_status=1,1,0) from %s  "
-                                  ." "
+        $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid "
+                                  ." left join %s tlr on tlr.require_id=tll.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_value($sql);
 
     }
 

@@ -274,6 +274,14 @@ $(function(){
                     $(me).parent().find(".opt-edit").click();
                     return; 
                 }
+                if(ret.new_demand_flag ==1){
+                    if(ret.stu_nick=="" || ret.par_nick=="" || ret.grade==0 || ret.gender==0 || ret.address=="" || ret.user_desc=="" ||  ret.school=="" || ret.class_rank=="" || ret.grade_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.interest_cultivation==0 || ret.habit_remodel==0 || ret.study_habit=="" || ret.interests_hobbies=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
+                        alert("请完善试听需求!");
+                        $(me).parent().find(".opt-edit-new").click();
+                        return; 
+
+                    }
+                }
 
                 var require_time= $.strtotime( ret.stu_request_test_lesson_time);
                 var need_start_time=0;
@@ -631,6 +639,15 @@ $(function(){
 });
 
 function init_edit() {
+     $(".opt-edit-new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var opt_obj=this;
+        var click_type=1;
+
+        edit_user_info_new(opt_data,opt_obj,click_type);
+           
+    });
+
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -1953,7 +1970,7 @@ function init_edit() {
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
        // var opt_data=$(this).get_opt_data();
         //var opt_obj=this;
-        alert(opt_data.test_lesson_subject_id);
+       // alert(opt_data.test_lesson_subject_id);
 
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
@@ -2729,15 +2746,7 @@ function init_edit() {
         });
         
     };
-    $(".opt-edit-new").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
-        var click_type=1;
-
-        edit_user_info_new(opt_data,opt_obj,click_type);
-           
-    });
-
+   
    
 
 

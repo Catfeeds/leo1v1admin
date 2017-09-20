@@ -1,3 +1,4 @@
+	target_money	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
