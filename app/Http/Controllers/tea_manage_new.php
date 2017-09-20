@@ -1237,8 +1237,9 @@ class tea_manage_new extends Controller
         $trial_train_status= $this->get_in_int_val("trial_train_status");
         $adminid       = $this->get_account_id();
         $account       = $this->get_account();
+        $account_role  = $this->get_account_role();
 
-        if(in_array($trial_train_status,[-1,2])){
+        if(in_array($trial_train_status,[-1,2]) || in_array($account_role,[12])){
             $ret = $this->t_lesson_info->field_update_list($lessonid,[
                 "lesson_del_flag" => 1,
                 "confirm_adminid" => $adminid

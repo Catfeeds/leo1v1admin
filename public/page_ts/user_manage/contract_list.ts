@@ -2821,9 +2821,7 @@ $(function(){
                                                "<option value=3>其他</option> "+
                                                "</select>");
                     var id_period_num= $("<select> "+
-                                         "<option value=3>3期</option> "+
                                          "<option value=6>6期</option> "+
-                                         "<option value=9>9期</option> "+
                                          "<option value=12>12期</option> "+
                                          "</select>");
 
@@ -2889,9 +2887,7 @@ $(function(){
                                                "<option value=3>其他</option> "+
                                                "</select>");
                     var id_period_num= $("<select> "+
-                                         "<option value=3>3期</option> "+
                                          "<option value=6>6期</option> "+
-                                         "<option value=9>9期</option> "+
                                          "<option value=12>12期</option> "+
                                          "</select>");
 
