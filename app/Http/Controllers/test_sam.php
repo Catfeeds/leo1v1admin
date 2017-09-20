@@ -307,7 +307,7 @@ class test_sam  extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         $date = date("Y-m-d",time()-100);
         //dd($date);
-        $date = "2017-09-19";
+        $date = "2017-09-19 20:0:0";
         $account_role = 9;
         $kpi_flag = 1;
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
@@ -432,7 +432,7 @@ class test_sam  extends Controller
         $arr["all_target_num"] = $all_count;
         array_unshift($teacher_info,$arr);
         $admin_list = [944];
-        foreach($admin_list as $yy){
+        /*foreach($admin_list as $yy){
           foreach ($teacher_info as $key => $value) {
              $this->t_manager_info->send_wx_todo_msg_by_adminid (
                 $yy,
@@ -444,9 +444,52 @@ class test_sam  extends Controller
                 "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
                 "\n模拟试听审核数(二审):".$value['train_second_all'].
                 "\n第一次试听审核:".$value['test_first'].
-                "\n第一次常规审核:".$value['regular_first'],
+                "\n第一次常规审核:".$value['regular_first'].
                 "\n总体完成率:".$value['per'].'%',
-                "http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+                "http://admin.yb1v1.com/main_page/quality_control_kpi?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+            }
+        }
+        */
+
+        foreach($admin_list as $yy){
+          foreach ($teacher_info as $key => $value) {
+             if($value['name'] == "总计"){
+                 $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                    $yy,
+                    "质检日报",
+                    "质监月项目进度汇总",
+                    "\n面试数通过人数:".
+                    $value['real_num']."/".
+                    $value['suc_count'].
+                    "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
+                    "\n模拟试听审核数(二审):".$value['train_second_all'].
+                    "\n第一次试听审核:".$value['test_first'].
+                    "\n第一次常规审核:".$value['regular_first'].
+                    "\n总体完成率:".$value['per'].'%',
+                    "http://admin.yb1v1.com/main_page/quality_control_kpi?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+                }
+            }
+        }
+
+
+        foreach ($teacher_info as $key => $value) {
+           @print_r($value['uid']);
+            if(isset($value['uid'])){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                //$value['uid'],
+                944,
+                "质检日报",
+                "质监月项目进度汇总",
+                "\n面试数通过人数:".
+                $value['real_num']."/".
+                $value['suc_count'].
+                "\nname".$value['name'].
+                "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
+                "\n模拟试听审核数(二审):".$value['train_second_all'].
+                "\n第一次试听审核:".$value['test_first'].
+                "\n第一次常规审核:".$value['regular_first'].
+                "\n总体完成率:".$value['per'].'%',
+                "http://admin.yb1v1.com/main_page/quality_control_kpi?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
             }
         }
         dd($teacher_info);

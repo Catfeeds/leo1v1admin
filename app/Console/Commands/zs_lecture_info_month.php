@@ -19,7 +19,7 @@ class zs_lecture_info_day_new extends Command
      *
      * @var string
      */
-    protected $description = '质监每日,每周,每月推送数据';
+    protected $description = '质监每周推送数据';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class zs_lecture_info_day_new extends Command
      */
     public function handle()
     {
-        //every day
+        //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date("Y-m-d",time()-100));

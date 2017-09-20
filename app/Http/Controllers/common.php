@@ -753,7 +753,7 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_je.png";
+        $phone_qr_name = $phone."_qr_agent_new_zc.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -769,9 +769,12 @@ class common extends Controller
             $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imageCreatetruecolor(115,115);     //新建二维码图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
             // imagecopymerge($image_3,$image_2,80,1082,0,0,imagesy($image_2),imagesy($image_2),100);
-            imagecopymerge($image_3,$image_2,302,2235,0,0,imagesy($image_2),imagesy($image_2),100);
+            // imagecopymerge($image_3,$image_2,302,2235,0,0,imagesy($image_2),imagesy($image_2),100);
+            imagecopymerge($image_3,$image_4,177,1366,0,0,115,115,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -1402,7 +1405,7 @@ class common extends Controller
         $money = $this->t_child_order_info->get_price($orderid);
 
         //分期期数
-        $period = $this->get_in_int_val("period",12);
+        $period = $this->t_child_order_info->get_period_num($orderid);
         //成交价格
         $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
         $dealmoney = $this->t_order_info->get_price($parent_orderid);
@@ -1417,7 +1420,7 @@ class common extends Controller
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
         $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
 
-        $userid = $this->t_order_info->get_userid($orderid);
+        $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
 
         // RSA加密数据
