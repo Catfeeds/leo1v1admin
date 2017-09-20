@@ -91,7 +91,14 @@ class test_sam  extends Controller
           $arr = [];
           foreach ($list as $key => $value) {
               @$arr[$key]['teacherid'] = $key;
+<<<<<<< HEAD
               @$arr[$key]['realname']  = $this->t_teacher_info->get_realname($arr[$key]['teacherid']);
+=======
+              $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($key);                   
+              $teacherid = $teacher_info["teacherid"];
+              $realname = $this->t_teacher_info->get_realname($teacherid);
+              @$arr[$key]['realname']  = $this->t_teacher_info->get_realname($teacherid);
+>>>>>>> 4adaadf41ab4cbaf1f0b3996892b01a24c675965
               @$arr[$key]['lesson_count'] = $value;
               @$arr[$key]['day_num'] = floor($value/10.5);
               @$arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
