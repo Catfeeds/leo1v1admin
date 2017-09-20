@@ -2528,13 +2528,17 @@ trait TeaPower {
      * @param start_time 本月开始时间
      * @param end_time   本月结束时间
      */
-    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){
+    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type=0){
         $last_start_time = strtotime("-1 month",$start_time);
         $last_end_time   = strtotime("-1 month",$end_time);
         $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
             $teacherid,$last_start_time,$last_end_time,$teacher_money_type
         );
         return $already_lesson_count;
+    }
+
+    public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
+
     }
 
     /**
