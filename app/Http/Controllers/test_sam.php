@@ -483,7 +483,7 @@ class test_sam  extends Controller
                 "\n面试数通过人数:".
                 $value['real_num']."/".
                 $value['suc_count'].
-                "\nname".$value['name'],
+                "\nname".$value['name'].
                 "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
                 "\n模拟试听审核数(二审):".$value['train_second_all'].
                 "\n第一次试听审核:".$value['test_first'].
