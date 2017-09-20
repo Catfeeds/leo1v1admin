@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Helper\Config;
 
 use Illuminate\Support\Facades\Mail;
 class test_boby extends Controller
@@ -545,5 +546,16 @@ class test_boby extends Controller
         }
     }
 
+    public function update_all_price(){
+
+        $cur_ratio = Config::get_current_ratio();
+        $ret_info = $this->t_gift_info->get_gift_id_praise();
+
+        foreach($ret_info as $item){
+            $price = $item['current_praise'] * 100 / $cur_ratio;
+            $this->t_gift_info->update_all_price( $item['giftid'], $price );
+        }
+        echo 'ok';
+    }
 
 }

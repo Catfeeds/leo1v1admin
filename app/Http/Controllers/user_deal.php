@@ -3184,6 +3184,19 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function get_xmpp_server_list_js()  {
+        $page_num=$this->get_in_page_num();
+
+        $ret_list=$this->t_xmpp_server_config->get_list($page_num);
+        $check_time=time(NULL)-60;
+
+        foreach($ret_list["list"] as &$item) {
+            //$item["status_class"]= ($item["last_active_time"] <$check_time)?"danger":"";
+            //\App\Helper\Utils::unixtime2date_for_item($item,"last_active_time");
+        }
+        return $this->output_ajax_table($ret_list);
+    }
+
     public function get_record_server_list_js()  {
         $page_num=$this->get_in_page_num();
         $ip= $this->get_in_str_val("ip");
