@@ -1953,6 +1953,7 @@ function init_edit() {
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
        // var opt_data=$(this).get_opt_data();
         //var opt_obj=this;
+        alert(opt_data.test_lesson_subject_id);
 
         $.do_ajax("/ss_deal/get_user_info",{
             "userid" : opt_data.userid ,
@@ -2550,10 +2551,11 @@ function init_edit() {
             html_node.find("#id_academic_goal").val(data.academic_goal);
             html_node.find("#id_test_stress").val(data.test_stress);
             html_node.find("#id_entrance_school_type").val(data.entrance_school_type);
-            html_node.find("#id_cextra_improvement").val(data.extra_improvement);
+            html_node.find("#id_interest_cultivation").val(data.interest_cultivation);
+            html_node.find("#id_extra_improvement").val(data.extra_improvement);
             html_node.find("#id_habit_remodel").val(data.habit_remodel);
             html_node.find("#id_study_habit").val(data.study_habit);
-            html_node.find("#id_interests_and_hobbies").val(data.interests_and_hobbies);
+            html_node.find("#id_interests_hobbies").val(data.interests_and_hobbies);
             html_node.find("#id_character_type").val(data.character_type);
             html_node.find("#id_need_teacher_style").val(data.need_teacher_style);
             html_node.find("#id_intention_level").val(data.intention_level);
@@ -2685,7 +2687,7 @@ function init_edit() {
                             extra_improvement : html_node.find("#id_extra_improvement").val(),
                             habit_remodel: html_node.find("#id_habit_remodel").val(),
                             study_habit : html_node.find("#id_study_habit").val(),
-                            interests_and_hobbies: html_node.find("#id_interests_and_hobbies").val(),
+                            interests_and_hobbies: html_node.find("#id_interests_hobbies").val(),
                             character_type: html_node.find("#id_character_type").val(),
                             need_teacher_style: html_node.find("#id_need_teacher_style").val(),
                             demand_urgency: html_node.find("#id_demand_urgency").val(),
