@@ -304,6 +304,12 @@ class test_sam  extends Controller
         //
         $start_time = 1505750400;
         $end_time = 1505836800;
+
+        $end_time = strtotime(date("Y-m-d",time()))+86400;
+        $end_date = date("Y-m-d",$end_time);
+        $start_time = $end_time - 7 * 86400;
+        $start_date = date("Y-m-d",$start_time);
+
         $subject = $this->get_in_int_val("subject",-1);
         $date = date("Y-m-d",time()-100);
         //dd($date);
@@ -489,7 +495,7 @@ class test_sam  extends Controller
                 "\n第一次试听审核:".$value['test_first'].
                 "\n第一次常规审核:".$value['regular_first'].
                 "\n总体完成率:".$value['per'].'%',
-                "http://admin.yb1v1.com/main_page/quality_control_kpi?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+                "http://admin.yb1v1.com/main_page/quality_control_kpi?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$start_date."&end_time=".$end_date."&subject=-1 ");
             }
         }
         dd($teacher_info);
