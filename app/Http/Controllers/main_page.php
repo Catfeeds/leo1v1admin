@@ -108,6 +108,7 @@ class main_page extends Controller
 
         // 金额转化率占比
         $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+        $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
 
         //
 
