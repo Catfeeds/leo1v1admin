@@ -2545,6 +2545,24 @@ function init_edit() {
             id_school.val(data.school);
             id_editionid.val(data.editionid);
             id_next_revisit_time.val(data.next_revisit_time);
+            html_node.find("#id_class_rank").val(data.class_rank);
+            html_node.find("#id_grade_rank").val(data.grade_rank);
+            html_node.find("#id_academic_goal").val(data.academic_goal);
+            html_node.find("#id_test_stress").val(data.test_stress);
+            html_node.find("#id_entrance_school_type").val(data.entrance_school_type);
+            html_node.find("#id_cextra_improvement").val(data.extra_improvement);
+            html_node.find("#id_habit_remodel").val(data.habit_remodel);
+            html_node.find("#id_study_habit").val(data.study_habit);
+            html_node.find("#id_interests_and_hobbies").val(data.interests_and_hobbies);
+            html_node.find("#id_character_type").val(data.character_type);
+            html_node.find("#id_need_teacher_style").val(data.need_teacher_style);
+            html_node.find("#id_intention_level").val(data.intention_level);
+            html_node.find("#id_demand_urgency").val(data.demand_urgency);
+            html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
+            html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
+            html_node.find("#id_recent_results").val(data.recent_results);
+            html_node.find("#id_advice_flag").val(data.advice_flag);
+           
 
 
             var reset_seller_student_status_options=function()  {
