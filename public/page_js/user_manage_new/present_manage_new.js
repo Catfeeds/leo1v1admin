@@ -339,7 +339,7 @@ $(function(){
             var giftid = opt_data.giftid;
             id_gift_name.val(opt_data.gift_name);
             id_gift_type.val(opt_data.gift_type);
-            id_cost_price.val(opt_data.cost_price);
+            id_cost_price.val(opt_data.cost_price_str);
             id_gift_praise.text(opt_data.current_praise);
             id_shop_link.val(opt_data.shop_link);
             id_del_flag.val(opt_data.del_flag);
@@ -394,7 +394,7 @@ $(function(){
         },function(){
             id_gift_url["onshown_init"]();
             $('#price, #sale').keyup(function(){
-                var new_praise = parseInt($("#price").val()) * ratio * parseInt($('#sale').val()) /10000;
+                var new_praise = parseFloat($("#price").val()) * ratio * parseFloat($('#sale').val()) /100;
                 if (new_praise) {
                     $('#praise').text( new_praise );
                 }
