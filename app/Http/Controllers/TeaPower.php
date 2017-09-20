@@ -2547,9 +2547,9 @@ trait TeaPower {
             $start_time,$end_time,$teacherid,E\Eteacher_money_type::V_6
         );
         if($transfer_teacherid>0){
-            $old_all_lesson_count = $this->get_already_lesson_count($start,$end,$transfer_teacherid);
+            $old_all_lesson_count = $this->get_already_lesson_count($start_time,$end_time,$transfer_teacherid);
             $old_normal_lesson_count = $this->get_already_lesson_count(
-                $start,$end,$transfer_teacherid,E\Eteacher_money_type::V_6
+                $start_time,$end_time,$transfer_teacherid,E\Eteacher_money_type::V_6
             );
             $last_lesson_count['all_lesson_count']+= $old_all_lesson_count;
             $last_lesson_count['all_normal_count']+= $old_normal_lesson_count;
