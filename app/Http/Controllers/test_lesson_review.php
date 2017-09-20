@@ -55,6 +55,8 @@ class test_lesson_review extends Controller
                 "review_desc"    => $review_desc,
                 "create_time"    => time(NULL),
             ],false,false,true);
+            // $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
+            // $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
             $ret = 1;
         }
         return $ret;
