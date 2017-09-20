@@ -1395,18 +1395,18 @@ class common extends Controller
 
     //百度有钱花接口
     public function send_baidu_money_charge(){
-        $orderid = $this->get_in_int_val("orderid");
+        $orderid = $this->get_in_int_val("orderid",156);
+
 
         //期待贷款额度(分单位)
-        $money = $this->get_in_int_val("money",10000);
+        $money = $this->t_child_order_info->get_price($orderid);
 
         //分期期数
-        $period = $this->get_in_int_val("period",12);
-
-
-        $orderid = 22167;
+        $period = $this->t_child_order_info->get_period_num($orderid);
         //成交价格
-        $dealmoney = $this->t_order_info->get_price($orderid);
+        $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+        $dealmoney = $this->t_order_info->get_price($parent_orderid);
+        
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
@@ -1417,8 +1417,9 @@ class common extends Controller
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
         $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
 
-        $userid = $this->t_order_info->get_userid($orderid);
+        $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+        dd($user_info);
 
         // RSA加密数据
         $endata = array(
@@ -1573,6 +1574,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $concatStr .= 'key='.$strSecretKey;
         return strtoupper(md5($concatStr));
     }
+
+    //百度有钱花回调地址(测试)
+    public function baidu_callback_return_info_test(){
+        dd(111);
+    }
+
+    //百度有钱花回调地址
+    public function baidu_callback_return_info(){
+        dd(111);
+    }
+
 
     //建行支付测试接口
     public function send_ccb_order_charge(){

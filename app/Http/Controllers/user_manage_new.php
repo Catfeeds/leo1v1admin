@@ -2312,6 +2312,12 @@ class user_manage_new extends Controller
     public function present_manage_new()
     {
         $page_num = $this->get_in_page_num();
+
+
+        // list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
+        //     =$this->get_in_order_by_str([],"",["cost_prise" => "cost_price"]);
+
+
         $ret_info = $this->t_gift_info->get_gift_info($page_num);
         $cur_ratio = Config::get_current_ratio();
         foreach($ret_info['list'] as &$item){

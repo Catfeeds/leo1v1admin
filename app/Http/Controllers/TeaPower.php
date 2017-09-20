@@ -2902,10 +2902,9 @@ trait TeaPower {
         return $ret;
     }
 
-
     public function get_test_lesson_comment_str($str,$flag=0){
-        $arr = json_decode($str,true);
-        $data="";
+        $arr  = json_decode($str,true);
+        $data = "";
         if($flag==1){
             if(empty($arr)){
                 $data="";
@@ -2918,7 +2917,6 @@ trait TeaPower {
             }
         }
         return $data;
-
     }
 
 

@@ -189,15 +189,10 @@
                                 <a class=" fa-list-alt opt-lesson-all " title="课程信息汇总"></a>
                             </div>
                         </td>
-
                     </tr>
-
                 @endforeach
             </tbody>
-
         </table>
-
-
         <div style="display:none;" >
             <div id="id_lesson_log"  >
                 <div class="row">
@@ -217,7 +212,6 @@
                         </div>
                     </div>
                 </div>
-
                 <hr/>
                 <table   class="table table-bordered "   >
                     <tr>  <th> 时间 <th>角色 <th>用户id <th>服务 <th> 进出 <th> ip </tr>
@@ -226,7 +220,6 @@
                 </table>
             </div>
         </div>
-
         <div class="dlg_show_faq" style="display:none;" >
             <div>
                 <table class="table table-bordered table-striped"   >
@@ -267,7 +260,6 @@
 
                             PS: 语音连接会稍慢，可多等待几秒钟</td>
                     </tr>
-
                     <tr>
                         <td rowspan="3">4</td>
                         <td> Q: </td><td>理优管理系统显示白板未连接</td>
@@ -278,7 +270,6 @@
                     <tr>
                         <td> OP: </td><td>更改服务器</td>
                     </tr>
-
                     <tr>
                         <td rowspan="3">5</td>
                         <td> Q: </td><td>老师截图不可见</td>
@@ -291,7 +282,6 @@
                             II. 后台看到图片，学生看不到更改DNS，将8.8.8.8更改为114.114.114.114
                             后台看不到图片，老师上传失败</td>
                     </tr>
-
                     <tr>
                         <td rowspan="3">6</td>
                         <td> Q: </td><td>学生可以听到老师，老师无法听到学生</td>
@@ -302,7 +292,6 @@
                     <tr>
                         <td> OP: </td><td>尝试更换服务器</td>
                     </tr>
-
                     <tr>
                         <td rowspan="3">6</td>
                         <td> Q: </td><td>语音断断续续</td>
@@ -316,7 +305,6 @@
                 </table>
             </div>
         </div>
-
         <div class="opt-set-audio-server-type" style="display:none">
             <div class="row">
                 <div class="input-group ">

@@ -297,9 +297,17 @@ class test_sam  extends Controller
 
      public function  tt(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );
-        $subject = $this->get_in_int_val("subject",-1);
 
+
+        //$start_time = strtotime(date("Y-m-d",time()-100));
+        //$end_time=time();
+        //
+        $start_time = 1505750400;
+        $end_time = 1505836800;
+        $subject = $this->get_in_int_val("subject",-1);
+        $date = date("Y-m-d",time()-100);
+        //dd($date);
+        $date = "2017-09-19";
         $account_role = 9;
         $kpi_flag = 1;
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
@@ -308,7 +316,6 @@ class test_sam  extends Controller
                 unset($teacher_info[$kk]);
             }
         }
-        // $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
         $tea_subject = "";
 
         //面试人数
@@ -347,17 +354,7 @@ class test_sam  extends Controller
         $regular_five = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,4,$subject);
 
         $regular_five_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,4,$subject);
-
-
         $all_count=0;
-        $total_test_first_per = 0;
-        $total_test_five_per = 0;
-        $total_test_first_num = 0;
-        $total_test_five_num = 0;
-        $total_regular_first_per = 0;
-        $total_regular_first_num = 0;
-        $total_regular_five_per = 0;
-        $total_regular_five_num = 0;
         $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=$test_five_all=$regular_five_all=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
@@ -376,70 +373,9 @@ class test_sam  extends Controller
             $item["train_second_all"] = isset($train_second[$account])?$train_second[$account]["all_num"]:0;
 
             $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
-            $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;
-            if($item["test_first_per"] > 0){
-                $total_test_first_per += $test_first_per[$account]["all_time"];
-                $total_test_first_num += $test_first_per[$account]["all_num"];
-            }
-
-            $item["test_first_per_str"] = "";
-            if($item["test_first_per"]){
-                if($item["test_first_per"]/60>0){
-                    $item["test_first_per_str"] = round($item["test_first_per"]/60)."分".($item["test_first_per"]%60)."秒";
-                }else{
-                    $item["test_first_per_str"] .= "秒";
-                }
-            }
-
-
             $item["test_five"] = isset($test_five[$account])?$test_five[$account]["all_num"]:0;
-            $item["test_five_per"] = isset($test_five_per[$account])?round($test_five_per[$account]["all_time"]/$test_five_per[$account]["all_num"]):0;
-            if($item["test_five_per"] > 0){
-                $total_test_five_per += $test_five_per[$account]["all_time"];
-                $total_test_five_num += $test_five_per[$account]["all_num"];
-            }
-
-            $item["test_five_per_str"] = "";
-            if($item["test_five_per"]){
-                if($item["test_five_per"]/60>0){
-                    $item["test_five_per_str"] = round($item["test_five_per"]/60)."分".($item["test_five_per"]%60)."秒";
-                }else{
-                    $item["test_five_per_str"] .= "秒";
-                }
-            }
-
-
             $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
-            $item["regular_first_per"] = isset($regular_first_per[$account])?round($regular_first_per[$account]["all_time"]/$regular_first_per[$account]["all_num"]):0;
-            if($item["regular_first_per"]){
-                $total_regular_first_per += $regular_first_per[$account]["all_time"];
-                $total_regular_first_num += $regular_first_per[$account]["all_num"];
-            }
-            $item["regular_first_per_str"] = "";
-            if($item["regular_first_per"]){
-                if($item["regular_first_per"]/60>0){
-                    $item["regular_first_per_str"] = round($item["regular_first_per"]/60)."分".($item["regular_first_per"]%60)."秒";
-                }else{
-                    $item["regular_first_per_str"] .= "秒";
-                }
-            }
-
             $item["regular_five"] = isset($regular_five[$account])?$regular_five[$account]["all_num"]:0;
-            $item["regular_five_per"] = isset($regular_five_per[$account])?round($regular_five_per[$account]["all_time"]/$regular_five_per[$account]["all_num"]):0;
-            if($item["regular_five_per"]){
-                $total_regular_five_per += $regular_five_per[$account]["all_time"];
-                $total_regular_five_num += $regular_five_per[$account]["all_num"];
-            }
-            $item["regular_five_per_str"] = "";
-            if($item["regular_five_per"]){
-                if($item["regular_five_per"]/60>0){
-                    $item["regular_five_per_str"] = round($item["regular_five_per"]/60)."分".($item["regular_five_per"]%60)."秒";
-                }else{
-                    $item["regular_five_per_str"] .= "秒";
-                }
-            }
-
-
 
             $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"]+$item["test_five"]+$item["regular_five"];
             if($item["uid"]==481){
@@ -474,7 +410,6 @@ class test_sam  extends Controller
             $arr=[];
             $arr=["name"=>"总计",
             ];
-
             $arr["real_num"] = $real_num;
             $arr["suc_count"] = $suc_count;
             $arr["train_first_all"] = $train_first_all;
@@ -486,7 +421,6 @@ class test_sam  extends Controller
             $arr["regular_five"] = $regular_five_all;
             $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all+$test_five_all+$regular_five_all;
         }
-
         $num = count($teacher_info);
         // $all_count = ($num-2)*250+300;
         if($all_count){
@@ -497,13 +431,26 @@ class test_sam  extends Controller
 
         $arr["all_target_num"] = $all_count;
         array_unshift($teacher_info,$arr);
+        $admin_list = [944];
         foreach($admin_list as $yy){
           foreach ($teacher_info as $key => $value) {
-             $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"质检日报","质监月项目进度汇总","\n面试数通过人数:".$all_tea_ex."/".$video_real["all_count"]."\n模拟试听审核数(一审):".$train_first_all["pass_num"]."/".$train_first_all["all_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all,"http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
-          }
+             $this->t_manager_info->send_wx_todo_msg_by_adminid (
+                $yy,
+                "质检日报",
+                "质监月项目进度汇总",
+                "\n面试数通过人数:".
+                $value['real_num']."/".
+                $value['suc_count'].
+                "\n模拟试听审核数(一审):".$value['train_first_all']."/".$value['train_first_pass'].
+                "\n模拟试听审核数(二审):".$value['train_second_all'].
+                "\n第一次试听审核:".$value['test_first'].
+                "\n第一次常规审核:".$value['regular_first'].
+                "\n总体完成率:".$value['per'].'%',
+                "http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+            }
         }
-
-
         dd($teacher_info);
+
+     
     }        
 }
