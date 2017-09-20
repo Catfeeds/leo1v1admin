@@ -40,7 +40,7 @@ class reset_parent_call_status extends Command
         //
         $task= new \App\Console\Tasks\TaskController();
 
-        $seller_student = $task->t_seller_student_new->get_all_stu_uid();
+        $seller_student_arr = $task->t_seller_student_new->get_all_stu_uid();
 
     }
 }
