@@ -1,6 +1,7 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
+	del_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -19,8 +20,9 @@ interface RowData {
 	gift_desc	:any;
 	cost_price	:any;
 	shop_link	:any;
-	gift_status	:any;
+	del_flag	:any;
 	gift_type_str	:any;
+	del_flag_str	:any;
 	gift_desc_str	:any;
 	cost_price_str	:any;
 }
@@ -36,11 +38,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			del_flag:	$('#id_del_flag').val()
         });
     }
 
 
+	$('#id_del_flag').val(g_args.del_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -50,4 +53,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">del_flag</span>
+                <input class="opt-change form-control" id="id_del_flag" />
+            </div>
+        </div>
 */
