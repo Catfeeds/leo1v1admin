@@ -45,7 +45,7 @@
                         <td class="gift_url">
                             <a class="fancybox-effects-a" href="{{@$var["gift_pic"]}}">查看</a>
                         </td>
-                        <td>{{@$var["cost_price"]}} </td>
+                        <td>{{@$var["cost_price_str"]}} </td>
                         <td>{{@$var["current_praise"]}} </td>
                         <td>{{@$var["gift_intro"]}} </td>
 
