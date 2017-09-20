@@ -195,8 +195,8 @@ class teacher_money extends Controller
                     $info            = "课前４小时内取消上课！";
                 }else{
                     $this->change_num++;
-                    $info            = "本月第".$this->change_num."次换课";
                     $lesson_all_cost = 0;
+                    $info            = "本月第".$this->change_num."次换课";
                 }
             }
             if(isset($info)){
