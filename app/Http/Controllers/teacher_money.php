@@ -175,7 +175,6 @@ class teacher_money extends Controller
         $this->get_array_data_by_count($all_reward_list,$reward_compensate);
         $this->get_array_data_by_count($all_reward_list,$reward_reference);
 
-        \App\Helper\Utils::logger("teacherid11233:$teacherid,".json_encode($lesson_list));
         return $this->output_succ(["data"=>$lesson_list,"all_reward_list"=>$all_reward_list]);
     }
 
@@ -262,6 +261,7 @@ class teacher_money extends Controller
      */
     public function get_teacher_total_money(){
         $type      = $this->get_in_str_val("type","wx");
+        $show_type = $this->get_in_str_val("show_type","current");
         $teacherid = $this->get_in_int_val("teacherid");
         if(!$teacherid){
             return $this->output_err("老师id错误!");
@@ -308,13 +308,12 @@ class teacher_money extends Controller
 
         $start_date         = strtotime(date("Y-m-01",$start_time));
         $now_date           = strtotime(date("Y-m-01",$now_time));
-
         $simple_info        = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_money_flag = $simple_info['teacher_money_flag'];
         $teacher_money_type = $simple_info['teacher_money_type'];
         $teacher_type       = $simple_info['teacher_type'];
         $transfer_teacherid = $simple_info['transfer_teacherid'];
-        $transfer_time = $simple_info['transfer_time'];
+        $transfer_time      = $simple_info['transfer_time'];
         $teacher_info       = $this->get_teacher_info_for_total_money($simple_info);
 
         $list = [];
@@ -375,11 +374,11 @@ class teacher_money extends Controller
                     $transfer_teacherid,$last_month_start,$last_month_end);
                 $old_normal_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
                     $transfer_teacherid,$last_month_start,$last_month_end,E\Eteacher_money_type::V_6);
-                $last_all_lesson_count   += $old_all_lesson_count;
+                $last_all_lesson_count    += $old_all_lesson_count;
                 $last_normal_lesson_count += $old_normal_lesson_count;
             }
 
-            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
+            $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key => &$val){
                     //判断课程的老师类型来设置累计课时的数值
@@ -450,13 +449,16 @@ class teacher_money extends Controller
             $item['lesson_cost_normal']  = strval($item['lesson_cost_normal']);
             $item['lesson_total']        = strval($item['lesson_total']);
             $item['lesson_price_tax']    = strval($item['lesson_price']);
+            //计算平台合作的抽成费用
             if(isset($teacher_ref_rate) && $teacher_ref_rate>0){
                 $item['lesson_ref_money']  = strval($item['lesson_normal']+$item['lesson_reward']-$item['lesson_cost_normal']);
                 $item['teacher_ref_money'] = strval($item['lesson_ref_money']*$teacher_ref_rate);
                 $item['teacher_ref_rate']  = $teacher_ref_rate;
             }
 
+            //teacher_money_flag=1 多卡用户,不扣管理费
             if($teacher_money_flag!=1){
+                //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
                 if(in_array($teacher_money_type,[0,1,2,3])){
                     if($item['lesson_price']>800){
                         $tax_price = $item['lesson_price']-800;

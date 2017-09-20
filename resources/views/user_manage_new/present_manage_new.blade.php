@@ -8,13 +8,18 @@
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/source/jquery.fancybox.js"></script>
     <script>
-        var pub_domain = <?php echo json_encode($pub_domain); ?>
+     var pub_domain = <?php echo json_encode($pub_domain); ?>
     </script>
     <link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />
     <section class="content ">
         <div>
             <div class="row">
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-5 col-md-2 input-group">
+                    <span class="input-group-addon">状态</span>
+                    <select class="opt-change form-control" id="id_del_flag" > </select>
+                </div>
+
+                <div class="col-xs-5 col-md-2">
                     <div class="input-group " >
                         <button id="opt-add-gift" class="btn btn-warning fa fa-plus fa-lg form-control " >添加礼品</button>
                     </div>
@@ -30,8 +35,10 @@
                     <td> 礼品类型  </td>
                     <td> 名称 </td>
                     <td> 封面 </td>
+                    <td> 状态 </td>
                     <td> 原价 </td>
-                    <td> 消耗赞  </td>
+                    <td> 优惠 </td>
+                    <td> 消耗赞(折后)</td>
                     <td> 商品简介 </td>
                     <td> 操作  </td>
                 </tr>
@@ -45,7 +52,9 @@
                         <td class="gift_url">
                             <a class="fancybox-effects-a" href="{{@$var["gift_pic"]}}">查看</a>
                         </td>
-                        <td>{{@$var["cost_price"]}} </td>
+                        <td>{!! @$var["del_flag_str"]  !!} </td>
+                        <td>{{@$var["cost_price_str"]}} </td>
+                        <td>{{@$var["sale"]}} </td>
                         <td>{{@$var["current_praise"]}} </td>
                         <td>{{@$var["gift_intro"]}} </td>
 
@@ -54,9 +63,10 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
 
-                              <a href="javascript:;" title="删除" class="fa fa-trash-o fa-lg  opt-gift-delete"></a>
+                                <a href="javascript:;" title="下架" class="fa fa-trash-o fa-lg  opt-gift-delete"></a>
                                 <a href="javascript:;" title="修改" class="fa fa-gavel fa-lg  opt-gift-modify"></a>
                                 <a href="javascript:;" title="查看图片" class="fa fa-picture-o fa-lg  opt-gift-desc"></a>
+                                <a href="{{@$var['shop_link']}}" target="_block" title="点击购买" class="fa fa-buysellads fa-lg"></a>
                             </div>
                         </td>
                     </tr>

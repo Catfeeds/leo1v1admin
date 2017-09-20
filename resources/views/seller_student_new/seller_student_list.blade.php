@@ -520,7 +520,7 @@
                                 @else
                                     <a title="取消收藏" class=" fa-star  opt-favorite"></a>
                                 @endif
-                                @if(in_array($acc,["jack","jim","夏宏东"]))
+                                @if(in_array($acc,["jack","jim","夏宏东","李子璇"]))
                                     <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif
                             </div>
@@ -1035,40 +1035,7 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-md-12  ">
-                <span>其他</span>
-            </div>
-            <div class="col-xs-12 col-md-12  ">
-                <div class="row">
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">需求急迫性：</span>
-                            <select id="id_demand_urgency" class=" form-control "   >
-                            </select>
-                        </div>
-
-                    </div>
-                    <div class="col-xs-12 col-md-3 ">
-                        <div class="input-group ">
-                            <span class="input-group-addon">报价反应：</span>
-                            <select id="id_quotation_reaction" class=" form-control "   >
-                            </select>
-                        </div>
-
-                    </div>
-
-                   
-
-
-                    
-                    
-
-                </div>
-            </div>
-
-        </div>
-
+       
         <div class="row" id="id_revisit_info_new">
             <div class="col-xs-12 col-md-12  ">
                 <span>回访信息</span>
@@ -1133,6 +1100,41 @@
 
 
         </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12  ">
+                <span>其他</span>
+            </div>
+            <div class="col-xs-12 col-md-12  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">需求急迫性：</span>
+                            <select id="id_demand_urgency" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">报价反应：</span>
+                            <select id="id_quotation_reaction" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+
+                    
+
+
+                    
+                    
+
+                </div>
+            </div>
+
+        </div>
+
 
 
 

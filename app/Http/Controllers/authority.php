@@ -561,10 +561,13 @@ class authority extends Controller
         $gift_intro = $this->get_in_str_val('gift_intro');
         $gift_pic   = $this->get_in_str_val('pic_url');
         $shop_link  = $this->get_in_str_val('shop_link');
-        $cost_price = $this->get_in_int_val('cost_price');
+        $cost_price = ( $this->get_in_int_val('cost_price')) * 100;
+        $del_flag   = $this->get_in_int_val('del_flag');
+        $sale       = $this->get_in_int_val('sale');
         $current_praise = $this->get_in_int_val('praise');
 
         if (!$giftid) {
+            $max_num = pow(2,32)-1;
             $ret_info = $this->t_gift_info->row_insert([
                 'gift_name'      => $gift_name,
                 'gift_type'      => $gift_type,
@@ -573,6 +576,15 @@ class authority extends Controller
                 'cost_price'     => $cost_price,
                 'shop_link'      => $shop_link,
                 'current_praise' => $current_praise,
+                'primary_praise' => $current_praise,
+                'primary_num'    => $max_num,
+                'current_num'    => $max_num,
+                'per_num'        => $max_num,
+                'valid_start'    => 0,
+                'valid_end'      => $max_num,
+                'gift_status'    => 1,
+                'del_flag'       => $del_flag,
+                'sale'           => $sale,
             ]);
         } else {
             $ret_info = $this->t_gift_info->field_update_list(['giftid' => $giftid], [
@@ -583,6 +595,8 @@ class authority extends Controller
                                                                   'cost_price'     => $cost_price,
                                                                   'shop_link'      => $shop_link,
                                                                   'current_praise' => $current_praise,
+                                                                  'del_flag'       => $del_flag,
+                                                                  'sale'           => $sale,
                                                               ]);
         }
 

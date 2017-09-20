@@ -25,7 +25,13 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
+	del_flag	:any;
 	log_info	:any;
+	del_flag_str	:any;
+	become_member_num	:any;
+	leave_member_num	:any;
 	main_type_str	:any;
 }
 

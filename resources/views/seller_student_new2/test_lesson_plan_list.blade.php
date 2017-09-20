@@ -249,27 +249,53 @@
                                 {{$var["phone"]}} <br/>
                                 {{$var["phone_location"]}} <br/>
                                 姓名：{{$var["nick"]}}  <br/>
+                                性别：{{$var["gender_str"]}}  <br/>
                                 年级：{{$var["grade_str"]}}  <br/>
                                 科目：{{$var["subject_str"]}}  <br/>
                                 PAD：{{$var["has_pad_str"]}}  <br/>
                                 Pad测试：{{$var["stu_test_ipad_flag_str"]}}<br/>
+                                家长姓名：{{$var["parent_name"]}}
                             </td>
                             <td class="grab_status"> {{$var["grab_status_str"]}} </td>
                             <td >
-                                TMK ： {{$var["tmk_admin_nick"]}}<br/>
-                                申请时间： {{$var["require_time"]}}<br/>
-                                申请人：{{$var["require_admin_nick"]}}<br/>
-                                @if($var["require_admin_type"]==2)
-                                来源：{{$var["origin"]}}<br/>
-                                @else
-                                来源：{{$var["ass_test_lesson_type_str"]}}<br/>
+                                @if($var["new_demand_flag"]==0)
+                                    TMK ： {{$var["tmk_admin_nick"]}}<br/>
+                                    申请时间： {{$var["require_time"]}}<br/>
+                                    申请人：{{$var["require_admin_nick"]}}<br/>
+                                    @if($var["require_admin_type"]==2)
+                                        来源：{{$var["origin"]}}<br/>
+                                    @else
+                                        来源：{{$var["ass_test_lesson_type_str"]}}<br/>
+                                    @endif
+                                    学校：{{$var["school"]}}<br/>
+                                    教材：{{$var["editionid_str"]}}<br/>
+                                    试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
+                                    <!-- 成绩情况: {{$var["stu_score_info"]}} <br/> -->
+                                    性格信息: {{$var["stu_character_info"]}} <br/>
+                                    高意向: {!! $var["intention_level_str"] !!} <br/>
+                                @elseif($var["new_demand_flag"]==1)
+                                    TMK ： {{$var["tmk_admin_nick"]}}<br/>
+                                    申请时间： {{$var["require_time"]}}<br/>
+                                    申请人：{{$var["require_admin_nick"]}}<br/>
+                                    @if($var["require_admin_type"]==2)
+                                        来源：{{$var["origin"]}}<br/>
+                                    @else
+                                        来源：{{$var["ass_test_lesson_type_str"]}}<br/>
+                                    @endif
+                                    学校：{{$var["school"]}}<br/>
+                                    住址：{{$var["address"]}}<br/>
+                                    教材：{{$var["editionid_str"]}}<br/>
+                                    试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
+                                    近期成绩: {{$var["recent_results"]}} <br/> 
+                                    是否进步: {{$var["advice_flag_str"]}} <br/>
+                                    班级排名: {{$var["class_rank"]}} <br/>
+                                    年级排名: {{$var["grade_rank"]}} <br/>
+                                    学习习惯  : {{$var["study_habit"]}} <br/>
+                                    兴趣爱好  : {{$var["interests_and_hobbies"]}} <br/>
+                                    性格特点  : {{$var["character_type"]}} <br/>
+                                    所需老师风格  : {{$var["need_teacher_style"]}} <br/>
+
                                 @endif
-                                学校：{{$var["school"]}}<br/>
-                                教材：{{$var["editionid_str"]}}<br/>
-                                试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
-                                <!-- 成绩情况: {{$var["stu_score_info"]}} <br/> -->
-                                性格信息: {{$var["stu_character_info"]}} <br/>
-                                高意向: {!! $var["intention_level_str"] !!} <br/>
                             </td>
                             <td >{{$var["require_time"]}}</td>
                             <td > {{$var["require_admin_nick"]}}</td>
@@ -284,15 +310,37 @@
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>
                             <td >
-                                期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
-                                期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
-                                正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>
-                                试听内容: {{$var["stu_test_lesson_level_str"]}} <br/>
-                                试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
-                                教材：{{$var["editionid_str"]}}<br/>
-                                学生成绩情况: {{$var["stu_score_info"]}} <br/>
-                                @if ($var["is_green_flag"]==1)
-                                    <font color="green"> 已申请绿色通道</font>
+                                @if($var["new_demand_flag"]==0)
+                                    期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
+                                    期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
+                                    正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>
+                                    试听内容: {{$var["stu_test_lesson_level_str"]}} <br/>
+                                    试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
+                                    教材：{{$var["editionid_str"]}}<br/>
+                                    学生成绩情况: {{$var["stu_score_info"]}} <br/>
+                                    @if ($var["is_green_flag"]==1)
+                                        <font color="green"> 已申请绿色通道</font>
+                                    @endif
+                                @elseif($var["new_demand_flag"]==1)
+                                    期待时间: {{$var["stu_request_test_lesson_time"]}} <br/> 
+                                    升学目标: {{$var["academic_goal_str"]}} <br/>
+                                    应试压力 : {{$var["test_stress_str"]}} <br/>
+                                    升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
+                                    趣味培养 : {{$var["interest_cultivation_str"]}} <br/>
+                                    课外提高 : {{$var["extra_improvement_str"]}} <br/>
+                                    习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
+                                    知识点定位  : {{$var["knowledge_point_location"]}} <br/>
+                                    上课意向: {{ $var["intention_level_str"] }} <br/>
+                                    需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
+                                    报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
+                                    @if($var["seller_top_flag"]==1)
+                                        申请类型: <font color="blue"> 销售top25</font>
+                                    @elseif ($var["is_green_flag"]==1)
+                                        申请类型: <font color="green"> 已申请绿色通道</font>
+                                    @else
+                                        申请类型: 常规申请
+                                    @endif
+
                                 @endif
                             </td>
                             <td >{!!  $var["stu_test_paper_flag_str"]!!}</td>

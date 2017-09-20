@@ -1,5 +1,7 @@
 interface GargsStatic {
 	orderid:	number;
+	start_time:	number;
+	end_time:	number;
 	aid:	number;
 	pid:	number;
 	p_price:	number;
@@ -26,9 +28,12 @@ interface RowData {
 	aid	:any;
 	p_level	:any;
 	pp_level	:any;
+	p_open_price	:any;
+	pp_open_price	:any;
 	userid	:any;
 	phone	:any;
 	nickname	:any;
+	a_create_time	:any;
 	p_phone	:any;
 	p_nickname	:any;
 	pp_phone	:any;
@@ -50,6 +55,8 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			orderid:	$('#id_orderid').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val(),
 			aid:	$('#id_aid').val(),
 			pid:	$('#id_pid').val(),
 			p_price:	$('#id_p_price').val(),
@@ -61,6 +68,8 @@ $(function(){
 
 
 	$('#id_orderid').val(g_args.orderid);
+	$('#id_start_time').val(g_args.start_time);
+	$('#id_end_time').val(g_args.end_time);
 	$('#id_aid').val(g_args.aid);
 	$('#id_pid').val(g_args.pid);
 	$('#id_p_price').val(g_args.p_price);
@@ -81,6 +90,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">orderid</span>
                 <input class="opt-change form-control" id="id_orderid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">start_time</span>
+                <input class="opt-change form-control" id="id_start_time" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">end_time</span>
+                <input class="opt-change form-control" id="id_end_time" />
             </div>
         </div>
 

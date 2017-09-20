@@ -57,12 +57,12 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
-            1 => array("require_time","申请时间"),
-            2 => array("stu_request_test_lesson_time", "期待试听时间"),
-            4 => array("lesson_start", "上课时间"),
-            5 => array("seller_require_change_time ", "销售申请更换时间"),
-        ]);
+        // list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+        //     1 => array("require_time","申请时间"),
+        //     2 => array("stu_request_test_lesson_time", "期待试听时间"),
+        //     4 => array("lesson_start", "上课时间"),
+        //     5 => array("seller_require_change_time ", "销售申请更换时间"),
+        // ]);
 
 
         $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
@@ -104,9 +104,19 @@ class main_page extends Controller
         $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
         $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-        // $train_num = $this->
-        //
 
+        // 金额转化率占比
+        $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+        $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+        $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+        // 转化率
+        $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
+
+        $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
+
+        $test_lesson_succ_num = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time);
+        dd($seller_schedule_num);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
 
@@ -214,6 +224,8 @@ class main_page extends Controller
         }elseif($week == 1){
             $week = 8;
         }
+        // dd($self_top_info);
+
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         $week_start_time = date('m/d',$start_time);
@@ -538,7 +550,6 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );
         $subject = $this->get_in_int_val("subject",-1);
-
         $account_role = $this->get_in_int_val("account_role",-2);
         $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name

@@ -249,6 +249,8 @@ class ss_deal extends Controller
         $ret["knowledge_point_location"]    = $tt_item["knowledge_point_location"];
         $ret["recent_results"]    = $tt_item["recent_results"];
         $ret["advice_flag"]    = $tt_item["advice_flag"];
+        $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
+        $ret["intention_level"]    = $tt_item["intention_level"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -580,7 +582,7 @@ class ss_deal extends Controller
         $academic_goal  = $this->get_in_int_val("academic_goal");//升学目标
         $test_stress    = $this->get_in_int_val("test_stress");//应试压力
         $new_demand_flag    = $this->get_in_int_val("new_demand_flag");//试听需求新版本标识
-        $entrance_school_type  = $this->get_in_int_val("升学学校要求");//升学目标
+        $entrance_school_type  = $this->get_in_int_val("entrance_school_type");//升学目标
         $interest_cultivation  = $this->get_in_int_val("interest_cultivation");//趣味培养
         $extra_improvement  = $this->get_in_int_val("extra_improvement");//课外提高
         $habit_remodel  = $this->get_in_int_val("habit_remodel");//习惯重塑
@@ -593,10 +595,11 @@ class ss_deal extends Controller
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
         $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
-        $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
+        $city      = $this->get_in_str_val("city");//市.区
+        $area      = $this->get_in_str_val("area");//县市
+        $region      = $this->get_in_str_val("region");//地区,省
+        $province      = $this->get_in_int_val("province");//省
+        $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
         
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
@@ -637,9 +640,15 @@ class ss_deal extends Controller
             "nick"        => $stu_nick,
             "parent_name" => $par_nick,
             "editionid"   => $editionid,
-            "school"      => $school,
+            "school"      => $school            
         ];
         $this->cache_del_student_nick($userid);
+        if($region){
+            $stu_arr["region"]=$region;
+            $stu_arr["province"]=$province;
+            $stu_arr["city"]=$city;
+            $stu_arr["area"]=$area;
+        }
 
         //"grade" =>$grade,
         $db_grade=$this->t_student_info->get_grade($userid);
@@ -676,10 +685,10 @@ class ss_deal extends Controller
             $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
         }
 
-        if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
+        /* if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
             $this->t_book_revisit->add_book_revisit($phone , "更新试听需求:$stu_request_test_lesson_demand" , $this->get_account());
 
-        }
+            }
 
         if ($ss_item["stu_score_info"] != $stu_score_info) {
             $this->t_book_revisit->add_book_revisit($phone , "更新成绩情况:$stu_score_info" , $this->get_account());
@@ -689,7 +698,7 @@ class ss_deal extends Controller
         if ($ss_item["stu_character_info"] != $stu_character_info) {
             $this->t_book_revisit->add_book_revisit($phone , "更新性格特点:$stu_character_info" , $this->get_account());
 
-        }
+            }*/
 
 
 
@@ -701,8 +710,21 @@ class ss_deal extends Controller
             "user_desc" =>$user_desc,
             "next_revisit_time" =>$next_revisit_time,
             "stu_test_ipad_flag" =>$stu_test_ipad_flag,
-            "stu_score_info" =>$stu_score_info,
-            "stu_character_info" =>$stu_character_info,
+            //  "stu_score_info" =>$stu_score_info,
+            // "stu_character_info" =>$stu_character_info,
+            "class_rank"   =>$class_rank,
+            "grade_rank"   =>$grade_rank,
+            "academic_goal"   =>$academic_goal,
+            "test_stress"   =>$test_stress,
+            "entrance_school_type"   =>$entrance_school_type,
+            "interest_cultivation"   =>$interest_cultivation,
+            "extra_improvement"   =>$extra_improvement,
+            "habit_remodel"   =>$habit_remodel,
+            "study_habit"   =>$study_habit,
+            "interests_and_hobbies"   =>$interests_and_hobbies,
+            "character_type"   =>$character_type,
+            "need_teacher_style"   =>$need_teacher_style,
+            "new_demand_flag"   =>1,
         ];
 
         if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
@@ -713,10 +735,10 @@ class ss_deal extends Controller
         if (! $ss_item["first_revisit_time"])  {
             $ss_arr["first_revisit_time"]=time(NULL);
         }
-        if ( $revisite_info  ) {
+        if ( $user_desc  ) {
             $ss_arr["last_revisit_time"]=time(NULL);
-            $ss_arr["last_revisit_msg"]=$revisite_info;
-            $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
+            $ss_arr["last_revisit_msg"]=$user_desc;
+            $this->t_book_revisit->add_book_revisit($phone , $user_desc, $this->get_account());
         }
 
 
@@ -727,13 +749,19 @@ class ss_deal extends Controller
         $tt_arr=[
             "subject" =>$subject,
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
-            "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
-            "stu_test_lesson_level" =>$stu_test_lesson_level,
+            // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
+            //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
+            //"stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            // "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
             "textbook"                  => $textbook,
-            "intention_level"                    => $intention_level
+            "intention_level"                    => $intention_level,
+            "demand_urgency"                     =>$demand_urgency,
+            "quotation_reaction"                 =>$quotation_reaction,
+            "knowledge_point_location"           =>$knowledge_point_location,
+            "recent_results"                     =>$recent_results,
+            "advice_flag"                        =>$advice_flag,
+            "stu_test_paper"                     =>$stu_test_paper
         ];
 
         if ($db_tt_item["subject"] != $subject ) { //和数据库不一致
@@ -761,12 +789,12 @@ class ss_deal extends Controller
             ]);
         }
 
-        $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        /* $current_require_id  =  $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
         if($current_require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($current_require_id,[
                 "test_stu_request_test_lesson_demand"=> $stu_request_test_lesson_demand,
             ]);
-        }
+            }*/
         return $this->output_succ();
     }
 

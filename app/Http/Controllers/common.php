@@ -753,23 +753,28 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_mp.png";
+        $phone_qr_name = $phone."_qr_agent_new_zc.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
             $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
-            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/7269932fdd7f8ba760b50d8a119a60c01505278377982.png";
+            // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/7269932fdd7f8ba760b50d8a119a60c01505278377982.png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/36f202a648ef8c9e2d8885ebe31127bb1505872396220.jpg";
             $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            // $image_1 = imagecreatefrompng($bg_url);     //背景图
+            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imageCreatetruecolor(115,115);     //新建二维码图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
             // imagecopymerge($image_3,$image_2,80,1082,0,0,imagesy($image_2),imagesy($image_2),100);
-            imagecopymerge($image_3,$image_2,302,2235,0,0,imagesy($image_2),imagesy($image_2),100);
+            // imagecopymerge($image_3,$image_2,302,2235,0,0,imagesy($image_2),imagesy($image_2),100);
+            imagecopymerge($image_3,$image_4,177,1366,0,0,115,115,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -1393,18 +1398,18 @@ class common extends Controller
 
     //百度有钱花接口
     public function send_baidu_money_charge(){
-        $orderid = $this->get_in_int_val("orderid");
+        $orderid = $this->get_in_int_val("orderid",156);
+
 
         //期待贷款额度(分单位)
-        $money = $this->get_in_int_val("money",10000);
+        $money = $this->t_child_order_info->get_price($orderid);
 
         //分期期数
-        $period = $this->get_in_int_val("period",12);
-
-
-        $orderid = 22167;
+        $period = $this->t_child_order_info->get_period_num($orderid);
         //成交价格
-        $dealmoney = $this->t_order_info->get_price($orderid);
+        $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+        $dealmoney = $this->t_order_info->get_price($parent_orderid);
+        
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
@@ -1413,9 +1418,9 @@ class common extends Controller
 
         //$url = 'https://umoney.baidu.com/edu/openapi/post';
         // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
-        $url="http://rdtest.umoney.baidu.com/edu/openapi/post";
+        $url="http://test.umoney.baidu.com/edu/openapi/post";
 
-        $userid = $this->t_order_info->get_userid($orderid);
+        $userid = $this->t_order_info->get_userid($parent_orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
 
         // RSA加密数据
@@ -1571,6 +1576,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $concatStr .= 'key='.$strSecretKey;
         return strtoupper(md5($concatStr));
     }
+
+    //百度有钱花回调地址(测试)
+    public function baidu_callback_return_info_test(){
+        dd(111);
+    }
+
+    //百度有钱花回调地址
+    public function baidu_callback_return_info(){
+        dd(111);
+    }
+
 
     //建行支付测试接口
     public function send_ccb_order_charge(){

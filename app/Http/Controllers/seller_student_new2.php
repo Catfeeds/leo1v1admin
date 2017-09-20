@@ -257,10 +257,21 @@ class seller_student_new2 extends Controller
             $item["lesson_used_flag_str"]=\App\Helper\Common::get_boolean_color_str(!$item["lesson_del_flag"]);
 
             E\Eboolean::set_item_value_str($item,"fail_greater_4_hour_flag");
+            E\Eboolean::set_item_value_str($item,"advice_flag");
             // E\Eboolean::set_item_value_str($item,"intention_level");
-            $item["intention_level_str"] = \App\Helper\Common::get_boolean_color_str($item["intention_level"]);
+            // $item["intention_level_str"] = \App\Helper\Common::get_boolean_color_str($item["intention_level"]);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Eass_test_lesson_type::set_item_value_str($item);
+            E\Eintention_level::set_item_value_str($item);
+            E\Edemand_urgency::set_item_value_str($item);
+            E\Equotation_reaction::set_item_value_str($item);
+            E\Eacademic_goal::set_item_value_str($item);
+            E\Etest_stress::set_item_value_str($item);
+            E\Eentrance_school_type::set_item_value_str($item);
+            E\Einterest_cultivation::set_item_value_str($item);
+            E\Eextra_improvement::set_item_value_str($item);
+            E\Ehabit_remodel::set_item_value_str($item);
+            E\Egender::set_item_value_str($item);
 
             $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
                 $item["stu_request_test_lesson_time_info"],true
