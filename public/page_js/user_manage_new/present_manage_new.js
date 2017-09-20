@@ -4,8 +4,8 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
-        });
+            order_by_str  : g_args.order_by_str,
+        })
     }
 
     $('.fancybox-effects-a').fancybox({
