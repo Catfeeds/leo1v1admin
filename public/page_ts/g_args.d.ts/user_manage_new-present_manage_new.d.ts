@@ -21,6 +21,7 @@ interface RowData {
 	cost_price	:any;
 	shop_link	:any;
 	del_flag	:any;
+	sale	:any;
 	gift_type_str	:any;
 	del_flag_str	:any;
 	gift_desc_str	:any;

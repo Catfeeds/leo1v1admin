@@ -24,7 +24,7 @@ class t_gift_info extends \App\Models\Zgen\z_t_gift_info
         ];
         $sql = $this->gen_sql_new(
             "select giftid,gift_type, gift_name, gift_intro, current_praise, gift_pic, "
-            ."gift_desc, cost_price, shop_link ,del_flag "
+            ."gift_desc, cost_price, shop_link ,del_flag ,sale "
             ."from %s "
             . "where %s"
             , self::DB_TABLE_NAME
