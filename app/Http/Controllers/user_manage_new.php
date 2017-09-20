@@ -2391,6 +2391,7 @@ class user_manage_new extends Controller
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
+        $show_type                   = $this->get_in_str_val("show_type","current");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
@@ -2409,7 +2410,7 @@ class user_manage_new extends Controller
 
         if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
             );
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
@@ -2422,7 +2423,6 @@ class user_manage_new extends Controller
             //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
             // );
             // $list = array_merge($list,$reward_list);
-
             file_put_contents($file_name,json_encode($list));
         }else{
             $list = json_decode($file_info,true);

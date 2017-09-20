@@ -57,12 +57,12 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
-            1 => array("require_time","申请时间"),
-            2 => array("stu_request_test_lesson_time", "期待试听时间"),
-            4 => array("lesson_start", "上课时间"),
-            5 => array("seller_require_change_time ", "销售申请更换时间"),
-        ]);
+        // list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+        //     1 => array("require_time","申请时间"),
+        //     2 => array("stu_request_test_lesson_time", "期待试听时间"),
+        //     4 => array("lesson_start", "上课时间"),
+        //     5 => array("seller_require_change_time ", "销售申请更换时间"),
+        // ]);
 
 
         $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
@@ -104,7 +104,14 @@ class main_page extends Controller
         $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
         $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-        // $train_num = $this->
+
+        // 金额转化率占比
+        $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+        $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+        $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+        dd($referral_money." ~ ".$high_school_money.' ~ '.$primary_money);
+
         //
 
         $ret_info = [];
@@ -214,6 +221,8 @@ class main_page extends Controller
         }elseif($week == 1){
             $week = 8;
         }
+        // dd($self_top_info);
+
         $end_time = $time-3600*24*($week-2);
         $start_time = $end_time-3600*24*7;
         $week_start_time = date('m/d',$start_time);

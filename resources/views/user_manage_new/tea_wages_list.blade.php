@@ -43,6 +43,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>课程核算类型</span>
+                        <select class="opt-change" id="id_show_type">
+                            <option value="current">当前消耗</opition>
+                            <option value="all">本月所有</opition>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-10">
                     <div class="input-group">
                         @if(in_array($acc,["echo","adrian","ted","jim","michelle","sherry"]))
