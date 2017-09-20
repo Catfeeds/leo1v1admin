@@ -126,4 +126,17 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 
         return $this->main_get_list($sql);
     }
+    public function get_is_status($userid,$create_time){
+        $where_arr = [
+            ['create_time>=%u',$create_time,-1],
+            ['userid=%u',$userid,-1],
+            'status=0',
+        ];
+
+        $sql = $this->gen_sql_new("  select count(id) as num from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }
