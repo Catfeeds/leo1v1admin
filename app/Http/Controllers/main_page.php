@@ -547,7 +547,7 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );
         $subject = $this->get_in_int_val("subject",-1);
-
+        dd($start_time,$end_time);
         $account_role = $this->get_in_int_val("account_role",-2);
         $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
