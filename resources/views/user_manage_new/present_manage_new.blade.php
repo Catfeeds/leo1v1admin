@@ -36,8 +36,9 @@
                     <td> 名称 </td>
                     <td> 封面 </td>
                     <td> 状态 </td>
-                    <td>　原价  </td>
-                    <td> 消耗赞  </td>
+                    <td> 原价 </td>
+                    <td> 优惠 </td>
+                    <td> 消耗赞(折后)</td>
                     <td> 商品简介 </td>
                     <td> 操作  </td>
                 </tr>
@@ -53,6 +54,7 @@
                         </td>
                         <td>{!! @$var["del_flag_str"]  !!} </td>
                         <td>{{@$var["cost_price_str"]}} </td>
+                        <td>{{@$var["sale"]}} </td>
                         <td>{{@$var["current_praise"]}} </td>
                         <td>{{@$var["gift_intro"]}} </td>
 
