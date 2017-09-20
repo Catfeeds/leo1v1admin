@@ -31,7 +31,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     public function __construct(){
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -2134,10 +2134,59 @@ class test_code extends Controller
      * 获取之前第三版的等级和转换后的
      */
     public function get_teacher_list(){
-        $list = $this->t_teacher_info->get_old_teacher_money_type_list();
-        
-
+        // $start = strtotime("2017-5-1");
+        // $end   = strtotime("2017-9-1");
+        // $list  = $this->t_teacher_info->get_old_teacher_money_type_list($start,$end);
+        $info = $this->get_b_txt();
+        dd($info);
+        foreach($info as $val){
+            if($val!=""){
+                $teacher_info = $this->t_teacher_info->get_teacher_info($val);
+                $teacher_money_type_str = E\Eteacher_money_type::get_desc($teacher_info['teacher_money_type']);
+                $teacher_money_type_simulate_str = E\Eteacher_money_type::get_desc($teacher_info['teacher_money_type_simulate']);
+                echo $teacher_money_type_str."|".$teacher_money_type_simulate_str;
+                echo "<br>";
+            }
+        }
     }
+
+    public function get_taobao_list(){
+        $list = $this->t_taobao_item->get_all_item_list();
+
+        $start_str = "<em class=\"tb-rmb-num\">";
+        foreach($list as $val){
+            if($val['product_id']!=""){
+                $price="";
+                $url  = "https://item.taobao.com/item.htm?id=".$val['product_id'];
+                $html = file_get_contents($url);
+
+                $left_str = strstr($html,$start_str);
+                $left_str = str_replace($start_str,"",$left_str);
+                $check_str = ".";
+                $price = stristr($left_str,$check_str,true);
+
+                echo $val['open_iid']."|".$val['product_id']."|".$val["price"]."|".$price;
+                echo "<br>";
+                if($price!=""){
+                    $this->t_taobao_item->field_update_list($val['open_iid'],[
+                        "price" => $price,
+                    ]);
+                }else{
+                    $this->t_taobao_item->field_update_list($val['open_iid'],[
+                        "status"=>0
+                    ]);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 }

@@ -126,5 +126,9 @@ class Config{
     static  public function get_seller_hold_user_count() {
         return  self::get_config("seller_hold_user_count");
     }
+    static  public function get_current_ratio() {
+        return  120;
+    }
+
 
 };

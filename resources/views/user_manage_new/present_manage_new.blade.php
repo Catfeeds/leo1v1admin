@@ -19,6 +19,7 @@
                         <button id="opt-add-gift" class="btn btn-warning fa fa-plus fa-lg form-control " >添加礼品</button>
                     </div>
                 </div>
+                <div class="col-xs-4 pull-right" style="text-align:right"><h4>人民币：赞 = 1：<span id="ratio">{{ $cur_ratio }}</span></h4></div>
             </div>
         </div>
         <hr/>
@@ -29,6 +30,7 @@
                     <td> 礼品类型  </td>
                     <td> 名称 </td>
                     <td> 封面 </td>
+                    <td> 原价 </td>
                     <td> 消耗赞  </td>
                     <td> 商品简介 </td>
                     <td> 操作  </td>
@@ -43,6 +45,7 @@
                         <td class="gift_url">
                             <a class="fancybox-effects-a" href="{{@$var["gift_pic"]}}">查看</a>
                         </td>
+                        <td>{{@$var["cost_price_str"]}} </td>
                         <td>{{@$var["current_praise"]}} </td>
                         <td>{{@$var["gift_intro"]}} </td>
 

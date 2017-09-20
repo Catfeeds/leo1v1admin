@@ -69,4 +69,13 @@ class t_taobao_item extends \App\Models\Zgen\z_t_taobao_item
         return $this->main_get_value($sql);
     }
 
+    public function get_all_item_list(){
+        $sql = $this->gen_sql_new("select open_iid,product_id,price"
+                                  ." from %s "
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

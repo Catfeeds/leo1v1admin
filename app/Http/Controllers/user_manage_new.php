@@ -2313,6 +2313,7 @@ class user_manage_new extends Controller
     {
         $page_num = $this->get_in_page_num();
         $ret_info = $this->t_gift_info->get_gift_info($page_num);
+        $cur_ratio = Config::get_current_ratio();
         foreach($ret_info['list'] as &$item){
             E\Egift_type::set_item_value_str($item,"gift_type");
             $pic_list = array();
@@ -2324,10 +2325,11 @@ class user_manage_new extends Controller
             }
 
             $item["gift_desc_str"]  = json_encode($pic_list);
+            $item['cost_price_str'] = $item['cost_price']/100;
         }
         $pub_domain = Config::get_qiniu_public_url()."/";
 
-        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain]);
+        return $this->pageView(__METHOD__, $ret_info ,['pub_domain' => $pub_domain,'cur_ratio'=>$cur_ratio]);
     }
 
     public function stu_all_info(){
@@ -2377,11 +2379,13 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list() {
-        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
+        list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
+        $show_type                   = $this->get_in_str_val("show_type","current");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
@@ -2400,7 +2404,7 @@ class user_manage_new extends Controller
 
         if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
             );
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
@@ -2413,7 +2417,6 @@ class user_manage_new extends Controller
             //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
             // );
             // $list = array_merge($list,$reward_list);
-
             file_put_contents($file_name,json_encode($list));
         }else{
             $list = json_decode($file_info,true);

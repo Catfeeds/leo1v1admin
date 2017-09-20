@@ -295,7 +295,8 @@ class tea_manage_new extends Controller
     public function lesson_record_server_list() {
         $page_num=$this->get_in_page_num();
         $record_audio_server1= $this->get_in_str_val("record_audio_server1");
-        $ret_info=$this->t_lesson_info-> lesson_record_server_list($page_num, $record_audio_server1);
+        $xmpp_server_name= $this->get_in_str_val("xmpp_server_name");
+        $ret_info=$this->t_lesson_info-> lesson_record_server_list($page_num, $record_audio_server1, $xmpp_server_name );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach($ret_info["list"] as $key=> &$item ) {
             $item["index"] =  $start_index+$key;
