@@ -19,6 +19,7 @@ interface RowData {
 	gift_desc	:any;
 	cost_price	:any;
 	shop_link	:any;
+	gift_status	:any;
 	gift_type_str	:any;
 	gift_desc_str	:any;
 	cost_price_str	:any;

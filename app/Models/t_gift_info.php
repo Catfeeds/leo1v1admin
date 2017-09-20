@@ -11,7 +11,7 @@ class t_gift_info extends \App\Models\Zgen\z_t_gift_info
     public function get_gift_info($page_num){
         $sql = $this->gen_sql_new(
             "select giftid,gift_type, gift_name, gift_intro, current_praise, gift_pic, "
-            ."gift_desc, cost_price, shop_link "
+            ."gift_desc, cost_price, shop_link ,gift_status "
             ."from %s where del_flag = 0",
             self::DB_TABLE_NAME
         );

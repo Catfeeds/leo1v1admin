@@ -23,8 +23,8 @@ function load_data(){
 
 $(function(){
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
-  Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
-  Enum_map.append_option_list("boolean",$("#id_order_flag"));
+    Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+    Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -45,7 +45,7 @@ $(function(){
 
 	  $('#id_l1_child_count').val(g_args.l1_child_count);
 
-  $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+    $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
     $('#id_agent_level').val(g_args.agent_level);
     $.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 
