@@ -2180,7 +2180,40 @@ class test_code extends Controller
         }
     }
 
+    public function show_week_reward(){
+        $end   = time();
+        $start = strtotime("-1 week",$end);
 
+        $lesson_list  = $this->t_lesson_info->get_teacher_lesson_total_list($start,$end);
+        $rank_now   = 0;
+        $rank_next  = 1;
+        $people_num = 0;
+        $save_lesson_total = 0;
+
+        if(is_array($lesson_list)){
+            foreach($lesson_list as $val){
+
+
+
+
+
+
+
+
+
+
+                $num_people++;
+                if($lesson_total != $val['lesson_total']){
+                    if($num_people>5){
+                        break;
+                    }
+                    $num_lesson++;
+                    $lesson_total = $val['lesson_total'];
+                    $money = E\Ehonor_list::get_desc($num_lesson);
+                }
+            }
+        }
+    }
 
 
 

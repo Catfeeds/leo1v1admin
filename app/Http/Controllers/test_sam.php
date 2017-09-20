@@ -106,6 +106,7 @@ class test_sam  extends Controller
               
           }
 
+
           foreach ($arr as $key => $value) {
              $this->t_manager_info->send_wx_todo_msg_by_adminid (
                 //$key,
