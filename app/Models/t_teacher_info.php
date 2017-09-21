@@ -3614,17 +3614,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["lesson_start<%u",$end,0],
             "lesson_type in (0,1,3)",
             "lesson_del_flag=0",
+            "t.teacher_money_type=6",
+            "t.is_test_user=0",
+        ];
+        $where_arr2 = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
         ];
         $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
                                   ." t.teacher_money_type as now_teacher_money_type,t.level as now_level"
                                   ." from %s t"
-                                  ." left join %s l on t.teacherid=l.teacherid"
+                                  ." left join %s l force index(lesson_type_and_start) on t.teacherid=l.teacherid"
                                   ." where %s"
-                                  ." order by lesson_start desc"
+                                  ." and not exists "
+                                  ." (select 1 from %s where l.teacherid=teacherid and "
+                                  ." lesson_start>l.lesson_start and lesson_del_flag=0 and lesson_type in (0,1,3) and %s"
+                                  ." )"
                                   ." group by t.teacherid"
+                                  ." order by lesson_start desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr2
         );
         echo $sql;exit;
         return $this->main_get_list($sql);
