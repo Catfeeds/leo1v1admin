@@ -16,7 +16,7 @@ $(function(){
         var id_grade_rank     = $("<input/>");   //输入年级排名
         //var id_file_url       = $("<input/>");   //文件url
 
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.file_url+"\" target=\"_blank\" id=\"id_pre_look\">预览 </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
 
@@ -34,6 +34,7 @@ $(function(){
         id_rank.val(opt_data.rank);
         id_total_score.val(opt_data.total_score);
         id_grade_rank.val(opt_data.grade_rank);
+        id_grade.val(opt_data.grade);
 
         var arr = [
             ["考试科目", id_subject],
@@ -52,6 +53,10 @@ $(function(){
             label    :   "确认",
             cssClass :   "btn-warning",
             action   :   function(dialog){
+                if(id_score.val() > id_total_score.val() ){
+                    alert("成绩输入有误");
+                    return;
+                }
                 $.do_ajax('/ajax_deal2/score_edit',{
                     "userid"        : g_sid,
                     "create_time"   : opt_data.create_time,
@@ -82,7 +87,9 @@ $(function(){
                         $upload_link.attr("href", resp.url);
                     })
                 },null,
-                ["png","jpg","zip","rar","gz","pdf","doc"] );
+                ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
+
+            
 
         });
     }) ;

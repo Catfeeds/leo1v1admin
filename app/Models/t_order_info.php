@@ -3040,6 +3040,39 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    //get_new_income
+
+    public function get_new_income($start_time, $end_time){
+
+        $where_arr = [
+            "is_test_user=0",
+            "o.stu_from_type in (0,1)",
+            "m.account_role=2",
+            "sys_operator<>'jim'",
+            "contract_status <> 0",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*)as all_count  "
+                                  ." from %s o "
+                                  ."left join %s s on o.userid = s.userid "
+                                  ."left join %s n on n.userid = s.userid "
+                                  ."left join %s m on o.sys_operator = m.account "
+                                  ." where %s  ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
+
+
+
     public function get_income_for_month($start_time, $end_time){
 
         $where_arr = [
