@@ -470,6 +470,10 @@ class agent extends Controller
         $t_flag = 0;
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
+
+        $key="DEAL_NEW_USER_$adminid";
+        $old_userid=\App\Helper\Common::redis_get($key)*1;
+        dd($old_userid);
         if ($userid) {
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
