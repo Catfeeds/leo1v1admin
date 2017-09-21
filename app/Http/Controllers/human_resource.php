@@ -947,6 +947,24 @@ class human_resource extends Controller
             if(empty($item["teacher_tags"])){
                 $item["teacher_tags"]="";
             }
+            if($item["test_transfor_per"]>=20){
+                $item["fine_dimension"]="维度A";
+            }elseif($item["test_transfor_per"]>=10 && $item["test_transfor_per"]<20){
+                $item["fine_dimension"]="维度B";
+            }elseif($item["test_transfor_per"]<10 && in_array($item["identity"],[5,6]) && $item["month_stu_num"]>=4 && $item["record_score"]>=60 && $item["record_score"]<=90){
+                $item["fine_dimension"]="维度C";
+            }elseif($item["test_transfor_per"]<10 && !in_array($item["identity"],[5,6]) && $item["month_stu_num"]>=4 && $item["record_score"]<=90){
+                $item["fine_dimension"]="维度C候选";
+            }elseif($item["test_transfor_per"]<10 && in_array($item["identity"],[5,6]) && $item["month_stu_num"]>=1 && $item["month_stu_num"]<=3 && $item["record_score"]>=60 && $item["record_score"]<=90){
+                $item["fine_dimension"]="维度D";
+            }elseif($item["test_transfor_per"]<10 && !in_array($item["identity"],[5,6]) && $item["month_stu_num"]>=1 && $item["month_stu_num"]<=3 && $item["record_score"]<=90){
+                $item["fine_dimension"]="维度D候选";
+            }else{
+                $item["fine_dimension"]="其他";
+            }
+
+
+
 
 
         }

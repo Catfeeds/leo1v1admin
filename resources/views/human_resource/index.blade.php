@@ -400,6 +400,7 @@
                     <td style="display:none;" class="jw_revisit_info">教务回访信息</td>
                     <td style="display:none;">添加人</td>
                     <td >面试人</td>
+                    <td >精选维度</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -505,6 +506,7 @@
                         </td>
                         <td>{{$var["add_acc"]}}</td>
                         <td>{{@$var["interview_acc"]}}</td>
+                        <td>{{@$var["fine_dimension"]}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
                                 <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息"> </a>
