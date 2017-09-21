@@ -65,7 +65,7 @@ class main_page extends Controller
         // ]);
 
 
-        $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
+        // $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
 
         $income_new = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
         $income_referral = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍

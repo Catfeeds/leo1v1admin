@@ -16,7 +16,7 @@ $(function(){
         var id_grade_rank     = $("<input/>");   //输入年级排名
         //var id_file_url       = $("<input/>");   //文件url
 
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.file_url+"\" target=\"_blank\" id=\"id_pre_look\">预览 </a>   </div>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\" id=\"id_pre_look\">预览 </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
 
@@ -85,10 +85,16 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        if(resp.url){
+                            $upload_link.show();
+                        }
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
 
+            if($upload_link.attr("href")==""){
+                $upload_link.hide();
+            }
             
 
         });
