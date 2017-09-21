@@ -1441,7 +1441,6 @@ class Utils  {
                 $level_str = E\Enew_level::$v2s_map[$level];
             }else{
                 $level_str = E\Elevel::$v2s_map[$level];
-                $level_str .="级";
             }
             $level_str.="教师";
         }

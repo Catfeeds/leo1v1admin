@@ -259,14 +259,14 @@ class testbb extends Controller
 
 
             $table->increments("id","id");
-            t_field($table->integer("all_money"),"总收入");
+            t_field($table->integer("referral_money"),"转介绍收入");
             t_field($table->integer("order_num"),"下单总人数");
-            t_field($table->string("cc_num"),"cc在职人数");
-            t_field($table->integer("master_adminid"),"总监id");
-            t_field($table->integer("main_assign_percent"),"分配比率");
+            t_field($table->integer("cc_num"),"cc在职人数");
+            t_field($table->integer("seller_one_department_num"),"咨询一部人数");
+            t_field($table->integer("seller_two_department_num"),"咨询二部人数");
+            t_field($table->integer("seller_three_department_num"),"咨询三部人数");
+            t_field($table->integer("seller_new_department_num"),"咨询部新人营人数");
 
-            $table->index(["groupid","month"],'main_type_gid');
-            $table->index("main_type");
 
 
 

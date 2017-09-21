@@ -26,11 +26,14 @@ class TeacherMoneyTask extends TaskController
         if(is_array($lesson_list)){
             foreach($lesson_list as $val){
                 $num_people++;
+                $num_lesson=$num_people;
                 if($lesson_total != $val['lesson_total']){
                     if($num_people>5){
                         break;
                     }
-                    $num_lesson++;
+                    if($num_lesson>5){
+                        $num_lesson=5;
+                    }
                     $lesson_total = $val['lesson_total'];
                     $money = E\Ehonor_list::get_desc($num_lesson);
                 }

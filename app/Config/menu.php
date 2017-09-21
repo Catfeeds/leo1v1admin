@@ -623,7 +623,7 @@ class menu{
                 ["power_id"=>25, "name"=>"学生在校成绩统计",   "url"=>"/user_manage/student_school_score_stat"],
                 ["power_id"=>42, "name"=>"学生单科目课时消耗",  "url"=>"/user_manage/student_single_subject"],
                 ["power_id"=>43, "name"=>"未试听扩课",  "url"=>"/user_manage/ass_no_test_lesson_kk_list"],
-                ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
+                //   ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
 
             ]],
 
