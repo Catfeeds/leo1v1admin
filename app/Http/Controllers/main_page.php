@@ -96,7 +96,7 @@ class main_page extends Controller
 
         $month = date('Y-m-01');
         $main_type = 2;// 销售
-        $seller_target_income = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
+        $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
         // 计算电销人数
         $first_group  = '咨询一部';
@@ -110,8 +110,10 @@ class main_page extends Controller
         $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
         $seller_num_arr['first_num'] = $first_num;
         $seller_num_arr['second_num'] = $second_num;
+        $seller_num_arr['third_num'] = $third_num;
+        $seller_num_arr['new_num'] = $new_num;
 
-        $ret_info['department_num_info'] = [];
+        $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
         // 金额转化率占比
         $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
@@ -146,11 +148,8 @@ class main_page extends Controller
         $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
 
         $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
-        dd($ret_info);
-        $ret_info = [];
+
         return $this->pageView(__METHOD__, $ret_info);
-
-
     }
 
 

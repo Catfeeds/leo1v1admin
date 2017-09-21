@@ -241,6 +241,14 @@ class testbb extends Controller
     public function ss(){
         // $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
 
+        $seller_num_arr['first_num'] = 2;
+        $seller_num_arr['second_num'] = 3;
+        $seller_num_arr['third_num'] = 4;
+
+        // dd(json_encode($seller_num_arr));
+        $info = '{"first_num":2,"second_num":3,"third_num":4}';
+
+        dd(json_decode($info,true));
         // dd($max_main_type);
         $t = $this->t_seller_student_new->get_all_stu_uid();
         dd($t);
