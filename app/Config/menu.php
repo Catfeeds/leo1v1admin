@@ -356,6 +356,7 @@ class menu{
                  "url"=>"/seller_student/money_contract_list_for_origin"],
 
                 ["power_id"=>4, "name"=>"月份学生统计",   "url"=>"/user_manage_new/month_user_info"],
+                ["power_id"=>10, "name"=>"退费管理",   "url"=>"/user_manage/refund_list_finance"],
 
                 ["power_id"=>9, "name"=>"考勤", "list"=>[
                     ["power_id"=>4, "name"=>"考勤记录",   "url"=>"/tongji/admin_card_log_list"],

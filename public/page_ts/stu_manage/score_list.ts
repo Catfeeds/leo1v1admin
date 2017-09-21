@@ -17,6 +17,7 @@ $(function(){
         //var id_file_url       = $("<input/>");   //文件url
 
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.file_url+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
 
@@ -88,11 +89,20 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+<<<<<<< HEAD
                         $upload_link.html("查看");
+=======
+                        if(resp.url){
+                            $upload_link.show();
+                        }
+>>>>>>> d121df2b860a8a623d398ea5a228fb828132b35e
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
 
+            if($upload_link.attr("href")==""){
+                $upload_link.hide();
+            }
             
 
         });
