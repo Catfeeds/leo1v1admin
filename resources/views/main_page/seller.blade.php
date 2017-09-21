@@ -209,14 +209,14 @@
                                     @else
                                     <tr>
                                         <td>
-                                            <span> {{$var["index"]}} </span>
+                                            <span><font style="color:#000000;">{{$var["index"]}}</font> </span>
                                         </td>
                                         <td style="text-align:left">
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                            {{$var["sys_operator"]}}
+                                            <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
-                                        <td>{{$var["all_count"]}} </td>
-                                        <td>{{$var["all_price"]}} </td>
+                                        <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
+                                        <td><font style="color:#000000;">{{$var["all_price"]}}</font> </td>
                                     </tr>
                                     @endif
                                 @endforeach
@@ -321,7 +321,7 @@
                                             @if($key==0)
                                                 <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
                                             @elseif($key==1)
-                                                <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100}}</font>
                                             @elseif($key==2)
                                                 <font style="color:#CB7F31;">{{$var["all_price"]/100}}</font>
                                             @else
