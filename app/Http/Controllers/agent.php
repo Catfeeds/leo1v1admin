@@ -467,7 +467,7 @@ class agent extends Controller
         $phone="";
         // $adminid=$this->get_account_id();
         $adminid=524;
-        $t_flag=0;
+        $t_flag = 0;
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
@@ -475,8 +475,8 @@ class agent extends Controller
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
             $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
-            dd($userid,$old_row_data,$adminid,$now);
-            if (
+            dd($old_userid,$userid,$old_row_data,$adminid,$now);
+            if (//老例子未拨打,回访人不是抢的人,
                 $old_row_data["tq_called_flag"] ==0 &&
                 $old_row_data["admin_revisiterid"] !=$adminid
                 &&  $now- $old_row_data["competition_call_time"] < 3600  ) {
