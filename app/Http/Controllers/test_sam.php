@@ -73,7 +73,7 @@ class test_sam  extends Controller
         if($date_time == "2017-10-08"){
             //deal 2017-10-08 22:00:00
           //$start_time = 1506787200;//2017/10/1 0:0:0
-          $end_time   = 1507471200;//2017/10/8 22:0:0
+          //$end_time   = 1507471200;//2017/10/8 22:0:0
           $start_time = 1504195200; //2017/9/1 0:0:0
           $end_time   = 1504879200; //2017/9/8 22:0:0
 
@@ -99,7 +99,7 @@ class test_sam  extends Controller
               @$arr[$key]['day_num'] = floor($value/10.5);
               @$arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
               if($arr[$key]['day_num'] == 0){
-                @$arr[$key]['cross_time'] = 0;
+                @$arr[$key]['cross_time'] = "";
               }else{
                 @$arr[$key]['cross_time'] = "10.9-".date('m-d',1507478400+$arr[$key]['day_num']*86400);
               }
