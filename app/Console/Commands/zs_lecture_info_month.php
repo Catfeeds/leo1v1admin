@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class zs_lecture_info_day_new extends Command
+class zs_lecture_info_month extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:zs_lecture_info_day_new';
+    protected $signature = 'command:zs_lecture_info_month';
 
     /**
      * The console command description.

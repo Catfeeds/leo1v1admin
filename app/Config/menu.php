@@ -213,6 +213,7 @@ class menu{
                     ["power_id"=>4, "name"=>"学生课程年级异常",   "url"=>"/user_manage_new/lesson_student_grade_list"],
                     ["power_id"=>7, "name"=>"工资总体-new","url"=>"/user_manage_new/tea_wages_list"],
                     ["power_id"=>5, "name"=>"工资明细-new","url"=>"/user_manage_new/tea_wages_info"],
+                    ["power_id"=>6, "name"=>"工资明细-bak","url"=>"/user_manage_new/tea_wages_info_new"],
                     ["power_id"=>8, "name"=>"工资配置-new","url"=>"/user_manage_new/teacher_money_type_list"],
                     ["power_id"=>9, "name"=>"工资统计","url"=>"/user_manage_new/tea_wages_count_list"],
                     ["power_id"=>11, "name"=>"全勤奖配置","url"=>"/human_resource/get_lesson_full_list"],
@@ -623,7 +624,7 @@ class menu{
                 ["power_id"=>25, "name"=>"学生在校成绩统计",   "url"=>"/user_manage/student_school_score_stat"],
                 ["power_id"=>42, "name"=>"学生单科目课时消耗",  "url"=>"/user_manage/student_single_subject"],
                 ["power_id"=>43, "name"=>"未试听扩课",  "url"=>"/user_manage/ass_no_test_lesson_kk_list"],
-                ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
+                //   ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
 
             ]],
 

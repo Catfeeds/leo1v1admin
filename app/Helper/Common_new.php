@@ -1249,7 +1249,6 @@ class Common_new {
 
     static function gen_admin_member_data_new($monthtime_flag=1,$month=0)
     {
-
         /**  @var  $t_manager_info \App\Models\t_manager_info  */
         $t_manager_info=new  \App\Models\t_manager_info ();
         $task=new \App\Console\Tasks\TongjiTask() ;
@@ -1262,9 +1261,7 @@ class Common_new {
         $admin_list=$admin_list["list"];
         $cur_key_index=1;
         $check_init_map_item=function (&$item, $key, $key_class, $adminid = "",$groupid="",$become_member_time=0,$leave_member_time=0,$create_time=0,$del_flag=0) {
-
             // $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
-
             global $cur_key_index;
             if (!isset($item [$key])) {
                 $item[$key] = [
@@ -1284,12 +1281,10 @@ class Common_new {
 
         $add_data=function (&$item, $add_item , $self_flag=false)  use (&$no_need_sum_list) {
             //                $key0_map=&$data_map[""];                 $add_data($key0_map, $item );
-
             $arr=&$item["data"];
             if ($self_flag) {
                 //dd( $item);
             }
-
             foreach ($add_item as $k => $v) {
                 if (!is_int($k) && $k!="main_type" && $k!="up_group_name" && $k!="group_name" && $k!="account"   && $k!="adminid" && $k!= "groupid" && $k!= "become_member_time" && $k!= "leave_member_time" && $k!= "create_time" && $k!= "del_flag" &&  $k!="first_group_name"
                     && ($self_flag || !in_array( $k,$no_need_sum_list ) )  ) {
@@ -1309,9 +1304,7 @@ class Common_new {
             }
 
         };
-
         $check_init_map_item($data_map,"","");
-
         foreach ($admin_list as &$item) {
             $adminid=$item["adminid"];
             //g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid
@@ -1329,36 +1322,26 @@ class Common_new {
             }else{
 
             }
-
             if (empty($item['main_type'])) {
                 $item['main_type']="未定义";
                 $item['up_group_name']="未定义";
                 $item['group_name']="未定义";
                 $item['account']= $task->cache_get_account_nick($adminid);
                 $item['groupid']= 0;
-                $become_member_time = isset($item['become_member_time'])?$item['become_member_time']:0;
-                $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
-                $create_time        = isset($item['create_time'])?$item['create_time']:0;
-                $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
-
                 $item['first_group_name']="未定义";// 开发中.
-
+                // $become_member_time = isset($item['become_member_time'])?$item['become_member_time']:0;
+                // $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
+                // $create_time        = isset($item['create_time'])?$item['create_time']:0;
+                // $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
             }
             // return $admin_list;
-
-
             if($item['main_type']=="未定义"){
                 $main_type=$item['main_type'];
                 $up_group_name=$item["up_group_name"];
                 $group_name=$item["group_name"];
                 $account = $item["account"];
                 $groupid = $item['groupid'];
-                $become_member_time = $item['become_member_time'];
-                $leave_member_time  = isset($item['leave_member_time'])?$item['leave_member_time']:0;
-                $create_time        = isset($item['create_time'])?$item['create_time']:0;
-                $del_flag           = isset($item['del_flag'])?$item['del_flag']:0;
                 $first_group_name = $item['first_group_name']; // 开发中
-
                 $key0_map=&$data_map[""];
                 $add_data($key0_map, $item );
 
@@ -1367,7 +1350,7 @@ class Common_new {
                  */
                 $check_init_map_item($key0_map["sub_list"] , $main_type,"main_type" );
                 $key1_map=&$key0_map["sub_list"][$main_type];
-                // $add_data($key1_map, $item );
+                $add_data($key1_map, $item );
 
                 $check_init_map_item($key1_map["sub_list"] , $up_group_name ,"first_group_name");
                 $key2_map=&$key1_map["sub_list"][$up_group_name];
@@ -1385,13 +1368,9 @@ class Common_new {
                 $check_init_map_item($key4_map["sub_list"] , $account,"account",$adminid,$groupid);
                 $key5_map=&$key4_map["sub_list"][$account];
                 $add_data($key4_map, $item,true );
-
             }
-
         }
-
         // return $data_map; // test
-
         $list=[];
         foreach ($data_map as $key0 => $item0) {
             $data=$item0["data"];
@@ -1491,10 +1470,10 @@ class Common_new {
                                 $data['adminid'] = $item5['adminid'];
                                 $data['groupid'] = $item5['groupid'];
                                 $data["level"]="l-5";
-                                $data['become_member_time']=$item4["become_member_time"];
-                                $data['leave_member_time']=$item4["leave_member_time"];
-                                $data['create_time']=$item4["create_time"];
-                                $data['del_flag']=$item4["del_flag"];
+                                $data['become_member_time']=$item5["become_member_time"];
+                                $data['leave_member_time']=$item5["leave_member_time"];
+                                $data['create_time']=$item5["create_time"];
+                                $data['del_flag']=$item5["del_flag"];
                                 $list[]=$data;
                             }
 
@@ -1522,7 +1501,6 @@ class Common_new {
             }else{
                 $first_group_list = $task->t_main_major_group_name_month->get_group_list($i,$month);
             }
-
             foreach($first_group_list as $value){
                 $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2", "first_master_adminid"=>$value["master_adminid"],"first_groupid"=>$value["groupid"]];
                 if($monthtime_flag==1){
@@ -1552,7 +1530,7 @@ class Common_new {
 
                         $c = $num;
                         foreach($admin_list as $v){
-                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5"];
+                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5","become_member_time"=>$v["become_member_time"],"leave_member_time"=>$v["leave_member_time"],"create_time"=>$v["create_time"],"del_flag"=>$v["del_flag"]];
 
                         }
                     }
@@ -1561,7 +1539,6 @@ class Common_new {
 
             $num++;
         }
-
         return $list;
     }
 
