@@ -735,7 +735,6 @@ class user_manage extends Controller
         }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="seller_group"){//销售下级id
-            //组长&主管
             if ($id<=0) {
                 $adminid = $this->get_account_id();
                 $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
