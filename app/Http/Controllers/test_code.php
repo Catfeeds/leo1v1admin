@@ -2157,19 +2157,13 @@ class test_code extends Controller
 
         $month = $this->get_in_int_val("month",6);
 
+        $start_time = strtotime("2017-$month");
+        $end_time   = strtotime("+1 month");
+        $list = $this->t_lesson_info->get_teacher_lesson_total();
+        
 
-        foreach($info as $val){
-            if($val!=""){
-                $teacherid = $this->t_teacher_info->get_teacherid_by_name($val,$teacherid_str);
-                echo $teacherid;exit;
-                if($teacherid_str == ""){
-                    $teacherid_str = $teacherid;
-                }else{
-                    $teacherid_str .= ",".$teacherid;
-                }
-            }
-        }
-        echo $teacherid_str;
+
+
     }
 
 

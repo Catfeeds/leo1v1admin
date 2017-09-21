@@ -116,6 +116,7 @@ class main_page extends Controller
 
         // 月邀请率
         // 合同人数
+        $ret_info['order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);
 
         // 转化率
         $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数

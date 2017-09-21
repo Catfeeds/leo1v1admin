@@ -253,11 +253,8 @@ class testbb extends Controller
     }
 
     public function install(){
-        Schema::create('db_weiyi_admin.t_main_major_group_name_month', function( Blueprint $table)
+        Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
-
-
-
             $table->increments("id","id");
             t_field($table->integer("referral_money"),"转介绍收入");
             t_field($table->integer("order_num"),"下单总人数");
