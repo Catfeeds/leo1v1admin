@@ -247,6 +247,7 @@ class url_power_map {
 			'/tongji/get_month_money_info'	=>1080900,
 			'/seller_student/money_contract_list_for_origin'	=>1080300,
 			'/user_manage_new/month_user_info'	=>1080400,
+			'/user_manage/refund_list_finance'	=>1081000,
 			'/tongji/admin_card_log_list'	=>1080904,
 			'/tongji/admin_card_date_log_list'	=>1080905,
 			'/tongji/admin_card_admin_log_list'	=>1080906,
