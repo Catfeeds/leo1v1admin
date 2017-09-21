@@ -369,9 +369,39 @@
                                                 @endif
                                             </span>
                                         </td>
-                                        <td>{{$var["sys_operator"]}} </td>
-                                        <td>{{$var["all_count"]}} </td>
-                                        <td>{{$var["all_price"]/100}} </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["sys_operator"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["sys_operator"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["sys_operator"]}}</font>
+                                            @else
+                                                <font>{{$var["sys_operator"]}}</font>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_count"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_count"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_count"]}}</font>
+                                            @else
+                                                {{$var["all_count"]}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_price"]/100]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_price"]/100]}}</font>
+                                            @else
+                                                {{$var["all_price"]/100]}}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
