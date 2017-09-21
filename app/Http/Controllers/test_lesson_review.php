@@ -51,41 +51,42 @@ class test_lesson_review extends Controller
         $count = count($ret_info);
         $userid_arr = array_column($ret_info,'userid');
         if(in_array($userid,$userid_arr)){//提交过
-            return $ret = 2;
-        }
-        if($count<3){
-            $this->t_test_lesson_subject_require_review->row_insert([
-                "adminid"        => $adminid,
-                "group_adminid"  => $group_adminid,
-                "master_adminid" => $master_adminid,
-                "userid"         => $userid,
-                "review_desc"    => $review_desc,
-                "create_time"    => time(NULL),
-            ],false,false,true);
-            $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
-            $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
-            $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
-            $url = 'http://admin.yb1v1.com/test_lesson_review/test_lesson_review_list';
-            $wx              = new \App\Helper\Wx();
-            if($group_wx_openid){
-                $ret             = $wx->send_template_msg($group_wx_openid,$template_id,[
-                    "first" => '排课解冻',
-                    "keyword1" => '申请人:'.$account,
-                    "keyword2" => '解冻学生:'.$phone,
-                    "keyword3" => date("Y-m-d H:i:s"),
-                    "remark"   => '申请说明:'.$review_desc,
-                ],$url);
+            $ret = 2;
+        }else{
+            if($count<3){
+                $this->t_test_lesson_subject_require_review->row_insert([
+                    "adminid"        => $adminid,
+                    "group_adminid"  => $group_adminid,
+                    "master_adminid" => $master_adminid,
+                    "userid"         => $userid,
+                    "review_desc"    => $review_desc,
+                    "create_time"    => time(NULL),
+                ],false,false,true);
+                $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid);
+                $master_wx_openid = $this->t_manager_info->get_wx_openid($master_adminid);
+                $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+                $url = 'http://admin.yb1v1.com/test_lesson_review/test_lesson_review_list';
+                $wx              = new \App\Helper\Wx();
+                if($group_wx_openid){
+                    $ret             = $wx->send_template_msg($group_wx_openid,$template_id,[
+                        "first" => '排课解冻',
+                        "keyword1" => '申请人:'.$account,
+                        "keyword2" => '解冻学生:'.$phone,
+                        "keyword3" => date("Y-m-d H:i:s"),
+                        "remark"   => '申请说明:'.$review_desc,
+                    ],$url);
+                }
+                if($master_wx_openid){
+                    $ret             = $wx->send_template_msg($master_wx_openid,$template_id,[
+                        "first" => '排课解冻',
+                        "keyword1" => '申请人:'.$account,
+                        "keyword2" => '解冻学生:'.$phone,
+                        "keyword3" => date("Y-m-d H:i:s"),
+                        "remark"   => '申请说明:'.$review_desc,
+                    ],$url);
+                }
+                $ret = 1;
             }
-            if($master_wx_openid){
-                $ret             = $wx->send_template_msg($master_wx_openid,$template_id,[
-                    "first" => '排课解冻',
-                    "keyword1" => '申请人:'.$account,
-                    "keyword2" => '解冻学生:'.$phone,
-                    "keyword3" => date("Y-m-d H:i:s"),
-                    "remark"   => '申请说明:'.$review_desc,
-                ],$url);
-            }
-            $ret = 1;
         }
         return $ret;
     }
