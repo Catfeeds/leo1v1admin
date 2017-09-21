@@ -89,13 +89,7 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
-<<<<<<< HEAD
                         $upload_link.html("查看");
-=======
-                        if(resp.url){
-                            $upload_link.show();
-                        }
->>>>>>> d121df2b860a8a623d398ea5a228fb828132b35e
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
