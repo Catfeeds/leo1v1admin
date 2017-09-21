@@ -256,7 +256,8 @@ class testbb extends Controller
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
             $table->increments("id","id");
-            t_field($table->integer("referral_money"),"转介绍收入");
+            t_field($table->integer("referral_money"),"转介绍合同收入");
+            t_field($table->integer("new_money"),"新签合同收入");
             t_field($table->integer("order_num"),"下单总人数");
             t_field($table->integer("cc_num"),"cc在职人数");
             t_field($table->integer("seller_one_department_num"),"咨询一部人数");
