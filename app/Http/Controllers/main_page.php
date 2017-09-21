@@ -128,9 +128,9 @@ class main_page extends Controller
 
 
         //  外呼情况
-        //  呼出量
-        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);
+        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
 
+        $ret_info['has_called'] = $this->t_tq_call_info->get_called_num($start_time, $end_time);
         dd($ret_info['has_tq_succ']);
         $ret_info = [];
         return $this->pageView(__METHOD__, $ret_info);
