@@ -1475,6 +1475,7 @@ class human_resource extends Controller
         $this->set_in_value("fulltime_flag",1);
         return $this->teacher_lecture_list();
     }
+
     public function teacher_lecture_list_zs(){
         return $this->teacher_lecture_list();
     }
