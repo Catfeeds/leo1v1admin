@@ -402,7 +402,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ,$phone
             ,$adminid
         );
-        return $this->main_get_list($sql); 
+        return $this->main_get_list($sql);
     }
 
     public function get_tq_succ_num($start_time, $end_time){
@@ -441,4 +441,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     }
 
+
+    public function get_called_num($start_time, $end_time){
+
+    }
 }
