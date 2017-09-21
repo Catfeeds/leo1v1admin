@@ -11,6 +11,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var seller_account = "{{$seller_account}}";
      var group_type = "{{$group_type}}";
      var self_groupid = "{{$self_groupid}}";
      var is_group_leader_flag   = "{{$is_group_leader_flag}}";

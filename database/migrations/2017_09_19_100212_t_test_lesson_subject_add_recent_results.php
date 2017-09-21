@@ -27,8 +27,6 @@ class TTestLessonSubjectAddRecentResults extends Migration
             t_field($table->string("interests_and_hobbies"),"兴趣爱好");
             t_field($table->string("character_type"),"学习习惯");
             t_field($table->string("need_teacher_style"),"所需老师风格");
-            
-                      
         });
 
         Schema::table('db_weiyi.t_test_lesson_subject', function( Blueprint $table)
@@ -38,9 +36,6 @@ class TTestLessonSubjectAddRecentResults extends Migration
             t_field($table->string("knowledge_point_location"),"知识点定位");
             t_field($table->string("recent_results"),"近期成绩");
             t_field($table->tinyInteger("advice_flag"),"是否进步");
-
-            
-                      
         });
 
 
