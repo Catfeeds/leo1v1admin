@@ -8204,7 +8204,7 @@ lesson_type in (0,1) "
         $where_arr = [
             ["lessonid=%u",$lessonid,0]
         ];
-        $sql = $this->gen_sql_new("select money "
+        $sql = $this->gen_sql_new("select money,type "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "
