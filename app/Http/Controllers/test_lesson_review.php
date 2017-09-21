@@ -46,8 +46,13 @@ class test_lesson_review extends Controller
         $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
-        $count = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
+        $ret_info = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
         $ret = 0;
+        $count = count($ret_info);
+        $userid_arr = array_column($ret_info,'userid');
+        if(in_array($userid,$userid_arr)){//提交过
+            return $ret = 2;
+        }
         if($count<3){
             $this->t_test_lesson_subject_require_review->row_insert([
                 "adminid"        => $adminid,
