@@ -78,7 +78,6 @@ class main_page extends Controller
         }else{
             $aver_count = 0;
         }
-        // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
         // dd($income_num);
