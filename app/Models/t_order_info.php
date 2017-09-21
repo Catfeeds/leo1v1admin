@@ -3347,7 +3347,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(distinct(userid)) as order_num  "
+        $sql = $this->gen_sql_new("select count(distinct(o.userid)) as order_num  "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "

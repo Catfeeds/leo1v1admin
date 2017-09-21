@@ -2707,9 +2707,21 @@ class user_deal extends Controller
     {
         $list = $this->t_order_info->get_no_pay_order_list();
         foreach($list as $item){
-            if($item["pre_price"]){
-                dd($item["orderid"]);
+            $orderid = $item["orderid"];
+            $data = $this->t_child_order_info->get_all_child_order_info($orderid);
+            if(empty($data)){
+                $price = $this->t_order_info->get_price($orderid);
+                $this->t_child_order_info->row_insert([
+                    "child_order_type" =>0,
+                    "pay_status"       =>0,
+                    "add_time"         =>time(),
+                    "parent_orderid"   =>$orderid,
+                    "price"            => $price
+                ]);
+                $data = $this->t_child_order_info->get_all_child_order_info($orderid);
+
             }
+
         }
         dd($list);
         /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);

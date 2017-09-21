@@ -88,8 +88,8 @@ class main_page extends Controller
             $total_price += $item['all_price'];
         }
 
-        if($formal_num>0){
-            $aver_money = $total_price/$formal_num; //平均人效
+        if($ret_info['formal_num']>0){
+            $aver_money = $total_price/$ret_info['formal_num']; //平均人效
         }else{
             $aver_money = 0;
         }
