@@ -2330,7 +2330,6 @@ class user_manage extends Controller
             $assistantid =- 1;
             //$assistantid = 60078;
         }
-
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {

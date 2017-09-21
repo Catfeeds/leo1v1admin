@@ -2303,6 +2303,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_new_stu_num($start_time, $end_time){
 
+        $where_arr = [
+            "s.is_test_user = 0",
+            "ss.seller_resource_type = 0"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(*) from %s ss "
+                                  ." left join %s s on s.userid = ss.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

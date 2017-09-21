@@ -248,7 +248,7 @@ $(function(){
 
             if ($main_type_name.val()) {
                 if($main_type_name.val()=='qc'){
-                    $account.html("<option value=\"施文斌\" >施文斌</option><option value=\"李珉劼\" >李珉劼</option><option value=\"王浩鸣\"  >王浩鸣</option>");
+                    $account.html("<option value=\"wenbin\" >施文斌</option><option value=\"李珉劼\" >李珉劼</option><option value=\"王浩鸣\"  >王浩鸣</option>");
                     $main_group_name.parent().parent().hide();
                     $group_name.parent().parent().hide();
 

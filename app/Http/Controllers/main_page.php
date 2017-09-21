@@ -132,8 +132,7 @@ class main_page extends Controller
 
         $ret_info['has_called'] = $this->t_tq_call_info->get_called_num($start_time, $end_time); // 已拨打
 
-        // 本月新进例子数
-        $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time);
+        $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
 
 
         dd($ret_info['has_tq_succ']);
