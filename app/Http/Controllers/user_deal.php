@@ -2706,6 +2706,11 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $list = $this->t_order_info->get_no_pay_order_list();
+        foreach($list as $item){
+            if($item["pre_price"]){
+                dd($item["orderid"]);
+            }
+        }
         dd($list);
         /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
