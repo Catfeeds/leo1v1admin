@@ -284,9 +284,8 @@
                                 <a class="opt-mail-contrat" title="合同运单">运单</a>
                                 <a class="opt-merge_order" title="合并合同">合并</a>
                                 <a class="opt-price_desc fa-list" title="价格生成说明"></a>
-                                @if($acc=="jim" || $acc=="jack")
-                                    <a class="opt-order-partition" title="拆分合同">拆分</a>
-                                @endif
+                                <a class="opt-order-partition" title="拆分合同">拆分</a>
+                                <a class="opt-update-parent-name" title="修改家长姓名">家</a>
                             </div>
                         </td>
                     </tr>

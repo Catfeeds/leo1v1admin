@@ -1842,6 +1842,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_int_val("main_type");
 
         $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
+        $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
             $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);

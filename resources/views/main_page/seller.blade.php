@@ -11,6 +11,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var seller_account = "{{$seller_account}}";
      var group_type = "{{$group_type}}";
      var self_groupid = "{{$self_groupid}}";
      var is_group_leader_flag   = "{{$is_group_leader_flag}}";
@@ -167,34 +168,40 @@
                                                 <div class="row">
                                                     <div class="col-xs-4">
                                                         <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <span style="color:#F6A623;">
                                                         <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#F6A623;"></a>
+                                                            <a title="" class=" fa-trophy fa" style="color:#F6A623;" ></a>
                                                         </p>
                                                         <p>
                                                             {{$var["sys_operator"]}}
                                                         </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
+                                                        </span>
                                                     </div>
                                     @elseif($var['index'] == 2)
                                                     <div class="col-xs-4">
                                                         <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <span style="color:#9EB0C2;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
                                                         </p>
                                                         <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
+                                                        </span>
                                                     </div>
                                     @elseif($var['index'] == 3)
                                                     <div class="col-xs-4">
                                                         <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <span style="color:#CB7F31;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                                         </p>
                                                         <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -202,14 +209,14 @@
                                     @else
                                     <tr>
                                         <td>
-                                            <span> {{$var["index"]}} </span>
+                                            <span><font style="color:#000000;">{{$var["index"]}}</font> </span>
                                         </td>
                                         <td style="text-align:left">
                                             <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
-                                            {{$var["sys_operator"]}}
+                                            <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
-                                        <td>{{$var["all_count"]}} </td>
-                                        <td>{{$var["all_price"]}} </td>
+                                        <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
+                                        <td><font style="color:#000000;">{{$var["all_price"]}}</font> </td>
                                     </tr>
                                     @endif
                                 @endforeach
@@ -281,7 +288,7 @@
                                             @elseif($key==2)
                                                 <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
                                             @elseif($key>count($group_list)-4)
-                                                <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/ee5945233280f4ffcfa7e516e8ce548b1505817757901.png" width="20px" height="20px" alt="" />
+                                                <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/eb805df3bc89d12435e08f04cb1726d81505971183252.png" width="20px" height="20px" alt="" />
                                             @else
                                                 {{$key+1}}
                                             @endif
@@ -289,10 +296,38 @@
                                         </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left">
                                             <img src="{{$var["group_img"]}}" width="20px" height="20px" alt="" />
-                                            {{$var["group_name"]}}
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["group_name"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["group_name"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["group_name"]}}</font>
+                                            @else
+                                                {{$var["group_name"]}}
+                                            @endif
                                         </td>
-                                        <td class="all_count">{{$var["all_count"]}} </td>
-                                        <td class="all_price">{{$var["all_price"]/100}} </td>
+                                        <td class="all_count">
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_count"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_count"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_count"]}}</font>
+                                            @else
+                                                {{$var["all_count"]}}
+                                            @endif
+                                        </td>
+                                        <td class="all_price">
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_price"]/100}}</font>
+                                            @else
+                                                {{$var["all_price"]/100}}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -334,9 +369,39 @@
                                                 @endif
                                             </span>
                                         </td>
-                                        <td>{{$var["sys_operator"]}} </td>
-                                        <td>{{$var["all_count"]}} </td>
-                                        <td>{{$var["all_price"]/100}} </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["sys_operator"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["sys_operator"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["sys_operator"]}}</font>
+                                            @else
+                                                <font>{{$var["sys_operator"]}}</font>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_count"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_count"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_count"]}}</font>
+                                            @else
+                                                {{$var["all_count"]}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["all_price"]/100}}</font>
+                                            @else
+                                                {{$var["all_price"]/100}}
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -337,4 +337,38 @@ class taobao_manage extends Controller
         return $this->output_succ(['data'=>$ret]);
     }
 
+    /**
+     * 通过访问淘宝网页抓取价格信息来更新淘宝商品价格
+     */
+    public function update_taobao_item_price(){
+        $list = $this->t_taobao_item->get_all_item_list();
+
+        $start_str = "<em class=\"tb-rmb-num\">";
+        foreach($list as $val){
+            if($val['product_id']!=""){
+                $price="";
+                $url  = "https://item.taobao.com/item.htm?id=".$val['product_id'];
+                $html = file_get_contents($url);
+
+                $left_str = strstr($html,$start_str);
+                $left_str = str_replace($start_str,"",$left_str);
+                $check_str = ".";
+                $price = stristr($left_str,$check_str,true);
+
+                echo $val['open_iid']."|".$val['product_id']."|".$val["price"]."|".$price;
+                echo "<br>";
+                if($price!=""){
+                    $this->t_taobao_item->field_update_list($val['open_iid'],[
+                        "price" => $price,
+                    ]);
+                }else{
+                    $this->t_taobao_item->field_update_list($val['open_iid'],[
+                        "status"=>0
+                    ]);
+                }
+            }
+        }
+    }
+
+
 }

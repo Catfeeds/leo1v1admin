@@ -141,6 +141,8 @@ class test_sam  extends Controller
           $content .= "数据见下表<br>";
           $content .= $table;
           $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>";
+
+          echo $content;
           $email_arr = ["sam@leoedu.com"];
           foreach($email_arr as $email){
              dispatch( new \App\Jobs\SendEmailNew(

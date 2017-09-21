@@ -82,10 +82,6 @@ $(function(){
                     alert("请输入试卷总分");
                     return;
                 }
-                if(id_score.val() > id_total_score.val()){
-                    alert("考试成绩不能大于总分");
-                    return;
-                }
                 $.do_ajax('/ajax_deal2/score_edit',{
                     "id" : opt_data.id,
                     "subject"       : id_subject.val(),
@@ -98,8 +94,10 @@ $(function(){
                     "grade"         : id_grade.val(),
                     "grade_rank"    : id_grade_rank.val(),
                     "status"        : 0,
+                    "create_time"   : opt_data.create_time,
 
                 });
+
             }
         },function(){
             $.custom_upload_file(
