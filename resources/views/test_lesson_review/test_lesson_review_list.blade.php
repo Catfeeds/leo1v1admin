@@ -51,7 +51,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                @if(in_array(@$adminid,[898,831])
+                                @if(in_array(@$adminid,[898,831]))
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                                 @endif
                             </div>
