@@ -473,7 +473,8 @@ class agent extends Controller
 
         $key="DEAL_NEW_USER_$adminid";
         $old_userid=\App\Helper\Common::redis_get($key)*1;
-        dd($old_userid);
+        $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
+        dd($old_userid,$userid,$old_row_data,$adminid,$now);
         if ($userid) {
             $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
