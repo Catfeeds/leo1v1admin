@@ -3054,7 +3054,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_price "
+        $sql = $this->gen_sql_new("select sum(price)/100 as all_price, count(*) as all_count "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3078,13 +3078,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            ["o.origin like '%%%s%%'" , '转介绍'],
+            "s.origin_userid>0",
+            ["s.origin like '%%%s%%'" , '转介绍'],
 
         ];
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*)as all_count  "
+        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*) as all_count  "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3097,7 +3098,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr
         );
         return $this->main_get_row($sql);
-
     }
 
     //
