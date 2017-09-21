@@ -182,22 +182,26 @@
                                     @elseif($var['index'] == 2)
                                                     <div class="col-xs-4">
                                                         <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <span style="color:#9EB0C2;">
                                                         <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
+                                                            <a title="" class=" fa-trophy fa" ></a>
                                                         </p>
                                                         <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
+                                                        </span>
                                                     </div>
                                     @elseif($var['index'] == 3)
                                                     <div class="col-xs-4">
                                                         <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <span style="color:#CB7F31;">
                                                         <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
+                                                            <a title="" class=" fa-trophy fa" ></a>
                                                         </p>
                                                         <p> {{$var["sys_operator"]}} </p>
                                                         <p>{{$var["all_count"]}} </p>
                                                         <p>{{$var["all_price"]}} </p>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </td>
