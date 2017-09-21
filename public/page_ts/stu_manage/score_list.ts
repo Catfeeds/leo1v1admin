@@ -93,11 +93,7 @@ $(function(){
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
-
-            if($upload_link.attr("href")==""){
-                $upload_link.hide();
-            }
-            
+           
 
         });
     }) ;
