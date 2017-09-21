@@ -750,7 +750,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." limit_month_lesson_num ,t.teacher_ref_type,t.saturday_lesson_num,grade_start,grade_end, "
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   ." sum(tss.lessonid >0) week_lesson_num,"
-                                  ." if(limit_plan_lesson_type>0,limit_plan_lesson_type-sum(tss.lessonid >0),limit_week_lesson_num-sum(tss.lessonid >0)) left_num ,"
+                                  ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num ,"
                                   ." t.test_transfor_per,t.month_stu_num,tr.record_score"
                                   ." from %s t"
                                   ." left join %s l on (t.teacherid = l.teacherid "
