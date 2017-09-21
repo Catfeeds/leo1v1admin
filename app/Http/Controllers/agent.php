@@ -457,58 +457,88 @@ class agent extends Controller
 
     }
 
+    public function get_one_new_user(){
+        $now=time(NULL);
+        $page_num=1;
+        $grade=-1;
+        $has_pad=-1;
+        $subject=-1;
+        $origin="";
+        $phone="";
+        // $adminid=$this->get_account_id();
+        $adminid=524;
+        $t_flag=0;
+        $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
+        $userid=@ $ret_info["list"][0]["userid"];
+        if ($userid) {
+            $lesson_call_end = [];
+            $key="DEAL_NEW_USER_$adminid";
+            $old_userid=\App\Helper\Common::redis_get($key)*1;
+            $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
+            dd($userid,$old_row_data,$adminid,$now);
+            if (
+                $old_row_data["tq_called_flag"] ==0 &&
+                $old_row_data["admin_revisiterid"] !=$adminid
+                &&  $now- $old_row_data["competition_call_time"] < 3600  ) {
+                return $this->output_err("有新例子tq未拨打",["need_deal_cur_user_flag" =>true]);
 
-    public function test_lesson_cancle_rate(){
-        // $adminid = 730;
-        // $adminid = 975;
-        $adminid = 980;
-        $userid = $this->get_in_int_val('userid');
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
-        $week = date('w',$time);
-        if($week == 0){
-            $week = 7;
-        }elseif($week == 1){
-            $week = 8;
+            }
+
+            if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
+                return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
+            }
+
+            if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+                return $this->output_err("今天的配额,已经用完了");
+            }
+            //检查是否有成功试听未回访
+            $this->refresh_test_call_end();
+            $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            $userid_new = $lesson_call_end['userid'];
+            if($userid_new){
+                return $this->output_err("有试听课成功未回访",["userid" =>$userid_new,'adminid'=>$adminid]);
+            }
+
+            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
+            $competition_call_time = $row_data["competition_call_time"];
+            $competition_call_adminid = $row_data["competition_call_adminid"];
+            $admin_revisiterid = $row_data["admin_revisiterid"];
+            if ($admin_revisiterid !=  0  && $admin_revisiterid != $adminid) {
+                return $this->output_err("已经被人抢了1");
+            }
+            if ( $competition_call_adminid != $adminid &&  $now- $competition_call_time  < 3600  ) { //
+                return $this->output_err("已经被人抢了2");
+            }
+
+            $this->t_test_subject_free_list ->row_insert([
+                "add_time" => time(NULL),
+                "userid" =>   $userid,
+                "adminid" => $adminid,
+                "test_subject_free_type" => 0,
+            ],false,true);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "competition_call_time" => $now,
+                "tq_called_flag" => 0,
+                "competition_call_adminid" =>$adminid,
+                "user_desc" => "",
+            ]);
+
+            $this->t_test_lesson_subject->field_update_list($userid,[
+                "seller_student_status" => 0,
+                "stu_request_test_lesson_demand" => "",
+            ]);
+
+            \App\Helper\Common::redis_set($key, $userid );
+
+            return $this->output_succ(["phone" => $row_data["phone"]] );
+
+        }else{
+            return $this->output_err("没有资源了");
+
         }
-        $end_time = $time-3600*24*($week-2);
-        $start_time = $end_time-3600*24*7;
-        list($count,$count_del) = [0,0];
-        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
-        $self_top_info_old = $this->t_tongji_seller_top_info->get_admin_top_list($adminid,$start_time);
-        if($self_top_info>25){//上周取消率>25%,查看当天是否排课
-            // $start_time = $time;
-            // $end_time = $time+3600*24;
-            $start_time = $time-3600*24;
-            $end_time = $time;
-            // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
-            $require_id = $this->t_test_lesson_subject_require->get_test_lesson_require_row($start_time,$end_time,$adminid);
-            $ret['ret'] = $require_id?1:2;
-            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
-            if($review_suc){
-                $ret['ret'] = 2;
-            }
-            $ret['rate'] = $self_top_info;
-        }else{//当前取消率
-            $start_time = $time-3600*24*($week-2);
-            $end_time = time();
-            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-            foreach($ret_info as $item){
-                if($item['lesson_del_flag']){
-                    $count_del++;
-                }
-                $count++;
-            }
-            $del_rate = ($count?($count_del/$count):0)*100;
-            if($del_rate>20){
-                $ret['ret'] = 3;
-            }else{
-                $ret['ret'] = 4;
-            }
-            $ret['rate'] = $del_rate;
-        }
-        dd($self_top_info_old,$ret,$require_id,$review_suc);
     }
+
+
 
     public function agent_add(){
         // $p_phone = '18616626799';
