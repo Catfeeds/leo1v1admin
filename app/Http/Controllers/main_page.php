@@ -106,8 +106,12 @@ class main_page extends Controller
         $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
         $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
         $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-        $third_num = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+        $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+        $seller_num_arr['first_num'] = $first_num;
+        $seller_num_arr['second_num'] = $second_num;
+
+        $ret_info['department_num_info'] = [];
 
         // 金额转化率占比
         $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);

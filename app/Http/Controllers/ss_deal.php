@@ -1889,7 +1889,6 @@ class ss_deal extends Controller
             return $this->output_err("没有购买课时");
         }
 
-
         if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);

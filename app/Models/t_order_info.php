@@ -3363,5 +3363,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_no_pay_order_list(){
+        
+    }
+
 
 }
