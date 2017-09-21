@@ -326,9 +326,137 @@ class agent extends Controller
     }
 
     public function check(){
-        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=730);
-        dd($count_info);
+        $this->deal_new_user();
     }
+
+    public function deal_new_user(){
+        // $adminid = $this->get_account_id();
+        $adminid = 524;
+
+        //申明 js 变量
+        $this->set_filed_for_js("phone", "","string");
+        $this->set_filed_for_js("open_flag",0);
+
+        $this->set_filed_for_js("userid",0 );
+        $this->set_filed_for_js("test_lesson_subject_id", 0);
+        $this->set_filed_for_js("account_seller_level", 0 );
+
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+
+        $key="DEAL_NEW_USER_$adminid";
+        $userid=\App\Helper\Common::redis_get($key)*1;
+
+        dd($userid);
+
+        $now=time(NULL);
+
+        $cur_hm=date("H",$now)*60+date("i",$now);
+        $cur_week=date("w",$now);
+        if (in_array( $cur_week*1,[6,0] ) ) {
+            $limit_arr=array( [0,11*60] );
+        }else{
+            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+        }
+        $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
+        $success_flag=true;
+        $time_str_list=[];
+
+        foreach( $limit_arr  as $limit_item) {
+            $limit_start=$limit_item[0];
+            $limit_end=$limit_item[1];
+
+            if ($cur_hm >= $limit_start && $cur_hm < $limit_end  ) { //间隔60分钟
+                $success_flag=false;
+            }
+            $time_str_list[]=sprintf("%02d:%02d~%02d:%02d",
+                                     $limit_start/60, $limit_start%60,
+                                     $limit_end/60, $limit_end%60);
+        }
+
+
+        $errors=[];
+        if(  (
+            false ||
+             !$this->check_power( E\Epower::V_TEST)
+        )  ){
+            if ( !$success_flag) {
+                $errors=[
+                    "抢新学生,当前关闭!!",
+                    "关闭时间: ".  join(",",$time_str_list) ,
+                    "当前时间:". date("H:i:s"),
+                ];
+
+                return $this->pageView(
+                    __METHOD__ , null,
+                    ["user_info"=>null , "count_info"=>$count_info, "errors" => $errors ]
+                );
+
+            }else{
+                $errors=[];
+            }
+        }else{
+            $success_flag=true;
+        }
+
+
+        $this->set_filed_for_js("open_flag",$success_flag?1:0);
+        //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
+        if ($userid==0) {
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null, "count_info"=>$count_info ]
+            );
+        }
+
+
+        $this->set_filed_for_js("userid", $userid);
+        $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
+
+        $this->set_filed_for_js("test_lesson_subject_id", $test_lesson_subject_id);
+        $this->set_filed_for_js("account_seller_level", session("seller_level" ) );
+
+        $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
+        $user_info= @$ret_info["list"][0];
+        if (!$user_info) {
+
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null , "count_info"=>$count_info]
+            );
+
+
+        }
+
+        $this->set_filed_for_js("phone", $user_info["phone"]);
+
+        $competition_call_adminid=$user_info["competition_call_adminid"];
+        $competition_call_time=$user_info["competition_call_time"];
+        $now = time(NULL);
+        //超时
+        if ($competition_call_adminid==$adminid && $now > $competition_call_time +3600   ){
+
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null , "count_info"=>$count_info]
+            );
+
+
+        }
+
+        E\Etq_called_flag::set_item_value_str($user_info);
+        E\Egrade::set_item_value_str($user_info);
+        E\Esubject::set_item_value_str($user_info);
+        E\Epad_type::set_item_value_str($user_info,"has_pad");
+        \App\Helper\Utils::unixtime2date_for_item($user_info,"add_time");
+        $this->cache_set_item_account_nick($user_info, "admin_revisiterid", "admin_revisiter_nick" );
+        return $this->pageView(
+            __METHOD__ , null,
+            ["user_info"=>$user_info , "count_info"=>$count_info]
+        );
+
+    }
+
 
     public function test_lesson_cancle_rate(){
         // $adminid = 730;
