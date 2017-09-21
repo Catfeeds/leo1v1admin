@@ -191,6 +191,8 @@ class NewRouteConfig {
         "/user_manage/get_refund_info"                          => true,
         "/user_manage/refund_list_seller"                       => true,
         "/user_manage/refund_list_ass"                          => true,
+        "/user_manage/refund_list_finance"                      => true,
+        "/user_manage/refund_list_test"                      => true,
         "/user_manage/set_contract_payed_new"                   => true,
         "/user_manage/del_contract"                => true,
         "/user_manage/contract_list_seller_add"                 => true,

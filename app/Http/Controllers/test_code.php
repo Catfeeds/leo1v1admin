@@ -2134,11 +2134,12 @@ class test_code extends Controller
      * 获取之前第三版的等级和转换后的
      */
     public function get_teacher_list(){
-        // $start = strtotime("2017-5-1");
-        // $end   = strtotime("2017-9-1");
-        // $list  = $this->t_teacher_info->get_old_teacher_money_type_list($start,$end);
-        $info = $this->get_b_txt();
-        dd($info);
+        $start = strtotime("2017-5-1");
+        $end   = strtotime("2017-9-1");
+        $list  = $this->t_teacher_info->get_old_teacher_money_type_list($start,$end);
+        dd($list);
+        // $info = $this->get_b_txt();
+        // dd($info);
         foreach($info as $val){
             if($val!=""){
                 $teacher_info = $this->t_teacher_info->get_teacher_info($val);
@@ -2150,6 +2151,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 手动更新淘宝价格
+     */
     public function get_taobao_list(){
         $list = $this->t_taobao_item->get_all_item_list();
 
@@ -2180,70 +2184,6 @@ class test_code extends Controller
         }
     }
 
-    public function show_week_reward(){
-        $end   = time();
-        $start = strtotime("-1 week",$end);
-
-        $lesson_list = [
-            0=>[
-                "teacherid"=>11,
-                "lesson_total"=>50,
-            ],
-            1=>[
-                "teacherid"=>12,
-                "lesson_total"=>50,
-            ],
-            2=>[
-                "teacherid"=>13,
-                "lesson_total"=>40,
-            ],
-            3=>[
-                "teacherid"=>14,
-                "lesson_total"=>40,
-            ],
-            4=>[
-                "teacherid"=>15,
-                "lesson_total"=>33,
-            ],
-            5=>[
-                "teacherid"=>16,
-                "lesson_total"=>23,
-            ],
-            6=>[
-                "teacherid"=>17,
-                "lesson_total"=>13,
-            ]
-        ];
-        $num_people   = 0;
-        $num_lesson   = 0;
-        $num_lesson_next = 0;
-        $lesson_total = 0;
-
-
-        $rank_list=[];
-        if(is_array($lesson_list)){
-            foreach($lesson_list as $val){
-                $num_people++;
-                $num_lesson=$num_people;
-                if($lesson_total != $val['lesson_total']){
-                    if($num_people>5){
-                        break;
-                    }
-                    if($num_lesson>5){
-                        $num_lesson=5;
-                    }
-                    $lesson_total = $val['lesson_total'];
-                    $money = E\Ehonor_list::get_desc($num_lesson);
-                }
-
-                $arr['lesson_total'] = $lesson_total;
-                $arr['money']        = $money;
-                $rank_list[]         = $arr;
-            }
-        }
-
-        \App\Helper\Utils::debug_to_html( $rank_list );
-    }
 
 
 

@@ -1016,6 +1016,121 @@ class user_manage extends Controller
         $this->set_in_value( "refund_userid", $this->get_account_id() );
         return $this->refund_list();
     }
+    public function refund_list_test(){
+        return $this->refund_list();
+    }
+
+    public function refund_list_finance(){
+
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
+            0 => array( "apply_time", "申请时间"),
+            1 => array("flow_status_time","审批时间"),
+        ]);
+
+        $adminid       = $this->get_account_id();
+        $refund_type   = $this->get_in_int_val('refund_type',-1);
+        $userid        = $this->get_in_int_val('userid',-1);
+        $is_test_user  = $this->get_in_int_val('is_test_user',0);
+        $page_num      = $this->get_in_page_num();
+        $refund_userid = $this->get_in_int_val("refund_userid", -1);
+
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $acc                  = $this->get_account();
+
+        $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
+                                                                 $is_test_user,$refund_userid,$require_adminid_list);
+        $refund_info = [];
+        foreach($ret_info['list'] as &$item){
+            $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
+            $item['refund_user']       = $this->cache_get_account_nick($item['refund_userid']);
+            $item['lesson_total']      = $item['lesson_total']/100;
+            $item['should_refund']     = $item['should_refund']/100;
+            $item['price']             = $item['price']/100;
+            $item['real_refund']       = $item['real_refund']/100;
+            $item['discount_price']    = $item['discount_price']/100;
+            $item['apply_time_str']    = date("Y-m-d H:i",$item['apply_time']);
+            $item['refund_status_str'] = $item['refund_status']?'已打款':'未付款';
+            \App\Helper\Common::set_item_enum_flow_status($item);
+            E\Econtract_type::set_item_value_str($item,"contract_type");
+            E\Eboolean::set_item_value_str($item,"need_receipt");
+            E\Egrade::set_item_value_str($item);
+
+            E\Eqc_advances_status::set_item_value_str($item);
+            E\Eqc_contact_status::set_item_value_str($item);
+            E\Eqc_voluntarily_status::set_item_value_str($item);
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"flow_status_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"order_time","","Y-m-d");
+
+            $refund_qc_list = $this->t_order_refund->get_refund_analysis($item['apply_time'], $item['orderid']);
+            if(!empty($refund_qc_list['qc_other_reason'])
+               || !empty($refund_qc_list['qc_analysia'])
+               || !empty($refund_qc_list['qc_reply'])
+            ){
+                $item['flow_status_str'] = '<font style="color:#a70192;">QC已审核</font>';
+            }
+
+            $pass_time = $item['apply_time']-$item['order_time'];
+            if($pass_time >= 90*24*3600){ // 下单是否超过3个月
+                $item['is_pass'] = '<font style="color:#ff0000;">是</font>';
+            }else{
+                $item['is_pass'] = '<font style="color:#2bec2b;">否</font>';
+            }
+
+            //处理 投诉分析 [QC-文斌]
+            $arr = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['qc_other_reason'] = trim($arr['qc_anaysis']['qc_other_reason']);
+            $item['qc_analysia']     = trim($arr['qc_anaysis']['qc_analysia']);
+            $item['qc_reply']        = trim($arr['qc_anaysis']['qc_reply']);
+
+            foreach($arr['key1_value'] as &$v1){
+                $key1_name = @$v1['value'].'一级原因';
+                $key2_name = @$v1['value'].'二级原因';
+                $key3_name = @$v1['value'].'三级原因';
+                $reason_name    = @$v1['value'].'reason';
+                $dep_score_name = @$v1['value'].'dep_score';
+
+                $item["$key1_name"] = '';
+                $item["$key2_name"] = '';
+                $item["$key3_name"] = '';
+                $item["$reason_name"]     = "";
+                $item["$dep_score_name"]  = "";
+
+
+                foreach($arr['list'] as $v2){
+                    if($v2['key1_str'] == $v1['value']){
+
+                        if(isset($v1["$key1_name"])){
+                            $item["$key1_name"] = @$item["$key1_name"].'/'.$v2['key2_str'];
+                            $item["$key2_name"] = @$item["$key2_name"].'/'.$v2['key3_str'];
+                            $item["$key3_name"] = @$item["$key3_name"].'/'.$v2['key4_str'];
+                            $item["$reason_name"]     = @$item["$reason_name"].'/'.$v2['reason'];
+                            $item["$dep_score_name"]  = @$item["$dep_score_name"].'/'.$v2['score'];
+                        }else{
+                            $item["$key1_name"] = @$v2['key2_str'];
+                            $item["$key2_name"] = @$v2['key3_str'];
+                            $item["$key3_name"] = @$v2['key4_str'];
+                            $item["$reason_name"]     = @$v2['reason'];
+                            $item["$dep_score_name"]  = @$v2['score'];
+                        }
+                    }
+                }
+
+                $score_name   = $v1['value'].'扣分值';
+                $percent_name = $v1['value'].'责任值';
+                $item["$score_name"]   = @$v1['score'];
+                $item["$percent_name"] = @$v1['responsibility_percent'];
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right" => $adminid_right,
+            "acc"           => $acc,
+            "adminid"       => $adminid
+        ]);
+    }
 
     public function refund_list(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
