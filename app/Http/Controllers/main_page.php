@@ -130,10 +130,12 @@ class main_page extends Controller
         //  外呼情况
         $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
 
-        $ret_info['has_called'] = $this->t_tq_call_info->get_called_num($start_time, $end_time); // 已拨打
+        $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
 
         $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
 
+        // 拨打的cc量
+        // $ret_info['cc_called_num'] = $this->
 
         dd($ret_info['has_tq_succ']);
         $ret_info = [];

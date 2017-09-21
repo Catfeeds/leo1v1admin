@@ -356,9 +356,7 @@ class login extends Controller
         }
 
         $permission = $this->reset_power($account);
-        \App\Helper\Utils::logger("loginx3");
 
-        // \App\Helper\Utils::logger("account1: $account");
 
         session($_SESSION) ;
         $this->t_admin_users->set_last_ip( $account,$ip );

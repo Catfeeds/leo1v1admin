@@ -442,7 +442,4 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
 
 
-    public function get_called_num($start_time, $end_time){
-
-    }
 }
