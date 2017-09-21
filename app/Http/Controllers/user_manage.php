@@ -2066,6 +2066,9 @@ class user_manage extends Controller
         return $ret;
     }
 
+    public function qc_complaint_tea(){
+        return $this->qc_complaint();
+    }
     public function qc_complaint(){
         $page_num = $this->get_in_page_num();
         $account_type = $this->get_in_int_val('account_type',-1);
@@ -2111,6 +2114,10 @@ class user_manage extends Controller
 
         // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function complaint_department_deal_teacher_qc(){
+        return $this->complaint_department_deal_teacher();
     }
 
     public function complaint_department_deal_teacher(){

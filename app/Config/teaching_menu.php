@@ -68,6 +68,7 @@ class teaching_menu{
                         [ "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                         [ "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                         ["name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
+                        [ "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
                     ]],
 
 
