@@ -45,14 +45,13 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
         $this->where_arr_add_int_field($where_arr,'adminid',$adminid);
         $this->where_arr_add_time_range($where_arr,'create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select count(id) "
+            " select id,adminid,userid "
             ." from %s "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
-
 
 }
