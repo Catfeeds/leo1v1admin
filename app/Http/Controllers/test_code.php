@@ -2160,8 +2160,14 @@ class test_code extends Controller
 
         $start_time = strtotime("2017-$month");
         $end_time   = strtotime("+1 month");
-        $list       = $this->t_lesson_info->get_teacher_lesson_total($start_time,$end_time,$tea_arr,1);
-        
+        $list       = $this->t_lesson_info->get_teacher_lesson_count_total($start_time,$end_time,$tea_arr,1);
+        foreach($list as $val){
+            $tea_nick = $this->cache_get_teacher_nick($val['teacherid']);
+            $teacher_money_type_str = E\Eteacher_money_type::get_desc($val['teacher_money_type']);
+            $lesson_total = $val['lesson_total']/100;
+            echo "$tea_nick|$teacher_money_type_str|$lesson_total";
+            echo "<br>";
+        }
 
 
 
