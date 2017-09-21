@@ -73,6 +73,7 @@
                 <td  >userid</td>
                 <td  >助教id</td>
                 <td  >姓名</td>
+                <td  >电话</td>
                 <td  >回访类型</td>
                 <td  >年级</td>
                 <td  >回访时间</td>
@@ -86,8 +87,9 @@
                 <tr>
                     <td >{{$var["userid"]}}</td>
                     <td >{{$var["assistant_nick"]}}</td>
-                    <td >{{$var["revisit_type_str"]}}</td>
                     <td >{{$var["nick"]}}</td>
+                    <td >{{$var["phone"]}}</td>
+                    <td >{{$var["revisit_type_str"]}}</td>
                     <td >{{$var["grade_str"]}}</td>
                     <td >{{$var["revisit_time"]}}</td>
                     <td >{{$var["operator_note"]}}</td>
