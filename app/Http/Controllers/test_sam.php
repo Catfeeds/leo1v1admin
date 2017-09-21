@@ -126,13 +126,13 @@ class test_sam  extends Controller
           foreach($email_arr as $email){
              dispatch( new \App\Jobs\SendEmailNew(
                 $email,
-                "教学质量反馈报告(".1."-".1.")",
+                "教学质量反馈报告(".$time."-".$time.")",
                 "Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共"
-                    .1."位,其中"
-                    .1."位已进行冻结排课操作<br>2.本周监课数量"
-                    .1."节,其中新入职老师监课数量"
-                    .1."节<br>简要情况见下表<br>"
-                    .1."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".1."&end_time=".1."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
+                    .$time."位,其中"
+                    .$time."位已进行冻结排课操作<br>2.本周监课数量"
+                    .$time."节,其中新入职老师监课数量"
+                    .$time."节<br>简要情况见下表<br>"
+                    ."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$time."&end_time="."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
              ));
   
          }
