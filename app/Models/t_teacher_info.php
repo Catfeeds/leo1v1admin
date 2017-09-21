@@ -3620,11 +3620,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." from %s t"
                                   ." left join %s l on t.teacherid=l.teacherid"
                                   ." where %s"
-                                  ." order by lesson_start desc"
+                                  ." and not exists "
+                                  ." (select 1 from %s where l.teacherid=teacherid and l.lesson_start<lesson_start and lesson_del_flag=0 and lesson_type in (0,1,3)"
+                                  ." )"
                                   ." group by t.teacherid"
+                                  ." order by lesson_start desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
         );
         echo $sql;exit;
         return $this->main_get_list($sql);
