@@ -1543,6 +1543,10 @@ $(function(){
                     title      : "教材",
                     width      : 200,
                     field_name : "textbook"
+                },{
+                    title      : "精选维度",
+                    width      : 50,
+                    field_name : "fine_dimension"
                 }
             ] ,
             //查询列表
