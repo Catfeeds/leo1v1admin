@@ -2301,4 +2301,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     }
 
+    public function get_new_stu_num($start_time, $end_time){
+
+    }
+
 }
