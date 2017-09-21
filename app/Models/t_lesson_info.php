@@ -5640,9 +5640,9 @@ lesson_type in (0,1) "
         }else{
             $where_arr[] ="lesson_type in (0,2)"; 
         }
-        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) lesson_total "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) lesson_total,count(distinct(userid)) as stu_num "
                                   ." from %s "
-                                  ." where %s  t"
+                                  ." where %s  "
                                   ." and confirm_flag !=2 "
                                   ." and lesson_start >= %u "
                                   ." and lesson_start <=%u "

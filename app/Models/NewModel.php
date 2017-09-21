@@ -486,6 +486,7 @@ abstract class NewModel
             $where_arr[]=sprintf(  "$field_name in (%s) ",  join(",", $in_adminid_list ));
         }
     }
+
     public function where_arr_teacherid(&$where_arr,$field_name, $teacherid_arr ) {
         if (count ($teacherid_arr)>0)  {
             $where_arr[]=sprintf(  "$field_name in (%s) ",  join(",", $teacherid_arr ));
@@ -493,7 +494,6 @@ abstract class NewModel
             $where_arr[] = $field_name ."= -100";
         }
     }
-
 
     public function where_arr_add_time_range(&$where_arr,$field_name, $start_time, $end_time ) {
         $where_arr[]= ["$field_name>=%d" ,  $start_time,-1 ];
