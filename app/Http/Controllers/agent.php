@@ -326,17 +326,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $group_wx_openid = $this->t_manager_info->get_wx_openid($group_adminid=831);
-        $template_id     = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
-        $wx              = new \App\Helper\Wx();
-        $ret             = $wx->send_template_msg($group_wx_openid,$template_id,[
-            "first" => '111',
-            "keyword1" => '222',
-            "keyword2" => '333',
-            "keyword3" => date("Y-m-d H:i:s"),
-            "remark"   => '444',
-        ],'');
-        dd($group_wx_openid,$ret);
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid=730);
+        dd($count_info);
     }
 
     public function test_lesson_cancle_rate(){
