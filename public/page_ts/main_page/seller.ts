@@ -44,6 +44,7 @@ $(function(){
             }]
         }
     );
+
     if(group_type == 0){
         $('#id_seller_new').attr('style','display:none');
     }

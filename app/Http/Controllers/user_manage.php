@@ -1017,6 +1017,11 @@ class user_manage extends Controller
         return $this->refund_list();
     }
 
+    public function refund_list_finance(){
+        $this->set_in_value( "refund_userid", $this->get_account_id() );
+        return $this->refund_list();
+    }
+
     public function refund_list(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "apply_time", "申请时间"),

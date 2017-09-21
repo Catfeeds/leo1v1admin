@@ -1267,7 +1267,7 @@ jQuery.extend({
         },  args_ex);
 
         var filter_list=[];
-        if (type=="admin" || type=="admin_group_master"  ) {
+        if (type=="admin" || type=="admin_group_master" ) {
             filter_list=[
                 [
                     {
