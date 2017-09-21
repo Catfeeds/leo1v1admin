@@ -65,8 +65,6 @@ class main_page extends Controller
         // ]);
 
 
-        // $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
-
         $income_new = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
         $income_referral = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
@@ -80,7 +78,7 @@ class main_page extends Controller
         }
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
-        // dd($income_num);
+
         $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
         $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
