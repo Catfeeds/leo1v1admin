@@ -947,13 +947,4 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_get_value($sql);
     }
 
-    public function get_test_lesson_succ_num($start_time){
-        $where_arr = [
-            ""
-        ];
-        //lesson_user_online_status
-
-        $sql = $this->gen_sql_new("  select sum(if(lesson_user_online_status=1,1,0) from %s ) ");
-
-    }
 }

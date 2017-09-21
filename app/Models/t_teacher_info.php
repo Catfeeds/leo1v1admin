@@ -676,7 +676,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.lesson_hold_flag_time,t.interview_score,t.second_interview_score, "
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
-                                  ." t.second_grade_start,t.second_grade_end,"
+                                  ." t.second_grade_start,t.second_grade_end,t.month_stu_num,"
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   //." sum(tss.lessonid >0) week_lesson_num,"
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
