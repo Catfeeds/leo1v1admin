@@ -676,7 +676,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.lesson_hold_flag_time,t.interview_score,t.second_interview_score, "
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
-                                  ." t.second_grade_start,t.second_grade_end,"
+                                  ." t.second_grade_start,t.second_grade_end,t.month_stu_num,"
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   //." sum(tss.lessonid >0) week_lesson_num,"
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
@@ -739,7 +739,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,"
                                   ." t.train_through_new, t.train_through_new_time,"
                                   ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
-                                  ." create_meeting, t.level ,work_year,  advantage, base_intro,textbook_type,is_good_flag,"
+                                  ." create_meeting, t.level ,t.work_year,  advantage, base_intro,textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
                                   ." grade_part_ex,t.is_freeze,freeze_reason,freeze_adminid,freeze_time, "
                                   ." t.limit_plan_lesson_type,t.limit_plan_lesson_reason,t.limit_plan_lesson_time,"
@@ -750,11 +750,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." limit_month_lesson_num ,t.teacher_ref_type,t.saturday_lesson_num,grade_start,grade_end, "
                                   ." not_grade,not_grade_limit,week_lesson_count,t.trial_lecture_is_pass,"
                                   ." sum(tss.lessonid >0) week_lesson_num,"
-                                  ." if(limit_plan_lesson_type>0,limit_plan_lesson_type-sum(tss.lessonid >0),limit_week_lesson_num-sum(tss.lessonid >0)) left_num "
+                                  ." if(limit_plan_lesson_type>0,limit_plan_lesson_type-sum(tss.lessonid >0),limit_week_lesson_num-sum(tss.lessonid >0)) left_num ,"
+                                  ." t.test_transfor_per,t.month_stu_num,tr.record_score"
                                   ." from %s t"
                                   ." left join %s l on (t.teacherid = l.teacherid "
                                   ." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
+                                  ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
                                   ." where %s "
                                   ." group by t.teacherid having(left_num>0) "
                                   ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc,left_num desc "
@@ -763,6 +765,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$lstart
                                   ,$lend
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
@@ -3614,17 +3617,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["lesson_start<%u",$end,0],
             "lesson_type in (0,1,3)",
             "lesson_del_flag=0",
+            "t.teacher_money_type=6",
+            "t.is_test_user=0",
+        ];
+        $where_arr2 = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
         ];
         $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
                                   ." t.teacher_money_type as now_teacher_money_type,t.level as now_level"
                                   ." from %s t"
-                                  ." left join %s l on t.teacherid=l.teacherid"
+                                  ." left join %s l force index(lesson_type_and_start) on t.teacherid=l.teacherid"
                                   ." where %s"
-                                  ." order by lesson_start desc"
+                                  ." and not exists "
+                                  ." (select 1 from %s where l.teacherid=teacherid and "
+                                  ." lesson_start>l.lesson_start and lesson_del_flag=0 and lesson_type in (0,1,3) and %s"
+                                  ." )"
                                   ." group by t.teacherid"
+                                  ." order by lesson_start desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr2
         );
         echo $sql;exit;
         return $this->main_get_list($sql);

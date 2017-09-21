@@ -40,10 +40,9 @@ $(function(){
         var id_grade_rank     = $("<input/>");   //输入年级排名
         //var id_file_url       = $("<input/>");   //文件url
 
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\"></a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
-
 
         Enum_map.append_option_list("subject", id_subject, true,[1,2,3,4,5,6,7,8,9,10]);
         Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
@@ -83,6 +82,10 @@ $(function(){
                     alert("请输入试卷总分");
                     return;
                 }
+                if(id_score.val() > id_total_score.val()){
+                    alert("考试成绩不能大于总分");
+                    return;
+                }
                 $.do_ajax('/ajax_deal2/score_edit',{
                     "id" : opt_data.id,
                     "subject"       : id_subject.val(),
@@ -109,9 +112,10 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
-                ["png","jpg","zip","rar","gz","pdf","doc"] );
+                ["png","jpg","zip","rar","gz","pdf","doc","jpeg"] );
 
         });
     }) ;

@@ -2527,6 +2527,7 @@ trait TeaPower {
      * @param teacherid  老师id
      * @param start_time 本月开始时间
      * @param end_time   本月结束时间
+     * @return int       累计课时
      */
     public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type=0){
         $last_start_time = strtotime("-1 month",$start_time);
@@ -2538,7 +2539,8 @@ trait TeaPower {
     }
 
     /**
-     * 获取老师上个月的累计常规课时和累计常规+常规课时
+     * 获取老师上个月的累计常规课时和累计常规+试听课时
+     * @return array all_lesson_count 上月累计常规+试听课时  all_normal_count 上月累计常规课时
      */
     public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
         $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
@@ -2667,9 +2669,7 @@ trait TeaPower {
             $this->change_time_to_range($lesson_data,$half_start_day,$half_end_day);
             $this->change_time_to_range($lesson_data,$night_start_day,$end_day);
         }
-        
     }
-
 
     public function change_time_to_range(&$lesson_data,$lesson_start,$lesson_end){
         for(;$lesson_start<=$lesson_end;){

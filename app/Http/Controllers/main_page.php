@@ -65,8 +65,6 @@ class main_page extends Controller
         // ]);
 
 
-        // $income_arr = $this->t_order_info->get_income_for_month($start_time, $end_time); // 新签+转介绍 [收入] 总收入
-
         $income_new = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
         $income_referral = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
@@ -78,10 +76,9 @@ class main_page extends Controller
         }else{
             $aver_count = 0;
         }
-        // dd($income);
 
         $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
-        // dd($income_num);
+
         $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
         $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
@@ -131,8 +128,13 @@ class main_page extends Controller
 
 
         //  外呼情况
-        //  呼出量
-        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);
+        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+
+        $ret_info['has_called'] = $this->t_tq_call_info->get_called_num($start_time, $end_time); // 已拨打
+
+        // 本月新进例子数
+        $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time);
+
 
         dd($ret_info['has_tq_succ']);
         $ret_info = [];

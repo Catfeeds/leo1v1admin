@@ -90,7 +90,7 @@ class test_sam  extends Controller
           }
           $arr = [];
           foreach ($list as $key => $value) {
-              $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($key);                   
+              $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($key);
               $teacherid = $teacher_info["teacherid"];
               $realname = $this->t_teacher_info->get_realname($teacherid);
               @$arr[$key]['teacherid'] = $teacherid;
@@ -108,7 +108,7 @@ class test_sam  extends Controller
 
 
           foreach ($arr as $key => $value) {
-             $this->t_manager_info->send_wx_todo_msg_by_adminid (
+              $this->t_manager_info->send_wx_todo_msg_by_adminid (
                 //$key,
                 944,
                 "国庆延休统计",
@@ -119,6 +119,38 @@ class test_sam  extends Controller
                 "\n延休天数:".$value['day_num'].
                 "\n延休日期:".$value['cross_time'],'');
           }
+
+          
+          $table = '<table cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="2">全职老师假期累计上课时间及延休安排</td></tr>';
+          $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
+          $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
+          foreach ($arr as $key => $value) {
+              if($value['day_num'] != 0){
+                  $table .= '<tr>';
+                  $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['lesson_count'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
+                  $table .= '</tr>';
+              }
+
+          }
+          $table = "</table>";
+
+          $content = "Dear all：<br>全职老师国庆延休安排情况如下<br/>";
+          $content .= "数据见下表<br>";
+          $content .= $table;
+          $contetn .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>";
+          echo $content;
+          $email_arr = ["sam@leoedu.com"];
+          foreach($email_arr as $email){
+             dispatch( new \App\Jobs\SendEmailNew(
+                $email,
+                "全职老师国庆假期累计上课时间及延休安排",
+                $content
+             ));
+  
+         }
 
           $admin_list = [944];
           dd($arr);

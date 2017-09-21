@@ -18,6 +18,7 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	complaint_id	:any;
+	complained_department	:any;
 	complaint_type	:any;
 	userid	:any;
 	account_type	:any;
@@ -34,8 +35,9 @@ interface RowData {
 	deal_info	:any;
 	deal_time	:any;
 	deal_adminid	:any;
-	complained_department	:any;
+	complaint_img_url	:any;
 	complaint_type_str	:any;
+	complained_department_str	:any;
 	complained_adminid_type_str	:any;
 	complaint_state_str	:any;
 	account_type_str	:any;

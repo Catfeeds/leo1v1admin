@@ -10,16 +10,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	p1_name	:any;
-	p1_id	:any;
-	p1_test_lesson_flag_str	:any;
-	p1_price	:any;
-	p1_p_agent_level	:any;
-	p1_p_agent_level_str	:any;
-	p1_p_price	:any;
-	p1_p_open_price	:any;
-	p1_agent_status_money	:any;
-	p1_agent_status_money_open_flag_str	:any;
 }
 
 /*

@@ -843,6 +843,10 @@ $(function(){
 
 
 
+    if ( window.location.pathname=="/human_resource/index" || window.location.pathname=="/human_resource/index/") {
+         $("#id_free_time").parent().parent().show();
+    }
+
 
 
 
