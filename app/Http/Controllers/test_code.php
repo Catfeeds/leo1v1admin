@@ -2151,40 +2151,18 @@ class test_code extends Controller
         }
     }
 
-    /**
-     * 手动更新淘宝价格
-     */
-    public function get_taobao_list(){
-        $list = $this->t_taobao_item->get_all_item_list();
+    public function teacher_lesson_total(){
+        $info = $this->get_b_txt();
 
-        $start_str = "<em class=\"tb-rmb-num\">";
-        foreach($list as $val){
-            if($val['product_id']!=""){
-                $price="";
-                $url  = "https://item.taobao.com/item.htm?id=".$val['product_id'];
-                $html = file_get_contents($url);
-
-                $left_str = strstr($html,$start_str);
-                $left_str = str_replace($start_str,"",$left_str);
-                $check_str = ".";
-                $price = stristr($left_str,$check_str,true);
-
-                echo $val['open_iid']."|".$val['product_id']."|".$val["price"]."|".$price;
-                echo "<br>";
-                if($price!=""){
-                    $this->t_taobao_item->field_update_list($val['open_iid'],[
-                        "price" => $price,
-                    ]);
-                }else{
-                    $this->t_taobao_item->field_update_list($val['open_iid'],[
-                        "status"=>0
-                    ]);
-                }
+        $teacherid_str = "";
+        foreach($info as $val){
+            if($val!=""){
+                $teacherid = $this->t_teacher_info->get_teacherid_by_name($val);
+                
+                $teacherid_str .= ",".$teacherid;
             }
         }
     }
-
-
 
 
 

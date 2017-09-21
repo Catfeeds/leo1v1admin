@@ -254,6 +254,10 @@ class ajax_deal2 extends Controller
         $rank_arr = explode("/",$grade_rank);
         $rank_now = $rank_arr[0];
         $grade_rank_last = $this->t_student_score_info->get_last_grade_rank_b1($subject,$userid,$create_time);
+
+        if( $score> $total_score){
+            return $this->output_err("成绩输入有误!");
+        }
         if($grade_rank_last  && $rank_now != ''){
             $grade_rank_last = $grade_rank_last[0]["grade_rank"];
             $rank_last_arr = explode("/",$grade_rank_last);
@@ -350,6 +354,10 @@ class ajax_deal2 extends Controller
         $rank_arr = explode("/",$grade_rank);
         $rank_now = $rank_arr[0];
         $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
+        if( $score > $total_score){
+            return $this->output_err("成绩输入有误!");
+        }
+
         if($grade_rank_last  && $rank_now != ''){
             $grade_rank_last = $grade_rank_last[0]["grade_rank"];
             $rank_last_arr = explode("/",$grade_rank_last);

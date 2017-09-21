@@ -57,10 +57,6 @@ $(function(){
             label    :   "确认",
             cssClass :   "btn-warning",
             action   :   function(dialog){
-                if(id_score.val() > id_total_score.val()){
-                    alert("考试成绩不能大于总分");
-                    return;
-                }
                 $.do_ajax('/ajax_deal2/score_edit',{
                     "userid"        : g_sid,
                     "create_time"   : opt_data.create_time,
@@ -160,11 +156,7 @@ $(function(){
                     alert("请输入试卷总分");
                     return;
                 }
-                if(id_score.val() > id_total_score.val()){
-                    alert("考试成绩不能大于总分");
-                    return;
-                }
-               
+                              
                 $.do_ajax("/ajax_deal2/score_add_new",{
                     "userid"        : g_sid,
                     "create_time"   : '0',
