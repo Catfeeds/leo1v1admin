@@ -644,7 +644,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-6 ">
+            <div class="col-xs-12 col-md-6 " style="display:none">
                 <div class="input-group  ">
                     <span class="input-group-addon">1000元定金</span>
                     <select  class="form-control field-pre-money">

@@ -2180,7 +2180,70 @@ class test_code extends Controller
         }
     }
 
+    public function show_week_reward(){
+        $end   = time();
+        $start = strtotime("-1 week",$end);
 
+        $lesson_list = [
+            0=>[
+                "teacherid"=>11,
+                "lesson_total"=>50,
+            ],
+            1=>[
+                "teacherid"=>12,
+                "lesson_total"=>50,
+            ],
+            2=>[
+                "teacherid"=>13,
+                "lesson_total"=>40,
+            ],
+            3=>[
+                "teacherid"=>14,
+                "lesson_total"=>40,
+            ],
+            4=>[
+                "teacherid"=>15,
+                "lesson_total"=>33,
+            ],
+            5=>[
+                "teacherid"=>16,
+                "lesson_total"=>23,
+            ],
+            6=>[
+                "teacherid"=>17,
+                "lesson_total"=>13,
+            ]
+        ];
+        $num_people   = 0;
+        $num_lesson   = 0;
+        $num_lesson_next = 0;
+        $lesson_total = 0;
+
+
+        $rank_list=[];
+        if(is_array($lesson_list)){
+            foreach($lesson_list as $val){
+                $num_people++;
+                $num_lesson=$num_people;
+                if($lesson_total != $val['lesson_total']){
+                    if($num_people>5){
+                        break;
+                    }
+                    if($num_lesson>5){
+                        $num_lesson=5;
+                    }
+                    $lesson_total = $val['lesson_total'];
+                    $money = E\Ehonor_list::get_desc($num_lesson);
+                }
+
+                $arr['lesson_total'] = $lesson_total;
+                $arr['money']        = $money;
+                $rank_list[]         = $arr;
+            }
+        }
+
+        \App\Helper\Utils::debug_to_html( $rank_list );
+    }
 
 
 

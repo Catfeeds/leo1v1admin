@@ -92,14 +92,21 @@ class lesson extends TeaWxController
 
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $level = $this->t_teacher_info->get_level($teacherid);
+        $teacher_type= $this->t_teacher_info->get_teacher_type($teacherid);
 
         $type=0;
-        if($teacher_money_type == E\Eteacher_money_type::V_0 && $level == 3) {
-            $type=0;
+        // if($teacher_money_type == E\Eteacher_money_type::V_0 && $level == 3) {
+        if($teacher_money_type == E\Eteacher_money_type::V_0 && !in_array($teacher_type,[3,4])) {
+            // $type=0;
+            $type = 5;
+        }else if($teacher_money_type == E\Eteacher_money_type::V_1) {
+            $type = 5;
         }else if($teacher_money_type == E\Eteacher_money_type::V_2) {
-            $type=1;
+            // $type=1;
+            $type=5;
         }else if($teacher_money_type == E\Eteacher_money_type::V_4) {
-            $type=2;
+            // $type=2;
+            $type=5;
         }else if($teacher_money_type == E\Eteacher_money_type::V_5) {
             $type=4;
         }else if($teacher_money_type == E\Eteacher_money_type::V_6){
