@@ -1507,4 +1507,19 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=>$num]);
     }
 
+    //更改家长姓名
+    public function update_parent_name(){
+        $userid              = $this->get_in_int_val("userid");
+        $parent_name              = $this->get_in_str_val("parent_name");
+        $parentid =$this->t_student_info->get_parentid($userid);
+        $this->t_parent_info->field_update_list($parentid,[
+           "nick"    =>$parent_name 
+        ]);
+        $this->t_student_info->field_update_list($userid,[
+           "parent_name" =>$parent_name 
+        ]);
+        return $this->output_succ();
+        
+    }
+
 }
