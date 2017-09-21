@@ -120,19 +120,30 @@ class test_sam  extends Controller
                 "\n延休日期:".$value['cross_time'],'');
           }
 
+          $table = '<table><tr><td colspan="2">全职老师假期累计上课时间及延休安排</td></tr>';
+          $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
+          $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
+          foreach ($arr as $key => $value) {
+              if($value['day_num'] != 0){
+                  $table .= '<tr>';
+                  $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['lesson_count'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
+                  $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
+                  $table .= '</tr>';
+              }
 
+          }
 
           $email_arr = ["sam@leoedu.com"];
           foreach($email_arr as $email){
              dispatch( new \App\Jobs\SendEmailNew(
                 $email,
-                "教学质量反馈报告(".$time."-".$time.")",
-                "Dear all：<br>本周教学监课情况如下<br>1.本周超过10次以上未转化的老师共"
-                    .$time."位,其中"
-                    .$time."位已进行冻结排课操作<br>2.本周监课数量"
-                    .$time."节,其中新入职老师监课数量"
-                    .$time."节<br>简要情况见下表<br>"
-                    ."<br>详情请点击:<a href=\"http://admin.yb1v1.com/human_resource/teacher_record_detail_list_new/?teacherid=-1&subject=-1&date_type=null&opt_date_type=0&start_time=".$time."&end_time="."\" target=\"_blank\">(上周教学质量反馈报告)</a><br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
+                "全职老师国庆假期累计上课时间及延休安排",
+                "Dear all：<br>全职老师国庆延休安排情况如下<br/>"
+                ."数据见下表<br>"
+                .$table
+                ."<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>"
              ));
   
          }
