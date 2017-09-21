@@ -430,6 +430,7 @@ trait TeaPower {
             }
         }else if($account_role==5){
             $qz_flag     = 1;
+            //叶老师
             if($adminid==480){
                  $tea_right = 1;
             }else{

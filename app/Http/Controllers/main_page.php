@@ -65,8 +65,8 @@ class main_page extends Controller
         // ]);
 
 
-        $income_new = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
-        $income_referral = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+        $ret_info['income_new'] = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
+        $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
         $income_price = $income_new['all_price']+$income_referral['all_price'];
         $income_count = $income_new['all_count']+$income_referral['all_count'];
@@ -77,11 +77,11 @@ class main_page extends Controller
             $aver_count = 0;
         }
 
-        $income_num = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
+        $ret_info['income_num'] = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
-        $formal_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+        $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
-        $formal_num = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+        $ret_info['formal_num']= $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
         $total_price = 0;
         foreach($formal_info as $item){
@@ -114,12 +114,15 @@ class main_page extends Controller
         $high_school_money  = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
         $primary_money      = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
+        // 月邀请率
+        // 合同人数
+
         // 转化率
-        $seller_invit_num = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
+        $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
 
-        $seller_schedule_num = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
+        $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
 
-        $test_lesson_succ_num = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+        $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
         $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
 
