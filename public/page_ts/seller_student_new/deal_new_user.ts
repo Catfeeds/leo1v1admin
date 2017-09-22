@@ -1362,8 +1362,12 @@ $(function(){
     $("#id_get_this_new_user").on("click",function(){
         $.do_ajax("/seller_student_new/get_this_new_user",{
             "phone" : g_args.phone,
+        },function(ret){
+            if(ret == 1){
+                alert('认领成功!')
+                window.location.reload();
+            }
         });
-
     });
 
 });

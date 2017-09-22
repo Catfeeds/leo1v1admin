@@ -87,7 +87,8 @@
 
                 <tr>
                     <td>拨打状态</td>
-                    <td>{{$user_info["tq_called_flag_str"] }}
+                    <td>
+                        {{$user_info["tq_called_flag_str"] }}
                         @if  ($user_info["tq_called_flag"] ==0 )
                             <font color="red"> 请拨打,并 刷新通话记录 </font>
                         @elseif ( $user_info["tq_called_flag"] ==1  )
