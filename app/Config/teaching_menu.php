@@ -7,6 +7,7 @@ class teaching_menu{
             ["name"=> "教学管理事业部" , "list" => [
                 [ "name"=>"核心数据",  "list"=>[
                     [ "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
+                    [ "name"=>"老师晋升列表","url"=>"/teacher_level/teacher_advance_info_list"],
                     [ "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
                     [ "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],

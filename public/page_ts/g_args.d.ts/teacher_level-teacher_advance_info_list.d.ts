@@ -48,6 +48,7 @@ interface RowData {
 	level_after_str	:any;
 	accept_time_str	:any;
 	require_time_str	:any;
+	become_member_time_str	:any;
 	accept_flag_str	:any;
 	is_refund_str	:any;
 }
@@ -55,10 +56,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../teacher_level; vi  ../teacher_level/get_teacher_advance_info.ts
+	 mkdir -p ../teacher_level; vi  ../teacher_level/teacher_advance_info_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_level-get_teacher_advance_info.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-teacher_advance_info_list.d.ts" />
 
 $(function(){
     function load_data(){
