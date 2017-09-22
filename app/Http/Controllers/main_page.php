@@ -56,6 +56,7 @@ class main_page extends Controller
 
 
     public function get_seller_total_info(){ // cc 总表信息
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
 

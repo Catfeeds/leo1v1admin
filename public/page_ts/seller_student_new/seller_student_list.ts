@@ -372,17 +372,17 @@ $(function(){
                             }else{
                                 if(resp.seller_top_flag==1){
                                     if(11){
-                                        var uu=40-resp.top_num;
+                                        var uu=40-resp.top_num-1;
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
 
-                                    }else if(resp.top_num==30){
+                                    }else if(resp.top_num==29){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
-                                    } else if(resp.top_num==35){
+                                    } else if(resp.top_num==34){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
-                                    } else if(resp.top_num==39){
+                                    } else if(resp.top_num==38){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
                                     }else{

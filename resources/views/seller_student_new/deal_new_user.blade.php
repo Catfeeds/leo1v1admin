@@ -493,19 +493,19 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-md-2  ">
+                    <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp班级排名：</span>
                             <input type="text" class=" form-control "  id="id_class_rank"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2  ">
+                    <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
                             <span class="input-group-addon">年级排名：</span>
                             <input type="text" class=" form-control "  id="id_grade_rank"  />
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-2 ">
+                    <div class="col-xs-12 col-md-3 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
                             <select id="id_academic_goal" class=" form-control "   >
