@@ -258,7 +258,7 @@
                             </td>
                             <td class="grab_status"> {{$var["grab_status_str"]}} </td>
                             <td >
-                                @if($var["new_demand_flag"]==0)
+                                @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
                                     TMK ： {{$var["tmk_admin_nick"]}}<br/>
                                     申请时间： {{$var["require_time"]}}<br/>
                                     申请人：{{$var["require_admin_nick"]}}<br/>
@@ -273,7 +273,7 @@
                                     <!-- 成绩情况: {{$var["stu_score_info"]}} <br/> -->
                                     性格信息: {{$var["stu_character_info"]}} <br/>
                                     高意向: {!! $var["intention_level_str"] !!} <br/>
-                                @elseif($var["new_demand_flag"]==1)
+                                @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
                                     TMK ： {{$var["tmk_admin_nick"]}}<br/>
                                     申请时间： {{$var["require_time"]}}<br/>
                                     申请人：{{$var["require_admin_nick"]}}<br/>
@@ -310,7 +310,7 @@
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>
                             <td >
-                                @if($var["new_demand_flag"]==0)
+                                @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
                                     期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
                                     期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
                                     正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>
@@ -321,7 +321,7 @@
                                     @if ($var["is_green_flag"]==1)
                                         <font color="green"> 已申请绿色通道</font>
                                     @endif
-                                @elseif($var["new_demand_flag"]==1)
+                                @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
                                     期待时间: {{$var["stu_request_test_lesson_time"]}} <br/> 
                                     升学目标: {{$var["academic_goal_str"]}} <br/>
                                     应试压力 : {{$var["test_stress_str"]}} <br/>

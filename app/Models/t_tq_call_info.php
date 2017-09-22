@@ -474,4 +474,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_value($sql);
     }
 
+
+    public function get_call_info_row($tquin,$phone){
+        $where_arr = [
+            ['uid',$tquin,-1],
+            ['phone',$phone,-1],
+            'is_called_phone = 2',
+        ];
+        $sql = $this->gen_sql_new(" select id from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

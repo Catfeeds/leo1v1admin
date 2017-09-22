@@ -5633,25 +5633,25 @@ lesson_type in (0,1) "
     }
 
     public function get_teacher_lesson_count_total($start,$end,$teacherid_list=[],$lesson_type=-1){
-        $where_arr=[];
+        $where_arr = [
+            ["lesson_start>=%u",$start,0],
+            ["lesson_start<=%u",$end,0],
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+        ];
         $this->where_arr_teacherid($where_arr,"teacherid", $teacherid_list);
         if($lesson_type==1){
             $where_arr[] ="lesson_type <>2 and lesson_type <1000";
         }else{
             $where_arr[] ="lesson_type in (0,2)";
         }
-        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) lesson_total,count(distinct(userid)) as stu_num "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) as lesson_total,"
+                                  ." count(distinct(userid)) as stu_num "
                                   ." from %s "
                                   ." where %s  "
-                                  ." and confirm_flag !=2 "
-                                  ." and lesson_start >= %u "
-                                  ." and lesson_start <=%u "
-                                  ." and lesson_del_flag =0 "
                                   ." group by teacherid"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,$start
-                                  ,$end
         );
         return $this->main_get_list($sql,function($item){
             return $item["teacherid"];

@@ -1396,7 +1396,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                   && !$item["admin_revisiterid"]
                   &&  $item["competition_call_time"]+3600 > time(NULL)
                   &&  $competition_call_adminid ) {
-                if ($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+                if ($this->task->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
                     \App\Helper\Utils::logger("SET COMPETITION_CALL_ADMINID ");
 
                     $account=$this->t_manager_info->get_account( $competition_call_adminid );
@@ -1408,6 +1408,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                         "system"
                     );
 
+                }else{
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid($competition_call_adminid,"sys",
+                                                                       "已到达抢例子上限");
                 }
             }
 

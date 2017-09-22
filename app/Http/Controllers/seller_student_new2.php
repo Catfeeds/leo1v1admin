@@ -213,6 +213,11 @@ class seller_student_new2 extends Controller
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
             $item["lesson_time"] = $item["lesson_start"];
+            if($item["require_time"] >= strtotime("2017-09-22 14:30:00")){
+                $item["use_new_flag"]=1;
+            }else{
+                $item["use_new_flag"]=0;
+            }
             $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
             \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");

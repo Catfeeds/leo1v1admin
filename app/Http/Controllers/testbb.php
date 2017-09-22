@@ -239,6 +239,9 @@ class testbb extends Controller
 
 
     public function ss(){
+        $a = '[{"day":"9-30","hours":[12,16]}]';
+        dd(json_decode($a,true));
+
         $deal_adminid = $this->get_in_int_val('deal_adminid');
         $complaint_id = $this->get_in_int_val('complaint_id');
         $director_wx_list   = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id);
@@ -254,9 +257,12 @@ class testbb extends Controller
     }
 
     public function install(){
-        Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
+        // 暂时未建
+        Schema::create('db_weiyi.t_seller_tongji_funnel_data_for_month', function( Blueprint $table)
         {
             $table->increments("id","id");
+            t_field($table->integer("create_time"),"创建时间");
+            t_field($table->integer("from_time"),"来自于那个月份 月份的第一天时间戳");
             t_field($table->integer("referral_money"),"转介绍合同收入");
             t_field($table->integer("new_money"),"新签合同收入");
             t_field($table->text("income_info"),"对应人员收入签单额度");

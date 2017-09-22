@@ -2514,6 +2514,7 @@ trait TeaPower {
     }
 
     public function check_is_special_reference($phone){
+        //田克平
         if($phone=="13387970861"){
             $check_flag=1;
         }else{
@@ -2767,19 +2768,17 @@ trait TeaPower {
         $teacherid_free = str_replace($teacherid_has_str,"",$teacherid_str);
         $teacherid_free_arr = array_values(array_filter(explode(",",$teacherid_free)));
         return $teacherid_free_arr;
-       
     }
-
 
     public function delete_train_lesson_before($lessonid,$subject,$grade,$teacherid){
         $list = $this->t_lesson_info_b2->get_train_lesson_before($lessonid,$subject,$grade,$teacherid);
         if(!empty($list)){
             foreach($list as $val){
                 $this->t_lesson_info->field_update_list($val["lessonid"],[
-                   "lesson_del_flag"  =>1 
+                   "lesson_del_flag"  =>1
                 ]);
             }
-        }       
+        }
     }
 
     public function get_email_html_new($name=""){
@@ -2990,9 +2989,11 @@ trait TeaPower {
     }
 
     /**
-     * 获取某个老师时间节点内的工资总体
+     * 获取时间段内的老师工资明细
      */
     public function teacher_total_money($teacherid,$start_time,$end_time){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
 
     }
 

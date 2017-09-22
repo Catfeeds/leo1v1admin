@@ -31,7 +31,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key      = "teacher_money_type_month";
 
     public function __construct(){
-        // $this->switch_tongji_database();
+        $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -1975,8 +1975,11 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 切换老师后,更新课程信息
+     */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-13 16:00");
+        $time  = strtotime("2017-9-22 16:00");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
@@ -1994,6 +1997,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 切换老师到第四版
+     */
     public function reset_teacher_money_type(){
         $batch = $this->get_in_int_val("batch",1);
         $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
@@ -2011,10 +2017,10 @@ class test_code extends Controller
         $data['keyword3'] = "16:00";
         $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
         foreach($list as $val){
-            $this->t_teacher_info->field_update_list($val['teacherid'],[
-                "teacher_money_type" => $val['teacher_money_type_simulate'],
-                "level"              => $val['level_simulate'],
-            ]);
+            // $this->t_teacher_info->field_update_list($val['teacherid'],[
+            //     "teacher_money_type" => $val['teacher_money_type_simulate'],
+            //     "level"              => $val['level_simulate'],
+            // ]);
 
             if($val['wx_openid']!=""){
                 $level_str = E\Enew_level::v2s($val['level_simulate']);
@@ -2078,41 +2084,6 @@ class test_code extends Controller
         }
     }
 
-    public function get_teacher_full_lesson(){
-        $month = $this->get_in_int_val("month",6);
-        $start_time = strtotime("2017-$month");
-        $end_time = strtotime("+1 month",$start_time);
-        $list = $this->t_lesson_info_b3->get_teacher_full_lesson_total($start_time,$end_time);
-        echo "姓名|手机|课时|请假|迟到";
-        echo "<br>";
-        foreach($list as $val){
-            $lesson_total=$val['lesson_total']/100;
-            echo $val['realname']."|".$val['phone']."|".$lesson_total."|".$val['change_class']."|".$val['come_late'];
-            echo "<br>";
-        }
-    }
-
-    public function get_trial_lesson(){
-        $month = $this->get_in_int_val("month");
-
-        $start_time = strtotime("2017-$month");
-        $end_time = strtotime("+1 month",$start_time);
-    }
-
-    public function reset_tea_already_lesson_count(){
-        $tea_list = $this->t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end);
-        if(!empty($tea_list) && is_array($tea_list)){
-            foreach($tea_list as $val){
-                $stu_list = $this->t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
-                if(!empty($stu_list) && is_array($stu_list)){
-                    foreach($stu_list as $item){
-                        $this->t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
-                    }
-                }
-            }
-        }
-    }
-
     public function reset_already_lesson_count(){
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_key);
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_simulate_key);
@@ -2168,16 +2139,17 @@ class test_code extends Controller
         $month   = $this->get_in_int_val("month",6);
 
         $start_time = strtotime("2017-$month");
-        $end_time   = strtotime("+1 month");
+        $end_time   = strtotime("+1 month",$start_time);
         $list       = $this->t_lesson_info->get_teacher_lesson_count_total($start_time,$end_time,$tea_arr,1);
-        echo "姓名|工资类型|课耗|学生数";
+        echo "teacherid|姓名|工资类型|课耗|学生数";
         echo "<br>";
         foreach($list as $val){
+            $teacherid = $val['teacherid'];
             $tea_nick = $this->cache_get_teacher_nick($val['teacherid']);
             $teacher_money_type_str = E\Eteacher_money_type::get_desc($val['teacher_money_type']);
             $lesson_total = $val['lesson_total']/100;
             $stu_num=$val['stu_num'];
-            echo "$tea_nick|$teacher_money_type_str|$lesson_total|$stu_num";
+            echo "$teacherid|$tea_nick|$teacher_money_type_str|$lesson_total|$stu_num";
             echo "<br>";
         }
     }

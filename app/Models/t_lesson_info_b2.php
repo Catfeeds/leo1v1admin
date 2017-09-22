@@ -116,7 +116,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
-            ." lesson_type,lesson_num, tlm.is_modify_time_flag"
+            ." lesson_type,lesson_num, tlm.parent_modify_time"
             ." from %s l "
             ." join %s pc on l.userid = pc.userid "
             ." left join %s tl on  (tl.lessonid = l.lessonid  and label_origin =1 ) "
@@ -3880,5 +3880,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_lesson_time_row($lessonid){
+        $sql = $this->gen_sql_new("select lesson_start, lesson_end from %s where lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_row($sql);
+    }
+
 
 }

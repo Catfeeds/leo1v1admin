@@ -2705,7 +2705,41 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $list = $this->t_test_lesson_subject_require->get_seller_top_list();
+        foreach($list as $val){
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$val["curl_stu_request_test_lesson_time"]))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($val["cur_require_adminid"], $start_time);
+            if(!isset($self_top_info[6]["top_index"]) || $self_top_info[6]["top_index"]>25 ){
+                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+                   "seller_top_flag"=>0 
+                ]);
+            }
+            
+        }
+        dd($list);
+        dd($self_top_info);
+ 
+        
+        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_all();
+
+        foreach($jw_teacher_list as $k=>$val){
+            $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+            if (!$json_ret) {
+                $json_ret=0;
+                \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+            }
+            $normal_arr[$k]=$json_ret;
+            /*if($json_ret==1){
+              $i++;
+              }*/
+            // echo $json_ret;
+        }
+        asort($normal_arr);
+        dd($normal_arr);
+
+        $arr=["436"=>11,"400"=>333,"566"=>56,"66"=>1];
+        asort($arr);
+        dd($arr);
         $list = $this->t_order_info->get_no_pay_order_list();
         foreach($list as $item){
             $orderid = $item["orderid"];
