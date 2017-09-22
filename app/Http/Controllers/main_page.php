@@ -64,6 +64,8 @@ class main_page extends Controller
         //     5 => array("seller_require_change_time ", "销售申请更换时间"),
         // ]);
 
+        $ret_info_arr['page_info'] = '';
+        $ret_info = &$ret_info_arr['list'];
 
         $ret_info['income_new'] = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
         $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
@@ -149,13 +151,13 @@ class main_page extends Controller
 
         $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, $ret_info_arr);
     }
 
 
     public function seller()
     {
-        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01" )  );
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $adminid=$this->get_account_id();
         //组长&主管
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
@@ -264,6 +266,9 @@ class main_page extends Controller
         $self_top_info[14]["value"] = isset($test_fail_info[14]["value"])?$test_fail_info[14]["value"]:0;
         $self_top_info[15]["value"] = isset($test_fail_info[15]["value"])?$test_fail_info[15]["value"]:0;
         $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
+
+
+        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,

@@ -99,7 +99,6 @@ class wx_parent_api extends Controller
 
         }
 
-        // dd($ret_list);
         return $this->output_succ(["children_lesson_info"=>$ret_list]);
     }
 

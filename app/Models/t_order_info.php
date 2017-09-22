@@ -3365,9 +3365,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_no_pay_order_list(){
         $sql = $this->gen_sql_new("select orderid,contract_type,contract_status,pre_price,channel,"
-                           ."pre_price,pre_pay_time,pre_from_orderno,price "
+                           ."pre_price,pre_pay_time,pre_from_orderno,price,pay_time,from_orderno "
                            ." from %s"
-                           ." where contract_type in (0,3) and contract_status=0",
+                           ." where contract_type in (0,3) and contract_status>0",
                            self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);

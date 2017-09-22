@@ -455,6 +455,8 @@ class menu{
                     ["power_id"=>14, "name"=>"转化率-明细",
                      "url"=>"/tongji_ex/test_lesson_order_detail_list"],
 
+                    ["power_id"=>15, "name"=>"销售规划统计",
+                     "url"=>"/main_page/get_seller_total_info"],
 
 
                 ]],

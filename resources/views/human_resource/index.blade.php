@@ -531,7 +531,7 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku","low-key"]))
+                                @if(in_array($acc,["ted","夏宏东","haku","low-key"]) || in_array($account_role,[12]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
