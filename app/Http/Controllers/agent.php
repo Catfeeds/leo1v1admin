@@ -326,6 +326,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $cur_require_adminid = 442;
+        $master = $this->t_admin_group_user->get_main_master_adminid($adminid);
         dd('a');
     }
 

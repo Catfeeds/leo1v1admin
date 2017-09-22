@@ -466,6 +466,17 @@ class tongji2 extends Controller
                 \App\Helper\Common::div_safe( $call_time_all,$call_count)),
         ]);
     }
+
+    public function check_up_group_adminid(){
+        $adminid = $this->get_account_id();
+        $groupid = $this->t_admin_main_group_name->get_groupid_by_master_adminid($adminid);
+        $ret = 0;
+        if($groupid){
+            $ret = 1;
+        }
+        return $ret;
+    }
+
     public function seller_student_admin_list() {
         $del_flag=$this->get_in_e_boolean(-1,"del_flag");
         $ret_info=$this->t_seller_student_new->admin_list($del_flag);
