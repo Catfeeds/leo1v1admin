@@ -37,39 +37,238 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-md-12">
-                <div>
-                    <span>目标</span>
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            概况
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>现金总收入</td>
+                                        <td>下单总人数</td>
+                                        <td class="panel-red">入职完整月人员签单额</td>
+                                        <td class="panel-red">入职完整月人员人数</td>
+                                        <td class="panel-red">平均人效</td>
+                                        <td class="panel-red">平均单笔</td>
+                                        <td class="panel-red">月KPI完整率</td>
+                                        <td class="panel-red">CR总人数</td>
+                                        <td>结课学员数</td>
+                                        <td>退费总人数</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> 节点</td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td class="panel-yellow" > 存档 </td> 
+                                        <td> 节点 </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            课时消耗
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>课时系数目标量</td>
+                                        <td>在读学生数量</td>
+                                        <td>上课学生数量</td>
+                                        <td>课时消耗目标数量</td>
+                                        <td>课时消耗实际数量</td>
+
+                                        <td>老师请假课时</td>
+                                        <td>学生请假课时</td>
+                                        <td>其他原因未上课时</td>
+                                        <td>课时完成率</td>
+                                        <td>学生到课率</td>
+                                        <td>课时收入</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td class="panel-yellow" > 存档</td> 
+                                        <td class="panel-yellow" > 存档  </td> 
+                                        <td class="panel-yellow" > 存档 </td> 
+                                        <td> 节点</td> 
+                                        <td> 节点</td>
+
+                                        <td> 节点</td> 
+                                        <td> 节点</td> 
+                                        <td> 节点 </td> 
+                                        <td > 节点  </td> 
+                                        <td class="panel-yellow" > 存档  </td> 
+
+                                        <td class="panel-yellow" > 存档 </td> 
+
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            续费
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>预计结课学生数量</td>
+                                        <td>计划内续费学生数量</td>
+                                        <td>计划外续费学生数量</td>
+                                        <td>实际续费学生数量</td>
+                                        <td>续费金额</td>
+                                        <td class="panel-red">平均单笔</td>
+                                        <td class="panel-red">月续费率</td>
+                                        <td class="panel-red">月预警续费率</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_assistant_renew_list">
+                                    <tr>
+                                        <td class="panel-blue">  漏斗-存档</td> 
+                                        <td class="panel-blue">  漏斗-存档  </td> 
+                                        <td class="panel-blue">  漏斗-存档  </td> 
+                                        <td class="panel-blue">  漏斗-存档  </td> 
+                                        <td>  节点</td> 
+                                        <td>  节点</td>
+                                        <td class="panel-blue">  漏斗-存档 </td>
+                                        <td class="panel-blue">  漏斗-存档 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            转介绍
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td class="panel-red">转介绍至CC例子量</td>
+                                        <td class="panel-red">转介绍至CC例子签单量</td>
+                                        <td class="panel-red">转介绍至CC例子签单金额</td>
+                                        <td class="panel-red">月转介绍至CC签单率</td>
+                                        <td class="panel-red">转介绍成单数量</td>
+                                        <td class="panel-red">转介绍总金额</td>
+                                        <td>平均单笔</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td class="panel-green">  漏斗-存档-节点  </td> 
+                                        <td class="panel-green">  漏斗-存档-节点 </td> 
+                                        <td class="panel-green">  漏斗-存档-节点 </td>
+                                        <td class="panel-blue">  漏斗-存档  </td>
+                                        <td> 节点</td>
+                                        <td> 节点</td>
+                                        <td> 节点</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            扩科
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>扩课试听数量</td>
+                                        <td>扩课成单数量</td>
+                                        <td>扩科待跟进数量</td>
+                                        <td>扩科未成单数量</td>
+                                        <td class="panel-red">月扩课成功率</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td class="panel-green">  漏斗-存档-节点  </td>
+                                        <td class="panel-green">  漏斗-存档-节点  </td>
+                                        <td class="panel-green">  漏斗-存档-节点  </td> 
+                                        <td class="panel-green">  漏斗-存档-节点  </td> 
+                                        <td class="panel-blue">  漏斗-存档 </td> 
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            投诉退费
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>家长投诉数量</td>
+                                        <td>非正常退费事件数量</td>
+                                        <td>非正常退费金额</td>
+                                        <td>不可抗力退费数量</td>
+                                        <td>不可抗力退费金额</td>
+                                        <td>退费总额</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td></td> 
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
 
-            <!-- <div class="col-xs-12 col-md-4">
-                 <div class="panel panel-warning"  >
-                 <div class="panel-heading">
-                 本月-我的数据
-                 </div>
-                 <div class="input-group " id="id_seller_new">
-                 <span class="input-group-addon">销售</span>
-                 <input id="id_test_seller_id" style="width:100px" class="opt-change" />
-                 </div>
-
-                 <div class="panel-body">
-                 <table   class="table table-bordered "   >
-                 <thead>
-                 <tr>
-                 <td style="width:140px"><strong><font class="font_thead">项目</font><strong></td>
-                 <td><strong><font class="font_thead">数值</font><strong></td>
-                 <td><strong><font class="font_thead">公司排名</font><strong></td>
-                 </tr>
-                 </thead>
-                 <tbody id="id_self_body">
-                 </tbody>
-                 </table>
-                 </div>
-                 </div>
-
-                 </div>
-               -->
 
         </div>
 
