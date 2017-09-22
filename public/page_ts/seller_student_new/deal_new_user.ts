@@ -1374,6 +1374,8 @@ $(function(){
                 window.location.reload();
             }else if(ret == 2){
                 alert('电话未拨通,请拨通后认领!')
+            }else if(ret == 3){
+                alert('已经认领过!')
             }
         });
     });

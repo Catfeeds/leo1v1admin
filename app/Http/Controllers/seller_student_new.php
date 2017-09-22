@@ -1573,19 +1573,19 @@ class seller_student_new extends Controller
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
         if($is_called_flag){
-            if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
-                $account=$this->t_manager_info->get_account( $competition_call_adminid );
-                $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者:  抢单 [$account] ",
-                    "system"
-                );
-                $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
-                $ret = 1;
-            }
-        }else{
             $ret = 2;
+            return $ret;
+        }
+        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+            $account=$this->t_manager_info->get_account( $competition_call_adminid );
+            $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者:  抢单 [$account] ",
+                "system"
+            );
+            $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
+            $ret = 1;
         }
         return $ret;
     }
