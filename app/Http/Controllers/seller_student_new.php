@@ -1562,7 +1562,7 @@ class seller_student_new extends Controller
 
     public function get_this_new_user(){
         $phone = $this->get_in_int_val('phone');
-        $userid=$this->get_userid_by_phone($phone);
+        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
         $competition_call_adminid = $this->get_account_id();
         $ret = 0;
         if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
