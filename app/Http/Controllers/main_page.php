@@ -64,7 +64,12 @@ class main_page extends Controller
         //     5 => array("seller_require_change_time ", "销售申请更换时间"),
         // ]);
 
-        $ret_info_arr['page_info'] = '';
+        $ret_info_arr["page_info"] = array(
+            "total_num"      => 1,
+            "per_page_count" => 100000,
+            "page_num"       => 1,
+        );
+
         $ret_info = &$ret_info_arr['list'];
 
         $ret_info['income_new'] = $this->t_order_info->get_new_income($start_time, $end_time); //  新签

@@ -260,22 +260,22 @@ $(function(){
 
                 if( ret.editionid == 0) {
                     alert("没有设置教材版本!");
-                    $(me).parent().find(".opt-edit").click();
+                    $(me).parent().find(".opt-edit-new").click();
                     return;
                 }
 
                 if( ret.stu_request_test_lesson_time  =="无" ) {
                     alert("没有试听时间!");
-                    $(me).parent().find(".opt-edit").click();
+                    $(me).parent().find(".opt-edit-new").click();
                     return;
                 }
                 if(ret.subject <=0){
                     alert("没有设置科目!");
-                    $(me).parent().find(".opt-edit").click();
+                    $(me).parent().find(".opt-edit-new").click();
                     return; 
                 }
                 if(ret.new_demand_flag ==1){
-                    if(ret.stu_nick=="" || ret.par_nick=="" || ret.grade==0 || ret.gender==0 || ret.address=="" || ret.user_desc=="" ||  ret.school=="" || ret.class_rank=="" || ret.grade_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.interest_cultivation==0 || ret.habit_remodel==0 || ret.study_habit=="" || ret.interests_hobbies=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
+                    if(ret.stu_nick=="" || ret.par_nick=="" || ret.grade==0 || ret.gender==0 || ret.address=="" ||  ret.school=="" || ret.class_rank=="" || ret.grade_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.interest_cultivation==0 || ret.habit_remodel==0 || ret.study_habit=="" || ret.interests_hobbies=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
                         alert("请完善试听需求!");
                         $(me).parent().find(".opt-edit-new").click();
                         return; 
@@ -301,13 +301,13 @@ $(function(){
                 need_start_time=$.strtotime(min_date_time );
                 if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
                     alert("年级不对,请确认准确年级!"+ ret.grade );
-                    $(me).parent().find(".opt-edit").click();
+                    $(me).parent().find(".opt-edit-new").click();
                     return;
                 }
 
                 if (require_time < need_start_time ) {
                     alert("申请时间不能早于 "+ min_date_time );
-                    $(me).parent().find(".opt-edit").click();
+                    $(me).parent().find(".opt-edit-new").click();
                     return;
                     //申请时间
                 }
@@ -439,7 +439,7 @@ $(function(){
             "phone": opt_data.phone
         } );
         //
-        $(me).parent().find(".opt-edit").click();
+        $(me).parent().find(".opt-edit-new").click();
 
     });
 
@@ -640,15 +640,7 @@ $(function(){
 });
 
 function init_edit() {
-     $(".opt-edit-new").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
-        var click_type=1;
-
-        edit_user_info_new(opt_data,opt_obj,click_type);
-           
-    });
-
+    
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -1970,6 +1962,15 @@ function init_edit() {
         }
     });
 
+    $(".opt-edit-new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var opt_obj=this;
+        var click_type=1;
+
+        edit_user_info_new(opt_data,opt_obj,click_type);
+        
+    });
+
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
        // var opt_data=$(this).get_opt_data();
         //var opt_obj=this;
@@ -2316,7 +2317,7 @@ function init_edit() {
             //func_suc_getXmlProvice进行 省的 解析  
             $.ajax({  
                 type : "GET",  
-                url : "../province_city_select_Info.xml",  
+                url : "/province_city_select_Info.xml",  
                 success : func_suc_getXmlProvice  
             });  
             
@@ -2335,7 +2336,7 @@ function init_edit() {
                     //func_suc_getXmlProvice进行省对应的市的解析  
                     $.ajax({  
                         type : "GET",  
-                        url : "../province_city_select_Info.xml",  
+                        url : "/province_city_select_Info.xml",  
                         success : func_suc_getXmlCity  
                     });  
                     
@@ -2351,7 +2352,7 @@ function init_edit() {
                 area.html(preArea);  
                 $.ajax({  
                     type : "GET",  
-                    url : "../province_city_select_Info.xml",  
+                    url : "/province_city_select_Info.xml",  
                     
                     //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
                     //func_suc_getXmlArea进行省对应的市对于的区的解析  

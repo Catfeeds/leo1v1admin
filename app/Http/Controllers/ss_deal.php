@@ -1385,18 +1385,6 @@ class ss_deal extends Controller
             return $this->output_err("课程开始时间过早!");
         }
 
-        //判断是否销售top20
-        if($top_seller_flag==1){
-            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
-            $account_role = $this->t_manager_info->get_account_role($require_adminid);
-            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
-            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
-            $rank = @$self_top_info[6]["top_index"];
-            if(($account_role !=2 || $rank>20) && $require_adminid != 349){
-                return $this->output_err("申请人不是销售top20!");
-            }
-
-        }
 
         //老师年级科目限制
         $rr = $this->get_teacher_grade_freeze_limit_info($teacherid,$lesson_start,$grade,$require_id);
@@ -5759,12 +5747,6 @@ class ss_deal extends Controller
                 }
             }
 
-            // 投诉相关的分配人和处理人都收到相关的推送
-            $ass_log = $this->t_complaint_assign_info->get_ass_log($complaint_id);
-            $notice_ass = [];
-            foreach($ass_log as $value){
-                $notice_ass[] = $this->t_manager_info->get_wx_openid($value['assign_adminid']);
-            }
 
             //反馈QC与上级领导
 
@@ -5809,10 +5791,22 @@ class ss_deal extends Controller
                 $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
             }
 
-            $director_wx_list = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id,$deal_adminid);
-            foreach($director_wx_list as $wx_item){
-                if($wx_item['wx_openid'] !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
-                    $ret_director = $wx->send_template_msg($wx_item['wx_openid'],$template_id,$data_msg ,$url);
+            // 投诉相关的分配人和处理人都收到相关的推送
+
+            $notice_wx_openid   = [];
+            $notice_wx_openid[] = $this->t_manager_info->get_wx_openid_by_account($deal_account);
+            $director_wx_list   = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id);
+
+            foreach($director_wx_list as $item){
+                $notice_wx_openid[] = $item['wx_openid'];
+            }
+
+            $notice_wx_openid   = array_flip(array_flip($notice_wx_openid));
+
+
+            foreach($notice_wx_openid as $wx_item){
+                if($wx_item !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
+                    $ret_director = $wx->send_template_msg($wx_item,$template_id,$data_msg ,$url);
                 }
             }
         }

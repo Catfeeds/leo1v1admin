@@ -1553,7 +1553,7 @@ class Common {
         return $decrypted;
     }
 
-    static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count ) {
+        static public function gen_order_pdf($orderid,$username,$grade, $competition_flag ,$lesson_count,  $price, $one_lesson_count, $per_lesson_interval, $order_start_time, $order_end_time ,$gong_zhang_flag, $flag_str, $type_2_lesson_count  ,$phone, $parent_name) {
         $work_dir=app_path("OrderPdf");
         $order_temp= file_get_contents("$work_dir/order_temp.tex");
 
@@ -1567,11 +1567,15 @@ class Common {
             "#PerLessonCount#",
             "#OneLessonTime#",
             "#GongZhang#",
+            "#UserPhone#",
+            "#ParentName#",
+            "#ParentPhone#",
+            "#FreeLessonCount#",
         ];
 
         $lesson_info=E\Egrade::get_desc($grade)."($lesson_count)课时" . E\Ecompetition_flag::get_desc($competition_flag) ;
         if ($type_2_lesson_count ) {
-            $lesson_info.=",赠送($type_2_lesson_count)课时 ";
+            //$lesson_info.=",赠送($type_2_lesson_count)课时 ";
         }
         $replace=[
             $username,
@@ -1581,7 +1585,11 @@ class Common {
             \App\Helper\Utils::unixtime2date($order_end_time , "Y年m月d日" ),
             $one_lesson_count,
             $per_lesson_interval,
-            $gong_zhang_flag?"gz.png": "gz_null.png"
+            $gong_zhang_flag?"gz.png": "gz_null.png",
+            $phone,
+            $parent_name,
+            $phone,
+            $type_2_lesson_count ,
         ];
         $order_sex= str_replace($search,$replace, $order_temp );
         $base_file_name= "order_{$orderid}_$flag_str" ;

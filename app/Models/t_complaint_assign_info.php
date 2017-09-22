@@ -72,11 +72,11 @@ class t_complaint_assign_info extends \App\Models\Zgen\z_t_complaint_assign_info
         return $this->main_get_list($sql);
     }
 
-    public function get_director_wx_openid($complaint_id, $accept_adminid){
+    public function get_director_wx_openid($complaint_id){
         $where_arr = [
             ['assign_flag=%d',0],
             ['complaint_id=%d',$complaint_id],
-            ['accept_adminid=%d',$accept_adminid]
+            // ['accept_adminid=%d',$accept_adminid]
         ];
 
         $sql = $this->gen_sql_new("  select  m.wx_openid "
