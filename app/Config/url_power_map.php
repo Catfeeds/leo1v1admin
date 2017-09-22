@@ -19,6 +19,7 @@ class url_power_map {
 			'/tongji_ss/research_teacher_lesson_detail_info'	=>1401400,
 			'/tongji2/tongji_lesson_teacher_identity'	=>1401500,
 			'/teacher_level/get_teacher_advance_info'	=>1401600,
+			'/teacher_level/get_teacher_level_quarter_info_new'	=>1401800,
 			'/teacher_level/teacher_advance_info_list'	=>1401900,
 			'/teacher_level/teacher_switch_list_finally'	=>1401700,
 			'/supervisor/monitor'	=>1012200,

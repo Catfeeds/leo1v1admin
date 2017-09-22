@@ -1896,7 +1896,7 @@ $(function(){
                     $order_require_reason.key_value_table_show($order_require_flag.val()==1);
                 };
 
-               
+
                 $.show_key_value_table ( "赠送课时", arr ,{
                     label: '确认',
                     cssClass: 'btn-warning',
@@ -2560,7 +2560,7 @@ $(function(){
     });
 
 
-   
+
     var show_add_contract_new_jack=function( require_id ,contract_type , data ,contract_from_type){
         //id_order_origin
 
@@ -2622,9 +2622,9 @@ $(function(){
 
         $order_partition_flag.on("change",function(){
             if($order_partition_flag.val() ==1){
-                $add_child_order_list.show(); 
+                $add_child_order_list.show();
             }else{
-                $add_child_order_list.hide(); 
+                $add_child_order_list.hide();
             }
         });
 
@@ -2689,7 +2689,7 @@ $(function(){
                                    "<option value=2>其他</option> "+
                                    "</select>");
                     var id_child_order_money=$("<input/>");
-                    
+
                     var arr=[
                         ["类型", id_child_order_type],
                         ["金额", id_child_order_money]
@@ -2749,7 +2749,7 @@ $(function(){
                     $.each(child_list,function(i,item){
                         child_money = child_money+item["child_order_money"];
                     });
- 
+
                     if(promotion_spec_discount_int != child_money && $order_partition_flag.val() ==1){
                         alert("子合同总额不等于订单金额!");
                         return;
@@ -2782,17 +2782,17 @@ $(function(){
 
 
     $(".opt-order-partition").on("click",function(){
-        var data = $(this).get_opt_data(); 
+        var data = $(this).get_opt_data();
         /*if(data.contract_status>0){
             alert("已付款合同不能拆分");
             return;
         }*/
         var title = "编辑子合同";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");   
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
         },function(resp){
-            var data_list = resp.data; 
+            var data_list = resp.data;
             if(resp.ret != 0){
                 alert(resp.info);
                 return;
@@ -2803,7 +2803,7 @@ $(function(){
                 }else{
                     html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-type=\""+item["child_order_type"]+"\" data-price=\""+item["price"]+"\" data-pnum=\""+item["period_num"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
                 }
-                
+
             });
             html_node.find("table").find(".order_partition").each(function(){
                 $(this).on("click",function(){
@@ -2826,8 +2826,8 @@ $(function(){
                                          "</select>");
 
                     var id_child_order_money=$("<input/>");
-                                       
-                    
+
+
                     var arr=[
                         ["类型", id_child_order_type],
                         ["分期期数", id_period_num],
@@ -2836,10 +2836,10 @@ $(function(){
 
                     id_child_order_type.on("change",function(){
                         if(id_child_order_type.val() ==2){
-                            id_period_num.parent().parent().show(); 
+                            id_period_num.parent().parent().show();
                         }else{
-                            id_period_num.parent().parent().hide(); 
-                        } 
+                            id_period_num.parent().parent().hide();
+                        }
                     });
                     $.show_key_value_table("增加子合同", arr, {
                         label: '确认',
@@ -2855,16 +2855,16 @@ $(function(){
                         }
                     },function(){
                         if(id_child_order_type.val() ==2){
-                            id_period_num.parent().parent().show(); 
+                            id_period_num.parent().parent().show();
                         }else{
-                            id_period_num.parent().parent().hide(); 
-                        } 
+                            id_period_num.parent().parent().hide();
+                        }
 
-                    });                 
+                    });
 
-                    
+
                 });
-                
+
             });
 
             html_node.find("table").find(".update_child_order_info").each(function(){
@@ -2876,7 +2876,7 @@ $(function(){
                     var child_oeder_type = $(this).data("type");
                     var child_oeder_mpney = $(this).data("price");
                     var period_num = $(this).data("pnum");
-                   
+
                     if(status >0){
                         alert("已付款,不能修改!");
                         return;
@@ -2893,10 +2893,10 @@ $(function(){
 
 
                     var id_child_order_money=$("<input/>");
-                     id_child_order_type.val(child_oeder_type); 
-                    id_period_num.val(period_num); 
-                    id_child_order_money.val(child_oeder_mpney/100); 
-                    
+                     id_child_order_type.val(child_oeder_type);
+                    id_period_num.val(period_num);
+                    id_child_order_money.val(child_oeder_mpney/100);
+
                     var arr=[
                         ["类型", id_child_order_type],
                         ["分期期数", id_period_num],
@@ -2904,10 +2904,10 @@ $(function(){
                     ];
                     id_child_order_type.on("change",function(){
                         if(id_child_order_type.val() ==2){
-                            id_period_num.parent().parent().show(); 
+                            id_period_num.parent().parent().show();
                         }else{
-                            id_period_num.parent().parent().hide(); 
-                        } 
+                            id_period_num.parent().parent().hide();
+                        }
                     });
 
                     $.show_key_value_table("修改子合同", arr, {
@@ -2924,16 +2924,16 @@ $(function(){
                         }
                     },function(){
                         if(id_child_order_type.val() ==2){
-                            id_period_num.parent().parent().show(); 
+                            id_period_num.parent().parent().show();
                         }else{
-                            id_period_num.parent().parent().hide(); 
-                        } 
+                            id_period_num.parent().parent().hide();
+                        }
 
-                    });                 
+                    });
 
-                    
+
                 });
-                
+
             });
 
 
@@ -2952,25 +2952,25 @@ $(function(){
                         if (val) {
                             $.do_ajax( '/ss_deal/delete_child_order_info', {
                                 "parent_orderid" : parent_orderid,
-                                "child_orderid" : child_orderid, 
+                                "child_orderid" : child_orderid,
                             });
 
-                        } 
+                        }
                     });
-                    
 
-                    
+
+
                 });
-                
+
             });
 
 
-            
+
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -2980,13 +2980,13 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
 
             dlg.getModalDialog().css("width","900px");
-                                     
+
         });
 
     });
@@ -2994,7 +2994,7 @@ $(function(){
     $(".opt-update-parent-name").on("click",function(){
         var data = $(this).get_opt_data();
         var userid= data.userid;
-        var id_parent_name = $("<input/>");       
+        var id_parent_name = $("<input/>");
 
         var arr = [
             ['名字',id_parent_name]
@@ -3006,16 +3006,16 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                
+
                 $.do_ajax('/ajax_deal2/update_parent_name',{
                     'userid'      : userid,
                     "parent_name" : id_parent_name.val()
                 });
-                
+
             }
         });
 
-        
+
     });
 
 
