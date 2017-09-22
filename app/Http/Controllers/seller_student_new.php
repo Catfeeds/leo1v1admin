@@ -1559,4 +1559,10 @@ class seller_student_new extends Controller
     public function seller_student_new_favorite(){
         $userid = $this->get_in_int_val('userid');
     }
+
+    public function get_this_new_user(){
+        $phone = $this->get_in_int_val('phone');
+        dd($phone);
+    }
+
 }

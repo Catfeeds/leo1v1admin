@@ -7,7 +7,6 @@ $(function(){
         });
     }
 
-
     $("#id_sync_tq").on("click",function(){
         $.do_ajax("/ss_deal/sync_tq",{
             "phone" : g_args.phone,
@@ -569,5 +568,12 @@ $(function(){
         $("#id_sync_tq").hide();
     }
 
+
+    $("#id_get_this_new_user").on("click",function(){
+        $.do_ajax("/seller_student_new/get_this_new_user",{
+            "phone" : g_args.phone,
+        });
+
+    });
 
 });
