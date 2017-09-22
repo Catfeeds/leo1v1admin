@@ -2336,7 +2336,7 @@ $(function(){
             var data = result.data;
             var arr=[
                 [ "学员姓名"  , student_name ],
-                [ "家长姓名"  , $parent_name ],
+                [ "<font color=red>家长姓名,用于生成合同</font>"  , $parent_name ],
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
@@ -2392,7 +2392,8 @@ $(function(){
                 cssClass: 'btn-primary',
                 action: function(dialog) {
                     $.do_ajax("/ajax_deal2/gen_order_pdf",{
-                        "orderid" :opt_data.orderid
+                        "orderid" :opt_data.orderid,
+                        "parent_name": $parent_name.val(),
                     } );
                     alert("请等待５秒...");
                 }
@@ -2420,6 +2421,7 @@ $(function(){
                         "lesson_weeks"  : lesson_weeks.val(),
                         "lesson_duration" : lesson_duration.val(),
                         "orderid"         : opt_data.orderid,
+                        "parent_name": $parent_name.val(),
                         "is_submit"       : 1
                     })
                 }
@@ -2439,6 +2441,7 @@ $(function(){
                         "lesson_weeks"  : lesson_weeks.val(),
                         "lesson_duration" : lesson_duration.val(),
                         "orderid"         : opt_data.orderid,
+                        "parent_name": $parent_name.val(),
                         "is_submit"       : 0
 
                     })

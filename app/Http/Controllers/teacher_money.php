@@ -537,7 +537,7 @@ class teacher_money extends Controller
 
                 $base_money = $lesson_money_info['money'];
                 $start      = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
-                $end        = strtotime("+1 month",$start_time);
+                $end        = strtotime("+1 month",$start);
                 $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$lesson_money_info['teacherid']);
                 $teacher_type      = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
                 $reward_money      = $this->get_lesson_reward_money(

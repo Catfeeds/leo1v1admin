@@ -70,13 +70,13 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 foreach($jw_leader_list as $k=>$val){
                     $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
                     if($json_ret==0){
-                        $task->t_test_lesson_subject_require->field_update_list($v["require_id"],[
+                        $task->t_test_lesson_subject_require->field_update_list($item["require_id"],[
                             "accept_adminid"=>$val,
                             "require_assign_time"=>time()
                         ]);
 
                         $test_lesson_subject_id = $task->t_test_lesson_subject_require->get_test_lesson_subject_id(
-                            $v["require_id"]);
+                            $item["require_id"]);
 
                         $task->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
                             "history_accept_adminid"=>$val

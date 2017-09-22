@@ -8218,7 +8218,7 @@ lesson_type in (0,1) "
                                   ,t_teacher_money_type::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function set_lesson_level_up($teacherid,$level,$start,$end=0){

@@ -67,7 +67,7 @@ class main_page extends Controller
 
         $ret_info = &$ret_info_arr['list'];
 
-        $ret_info['income_new'] = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
+        $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
         $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
         $income_price = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];

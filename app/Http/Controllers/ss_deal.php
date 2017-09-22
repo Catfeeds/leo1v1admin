@@ -6123,13 +6123,14 @@ class ss_deal extends Controller
             'applicant'        => $applicant,
             'app_time'         => $app_time,
         ]);
-
-
-        if($ret){
-            return $this->output_succ();
-        }else{
-            return $this->output_err('合同信息输入失败!请联系系统管理人员!');
+        if ($parent_name) {
+            $userid=$this->t_order_info->get_userid($orderid);
+            $this->t_student_info->field_update_list($userid, [
+                "parent_name" => $parent_name,
+            ]);
         }
+        return $this->output_err($errno);
+
     }
 
 
