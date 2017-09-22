@@ -1565,6 +1565,11 @@ class seller_student_new extends Controller
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
         $competition_call_adminid = $this->get_account_id();
         $ret = 0;
+        $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid,$competition_call_adminid);
+        if($admin_revisiterid){
+            $ret = 3;
+            return $ret;
+        }
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
         if($is_called_flag){

@@ -326,6 +326,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid=21001,$competition_call_adminid=831);
+        dd($admin_revisiterid);
         $competition_call_adminid = 412;
         $phone = '15564676749';
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
