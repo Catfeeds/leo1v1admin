@@ -1629,7 +1629,7 @@ class seller_student_new extends Controller
             ];
         }
         $set_str=$this->t_seller_student_new->get_sql_set_str( $set_arr);
-        $in_str=$this->where_get_in_str("userid",$userid_list);
+        $in_str=$this->t_seller_student_new->where_get_in_str("userid",$userid_list);
         $sql=sprintf("update %s set %s where %s  ",
                             self::DB_TABLE_NAME,
                             $set_str,
