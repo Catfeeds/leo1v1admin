@@ -1089,6 +1089,10 @@ class tongji2 extends Controller
         // dd($list);
     }
 
-
+    public function tongji_cr(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $arr = [];
+        return $this->pageView(__METHOD__,null,["list"=>$arr]);
+    }
 
 }
