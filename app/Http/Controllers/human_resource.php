@@ -962,14 +962,9 @@ class human_resource extends Controller
             }else{
                 $item["fine_dimension"]="其他";
             }
-
-
-
-
-
         }
 
-        $account_role    = $this->t_manager_info->get_account_role($this->get_account_id());
+        $account_role    = $this->get_account_role();
         $week_num_person = $this->t_teacher_info->get_week_info_new();
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
         return $this->pageView(__METHOD__,$ret_info,[
@@ -1508,6 +1503,8 @@ class human_resource extends Controller
             $tea_subject="(4,6)";
         }elseif($adminid==895){
             $tea_subject="(7,8,9)";
+        }elseif($adminid==793){
+            $tea_subject="(5,10)";
         }
 
         $grade         = $this->get_in_int_val("grade",-1);

@@ -888,12 +888,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_test_lesson_succ_num($start_time,$end_time){
         $where_arr = [
-            "l.lesson_user_online_status = 1",
+            "l.lesson_user_online_status in (0,1)",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "

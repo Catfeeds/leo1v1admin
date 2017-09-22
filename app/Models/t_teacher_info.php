@@ -1061,10 +1061,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_teacherid_by_name($name){
-        $sql=$this->gen_sql_new("select teacherid from %s where realname='%s'"
-                                ,self::DB_TABLE_NAME
-                                ,$name
+    public function get_teacherid_by_name($name,$not_str=""){
+        $where_arr = [
+            ["realname='%s'",$name,""],
+            ["teacherid not in (%s)",$not_str,""],
+        ];
+
+        $sql = $this->gen_sql_new("select teacherid from %s where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }

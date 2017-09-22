@@ -2991,6 +2991,34 @@ $(function(){
 
     });
 
+    $(".opt-update-parent-name").on("click",function(){
+        var data = $(this).get_opt_data();
+        var userid= data.userid;
+        var id_parent_name = $("<input/>");       
+
+        var arr = [
+            ['名字',id_parent_name]
+        ];
+        id_parent_name.val(data.parent_nick);
+
+
+        $.show_key_value_table("修改家长姓名", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                
+                $.do_ajax('/ajax_deal2/update_parent_name',{
+                    'userid'      : userid,
+                    "parent_name" : id_parent_name.val()
+                });
+                
+            }
+        });
+
+        
+    });
+
+
 
 
 });

@@ -1088,6 +1088,15 @@ class common extends Controller
                     "合同定金付款通知",
                     "学生:".$nick." 合同定金付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
+                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,1);
+                if($child_orderid>0){
+                    $this->t_child_order_info->field_update_list($child_orderid,[
+                        "pay_status" =>1,
+                        "pay_time"   =>time(),
+                        "channel"    =>$channel,
+                        "from_orderno"=>$orderNo
+                    ]);
+                }
 
             }elseif($pre_price>0 && $pre_pay_time>0){
                 $this->t_order_info->field_update_list($orderid,[
@@ -1115,6 +1124,16 @@ class common extends Controller
                     "合同尾款付款通知",
                     "学生:".$nick." 合同尾款付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
+                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
+                if($child_orderid>0){
+                    $this->t_child_order_info->field_update_list($child_orderid,[
+                        "pay_status" =>1,
+                        "pay_time"   =>time(),
+                        "channel"    =>$channel,
+                        "from_orderno"=>$orderNo
+                    ]);
+                }
+
 
             }else{
 
@@ -1143,6 +1162,16 @@ class common extends Controller
                     "合同付款通知",
                     "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
+                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
+                if($child_orderid>0){
+                    $this->t_child_order_info->field_update_list($child_orderid,[
+                        "pay_status" =>1,
+                        "pay_time"   =>time(),
+                        "channel"    =>$channel,
+                        "from_orderno"=>$orderNo
+                    ]);
+                }
+
 
             }
 

@@ -55,27 +55,13 @@ class test_sam  extends Controller
 
         //$t = 1507464000;
         $time = time();
-        //$time = $t;
-        $day_time = strtotime(date("Y-m-d",$time));
-        $lesson_end = strtotime(date("Y-m-d",$time)." 19:30:00");
-        $lesson_start = $lesson_end+1800;
 
-        $lesson_list = $this->t_lesson_info_b2->get_off_time_lesson_info($lesson_start,$lesson_end);
-
-
-        $day_time = date("Y-m-d H:i:s",$day_time);
-        $lesson_end = date("Y-m-d H:i:s",$lesson_end);
-        $lesson_start = date("Y-m-d H:i:s",$lesson_start);
-
-        //t
-        $time = 1507464000;
+        $time = 1507464000; //2017/10/8 20:0:0
         $date_time = date("Y-m-d",$time);       
         if($date_time == "2017-10-08"){
-            //deal 2017-10-08 22:00:00
-          //$start_time = 1506787200;//2017/10/1 0:0:0
-          //$end_time   = 1507471200;//2017/10/8 22:0:0
-          $start_time = 1504195200; //2017/9/1 0:0:0
-          $end_time   = 1504879200; //2017/9/8 22:0:0
+          //deal 2017-10-08 22:00:00
+          $start_time = 1506787200;//2017/10/1 0:0:0
+          $end_time   = 1507471200;//2017/10/8 22:0:0
 
           $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info_b2($start_time,$end_time);
           $list=[];
@@ -105,12 +91,24 @@ class test_sam  extends Controller
               }
               
           }
-
-
+          //insert data
+          foreach ($arr as $key => $value) {
+            if($value['day_num']>=1){
+              $this->t_fulltime_teacher_attendance_list->row_insert([
+                        "teacherid"        =>$value['teacherid'],
+                        "add_time"         =>$time,
+                        "attendance_type"  =>3,
+                        "attendance_time"  =>1507478400,
+                        "day_num"          =>$value['day_num'],
+                        "adminid"          =>$key,
+                        "lesson_count"     =>$value['lesson_count']*100,
+                    ]);
+              } 
+          }
+          //wx
           foreach ($arr as $key => $value) {
               $this->t_manager_info->send_wx_todo_msg_by_adminid (
-                //$key,
-                944,
+                $key,
                 "国庆延休统计",
                 "延休数据汇总",
                 "\n老师:".$value['realname'].
@@ -119,9 +117,8 @@ class test_sam  extends Controller
                 "\n延休天数:".$value['day_num'].
                 "\n延休日期:".$value['cross_time'],'');
           }
-
-          
-          $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="2">全职老师假期累计上课时间及延休安排</td></tr>';
+          //email
+          $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
           $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
           $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
           foreach ($arr as $key => $value) {
@@ -133,34 +130,25 @@ class test_sam  extends Controller
                   $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
                   $table .= '</tr>';
               }
-
           }
           $table .= "</table>";
-
           $content = "Dear all：<br>全职老师国庆延休安排情况如下<br/>";
           $content .= "数据见下表<br>";
           $content .= $table;
-          $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优监课组</div><div>";
-
-          echo $content;
-          $email_arr = ["sam@leoedu.com"];
+          $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优教育</div><div>";
+          $email_arr = ["low-key@leoedu.com",
+                        "erick@leoedu.com",
+                        "hejie@leoedu.com",
+                        "sherry@leoedu.com",
+                        "cindy@leoedu.com",
+                        "limingyu@leoedu.com"];
           foreach($email_arr as $email){
              dispatch( new \App\Jobs\SendEmailNew(
                 $email,
                 "全职老师国庆假期累计上课时间及延休安排",
                 $content
-             ));
-  
-         }
-
-          $admin_list = [944];
-          dd($arr);
-
-          $name_list ="";
-          $num=0;
-          $name_list_research="";
-          $num_research=0;
-
+             ));  
+          }
         }
        
     }        

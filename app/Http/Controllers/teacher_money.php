@@ -569,13 +569,17 @@ class teacher_money extends Controller
                     return $this->output_err("本节课不是90分钟，无法添加90分钟的课程补偿。");
                 }
 
-                $lesson_money_info = $this->t_lesson_info->get_lesson_money($money_info);
-                $base_money  = $lesson_money_info['money'];
+                $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
+                $base_money = $lesson_money_info['money'];
 
-                $money_type  = $lesson_money_info['type'];
-                $lesson_info = $this->t_lesson_info->get_lesson_info($money_info);
+                $money_type = $lesson_money_info['type'];
+                $start_time = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
+                $end_time   = strtotime("+1 month",$start_time);
+                $teacher_type = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
 
-                $money      = $base_money*25;
+                $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
+
+                $money = $base_money*25;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
             }

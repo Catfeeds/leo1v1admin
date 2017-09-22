@@ -1889,7 +1889,6 @@ class ss_deal extends Controller
             return $this->output_err("没有购买课时");
         }
 
-
         if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
@@ -2010,27 +2009,13 @@ class ss_deal extends Controller
             ]);
         }
 
-        if($order_partition_flag==0){
-            $this->t_child_order_info->row_insert([
-                "child_order_type" =>0,
-                "pay_status"       =>0,
-                "add_time"         =>time(),
-                "parent_orderid"   =>$orderid,
-                "price"            => $price
-            ]);
-        }else{
-            $child_order_info = json_decode($child_order_info,true);
-            foreach($child_order_info as $ch){
-                $this->t_child_order_info->row_insert([
-                    "child_order_type" =>$ch["child_order_type"],
-                    "pay_status"       =>0,
-                    "add_time"         =>time(),
-                    "parent_orderid"   =>$orderid,
-                    "price"            => $ch["child_order_money"]
-                ]);
-
-            }
-        }
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>0,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$orderid,
+            "price"            => $price
+        ]);
         return $this->output_succ();
     }
 
