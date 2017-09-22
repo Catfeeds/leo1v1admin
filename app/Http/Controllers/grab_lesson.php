@@ -6,7 +6,6 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 
-use CacheNick;
 
 class grab_lesson extends Controller
 {
