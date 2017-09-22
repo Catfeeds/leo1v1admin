@@ -2994,6 +2994,7 @@ trait TeaPower {
     public function teacher_total_money($teacherid,$start_time,$end_time){
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
+
     }
 
 

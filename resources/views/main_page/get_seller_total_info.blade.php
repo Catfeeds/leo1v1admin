@@ -36,37 +36,40 @@
             </div>
         </div>
 
-
-
         <div class="row">
-
-            <div class="col-xs-12 col-md-4">
-                <div class="panel panel-warning"  >
-                    <div class="panel-heading">
-                        本月-我的数据
-                    </div>
-                    <div class="input-group " id="id_seller_new">
-                        <span class="input-group-addon">销售</span>
-                        <input id="id_test_seller_id" style="width:100px" class="opt-change" />
-                    </div>
-
-                    <div class="panel-body">
-                        <table   class="table table-bordered "   >
-                            <thead>
-                                <tr>
-                                    <td style="width:140px"><strong><font class="font_thead">项目</font><strong></td>
-                                        <td><strong><font class="font_thead">数值</font><strong></td>
-                                            <td><strong><font class="font_thead">公司排名</font><strong></td>
-                                </tr>
-                            </thead>
-                            <tbody id="id_self_body">
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="col-xs-12 col-md-12">
+                <div>
+                    <span>目标</span>
                 </div>
-
             </div>
 
+            <!-- <div class="col-xs-12 col-md-4">
+                 <div class="panel panel-warning"  >
+                 <div class="panel-heading">
+                 本月-我的数据
+                 </div>
+                 <div class="input-group " id="id_seller_new">
+                 <span class="input-group-addon">销售</span>
+                 <input id="id_test_seller_id" style="width:100px" class="opt-change" />
+                 </div>
+
+                 <div class="panel-body">
+                 <table   class="table table-bordered "   >
+                 <thead>
+                 <tr>
+                 <td style="width:140px"><strong><font class="font_thead">项目</font><strong></td>
+                 <td><strong><font class="font_thead">数值</font><strong></td>
+                 <td><strong><font class="font_thead">公司排名</font><strong></td>
+                 </tr>
+                 </thead>
+                 <tbody id="id_self_body">
+                 </tbody>
+                 </table>
+                 </div>
+                 </div>
+
+                 </div>
+               -->
 
         </div>
 

@@ -2859,4 +2859,9 @@ ORDER BY require_time ASC";
 
         return $this->main_get_value($sql);
     }
+
+    public function get_seller_top_list(){
+        $sql = $this->gen_sql_new("select * from %s where seller_top_flag=1",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }
