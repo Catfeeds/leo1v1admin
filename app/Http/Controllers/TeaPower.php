@@ -2611,6 +2611,17 @@ trait TeaPower {
     }
 
     /**
+     * 获取时间段内的老师工资明细
+     */
+    public function teacher_total_money($teacherid,$start_time,$end_time){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+
+
+    }
+
+
+    /**
      * 获取模拟课时单价
      */
     public function get_simulate_price($lesson_total=0,$grade=101){
@@ -2988,14 +2999,6 @@ trait TeaPower {
         return $data;
     }
 
-    /**
-     * 获取时间段内的老师工资明细
-     */
-    public function teacher_total_money($teacherid,$start_time,$end_time){
-        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-
-
-    }
 
 
 }
