@@ -1,3 +1,4 @@
+	assess	:any;
 	cur_require_adminid	:any;
 	userid	:any;
 	nick	:any;

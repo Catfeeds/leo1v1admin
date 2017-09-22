@@ -1059,89 +1059,132 @@ class common extends Controller
             $channel_name = E\Eorder_channel::get_desc($aa);
 
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
-            $pre_price = $this->t_order_info->get_pre_price($orderid);
-            $pre_pay_time = $this->t_order_info->get_pre_pay_time($orderid);
-            $userid = $this->t_order_info->get_userid($orderid);
-            $sys_operator = $this->t_order_info->get_sys_operator($orderid);
-            $nick = $this->t_student_info->get_nick($userid);
-            if($pre_price>0 && empty($pre_pay_time)){
-                $this->t_order_info->field_update_list($orderid,[
-                    "pre_pay_time"   =>time(),
-                    "channel"        =>$channel,
-                    "pre_from_orderno"=>$orderNo
-                ]);
-                $this->t_manager_info->send_wx_todo_msg(
-                    "echo",
-                    "合同定金付款通知",
-                    "合同定金付款通知",
-                    "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
-                    "/user_manage_new/money_contract_list?studentid=$userid");
-                $this->t_manager_info->send_wx_todo_msg(
-                    $sys_operator,
-                    "合同定金付款通知",
-                    "合同定金付款通知",
-                    "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
-                    "");
-                $this->t_manager_info->send_wx_todo_msg(
-                    "jack",
-                    "合同定金付款通知",
-                    "合同定金付款通知",
-                    "学生:".$nick." 合同定金付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
-                    "");
-                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,1);
-                if($child_orderid>0){
-                    $this->t_child_order_info->field_update_list($child_orderid,[
-                        "pay_status" =>1,
-                        "pay_time"   =>time(),
-                        "channel"    =>$channel,
+            $order_type = $this->t_orderid_orderno_list->get_order_type($orderNo);
+            if($order_type==0){
+                $pre_price = $this->t_order_info->get_pre_price($orderid);
+                $pre_pay_time = $this->t_order_info->get_pre_pay_time($orderid);
+                $userid = $this->t_order_info->get_userid($orderid);
+                $sys_operator = $this->t_order_info->get_sys_operator($orderid);
+                $nick = $this->t_student_info->get_nick($userid);
+                if($pre_price>0 && empty($pre_pay_time)){
+                    $this->t_order_info->field_update_list($orderid,[
+                        "pre_pay_time"   =>time(),
+                        "channel"        =>$channel,
+                        "pre_from_orderno"=>$orderNo
+                    ]);
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "合同定金付款通知",
+                        "合同定金付款通知",
+                        "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "合同定金付款通知",
+                        "合同定金付款通知",
+                        "学生:".$nick." 合同定金付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同定金付款通知",
+                        "合同定金付款通知",
+                        "学生:".$nick." 合同定金付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,1);
+                    if($child_orderid>0){
+                        $this->t_child_order_info->field_update_list($child_orderid,[
+                            "pay_status" =>1,
+                            "pay_time"   =>time(),
+                            "channel"    =>$channel,
+                            "from_orderno"=>$orderNo
+                        ]);
+                    }
+
+                }elseif($pre_price>0 && $pre_pay_time>0){
+                    $this->t_order_info->field_update_list($orderid,[
+                        "order_status" =>1,
+                        "contract_status"=>1,
+                        "pay_time"    =>time(),
+                        "channel"     =>$channel,
                         "from_orderno"=>$orderNo
                     ]);
-                }
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "合同尾款付款通知",
+                        "合同尾款付款通知",
+                        "学生:".$nick." 合同尾款付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "合同尾款付款通知",
+                        "合同尾款付款通知",
+                        "学生:".$nick." 合同尾款付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同尾款付款通知",
+                        "合同尾款付款通知",
+                        "学生:".$nick." 合同尾款付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
+                    if($child_orderid>0){
+                        $this->t_child_order_info->field_update_list($child_orderid,[
+                            "pay_status" =>1,
+                            "pay_time"   =>time(),
+                            "channel"    =>$channel,
+                            "from_orderno"=>$orderNo
+                        ]);
+                    }
 
-            }elseif($pre_price>0 && $pre_pay_time>0){
-                $this->t_order_info->field_update_list($orderid,[
-                    "order_status" =>1,
-                    "contract_status"=>1,
-                    "pay_time"    =>time(),
-                    "channel"     =>$channel,
-                    "from_orderno"=>$orderNo
-                ]);
-                $this->t_manager_info->send_wx_todo_msg(
-                    "echo",
-                    "合同尾款付款通知",
-                    "合同尾款付款通知",
-                    "学生:".$nick." 合同尾款付款成功,支付方式".$channel_name.",订单号:".$orderNo,
-                    "/user_manage_new/money_contract_list?studentid=$userid");
-                $this->t_manager_info->send_wx_todo_msg(
-                    $sys_operator,
-                    "合同尾款付款通知",
-                    "合同尾款付款通知",
-                    "学生:".$nick." 合同尾款付款成功,支付方式".$channel_name.",订单号:".$orderNo,
-                    "");
-                $this->t_manager_info->send_wx_todo_msg(
-                    "jack",
-                    "合同尾款付款通知",
-                    "合同尾款付款通知",
-                    "学生:".$nick." 合同尾款付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
-                    "");
-                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
-                if($child_orderid>0){
-                    $this->t_child_order_info->field_update_list($child_orderid,[
-                        "pay_status" =>1,
-                        "pay_time"   =>time(),
-                        "channel"    =>$channel,
+
+                }else{
+
+                    $this->t_order_info->field_update_list($orderid,[
+                        "order_status" =>1,
+                        "contract_status"=>1,
+                        "pay_time"       =>time(),
+                        "channel"        =>$channel,
                         "from_orderno"=>$orderNo
                     ]);
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "合同付款通知",
+                        "合同付款通知",
+                        "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "合同付款通知",
+                        "合同付款通知",
+                        "学生:".$nick." 合同付款成功,支付方式".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同付款通知",
+                        "合同付款通知",
+                        "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
+                        "");
+                    $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
+                    if($child_orderid>0){
+                        $this->t_child_order_info->field_update_list($child_orderid,[
+                            "pay_status" =>1,
+                            "pay_time"   =>time(),
+                            "channel"    =>$channel,
+                            "from_orderno"=>$orderNo
+                        ]);
+                    }
+
+
                 }
-
-
-            }else{
-
-                $this->t_order_info->field_update_list($orderid,[
-                    "order_status" =>1,
-                    "contract_status"=>1,
-                    "pay_time"       =>time(),
-                    "channel"        =>$channel,
+            }elseif($order_type==1){
+                $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+                $userid = $this->t_order_info->get_userid($parent_orderid);
+                $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
+                $nick = $this->t_student_info->get_nick($userid);
+                $this->t_child_order_info->field_update_list($orderid,[
+                    "pay_status" =>1,
+                    "pay_time"   =>time(),
+                    "channel"    =>$channel,
                     "from_orderno"=>$orderNo
                 ]);
                 $this->t_manager_info->send_wx_todo_msg(
@@ -1162,16 +1205,34 @@ class common extends Controller
                     "合同付款通知",
                     "学生:".$nick." 合同付款成功,支付方式:".$channel_name.",订单号:".$orderNo,
                     "");
-                $child_orderid = $this->t_child_order_info->get_child_orderid($orderid,0);
-                if($child_orderid>0){
-                    $this->t_child_order_info->field_update_list($child_orderid,[
-                        "pay_status" =>1,
-                        "pay_time"   =>time(),
-                        "channel"    =>$channel,
-                        "from_orderno"=>$orderNo
+                $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+                if(empty($all_order_pay)){
+                    $this->t_order_info->field_update_list($parent_orderid,[
+                        "order_status" =>1,
+                        "contract_status"=>1,
+                        "pay_time"       =>time()
                     ]);
-                }
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$nick." 合同已支付全款",
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$nick." 合同已支付全款",
+                        "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$nick." 合同已支付全款",
+                        "");
 
+ 
+                }
 
             }
 

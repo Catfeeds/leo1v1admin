@@ -144,7 +144,32 @@ $(function(){
         load_data_ex(lessonid, -1, -1);
     });
 
+    $(".opt-edit").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var $assess  = $("<textarea rows='' cols=''></textarea>");
 
+        $assess.val(opt_data.assess);
+        var arr=[
+            ["主管评价",  $assess],
+        ];
+
+        $.do_ajax("/tongji2/check_up_group_adminid",{},function(ret){
+            if(ret == 1){
+                $.show_key_value_table("主管评价", arr ,{
+                    label: '确认',
+                    cssClass: 'btn-warning',
+                    action: function(dialog) {
+                        $.do_ajax("/ajax_deal/test_lesson_assess_edit",{
+                            "lessonid":opt_data.lessonid,
+                            "assess" : $assess.val() ,
+                        })
+                    }
+                })
+            }else{
+                alert('您不是主管,无权限!')
+            }
+        })
+    });
 
 
 
