@@ -962,14 +962,9 @@ class human_resource extends Controller
             }else{
                 $item["fine_dimension"]="其他";
             }
-
-
-
-
-
         }
 
-        $account_role    = $this->get_account_role;
+        $account_role    = $this->get_account_role();
         $week_num_person = $this->t_teacher_info->get_week_info_new();
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
         return $this->pageView(__METHOD__,$ret_info,[
