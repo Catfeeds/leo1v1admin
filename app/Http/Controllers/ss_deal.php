@@ -5128,7 +5128,6 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-    
     public function sync_tq() {
         $now=time(NULL);
         $start_date = \App\Helper\Utils::unixtime2date($now-3*60*60 ,"Y-m-d H:i:s");

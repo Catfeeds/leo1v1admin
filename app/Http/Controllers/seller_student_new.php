@@ -1562,7 +1562,73 @@ class seller_student_new extends Controller
 
     public function get_this_new_user(){
         $phone = $this->get_in_int_val('phone');
-        dd($phone);
+        $userid=$this->get_userid_by_phone($phone);
+        $competition_call_adminid = $this->get_account_id();
+        $ret = 0;
+        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+            $account=$this->t_manager_info->get_account( $competition_call_adminid );
+            $this->set_admin_info(0, [$userid], $competition_call_adminid,0);
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者:  抢单 [$account] ",
+                "system"
+            );
+            $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
+            $ret = 1;
+        }
+        return $ret;
+    }
+
+    public function set_admin_info( $opt_type, $userid_list, $opt_adminid ,$self_adminid ) {
+        if ( count($userid_list) ==0 ) {
+            return false;
+        }
+        $set_arr=[];
+        if($opt_type==0 || $opt_type==3 ) { //set admin
+
+            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $set_arr=[
+                "admin_revisiterid"  => $opt_adminid,
+                "admin_assign_time"  => time(NULL),
+                "sub_assign_adminid_2"  => $up_adminid,
+                "sub_assign_time_2"  => time(NULL) ,
+                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
+                "first_seller_adminid" => $opt_adminid,
+                "sub_assign_time_1"  => time(NULL),
+                "hold_flag" => 1,
+
+            ];
+            if ($opt_type==1){
+
+            }else{
+                $set_arr["tmk_set_seller_adminid"]=$opt_adminid;
+            }
+            $this->t_test_lesson_subject->set_seller_require_adminid( $userid_list, $opt_adminid );
+        }else if ( $opt_type ==1){ //分配主管
+            $set_arr=[
+                "admin_assignerid"  => $self_adminid,
+                "sub_assign_adminid_2"  => $opt_adminid,
+                "sub_assign_time_2"  => time(NULL),
+                "admin_revisiterid"  => 0,
+                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
+                "sub_assign_time_1"  => time(NULL),
+            ];
+        }else if ( $opt_type==2) { //TMK
+            $set_arr=[
+                "tmk_assign_time"  => time(NULL) ,
+                "tmk_adminid"  => $opt_adminid,
+                "tmk_join_time"  => time(NULL),
+                "tmk_student_status"  => 0,
+                "hold_flag" => 1,
+            ];
+        }
+        $set_str=$this-> get_sql_set_str( $set_arr);
+        $in_str=$this->where_get_in_str("userid",$userid_list);
+        $sql=sprintf("update %s set %s where %s  ",
+                            self::DB_TABLE_NAME,
+                            $set_str,
+                            $in_str);
+        return $this->main_update($sql);
     }
 
 }
