@@ -11,6 +11,7 @@ function load_data(){
 			  end_time          :	$('#id_end_time').val(),
 			  seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
         lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
+        test_assess_flag:	$('#id_test_assess_flag').val(),
 
     });
 }
@@ -30,6 +31,7 @@ $(function(){
     });
 
 	  Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
+	  Enum_map.append_option_list("set_boolean",$("#id_test_assess_flag"));
 
 
 	  $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
@@ -41,6 +43,7 @@ $(function(){
 
 
     $('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+    $('#id_test_assess_flag').val(g_args.test_assess_flag);
 
     if (window.location.pathname=="/tongji2/test_lesson_frist_call_time_master" || window.location.pathname=="/tongji2/test_lesson_frist_call_time_master/") {
         $("#id_seller_groupid_ex").parent().parent().hide();
