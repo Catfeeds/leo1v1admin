@@ -80,8 +80,10 @@ class wx_parent_api extends Controller
 
             $item['is_modify_time_flag'] = $item['is_modify_time_flag']?$item['is_modify_time_flag']:0;
 
-            if($item['is_modify_time_flag']>0 || $is_change_flag==0){
-
+            if($item['is_modify_time_flag']>0 || $is_change_flag==0){ // 不可以调时间
+                $item['is_change'] = 0;
+            }else{
+                $item['is_change'] = 1;
             }
 
             $lesson_num= $item["lesson_num"];
