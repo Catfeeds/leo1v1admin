@@ -49,7 +49,7 @@ class zs_lecture_info_month extends Command
         $day = date("d",$end_time);
         if($day == '01'){
           $end_date = date("Y-m-d",$end_time);
-            $subject = $task->get_in_int_val("subject",-1);
+            $subject = -1;
             //dd($date);
             $account_role = 9;
             $kpi_flag = 1;

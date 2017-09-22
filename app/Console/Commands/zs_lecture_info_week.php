@@ -49,7 +49,7 @@ class zs_lecture_info_week extends Command
         $start_date = date("Y-m-d",$start_time);
 
 
-        $subject = $task->get_in_int_val("subject",-1);
+        $subject = -1;
 
         //dd($date);
         $account_role = 9;
