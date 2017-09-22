@@ -2323,6 +2323,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-
+    public function get_row_by_admin_revisiterid($userid,$competition_call_adminid){
+        $where_arr = [
+            ['userid = %u',$userid,-1],
+            ['admin_revisiterid = %u',$competition_call_adminid,-1],
+        ];
+        $sql = $this->gen_sql_new(" select userid from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
