@@ -2145,18 +2145,19 @@ class teacher_info extends Controller
 
     public function grab_visit_info(){
 
-        $teacherid = $this->get_login_teacher();
-        $grab_link = $this->get_in_str_val('cur_url');
-        $grabid    = $this->get_in_int_val('grabid', 0);
-        $visitid   = $this->get_in_int_val('visitid', 0);
-        $operation = $this->get_in_int_val('operation', 0);
+        $teacherid    = $this->get_login_teacher();
+        $grab_link    = $this->get_in_str_val('cur_url');
+        $grabid       = $this->get_in_int_val('grabid', 0);
+        $visitid      = $this->get_in_int_val('visitid', 0);
+        $requireid    = $this->get_in_int_val('requireid', 0);
+        $success_flag = $this->get_in_int_val('success_flag', 0);
 
         if (!$grabid) {
             $grabid = $this->t_grab_lesson_link_info->get_id_by_link($grab_link);
         }
 
         $return_info['grabid'] = $grabid;
-        if ($visitid == 0 & $grabid >0) {//打开页面访问
+        if ($visitid == 0 & $grabid >0) {//首次打开页面，记录为访问
             $ret = $this->t_grab_lesson_link_visit_info->row_insert([
                 'grabid' => $grabid,
                 'teacherid' => $teacherid,
@@ -2172,8 +2173,17 @@ class teacher_info extends Controller
 
             $this->t_grab_lesson_link_visit_info->field_update_list(['id'=> $visitid],[
                 'teacherid' => $teacherid,
-                'operation' => $operation,
+                'operation' => 1,
             ]);
+
+            $ret = $this->t_grab_lesson_link_visit_operation->row_insert([
+                'visitid'     => $visitid,
+                'teacherid'   => $teacherid,
+                'create_time' => time(),
+                'requireid'   => $requireid,
+                'success_flag'=> $success_flag,
+            ]);
+
 
         }
 

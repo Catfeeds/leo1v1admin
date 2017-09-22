@@ -42,6 +42,69 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $start_time  = time();
         $end_time    = time() + 86400*7;
                
+        $seller_top_list = $task->t_test_lesson_subject_require->get_seller_top_require_list($start_time,$end_time);
+        $jw_leader_list = $task->t_manager_info->get_jw_teacher_list_leader();
+        if(!empty($seller_top_list)){
+            foreach($seller_top_list as $item){
+            
+                // $num_all = count($jw_leader_list);
+                // $i=0;
+                $seller_arr=[];
+                foreach($jw_leader_list as $k=>$val){
+                    $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+                    if (!$json_ret) {
+                        $json_ret=0;
+                    }
+                    \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+                    if($json_ret==1){
+                        $i++;
+                    }
+                    // echo $json_ret;
+                }
+                if($i==$num_all){
+                    foreach($jw_leader_list as $k=>$val){
+                        \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 0);
+                    }
+                }
+        
+           
+                foreach($jw_leader_list as $k=>$val){
+                    $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+                    if($json_ret==0){
+                        $task->t_test_lesson_subject_require->field_update_list($item["require_id"],[
+                            "accept_adminid"=>$val,
+                            "require_assign_time"=>time()
+                        ]);
+
+                        $test_lesson_subject_id = $task->t_test_lesson_subject_require->get_test_lesson_subject_id(
+                            $item["require_id"]);
+
+                        $task->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
+                            "history_accept_adminid"=>$val
+                        ]);
+
+                       
+                        \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 1);
+                        $require_lesson_time = date("Y-m-d",$item["stu_request_test_lesson_time"]);
+                        $url = "seller_student_new2/test_lesson_plan_list?date_type=2&opt_date_type=0&"
+                             ."start_time=".$require_lesson_time."&end_time=".$require_lesson_time."&"
+                             ."test_lesson_student_status=200&lessonid=undefined&is_test_user=0&"
+                             ."require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$val;
+
+                        $task->t_manager_info->send_wx_todo_msg_by_adminid($val,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"],$url);
+                        $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"].",教务:".$val,$url);
+
+                        break;
+               
+                    }
+                }
+
+
+            }
+
+        }
+
+
         $list_left=[];
         $histroy_accept_adminid_list=$task->t_test_lesson_subject_require->get_jw_teacher_history_accept_adminid($start_time,
                                                                                                                  $end_time);

@@ -21,6 +21,7 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                 ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>18, "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
                 ["power_id"=>19, "name"=>"老师晋升列表","url"=>"/teacher_level/teacher_advance_info_list"],
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
             ]],
@@ -401,7 +402,7 @@ class menu{
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
 
-                ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
+                // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
@@ -830,7 +831,9 @@ class menu{
                 ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info_jy"],
                 ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                 ["power_id"=>43, "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
+                ["power_id"=>44, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
 
+                ["power_id"=>45, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["power_id"=>3, "name"=>"试听转化率黑名单",   "url"=>"/tongji_ss/get_test_lesson_low_tra_teacher"],

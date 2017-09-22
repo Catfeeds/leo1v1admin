@@ -43,13 +43,15 @@ class teacher_feedback extends Controller
         $lesson_deduct_info = E\Elesson_deduct::$desc_map;
 
         $list = $this->t_teacher_feedback_list->get_teacher_feedback_list(
-            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,$opt_date_type,$del_flag
+            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,
+            $opt_date_type,$del_flag
         );
         foreach($list['list'] as &$tea_val){
             E\Efeedback_type::set_item_value_str($tea_val);
             E\Echeck_status::set_item_value_str($tea_val,"status");
             E\Egrade::set_item_value_str($tea_val,"grade");
-            E\Elevel::set_item_value_str($tea_val,"level");
+            $tea_val['level_str'] = \App\Helper\Utils::get_teacher_letter_level($tea_val['teacher_money_type'],$tea_val['level']);
+            // E\Elevel::set_item_value_str($tea_val,"level");
             E\Eteacher_money_type::set_item_value_str($tea_val,"teacher_money_type");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"check_time","_str");

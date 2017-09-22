@@ -208,11 +208,16 @@ class seller_student_new2 extends Controller
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
         );
-        //dd($ret_info);
+
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
             $item["lesson_time"] = $item["lesson_start"];
+            if($item["require_time"] >= strtotime("2017-09-22 14:30:00")){
+                $item["use_new_flag"]=1;
+            }else{
+                $item["use_new_flag"]=0;
+            }
             $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
             \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
             \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");
@@ -301,7 +306,8 @@ class seller_student_new2 extends Controller
             }
             if($item['accept_adminid'] > 0){
                 $item['is_accept_adminid']="1";
-                $this->cache_set_item_account_nick($item,"accept_adminid" ,"accept_account" ); //t_manager_info->get_account($item['accept_adminid']);
+                $this->cache_set_item_account_nick($item,"accept_adminid" ,"accept_account" );
+                //t_manager_info->get_account($item['accept_adminid']);
             }else{
                 $item['is_accept_adminid']="0";
             }
@@ -313,9 +319,6 @@ class seller_student_new2 extends Controller
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
 
-       //  var_dump($ret_info['list']);
-        // dd($ret_info['list']);
-        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,

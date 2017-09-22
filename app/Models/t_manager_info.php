@@ -750,6 +750,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $arr;
     }
 
+   public function get_jw_teacher_list_leader(){
+       $sql = $this->gen_sql_new("select uid from %s ".
+                                 " where account_role = 3 and admin_work_status = 1 and uid in (436,343) "
+                                 ,self::DB_TABLE_NAME
+       );
+        $res =  $this->main_get_list($sql);
+        $arr = [];
+        foreach($res as $val){
+            $arr[$val["uid"]] = $val["uid"];
+        }
+        return $arr;
+
+   }
+
     public function get_jw_teacher_list_new(){
         $sql = $this->gen_sql_new("select uid,account from %s ".
                                   " where account_role = 3 and del_flag = 0 "

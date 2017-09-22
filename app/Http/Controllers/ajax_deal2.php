@@ -194,10 +194,12 @@ class ajax_deal2 extends Controller
 
     public function gen_order_pdf(){
         $orderid   = $this->get_in_int_val("orderid");
+        $parent_name = $this->get_in_str_val("parent_name");
         $row       = $this->t_order_info->field_get_list($orderid,"*");
         $type_1_lesson_count=$this->t_order_info->get_type1_lesson_count ($orderid)/100;
         $userid    = $row["userid"];
         $username           = $this->t_student_info->get_nick($userid);
+        $phone  = $this->t_student_info->get_phone($userid);
         $grade               = $row["grade"];
         $lesson_count        = $row["lesson_total"] * $row["default_lesson_count"]/100;
         $price               = $row["price"]/100;
@@ -206,6 +208,19 @@ class ajax_deal2 extends Controller
         $per_lesson_interval = $row["lesson_duration"] ;
         $order_start_time    = $row["contract_starttime"];
         $order_end_time      = $row["contract_endtime"];
+        $contract_type = $row["contract_type"];
+        $contract_status = $row["contract_status"];
+
+        $this->t_student_info->field_update_list($userid,[
+            "parent_name" => $parent_name
+        ]);
+        if ($contract_status ==0 )  {
+            return $this->output_err("未支付，不能生成合同");
+        }
+        if (!in_array(  $contract_type , array(E\Econtract_type::V_0 ,E\Econtract_type::V_3 )  )) {
+            return $this->output_err("不是1对１合同，不能生成合同");
+        }
+
         if (($lesson_count) <=90 ) {
             $order_end_time =$order_start_time+365*86400;
         } else if (($lesson_count) <=270 ) {
@@ -218,10 +233,10 @@ class ajax_deal2 extends Controller
         if(!$per_lesson_interval ){ $per_lesson_interval = 40; }
         $now=time(NULL);
 
-        $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,true, $now ,$type_1_lesson_count);
+        $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,true, $now ,$type_1_lesson_count,$phone, $parent_name );
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
 
-        $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,false,$now , $type_1_lesson_count);
+        $pdf_file_url=\App\Helper\Common::gen_order_pdf($orderid,$username,$grade,$competition_flag,$lesson_count,$price,$one_lesson_count,$per_lesson_interval,$order_start_time,$order_end_time,false,$now , $type_1_lesson_count ,$phone, $parent_name);
 
         \App\Helper\Utils::logger("pdf_file_url:$pdf_file_url");
         $this->t_order_info->field_update_list($orderid,[
@@ -1513,13 +1528,13 @@ class ajax_deal2 extends Controller
         $parent_name              = $this->get_in_str_val("parent_name");
         $parentid =$this->t_student_info->get_parentid($userid);
         $this->t_parent_info->field_update_list($parentid,[
-           "nick"    =>$parent_name 
+           "nick"    =>$parent_name
         ]);
         $this->t_student_info->field_update_list($userid,[
-           "parent_name" =>$parent_name 
+           "parent_name" =>$parent_name
         ]);
         return $this->output_succ();
-        
+
     }
 
 }

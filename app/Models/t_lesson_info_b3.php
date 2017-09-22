@@ -256,12 +256,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
         if($require_type==1){
-            $where_arr[] = "tss.top_seller_flag=1";
+            $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =1";
         }elseif($require_type==3){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
@@ -307,14 +307,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
         if($require_type==1){
-            $where_arr[] = "tss.top_seller_flag=1";
+            $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =1";
         }elseif($require_type==3){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
+
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tq.cur_require_adminid"
                                   ." ,mm.account "
@@ -361,14 +362,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
         if($require_type==1){
-            $where_arr[] = "tss.top_seller_flag=1";
+            $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =1";
         }elseif($require_type==3){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
+
+       
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname"
                                   ." from %s l "
@@ -422,15 +425,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
+       
         if($require_type==1){
-            $where_arr[] = "tss.top_seller_flag=1";
+            $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =1";
         }elseif($require_type==3){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
+
         $having = '';
         if($test_lesson_num==-1){
             if($tranfer_per == 1){
@@ -551,14 +556,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
         if($require_type==1){
-            $where_arr[] = "tss.top_seller_flag=1";
+            $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =1";
         }elseif($require_type==3){
-            $where_arr[] = "tss.top_seller_flag=0";
+            $where_arr[] = "tq.seller_top_flag=0";
             $where_arr[] = "tq.is_green_flag =0";
         }
+
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tss.set_lesson_adminid,"
                                   ."m.account "
@@ -663,28 +669,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-    }
-
-    public function get_teacher_full_lesson_total($start_time,$end_time){
-        $where_arr = [
-            ["lesson_start>%u",$start_time,-1],
-            ["lesson_start<%u",$end_time,-1],
-            "lesson_type in (0,1,3)",
-            "t.is_test_user=0"
-        ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,"
-                                  ." sum(if(confirm_flag!=2 and lesson_del_flag=0,lesson_count,0)) as lesson_total,"
-                                  ." sum(lesson_cancel_reason_type=12) as change_class,"
-                                  ." sum(if(confirm_flag!=2 and lesson_del_flag=0 and deduct_come_late=1,1,0)) as come_late"
-                                  ." from %s l"
-                                  ." left join %s t on l.teacherid=t.teacherid"
-                                  ." where %s"
-                                  ." group by l.teacherid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function reset_train_subject(){

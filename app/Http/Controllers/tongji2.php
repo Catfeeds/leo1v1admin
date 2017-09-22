@@ -404,6 +404,7 @@ class tongji2 extends Controller
         }
         $require_adminid_list        = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $lesson_user_online_status   = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
+        $test_assess_flag   = $this->get_in_e_set_boolean(-1,"test_assess_flag");
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str([],"lesson_start asc",[
@@ -413,8 +414,7 @@ class tongji2 extends Controller
                 "tq_call_time" => "min( start_time)",
                 "tq_call_all_time" => "sum(tq.duration)",
             ] );
-
-        $ret_info = $this->t_lesson_info_b2-> get_test_lesson_first_list($page_num, $order_by_str ,$start_time,$end_time  ,$require_adminid_list, $lesson_user_online_status );
+        $ret_info = $this->t_lesson_info_b2-> get_test_lesson_first_list($page_num, $order_by_str ,$start_time,$end_time  ,$require_adminid_list, $lesson_user_online_status,$test_assess_flag );
         $call_count=0;
         $call_15min_count=0;
         $call_time_all=0;
@@ -469,9 +469,10 @@ class tongji2 extends Controller
 
     public function check_up_group_adminid(){
         $adminid = $this->get_account_id();
-        $groupid = $this->t_admin_main_group_name->get_groupid_by_master_adminid($adminid);
+        $groupid = $this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
+        $up_groupid = $this->t_admin_main_group_name->get_groupid_by_master_adminid($adminid);
         $ret = 0;
-        if($groupid){
+        if($groupid || $up_groupid){
             $ret = 1;
         }
         return $ret;

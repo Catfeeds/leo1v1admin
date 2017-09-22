@@ -1936,6 +1936,27 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_top_require_list($start_time,$end_time){
+        $where_arr = [
+            ["t.stu_request_test_lesson_time >= %u",$start_time,-1],
+            "test_lesson_student_status = 200",
+            "accept_adminid <= 0",
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "seller_top_flag=1"
+        ];
+        $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,nick,stu_request_test_lesson_time   from %s tr"
+                                  ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." join %s s on t.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
     public function get_test_lesson_transfor_info_new($start_time,$end_time,$page_num){
         $where_arr = [

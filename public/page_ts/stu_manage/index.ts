@@ -146,7 +146,7 @@ $(function(){
         //func_suc_getXmlProvice进行 省的 解析  
         $.ajax({  
             type : "GET",  
-            url : "../province_city_select_Info.xml",  
+            url : "/province_city_select_Info.xml",  
             success : func_suc_getXmlProvice  
         });  
         
@@ -165,7 +165,7 @@ $(function(){
                 //func_suc_getXmlProvice进行省对应的市的解析  
                 $.ajax({  
                     type : "GET",  
-                    url : "../province_city_select_Info.xml",  
+                    url : "/province_city_select_Info.xml",  
                     success : func_suc_getXmlCity  
                 });  
                 
@@ -181,7 +181,7 @@ $(function(){
             area.html(preArea);  
             $.ajax({  
                 type : "GET",  
-                url : "../province_city_select_Info.xml",  
+                url : "/province_city_select_Info.xml",  
                 
                 //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
                 //func_suc_getXmlArea进行省对应的市对于的区的解析  

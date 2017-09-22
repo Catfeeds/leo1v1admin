@@ -1017,6 +1017,7 @@ class user_manage extends Controller
         return $this->refund_list();
     }
     public function refund_list_finance(){
+        $this->set_in_value( "refund_userid", $this->get_account_id() );
         return $this->refund_list();
     }
 
@@ -2117,8 +2118,20 @@ class user_manage extends Controller
     }
 
     public function complaint_department_deal_teacher_qc(){
-        return $this->complaint_department_deal_teacher();
+        $this->set_in_value('account_type',2);
+        return $this->complaint_department_deal();
     }
+
+    public function complaint_department_deal_teacher_tea(){
+        $this->set_in_value('account_type',2);
+        return $this->complaint_department_deal();
+    }
+
+    public function complaint_department_deal_parent_tea(){
+        $this->set_in_value('account_type',1);
+        return $this->complaint_department_deal();
+    }
+
 
     public function complaint_department_deal_teacher(){
         $this->set_in_value('account_type',2);

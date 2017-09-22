@@ -72,6 +72,7 @@
                             <font color="red"> 请拨打,并 刷新通话记录 </font>
                         @elseif ( $user_info["tq_called_flag"] ==1  )
                             <font color="blue"> 重新拨打,或 抢新例子 </font>
+                            <a class="btn btn-primary "  id="id_get_this_new_user" >认领例子</a>
                         @endif
                     </td>
                 </tr>

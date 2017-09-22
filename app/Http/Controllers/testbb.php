@@ -239,32 +239,27 @@ class testbb extends Controller
 
 
     public function ss(){
-        // $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
-        dd(time(NULL)-180*86400);
+        $deal_adminid = $this->get_in_int_val('deal_adminid');
+        $complaint_id = $this->get_in_int_val('complaint_id');
+        $director_wx_list   = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id);
+        $notice_wx_openid = [];
+        foreach($director_wx_list as $item){
+            $notice_wx_openid[] = $item['wx_openid'];
+        }
 
-        $seller_num_arr['first_num'] = 2;
-        $seller_num_arr['second_num'] = 3;
-        $seller_num_arr['third_num'] = 4;
+        $notice_wx_openid   = array_flip(array_flip($notice_wx_openid));
 
-        // dd(json_encode($seller_num_arr));
-        $info = '{"first_num":2,"second_num":3,"third_num":4}';
+        dd($notice_wx_openid);
 
-        dd(json_decode($info,true));
-        // dd($max_main_type);
-        $t = $this->t_seller_student_new->get_all_stu_uid();
-        dd($t);
-
-        $admin_list = $this->t_manager_info->get_admin_member_list_tmp();
-        // $admin_list = $this->t_manager_info->get_admin_member_list();
-
-
-        dd($admin_list);
     }
 
     public function install(){
-        Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
+        // 暂时未建
+        Schema::create('db_weiyi.t_seller_tongji_funnel_data_for_month', function( Blueprint $table)
         {
             $table->increments("id","id");
+            t_field($table->integer("create_time"),"创建时间");
+            t_field($table->integer("from_time"),"来自于那个月份 月份的第一天时间戳");
             t_field($table->integer("referral_money"),"转介绍合同收入");
             t_field($table->integer("new_money"),"新签合同收入");
             t_field($table->text("income_info"),"对应人员收入签单额度");

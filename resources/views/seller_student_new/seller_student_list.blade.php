@@ -462,7 +462,7 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit"></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit-new"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
@@ -519,9 +519,6 @@
                                     <a title="收藏" class=" fa-star-o opt-favorite"></a>
                                 @else
                                     <a title="取消收藏" class=" fa-star  opt-favorite"></a>
-                                @endif
-                                @if(in_array($acc,["jack","jim","夏宏东","李子璇","陈佳"]))
-                                    <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif
                             </div>
 
@@ -985,15 +982,20 @@
             <div class="col-xs-12 col-md-12  ">
                 <span>试听需求</span>
             </div>
-            <div class="col-xs-12 col-md-12  ">
+            <div class="col-xs-12 col-md-6  ">
                 <div class="row">
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
-                            <span class="input-group-addon">知识点定位：</span>
-                            <input type="text" class=" form-control "  id="id_knowledge_point_location"  />
+                            <span class="input-group-addon" >　　需求定位：</span>
+                            <textarea class="form-control" style="height:70px;" id="id_knowledge_point_location" > </textarea>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">                  
+                    <div class="col-xs-12 col-md-6 ">
                         <div class="input-group ">
                             <span class="input-group-addon">上课意向：</span>
                             <select id="id_intention_level" class=" form-control "   >
@@ -1001,12 +1003,12 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-md-3 ">
+                    <div class="col-xs-12 col-md-6 ">
                         <div class="input-group ">
                             <span class="input-group-addon">试听时间：</span>
                             <input id="id_stu_request_test_lesson_time" class=" form-control "   />
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消">
+                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消" >
                                     <i class="fa fa-times"></i>
                                 </button>
                             </div>
@@ -1016,12 +1018,12 @@
 
 
                  
-                    <div class="col-xs-12 col-md-3  ">
+                    <div class="col-xs-12 col-md-6  ">
                         <div class="input-group ">
                             <span class="input-group-addon">上传试卷：</span>
-                            <input type="text" class=" form-control "  id="id_test_paper"  />
+                            <input type="text" class=" form-control "  id="id_test_paper"   / >
                             <div class=" input-group-btn "  >
-                                <button class="btn  btn-primary upload_test_paper"  title="上传">
+                                <button class="btn  btn-primary upload_test_paper"  title="上传" >
                                     上传
                                 </button>
                             </div>
