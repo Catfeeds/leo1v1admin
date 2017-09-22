@@ -2,11 +2,27 @@
 /// <reference path="../g_args.d.ts/test_lesson_review-test_lesson_review_list.d.ts" />
 
 $(function(){
+    var show_name_key="";
+    show_name_key="account_name_"+g_adminid;
     function load_data(){
+        if ($.trim($("#id_user_info").val()) != g_args.user_info ) {
+            $.do_ajax("/user_deal/set_item_list_add",{
+                "item_key" :show_name_key,
+                "item_name":  $.trim($("#id_user_info").val())
+            },function(){});
+        }
         $.reload_self_page ( {
-
+            user_info         : $('#id_user_info').val(),
         });
     }
+    $( "#id_user_info" ).autocomplete({
+        source: "/user_deal/get_item_list?list_flag=1&item_key="+show_name_key,
+        minLength: 0,
+        select: function( event, ui ) {
+            load_data();
+        }
+    });
+    $("#id_user_info").val(g_args.user_info);
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         if(opt_data.aid == opt_data.group_adminid){

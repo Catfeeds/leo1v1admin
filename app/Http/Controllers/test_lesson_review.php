@@ -13,7 +13,8 @@ class test_lesson_review extends Controller
     public function test_lesson_review_list(){
         $adminid = $this->get_account_id();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid);
+        $user_info         = trim($this->get_in_str_val('user_info',''));
+        $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid,$user_info);
         $num = 1;
         foreach($ret_info['list'] as &$item){
             $item['aid'] = $adminid;
