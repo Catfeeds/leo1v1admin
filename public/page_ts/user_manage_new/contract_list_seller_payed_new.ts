@@ -2987,6 +2987,7 @@ $(function(){
         var arr = [
             ['名字',id_parent_name]
         ];
+        id_parent_name.val(data.parent_nick);
 
 
         $.show_key_value_table("修改家长姓名", arr ,{
@@ -2994,7 +2995,7 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
               
-                $.do_ajax('ajax_deal2/update_parent_name',{
+                $.do_ajax('/ajax_deal2/update_parent_name',{
                     'userid'      : userid,
                     "parent_name" : id_parent_name.val()
                 });

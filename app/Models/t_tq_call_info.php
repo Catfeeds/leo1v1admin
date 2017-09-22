@@ -442,7 +442,36 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
 
 
-    public function get_called_num($start_time, $end_time){
+    public function get_cc_called_num($start_time, $end_time){
+        $where_arr = [
+            "tq.admin_role = 2"
+        ];
 
+        $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(distinct(adminid)) as cc_called_num from %s tq "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
+
+    public function get_cc_called_time($start_time, $end_time){
+        $where_arr = [
+            "tq.admin_role = 2 "
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select sum(tq.duration) from %s tq"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }

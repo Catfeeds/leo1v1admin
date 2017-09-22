@@ -13,7 +13,8 @@ class test_lesson_review extends Controller
     public function test_lesson_review_list(){
         $adminid = $this->get_account_id();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid);
+        $user_info         = trim($this->get_in_str_val('user_info',''));
+        $ret_info = $this->t_test_lesson_subject_require_review->get_all_list($page_info,$adminid,$user_info);
         $num = 1;
         foreach($ret_info['list'] as &$item){
             $item['aid'] = $adminid;
@@ -46,9 +47,15 @@ class test_lesson_review extends Controller
         $p_pp_adminid = $this->t_admin_group_user->get_group_master_adminid($adminid);
         $group_adminid = isset($p_pp_adminid['group_adminid'])?$p_pp_adminid['group_adminid']:0;
         $master_adminid = isset($p_pp_adminid['master_adminid'])?$p_pp_adminid['master_adminid']:0;
-        $count = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
+        $ret_info = $this->t_test_lesson_subject_require_review->get_week_test_lesson_count($adminid,$start_time,$end_time);
         $ret = 0;
-        if($count<3){
+        $count = count($ret_info);
+        $userid_arr = array_column($ret_info,'userid');
+        if(in_array($userid,$userid_arr)){//提交过
+            $ret = 2;
+            return $ret;
+        }
+        if($count<5){
             $this->t_test_lesson_subject_require_review->row_insert([
                 "adminid"        => $adminid,
                 "group_adminid"  => $group_adminid,

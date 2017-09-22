@@ -7,18 +7,36 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
     {
         parent::__construct();
     }
-    public function get_all_list($page_info,$adminid){
+
+    public function get_all_list($page_info,$adminid,$user_info){
         $where_arr = [];
-        if($adminid != 831){
+        if(!in_array($adminid,[831,898])){
             $where_arr[] = " r.group_adminid=$adminid or r.master_adminid=$adminid ";
         }
+        if ($user_info >0 ) {
+            if  ($user_info < 10000) {
+                $where_arr[]=[  "t1.uid=%u", $user_info, "" ] ;
+            }else{
+                $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
+            }
+        }else{
+            if ($user_info!=""){
+                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
+        }
+
         $sql=$this->gen_sql_new (" select r.*,"
                                  ." s.phone,s.nick "
                                  ." from %s r "
                                  ." left join %s s on s.userid = r.userid"
+                                 ." left join %s t1 on t1.uid = r.adminid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_manager_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
@@ -45,14 +63,13 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
         $this->where_arr_add_int_field($where_arr,'adminid',$adminid);
         $this->where_arr_add_time_range($where_arr,'create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            " select count(id) "
+            " select id,adminid,userid "
             ." from %s "
             ." where %s "
             ,self::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
-
 
 }
