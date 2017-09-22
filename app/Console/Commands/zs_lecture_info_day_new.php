@@ -44,6 +44,7 @@ class zs_lecture_info_day_new extends Command
         $start_time = strtotime(date("Y-m-d",time()-100));
         $end_time=time();
         $subject = -1;
+
         $date = date("Y-m-d",time()-100);
         //dd($date);
         $account_role = 9;

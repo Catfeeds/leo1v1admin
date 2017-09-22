@@ -1362,10 +1362,9 @@ class ss_deal extends Controller
              $this->t_manager_info->send_wx_todo_msg_by_adminid (72,$tea_nick."老师的限课特殊申请被驳回","限课特殊申请驳回通知",$tea_nick."老师由于教学质量或者态度存在较大问题,故排课被驳回,请更换其他老师","http://admin.yb1v1.com/seller_student_new2/test_lesson_plan_list?require_id=".$require_id);
         }
         return $this->output_succ();
-
     }
 
-    public function course_set_new() {
+    public function course_set_new(){
         $require_id   = $this->get_in_require_id();
         $teacherid    = $this->get_in_teacherid();
         $lesson_start = $this->get_in_str_val('lesson_start');
@@ -1514,6 +1513,7 @@ class ss_deal extends Controller
             $url = "http://www.leo1v1.com/login/teacher";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
+
 
         return $this->output_succ();
     }
@@ -5757,6 +5757,13 @@ class ss_deal extends Controller
                     ];
 
                 }
+            }
+
+            // 投诉相关的分配人和处理人都收到相关的推送
+            $ass_log = $this->t_complaint_assign_info->get_ass_log($complaint_id);
+            $notice_ass = [];
+            foreach($ass_log as $value){
+                $notice_ass[] = $this->t_manager_info->get_wx_openid($value['assign_adminid']);
             }
 
             //反馈QC与上级领导
