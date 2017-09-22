@@ -2656,7 +2656,10 @@ trait TeaPower {
      */
     public function get_teacher_reward_money_list($teacherid,$start_time,$end_time){
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
-        
+        $reward_total = [];
+        foreach($rewrad_list as $val){
+            
+        }
     }
 
 
