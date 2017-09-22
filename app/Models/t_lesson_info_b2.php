@@ -32,7 +32,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $this->where_arr_add_int_field($where_arr,"lesson_user_online_status", $lesson_user_online_status);
 
         $sql= $this->gen_sql_new(
-            ["select cur_require_adminid ,s.userid, s.nick, n.phone, l.lessonid, l.teacherid,  l.lesson_start,l.lesson_end ,min(tq.start_time)  tq_call_time ,  (min(tq.start_time) -l.lesson_start ) as  duration ,price , max(tq.start_time)  last_tq_call_time , o.order_time, count(tq.start_time ) tq_call_count , sum(tq.duration ) as tq_call_all_time , n.phone , l.lesson_user_online_status ",
+            ["select tts.assess,cur_require_adminid ,s.userid, s.nick, n.phone, l.lessonid, l.teacherid,  l.lesson_start,l.lesson_end ,min(tq.start_time)  tq_call_time ,  (min(tq.start_time) -l.lesson_start ) as  duration ,price , max(tq.start_time)  last_tq_call_time , o.order_time, count(tq.start_time ) tq_call_count , sum(tq.duration ) as tq_call_all_time , n.phone , l.lesson_user_online_status ",
              " from %s l  ",
              " left join %s  s on s.userid=l.userid ",
              " left join %s  n on n.userid=l.userid ",
