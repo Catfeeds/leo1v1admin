@@ -2706,8 +2706,17 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $list = $this->t_test_lesson_subject_require->get_seller_top_list();
+        foreach($list as $val){
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$val["curl_stu_request_test_lesson_time"]))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($val["cur_require_adminid"], $start_time);
+            if(!isset($self_top_info[6]["top_index"]) || $self_top_info[6]["top_index"]>25 ){
+                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+                   "seller_top_flag"=>0 
+                ]);
+            }
+            
+        }
         dd($list);
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list(1124,  strtotime("2017-08-01") );
         dd($self_top_info);
  
         

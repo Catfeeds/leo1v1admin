@@ -892,7 +892,7 @@ class ss_deal extends Controller
             $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
-            if(!empty($self_top_info)){
+            if(isset($self_top_info[6]["top_index"])){
                 $rank = @$self_top_info[6]["top_index"];
                 if(($account_role ==2 && $rank<=25) || $require_adminid == 349){
                     $seller_top_flag=1;
