@@ -239,6 +239,9 @@ class testbb extends Controller
 
 
     public function ss(){
+        $a = '[{"day":"9-30","hours":[12,16]}]';
+        dd(json_decode($a,true));
+
         $deal_adminid = $this->get_in_int_val('deal_adminid');
         $complaint_id = $this->get_in_int_val('complaint_id');
         $director_wx_list   = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id);

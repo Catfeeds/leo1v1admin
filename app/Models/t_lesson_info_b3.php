@@ -599,10 +599,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_need_reset_list($time){
         $where_arr = [
-            ["lesson_start>%u",$time,0],
-            // "lesson_start=0",
+            // ["lesson_start>%u",$time,0],
+            "lesson_start=0",
             "t.teacher_money_type=6",
-            "lesson_type in (2)",
+            "lesson_type <1000",
             "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level)"
         ];
         $sql = $this->gen_sql_new("select lessonid,t.teacher_money_type as new_teacher_money_type,"

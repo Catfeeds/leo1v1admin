@@ -1975,8 +1975,11 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 切换老师后,更新课程信息
+     */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-13 16:00");
+        $time  = strtotime("2017-9-22 16:00");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
@@ -1994,6 +1997,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 切换老师到第四版
+     */
     public function reset_teacher_money_type(){
         $batch = $this->get_in_int_val("batch",1);
         $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);

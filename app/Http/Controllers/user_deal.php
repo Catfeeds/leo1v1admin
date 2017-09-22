@@ -2705,7 +2705,27 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list(1124,  strtotime("2017-08-01") );
+        dd($self_top_info);
+ 
+        
+        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_all();
+
+        foreach($jw_teacher_list as $k=>$val){
+            $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+            if (!$json_ret) {
+                $json_ret=0;
+                \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+            }
+            $normal_arr[$k]=$json_ret;
+            /*if($json_ret==1){
+              $i++;
+              }*/
+            // echo $json_ret;
+        }
+        asort($normal_arr);
+        dd($normal_arr);
+
         $arr=["436"=>11,"400"=>333,"566"=>56,"66"=>1];
         asort($arr);
         dd($arr);
