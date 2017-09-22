@@ -65,9 +65,17 @@ class wx_parent_api extends Controller
         $parentid = $this->get_parentid();
         $type = $this->get_in_int_val('type',-1); // 0: 常规课 2: 试听课
         // $parentid = 54573;//测试
+        $now = time();
 
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
+
+            //判断是否可以申请调课
+            if($item['lesson_start']-$now>8){
+                
+            }
+
+
             $item['is_modify_time_flag'] = $item['is_modify_time_flag']?$item['is_modify_time_flag']:0;
             $lesson_num= $item["lesson_num"];
             $lessonid= $item["lessonid"];

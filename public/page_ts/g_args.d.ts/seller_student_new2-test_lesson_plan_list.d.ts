@@ -120,6 +120,27 @@ interface RowData {
 	limit_require_reason	:any;
 	limit_accept_time	:any;
 	limit_plan_lesson_reason	:any;
+	demand_urgency	:any;
+	quotation_reaction	:any;
+	knowledge_point_location	:any;
+	recent_results	:any;
+	advice_flag	:any;
+	class_rank	:any;
+	grade_rank	:any;
+	academic_goal	:any;
+	test_stress	:any;
+	entrance_school_type	:any;
+	interest_cultivation	:any;
+	extra_improvement	:any;
+	habit_remodel	:any;
+	study_habit	:any;
+	interests_and_hobbies	:any;
+	character_type	:any;
+	need_teacher_style	:any;
+	new_demand_flag	:any;
+	address	:any;
+	parent_name	:any;
+	seller_top_flag	:any;
 	id	:any;
 	lesson_time	:any;
 	except_lesson_time	:any;
@@ -143,9 +164,19 @@ interface RowData {
 	success_flag_str	:any;
 	lesson_used_flag_str	:any;
 	fail_greater_4_hour_flag_str	:any;
-	intention_level_str	:any;
+	advice_flag_str	:any;
 	test_lesson_fail_flag_str	:any;
 	ass_test_lesson_type_str	:any;
+	intention_level_str	:any;
+	demand_urgency_str	:any;
+	quotation_reaction_str	:any;
+	academic_goal_str	:any;
+	test_stress_str	:any;
+	entrance_school_type_str	:any;
+	interest_cultivation_str	:any;
+	extra_improvement_str	:any;
+	habit_remodel_str	:any;
+	gender_str	:any;
 	stu_request_test_lesson_time_info_str	:any;
 	stu_test_paper_flag_str	:any;
 	require_admin_nick	:any;
@@ -154,7 +185,6 @@ interface RowData {
 	limit_require_tea_nick	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
-	accept_account	:any;
 }
 
 /*
