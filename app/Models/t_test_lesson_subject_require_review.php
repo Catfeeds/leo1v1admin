@@ -9,7 +9,7 @@ class t_test_lesson_subject_require_review extends \App\Models\Zgen\z_t_test_les
     }
     public function get_all_list($page_info,$adminid){
         $where_arr = [];
-        if($adminid != 831){
+        if($adminid != 831 or $adminid != 898){
             $where_arr[] = " r.group_adminid=$adminid or r.master_adminid=$adminid ";
         }
         $sql=$this->gen_sql_new (" select r.*,"
