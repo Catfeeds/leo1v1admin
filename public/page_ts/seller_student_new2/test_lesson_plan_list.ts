@@ -1234,10 +1234,12 @@ $(function(){
                 if(select_num==0){
                     BootstrapDialog.alert("未选择试听申请!");
                 }else{
+
                     $.do_ajax("/common/base64",{
                         "text" : id,
                         "type" : "encode"
                     },function(result){
+                        console.log(result)
                         select_time_limit(result,lesson_info);
                     })
                 }
@@ -1352,7 +1354,6 @@ $(function(){
             }
         });
 
-        console.log(id);
         if(id==""){
             BootstrapDialog.alert("未选择试听申请!");
         }else{
@@ -1379,8 +1380,27 @@ $(function(){
                 var time = id_time.val();
                 now = now+time*60;
                 var url  = "http://www.leo1v1.com/teacher_info/grab_trial_lesson_list?text="+result.data+"&time="+now;
+
                 var alert_info = url+"<br/>"+lesson_info;
-                BootstrapDialog.alert(alert_info);
+                $.ajax({
+                    type     :'post',
+                    url      : '/grab_lesson/make_lesson_link',
+                    dataType : 'json',
+                    data     : {
+                        'url':url,
+                        'live_time' : time,
+                        'create_time' : now,
+                    },
+                    success :function(ret){
+                        console.log(ret)
+                        if (ret.ret == 0) {
+                            console.log(ret)
+                            BootstrapDialog.alert(alert_info);
+                        } else {
+                            alert(ret.info);
+                        }
+                    }
+                });
             }
         },function(){
             id_time.val("60");

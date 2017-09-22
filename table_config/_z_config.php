@@ -19,6 +19,8 @@ return array(
     ["db_weiyi","t_yxyx_test_pic_visit_info", "test_pic_id"],
     ["db_weiyi","t_yxyx_custom_type", "custom_type_id"],
     ["db_weiyi","t_yxyx_new_list", "id"],
+    ["db_weiyi","t_grab_lesson_link_info", "id"],
+    ["db_weiyi","t_grab_lesson_link_visit_info", "id"],
 
     ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],
