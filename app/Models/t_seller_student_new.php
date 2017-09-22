@@ -1396,7 +1396,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                   && !$item["admin_revisiterid"]
                   &&  $item["competition_call_time"]+3600 > time(NULL)
                   &&  $competition_call_adminid ) {
+<<<<<<< HEAD
                 if ($this-> task->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+=======
+                if ($this->task->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+>>>>>>> d4ab8536b51dfddd2b0f73bb68987ae656925066
                     \App\Helper\Utils::logger("SET COMPETITION_CALL_ADMINID ");
 
                     $account=$this->t_manager_info->get_account( $competition_call_adminid );

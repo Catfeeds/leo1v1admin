@@ -569,7 +569,7 @@ class wx_teacher_api extends Controller
     public function get_modify_lesson_time_by_teacher(){//2006 // 老师 点击家长调课 推送详情
         $lessonid = $this->get_in_int_val('lessonid');
 
-        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+        $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
         $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
         $filter_lesson_time_start = time(NULL)+86400;

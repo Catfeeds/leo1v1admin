@@ -3881,4 +3881,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_lesson_time_row($lessonid){
+        $sql = $this->gen_sql_new("select lesson_start, lesson_end from %s where lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
 }

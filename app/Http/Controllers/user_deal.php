@@ -2705,6 +2705,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list = $this->t_test_lesson_subject_require->get_seller_top_list();
+        dd($list);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list(1124,  strtotime("2017-08-01") );
         dd($self_top_info);
  
