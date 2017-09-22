@@ -1366,6 +1366,8 @@ $(function(){
             if(ret == 1){
                 alert('认领成功!')
                 window.location.reload();
+            }else if(ret == 2){
+                alert('电话未拨通,请拨通后认领!')
             }
         });
     });

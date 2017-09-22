@@ -1565,16 +1565,22 @@ class seller_student_new extends Controller
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
         $competition_call_adminid = $this->get_account_id();
         $ret = 0;
-        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
-            $account=$this->t_manager_info->get_account( $competition_call_adminid );
-            $this->set_admin_info(0, [$userid], $competition_call_adminid,0);
-            $ret_update = $this->t_book_revisit->add_book_revisit(
-                $phone,
-                "操作者:  抢单 [$account] ",
-                "system"
-            );
-            $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
-            $ret = 1;
+        $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
+        $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
+        if($is_called_flag){
+            if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+                $account=$this->t_manager_info->get_account( $competition_call_adminid );
+                $this->set_admin_info(0, [$userid], $competition_call_adminid,0);
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者:  抢单 [$account] ",
+                    "system"
+                );
+                $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
+                $ret = 1;
+            }
+        }else{
+            $ret = 2;
         }
         return $ret;
     }
@@ -1622,7 +1628,7 @@ class seller_student_new extends Controller
                 "hold_flag" => 1,
             ];
         }
-        $set_str=$this-> get_sql_set_str( $set_arr);
+        $set_str=$this->t_seller_student_new->get_sql_set_str( $set_arr);
         $in_str=$this->where_get_in_str("userid",$userid_list);
         $sql=sprintf("update %s set %s where %s  ",
                             self::DB_TABLE_NAME,
