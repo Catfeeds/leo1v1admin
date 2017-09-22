@@ -32,11 +32,17 @@ class test_boby extends Controller
         return $s.'</tr>';
 
     }
+    public function table_end($s){
+        return $s.'</table>';
+    }
     public function test(){
         $str = $this->table_start('姓名','电话','年龄');
         $str = $this->tr_add($str, 'sdfa',13213,45);
         $str = $this->tr_add($str, 'sdfsf',353513,15);
         $str = $this->tr_add($str, 'aaasf',111113,15);
+        $str = $this->tr_add($str, 'asddasf',5511113,15);
+        $str = $this->tr_add($str, 'a350sf',22113,15);
+        $str = $this->table_end($str);
         return $str;
     }
     public function get_b_txt($file_name="b"){
