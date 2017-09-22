@@ -1,6 +1,45 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_info-get_lesson_list_new.d.ts" />
 $(function(){
+
+    var cur_url = window.location.href;
+    var grabid = 0;
+    var visitid = 0;
+    var operation = 0;
+    var add_or_update_visit = function(cur_url, grabid, visitid, operation){
+        $.ajax({
+            type    : "post",
+            url     : "/teacher_info/grab_visit_info",
+            dataType: "json",
+            data    : {
+                'cur_url'   : cur_url,
+                'grabid'    : grabid,
+                'visitid'   : visitid,
+                'operation' : operation,
+            },
+            success : function (ret){
+                console.log(typeof ret)
+                // var ret = $.parseJSON(res);
+                if( ret.return_info != undefined ) {
+                    grabid    = ret.return_info.grabid;
+                    visitid   = ret.return_info.visitid;
+                    operation = ret.return_info.operation;
+                    if(operation == 0) {
+                        $('#test_succ').on('click', function(){
+                            add_or_update_visit(cur_url, grabid, visitid, 2);
+                        })
+
+                        $('#test_err').on('click', function(){
+                            add_or_update_visit(cur_url, grabid, visitid, 1);
+                        })
+                    }
+                }
+           }
+        });
+    }
+    add_or_update_visit(cur_url, grabid, visitid, operation);
+
+
     $('#id_start_date').val(g_args.start_date);
     $('#id_end_date').val(g_args.end_date);
     $('#id_lesson_type').val(g_args.lesson_type);

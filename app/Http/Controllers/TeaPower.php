@@ -2592,7 +2592,7 @@ trait TeaPower {
     }
 
     /**
-     * 获取课程的课时奖励
+     * 获取常规课程的课时奖励
      * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
      * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
      * @param teacher_money_type t_lesson_info中课程上的老师工资类型
@@ -2602,7 +2602,11 @@ trait TeaPower {
     public function get_lesson_reward_money(
         $last_lesson_count,$lesson_already_lesson_count,$teacher_money_type,$teacher_type,$reward_type
     ){
-        
+        $already_lesson_count = $this->get_lesson_already_lesson_count(
+            $last_lesson_count,$lesson_already_lesson_count,$teacher_money_type,$teacher_type
+        );
+        $reward_money = \App\Helper\Utils::get_teacher_lesson_money($reward_type,$already_lesson_count);
+        return $reward_money;
     }
 
     /**

@@ -300,8 +300,7 @@ $(function(){
                     var id_rjcz =  $("<div><span >类型:</span><select id=\"teacher_rjcz\"><option value=\"0\">请选择</option><option value=\"1\">讲义无截图，纯拍照上传</option><option value=\"2\">讲义截图不清晰且放置位置不合理</option><option value=\"3\">讲义截图清晰但放置位置不合理</option><option value=\"4\">截图清晰且位置放置合理</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_rjcz_score\" class=\"class_score\" /></div></div>");
                     var id_kcyc =  $("<div><span >类型:</span><select id=\"teacher_kcyc\"><option value=\"0\">请选择</option><option value=\"1\">课中遇到网络卡断，音频问题，异常闪退或课程延迟时，慌乱抱怨</option><option value=\"2\">面对课程异常情况，虽有着手处理但处理过于缓慢，耽误上课时间</option><option value=\"3\">面对异常情况，及时冷静处理，顺利解决</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_kcyc_score\" class=\"class_score\" /></div></div>");
                     var id_hj =  $("<div><span >类型:</span><select id=\"teacher_hj\"><option value=\"0\">请选择</option><option value=\"1\">教学环境嘈杂；网络音频状况不佳，影响课程体验</option><option value=\"2\">教学环境安静，教学设备状况调试良好</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_hj_score\" class=\"class_score\" /></div></div>");
-                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
-
+                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"6\" />幽默风趣 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"7\" />生动活泼 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"8\" />循循善诱 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"9\" />细致耐心 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"10\" />考纲熟悉 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"11\" />善于互动</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"12\" />没有口音</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"13\" />经验丰富</label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"14\" />功底扎实</label> ");
 
 
                     Enum_map.append_option_list("teacher_lecture_score",id_have_kj.find("#teacher_have_kj_score"),false,[0,1,2,3,4,5]);
@@ -753,8 +752,7 @@ $(function(){
                     var id_skhj =  $("<select class=\"class_score\" />");
                     var id_khfk =  $("<select class=\"class_score\" />");
                     var id_lcgf =  $("<select class=\"class_score\" />"); 
-                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
-
+                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"6\" />幽默风趣 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"7\" />生动活泼 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"8\" />循循善诱 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"9\" />细致耐心 </label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"10\" />考纲熟悉 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"11\" />善于互动</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"12\" />没有口音</label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"13\" />经验丰富</label>  <label><input name=\"Fruit\" type=\"checkbox\" value=\"14\" />功底扎实</label> ");
 
 
                     Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
