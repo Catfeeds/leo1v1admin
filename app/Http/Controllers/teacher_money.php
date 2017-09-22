@@ -34,10 +34,7 @@ class teacher_money extends Controller
         $teacher_type = $simple_info['teacher_type'];
 
         //拉取上个月的课时信息
-        $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
-        $last_all_lesson_count    = $last_month_info['all_lesson_count'];
-        $last_normal_lesson_count = $last_month_info['all_normal_count'];
-
+        $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
         $time_list   = [];
         $lesson_list = [];
         $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
@@ -46,22 +43,9 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                //判断课程的老师类型来设置累计课时的数值
-                $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-                switch($check_type){
-                case 1: case 3:
-                    $already_lesson_count = $val['already_lesson_count'];
-                    break;
-                case 2:
-                    $already_lesson_count = $last_all_lesson_count;
-                    break;
-                case 4:
-                    $already_lesson_count = $last_normal_lesson_count;
-                    break;
-                default:
-                    $already_lesson_count = 0;
-                    break;
-                }
+                $already_lesson_count = $this->get_lesson_already_lesson_count(
+                    $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type
+                );
 
                 $val['lesson_base']        = "0";
                 $val['lesson_reward']      = "0";
@@ -344,29 +328,13 @@ class teacher_money extends Controller
             $list[$i]["teacher_ref_money"] = "0";
 
             //拉取上个月的课时信息
-            $last_month_info = $this->get_last_lesson_count_info($start,$end,$teacherid);
-            $last_all_lesson_count    = $last_month_info['all_lesson_count'];
-            $last_normal_lesson_count = $last_month_info['all_normal_count'];
-
+            $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$teacherid);
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end,-1,$show_type);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key => &$val){
-                    //判断课程的老师类型来设置累计课时的数值
-                    $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$teacher_type);
-                    switch($check_type){
-                    case 1: case 3:
-                        $already_lesson_count = $val['already_lesson_count'];
-                        break;
-                    case 2:
-                        $already_lesson_count = $last_all_lesson_count;
-                        break;
-                    case 4:
-                        $already_lesson_count = $last_normal_lesson_count;
-                        break;
-                    default:
-                        $already_lesson_count = 0;
-                        break;
-                    }
+                    $already_lesson_count = $this->get_lesson_already_lesson_count(
+                        $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type
+                    );
                     $lesson_count = $val['confirm_flag']!=2?($val['lesson_count']/100):0;
 
                     if($val['lesson_type'] != 2){

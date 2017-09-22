@@ -859,7 +859,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "tl.status=1",
             "tl.confirm_time>=".$confirm_time,
             // "ttt.require_admin_type=2",
-            "mm.del_flag=0",
+            // "mm.del_flag=0",
             "mm.account_role=2",
             "m.del_flag =0"
         ];
@@ -906,9 +906,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "tl.status=1",
             "tl.confirm_time>=".$confirm_time,
             // "ttt.require_admin_type=2",
-            "mm.del_flag=0",
+            //  "mm.del_flag=0",
             "mm.account_role=2",
-            "m.del_flag =0",
+            //  "m.del_flag =0",
             ["m.uid=%u",$adminid,-1]
         ];
 

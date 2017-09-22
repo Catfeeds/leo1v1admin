@@ -2783,10 +2783,10 @@ $(function(){
 
     $(".opt-order-partition").on("click",function(){
         var data = $(this).get_opt_data(); 
-        if(data.contract_status>0){
+        /*if(data.contract_status>0){
             alert("已付款合同不能拆分");
             return;
-        }
+        }*/
         var title = "编辑子合同";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{

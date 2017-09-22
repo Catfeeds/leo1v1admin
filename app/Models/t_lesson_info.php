@@ -5636,9 +5636,9 @@ lesson_type in (0,1) "
         $where_arr=[];
         $this->where_arr_teacherid($where_arr,"teacherid", $teacherid_list);
         if($lesson_type==1){
-            $where_arr[] ="lesson_type <>2 and lesson_type <1000"; 
+            $where_arr[] ="lesson_type <>2 and lesson_type <1000";
         }else{
-            $where_arr[] ="lesson_type in (0,2)"; 
+            $where_arr[] ="lesson_type in (0,2)";
         }
         $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) lesson_total,count(distinct(userid)) as stu_num "
                                   ." from %s "

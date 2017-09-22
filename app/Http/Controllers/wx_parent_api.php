@@ -63,7 +63,7 @@ class wx_parent_api extends Controller
 
     public function get_lesson_info() {
         $parentid = $this->get_parentid();
-        $type = $this->get_in_int_val('type',-1); // 0: 常规课 2: 试听课
+        $type = $this->get_in_int_val('type',0); // 0: 常规课 2: 试听课
         // $parentid = 54573;//测试
         $now = time();
 
@@ -471,6 +471,10 @@ class wx_parent_api extends Controller
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                "orwGAs87gepYCYKpau66viHluRGI",  // 傅文莉
+                "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
+
             ];
 
             foreach($qc_openid_arr as $qc_item){

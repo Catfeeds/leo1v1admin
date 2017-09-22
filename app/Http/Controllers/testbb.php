@@ -240,6 +240,7 @@ class testbb extends Controller
 
     public function ss(){
         // $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
+        dd(time(NULL)-180*86400);
 
         $seller_num_arr['first_num'] = 2;
         $seller_num_arr['second_num'] = 3;
