@@ -2864,4 +2864,17 @@ ORDER BY require_time ASC";
         $sql = $this->gen_sql_new("select * from %s where seller_top_flag=1",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+    public function get_seller_top_require_num($start_time,$end_time,$cur_require_adminid){
+        $where_arr = [
+            ["cur_require_adminid=%u",$cur_require_adminid,-1],
+            "accept_flag<2",
+            "seller_top_flag=1"
+        ];
+        $this->where_arr_add_time_range($where_arr,'curl_stu_request_test_lesson_time',$start_time,$end_time);
+        
+        $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
 }

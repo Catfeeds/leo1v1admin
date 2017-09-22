@@ -2611,6 +2611,65 @@ trait TeaPower {
     }
 
     /**
+     * 获取时间段内的老师工资明细
+     */
+    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
+        $teacher_money_type = $teacher_info['teacher_money_type'];
+    }
+
+    /**
+     * 检测是否为公司全职老师,全职老师工资隔月发放
+     * 叶,时,刁除外
+     */
+    public function check_full_time_teacher($teacherid,$teacher_type){
+        if(!in_array($teacherid,[51094,99504,97313]) && $teacher_type==3){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 获取平台合作代理所需抽成百分比
+     * @param time 检测时间之前
+     * @param teacher_ref_type 老师所属的推荐渠道类别
+     * @return 
+     */
+    public function get_teacher_ref_rate($time,$teacher_ref_type,$teacher_money_type){
+        if($teacher_money_type==E\Eteacher_money_type::V_5){
+            if($teacher_ref_type==1){
+                $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
+            }elseif($teacher_ref_type!=0){
+                $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($time,$teacher_ref_type);
+                $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
+            }
+        }else{
+            $teacher_ref_rate = 0;
+        }
+        return $teacher_ref_rate;
+    }
+
+    /**
+     * 获取时间段内老师额外奖金明细
+     */
+    public function get_teacher_reward_money_list($teacherid,$start_time,$end_time){
+        $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
+        $reward_type_list = E\Ereward_type::$desc_map;
+        $data = [];
+        foreach($reward_type_list as $r_key => $r_val){
+            $data[$r_key]['money'] = 0;
+        }
+        foreach($rewrad_list as $val){
+            $reward_key = $val['type'];
+            $data[$reward_key] += $val['money'];
+        }
+        $data['list'] = $reward_list;
+        return $data;
+    }
+
+    /**
      * 获取模拟课时单价
      */
     public function get_simulate_price($lesson_total=0,$grade=101){
@@ -2988,14 +3047,6 @@ trait TeaPower {
         return $data;
     }
 
-    /**
-     * 获取时间段内的老师工资明细
-     */
-    public function teacher_total_money($teacherid,$start_time,$end_time){
-        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-
-
-    }
 
 
 }

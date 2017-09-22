@@ -615,7 +615,7 @@ $(function(){
                     var xing=$.trim(data.name).substr(0,1);
                     var dlg=BootstrapDialog.show({
                         title: "发送信息内容:",
-                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+data.phone,
+                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+g_args.phone,
                         closable: true,
                         buttons: [{
                             label: '返回',
@@ -627,10 +627,10 @@ $(function(){
                             cssClass: 'btn-warning',
                             action: function(dialog) {
                                 $.do_ajax("/user_deal/send_seller_sms_msg", {
-                                    "phone":opt_data.phone,
+                                    "phone":g_args.phone,
                                     "name":xing,
                                     "wx_id":data.wx_id,
-                                    "seller_phone":data.phone,
+                                    "seller_phone":g_args.phone,
                                 },function( resp){
                                     alert("发送成功");
                                 } );
@@ -1188,10 +1188,16 @@ $(function(){
             html_node.find("#id_intention_level").val(data.intention_level);
             html_node.find("#id_demand_urgency").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
-            html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
+           // html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             html_node.find("#id_recent_results").val(data.recent_results);
             html_node.find("#id_advice_flag").val(data.advice_flag);
             html_node.find("#id_test_paper").val(data.stu_test_paper);
+            if(!data.knowledge_point_location ){
+                html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
+            }else{
+                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location); 
+            }
+
             
 
 

@@ -70,20 +70,20 @@ class main_page extends Controller
             $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
             $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-            $income_price = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
-            $income_count = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
+            $ret_info['income_price'] = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
+            $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
 
-            if($income_count>0){
-                $aver_count = $income_price/$income_count;//平均单笔
+            if($ret_info['income_count']>0){
+                $aver_count = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
             }else{
                 $aver_count = 0;
             }
 
-            $ret_info['income_num'] = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
+            $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
             $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
-            $ret_info['formal_num']= $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+            $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
             foreach($ret_info['formal_info'] as $item){
@@ -139,7 +139,6 @@ class main_page extends Controller
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
 
-
             //  外呼情况
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
 
@@ -151,13 +150,13 @@ class main_page extends Controller
 
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
+            dd($ret_info_arr);
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
 
-        return $this->pageView(__METHOD__, $ret_info_arr,[
-            "seller_account" =>''
-        ]);
+        
+        return $this->pageView(__METHOD__, $ret_info_arr);
     }
 
 
