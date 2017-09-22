@@ -19,7 +19,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_test_lesson_first_list(
-        $page_num,$order_by_str,$start_time,$end_time,$require_adminid_list,$lesson_user_online_status
+        $page_num,$order_by_str,$start_time,$end_time,$require_adminid_list,$lesson_user_online_status,$test_assess_flag
     ){
         $where_arr=[
             "s.is_test_user=0" ,
@@ -27,6 +27,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type=2" ,
             "l.lesson_start ",
         ];
+        if($test_assess_flag == E\Etest_assess_flag::V_2){
+            $where_arr[] = 'tts.assess_adminid = 0';
+        }elseif($test_assess_flag == E\Etest_assess_flag::V_1){
+            $where_arr[] = 'tts.assess_adminid <> 0';
+        }
         $where_arr[] = $this->where_get_in_str("tr.cur_require_adminid",$require_adminid_list);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $this->where_arr_add_int_field($where_arr,"lesson_user_online_status", $lesson_user_online_status);

@@ -9,6 +9,7 @@ interface GargsStatic {
 	seller_groupid_ex:	string;
 	master_flag:	string;
 	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
+	test_assess_flag:	number;//\App\Enums\Eset_boolean
 	order_by_str:	string;
 }
 declare module "g_args" {
@@ -60,11 +61,13 @@ $(function(){
 			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
 			master_flag:	$('#id_master_flag').val(),
 			lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
+			test_assess_flag:	$('#id_test_assess_flag').val(),
 			order_by_str:	$('#id_order_by_str').val()
         });
     }
 
 	Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
+	Enum_map.append_option_list("set_boolean",$("#id_test_assess_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -79,6 +82,7 @@ $(function(){
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_master_flag').val(g_args.master_flag);
 	$('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+	$('#id_test_assess_flag').val(g_args.test_assess_flag);
 	$('#id_order_by_str').val(g_args.order_by_str);
 
 
@@ -108,6 +112,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">set_boolean</span>
                 <select class="opt-change form-control" id="id_lesson_user_online_status" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">set_boolean</span>
+                <select class="opt-change form-control" id="id_test_assess_flag" >
                 </select>
             </div>
         </div>
