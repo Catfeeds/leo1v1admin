@@ -2087,12 +2087,12 @@ class teacher_info extends Controller
     }
 
     public function get_pub_upload_token(){
-        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $qiniu         = \app\helper\config::get_config("qiniu");
         $public_bucket = $qiniu["public"]['bucket'];
-        $accessKey     = $qiniu['access_key'];
-        $secretKey     = $qiniu['secret_key'];
-        $auth  = new \Qiniu\Auth ($accessKey, $secretKey);
-        $token = $auth->uploadToken($public_bucket);
+        $accesskey     = $qiniu['access_key'];
+        $secretkey     = $qiniu['secret_key'];
+        $auth  = new \qiniu\auth ($accesskey, $secretkey);
+        $token = $auth->uploadtoken($public_bucket);
         return $this->output_succ(["upload_token"=> $token]);
 
     }
@@ -2100,7 +2100,7 @@ class teacher_info extends Controller
     public function edit_teacher_face() {
         $teacherid = $this->get_login_teacher();
         $face    = $this->get_in_str_val('face', '');
-        $pub_url = Config::get_qiniu_public_url()."/";
+        $pub_url = config::get_qiniu_public_url()."/";
         $face    = $pub_url.$face;
 
         $res_info = $this->t_teacher_info->field_update_list($teacherid, ['face' => $face]);
@@ -2114,9 +2114,9 @@ class teacher_info extends Controller
     }
 
     public function get_train_list(){
-        //list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
-        $start_date  = $this->get_in_str_val('start_date',date('Y-m-d', time(NULL) ));
-        $end_date    = $this->get_in_str_val('end_date',date('Y-m-d', time(NULL)+86400*7 ));
+        //list($start_time,$end_time) = $this->get_in_date_range(date("y-m-01",time()),0,0,[],3);
+        $start_date  = $this->get_in_str_val('start_date',date('y-m-d', time(null) ));
+        $end_date    = $this->get_in_str_val('end_date',date('y-m-d', time(null)+86400*7 ));
 
         $start_time = strtotime($start_date);
         $end_time   = strtotime($end_date)+86400;
@@ -2129,14 +2129,50 @@ class teacher_info extends Controller
         //  dd($ret_info);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            \App\Helper\Utils::unixtime2date_for_item($item,"through_time");
+            \app\helper\utils::unixtime2date_for_item($item,"create_time");
+            \app\helper\utils::unixtime2date_for_item($item,"through_time");
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
             $this->cache_set_item_teacher_nick($item);
-            E\Esubject::set_item_value_str($item);
-            E\Etrain_type::set_item_value_str($item);
-            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
+            e\esubject::set_item_value_str($item);
+            e\etrain_type::set_item_value_str($item);
+            $item['train_status_str']  =  e\etrain_status::get_desc($item['status']);
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageview(__method__, $ret_info);
+    }
+
+    public function grab_visit_info(){
+
+        $teacherid = $this->get_login_teacher();
+        $grab_link = $this->get_in_str_val('cur_url');
+        $grabid    = $this->get_in_int_val('grabid', 0);
+        $visitid   = $this->get_in_int_val('visitid', 0);
+        $operation = $this->get_in_int_val('operation', 0);
+
+        if (!$grabid) {
+            $grabid = $this->t_grab_lesson_link_info->get_id_by_link($grab_link);
+        }
+
+        $return_info['grabid'] = $grabid;
+        if ($visitid == 0 & $grabid >0) {//打开页面访问
+            $ret = $this->t_grab_lesson_link_visit_info->row_insert([
+                'grabid' => $grabid,
+                'teacherid' => $teacherid,
+                'create_time' => time(),
+                'operation' => 0,
+            ]);
+
+            $visitid = $this->t_grab_lesson_link_visit_info->get_last_insertid();
+            $return_info['visitid'] = $visitid;
+            $return_info['operation'] = 0;
+            return outputjson_success(['return_info' => $return_info]);
+        } else if ($visitid > 0 & $grabid >0) {//在打开的页面抢试讲课
+
+            $this->t_grab_lesson_link_visit_info->field_update_list(['id'=> $visitid],[
+                'teacherid' => $teacherid,
+                'operation' => $operation,
+            ]);
+
+        }
+
     }
 }

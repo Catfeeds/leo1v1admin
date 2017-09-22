@@ -117,10 +117,13 @@ class NewRouteConfig {
         "teacher_lesson"              => true,
         "textbook_manage"             => true,
         "teacher_money_www"           => true,
+        "grab_lesson"                 => true,
     ];
 
     //config
     static public $url_map = [
+        "/grab_lesson/make_lesson_link"        => true,
+        "/teacher_info/grab_visit_info"        => true,
         "/lesson_manage/stu_status_count"      => true,
         "/admin_join/get_apply_info"           => true,
         "/supervisor/lesson_all_info"          => true,
