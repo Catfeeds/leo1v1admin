@@ -5759,6 +5759,13 @@ class ss_deal extends Controller
                 }
             }
 
+            // 投诉相关的分配人和处理人都收到相关的推送
+            $ass_log = $this->t_complaint_assign_info->get_ass_log($complaint_id);
+            $notice_ass = [];
+            foreach($ass_log as $value){
+                $notice_ass[] = $this->t_manager_info->get_wx_openid($value['assign_adminid']);
+            }
+
             //反馈QC与上级领导
 
             /**

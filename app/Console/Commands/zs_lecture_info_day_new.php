@@ -43,7 +43,9 @@ class zs_lecture_info_day_new extends Command
         $task=new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date("Y-m-d",time()-100));
         $end_time=time();
-        $subject = $task->get_in_int_val("subject",-1);
+        $subject = -1;
+        
+
         $date = date("Y-m-d",time()-100);
         //dd($date);
         $account_role = 9;

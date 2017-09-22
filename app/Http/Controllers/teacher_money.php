@@ -528,20 +528,21 @@ class teacher_money extends Controller
                     return $this->output_err("老师工资分类错误！");
                 }
             }elseif($type==E\Ereward_type::V_3){
-                $lesson_info = $this->t_lesson_info->get_lesson_info($money_info);
-                $add_time    = $lesson_info['lesson_start'];
-                $diff_time   = $lesson_info['lesson_end']-$add_time;
+                // $lesson_info = $this->t_lesson_info->get_lesson_info($money_info);
+                $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
+                $add_time    = $lesson_money_info['lesson_start'];
+                $diff_time   = $lesson_money_info['lesson_end']-$add_time;
                 $check_time  = 90*60;
                 if($diff_time != $check_time){
                     return $this->output_err("本节课不是90分钟，无法添加90分钟的课程补偿。");
                 }
 
-                $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
                 $base_money = $lesson_money_info['money'];
 
-                $money_type = $lesson_money_info['type'];
-                $start_time = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
-                $end_time   = strtotime("+1 month",$start_time);
+                $reward_type = $lesson_money_info['type'];
+                $start = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
+                $end   = strtotime("+1 month",$start_time);
+                $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
                 $teacher_type = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
 
                 $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
