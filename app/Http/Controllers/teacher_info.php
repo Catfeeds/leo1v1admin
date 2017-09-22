@@ -1531,7 +1531,7 @@ class teacher_info extends Controller
 
     }
 
-    public function file_store_add_dir()  {
+    public function file_store_add_dir() {
         $teacherid      = $this->get_login_teacher();
         $dir= $this->get_in_str_val("dir");
         $dir_name = trim($this->get_in_str_val("dir_name"));
@@ -2169,7 +2169,7 @@ class teacher_info extends Controller
             $return_info['visitid'] = $visitid;
             $return_info['operation'] = 0;
             return outputjson_success(['return_info' => $return_info]);
-        } else if ($visitid > 0 & $grabid >0) {//在打开的页面抢试讲课
+        } else if ($visitid > 0 & $grabid >0) {//记录抢课信息
 
             $this->t_grab_lesson_link_visit_info->field_update_list(['id'=> $visitid],[
                 'teacherid' => $teacherid,
@@ -2186,6 +2186,5 @@ class teacher_info extends Controller
 
 
         }
-
     }
 }
