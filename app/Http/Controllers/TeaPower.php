@@ -2560,9 +2560,19 @@ trait TeaPower {
         return $last_lesson_count;
     }
 
-    // public function get_teacher_already_lesson_count($last_lesson_count,$teacher_money_type,$teacher_type){
+    /**
+     * 获取课程对应的累计课时
+     * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
+     * @param lesson_already_lesson_count int t_lesson_info中课程上的累计课时
+     * @param teacher_money_type int t_lesson_info中课程上的老师工资类型
+     * @param teacher_type int t_teacher_info中老师类型
+     * @return already_lesson_count int 课程计算的累计课时
+     */
+    public function get_lesson_already_lesson_count(
+        $last_lesson_count,$lesson_already_lesson_count,$teacher_money_type,$teacher_type
+    ){
 
-    // }
+    }
 
     /**
      * 获取模拟课时单价
