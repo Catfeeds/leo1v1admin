@@ -55,7 +55,7 @@ class test_lesson_review extends Controller
             $ret = 2;
             return $ret;
         }
-        if($count<3){
+        if($count<5){
             $this->t_test_lesson_subject_require_review->row_insert([
                 "adminid"        => $adminid,
                 "group_adminid"  => $group_adminid,
