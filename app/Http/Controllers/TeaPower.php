@@ -2661,9 +2661,9 @@ trait TeaPower {
         foreach($reward_type_list as $r_key => $r_val){
             $data[$r_key]['money'] = 0;
         }
-        foreach($rewrad_list as $val){
+        foreach($reward_list as $val){
             $reward_key = $val['type'];
-            $data[$reward_key] += $val['money'];
+            $data[$reward_key]['money'] += $val['money'];
         }
         $data['list'] = $reward_list;
         return $data;
