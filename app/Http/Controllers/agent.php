@@ -326,9 +326,11 @@ class agent extends Controller
     }
 
     public function check(){
-        $cur_require_adminid = 442;
-        $master = $this->t_admin_group_user->get_main_master_adminid($adminid);
-        dd('a');
+        $competition_call_adminid = 412;
+        $phone = '15564676749';
+        $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
+        $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
+        dd($tquin,$is_called_flag);
     }
 
 
