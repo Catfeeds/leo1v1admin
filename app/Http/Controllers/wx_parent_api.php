@@ -71,8 +71,10 @@ class wx_parent_api extends Controller
         foreach ($ret_list as &$item ) {
 
             //判断是否可以申请调课
-            if($item['lesson_start']-$now>8){
-                
+            if($item['lesson_start']-$now>86400){
+                $is_change_flag = 0;
+            }else{
+                $is_change_flag = 1;
             }
 
 

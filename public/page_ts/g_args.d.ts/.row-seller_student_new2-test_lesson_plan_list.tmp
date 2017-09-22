@@ -139,5 +139,9 @@
 	limit_require_account	:any;
 	limit_require_send_account	:any;
 	limit_require_tea_nick	:any;
+	require_change_lesson_time_str	:any;
+	seller_require_change_time_str	:any;
+	seller_require_change_flag_str	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
+	accept_account	:any;

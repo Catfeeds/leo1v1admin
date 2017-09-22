@@ -971,7 +971,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">所需老师风格：</span>
+                            <span class="input-group-addon">老师要求：</span>
                             <input type="text" class=" form-control "  id="id_need_teacher_style"  />
                         </div>
                     </div>
