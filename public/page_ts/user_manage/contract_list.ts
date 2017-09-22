@@ -2743,7 +2743,7 @@ $(function(){
             },{
                 label  : '确认',
                 action : function(dialog) {
-                    var promotion_spec_discount_int = parseInt($promotion_spec_discount_price.val()*100);
+                    var promotion_spec_discount_int = parseInt($promotion_spec_discount_price.val())*100;
                     var child_list=JSON.parse($add_child_order_list.data("v"));
                     var child_money=0;
                     $.each(child_list,function(i,item){
