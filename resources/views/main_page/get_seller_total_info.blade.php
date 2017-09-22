@@ -61,7 +61,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> 节点</td>
+                                        <td> {{@$ret_info_arr['income_price']}}</td>
                                         <td> 节点 </td>
                                         <td> 节点 </td>
                                         <td> 节点 </td>
