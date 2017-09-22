@@ -7,7 +7,8 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	seller_groupid_ex:	string;
-	lesson_user_online_status:	number;//\App\Enums\Eset_boolean 
+	master_flag:	string;
+	lesson_user_online_status:	number;//\App\Enums\Eset_boolean
 	order_by_str:	string;
 }
 declare module "g_args" {
@@ -23,6 +24,7 @@ interface RowData {
 	nick	:any;
 	phone	:any;
 	lessonid	:any;
+	teacherid	:any;
 	lesson_start	:any;
 	lesson_end	:any;
 	tq_call_time	:any;
@@ -55,6 +57,7 @@ $(function(){
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+			master_flag:	$('#id_master_flag').val(),
 			lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
 			order_by_str:	$('#id_order_by_str').val()
         });
@@ -73,6 +76,7 @@ $(function(){
         }
     });
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_master_flag').val(g_args.master_flag);
 	$('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
 	$('#id_order_by_str').val(g_args.order_by_str);
 
@@ -89,6 +93,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_groupid_ex</span>
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">master_flag</span>
+                <input class="opt-change form-control" id="id_master_flag" />
             </div>
         </div>
 
