@@ -575,6 +575,9 @@ class teacher_money extends Controller
                 $money_type = $lesson_money_info['type'];
                 $start_time = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
                 $end_time   = strtotime("+1 month",$start_time);
+                $teacher_type = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
+
+                $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
 
                 $money = $base_money*25;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){

@@ -2560,6 +2560,10 @@ trait TeaPower {
         return $last_lesson_count;
     }
 
+    // public function get_teacher_already_lesson_count($last_lesson_count,$teacher_money_type,$teacher_type){
+
+    // }
+
     /**
      * 获取模拟课时单价
      */
