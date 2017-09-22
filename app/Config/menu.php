@@ -21,6 +21,7 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                 ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>18, "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
                 ["power_id"=>19, "name"=>"老师晋升列表","url"=>"/teacher_level/teacher_advance_info_list"],
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
             ]],
