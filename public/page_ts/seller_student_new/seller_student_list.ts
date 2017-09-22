@@ -365,6 +365,36 @@ $(function(){
                             "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
                             "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
                             "test_stu_grade" : id_grade_select.val(),
+                        },function(resp){
+
+                            if(resp.ret !=0){
+                                BootstrapDialog.alert(resp.info);
+                            }else{
+                                if(resp.seller_top_flag==1){
+                                    if(11){
+                                        var uu=40-resp.top_num;
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
+
+                                    }else if(resp.top_num==30){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
+                                    } else if(resp.top_num==35){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
+                                    } else if(resp.top_num==39){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
+                                    }else{
+                                        dialog.close();
+                                        window.location.reload();
+                                    }
+
+
+                                }else{
+                                     window.location.reload();
+                                }
+                            }
                         });
                     }
                 },function(){
@@ -2582,10 +2612,14 @@ function init_edit() {
             html_node.find("#id_intention_level").val(data.intention_level);
             html_node.find("#id_demand_urgency").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
-            html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             html_node.find("#id_recent_results").val(data.recent_results);
             html_node.find("#id_advice_flag").val(data.advice_flag);
             html_node.find("#id_test_paper").val(data.stu_test_paper);
+            if(!data.knowledge_point_location ){
+                html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
+            }else{
+                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location); 
+            }
            
 
 

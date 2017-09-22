@@ -1,6 +1,6 @@
 @extends('layouts.teacher_header')
 @section('content')
-        <style>
+    <style>
      .center-title {
          font-size:20px;
          text-align:center;
@@ -9,7 +9,7 @@
          font-size: 40px;
      }
      .panel-green {
-        background-color: #5cb85c;
+         background-color: #5cb85c;
      }
      .panel-green .panel-heading {
          background-color: #5cb85c;
@@ -23,7 +23,7 @@
          color: #3d8b3d;
      }
      .panel-red {
-        background-color: #d9534f;
+         background-color: #d9534f;
      }
      .panel-red .panel-heading {
          background-color: #d9534f;
@@ -64,14 +64,14 @@
     <section class="content ">
         <div>
             <div class="row">
-               <div class="col-xs-12 col-md-4">
-            <div class="input-group "  >
-                <span >日期</span>
-                <input type="text" id="id_start_date" class="opt-change form-control input-group-addon  "/>
-                <span >-</span>
-                <input type="text" id="id_end_date" class="opt-change form-control input-group-addon  "/>
-            </div>
-        </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="input-group "  >
+                        <span >日期</span>
+                        <input type="text" id="id_start_date" class="opt-change form-control input-group-addon  "/>
+                        <span >-</span>
+                        <input type="text" id="id_end_date" class="opt-change form-control input-group-addon  "/>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group">
                         <span>培训类型</span>
@@ -79,7 +79,7 @@
                         </select>
                     </div>
                 </div>
-                 <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group">
                         <span>学科</span>
                         <select id="id_subject" class="opt-change" >
@@ -93,7 +93,7 @@
                         </select>
                     </div>
                 </div>
-                </div>
+            </div>
 
         </div>
         
@@ -127,7 +127,7 @@
                         @endif
                         <td>
                             <div class="opt-div" 
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa  opt-play" title="播放视频">播放视频</a>
                                 <a class="fa  opt-test" title="自我评测">自我评测</a>

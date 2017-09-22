@@ -24,6 +24,8 @@ interface RowData {
 	name	:any;
 	phone	:any;
 	create_time	:any;
+	account_role_str	:any;
+	unick	:any;
 }
 
 /*

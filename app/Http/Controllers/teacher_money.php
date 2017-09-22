@@ -248,21 +248,10 @@ class teacher_money extends Controller
             $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
-            $teacher_ref_type = $teacher_info['teacher_ref_type'];
-            if($teacher_info['teacher_money_type']==5){
-                if($teacher_ref_type==1){
-                    $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
-                }elseif($teacher_ref_type!=0){
-                    $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
-                    $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
-                }
-            }
+            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type']);
 
-            /**
-             * 公司全职老师除以下三位，其他按隔月发放。
-             * 叶，时，刁
-             */
-            if(!in_array($teacherid,[51094,99504,97313]) && $teacher_info['teacher_type']==3){
+            $check_flag = $this->check_full_time_teacher($teacherid,$teacher_info['teacher_type']);
+            if($check_flag){
                 $now_time   = $start_time;
                 $start_time = strtotime("-1 month",$start_time);
             }
@@ -305,24 +294,20 @@ class teacher_money extends Controller
             $list[$i]["lesson_cost_normal"] = "0";
             $list[$i]["lesson_cost_tax"]    = "0";
             $list[$i]["lesson_total"]       = "0";
+            $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
             //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']   = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_1))/100;
+            $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money']/100;
             //试听课奖金
-            $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_2))/100;
+            $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money']/100;
             //90分钟课程补偿
-            $list[$i]['lesson_reward_compensate'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_3))/100;
+            $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money']/100;
             //工资补偿
-            $list[$i]['lesson_reward_compensate_price'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_4))/100;
+            $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money']/100;
             //模拟试听奖金
-            $list[$i]['lesson_reward_train'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_5))/100;
+            $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money']/100;
             //伯乐奖
-            $list[$i]['lesson_reward_reference'] = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_6))/100;
+            $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money']/100;
+
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
