@@ -26,9 +26,10 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">历史数据</span>
-                        <select class="opt-change form-control" id="id_flow_type">
+                        <select class="opt-change form-control" id="id_history_data">
                             <option value="0">是</option>
                             <option value="1">否</option>
+                        </select>
                     </div>
                 </div>
 

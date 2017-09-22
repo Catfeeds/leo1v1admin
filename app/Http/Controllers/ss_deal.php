@@ -6109,6 +6109,7 @@ class ss_deal extends Controller
         //field_update_list
         $applicant = $this->get_account_id();
         $app_time  = 0;
+        $parent_name = $this->get_in_str_val("parent_name");
 
         if($is_submit == 1){
             $app_time  = time(NULL);

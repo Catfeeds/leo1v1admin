@@ -2326,6 +2326,7 @@ $(function(){
         var lesson_weeks    = $('<input/>');
         var student_name    = $('<a/>');
         var app_time        = $('<a/>');
+        var $parent_name = $('<input/>');
         var remark          = $('<textarea></textarea>');
 
 
@@ -2335,7 +2336,7 @@ $(function(){
             var data = result.data;
             var arr=[
                 [ "学员姓名"  , student_name ],
-                [ "家长姓名"  , student_name ],
+                [ "家长姓名"  , $parent_name ],
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
@@ -2358,6 +2359,7 @@ $(function(){
             }else{
                 lesson_duration.val(40);
             }
+            $parent_name.val(opt_data.parent_nick);
 
             if(data.lesson_weeks){
                 lesson_weeks.val(data.lesson_weeks);
