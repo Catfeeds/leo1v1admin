@@ -248,21 +248,10 @@ class teacher_money extends Controller
             $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
-            $teacher_ref_type = $teacher_info['teacher_ref_type'];
-            if($teacher_info['teacher_money_type']==5){
-                if($teacher_ref_type==1){
-                    $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
-                }elseif($teacher_ref_type!=0){
-                    $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
-                    $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
-                }
-            }
+            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type']);
 
-            /**
-             * 公司全职老师除以下三位，其他按隔月发放。
-             * 叶，时，刁
-             */
-            if(!in_array($teacherid,[51094,99504,97313]) && $teacher_info['teacher_type']==3){
+            $check_flag = $this->check_full_time_teacher($teacherid,$teacher_info['teacher_type']);
+            if($check_flag){
                 $now_time   = $start_time;
                 $start_time = strtotime("-1 month",$start_time);
             }

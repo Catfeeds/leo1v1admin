@@ -79,11 +79,11 @@ class main_page extends Controller
                 $aver_count = 0;
             }
 
-            $ret_info['income_num'] = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
+            $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
             $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
 
-            $ret_info['formal_num']= $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+            $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
             foreach($ret_info['formal_info'] as $item){
@@ -137,7 +137,6 @@ class main_page extends Controller
             $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
 
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
-
 
 
             //  外呼情况

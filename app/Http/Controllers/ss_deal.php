@@ -891,16 +891,26 @@ class ss_deal extends Controller
             $require_adminid = $this->get_account_id();
             $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
+            
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
-            if(isset($self_top_info[6]["top_index"])){
+            if(isset($self_top_info[6]["top_index"]) || $require_adminid == 349){
                 $rank = @$self_top_info[6]["top_index"];
                 if(($account_role ==2 && $rank<=25) || $require_adminid == 349){
-                    $seller_top_flag=1;
+                    $month_start = strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time));
+                    $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
+                    $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($month_start,$month_end,$require_adminid);
+                    if($top_num>=40){
+                        $seller_top_flag=0; 
+                    }else{
+                        $seller_top_flag=1;
+                    }
                 }else{
                     $seller_top_flag=0;
+                    $top_num =0;
                 }
             }else{
                 $seller_top_flag=0;
+                $top_num =0;
             }
 
 
@@ -916,7 +926,8 @@ class ss_deal extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
 
             }
-            return $this->output_succ();
+            
+            return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>0]);
         }
     }
     /*

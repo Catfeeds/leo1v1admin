@@ -57,29 +57,62 @@
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
                                         <td class="panel-red">月KPI完整率</td>
-                                        <td class="panel-red">CR总人数</td>
-                                        <td>结课学员数</td>
-                                        <td>退费总人数</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> 节点</td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td> 节点 </td> 
-                                        <td class="panel-yellow" > 存档 </td> 
-                                        <td> 节点 </td> 
+                                        <td> 节点</td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td class="panel-yellow" > 存档 </td>
+                                        <td> 节点 </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-body">
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td class="panel-red">CC总人数</td>
+                                        <td class="panel-red">咨询一部</td>
+                                        <td class="panel-red">咨询二部</td>
+                                        <td class="panel-red">咨询三部</td>
+                                        <td class="panel-red">新人营</td>
+                                        <td class="panel-red">培训中</td>
+                                        <td>转介绍金额占比</td>
+                                        <td>高中金额占比</td>
+                                        <td>初中金额占比</td>
+                                        <td>小学金额占比</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td> 节点 </td>
+                                        <td class="panel-yellow" > 存档 </td>
+                                        <td> 节点 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
@@ -107,22 +140,22 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td class="panel-yellow" > 存档</td> 
-                                        <td class="panel-yellow" > 存档  </td> 
-                                        <td class="panel-yellow" > 存档 </td> 
-                                        <td> 节点</td> 
+                                        <td class="panel-yellow" > 存档</td>
+                                        <td class="panel-yellow" > 存档  </td>
+                                        <td class="panel-yellow" > 存档 </td>
+                                        <td> 节点</td>
                                         <td> 节点</td>
 
-                                        <td> 节点</td> 
-                                        <td> 节点</td> 
-                                        <td> 节点 </td> 
-                                        <td > 节点  </td> 
-                                        <td class="panel-yellow" > 存档  </td> 
+                                        <td> 节点</td>
+                                        <td> 节点</td>
+                                        <td> 节点 </td>
+                                        <td > 节点  </td>
+                                        <td class="panel-yellow" > 存档  </td>
 
-                                        <td class="panel-yellow" > 存档 </td> 
+                                        <td class="panel-yellow" > 存档 </td>
 
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
@@ -150,11 +183,11 @@
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
                                     <tr>
-                                        <td class="panel-blue">  漏斗-存档</td> 
-                                        <td class="panel-blue">  漏斗-存档  </td> 
-                                        <td class="panel-blue">  漏斗-存档  </td> 
-                                        <td class="panel-blue">  漏斗-存档  </td> 
-                                        <td>  节点</td> 
+                                        <td class="panel-blue">  漏斗-存档</td>
+                                        <td class="panel-blue">  漏斗-存档  </td>
+                                        <td class="panel-blue">  漏斗-存档  </td>
+                                        <td class="panel-blue">  漏斗-存档  </td>
+                                        <td>  节点</td>
                                         <td>  节点</td>
                                         <td class="panel-blue">  漏斗-存档 </td>
                                         <td class="panel-blue">  漏斗-存档 </td>
@@ -186,8 +219,8 @@
                                 </thead>
                                 <tbody >
                                     <tr>
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
-                                        <td class="panel-green">  漏斗-存档-节点 </td> 
+                                        <td class="panel-green">  漏斗-存档-节点  </td>
+                                        <td class="panel-green">  漏斗-存档-节点 </td>
                                         <td class="panel-green">  漏斗-存档-节点 </td>
                                         <td class="panel-blue">  漏斗-存档  </td>
                                         <td> 节点</td>
@@ -222,9 +255,9 @@
                                     <tr>
                                         <td class="panel-green">  漏斗-存档-节点  </td>
                                         <td class="panel-green">  漏斗-存档-节点  </td>
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
-                                        <td class="panel-blue">  漏斗-存档 </td> 
+                                        <td class="panel-green">  漏斗-存档-节点  </td>
+                                        <td class="panel-green">  漏斗-存档-节点  </td>
+                                        <td class="panel-blue">  漏斗-存档 </td>
 
                                     </tr>
                                 </tbody>
@@ -253,7 +286,7 @@
                                 </thead>
                                 <tbody >
                                     <tr>
-                                        <td></td> 
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
