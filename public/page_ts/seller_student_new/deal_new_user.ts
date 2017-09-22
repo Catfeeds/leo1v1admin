@@ -1188,10 +1188,16 @@ $(function(){
             html_node.find("#id_intention_level").val(data.intention_level);
             html_node.find("#id_demand_urgency").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
-            html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
+           // html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             html_node.find("#id_recent_results").val(data.recent_results);
             html_node.find("#id_advice_flag").val(data.advice_flag);
             html_node.find("#id_test_paper").val(data.stu_test_paper);
+            if(!data.knowledge_point_location ){
+                html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
+            }else{
+                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location); 
+            }
+
             
 
 

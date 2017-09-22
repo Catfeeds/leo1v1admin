@@ -294,9 +294,9 @@ class teacher_money extends Controller
             $list[$i]["lesson_cost_normal"] = "0";
             $list[$i]["lesson_cost_tax"]    = "0";
             $list[$i]["lesson_total"]       = "0";
+            $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
             //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']   = ($this->t_teacher_money_list->get_teacher_honor_money(
-                $teacherid,$start,$end,E\Ereward_type::V_1))/100;
+            $list[$i]['lesson_reward_ex']   = $reward_list[1]['money'];
             //试听课奖金
             $list[$i]['lesson_reward_trial'] = ($this->t_teacher_money_list->get_teacher_honor_money(
                 $teacherid,$start,$end,E\Ereward_type::V_2))/100;

@@ -73,8 +73,8 @@ class main_page extends Controller
             $ret_info['income_price'] = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
             $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
 
-            if($income_count>0){
-                $aver_count = $income_price/$income_count;//平均单笔
+            if($ret_info['income_count']>0){
+                $aver_count = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
             }else{
                 $aver_count = 0;
             }
@@ -155,7 +155,6 @@ class main_page extends Controller
         }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
-            "seller_account" =>''
         ]);
     }
 

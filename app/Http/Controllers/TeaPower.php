@@ -2656,12 +2656,18 @@ trait TeaPower {
      */
     public function get_teacher_reward_money_list($teacherid,$start_time,$end_time){
         $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
-        $reward_total = [];
+        $reward_type_list = E\Ereward_type::$desc_map;
+        $data = [];
+        foreach($reward_type_list as $r_key => $r_val){
+            $data[$r_key]['money'] = 0;
+        }
         foreach($rewrad_list as $val){
             $reward_key = $val['type'];
+            $data[$reward_key] += $val['money'];
         }
+        $data['list'] = $reward_list;
+        return $data;
     }
-
 
     /**
      * 获取模拟课时单价
