@@ -17,9 +17,9 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
             ];
         }else{
             if($opt_date_type=="add_time"){
-                $time_str="tf.add_time";
+                $time_str = "tf.add_time";
             }else{
-                $time_str="l.lesson_start";
+                $time_str = "l.lesson_start";
             }
             $where_arr = [
                 ["$time_str>%u",$start_time,0],

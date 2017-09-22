@@ -8204,7 +8204,8 @@ lesson_type in (0,1) "
         $where_arr = [
             ["lessonid=%u",$lessonid,0]
         ];
-        $sql = $this->gen_sql_new("select l.lesson_start,l.teacherid,l.teacher_money_type,money,type "
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end,l.teacherid,l.teacher_money_type,"
+                                  ." money,type,l.already_lesson_count "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "
@@ -8217,7 +8218,7 @@ lesson_type in (0,1) "
                                   ,t_teacher_money_type::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
     public function set_lesson_level_up($teacherid,$level,$start,$end=0){

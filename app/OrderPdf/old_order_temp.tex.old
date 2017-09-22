@@ -1,0 +1,242 @@
+%---------------------------------导言------------------------------------
+%$\documentclass{ctexart}
+\documentclass {ctexart}
+\setCJKmainfont[ItalicFont={AR PL UKai CN}]{AR PL UMing CN} %设置中文默认字体
+\setCJKsansfont{WenQuanYi Zen Hei} %设置文泉驿正黑字体作为中文无衬线字体
+\setCJKmonofont{WenQuanYi Zen Hei Mono} %设置文泉驿等宽正黑字体作为中文打字机字体
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm} % 数学宏包
+\usepackage{fancyhdr} %页眉设置
+\usepackage[Lenny]{fncychap} %章节样式
+\usepackage{color} % 支持彩色
+\usepackage{pifont} % 数字加圈 
+\usepackage{multicol}
+
+
+\usepackage[colorlinks,unicode,urlcolor=blue,linkcolor=blue,
+        pdftitle=学员-#UserName#合同,pdfauthor=ProcessOne,pdfsubject=leodeu,pdfkeywords=leoedu, pdfpagelabels=false]{hyperref}
+
+% == 设置页面
+\usepackage[top=3cm,left=2cm,right=2cm,bottom=2cm]{geometry}
+\geometry{papersize={21cm,29.7cm}}
+%--------------------------------结束-------------------------------------
+%-------------------------------导言--------------------------------------
+\newsavebox{\headpic}
+\sbox{\headpic}{\includegraphics[height=1.2cm]{/var/www/admin.yb1v1.com/app/OrderPdf/1.png}} %设置页眉logo页眉
+
+
+\newcommand{\yihao}{\fontsize{34pt}{\baselineskip}\selectfont} % 一号字体
+\newcommand{\sanhao}{\fontsize{18pt}{\baselineskip}\selectfont} % 三号字体
+
+\usepackage[rgb]{xcolor}
+\definecolor{OliveGreenRGB}{rgb}{0.0,0.6,0.0}
+
+\usepackage{draftwatermark}
+\SetWatermarkAngle{0}
+\SetWatermarkColor{black!60!cyan!100}
+\SetWatermarkFontSize{2cm}
+%\SetWatermarkText{理优教育}
+\SetWatermarkText{\includegraphics{/var/www/admin.yb1v1.com/app/OrderPdf/b1.png}}
+\usepackage{fontspec}
+
+\usepackage{makeidx}
+
+\renewcommand\thesubsection{ \textcolor{OliveGreenRGB}{   }  }
+%------------------------------结束--------------------------------------
+
+%-----------------------------开始正文-----------------------------------
+
+\makeindex
+\begin{document}
+
+
+\setlength{\parskip}{0.7ex plus0.3ex minus0.3ex} % 段落间距
+
+\setcounter{page}{1} %这页开始设置为计数
+\headheight 14pt % 页眉高
+
+
+\pagestyle{fancy}
+
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+%\fancyhead[LE,RO]{ \usebox{\headpic} \textbf{\thepage} }      %Displays the page number in bold in the header,
+\fancyhead[LE,RO]{ \usebox{\headpic}   }      %Displays the page number in bold in the header,
+                                           % to the left on even pages and to the right on odd pages.
+%\fancyhead[RE]{\nouppercase{\leftmark}}    %Displays the upper-level (chapter) information---
+                                           % as determined above---in non-upper case in the header, to the right on even pages.
+%\fancyhead[LO]{\rightmark}                 %Displays the lower-level (section) information---as
+                                           % determined above---in the header, to the left on odd pages.
+
+%调用页眉：rhead是logo图标放在右上角，左上角为lhead，中间位chead
+
+
+
+\subsection{}
+
+立合同书人：上海理优教育科技有限公司（简称本公司）；
+
+
+正式学员：   \underline{\textbf{　#UserName#　}} （即注册付费学员，以下简称学员）；
+
+　
+
+兹就学员加入本公司理优1对1在线学习平台，并于合同期间内，依据本合同所订的条款接受理优1对1的教学服务，双方同意就相关合同约定如下：
+
+
+一、服务内容
+
+
+（一）本公司理优1对1在线学习平台提供教学及教育咨询服务，服务内容如下：
+
+
+1、个性化测评和详细分析报告	
+
+
+2、个性化课程定制
+
+
+3、基于电子白板的在线1对1实时语音教学服务	
+
+
+4、专属助教老师教学沟通服务
+
+
+5、阶段测评
+
+
+（二）学员系以购买【\underline{\textbf{#LessonInfo#}}】服务，加入理优1对1在线学习平台。
+
+
+（三）学员付清全额款项后，如中途产生退费情况，理优1对1赠课时及及相关服务自动作废。
+
+
+二、服务费用及付款方式
+
+
+本合同服务费用共计人民币（下同）  \textbf{\underline{#PriceInfo#}}。学员于购买服务时，应即以汇款、在线刷卡或其他本公司同意方式将款项支付予本公司。本服务将于学员付款全额款项后开通使用。
+
+
+
+三、合同期间
+
+
+
+合同期间即服务有效使用期间自（付清全额款项之日） \textbf{\underline{#OrderStartTime#}} 起至  \textbf{\underline{#OrderEndTime#}} 止。学员应在合同期间完成所有课时，超过合同期则不能使用。
+
+
+四、服务使用规则
+
+
+（一）常规课时每次课程为 \underline{\textbf{#PerLessonCount#}}课时，每课时 \underline{\textbf{#OneLessonTime#}}分钟，课程使用规则如下：
+
+
+1、助教老师在学员在付款全额款项之日后10个工作日内完成首次1个月的排课并通知到学员及学员监护人上课时间。
+
+
+2、课程每月一排，下月课时安排于上月最后一次课课后3个工作日内助教老师和学员及学员监护人确认。
+
+
+3、学员于课程开始前5分钟进入教室，未按约定时间进入教室，学员及学员监护人可及时联系助教老师说明情况并确认原因，课程会根据情况重新安排或取消。
+
+
+4、学员请假须在课时开始前的48小时前通知助教老师，并与助教老师对课程的安排调整达成一致后许可请假。
+
+
+5、按学期课时安排，一学期20次课60课时内要求学员请假不超过2次，请假超过限定次数即视为不稳定教学，学员处于不稳定教学态或学员要求永久性换时间，理优1对1有调整老师的权利。
+
+
+6、学员正常请假，课时正常顺延或者根据助教老师与学员及学员监护人、老师三方协商在规定时间补上，原则为补进度不补课时。
+
+
+7、学员迟到或早退课时将不予补上，按照原定下课时间正常下课，如因学员自己原因发生迟到或早退现象学员及学员监护人不得提出补课要求。
+
+
+
+五、遵守义务
+
+
+学员了解并同意，本合同附件及注册时的《理优1对1使用条款及服务协议》为本合同之一部，效力与本合同相同；学员使用 本公司理优1对1在线学习系统及在线学习服务时，应完全遵守本合同及《理优1对1使用条款及服务协议》规定，若有违反，即视为违反本合同，本公司将视情节轻重，予以赞同或终止服务。本合同条款与《理优1对1使用条款及服务协议》内容不一致者，则以本合同书之内容为准。
+
+
+六、终止合同与退费
+
+
+（一）学员了解并同意签订本合同后若欲申请解除或终止合同及退费者，应依下列规定办理。
+
+
+1、于合同起始日至课时开始前，学员如对本公司所提供服务不愿再继续使用时，应以书面方式通知本公司，本公司就所使用部分，扣除相应款项后退回剩余金额。
+
+
+2、于合同生效后起始日至实际上课后，学员如对本公司所提供服务不愿再继续使用时，应以书面形式通知本公司解除合同，需经本公司核算，学员知晓，因退费会导致所享受折扣率变更，退费额的计算，需要将已确认课时按新的折扣率重新进行计算，扣除已确认课时的新旧折扣差额后，余额退返给学员，若是部分退费，则须重新核算折扣基数。
+
+
+3、于合同生效后起始日至剩余课时不足6课时时，学员不得通知解除合同或要求退费。
+
+
+七、其他
+
+
+（一）本合同取代双方就本合同所述事宜达成的一切口头或书面约定，以及本公司通过一切媒介所发布的宣传资料、广告等。其他任何文件与本合同由不一致之处的，以本合同为主。
+
+
+（二）本合同签订后，如须修改，得经本公司同意后，由双方另以书面协议取代或修改本合同，任何口头非文字载明之承诺、条件，均视为无效约定。
+
+
+（三）双方同意本合同内容之全部或部分经法院判定无效时，并不影响合同其他条款之效力。
+
+
+（四）就本合同未尽事宜，双方同意依本公司内部或网站上有关之公告、说明、服务条款补充，并依中华人民共和国法律与其他相关法令解释并适用之。如果有争议，应提交上海仲裁委员会按其适用的仲裁规则仲裁解决。仲裁裁决对双方均具有约束力。
+
+
+（五）本合同经学员确认并同意后，将以电子文件方式留存于本公司系统中，以为双方合同签署及遵循之依据。
+
+
+　
+
+\begin{multicols}{2}
+%双栏内容
+
+　　\includegraphics{/var/www/admin.yb1v1.com/app/OrderPdf/#GongZhang#}
+ 
+
+ 　　上海理优教育科技有限公司　　　　　　　　
+
+
+
+
+　　　　
+
+
+
+　　　　
+
+
+
+　　　　
+
+　　　　
+　　　　
+
+　　　　
+
+　　　学员签名：\underline{　　　　　　　　}
+
+
+
+
+　　　　
+
+法定代表/监护人：\underline{　　　　　　　　}
+
+　　　　
+
+　　　　
+
+
+\end{multicols}
+
+\printindex
+
+
+
+\end{document}

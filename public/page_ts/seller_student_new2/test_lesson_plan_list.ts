@@ -175,7 +175,6 @@ $(function(){
             ["开始时间",id_start_time ]  ,
             ["年级",opt_data.grade_str]  ,
             ["科目",opt_data.subject_str]  ,
-            ["销售top20意向",id_top_seller_flag]  ,
         ];
 
         $.show_key_value_table("排课", arr ,[
@@ -206,7 +205,7 @@ $(function(){
                             "grade"        : opt_data.grade,
                             'teacherid'    : id_teacherid.val(),
                             'lesson_start' : id_start_time.val(),
-                            'top_seller_flag' : id_top_seller_flag.val()
+                            'top_seller_flag' : opt_data.seller_top_flag
                         });
                     };
 
@@ -1189,6 +1188,7 @@ $(function(){
         },function(){
         });
     });
+    var grab_requireids;
     $("#id_grab_lesson").on("click",function(){
         var id_grab_url    = $("<button class='btn btn-danger'>生成抢单链接</button>");
         var id_grab_lesson = $("<button class='btn btn-danger'>添加至抢单库</button>");
@@ -1234,12 +1234,11 @@ $(function(){
                 if(select_num==0){
                     BootstrapDialog.alert("未选择试听申请!");
                 }else{
-
+                    grab_requireids = id;
                     $.do_ajax("/common/base64",{
                         "text" : id,
                         "type" : "encode"
                     },function(result){
-                        console.log(result)
                         select_time_limit(result,lesson_info);
                     })
                 }
@@ -1387,14 +1386,13 @@ $(function(){
                     url      : '/grab_lesson/make_lesson_link',
                     dataType : 'json',
                     data     : {
-                        'url':url,
-                        'live_time' : time,
+                        'url'         :url,
+                        'live_time'   : time,
                         'create_time' : now,
+                        'requireids'  : grab_requireids,
                     },
                     success :function(ret){
-                        console.log(ret)
                         if (ret.ret == 0) {
-                            console.log(ret)
                             BootstrapDialog.alert(alert_info);
                         } else {
                             alert(ret.info);

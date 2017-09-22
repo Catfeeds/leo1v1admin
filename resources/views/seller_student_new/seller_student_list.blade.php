@@ -462,7 +462,7 @@
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
                                 <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
-                                <a title="录入回访信息" class="  fa-edit opt-edit"></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit-new"></a>
                                 <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
                                 <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
@@ -519,9 +519,6 @@
                                     <a title="收藏" class=" fa-star-o opt-favorite"></a>
                                 @else
                                     <a title="取消收藏" class=" fa-star  opt-favorite"></a>
-                                @endif
-                                @if(in_array($acc,["jack","jim","夏宏东","李子璇","陈佳"]))
-                                    <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif
                             </div>
 

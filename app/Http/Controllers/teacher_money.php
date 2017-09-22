@@ -337,7 +337,6 @@ class teacher_money extends Controller
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
-                        // $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                         $reward = $this->get_lesson_reward_money(
                             $last_lesson_count,$val['already_lesson_count'],$val['teacher_money_type'],$teacher_type,$val['type']
                         );
@@ -528,7 +527,6 @@ class teacher_money extends Controller
                     return $this->output_err("老师工资分类错误！");
                 }
             }elseif($type==E\Ereward_type::V_3){
-                // $lesson_info = $this->t_lesson_info->get_lesson_info($money_info);
                 $lesson_money_info = $this->t_lesson_info->get_lesson_money_info($money_info);
                 $add_time    = $lesson_money_info['lesson_start'];
                 $diff_time   = $lesson_money_info['lesson_end']-$add_time;
@@ -538,16 +536,16 @@ class teacher_money extends Controller
                 }
 
                 $base_money = $lesson_money_info['money'];
+                $start      = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
+                $end        = strtotime("+1 month",$start);
+                $last_lesson_count = $this->get_last_lesson_count_info($start,$end,$lesson_money_info['teacherid']);
+                $teacher_type      = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
+                $reward_money      = $this->get_lesson_reward_money(
+                    $last_lesson_count,$lesson_money_info['already_lesson_count'],$lesson_money_info['teacher_money_type'],
+                    $teacher_type,$lesson_money_info['type']
+                );
 
-                $reward_type = $lesson_money_info['type'];
-                $start = strtotime(date("Y-m-01",$lesson_money_info['lesson_start']));
-                $end   = strtotime("+1 month",$start_time);
-                $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
-                $teacher_type = $this->t_teacher_info->get_teacher_type($lesson_money_info['teacherid']);
-
-                $last_lesson_count = $this->get_last_lesson_count_info($start_time,$end_time,$lesson_money_info['teacherid']);
-
-                $money = $base_money*25;
+                $money = ($base_money+$reward_money)*25;
             }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
             }
