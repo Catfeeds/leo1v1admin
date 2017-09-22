@@ -479,7 +479,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $where_arr = [
             ['uid',$tquin,-1],
             ['phone',$phone,-1],
-            'is_called_phone = 1',
+            'is_called_phone = 2',
         ];
         $sql = $this->gen_sql_new(" select id from %s "
                                   ." where %s "
