@@ -2705,7 +2705,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num(strtotime("2017-09-01")strtotime("2017-10-01"),349);
+        $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num(strtotime("2017-09-01"),strtotime("2017-10-01"),349);
         dd($top_num);
 
         $list = $this->t_test_lesson_subject_require->get_seller_top_list();

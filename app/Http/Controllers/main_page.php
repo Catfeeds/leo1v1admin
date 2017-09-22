@@ -150,12 +150,13 @@ class main_page extends Controller
 
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
+            dd($ret_info_arr);
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
 
-        return $this->pageView(__METHOD__, $ret_info_arr,[
-        ]);
+        
+        return $this->pageView(__METHOD__, $ret_info_arr);
     }
 
 

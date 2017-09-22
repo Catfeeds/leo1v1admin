@@ -927,7 +927,7 @@ class ss_deal extends Controller
 
             }
             
-            return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>0]);
+            return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>$top_num]);
         }
     }
     /*
