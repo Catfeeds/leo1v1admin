@@ -72,13 +72,18 @@ class wx_parent_api extends Controller
 
             //判断是否可以申请调课
             if($item['lesson_start']-$now>86400){
-                $is_change_flag = 0;
-            }else{
                 $is_change_flag = 1;
+            }else{
+                $is_change_flag = 0;
             }
 
 
             $item['is_modify_time_flag'] = $item['is_modify_time_flag']?$item['is_modify_time_flag']:0;
+
+            if($item['is_modify_time_flag']>0 || $is_change_flag==0){
+
+            }
+
             $lesson_num= $item["lesson_num"];
             $lessonid= $item["lessonid"];
             $userid= $item["userid"];

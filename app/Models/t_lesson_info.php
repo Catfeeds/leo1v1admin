@@ -8200,11 +8200,11 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_lesson_money($lessonid){
+    public function get_lesson_money_info($lessonid){
         $where_arr = [
             ["lessonid=%u",$lessonid,0]
         ];
-        $sql = $this->gen_sql_new("select money,type "
+        $sql = $this->gen_sql_new("select l.lesson_start,l.teacherid,l.teacher_money_type,money,type "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "
