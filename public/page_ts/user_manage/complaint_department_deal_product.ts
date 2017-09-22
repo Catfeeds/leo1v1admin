@@ -334,7 +334,7 @@ $(function(){
 
         $.each(img_arr, function (i, item) {
             var cls = "success";
-            html_node += "<tr class=\"" + cls + "\" > " + "<td>" + item +"</tr>";
+            html_node += "<tr class=\"" + cls + "\" > " + "<td><a href="+item+">"+"图片"+"</a>"+"</tr>";
         });
 
         BootstrapDialog.show({

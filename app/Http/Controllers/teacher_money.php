@@ -296,17 +296,17 @@ class teacher_money extends Controller
             $list[$i]["lesson_total"]       = "0";
             $reward_list = $this->get_teacher_reward_money_list($teacherid,$start,$end);
             //荣誉榜奖励金额
-            $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money']/100;
+            $list[$i]['lesson_reward_ex']   = $reward_list[E\Ereward_type::V_1]['money'];
             //试听课奖金
-            $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money']/100;
+            $list[$i]['lesson_reward_trial'] = $reward_list[E\Ereward_type::V_2]['money'];
             //90分钟课程补偿
-            $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money']/100;
+            $list[$i]['lesson_reward_compensate'] = $reward_list[E\Ereward_type::V_3]['money'];
             //工资补偿
-            $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money']/100;
+            $list[$i]['lesson_reward_compensate_price'] = $reward_list[E\Ereward_type::V_4]['money'];
             //模拟试听奖金
-            $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money']/100;
+            $list[$i]['lesson_reward_train'] = $reward_list[E\Ereward_type::V_5]['money'];
             //伯乐奖
-            $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money']/100;
+            $list[$i]['lesson_reward_reference'] = $reward_list[E\Ereward_type::V_6]['money'];
 
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";

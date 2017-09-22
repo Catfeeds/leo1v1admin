@@ -2663,7 +2663,8 @@ trait TeaPower {
         }
         foreach($reward_list as $val){
             $reward_key = $val['type'];
-            $data[$reward_key]['money'] += $val['money'];
+            $reward_money = $val['money']/100;
+            $data[$reward_key]['money'] += $reward_money;
         }
         $data['list'] = $reward_list;
         return $data;
