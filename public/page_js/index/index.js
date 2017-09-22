@@ -214,15 +214,15 @@ $(function(){
     });
 
     $('#id_user_login').on('click',function(){
-    login_fun();
+        login_fun();
         return false;
-  });
+    });
 
-  $(window).keypress(function(e) {
-    if (e.which == 13) {
-      login_fun();
-    }
-  });
+    $(window).keypress(function(e) {
+        if (e.which == 13) {
+            login_fun();
+        }
+    });
 
     $('#verify_image').on('click', function(){
         $(this).attr('src', '/login/get_verify_code?r='+Math.random());

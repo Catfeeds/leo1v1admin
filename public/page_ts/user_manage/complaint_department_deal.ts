@@ -155,7 +155,7 @@ $(function(){
         var key_list = me.val();
 
         var data = $(this).get_opt_data();
-        $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"教研\" >教研</option><option value=\"薪资运营\">薪资运营</option>")
+        $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"教研\" >教研</option><option value=\"薪资运营\">薪资运营</option><option value=\"qc\">QC</option>")
         var clean_select = function ($select) {
             $select.html("<option value=\"\">[全部]</option>");
         };
@@ -192,14 +192,12 @@ $(function(){
                 var account = this.account;
                 $account.append("<option value=\"" + account + "\">" + account + "</option>");
             });
-            //$main_type.val(key_list[0]);
             $main_group_name.val(key_list[1]);
             $group_name.val(key_list[2]);
             $account.val(key_list[3]);
             if(key_list[1] == "" || key_list[1] == null){
                 set_select($main_group_name, $main_type_name.val(), "", "");
             }
-            //set_select($main_groupid, $main_type.val(), "", "");
 
         });
 
@@ -249,7 +247,18 @@ $(function(){
             clean_select($account);
 
             if ($main_type_name.val()) {
-                set_select($main_group_name, $main_type_name.val(), "", "");
+                if($main_type_name.val()=='qc'){
+                    $account.html("<option value=\"wenbin\" >施文斌</option><option value=\"李珉劼\" >李珉劼</option><option value=\"王浩鸣\"  >王浩鸣</option>");
+                    $main_group_name.parent().parent().hide();
+                    $group_name.parent().parent().hide();
+
+                }else{
+                    $main_group_name.parent().parent().show();
+                    $group_name.parent().parent().show();
+                    clean_select($account);
+                    set_select($main_group_name, $main_type_name.val(), "", "");
+                }
+
             }
         });
 
@@ -262,6 +271,7 @@ $(function(){
                 set_select($group_name, $main_type_name.val(), $main_group_name.val(), "");
             }
         });
+
         $group_name.on("change", function () {
             clean_select($account);
             if ($group_name.val()) {
@@ -275,6 +285,7 @@ $(function(){
             ["小组", $group_name],
             ["成员", $account],
             ["分配备注", $complaint_info],
+
         ];
 
         $.show_key_value_table("分配处理人", arr, {
@@ -288,7 +299,9 @@ $(function(){
                 });
             }
         },function(){
-
+            if($main_type_name.val() == 'qc'){
+                console.log("qc_xuanz");
+            }
         });
     });
 

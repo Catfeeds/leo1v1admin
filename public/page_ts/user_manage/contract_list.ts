@@ -2783,10 +2783,10 @@ $(function(){
 
     $(".opt-order-partition").on("click",function(){
         var data = $(this).get_opt_data(); 
-        if(data.contract_status>0){
+        /*if(data.contract_status>0){
             alert("已付款合同不能拆分");
             return;
-        }
+        }*/
         var title = "编辑子合同";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>操作</td></tr></table></div>");   
         $.do_ajax("/ss_deal/get_child_order_list",{
@@ -2990,6 +2990,34 @@ $(function(){
         });
 
     });
+
+    $(".opt-update-parent-name").on("click",function(){
+        var data = $(this).get_opt_data();
+        var userid= data.userid;
+        var id_parent_name = $("<input/>");       
+
+        var arr = [
+            ['名字',id_parent_name]
+        ];
+        id_parent_name.val(data.parent_nick);
+
+
+        $.show_key_value_table("修改家长姓名", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                
+                $.do_ajax('/ajax_deal2/update_parent_name',{
+                    'userid'      : userid,
+                    "parent_name" : id_parent_name.val()
+                });
+                
+            }
+        });
+
+        
+    });
+
 
 
 

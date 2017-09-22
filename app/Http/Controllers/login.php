@@ -313,9 +313,6 @@ class login extends Controller
 
     public function login()
     {
-        \App\Helper\Utils::logger("loginx1");
-
-
         $account  = strtolower(trim($this->get_in_str_val("account")));
         $password = $this->get_in_str_val('password');
         $seccode  = $this->get_in_str_val('seccode') ;
@@ -334,13 +331,6 @@ class login extends Controller
             }
         }
 
-        /*
-        $env=\App\Helper\Utils::check_env_is_release();
-        if($password==md5($account) && $env)
-            return outputjson_error("密码不能和用户名相同，请重置密码！");
-        */
-
-        \App\Helper\Utils::logger("loginx2");
         $password = md5($password."#Aaron");
         $ret_db   = $this->t_admin_users->user_login($account, $password);
 
@@ -366,9 +356,7 @@ class login extends Controller
         }
 
         $permission = $this->reset_power($account);
-        \App\Helper\Utils::logger("loginx3");
 
-        // \App\Helper\Utils::logger("account1: $account");
 
         session($_SESSION) ;
         $this->t_admin_users->set_last_ip( $account,$ip );

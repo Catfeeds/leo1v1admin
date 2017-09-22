@@ -284,8 +284,9 @@
                                 <a class="opt-mail-contrat" title="合同运单">运单</a>
                                 <a class="opt-merge_order" title="合并合同">合并</a>
                                 <a class="opt-price_desc fa-list" title="价格生成说明"></a>
-                                @if(in_array($acc,["jack","jim"]) && $var["contract_status"]==0 && $var["price"] >0)
+                                @if(in_array($acc,[$var["sys_operator"],"jim","jack"])  && $var["price"] >0)
                                     <a class="opt-order-partition" title="拆分合同">拆分</a>
+                                    <a class="opt-update-parent-name" title="修改家长姓名">家</a>
                                 @endif
                             </div>
                         </td>

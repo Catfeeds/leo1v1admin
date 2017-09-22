@@ -60,6 +60,7 @@
                         ["合同金额","price" ],
                        ])!!}
 
+                    <td>主管评价 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -79,15 +80,15 @@
 
                         <td>{{$var["order_time"]}} </td>
                         <td>{{$var["price"]}} </td>
+                        <td>{{$var["assess"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-phone opt-telphone  btn" title="电话列表"> </a>
                                 <a class=" fa-list-alt opt-log-list" title="登录日志"></a>
-                                <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                     <a class="fa fa-times opt-del" title="删除"> </a>
-                                   -->
+                                <a class="fa fa-edit opt-edit"  title="主管评价"> </a>
+                                <!-- <a class="fa fa-times opt-del" title="删除"> </a> -->
                             </div>
                         </td>
                     </tr>

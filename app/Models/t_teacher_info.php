@@ -741,16 +741,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." birth, t.phone, t.email, rate_score, t.teacherid ,user_agent,teacher_tags,teacher_textbook,"
                                   ." create_meeting, t.level ,t.work_year,  advantage, base_intro,textbook_type,is_good_flag,"
                                   ." t.create_time,t.address,t.subject,second_subject,third_subject,t.school,tea_note,"
-                                  ." grade_part_ex,t.is_freeze,freeze_reason,freeze_adminid,freeze_time, "
+                                  ." grade_part_ex,t.is_freeze,t.freeze_reason,t.freeze_adminid,t.freeze_time, "
                                   ." t.limit_plan_lesson_type,t.limit_plan_lesson_reason,t.limit_plan_lesson_time,"
                                   ." t.limit_plan_lesson_account,t.second_grade,t.third_grade,interview_access"
                                   ." lesson_hold_flag,lesson_hold_flag_acc,research_note ,"
                                   ." lesson_hold_flag_time,interview_score,second_interview_score, "
-                                  ." test_transfor_per ,week_liveness,limit_day_lesson_num,limit_week_lesson_num,"
+                                  ." test_transfor_per ,week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." limit_month_lesson_num ,t.teacher_ref_type,t.saturday_lesson_num,grade_start,grade_end, "
-                                  ." not_grade,not_grade_limit,week_lesson_count,t.trial_lecture_is_pass,"
+                                  ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   ." sum(tss.lessonid >0) week_lesson_num,"
-                                  ." if(limit_plan_lesson_type>0,limit_plan_lesson_type-sum(tss.lessonid >0),limit_week_lesson_num-sum(tss.lessonid >0)) left_num ,"
+                                  ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num ,"
                                   ." t.test_transfor_per,t.month_stu_num,tr.record_score"
                                   ." from %s t"
                                   ." left join %s l on (t.teacherid = l.teacherid "
@@ -1061,10 +1061,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_teacherid_by_name($name){
-        $sql=$this->gen_sql_new("select teacherid from %s where realname='%s'"
-                                ,self::DB_TABLE_NAME
-                                ,$name
+    public function get_teacherid_by_name($name,$not_str=""){
+        $where_arr = [
+            ["realname='%s'",$name,""],
+            ["teacherid not in (%s)",$not_str,""],
+        ];
+
+        $sql = $this->gen_sql_new("select teacherid from %s where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }

@@ -192,13 +192,15 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
     }
 
     public function get_parent_wx_openid($lessonid){
-        $sql = $this->gen_sql_new(" select wx_openid from %s p ".
-                                  " left join %s pc pc.userid = l.userid ".
-                                  " left join %s p p.parentid = pc.parentid".
+
+        // return 
+        $sql = $this->gen_sql_new(" select p.wx_openid from %s p ".
+                                  " left join %s pc on p.parentid = pc.parentid".
+                                  " left join %s l on pc.userid = l.userid ".
                                   " where l.lessonid = %d",
                                   self::DB_TABLE_NAME,
                                   t_parent_child::DB_TABLE_NAME,
-                                  t_parent_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $lessonid
 
         );

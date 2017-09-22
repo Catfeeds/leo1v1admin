@@ -118,6 +118,7 @@ class NewRouteConfig {
         "textbook_manage"             => true,
         "teacher_money_www"           => true,
         "grab_lesson"                 => true,
+        "teacher_info_www"           => true,
     ];
 
     //config

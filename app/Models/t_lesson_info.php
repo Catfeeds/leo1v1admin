@@ -5636,14 +5636,14 @@ lesson_type in (0,1) "
         $where_arr=[];
         $this->where_arr_teacherid($where_arr,"teacherid", $teacherid_list);
         if($lesson_type==1){
-            $where_arr[] ="lesson_type <>2"; 
+            $where_arr[] ="lesson_type <>2 and lesson_type <1000";
         }else{
-            $where_arr[] ="lesson_type in (0,2)"; 
+            $where_arr[] ="lesson_type in (0,2)";
         }
-        $sql = $this->gen_sql_new("select teacherid,sum(lesson_count) lesson_total "
+        $sql = $this->gen_sql_new("select teacherid,teacher_money_type,sum(lesson_count) lesson_total,count(distinct(userid)) as stu_num "
                                   ." from %s "
                                   ." where %s  "
-                                  ." and confirm_flag in(0,1) "
+                                  ." and confirm_flag !=2 "
                                   ." and lesson_start >= %u "
                                   ." and lesson_start <=%u "
                                   ." and lesson_del_flag =0 "
@@ -8200,11 +8200,11 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_lesson_money($lessonid){
+    public function get_lesson_money_info($lessonid){
         $where_arr = [
             ["lessonid=%u",$lessonid,0]
         ];
-        $sql = $this->gen_sql_new("select money "
+        $sql = $this->gen_sql_new("select l.lesson_start,l.teacherid,l.teacher_money_type,money,type "
                                   ." from %s l"
                                   ." left join %s m on l.teacher_money_type=m.teacher_money_type "
                                   ." and l.level=m.level "

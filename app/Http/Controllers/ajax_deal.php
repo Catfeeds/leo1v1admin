@@ -306,6 +306,19 @@ class ajax_deal extends Controller
 
     }
 
+    public function test_lesson_assess_edit(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $assess   = $this->get_in_str_val('assess');
+        $assess_adminid = $this->get_account_id();
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
+            "assess"         => $assess,
+            "assess_adminid" => $assess_adminid,
+            "assess_time"    => time(null),
+        ]);
+
+        return $this->output_succ();
+    }
+
     public function agent_del(){
         $id=$this->get_in_id();
 

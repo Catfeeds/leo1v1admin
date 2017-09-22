@@ -318,19 +318,19 @@ $(function(){
     });
 
     $(".opt-add_reward_90").on("click",function(){
-	    var data = $(this).get_opt_data();
+	      var data = $(this).get_opt_data();
         BootstrapDialog.show({
-	        title   : "操作确认",
-	        message : "是否添加此老师90分钟的补偿金额?",
-	        buttons : [{
-		        label  : "返回",
-		        action : function(dialog) {
-			        dialog.close();
-		        }
-	        },{
-		        label    : "确认",
-		        cssClass : "btn-warning",
-		        action   : function(dialog) {
+	          title   : "操作确认",
+	          message : "是否添加此老师90分钟的补偿金额?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          },{
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
                     $.do_ajax("/teacher_money/add_teacher_reward",{
                         "money_info" : data.lessonid,
                         "type"       : 3,
@@ -342,8 +342,8 @@ $(function(){
                             BootstrapDialog.alert(result.info);
                         }
                     });
-		        }
-	        }]
+		            }
+	          }]
         });
     });
 

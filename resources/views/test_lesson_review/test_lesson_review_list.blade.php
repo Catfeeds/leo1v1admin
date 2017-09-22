@@ -12,8 +12,7 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入申请人用户名/电话，回车查找" />
                     </div>
                 </div>
             </div>
@@ -51,7 +50,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                @if(@$adminid  == 831)
+                                @if(in_array(@$adminid,[898,831]))
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                                 @endif
                             </div>

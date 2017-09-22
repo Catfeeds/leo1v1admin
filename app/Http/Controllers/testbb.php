@@ -240,7 +240,16 @@ class testbb extends Controller
 
     public function ss(){
         // $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
+        dd(time(NULL)-180*86400);
 
+        $seller_num_arr['first_num'] = 2;
+        $seller_num_arr['second_num'] = 3;
+        $seller_num_arr['third_num'] = 4;
+
+        // dd(json_encode($seller_num_arr));
+        $info = '{"first_num":2,"second_num":3,"third_num":4}';
+
+        dd(json_decode($info,true));
         // dd($max_main_type);
         $t = $this->t_seller_student_new->get_all_stu_uid();
         dd($t);
@@ -253,22 +262,31 @@ class testbb extends Controller
     }
 
     public function install(){
-        Schema::create('db_weiyi_admin.t_main_major_group_name_month', function( Blueprint $table)
+        Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
-
-
-
             $table->increments("id","id");
-            t_field($table->integer("referral_money"),"转介绍收入");
+            t_field($table->integer("referral_money"),"转介绍合同收入");
+            t_field($table->integer("new_money"),"新签合同收入");
+            t_field($table->text("income_info"),"对应人员收入签单额度");
+            t_field($table->integer("cc_num"),"cc入职完整月人数");
             t_field($table->integer("order_num"),"下单总人数");
-            t_field($table->integer("cc_num"),"cc在职人数");
-            t_field($table->integer("seller_one_department_num"),"咨询一部人数");
-            t_field($table->integer("seller_two_department_num"),"咨询二部人数");
-            t_field($table->integer("seller_three_department_num"),"咨询三部人数");
-            t_field($table->integer("seller_new_department_num"),"咨询部新人营人数");
+            t_field($table->string("department_num_info"),"销售各部人数信息 json [咨询各部+新人营+培训中]");
 
+            t_field($table->integer("referral_money"),"转介绍金额");
+            t_field($table->integer("high_school_money"),"高中金额");
+            t_field($table->integer("junior_money"),"初中金额");
+            t_field($table->integer("primary_money"),"小学金额");
 
+            t_field($table->integer("test_invit_num"),"试听邀约数");
+            t_field($table->integer("seller_schedule_num"),"试听排课数");
+            t_field($table->integer("test_succ_num"),"试听成功数");
+            t_field($table->integer("new_order_num"),"新签合同数");
 
+            t_field($table->integer("seller_call_num"),"电话呼出量");
+            t_field($table->integer("has_called"),"已拨打数量");
+            t_field($table->integer("cc_called_num"),"已拨打的cc数量");
+            t_field($table->integer("new_stu"),"本月新进例子数");
+            t_field($table->integer("cc_call_time"),"cc总计通话时长");
 
         });
 

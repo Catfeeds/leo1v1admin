@@ -1938,6 +1938,8 @@ function init_edit() {
                         },function(ret){
                             if(ret==1){
                                 alert('申请成功!');
+                            }else if(ret==2){
+                                alert('您已提交过该申请,请耐心等待审核!');
                             }else{
                                 alert('限排后一周最多提交3次申请!');
                             }

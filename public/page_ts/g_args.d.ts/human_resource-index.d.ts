@@ -118,6 +118,7 @@ interface RowData {
 	grade_end	:any;
 	second_grade_start	:any;
 	second_grade_end	:any;
+	month_stu_num	:any;
 	not_grade	:any;
 	not_grade_limit	:any;
 	week_lesson_count	:any;
@@ -178,6 +179,7 @@ interface RowData {
 	not_grade_str	:any;
 	interview_acc	:any;
 	textbook	:any;
+	fine_dimension	:any;
 }
 
 /*

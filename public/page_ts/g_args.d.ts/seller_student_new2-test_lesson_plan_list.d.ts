@@ -188,7 +188,6 @@ interface RowData {
 	seller_require_change_flag_str	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
-	accept_account	:any;
 }
 
 /*

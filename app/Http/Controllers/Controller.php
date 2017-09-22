@@ -234,7 +234,11 @@ class Controller extends ControllerEx
     }
 
     public function get_account_role() {
-        return session("account_role");
+        if(\App\Helper\Utils::check_env_is_release()){
+            return session("account_role");
+        }else{
+            return E\Eaccount_role::V_12;
+        }
     }
 
     public function del( $userid) {

@@ -520,7 +520,7 @@
                                 @else
                                     <a title="取消收藏" class=" fa-star  opt-favorite"></a>
                                 @endif
-                                @if(in_array($acc,["jack","jim","夏宏东","李子璇"]))
+                                @if(in_array($acc,["jack","jim","夏宏东","李子璇","陈佳"]))
                                     <a title="录入回访信息" class="opt-edit-new">录</a> 
                                 @endif
                             </div>
@@ -971,7 +971,7 @@
                     </div>
                     <div class="col-xs-12 col-md-3  ">
                         <div class="input-group ">
-                            <span class="input-group-addon">所需老师风格：</span>
+                            <span class="input-group-addon">老师要求：</span>
                             <input type="text" class=" form-control "  id="id_need_teacher_style"  />
                         </div>
                     </div>

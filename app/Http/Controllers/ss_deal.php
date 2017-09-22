@@ -601,7 +601,7 @@ class ss_deal extends Controller
         $region      = $this->get_in_str_val("region");//地区,省
         $province      = $this->get_in_int_val("province");//省
         $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
-        
+
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
         } else {
@@ -641,7 +641,7 @@ class ss_deal extends Controller
             "nick"        => $stu_nick,
             "parent_name" => $par_nick,
             "editionid"   => $editionid,
-            "school"      => $school            
+            "school"      => $school
         ];
         $this->cache_del_student_nick($userid);
         if($region){
@@ -898,7 +898,7 @@ class ss_deal extends Controller
             }else{
                 $seller_top_flag=0;
             }
-            
+
 
             $this->t_test_lesson_subject_require->field_update_list($info["current_require_id"],[
                 "intention_level" =>$info["intention_level"],
@@ -1889,7 +1889,6 @@ class ss_deal extends Controller
             return $this->output_err("没有购买课时");
         }
 
-
         if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
@@ -2010,27 +2009,13 @@ class ss_deal extends Controller
             ]);
         }
 
-        if($order_partition_flag==0){
-            $this->t_child_order_info->row_insert([
-                "child_order_type" =>0,
-                "pay_status"       =>0,
-                "add_time"         =>time(),
-                "parent_orderid"   =>$orderid,
-                "price"            => $price
-            ]);
-        }else{
-            $child_order_info = json_decode($child_order_info,true);
-            foreach($child_order_info as $ch){
-                $this->t_child_order_info->row_insert([
-                    "child_order_type" =>$ch["child_order_type"],
-                    "pay_status"       =>0,
-                    "add_time"         =>time(),
-                    "parent_orderid"   =>$orderid,
-                    "price"            => $ch["child_order_money"]
-                ]);
-
-            }
-        }
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>0,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$orderid,
+            "price"            => $price
+        ]);
         return $this->output_succ();
     }
 
@@ -2070,7 +2055,7 @@ class ss_deal extends Controller
             if($item["child_order_type"]==2){
                 $item["period_num_info"] = $item["period_num"]."期";
             }else{
-                $item["period_num_info"] =""; 
+                $item["period_num_info"] ="";
             }
 
 
@@ -5694,7 +5679,7 @@ class ss_deal extends Controller
 
                 $deal_wx_openid_list = [
                     "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 
 
@@ -5768,7 +5753,7 @@ class ss_deal extends Controller
 
                     $deal_wx_openid_list = [
                         "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                        // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                     ];
 
                 }
@@ -5807,7 +5792,8 @@ class ss_deal extends Controller
                 "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
                 "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
-                // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                "orwGAs87gepYCYKpau66viHluRGI"  // 傅文莉
             ];
 
             $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);

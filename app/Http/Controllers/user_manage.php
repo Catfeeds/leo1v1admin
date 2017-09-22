@@ -735,7 +735,6 @@ class user_manage extends Controller
         }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="seller_group"){//销售下级id
-            //组长&主管
             if ($id<=0) {
                 $adminid = $this->get_account_id();
                 $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
@@ -2331,7 +2330,6 @@ class user_manage extends Controller
             $assistantid =- 1;
             //$assistantid = 60078;
         }
-
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {

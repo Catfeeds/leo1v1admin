@@ -1,8 +1,10 @@
+	assess	:any;
 	cur_require_adminid	:any;
 	userid	:any;
 	nick	:any;
 	phone	:any;
 	lessonid	:any;
+	teacherid	:any;
 	lesson_start	:any;
 	lesson_end	:any;
 	tq_call_time	:any;

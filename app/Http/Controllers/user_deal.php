@@ -1842,6 +1842,7 @@ class user_deal extends Controller
         $main_type=$this->get_in_int_val("main_type");
 
         $db_groupid=$this->t_admin_group_user->get_groupid_by_adminid($main_type,$adminid);
+        $group_name = '';
         if ($db_groupid ) {//
             $group_name=$this->t_admin_group_name->get_group_name_by_groupid($db_groupid);
             $this->t_admin_group_user->row_delete_2( $db_groupid, $adminid);
@@ -2704,6 +2705,65 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+       
+        $list = $this->t_order_info->get_no_pay_order_list();
+        foreach($list as $item){
+            $orderid = $item["orderid"];
+            $data = $this->t_child_order_info->get_all_child_order_info($orderid);
+            if(empty($data)){
+                if(empty($item["pre_price"])){
+                    $price = $this->t_order_info->get_price($orderid);
+                    $this->t_child_order_info->row_insert([
+                        "child_order_type" =>0,
+                        "pay_status"       =>0,
+                        "add_time"         =>time(),
+                        "parent_orderid"   =>$orderid,
+                        "price"            => $price
+                    ]);
+                }else{
+                    $left_price = $item["price"]-$item["pre_price"];
+                    $this->t_child_order_info->row_insert([
+                        "child_order_type" =>0,
+                        "pay_status"       =>0,
+                        "add_time"         =>time(),
+                        "parent_orderid"   =>$orderid,
+                        "price"            => $left_price
+                    ]);
+                    if($item["pre_pay_time"]>0){
+                        $status =1;
+                        $this->t_child_order_info->row_insert([
+                            "child_order_type" =>1,
+                            "pay_status"       =>1,
+                            "add_time"         =>time(),
+                            "parent_orderid"   =>$orderid,
+                            "price"            => $item["pre_price"],
+                            "pay_time"         =>$item["pre_pay_time"],
+                            "channel"          =>$item["channel"],
+                            "from_orderno"     =>$item["pre_from_orderno"]
+                        ]);
+
+                        
+                    }else{
+                        $this->t_child_order_info->row_insert([
+                            "child_order_type" =>1,
+                            "pay_status"       =>0,
+                            "add_time"         =>time(),
+                            "parent_orderid"   =>$orderid,
+                            "price"            => $item["pre_price"],                           
+                        ]);
+
+                    }
+                    
+                   
+                    
+
+                    
+                }
+
+            }
+
+        }
+        dd($list);
         /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);
         foreach($ret as $val){
             $arr = explode(",",$val["teacher_textbook"]);

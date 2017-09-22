@@ -1,6 +1,7 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
+	user_info:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -42,11 +43,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			user_info:	$('#id_user_info').val()
         });
     }
 
 
+	$('#id_user_info').val(g_args.user_info);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -56,4 +58,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_info</span>
+                <input class="opt-change form-control" id="id_user_info" />
+            </div>
+        </div>
 */

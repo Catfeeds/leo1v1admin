@@ -1106,50 +1106,22 @@ class common_new extends Controller
             return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
         }else{
             //期待贷款额度(分单位)
-            $money = $this->t_child_order_info->get_price($orderid);
+            // $money = $this->t_child_order_info->get_price($orderid);
 
             //分期期数
-            $period = $this->t_child_order_info->get_period_num($orderid);
+            // $period = $this->t_child_order_info->get_period_num($orderid);
+           
             //成交价格
             $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
-            $dealmoney = $this->t_order_info->get_price($parent_orderid);
+            //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
         
-            //订单id
-            // $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-
-
-
-
-            //$url = 'https://umoney.baidu.com/edu/openapi/post';
-            // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
-            $url="http://test.umoney.baidu.com/edu/openapi/post";
-
             $userid = $this->t_order_info->get_userid($parent_orderid);
+            $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
             $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
 
-            // RSA加密数据
-            $endata = array(
-                'username' => $user_info["nick"],
-                'mobile' => $user_info["phone"],
-                'email' => $user_info["email"],
-            );
+          
 
-            $rsaData = $this->enrsa($endata);
-
-
-            $arrParams = array(
-                'action' => 'sync_order_info',
-                'tpl' => 'leoedu',// 分配的tpl
-                'corpid' => 'leoedu',// 分配的corpid
-                'orderid' => $orderNo,// 机构订单号
-                'money' => $money,// 期望贷款额度（分单位）
-                'dealmoney' => $dealmoney,// 成交价格（分单位）>= 期望额度+首付额度
-                'period' => $period,// 期数
-                'courseid' => 'HXSD0101003',// 课程id（会分配）
-                'coursename' => '理优分期课程',// 课程名称
-                'oauthid' => $userid,// 用户id 机构方提供
-                'data' => $rsaData,
-            );
+            $arrParams = [];
 
             $strSecretKey = '9v4DvTxOz3';// 分配的key
             $arrParams['sign'] = $this->createBaseSign($data, $strSecretKey);
@@ -1170,6 +1142,48 @@ class common_new extends Controller
                         "百度分期付款通知",
                         "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
                         "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "百度分期付款通知",
+                        "百度分期付款通知",
+                        "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
+                        "");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "百度分期付款通知",
+                        "百度分期付款通知",
+                        "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
+                        "");
+
+                    $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+                    if(empty($all_order_pay)){
+                        $this->t_order_info->field_update_list($parent_orderid,[
+                            "order_status" =>1,
+                            "contract_status"=>1,
+                            "pay_time"       =>time()
+                        ]);
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "echo",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "/user_manage_new/money_contract_list?studentid=$userid");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            $sys_operator,
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+                        $this->t_manager_info->send_wx_todo_msg(
+                            "jack",
+                            "合同付款通知",
+                            "合同已支付全款",
+                            "学生:".$user_info["nick"]." 合同已支付全款",
+                            "");
+
+ 
+                    }
+
 
                 }
                 return $this->output_succ(["status"=>0,"msg"=>"success"]);
