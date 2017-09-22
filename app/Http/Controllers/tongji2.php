@@ -469,9 +469,10 @@ class tongji2 extends Controller
 
     public function check_up_group_adminid(){
         $adminid = $this->get_account_id();
-        $groupid = $this->t_admin_main_group_name->get_groupid_by_master_adminid($adminid);
+        $groupid = $this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
+        $up_groupid = $this->t_admin_main_group_name->get_groupid_by_master_adminid($adminid);
         $ret = 0;
-        if($groupid){
+        if($groupid || $up_groupid){
             $ret = 1;
         }
         return $ret;
