@@ -15,7 +15,7 @@ class grab_lesson extends Controller
         $grab_lesson_link = $this->get_in_str_val('url');
         $live_time        = $this->get_in_int_val('live_time');
         $create_time      = $this->get_in_int_val('create_time');
-        $adminid          = $this->get_in_int_val('create_time');
+        $requireids       = $this->get_in_str_val('requireids');
         $adminid          = $this->get_account_id();
 
         $ret = $this->t_grab_lesson_link_info->row_insert([
@@ -23,6 +23,7 @@ class grab_lesson extends Controller
             'live_time'        => $live_time,
             'create_time'      => $create_time,
             'adminid'          => $adminid,
+            'requireids'       => $requireids,
             ]);
         // $id=$this->t_grab_lesson_link_info->get_last_insertid();
         if ($ret) {

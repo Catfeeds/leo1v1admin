@@ -5,17 +5,17 @@ $(function(){
     var cur_url = window.location.href;
     var grabid = 0;
     var visitid = 0;
-    var operation = 0;
-    var add_or_update_visit = function(cur_url, grabid, visitid, operation){
+    var add_or_update_visit = function(cur_url, grabid, visitid, requireid, succ_flag){
         $.ajax({
             type    : "post",
             url     : "/teacher_info/grab_visit_info",
             dataType: "json",
             data    : {
-                'cur_url'   : cur_url,
-                'grabid'    : grabid,
-                'visitid'   : visitid,
-                'operation' : operation,
+                'cur_url'      : cur_url,
+                'grabid'       : grabid,
+                'visitid'      : visitid,
+                'requireid'    : requireid,
+                'success_flag' : succ_flag,
             },
             success : function (ret){
                 console.log(typeof ret)
@@ -26,18 +26,18 @@ $(function(){
                     operation = ret.return_info.operation;
                     if(operation == 0) {
                         $('#test_succ').on('click', function(){
-                            add_or_update_visit(cur_url, grabid, visitid, 2);
+                            add_or_update_visit(cur_url, grabid, visitid, 1,1);
                         })
 
                         $('#test_err').on('click', function(){
-                            add_or_update_visit(cur_url, grabid, visitid, 1);
+                            add_or_update_visit(cur_url, grabid, visitid, 1,0);
                         })
                     }
                 }
            }
         });
     }
-    add_or_update_visit(cur_url, grabid, visitid, operation);
+    add_or_update_visit(cur_url, grabid, visitid, 0,0);
 
 
     $('#id_start_date').val(g_args.start_date);
