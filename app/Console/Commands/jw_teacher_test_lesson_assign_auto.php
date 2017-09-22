@@ -47,8 +47,9 @@ class jw_teacher_test_lesson_assign_auto extends Command
         if(!empty($seller_top_list)){
             foreach($seller_top_list as $item){
             
-                $num_all = count($jw_leader_list);
-                $i=0;
+                // $num_all = count($jw_leader_list);
+                // $i=0;
+                $seller_arr=[];
                 foreach($jw_leader_list as $k=>$val){
                     $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
                     if (!$json_ret) {

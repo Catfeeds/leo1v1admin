@@ -57,7 +57,7 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01" )  );
-        $id_history_data = $this->get_in_int_val('history_data');
+        $history_data = $this->get_in_int_val('history_data');
 
         $ret_info_arr["page_info"] = array(
             "total_num"      => 1,
@@ -65,91 +65,95 @@ class main_page extends Controller
             "page_num"       => 1,
         );
 
-        $ret_info = &$ret_info_arr['list'];
+        if($history_data){ // 0:是历史数据 1:否历史数据
+            $ret_info = &$ret_info_arr['list'];
+            $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
+            $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-        $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
-        $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+            $income_price = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
+            $income_count = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
 
-        $income_price = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
-        $income_count = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
+            if($income_count>0){
+                $aver_count = $income_price/$income_count;//平均单笔
+            }else{
+                $aver_count = 0;
+            }
 
-        if($income_count>0){
-            $aver_count = $income_price/$income_count;//平均单笔
-        }else{
-            $aver_count = 0;
+            $ret_info['income_num'] = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
+
+            $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+
+            $ret_info['formal_num']= $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
+
+            $total_price = 0;
+            foreach($ret_info['formal_info'] as $item){
+                $total_price += $item['all_price'];
+            }
+
+            if($ret_info['formal_num']>0){
+                $aver_money = $total_price/$ret_info['formal_num']; //平均人效
+            }else{
+                $aver_money = 0;
+            }
+
+            $month = date('Y-m-01');
+            $main_type = 2;// 销售
+            $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
+
+            // 计算电销人数
+            $first_group  = '咨询一部';
+            $second_group = '咨询二部';
+            $third_group  = '咨询三部';
+            $new_group    = '新人营';
+            $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
+            $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+            $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+            $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+            $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+            $seller_num_arr['first_num'] = $first_num;
+            $seller_num_arr['second_num'] = $second_num;
+            $seller_num_arr['third_num'] = $third_num;
+            $seller_num_arr['new_num'] = $new_num;
+
+            $ret_info['department_num_info'] = json_encode($seller_num_arr);
+
+            // 金额转化率占比
+            $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+            $high_school_money = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+            $junior_money      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
+            $primary_money     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+            // 月邀请率
+            // 合同人数
+            $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);
+
+            // 转化率
+            $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
+
+            $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
+
+            $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
+            $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
+
+            $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
+
+
+
+            //  外呼情况
+            $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+
+            $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
+
+            $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
+
+            $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
+
+            $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
+
+        }else{ // 历史数据 [从数据库中取]
+            $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
-
-        $ret_info['income_num'] = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
-
-        $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-
-        $ret_info['formal_num']= $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
-
-        $total_price = 0;
-        foreach($ret_info['formal_info'] as $item){
-            $total_price += $item['all_price'];
-        }
-
-        if($ret_info['formal_num']>0){
-            $aver_money = $total_price/$ret_info['formal_num']; //平均人效
-        }else{
-            $aver_money = 0;
-        }
-
-        $month = date('Y-m-01');
-        $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
-
-        // 计算电销人数
-        $first_group  = '咨询一部';
-        $second_group = '咨询二部';
-        $third_group  = '咨询三部';
-        $new_group    = '新人营';
-        $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
-        $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-        $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-        $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-        $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-        $seller_num_arr['first_num'] = $first_num;
-        $seller_num_arr['second_num'] = $second_num;
-        $seller_num_arr['third_num'] = $third_num;
-        $seller_num_arr['new_num'] = $new_num;
-
-        $ret_info['department_num_info'] = json_encode($seller_num_arr);
-
-        // 金额转化率占比
-        $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
-        $high_school_money = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
-        $junior_money      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
-        $primary_money     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
-
-        // 月邀请率
-        // 合同人数
-        $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);
-
-        // 转化率
-        $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
-
-        $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
-
-        $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-
-        $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
-
-        $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
-
-
-
-        //  外呼情况
-        $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-
-        $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
-
-        $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
-
-        $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
-
-        $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
             "seller_account" =>''
