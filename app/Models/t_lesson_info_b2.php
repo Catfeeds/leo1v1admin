@@ -27,9 +27,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type=2" ,
             "l.lesson_start ",
         ];
-        if($test_assess_flag == E\Etest_assess_flag::V_1){
+        if($test_assess_flag == E\Etest_assess_flag::V_2){
             $where_arr[] = 'tts.assess_adminid = 0';
-        }elseif($test_assess_flag == E\Etest_assess_flag::V_2){
+        }elseif($test_assess_flag == E\Etest_assess_flag::V_1){
             $where_arr[] = 'tts.assess_adminid <> 0';
         }
         $where_arr[] = $this->where_get_in_str("tr.cur_require_adminid",$require_adminid_list);
