@@ -84,7 +84,15 @@ class jw_teacher_test_lesson_assign_auto extends Command
 
                        
                         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 1);
+                        $require_lesson_time = date("Y-m-d",$item["stu_request_test_lesson_time"]);
+                        $url = "seller_student_new2/test_lesson_plan_list?date_type=2&opt_date_type=0&"
+                             ."start_time=".$require_lesson_time."&end_time=".$require_lesson_time."&"
+                             ."test_lesson_student_status=200&lessonid=undefined&is_test_user=0&"
+                             ."require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$val;
+
                         $task->t_manager_info->send_wx_todo_msg_by_adminid($val,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"],$url);
+                        $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"].",教务:".$val,$url);
+
                         break;
                
                     }

@@ -2335,11 +2335,14 @@ $(function(){
             var data = result.data;
             var arr=[
                 [ "学员姓名"  , student_name ],
+                [ "家长姓名"  , student_name ],
                 [ "收件人"  , addressee ],
                 [ "收件人电话"  , receive_phone],
                 [ "收件人地址"  , receive_addr],
+                /*
                 [ "每周课时"  , lesson_weeks],
                 [ "每节课时长"  , lesson_duration],
+                */
                 [ "申请时间"  , app_time],
                 // [ "备注"  , remark],
             ];
