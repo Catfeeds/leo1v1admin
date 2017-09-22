@@ -2541,6 +2541,8 @@ trait TeaPower {
 
     /**
      * 获取老师上个月的累计常规课时和累计常规+试听课时
+     * @param start_time 本月开始时间
+     * @param end_time   本月结束时间
      * @return array all_lesson_count 上月累计常规+试听课时  all_normal_count 上月累计常规课时
      */
     public function get_last_lesson_count_info($start_time,$end_time,$teacherid){
@@ -2563,15 +2565,44 @@ trait TeaPower {
     /**
      * 获取课程对应的累计课时
      * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
-     * @param lesson_already_lesson_count int t_lesson_info中课程上的累计课时
-     * @param teacher_money_type int t_lesson_info中课程上的老师工资类型
-     * @param teacher_type int t_teacher_info中老师类型
-     * @return already_lesson_count int 课程计算的累计课时
+     * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
+     * @param teacher_money_type t_lesson_info中课程上的老师工资类型
+     * @param teacher_type t_teacher_info中老师类型
+     * @return int 课程计算的累计课时
      */
     public function get_lesson_already_lesson_count(
         $last_lesson_count,$lesson_already_lesson_count,$teacher_money_type,$teacher_type
     ){
+        $check_type = \App\Helper\Utils::check_teacher_money_type($teacher_money_type,$teacher_type);
+        switch($check_type){
+        case 1: case 3:
+            $already_lesson_count = $lesson_already_lesson_count;
+            break;
+        case 2:
+            $already_lesson_count = $last_lesson_count['all_lesson_count'];
+            break;
+        case 4:
+            $already_lesson_count = $last_lesson_count['all_normal_count'];
+            break;
+        default:
+            $already_lesson_count = 0;
+            break;
+        }
+        return $already_lesson_count;
+    }
 
+    /**
+     * 获取课程的课时奖励
+     * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
+     * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
+     * @param teacher_money_type t_lesson_info中课程上的老师工资类型
+     * @param teacher_type t_teacher_info中老师类型
+     * @param type 老师工资类型对应的课时奖励类型
+     */
+    public function get_lesson_reward_money(
+        $last_lesson_count,$lesson_already_lesson_count,$teacher_money_type,$teacher_type,$reward_type
+    ){
+        
     }
 
     /**
