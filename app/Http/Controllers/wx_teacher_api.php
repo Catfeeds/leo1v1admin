@@ -736,8 +736,13 @@ class wx_teacher_api extends Controller
         $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $start_time, $end_time);
         $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $start_time, $end_time);
 
+        $is_teacher_flag = 0;
+        $is_student_flag = 0;
+        foreach($teacher_lesson_time as $tea_item){
+            if($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']){
 
-
+            }
+        }
 
 
 

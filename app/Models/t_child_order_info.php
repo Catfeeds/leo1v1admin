@@ -43,7 +43,8 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     public function get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            "c.price>0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
@@ -66,12 +67,17 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,"
                                   ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
-                                  ." o.lesson_left",
+                                  ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
+                                  ."s.lesson_count_left "
+                                  ." from %s c left join %s o on c.parent_orderid=o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        return $this->main_get_list_by_page($sql,$page_info);
 
     }
 
