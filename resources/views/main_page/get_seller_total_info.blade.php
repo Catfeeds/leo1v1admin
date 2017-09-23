@@ -64,8 +64,8 @@
                                         <td> {{@$ret_info['income_price']}}</td>
                                         <td> {{@$ret_info['income_count']}} </td>
                                         <td> {{@$ret_info['aver_count']}} </td>
-                                        <td> {{@$ret_info['income_count']}} </td>
-                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@$ret_info['formal_num']}} </td>
+                                        <td> {{@$ret_info['aver_count']}} </td>
                                         <td class="panel-yellow" > {{@$ret_info['income_count']}} </td>
                                         <td> {{@$ret_info['income_count']}} </td>
                                     </tr>
