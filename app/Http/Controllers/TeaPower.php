@@ -2595,9 +2595,9 @@ trait TeaPower {
     /**
      * 获取常规课程的课时奖励
      * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
-     * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
-     * @param teacher_money_type t_lesson_info中课程上的老师工资类型
-     * @param teacher_type t_teacher_info中老师类型
+     * @param lesson_already_lesson_count t_lesson_info 中课程上的累计课时
+     * @param teacher_money_type t_lesson_info 中课程上的老师工资类型
+     * @param teacher_type t_teacher_info 中老师类型
      * @param type 老师工资类型对应的课时奖励类型
      */
     public function get_lesson_reward_money(
@@ -2617,6 +2617,15 @@ trait TeaPower {
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $teacher_ref_type   = $teacher_info['teacher_ref_type'];
         $teacher_money_type = $teacher_info['teacher_money_type'];
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        if(!empty($lesson_list)){
+            foreach($lesson_list as $val){
+
+            }
+        }
+
+
     }
 
     /**
@@ -2663,7 +2672,8 @@ trait TeaPower {
         }
         foreach($reward_list as $val){
             $reward_key = $val['type'];
-            $data[$reward_key]['money'] += $val['money'];
+            $reward_money = $val['money']/100;
+            $data[$reward_key]['money'] += $reward_money;
         }
         $data['list'] = $reward_list;
         return $data;

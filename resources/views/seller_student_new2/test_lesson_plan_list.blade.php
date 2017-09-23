@@ -287,7 +287,6 @@
                                     教材：{{$var["editionid_str"]}}<br/>
                                     试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
                                     近期成绩: {{$var["recent_results"]}} <br/> 
-                                    是否进步: {{$var["advice_flag_str"]}} <br/>
                                     班级排名: {{$var["class_rank"]}} <br/>
                                     年级排名: {{$var["grade_rank"]}} <br/>
                                     学习习惯  : {{$var["study_habit"]}} <br/>
@@ -326,10 +325,14 @@
                                     升学目标: {{$var["academic_goal_str"]}} <br/>
                                     应试压力 : {{$var["test_stress_str"]}} <br/>
                                     升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
-                                    趣味培养 : {{$var["interest_cultivation_str"]}} <br/>
                                     课外提高 : {{$var["extra_improvement_str"]}} <br/>
                                     习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
-                                    知识点定位  : {{$var["knowledge_point_location"]}} <br/>
+                                    试听内容  :
+                                    @if(!empty($var["knowledge_point_location"]))
+                                        {{$var["knowledge_point_location"]}} <br/>
+                                    @else
+                                        {{$var["stu_request_test_lesson_demand"]}}<br/>
+                                    @endif
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>

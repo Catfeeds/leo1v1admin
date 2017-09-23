@@ -3172,13 +3172,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            "m.become_full_member_time <= $check_time"
+            "m.become_full_member_time <= $check_time or m.create_time<=$check_time",
+            "m.del_flag=0"
         ];
 
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count"
+        $sql = $this->gen_sql_new("select  sum(price)/100 as all_price"
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3190,7 +3191,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
 

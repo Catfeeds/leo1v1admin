@@ -62,12 +62,12 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td> {{@$ret_info['income_price']}}</td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td class="panel-yellow" > 存档 </td>
-                                        <td> 节点 </td>
+                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@$ret_info['formal_info']}} </td>
+                                        <td> {{@$ret_info['formal_num']}} </td>
+                                        <td> {{@$ret_info['aver_money']}} </td>
+                                        <td> {{@$ret_info['aver_count']}} </td>
+                                        <td> {{@$ret_info['income_count']}} </td>
                                     </tr>
                                 </tbody>
                             </table>

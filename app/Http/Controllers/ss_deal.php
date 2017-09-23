@@ -571,7 +571,7 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");
         // $stu_request_test_lesson_time_info = $this->get_in_str_val("stu_request_test_lesson_time_info");
         // $stu_request_lesson_time_info      = $this->get_in_str_val("stu_request_lesson_time_info");
-        //  $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
+        $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
         // $stu_test_lesson_level = $this->get_in_str_val("stu_test_lesson_level");
 
 
@@ -594,7 +594,7 @@ class ss_deal extends Controller
         $demand_urgency    = $this->get_in_int_val("demand_urgency");//需求急迫性
         $quotation_reaction    = $this->get_in_int_val("quotation_reaction");//报价反应
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
-        $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
+        $knowledge_point_location     = trim($this->get_in_str_val("knowledge_point_location"));//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
         $city      = $this->get_in_str_val("city");//市.区
         $area      = $this->get_in_str_val("area");//县市
@@ -752,14 +752,14 @@ class ss_deal extends Controller
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
             //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-            //"stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+           "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             // "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
             "textbook"                  => $textbook,
             "intention_level"                    => $intention_level,
             "demand_urgency"                     =>$demand_urgency,
             "quotation_reaction"                 =>$quotation_reaction,
-            "knowledge_point_location"           =>$knowledge_point_location,
+            // "knowledge_point_location"           =>$knowledge_point_location,
             "recent_results"                     =>$recent_results,
             "advice_flag"                        =>$advice_flag,
             "stu_test_paper"                     =>$stu_test_paper
