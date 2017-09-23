@@ -590,7 +590,7 @@ class common extends Controller
         $check_time = strtotime("2017-10-8");
         if(time()<$check_time){
             $activity_flag=1;
-            $phone_qr_name = $phone."_guoqing_day_qr.png";
+            $phone_qr_name = $phone."_guoqing_pic_qr.png";
         }else{
             $phone_qr_name = $phone."_qr.png";
         }
