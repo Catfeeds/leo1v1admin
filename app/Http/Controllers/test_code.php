@@ -1979,7 +1979,7 @@ class test_code extends Controller
      * 切换老师后,更新课程信息
      */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-22 16:00");
+        $time  = strtotime("2017-9-23 19:30");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
@@ -1989,10 +1989,10 @@ class test_code extends Controller
                                      ."|new_level:".$val['new_level']
                                      ."|old_level:".$val['old_level'];
                 echo "<br>";
-                // $this->t_lesson_info->field_update_list($val['lessonid'],[
-                //     "teacher_money_type" => $val['new_teacher_money_type'],
-                //     "level"              => $val['new_level'],
-                // ]);
+                $this->t_lesson_info->field_update_list($val['lessonid'],[
+                    "teacher_money_type" => $val['new_teacher_money_type'],
+                    "level"              => $val['new_level'],
+                ]);
             }
         }
     }
@@ -2014,7 +2014,7 @@ class test_code extends Controller
          * {{remark.DATA}}
          */
         $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-        $data['keyword3'] = "16:00";
+        $data['keyword3'] = "19:30";
         $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
         foreach($list as $val){
             // $this->t_teacher_info->field_update_list($val['teacherid'],[

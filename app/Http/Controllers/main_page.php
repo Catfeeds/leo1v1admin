@@ -161,7 +161,8 @@ class main_page extends Controller
 
             //  外呼情况
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-            $ret_info['claim_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  认领量
+
+            $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
 
             $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
 

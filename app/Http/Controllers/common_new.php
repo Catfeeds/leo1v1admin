@@ -1237,5 +1237,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
+    //建行回调地址
+    public function ccb_callback_return_info(){
+        $orderNo = $this->get_in_str_val("ORDERID");
+        $posid   = $this->get_in_str_val("POSID");
+        $branchid = $this->get_in_str_val("BRANCHID");
+        $payment  = $this->get_in_str_val("PAYMENT");
+        $curcode = $this->get_in_str_val("CURCODE");
+        $remark1 = $this->get_in_str_val("REMARK1");
+        $remark2 = $this->get_in_str_val("REMARK2");
+        $success = $this->get_in_str_val("SUCCESS");
+        $sign = $this->get_in_str_val("SIGN");
+        
+    }
+
+
 
 }

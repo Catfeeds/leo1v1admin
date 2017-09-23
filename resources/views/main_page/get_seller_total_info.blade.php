@@ -177,7 +177,7 @@
                                     <tr>
                                         <td> {{@$ret_info['seller_call_num']}} </td>
                                         <td> {{@number_format($ret_info['succ_called_rate'],2)}}% </td>
-                                        <td> {{@$ret_info['seller_invit_num']}}</td>
+                                        <td> {{@$ret_info['claim_num']}}</td>
                                         <td> {{@$ret_info['seller_invit_num']}}</td>
                                         <td> {{@$ret_info['un_consumed']}} </td>
                                         <td> {{@number_format($ret_info['stu_consume_rate'],2)}} </td>
