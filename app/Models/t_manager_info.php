@@ -513,7 +513,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s m on g.up_groupid = m.groupid".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
-                                  // " where %s and am.del_flag=0".
                                   " where %s ".
                                   "  group by am.uid",
                                   self::DB_TABLE_NAME,//am
