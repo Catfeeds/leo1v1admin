@@ -163,14 +163,14 @@
                                 <thead>
                                     <tr>
                                         <td>呼出量</td>
-                                        <td>试听排课数</td>
-                                        <td class="panel-red">试听成功数</td>
-                                        <td class="panel-red">签单数</td>
-                                        <td class="panel-red">月邀请率</td>
-                                        <td class="panel-red">月排课率</td>
-                                        <td class="panel-red">月到课率</td>
-                                        <td class="panel-red">月试听转化率</td>
-                                        <td class="panel-red">月签约率</td>
+                                        <td>接通率</td>
+                                        <td class="panel-red">认领率</td>
+                                        <td class="panel-red">邀约数</td>
+                                        <td class="panel-red">未消耗例子数</td>
+                                        <td class="panel-red">月例子消耗数</td>
+                                        <td class="panel-red">人均呼出量</td>
+                                        <td class="panel-red">人均邀约数</td>
+                                        <td class="panel-red">人均通时</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">

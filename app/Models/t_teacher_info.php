@@ -2542,6 +2542,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_level_info_new($page_info,$start_time){
         $where_arr=[
             'm.account_role in(4,9)',
+            'm.del_flag=0'
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time,"
                                   ." m.create_time, "
