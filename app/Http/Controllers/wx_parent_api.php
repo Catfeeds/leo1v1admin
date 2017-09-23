@@ -57,7 +57,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_parentid(){
-        $parentid= $this->get_in_int_val("_parentid") ? $this->get_in_int_val("_parentid") : session("parentid");
+        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
         return $parentid;
     }
 

@@ -499,6 +499,14 @@ class stu_manage extends Controller
             $bind_fail_flag=0;
             $this->t_parent_child->start_transaction();
             $ret_info = $this->t_parent_child->set_student_parent($parentid,$studentid,$parent_type);
+
+            //查询该手机对应的帐号是否为家长登录帐号
+            if (!$this->t_phone_to_user->get_info_by_userid($parentid)) {
+                $this->t_phone_to_user->set_userid($phone,"parent",$parentid); 
+            }
+
+
+            
             if($ret_info){
                 $parent_name = $this->t_parent_info->get_nick($parentid);
                 $ret_info    = $this->t_student_info->field_update_list($studentid,[

@@ -951,7 +951,7 @@ trait TeaPower {
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-        $limit_num = 1000;
+        $limit_num = 150;
         if($account_role==2 && $is_green_flag){
             if($master_adminid==287){
                 $limit_num= ceil($require_month[$m]*0.027);

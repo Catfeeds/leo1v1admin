@@ -27,6 +27,7 @@ class url_power_map {
 			'/user_manage/index'	=>1010200,
 			'/user_manage_new/account_list'	=>1012100,
 			'/user_manage/contract_list'	=>1010300,
+			'/period_order/get_all_payed_order_info'	=>1011000,
 			'/user_manage/parent_archive'	=>1010400,
 			'/user_manage/pc_relationship'	=>1010800,
 			'/user_manage_new/notify_phone'	=>1010706,

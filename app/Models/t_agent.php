@@ -1176,6 +1176,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $set_open_list=[];
         $order_count=0;
         $l2_agent_status_all_money=0;
+        $need_set_open_list_count=0;
         foreach( $l2_child_list as $item ) {
             $child_id=$item["id"];
             $pp_agent_status_money_open_flag = $item["pp_agent_status_money_open_flag"];
@@ -1207,9 +1208,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         }
 
-        //8倍提现
         $succ_lesson_cont=count($set_open_list );
-        $need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %8 ;
+        //8倍提现
+        //$need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %8 ;
+        $need_set_open_list_count= $succ_lesson_cont;
 
         foreach ( $set_open_list as  $index => $item  ) {
             $child_id=$item["id"];
@@ -1239,6 +1241,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $l1_child_list=$this-> get_l1_test_lesson_order_list($id);
         $set_open_list=[];
         $order_count=0;
+        $need_set_open_list_count=0;
         $l1_agent_status_all_money=0;
         foreach( $l1_child_list as $item ) {
             $child_id=$item["id"];
@@ -1273,9 +1276,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             //a.id, lesson_user_online_status ,
         }
 
-        //4倍提现
         $succ_lesson_cont=count($set_open_list );
-        $need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %4 ;
+        //4倍提现
+        //$need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %4 ;
+        $need_set_open_list_count= $need_set_open_list_count;
 
         foreach ( $set_open_list as  $index => $item  ) {
             $child_id=$item["id"];

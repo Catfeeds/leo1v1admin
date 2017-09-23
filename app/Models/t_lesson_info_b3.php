@@ -915,6 +915,24 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function check_lesson_teacher_money_type(){
+        $where_arr = [
+            ["lesson_start>%u",time(),0],
+            "lesson_status=0",
+            "lesson_type<1000",
+            "(l.teacher_money_type!=t.teacher_money_type or l.level!=t.level)",
+        ];
+        $sql = $this->gen_sql_new("select l.lessonid,l.teacher_money_type as l_teacher_money_type,l.level as l_level,"
+                                  ." t.teacher_money_type,t.level"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }

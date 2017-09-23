@@ -240,6 +240,8 @@ class testbb extends Controller
 
     public function ss(){
 
+        $aa = $this->t_parent_info->get_xx();
+        dd($aa);
         $start_time = strtotime(date('Y-m-d','1506130271'));
 
         dd($start_time);

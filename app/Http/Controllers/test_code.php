@@ -2154,6 +2154,27 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 检测课程的老师工资类型
+     */
+    public function CheckLessonTeacherMoneyType(){
+
+        $list = $this->t_lesson_info_b3->check_lesson_teacher_money_type();
+        dd($list);
+        foreach($list as $val){
+            $this->t_lesson_info->field_update_list($val['lessonid'],[
+                "teacher_money_type" => $val['teacher_money_type'],
+                "level"              => $val['level'],
+            ]);
+            echo "has update :".$val['lessonid'];
+        }
+
+    }
+
+
+    /**
+     * 老师所带学生数
+     */
     public function get_tea_stu_num(){
         $month_start = $this->get_in_int_val("month_start");
         $month_end   = $this->get_in_int_val("month_end");
@@ -2174,6 +2195,8 @@ class test_code extends Controller
                 $not_num++;
             }
         }
+        echo "姓名|结课学员|所带学生";
+        echo "<br>";
         echo "$name|".$not_num."|".$num;
         echo "<br>";
     }

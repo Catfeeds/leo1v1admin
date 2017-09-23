@@ -33,6 +33,7 @@ class menu{
                 ["power_id"=>2, "name"=>"学员档案",   "url"=>"/user_manage/index"],
                 ["power_id"=>21, "name"=>"账号登录管理",   "url"=>"/user_manage_new/account_list"],
                 ["power_id"=>3, "name"=>"合同管理",   "url"=>"/user_manage/contract_list"],
+                ["power_id"=>10, "name"=>"分期合同管理",   "url"=>"/period_order/get_all_payed_order_info"],
                 ["power_id"=>4, "name"=>"家长档案",   "url"=>"/user_manage/parent_archive"],
                 ["power_id"=>8, "name"=>"家长<>学生",   "url"=>"/user_manage/pc_relationship"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
