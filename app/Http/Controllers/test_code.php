@@ -2161,9 +2161,10 @@ class test_code extends Controller
         if($teacherid==0){
             return $this->output_err("id不能为0");
         }
+
         $start_time = strtotime("2017-$month_start");
         $end_time   = strtotime("+1 month",strtotime("2017-$month_end"));
-
+        $name = $this->t_teacher_info->get_realname($teacherid);
         $list = $this->t_lesson_info_b3->get_tea_stu_num_list($start_time,$end_time,$teacherid);
         $not_num=0;
         $num=0;
@@ -2173,7 +2174,7 @@ class test_code extends Controller
                 $not_num++;
             }
         }
-        echo "$val|".$not_num."|".$num;
+        echo "$name|".$not_num."|".$num;
         echo "<br>";
     }
 
