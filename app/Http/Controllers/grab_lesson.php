@@ -11,16 +11,19 @@ class grab_lesson extends Controller
 {
 
     public function make_lesson_link(){
+        $max_num = pow(2,31) -1;
         $grab_lesson_link = $this->get_in_str_val('url');
-        $live_time        = $this->get_in_int_val('live_time');
-        $create_time      = $this->get_in_int_val('create_time');
+        $live_time        = ( $this->get_in_int_val('live_time') ) * 60;
         $requireids       = $this->get_in_str_val('requireids');
         $adminid          = $this->get_account_id();
 
+        if ( $live_time >= $max_num ) {
+            $live_time = 2147483647;
+        }
         $ret = $this->t_grab_lesson_link_info->row_insert([
             'grab_lesson_link' => $grab_lesson_link,
             'live_time'        => $live_time,
-            'create_time'      => $create_time,
+            'create_time'      => time(),
             'adminid'          => $adminid,
             'requireids'       => $requireids,
             ]);
