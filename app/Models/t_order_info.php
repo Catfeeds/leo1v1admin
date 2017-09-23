@@ -836,7 +836,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
 
-    public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 10" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
+    public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
 
         $where_arr = [
             "is_test_user=0",
