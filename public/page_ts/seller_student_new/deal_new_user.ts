@@ -615,7 +615,8 @@ $(function(){
                     var xing=$.trim(data.name).substr(0,1);
                     var dlg=BootstrapDialog.show({
                         title: "发送信息内容:",
-                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+g_args.phone,
+                        // message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+g_args.phone,
+                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+data.phone,
                         closable: true,
                         buttons: [{
                             label: '返回',
@@ -665,7 +666,7 @@ $(function(){
             var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-            // var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
+            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
             //  var id_stu_score_info = html_node.find("#id_stu_score_info");
             // var id_stu_character_info = html_node.find("#id_stu_character_info");
             // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
@@ -1224,7 +1225,7 @@ $(function(){
 
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
-            //  id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
+            id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
             // id_stu_score_info.val(data.stu_score_info);
             // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
@@ -1302,7 +1303,7 @@ $(function(){
                             editionid : id_editionid.val(),
                             school: id_school.val(),
                             stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            //  stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
+                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
                             // stu_score_info:id_stu_score_info.val(),
                             // stu_test_lesson_level:id_stu_test_lesson_level.val(),
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
@@ -1325,7 +1326,7 @@ $(function(){
                             need_teacher_style: html_node.find("#id_need_teacher_style").val(),
                             demand_urgency: html_node.find("#id_demand_urgency").val(),
                             quotation_reaction: html_node.find("#id_quotation_reaction").val(),
-                            knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
+                          //  knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
                             recent_results: html_node.find("#id_recent_results").val(),
                             advice_flag: html_node.find("#id_advice_flag").val(),
                             province: province,

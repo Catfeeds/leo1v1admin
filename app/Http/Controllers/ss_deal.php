@@ -571,7 +571,7 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");
         // $stu_request_test_lesson_time_info = $this->get_in_str_val("stu_request_test_lesson_time_info");
         // $stu_request_lesson_time_info      = $this->get_in_str_val("stu_request_lesson_time_info");
-        //  $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
+        $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
         // $stu_test_lesson_level = $this->get_in_str_val("stu_test_lesson_level");
 
 
@@ -602,9 +602,6 @@ class ss_deal extends Controller
         $province      = $this->get_in_int_val("province");//省
         $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
 
-        if(empty($knowledge_point_location)){
-            return $this->output_err("请提交试听内容!");
-        }
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
         } else {
@@ -755,14 +752,14 @@ class ss_deal extends Controller
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
             //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-            //"stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+           "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             // "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
             "textbook"                  => $textbook,
             "intention_level"                    => $intention_level,
             "demand_urgency"                     =>$demand_urgency,
             "quotation_reaction"                 =>$quotation_reaction,
-            "knowledge_point_location"           =>$knowledge_point_location,
+            // "knowledge_point_location"           =>$knowledge_point_location,
             "recent_results"                     =>$recent_results,
             "advice_flag"                        =>$advice_flag,
             "stu_test_paper"                     =>$stu_test_paper
@@ -780,10 +777,6 @@ class ss_deal extends Controller
             $tt_arr["subject"]=$subject;
         }
 
-        $stu_request_test_lesson_demand = $this->$this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
-        if(empty($stu_request_test_lesson_demand)){
-            $tt_arr["stu_request_test_lesson_demand"] =  $knowledge_point_location;
-        }
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
         //更新 seller_student_status
