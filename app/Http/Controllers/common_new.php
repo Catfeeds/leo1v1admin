@@ -1248,6 +1248,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $remark2 = $this->get_in_str_val("REMARK2");
         $success = $this->get_in_str_val("SUCCESS");
         $sign = $this->get_in_str_val("SIGN");
+        $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
+ 
+        
         
     }
 
