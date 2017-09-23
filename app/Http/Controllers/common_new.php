@@ -1249,7 +1249,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $success = $this->get_in_str_val("SUCCESS");
         $sign = $this->get_in_str_val("SIGN");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
-        $der_data = "";
+        $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
         $pem = chunk_split(base64_encode(hex2bin($der_data)), 64, "\n");
 
         $public_key = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
