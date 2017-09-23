@@ -61,13 +61,13 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['income_price']}}</td>
+                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
                                         <td> {{@$ret_info['income_count']}} </td>
-                                        <td> {{@$ret_info['formal_info']}} </td>
+                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
-                                        <td> {{@$ret_info['aver_money']}} </td>
-                                        <td> {{@$ret_info['aver_count']}} </td>
-                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
+                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,16 +96,16 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td class="panel-yellow" > 存档 </td>
-                                        <td> 节点 </td>
+                                        <td> {{@$ret_info['seller_num']}} </td>
+                                        <td> {{@$ret_info['first_num']}}  </td>
+                                        <td> {{@$ret_info['second_num']}} </td>
+                                        <td> {{@$ret_info['third_num']}} </td>
+                                        <td> {{@$ret_info['new_num']}} </td>
+                                        <td> {{@$ret_info['traing_num']}}</td>
+                                        <td> {{@number_format($ret_info['referral_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['high_school_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['junior_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['primary_money_rate'],2)}}% </td>
                                     </tr>
                                 </tbody>
                             </table>

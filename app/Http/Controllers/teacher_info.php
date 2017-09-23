@@ -2156,7 +2156,7 @@ class teacher_info extends Controller
         }
 
         $return_info['grabid'] = $grabid;
-        if ($visitid == 0 & $grabid >0) {//首次打开页面，记录为访问
+        if ($visitid == 0 & $grabid >0) {//首次打开页面,自动记录
             $ret = $this->t_grab_lesson_link_visit_info->row_insert([
                 'grabid' => $grabid,
                 'teacherid' => $teacherid,
@@ -2168,21 +2168,37 @@ class teacher_info extends Controller
             $return_info['visitid'] = $visitid;
             $return_info['operation'] = 0;
             return outputjson_success(['return_info' => $return_info]);
-        } else if ($visitid > 0 & $grabid >0) {//记录抢课信息
+        }
+
+        if ($visitid > 0 & $grabid >0) {//点击抢课，记录信息
 
             $this->t_grab_lesson_link_visit_info->field_update_list(['visitid'=> $visitid],[
                 'teacherid' => $teacherid,
                 'operation' => 1,
             ]);
 
-            $ret = $this->t_grab_lesson_link_visit_operation->row_insert([
-                'visitid'     => $visitid,
-                'teacherid'   => $teacherid,
-                'create_time' => time(),
-                'requireid'   => $requireid,
-                'success_flag'=> $success_flag,
-            ]);
+            $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid);
 
+            if ($operationid > 0 ){
+
+                $ret = $this->t_grab_lesson_link_visit_operation->field_update_list(['operationid'=>$operationid],[
+                    'visitid'     => $visitid,
+                    'teacherid'   => $teacherid,
+                    'create_time' => time(),
+                    'success_flag'=> $success_flag,
+                ]);
+
+            } else {
+
+                $ret = $this->t_grab_lesson_link_visit_operation->row_insert([
+                    'visitid'     => $visitid,
+                    'teacherid'   => $teacherid,
+                    'create_time' => time(),
+                    'requireid'   => $requireid,
+                    'success_flag'=> $success_flag,
+                ]);
+
+            }
 
         }
     }

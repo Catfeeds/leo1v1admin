@@ -948,7 +948,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     }
 
     public function get_no_demand_list(){
-        $sql = $this->gen_sql_new("select * from %s where stu_request_test_lesson_demand ='' or stu_request_test_lesson_demand is null limit 1000",self::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select * from %s where stu_request_test_lesson_demand ='' and knowledge_point_location<>''",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 }
