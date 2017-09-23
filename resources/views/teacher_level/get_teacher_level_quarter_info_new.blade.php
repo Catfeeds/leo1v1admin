@@ -3,25 +3,14 @@
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
         <div>
-            <div class="row" >                              
-               
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">类型</span>
-                        <select class="opt-change form-control " id="id_teacher_money_type" >
-                        </select>
-                    </div>
-                </div>               
+            <div class="row" >
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
-                </div>                
-
-
-
+                </div>
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>老师</td>
@@ -47,7 +36,6 @@
                                 @if($var["hand_flag"]==1)
                                     <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                 @endif
-
                             </div>
                         </td>
                     </tr>
@@ -56,6 +44,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
