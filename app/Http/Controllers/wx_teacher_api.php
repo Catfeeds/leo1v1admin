@@ -738,44 +738,45 @@ class wx_teacher_api extends Controller
 
         $is_teacher_flag = 0;
         $is_student_flag = 0;
-        $conflict_time   = '';
+        $conflict_time_tea  = '';
+        $conflict_time_stu  = '';
         foreach($teacher_lesson_time as $tea_item){
             if($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_end){
                 $is_teacher_flag = 1;
-                $conflict_time = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
+                $conflict_time_tea = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
             }elseif($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_start){
                 $is_teacher_flag = 1;
-                $conflict_time = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
+                $conflict_time_tea = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
             }elseif($tea_item['lesson_start']<$lesson_time_end && $tea_item['lesson_end']>$lesson_time_end){
                 $is_teacher_flag = 1;
-                $conflict_time = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
+                $conflict_time_tea = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
             }elseif($tea_item['lesson_start']>$lesson_time_end && $tea_item['lesson_end']<$lesson_time_end){
                 $is_teacher_flag = 1;
-                $conflict_time = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
+                $conflict_time_tea = date('H:i',$tea_item['lesson_start']).' ~ '.date('H:i',$tea_item['lesson_end']);
             }
         }
 
         foreach($student_lesson_time as $stu_item){
             if($stu_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_end){
                 $is_student_flag = 1;
-                $conflict_time = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
+                $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }elseif($stu_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_start){
                 $is_student_flag = 1;
-                $conflict_time = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
+                $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }elseif($stu_item['lesson_start']<$lesson_time_end && $tea_item['lesson_end']>$lesson_time_end){
                 $is_student_flag = 1;
-                $conflict_time = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
+                $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }elseif($stu_item['lesson_start']>$lesson_time_end && $tea_item['lesson_end']<$lesson_time_end){
                 $is_student_flag = 1;
-                $conflict_time = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
+                $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }
         }
 
 
         if($is_student_flag){
-            return $this->output_succ('您选择的课程与学生的上课时间重叠,请您重新选择!');
+            return $this->output_err('您选择的课程与学生的上课时间重叠,请您重新选择时间! [冲突时间:'.$conflict_time_stu.']');
         }elseif($is_teacher_flag){
-            return $this->output_succ('您选择的课程与学生的上课时间重叠,请您重新选择!');
+            return $this->output_err('您选择的课程与您的上课时间重叠,请您重新选择时间!  [冲突时间:'.$conflict_time_tea.']');
         }
 
 

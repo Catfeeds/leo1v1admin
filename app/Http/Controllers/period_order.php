@@ -27,8 +27,32 @@ class period_order extends Controller
         $page_info = $this->get_in_page_info();
         
         $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type);
-        foreach($list as $item){
-            
+        foreach($list["list"] as &$item){
+            E\Egrade::set_item_value_str($item);           
+            E\Econtract_status::set_item_value_str($item);
+            E\Econtract_type::set_item_value_str($item);
+            // E\Esubject::set_item_value_str($item);
+            // \App\Helper\Utils::unixtime2date_for_item($item, 'contract_starttime');
+            //\App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time',"_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, 'pay_time',"_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time',"_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time',"_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, 'order_time',"_str");
+            //\App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');          
+            $this->cache_set_item_assistant_nick($item,"assistantid", "assistant_nick");           
+            $item['lesson_total']         = $item['lesson_total']*$item['default_lesson_count']/100;
+            $item['order_left']           = $item['lesson_left']/100;
+            $item['competition_flag_str'] = $item['competition_flag']==0?"否":"是";
+            $item['price'] = $item['price']/100;
+            $item['order_price'] = $item['order_price']/100;                   
+
+            if ($item['contract_status'] == 0) {
+                $item['status_color'] = 'color:red';
+            } else {
+                $item['status_color'] = 'color:green';
+            }
+ 
         }
         dd($list);
   
