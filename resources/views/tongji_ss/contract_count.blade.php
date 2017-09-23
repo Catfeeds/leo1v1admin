@@ -105,6 +105,7 @@
                         <td>主管 </td>
                         <td>小组 </td>
                         <td>负责人 </td>
+                        <td>是否离职 </td>
                         <td>总金额 </td>
                         <td>已确认金额 </td>
                         <td>未确认金额 </td>
@@ -129,6 +130,7 @@
                             <td data-class_name="{{$var["account_class"]}}" class="account {{$var["group_name_class"]}} {{$var["account_class"]}}"  >
                                 {{$var["account"]}}
                             </td>
+                            <td> {{@$var["del_flag_str"]}} </td>
                             <td> {{@$var["all_price"]}} </td>
                             <td> {{@$var["all_price_suc"]}}</td>
                             <td> {{@$var["all_price_fail"]}} </td>
