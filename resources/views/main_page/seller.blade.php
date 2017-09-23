@@ -309,7 +309,7 @@
                                             @endif
                                             </span>
                                         </td>
-                                        <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left" width="100px">
+                                        <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left" width="150px">
                                             <img src="{{$var["group_img"]}}" width="30px" height="30px" alt="" />
                                             @if($key==0)
                                                 <font style="color:#F6A623;">{{$var["group_name"]}}</font>
