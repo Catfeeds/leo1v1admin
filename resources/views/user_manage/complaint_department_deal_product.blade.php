@@ -48,7 +48,9 @@
                                 <a class="btn fa fa-gavel opt-deal" title="处理投诉"></a>
                                 <a class="fa-list-alt opt-complaint-all btn fa" title="投诉处理详情"></a>
                                 <!-- <a title="手机拨打" class=" fa-phone  opt-telphone"></a> -->
-                                <a title="投诉图片" class="opt-complaint-img">图片</a>
+                                @if($var['complaint_img_url'])
+                                    <a title="投诉图片" class="opt-complaint-img">图片</a>
+                                @endif
                                 <a class="fa fa-times opt-del btn" title="删除"> </a>
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"></a> -->
                                 <!-- <a class="fa fa-times opt-del" title="删除"> </a>

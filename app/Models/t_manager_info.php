@@ -1704,6 +1704,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $check_time = time() - 30*86400;
         $where_arr = [
             "m.account_role=2",
+            "m.del_flag=0",
             "m.become_full_member_time <= $check_time"
         ];
 

@@ -56,6 +56,7 @@ class main_page extends Controller
 
 
     public function get_seller_total_info(){ // cc 总表信息
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
 
@@ -74,9 +75,9 @@ class main_page extends Controller
             $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
 
             if($ret_info['income_count']>0){
-                $aver_count = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
+                $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
             }else{
-                $aver_count = 0;
+                $ret_info['aver_count'] = 0; //平均单笔
             }
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
@@ -86,14 +87,14 @@ class main_page extends Controller
             $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
-            foreach($ret_info['formal_info'] as $item){
-                $total_price += $item['all_price'];
-            }
+            // foreach($ret_info['formal_info'] as $item){
+            //     $total_price += $item['all_price'];
+            // }
 
             if($ret_info['formal_num']>0){
-                $aver_money = $total_price/$ret_info['formal_num']; //平均人效
+                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
             }else{
-                $aver_money = 0;
+                $ret_info['aver_money'] = 0;
             }
 
             $month = date('Y-m-01');
@@ -150,13 +151,14 @@ class main_page extends Controller
 
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
-            dd($ret_info_arr);
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
 
-        
-        return $this->pageView(__METHOD__, $ret_info_arr);
+
+        return $this->pageView(__METHOD__, $ret_info_arr,[
+            "ret_info" => $ret_info_arr['list']
+        ]);
     }
 
 

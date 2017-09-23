@@ -275,7 +275,7 @@ $(function(){
                     return; 
                 }
                 if(ret.new_demand_flag ==1){
-                    if(ret.stu_nick=="" || ret.par_nick=="" || ret.grade==0 || ret.gender==0 || ret.address=="" ||  ret.school=="" || ret.class_rank=="" || ret.grade_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.interest_cultivation==0 || ret.habit_remodel==0 || ret.study_habit=="" || ret.interests_hobbies=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
+                    if(ret.stu_nick=="" || ret.grade==0 || ret.gender==0 || ret.address==""  || ret.class_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.study_habit=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
                         alert("请完善试听需求!");
                         $(me).parent().find(".opt-edit-new").click();
                         return; 
@@ -371,13 +371,18 @@ $(function(){
                                 BootstrapDialog.alert(resp.info);
                             }else{
                                 if(resp.seller_top_flag==1){
-                                    if(resp.top_num==30){
+                                    if(11){
+                                        var uu=40-resp.top_num-1;
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
+
+                                    }else if(resp.top_num==29){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
-                                    } else if(resp.top_num==35){
+                                    } else if(resp.top_num==34){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
-                                    } else if(resp.top_num==39){
+                                    } else if(resp.top_num==38){
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
                                     }else{
@@ -2246,7 +2251,7 @@ function init_edit() {
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
+                        header_list     : [ "id","性格特点" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,
@@ -2286,7 +2291,7 @@ function init_edit() {
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
+                        header_list     : [ "id","老师要求" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,

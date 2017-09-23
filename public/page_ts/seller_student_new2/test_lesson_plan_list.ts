@@ -1051,7 +1051,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
-       // alert(opt_data.require_id);
+        alert(opt_data.require_id);
         console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");

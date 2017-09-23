@@ -594,7 +594,7 @@ class ss_deal extends Controller
         $demand_urgency    = $this->get_in_int_val("demand_urgency");//需求急迫性
         $quotation_reaction    = $this->get_in_int_val("quotation_reaction");//报价反应
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
-        $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
+        $knowledge_point_location     = trim($this->get_in_str_val("knowledge_point_location"));//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
         $city      = $this->get_in_str_val("city");//市.区
         $area      = $this->get_in_str_val("area");//县市
@@ -602,6 +602,9 @@ class ss_deal extends Controller
         $province      = $this->get_in_int_val("province");//省
         $stu_test_paper      = $this->get_in_str_val("test_paper");//地区,省
 
+        if(empty($knowledge_point_location)){
+            return $this->output_err("请提交试听内容!");
+        }
         if ($next_revisit_time) {
             $next_revisit_time =strtotime($next_revisit_time);
         } else {
@@ -777,6 +780,10 @@ class ss_deal extends Controller
             $tt_arr["subject"]=$subject;
         }
 
+        $stu_request_test_lesson_demand = $this->$this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+        if(empty($stu_request_test_lesson_demand)){
+            $tt_arr["stu_request_test_lesson_demand"] =  $knowledge_point_location;
+        }
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
         //更新 seller_student_status
