@@ -2978,7 +2978,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_type in (0,1,3)",
             // "lesson_status=2",
             "t.teacher_type not in (3,4)",
-            "batch in (1,2)",
+            // "batch in (1,2)",
             // "t.teacher_money_type not in(5,6)"
         ];
         $not_sql = "true";

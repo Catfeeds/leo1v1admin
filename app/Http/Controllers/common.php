@@ -587,10 +587,10 @@ class common extends Controller
             return "";
         }
 
-        $check_time = strtotime("2017-9-15");
+        $check_time = strtotime("2017-10-8");
         if(time()<$check_time){
             $activity_flag=1;
-            $phone_qr_name = $phone."_teacher_day_qr.png";
+            $phone_qr_name = $phone."_guoqing_day_qr.png";
         }else{
             $phone_qr_name = $phone."_qr.png";
         }
@@ -606,7 +606,7 @@ class common extends Controller
 
             if($activity_flag){
                 //教师节背景图
-                $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/teacher_day_invitation.png";
+                $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/guoqing_pic_invitation.png";
                 \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
                 list($qr_width, $qr_height)=getimagesize($qr_url);
