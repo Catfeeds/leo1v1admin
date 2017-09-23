@@ -568,8 +568,12 @@ class teacher_level extends Controller
     }
 
     public function teacher_advance_info_list(){
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info);
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
+        $teacherid          = $this->get_in_int_val("teacherid",-1);
+        $accept_flag        = $this->get_in_int_val("accept_flag",-1);
+        $fulltime_flag      = $this->get_in_int_val("fulltime_flag",-1);
+        $page_info          = $this->get_in_page_info();
+        $ret_info           = $this->t_teacher_advance_list->get_info_by_time_new($page_info);
         foreach($ret_info["list"] as &$item){
             E\Eaccept_flag::set_item_value_str($item);
             E\Elevel::set_item_value_str($item,"level_before");
