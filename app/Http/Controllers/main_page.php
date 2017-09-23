@@ -112,11 +112,11 @@ class main_page extends Controller
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
             $new_group    = '新人营';
-            $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-            $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-            $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-            $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-            $seller_num = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num'];// 咨询一部+咨询二部+咨询三部+新人营
+            $ret_info['first_num']  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+            $ret_info['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+            $ret_info['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+            $ret_info['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+            $seller_num = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
 
 
             $seller_num_arr['first_num'] = $first_num;

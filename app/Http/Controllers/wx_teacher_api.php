@@ -731,8 +731,8 @@ class wx_teacher_api extends Controller
         $lesson_time_arr = explode(',',$lesson_time_str);
 
         $ret1 = $this->t_lesson_info_b2->field_update_list($lessonid,[
-            'lesson_start'  => $lesson_time_arr[0],
-            'lesson_end'    => $lesson_time_arr[1],
+            'lesson_start'  => @$lesson_time_arr[0],
+            'lesson_end'    => @$lesson_time_arr[1],
         ]);
 
         $ret2 = $this->t_lesson_time_modify->field_update_list($lessonid,[
