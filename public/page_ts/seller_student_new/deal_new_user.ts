@@ -615,7 +615,8 @@ $(function(){
                     var xing=$.trim(data.name).substr(0,1);
                     var dlg=BootstrapDialog.show({
                         title: "发送信息内容:",
-                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+g_args.phone,
+                        // message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+g_args.phone,
+                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+data.phone,
                         closable: true,
                         buttons: [{
                             label: '返回',
