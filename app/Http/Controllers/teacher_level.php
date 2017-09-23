@@ -568,6 +568,7 @@ class teacher_level extends Controller
     }
 
     public function teacher_advance_info_list(){
+        $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info);
         foreach($ret_info["list"] as &$item){
             E\Eaccept_flag::set_item_value_str($item);
