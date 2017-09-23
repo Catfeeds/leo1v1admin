@@ -3062,110 +3062,23 @@ trait TeaPower {
     }
 
     //查询百度有钱花订单信息
-    public function get_baidu_money_charge(){
+    public function get_baidu_money_charge($orderid){
         $url = 'https://umoney.baidu.com/edu/openapi/post';
-        $orderid = $this->get_in_int_val("orderid",516);
-        $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
-
-        
-
-        //期待贷款额度(分单位)
-        $money = $this->t_child_order_info->get_price($orderid);
-
-        //分期期数
-        $period = $this->t_child_order_info->get_period_num($orderid);
-        //成交价格
-        $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
-        $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
-        //订单id
-        $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-
-
-
-
-        $url = 'https://umoney.baidu.com/edu/openapi/post';
-        // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
-        //$url="http://test.umoney.baidu.com/edu/openapi/post";
-        // $url="http://umoney.umoney.baidu.com/edu/openapi/post";
-
-        $userid = $this->t_order_info->get_userid($parent_orderid);
-        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email,grade,parentid");
-        $parent_name = $this->t_parent_info->get_nick($user_info["parentid"]);
-        $competition_flag = $this->t_order_info->get_competition_flag($parent_orderid);
-        if($competition_flag==1){
-            $courseid = "SHLEOZ3101006";
-            $coursename = "思维拓展在线课程";
-        }elseif($user_info["grade"] >=100 && $user_info["grade"]<200){
-            $courseid = "SHLEOZ3101001";
-            $coursename = "小学在线课程";
-        }elseif($user_info["grade"] >=200 && $user_info["grade"]<300){
-            $courseid = "SHLEOZ3101011";
-            $coursename = "初中在线课程";
-        }elseif($user_info["grade"] >=300 && $user_info["grade"]<400){
-            $courseid = "SHLEOZ3101016";
-            $coursename = "高中在线课程";
-        }
-
-
-
-
-        // RSA加密数据
-        $endata = array(
-            'username' => $parent_name,
-            'mobile' => $user_info["phone"],
-            'email' => $user_info["email"],
-        );
-
-        $rsaData = $this->enrsa($endata);
-
-
-        $arrParams = array(
-            'action' => 'sync_order_info',
-            'tpl' => 'leoedu',// 分配的tpl
-            'corpid' => 'leoedu',// 分配的corpid
-            'orderid' => $orderNo,// 机构订单号
-            'money' => $money,// 期望贷款额度（分单位）
-            'dealmoney' => $dealmoney,// 成交价格（分单位）>= 期望额度+首付额度
-            'period' => $period,// 期数
-            'courseid' => $courseid,// 课程id（会分配）
-            'coursename' => $coursename,// 课程名称
-            'oauthid' => $userid,// 用户id 机构方提供
-            'data' => $rsaData,
-        );
-
-        $strSecretKey = '9v4DvTxOz3';// 分配的key
-        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
-
-        //
-
+        //  $orderid = $this->get_in_int_val("orderid",516);
+       
         $orderNo = $this->t_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
             $orderNo=123456789;
         }
 
-
-        $userid = $this->t_order_info->get_userid($orderid);
-        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email,grade");
-
-        // RSA加密数据
-        $endata = array(
-            'username' => $user_info["nick"],
-            'mobile' => $user_info["phone"],
-            'email' => $user_info["email"],
-        );
-
-        $rsaData = $this->enrsa($endata);
-
-
         $arrParams = array(
             'action' => 'get_order_status',
-            'tpl' => 'tpl',// 分配的tpl
-            'corpid' => 'corpid',// 分配的corpid
+            'tpl' => 'leoedu',// 分配的tpl
+            'corpid' => 'leoedu',// 分配的corpid
             'orderid' => $orderNo,// 机构订单号
         );
 
-        $strSecretKey = 'key';// 分配的key
+        $strSecretKey = '9v4DvTxOz3';// 分配的key
         $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
 
 

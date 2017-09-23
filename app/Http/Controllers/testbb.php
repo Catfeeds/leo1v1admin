@@ -241,6 +241,10 @@ class testbb extends Controller
     public function ss(){
         $parentid = $this->get_in_int_val('parentid');
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type=-1);
+
+        foreach($ret_list as $item){
+            
+        }
         dd($ret_list);
 
         $a = '[{"day":"9-30","hours":[12,16]}]';

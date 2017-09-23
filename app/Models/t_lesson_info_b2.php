@@ -105,13 +105,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
     public function get_list_by_parent_id( $parentid,$lessonid=-1,$type) {
         // $check_lesson_time=time(NULL)-90*86400;
-        $check_lesson_time=time(NULL)-300*86400;
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
             ["lesson_type=%d",$type,-1],
             "lesson_del_flag=0",
-            "lesson_start>$check_lesson_time", //试听
+            // "lesson_start>$check_lesson_time", //试听
         ];
 
         $sql = $this->gen_sql_new(
