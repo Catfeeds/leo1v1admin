@@ -340,7 +340,7 @@ class main_page extends Controller
             "seller_account"         => $seller_account,
             "top_num"                => $top_num,
             "seller_top_flag"        => $seller_top_flag,
-            "top_num"                => $next_revisit_count,
+            "next_revisit_count"     => $next_revisit_count,
         ]);
     }
 
