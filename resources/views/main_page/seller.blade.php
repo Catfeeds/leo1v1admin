@@ -19,7 +19,6 @@
 
     <section class="content " id="id_content">
 
-
         <div class="row">
             <div class="panel panel-danger"  >
                 <div class="panel-heading">
