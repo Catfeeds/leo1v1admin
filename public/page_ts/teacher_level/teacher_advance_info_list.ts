@@ -21,7 +21,6 @@ $(function(){
     $(".opt-accept").on("click",function(){        
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
-            
         BootstrapDialog.confirm("确定同意？", function(val){
             if (val) {
                 $.do_ajax( '/teacher_level/set_teacher_advance_require_master', {

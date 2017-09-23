@@ -568,6 +568,8 @@ class teacher_level extends Controller
     }
 
     public function teacher_advance_info_list(){
+        $this->set_in_value("quarter_start",'2017-07-01');
+        $quarter_start = $this->get_in_int_val("quarter_start");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $accept_flag        = $this->get_in_int_val("accept_flag",-1);
