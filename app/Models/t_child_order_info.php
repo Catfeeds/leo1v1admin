@@ -65,8 +65,12 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }
         $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,"
                                   ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
-                                  ." s.grade",
-                                  
+                                  ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
+                                  ." o.lesson_left",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
         );
 
     }

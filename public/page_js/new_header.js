@@ -1935,7 +1935,6 @@ function  ajax_set_select_box($select,url,url_data,value , not_add_all_flag  ){
 }
 
 function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,max_file_size ){
-
     if (!max_file_size  ) {
         max_file_size ='30mb';
     }
