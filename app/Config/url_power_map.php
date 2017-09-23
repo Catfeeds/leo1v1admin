@@ -267,7 +267,7 @@ class url_power_map {
 			'/user_manage_new/teacher_send_video_list'	=>1090307,
 			'/upload_tmk/post_list'	=>1091101,
 			'/upload_tmk/post_student_list'	=>1091102,
-			'/t_yxyx_wxnews_info/all_news'	=>1096600,
+			'/grab_lesson/get_all_grab_info'	=>1096700,
 			'/pic_manage/pic_info'	=>1090400,
 			'/festival/festival_list'	=>1090500,
 			'/news_info/stu_message_list'	=>1090700,
