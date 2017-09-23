@@ -119,7 +119,7 @@
                                 <tr>
                                     <td>今日需回访个数</td>
                                     <td colspan="2">
-                                        <a href="http://admin.yb1v1.com/seller_student_new/seller_student_list_all" target="_blank" style="text-decoration:none;">
+                                        <a href="http://admin.yb1v1.com/seller_student_new/seller_student_list_all?{{@$next_time_str}}" target="_blank" style="text-decoration:none;">
                                             {{@$next_revisit_count}}
                                         </a>
                                     </td>
@@ -227,7 +227,7 @@
                                             <span><font style="color:#000000;">{{$var["index"]}}</font> </span>
                                         </td>
                                         <td style="text-align:left">
-                                            <img src="{{$var["face_pic"]}}" width="40px" height="40px" alt="" />
+                                            <img src="{{$var["face_pic"]}}" width="30px" height="30px" alt="" />
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
@@ -310,7 +310,7 @@
                                             </span>
                                         </td>
                                         <td class="show-group" data-groupid="{{$var["groupid"]}}" style="text-align:left">
-                                            <img src="{{$var["group_img"]}}" width="40px" height="40px" alt="" />
+                                            <img src="{{$var["group_img"]}}" width="30px" height="30px" alt="" />
                                             @if($key==0)
                                                 <font style="color:#F6A623;">{{$var["group_name"]}}</font>
                                             @elseif($key==1)
