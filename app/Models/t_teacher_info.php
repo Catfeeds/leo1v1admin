@@ -2539,20 +2539,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_level_info_new($page_info,$tea_list,$start_time){
+    public function get_teacher_level_info_new($page_info,$start_time){
         $where_arr=[
             'm.account_role in(4,9)',
         ];
-        // $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
-                                  ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
-                                  ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time,"
+                                  ." m.create_time, "
+                                  ." a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
+                                  ." from %s t "
                                   ." left join %s m on m.phone = t.phone "
+                                  ." left join %s a on (a.start_time = %u and t.teacherid = a.teacherid) "
                                   ." where %s order by t.teacherid",
                                   self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   t_teacher_advance_list::DB_TABLE_NAME,
                                   $start_time,
-                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,100);
