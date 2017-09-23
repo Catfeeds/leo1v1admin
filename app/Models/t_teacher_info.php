@@ -2543,7 +2543,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             'm.account_role in(4,9)',
         ];
-        $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
+        // $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
                                   ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
                                   ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"

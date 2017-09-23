@@ -130,7 +130,6 @@ class teacher_level extends Controller
         foreach($list as $val){
             $tea_list[] = $val["teacherid"];
         }
-        dd($tea_list);
         $ret_info = $this->t_teacher_info->get_teacher_level_info_new($page_info,$tea_list,$start_time);
         $tea_arr=[];
         foreach($ret_info["list"] as $val){
