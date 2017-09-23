@@ -326,6 +326,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
+        $up_group_list = $this->t_admin_main_group_name->get_group_list_for_major($i);
         $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid=21001,$competition_call_adminid=831);
         dd($admin_revisiterid);
         $competition_call_adminid = 412;
