@@ -14,16 +14,16 @@ $(function(){
             test_seller_id : $("#id_test_seller_id").val(),
         });
     }
-    // $('#id_date_range').select_date_range({
-    //     'date_type'     : g_args.date_type,
-    //     'opt_date_type' : g_args.opt_date_type,
-    //     'start_time'    : g_args.start_time,
-    //     'end_time'      : g_args.end_time,
-    //     date_type_config : JSON.parse( g_args.date_type_config),
-    //     onQuery :function() {
-    //         load_data(0);
-    //     }
-    // });
+    $('#id_date_range').select_date_range({
+        'date_type'     : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data(0);
+        }
+    });
     $("#id_test_seller_id").val(g_args.test_seller_id);
 
     $.admin_select_user($('#id_test_seller_id'),"seller_group", load_data ,false, {
