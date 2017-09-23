@@ -248,7 +248,7 @@ class teacher_money extends Controller
             $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
-            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type']);
+            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type'],$teacher_info['teacher_money_type']);
 
             $check_flag = $this->check_full_time_teacher($teacherid,$teacher_info['teacher_type']);
             if($check_flag){

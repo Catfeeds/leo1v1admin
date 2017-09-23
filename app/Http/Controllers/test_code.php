@@ -2001,8 +2001,8 @@ class test_code extends Controller
      * 切换老师到第四版
      */
     public function reset_teacher_money_type(){
-        $batch = $this->get_in_int_val("batch",1);
-        $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
+        // $list  = $this->t_teacher_info->get_need_reset_money_type_list();
+        $list  =$this->t_teacher_info->get_no_lesson_teacher_list();
         dd($list);
         /**
          * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
@@ -2031,6 +2031,8 @@ class test_code extends Controller
             }
         }
     }
+
+
 
     public function send_level_up(){
         $teacherid = $this->get_in_int_val("teacherid");
