@@ -2213,7 +2213,9 @@ class test_code extends Controller
         $month_end   = $this->get_in_int_val("month_end",2);
 
         $start_time = strtotime("2017-$month_start");
-        $end_time   = strtotime("2017-$month_end");
+        $end_time = strtotime("+1 month",$start_time);
+        // $end_time   = strtotime("2017-$month_end");
+        echo "姓名|总课时|试听课时|常规课时|";
         foreach($arr as $val){
             if($val!=""){
                 $tea_info = explode("|",$val);

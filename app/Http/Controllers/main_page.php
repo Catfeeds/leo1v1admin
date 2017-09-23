@@ -190,7 +190,7 @@ class main_page extends Controller
             }
 
             if($ret_info['seller_call_num']>0){ // 人均呼出量
-                $ret_info['aver_called'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num'];
             }else{
                 $ret_info['aver_called'] = 0;
             }
