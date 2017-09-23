@@ -818,7 +818,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
-                            <span class="input-group-addon">省</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
                             <select class="form-control" id="province" name="province">
                             </select>
 
@@ -826,7 +826,7 @@
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
-                            <span class="input-group-addon">市</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp市</span>
                             <select class="form-control" id="city" name="city">
                             </select>
 
@@ -834,14 +834,14 @@
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="input-group ">
-                            <span class="input-group-addon">区(县)</span>
+                            <span class="input-group-addon"><font style="color:red">*</font>&nbsp区(县)</span>
                             <select class="form-control" id="area" name="area">
                             </select>
 
                         </div>
                     </div>
 
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-6 " style="display:none">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp家庭住址：</span>
                             <input type="text" id="id_stu_addr"  class="form-control" />

@@ -87,9 +87,6 @@ class main_page extends Controller
             $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
-            // foreach($ret_info['formal_info'] as $item){
-            //     $total_price += $item['all_price'];
-            // }
 
             if($ret_info['formal_num']>0){
                 $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
@@ -164,6 +161,7 @@ class main_page extends Controller
 
             //  外呼情况
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['claim_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  认领量
 
             $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
 
@@ -172,6 +170,31 @@ class main_page extends Controller
             $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
 
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
+
+            if($ret_info['has_called']>0){ //接通率
+                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called'];
+            }else{
+                $ret_info['succ_called_rate'] = 0;
+            }
+
+            if($ret_info['seller_num']>0){ // 人均通时
+                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            }else{
+                $ret_info['called_rate'] = 0;
+            }
+
+            if($ret_info['cc_called_num']>0){ // 人均邀约数
+                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            }else{
+                $ret_info['called_rate'] = 0;
+            }
+
+            if($ret_info['seller_call_num']>0){ // 人均呼出量
+                $ret_info['aver_called'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            }else{
+                $ret_info['aver_called'] = 0;
+            }
+
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);

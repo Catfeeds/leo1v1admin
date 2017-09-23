@@ -2201,8 +2201,31 @@ class test_code extends Controller
         echo "<br>";
     }
 
+    public function get_month_list(){
+        // $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,0,-1,-1,0,0);
+        // foreach($list as $val){
+        //     echo $val['teacherid']."|".$val['realname'];
+        //     echo "<br>";
+        // }
+        // exit;
+        $arr = $this->get_b_txt();
+        $month_start = $this->get_in_int_val("month_start",1);
+        $month_end   = $this->get_in_int_val("month_end",2);
 
+        $start_time = strtotime("2017-$month_start");
+        $end_time   = strtotime("2017-$month_end");
+        foreach($arr as $val){
+            if($val!=""){
+                $tea_info = explode("|",$val);
+                $teacherid = $tea_info[0];
+                $name= $tea_info[1];
+                $info = $this->t_lesson_info_b3->get_tea_lesson_total($month_start,$month_end,$teacherid);
+                echo $name."|".$info['lesson_total']."|".$info['trial_lesson_total']."|".$info['normal_lesson_total'];
+                echo "<br>";
+            }
+        }
 
+    }
 
 
 
