@@ -780,6 +780,10 @@ class ss_deal extends Controller
             $tt_arr["subject"]=$subject;
         }
 
+        $stu_request_test_lesson_demand = $this->$this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+        if(empty($stu_request_test_lesson_demand)){
+            $tt_arr["stu_request_test_lesson_demand"] =  $knowledge_point_location;
+        }
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
         //更新 seller_student_status

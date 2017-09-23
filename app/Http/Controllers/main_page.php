@@ -92,9 +92,9 @@ class main_page extends Controller
             // }
 
             if($ret_info['formal_num']>0){
-                $aver_money = $total_price/$ret_info['formal_num']; //平均人效
+                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
             }else{
-                $aver_money = 0;
+                $ret_info['aver_money'] = 0;
             }
 
             $month = date('Y-m-01');
