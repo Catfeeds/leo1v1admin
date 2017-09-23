@@ -820,6 +820,7 @@ class menu{
                 // ["power_id"=>17, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],
                 // ["power_id"=>18, "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info"],
+                ["power_id"=>48, "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
                 // ["power_id"=>24, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
