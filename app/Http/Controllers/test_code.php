@@ -2017,10 +2017,12 @@ class test_code extends Controller
         $data['keyword3'] = "19:30";
         $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
         foreach($list as $val){
-            // $this->t_teacher_info->field_update_list($val['teacherid'],[
-            //     "teacher_money_type" => $val['teacher_money_type_simulate'],
-            //     "level"              => $val['level_simulate'],
-            // ]);
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                // "teacher_money_type" => $val['teacher_money_type_simulate'],
+                // "level"              => $val['level_simulate'],
+                "teacher_money_type" => $val['teacher_money_type_simulate'],
+                "level"              => $val['level_simulate'],
+            ]);
 
             if($val['wx_openid']!=""){
                 $level_str = E\Enew_level::v2s($val['level_simulate']);

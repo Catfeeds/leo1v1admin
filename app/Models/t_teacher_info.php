@@ -3677,26 +3677,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "teacher_type not in (3,4)",
             "is_test_user=0"
         ];
-        $lesson_start = strtotime("2017-1-1");
-        $lesson_end   = strtotime("2017-10-1");
-        $sql_arr = [
-            ["lesson_start>%u",$lesson_start,0],
-            ["lesson_start<%u",$lesson_end,0],
-            "t.teacherid=teacherid",
-            "lesson_type=2",
-            "lesson_del_flag=0",
-            "confirm_flag!=2",
-        ];
         $sql = $this->gen_sql_new("select teacherid,phone,realname,wx_openid,teacher_money_type_simulate,level_simulate"
-                                  ." from %s t"
+                                  ." from %s "
                                   ." where %s"
-                                  ." and exists (select 1 from %s where %s)"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$sql_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
