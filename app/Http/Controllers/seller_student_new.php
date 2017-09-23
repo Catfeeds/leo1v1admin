@@ -1566,17 +1566,17 @@ class seller_student_new extends Controller
         $competition_call_adminid = $this->get_account_id();
         $ret = 0;
         $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid,$competition_call_adminid);
-        if($admin_revisiterid){
+        if($admin_revisiterid){//认领过
             $ret = 3;
             return $ret;
         }
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
-        if($is_called_flag){
+        if(in_array($is_called_flag,[E\Etq_called_flag::V_0,E\Etq_called_flag::V_1])){//未拨通
             $ret = 2;
             return $ret;
         }
-        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
+        if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子")){
             $account=$this->t_manager_info->get_account( $competition_call_adminid );
             $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
             $ret_update = $this->t_book_revisit->add_book_revisit(
