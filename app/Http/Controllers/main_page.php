@@ -77,7 +77,7 @@ class main_page extends Controller
             if($ret_info['income_count']>0){
                 $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
             }else{
-                $ret_info['aver_count'] = 0;
+                $ret_info['aver_count'] = 0; //平均单笔
             }
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
@@ -87,9 +87,9 @@ class main_page extends Controller
             $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
-            foreach($ret_info['formal_info'] as $item){
-                $total_price += $item['all_price'];
-            }
+            // foreach($ret_info['formal_info'] as $item){
+            //     $total_price += $item['all_price'];
+            // }
 
             if($ret_info['formal_num']>0){
                 $aver_money = $total_price/$ret_info['formal_num']; //平均人效
