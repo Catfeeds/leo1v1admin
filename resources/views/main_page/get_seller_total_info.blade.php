@@ -96,12 +96,12 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['']}} </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
+                                        <td> {{@$ret_info['seller_num']}} </td>
+                                        <td> {{@$ret_info['first_num']}}  </td>
+                                        <td> {{@$ret_info['second_num']}} </td>
+                                        <td> {{@$ret_info['third_num']}} </td>
+                                        <td> {{@$ret_info['new_num']}} </td>
+                                        <td> {{@$ret_info['']}}</td>
                                         <td> 节点 </td>
                                         <td> 节点 </td>
                                         <td class="panel-yellow" > 存档 </td>

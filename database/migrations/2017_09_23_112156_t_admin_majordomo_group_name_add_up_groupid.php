@@ -13,7 +13,7 @@ class TAdminMajordomoGroupNameAddUpGroupid extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_admin_majordomo_group_name', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_admin_majordomo_group_name', function( Blueprint $table)
         {
             t_field($table->integer("up_groupid"),"关联总监表id");
         });

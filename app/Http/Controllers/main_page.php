@@ -116,13 +116,15 @@ class main_page extends Controller
             $ret_info['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
             $ret_info['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
             $ret_info['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-            $seller_num = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
+            $ret_info['traing_num'] = '';// 培训中
+            $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
 
 
-            $seller_num_arr['first_num'] = $first_num;
-            $seller_num_arr['second_num'] = $second_num;
-            $seller_num_arr['third_num'] = $third_num;
-            $seller_num_arr['new_num'] = $new_num;
+            $seller_num_arr['first_num']  = $ret_info['first_num'];
+            $seller_num_arr['second_num'] = $ret_info['second_num'];
+            $seller_num_arr['third_num']  = $ret_info['third_num'];
+            $seller_num_arr['new_num']    = $ret_info['new_num'];
+            $seller_num_arr['traing_num'] = $ret_info['traing_num'];
 
             $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
@@ -529,6 +531,8 @@ class main_page extends Controller
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
             $item["ass_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["ass_tran_green_count"];
             $item["seller_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["seller_tran_green_count"];
+            $item["tran_count_seller_top"] = @$tra_info[$item["accept_adminid"]]["tran_count_seller_top"];
+            $item["top_per"] = $item["top_count"]==0?"无":(round($item["tran_count_seller_top"]/$item["top_count"],4)*100)."%";
 
 
             $all_total += $item["set_count"];

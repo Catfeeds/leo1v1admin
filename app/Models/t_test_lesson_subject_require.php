@@ -1468,7 +1468,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             //["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944"
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
@@ -1510,6 +1511,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             //["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
+            "tr.seller_top_flag=0",
             "is_green_flag=1"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid from %s tr"
@@ -1541,6 +1543,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason='未排课,期待时间已到',1,0)) back_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason <> '未排课,期待时间已到',1,0)) back_other_count,".
                                   "sum(if(test_lesson_student_status =200,1,0)) un_count,".
+                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200,1,0)) top_un_count,".
+                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) top_count,".
                                   "count(*) all_count ".
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
                                   " join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
@@ -1701,6 +1705,47 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             return $item["accept_adminid"];
         });
     }
+
+    public function get_teat_lesson_transfor_info_seller_top($start_time,$end_time,$require_admin_type=-1,$seller_top_flag=-1){
+        $where_arr = [
+            "accept_adminid > 0",
+            "m.account_role = 3",
+            "s.is_test_user=0",
+            // "ll.lesson_user_online_status in (0,1)",
+            "ll.lesson_del_flag=0",
+            ["t.require_admin_type=%u",$require_admin_type,-1],
+            ["tr.seller_top_flag=%u",$seller_top_flag,-1],
+            "l.lessonid >0"
+        ];
+
+        $sql = $this->gen_sql_new("select accept_adminid,count(distinct l.lessonid) num ".
+                                  " from %s tr join %s m on tr.accept_adminid = m.uid ".
+                                  " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
+                                  " join %s ll on tr.current_lessonid = ll.lessonid".
+                                  " join %s l on (ll.teacherid = l.teacherid ".
+                                  " and ll.userid = l.userid ".
+                                  " and ll.subject = l.subject ".
+                                  " and l.lesson_start= ".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " join %s s on t.userid = s.userid ".
+                                  " where %s group by accept_adminid ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
+    }
+
 
 
     public function get_teat_lesson_transfor_new($start_time,$end_time,$adminid){
@@ -1922,7 +1967,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "history_accept_adminid >0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944"
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,nick,stu_request_test_lesson_time   from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "

@@ -2222,7 +2222,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_modify_lesson_time($lessonid){
         $sql = $this->gen_sql_new(" select lesson_start, lesson_end from %s l ".
                                   " left join %s tlm on tlm.lessonid = l.lessonid".
-                                  " where lessonid = $lessonid and is_modify_time_flag = 1",
+                                  " where l.lessonid = $lessonid and is_modify_time_flag = 1",
                                   self::DB_TABLE_NAME,
                                   t_lesson_time_modify::DB_TABLE_NAME
 

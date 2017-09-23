@@ -2619,6 +2619,11 @@ trait TeaPower {
         $teacher_money_type = $teacher_info['teacher_money_type'];
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        
+        $cost_list = [
+            "late_num"   => 0,
+            "change_num" => 0,
+        ];
         if(!empty($lesson_list)){
             foreach($lesson_list as $val){
                 
