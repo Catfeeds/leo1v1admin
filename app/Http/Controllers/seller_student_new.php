@@ -237,8 +237,8 @@ class seller_student_new extends Controller
         $origin                = trim($this->get_in_str_val('origin', ''));
         $page_num              = $this->get_in_page_num();
         $userid                = $this->get_in_userid(-1);
-        // $seller_student_status = $this->get_in_el_seller_student_status();
-        $seller_student_status = $this->get_in_int_val("seller_student_status");
+        $seller_student_status = $this->get_in_el_seller_student_status();
+        // $seller_student_status = $this->get_in_int_val("seller_student_status");
         $seller_groupid_ex     = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
