@@ -668,7 +668,7 @@ class wx_teacher_api extends Controller
 
         $lesson_time         = $this->t_lesson_info_b2->get_lesson_time($lessonid);
         // $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
-        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        // $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
         $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
         // $parent_modify_time_arr = explode(',',$parent_modify_time);
 
@@ -731,6 +731,17 @@ class wx_teacher_api extends Controller
 
         // $lesson_time_arr = explode(',',$lesson_time_str);
         $lesson_time_end = $lesson_old_end-$lesson_old_start+$lesson_time_start;
+
+        // 校验老师时间
+        // $stu_lesson_for_today = $this->t_student_info->get_student_lesson_time_today();
+        // $tea_lesson_for_today = $this->t_student_info->get_teacher_lesson_time_today();
+
+        $start_time = strtotime(date('Y-m-d',$lesson_time_start));
+        $end_time   = $start_time+86400;
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $start_time, $end_time);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $start_time, $end_time);
+
+
 
         $ret1 = $this->t_lesson_info_b2->field_update_list($lessonid,[
             'lesson_start'  => $lesson_time_start,

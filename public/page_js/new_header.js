@@ -1956,20 +1956,20 @@ function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,m
       }
     */
     var uploader = Qiniu.uploader({
-        runtimes: 'html5, flash, html4',
-        browse_button: btn_id , //choose files id
-        uptoken_url: token_url ,
-        domain: domain,
-        container: containerid,
-        drop_element: containerid,
-        max_file_size: max_file_size,
-        dragdrop: true,
-        flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-        chunk_size: '4mb',
-        unique_names: false,
-        save_key: false,
-        auto_start: true,
-        init: {
+        runtimes      : 'html5, flash, html4',
+        browse_button : btn_id , //choose files id
+        uptoken_url   : token_url ,
+        domain        : domain,
+        container     : containerid,
+        drop_element  : containerid,
+        max_file_size : max_file_size,
+        dragdrop      : true,
+        flash_swf_url : '/js/qiniu/plupload/Moxie.swf',
+        chunk_size    : '4mb',
+        unique_names  : false,
+        save_key      : false,
+        auto_start    : true,
+        init          : {
             'FilesAdded': function(up, files) {
                 plupload.each(files, function(file) {
                     var progress = new FileProgress(file, 'process_info');

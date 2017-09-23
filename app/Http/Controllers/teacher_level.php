@@ -50,6 +50,9 @@ class teacher_level extends Controller
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level");
             $item["level_after"] = $item["level"]+1;
+            if($item["level"]==4){
+                $item["level_after"]=4;
+            }
             E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
@@ -116,6 +119,9 @@ class teacher_level extends Controller
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level");
             $item["level_after"] = $item["level"]+1;
+            if($item["level"]==4){
+                $item["level_after"]=4;
+            }
             E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item["hand_flag"]=0;
@@ -172,6 +178,10 @@ class teacher_level extends Controller
         $total_score = $this->get_in_int_val("total_score");
         $level = $this->t_teacher_info->get_level($teacherid);
         $level_after = $level+1;
+        if($level==4){
+            $level_after=4;
+        }
+
         $this->t_teacher_advance_list->row_insert([
             "start_time" =>$start_time,
             "teacherid"  =>$teacherid,

@@ -41,7 +41,34 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     }
 
     public function get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type){
-        
+        $where_arr=[
+            ["c.pay_status=%u",$pay_status,-1],
+            "s.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+
+        if ($contract_type==-2) {
+            $where_arr[]="contract_type in(0,1,3)" ;
+            \App\Helper\Utils::logger("stu");
+
+        }else if ( $contract_type==-3){
+            $where_arr[]="contract_type in(0,3)" ;
+        }else {
+            $where_arr[]=["contract_type=%u" , $contract_type, -1];
+        }
+
+        if ($contract_status ==-2) {
+            $where_arr[] = "contract_status <> 0";
+        }else{
+            $where_arr[]=["contract_status=%u",$contract_status,-1];
+            // $this->where_get_in_str_query("contract_status",$contract_status);
+        }
+        $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,"
+                                  ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
+                                  ." s.grade",
+                                  
+        );
+
     }
 
 }
