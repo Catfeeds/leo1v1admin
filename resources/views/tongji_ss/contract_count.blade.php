@@ -130,7 +130,7 @@
                             <td data-class_name="{{$var["account_class"]}}" class="account {{$var["group_name_class"]}} {{$var["account_class"]}}"  >
                                 {{$var["account"]}}
                             </td>
-                            <td> {{@$var["del_flag_str"]}} </td>
+                            <td> {!! @$var["del_flag_str"] !!}</td>
                             <td> {{@$var["all_price"]}} </td>
                             <td> {{@$var["all_price_suc"]}}</td>
                             <td> {{@$var["all_price_fail"]}} </td>
