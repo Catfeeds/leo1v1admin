@@ -115,6 +115,8 @@ class teacher_level extends Controller
         $ret_info = $this->t_teacher_info->get_teacher_level_info_new($page_info,$start_time);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level");
+            $item["level_after"] = $item["level"]+1;
+            E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item["hand_flag"]=0;
         }
@@ -384,6 +386,27 @@ class teacher_level extends Controller
                 "require_adminid"=>$this->get_account_id()
             ]);
         }
+        $realname  = $this->t_teacher_info->get_realname($teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+
+
+        return $this->output_succ();
+    }
+
+    public function set_teacher_advance_require_new(){
+        $start_time = 1498838400;
+        $teacherid = $this->get_in_int_val("teacherid");
+        $level_before = $this->get_in_int_val("level_before");
+        $level_after = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->row_insert([
+            "start_time" =>$start_time,
+            "teacherid"  =>$teacherid,
+            "level_before"=>$level_before,
+            "level_after" =>$level_after,
+            "require_time"   =>time(),
+            "require_adminid"=>$this->get_account_id()
+        ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
         $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
         $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
