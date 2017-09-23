@@ -1249,6 +1249,17 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $success = $this->get_in_str_val("SUCCESS");
         $sign = $this->get_in_str_val("SIGN");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
+        $der_data = "";
+        $pem = chunk_split(base64_encode(hex2bin($der_data)), 64, "\n");
+
+        $public_key = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
+        $pkeyid = openssl_get_publickey($public_key);
+ 
+        $verifyResult = openssl_verify($data, pack("H",$sign),$pkeyid,OPENSSL_ALGO_MD5);
+ 
+        openssl_free_key($pkeyid);
+ 
+        echo $verifyResult;
  
         
         
