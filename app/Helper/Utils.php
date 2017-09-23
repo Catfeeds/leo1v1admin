@@ -1727,5 +1727,14 @@ class Utils  {
         $where_arr[] = $prefix."confirm_flag!=2";
     }
 
+    static public function transform_1tg_0tr(&$item,$field,$flag=0){
+        $new_field = $field.'_str';
+        if( $item[$field]  == 0 ){
+            $item[$new_field] = '<span style="color:red">否</span>';
+        } else {
+            $item[$new_field] = '<span style="color:green">是</span>';
+        }
+    }
+
 
 };

@@ -19,6 +19,31 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
 
     }
 
+    public function get_all_info($start_time,$end_time,$grabid, $grab_lesson_link, $live_time, $adminid, $page_info){
+        $where_arr = [
+            ["g.create_time>=%s",$start_time,0],
+            ["g.create_time<%s",$end_time,0],
+            ['g.grabid=%u', $grabid, ''],
+            ['g.grab_lesson_link="%s"', $grab_lesson_link, ''],
+            ['g.live_time=%u', $live_time, ''],
+            ['g.adminid=%u', $adminid, ''],
+        ];
+        $sql = $this->gen_sql_new(
+            "select g.grabid,g.grab_lesson_link,g.live_time,g.adminid,g.create_time,g.requireids,"
+            ." count(v.visitid) as visit_count"
+            ." from %s g "
+            ." left join %s v on g.grabid=v.grabid "
+            ." where %s "
+            ." group by g.grabid "
+            ." order by g.create_time desc "
+            ,self::DB_TABLE_NAME
+            ,t_grab_lesson_link_visit_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
+
 }
 
 

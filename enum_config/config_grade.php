@@ -1,6 +1,7 @@
 <?php
 return array (
     "name"=> "年级",
+    array(0,"","未设置" ),
     array(100,"","小学" ),
     array(101,"","小一" ),
     array(102,"","小二" ),
