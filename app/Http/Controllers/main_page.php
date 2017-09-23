@@ -134,7 +134,6 @@ class main_page extends Controller
             $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
             $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
-
             if($ret_info['income_price']>0){
                 $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
                 $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
