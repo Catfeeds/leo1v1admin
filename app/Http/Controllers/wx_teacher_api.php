@@ -739,9 +739,17 @@ class wx_teacher_api extends Controller
         $is_teacher_flag = 0;
         $is_student_flag = 0;
         foreach($teacher_lesson_time as $tea_item){
-            if($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']){
-
+            if($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_end){
+                $is_teacher_flag = 1;
+            }elseif($tea_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_start){
+                $is_teacher_flag = 1;
+            }elseif($tea_item['lesson_start']<$lesson_time_end && $tea_item['lesson_end']>$lesson_time_end){
+                $is_teacher_flag = 1;
+            }elseif($tea_item['lesson_start']>$lesson_time_end && $tea_item['lesson_end']<$lesson_time_end){
+                $is_teacher_flag = 1;
             }
+
+
         }
 
 

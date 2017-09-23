@@ -40,11 +40,12 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type){
+    public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
             "s.is_test_user=0",
-            "c.price>0"
+            "c.price>0",
+            "child_order_type=2"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 

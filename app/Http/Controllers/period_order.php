@@ -23,7 +23,7 @@ class period_order extends Controller
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
 
-        $pay_status = $this->get_in_int_val("pay_status");
+        $pay_status = $this->get_in_int_val("pay_status",-1);
         $page_info = $this->get_in_page_info();
         
         $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type);
