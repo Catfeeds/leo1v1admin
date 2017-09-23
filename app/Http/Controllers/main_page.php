@@ -75,9 +75,9 @@ class main_page extends Controller
             $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
 
             if($ret_info['income_count']>0){
-                $aver_count = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
+                $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
             }else{
-                $aver_count = 0;
+                $ret_info['aver_count'] = 0;
             }
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数

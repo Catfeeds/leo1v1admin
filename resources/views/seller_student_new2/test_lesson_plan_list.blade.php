@@ -327,7 +327,12 @@
                                     升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
                                     课外提高 : {{$var["extra_improvement_str"]}} <br/>
                                     习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
-                                    知识点定位  : {{$var["knowledge_point_location"]}} <br/>
+                                    试听内容  :
+                                    @if(!empty($var["knowledge_point_location"]))
+                                        {{$var["knowledge_point_location"]}} <br/>
+                                    @else
+                                        {{$var["stu_request_test_lesson_demand"]}}<br/>
+                                    @endif
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
