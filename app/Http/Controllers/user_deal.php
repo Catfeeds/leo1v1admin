@@ -497,10 +497,10 @@ class user_deal extends Controller
                 "remark"   => "学生:".$stu_nick."\n课时:".($lesson_count/100)."课时\n年级:".$grade_str
             ];
             $template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
-            $appId       = \App\Helper\Config::get_teacher_wx_appid();
-            $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
-            $wx  = new \App\Helper\Wx($appId,$appSecret);
-            $wx->send_template_msg($openid,$template_id,$data);
+            // $appId       = \App\Helper\Config::get_teacher_wx_appid();
+            // $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
+            // $wx  = new \App\Helper\Wx($appId,$appSecret);
+            // $wx->send_template_msg($openid,$template_id,$data);
         }
     }
 
@@ -2705,7 +2705,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $orderid=516;
+        $list = $this->get_baidu_money_charge_pay_info($orderid);
+        dd($list);
+        $dd = $this->t_test_lesson_subject->get_knowledge_point_location(542956);
+        dd($dd);
         $list = $this->t_test_lesson_subject->get_no_demand_list();
+        foreach($list as $val){
+            $this->t_test_lesson_subject->field_update_list($val["test_lesson_subject_id"],[
+               "stu_request_test_lesson_demand" =>$val["knowledge_point_location"] 
+            ]);
+        }
         dd($list);
         $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num(strtotime("2017-09-01"),strtotime("2017-10-01"),349);
         dd($top_num);

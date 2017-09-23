@@ -125,6 +125,10 @@
                                         <td>排课转化量(销售绿色)</td>
                                         <td>排课转化量(助教绿色)</td>
                                         <td>排课转化率</td>
+                                        <td>精排已排</td>
+                                        <td>精排未排</td>
+                                        <td>精排转化</td>
+                                        <td>精排转化率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_per_count_list">
@@ -150,6 +154,10 @@
                                             <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["ass_green_tran_count"]}}</a> </td>
 
                                             <td class="tra_per_str">{{@$var["tra_per_str"]}} </td>
+                                            <td>{{@$var["top_count"]}} </td>
+                                            <td>{{@$var["top_un_count"]}} </td>
+                                            <td>{{@$var["tran_count_seller_top"]}} </td>
+                                            <td>{{@$var["top_per"]}} </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

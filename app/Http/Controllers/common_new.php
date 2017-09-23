@@ -614,7 +614,8 @@ class common_new extends Controller
           CDR(userfield) 使用第三方外呼调用接口时传递了参数userField 该值只是第三方外呼调用接口发起的呼叫，且传递了userField参数，在挂机推送时用来获取userField传递的值。
 
         */
-        $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        $cdr_bridge_time=$this->get_in_int_val("cdr_answer_time");
         //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
         $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
 
@@ -634,7 +635,7 @@ class common_new extends Controller
         \App\Helper\Utils::logger("duration ,$duration, $cdr_bridge_time");
 
 
-        $called_flag=($cdr_status==28 && $duration>30  )?2:1;
+        $called_flag=($cdr_status==28 && $duration>60  )?2:1;
 
         $this->t_tq_call_info->add(
             $recid,

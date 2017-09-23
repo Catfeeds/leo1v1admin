@@ -138,6 +138,18 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">排课类型</span>
+                        <select class="opt-change form-control" id="id_lesson_plan_style" >
+                            <option value="-1">全部</option>
+                            <option value="1">top25</option>
+                            <option value="2">绿色通道</option>
+                            <option value="3">常规排课</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
                         <span >教务老师</span>
                         <select  id="id_jw_teacher" class="opt-change"  >
@@ -327,12 +339,7 @@
                                     升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
                                     课外提高 : {{$var["extra_improvement_str"]}} <br/>
                                     习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
-                                    试听内容  :
-                                    @if(!empty($var["knowledge_point_location"]))
-                                        {{$var["knowledge_point_location"]}} <br/>
-                                    @else
-                                        {{$var["stu_request_test_lesson_demand"]}}<br/>
-                                    @endif
+                                    试听内容  : {{$var["stu_request_test_lesson_demand"]}}<br/>
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>

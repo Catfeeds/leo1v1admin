@@ -892,7 +892,29 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_value($sql);
-
     }
+
+    public function get_tea_stu_num_list($start_time,$end_time,$teacherid){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["teacherid=%u",$teacherid,0],
+            "lesson_del_flag=0",
+            "lesson_type<1000",
+            "lesson_type<>2",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.type"
+                                  ." from %s l"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." where %s "
+                                  ." group by s.userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
 }

@@ -199,6 +199,7 @@ class seller_student_new2 extends Controller
         $limit_require_send_adminid = $this->get_in_int_val("limit_require_send_adminid",-1);
         $require_id                 = $this->get_in_int_val("require_id",-1);
         $has_1v1_lesson_flag        = $this->get_in_int_val("has_1v1_lesson_flag",-1,E\Eboolean::class);
+        $lesson_plan_style          = $this->get_in_int_val("lesson_plan_style",-1);
 
         $ret_info = $this->t_test_lesson_subject_require->get_plan_list(
             $page_num, $opt_date_str, $start_time,$end_time ,$grade,
@@ -206,7 +207,8 @@ class seller_student_new2 extends Controller
             $require_admin_type , $require_adminid ,$ass_test_lesson_type, $test_lesson_fail_flag,$accept_flag ,
             $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list,$adminid_all=[],
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
-            $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
+            $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,
+            $limit_require_send_adminid,$require_id,$lesson_plan_style
         );
 
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
@@ -311,8 +313,7 @@ class seller_student_new2 extends Controller
             }else{
                 $item['is_accept_adminid']="0";
             }
-            $qian=array(" ","　","\t","\n","\r");$hou=array("","","","","");
-            $item["knowledge_point_location"] = str_replace($qian,$hou,$item["knowledge_point_location"]);               
+                          
 
         }
 

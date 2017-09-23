@@ -101,28 +101,51 @@ class main_page extends Controller
             $main_type = 2;// 销售
             $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
+            if($ret_info['seller_target_income']>0){
+                $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income']*100;
+            }else{
+                $ret_info['seller_kpi'] = 0;
+            }
+
             // 计算电销人数
             $first_group  = '咨询一部';
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
             $new_group    = '新人营';
-            $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
-            $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-            $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-            $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-            $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-            $seller_num_arr['first_num'] = $first_num;
-            $seller_num_arr['second_num'] = $second_num;
-            $seller_num_arr['third_num'] = $third_num;
-            $seller_num_arr['new_num'] = $new_num;
+            $ret_info['first_num']  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+            $ret_info['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+            $ret_info['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+            $ret_info['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+            $ret_info['traing_num'] = '';// 培训中
+            $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
+
+
+            $seller_num_arr['first_num']  = $ret_info['first_num'];
+            $seller_num_arr['second_num'] = $ret_info['second_num'];
+            $seller_num_arr['third_num']  = $ret_info['third_num'];
+            $seller_num_arr['new_num']    = $ret_info['new_num'];
+            $seller_num_arr['traing_num'] = $ret_info['traing_num'];
 
             $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
             // 金额转化率占比
-            $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
-            $high_school_money = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
-            $junior_money      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
-            $primary_money     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+            $ret_info['referral_money'] = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+            $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+            $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
+            $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+
+            if($ret_info['income_price']>0){
+                $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
+                $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
+                $ret_info['junior_money_rate']   =  $ret_info['junior_money']/$ret_info['income_price']*100;
+                $ret_info['primary_money_rate']   =  $ret_info['primary_money']/$ret_info['income_price']*100;
+            }else{
+                $ret_info['referral_money_rate'] = 0;
+                $ret_info['high_school_money_rate']   = 0;
+                $ret_info['junior_money_rate']   =  0;
+                $ret_info['primary_money_rate']   =  0;
+            }
 
             // 月邀请率
             // 合同人数
@@ -166,6 +189,26 @@ class main_page extends Controller
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $adminid=$this->get_account_id();
+
+        //判断top25,排课情况每月40
+        $account_role = $this->t_manager_info->get_account_role($adminid);
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $start_time );
+        if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
+            $rank = @$self_top_info[6]["top_index"];
+            if(($account_role ==2 && $rank<=25) || $adminid == 349){
+                $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($start_time,$end_time,$adminid);
+                $seller_top_flag=1;
+            }else{
+                $seller_top_flag=0;
+                $top_num =0;
+            }
+        }else{
+            $seller_top_flag=0;
+            $top_num =0;
+        }
+
+
+
         //组长&主管
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
 
@@ -292,6 +335,8 @@ class main_page extends Controller
             "end_time"               => $week_end_time,
             "group_type"             => $group_type,
             "seller_account"         => $seller_account,
+            "top_num"                => $top_num,
+            "seller_top_flag"        => $seller_top_flag
         ]);
     }
 
@@ -521,6 +566,8 @@ class main_page extends Controller
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
             $item["ass_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["ass_tran_green_count"];
             $item["seller_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["seller_tran_green_count"];
+            $item["tran_count_seller_top"] = @$tra_info[$item["accept_adminid"]]["tran_count_seller_top"];
+            $item["top_per"] = $item["top_count"]==0?"无":(round($item["tran_count_seller_top"]/$item["top_count"],4)*100)."%";
 
 
             $all_total += $item["set_count"];

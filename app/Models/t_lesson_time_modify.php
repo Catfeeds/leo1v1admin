@@ -35,7 +35,7 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
                                   $lessonid
         );
 
-        return $this->main_get_val($sql);
+        return $this->main_get_value($sql);
     }
 
     public function get_teacher_keep_original_remark($lessonid){

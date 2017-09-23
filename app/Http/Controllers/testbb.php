@@ -239,20 +239,27 @@ class testbb extends Controller
 
 
     public function ss(){
+
+        $start_time = strtotime(date('Y-m-d','1506130271'));
+
+        dd($start_time);
+
+        $parentid = $this->get_in_int_val('parentid');
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type=-1);
+
+        $a = ['51353','51642'];
+        foreach($ret_list as $item){
+            $i = $item['userid'];
+            if(in_array($i,$a)){
+                echo $i.'<br>';
+            }
+        }
+        exit();
+        dd($ret_list);
+
         $a = '[{"day":"9-30","hours":[12,16]}]';
         dd(json_decode($a,true));
 
-        $deal_adminid = $this->get_in_int_val('deal_adminid');
-        $complaint_id = $this->get_in_int_val('complaint_id');
-        $director_wx_list   = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id);
-        $notice_wx_openid = [];
-        foreach($director_wx_list as $item){
-            $notice_wx_openid[] = $item['wx_openid'];
-        }
-
-        $notice_wx_openid   = array_flip(array_flip($notice_wx_openid));
-
-        dd($notice_wx_openid);
 
     }
 
@@ -289,6 +296,7 @@ class testbb extends Controller
         });
 
     }
+
 
 
 

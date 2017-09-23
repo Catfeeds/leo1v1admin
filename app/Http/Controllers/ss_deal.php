@@ -3892,6 +3892,7 @@ class ss_deal extends Controller
         $email     = trim($this->get_in_str_val("email"));
         $name      = trim($this->get_in_str_val("name"));
         $qq        = trim($this->get_in_str_val("qq"));
+        $account_role = $this->get_account_role();
 
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
@@ -3900,7 +3901,7 @@ class ss_deal extends Controller
                 return $this->output_err("新手机号已存在！无法更改为此手机号！");
             }
             $check_flag = $this->t_teacher_lecture_info->check_is_exists($old_phone);
-            if($check_flag){
+            if($check_flag && !in_array($account_role,[12])){
                 return $this->output_err("旧手机已经提交过试讲，无法更改手机号！");
             }
         }

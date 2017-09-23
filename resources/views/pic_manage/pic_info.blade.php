@@ -44,7 +44,7 @@
             </thead>
             <tbody>
                 @foreach ($table_data_list as $var)
-				    <tr>
+				            <tr>
                         @include('layouts.td_xs_opt')
                         <td>{{$var["id"]}} </td>
                         <td>{{$var["type_str"]}}</td>
@@ -57,7 +57,7 @@
                                 <a href="javascript:;" class="btn fa fa-trash-o opt-del" title="删除"></a>
                             </div>
                         </td>
-				    </tr>
+				            </tr>
                 @endforeach
             </tbody>
         </table>

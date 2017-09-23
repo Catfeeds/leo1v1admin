@@ -371,7 +371,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  ">
-                <span>基本信息</span>
+                <span>基本信息&nbsp<font style="color:red">标记红色星号*的为必填内容</font></span>
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">
@@ -606,20 +606,20 @@
             <div class="col-xs-12 col-md-12  ">
                 <span>试听需求</span>
             </div>
-            <div class="col-xs-12 col-md-6  ">
+            <div class="col-xs-12 col-md-9  ">
                 <div class="row">
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听内容：</span>
-                            <textarea class="form-control" style="height:70px;" id="id_stu_request_test_lesson_demand" > </textarea>
+                            <textarea class="form-control" style="height:115px;" id="id_stu_request_test_lesson_demand" > </textarea>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xs-12 col-md-6  ">
+            <div class="col-xs-12 col-md-3  ">
                 <div class="row">                  
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课意向：</span>
                             <select id="id_intention_level" class=" form-control "   >
@@ -627,7 +627,7 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-12 col-md-6 ">
+                    <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
                             <input id="id_stu_request_test_lesson_time" class=" form-control "   />
@@ -642,7 +642,7 @@
 
 
                     
-                    <div class="col-xs-12 col-md-6  ">
+                    <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon">上传试卷：</span>
                             <input type="text" class=" form-control "  id="id_test_paper"   / >
