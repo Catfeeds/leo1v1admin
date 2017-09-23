@@ -318,6 +318,9 @@ class main_page extends Controller
         $self_top_info[15]["top_index"] = isset($test_fail_info[15]["top_index"])?$test_fail_info[15]["top_index"]:0;
 
 
+        //今日需回访
+        $row_item = $this->t_seller_student_new-> get_lesson_status_count($adminid );
+        $next_revisit_count = $row_item['next_revisit_count'];
         // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
@@ -336,7 +339,8 @@ class main_page extends Controller
             "group_type"             => $group_type,
             "seller_account"         => $seller_account,
             "top_num"                => $top_num,
-            "seller_top_flag"        => $seller_top_flag
+            "seller_top_flag"        => $seller_top_flag,
+            "top_num"                => $next_revisit_count,
         ]);
     }
 

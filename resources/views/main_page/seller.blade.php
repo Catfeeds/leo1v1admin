@@ -116,6 +116,15 @@
                                         <td colspan="2">{{@$top_num}}/40</td>
                                     </tr>
                                 @endif
+                                <tr>
+                                    <td>今日需回访个数</td>
+                                    <td colspan="2">
+                                        <a href="http://admin.yb1v1.com/seller_student_new/seller_student_list_all" style="text-decoration:none;">
+                                            {{@$next_revisit_count}}
+                                        </a>
+                                    </td>
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -218,7 +227,7 @@
                                             <span><font style="color:#000000;">{{$var["index"]}}</font> </span>
                                         </td>
                                         <td style="text-align:left">
-                                            <img src="{{$var["face_pic"]}}" width="20px" height="20px" alt="" />
+                                            <img src="{{$var["face_pic"]}}" width="40px" height="40px" alt="" />
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
