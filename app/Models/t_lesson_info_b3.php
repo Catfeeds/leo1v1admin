@@ -903,14 +903,16 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_type<1000",
             "lesson_type<>2",
         ];
-        $sql = $this->gen_sql_new("select sum(if(s.type=1,1,0)) as not_num,sum(if(s.type!=1,1,0)) as num"
+        $sql = $this->gen_sql_new("select s.userid,s.type"
                                   ." from %s l"
-                                  ." left join s on l.userid=s.userid"
+                                  ." left join %s s on l.userid=s.userid"
                                   ." where %s "
+                                  ." group by s.userid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 

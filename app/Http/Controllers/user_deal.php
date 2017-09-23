@@ -497,10 +497,10 @@ class user_deal extends Controller
                 "remark"   => "学生:".$stu_nick."\n课时:".($lesson_count/100)."课时\n年级:".$grade_str
             ];
             $template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
-            $appId       = \App\Helper\Config::get_teacher_wx_appid();
-            $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
-            $wx  = new \App\Helper\Wx($appId,$appSecret);
-            $wx->send_template_msg($openid,$template_id,$data);
+            // $appId       = \App\Helper\Config::get_teacher_wx_appid();
+            // $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
+            // $wx  = new \App\Helper\Wx($appId,$appSecret);
+            // $wx->send_template_msg($openid,$template_id,$data);
         }
     }
 

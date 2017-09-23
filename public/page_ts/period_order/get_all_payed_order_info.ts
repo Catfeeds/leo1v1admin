@@ -31,6 +31,17 @@ $(function(){
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
 
+    //点击进入个人主页
+    $('.opt-user').on('click',function(){
+        var userid = $(this).parent().data("userid");
+        var nick   = $(this).parent().data("nick");
+        //$(this).attr('href','/stu_manage?sid = '+userid+'&nick='+nick+"&"  );
+        window.open('/stu_manage?sid='+ userid+"&return_url="+ encodeURIComponent(window.location.href)) ;
+
+    });
+
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

@@ -2167,6 +2167,9 @@ class test_code extends Controller
             if($val!=""){
                 $teacherid = $this->t_teacher_info->get_teacherid_by_name($val);
                 $list = $this->t_lesson_info_b3->get_tea_stu_num_list($start_time,$end_time,$teacherid);
+                foreach($list as $l_val){
+
+                }
                 echo "$val|".$list['not_num']."|".$list['num'];
                 echo "<br>";
             }

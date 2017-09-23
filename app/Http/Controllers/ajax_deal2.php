@@ -1161,6 +1161,15 @@ class ajax_deal2 extends Controller
             "subject" => $subject,
             "editionid" =>$editionid
         ]);
+
+        $list = $this->t_student_subject_list->get_info_by_userid($userid);
+        $subject_ex="";
+        foreach($list as $item){
+             $subject_ex .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        $this->t_student_info->field_update_list($userid,[
+            "subject_ex"  =>trim($subject_ex,","); 
+        ]);
         return $this->output_succ();
     }
 

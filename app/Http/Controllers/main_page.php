@@ -102,7 +102,7 @@ class main_page extends Controller
             $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
             if($ret_info['seller_target_income']>0){
-                $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income'];
+                $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income']*100;
             }else{
                 $ret_info['seller_kpi'] = 0;
             }
