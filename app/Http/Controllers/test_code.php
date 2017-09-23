@@ -2032,6 +2032,23 @@ class test_code extends Controller
         }
     }
 
+    public function send_level_up(){
+        $teacherid = 
+        $val = $this->t_teacher_info->get_teacher_info($teacherid);
+        $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+        $data['keyword3'] = "19:30";
+        $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
+        $level_str = E\Enew_level::v2s($val['level_simulate']);
+        $data['first'] = "恭喜您，您等级已经调整为".$level_str;
+        $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
+        $data['keyword2'] = $level_str;
+        exit;
+        if($val['wx_openid']!=""){
+            \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+        }
+    }
+
+
     /**
      * 设置老师批次
      */
