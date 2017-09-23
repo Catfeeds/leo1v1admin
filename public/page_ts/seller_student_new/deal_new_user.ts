@@ -728,7 +728,7 @@ $(function(){
                 id_stu_request_test_lesson_time.val("");
             });           
 
-            id_study_habit.data("v",opt_data.study_habit);
+            id_study_habit.data("v",data.study_habit);
             id_study_habit.on("click",function(){
                 // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
@@ -768,7 +768,7 @@ $(function(){
                 
             });
 
-            id_interests_hobbies.data("v",opt_data.interests_hobbies);
+            id_interests_hobbies.data("v",data.interests_and_hobbies);
             id_interests_hobbies.on("click",function(){
                 // var interests_hobbies= data.interests_hobbies;
                 var interests_hobbies  = id_interests_hobbies.data("v");
@@ -808,7 +808,7 @@ $(function(){
                 
             });
 
-            id_character_type.data("v",opt_data.character_type);
+            id_character_type.data("v",data.character_type);
             id_character_type.on("click",function(){
                 // var character_type= data.character_type;
                 var character_type  = id_character_type.data("v");
@@ -848,7 +848,7 @@ $(function(){
                 
             });
 
-            id_need_teacher_style.data("v",opt_data.need_teacher_style);
+            id_need_teacher_style.data("v",data.need_teacher_style);
             id_need_teacher_style.on("click",function(){
                 // var need_teacher_style= data.need_teacher_style;
                 var need_teacher_style  = id_need_teacher_style.data("v");
@@ -1340,7 +1340,7 @@ $(function(){
             });
             
 
-            dlg.getModalDialog().css("width","98%");
+            dlg.getModalDialog().css("width","78%");
 
 
             var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');

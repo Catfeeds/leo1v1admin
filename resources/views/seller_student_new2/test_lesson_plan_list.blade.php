@@ -138,6 +138,18 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">排课类型</span>
+                        <select class="opt-change form-control" id="id_lesson_plan_style" >
+                            <option value="-1">全部</option>
+                            <option value="1">top25</option>
+                            <option value="2">绿色通道</option>
+                            <option value="3">常规排课</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
                         <span >教务老师</span>
                         <select  id="id_jw_teacher" class="opt-change"  >

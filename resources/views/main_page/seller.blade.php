@@ -110,6 +110,12 @@
                                 <tr>
                                     <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
                                 </tr>
+                                @if($seller_top_flag==1)
+                                    <tr>
+                                        <td>精排消耗情况</td>
+                                        <td colspan="2">{{@$top_num}}/40</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

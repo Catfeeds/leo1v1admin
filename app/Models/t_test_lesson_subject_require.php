@@ -165,7 +165,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list=[],$adminid_all=[],
         $seller_require_change_flag=-1,$require_assign_flag=-1,$has_1v1_lesson_flag=-1,$accept_adminid=-1,$is_jw=0,
         $jw_test_lesson_status=-1,$jw_teacher=-1,$tea_subject="",$is_ass_tran=0,$limit_require_flag=-1,
-        $limit_require_send_adminid=-1,$require_id=-1
+        $limit_require_send_adminid=-1,$require_id=-1,$lesson_plan_style=-1
     ){
         if($require_id>0){
             $where_arr=[
@@ -244,6 +244,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             }else if($is_ass_tran==2){
                 $where_arr[]="tr.origin like '%%转介绍%%'";
             }
+            if($lesson_plan_style==1){
+                $where_arr[]="tr.seller_top_flag=1";
+            }elseif($lesson_plan_style==2){
+                $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=1";
+            }elseif($lesson_plan_style==3){
+                $where_arr[]="tr.seller_top_flag=0 and tr.is_green_flag=0";
+            }
+
 
         }
 

@@ -33,6 +33,7 @@ interface GargsStatic {
 	limit_require_send_adminid:	number;
 	require_id:	number;
 	has_1v1_lesson_flag:	number;//App\Enums\Eboolean
+	lesson_plan_style:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -230,7 +231,8 @@ $(function(){
 			limit_require_flag:	$('#id_limit_require_flag').val(),
 			limit_require_send_adminid:	$('#id_limit_require_send_adminid').val(),
 			require_id:	$('#id_require_id').val(),
-			has_1v1_lesson_flag:	$('#id_has_1v1_lesson_flag').val()
+			has_1v1_lesson_flag:	$('#id_has_1v1_lesson_flag').val(),
+			lesson_plan_style:	$('#id_lesson_plan_style').val()
         });
     }
 
@@ -283,6 +285,7 @@ $(function(){
 	$('#id_limit_require_send_adminid').val(g_args.limit_require_send_adminid);
 	$('#id_require_id').val(g_args.require_id);
 	$('#id_has_1v1_lesson_flag').val(g_args.has_1v1_lesson_flag);
+	$('#id_lesson_plan_style').val(g_args.lesson_plan_style);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -490,6 +493,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_has_1v1_lesson_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lesson_plan_style</span>
+                <input class="opt-change form-control" id="id_lesson_plan_style" />
             </div>
         </div>
 */

@@ -176,6 +176,26 @@ class main_page extends Controller
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $adminid=$this->get_account_id();
+
+        //判断top25,排课情况每月40
+        $account_role = $this->t_manager_info->get_account_role($adminid);                   
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $start_time );
+        if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
+            $rank = @$self_top_info[6]["top_index"];
+            if(($account_role ==2 && $rank<=25) || $adminid == 349){               
+                $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($start_time,$end_time,$adminid);
+                $seller_top_flag=1;
+            }else{
+                $seller_top_flag=0;
+                $top_num =0;
+            }
+        }else{
+            $seller_top_flag=0;
+            $top_num =0;
+        }
+
+
+        
         //组长&主管
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
 
@@ -302,6 +322,8 @@ class main_page extends Controller
             "end_time"               => $week_end_time,
             "group_type"             => $group_type,
             "seller_account"         => $seller_account,
+            "top_num"                => $top_num,
+            "seller_top_flag"        => $seller_top_flag
         ]);
     }
 

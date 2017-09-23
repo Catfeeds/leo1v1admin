@@ -668,7 +668,7 @@ class wx_teacher_api extends Controller
 
         $lesson_time         = $this->t_lesson_info_b2->get_lesson_time($lessonid);
         // $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
-        // $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
         $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
         // $parent_modify_time_arr = explode(',',$parent_modify_time);
 
@@ -732,7 +732,7 @@ class wx_teacher_api extends Controller
 
         $ret1 = $this->t_lesson_info_b2->field_update_list($lessonid,[
             'lesson_start'  => $lesson_time_arr[0],
-            'lesson_end'    => $lesson_time_arr[1],
+            // 'lesson_end'    => $lesson_time_arr[1],
         ]);
 
         $ret2 = $this->t_lesson_time_modify->field_update_list($lessonid,[
