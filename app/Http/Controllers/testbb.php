@@ -242,9 +242,14 @@ class testbb extends Controller
         $parentid = $this->get_in_int_val('parentid');
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type=-1);
 
+        $a = ['51353','51642'];
         foreach($ret_list as $item){
-            
+            $i = $item['userid'];
+            if(in_array($i,$a)){
+                echo $i.'<br>';
+            }
         }
+        exit();
         dd($ret_list);
 
         $a = '[{"day":"9-30","hours":[12,16]}]';

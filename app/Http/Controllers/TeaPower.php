@@ -3066,7 +3066,9 @@ trait TeaPower {
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         //  $orderid = $this->get_in_int_val("orderid",516);
        
-        $orderNo = $this->t_order_info->get_from_orderno($orderid);
+        $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
+        return $orderNo;
+        dd($orderNo);
         if(empty($orderNo)){
             $orderNo=123456789;
         }
