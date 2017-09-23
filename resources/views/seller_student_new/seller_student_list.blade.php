@@ -988,7 +988,7 @@
                     <div class="col-xs-12 col-md-12 ">
                         <div class="input-group ">
                             <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听内容：</span>
-                            <textarea class="form-control" style="height:70px;" id="id_knowledge_point_location" > </textarea>
+                            <textarea class="form-control" style="height:70px;" id="id_stu_request_test_lesson_demand" > </textarea>
                         </div>
                     </div>
                 </div>
