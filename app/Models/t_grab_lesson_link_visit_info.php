@@ -8,7 +8,7 @@ class t_grab_lesson_link_visit_info extends \App\Models\Zgen\z_t_grab_lesson_lin
 		parent::__construct();
 	}
 
-    public function get_visit_detail_by_grabid($grabid){
+    public function get_visit_detail_by_grabid($page_num,$grabid){
         $where_arr = [
             "v.grabid='$grabid'"
         ];
@@ -22,7 +22,7 @@ class t_grab_lesson_link_visit_info extends \App\Models\Zgen\z_t_grab_lesson_lin
             ,t_grab_lesson_link_visit_operation::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_by_page($sql,$page_num);
     }
 }
 
