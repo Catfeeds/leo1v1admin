@@ -48,7 +48,7 @@
                     <td> grabid </td>
                     <td> 抢课链接  </td>
                     <td> 生成时间  </td>
-                    <td> 有效时间  </td>
+                    <td> 有效时间(分)  </td>
                     <td> 排课人 </td>
                     <td> requireids </td>
                     <td> 访问次数 </td>
