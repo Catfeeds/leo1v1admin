@@ -326,12 +326,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $max_main_type = $this->t_admin_main_group_name->get_max_main_type();
-        $up_group_list = $this->t_admin_main_group_name->get_group_list_for_major($i);
-        $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid=21001,$competition_call_adminid=831);
-        dd($admin_revisiterid);
-        $competition_call_adminid = 412;
-        $phone = '15564676749';
+        $phone = '13852958442';
+        $competition_call_adminid=412;
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
         dd($phone,$tquin,$is_called_flag);
