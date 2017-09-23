@@ -547,7 +547,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
                                   " left join %s tm on tm.groupid=m.up_groupid".
-                                  // " where %s and am.del_flag=0".
                                   " where %s ".
                                   "  group by am.uid",
                                   self::DB_TABLE_NAME,//am
@@ -1703,7 +1702,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $check_time = time() - 30*86400;
         $where_arr = [
             "m.account_role=2",
-            "m.del_flag=0",
             "m.become_full_member_time <= $check_time"
         ];
 
