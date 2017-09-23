@@ -330,6 +330,9 @@ class agent extends Controller
         $competition_call_adminid=412;
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
+        if($is_called_flag == 0){//未拨通
+            dd('a');
+        }
         dd($phone,$tquin,$is_called_flag);
     }
 
