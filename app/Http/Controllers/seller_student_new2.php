@@ -311,8 +311,7 @@ class seller_student_new2 extends Controller
             }else{
                 $item['is_accept_adminid']="0";
             }
-            $qian=array(" ","　","\t","\n","\r");$hou=array("","","","","");
-            $item["knowledge_point_location"] = str_replace($qian,$hou,$item["knowledge_point_location"]);               
+                          
 
         }
 
