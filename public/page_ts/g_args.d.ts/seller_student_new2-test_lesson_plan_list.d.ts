@@ -143,6 +143,7 @@ interface RowData {
 	seller_top_flag	:any;
 	id	:any;
 	lesson_time	:any;
+	use_new_flag	:any;
 	except_lesson_time	:any;
 	limit_require_time_str	:any;
 	limit_accept_time_str	:any;
@@ -183,12 +184,8 @@ interface RowData {
 	limit_require_account	:any;
 	limit_require_send_account	:any;
 	limit_require_tea_nick	:any;
-	require_change_lesson_time_str	:any;
-	seller_require_change_time_str	:any;
-	seller_require_change_flag_str	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
-	accept_account	:any;
 }
 
 /*

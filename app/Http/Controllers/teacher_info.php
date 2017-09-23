@@ -2144,7 +2144,6 @@ class teacher_info extends Controller
     }
 
     public function grab_visit_info(){
-
         $teacherid    = $this->get_login_teacher();
         $grab_link    = $this->get_in_str_val('cur_url');
         $grabid       = $this->get_in_int_val('grabid', 0);
@@ -2153,7 +2152,7 @@ class teacher_info extends Controller
         $success_flag = $this->get_in_int_val('success_flag', 0);
 
         if (!$grabid) {
-            $grabid = $this->t_grab_lesson_link_info->get_id_by_link($grab_link);
+            $grabid = $this->t_grab_lesson_link_info->get_grabid_by_link($grab_link);
         }
 
         $return_info['grabid'] = $grabid;
@@ -2171,7 +2170,7 @@ class teacher_info extends Controller
             return outputjson_success(['return_info' => $return_info]);
         } else if ($visitid > 0 & $grabid >0) {//记录抢课信息
 
-            $this->t_grab_lesson_link_visit_info->field_update_list(['id'=> $visitid],[
+            $this->t_grab_lesson_link_visit_info->field_update_list(['visitid'=> $visitid],[
                 'teacherid' => $teacherid,
                 'operation' => 1,
             ]);

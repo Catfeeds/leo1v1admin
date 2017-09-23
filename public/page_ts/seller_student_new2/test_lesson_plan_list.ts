@@ -1388,7 +1388,6 @@ $(function(){
                     data     : {
                         'url'         :url,
                         'live_time'   : time,
-                        'create_time' : now,
                         'requireids'  : grab_requireids,
                     },
                     success :function(ret){
