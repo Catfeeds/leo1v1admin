@@ -2215,14 +2215,19 @@ class test_code extends Controller
         $start_time = strtotime("2017-$month_start");
         $end_time = strtotime("+1 month",$start_time);
         // $end_time   = strtotime("2017-$month_end");
-        echo "姓名|总课时|试听课时|常规课时|";
+        $month_str = $month_start."月";
+        echo "$month_str"
+            // ."|试听课时|常规课时|"
+            ;
+        echo "<br>";
         foreach($arr as $val){
             if($val!=""){
                 $tea_info = explode("|",$val);
                 $teacherid = $tea_info[0];
                 $name= $tea_info[1];
-                $info = $this->t_lesson_info_b3->get_tea_lesson_total($month_start,$month_end,$teacherid);
-                echo $name."|".$info['lesson_total']."|".$info['trial_lesson_total']."|".$info['normal_lesson_total'];
+                $info = $this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,$teacherid);
+                echo $info['lesson_total']/100;
+                          // ."|".$info['trial_lesson_total']."|".$info['normal_lesson_total']
                 echo "<br>";
             }
         }

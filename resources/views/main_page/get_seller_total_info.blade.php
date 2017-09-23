@@ -178,11 +178,11 @@
                                         <td> {{@$ret_info['seller_call_num']}} </td>
                                         <td> {{@number_format($ret_info['succ_called_rate'],2)}}% </td>
                                         <td> {{@$ret_info['seller_invit_num']}}</td>
-                                        <td> {{@$ret_info['seller_schedule_num']}} </td>
-                                        <td> {{@$ret_info['test_lesson_succ_num']}} </td>
-                                        <td> {{@$ret_info['formal_num']}} </td>
-                                        <td> {{@$ret_info['new_order_num']}} </td>
-                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
+                                        <td> {{@$ret_info['seller_invit_num']}}</td>
+                                        <td> {{@$ret_info['un_consumed']}} </td>
+                                        <td> {{@number_format($ret_info['stu_consume_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_called'],2)}} </td>
+                                        <td> {{@number_format($ret_info['invit_rate'],2)}} </td>
                                         <td> {{@number_format($ret_info['called_rate'],2)}} </td>
                                     </tr>
                                 </tbody>

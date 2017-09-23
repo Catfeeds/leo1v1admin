@@ -184,9 +184,9 @@ class main_page extends Controller
             }
 
             if($ret_info['cc_called_num']>0){ // 人均邀约数
-                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+                $ret_info['invit_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
             }else{
-                $ret_info['called_rate'] = 0;
+                $ret_info['invit_rate'] = 0;
             }
 
             if($ret_info['seller_call_num']>0){ // 人均呼出量
@@ -195,6 +195,13 @@ class main_page extends Controller
                 $ret_info['aver_called'] = 0;
             }
 
+            if($ret_info['new_stu']>0){ //月例子消耗数
+                $ret_info['stu_consume_rate'] = $ret_info['has_called']/$ret_info['new_stu'];
+            }else{
+                $ret_info['stu_consume_rate'] = 0;
+            }
+
+            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);

@@ -938,17 +938,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
-            ["l.teacherid=%u",$teacherid,0],
+            ["teacherid=%u",$teacherid,0],
+            "lesson_del_flag=0",
+            "lesson_type in (0,1,3)",
+            "confirm_flag!=2",
         ];
-        $sql = $this->gen_sql_new("select sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_total,"
-                                  ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_total,"
-                                  ." sum(lesson_count) as lesson_total,"
-                                  ." t.realname"
-                                  ." from %s l"
-                                  ." left join %s t on l.teacherid=t.teacherid"
+        $sql = $this->gen_sql_new("select sum(lesson_count) as lesson_total"
+                                  ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);
