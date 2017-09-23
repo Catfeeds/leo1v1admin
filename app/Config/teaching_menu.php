@@ -7,7 +7,6 @@ class teaching_menu{
             ["name"=> "教学管理事业部" , "list" => [
                 [ "name"=>"核心数据",  "list"=>[
                     [ "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
-                    [ "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
                     [ "name"=>"老师晋升审核new","url"=>"/teacher_level/teacher_advance_info_list"],
                     [ "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
@@ -109,6 +108,7 @@ class teaching_menu{
                 [ "name"=>"教研部",  "list"=>[
                     ["name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                     [ "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
+                    [ "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
 
                     [ "name"=>"教研组",  "list"=>[
                         ["name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],

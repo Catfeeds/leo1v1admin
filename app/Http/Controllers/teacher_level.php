@@ -181,7 +181,6 @@ class teacher_level extends Controller
         if($level==4){
             $level_after=4;
         }
-
         $this->t_teacher_advance_list->row_insert([
             "start_time" =>$start_time,
             "teacherid"  =>$teacherid,

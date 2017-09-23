@@ -748,7 +748,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-md-12  ">
-                <span>基本信息</span>
+                <span>基本信息&nbsp<font style="color:red">标记红色星号*的为必填内容</font></span>
             </div>
             <div class="col-xs-12 col-md-12  ">
                 <div class="row">

@@ -27,6 +27,9 @@ class period_order extends Controller
         $page_info = $this->get_in_page_info();
         
         $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type);
+        foreach($list as $item){
+            
+        }
         dd($list);
   
     }
