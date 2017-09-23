@@ -119,6 +119,7 @@ class NewRouteConfig {
         "teacher_money_www"           => true,
         "grab_lesson"                 => true,
         "teacher_info_www"           => true,
+        "period_order"               => true
     ];
 
     //config

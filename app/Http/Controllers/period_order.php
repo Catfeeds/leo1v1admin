@@ -13,7 +13,7 @@ class period_order extends Controller
     use TeaPower;
 
     public function get_all_payed_order_info(){
-        
+         
     }
 
 }
