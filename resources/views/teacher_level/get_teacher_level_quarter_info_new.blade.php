@@ -31,7 +31,6 @@
                             >
                                 @if(empty($var["require_time"]))
                                     <a class="opt-advance-require" title="晋升申请">晋升申请</a>
-                                    <a class="opt-advance-require-golden" title="直升金牌">直升金牌</a>
                                 @endif
                                 @if($var["hand_flag"]==1)
                                     <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
