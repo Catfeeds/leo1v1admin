@@ -278,7 +278,6 @@
                             </thead>
                             <tbody id="id_group_body">
                                 @foreach ( $group_list as $key=> $var )
-                                    @if($var["group_name"]!='max')
                                     <tr>
                                         <td>
                                             <span>
@@ -330,7 +329,6 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
