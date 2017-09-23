@@ -101,6 +101,8 @@ class main_page extends Controller
             $main_type = 2;// 销售
             $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
+            // $ret_info[] = $ret_info['income_price']/
+
             // 计算电销人数
             $first_group  = '咨询一部';
             $second_group = '咨询二部';
