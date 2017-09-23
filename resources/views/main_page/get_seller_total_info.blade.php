@@ -67,7 +67,7 @@
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@$ret_info['aver_money']}} </td>
                                         <td> {{@$ret_info['aver_count']}} </td>
-                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@$ret_info['seller_kpi']}} </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,7 +96,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> 节点 </td>
+                                        <td> {{@$ret_info['']}} </td>
                                         <td> 节点 </td>
                                         <td> 节点 </td>
                                         <td> 节点 </td>

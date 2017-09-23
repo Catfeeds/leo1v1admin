@@ -2621,10 +2621,9 @@ trait TeaPower {
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
         if(!empty($lesson_list)){
             foreach($lesson_list as $val){
-
+                
             }
         }
-
 
     }
 

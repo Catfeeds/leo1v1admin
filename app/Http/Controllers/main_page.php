@@ -101,18 +101,24 @@ class main_page extends Controller
             $main_type = 2;// 销售
             $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
 
-            // $ret_info[] = $ret_info['income_price']/
+            if($ret_info['seller_target_income']>0){
+                $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income'];
+            }else{
+                $ret_info['seller_kpi'] = 0;
+            }
 
             // 计算电销人数
             $first_group  = '咨询一部';
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
             $new_group    = '新人营';
-            $seller_num = $this->t_admin_group_name->get_seller_num();// 咨询一部+咨询二部+咨询三部+新人营
             $first_num  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
             $second_num = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
             $third_num  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
             $new_num = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+            $seller_num = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num'];// 咨询一部+咨询二部+咨询三部+新人营
+
+
             $seller_num_arr['first_num'] = $first_num;
             $seller_num_arr['second_num'] = $second_num;
             $seller_num_arr['third_num'] = $third_num;

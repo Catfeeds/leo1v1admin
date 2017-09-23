@@ -372,7 +372,7 @@ $(function(){
                             }else{
                                 if(resp.seller_top_flag==1){
                                     if(11){
-                                        var uu=40-resp.top_num-1;
+                                        var uu=40-resp.top_num;
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
 

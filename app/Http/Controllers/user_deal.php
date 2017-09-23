@@ -2705,6 +2705,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $dd = $this->t_test_lesson_subject->get_knowledge_point_location(542956);
+        dd($dd);
         $list = $this->t_test_lesson_subject->get_no_demand_list();
         foreach($list as $val){
             $this->t_test_lesson_subject->field_update_list($val["test_lesson_subject_id"],[

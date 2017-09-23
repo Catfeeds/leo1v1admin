@@ -671,58 +671,6 @@ class wx_parent_api extends Controller
 
 
 
-    public function set_modify_lesson_time_by_teacher(){ // 1031  老师提交选择的时间段
-        $lessonid = $this->get_in_int_val('lessonid');
-        $teacher_modify_remark = $this->get_in_str_val('teacher_modify_remark');
-        $teacher_modify_time   = $this->get_in_str_val('teacher_modify_time');
-
-        $lesson_old_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
-
-        $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
-            'teacher_modify_remark' => $teacher_modify_remark,
-            'teacher_modify_time'   => $teacher_modify_time
-        ]);
-
-        if($ret){
-            // 微信推送给老师
-            $day_date = date('Y-m-d H:i:s');
-            $lesson_old_date = date('m月d日 H:i:s',$lesson_old_time);
-
-            if($teacher_modify_remark){
-                $result   = " 原因: { $teacher_modify_remark } ";
-            }else{
-                $result   = '';
-            }
-
-            $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
-
-            $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
-            $teacher_url = ''; //待定
-            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']      = "您申请修改学生{ $stu_nick } 的家长发起的申请修改{ $lesson_old_date } 的上课时间 ";
-            $data['keyword1']   = " 调换{ $stu_nick } 的家长发起的换时间申请";
-            $data['keyword2']   = "原上课时间:{ $lesson_old_date } ,$result";
-            $data['keyword3']   = " $day_date";
-            $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
-
-            // 给家长推送结果
-            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
-            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-            $data_parent = [
-                'first' => "{ $teacher_nick } 老师要求调换您发起的换时间申请",
-                'keyword1' =>"调换{ $lesson_old_date }上课时间",
-                'keyword2' => "原上课时间:{ $lesson_old_date },$result",
-                'keyword3' => "$day_date",
-                'remark'   => "请点击详情查看老师勾选的时间并进行处理!"
-            ];
-            $url_parent = '';
-            $wx = new \App\Helper\Wx();
-            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
-        }
-
-        return $this->output_succ();
-    }
 
 
     public function set_lesson_time_by_parent(){ // 1032 // 家长同意老师申请的时间
@@ -1213,6 +1161,8 @@ class wx_parent_api extends Controller
         }
 
     }
+
+
 
 
 }
