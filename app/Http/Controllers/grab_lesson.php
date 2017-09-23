@@ -22,8 +22,6 @@ class grab_lesson extends Controller
         $grabid = $this->get_in_int_val('grabid');
         $grab_lesson_link = $this->get_in_str_val('grab_lesson_link');
         $live_time = ($this->get_in_int_val('live_time'))*60;
-        // $start_time = $this->get_in_int_val('start_time', -1);
-        // $end_time = $this->get_in_int_val('end_time', -1);
         $adminid = $this->get_in_int_val('adminid');
         $page_info= $this->get_in_page_info();
         $ret_info = $this->t_grab_lesson_link_info->get_all_info($start_time, $end_time,$grabid, $grab_lesson_link, $live_time,
@@ -31,9 +29,6 @@ class grab_lesson extends Controller
         foreach($ret_info['list'] as &$item) {
             $this->cache_set_item_account_nick($item,"adminid", "nick");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-
-            // \App\Helper\Utils::unixtime2date_for_item($item, 'create_time');
-            // $this->cache_get_account_nick($item['adminid']);
             $item['live_time'] = $item['live_time'] / 60;
         }
 
@@ -42,16 +37,18 @@ class grab_lesson extends Controller
     }
 
     public function get_list_by_grabid_js(){
+        $page_num=$this->get_in_page_num();
         $grabid = $this->get_in_int_val('grabid', -1);
-        $ret_info = $this->t_grab_lesson_link_visit_info->get_visit_detail_by_grabid($grabid);
-        foreach ($ret_info as &$item){
+        $ret_list = $this->t_grab_lesson_link_visit_info->get_visit_detail_by_grabid($page_num, $grabid);
+        foreach ($ret_list['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"visit_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"grab_time");
             $this->cache_set_item_teacher_nick($item,"teacherid", "tea_nick");
             \App\Helper\Utils::transform_1tg_0tr($item,"operation");
             \App\Helper\Utils::transform_1tg_0tr($item,"success_flag");
         }
-        return $this->output_succ(["data"=> $ret_info]);
+        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
+        return $this->output_succ(["data"=> $ret_list]);
     }
     public function make_lesson_link(){
         $max_num = pow(2,31) -1;
