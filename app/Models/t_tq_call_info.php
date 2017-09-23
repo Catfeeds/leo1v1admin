@@ -479,9 +479,10 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $where_arr = [
             ['uid = %d',$tquin,-1],
             ['phone = %d',$phone,-1],
-            'is_called_phone = 2',
+            'is_called_phone = 1',
         ];
-        $sql = $this->gen_sql_new(" select id from %s "
+        $this->where_arr_add_time_range($where_arr,'start_time',time(),time()-3600);
+        $sql = $this->gen_sql_new(" select is_called_phone from %s "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
