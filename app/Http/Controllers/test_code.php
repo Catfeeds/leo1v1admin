@@ -2157,23 +2157,24 @@ class test_code extends Controller
     public function get_tea_stu_num(){
         $month_start = $this->get_in_int_val("month_start");
         $month_end   = $this->get_in_int_val("month_end");
-        $name        = $this->get_in_str_val("name");
-
+        $teacherid = $this->get_in_int_val("teacherid");
+        if($teacherid==0){
+            return $this->output_err("id不能为0");
+        }
         $start_time = strtotime("2017-$month_start");
         $end_time   = strtotime("+1 month",strtotime("2017-$month_end"));
 
-        $info = $this->get_b_txt();
-        foreach($info as $val){
-            if($val!=""){
-                $teacherid = $this->t_teacher_info->get_teacherid_by_name($val);
-                $list = $this->t_lesson_info_b3->get_tea_stu_num_list($start_time,$end_time,$teacherid);
-                foreach($list as $l_val){
-
-                }
-                echo "$val|".$list['not_num']."|".$list['num'];
-                echo "<br>";
+        $list = $this->t_lesson_info_b3->get_tea_stu_num_list($start_time,$end_time,$teacherid);
+        $not_num=0;
+        $num=0;
+        foreach($list as $l_val){
+            $num++;
+            if($l_val['type']==1){
+                $not_num++;
             }
         }
+        echo "$val|".$not_num."|".$num;
+        echo "<br>";
     }
 
 

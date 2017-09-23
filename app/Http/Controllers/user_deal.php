@@ -2705,6 +2705,16 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list = $this->t_student_subject_list->get_info_by_userid(-1);
+        $arr=[];
+        foreach($list as $item){
+            $arr[$item["userid"]] .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        dd($arr);
+        $this->t_student_info->field_update_list($userid,[
+            "subject_ex"  =>trim($subject_ex,",")           
+        ]);
+
         $orderid=516;
         $list = $this->get_baidu_money_charge_pay_info($orderid);
         dd($list);

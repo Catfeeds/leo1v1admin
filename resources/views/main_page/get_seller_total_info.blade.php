@@ -63,7 +63,7 @@
                                     <tr>
                                         <td> {{@number_format($ret_info['income_price'],2)}}</td>
                                         <td> {{@$ret_info['income_count']}} </td>
-                                        <td> {{@$ret_info['formal_info']}} </td>
+                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
