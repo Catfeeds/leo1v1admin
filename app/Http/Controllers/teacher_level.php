@@ -568,29 +568,11 @@ class teacher_level extends Controller
     }
 
     public function teacher_advance_info_list(){
-        $season = ceil((date('n'))/3)-1;//上季度是第几季度
-        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
-        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
-        $start_time = $this->get_in_int_val("start_time",$start_time);
-        $this->set_in_value("quarter_start",$start_time);
-        $quarter_start = $this->get_in_int_val("quarter_start");
-        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
-        $teacherid       = $this->get_in_int_val("teacherid",-1);
-        $accept_flag       = $this->get_in_int_val("accept_flag",-1);
-        $fulltime_flag       = $this->get_in_int_val("fulltime_flag",-1);
-
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info);
         foreach($ret_info["list"] as &$item){
-            E\Elevel::set_item_value_str($item,"level_before");
-            E\Elevel::set_item_value_str($item,"level_after");
-            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time","_str");
-
             E\Eaccept_flag::set_item_value_str($item);
-            $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
- 
+            E\Elevel::set_item_value_str($item,"level_before");
+            \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
