@@ -101,11 +101,11 @@
                                         <td> {{@$ret_info['second_num']}} </td>
                                         <td> {{@$ret_info['third_num']}} </td>
                                         <td> {{@$ret_info['new_num']}} </td>
-                                        <td> {{@$ret_info['']}}</td>
-                                        <td> 节点 </td>
-                                        <td> 节点 </td>
-                                        <td class="panel-yellow" > 存档 </td>
-                                        <td> 节点 </td>
+                                        <td> {{@$ret_info['traing_num']}}</td>
+                                        <td> {{@$ret_info['referral_money_rate']}}% </td>
+                                        <td> {{@$ret_info['high_school_money_rate']}}% </td>
+                                        <td> {{@$ret_info['junior_money_rate']}}% </td>
+                                        <td> {{@$ret_info['primary_money_rate']}}% </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -129,10 +129,23 @@ class main_page extends Controller
             $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
             // 金额转化率占比
-            $referral_money = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
-            $high_school_money = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
-            $junior_money      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
-            $primary_money     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+            $ret_info['referral_money'] = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+            $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
+            $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
+            $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
+
+
+            if($ret_info['income_price']>0){
+                $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
+                $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
+                $ret_info['junior_money_rate']   =  $ret_info['junior_money']/$ret_info['income_price']*100;
+                $ret_info['primary_money_rate']   =  $ret_info['primary_money']/$ret_info['income_price']*100;
+            }else{
+                $ret_info['referral_money_rate'] = 0;
+                $ret_info['high_school_money_rate']   = 0;
+                $ret_info['junior_money_rate']   =  0;
+                $ret_info['primary_money_rate']   =  0;
+            }
 
             // 月邀请率
             // 合同人数
@@ -178,11 +191,11 @@ class main_page extends Controller
         $adminid=$this->get_account_id();
 
         //判断top25,排课情况每月40
-        $account_role = $this->t_manager_info->get_account_role($adminid);                   
+        $account_role = $this->t_manager_info->get_account_role($adminid);
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $start_time );
         if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
             $rank = @$self_top_info[6]["top_index"];
-            if(($account_role ==2 && $rank<=25) || $adminid == 349){               
+            if(($account_role ==2 && $rank<=25) || $adminid == 349){
                 $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($start_time,$end_time,$adminid);
                 $seller_top_flag=1;
             }else{
@@ -195,7 +208,7 @@ class main_page extends Controller
         }
 
 
-        
+
         //组长&主管
         $test_seller_id = $this->get_in_int_val("test_seller_id",-1);
 

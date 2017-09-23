@@ -218,8 +218,8 @@ $(function(){
                     url: '/small_class/set_course_assistant',
                     type: 'POST',
                     data: {
-                        'assistantid': val,
-                        'courseid': courseid
+                        'assistantid' : val,
+                        'courseid'    : courseid
                     },
                     dataType: 'json',
                     success: function(result) {
