@@ -19,6 +19,15 @@
 
     <section class="content " id="id_content">
 
+        <div  id="id_query_row">
+            <div class="row  row-query-list" >
+                <div class="col-xs-12 col-md-5"  data-title="时间段">
+                    <div  id="id_date_range" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="panel panel-danger"  >
