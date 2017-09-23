@@ -17,7 +17,6 @@ $(function(){
     $(".opt-advance-require").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
-        alert(teacherid+','+opt_data.level+','+opt_data.level_after);
         BootstrapDialog.confirm("确定要申请晋升吗？", function(val){
             if (val) {
                 $.do_ajax( '/teacher_level/set_teacher_advance_require_new', {

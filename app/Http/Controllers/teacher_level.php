@@ -396,6 +396,7 @@ class teacher_level extends Controller
 
     public function set_teacher_advance_require_new(){
         $start_time = 1498838400;
+        $start_time_str = '2017-07-01';
         $teacherid = $this->get_in_int_val("teacherid");
         $level_before = $this->get_in_int_val("level_before");
         $level_after = $this->get_in_int_val("level_after");
@@ -404,13 +405,12 @@ class teacher_level extends Controller
             "teacherid"  =>$teacherid,
             "level_before"=>$level_before,
             "level_after" =>$level_after,
+            "require_adminid"=>$this->get_account_id(),
             "require_time"   =>time(),
-            "require_adminid"=>$this->get_account_id()
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
-        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
-
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time_str."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time_str."&teacherid=".$teacherid);
 
         return $this->output_succ();
     }
