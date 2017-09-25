@@ -1096,9 +1096,10 @@ class tongji2 extends Controller
         $arr = [];
         //概况
         $ret_total = $this->t_order_info->get_total_price($start_time,$end_time);
+        dd($ret_total);
         $arr['total_price'] = $ret_total[0]['total_price'];
         $arr['person_num']  = $ret_total[0]['person_num'];
-        return $this->pageView(__METHOD__,null,["list"=>$arr]);
+        return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 
 }
