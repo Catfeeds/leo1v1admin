@@ -154,6 +154,7 @@
 	major	:any;
 	hobby	:any;
 	speciality	:any;
+	train_type	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;

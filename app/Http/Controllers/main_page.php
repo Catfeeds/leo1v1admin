@@ -60,11 +60,6 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
 
-        $ret_info_arr["page_info"] = array(
-            "total_num"      => 1,
-            "per_page_count" => 100000,
-            "page_num"       => 1,
-        );
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
@@ -87,9 +82,6 @@ class main_page extends Controller
             $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
 
             $total_price = 0;
-            // foreach($ret_info['formal_info'] as $item){
-            //     $total_price += $item['all_price'];
-            // }
 
             if($ret_info['formal_num']>0){
                 $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
@@ -134,7 +126,6 @@ class main_page extends Controller
             $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
             $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
-
             if($ret_info['income_price']>0){
                 $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
                 $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
@@ -166,6 +157,8 @@ class main_page extends Controller
             //  外呼情况
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
 
+            $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
+
             $ret_info['has_called'] = $this->t_seller_student_new->get_called_num($start_time, $end_time); // 已拨打
 
             $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
@@ -174,9 +167,47 @@ class main_page extends Controller
 
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
 
+            if($ret_info['has_called']>0){ //接通率
+                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called'];
+            }else{
+                $ret_info['succ_called_rate'] = 0;
+            }
+
+            if($ret_info['seller_num']>0){ // 人均通时
+                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            }else{
+                $ret_info['called_rate'] = 0;
+            }
+
+            if($ret_info['seller_num']>0){ // 人均邀约数
+                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['seller_num'];
+            }else{
+                $ret_info['invit_rate'] = 0;
+            }
+
+            if($ret_info['seller_call_num']>0){ // 人均呼出量
+                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num'];
+            }else{
+                $ret_info['aver_called'] = 0;
+            }
+
+            if($ret_info['new_stu']>0){ //月例子消耗数
+                $ret_info['stu_consume_rate'] = $ret_info['has_called']/$ret_info['new_stu'];
+            }else{
+                $ret_info['stu_consume_rate'] = 0;
+            }
+
+            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
+
         }else{ // 历史数据 [从数据库中取]
-            $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
+            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
+
+        $ret_info_arr["page_info"] = array(
+            "total_num"      => 1,
+            "per_page_count" => 100000,
+            "page_num"       => 1,
+        );
 
 
         return $this->pageView(__METHOD__, $ret_info_arr,[

@@ -1979,7 +1979,7 @@ class test_code extends Controller
      * 切换老师后,更新课程信息
      */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-22 16:00");
+        $time  = strtotime("2017-9-23 19:30");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
@@ -1989,10 +1989,10 @@ class test_code extends Controller
                                      ."|new_level:".$val['new_level']
                                      ."|old_level:".$val['old_level'];
                 echo "<br>";
-                // $this->t_lesson_info->field_update_list($val['lessonid'],[
-                //     "teacher_money_type" => $val['new_teacher_money_type'],
-                //     "level"              => $val['new_level'],
-                // ]);
+                $this->t_lesson_info->field_update_list($val['lessonid'],[
+                    "teacher_money_type" => $val['new_teacher_money_type'],
+                    "level"              => $val['new_level'],
+                ]);
             }
         }
     }
@@ -2001,8 +2001,8 @@ class test_code extends Controller
      * 切换老师到第四版
      */
     public function reset_teacher_money_type(){
-        $batch = $this->get_in_int_val("batch",1);
-        $list  = $this->t_teacher_info->get_need_reset_money_type_list($batch);
+        // $list  = $this->t_teacher_info->get_need_reset_money_type_list();
+        $list  =$this->t_teacher_info->get_no_lesson_teacher_list();
         dd($list);
         /**
          * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
@@ -2014,23 +2014,47 @@ class test_code extends Controller
          * {{remark.DATA}}
          */
         $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-        $data['keyword3'] = "16:00";
+        $data['keyword3'] = "21:00";
         $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
         foreach($list as $val){
-            // $this->t_teacher_info->field_update_list($val['teacherid'],[
-            //     "teacher_money_type" => $val['teacher_money_type_simulate'],
-            //     "level"              => $val['level_simulate'],
-            // ]);
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                // "teacher_money_type" => $val['teacher_money_type_simulate'],
+                // "level"              => $val['level_simulate'],
+                "teacher_money_type" => 6,
+                "level"              => 1,
+            ]);
 
             if($val['wx_openid']!=""){
-                $level_str = E\Enew_level::v2s($val['level_simulate']);
+                $level_str = E\Enew_level::v2s(1);
                 $data['first'] = "恭喜您，您等级已经调整为".$level_str;
                 $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
                 $data['keyword2'] = $level_str;
-                // \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+                \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
             }
         }
     }
+
+
+
+    public function send_level_up(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $val = $this->t_teacher_info->get_teacher_info($teacherid);
+        if($val['teacher_money_type']!=6){
+            // $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+            // $data['keyword3'] = "20:00";
+            // $data['remark']   = "感谢您长期以来对理优平台的辛劳付出与长久陪伴！";
+            // $level_str = E\Enew_level::v2s($val['level_simulate']);
+            // $data['first'] = "恭喜您，您等级已经调整为".$level_str;
+            // $data['keyword1'] = mb_substr($val['realname'],0,1)."老师";
+            // $data['keyword2'] = $level_str;
+
+            // if($val['wx_openid']!=""){
+            //     \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
+            // }
+        }
+
+    }
+
 
     /**
      * 设置老师批次
@@ -2154,6 +2178,27 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 检测课程的老师工资类型
+     */
+    public function CheckLessonTeacherMoneyType(){
+
+        $list = $this->t_lesson_info_b3->check_lesson_teacher_money_type();
+        dd($list);
+        foreach($list as $val){
+            $this->t_lesson_info->field_update_list($val['lessonid'],[
+                "teacher_money_type" => $val['teacher_money_type'],
+                "level"              => $val['level'],
+            ]);
+            echo "has update :".$val['lessonid'];
+        }
+
+    }
+
+
+    /**
+     * 老师所带学生数
+     */
     public function get_tea_stu_num(){
         $month_start = $this->get_in_int_val("month_start");
         $month_end   = $this->get_in_int_val("month_end");
@@ -2174,12 +2219,44 @@ class test_code extends Controller
                 $not_num++;
             }
         }
+        echo "姓名|结课学员|所带学生";
+        echo "<br>";
         echo "$name|".$not_num."|".$num;
         echo "<br>";
     }
 
+    public function get_month_list(){
+        // $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,0,-1,-1,0,0);
+        // foreach($list as $val){
+        //     echo $val['teacherid']."|".$val['realname'];
+        //     echo "<br>";
+        // }
+        // exit;
+        $arr = $this->get_b_txt();
+        $month_start = $this->get_in_int_val("month_start",1);
+        $month_end   = $this->get_in_int_val("month_end",2);
 
+        $start_time = strtotime("2017-$month_start");
+        $end_time = strtotime("+1 month",$start_time);
+        // $end_time   = strtotime("2017-$month_end");
+        $month_str = $month_start."月";
+        echo "$month_str"
+            // ."|试听课时|常规课时|"
+            ;
+        echo "<br>";
+        foreach($arr as $val){
+            if($val!=""){
+                $tea_info = explode("|",$val);
+                $teacherid = $tea_info[0];
+                $name= $tea_info[1];
+                $info = $this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,$teacherid);
+                echo $info['lesson_total']/100;
+                          // ."|".$info['trial_lesson_total']."|".$info['normal_lesson_total']
+                echo "<br>";
+            }
+        }
 
+    }
 
 
 

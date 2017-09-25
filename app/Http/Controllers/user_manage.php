@@ -2113,7 +2113,6 @@ class user_manage extends Controller
             }
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 

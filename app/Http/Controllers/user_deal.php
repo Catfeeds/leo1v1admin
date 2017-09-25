@@ -2708,7 +2708,13 @@ class user_deal extends Controller
         $list = $this->t_student_subject_list->get_info_by_userid(-1);
         $arr=[];
         foreach($list as $item){
-            $arr[$item["userid"]] .= E\Esubject::get_desc ($item["subject"]).",";
+            @$arr[$item["userid"]] .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        foreach($arr as $k=>$v){
+            $this->t_student_info->field_update_list($k,[
+                "subject_ex"  =>trim($v,",")         
+            ]);
+
         }
         dd($arr);
         $this->t_student_info->field_update_list($userid,[

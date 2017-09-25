@@ -39,7 +39,6 @@
         <div class="row">
 
             <div class="row">
-
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
@@ -113,9 +112,88 @@
                     </div>
                 </div>
 
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            转化率
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>试听邀约数</td>
+                                        <td>试听排课数</td>
+                                        <td class="panel-red">试听成功数</td>
+                                        <td class="panel-red">签单数</td>
+                                        <td class="panel-red">月邀请率</td>
+                                        <td class="panel-red">月排课率</td>
+                                        <td class="panel-red">月到课率</td>
+                                        <td class="panel-red">月试听转化率</td>
+                                        <td class="panel-red">月签约率</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
+                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
+                                        <td> {{@$ret_info['formal_num']}} </td>
+                                        <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
+                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            外呼情况
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>呼出量</td>
+                                        <td>接通率</td>
+                                        <td class="panel-red">认领率</td>
+                                        <td class="panel-red">邀约数</td>
+                                        <td class="panel-red">未消耗例子数</td>
+                                        <td class="panel-red">月例子消耗数</td>
+                                        <td class="panel-red">人均呼出量</td>
+                                        <td class="panel-red">人均邀约数</td>
+                                        <td class="panel-red">人均通时</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> {{@$ret_info['seller_call_num']}} </td>
+                                        <td> {{@number_format($ret_info['succ_called_rate'],2)}}% </td>
+                                        <td> {{@$ret_info['claim_num']}}</td>
+                                        <td> {{@$ret_info['seller_invit_num']}}</td>
+                                        <td> {{@$ret_info['un_consumed']}} </td>
+                                        <td> {{@number_format($ret_info['stu_consume_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_called'],2)}} </td>
+                                        <td> {{@number_format($ret_info['invit_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['called_rate'],2)}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
+        </div>
         </div>
 
 

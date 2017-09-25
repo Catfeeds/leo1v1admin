@@ -37,7 +37,6 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
                 "lesson_type in (0,1,3)",
                 "lesson_del_flag=0",
                 "confirm_flag!=2",
-                // "lesson_status=2",
             ];
             $not_sql = $this->gen_sql_new("not exists (select 1 from %s where sw.teacherid=teacherid and %s)"
                                           ,t_lesson_info::DB_TABLE_NAME

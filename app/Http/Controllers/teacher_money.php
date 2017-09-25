@@ -248,7 +248,7 @@ class teacher_money extends Controller
             $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
-            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type']);
+            $teacher_ref_rate = $this->get_teacher_ref_rate($start_time,$teacher_info['teacher_ref_type'],$teacher_info['teacher_money_type']);
 
             $check_flag = $this->check_full_time_teacher($teacherid,$teacher_info['teacher_type']);
             if($check_flag){
@@ -378,7 +378,7 @@ class teacher_money extends Controller
             }
 
             //teacher_money_flag=1 多卡用户,不扣管理费
-            if($teacher_money_flag!=1){
+            if($teacher_money_flag!=1 || in_array($teacher_money_type,[5,6])){
                 //旧版工资体系800以外部分扣管理费,新版工资体系全部扣管理费
                 if(in_array($teacher_money_type,[0,1,2,3])){
                     if($item['lesson_price']>800){

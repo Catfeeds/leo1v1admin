@@ -15,7 +15,7 @@ class TStudentInfoAddSubjectEx extends Migration
         //
         Schema::table('db_weiyi.t_student_info', function( Blueprint $table)
         {
-            t_field($table->string("subject_ex",64),"科目");                       
+            t_field($table->string("subject_ex",64),"科目");
         });
 
     }

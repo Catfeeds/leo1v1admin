@@ -2542,6 +2542,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_level_info_new($page_info,$start_time){
         $where_arr=[
             'm.account_role in(4,9)',
+            'm.del_flag=0'
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time,"
                                   ." m.create_time, "
@@ -2977,7 +2978,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_type in (0,1,3)",
             // "lesson_status=2",
             "t.teacher_type not in (3,4)",
-            "batch in (1,2)",
+            // "batch in (1,2)",
             // "t.teacher_money_type not in(5,6)"
         ];
         $not_sql = "true";
@@ -3593,7 +3594,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_need_reset_money_type_list($batch){
         $where_arr = [
-            "batch>2",
+            "batch=0",
             "t.teacher_money_type!=6"
         ];
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type_simulate,t.level_simulate,wx_openid,t.realname"
@@ -3669,5 +3670,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         echo $sql;exit;
         return $this->main_get_list($sql);
     }
+
+    public function get_no_lesson_teacher_list(){
+        $where_arr = [
+            "teacher_money_type not in (5,6)",
+            "teacher_type not in (3,4)",
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select teacherid,phone,realname,wx_openid,teacher_money_type_simulate,level_simulate"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
