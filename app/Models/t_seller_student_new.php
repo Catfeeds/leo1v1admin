@@ -1307,9 +1307,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."sum(seller_student_status=290) lesson_status_290_count , "
             ."sum(seller_student_status=0 &&  seller_resource_type=0 ) new_not_call_count,  "
             ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
-            ."sum( seller_student_status=0 ) not_call_count  "
+            ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
             ." from %s n, %s t "
             ." where  n.userid=t.userid and   admin_assign_time > %u and admin_revisiterid=%u  ",
+            $adminid,
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             $start_time , $adminid );
@@ -1408,6 +1409,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                         "system"
                     );
 
+                }else{
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid($competition_call_adminid,"sys",
+                                                                       "已到达抢例子上限");
                 }
             }
 
@@ -2320,6 +2324,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-
+    public function get_row_by_admin_revisiterid($userid,$competition_call_adminid){
+        $where_arr = [
+            ['userid = %u',$userid,-1],
+            ['admin_revisiterid = %u',$competition_call_adminid,-1],
+        ];
+        $sql = $this->gen_sql_new(" select userid from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

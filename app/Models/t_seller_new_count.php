@@ -113,6 +113,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         return $this->main_get_value($sql);
 
     }
+
     public function check_and_add_new_count($adminid,$get_desc)  {
         $new_count_id=$this->get_free_new_count_id($adminid);
         if (!$new_count_id) {

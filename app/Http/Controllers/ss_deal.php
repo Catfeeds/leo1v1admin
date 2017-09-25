@@ -571,7 +571,7 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = $this->get_in_str_val("stu_request_test_lesson_time");
         // $stu_request_test_lesson_time_info = $this->get_in_str_val("stu_request_test_lesson_time_info");
         // $stu_request_lesson_time_info      = $this->get_in_str_val("stu_request_lesson_time_info");
-        //  $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
+        $stu_request_test_lesson_demand    = $this->get_in_str_val("stu_request_test_lesson_demand");
         // $stu_test_lesson_level = $this->get_in_str_val("stu_test_lesson_level");
 
 
@@ -594,7 +594,7 @@ class ss_deal extends Controller
         $demand_urgency    = $this->get_in_int_val("demand_urgency");//需求急迫性
         $quotation_reaction    = $this->get_in_int_val("quotation_reaction");//报价反应
         $advice_flag    = $this->get_in_int_val("advice_flag");//是否进步
-        $knowledge_point_location     = $this->get_in_str_val("knowledge_point_location");//知识点定位
+        $knowledge_point_location     = trim($this->get_in_str_val("knowledge_point_location"));//知识点定位
         $recent_results      = $this->get_in_str_val("recent_results");//近期成绩
         $city      = $this->get_in_str_val("city");//市.区
         $area      = $this->get_in_str_val("area");//县市
@@ -752,14 +752,14 @@ class ss_deal extends Controller
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             // "stu_request_test_lesson_time_info" =>$stu_request_test_lesson_time_info,
             //  "stu_request_lesson_time_info" =>$stu_request_lesson_time_info,
-            //"stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+           "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             // "stu_test_lesson_level" =>$stu_test_lesson_level,
             "seller_student_sub_status" => $seller_student_sub_status,
             "textbook"                  => $textbook,
             "intention_level"                    => $intention_level,
             "demand_urgency"                     =>$demand_urgency,
             "quotation_reaction"                 =>$quotation_reaction,
-            "knowledge_point_location"           =>$knowledge_point_location,
+            // "knowledge_point_location"           =>$knowledge_point_location,
             "recent_results"                     =>$recent_results,
             "advice_flag"                        =>$advice_flag,
             "stu_test_paper"                     =>$stu_test_paper
@@ -891,12 +891,26 @@ class ss_deal extends Controller
             $require_adminid = $this->get_account_id();
             $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
+            
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
-            $rank = @$self_top_info[6]["top_index"];
-            if(($account_role ==2 && $rank<=25) || $require_adminid == 349){
-                $seller_top_flag=1;
+            if(isset($self_top_info[6]["top_index"]) || $require_adminid == 349){
+                $rank = @$self_top_info[6]["top_index"];
+                if(($account_role ==2 && $rank<=25) || $require_adminid == 349){
+                    $month_start = strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time));
+                    $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
+                    $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($month_start,$month_end,$require_adminid);
+                    if($top_num>=40){
+                        $seller_top_flag=0; 
+                    }else{
+                        $seller_top_flag=1;
+                    }
+                }else{
+                    $seller_top_flag=0;
+                    $top_num =0;
+                }
             }else{
                 $seller_top_flag=0;
+                $top_num =0;
             }
 
 
@@ -912,7 +926,8 @@ class ss_deal extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
 
             }
-            return $this->output_succ();
+            
+            return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>$top_num]);
         }
     }
     /*
@@ -3877,6 +3892,7 @@ class ss_deal extends Controller
         $email     = trim($this->get_in_str_val("email"));
         $name      = trim($this->get_in_str_val("name"));
         $qq        = trim($this->get_in_str_val("qq"));
+        $account_role = $this->get_account_role();
 
         $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
         if($old_phone != $phone){
@@ -3885,7 +3901,7 @@ class ss_deal extends Controller
                 return $this->output_err("新手机号已存在！无法更改为此手机号！");
             }
             $check_flag = $this->t_teacher_lecture_info->check_is_exists($old_phone);
-            if($check_flag){
+            if($check_flag && !in_array($account_role,[12])){
                 return $this->output_err("旧手机已经提交过试讲，无法更改手机号！");
             }
         }
@@ -5128,7 +5144,6 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-    
     public function sync_tq() {
         $now=time(NULL);
         $start_date = \App\Helper\Utils::unixtime2date($now-3*60*60 ,"Y-m-d H:i:s");
@@ -5782,7 +5797,8 @@ class ss_deal extends Controller
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
                 "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
-                "orwGAs87gepYCYKpau66viHluRGI"  // 傅文莉
+                "orwGAs87gepYCYKpau66viHluRGI",  // 傅文莉
+                "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
             ];
 
             $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);

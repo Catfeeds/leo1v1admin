@@ -1435,7 +1435,7 @@ class Utils  {
                 }else{
                     $level_str = "";
                 }
-            }elseif(in_array($teacher_money_type,[2,3])){
+            }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,3])){
                 $level_str = "高级";
             }elseif($teacher_money_type==6){
                 $level_str = E\Enew_level::$v2s_map[$level];
@@ -1726,5 +1726,17 @@ class Utils  {
         $where_arr[] = $prefix."lesson_del_flag=0";
         $where_arr[] = $prefix."confirm_flag!=2";
     }
+
+    static public function transform_1tg_0tr(&$item,$field){
+        $new_field = $field.'_str';
+        if( $item[$field]  === '0' ){
+            $item[$new_field] = '<span style="color:red">否</span>';
+        } else if($item[$field]  === '1' ){
+            $item[$new_field] = '<span style="color:green">是</span>';
+        } else {
+            $item[$new_field] = '';
+        }
+    }
+
 
 };

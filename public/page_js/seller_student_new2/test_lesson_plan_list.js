@@ -175,7 +175,6 @@ $(function(){
             ["开始时间",id_start_time ]  ,
             ["年级",opt_data.grade_str]  ,
             ["科目",opt_data.subject_str]  ,
-            ["销售top20意向",id_top_seller_flag]  ,
         ];
 
         $.show_key_value_table("排课", arr ,[
@@ -206,7 +205,7 @@ $(function(){
                             "grade"        : opt_data.grade,
                             'teacherid'    : id_teacherid.val(),
                             'lesson_start' : id_start_time.val(),
-                            'top_seller_flag' : id_top_seller_flag.val()
+                            'top_seller_flag' : opt_data.seller_top_flag
                         });
                     };
 
@@ -1389,7 +1388,6 @@ $(function(){
                     data     : {
                         'url'         :url,
                         'live_time'   : time,
-                        'create_time' : now,
                         'requireids'  : grab_requireids,
                     },
                     success :function(ret){

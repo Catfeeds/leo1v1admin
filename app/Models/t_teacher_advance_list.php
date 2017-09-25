@@ -35,13 +35,11 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
-    public function get_info_by_time_new($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1){
+    public function get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1){
         $where_arr=[
-            ["start_time = %u",$start_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             ["a.teacherid = %u",$teacherid,-1],
             ["a.accept_flag = %u",$accept_flag,-1],
-            "a.require_time>0",
             'm.account_role in (4,9)',
         ];
         if($fulltime_flag==0){
@@ -51,8 +49,11 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         }elseif($fulltime_flag==2){           
             $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
         }
-        $sql = $this->gen_sql_new("select a.*,t.realname,m.create_time become_member_time "
-                                  ." from %s a left join %s t on a.teacherid = t.teacherid"
+        $sql = $this->gen_sql_new("select a.*,"
+                                  ."t.realname,"
+                                  ."m.create_time become_member_time "
+                                  ." from %s a "
+                                  ."left join %s t on a.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
                                   ." where %s",
                                   self::DB_TABLE_NAME,

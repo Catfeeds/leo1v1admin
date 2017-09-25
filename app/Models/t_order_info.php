@@ -836,7 +836,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
 
-    public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 10" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
+    public function get_1v1_order_seller_list( $start_time,$end_time ,$grade_list=[-1] , $limit_info="limit 15" , $origin_ex="" ,$origin_level=-1 ,$tmk_student_status=-1) {
 
         $where_arr = [
             "is_test_user=0",
@@ -941,6 +941,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0,3)",
             "contract_status in(1,2)",
             "m.account_role=2",
+            "g.master_adminid<>364",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
@@ -3172,13 +3173,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            "m.become_full_member_time <= $check_time"
+            "m.become_full_member_time <= $check_time or m.create_time<=$check_time",
+            "m.del_flag=0"
         ];
 
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count"
+        $sql = $this->gen_sql_new("select  sum(price)/100 as all_price"
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3190,7 +3192,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
 

@@ -62,16 +62,15 @@
                     <tr>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_before_str"]}} </td>
-                        <td>{{@$var["become_member_time_str"]}} </td>
+                        <td>{{@$var["become_member_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <!-- @if(empty($var["accept_time"]) || $var["teacherid"]==50158 || $var["accept_flag"]==2)
-                                     <a class="opt-accept" >同意</a>
-                                     <a class="opt-no-accept" >驳回</a>
-                                     @endif
-                                   -->
+                                <!-- @if(empty($var["accept_time"]) || $var["teacherid"]==50158 || $var["accept_flag"]==2) -->
+                                    <a class="opt-accept" >同意</a>
+                                    <a class="opt-no-accept" >驳回</a>
+                                    <!-- @endif -->
                             </div>
                         </td>
                     </tr>

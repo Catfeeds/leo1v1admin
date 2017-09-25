@@ -36,32 +36,80 @@
             </div>
         </div>
 
-
-
         <div class="row">
 
-            <div class="col-xs-12 col-md-4">
-                <div class="panel panel-warning"  >
-                    <div class="panel-heading">
-                        本月-我的数据
-                    </div>
-                    <div class="input-group " id="id_seller_new">
-                        <span class="input-group-addon">销售</span>
-                        <input id="id_test_seller_id" style="width:100px" class="opt-change" />
-                    </div>
+            <div class="row">
 
-                    <div class="panel-body">
-                        <table   class="table table-bordered "   >
-                            <thead>
-                                <tr>
-                                    <td style="width:140px"><strong><font class="font_thead">项目</font><strong></td>
-                                        <td><strong><font class="font_thead">数值</font><strong></td>
-                                            <td><strong><font class="font_thead">公司排名</font><strong></td>
-                                </tr>
-                            </thead>
-                            <tbody id="id_self_body">
-                            </tbody>
-                        </table>
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            概况
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>现金总收入</td>
+                                        <td>下单总人数</td>
+                                        <td class="panel-red">入职完整月人员签单额</td>
+                                        <td class="panel-red">入职完整月人员人数</td>
+                                        <td class="panel-red">平均人效</td>
+                                        <td class="panel-red">平均单笔</td>
+                                        <td class="panel-red">月KPI完整率</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
+                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
+                                        <td> {{@$ret_info['formal_num']}} </td>
+                                        <td> {{@number_format($ret_info['aver_money'],2)}} </td>
+                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
+                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-body">
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td class="panel-red">CC总人数</td>
+                                        <td class="panel-red">咨询一部</td>
+                                        <td class="panel-red">咨询二部</td>
+                                        <td class="panel-red">咨询三部</td>
+                                        <td class="panel-red">新人营</td>
+                                        <td class="panel-red">培训中</td>
+                                        <td>转介绍金额占比</td>
+                                        <td>高中金额占比</td>
+                                        <td>初中金额占比</td>
+                                        <td>小学金额占比</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_lesson_count_list">
+                                    <tr>
+                                        <td> {{@$ret_info['seller_num']}} </td>
+                                        <td> {{@$ret_info['first_num']}}  </td>
+                                        <td> {{@$ret_info['second_num']}} </td>
+                                        <td> {{@$ret_info['third_num']}} </td>
+                                        <td> {{@$ret_info['new_num']}} </td>
+                                        <td> {{@$ret_info['traing_num']}}</td>
+                                        <td> {{@number_format($ret_info['referral_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['high_school_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['junior_money_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['primary_money_rate'],2)}}% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

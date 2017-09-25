@@ -119,11 +119,13 @@ class NewRouteConfig {
         "teacher_money_www"           => true,
         "grab_lesson"                 => true,
         "teacher_info_www"           => true,
+        "period_order"               => true
     ];
 
     //config
     static public $url_map = [
         "/grab_lesson/make_lesson_link"        => true,
+        "/grab_lesson/get_all_grab_info"       => true,
         "/teacher_info/grab_visit_info"        => true,
         "/lesson_manage/stu_status_count"      => true,
         "/admin_join/get_apply_info"           => true,

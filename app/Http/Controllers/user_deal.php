@@ -497,10 +497,10 @@ class user_deal extends Controller
                 "remark"   => "学生:".$stu_nick."\n课时:".($lesson_count/100)."课时\n年级:".$grade_str
             ];
             $template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
-            $appId       = \App\Helper\Config::get_teacher_wx_appid();
-            $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
-            $wx  = new \App\Helper\Wx($appId,$appSecret);
-            $wx->send_template_msg($openid,$template_id,$data);
+            // $appId       = \App\Helper\Config::get_teacher_wx_appid();
+            // $appSecret   = \App\Helper\Config::get_teacher_wx_appsecret();
+            // $wx  = new \App\Helper\Wx($appId,$appSecret);
+            // $wx->send_template_msg($openid,$template_id,$data);
         }
     }
 
@@ -2705,7 +2705,63 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $list = $this->t_student_subject_list->get_info_by_userid(-1);
+        $arr=[];
+        foreach($list as $item){
+            $arr[$item["userid"]] .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        dd($arr);
+        $this->t_student_info->field_update_list($userid,[
+            "subject_ex"  =>trim($subject_ex,",")           
+        ]);
+
+        $orderid=516;
+        $list = $this->get_baidu_money_charge_pay_info($orderid);
+        dd($list);
+        $dd = $this->t_test_lesson_subject->get_knowledge_point_location(542956);
+        dd($dd);
+        $list = $this->t_test_lesson_subject->get_no_demand_list();
+        foreach($list as $val){
+            $this->t_test_lesson_subject->field_update_list($val["test_lesson_subject_id"],[
+               "stu_request_test_lesson_demand" =>$val["knowledge_point_location"] 
+            ]);
+        }
+        dd($list);
+        $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num(strtotime("2017-09-01"),strtotime("2017-10-01"),349);
+        dd($top_num);
+
+        $list = $this->t_test_lesson_subject_require->get_seller_top_list();
+        foreach($list as $val){
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$val["curl_stu_request_test_lesson_time"]))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($val["cur_require_adminid"], $start_time);
+            if(!isset($self_top_info[6]["top_index"]) || $self_top_info[6]["top_index"]>25 ){
+                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+                   "seller_top_flag"=>0 
+                ]);
+            }
+            
+        }
+        dd($list);
+        dd($self_top_info);
+ 
+        
+        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_all();
+
+        foreach($jw_teacher_list as $k=>$val){
+            $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+            if (!$json_ret) {
+                $json_ret=0;
+                \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+            }
+            $normal_arr[$k]=$json_ret;
+            /*if($json_ret==1){
+              $i++;
+              }*/
+            // echo $json_ret;
+        }
+        asort($normal_arr);
+        dd($normal_arr);
+
         $arr=["436"=>11,"400"=>333,"566"=>56,"66"=>1];
         asort($arr);
         dd($arr);

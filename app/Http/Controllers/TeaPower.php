@@ -2595,9 +2595,9 @@ trait TeaPower {
     /**
      * 获取常规课程的课时奖励
      * @param last_lesson_count array key/all_lesson_count 上月累计常规+试听课时 key/all_normal_count 上月累计常规课时
-     * @param lesson_already_lesson_count t_lesson_info中课程上的累计课时
-     * @param teacher_money_type t_lesson_info中课程上的老师工资类型
-     * @param teacher_type t_teacher_info中老师类型
+     * @param lesson_already_lesson_count t_lesson_info 中课程上的累计课时
+     * @param teacher_money_type t_lesson_info 中课程上的老师工资类型
+     * @param teacher_type t_teacher_info 中老师类型
      * @param type 老师工资类型对应的课时奖励类型
      */
     public function get_lesson_reward_money(
@@ -2608,6 +2608,79 @@ trait TeaPower {
         );
         $reward_money = \App\Helper\Utils::get_teacher_lesson_money($reward_type,$already_lesson_count);
         return $reward_money;
+    }
+
+    /**
+     * 获取时间段内的老师工资明细
+     */
+    public function get_teacher_lesson_money_list($teacherid,$start_time,$end_time){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $teacher_ref_type   = $teacher_info['teacher_ref_type'];
+        $teacher_money_type = $teacher_info['teacher_money_type'];
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        
+        $cost_list = [
+            "late_num"   => 0,
+            "change_num" => 0,
+        ];
+        if(!empty($lesson_list)){
+            foreach($lesson_list as $val){
+                
+            }
+        }
+
+    }
+
+    /**
+     * 检测是否为公司全职老师,全职老师工资隔月发放
+     * 叶,时,刁除外
+     */
+    public function check_full_time_teacher($teacherid,$teacher_type){
+        if(!in_array($teacherid,[51094,99504,97313]) && $teacher_type==3){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 获取平台合作代理所需抽成百分比
+     * @param time 检测时间之前
+     * @param teacher_ref_type 老师所属的推荐渠道类别
+     * @return 
+     */
+    public function get_teacher_ref_rate($time,$teacher_ref_type,$teacher_money_type){
+        if($teacher_money_type==E\Eteacher_money_type::V_5){
+            if($teacher_ref_type==1){
+                $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
+            }elseif($teacher_ref_type!=0){
+                $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($time,$teacher_ref_type);
+                $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
+            }
+        }else{
+            $teacher_ref_rate = 0;
+        }
+        return $teacher_ref_rate;
+    }
+
+    /**
+     * 获取时间段内老师额外奖金明细
+     */
+    public function get_teacher_reward_money_list($teacherid,$start_time,$end_time){
+        $reward_list = $this->t_teacher_money_list->get_teacher_honor_money_list($teacherid,$start_time,$end_time);
+        $reward_type_list = E\Ereward_type::$desc_map;
+        $data = [];
+        foreach($reward_type_list as $r_key => $r_val){
+            $data[$r_key]['money'] = 0;
+        }
+        foreach($reward_list as $val){
+            $reward_key = $val['type'];
+            $reward_money = $val['money']/100;
+            $data[$reward_key]['money'] += $reward_money;
+        }
+        $data['list'] = $reward_list;
+        return $data;
     }
 
     /**
@@ -2988,13 +3061,122 @@ trait TeaPower {
         return $data;
     }
 
-    /**
-     * 获取时间段内的老师工资明细
-     */
-    public function teacher_total_money($teacherid,$start_time,$end_time){
-        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+    //查询百度有钱花订单信息
+    public function get_baidu_money_charge($orderid){
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        //  $orderid = $this->get_in_int_val("orderid",516);
+       
+        $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
+        if(empty($orderNo)){
+            $orderNo=123456789;
+        }
+
+        $arrParams = array(
+            'action' => 'get_order_status',
+            'tpl' => 'leoedu',// 分配的tpl
+            'corpid' => 'leoedu',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+        );
+
+        $strSecretKey = '9v4DvTxOz3';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        return $result;
 
     }
+
+    //查询百度有钱花订单还款信息
+    public function get_baidu_money_charge_pay_info($orderid){
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        //  $orderid = $this->get_in_int_val("orderid",516);
+       
+        $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
+        if(empty($orderNo)){
+            $orderNo=123456789;
+        }
+
+        $arrParams = array(
+            'action' => 'get_order_info',
+            'tpl' => 'leoedu',// 分配的tpl
+            'corpid' => 'leoedu',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+        );
+
+        $strSecretKey = '9v4DvTxOz3';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        return $result;
+
+    }
+
+
+    /**
+     * @param $data
+     * @return string
+     * rsa 加密(百度有钱花)
+     */
+    public function enrsa($data){
+        $public_key = '-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
+2n1vP1D+tD3amHsK7QIDAQAB
+-----END PUBLIC KEY-----';
+        $pu_key = openssl_pkey_get_public($public_key);
+        $str = json_encode($data);
+        $encrypted = "";
+        // 公钥加密  padding使用OPENSSL_PKCS1_PADDING这个
+        if (openssl_public_encrypt($str, $encrypted, $pu_key, OPENSSL_PKCS1_PADDING)){
+            $encrypted = base64_encode($encrypted);
+        }
+        return $encrypted;
+    }
+
+
+    /**
+     * @param $param
+     * @param string $strSecretKey
+     * @return bool|string
+     * 生成签名(百度有钱花)
+     */
+    public function createBaseSign($param, $strSecretKey){
+        if (!is_array($param) || empty($param)){
+            return false;
+        }
+        ksort($param);
+        $concatStr = '';
+        foreach ($param as $k=>$v) {
+            $concatStr .= $k.'='.$v.'&';
+        }
+        $concatStr .= 'key='.$strSecretKey;
+        return strtoupper(md5($concatStr));
+    }
+
+
 
 
 }

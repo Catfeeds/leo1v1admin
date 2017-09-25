@@ -275,7 +275,7 @@ $(function(){
                     return; 
                 }
                 if(ret.new_demand_flag ==1){
-                    if(ret.stu_nick=="" || ret.par_nick=="" || ret.grade==0 || ret.gender==0 || ret.address=="" ||  ret.school=="" || ret.class_rank=="" || ret.grade_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.interest_cultivation==0 || ret.habit_remodel==0 || ret.study_habit=="" || ret.interests_hobbies=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.knowledge_point_location=="" || ret.recent_results=="" ){
+                    if(ret.stu_nick=="" || ret.grade==0 || ret.gender==0 || ret.address==""  || ret.class_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.study_habit=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.stu_request_test_lesson_demand=="" || ret.recent_results=="" ){
                         alert("请完善试听需求!");
                         $(me).parent().find(".opt-edit-new").click();
                         return; 
@@ -365,6 +365,36 @@ $(function(){
                             "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
                             "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
                             "test_stu_grade" : id_grade_select.val(),
+                        },function(resp){
+
+                            if(resp.ret !=0){
+                                BootstrapDialog.alert(resp.info);
+                            }else{
+                                if(resp.seller_top_flag==1){
+                                    if(11){
+                                        var uu=40-resp.top_num;
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
+
+                                    }else if(resp.top_num==29){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余10个");
+                                    } else if(resp.top_num==34){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余5个");
+                                    } else if(resp.top_num==38){
+                                        dialog.close();
+                                        BootstrapDialog.alert("试听申请成功,您的精排名额剩余1个");
+                                    }else{
+                                        dialog.close();
+                                        window.location.reload();
+                                    }
+
+
+                                }else{
+                                     window.location.reload();
+                                }
+                            }
                         });
                     }
                 },function(){
@@ -2059,7 +2089,7 @@ function init_edit() {
             var id_intention_level            = html_node.find("#id_intention_level");
             var id_next_revisit_time = html_node.find("#id_next_revisit_time");
             var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-           // var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
+           var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
           //  var id_stu_score_info = html_node.find("#id_stu_score_info");
            // var id_stu_character_info = html_node.find("#id_stu_character_info");
            // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
@@ -2122,7 +2152,7 @@ function init_edit() {
                 id_stu_request_test_lesson_time.val("");
             });           
 
-            id_study_habit.data("v",opt_data.study_habit);
+            id_study_habit.data("v",data.study_habit);
             id_study_habit.on("click",function(){
                 // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
@@ -2162,7 +2192,7 @@ function init_edit() {
                 
             });
 
-            id_interests_hobbies.data("v",opt_data.interests_hobbies);
+            id_interests_hobbies.data("v",data.interests_and_hobbies);
             id_interests_hobbies.on("click",function(){
                 // var interests_hobbies= data.interests_hobbies;
                 var interests_hobbies  = id_interests_hobbies.data("v");
@@ -2202,7 +2232,7 @@ function init_edit() {
                 
             });
 
-            id_character_type.data("v",opt_data.character_type);
+            id_character_type.data("v",data.character_type);
             id_character_type.on("click",function(){
                 // var character_type= data.character_type;
                 var character_type  = id_character_type.data("v");
@@ -2221,7 +2251,7 @@ function init_edit() {
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
+                        header_list     : [ "id","性格特点" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,
@@ -2242,7 +2272,7 @@ function init_edit() {
                 
             });
 
-            id_need_teacher_style.data("v",opt_data.need_teacher_style);
+            id_need_teacher_style.data("v",data.need_teacher_style);
             id_need_teacher_style.on("click",function(){
                 // var need_teacher_style= data.need_teacher_style;
                 var need_teacher_style  = id_need_teacher_style.data("v");
@@ -2261,7 +2291,7 @@ function init_edit() {
                     });
 
                     $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
+                        header_list     : [ "id","老师要求" ],
                         data_list       : data_list,
                         multi_selection : true,
                         select_list     : select_list,
@@ -2582,10 +2612,14 @@ function init_edit() {
             html_node.find("#id_intention_level").val(data.intention_level);
             html_node.find("#id_demand_urgency").val(data.demand_urgency);
             html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
-            html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             html_node.find("#id_recent_results").val(data.recent_results);
             html_node.find("#id_advice_flag").val(data.advice_flag);
             html_node.find("#id_test_paper").val(data.stu_test_paper);
+            if(!data.knowledge_point_location ){
+                html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
+            }else{
+                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location); 
+            }
            
 
 
@@ -2612,7 +2646,7 @@ function init_edit() {
 
 
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
-          //  id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
+            id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
            // id_stu_score_info.val(data.stu_score_info);
            // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
             id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
@@ -2690,7 +2724,7 @@ function init_edit() {
                             editionid : id_editionid.val(),
                             school: id_school.val(),
                             stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                          //  stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
+                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
                            // stu_score_info:id_stu_score_info.val(),
                            // stu_test_lesson_level:id_stu_test_lesson_level.val(),
                             stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
@@ -2713,7 +2747,7 @@ function init_edit() {
                             need_teacher_style: html_node.find("#id_need_teacher_style").val(),
                             demand_urgency: html_node.find("#id_demand_urgency").val(),
                             quotation_reaction: html_node.find("#id_quotation_reaction").val(),
-                            knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
+                           // knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
                             recent_results: html_node.find("#id_recent_results").val(),
                             advice_flag: html_node.find("#id_advice_flag").val(),
                             province: province,
@@ -2728,7 +2762,7 @@ function init_edit() {
             });
             
 
-            dlg.getModalDialog().css("width","98%");
+            dlg.getModalDialog().css("width","78%");
 
 
             var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');

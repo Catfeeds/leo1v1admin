@@ -13,7 +13,38 @@ class test_boby extends Controller
     public function __construct(){
       $this->switch_tongji_database();
     }
+    public function table_start(){
+        $s = '<table border=1><tr>';
+        $arr = func_get_args();
+        foreach ($arr as $v) {
+            $s = $s."<th>{$v}</th>";
+        }
+        return $s.'</tr>';
+    }
+    public function tr_add($table_start){
+        $arr = func_get_args();
+        $s = $table_start.'<tr>';
+        foreach($arr as $k=>$v){
+            if($k) {
+                $s = $s."<td>{$v}</td>";
+            }
+        }
+        return $s.'</tr>';
 
+    }
+    public function table_end($s){
+        return $s.'</table>';
+    }
+    public function test(){
+        $str = $this->table_start('姓名','电话','年龄');
+        $str = $this->tr_add($str, 'sdfa',13213,45);
+        $str = $this->tr_add($str, 'sdfsf',353513,15);
+        $str = $this->tr_add($str, 'aaasf',111113,15);
+        $str = $this->tr_add($str, 'asddasf',5511113,15);
+        $str = $this->tr_add($str, 'a350sf',22113,15);
+        $str = $this->table_end($str);
+        return $str;
+    }
     public function get_b_txt($file_name="b"){
         $info = file_get_contents("/home/boby/".$file_name.".txt");
         $arr  = explode("\n",$info);
@@ -58,25 +89,16 @@ class test_boby extends Controller
         $orderid = $this->get_in_str_val("orderid");
         $nick_phone = $this->get_in_int_val("nick_phone",'');
         $account_role = $this->get_in_el_account_role();
-        $this->get_in_int_val("account_role"); //没什么作用?
+        $tt =  $this->get_in_int_val("account_role"); //没什么作用?
         $ret_info = $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
-        // $idstr = $this->get_in_str_val("idstr");
-        // $ret_info = $this->t_manager_info->get_tea_sub_list_by_orderid($idstr);
-        // // dd($ret_info);
-        // $s = '<table border=1><tr><td>id</td><td>ss';
-        // $id =  0;
-        // foreach( $ret_info as &$item ) {
-        //     E\Esubject::set_item_value_str($item);
-        //     if ($id == $item['orderid']) {
-        //         $s = $s.",{$item['nick']}/{$item['subject_str']}";
-        //     } else {
-        //         $s = $s."</td></tr><tr><td>{$item['orderid']}</td><td>{$item['nick']}/{$item['subject_str']}";
-        //     }
-        //     $id = $item['orderid'];
-        // }
-        // $s = $s."</td></tr></table>";
-        // return $s;
+        foreach ($ret_info['list'] as &$item ) {
+            E\Eaccount_role::set_item_value_str($item);
+            $this->cache_set_item_account_nick($item,"uid", "unick");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
         // dd($ret_info);
+
         return $this->pageView( __METHOD__, $ret_info);
     }
 
@@ -91,6 +113,7 @@ class test_boby extends Controller
         }
         return json_encode($newArr);
     }
+
     public function test_one(){
         $phone    = $this->get_in_phone();
         $origin   = $this->get_in_str_val("origin");
@@ -547,7 +570,6 @@ class test_boby extends Controller
     }
 
     public function update_all_price(){
-
         $cur_ratio = Config::get_current_ratio();
         $ret_info = $this->t_gift_info->get_gift_id_praise();
 

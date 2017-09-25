@@ -29,6 +29,8 @@ interface RowData {
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
+	del_flag	:any;
+	del_flag_str	:any;
 }
 
 /*

@@ -138,6 +138,18 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">排课类型</span>
+                        <select class="opt-change form-control" id="id_lesson_plan_style" >
+                            <option value="-1">全部</option>
+                            <option value="1">top25</option>
+                            <option value="2">绿色通道</option>
+                            <option value="3">常规排课</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
                         <span >教务老师</span>
                         <select  id="id_jw_teacher" class="opt-change"  >
@@ -258,7 +270,7 @@
                             </td>
                             <td class="grab_status"> {{$var["grab_status_str"]}} </td>
                             <td >
-                                @if($var["use_new_flag"]==0)
+                                @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
                                     TMK ： {{$var["tmk_admin_nick"]}}<br/>
                                     申请时间： {{$var["require_time"]}}<br/>
                                     申请人：{{$var["require_admin_nick"]}}<br/>
@@ -273,7 +285,7 @@
                                     <!-- 成绩情况: {{$var["stu_score_info"]}} <br/> -->
                                     性格信息: {{$var["stu_character_info"]}} <br/>
                                     高意向: {!! $var["intention_level_str"] !!} <br/>
-                                @elseif($var["use_new_flag"]==1)
+                                @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
                                     TMK ： {{$var["tmk_admin_nick"]}}<br/>
                                     申请时间： {{$var["require_time"]}}<br/>
                                     申请人：{{$var["require_admin_nick"]}}<br/>
@@ -287,7 +299,6 @@
                                     教材：{{$var["editionid_str"]}}<br/>
                                     试卷：{!!  $var["stu_test_paper_flag_str"]!!}<br/>
                                     近期成绩: {{$var["recent_results"]}} <br/> 
-                                    是否进步: {{$var["advice_flag_str"]}} <br/>
                                     班级排名: {{$var["class_rank"]}} <br/>
                                     年级排名: {{$var["grade_rank"]}} <br/>
                                     学习习惯  : {{$var["study_habit"]}} <br/>
@@ -310,7 +321,7 @@
                             <td >{{$var["last_revisit_msg"]}}</td>
                             <td >{{$var["school"]}}</td>
                             <td >
-                                @if($var["use_new_flag"]==0)
+                                @if($var["use_new_flag"]==0 || ($var["use_new_flag"]==1 && $var["new_demand_flag"]==0 ))
                                     期待时间: {{$var["stu_request_test_lesson_time"]}} <br/>
                                     期待时间(其它): {!!  $var["stu_request_test_lesson_time_info_str"]!!} <br/>
                                     正式上课: {!!  $var["stu_request_lesson_time_info_str"]!!} <br/>
@@ -321,15 +332,14 @@
                                     @if ($var["is_green_flag"]==1)
                                         <font color="green"> 已申请绿色通道</font>
                                     @endif
-                                @elseif($var["use_new_flag"]==1)
+                                @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
                                     期待时间: {{$var["stu_request_test_lesson_time"]}} <br/> 
                                     升学目标: {{$var["academic_goal_str"]}} <br/>
                                     应试压力 : {{$var["test_stress_str"]}} <br/>
                                     升学学校要求 : {{$var["entrance_school_type_str"]}} <br/>
-                                    趣味培养 : {{$var["interest_cultivation_str"]}} <br/>
                                     课外提高 : {{$var["extra_improvement_str"]}} <br/>
                                     习惯重塑  : {{$var["habit_remodel_str"]}} <br/>
-                                    知识点定位  : {{$var["knowledge_point_location"]}} <br/>
+                                    试听内容  : {{$var["stu_request_test_lesson_demand"]}}<br/>
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>

@@ -1161,7 +1161,34 @@ class ajax_deal2 extends Controller
             "subject" => $subject,
             "editionid" =>$editionid
         ]);
+
+        $list = $this->t_student_subject_list->get_info_by_userid($userid);
+        $subject_ex="";
+        foreach($list as $item){
+             $subject_ex .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        $this->t_student_info->field_update_list($userid,[
+            "subject_ex"  =>trim($subject_ex,",")           
+        ]);
         return $this->output_succ();
+    }
+
+    //删除学生科目
+    public function delete_user_subject_textbook(){
+        $userid    = $this->get_in_int_val("userid");
+        $subject    = $this->get_in_int_val("subject");
+        $this->t_student_subject_list->row_delete_2($userid,$subject);
+        $list = $this->t_student_subject_list->get_info_by_userid($userid);
+        $subject_ex="";
+        foreach($list as $item){
+            $subject_ex .= E\Esubject::get_desc ($item["subject"]).",";
+        }
+        $this->t_student_info->field_update_list($userid,[
+            "subject_ex"  =>trim($subject_ex,",")           
+        ]);
+        return $this->output_succ();
+
+ 
     }
 
     //修改学生科目教材

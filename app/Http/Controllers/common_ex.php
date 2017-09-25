@@ -87,7 +87,7 @@ class common_ex extends Controller
             }
         }
         $client_ip = $this->get_in_client_ip();
-        if ($phone == "15601830297" || $phone == "13917746147" ) {
+        if ($phone == "15601830297" || $phone == "13917746147"  || $phone == "18817822725" ) {
             $max_user_count=1000;
         }else{
             $max_user_count=1;
