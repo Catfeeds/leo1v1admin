@@ -2305,7 +2305,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_student_init_info::DB_TABLE_NAME,
             $where_arr
         );
-        dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
