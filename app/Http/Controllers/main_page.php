@@ -60,11 +60,6 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
 
-        $ret_info_arr["page_info"] = array(
-            "total_num"      => 1,
-            "per_page_count" => 100000,
-            "page_num"       => 1,
-        );
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
@@ -184,8 +179,8 @@ class main_page extends Controller
                 $ret_info['called_rate'] = 0;
             }
 
-            if($ret_info['cc_called_num']>0){ // 人均邀约数
-                $ret_info['invit_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            if($ret_info['seller_num']>0){ // 人均邀约数
+                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['seller_num'];
             }else{
                 $ret_info['invit_rate'] = 0;
             }
@@ -205,8 +200,14 @@ class main_page extends Controller
             $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
 
         }else{ // 历史数据 [从数据库中取]
-            $ret_info_arr = $this->t_seller_tongji_for_month->get_history_data($start_time);
+            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
+
+        $ret_info_arr["page_info"] = array(
+            "total_num"      => 1,
+            "per_page_count" => 100000,
+            "page_num"       => 1,
+        );
 
 
         return $this->pageView(__METHOD__, $ret_info_arr,[

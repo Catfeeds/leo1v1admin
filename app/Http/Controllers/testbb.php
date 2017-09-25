@@ -240,6 +240,13 @@ class testbb extends Controller
 
     public function ss(){
 
+
+        $start_time = strtotime(date('Y-m-d 0:0:0'))-6*86400;
+
+        $end_time   = strtotime(date('Y-m-d 0:0:0'))+86400;
+
+        dd($start_time);
+
         $aa = $this->t_parent_info->get_xx();
         dd($aa);
         $start_time = strtotime(date('Y-m-d','1506130271'));

@@ -1279,7 +1279,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $succ_lesson_cont=count($set_open_list );
         //4倍提现
         //$need_set_open_list_count= $succ_lesson_cont - $succ_lesson_cont %4 ;
-        $need_set_open_list_count= $need_set_open_list_count;
+        $need_set_open_list_count= $succ_lesson_cont;
 
         foreach ( $set_open_list as  $index => $item  ) {
             $child_id=$item["id"];

@@ -68,14 +68,14 @@ class teacher_simulate extends Controller
             $flag = 1;
         }
 
-        // if($flag){
+        if($flag){
             $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
                 $start_time,$end_time,$teacher_money_type,$level,$teacher_id,$not_start,$not_end,$teacher_money_type_simulate,$batch
             );
-        //     file_put_contents($file_name,json_encode($tea_list));
-        // }else{
-        //     $tea_list = json_decode($file_info,true);
-        // }
+            file_put_contents($file_name,json_encode($tea_list));
+        }else{
+            $tea_list = json_decode($file_info,true);
+        }
 
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
