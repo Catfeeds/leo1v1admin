@@ -496,7 +496,21 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-
+    public function get_assistant_num($start_time,$end_time){
+        $where_arr = [
+            ['apply_time>%u',$start_time,-1],
+            ['apply_time<%u',$end_time,-1],
+            "m.assistantid > 0",
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(m.assistantid)) as person  ".
+                                  "from %s  o ".
+                                  "left join %s m on o.userid = m.userid".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_value($sql);
+    }
 
 
 
