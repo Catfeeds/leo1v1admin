@@ -1092,7 +1092,12 @@ class tongji2 extends Controller
 
     public function tongji_cr(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $opt_date_type = $this->get_in_int_val("opt_date_type");
         $arr = [];
+        //概况
+        $ret_total = $this->t_order_info->get_total_price($start_time,$end_time);
+        $arr['total_price'] = $ret_total[0]['total_price'];
+        $arr['person_num']  = $ret_total[0]['person_num'];
         return $this->pageView(__METHOD__,null,["list"=>$arr]);
     }
 
