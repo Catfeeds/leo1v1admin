@@ -94,8 +94,8 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> 节点</td> 
-                                        <td> 节点 </td> 
+                                        <td> {{@$arr['total_price']}}</td> 
+                                        <td> {{@$arr['person_num']}}</td> 
                                         <td> 节点 </td> 
                                         <td> 节点 </td> 
                                         <td> 节点 </td> 

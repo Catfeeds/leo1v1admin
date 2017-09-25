@@ -2304,6 +2304,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_student_init_info::DB_TABLE_NAME,
             $where_arr
         );
+        dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
@@ -3372,6 +3373,22 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
-
+    public function get_total_price($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "contract_status <> 0",
+            "price > 0",
+            "m.account_role = 1"
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num ".
+                                  "from %s  o ".
+                                  "left join %s m on o.sys_operator = m.account".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql);
+    }
 
 }
