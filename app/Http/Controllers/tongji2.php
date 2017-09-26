@@ -1140,11 +1140,11 @@ class tongji2 extends Controller
         }
         //课时消耗
         $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量
-        $teacher_leave     = $this->t_lesson_info->get_teacher_leave($start_time,$end_time); //老师请假课时
-        $student_leave     = $this->t_lesson_info->get_student_leave($start_time,$end_time); //学生请假课时
+        $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
+        dd($leave_num);
         $arr['lesson_consume'] = round($lesson_consume/100,2);
-        $arr['teacher_leave']  = round($teacher_leave/100,2);
-        $arr['student_leave']  = round($student_leave/100,2);
+        //$arr['teacher_leave']  = round($teacher_leave/100,2);
+        //$arr['student_leave']  = round($student_leave/100,2);
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 
