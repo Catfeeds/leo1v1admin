@@ -1190,7 +1190,6 @@ $(function(){
         },function(){
         });
     });
-    var grab_requireids;
     $("#id_grab_lesson").on("click",function(){
         var id_grab_url    = $("<button class='btn btn-danger'>生成抢单链接</button>");
         var id_grab_lesson = $("<button class='btn btn-danger'>添加至抢单库</button>");
@@ -1236,13 +1235,18 @@ $(function(){
                 if(select_num==0){
                     BootstrapDialog.alert("未选择试听申请!");
                 }else{
-                    grab_requireids = id;
-                    $.do_ajax("/common/base64",{
-                        "text" : id,
-                        "type" : "encode"
+                    $.do_ajax("/grab_lesson/add_requireids",{
+                        "requireids" : id,
                     },function(result){
                         select_time_limit(result,lesson_info);
                     })
+
+                    // $.do_ajax("/common/base64",{
+                    //     "text" : id,
+                    //     "type" : "encode"
+                    // },function(result){
+                    //     select_time_limit(result,lesson_info);
+                    // })
                 }
             });
 
@@ -1358,12 +1362,18 @@ $(function(){
         if(id==""){
             BootstrapDialog.alert("未选择试听申请!");
         }else{
-            $.do_ajax("/common/base64",{
-                "text" : id,
-                "type" : "encode"
+            $.do_ajax("/grab_lesson/add_requireids",{
+                "requireids" : id,
             },function(result){
                 select_time_limit(result,lesson_info);
             })
+
+            // $.do_ajax("/common/base64",{
+            //     "text" : id,
+            //     "type" : "encode"
+            // },function(result){
+            //     select_time_limit(result,lesson_info);
+            // })
         }
     });
 
@@ -1385,12 +1395,12 @@ $(function(){
                 var alert_info = url+"<br/>"+lesson_info;
                 $.ajax({
                     type     :'post',
-                    url      : '/grab_lesson/make_lesson_link',
+                    url      : '/grab_lesson/update_lesson_link',
                     dataType : 'json',
                     data     : {
-                        'url'         :url,
-                        'live_time'   : time,
-                        'requireids'  : grab_requireids,
+                        'url'       : url,
+                        'text'      : result.data,
+                        'live_time' : time
                     },
                     success :function(ret){
                         if (ret.ret == 0) {
