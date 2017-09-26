@@ -1516,96 +1516,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
                                   ." left join %s c on t1.orderid = c.orderid "
-                                  // ." where %s group by t1.sys_operator ",
-                                  ." where %s group by t3.uid ",
+                                  ." where %s group by t1.sys_operator ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_list_as_page($sql,function($item){
-            return $item['adminid'];
-        });
-    }
-
-    public function get_order_count_new_tow($start_time,$end_time,$contract_type,$contract_status,$userid
-                                        ,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money,$check_money_flag=-1
-                                        ,$isset_assistantid=-1,$origin="",$stu_from_type=-1,$sys_operator="",$account_role=-1
-                                        ,$adminid_list=[],$adminid_all=[]
-    ){
-        $where_arr=[];
-        if($userid>0){
-            $where_arr=[["t1.userid=%u",$userid,-1]];
-        }else if ( $config_courseid >0 ) {
-            $where_arr=[["config_courseid=%u" , $config_courseid, -1]];
-        }else{
-            $where_arr=[
-                ["order_time>=%u" , $start_time, -1],
-                ["order_time<=%u" , $end_time, -1],
-                ["is_test_user=%u" , $is_test_user, -1],
-                ["check_money_flag=%u" , $check_money_flag, -1],
-                ["stu_from_type=%u" , $stu_from_type, -1],
-                ["sys_operator like '%%%s%%'" , $sys_operator, ""],
-            ];
-
-            if ($isset_assistantid==0) {
-                $where_arr[]="t2.assistantid =0 " ;
-            }else if ($isset_assistantid==1) {
-                $where_arr[]="t2.assistantid <>0 " ;
-            }
-
-            if ($contract_type==-2) {
-                $where_arr[]="contract_type in(0,1,3)" ;
-            }else{
-                $where_arr[]=["contract_type=%u" , $contract_type, -1];
-            }
-
-            if ($contract_status ==-2) {
-               $where_arr[] = "contract_status <> 0";
-            }else{
-               $where_arr[]= ["contract_status=%u" , $contract_status, -1];
-            }
-
-            if ($has_money ==0) {
-               $where_arr[]="price=0" ;
-            }else if ($has_money ==1) {
-               $where_arr[]="price>0" ;
-            }
-
-        }
-
-        if (!$show_yueyue_flag) {
-            $where_arr[]="sys_operator <>'yueyue' ";
-        }
-
-        if ($origin) {
-            $where_arr[]= [ "t2.origin like '%%%s%%'" , $origin,""];
-        }
-
-        //http:7u2f5q.com2.z0.glb.qiniucdn.com/8008e863f1b6151890ccf278f711ab691460108026469.png
-        //select count(*) from t_order_info as t1,t_book_info as t2 where t1.userid=t2.userid, t2.origin like "%APP课程包%" ;
-        $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
-
-        $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_list);
-        $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_all);
-        $sql = $this->gen_sql_new("select t3.uid adminid,t3.account, sum(price) all_price,".
-                                  "sum(if(stu_from_type=1,price,0)) transfer_introduction_price,"
-                                  ." sum(if(stu_from_type=0,price,0)) new_price,"
-                                  ." sum(if(stu_from_type=10,price,0)) normal_price,"
-                                  ." sum(if(stu_from_type=11,price,0)) extend_price, "
-                                  ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
-                                  ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
-                                  ." from %s t1 "
-                                  ." left join %s t2 on t1.userid = t2.userid "
-                                  ." left join %s t3 on t1.sys_operator = t3.account "
-                                  // ." left join %s c on t1.orderid = c.orderid "
-                                  // ." where %s group by t1.sys_operator ",
-                                  ." where %s group by t3.uid ",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  // t_course_order::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){

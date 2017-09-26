@@ -2931,4 +2931,15 @@ ORDER BY require_time ASC";
         return $this->main_get_value($sql);
 
     }
+
+    public function get_no_high_require(){
+        $sql = $this->gen_sql_new("select * from %s tr"
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." where tr.seller_top_flag=1 and t.intention_level <>1",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
