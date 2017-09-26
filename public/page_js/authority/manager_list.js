@@ -145,8 +145,9 @@ $(function(){
     });
 
     $(".opt-set-passwd").on("click", function(){
-        var $passwd=$("<input/>");
-        var account=$(this).get_opt_data("account");
+        var $passwd = $("<input/>");
+        var account = $(this).get_opt_data("account");
+        var uid     = $(this).get_opt_data("uid");
         var arr =[
             ["account", account ] ,
             ["passwd", $passwd]
@@ -159,8 +160,9 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax('/authority/set_passwd', {
-                    'account': account,
-                    'passwd': $passwd.val()
+                    'account' : account,
+                    'uid'     : uid,
+                    'passwd'  : $passwd.val()
                 },function(resp){
                     $(me).parent().find(".opt-sync-kaoqin ").click();
                 });
