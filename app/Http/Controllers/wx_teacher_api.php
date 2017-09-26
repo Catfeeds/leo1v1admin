@@ -571,7 +571,7 @@ class wx_teacher_api extends Controller
 
 
         $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
-        if($is_modify_time_flag == 1){
+        if($is_modify_time_flag > 0){
             header("location: http://wx-teacher-web.leo1v1.com/comment_list.html?type=1");
         }else{
             $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
