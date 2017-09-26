@@ -110,7 +110,7 @@ $(function(){
     var look_new_content = function( item){
         var html_node = "";
         html_node = html_node+"<h3>"+item.new_title+"</h3>";
-        html_node = html_node+item.new_content;
+        html_node = '<div>'+html_node+item.new_content+ '</div>';
         var title = "查看信息";
         BootstrapDialog.show({
             title           : title,
@@ -118,7 +118,7 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-                $('.modal-dialog').css('width', '670px');
+                $('.modal-dialog').css('width', '70%');
             },
             buttons: [
                 {
