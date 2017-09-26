@@ -4,6 +4,7 @@ interface GargsStatic {
 	test_type:	number;
 	page_num:	number;
 	page_count:	number;
+	order_by_str:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -18,6 +19,8 @@ interface RowData {
 	test_des	:any;
 	grade	:any;
 	subject	:any;
+	visit_num	:any;
+	share_num	:any;
 	custom_type	:any;
 	test_type	:any;
 	poster	:any;
@@ -42,7 +45,8 @@ $(function(){
         $.reload_self_page ( {
 			grade:	$('#id_grade').val(),
 			subject:	$('#id_subject').val(),
-			test_type:	$('#id_test_type').val()
+			test_type:	$('#id_test_type').val(),
+			order_by_str:	$('#id_order_by_str').val()
         });
     }
 
@@ -50,6 +54,7 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
 	$('#id_test_type').val(g_args.test_type);
+	$('#id_order_by_str').val(g_args.order_by_str);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -78,6 +83,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">test_type</span>
                 <input class="opt-change form-control" id="id_test_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
 */

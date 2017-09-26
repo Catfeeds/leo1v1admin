@@ -40,22 +40,6 @@ class menu{
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
-                ["power_id"=>9, "name"=>"优学优享", "list"=> [
-                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
-                    ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
-                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
-                    ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
-                    ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
-                    ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
-                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
-                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
-                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
-                    ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
-                    ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
-                    ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
-                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
-                ]
-                ],
             ]
             ],
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[
@@ -309,13 +293,11 @@ class menu{
 
                     ["power_id"=>20, "name"=>"重复报名统计",   "url"=>"/tongji_ss/rejion_count_list"],
                 ]],
-
                 ["power_id"=>2, "name"=>"渠道配置", "list"=>[
                     ["power_id"=>8, "name"=>"渠道管理",   "url"=>"/seller_student/channel_manage"],
                     ["power_id"=>25, "name"=>"渠道-BD",   "url"=>"/seller_student/channel_manage_bd"],
                     ["power_id"=>26, "name"=>"渠道-优学帮",   "url"=>"/seller_student/channel_manage_yxb"],
                 ]],
-
                 ["power_id"=>3, "name"=>"单渠道-对外", "list"=>[
                     ["power_id"=>1, "name"=>"ALL",   "url"=>"/tongji_ss/origin_publish_list"],
                     ["power_id"=>8, "name"=>"考拉购物",   "url"=>"/tongji_ss/origin_publish_kaolagouwu"],
@@ -323,31 +305,53 @@ class menu{
                     ["power_id"=>4, "name"=>"BD2",   "url"=>"/tongji_ss/origin_publish_bd_vaild"],
                     ["power_id"=>3, "name"=>"今日头条",   "url"=>"/tongji_ss/origin_publish_jrtt"],
                 ]],
-
                 ["power_id"=>11, "name"=>"电话记录", "list"=>[
                     ["power_id"=>1, "name"=>"电话明细",   "url"=>"/tq/get_list"],
                     ["power_id"=>2, "name"=>"拨打者统计",   "url"=>"/tq/tongji_list"],
                 ]],
+                ["power_id"=>12, "name"=>"TMK-个人",   "url"=>"/tongji_ss/tmk_count"],
+                ["power_id"=>13, "name"=>"tmk数据 上传",  "list"=>[
+                 ["power_id"=>1, "name"=>"批次列表",  "url"=>"/upload_tmk/post_list" ],
+                 ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
+                ]],
+                ["power_id"=>14, "name"=>"角色-TMK-组长", "list"=>[
+                    ["power_id"=>31, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list_all"],
+                ]],
+                ["power_id"=>15, "name"=>"角色-TMK", "list"=>[
+                    ["power_id"=>31, "name"=>"筛选例子",   "url"=>"/seller_student_new/tel_student_list"],
+                    ["power_id"=>6, "name"=>"无设备例子",   "url"=>"/seller_student_new/tmk_assign_sub_adminid_list"],
+                    ["power_id"=>5, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list2"],
 
-                ["power_id"=>1, "name"=>"质检-退费处理", "list"=>[
+                ]],
+                ["power_id"=>5, "name"=>"质检-退费处理", "list"=>[
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
                     ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
                 ]],
-                ["power_id"=>2, "name"=>"质检-投诉处理", "list"=>[
+                ["power_id"=>6, "name"=>"质检-投诉处理", "list"=>[
                     ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
                     ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                     ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                     ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
                     ["power_id"=>34, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_qc"],
                 ]],
-
-
+                ["power_id"=>4, "name"=>"优学优享", "list"=> [
+                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
+                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
+                    ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
+                    ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
+                    ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
+                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
+                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
+                    ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
+                    ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
+                    ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
+                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
+                ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
-
-                ["power_id"=>12, "name"=>"TMK-个人",   "url"=>"/tongji_ss/tmk_count"],
             ]],
-
 
 
             ["power_id"=>8, "name"=>"财务管理", "list"=>[
@@ -390,10 +394,6 @@ class menu{
                     ["power_id"=>4, "name"=>"百度推送",   "url"=>"/monitor/baiduMonitor"],
                     ["power_id"=>5, "name"=>"消息统计",   "url"=>"/monitor/aggregate"],
                     ["power_id"=>7, "name"=>"微信视频推送详情",   "url"=>"/user_manage_new/teacher_send_video_list"],
-                ]],
-                ["power_id"=>11, "name"=>"tmk数据 上传",  "list"=>[
-                    ["power_id"=>1, "name"=>"批次列表",  "url"=>"/upload_tmk/post_list" ],
-                    ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
                 ]],
                 // ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
                 ["power_id"=>67, "name"=>"抢课访问记录",   "url"=>"/grab_lesson/get_all_grab_info"],
@@ -708,17 +708,6 @@ class menu{
 
             ]],
 
-            ["power_id"=>33, "name"=>"角色-TMK-组长", "list"=>[
-                ["power_id"=>31, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list_all"],
-
-            ]],
-
-            ["power_id"=>31, "name"=>"角色-TMK", "list"=>[
-                ["power_id"=>31, "name"=>"筛选例子",   "url"=>"/seller_student_new/tel_student_list"],
-                ["power_id"=>6, "name"=>"无设备例子",   "url"=>"/seller_student_new/tmk_assign_sub_adminid_list"],
-                ["power_id"=>5, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list2"],
-
-            ]],
 
             ["power_id"=>25, "name"=>"角色-招师",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],

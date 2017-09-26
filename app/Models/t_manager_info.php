@@ -1711,10 +1711,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_value($sql);
     }
-    public function get_cr_num(){
+    public function get_cr_num($start_time,$end_time){
         $where_arr = [
             'account_role = 1',
-            'leave_member_time=0'
+            "(leave_member_time=0 or leave_member_time < $end_time)"
         ];
         $sql = $this->gen_sql_new(" select count(*) from %s where %s",
                                   self::DB_TABLE_NAME

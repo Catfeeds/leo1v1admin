@@ -1765,6 +1765,7 @@ class user_manage_new extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        // dd($ret_info);
         foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
@@ -4502,5 +4503,20 @@ class user_manage_new extends Controller
             "acc"                           => $acc
         ]);
     }
+
+    /**
+     * 将平台合作代理下的推荐老师全部转换出来
+     * @param teacherid 助理/总代理老师id
+     */
+    public function transfer_agent_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+
+        $agent_teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $tea_list = $this->t_teacher_lecture_appointment_info->get_tea_list_by_reference($agent_teacher_info['phone']);
+
+
+    }
+
+
 
 }

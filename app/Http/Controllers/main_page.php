@@ -1940,7 +1940,6 @@ class main_page extends Controller
 
             }*/
 
-
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,

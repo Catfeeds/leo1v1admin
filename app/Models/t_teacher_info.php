@@ -477,7 +477,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
-                                                $record_score_num=-1,$identity=-1,$tea_label_type_str="",$plan_level=-1
+                                                $record_score_num=-1,$identity=-1,$tea_label_type_str="",$plan_level=-1,
+                                                $teacher_textbook=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -516,6 +517,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ." or t.user_agent like '%%".$address."%%' or t.teacher_tags like '%%".$address."%%' "
                 ." or t.teacher_textbook like '%%".$address."%%' or t.teacherid like '%%".$address."%%' "
                 ." or t.email like '%%".$address."%%')";
+        }
+
+        if($teacher_textbook != -1){
+            $where_arr[] = 'FIND_IN_SET('.$teacher_textbook.',t.teacher_textbook)';
         }
 
 
@@ -3673,7 +3678,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr2
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -3691,6 +3695,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_reference_list_for_reset(){
+
+    }
+
 
 
 }

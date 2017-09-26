@@ -409,6 +409,53 @@ $(function(){
 
     });
 
+    $(".opt-order-partition-info").on("click",function(){
+        var data = $(this).get_opt_data();
+        /*if(data.contract_status>0){
+          alert("已付款合同不能拆分");
+          return;
+          }*/
+        var title = "编辑子合同";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>渠道</td><td>订单号</td></tr></table></div>");
+        $.do_ajax("/ss_deal/get_child_order_list",{
+            orderid: data.orderid,
+        },function(resp){
+            var data_list = resp.data;
+            if(resp.ret != 0){
+                alert(resp.info);
+                return;
+            }
+            $.each(data_list,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td>"+item["channel"]+"</td><td>"+item["from_orderno"]+"</td></tr>");               
+
+            });           
+
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","900px");
+
+        });
+
+    });
+
+
 
 
 });

@@ -65,20 +65,21 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
     }
 
 
-    public function get_all($grade, $subject, $test_type, $page_info){
+    public function get_all($grade, $subject, $test_type, $page_info, $order_by_str){
         $where_arr = [
             ['y.grade=%u', $grade , -1],
             ['y.subject=%u', $subject , -1],
             ['y.test_type=%u', $test_type , -1],
         ];
-        $sql = $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
-                                    ." y.custom_type, y.test_type, y.poster, y.create_time, a.account"
-                                    . " from %s y "
-                                    . " left join %s a on a.uid=y.adminid"
-                                    . " where %s"
-                                    ,self::DB_TABLE_NAME
-                                    ,t_manager_info::DB_TABLE_NAME
-                                    ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select y.id, y.test_title, y.test_des, y.grade, y.subject, y.visit_num, y.share_num ,"
+            ." y.custom_type, y.test_type, y.poster, y.create_time, a.account"
+            ." from %s y "
+            ." left join %s a on a.uid=y.adminid"
+            ." where %s $order_by_str"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
 

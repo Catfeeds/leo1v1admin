@@ -12,7 +12,13 @@ class t_yxyx_test_pic_info extends Controller
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_yxyx_test_pic_info->get_all($grade, $subject, $test_type, $page_info);
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
+            = $this->get_in_order_by_str([],"",["visit_num" => "y.visit_num" ,
+                                               "share_num" => "y.share_num",
+            ]);
+
+        $ret_info = $this->t_yxyx_test_pic_info->get_all($grade, $subject, $test_type, $page_info, $order_by_str);
         $type_info = $this->t_yxyx_custom_type->get_type_id_name_info();
         $type_arr  = [];
         foreach ($type_info as $v) {
@@ -29,7 +35,6 @@ class t_yxyx_test_pic_info extends Controller
                    $v = @$type_arr[$v];
                }
         }
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info, array("type_arr" => $type_arr),['qiniu_upload_domain_url' =>
                                                              Config::get_qiniu_public_url()."/"
         ]);
