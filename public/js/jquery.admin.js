@@ -1357,7 +1357,7 @@ jQuery.extend({
         }
 
         var field_list=[];
-        if (type=="research_teacher" || type=="teacher") {
+        if (type=="research_teacher" || type=="teacher" || type=="train_through_teacher") {
             field_list= [
                 {
                     title:"id",
