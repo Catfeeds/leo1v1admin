@@ -328,10 +328,14 @@
                                     试听内容: {{$var["stu_test_lesson_level_str"]}} <br/>
                                     试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
                                     教材：{{$var["editionid_str"]}}<br/>
-                                    学生成绩情况: {{$var["stu_score_info"]}} <br/>
+                                    学生成绩情况: {{$var["stu_score_info"]}} <br/><br/>
+                                    @if($var["seller_top_flag"]==1)
+                                        <font color="blue"> 销售top25</font><br/>
+                                    @endif
                                     @if ($var["is_green_flag"]==1)
                                         <font color="green"> 已申请绿色通道</font>
                                     @endif
+
                                 @elseif($var["use_new_flag"]==1 && $var["new_demand_flag"]==1)
                                     期待时间: {{$var["stu_request_test_lesson_time"]}} <br/> 
                                     升学目标: {{$var["academic_goal_str"]}} <br/>
@@ -344,11 +348,10 @@
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
-                                        申请类型: <font color="blue"> 销售top25</font>
-                                    @elseif ($var["is_green_flag"]==1)
-                                        申请类型: <font color="green"> 已申请绿色通道</font>
-                                    @else
-                                        申请类型: 常规申请
+                                        <font color="blue"> 销售top25</font><br/>
+                                    @endif
+                                    @if ($var["is_green_flag"]==1)
+                                        <font color="green"> 已申请绿色通道</font>
                                     @endif
 
                                 @endif
