@@ -61,7 +61,7 @@
     </style>
 
 
-    <section class="content ">
+    <section class="content li-section">
         <div>
             <div class="row">
                 <div class="col-xs-12 col-md-4">
@@ -96,9 +96,9 @@
             </div>
 
         </div>
-        
+
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td>#</td>
@@ -119,14 +119,14 @@
                         <td>{{@$var['subject_str']}}</td>
                         <td>{{@$var['train_type_str']}}</td>
                         @if ($var['status'] == 3)
-                            <td class="panel-green">{{@$var['train_status_str']}}</td>                   
+                            <td class="panel-green">{{@$var['train_status_str']}}</td>
                         @elseif($var['status'] == 1)
                             <td class="panel-red">{{@$var['train_status_str']}}</td>
                         @else
-                            <td class="panel-blue">{{@$var['train_status_str']}}</td>    
+                            <td class="panel-blue">{{@$var['train_status_str']}}</td>
                         @endif
                         <td>
-                            <div class="opt-div" 
+                            <div class="opt-div"
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa  opt-play" title="播放视频">播放视频</a>
@@ -139,6 +139,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection
