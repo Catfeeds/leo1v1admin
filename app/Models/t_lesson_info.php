@@ -5446,7 +5446,7 @@ lesson_type in (0,1) "
                                   ." sum(if(l.lesson_type in (0,1,3),l.lesson_count,0)) as lesson_1v1,"
                                   ." sum(if(l.lesson_type=2,l.lesson_count,0)) as lesson_trial,"
                                   ." sum(if(l.lesson_type<1000,l.lesson_count,0)) as lesson_total"
-                                  ." from %s l"
+                                  ." from %s l force index(lesson_start)"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
                                   ." group by t.teacherid"
@@ -9586,39 +9586,18 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_value($sql);
     }
-    public function get_teacher_leave($start_time,$end_time){
+    public function get_leave_num($start_time,$end_time){
         $where_arr = [
-            ['l.lesson_start>%u',$start_time,-1],
-            ['l.lesson_start<%u',$end_time,-1],
-            "l.lesson_cancel_reason_type = 12  ",
-            "l.teacherid > 0 ",
+            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start<%u',$end_time,-1],
+            " (lesson_cancel_reason_type = 12 or lesson_cancel_reason_type = 11) ",
         ];
-        $sql = $this->gen_sql_new("select  sum(lesson_count) as teacher_leave ".
-                                  "from %s l ".
-                                  "left join %s  t on t.teacherid = l.teacherid ".
-                                  " where %s",
+        $sql = $this->gen_sql_new("select lesson_cancel_reason_type,  sum(lesson_count) as num ".
+                                  "from %s  ".
+                                  " where %s group by   lesson_cancel_reason_type order by   lesson_cancel_reason_type ",
                                   self::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr);
-        return $this->main_get_value($sql);
-
-    }
-    public function get_student_leave($start_time,$end_time){
-        $where_arr = [
-            ['l.lesson_start>%u',$start_time,-1],
-            ['l.lesson_start<%u',$end_time,-1],
-            "l.lesson_cancel_reason_type = 11  ",
-            "l.userid > 0 ",
-            "s.is_test_user = 0"
-        ];
-        $sql = $this->gen_sql_new("select  sum(lesson_count) as student_leave ".
-                                  "from %s l ".
-                                  "left join %s  s on s.userid = l.userid ".
-                                  " where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  $where_arr);
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
 
     }
 
