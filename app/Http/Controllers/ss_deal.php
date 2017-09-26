@@ -1542,7 +1542,7 @@ class ss_deal extends Controller
                         );
                     }
                 }else if($grade==203){
-                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 ){
+                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 && $grade_part_ex!=6){
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );

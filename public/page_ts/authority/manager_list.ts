@@ -142,8 +142,6 @@ $(function(){
                 });
             }
         });
-
-
     });
 
     $(".opt-set-passwd").on("click", function(){
