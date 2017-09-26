@@ -1140,7 +1140,7 @@ class tongji2 extends Controller
         }
         //课时消耗
         $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time);
-        $arr['lesson_consume'] = $lesson_consume;
+        $arr['lesson_consume'] = round($lesson_consume/100,2);
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 
