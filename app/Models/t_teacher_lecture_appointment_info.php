@@ -817,7 +817,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     /**
      * 获取所推荐的不同类型的老师数
      * @param phone 推荐人手机号
-     * @param type  查看的老师类型 1 在职老师
+     * @param type  查看的老师类型 1 其他 2 在职老师
      * @param begin_time 开始检测的时间
      */
     public function get_reference_num($phone,$type,$begin_time){
@@ -827,7 +827,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "t.train_through_new_time>0",
             "t.trial_lecture_is_pass=1",
         ];
-        if($type==1){
+        if($type==2){
             $where_arr[] = "t.identity in (5,6,7)";
         }else{
             $where_arr[] = "t.identity not in (5,6,7)";

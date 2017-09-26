@@ -2224,11 +2224,10 @@ trait TeaPower {
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[21,22,31])){
-                $ref_num   = $this->get_teacher_reference_num($reference_info['phone'],$teacher_info['identity']);
-                $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
+                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price*100,
+                    "money"      => $ref_price,
                     "money_info" => $teacher_info['teacherid'],
                     "add_time"   => time(),
                     "type"       => E\Ereward_type::V_6,
@@ -2511,14 +2510,9 @@ trait TeaPower {
      * @param phone 推荐人手机号
      * @param identity 被推荐人身份
      */
-    public function get_teacher_reference_num($phone,$identity){
-        if(in_array($identity,[5,6,7])){
-            $type = 1;
-        }else{
-            $type = 2;
-        }
-
-        $check_flag = $this->check_is_special_reference($phone);
+    public function get_teacher_reference_price($phone,$identity){
+        $reference_type = \App\Helper\teacher_rule::check_reference_type($identity);
+        $check_flag     = $this->check_is_special_reference($phone);
         if($check_flag){
             $begin_time = 0;
         }else{
@@ -2527,9 +2521,10 @@ trait TeaPower {
         }
 
         $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-            $phone,$type,$begin_time
+            $phone,$reference_type,$begin_time
         );
-        return $ref_num;
+        $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
+        return $ref_price*100;
     }
 
     /**
