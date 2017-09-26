@@ -302,7 +302,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <input type="text" value="" class=" form-control click_on put_name opt-change"  data-field="address" id="id_address"  placeholder="所在地、学校、姓名等 回车查找" />
                     </div>
@@ -339,6 +339,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >教材版本</span>
+                        <select id="id_teacher_textbook" class ="opt-change" >
+                           
+                        </select>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
@@ -381,8 +390,7 @@
                     <td style="display:none;">教师性质</td>
                     <td style="display:none;">版本信息</td>
                     <td style="width:320px">标签</td>
-                    <td >擅长教材</td>
-                    <td  style="display:none;" class="tea_textbook">教材版本</td>
+                    <td >教材教材</td>
                     <td style="display:none;">评价</td>
                     <td class="tea_is_need_test" style="display:none;">是否需要试听课</td>
                     <td style="width:220px;display:none" id="lesson_plan_week"> 当周排课</td>
@@ -457,7 +465,6 @@
                         <td>{{$var["user_agent"]}} </td>
                         <td>{!! @$var["teacher_tags"] !!} </td>
                         <td>{{@$var["textbook"]}} </td>
-                        <td>{{@$var["textbook_type_str"]}} </td>
                         <td>{{@$var["rate_score"]}} </td>
                         <td>{{@$var["need_test_lesson_flag_str"]}} </td>
                         <td class="content_show" data-content="{{@$var["lesson_info_week"]}}">{{@$var["lesson_info_week"]}} </td>
