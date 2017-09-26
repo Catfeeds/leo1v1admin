@@ -1513,7 +1513,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   // ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
                                   // ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
                                   ." sum(if(co.parent_orderid and co.pay_status=1,co.price,if(t1.check_money_flag=1,price,0))) all_price_suc,"
-                                  ." sum(if(co.parent_orderid and co.pay_status=0,co.price,if(t1.check_money_flag=0,price,0)) all_price_fail"
+                                  ." sum(if(co.parent_orderid and co.pay_status=0,co.price,if(t1.check_money_flag=0,price,0))) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
