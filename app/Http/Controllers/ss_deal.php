@@ -2534,7 +2534,6 @@ class ss_deal extends Controller
             ]);
         }
 
-        // $grade = $this->t_student_info->get_grade($userid);
 
         // init t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
@@ -2560,27 +2559,27 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
 
-        if($require_id>0){
-            $this->t_test_lesson_subject_require->field_update_list($require_id,[
-                "change_teacher_reason"          => $change_reason,
-                "change_teacher_reason_img_url"  => $change_reason_url,
-                "change_teacher_reason_type" => $change_teacher_reason_type
-            ]);
-        }
+        // if($require_id>0){
+        //     $this->t_test_lesson_subject_require->field_update_list($require_id,[
+        //         "change_teacher_reason"          => $change_reason,
+        //         "change_teacher_reason_img_url"  => $change_reason_url,
+        //         "change_teacher_reason_type" => $change_teacher_reason_type
+        //     ]);
+        // }
 
 
         if (!$ret){
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
-            // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
-                // "change_teacher_reason"          => $change_reason,
-                // "change_teacher_reason_img_url"      => $change_reason_url,
-                // "change_teacher_reason_type" => $change_teacher_reason_type
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"      => $change_reason_url,
+                "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }

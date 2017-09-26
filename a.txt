@@ -1,1 +1,3 @@
-http://dev.admin.yb1v1.com/AdminLTE-2.4.0-rc/index.html
+#http://dev.admin.yb1v1.com/AdminLTE-2.4.0-rc/index.html
+
+http://pdev.admin.yb1v1.com:6080/main_page/admin

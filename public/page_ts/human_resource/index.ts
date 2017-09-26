@@ -1756,6 +1756,7 @@ $(function(){
         });
     }
 
+
     if(acc=="alan"){
         $(".opt-edit").show();
     }

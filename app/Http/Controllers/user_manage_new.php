@@ -2728,7 +2728,7 @@ class user_manage_new extends Controller
 
         $this->switch_tongji_database();
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.".txt";
+        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
@@ -3144,6 +3144,9 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function wx_monitor_new_yy(){
+        return $this->wx_monitor_new();
+    }
     public function wx_monitor_new(){
         $page_num=$this->get_in_page_num();
         $ret_info = $this->t_send_wx_template_record_list->get_send_wx_template_record_list($page_num);
