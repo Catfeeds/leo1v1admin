@@ -951,7 +951,7 @@ trait TeaPower {
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-        $limit_num = 1000;
+        $limit_num = 150;
         if($account_role==2 && $is_green_flag){
             if($master_adminid==287){
                 $limit_num= ceil($require_month[$m]*0.027);
@@ -2619,14 +2619,12 @@ trait TeaPower {
         $teacher_money_type = $teacher_info['teacher_money_type'];
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
-        
         $cost_list = [
             "late_num"   => 0,
             "change_num" => 0,
         ];
         if(!empty($lesson_list)){
             foreach($lesson_list as $val){
-                
             }
         }
 

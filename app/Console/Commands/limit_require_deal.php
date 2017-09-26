@@ -164,6 +164,7 @@ class limit_require_deal extends Command
             $m = date("m",time());
             $start_time = strtotime(date("Y-m-01",time()));
             $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
+            $limit_num=150;
             if($val["limit_require_send_adminid"]==287){
                 $limit_num= ceil($require_month[$m]*0.027);
             }elseif($val["limit_require_send_adminid"]==416){

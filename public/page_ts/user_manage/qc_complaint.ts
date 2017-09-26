@@ -193,7 +193,7 @@ $(function(){
 
         $.each(img_arr, function (i, item) {
             var cls = "success";
-            html_node += "<tr class=\"" + cls + "\" > <td>" + i + "<td>" + item +"</tr>";
+            html_node += "<tr class=\"" + cls + "\" > <td>"  + "<td><a target='_blank' class='fa fa-picture-o' href='"+item+"'></a></tr>";
         });
 
         BootstrapDialog.show({

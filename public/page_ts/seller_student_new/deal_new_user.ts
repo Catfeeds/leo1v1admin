@@ -1281,6 +1281,13 @@ $(function(){
                             city="";
                             area="";
                         }
+                        if(html_node.find("#city").val()==""){
+                            city="";
+                        }
+                        if(html_node.find("#area").val()==""){
+                            area="";
+                        }
+
 
 
                         $.do_ajax("/ss_deal/save_user_info_new",{

@@ -42,6 +42,7 @@ $(function(){
             ["名称" ,  id_campus_name]
         ];
         
+        id_campus_name.val(opt_data.campus_name);
         $.show_key_value_table("修改", arr ,{
             label: '确认',
             cssClass: 'btn-warning',

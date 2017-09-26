@@ -1211,10 +1211,11 @@ class Utils  {
         $money            = $lesson_info['money'];
         //黄嵩婕切换新版工资版本时间,之前的课程计算工资不变,之后的工资变成新版工资
         $huang_check_time = strtotime("2017-9-20");
+        $zhang_check_time = strtotime("2017-9-22");
 
         if($teacherid==71743 && $lesson_info['lesson_start']<$huang_check_time){
             $money=60;
-        }elseif($teacherid==58812 && $lesson_info['competition_flag']==1){
+        }elseif($teacherid==58812 && $lesson_info['competition_flag']==1 && $lesson_info['lesson_start']<$zhang_check_time){
             $money=75;
         }
         return $money;
