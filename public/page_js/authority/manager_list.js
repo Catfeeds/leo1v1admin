@@ -151,7 +151,7 @@ $(function(){
             ["account", account ] ,
             ["passwd", $passwd]
         ];
-        $passwd.val("123");
+        $passwd.val("123456");
         var me=this;
 
         $.show_key_value_table("修改密码", arr ,{
