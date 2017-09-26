@@ -2209,6 +2209,9 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    /**
+     *
+     */
     public function set_stu_grade() { //设置
         $userid     = $this->get_in_userid();
         $start_time = $this->get_in_start_time_from_str();
