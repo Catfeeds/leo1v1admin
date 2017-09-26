@@ -30,8 +30,8 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
         ];
         $sql = $this->gen_sql_new(
             "select g.grabid,g.grab_lesson_link,g.live_time,g.adminid,g.create_time,g.requireids,"
-            ." count(v.visitid) as visit_count, sum(v.operation) as grab_count,"
-            ." sum(vo.success_flag) as succ_count, sum( if(vo.success_flag=0,1,0) ) as fail_count"
+            ." count(v.visitid) as visit_count, sum(if(v.operation=1,1,0)) as grab_count,"
+            ." sum(if(vo.success_flag=1,1,0)) as succ_count, sum( if(vo.success_flag=0,1,0) ) as fail_count"
             ." from %s g "
             ." left join %s v on g.grabid=v.grabid "
             ." left join %s vo on vo.visitid=v.visitid "
