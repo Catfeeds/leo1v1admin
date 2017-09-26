@@ -569,20 +569,28 @@ class wx_teacher_api extends Controller
     public function get_modify_lesson_time_by_teacher(){//2006 // 老师 点击家长调课 推送详情
         $lessonid = $this->get_in_int_val('lessonid');
 
-        $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
-        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
-        // $filter_lesson_time_start = time(NULL)+86400;
-        // $filter_lesson_time_end   = $lesson_end+3*86400;
+        $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
+        if($is_modify_time_flag == 1){ 
+            header("location: http://wx-teacher-web.leo1v1.com/comment_list.html?type=1"); 
+        }else{
+            $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
-        $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+            $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
 
-        $time_info['lseeon_time'] = $lesson_time;
-        $time_info['parent_modify_time'] = $parent_modify_time;
+            $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+
+            $time_info['lseeon_time'] = $lesson_time;
+            $time_info['parent_modify_time'] = $parent_modify_time;
 
 
 
-        return $this->output_succ(['data'=>$time_info]);
+            return $this->output_succ(['data'=>$time_info]);
+ 
+        }
+
+
+
 
 
         // $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);

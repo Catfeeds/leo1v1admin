@@ -2251,18 +2251,20 @@ class test_code extends Controller
                 $name= $tea_info[1];
                 $info = $this->t_lesson_info_b3->get_tea_lesson_total($start_time,$end_time,$teacherid);
                 echo $info['lesson_total']/100;
-                          // ."|".$info['trial_lesson_total']."|".$info['normal_lesson_total']
+                // ."|".$info['trial_lesson_total']."|".$info['normal_lesson_total']
                 echo "<br>";
             }
         }
-
     }
 
     public function test_api(){
         echo "test_api";
     }
 
+    public function get_reference_list(){
+        $list = $this->t_teacher_info->get_reference_list_for_reset();
 
+    }
 
 
 }
