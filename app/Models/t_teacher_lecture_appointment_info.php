@@ -602,6 +602,22 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         });
     }
 
+    public function get_tea_list_by_reference($reference){
+        $where_arr = [
+            ["reference='%s'",$reference,""],
+        ];
+        $sql = $this->gen_sql_new("select teacherid,teaccher_money_type,level"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
+
+
     public function get_app_lecture_sum_by_reference($start_time,$end_time){
         $where_arr = [
             ["answer_begin_time>%u",$start_time,0],
