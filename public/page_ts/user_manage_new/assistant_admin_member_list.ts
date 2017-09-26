@@ -60,7 +60,7 @@ $(function(){
         $(this).hide();
        
     });
-    $.each($(".l-0,.l-1,.l-3,.l-4"),function(){       
+    $.each($(".l-0,.l-2,.l-3,.l-4"),function(){       
         $(this).find(".opt-ass-month-target").hide();        
     });
 

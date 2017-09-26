@@ -27,7 +27,8 @@ $(function(){
             require_assign_flag:         $('#id_require_assign_flag').val(),
             jw_test_lesson_status:       $('#id_jw_test_lesson_status').val(),
             jw_teacher:                  $('#id_jw_teacher').val(),
-            ass_test_lesson_type:        $('#id_ass_test_lesson_type').val()
+            ass_test_lesson_type:        $('#id_ass_test_lesson_type').val(),
+			lesson_plan_style:	$('#id_lesson_plan_style').val()
         });
     }
 
@@ -60,26 +61,27 @@ $(function(){
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
-  $('#id_seller_require_change_flag ').val(g_args.seller_require_change_flag );
+    $('#id_seller_require_change_flag ').val(g_args.seller_require_change_flag );
 
-  $('#id_require_assign_flag').val(g_args.require_assign_flag);
-  $('#id_grade').val(g_args.grade);
-  $('#id_subject').val(g_args.subject);
-  $('#id_test_lesson_student_status').val(g_args.test_lesson_student_status);
-  $('#id_lessonid').val(g_args.lessonid);
-  $('#id_test_lesson_fail_flag').val(g_args.test_lesson_fail_flag);
-  $('#id_userid').val(g_args.userid);
-  $('#id_teacherid').val(g_args.teacherid);
-  $('#id_has_1v1_lesson_flag').val(g_args.has_1v1_lesson_flag);
-  $('#id_tmk_adminid').val(g_args.tmk_adminid);
-  $('#id_require_admin_type').val(g_args.require_admin_type);
-  $('#id_accept_flag').val(g_args.accept_flag);
-  $('#id_success_flag').val(g_args.success_flag);
-  $('#id_is_test_user').val(g_args.is_test_user);
-  $('#id_require_adminid').val(g_args.require_adminid);
-  $('#id_ass_test_lesson_type').val(g_args.ass_test_lesson_type);
-  $('#id_jw_test_lesson_status').val(g_args.jw_test_lesson_status);
-  $('#id_jw_teacher').val(g_args.jw_teacher);
+    $('#id_require_assign_flag').val(g_args.require_assign_flag);
+    $('#id_grade').val(g_args.grade);
+    $('#id_subject').val(g_args.subject);
+    $('#id_test_lesson_student_status').val(g_args.test_lesson_student_status);
+    $('#id_lessonid').val(g_args.lessonid);
+    $('#id_test_lesson_fail_flag').val(g_args.test_lesson_fail_flag);
+    $('#id_userid').val(g_args.userid);
+    $('#id_teacherid').val(g_args.teacherid);
+    $('#id_has_1v1_lesson_flag').val(g_args.has_1v1_lesson_flag);
+    $('#id_tmk_adminid').val(g_args.tmk_adminid);
+    $('#id_require_admin_type').val(g_args.require_admin_type);
+    $('#id_accept_flag').val(g_args.accept_flag);
+    $('#id_success_flag').val(g_args.success_flag);
+    $('#id_is_test_user').val(g_args.is_test_user);
+    $('#id_require_adminid').val(g_args.require_adminid);
+    $('#id_ass_test_lesson_type').val(g_args.ass_test_lesson_type);
+    $('#id_jw_test_lesson_status').val(g_args.jw_test_lesson_status);
+    $('#id_jw_teacher').val(g_args.jw_teacher);
+	$('#id_lesson_plan_style').val(g_args.lesson_plan_style);
 
     $.admin_select_user(
         $('#id_tmk_adminid'),
@@ -1051,7 +1053,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
-       // alert(opt_data.require_id);
+        alert(opt_data.require_id);
         console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");
@@ -1188,7 +1190,6 @@ $(function(){
         },function(){
         });
     });
-    var grab_requireids;
     $("#id_grab_lesson").on("click",function(){
         var id_grab_url    = $("<button class='btn btn-danger'>生成抢单链接</button>");
         var id_grab_lesson = $("<button class='btn btn-danger'>添加至抢单库</button>");
@@ -1234,13 +1235,18 @@ $(function(){
                 if(select_num==0){
                     BootstrapDialog.alert("未选择试听申请!");
                 }else{
-                    grab_requireids = id;
-                    $.do_ajax("/common/base64",{
-                        "text" : id,
-                        "type" : "encode"
+                    $.do_ajax("/grab_lesson/add_requireids",{
+                        "requireids" : id,
                     },function(result){
                         select_time_limit(result,lesson_info);
                     })
+
+                    // $.do_ajax("/common/base64",{
+                    //     "text" : id,
+                    //     "type" : "encode"
+                    // },function(result){
+                    //     select_time_limit(result,lesson_info);
+                    // })
                 }
             });
 
@@ -1356,12 +1362,18 @@ $(function(){
         if(id==""){
             BootstrapDialog.alert("未选择试听申请!");
         }else{
-            $.do_ajax("/common/base64",{
-                "text" : id,
-                "type" : "encode"
+            $.do_ajax("/grab_lesson/add_requireids",{
+                "requireids" : id,
             },function(result){
                 select_time_limit(result,lesson_info);
             })
+
+            // $.do_ajax("/common/base64",{
+            //     "text" : id,
+            //     "type" : "encode"
+            // },function(result){
+            //     select_time_limit(result,lesson_info);
+            // })
         }
     });
 
@@ -1383,12 +1395,12 @@ $(function(){
                 var alert_info = url+"<br/>"+lesson_info;
                 $.ajax({
                     type     :'post',
-                    url      : '/grab_lesson/make_lesson_link',
+                    url      : '/grab_lesson/update_lesson_link',
                     dataType : 'json',
                     data     : {
-                        'url'         :url,
-                        'live_time'   : time,
-                        'requireids'  : grab_requireids,
+                        'url'       : url,
+                        'text'      : result.data,
+                        'live_time' : time
                     },
                     success :function(ret){
                         if (ret.ret == 0) {

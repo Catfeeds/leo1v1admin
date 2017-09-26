@@ -22,6 +22,9 @@
      color:red;
  }
 </style>
+<script>
+ var grabid = '{{$grabid}}';
+</script>
 <section class="content">
     <div class="row">
         @if(isset($err_info) && $err_info!="")

@@ -3866,9 +3866,15 @@ class user_deal extends Controller
         $phone_location=trim($this->get_in_str_val("phone_location"));
         $stu_score_info=trim($this->get_in_str_val("stu_score_info"));
         $stu_character_info=trim($this->get_in_str_val("stu_character_info"));
-        if(empty( $url) || empty( $change_reason) || empty( $except_teacher) || empty( $textbook) || empty( $phone_location) || empty($stu_score_info ) || empty($stu_character_info)){
+        if(($change_teacher_reason_type==0) ||empty( $url) || empty( $change_reason) || empty( $except_teacher) || empty( $textbook) || empty( $phone_location) || empty($stu_score_info ) || empty($stu_character_info)){
              return $this->output_err("请填写完整!");
         }
+
+        if(strlen(str_replace(" ","",$change_reason))<9){
+            return $this->output_err('换老师原因不得少于3个字!');
+        }
+ 
+
         $adminid = $this->get_account_id();
         $ret = $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
         if($ret>0){
@@ -3884,6 +3890,12 @@ class user_deal extends Controller
             $accept_adminid = 486;
         }
         //更新处理人
+
+        // if($change_teacher_reason_type == 0){
+        //     return $this->output_err('请选择换老师类型!');
+        // }
+
+
         // $accept_adminid = 478;
         $res =  $this->t_change_teacher_list->row_insert([
             "teacherid"  =>$teacherid,

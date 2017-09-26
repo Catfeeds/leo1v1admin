@@ -4,8 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	grabid:	number;
 	grab_lesson_link:	string;
+	grabid:	number;
 	live_time:	number;
 	adminid:	number;
 	page_num:	number;
@@ -27,6 +27,7 @@ interface RowData {
 	requireids	:any;
 	visit_count	:any;
 	nick	:any;
+	lesson_count	:any;
 }
 
 /*
@@ -45,8 +46,8 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			grabid:	$('#id_grabid').val(),
 			grab_lesson_link:	$('#id_grab_lesson_link').val(),
+			grabid:	$('#id_grabid').val(),
 			live_time:	$('#id_live_time').val(),
 			adminid:	$('#id_adminid').val()
         });
@@ -63,8 +64,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_grabid').val(g_args.grabid);
 	$('#id_grab_lesson_link').val(g_args.grab_lesson_link);
+	$('#id_grabid').val(g_args.grabid);
 	$('#id_live_time').val(g_args.live_time);
 	$('#id_adminid').val(g_args.adminid);
 
@@ -79,15 +80,15 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">grabid</span>
-                <input class="opt-change form-control" id="id_grabid" />
+                <span class="input-group-addon">grab_lesson_link</span>
+                <input class="opt-change form-control" id="id_grab_lesson_link" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">grab_lesson_link</span>
-                <input class="opt-change form-control" id="id_grab_lesson_link" />
+                <span class="input-group-addon">grabid</span>
+                <input class="opt-change form-control" id="id_grabid" />
             </div>
         </div>
 

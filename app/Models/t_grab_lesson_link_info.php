@@ -35,24 +35,25 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
             ." left join %s v on g.grabid=v.grabid "
             ." where %s "
             ." group by g.grabid "
-            ." order by g.create_time desc "
+            ." order by g.grabid desc "
             ,self::DB_TABLE_NAME
             ,t_grab_lesson_link_visit_info::DB_TABLE_NAME
             ,$where_arr
         );
 
-        return $this->main_get_list_by_page($sql, $page_info);
+        return $this->main_get_list_by_page($sql, $page_info,10,1);
     }
 
+    public function get_requireids_by_grabid($grabid){
+        $sql = $this->gen_sql_new("select requireids"
+                                  ." from %s"
+                                  ." where grabid='%s'"
+                                  ,self::DB_TABLE_NAME
+                                  ,$grabid
+        );
+        return $this->main_get_value($sql);
+
+
+
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
