@@ -1100,17 +1100,28 @@ class tongji2 extends Controller
         $opt_date_type = $this->get_in_int_val("opt_date_type");
         $arr = [];
         //概况
-        $ret_total = $this->t_order_info->get_total_price($start_time,$end_time);
+        $cur_start   = strtotime(date('Y-m-01',$start_time));
+        $last_month  = strtotime(date('Y-m-01',$cur_start-100));
+        $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
         $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
+        $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
         $arr['total_price']        = $ret_total[0]['total_price'] / 100; //现金总收入
         $arr['person_num']         = $ret_total[0]['person_num']; //下单总人数
         $arr['contract_num']       = $ret_total[0]['order_num']; //合同数
         $arr['total_price_thirty'] = $ret_total_thirty[0]['total_price'] / 100; //入职完整月人员签单额
         $arr['person_num_thirty']  = $ret_total_thirty[0]['person_num'];  //入职完整月人员人数
-        $arr['cr_num']             = $ret_cr; //在职人数
+
+        $arr['cr_num']             = $ret_cr;//在职人数
         $arr['refund_num']         = $ret_refund;//退费总人数
+        $arr['target']             = $target;   //续费目标
+        if(($arr['target']-$arr['total_price']) > 0){
+            $arr['gap_money'] = $arr['target'] - $arr['total_price'];
+        }else{
+            $arr['gap_money'] = 0;  //缺口金额
+        }
+
         if($arr['total_price']){
             $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);
         }else{
@@ -1121,7 +1132,13 @@ class tongji2 extends Controller
         }else{
             $arr['person_num_thirty_per'] = 0;
         }
-        //课时消耗
+
+        if($arr['target']){
+            $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
+        }else{
+            $arr['kpi_per'] = 0;
+        }
+
 
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
