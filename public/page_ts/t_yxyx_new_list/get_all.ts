@@ -117,7 +117,9 @@ $(function(){
             message         : html_node,
             closable        : true,
             closeByBackdrop : false,
-            onshown         : function(dialog){},
+            onshown         : function(dialog){
+                $('.modal-dialog').css('width', '670px');
+            },
             buttons: [
                 {
                     label: '确认',
