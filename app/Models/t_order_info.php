@@ -1505,15 +1505,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_list);
         $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_all);
-        $sql = $this->gen_sql_new("select t3.uid adminid,t3.account, sum(price) all_price,".
-                                  "sum(if(stu_from_type=1,price,0)) transfer_introduction_price,"
-                                  ." sum(if(stu_from_type=0,price,0)) new_price,"
-                                  ." sum(if(stu_from_type=10,price,0)) normal_price,"
-                                  ." sum(if(stu_from_type=11,price,0)) extend_price, "
+        $sql = $this->gen_sql_new("select t3.uid adminid,t3.account, sum(t1.price) all_price,".
+                                  "sum(if(stu_from_type=1,t1.price,0)) transfer_introduction_price,"
+                                  ." sum(if(stu_from_type=0,t1.price,0)) new_price,"
+                                  ." sum(if(stu_from_type=10,t1.price,0)) normal_price,"
+                                  ." sum(if(stu_from_type=11,t1.price,0)) extend_price, "
                                   // ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
                                   // ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
-                                  ." sum(if(co.parent_orderid and co.pay_status=1,co.price,if(t1.check_money_flag=1,price,0))) all_price_suc,"
-                                  ." sum(if(co.parent_orderid and co.pay_status=0,co.price,if(t1.check_money_flag=0,price,0)) all_price_fail"
+                                  ." sum(if(co.parent_orderid and co.pay_status=1,co.price,if(t1.check_money_flag=1,t1.price,0))) all_price_suc,"
+                                  ." sum(if(co.parent_orderid and co.pay_status=0,co.price,if(t1.check_money_flag=0,t1.price,0))) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
