@@ -23,6 +23,7 @@ class t_yxyx_new_list extends Controller
         $id = $this->get_in_int_val('id',-1);
         $ret_info = $this->t_yxyx_new_list->get_one_new_info($id);
         \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
+        $ret_info['new_content'] = str_replace('img src','img width="100%" src',$ret_info['new_content']);
         $ret_info["nick"] = $this->cache_get_account_nick($ret_info["adminid"]);
         return outputjson_success(array('ret_info' => $ret_info));
 
