@@ -2657,7 +2657,7 @@ class human_resource extends Controller
                 ));
             }
 
-
+            //添加模拟试听奖金
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
                 $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
