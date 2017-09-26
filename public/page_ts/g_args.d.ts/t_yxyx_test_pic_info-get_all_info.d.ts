@@ -18,6 +18,8 @@ interface RowData {
 	test_des	:any;
 	grade	:any;
 	subject	:any;
+	visit_num	:any;
+	share_num	:any;
 	custom_type	:any;
 	test_type	:any;
 	poster	:any;
