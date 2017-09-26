@@ -3144,6 +3144,9 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function wx_monitor_new_yy(){
+        return $this->wx_monitor_new();
+    }
     public function wx_monitor_new(){
         $page_num=$this->get_in_page_num();
         $ret_info = $this->t_send_wx_template_record_list->get_send_wx_template_record_list($page_num);

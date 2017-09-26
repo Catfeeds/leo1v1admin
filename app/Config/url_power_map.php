@@ -533,6 +533,7 @@ class url_power_map {
 			'/teacher_level/teacher_switch_list'	=>1360900,
 			'/tea_manage_new/get_seller_require_commend_teacher_info_yy'	=>1362700,
 			'/user_manage/qc_complaint_tea'	=>1361000,
+			'/user_manage_new/wx_monitor_new_yy'	=>1361100,
 			'/user_manage_new/get_fulltime_teacher_attendance_info'	=>1320500,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info'	=>1320700,
 			'/tongji_ss/research_teacher_kpi_info_new'	=>1322300,
