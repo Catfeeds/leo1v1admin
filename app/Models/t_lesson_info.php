@@ -9586,4 +9586,21 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_value($sql);
     }
+    public function get_teacher_leave($start_time,$end_time){
+        $where_arr = [
+            ['l.lesson_start>%u',$start_time,-1],
+            ['l.lesson_start<%u',$end_time,-1],
+            "l.lesson_cancel_reason_type = 12  ",
+            "l.teacherid > 0 ",
+        ];
+        $sql = $this->gen_sql_new("select  sum(lesson_count) as teacher_cancel ".
+                                  "from %s l ".
+                                  "left join %s  t on t.teacherid = l.teacherid ".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_value($sql);
+
+    }
 }
