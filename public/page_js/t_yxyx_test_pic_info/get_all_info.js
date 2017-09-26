@@ -1,6 +1,15 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/t_yxyx_test_pic_info-get_all_info.d.ts" />
 
+function load_data(){
+    $.reload_self_page({
+        order_by_str : g_args.order_by_str,
+        grade     : $(".grade").val(),
+        subject   : $(".subject").val(),
+        tset_type : $(".test_type").val(),
+    });
+}
+
 $(function(){
     Enum_map.append_option_list("grade", $(".grade"));
     Enum_map.append_option_list("subject", $(".subject"));
@@ -12,13 +21,6 @@ $(function(){
     $(".grade").val(g_args.grade);
     $(".subject").val(g_args.subject);
     $(".test_type").val(g_args.test_type);
-    function load_data(){
-        $.reload_self_page({
-            grade     : $(".grade").val(),
-            subject   : $(".subject").val(),
-            tset_type : $(".test_type").val(),
-        });
-    }
     //筛选
     $(".grade").on("change",function(){
         load_data();
