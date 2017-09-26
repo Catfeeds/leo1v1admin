@@ -164,7 +164,7 @@
                                             <td class="panel-yellow" > 存档  </td> 
                                             <td class="panel-yellow" > 存档 </td> 
                                             <td> 节点</td> 
-                                            <td> 节点</td>
+                                            <td> {{@$arr['lesson_consume']}}</td>
 
                                             <td> 节点</td> 
                                             <td> 节点</td> 
