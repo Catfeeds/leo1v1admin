@@ -3673,7 +3673,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr2
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -3691,6 +3690,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_reference_list_for_reset(){
+
+    }
+
 
 
 }

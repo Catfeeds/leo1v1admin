@@ -4503,4 +4503,17 @@ class user_manage_new extends Controller
         ]);
     }
 
+    /**
+     * 将平台合作代理下的推荐老师全部转换出来
+     * @param teacherid 助理/总代理老师id
+     */
+    public function transfer_agent_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+
+        $agent_teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+    }
+
+
+
 }
