@@ -1096,6 +1096,7 @@ class tongji2 extends Controller
     }
 
     public function tongji_cr(){
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $opt_date_type = $this->get_in_int_val("opt_date_type");
         $arr = [];
@@ -1141,10 +1142,22 @@ class tongji2 extends Controller
         //课时消耗
         $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量
         $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
-        dd($leave_num);
+
         $arr['lesson_consume'] = round($lesson_consume/100,2);
-        //$arr['teacher_leave']  = round($teacher_leave/100,2);
-        //$arr['student_leave']  = round($student_leave/100,2);
+        $arr['teacher_leave'] = 0;
+        $arr['student_leave'] = 0;
+        $arr['other_leave'] = 0;
+        foreach($leave_num as $key => $value){
+            if($value['lesson_cancel_reason_type'] == 11){ //学生请假11
+                $arr['student_leave'] = round($value['num']/100,2);
+            }
+            if($value['lesson_cancel_reason_type'] == 12){ //老师请假
+                $arr['teacher_leave'] = round($value['num']/100,2);
+            }
+            if($value['lesson_cancel_reason_type'] == 3 || $value['lesson_cancel_reason_type'] == 4){ //网络设备
+                $arr['other_leave'] += round($value['num']/100,2);
+            }
+        }
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 
