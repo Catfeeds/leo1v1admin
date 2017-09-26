@@ -50,7 +50,8 @@
                     <td> 生成时间  </td>
                     <td> 有效时间(分)  </td>
                     <td> 排课人 </td>
-                    <td> requireids </td>
+                    <td> 排课数 </td>
+                    <td style="display:none;"> requireids </td>
                     <td> 访问次数 </td>
                     <td> 操作  </td>
                 </tr>
@@ -63,7 +64,8 @@
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["live_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
-                        <td>{{@$var["requireids"]}} </td>
+                        <td>{{@$var["lesson_count"]}} </td>
+                        <td>{{ @$var["requireids"]}} </td>
                         <td>{{@$var["visit_count"]}} </td>
                         <td>
                             <div

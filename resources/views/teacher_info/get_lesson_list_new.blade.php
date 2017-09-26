@@ -59,8 +59,8 @@
     </div>
     <hr/>
     <div>
-        <button type="button" class="btn" id="test_succ">测试</button>
-        <button type="button" class="btn" id="test_err">测试</button>
+        <!-- <button type="button" class="btn" id="test_succ">测试</button>
+             <button type="button" class="btn" id="test_err">测试</button> -->
     </div>
     <table class="common-table">
         <thead>
