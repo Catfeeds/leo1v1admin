@@ -572,26 +572,19 @@ class wx_teacher_api extends Controller
         $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
         $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
-        $filter_lesson_time_start = time(NULL)+86400;
-        $filter_lesson_time_end   = $lesson_end+3*86400;
+        // $filter_lesson_time_start = time(NULL)+86400;
+        // $filter_lesson_time_end   = $lesson_end+3*86400;
 
-
-        // $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
-        // $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
         $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
 
         $time_info['lseeon_time'] = $lesson_time;
         $time_info['parent_modify_time'] = $parent_modify_time;
 
+
+
         return $this->output_succ(['data'=>$time_info]);
 
 
-        $lesson_time_arr = [];
-        $t = [];
-        $t2 = [];
-        $t3 = [];
-        $t4 = [];
-        $t5 = [];
         // $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
         // foreach($all_tea_stu_lesson_time  as $item){
         //     $t['time'][0] = date('Y-m-d',$item['lesson_start']);
@@ -723,6 +716,8 @@ class wx_teacher_api extends Controller
     public function set_lesson_time_by_teacher(){ //2009 // 老师同意时间调整 并设置了自己的时间
         $lessonid        = $this->get_in_int_val('lessonid');
         $lesson_time_start  = $this->get_in_int_val('lesson_time');
+
+        //wx-teacher-web.leo1v1.com/comment_list.html?type=1
 
         $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
