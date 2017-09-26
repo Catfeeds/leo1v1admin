@@ -1518,13 +1518,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
                                   ." left join %s c on t1.orderid = c.orderid "
-                                  ." left join %s co on co.parent_orderid = t1.orderid "
+                                  // ." left join %s co on co.parent_orderid = t1.orderid "
                                   ." where %s group by t1.sys_operator ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
-                                  t_child_order_info::DB_TABLE_NAME,
+                                  // t_child_order_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
