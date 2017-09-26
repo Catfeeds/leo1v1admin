@@ -49,7 +49,7 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td>现金总收入</td>
+                                        <td>现金总收入(元)</td>
                                         <td>下单总人数</td>
                                         <td class="panel-red">入职完整月人员签单额</td>
                                         <td class="panel-red">入职完整月人员人数</td>
