@@ -84,7 +84,7 @@
                                         <td width="200px" align="center">完成金额</td>
                                         <td>{{@$arr['total_price']}}</td>
                                         <td width="200px" align="center">完成率</td>
-                                        <td >{{@$arr['kpi_per']}}</td>
+                                        <td >{{@$arr['kpi_per']}}%</td>
                                         <td width="200px" align="center">缺口金额</td>
                                         <td >{{@$arr['gap_money']}}</td>
                                     </tr>
