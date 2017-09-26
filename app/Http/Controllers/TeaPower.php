@@ -2649,6 +2649,7 @@ trait TeaPower {
      * @return 
      */
     public function get_teacher_ref_rate($time,$teacher_ref_type,$teacher_money_type){
+        $teacher_ref_rate = 0;
         if($teacher_money_type==E\Eteacher_money_type::V_5){
             if($teacher_ref_type==1){
                 $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
@@ -2656,8 +2657,6 @@ trait TeaPower {
                 $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($time,$teacher_ref_type);
                 $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
             }
-        }else{
-            $teacher_ref_rate = 0;
         }
         return $teacher_ref_rate;
     }

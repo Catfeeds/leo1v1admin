@@ -931,13 +931,16 @@ class teacher_info extends Controller
     }
 
     /**
-     * @param text base64加密的require_id
+     * @param text base64加密的grabid
      * @param time 链接生成时间，检测有效时间
      */
     public function grab_trial_lesson_list(){
         $text       = $this->get_in_str_val("text");
         $time       = $this->get_in_str_val("time","0");
-        $require_id = trim(base64_decode($text),",");
+        // $require_id = trim(base64_decode($text),",");
+        $grabid = base64_decode($text);
+        $require_id = $this->t_grab_lesson_link_info->get_requireids_by_grabid($grabid);
+
 
         $ret_info = [];
         $err_info = "";
@@ -2136,43 +2139,35 @@ class teacher_info extends Controller
             \app\helper\utils::unixtime2date_for_item($item,"through_time");
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
             $this->cache_set_item_teacher_nick($item);
-            e\esubject::set_item_value_str($item);
-            e\etrain_type::set_item_value_str($item);
-            $item['train_status_str']  =  e\etrain_status::get_desc($item['status']);
+            E\Esubject::set_item_value_str($item);
+            E\Etrain_type::set_item_value_str($item);
+            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
         }
         return $this->pageview(__method__, $ret_info);
     }
 
     public function grab_visit_info(){
         $teacherid    = $this->get_login_teacher();
-        $grab_link    = $this->get_in_str_val('cur_url');
         $grabid       = $this->get_in_int_val('grabid', 0);
         $visitid      = $this->get_in_int_val('visitid', 0);
         $requireid    = $this->get_in_int_val('requireid', 0);
         $success_flag = $this->get_in_int_val('success_flag', 0);
 
-        if (!$grabid) {
-            $grabid = $this->t_grab_lesson_link_info->get_grabid_by_link($grab_link);
-        }
-
-        $return_info['grabid'] = $grabid;
         if ($visitid == 0 & $grabid >0) {//首次打开页面,自动记录
             $ret = $this->t_grab_lesson_link_visit_info->row_insert([
-                'grabid' => $grabid,
-                'teacherid' => $teacherid,
+                'grabid'      => $grabid,
+                'teacherid'   => $teacherid,
                 'create_time' => time(),
-                'operation' => 0,
+                'operation'   => 0,
             ]);
 
             $visitid = $this->t_grab_lesson_link_visit_info->get_last_insertid();
-            $return_info['visitid'] = $visitid;
-            $return_info['operation'] = 0;
-            return outputjson_success(['return_info' => $return_info]);
+            return outputjson_success(['visitid' => $visitid]);
         }
 
         if ($visitid > 0 & $grabid >0) {//点击抢课，记录信息
 
-            $this->t_grab_lesson_link_visit_info->field_update_list(['visitid'=> $visitid],[
+            $this->t_grab_lesson_link_visit_info->field_update_list($visitid,[
                 'teacherid' => $teacherid,
                 'operation' => 1,
             ]);
@@ -2181,7 +2176,7 @@ class teacher_info extends Controller
 
             if ($operationid > 0 ){
 
-                $ret = $this->t_grab_lesson_link_visit_operation->field_update_list(['operationid'=>$operationid],[
+                $ret = $this->t_grab_lesson_link_visit_operation->field_update_list($operationid,[
                     'visitid'     => $visitid,
                     'teacherid'   => $teacherid,
                     'create_time' => time(),
@@ -2202,4 +2197,5 @@ class teacher_info extends Controller
 
         }
     }
+
 }

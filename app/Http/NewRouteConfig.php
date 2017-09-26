@@ -125,7 +125,8 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/grab_lesson/make_lesson_link"        => true,
+        "/grab_lesson/add_requireids"        => true,
+        "/grab_lesson/upadte_lesson_link"        => true,
         "/grab_lesson/get_all_grab_info"       => true,
         "/teacher_info/grab_visit_info"        => true,
         "/lesson_manage/stu_status_count"      => true,

@@ -1259,7 +1259,83 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
  
         openssl_free_key($pkeyid);
  
-        echo $verifyResult;
+        if($verifyResult){
+            $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
+            $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
+            if(empty($check_exist)){
+                // return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
+                return false;
+            }else{
+                $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
+                //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
+        
+                $userid = $this->t_order_info->get_userid($parent_orderid);
+                $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
+                $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+                $this->t_child_order_info->field_update_list($orderid,[
+                    "pay_status"  =>1,
+                    "pay_time"    =>time(),
+                    "channel"     =>"ccb",
+                    "from_orderno"=>$orderNo,
+                    // "period_num"  =>$period_new
+                ]);
+                $this->t_manager_info->send_wx_todo_msg(
+                    "jack",
+                    "合同付款通知",
+                    "合同付款通知",
+                    "学生:".$user_info["nick"]." 渠道:建行分期,订单号:".$orderNo,
+                    "");
+                /* $this->t_manager_info->send_wx_todo_msg(
+                    $sys_operator,
+                    "百度分期付款通知",
+                    "百度分期付款通知",
+                    "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
+                    "");
+                $this->t_manager_info->send_wx_todo_msg(
+                    "echo",
+                    "百度分期付款通知",
+                    "百度分期付款通知",
+                    "学生:".$user_info["nick"]." 百度分期付款成功,支付方式:百度有钱花,订单号:".$orderNo,
+                    "");*/
+
+                $all_order_pay = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid);
+                if(empty($all_order_pay)){
+                    $this->t_order_info->field_update_list($parent_orderid,[
+                        "order_status" =>1,
+                        "contract_status"=>1,
+                        "pay_time"       =>time()
+                    ]);
+                    /* $this->t_manager_info->send_wx_todo_msg(
+                        "echo",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$user_info["nick"]." 合同已支付全款",
+                        "/user_manage_new/money_contract_list?studentid=$userid");
+                    $this->t_manager_info->send_wx_todo_msg(
+                        $sys_operator,
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$user_info["nick"]." 合同已支付全款",
+                        "");*/
+                    $this->t_manager_info->send_wx_todo_msg(
+                        "jack",
+                        "合同付款通知",
+                        "合同已支付全款",
+                        "学生:".$user_info["nick"]." 合同已支付全款",
+                        "");
+
+ 
+                }
+
+
+            }
+            //return $this->output_succ(["status"=>0,"msg"=>"success"]);
+            return true;
+ 
+        }else{
+            return false;
+        }
  
         
         

@@ -4213,7 +4213,9 @@ class human_resource extends Controller
             }
 
             $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
-                "wx_openid"=>null
+                "trial_lecture_is_pass" => 0,
+                "train_through_new"     => 0,
+                "wx_openid"             => null
             ]);
 
             $add_info = [

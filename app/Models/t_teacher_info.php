@@ -123,7 +123,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject,grade_part_ex from %s  where %s and is_quit=0",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,"
+                       ."subject,grade_part_ex,grade_start,grade_end from %s  where %s and is_quit=0",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -143,7 +144,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject,grade_part_ex from %s  where %s",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject,"
+                       ."grade_part_ex,grade_start,grade_end from %s  where %s",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -162,7 +164,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject,grade_part_ex from %s  where %s",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,"
+                       ."subject,grade_part_ex,grade_start,grade_end from %s  where %s",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
 
@@ -183,7 +186,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,subject,grade_part_ex from %s t".
+        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,"
+                       ."subject,grade_part_ex,grade_start,grade_end from %s t".
                        " left join %s m on t.phone= m.phone".
                        " where %s ",
                        self::DB_TABLE_NAME,
@@ -208,7 +212,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,subject,grade_part_ex from %s t".
+        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,"
+                       ."realname,subject,grade_part_ex,grade_start,grade_end from %s t".
                        " left join %s m on t.phone= m.phone".
                        " where %s ",
                        self::DB_TABLE_NAME,
@@ -233,7 +238,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             );
         }
 
-        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,realname,subject,grade_part_ex "
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
+                                  ."realname,subject,grade_part_ex,grade_start,grade_end "
                                   ." from %s t"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
@@ -3667,7 +3673,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr2
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -3685,6 +3690,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_reference_list_for_reset(){
+
+    }
+
 
 
 }
