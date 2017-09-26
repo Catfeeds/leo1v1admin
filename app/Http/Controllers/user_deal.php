@@ -2210,7 +2210,10 @@ class user_deal extends Controller
     }
 
     /**
-     *
+     * 重置学生年级并更新所选时间后的课程年级
+     * @param userid 重置的学生id
+     * @param start_time 重置课程的开始时间,没有则不重置
+     * @param grade 重置年级
      */
     public function set_stu_grade() { //设置
         $userid     = $this->get_in_userid();
@@ -2227,8 +2230,8 @@ class user_deal extends Controller
             }
         }
 
-        if ( $start_time < $lesson_confirm_start_time  ) {
-            $start_time= $lesson_confirm_start_time;
+        if ( $start_time < $lesson_confirm_start_time && $start_time>0 ) {
+            $start_time = $lesson_confirm_start_time;
         }
 
         $db_grade=$this->t_student_info->get_grade($userid);

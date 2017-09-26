@@ -241,7 +241,9 @@ class testbb extends Controller
     public function ss(){
 
         //547549
-        // $ret = $this->
+        $ret = $this->t_test_lesson_subject_require->check_is_end_by_test_lesson_subject_id(547549);
+
+        dd($ret);
 
         $lesson_end_date   = date('H:i',time() );
         dd($lesson_end_date);
