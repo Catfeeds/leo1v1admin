@@ -2219,8 +2219,9 @@ class user_deal extends Controller
         $userid     = $this->get_in_userid();
         $start_time = $this->get_in_start_time_from_str();
         $grade      = $this->get_in_grade();
-        $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
         $acc = $this->get_account();
+
+        $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
 
         if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
