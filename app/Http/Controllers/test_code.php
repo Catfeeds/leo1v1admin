@@ -2226,13 +2226,10 @@ class test_code extends Controller
     }
 
     public function get_zhao_num(){
-        $time = strtotime("2017-7-1");
         $phone = "15831024307";
-        $type = 0;
-        $num = $this->t_teacher_lecture_appointment_info->get_reference_num($phone,$type,$time);
-
-        $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
-        echo $num;
+        $identity = 1;
+        $price = $this->get_teacher_reference_price($phone,$identity);
+        echo $price;
     }
 
 

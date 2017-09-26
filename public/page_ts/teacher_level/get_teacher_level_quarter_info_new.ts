@@ -151,5 +151,22 @@ $(function(){
 
 
     });
-  $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-send-wx").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var realname = opt_data.realname;
+        BootstrapDialog.confirm("确定发送微信吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/send_teacher_advince_wx', {
+                    'teacherid' : teacherid,
+                    'realname':opt_data.realname
+                });
+            }
+        });
+
+        
+    });
+    
+    $('.opt-change').set_input_change_event(load_data);
 });

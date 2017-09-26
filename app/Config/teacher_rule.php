@@ -124,7 +124,7 @@ class teacher_rule{
     /**
      * 检测老师的推荐类型
      */
-    static public function check_refernce_type($identity){
+    static public function check_reference_type($identity){
         if(in_array($identity,[5,6,7])){
             $reference_type = 2;
         }else{
