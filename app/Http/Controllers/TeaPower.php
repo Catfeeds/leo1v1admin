@@ -2511,7 +2511,7 @@ trait TeaPower {
      * @param identity 被推荐人身份
      */
     public function get_teacher_reference_price($phone,$identity){
-        $reference_type = \App\Helper\teacher_rule::check_reference_type($identity);
+        $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
         $check_flag     = $this->check_is_special_reference($phone);
         if($check_flag){
             $begin_time = 0;
