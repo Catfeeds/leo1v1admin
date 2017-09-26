@@ -199,7 +199,6 @@
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
-                    <td >财务确认</td>
                     <td >特殊折扣申请状态</td>
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
@@ -252,7 +251,6 @@
                         <td >{{$var["tmk_admin_nick"]}}</td>
                         <td >{{$var["teacher_nick"]}}</td>
                         <td >{{$var["check_money_desc"]}}</td>
-                        <td >{!! $var["check_money_flag_str"] !!}</td>
                         <td>{!!$var["flow_status_str"]!!} <br/>
                             @if ($var["flowid"] )
                             <br/>价值: {!!$var["promotion_spec_diff_money"]!!}
