@@ -2728,7 +2728,7 @@ class user_manage_new extends Controller
 
         $this->switch_tongji_database();
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.".txt";
+        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
