@@ -23,8 +23,6 @@ $(function(){
             load_data();
         }
     });
-    alert($("#id_opt_date_type").val());
-    console.log(JSON.parse( g_args.date_type_config));
 
 
 	$('.opt-change').set_input_change_event(load_data);
