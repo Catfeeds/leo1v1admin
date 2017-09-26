@@ -148,44 +148,6 @@ class fulltime_teacher_kaoqin extends Command
         }
 
 
-
-        
-        $list_all = $task->t_order_info->get_no_pay_order_list();
-        foreach($list_all as $item11){
-            $orderid = $item11["orderid"];
-            $data = $task->t_child_order_info->get_all_child_order_info($orderid);
-            if(empty($data)){
-                
-                if($item11["from_orderno"]){
-                    $task->t_child_order_info->row_insert([
-                        "child_order_type" =>0,
-                        "pay_status"       =>1,
-                        "add_time"         =>time(),
-                        "parent_orderid"   =>$orderid,
-                        "price"            => $item11["price"],
-                        "channel"          => $item11["channel"],
-                        "from_orderno"     => $item11["from_orderno"],
-                        "pay_time"         => $item11["pay_time"]
-                    ]);
-                }else{
-                    $task->t_child_order_info->row_insert([
-                        "child_order_type" =>0,
-                        "pay_status"       =>1,
-                        "add_time"         =>time(),
-                        "parent_orderid"   =>$orderid,
-                        "price"            => $item11["price"],
-                        "channel"          => $item11["channel"],
-                        "pay_time"         => $item11["pay_time"]
-                    ]);
-
-                }
-
-            }
-
-        }
-
-
-                     
         //ex once
         $time = time();
         //$time = 1507464000; //2017/10/8 20:0:0      
