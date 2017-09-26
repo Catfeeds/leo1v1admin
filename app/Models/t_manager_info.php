@@ -1188,7 +1188,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_admin_group_name::DB_TABLE_NAME,
                                   $where_arr
         );
-
         return  $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
@@ -1719,6 +1718,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql = $this->gen_sql_new(" select count(*) from %s where %s",
                                   self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_value($sql);
+    }
+    public function get_cr_target($last_month){
+        $where_arr = [
+            'account_role = 1',
+            'kpi_type = 1',
+            'del_flag = 0',
+            ["month=%u",$last_month,-1]
+        ];
+        $sql = $this->gen_sql_new(" select  sum(warning_student * 0.8 * 8000) as num "
+                                  ." from %s m"
+                                  ." left join %s a  on m.uid = a.adminid  "
+                                  ."where %s",
+                                  self::DB_TABLE_NAME
+                                  ,t_month_ass_student_info::DB_TABLE_NAME
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }

@@ -1705,10 +1705,12 @@ class main_page extends Controller
         $account_id  = $this->get_account_id();
         $master_adminid    = $this->t_admin_group_user->get_master_adminid_by_adminid($account_id);
         $up_master_adminid = $this->t_admin_main_group_name->get_up_group_adminid( $master_adminid);
-        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
 
+        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
         $lesson_count_list_old=[];
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+
+
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);
