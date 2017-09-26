@@ -2136,9 +2136,9 @@ class teacher_info extends Controller
             \app\helper\utils::unixtime2date_for_item($item,"through_time");
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
             $this->cache_set_item_teacher_nick($item);
-            e\esubject::set_item_value_str($item);
-            e\etrain_type::set_item_value_str($item);
-            $item['train_status_str']  =  e\etrain_status::get_desc($item['status']);
+            E\Esubject::set_item_value_str($item);
+            E\Etrain_type::set_item_value_str($item);
+            $item['train_status_str']  =  E\Etrain_status::get_desc($item['status']);
         }
         return $this->pageview(__method__, $ret_info);
     }
