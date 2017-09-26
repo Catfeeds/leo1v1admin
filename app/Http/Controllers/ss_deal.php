@@ -852,6 +852,7 @@ class ss_deal extends Controller
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+        $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
 
 
         $this->t_seller_student_new->field_update_list($userid,['stu_test_ipad_flag'=>$stu_test_ipad_flag,'not_test_ipad_reason'=>$not_test_ipad_reason]);
@@ -903,7 +904,7 @@ class ss_deal extends Controller
                     $month_start = strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time));
                     $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
                     $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($month_start,$month_end,$require_adminid);
-                    if($top_num>=40){
+                    if($intention_level !=1 || $top_num>=40){
                         $seller_top_flag=0;
                     }else{
                         $seller_top_flag=1;
