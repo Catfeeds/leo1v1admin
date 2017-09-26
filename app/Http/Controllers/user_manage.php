@@ -1017,7 +1017,7 @@ class user_manage extends Controller
         return $this->refund_list();
     }
     public function refund_list_finance(){
-        $this->set_in_value( "refund_userid", $this->get_account_id() );
+        // $this->set_in_value( "refund_userid", $this->get_account_id() );
         return $this->refund_list();
     }
 
