@@ -1516,7 +1516,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
                                   ." left join %s c on t1.orderid = c.orderid "
-                                  ." where %s group by t1.sys_operator ",
+                                  // ." where %s group by t1.sys_operator ",
+                                  ." where %s group by t3.uid ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
