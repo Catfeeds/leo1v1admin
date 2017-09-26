@@ -941,7 +941,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0,3)",
             "contract_status in(1,2)",
             "m.account_role=2",
-            "g.master_adminid<>364",
+            "g.master_adminid not in(364,416)",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
