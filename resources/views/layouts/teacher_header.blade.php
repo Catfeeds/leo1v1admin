@@ -116,6 +116,7 @@
 
                         <li><a href="/teacher_info/index"><i class="fa fa-clipboard"></i> <span> 课程列表 </span> </a></li>
                         <li><a href="/teacher_info/current_course"><i class="fa fa-calendar-check-o"></i> <span> 当前课表 </span> </a></li>
+                        <li><a href="/teacher_info/get_train_list"><i class="fa fa-calendar-check-o"></i> <span> 培训列表 </span> </a></li>
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-black-tie"></i> <span>老师档案</span>

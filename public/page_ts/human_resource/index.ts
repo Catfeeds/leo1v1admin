@@ -2049,5 +2049,11 @@ $(function(){
 
     }
 
+    if(acc=="alina" || acc=="nina" || acc=="jack"){
+         $("#id_plan_level").parent().parent().show();
+    }else{
+         $("#id_plan_level").parent().parent().hide();
+    }
+
 
 });
