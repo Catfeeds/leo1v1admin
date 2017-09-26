@@ -41,7 +41,8 @@ $(function(){
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
 			tea_label_type:	$('#id_tea_label_type').val(),
-			plan_level:	$('#id_plan_level').val()
+			plan_level:	$('#id_plan_level').val(),
+			teacher_textbook:	$('#id_teacher_textbook').val()
         });
     }
 
@@ -68,6 +69,7 @@ $(function(){
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
     Enum_map.append_option_list("identity", $("#id_identity") );
     Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
+    Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
 
     $('#id_teacher_type').val(g_args.teacher_type);
@@ -104,6 +106,7 @@ $(function(){
 	$('#id_identity').val(g_args.identity);
 	$('#id_tea_label_type').val(g_args.tea_label_type);
 	$('#id_plan_level').val(g_args.plan_level);
+	$('#id_teacher_textbook').val(g_args.teacher_textbook);
 
 
 
@@ -842,6 +845,10 @@ $(function(){
 
 
 
+
+    if ( window.location.pathname=="/human_resource/index" || window.location.pathname=="/human_resource/index/") {
+         $("#id_free_time").parent().parent().show();
+    }
 
 
 
@@ -1749,6 +1756,7 @@ $(function(){
         });
     }
 
+
     if(acc=="alan"){
         $(".opt-edit").show();
     }
@@ -2043,6 +2051,12 @@ $(function(){
             }
         });
 
+    }
+
+    if(acc=="alina" || acc=="nina" || acc=="jack"){
+         $("#id_plan_level").parent().parent().show();
+    }else{
+         $("#id_plan_level").parent().parent().hide();
     }
 
 
