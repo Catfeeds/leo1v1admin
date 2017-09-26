@@ -737,7 +737,7 @@ trait TeaPower {
                         );
                     }
                 }elseif($grade==203){
-                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 ){
+                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 && $grade_part_ex!=6 ){
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );
@@ -2224,24 +2224,7 @@ trait TeaPower {
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[21,22,31])){
-                if(in_array($teacher_info['identity'],[5,6,7])){
-                    $type = 1;
-                }else{
-                    $type = 2;
-                }
-
-                $check_flag = $this->check_is_special_reference($reference_info['phone']);
-                if($check_flag){
-                    $begin_time = 0;
-                }else{
-                    $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                    $begin_time = strtotime($begin_date);
-                }
-
-                $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-                    $reference_info['phone'],$type,$begin_time
-                );
-
+                $ref_num   = $this->get_reference_num($reference_info['phone'],$teacher_info['identity']);
                 $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
@@ -2521,6 +2504,28 @@ trait TeaPower {
             $check_flag=0;
         }
         return $check_flag;
+    }
+
+    public function get_reference_num($phone,$identity){
+        if(in_array($identity,[5,6,7])){
+            $type = 1;
+        }else{
+            $type = 2;
+        }
+
+        $check_flag = $this->check_is_special_reference($phone);
+        if($check_flag){
+            $begin_time = 0;
+        }else{
+            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+            $begin_time = strtotime($begin_date);
+        }
+
+        //添加推荐人的伯乐奖
+        $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+            $phone,$type,$begin_time
+        );
+        return $ref_num;
     }
 
     /**
