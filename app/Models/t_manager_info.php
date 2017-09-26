@@ -563,7 +563,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-
     public function get_admin_member_list_new( $month, $main_type = -1 ,$adminid=-1){
         $where_arr=[
             [ "m.main_type =%u ", $main_type,-1] ,
@@ -1711,6 +1710,16 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ,$where_arr
         );
 
+        return $this->main_get_value($sql);
+    }
+    public function get_cr_num(){
+        $where_arr = [
+            'account_role = 1',
+            'leave_member_time=0'
+        ];
+        $sql = $this->gen_sql_new(" select count(*) from %s where %s",
+                                  self::DB_TABLE_NAME
+                                  ,$where_arr);
         return $this->main_get_value($sql);
     }
 }

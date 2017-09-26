@@ -236,4 +236,14 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
             "last_modified_time" => time(),
         ]);
     }
+
+    public function get_xx(){
+        $sql = $this->gen_sql_new(" select uid,parentid from %s p "
+                                  ."left join %s m on m.wx_openid=p.wx_openid where m.wx_openid is not null"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

@@ -275,7 +275,7 @@ $(function(){
                     return; 
                 }
                 if(ret.new_demand_flag ==1){
-                    if(ret.stu_nick=="" || ret.grade==0 || ret.gender==0 || ret.address==""  || ret.class_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.study_habit=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.stu_request_test_lesson_demand=="" || ret.recent_results=="" ){
+                    if(ret.stu_nick=="" || ret.grade==0 || ret.gender==0 || ret.region==""  || ret.city=="" || ret.area=="" || ret.class_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.study_habit=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.stu_request_test_lesson_demand=="" || ret.recent_results=="" ){
                         alert("请完善试听需求!");
                         $(me).parent().find(".opt-edit-new").click();
                         return; 
@@ -2702,6 +2702,14 @@ function init_edit() {
                             city="";
                             area="";
                         }
+                        if(html_node.find("#city").val()==""){
+                             city="";
+                        }
+                        if(html_node.find("#area").val()==""){
+                            area="";
+                        }
+
+                        
 
 
                         $.do_ajax("/ss_deal/save_user_info_new",{

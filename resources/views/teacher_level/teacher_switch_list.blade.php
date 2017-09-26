@@ -16,6 +16,7 @@
                         <span class="input-group-addon">批次</span>
                         <select class="opt-change form-control " id="id_batch" >
                             <option value="-1">[全部]</option>
+                            <option value="0">第0批</option>
                             <option value="1">第1批</option>
                             <option value="2">第2批</option>
                             <option value="3">第3批</option>

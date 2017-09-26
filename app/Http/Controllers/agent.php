@@ -326,12 +326,13 @@ class agent extends Controller
     }
 
     public function check(){
-        $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid=21001,$competition_call_adminid=831);
-        dd($admin_revisiterid);
-        $competition_call_adminid = 412;
-        $phone = '15564676749';
+        $phone = '13852958442';
+        $competition_call_adminid=412;
         $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
         $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
+        if($is_called_flag == 0){//未拨通
+            dd('a');
+        }
         dd($phone,$tquin,$is_called_flag);
     }
 

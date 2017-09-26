@@ -16,6 +16,7 @@
                     <td>老师</td>
                     <td>当前等级</td>
                     <td>入职时间</td>
+                    <td>申请状态</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -25,6 +26,22 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
+                        <td>
+                            @if(empty($var["require_time"]))
+                                状态:未申请
+                            @elseif(empty($var["accept_time"]))
+                                状态:已申请,未审核<br>
+                                时间:{{$var["require_time_str"]}}
+                            @else
+                                状态:已审核<br>
+                                结果:{{$var["accept_flag_str"]}}<br>
+                                @if($var["accept_flag"]==2)
+                                    理由:{{$var["accept_info"]}}<br>
+                                @endif
+                                时间:{{$var["accept_time_str"]}}
+                            @endif
+                        </td>
+
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

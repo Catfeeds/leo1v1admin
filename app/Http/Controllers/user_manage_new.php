@@ -1622,7 +1622,7 @@ class user_manage_new extends Controller
         $account_id = $this->get_account_id();
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
-        if($is_master>0 || $account_id==349 ){
+        if($is_master>0 || $account_id==349 || $account_id==188){
             $up_master_adminid=-1;
         }else{
             $up_master_adminid=0;

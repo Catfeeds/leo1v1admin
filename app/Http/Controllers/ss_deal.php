@@ -647,7 +647,11 @@ class ss_deal extends Controller
         if($region){
             $stu_arr["region"]=$region;
             $stu_arr["province"]=$province;
+        }
+        if($city){
             $stu_arr["city"]=$city;
+        }
+        if($area){
             $stu_arr["area"]=$area;
         }
 

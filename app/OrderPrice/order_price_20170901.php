@@ -128,15 +128,15 @@ class order_price_20170901 extends order_price_base
                 $task= self::get_task_controler();
                 $use_count=$task->t_order_info->get_type1_lesson_count_by_start_time(strtotime("2017-09-16") );
                 $use_count/=100;
-                $max_present_count=500 ;
+                $max_present_count=600 ;
                 $use_desc_str="";
 
                 if ($use_count+ $present_lesson_count*2 >=  $max_present_count*3  ) {
-                    $use_desc_str="<br/>500次课特殊赠送  结束";
-                }else{ //500次赠送
+                    $use_desc_str="<br/>600次课特殊赠送  结束";
+                }else{ //600次赠送
                     $present_lesson_count*=2;
                     $left_count=($max_present_count*3- $use_count )/3;
-                    $use_desc_str= "<br/>500次课特殊赠送 剩余 $left_count 次课";
+                    $use_desc_str= "<br/>600次课特殊赠送 剩余 $left_count 次课";
 
                 }
                 $tmp= $present_lesson_count/3;

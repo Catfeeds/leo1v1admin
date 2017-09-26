@@ -70,7 +70,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
                                   ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
                                   ." s.lesson_count_left,o.lesson_total,o.default_lesson_count,o.competition_flag, "
-                                  ." s.phone,c.parent_orderid,s.parent_name "
+                                  ." s.phone,c.parent_orderid,s.parent_name,s.subject_ex "
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." where %s",

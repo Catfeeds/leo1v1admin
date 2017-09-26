@@ -722,7 +722,7 @@ class wx_teacher_api extends Controller
 
     public function set_lesson_time_by_teacher(){ //2009 // 老师同意时间调整 并设置了自己的时间
         $lessonid        = $this->get_in_int_val('lessonid');
-        $lesson_time_start  = $this->get_in_int_val('lesson_time_start');
+        $lesson_time_start  = $this->get_in_int_val('lesson_time');
 
         $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);

@@ -98,12 +98,12 @@
                                         <td> {{@$arr['person_num']}}</td> 
                                         <td> {{@$arr['total_price_thirty']}} </td> 
                                         <td> {{@$arr['person_num_thirty']}}</td> 
-                                        <td> {{@$arr['person_num_thirty_per']}}</td> 
-                                        <td> {{@$arr['contract_per']}} </td> 
                                         <td> 节点 </td> 
-                                        <td> {{@$arr['cr_num']}}</td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
+                                        <td> 节点 </td> 
                                         <td class="panel-yellow" > 存档 </td> 
-                                        <td> {{@$arr['refund_num']}}</td> 
+                                        <td> 节点 </td> 
                                     </tr>
                                 </tbody>
                             </table>

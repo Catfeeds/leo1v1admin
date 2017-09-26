@@ -3519,7 +3519,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type=2", //试听课
             "l.lesson_del_flag=0",
             ["l.lesson_start>%d",$lesson_begin],
-            ["l.lesson_start<=%d",$lesson_end]
+            ["l.lesson_start<=%d",$lesson_end],
+            "tss.test_lesson_fail_flag=0"
         ];
 
         $sql = $this->gen_sql_new(" select l.lessonid, m.phone as ass_phone, p.phone as par_phone, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
@@ -3685,7 +3686,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type=2", //试听课
             "l.lesson_del_flag=0",
             ["l.lesson_start>%d",$now],
-            ["l.lesson_start<=%d",$next]
+            ["l.lesson_start<=%d",$next],
+            "tss.test_lesson_fail_flag=0"
+
         ];
 
         $sql = $this->gen_sql_new(" select l.lessonid, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par_openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
@@ -3694,6 +3697,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s p on p.parentid= s.parentid "
                                   ." left join %s a on a.assistantid = s.assistantid"
                                   ." left join %s m on m.phone = a.phone"
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -3701,6 +3705,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   t_parent_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
         );
 

@@ -112,8 +112,9 @@ class teacher_level extends Controller
     }
 
     public function get_teacher_level_quarter_info_new(){
-        $season     = ceil((date('n'))/3)-1;//上季度是第几季度
-        $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        // $season     = ceil((date('n'))/3)-1;//上季度是第几季度
+        // $start_time = strtotime(date('Y-m-d H:i:s',mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $start_time = strtotime("2017-07-01");
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_info->get_teacher_level_info_new($page_info,$start_time);
         foreach($ret_info["list"] as &$item){
@@ -124,6 +125,9 @@ class teacher_level extends Controller
             }
             E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+            E\Eaccept_flag::set_item_value_str($item);
             $item["hand_flag"]=0;
         }
 
@@ -588,6 +592,8 @@ class teacher_level extends Controller
         $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag);
         foreach($ret_info["list"] as &$item){
             E\Eaccept_flag::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
             E\Elevel::set_item_value_str($item,"level_before");
             \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
         }

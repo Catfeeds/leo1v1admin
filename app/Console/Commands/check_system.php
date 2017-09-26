@@ -40,7 +40,7 @@ class check_system extends cmd_base
 
         $now=time();
         $d1=date("Y-m-d",$now);
-        $d2=date("Y-m-d",$now-86400);
+        $d2=date("Y-m-d",$now-86400*2);
         \App\Helper\Utils::exec_cmd(" crontab -l >    ~/bin/crontab/$d1 ");
         $ret=\App\Helper\Utils::exec_cmd("diff ~/bin/crontab/$d1 ~/bin/crontab/$d2 2>&1  ");
         $title =" crontab 不变 ";

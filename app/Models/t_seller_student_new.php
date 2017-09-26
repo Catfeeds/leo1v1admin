@@ -1307,9 +1307,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."sum(seller_student_status=290) lesson_status_290_count , "
             ."sum(seller_student_status=0 &&  seller_resource_type=0 ) new_not_call_count,  "
             ."sum(tmk_student_status=3  &&  seller_student_status=0  ) tmk_new_no_call_count,  "
-            ."sum( seller_student_status=0 ) not_call_count  "
+            ."sum( seller_student_status=0 && t.require_adminid = %u) not_call_count  "
             ." from %s n, %s t "
             ." where  n.userid=t.userid and   admin_assign_time > %u and admin_revisiterid=%u  ",
+            $adminid,
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             $start_time , $adminid );
@@ -2333,6 +2334,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_claim_num($start_time, $end_time){
+        $where_arr = [
+            "tss.admin_revisiterid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'tss.admin_assign_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new("  select count(*) from %s tss "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
         return $this->main_get_value($sql);
     }
 

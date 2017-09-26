@@ -97,7 +97,7 @@
                         <td class="stu_nick" >{{$var["nick"]}}</td>
                       
                         <td >{{$var["grade_str"]}}</td>
-                        <td >{{@$var["subject_str"]}}</td>
+                        <td >{{@$var["subject_ex"]}}</td>
                         <td >{{$var["phone"]}}</td>
                         <td style="{{$var['status_color']}}" >{{$var["contract_status_str"]}}</td>
                         <td >
