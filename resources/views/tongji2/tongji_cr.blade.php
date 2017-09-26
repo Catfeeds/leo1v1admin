@@ -160,16 +160,15 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                         <tr>
-                                            <td class="panel-yellow" > 存档</td> 
-                                            <td class="panel-yellow" > 存档  </td> 
-                                            <td class="panel-yellow" > 存档 </td> 
-                                            <td> 节点</td> 
+                                            <td class="panel-yellow" > 存档</td>
+                                            <td class="panel-yellow" > 存档  </td>
+                                            <td class="panel-yellow" > 存档 </td>
+                                            <td> 节点</td>
                                             <td> {{@$arr['lesson_consume']}}</td>
-
-                                            <td> 节点</td> 
-                                            <td> 节点</td> 
-                                            <td> 节点 </td> 
-                                            <td > 节点  </td> 
+                                            <td> {{@$arr['teacher_leave']}}</td>
+                                            <td> {{@$arr['student_leave']}}</td>
+                                            <td> 节点 </td>
+                                            <td > 节点  </td>
                                             <td class="panel-yellow" > 存档  </td> 
 
                                             <td class="panel-yellow" > 存档 </td> 

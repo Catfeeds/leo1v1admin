@@ -2225,6 +2225,14 @@ class test_code extends Controller
         echo "<br>";
     }
 
+    public function get_zhao_num(){
+        $phone = "15831024307";
+        $identity = 1;
+        $price = $this->get_teacher_reference_price($phone,$identity);
+        echo $price;
+    }
+
+
     public function get_month_list(){
         // $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,0,-1,-1,0,0);
         // foreach($list as $val){
