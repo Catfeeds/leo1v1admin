@@ -2609,9 +2609,6 @@ class human_resource extends Controller
             return $this->output_err("更新出错！请重新提交！");
         }
 
-        /* $this->add_teacher_label(
-            $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
-            );*/
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2621,11 +2618,9 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
                 "train_through_new"      => 1,
                 "level"                  =>1
-                //"train_through_new_time" => time(),
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-
 
             //等级升级通知
             /**
@@ -2654,7 +2649,6 @@ class human_resource extends Controller
             }
 
             //邮件推送
-            // $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             $html = $this->teacher_level_up_html($teacher_info);
             $email = $teacher_info["email"];
             if($email){
@@ -2663,10 +2657,10 @@ class human_resource extends Controller
                 ));
             }
 
-
+            //添加模拟试听奖金
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
-                $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
+                $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
                     "type"       => 5,
