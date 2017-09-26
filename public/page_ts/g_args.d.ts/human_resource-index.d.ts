@@ -44,6 +44,7 @@ interface GargsStatic {
 	identity:	number;
 	tea_label_type:	number;
 	plan_level:	number;
+	teacher_textbook:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -235,7 +236,8 @@ $(function(){
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
 			tea_label_type:	$('#id_tea_label_type').val(),
-			plan_level:	$('#id_plan_level').val()
+			plan_level:	$('#id_plan_level').val(),
+			teacher_textbook:	$('#id_teacher_textbook').val()
         });
     }
 
@@ -283,6 +285,7 @@ $(function(){
 	$('#id_identity').val(g_args.identity);
 	$('#id_tea_label_type').val(g_args.tea_label_type);
 	$('#id_plan_level').val(g_args.plan_level);
+	$('#id_teacher_textbook').val(g_args.teacher_textbook);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -591,6 +594,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">plan_level</span>
                 <input class="opt-change form-control" id="id_plan_level" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_textbook</span>
+                <input class="opt-change form-control" id="id_teacher_textbook" />
             </div>
         </div>
 */

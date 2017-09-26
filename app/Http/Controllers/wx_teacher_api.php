@@ -571,8 +571,8 @@ class wx_teacher_api extends Controller
 
 
         $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
-        if($is_modify_time_flag == 1){ 
-            header("location: http://wx-teacher-web.leo1v1.com/comment_list.html?type=1"); 
+        if($is_modify_time_flag == 1){
+            header("location: http://wx-teacher-web.leo1v1.com/comment_list.html?type=1");
         }else{
             $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
@@ -583,10 +583,8 @@ class wx_teacher_api extends Controller
             $time_info['lseeon_time'] = $lesson_time;
             $time_info['parent_modify_time'] = $parent_modify_time;
 
-
-
             return $this->output_succ(['data'=>$time_info]);
- 
+
         }
 
 
@@ -763,13 +761,13 @@ class wx_teacher_api extends Controller
             if($stu_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_end){
                 $is_student_flag = 1;
                 $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
-            }elseif($stu_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_start){
+            }elseif($stu_item['lesson_start']<$lesson_time_start && $stu_item['lesson_end']>$lesson_time_start){
                 $is_student_flag = 1;
                 $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
-            }elseif($stu_item['lesson_start']<$lesson_time_end && $tea_item['lesson_end']>$lesson_time_end){
+            }elseif($stu_item['lesson_start']<$lesson_time_end && $stu_item['lesson_end']>$lesson_time_end){
                 $is_student_flag = 1;
                 $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
-            }elseif($stu_item['lesson_start']>$lesson_time_end && $tea_item['lesson_end']<$lesson_time_end){
+            }elseif($stu_item['lesson_start']>$lesson_time_end && $stu_item['lesson_end']<$lesson_time_end){
                 $is_student_flag = 1;
                 $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }
