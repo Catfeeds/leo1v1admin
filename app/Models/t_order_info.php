@@ -1484,9 +1484,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             }
 
             if ($has_money ==0) {
-               $where_arr[]="t1.price=0" ;
+               $where_arr[]="price=0" ;
             }else if ($has_money ==1) {
-                $where_arr[]="t1.price>0" ;
+               $where_arr[]="price>0" ;
             }
 
         }
@@ -1505,26 +1505,22 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_list);
         $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_all);
-        $sql = $this->gen_sql_new("select t3.uid adminid,t3.account, sum(t1.price) all_price,".
-                                  "sum(if(stu_from_type=1,t1.price,0)) transfer_introduction_price,"
-                                  ." sum(if(stu_from_type=0,t1.price,0)) new_price,"
-                                  ." sum(if(stu_from_type=10,t1.price,0)) normal_price,"
-                                  ." sum(if(stu_from_type=11,t1.price,0)) extend_price, "
-                                  ." sum(if(t1.check_money_flag=1,t1.price,0)) all_price_suc,"
-                                  ." sum(if(t1.check_money_flag=0,t1.price,0)) all_price_fail"
-                                  // ." sum(if(t1.check_money_flag=1,t1.price,if(co.child_order_type=2 and co.pay_status=1,co.price,0))) all_price_suc,"
-                                  // ." sum(if(t1.check_money_flag=0,t1.price,if(co.child_order_type=2 and co.pay_status=0,co.price,0))) all_price_fail"
+        $sql = $this->gen_sql_new("select t3.uid adminid,t3.account, sum(price) all_price,".
+                                  "sum(if(stu_from_type=1,price,0)) transfer_introduction_price,"
+                                  ." sum(if(stu_from_type=0,price,0)) new_price,"
+                                  ." sum(if(stu_from_type=10,price,0)) normal_price,"
+                                  ." sum(if(stu_from_type=11,price,0)) extend_price, "
+                                  ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
+                                  ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
                                   ." left join %s c on t1.orderid = c.orderid "
-                                  // ." left join %s co on co.parent_orderid = t1.orderid "
                                   ." where %s group by t1.sys_operator ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_course_order::DB_TABLE_NAME,
-                                  // t_child_order_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
@@ -3376,42 +3372,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                            ." where contract_type in (0,3) and contract_status>0",
                            self::DB_TABLE_NAME
         );
-        return $this->main_get_list($sql);
-    }
-    public function get_total_price($start_time,$end_time){
-        $where_arr = [
-            ['order_time>%u',$start_time,-1],
-            ['order_time<%u',$end_time,-1],
-            "contract_status <> 0",
-            "price > 0",
-            "m.account_role = 1"
-        ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,count(orderid ) as order_num  ".
-                                  "from %s  o ".
-                                  "left join %s m on o.sys_operator = m.account".
-                                  " where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  $where_arr);
-        return $this->main_get_list($sql);
-    }
-    public function get_total_price_thirty($start_time,$end_time){
-        $where_arr = [
-            ['order_time>%u',$start_time,-1],
-            ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$start_time,-1], //大于订单时间
-            "contract_status <> 0",
-            "price > 0",
-            "m.account_role = 1",
-            "m.leave_member_time =0" //离职时间
-        ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num ".
-                                  "from %s  o ".
-                                  "left join %s m on o.sys_operator = m.account".
-                                  " where %s",
-                                  self::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  $where_arr);
         return $this->main_get_list($sql);
     }
 
