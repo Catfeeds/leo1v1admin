@@ -26,6 +26,9 @@ interface RowData {
 	create_time	:any;
 	requireids	:any;
 	visit_count	:any;
+	grab_count	:any;
+	succ_count	:any;
+	fail_count	:any;
 	nick	:any;
 	lesson_count	:any;
 }
