@@ -52,8 +52,13 @@
                     <td>封面</td>
                     <td>操作人员</td>
                     <td>添加时间</td>
-                    <td>访问次数</td>
-                    <td>分享次数</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+
+                    ["访问次数" , "visit_num"],
+                    ["分享次数" , "share_num"],
+                    ]) !!}
+                    <!-- <td>访问次数</td> -->
+                    <!-- <td>分享次数</td> -->
                     <td>操作</td>
                 </tr>
             </thead>
@@ -75,6 +80,7 @@
                         <td><img src="{{$var["poster"]}}" height="100"></td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["create_time"]}}</td>
+
                         <td>{{$var["visit_num"]}}</td>
                         <td>{{$var["share_num"]}}</td>
                         <td class="remove-for-xs">

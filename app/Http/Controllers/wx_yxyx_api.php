@@ -591,7 +591,7 @@ class wx_yxyx_api extends Controller
         }
 
         if($bankcard){
-            if($phone=='' || $bankcard==0 || $bank_address=="" || $bank_account==""
+            if($bankcard==0 || $bank_address=="" || $bank_account==""
                || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
                || $bank_city==""
             ){

@@ -568,11 +568,16 @@ class wx_teacher_api extends Controller
 
     public function get_modify_lesson_time_by_teacher(){//2006 // 老师 点击家长调课 推送详情
         $lessonid = $this->get_in_int_val('lessonid');
-
-
         $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
-        if($is_modify_time_flag == 1){
-            header("location: http://wx-teacher-web.leo1v1.com/comment_list.html?type=1");
+        $parent_deal_time = $this->t_lesson_time_modify->get_parent_deal_time($lessonid);
+
+        if($parent_deal_time){
+            
+        }
+
+        if($is_modify_time_flag > 0){
+            $ret_info['has_do'] = 1;// 已处理
+            return $this->output_succ(['data'=>$ret_info]);
         }else{
             $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
 
@@ -582,6 +587,7 @@ class wx_teacher_api extends Controller
 
             $time_info['lseeon_time'] = $lesson_time;
             $time_info['parent_modify_time'] = $parent_modify_time;
+            $time_info['has_do'] = 0;  // 未处理
 
             return $this->output_succ(['data'=>$time_info]);
 
