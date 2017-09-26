@@ -240,6 +240,11 @@ class testbb extends Controller
 
     public function ss(){
 
+        //547549
+        // $ret = $this->
+
+        $lesson_end_date   = date('H:i',time() );
+        dd($lesson_end_date);
 
         $start_time = strtotime(date('Y-m-d 0:0:0'))-6*86400;
 
