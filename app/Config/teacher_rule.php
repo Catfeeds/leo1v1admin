@@ -60,14 +60,14 @@ class teacher_rule{
     static public $reference_rule = [
         1=>[
             0  => 20,
-            11 => 30,
-            31 => 50,
-            51 => 60,
+            10 => 30,
+            30 => 50,
+            50 => 60,
         ],2=>[
             0  => 40,
-            11 => 50,
-            31 => 70,
-            51 => 80,
+            10 => 50,
+            30 => 70,
+            50 => 80,
         ]
     ];
 
@@ -122,16 +122,24 @@ class teacher_rule{
     }
 
     /**
-     * @param identity 老师身份类型
+     * 检测老师的推荐类型
      */
-    static public function get_teacher_reference_rule($identity){
-        if(in_array($identity,[5,6])){
+    static public function check_refernce_type($identity){
+        if(in_array($identity,[5,6,7])){
             $reference_type = 2;
         }else{
             $reference_type = 1;
         }
+        return $reference_type;
+    }
 
-        $teacher_rule = self::$reference_rule;
+    /**
+     * @param identity 老师身份类型
+     */
+    static public function get_teacher_reference_rule($identity){
+        $reference_type = self::check_reference_type($identity);
+        $teacher_rule   = self::$reference_rule;
+
         if(isset($teacher_rule[$reference_type])){
             return $teacher_rule[$reference_type];
         }else{

@@ -2225,6 +2225,17 @@ class test_code extends Controller
         echo "<br>";
     }
 
+    public function get_zhao_num(){
+        $time = strtotime("2017-7-1");
+        $phone = "15831024307";
+        $type = 0;
+        $num = $this->t_teacher_lecture_appointment_info->get_reference_num($phone,$type,$time);
+
+        $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
+        echo $num;
+    }
+
+
     public function get_month_list(){
         // $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,0,-1,-1,0,0);
         // foreach($list as $val){
