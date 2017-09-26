@@ -2989,7 +2989,6 @@ class user_deal extends Controller
             $item["main_type_str"] = E\Emain_type::get_desc($item["main_type"]);
         }
         $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
-        dd(outputjson_success(array('data' => $ret_info)));
         return outputjson_success(array('data' => $ret_info));
 
     }

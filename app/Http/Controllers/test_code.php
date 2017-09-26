@@ -2258,6 +2258,11 @@ class test_code extends Controller
 
     }
 
+    public function test_api(){
+        echo "test_api";
+    }
+
+
 
 
 }
