@@ -763,7 +763,7 @@ class wx_teacher_api extends Controller
         }
 
         foreach($student_lesson_time as $stu_item){
-            if($stu_item['lesson_start']<$lesson_time_start && $tea_item['lesson_end']>$lesson_time_end){
+            if($stu_item['lesson_start']<$lesson_time_start && $stu_item['lesson_end']>$lesson_time_end){
                 $is_student_flag = 1;
                 $conflict_time_stu = date('H:i',$stu_item['lesson_start']).' ~ '.date('H:i',$stu_item['lesson_end']);
             }elseif($stu_item['lesson_start']<$lesson_time_start && $stu_item['lesson_end']>$lesson_time_start){
@@ -848,12 +848,13 @@ class wx_teacher_api extends Controller
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
-            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            // $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o"; //待处理
+            $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";  // 反馈通知
             $data['first']      = " 您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间,您已拒绝! ";
             $data['keyword1']   = " 拒绝调课申请";
             $data['keyword2']   = " 原上课时间:{".$lesson_start_date."};您已拒绝";
-            $data['keyword3']   = "$day_date";
-            $data['remark']     = "详细进度稍后将以推送的形式发给您,请注意查收!";
+            // $data['keyword3']   = "$day_date";
+            $data['remark']     = "";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
         }
 

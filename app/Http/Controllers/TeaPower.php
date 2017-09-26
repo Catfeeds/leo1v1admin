@@ -2224,7 +2224,7 @@ trait TeaPower {
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[21,22,31])){
-                $ref_num   = $this->get_reference_num($reference_info['phone'],$teacher_info['identity']);
+                $ref_num   = $this->get_teacher_reference_num($reference_info['phone'],$teacher_info['identity']);
                 $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
@@ -2506,7 +2506,12 @@ trait TeaPower {
         return $check_flag;
     }
 
-    public function get_reference_num($phone,$identity){
+    /**
+     * 获取老师的高校生/在校老师的推荐数量
+     * @param phone 推荐人手机号
+     * @param identity 被推荐人身份
+     */
+    public function get_teacher_reference_num($phone,$identity){
         if(in_array($identity,[5,6,7])){
             $type = 1;
         }else{
@@ -2521,7 +2526,6 @@ trait TeaPower {
             $begin_time = strtotime($begin_date);
         }
 
-        //添加推荐人的伯乐奖
         $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
             $phone,$type,$begin_time
         );

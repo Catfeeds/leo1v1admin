@@ -840,6 +840,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         );
         return $this->main_get_value($sql);
     }
+
      public function get_all_info_b1($page_num,$start_time,$end_time,$phone,$status=-1){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
