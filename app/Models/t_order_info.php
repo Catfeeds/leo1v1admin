@@ -941,7 +941,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0,3)",
             "contract_status in(1,2)",
             "m.account_role=2",
-            "g.master_adminid<>364",
+            "g.master_adminid not in(364,416)",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
@@ -1460,10 +1460,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 ["order_time>=%u" , $start_time, -1],
                 ["order_time<=%u" , $end_time, -1],
                 ["is_test_user=%u" , $is_test_user, -1],
-                ["check_money_flag=%u" , $check_money_flag, -1],
+                // ["check_money_flag=%u" , $check_money_flag, -1],
                 ["stu_from_type=%u" , $stu_from_type, -1],
                 ["sys_operator like '%%%s%%'" , $sys_operator, ""],
             ];
+            if($check_money_flag == 0){//未确认
+                $where_arr[] = "check_money_flag=0";
+            }elseif($check_money_flag == 1){//已付款
+                $where_arr[] = "t1.contract_status<>0";
+            }elseif($check_money_flag == 2){//未付款
+                $where_arr[] = "t1.contract_status=0";
+            }
 
             if ($isset_assistantid==0) {
                 $where_arr[]="t2.assistantid =0 " ;
@@ -1510,8 +1517,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." sum(if(stu_from_type=0,price,0)) new_price,"
                                   ." sum(if(stu_from_type=10,price,0)) normal_price,"
                                   ." sum(if(stu_from_type=11,price,0)) extend_price, "
-                                  ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
-                                  ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
+                                  ." sum(if(t1.contract_status<>0,price,0)) all_price_suc,"
+                                  ." sum(if(t1.contract_status=0,price,0)) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "

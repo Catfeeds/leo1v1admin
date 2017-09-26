@@ -52,6 +52,9 @@
                                 @if($var["hand_flag"]==1)
                                     <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                 @endif
+                                @if($acc=="jack" && !empty($var["require_time"]))
+                                    <a class="opt-send-wx" title="微信推送">微信推送</a>
+                                @endif
                             </div>
                         </td>
                     </tr>
