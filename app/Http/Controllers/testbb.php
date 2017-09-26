@@ -240,6 +240,9 @@ class testbb extends Controller
 
     public function ss(){
 
+        //547549
+        // $ret = $this->
+
         $lesson_end_date   = date('H:i',time() );
         dd($lesson_end_date);
 
