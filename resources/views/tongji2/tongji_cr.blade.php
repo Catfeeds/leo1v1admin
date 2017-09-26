@@ -79,13 +79,13 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td>月度目标收入</td>
+                                        <td width="200px" align="center">月度目标收入</td>
                                         <td>{{@$arr['target']}}</td>
-                                        <td>完成金额</td>
+                                        <td width="200px" align="center">完成金额</td>
                                         <td>{{@$arr['total_price']}}</td>
-                                        <td>完成率</td>
+                                        <td width="200px" align="center">完成率</td>
                                         <td >{{@$arr['kpi_per']}}</td>
-                                        <td >缺口金额</td>
+                                        <td width="200px" align="center">缺口金额</td>
                                         <td >{{@$arr['gap_money']}}</td>
                                     </tr>
                                 </thead>
