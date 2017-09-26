@@ -814,7 +814,12 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_value($sql);
     }
 
-    // 获取所推荐的不同类型的老师数
+    /**
+     * 获取所推荐的不同类型的老师数
+     * @param phone 推荐人手机号
+     * @param type  查看的老师类型 1 在职老师
+     * @param begin_time 开始检测的时间
+     */
     public function get_reference_num($phone,$type,$begin_time){
         $where_arr = [
             ["tla.reference='%s'",$phone,""],

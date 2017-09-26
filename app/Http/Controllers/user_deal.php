@@ -2713,7 +2713,13 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $list = $this->t_test_lesson_subject_require->get_no_high_require();
-        dd($list);
+        foreach($list as $val){
+            $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
+               "seller_top_flag" =>0 
+            ]);
+            @$tt .=  $val["require_id"].",";
+        }
+        dd($tt);
 
     }
 
