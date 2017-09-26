@@ -1336,8 +1336,8 @@ class tongji_ss extends Controller
                 $val['all_price_fail'] = @$ret_info[$val['adminid']]['all_price_fail']/100;
             }
         }
-        $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
-        // $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        // $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list']);
+        $ret_info=\App\Helper\Common::gen_admin_member_data($admin_info['list'],[],0,strtotime(date("Y-m-01",$start_time )));
         // $ret_info=\App\Helper\Common_new::gen_admin_member_data_new(1); // 开发中
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
