@@ -4512,6 +4512,8 @@ class user_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
 
         $agent_teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $tea_list = $this->t_teacher_lecture_appointment_info->get_tea_list_by_reference($agent_teacher_info['phone']);
+
 
     }
 

@@ -895,7 +895,7 @@ class ss_deal extends Controller
             $require_adminid = $this->get_account_id();
             $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
-            
+
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
             if(isset($self_top_info[6]["top_index"]) || $require_adminid == 349){
                 $rank = @$self_top_info[6]["top_index"];
@@ -904,7 +904,7 @@ class ss_deal extends Controller
                     $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
                     $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($month_start,$month_end,$require_adminid);
                     if($top_num>=40){
-                        $seller_top_flag=0; 
+                        $seller_top_flag=0;
                     }else{
                         $seller_top_flag=1;
                     }
@@ -930,7 +930,7 @@ class ss_deal extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
 
             }
-            
+
             return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>$top_num]);
         }
     }
@@ -2559,16 +2559,27 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        if (!$ret){
-            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
-        }else{
-            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+
+        if($require_id>0){
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
-                "green_channel_teacherid"=>$green_channel_teacherid,
-                "is_green_flag"          =>$is_green_flag,
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"      => $change_reason_url,
                 "change_teacher_reason_type" => $change_teacher_reason_type
+            ]);
+        }
+
+
+        if (!$ret){
+            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
+        }else{
+            // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "green_channel_teacherid"=>$green_channel_teacherid,
+                "is_green_flag"          =>$is_green_flag,
+                // "change_teacher_reason"          => $change_reason,
+                // "change_teacher_reason_img_url"      => $change_reason_url,
+                // "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }

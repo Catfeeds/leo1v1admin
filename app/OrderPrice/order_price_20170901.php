@@ -132,7 +132,12 @@ class order_price_20170901 extends order_price_base
                 $use_desc_str="";
 
                 if ($use_count+ $present_lesson_count*2 >=  $max_present_count*3  ) {
-                    $use_desc_str="<br/>600次课特殊赠送  结束";
+
+                    if ( $present_lesson_count==4.5) { //普通45课时送3课时
+                        $present_lesson_count=3;
+                    }
+                    $use_count_v=$use_count /3;
+                    $use_desc_str="<br/>600次课特殊赠送  结束 已用 $use_count_v  次课 ";
                 }else{ //600次赠送
                     $present_lesson_count*=2;
                     $left_count=($max_present_count*3- $use_count )/3;
