@@ -5598,7 +5598,7 @@ class ss_deal extends Controller
         $assign_adminid   = $this->get_account_id();
         $complaint_id     = $this->get_in_int_val('complaint_id');
         $assign_remarks   = $this->get_in_str_val('ass_remark');
-        $accept_adminid   = $this->get_in_str_val('accept_adminid');
+        $accept_adminid   = $this->get_in_int_val('accept_adminid');
 
         $time_date        = date('Y-m-d H:i:s',time(NULL));
 

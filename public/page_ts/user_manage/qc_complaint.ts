@@ -88,7 +88,7 @@ $(function(){
 
         // set_select(id_complaint_deparment);
 
-        id_complaint_deparment.html("<option value=\"" + 0 + "\">  [全部]</option><option value="540">市场-QC-施文斌</option>);
+        id_complaint_deparment.html("<option value=\"" + 0 + "\">  [全部]</option><option value=\""+540+"\">市场-QC-施文斌</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+1024+"\">市场-QC-王浩鸣</option><option value=\""+968+"\">老师反馈处理-老师薪资及反馈-苏佩云</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option><option value=\""+968+"\">市场-QC-李珉劼</option>");
 
 
         /**
