@@ -563,13 +563,5 @@ class wx_yxyx_common extends Controller
         }
     }
 
-    public function get_wx_openid(){
-        $code       = $this->get_in_str_val("code");
-        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
-        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $token_info = $wx->get_token_from_code($code);
-        $openid     = @$token_info["openid"];
-        return $openid;
-    }
 
 }
