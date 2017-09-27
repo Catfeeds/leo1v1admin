@@ -2776,8 +2776,10 @@ class user_manage_new extends Controller
         //     $list = json_decode($file_info,true);
         // }
 
-        $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-        $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
+            $stu_num = 0;
+        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+             $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
@@ -2808,7 +2810,12 @@ class user_manage_new extends Controller
             $num++;
         }
 
-        $list = \App\Helper\Utils::list_to_page_info($list);
+        if($show_data){
+            $list = \App\Helper\Utils::list_to_page_info($list);
+        }else{
+            $list = \App\Helper\Utils::list_to_page_info([]);
+        }
+
         return $this->pageView(__METHOD__,$list,[
             "stu_num"          => $stu_num,
             "all_lesson_money" => $all_lesson_money,

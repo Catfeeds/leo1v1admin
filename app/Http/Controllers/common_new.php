@@ -1239,7 +1239,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //建行回调地址
     public function ccb_callback_return_info(){
         $orderNo = $this->get_in_str_val("ORDERID","701797545350");
-        $encode = mb_detect_encoding($orderNo, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        $encode = mb_detect_encoding($orderNo, array('UTF-8',"GB2312","GBK",'BIG5'));
+        $str_encode = mb_convert_encoding($orderNo, 'GBK', $encode);
+        $en = mb_detect_encoding($str_encode, array("GBK",'BIG5'));
         dd($encode);
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");

@@ -5588,8 +5588,8 @@ class ss_deal extends Controller
     }
 
     public function do_complaint_assign_department(){
-        $accept_adminid_nick = $this->get_in_str_val('accept_adminid_nick');
-        $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
+        $accept_adminid = $this->get_in_str_val('accept_adminid');
+        // $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
         $this->set_in_value('accept_adminid',$accept_adminid);
         return $this->do_complaint_assign();
     }
