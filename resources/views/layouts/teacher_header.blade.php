@@ -72,7 +72,7 @@
                                                 </li> --}}
                             <li class="dropdown messages-menu">
                                 <a href="http://www.leo1v1.com/common/download" class="dropdown-toggle" target="_blank">
-                                    <i class="fa  fa-download"></i>
+                                    <i class="fa  fa-download color-lyblue"></i>
                                 </a>
                             </li>
                             {{-- <li class="dropdown messages-menu">

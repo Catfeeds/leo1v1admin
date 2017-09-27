@@ -237,6 +237,9 @@ class testbb extends Controller
 
 
 
+    public function get_num(){
+        $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
+    }
 
     public function ss(){
 

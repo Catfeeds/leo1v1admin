@@ -5420,7 +5420,8 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"){
+    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current")
+    {
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
             ["l.lesson_start<%u",$end,0],
@@ -5455,7 +5456,6 @@ lesson_type in (0,1) "
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });

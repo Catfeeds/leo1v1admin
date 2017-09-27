@@ -21,8 +21,9 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                 ["power_id"=>18, "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
-                ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
-                ["power_id"=>19, "name"=>"老师晋升审核new","url"=>"/teacher_level/teacher_advance_info_list"],
+                ["power_id"=>16, "name"=>"老师晋升审核-兼职","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>19, "name"=>"老师晋升审核-教研","url"=>"/teacher_level/teacher_advance_info_list"],
+                ["power_id"=>20, "name"=>"老师晋升审核-全职","url"=>"/teacher_level/get_teacher_advance_info_fulltime"],
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
             ]],
 
@@ -826,6 +827,8 @@ class menu{
                 ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                 ["power_id"=>43, "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
                 ["power_id"=>44, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
+                [ "power_id"=>45,"name"=>"兼职老师薪资处理-教研",   "url"=>"/user_manage/complaint_department_deal_teacher_tea_jy"],
+
 
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],

@@ -6,8 +6,9 @@ class teaching_menu{
         return [
             ["name"=> "教学管理事业部" , "list" => [
                 [ "name"=>"核心数据",  "list"=>[
-                    [ "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
-                    [ "name"=>"老师晋升审核new","url"=>"/teacher_level/teacher_advance_info_list"],
+                    [ "name"=>"老师晋升审核-兼职","url"=>"/teacher_level/get_teacher_advance_info"],
+                    [ "name"=>"老师晋升审核-教研","url"=>"/teacher_level/teacher_advance_info_list"],
+                    [ "name"=>"老师晋升审核-全职","url"=>"/teacher_level/get_teacher_advance_info_fulltime"],
                     [ "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
                     [ "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
@@ -134,6 +135,8 @@ class teaching_menu{
                         ["name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                         [ "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                         [ "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
+                        [ "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea_jy"],
+
 
                         [ "name"=>"试听转化率模型",  "list"=>[
                             [ "name"=>"试听转化率黑名单",   "url"=>"/tongji_ss/get_test_lesson_low_tra_teacher"],
