@@ -1534,6 +1534,11 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
     }
+
+    public function get_seller_top_lesson_list($start_time,$end_time,$adminid){
+        
+    }
+
     public function get_jw_teacher_test_lesson_info($start_time,$end_time){
         $where_arr = [
             ["require_assign_time >= %u",$start_time,-1],

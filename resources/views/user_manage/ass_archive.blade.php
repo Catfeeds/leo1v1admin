@@ -167,8 +167,9 @@
                                -->
                             <a class="fa-comments opt-return-back-list-new " title="回访列表-new" ></a>
                             <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
-                            <a class=" opt-change-teacher "  >换老师</a>
-                            <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推荐老师</a>
+                            <!-- <a class=" opt-change-teacher "  >换老师</a>
+                                 <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推荐老师</a>
+                               -->
                             @if($acc=="jim" || $acc=="jack" || $acc=="michael")
                                 <a class="fa-comment opt-return-back-new " title="回访" ></a>
                             @endif

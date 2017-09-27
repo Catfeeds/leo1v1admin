@@ -122,11 +122,12 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             ['y.subject=%u', $subject , -1],
             ['y.test_type=%u', $test_type , -1],
         ];
-        $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
+        $sql = $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
                                     ." from %s y "
                                     ." left join %s tv on y.id=tv.test_pic_info_id"
                                     ." and tv.wx_openid='$wx_openid'"
                                     ." where %s"
+                                    ." group by y.id"
                                     ,self::DB_TABLE_NAME
                                     ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
                                     ,$where_arr
