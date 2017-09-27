@@ -1352,6 +1352,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     public function jack_test(){
 
+        dd(public_path());
         define("filePath","/home/jack/work/admin/tmp");//.pfx和.cer文件放置的地址
         define("pfxFileName","MC1005928_CCB.pfx");//.pfx文件名
         define("password","14285714");//.pfx文件的密码
