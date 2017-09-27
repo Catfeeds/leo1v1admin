@@ -272,10 +272,10 @@
                                 </thead>
                                 <tbody >
                                     <tr>
-                                        <td class="panel-green">  漏斗-存档-节点  </td>
-                                        <td class="panel-green">  漏斗-存档-节点  </td>
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
+                                        <td class="panel-green">{{@$arr['total_test_lesson_num']}}  </td>
+                                        <td class="panel-green">  漏斗-存档-节点</td>
+                                        <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
+                                        <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
                                         <td class="panel-blue">  漏斗-存档 </td> 
 
                                     </tr>
