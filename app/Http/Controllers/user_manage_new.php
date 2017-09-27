@@ -2756,7 +2756,7 @@ class user_manage_new extends Controller
             $flag = 1;
         }
 
-        if($flag){
+        // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
             );
@@ -2772,9 +2772,9 @@ class user_manage_new extends Controller
             // );
             // $list = array_merge($list,$reward_list);
             file_put_contents($file_name,json_encode($list));
-        }else{
-            $list = json_decode($file_info,true);
-        }
+        // }else{
+        //     $list = json_decode($file_info,true);
+        // }
 
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
