@@ -1160,8 +1160,22 @@ class tongji2 extends Controller
         }
 
         //续费
-        $arr['total_renew'] = $ret_total[0]['total_renew']/100;
-        $arr['renew_num']   = $ret_total[0]['renew_num'];
+        $arr['total_renew'] = $ret_total[0]['total_renew']/100; //续费金额
+        $arr['renew_num']   = $ret_total[0]['renew_num'];       //总笔数
+        if($arr['renew_num']){
+            $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
+        }else{
+            $arr['renew_num_per'] = 0;
+        }
+
+        //转介绍
+        $arr['tranfer_num']   = $ret_total[0]['tranfer_num']/1;  //转介绍成单数量
+        $arr['total_tranfer'] = $ret_total[0]['total_tranfer']/100; //转介绍总金额
+        if($arr['tranfer_num'] > 0){
+            $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
+        }else{
+            $arr['tranfer_num_per'] = 0;
+        }
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 

@@ -207,7 +207,7 @@
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td>{{@$arr['total_renew']}}</td> 
-                                            <td>{{@$arr['renew_num']}}</td>
+                                            <td>{{@$arr['renew_num_per']}}</td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                         </tr>
@@ -242,9 +242,9 @@
                                             <td class="panel-green">  漏斗-存档-节点 </td> 
                                             <td class="panel-green">  漏斗-存档-节点 </td>
                                             <td class="panel-blue">  漏斗-存档  </td>
-                                            <td> 节点</td>
-                                            <td> 节点</td>
-                                            <td> 节点</td>
+                                            <td>{{@$arr['tranfer_num']}}</td>
+                                            <td>{{@$arr['total_tranfer']}}</td>
+                                            <td>{{@$arr['tranfer_num_per']}}</td>
 
                                         </tr>
                                 </tbody>

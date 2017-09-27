@@ -286,7 +286,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select * "
                                   ." from %s "
                                   ." where %s"
-                                  ." order by teacherid desc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

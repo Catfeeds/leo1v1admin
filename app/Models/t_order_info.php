@@ -3390,13 +3390,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "price > 0",
             "m.account_role = 1"
         ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,count(orderid ) as order_num , sum(if(contract_type  =3, price, 0)) as total_renew, sum(if(contract_type =3, 1, 0)) as renew_num  "
-                                ." from %s o "
-                                ." left join %s m on o.sys_operator = m.account"
-                                ." where %s",
-                                self::DB_TABLE_NAME,
-                                t_manager_info::DB_TABLE_NAME,
-                                $where_arr);
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,"
+                                  ."count(orderid ) as order_num , sum(if(contract_type  =3, price, 0)) as total_renew,"
+                                  ."sum(if(contract_type =3, 1, 0)) as renew_num,sum(if(origin_userid <> 0, 1, 0)) as tranfer_num,"
+                                  ."sum(if(origin_userid <> 0, price, 0)) as total_tranfer  "
+                                  ." from %s o "
+                                  ." left join %s m on o.sys_operator = m.account"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
         return $this->main_get_list($sql);
     }
     public function get_total_price_thirty($start_time,$end_time){
