@@ -1283,11 +1283,31 @@ class ss_deal extends Controller
             $teacherid
         );
 
+        //老师维度计算
+        $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
+        $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+        if($tea_in["test_transfor_per"]>=20){
+            $teacher_dimension="维度A";
+        }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+            $teacher_dimension="维度B";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度C";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+            $teacher_dimension="维度C候选";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度D";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+            $teacher_dimension="维度D候选";
+        }else{
+            $teacher_dimension="其他";
+        }
+
         $this->t_test_lesson_subject_sub_list->row_insert([
             "lessonid"  => $lessonid,
             "require_id" => $require_id,
             "set_lesson_adminid"  => $this->get_account_id(),
             "set_lesson_time"  => time(NULL) ,
+            "teacher_dimension" =>$teacher_dimension
             // "seller_require_flag"=> 10
         ]);
 
@@ -1447,12 +1467,33 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
             "grade"  => $grade,
         ]);
+
+        //老师维度计算
+        $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
+        $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+        if($tea_in["test_transfor_per"]>=20){
+            $teacher_dimension="维度A";
+        }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+            $teacher_dimension="维度B";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度C";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+            $teacher_dimension="维度C候选";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度D";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+            $teacher_dimension="维度D候选";
+        }else{
+            $teacher_dimension="其他";
+        }
+
         $this->t_test_lesson_subject_sub_list->row_insert([
             "lessonid"           => $lessonid,
             "require_id"         => $require_id,
             "set_lesson_adminid" => $this->get_account_id(),
             "set_lesson_time"    => time(NULL) ,
-            "top_seller_flag"    => $top_seller_flag
+            "top_seller_flag"    => $top_seller_flag,
+            "teacher_dimension"  => $teacher_dimension
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             'current_lessonid'      => $lessonid,
@@ -2571,16 +2612,21 @@ class ss_deal extends Controller
 
 
         if (!$ret){
+            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
+
             $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
                 "change_teacher_reason"          => $change_reason,
-                "change_teacher_reason_img_url"      => $change_reason_url,
+                "change_teacher_reason_img_url"  => $change_reason_url,
                 "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
+            \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
+
             return $this->output_succ();
         }
     }

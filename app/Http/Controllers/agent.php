@@ -326,6 +326,7 @@ class agent extends Controller
     }
 
     public function check(){
+dd('b');
         $phone = '18763822496';
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
         $competition_call_adminid = 860;

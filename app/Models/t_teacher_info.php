@@ -1376,8 +1376,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $end_time   = time();
             $start_time = strtotime("-2 month",$end_time);
             $where_arr  = [
-                ["create_time>%u",$start_time,0],
-                ["create_time<%u",$end_time,0],
+                // ["create_time>%u",$start_time,0],
+                // ["create_time<%u",$end_time,0],
                 ["is_test_user=%u",$is_test_user,-1],
                 "trial_lecture_is_pass=1",
                 "train_through_new_time=0",

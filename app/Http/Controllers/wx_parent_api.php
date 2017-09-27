@@ -592,6 +592,7 @@ class wx_parent_api extends Controller
         if($ret){
             // 发送微信推送[家长]
             $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
+            // $parent_wx_openid = 'orwGAs8nLI4DEU2jsXRKDLWY0n5w';
 
             $lesson_start_date = date('Y-m-d H:i',$lesson_start_time );
             $lesson_end_date   = date('H:i',$lesson_end_time );
@@ -608,11 +609,12 @@ class wx_parent_api extends Controller
             $data_msg = [
                 "first"     => " 调课申请受理中",
                 "keyword1"  => " 调换上课时间",
-                "keyword2"  => " 原上课时间:{ $lesson_start_time ~ $lesson_end_date }, $result,申请受理中,请稍等!",
+                "keyword2"  => " 原上课时间:{ $lesson_start_date ~ $lesson_end_date }, $result,申请受理中,请稍等!",
                 "keyword3"  => " $day_time",
                 "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
             ];
-            $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+            $ret_parent = $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+
 
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
@@ -623,7 +625,11 @@ class wx_parent_api extends Controller
             $data['keyword2']   = " 原上课时间:{ $lesson_start_date ~ $lesson_end_date };$result";
             $data['keyword3']   = "$day_time";
             $data['remark']     = "请点击详情查看家长勾选的时间并进行处理!";
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+            $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+            \App\Helper\Utils::logger('wx_lessonid'.$lessonid." ret_parent: ".$ret_parent.' ~ ret_teacher: '.$ret_teacher.' ~ parent_wx_openid: '.$parent_wx_openid."~ teacher_wx_openid ".$teacher_wx_openid);
+
+
             return $this->output_succ();
         }else{
             return $this->output_err('提交失败,请稍后再试..');

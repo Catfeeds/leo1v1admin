@@ -1564,4 +1564,32 @@ class ajax_deal2 extends Controller
 
     }
 
+    //百度分期还款明细
+    public function get_baidu_period_detail_info(){
+        $orderid              = $this->get_in_int_val("orderid",177);
+        $list = $this->get_baidu_money_charge_pay_info($orderid);
+        if(!$list){
+            return $this->output_err('无数据!');
+        }
+        if($list["status"]>0){
+           return $this->output_err($list["msg"]); 
+        }
+        $data = $list["data"];
+        foreach($data as &$item){
+            if($item["bStatus"]==48){
+                $item["bStatus_str"] = "已还款";
+            }elseif($item["bStatus"]==80){
+                $item["bStatus_str"] = "未还但未到期";
+            }elseif($item["bStatus"]==112){
+                $item["bStatus_str"] = "未还款";
+            }elseif($item["bStatus"]==144){
+                $item["bStatus_str"] = "未还并逾期";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "paidTime","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "dueDate","_str");
+
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
 }

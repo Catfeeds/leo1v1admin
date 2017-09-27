@@ -436,8 +436,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
-
-        if (!$this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id)){
+        $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
+        if (!$is_has){
             return  false;
         }
 

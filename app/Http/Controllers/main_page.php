@@ -59,7 +59,7 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
-
+//	dd(1);
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];

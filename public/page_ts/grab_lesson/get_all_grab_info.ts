@@ -86,7 +86,14 @@ $(function(){
                         return $(item.success_flag_str) ;
                     }
 
+                },{
+                    title:"requireid",
+                    render:function(val,item) {
+                        return item.requireid ;
+                    }
+
                 }
+
             ] ,
             filter_list: [],
 
