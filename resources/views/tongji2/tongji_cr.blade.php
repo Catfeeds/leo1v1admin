@@ -206,8 +206,8 @@
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td>  节点</td> 
-                                            <td>  节点</td>
+                                            <td>{{@$arr['total_renew']}}</td> 
+                                            <td>{{@$arr['renew_num']}}</td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                         </tr>

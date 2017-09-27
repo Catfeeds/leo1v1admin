@@ -1158,6 +1158,10 @@ class tongji2 extends Controller
                 $arr['other_leave'] += round($value['num']/100,2);
             }
         }
+
+        //续费
+        $arr['total_renew'] = $ret_total[0]['total_renew']/100;
+        $arr['renew_num']   = $ret_total[0]['renew_num'];
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 

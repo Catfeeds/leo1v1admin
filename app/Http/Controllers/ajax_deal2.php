@@ -1592,4 +1592,21 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=>$data]);
     }
 
+    //精排试听详情获取
+    public function get_seller_top_lesson_info(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $list = $this->t_test_lesson_subject_require->get_seller_top_lesson_list($start_time,$end_time,$adminid);
+
+        foreach($list as &$item){
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+        }
+        return $this->output_succ(["data"=> $list]);
+    }
+
+
 }
