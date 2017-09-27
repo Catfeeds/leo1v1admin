@@ -13,7 +13,7 @@ class t_grab_lesson_link_visit_info extends \App\Models\Zgen\z_t_grab_lesson_lin
             "v.grabid='$grabid'"
         ];
         $sql = $this->gen_sql_new(
-            "select v.visitid,v.teacherid,v.create_time as visit_time,"
+            "select v.visitid,v.teacherid,v.create_time as visit_time, p.requireid,"
             ." v.operation,p.success_flag,p.create_time as grab_time"
             ." from %s v"
             ." left join %s p on p.visitid=v.visitid "
