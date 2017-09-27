@@ -2708,12 +2708,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $userid= 18653299222;
+        $userid= 165543;
         $orderid = 16016;
         $this->t_order_refund->row_insert([
             "userid"        => $userid,
             "orderid"       => $orderid,
             "should_refund" => 300,
+            "refund_status" => 1
         ]);
         $this->t_student_info->reset_lesson_count($userid);
         dd(111);

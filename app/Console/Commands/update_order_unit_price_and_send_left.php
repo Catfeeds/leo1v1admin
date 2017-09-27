@@ -53,6 +53,8 @@ class update_order_unit_price_and_send_left extends Command
                     "userid"        => $l["userid"],
                     "orderid"       => $l["so_orderid"],
                     "should_refund" => $l["lesson_left"],
+                    "refund_status" => 1,
+                    "apply_time"    => time()
                 ]);
             }
 
