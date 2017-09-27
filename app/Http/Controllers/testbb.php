@@ -242,7 +242,16 @@ class testbb extends Controller
         // $teacherid = $this->t_lesson_info_b3->get_on_num();
         $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
         //get_on_num
-        dd($teacherid);
+        $aa = [];
+        foreach($teacherid as $item){
+            $aa[] = $item['teacherid'];
+        }
+        // dd($aa);
+        $str = implode(',',$aa);
+
+        $ret_info = $this->t_teacher_info->get_on_total($str);
+        dd($ret_info);
+
     }
 
     public function ss(){

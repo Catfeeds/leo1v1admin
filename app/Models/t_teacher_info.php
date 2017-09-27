@@ -3736,5 +3736,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_on_total($str){
+        $sql = $this->gen_sql_new(" select t.teacherid from %s t left join %s l on l.teacherid=t.teacherid where t.teacherid not in ($str) and t.is_test_user=0 and t.trial_lecture_is_pass =1 and t.create_time<1490976000 and l.lesson_end>0 order by t.teacherid desc"
+                                  ,self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 
 }
