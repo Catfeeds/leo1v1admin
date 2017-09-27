@@ -244,7 +244,7 @@
                                             <td class="panel-blue">  漏斗-存档  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>
-                                            <td>{{@$arr['total_tranfer_per']}}</td>
+                                            <td>{{@$arr['tranfer_num_per']}}</td>
 
                                         </tr>
                                 </tbody>
