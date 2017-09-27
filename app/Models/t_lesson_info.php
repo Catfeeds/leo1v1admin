@@ -5421,7 +5421,7 @@ lesson_type in (0,1) "
     }
 
     public function get_tea_month_list(
-        $start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current",$reference=""
+        $start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
@@ -5429,7 +5429,7 @@ lesson_type in (0,1) "
             ["t.teacher_ref_type=%u",$teacher_ref_type,-1],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             ["t.level=%u",$level,-1],
-            ["tl.reference='%s'",$reference,""],
+            // ["tl.reference='%s'",$reference,""],
             "l.lesson_type<1000",
             "t.is_test_user=0",
         ];
@@ -5451,13 +5451,13 @@ lesson_type in (0,1) "
                                   ." sum(if(l.lesson_type<1000,l.lesson_count,0)) as lesson_total"
                                   ." from %s l force index(lesson_start)"
                                   ." left join %s t on l.teacherid=t.teacherid"
-                                  ." left join %s tl on t.phone=tl.phone"
+                                  // ." left join %s tl on t.phone=tl.phone"
                                   ." where %s"
                                   ." group by t.teacherid"
                                   ." order by lesson_total desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  // ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         // echo $sql;exit;
