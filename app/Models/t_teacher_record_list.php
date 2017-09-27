@@ -1265,4 +1265,14 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
  
     }
 
+    public function get_teacher_first_record_score($teacherid){
+        $where_arr=[
+            ["teacherid = %u",$teacherid,-1],
+            "type=1",
+            "lesson_style=1"
+        ];
+        $sql= $this->gen_sql_new("select record_score from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }
