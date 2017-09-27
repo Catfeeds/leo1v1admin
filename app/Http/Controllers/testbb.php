@@ -241,6 +241,18 @@ class testbb extends Controller
     public function ss(){
 
 
+        $seller_student_status= E\Eseller_student_status::V_200;
+
+        dd($seller_student_status);
+        //547549
+        $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(365466);
+        // $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(547549);
+
+        dd($ret);
+
+        $lesson_end_date   = date('H:i',time() );
+        dd($lesson_end_date);
+
         $start_time = strtotime(date('Y-m-d 0:0:0'))-6*86400;
 
         $end_time   = strtotime(date('Y-m-d 0:0:0'))+86400;

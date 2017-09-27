@@ -53,6 +53,9 @@
                     <td> 排课数 </td>
                     <td style="display:none;"> requireids </td>
                     <td> 访问次数 </td>
+                    <td> 抢课次数 </td>
+                    <td> 成功次数 </td>
+                    <td> 失败次数 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -65,8 +68,11 @@
                         <td>{{@$var["live_time"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["lesson_count"]}} </td>
-                        <td>{{ @$var["requireids"]}} </td>
+                        <td>{{@$var["requireids"]}} </td>
                         <td>{{@$var["visit_count"]}} </td>
+                        <td>{{@$var["grab_count"]}} </td>
+                        <td>{{@$var["succ_count"]}} </td>
+                        <td>{{@$var["fail_count"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

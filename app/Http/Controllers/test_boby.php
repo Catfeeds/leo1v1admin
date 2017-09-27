@@ -21,6 +21,7 @@ class test_boby extends Controller
         }
         return $s.'</tr>';
     }
+
     public function tr_add($table_start){
         $arr = func_get_args();
         $s = $table_start.'<tr>';
@@ -46,12 +47,14 @@ class test_boby extends Controller
         return $str;
     }
     public function get_b_txt($file_name="b"){
-        $info = file_get_contents("/home/boby/".$file_name.".txt");
-        $arr  = explode("\n",$info);
-        return $arr;
+//        $info = file_get_contents("/home/boby/".$file_name.".txt");
+//        $arr  = explode("\n",$info);
+//        return $arr;
+return 'is ok';
     }
 
     public function p_list(){
+return 'test ok';
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
         $account_role= $this->get_in_el_account_role();

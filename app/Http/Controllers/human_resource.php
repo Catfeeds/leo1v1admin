@@ -770,6 +770,10 @@ class human_resource extends Controller
         $identity                 = $this->get_in_int_val("identity", -1);
         $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
         $plan_level               = $this->get_in_int_val("plan_level", -1);
+        $teacher_textbook         = $this->get_in_int_val("teacher_textbook", -1);
+        if($teacher_textbook != -1){
+            $teacher_textbook = $teacher_textbook;
+        }
         if($tea_label_type==-1){
             $tea_label_type_str="";
         }else{
@@ -808,7 +812,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$tea_label_type_str,$plan_level
+            $record_score_num,$identity,$tea_label_type_str,$plan_level,$teacher_textbook
         );
 
         $tea_list = [];
@@ -2605,9 +2609,6 @@ class human_resource extends Controller
             return $this->output_err("更新出错！请重新提交！");
         }
 
-        /* $this->add_teacher_label(
-            $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
-            );*/
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2617,11 +2618,9 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
                 "train_through_new"      => 1,
                 "level"                  =>1
-                //"train_through_new_time" => time(),
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-
 
             //等级升级通知
             /**
@@ -2650,7 +2649,6 @@ class human_resource extends Controller
             }
 
             //邮件推送
-            // $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             $html = $this->teacher_level_up_html($teacher_info);
             $email = $teacher_info["email"];
             if($email){
@@ -2659,10 +2657,10 @@ class human_resource extends Controller
                 ));
             }
 
-
+            //添加模拟试听奖金
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
-                $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
+                $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
                     "type"       => 5,

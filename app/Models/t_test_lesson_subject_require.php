@@ -436,8 +436,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
-
-        if (!$this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id)){
+        $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
+        if (!$is_has){
             return  false;
         }
 
@@ -2929,6 +2929,17 @@ ORDER BY require_time ASC";
         
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
+
+    }
+
+    public function get_no_high_require(){
+        $sql = $this->gen_sql_new("select * from %s tr"
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." where tr.seller_top_flag=1 and tr.intention_level <>1",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
 
     }
 }

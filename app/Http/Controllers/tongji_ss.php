@@ -1312,7 +1312,6 @@ class tongji_ss extends Controller
         $adminid_right     = [] ;
         $adminid_all       = [] ;
 
-
         $account=$this->get_account();
         $show_yueyue_flag = false;
         if ($account =="yueyue" || $account=="jim" || $account=="echo" ) {

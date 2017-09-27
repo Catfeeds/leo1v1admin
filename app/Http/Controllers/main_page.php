@@ -42,6 +42,7 @@ class main_page extends Controller
         }
 
         $sys_info=[
+            ["当前IP", $this->get_in_client_ip() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
         ];
 
@@ -59,7 +60,7 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
-
+//	dd(1);
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
@@ -1705,10 +1706,12 @@ class main_page extends Controller
         $account_id  = $this->get_account_id();
         $master_adminid    = $this->t_admin_group_user->get_master_adminid_by_adminid($account_id);
         $up_master_adminid = $this->t_admin_main_group_name->get_up_group_adminid( $master_adminid);
-        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
 
+        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
         $lesson_count_list_old=[];
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+
+
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);

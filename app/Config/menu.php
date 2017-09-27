@@ -40,22 +40,6 @@ class menu{
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
-                ["power_id"=>9, "name"=>"优学优享", "list"=> [
-                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
-                    ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
-                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
-                    ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
-                    ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
-                    ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
-                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
-                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
-                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
-                    ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
-                    ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
-                    ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
-                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
-                ]
-                ],
             ]
             ],
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[
@@ -351,9 +335,23 @@ class menu{
                     ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
                     ["power_id"=>34, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_qc"],
                 ]],
+                ["power_id"=>4, "name"=>"优学优享", "list"=> [
+                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
+                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
+                    ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
+                    ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
+                    ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
+                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
+                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
+                    ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
+                    ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
+                    ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
+                    ["power_id"=>89, "name"=>"销售个人未回访",   "url"=>"/seller_student_new/no_lesson_call_end_time_list"],
+                ]],
                 ["power_id"=>9, "name"=>"约课 课程包管理",   "url"=>"/appoint/index2"],
             ]],
-
 
 
             ["power_id"=>8, "name"=>"财务管理", "list"=>[
@@ -784,6 +782,7 @@ class menu{
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
+                ["power_id"=>45, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
                 ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 ["power_id"=>3, "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
@@ -794,6 +793,7 @@ class menu{
                 ["power_id"=>9, "name"=>"薪资版本切换列表",   "url"=>"/teacher_level/teacher_switch_list"],
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                 ["power_id"=>10, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
+                ["power_id"=>11, "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
             ]],
 
 
@@ -826,8 +826,9 @@ class menu{
                 ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                 ["power_id"=>43, "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
                 ["power_id"=>44, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
+                [ "power_id"=>45,"name"=>"兼职老师薪资处理-教研",   "url"=>"/user_manage/complaint_department_deal_teacher_tea_jy"],
 
-                ["power_id"=>45, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
+
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["power_id"=>3, "name"=>"试听转化率黑名单",   "url"=>"/tongji_ss/get_test_lesson_low_tra_teacher"],

@@ -128,9 +128,9 @@ $(function(){
             action: function(dialog){
                 if(opt_data.del_flag == del_flag.val()){
                     if(del_flag.val() == 1){
-                        var time_new = opt_data.leave_member_time; 
+                        var time_new = opt_data.leave_member_time;
                     }else{
-                        var time_new = opt_data.become_member_time; 
+                        var time_new = opt_data.become_member_time;
                     }
                 }else{
                     var time_new = time.val();
@@ -142,18 +142,17 @@ $(function(){
                 });
             }
         });
-
-
     });
 
     $(".opt-set-passwd").on("click", function(){
-        var $passwd=$("<input/>");
-        var account=$(this).get_opt_data("account");
+        var $passwd = $("<input/>");
+        var account = $(this).get_opt_data("account");
+        var uid     = $(this).get_opt_data("uid");
         var arr =[
             ["account", account ] ,
             ["passwd", $passwd]
         ];
-        $passwd.val("123");
+        $passwd.val("123456");
         var me=this;
 
         $.show_key_value_table("修改密码", arr ,{
@@ -161,8 +160,9 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax('/authority/set_passwd', {
-                    'account': account,
-                    'passwd': $passwd.val()
+                    'account' : account,
+                    'uid'     : uid,
+                    'passwd'  : $passwd.val()
                 },function(resp){
                     $(me).parent().find(".opt-sync-kaoqin ").click();
                 });
@@ -572,8 +572,6 @@ $(function(){
     }
 
 
-
-
     $('.opt-change').set_input_change_event(load_data);
 
     $(".opt-login").on("click",function(){
@@ -761,6 +759,57 @@ $(function(){
                 });
             }
         } );
+
+    });
+
+    $(".opt-set-teacher-level").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax('/ajax_deal2/get_teacherid_by_phone', {
+            'phone' : opt_data.phone,
+        },function(resp){
+            if(resp.ret !=0){
+                alert(resp.info);
+                return;
+            }else{
+                var data = resp.data;
+               // alert(data.teacherid);
+                var id_teacher_money_type = $("<select/>");
+                var id_level              = $("<select/>");
+                var id_start_time         = $("<input/>");
+
+                Enum_map.append_option_list("level", id_level, true );
+                Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
+
+                id_teacher_money_type.val(data.teacher_money_type);
+                id_level.val(data.level);
+                id_start_time.datetimepicker({
+                    datepicker:true,
+                    timepicker:false,
+                    format:'Y-m-d'
+                });
+
+                var arr = [
+                    ["工资类别", id_teacher_money_type],
+                    ["等级", id_level],
+                    ["时间不填则不会重置课程时间",""],
+                    ["重置课程开始时间", id_start_time],
+                ];
+
+                $.show_key_value_table("修改等级", arr ,{
+                    label    : '确认',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
+                        $.do_ajax('/tea_manage_new/update_teacher_level',{
+                            "teacherid"          : data.teacherid,
+                            "start_time"         : id_start_time.val(),
+                            "level"              : id_level.val(),
+                            "teacher_money_type" : id_teacher_money_type.val()
+                        });
+                    }
+                });
+
+            }
+        });
 
     });
 

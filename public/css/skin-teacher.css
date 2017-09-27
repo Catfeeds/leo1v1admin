@@ -248,6 +248,9 @@
 .skin-teacher .color-blue{
     color:#00A6FF;
 }
+.skin-teacher .color-lyblue{
+    color:#0bceff;
+}
 .skin-teacher .bg-set-blue{
     background-color:#00A6ff;
     color:#fff;
@@ -336,6 +339,7 @@
 .skin-teacher .main-header .navbar .sidebar-toggle{
     color:#0bceff;
 }
+
 
 .skin-teacher .btn-info:hover{
     background-color:#0094e3;

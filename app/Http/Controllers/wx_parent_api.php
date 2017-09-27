@@ -592,9 +592,10 @@ class wx_parent_api extends Controller
         if($ret){
             // 发送微信推送[家长]
             $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
+            // $parent_wx_openid = 'orwGAs8nLI4DEU2jsXRKDLWY0n5w';
 
-            $lesson_start_date = date('Y-m-d H:i:s',$lesson_start_time );
-            $lesson_end_date   = date('Y-m-d H:i:s',$lesson_end_time );
+            $lesson_start_date = date('Y-m-d H:i',$lesson_start_time );
+            $lesson_end_date   = date('H:i',$lesson_end_time );
             $result = "原因:{".$parent_modify_remark."}";
 
             if(!$parent_modify_remark){
@@ -607,23 +608,28 @@ class wx_parent_api extends Controller
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
                 "first"     => " 调课申请受理中",
-                "keyword1"  => " 调换{ $lesson_start_time ~ $lesson_end_date}上课时间",
-                "keyword2"  => " 原上课时间:{ $lesson_start_time ~ $lesson_end_date }, $result,申请受理中,请稍等!",
+                "keyword1"  => " 调换上课时间",
+                "keyword2"  => " 原上课时间:{ $lesson_start_date ~ $lesson_end_date }, $result,申请受理中,请稍等!",
                 "keyword3"  => " $day_time",
                 "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
             ];
-            $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+            $ret_parent = $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+
 
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
-            $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html'.$lessonid; //待定
+            $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html?lessonid='.$lessonid; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = " 调课申请 ";
-            $data['keyword1']   = " 您的学生{".$stu_nick."}的家长申请修改{ $lesson_start_date ~ $lesson_end_date }上课时间";
+            $data['keyword1']   = " 您的学生{".$stu_nick."}的家长申请修改上课时间";
             $data['keyword2']   = " 原上课时间:{ $lesson_start_date ~ $lesson_end_date };$result";
             $data['keyword3']   = "$day_time";
             $data['remark']     = "请点击详情查看家长勾选的时间并进行处理!";
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+            $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+            \App\Helper\Utils::logger('wx_lessonid'.$lessonid." ret_parent: ".$ret_parent.' ~ ret_teacher: '.$ret_teacher.' ~ parent_wx_openid: '.$parent_wx_openid."~ teacher_wx_openid ".$teacher_wx_openid);
+
+
             return $this->output_succ();
         }else{
             return $this->output_err('提交失败,请稍后再试..');

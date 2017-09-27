@@ -1765,6 +1765,7 @@ class user_manage_new extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        // dd($ret_info);
         foreach( $ret_info as $key=>&$item ){
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
@@ -2715,6 +2716,22 @@ class user_manage_new extends Controller
         return $this->output_succ(["lesson_unassigned" => $lesson_unassigned]);
     }
 
+    public function update_teacher_identity(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $identity  = $this->get_in_int_val("identity");
+        if($teacherid==0){
+            return $this->output_err("老师id不能为0!");
+        }
+
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
+            "identity" => $identity
+        ]);
+        if(!$ret){
+            return $this->output_err("老师身份未改变!");
+        }
+        return $this->output_succ();
+    }
+
     public function tea_wages_list() {
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
@@ -2727,7 +2744,7 @@ class user_manage_new extends Controller
 
         $this->switch_tongji_database();
         $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.".txt";
+        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
         $flag = 0;
         if(is_file($file_name)){
@@ -2739,7 +2756,7 @@ class user_manage_new extends Controller
             $flag = 1;
         }
 
-        if($flag){
+        // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
             );
@@ -2755,12 +2772,14 @@ class user_manage_new extends Controller
             // );
             // $list = array_merge($list,$reward_list);
             file_put_contents($file_name,json_encode($list));
-        }else{
-            $list = json_decode($file_info,true);
-        }
+        // }else{
+        //     $list = json_decode($file_info,true);
+        // }
 
-        $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-        $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
+            $stu_num = 0;
+        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+             $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
@@ -2791,7 +2810,12 @@ class user_manage_new extends Controller
             $num++;
         }
 
-        $list = \App\Helper\Utils::list_to_page_info($list);
+        if($show_data){
+            $list = \App\Helper\Utils::list_to_page_info($list);
+        }else{
+            $list = \App\Helper\Utils::list_to_page_info([]);
+        }
+
         return $this->pageView(__METHOD__,$list,[
             "stu_num"          => $stu_num,
             "all_lesson_money" => $all_lesson_money,
@@ -3143,6 +3167,9 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function wx_monitor_new_yy(){
+        return $this->wx_monitor_new();
+    }
     public function wx_monitor_new(){
         $page_num=$this->get_in_page_num();
         $ret_info = $this->t_send_wx_template_record_list->get_send_wx_template_record_list($page_num);
@@ -4511,6 +4538,9 @@ class user_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
 
         $agent_teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $tea_list = $this->t_teacher_lecture_appointment_info->get_tea_list_by_reference($agent_teacher_info['phone']);
+
+
 
     }
 

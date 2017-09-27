@@ -2225,6 +2225,45 @@ class test_code extends Controller
         echo "<br>";
     }
 
+    public function get_zhao_num(){
+        $phone = "15831024307";
+        $identity = 1;
+        $price = $this->get_teacher_reference_price($phone,$identity);
+        echo $price;
+    }
+
+    public function get_teacher_list_for_total_info(){
+        $month_start = $this->get_in_int_val("month_start",1);
+        $month_end   = $this->get_in_int_val("month_end",2);
+
+        $start_time = strtotime("2017-$month_start");
+        $end_time   = strtotime("2017-$month_end");
+        // $end_time   = strtotime("+1 month",$start_time);
+        if($month_start>$month_end){
+            return $this->output_err("时间出错!结束不能小于开始!");
+        }
+
+        $list = $this->t_lesson_info_b3->get_teacher_list_for_total_info($start_time,$end_time);
+        echo "姓名|手机|常规学生数|试听课次|成功课次|科目";
+        echo "<br>";
+        foreach($list as $val){
+            $subject_str = "";
+            if($val['stu_subject']!=""){
+                $subject_arr = explode(",",$val['stu_subject']);
+                foreach($subject_arr as $sub_val){
+                    if($subject_str==""){
+                        $subject_str = E\Esubject::get_desc($sub_val);
+                    }else{
+                        $subject_str .= ",".E\Esubject::get_desc($sub_val);
+                    }
+                }
+            }
+            echo $val['realname']."|".$val['phone']."|".$val['normal_stu_num']
+                                 ."|".$val["trial_num"]."|".$val['succ_num']."|".$subject_str;
+            echo "<br>";
+        }
+    }
+
     public function get_month_list(){
         // $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,0,-1,-1,0,0);
         // foreach($list as $val){

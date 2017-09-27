@@ -63,13 +63,14 @@ class teaching_menu{
                         [ "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                         [ "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                         [ "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],
-                        [ "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
+                        [ "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
                         [ "name"=>"兼职老师退费处理","url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
                         [ "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                         [ "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                         [ "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                         ["name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_yy"],
                         [ "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint_tea"],
+                        [ "name"=>"微信推送",   "url"=>"/user_manage_new/wx_monitor_new_yy"],
                     ]],
 
 
@@ -133,7 +134,8 @@ class teaching_menu{
                         ["name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                         [ "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                         [ "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
-                        [ "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea"],
+                        [ "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher_tea_jy"],
+
 
                         [ "name"=>"试听转化率模型",  "list"=>[
                             [ "name"=>"试听转化率黑名单",   "url"=>"/tongji_ss/get_test_lesson_low_tra_teacher"],

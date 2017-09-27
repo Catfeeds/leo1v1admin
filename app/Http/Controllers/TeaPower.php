@@ -737,7 +737,7 @@ trait TeaPower {
                         );
                     }
                 }elseif($grade==203){
-                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 ){
+                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 && $grade_part_ex!=6 ){
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );
@@ -2028,7 +2028,7 @@ trait TeaPower {
                     <div class='t20'>
                         【关于理优】
                     </div>
-                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
+                    理优1对1致力于为小初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
                 </div>
             </div>
     </body>
@@ -2224,28 +2224,10 @@ trait TeaPower {
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[21,22,31])){
-                if(in_array($teacher_info['identity'],[5,6,7])){
-                    $type = 1;
-                }else{
-                    $type = 2;
-                }
-
-                $check_flag = $this->check_is_special_reference($reference_info['phone']);
-                if($check_flag){
-                    $begin_time = 0;
-                }else{
-                    $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                    $begin_time = strtotime($begin_date);
-                }
-
-                $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-                    $reference_info['phone'],$type,$begin_time
-                );
-
-                $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
+                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price*100,
+                    "money"      => $ref_price,
                     "money_info" => $teacher_info['teacherid'],
                     "add_time"   => time(),
                     "type"       => E\Ereward_type::V_6,
@@ -2372,7 +2354,7 @@ trait TeaPower {
             </div>
             <div class='about_us' align='left'>
                 <div class='us_title size20 color333'>关于我们</div>
-                <div class='size14' style='text-indent:2em'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
+                <div class='size14' style='text-indent:2em'>理优1对1致力于为小初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
                     获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
                     GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
                 </div>
@@ -2521,6 +2503,28 @@ trait TeaPower {
             $check_flag=0;
         }
         return $check_flag;
+    }
+
+    /**
+     * 获取老师的高校生/在校老师的推荐数量
+     * @param phone 推荐人手机号
+     * @param identity 被推荐人身份
+     */
+    public function get_teacher_reference_price($phone,$identity){
+        $reference_type = \App\Config\teacher_rule::check_reference_type($identity);
+        $check_flag     = $this->check_is_special_reference($phone);
+        if($check_flag){
+            $begin_time = 0;
+        }else{
+            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+            $begin_time = strtotime($begin_date);
+        }
+
+        $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+            $phone,$reference_type,$begin_time
+        );
+        $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
+        return $ref_price*100;
     }
 
     /**
@@ -2943,7 +2947,7 @@ trait TeaPower {
                     <div class='t20'>
                         【关于理优】
                     </div>
-                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
+                    理优1对1致力于为小初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
                 </div>
             </div>
     </body>
