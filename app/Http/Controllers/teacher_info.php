@@ -2153,7 +2153,7 @@ class teacher_info extends Controller
         $visitid      = $this->get_in_int_val('visitid', 0);
         $requireid    = $this->get_in_int_val('requireid', 0);
         $success_flag = $this->get_in_int_val('success_flag', 0);
-        $fail_reason = $this->get_in_int_val('fail_reason', '');
+        $fail_reason  = $this->get_in_str_val('fail_reason', '');
 
         if ($visitid == 0 & $grabid >0) {//首次打开页面,自动记录
             $ret = $this->t_grab_lesson_link_visit_info->row_insert([
