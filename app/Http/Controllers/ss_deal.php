@@ -2600,17 +2600,6 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-
-        // if($require_id>0){
-        //     $this->t_test_lesson_subject_require->field_update_list($require_id,[
-        //         "change_teacher_reason"          => $change_reason,
-        //         "change_teacher_reason_img_url"  => $change_reason_url,
-        //         "change_teacher_reason_type" => $change_teacher_reason_type
-        //     ]);
-        // }
-
-        // dd($ret);
         if (!$ret){
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
 
