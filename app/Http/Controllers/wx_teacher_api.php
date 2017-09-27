@@ -644,6 +644,8 @@ class wx_teacher_api extends Controller
         $lessonid        = $this->get_in_int_val('lessonid');
         $is_role_account = $this->get_in_int_val('role_account'); // 1:家长 2:老师
 
+        \App\Helper\Utils::logger("keep_lesson_time");
+
         if($is_role_account == 1){
             $parent_keep_original_remark  = $this->get_in_str_val('parent_keep_original_remark');
             $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
@@ -660,9 +662,13 @@ class wx_teacher_api extends Controller
         }
 
         if($ret){
-            $this->send_wx_msg_by_keep($lessonid,$is_role_account );
+            $ret_wx = $this->send_wx_msg_by_keep($lessonid,$is_role_account );
+
             return $this->output_succ();
         }
+
+        \App\Helper\Utils::logger("ret_wx: $ret_wx  ret: $ret");
+
     }
 
 
@@ -934,14 +940,16 @@ class wx_teacher_api extends Controller
     public function send_wx_msg_by_agree($lessonid,$is_teacher_agree){ // 家长或老师 同意了时间后 发送微信推送
 
         $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
-        $lesson_name       = $this->t_lesson_info_b2->get_lesson_name($lessonid);
+        $subject       = $this->t_lesson_info_b2->get_subject($lessonid);
         $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
         $lesson_time_arr   = $this->t_lesson_info_b2->get_modify_lesson_time($lessonid);
-        $lesson_new_time   = date('m月d日',$lesson_time_arr['lesson_start']).' - '.date('H:i:s',$lesson_time_arr['lesson_end']);
+        $lesson_new_time   = date('m月d日 H:i',$lesson_time_arr['lesson_start']).' - '.date('H:i',$lesson_time_arr['lesson_end']);
 
         $lesson_old_time_str  = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
         $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
-        $lesson_old_time      = date('m月d日 H:i:s',$lesson_old_time_arr[0]).' - '.date('H:i:s',$lesson_old_time_arr[1]);
+        $lesson_old_time      = date('m月d日 H:i',$lesson_old_time_arr[0]).' - '.date('H:i',$lesson_old_time_arr[1]);
+
+        $lesson_name = E\Esubject::get_desc($subject);
 
         if($is_teacher_agree == 1){ // 家长同意
             $data['first']        = "$teacher_nick 老师您好, { $stu_nick }的家长同意将时间做出如下修改,原课程时间:{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
@@ -974,7 +982,7 @@ class wx_teacher_api extends Controller
         $teacher_url = ''; //待定
         $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
         $data['keyword1']   = " {".$lesson_name."}";
-        $data['keyword2']   = " {".$lesson_new_time."}";
+        $data['keyword2']   = '原时间:'.$lesson_old_time.' 修改后时间'. $lesson_new_time;
         $data['keyword3']   = " {".$stu_nick."}";
         $data['remark']     = "感谢老师的支持!";
 
@@ -996,7 +1004,7 @@ class wx_teacher_api extends Controller
         $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
         $data_parent = [
             'keyword1' =>"$lesson_name",
-            'keyword2' => "$lesson_new_time",
+            'keyword2'  => '原时间:'.$lesson_old_time.' 修改后时间'. $lesson_new_time,
             'keyword3' => "$stu_nick",
             'remark'   => '请注意调整后的时间,感谢家长的支持!'
         ];
@@ -1013,7 +1021,7 @@ class wx_teacher_api extends Controller
 
         $data_leo = [
             'keyword1' => "$lesson_name",
-            'keyword2' => "$lesson_new_time",
+            'keyword2'  => '原时间:'.$lesson_old_time.' 修改后时间'. $lesson_new_time,
             'keyword3' => "$stu_nick",
             'remark'   => "请注意调整您的时间安排!"
         ];
