@@ -2613,6 +2613,19 @@ class ss_deal extends Controller
                 "change_teacher_reason_img_url"  => $change_reason_url,
                 "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
+
+            if(!$change_teacher_reason_type || !$change_reason ){//james
+                //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                $data = [
+                    'first'    => '换老师统计-调试',
+                    'keyword1' => '换老师统计-调试',
+                    'keyword2' => '换老师统计-调试'
+                ];
+                $teacher_url = 'http://admin.yb1v1.com/tongji_ss/tongji_change_teacher_info';
+
+                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc','rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o', $data,$teacher_url);
+
+            }
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
             return $this->output_succ();

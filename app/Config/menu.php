@@ -826,6 +826,8 @@ class menu{
                 ["power_id"=>42, "name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                 ["power_id"=>43, "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
                 ["power_id"=>44, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent_tea"],
+                [ "power_id"=>45,"name"=>"兼职老师薪资处理-教研",   "url"=>"/user_manage/complaint_department_deal_teacher_tea_jy"],
+
 
                 ["power_id"=>31, "name"=>"试听转化率模型",  "list"=>[
                     // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
