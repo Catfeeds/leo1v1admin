@@ -4319,7 +4319,7 @@ class user_manage_new extends Controller
         $discount_price   = $this->get_in_str_val("discount_price");
         $account = $this->get_account();
 
-        if(!in_array($account,["zero","echo","jack"])){
+        if(!in_array($account,["zero","echo"])){
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
