@@ -2610,7 +2610,7 @@ class ss_deal extends Controller
         //     ]);
         // }
 
-
+        // dd($ret);
         if (!$ret){
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
 
@@ -2623,7 +2623,7 @@ class ss_deal extends Controller
                 "is_green_flag"          =>$is_green_flag,
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"  => $change_reason_url,
-                "change_teacher_reason_type" => $change_teacher_reason_type
+                "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
