@@ -3390,9 +3390,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "price > 0",
             "m.account_role = 1"
         ];
-        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,count(orderid ) as order_num "
-                                ."from %s o "
-                                ."left join %s m on o.sys_operator = m.account"
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,count(orderid ) as order_num , sum(if(contract_type  =3, price, 0)) as total_renew, sum(if(contract_type =3, 1, 0)) as renew_num  "
+                                ." from %s o "
+                                ." left join %s m on o.sys_operator = m.account"
                                 ." where %s",
                                 self::DB_TABLE_NAME,
                                 t_manager_info::DB_TABLE_NAME,
