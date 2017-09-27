@@ -974,7 +974,8 @@ class teacher_info extends Controller
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
         //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
-            "err_info"=>$err_info
+            "err_info"=>$err_info,
+            "grabid" => $grabid
         ]);
     }
 
