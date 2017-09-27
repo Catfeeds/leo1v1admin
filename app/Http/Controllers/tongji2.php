@@ -1178,9 +1178,10 @@ class tongji2 extends Controller
         }
 
         //扩科
-        $kk = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
-        dd($kk);
+        $kk          = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+        $success_num = $this->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
         $arr['total_test_lesson_num'] = $kk['total_test_lesson_num'];
+        $arr['success_num'] = $success_num;
         $arr['fail_num'] = $kk['fail_num'];
         $arr['wait_num'] = $kk['wait_num'];
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);

@@ -445,7 +445,7 @@ class teacher_level extends Controller
 
     public function set_teacher_advance_require_master(){
         $teacherid = $this->get_in_int_val("teacherid");
-        $start_time = $this->get_in_str_val("start_time");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
         $level_after = $this->get_in_int_val("level_after");
         $accept_flag = $this->get_in_int_val("accept_flag");
         $accept_info = trim($this->get_in_str_val("accept_info"));
