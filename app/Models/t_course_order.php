@@ -1140,7 +1140,7 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
 
 
     public function update_course_status($courseid){
-        $sql = $this->gen_sql_new("update %s set course_status = 1 "
+        $sql = $this->gen_sql_new("update %s set course_status = 0 "
                                 ."where courseid = %u ",
                             self::DB_TABLE_NAME,
                             $courseid
