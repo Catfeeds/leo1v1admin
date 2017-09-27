@@ -1776,7 +1776,7 @@ class tongji extends Controller
         }
         $money6_arr = array_column($ret_info,'money6');
         array_multisort($money6_arr,SORT_DESC,$ret_info);
-        foreach($ret as $key=>$item){
+        foreach($ret_info as $key=>$item){
             $ret_info[$key]['id'] = $num++;
         }
 
