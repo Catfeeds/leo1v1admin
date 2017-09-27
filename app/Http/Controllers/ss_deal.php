@@ -262,6 +262,10 @@ class ss_deal extends Controller
         $phone                          = $this->get_in_phone();
         $test_lesson_subject_id         = $this->get_in_test_lesson_subject_id();
         $stu_nick                       = $this->get_in_str_val("stu_nick");
+        $parent_name                    = $this->get_in_str_val("parent_name");
+        $gender                         = $this->get_in_str_val("gender");
+        $grade                          = $this->get_in_str_val("grade");
+        $subject                        = $this->get_in_str_val("subject");
         $editionid                      = $this->get_in_int_val("editionid");
         $school                         = $this->get_in_str_val("school");
         $stu_request_test_lesson_time   = $this->get_in_str_val("stu_request_test_lesson_time");
@@ -300,13 +304,13 @@ class ss_deal extends Controller
             $stu_request_test_lesson_time=0;
         }
 
-
         $stu_arr=[
             "nick"        => $stu_nick,
+            "parent_name" => $parent_name,
+            "gender"      => $gender,
             "editionid"   => $editionid,
             "school"      => $school,
         ];
-
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
 
@@ -315,6 +319,7 @@ class ss_deal extends Controller
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             "ass_test_lesson_type" => $ass_test_lesson_type,
+            "subject" => $subject,
         ];
 
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
@@ -326,7 +331,8 @@ class ss_deal extends Controller
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "change_teacher_reason"          => $change_reason,
             "change_teacher_reason_img_url"      => $change_reason_url,
-            "change_teacher_reason_type" => $change_teacher_reason_type
+            "change_teacher_reason_type" => $change_teacher_reason_type,
+            "test_stu_grade"   => $grade,
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
