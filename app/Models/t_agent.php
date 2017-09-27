@@ -1146,7 +1146,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     return  E\Eagent_status::V_20;
                 }
             }else{
-                if ($global_tq_called_flag==2) {
+                if ($global_tq_called_flag==1 ) {
+                    return  E\Eagent_status::V_2;
+                } else if ($global_tq_called_flag==2) {
                     return  E\Eagent_status::V_10;
                 }
             }
