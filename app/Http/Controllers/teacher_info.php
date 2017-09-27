@@ -938,7 +938,7 @@ class teacher_info extends Controller
         $text       = $this->get_in_str_val("text");
         $time       = $this->get_in_str_val("time","0");
         // $require_id = trim(base64_decode($text),",");
-        $grabid = base64_decode($text);
+        $grabid     = base64_decode($text);
         $require_id = $this->t_grab_lesson_link_info->get_requireids_by_grabid($grabid);
 
 

@@ -551,7 +551,6 @@ class wx_yxyx_common extends Controller
         } else {
             return $this->output_err("信息有误！");
         }
-        // dd($ret_info);
     }
 
     public function get_yxyx_one_new(){
@@ -562,7 +561,6 @@ class wx_yxyx_common extends Controller
         } else {
             return $this->output_err("信息有误！");
         }
-        // dd($ret_info);
     }
 
     public function get_wx_openid(){
