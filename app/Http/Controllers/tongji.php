@@ -1776,4 +1776,19 @@ class tongji extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
+
+    public function seller_personal_rank() {
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+
+        $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
+
+        foreach ($ret_info["list"] as $key=> &$item) {
+            $item["index"]=$key+1;
+            $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
+
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+
 }
