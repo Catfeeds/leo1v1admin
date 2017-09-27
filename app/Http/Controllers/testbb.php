@@ -240,6 +240,9 @@ class testbb extends Controller
 
     public function ss(){
 
+        dd($lesson_name = E\Esubject::get_desc(1));
+
+
         //547549
         $ret = $this->t_test_lesson_subject_require->check_is_end_by_test_lesson_subject_id(547549);
 
