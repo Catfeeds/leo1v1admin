@@ -125,7 +125,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
                                     ." from %s y "
                                     ." left join %s tv on y.id=tv.test_pic_info_id"
-                                    ." and tv.wx_openid=$wx_openid"
+                                    ." and tv.wx_openid='$wx_openid'"
                                     ." where %s"
                                     ,self::DB_TABLE_NAME
                                     ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
