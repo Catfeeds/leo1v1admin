@@ -238,6 +238,7 @@ class testbb extends Controller
 
 
     public function get_num(){
+        $this->switch_tongji_database();
         $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
     }
 
