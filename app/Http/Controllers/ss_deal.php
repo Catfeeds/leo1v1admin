@@ -2534,7 +2534,6 @@ class ss_deal extends Controller
             ]);
         }
 
-        // $grade = $this->t_student_info->get_grade($userid);
 
         // init t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(

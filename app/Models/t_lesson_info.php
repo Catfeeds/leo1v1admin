@@ -9590,7 +9590,7 @@ lesson_type in (0,1) "
         $where_arr = [
             ['lesson_start>%u',$start_time,-1],
             ['lesson_start<%u',$end_time,-1],
-            " (lesson_cancel_reason_type = 12 or lesson_cancel_reason_type = 11) ",
+            " lesson_cancel_reason_type in (3,4,11,12) ",
         ];
         $sql = $this->gen_sql_new("select lesson_cancel_reason_type,  sum(lesson_count) as num ".
                                   "from %s  ".
