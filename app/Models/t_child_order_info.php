@@ -8,8 +8,12 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
 		parent::__construct();
 	}
 
-    public function get_all_child_order_info($orderid){
-        $sql = $this->gen_sql_new("select * from %s where parent_orderid = %u",self::DB_TABLE_NAME,$orderid);
+    public function get_all_child_order_info($orderid,$child_order_type=-1){
+        $where_arr=[
+            ["child_order_type=%u",$child_order_type,-1],                 
+            ["parent_orderid=%u",$orderid,-1],                 
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 

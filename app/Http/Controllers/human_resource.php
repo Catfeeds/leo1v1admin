@@ -676,7 +676,7 @@ class human_resource extends Controller
         return $this->teacher_info_new () ;
     }
     public function index_zs(){
-        return $this->teacher_info_new () ;
+        return $this->teacher_info_new() ;
     }
 
     public function index_new_jw(){
@@ -3925,6 +3925,7 @@ class human_resource extends Controller
 
     public function teacher_info_new(){
         $this->switch_tongji_database();
+        list($through_start,$through_end) = $this->get_in_date_range(0,0,0,null,3);
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $is_freeze              = $this->get_in_int_val('is_freeze',-1);
         $free_time              = $this->get_in_str_val("free_time","");
@@ -3941,13 +3942,13 @@ class human_resource extends Controller
         $seller_flag            = $this->get_in_int_val("seller_flag",0);
         $adminid                = $this->get_account_id();
 
-        $right_list             = $this->get_tea_subject_and_right_by_adminid($adminid);
-        $tea_subject            = $right_list["tea_subject"];
-        $tea_right              = $right_list["tea_right"];
-        $qz_flag                = $right_list["qz_flag"];
+        $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
+        $tea_subject = $right_list["tea_subject"];
+        $tea_right   = $right_list["tea_right"];
+        $qz_flag     = $right_list["qz_flag"];
 
         if($adminid==486 || $adminid==478){
-            $tea_subject= "";
+            $tea_subject = "";
         }
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
@@ -3965,7 +3966,7 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr
+            $lend,$teacherid_arr,$through_start,$through_end
         );
 
         foreach($ret_info['list'] as  &$item){
