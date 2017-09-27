@@ -1147,11 +1147,12 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         );
         $ret =  $this->main_update($sql);
     }
-    function get_course_list($course_status = 0){
+    function get_course_list(){
         $where_str=$this->where_str_gen([
-            ["course_status=%u",$course_status,0],
-            "t1.userid > 0", //
-            "t1.assigned_lesson_count >0 ",//
+            //["course_status=%u",$course_status,0],
+            //"t1.userid > 0", //
+            //"t1.assigned_lesson_count >0 ",//
+            "course_status=0"
         ]);
 
         $sql=$this->gen_sql("select t1.userid,t1.courseid,"
