@@ -2760,7 +2760,7 @@ class user_manage_new extends Controller
         $reference_phone = $this->t_teacher_info->get_phone($reference);
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type,$reference_phone
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
             );
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
