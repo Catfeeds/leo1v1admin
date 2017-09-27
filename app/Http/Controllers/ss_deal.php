@@ -2620,12 +2620,13 @@ class ss_deal extends Controller
                 "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
 
-            if(!$change_teacher_reason_type || !$change_reason ){//james
+            if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
                 //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                $now = date('Y-m-d H:i:s',time());
                 $data = [
                     'first'    => '换老师统计-调试',
                     'keyword1' => '换老师统计-调试',
-                    'keyword2' => '换老师统计-调试'
+                    'keyword2' => "换老师统计-调试 $now"
                 ];
                 $teacher_url = 'http://admin.yb1v1.com/tongji_ss/tongji_change_teacher_info';
 

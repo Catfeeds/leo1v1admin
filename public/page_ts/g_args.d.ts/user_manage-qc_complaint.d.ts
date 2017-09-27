@@ -3,6 +3,7 @@ interface GargsStatic {
 	page_count:	number;
 	account_type:	number;
 	is_complaint_state:	number;
+	is_allot_flag:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -63,6 +64,7 @@ $(function(){
         $.reload_self_page ( {
 			account_type:	$('#id_account_type').val(),
 			is_complaint_state:	$('#id_is_complaint_state').val(),
+			is_allot_flag:	$('#id_is_allot_flag').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -84,6 +86,7 @@ $(function(){
     });
 	$('#id_account_type').val(g_args.account_type);
 	$('#id_is_complaint_state').val(g_args.is_complaint_state);
+	$('#id_is_allot_flag').val(g_args.is_allot_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -105,6 +108,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">is_complaint_state</span>
                 <input class="opt-change form-control" id="id_is_complaint_state" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_allot_flag</span>
+                <input class="opt-change form-control" id="id_is_allot_flag" />
             </div>
         </div>
 */

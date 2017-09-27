@@ -180,6 +180,7 @@ class NewRouteConfig {
         "/common/baidu_callback_return_info"      => true,
 
         "/user_manage/set_refund_money"        => true,
+        "/user_manage/complaint_department_deal_teacher_tea_jy" => true,
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"     => true,
         "/user_manage/complaint_department_deal_teacher_qc"  => true,
@@ -206,6 +207,7 @@ class NewRouteConfig {
         "/user_manage/refund_list_finance"                      => true,
         "/user_manage/set_contract_payed_new"                   => true,
         "/user_manage/del_contract"                => true,
+        "/user_manage/set_dynamic_passwd"                => true,
         "/user_manage/contract_list_seller_add"                 => true,
         "/user_manage/contract_list_seller_payed"               => true,
         "/user_manage/contract_list_seller_mix"                 => true,

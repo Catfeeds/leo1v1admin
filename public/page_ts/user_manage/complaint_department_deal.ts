@@ -10,7 +10,11 @@ $(function(){
             date_type:	$('#id_date_type').val(),
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
-            end_time:	$('#id_end_time').val()
+            end_time:	$('#id_end_time').val(),
+            is_complaint_state:	$('#id_is_complaint_state').val(),
+            is_allot_flag:	$('#id_is_allot_flag').val(),
+            // account_type:	$('#id_account_type').val(),
+
         });
     }
 
@@ -26,6 +30,12 @@ $(function(){
         }
     });
 
+    Enum_map.append_option_list( "complaint_state", $("#id_is_complaint_state"));
+    // Enum_map.append_option_list( "complaint_user_type", $("#id_account_type"));
+
+    // $('#id_account_type').val(g_args.account_type);
+    $('#id_is_complaint_state').val(g_args.is_complaint_state);
+    $('#id_is_allot_flag').val(g_args.is_allot_flag);
 
 
 
