@@ -1760,7 +1760,7 @@ class tongji extends Controller
                     $money6 += $money;
                 }
             }
-            $ret_info[$key]['id']      = $num++;
+            // $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
             $ret_info[$key]['money1']  = $money1/100;
@@ -1776,6 +1776,10 @@ class tongji extends Controller
         }
         $money6_arr = array_column($ret_info,'money6');
         array_multisort($money6_arr,SORT_DESC,$ret_info);
+        foreach($ret as $key=>$item){
+            $ret_info[$key]['id'] = $num++;
+        }
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 
