@@ -1351,9 +1351,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function jack_test(){
-        $config=\App\Helper\Config::get_config("ali_oss");
+        $config=\App\Helper\Config::get_config("monitor_new_url");
 
-        define("filePath","/tmp/");//.pfx和.cer文件放置的地址
+        define("filePath",$config."/tmp/");//.pfx和.cer文件放置的地址
         define("pfxFileName","MC1005928_CCB.pfx");//.pfx文件名
         define("password","14285714");//.pfx文件的密码
         /*实现.pfx文件转为.pem文件*/
