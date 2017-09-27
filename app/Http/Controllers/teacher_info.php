@@ -2174,7 +2174,7 @@ class teacher_info extends Controller
                 'operation' => 1,
             ]);
 
-            //修改逻辑，visitid-requireid-teacherid三个对应唯一
+            //修改逻辑，visitid-requireid-teacherid三个唯一
             $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid, $visitid);
 
             if ($operationid > 0 ){

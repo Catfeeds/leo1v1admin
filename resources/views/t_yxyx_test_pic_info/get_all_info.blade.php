@@ -36,6 +36,12 @@
                     <button class="btn btn-primary add_new">添加</button>
                 </div>
             </div>
+            <!-- <div class="col-xs-2">
+                 <div class="input-group input-group-btn ">
+                 <a href="/t_yxyx_custom_type/get_all" target="_block" class="btn btn-info">添加自定义标签</a>
+                 </div>
+                 </div>
+               -->
         </div>
         <hr/>
         <table class="common-table">
