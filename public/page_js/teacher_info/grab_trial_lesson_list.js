@@ -47,7 +47,7 @@ $(function(){
                                         },2000);
 
                                     }else{
-                                        add_or_update_visit( grabid, visitid, requireid,0,result.info);
+                                        add_or_update_visit( grabid, visitid, requireid,0, result.info);
                                         BootstrapDialog.alert(result.info);
                                     }
                                 })
