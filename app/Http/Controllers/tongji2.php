@@ -1169,8 +1169,8 @@ class tongji2 extends Controller
         }
 
         //转介绍
-        $arr['tranfer_num']   = $ret_total[0]['tranfer_num'];  //转介绍成单数量
-        $arr['total_tranfer'] = $ret_total[0]['total_tranfer']; //转介绍总金额
+        $arr['tranfer_num']   = $ret_total[0]['tranfer_num']/1;  //转介绍成单数量
+        $arr['total_tranfer'] = $ret_total[0]['total_tranfer']/100; //转介绍总金额
         if($arr['tranfer_num'] > 0){
             $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
         }else{
