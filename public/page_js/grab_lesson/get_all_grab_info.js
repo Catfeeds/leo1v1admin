@@ -92,7 +92,14 @@ $(function(){
                         return item.requireid ;
                     }
 
+                },{
+                    title:"失败原因",
+                    render:function(val,item) {
+                        return item.fail_reason ;
+                    }
+
                 }
+
 
             ] ,
             filter_list: [],
