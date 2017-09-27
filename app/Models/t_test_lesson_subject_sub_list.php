@@ -1234,6 +1234,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   , t_manager_info::DB_TABLE_NAME
                                   , t_assistant_info::DB_TABLE_NAME
                                   , $where_arr);
+        print($sql);
         return $this->main_get_row($sql);
     }
 
