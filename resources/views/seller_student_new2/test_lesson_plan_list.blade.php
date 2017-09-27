@@ -480,7 +480,7 @@
                                     @endif
                                     @if ($cur_page =="ass_test_lesson_list" || $cur_page =="ass_test_lesson_list_tran" )
                                         <a title="上传试卷" id="upload-test-paper-{{$var["require_id"]}}" class="fa-upload opt-upload-test-paper show_flag"></a>
-                                        <a title="编辑" class=" fa-edit opt-edit-new show_flag"></a>
+                                        <a title="编辑" class=" fa-edit opt-edit show_flag"></a>
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
                                         <a title="排课" class=" opt-set-lesson-new show_flag">驳回&排课 </a>
