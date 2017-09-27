@@ -89,7 +89,7 @@ $(function(){
                 },{
                     title:"requireid",
                     render:function(val,item) {
-                        return $(item.requireid) ;
+                        return item.requireid ;
                     }
 
                 }
