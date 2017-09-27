@@ -13,8 +13,11 @@ $(function(){
 			      level               : $('#id_level').val(),
 			      show_data           : $('#id_show_data').val(),
 			      show_type           : $('#id_show_type').val(),
+			      reference : $('#id_reference').val(),
         });
     }
+    $.admin_select_user($("#id_reference"),"teacher");
+    $("#id_reference").val(g_args.reference);
 
     $('#id_date_range').select_date_range({
         'date_type'      : g_args.date_type,

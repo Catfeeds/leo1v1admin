@@ -2740,6 +2740,7 @@ class user_manage_new extends Controller
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
         $show_type                   = $this->get_in_str_val("show_type","current");
+        $reference                   = $this->get_in_str_val("reference");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
@@ -2758,7 +2759,7 @@ class user_manage_new extends Controller
 
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
+                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type,$reference
             );
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
@@ -4320,6 +4321,7 @@ class user_manage_new extends Controller
         if(!in_array($account,["zero","echo"])){
             return $this->output_err("你没有权限");
         }
+
 
         $ret = $this->t_order_info->field_update_list($orderid,[
             "price"          => $price*100,
