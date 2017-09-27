@@ -486,7 +486,7 @@ class wx_yxyx_common extends Controller
     public function get_one_test_and_other() {
         $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
-        $wx_openid = $this->get_in_int_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', 0);
         if ($id < 0){
             return $this->output_err('信息有误！');
         }
