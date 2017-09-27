@@ -39,8 +39,12 @@ class test_sam  extends Controller
             if($ret[$key]["left_lesson_count"] > 0){
                 echo "<br>";
                 echo $value['userid']."|".$value['courseid']."|".$value['left_lesson_count'];
+
+                $ret_info = $this->t_course_order->update_course_status($ret[$key]['courseid']);
+                if($ret_info){
+                    echo "success";
+                }
                 echo "</br>";
-                //$ret_info = $this->task->t_course_order->update_course_status($ret[$key]['courseid']);
             }
         }
     }
