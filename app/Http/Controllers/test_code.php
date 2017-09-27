@@ -2236,12 +2236,17 @@ class test_code extends Controller
         $month_start = $this->get_in_int_val("month_start",1);
         $month_end   = $this->get_in_int_val("month_end",2);
 
+        // $not_month_start = $this->get_in_int_val("not_month_start",3);
+        // $not_month_end = $this->get_in_int_val("not_month_end",4);
+
         $start_time = strtotime("2017-$month_start");
         $end_time   = strtotime("2017-$month_end");
+        // $not_start_time = strtotime("2017-$not_month_start");
+        // $not_end_time   = strtotime("2017-$not_month_end");
         // $end_time   = strtotime("+1 month",$start_time);
-        if($month_start>$month_end){
-            return $this->output_err("时间出错!结束不能小于开始!");
-        }
+        // if($month_start>$month_end || $not_start_time>$not_end_time){
+        //     return $this->output_err("时间出错!结束不能小于开始!");
+        // }
 
         $list = $this->t_lesson_info_b3->get_teacher_list_for_total_info($start_time,$end_time);
         echo "姓名|手机|常规学生数|试听课次|成功课次|科目";

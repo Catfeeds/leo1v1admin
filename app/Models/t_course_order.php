@@ -557,7 +557,7 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                             ." from %s "
                             ." where userid = %u "
                             ." and teacherid = %u "
-                            ." and course_status=0 "
+                            // ." and course_status=0 "
                             ." and course_type <>2 "
                             ." and competition_flag = %u "
                             ,self::DB_TABLE_NAME

@@ -199,11 +199,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $set_stu_arr["origin_level"] =$origin_level;
 
         $phone_location = \App\Helper\Common::get_phone_location($phone);
+        /*
         if( !in_array( $origin_level , [90,99] )  &&  in_array( substr($phone_location,0 ,6) , ["上海","浙江" ] ) && $has_pad =  E\Epad_type::V_1  ) {
             $set_stu_arr["origin_level"] =  0;
         }else{
             //$set_stu_arr["origin_level"] =  2;
         }
+        */
 
         $this->t_student_info->field_update_list( $userid, $set_stu_arr );
 
@@ -1871,11 +1873,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr=[];
         $competition_call_time = time(NULL)   -3600*2;
+        $last_contact_time = time(NULL)   -3600*1;
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
         $where_arr[] =  't.seller_student_status in (1,2,101,102)';
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
+        $where_arr[] =  "last_contact_time <  $last_contact_time " ;
+
         //E\Eseller_student_status
         //if ( $seller_student_status ==2 ) {
         //$where_arr[] =  'n.call_admin_count>0 ';

@@ -21,8 +21,9 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                 ["power_id"=>18, "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
-                ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
-                ["power_id"=>19, "name"=>"老师晋升审核new","url"=>"/teacher_level/teacher_advance_info_list"],
+                ["power_id"=>16, "name"=>"老师晋升审核-兼职","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>19, "name"=>"老师晋升审核-教研","url"=>"/teacher_level/teacher_advance_info_list"],
+                ["power_id"=>20, "name"=>"老师晋升审核-全职","url"=>"/teacher_level/get_teacher_advance_info_fulltime"],
                 ["power_id"=>17, "name"=>"切换薪资审核","url"=>"/teacher_level/teacher_switch_list_finally"],
             ]],
 
@@ -415,53 +416,38 @@ class menu{
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
                     ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
+                    ["power_id"=>37, "name"=>"销售个人排行榜",   "url"=>"/tongji/seller_personal_rank"],
                     ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"销售时效统计",   "url"=>"/tongji/seller_time"],
                     ["power_id"=>36, "name"=>"销售-时报", "url"=>"/tongji/seller_call_rate"],
-
-                    ["power_id"=>4, "name"=>"试听排课统计",
-                     "url"=>"/tongji/test_lesson_tongi"],
-                    ["power_id"=>5, "name"=>"试听排课-明细",
-                     "url"=>"/tongji/test_lesson_detail_list"],
+                    ["power_id"=>4, "name"=>"试听排课统计", "url"=>"/tongji/test_lesson_tongi"],
+                    ["power_id"=>5, "name"=>"试听排课-明细", "url"=>"/tongji/test_lesson_detail_list"],
                     ["power_id"=>22, "name"=>"周排课量统计",   "url"=>"/tongji2/seller_week_lesson" ],
                     ["power_id"=>23, "name"=>"周排课量统计-主管",   "url"=>"/tongji2/seller_week_lesson_master" ],
                     ["power_id"=>24, "name"=>"周排课量回访统计",   "url"=>"/tongji2/seller_week_lesson_call" ],
                     ["power_id"=>26, "name"=>"周排课量回访统计-主管",   "url"=>"/tongji2/seller_week_lesson_call_master" ],
                     ["power_id"=>25, "name"=>"周排课量回访列表",   "url"=>"/tongji2/lesson_call_list" ],
                     ["power_id"=>27, "name"=>"试听课后2小时未回访列表",   "url"=>"/tongji2/lesson_end_call_list" ],
-                    ["power_id"=>6, "name"=>"首次回访例子数-小时",
-                     "url"=>"/tongji/first_revisite_time_list"],
+                    ["power_id"=>6, "name"=>"首次回访例子数-小时", "url"=>"/tongji/first_revisite_time_list"],
 
-                    ["power_id"=>61, "name"=>"首次回访例子数-间隔",
-                     "url"=>"/tongji2/first_call_info"],
+                    ["power_id"=>61, "name"=>"首次回访例子数-间隔", "url"=>"/tongji2/first_call_info"],
 
-
-                    ["power_id"=>7, "name"=>"试听首次回访时间统计",
-                     "url"=>"/tongji2/test_lesson_frist_call_time"],
-                    ["power_id"=>9, "name"=>"试听首次回访时间统计-主管",
-                     "url"=>"/tongji2/test_lesson_frist_call_time_master"],
-                    ["power_id"=>8, "name"=>"试听转化率统计",
-                     "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info"],
-                    ["power_id"=>10, "name"=>"试听转化率统计-试卷",
-                     "url"=>"/tongji_ss/tongji_seller_test_lesson_paper_order_info"],
+                    ["power_id"=>7, "name"=>"试听首次回访时间统计", "url"=>"/tongji2/test_lesson_frist_call_time"],
+                    ["power_id"=>9, "name"=>"试听首次回访时间统计-主管", "url"=>"/tongji2/test_lesson_frist_call_time_master"],
+                    ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info"],
+                    ["power_id"=>10, "name"=>"试听转化率统计-试卷", "url"=>"/tongji_ss/tongji_seller_test_lesson_paper_order_info"],
 
 
-                    ["power_id"=>11, "name"=>"例子销售分布",
-                     "url"=>"/tongji2/seller_student_admin_list"],
+                    ["power_id"=>11, "name"=>"例子销售分布", "url"=>"/tongji2/seller_student_admin_list"],
 
-                    ["power_id"=>12, "name"=>"例子销售拨打数",
-                     "url"=>"/tongji_ex/call_count"],
+                    ["power_id"=>12, "name"=>"例子销售拨打数", "url"=>"/tongji_ex/call_count"],
 
-                    ["power_id"=>13, "name"=>"转化率",
-                     "url"=>"/tongji_ex/test_lesson_order_info"],
+                    ["power_id"=>13, "name"=>"转化率", "url"=>"/tongji_ex/test_lesson_order_info"],
 
 
-                    ["power_id"=>14, "name"=>"转化率-明细",
-                     "url"=>"/tongji_ex/test_lesson_order_detail_list"],
+                    ["power_id"=>14, "name"=>"转化率-明细", "url"=>"/tongji_ex/test_lesson_order_detail_list"],
 
-                    ["power_id"=>15, "name"=>"销售规划统计",
-                     "url"=>"/main_page/get_seller_total_info"],
-
+                    ["power_id"=>15, "name"=>"销售规划统计", "url"=>"/main_page/get_seller_total_info"],
 
                 ]],
 
@@ -631,6 +617,7 @@ class menu{
                 ["power_id"=>42, "name"=>"学生单科目课时消耗",  "url"=>"/user_manage/student_single_subject"],
                 ["power_id"=>43, "name"=>"未试听扩课",  "url"=>"/user_manage/ass_no_test_lesson_kk_list"],
                 ["power_id"=>44, "name"=>"在读学员老师列表",  "url"=>"/user_manage/stu_all_teacher_all"],
+                ["power_id"=>49, "name"=>"周报-月报-new", "url" => "/tongji2/tongji_cr"],
 
             ]],
 

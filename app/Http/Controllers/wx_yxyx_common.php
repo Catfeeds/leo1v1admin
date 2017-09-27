@@ -451,7 +451,6 @@ class wx_yxyx_common extends Controller
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
         $wx_openid = $this->get_in_str_val('wx_openid', 0);
-        // $wx_openid = $this->get_wx_openid();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
@@ -465,7 +464,7 @@ class wx_yxyx_common extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
 
-        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒叙
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒序
         $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
@@ -487,7 +486,7 @@ class wx_yxyx_common extends Controller
     public function get_one_test_and_other() {
         $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
-        $wx_openid = $this->get_in_int_val('wx_openid', 1);
+        $wx_openid = $this->get_in_str_val('wx_openid', 0);
         if ($id < 0){
             return $this->output_err('信息有误！');
         }
@@ -563,13 +562,5 @@ class wx_yxyx_common extends Controller
         }
     }
 
-    public function get_wx_openid(){
-        $code       = $this->get_in_str_val("code");
-        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
-        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-        $token_info = $wx->get_token_from_code($code);
-        $openid     = @$token_info["openid"];
-        return $openid;
-    }
 
 }
