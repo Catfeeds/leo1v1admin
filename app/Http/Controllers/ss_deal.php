@@ -2578,7 +2578,7 @@ class ss_deal extends Controller
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
                 "change_teacher_reason"          => $change_reason,
-                "change_teacher_reason_img_url"      => $change_reason_url,
+                "change_teacher_reason_img_url"  => $change_reason_url,
                 "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
