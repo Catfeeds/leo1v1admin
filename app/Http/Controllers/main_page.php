@@ -357,6 +357,10 @@ class main_page extends Controller
         $next_revisit_count = isset($row_item['next_revisit_count'])?$row_item['next_revisit_count']:0;
         $next_time_str = "date_type=1&opt_date_type=0&start_time=".$before_week_today."&end_time=".$today;
         // dd($ret_info);
+        //判断是不是总监
+        $adminid   = $this->get_account_id();
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -377,6 +381,7 @@ class main_page extends Controller
             "seller_top_flag"        => $seller_top_flag,
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
+            "is_master"              => $is_master,
         ]);
     }
 
