@@ -1775,6 +1775,7 @@ class tongji extends Controller
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
         if(count($ret_info)>0){
+            dd($ret_info);
             $ret_info = array_sort($ret_info,'money6','desc');
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
