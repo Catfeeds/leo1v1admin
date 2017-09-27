@@ -199,11 +199,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $set_stu_arr["origin_level"] =$origin_level;
 
         $phone_location = \App\Helper\Common::get_phone_location($phone);
+        /*
         if( !in_array( $origin_level , [90,99] )  &&  in_array( substr($phone_location,0 ,6) , ["上海","浙江" ] ) && $has_pad =  E\Epad_type::V_1  ) {
             $set_stu_arr["origin_level"] =  0;
         }else{
             //$set_stu_arr["origin_level"] =  2;
         }
+        */
 
         $this->t_student_info->field_update_list( $userid, $set_stu_arr );
 

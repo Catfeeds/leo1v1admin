@@ -866,7 +866,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         }else{
             // $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
             $where_arr[]= "tr.cur_require_adminid in ($adminid_str)" ;
-            $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
+            // $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
         }
         $sql = $this->gen_sql_new("select tr.change_teacher_reason_img_url, tr.change_teacher_reason, tr.change_teacher_reason_type, tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject,tr.origin,tt.ass_test_lesson_type,"
                                   ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
