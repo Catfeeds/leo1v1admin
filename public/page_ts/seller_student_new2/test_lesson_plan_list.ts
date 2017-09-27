@@ -81,37 +81,22 @@ $(function(){
     $('#id_ass_test_lesson_type').val(g_args.ass_test_lesson_type);
     $('#id_jw_test_lesson_status').val(g_args.jw_test_lesson_status);
     $('#id_jw_teacher').val(g_args.jw_teacher);
-	$('#id_lesson_plan_style').val(g_args.lesson_plan_style);
+	  $('#id_lesson_plan_style').val(g_args.lesson_plan_style);
 
-    $.admin_select_user(
-        $('#id_tmk_adminid'),
-        "admin", load_data ,false, {
-            " main_type": -1 ,
-            select_btn_config: [
-                {
-                    "label": "[已分配]",
-                    "value": -2
-                }, {
-                "label": "[未分配]",
-                "value": 0
-            }]
-        }
-    );
-
-
-
-
-    $.admin_select_user(
-        $('#id_userid'),
-        "student", load_data);
-
-    $.admin_select_user($('#id_teacherid'),
-                        "teacher", load_data);
-
-    $.admin_select_user(
-        $('#id_require_adminid'),
-        "admin", load_data);
-
+    $.admin_select_user($('#id_tmk_adminid'),"admin",load_data,false,{
+        " main_type": -1 ,
+        select_btn_config: [{
+            "label": "[已分配]",
+            "value": -2
+        }, {
+            "label": "[未分配]",
+            "value": 0
+        }]
+    });
+    
+    $.admin_select_user($('#id_userid'),"student", load_data);
+    $.admin_select_user($('#id_teacherid'),"teacher", load_data);
+    $.admin_select_user($('#id_require_adminid'),"admin", load_data);
     $('.opt-change').set_input_change_event(load_data);
 
     if (window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_seller/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_ass_leader/" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader" || window.location.pathname=="/seller_student_new2/test_lesson_plan_list_jw_leader/") {

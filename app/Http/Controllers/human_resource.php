@@ -3925,6 +3925,7 @@ class human_resource extends Controller
 
     public function teacher_info_new(){
         $this->switch_tongji_database();
+        list($create_start,$create_end) = $this->get_in_date_range(0,0,0,null,1);
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $is_freeze              = $this->get_in_int_val('is_freeze',-1);
         $free_time              = $this->get_in_str_val("free_time","");
@@ -3965,7 +3966,7 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr
+            $lend,$teacherid_arr,$create_start,$create_end
         );
 
         foreach($ret_info['list'] as  &$item){

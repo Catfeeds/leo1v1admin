@@ -2535,6 +2535,8 @@ class ss_deal extends Controller
 
         $url = $this->get_in_str_val('change_reason_url');
 
+        \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
+
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -2550,8 +2552,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
-
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -2574,7 +2574,6 @@ class ss_deal extends Controller
                 "phone_location" => $phone_location,
             ]);
         }
-
 
         // init t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
