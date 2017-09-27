@@ -5455,6 +5455,7 @@ lesson_type in (0,1) "
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });

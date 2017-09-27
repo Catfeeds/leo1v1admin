@@ -2059,5 +2059,34 @@ $(function(){
          $("#id_plan_level").parent().parent().hide();
     }
 
+    $(".opt-identity").on("click",function(){
+	      var data = $(this).get_opt_data();
+
+        var id_identity = $("<select/>");
+        var arr = [
+            ["老师身份",id_identity]
+        ];
+        Enum_map.append_option_list("identity",id_identity,true);
+        id_identity.val(data.identity);
+
+        $.show_key_value_table("设置身份",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage_new/update_teacher_identity",{
+                    "teacherid" : data.teacherid,
+                    "identity"  : id_identity.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
+
+
 
 });

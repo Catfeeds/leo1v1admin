@@ -683,6 +683,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.lesson_start <= %u",$end_time,-1],
             //  "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
             "tr.type=10",
+            "l.lesson_del_flag = 0",
+            "l.lesson_type = 1100",
+            "l.train_type=5"
             // ["tr.trial_train_status=%u",$trial_train_status,-1]
         ];
         if($trial_train_status==-2){

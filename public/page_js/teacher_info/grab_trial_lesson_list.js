@@ -3,7 +3,7 @@
 $(function(){
 
     var visitid = 0;
-    var add_or_update_visit = function( grabid, visitid, requireid, succ_flag){
+    var add_or_update_visit = function( grabid, visitid, requireid, succ_flag,fail_reason){
         $.ajax({
             type    : "post",
             url     : "/teacher_info/grab_visit_info",
@@ -13,6 +13,7 @@ $(function(){
                 'visitid'      : visitid,
                 'requireid'    : requireid,
                 'success_flag' : succ_flag,
+                'fail_reason'  : fail_reason,
             },
             success : function (ret){
                 visitid   = ret.visitid;
@@ -39,14 +40,14 @@ $(function(){
                                 },function(result){
                                     var requireid = data.require_id;
                                     if(result.ret==0){
-                                        add_or_update_visit( grabid, visitid, requireid,1);
+                                        add_or_update_visit( grabid, visitid, requireid,1,'');
                                         BootstrapDialog.alert("抢课成功！请在课程列表中查看该课程！");
                                         setTimeout(function(){
                                             window.location.reload();
                                         },2000);
 
                                     }else{
-                                        add_or_update_visit( grabid, visitid, requireid,0);
+                                        add_or_update_visit( grabid, visitid, requireid,0,result.info);
                                         BootstrapDialog.alert(result.info);
                                     }
                                 })
@@ -59,6 +60,6 @@ $(function(){
            }
         });
     }
-    add_or_update_visit(grabid, visitid, 0,0);
+    add_or_update_visit(grabid, visitid, 0,0,'');
 
 });

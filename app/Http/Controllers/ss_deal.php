@@ -2535,6 +2535,8 @@ class ss_deal extends Controller
 
         $url = $this->get_in_str_val('change_reason_url');
 
+        \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
+
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -2550,8 +2552,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
-
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -2574,7 +2574,6 @@ class ss_deal extends Controller
                 "phone_location" => $phone_location,
             ]);
         }
-
 
         // init t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
@@ -2600,17 +2599,6 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-
-        // if($require_id>0){
-        //     $this->t_test_lesson_subject_require->field_update_list($require_id,[
-        //         "change_teacher_reason"          => $change_reason,
-        //         "change_teacher_reason_img_url"  => $change_reason_url,
-        //         "change_teacher_reason_type" => $change_teacher_reason_type
-        //     ]);
-        // }
-
-
         if (!$ret){
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
 
@@ -2623,7 +2611,7 @@ class ss_deal extends Controller
                 "is_green_flag"          =>$is_green_flag,
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"  => $change_reason_url,
-                "change_teacher_reason_type" => $change_teacher_reason_type
+                "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
