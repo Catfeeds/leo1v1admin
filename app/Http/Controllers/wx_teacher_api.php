@@ -981,9 +981,9 @@ class wx_teacher_api extends Controller
         $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
         $teacher_url = ''; //待定
         $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
-        $data['keyword1']   = " {".$lesson_name."}";
+        $data['keyword1']   = $lesson_name;
         $data['keyword2']   = '原时间:'.$lesson_old_time.' 修改后时间'. $lesson_new_time;
-        $data['keyword3']   = " {".$stu_nick."}";
+        $data['keyword3']   = $stu_nick;
         $data['remark']     = "感谢老师的支持!";
 
         \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
