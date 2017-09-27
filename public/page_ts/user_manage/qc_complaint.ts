@@ -70,23 +70,55 @@ $(function(){
             ["分配备注",id_ass_remark],
         ];
 
-        var set_select = function ($select) {
-            $.do_ajax("/ss_deal/get_group_admin_name", {
-            }, function (ret) {
-                var sel_v = $select.val();
-                $select.html("");
-                $select.append("<option value=\"\">[全部]</option>");
-                $.each(ret.list, function () {
-                    var account    = this.account;
-                    var group_name = this.group_name;
-                    var account_role_str = this.account_role_str;
-                    var master_adminid   = this.master_adminid;
-                    $select.append("<option value=\"" + master_adminid + "\">" + account_role_str+' - '+group_name+' - '+account + "</option>");
-                });
-            });
-        };
+        // var set_select = function ($select) {
+        //     $.do_ajax("/ss_deal/get_group_admin_name", {
+        //     }, function (ret) {
+        //         var sel_v = $select.val();
+        //         $select.html("");
+        //         $select.append("<option value=\"\">[全部]</option>");
+        //         $.each(ret.list, function () {
+        //             var account    = this.account;
+        //             var group_name = this.group_name;
+        //             var account_role_str = this.account_role_str;
+        //             var master_adminid   = this.master_adminid;
+        //             $select.append("<option value=\"" + master_adminid + "\">" + account_role_str+' - '+group_name+' - '+account + "</option>");
+        //         });
+        //     });
+        // };
 
-        set_select(id_complaint_deparment);
+        // set_select(id_complaint_deparment);
+
+        id_complaint_deparment.html("<option value=\"" + 0 + "\">  [全部]</option><option value="540">市场-QC-施文斌</option>);
+
+
+        /**
+
+              <option value="">[全部]</option>
+                <option value="540">市场-QC-施文斌</option>
+                <option value="968">市场-QC-李珉劼</option>
+                <option value="1024">市场-QC-王浩鸣</option>
+                <option value="">老师反馈处理-老师薪资及反馈-苏佩云</option>
+                <option value="1040">老师反馈处理-老师管理运营-郭东</option>
+                <option value="967">老师反馈处理-老师管理运营-傅文莉</option>
+                <option value="379">教研-语文组-许琼文</option>
+                <option value="868">教研-语文组-黄灼文</option>
+                <option value="849">教研-语文组-张敏</option>
+                <option value="913">教研-语文组-潘艳亭</option>
+                <option value="404">教研-语文组-唐灵莉</option>
+                <option value="310">教研-数学组-彭标</option>
+                <option value="480">教研-数学组-徐格格</option>
+                <option value="866">教研-数学组-王海</option>
+                <option value="890">教研-数学组-夏劲松</option>
+                <option value="892">教研-数学组-梁立玉</option>
+                <option value="329">教研-英语组-许千千</option>
+                <option value="372">教研-英语组-赖国芬</option>
+                <option value="923">教研-英语组-王芳</option>
+                <option value="770">教研-物理组-展慧东</option>
+                <option value="793">教研-化学组-李红涛</option>
+                <option value="1118">产品-产品-孙瞿</option>
+
+         **/
+
 
         $.show_key_value_table("分配部门",arr,{
             label    : "确认",
