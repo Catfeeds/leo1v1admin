@@ -252,7 +252,7 @@ $(function(){
             var title = "精排详情";
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>状态</td><td>lessonid</td><td>时间</td><td>老师</td><td>维度</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
 
-            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+            $.do_ajax('/ajax_deal2/get_seller_top_lesson_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
                 "end_time":g_args.end_time,
@@ -265,8 +265,8 @@ $(function(){
                     var time = item["lesson_start_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                    var tea_name=item["tea_name"];
-                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                    var tea_name=item["realname"];
+                    html_node.find("table").append("<tr><td>"+item["test_lesson_student_status_str"]+"</td><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+item["teacher_dimension"]+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
                 });
             });
 

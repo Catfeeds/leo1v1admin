@@ -636,6 +636,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_status in (1,2)",
             ["m.account_role=%u", $account_role, -1],
             "s.is_test_user = 0",
+            "m.del_flag = 0",
         ];
         if ($user_info >0 ) {
             if  ($user_info < 10000) {

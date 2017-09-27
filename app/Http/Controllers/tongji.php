@@ -1774,6 +1774,14 @@ class tongji extends Controller
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
+        $ret_info_new = [];
+        foreach($ret_info as $key=>&$item){
+            foreach($ret_info as $info){
+                if($item['money6']<$info['money6']){
+                    $item = $info;
+                }
+            }
+        }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 
