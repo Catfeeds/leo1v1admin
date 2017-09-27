@@ -123,12 +123,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = $this->gen_sql_new("select teacherid as id,nick,phone,gender,realname,subject,grade_part_ex,grade_start,grade_end "
-                                  ." from %s "
-                                  ." where %s and is_quit=0"
-                       ,self::DB_TABLE_NAME
-                       ,$this->where_str_gen( $where_arr)
-        );
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,"
+                       ." subject,grade_part_ex,grade_start,grade_end from %s  where %s and is_quit=0",
+                       self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
