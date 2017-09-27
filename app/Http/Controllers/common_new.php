@@ -1239,10 +1239,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //建行回调地址
     public function ccb_callback_return_info(){
         $orderNo = $this->get_in_str_val("ORDERID","701797545350");
-        $encode = mb_detect_encoding($orderNo, array('UTF-8',"GB2312","GBK",'BIG5'));
-        $str_encode = mb_convert_encoding($orderNo, 'GBK', $encode);
-        $en = mb_detect_encoding($str_encode, array("GBK",'BIG5'));
-        dd($encode);
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");
         $payment  = $this->get_in_str_val("PAYMENT","1.00");
@@ -1259,11 +1255,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $sign = $this->get_in_str_val("SIGN","047ce2d3d089d964da91b7247046d1474aed6a5b6ef8898424723844b25e3334383617605f5b5993dc37a0273f7b1ad03c7d72bd3f4bbfe65e2ed81f4d9baf98e6501842f6dfa4fe95ab9d6e6f903136c97e00286a2d05a440f6d9a410dbec4dfa23685b622d58aa4b379293a5536870d9283551633ef75dd591b3524e468142");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
         //$data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
-        dd($data);
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
         $pem = chunk_split(base64_encode(hex2bin($der_data)), 64, "\n");
 
         $public_key = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
+        dd($public_key);
         $pkeyid = openssl_get_publickey($public_key);
  
         $verifyResult = openssl_verify($data, pack("H",$sign),$pkeyid,OPENSSL_ALGO_MD5);
@@ -1351,6 +1347,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
  
         
+        
+    }
+
+    public function jack_test(){
         
     }
 

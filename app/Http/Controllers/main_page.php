@@ -42,6 +42,7 @@ class main_page extends Controller
         }
 
         $sys_info=[
+            ["当前IP", $this->get_in_client_ip() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
         ];
 
