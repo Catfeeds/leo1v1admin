@@ -847,15 +847,15 @@ class wx_parent_api extends Controller
             $result = "原因: $parent_keep_original_remark ";
 
 
-            $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $teacher_nick }老师拒绝!";
+            $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
 
-            $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
+            $keyword2 = "原上课时间: $lesson_start_date ; $result";
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']      = " 您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间,您已拒绝! ";
+            $data['first']      = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
             $data['keyword1']   = " 拒绝调课申请";
             $data['keyword2']   = " 原上课时间:{".$lesson_start_date."};您已拒绝";
             $data['keyword3']   = "$day_date";
@@ -900,8 +900,8 @@ class wx_parent_api extends Controller
         $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
         $teacher_url = ''; //待定
         $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
-        $data['first']      = " $teacher_nick 老师您好,由$stu_nick 的家长发起的调课申请最终更改如下, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}";
-        $data['keyword1']   = " { $lesson_name }";
+        $data['first']      = " $teacher_nick 老师您好,由$stu_nick 的家长发起的调课申请最终更改如下, 原课程时间: $lesson_old_time   , 最终时间调整至".date('m月d日',$lesson_time_arr[0]);
+        $data['keyword1']   = "  $lesson_name ";
         $data['keyword2']   = "$lesson_new_time";
         $data['keyword3']   = " $stu_nick";
         $data['remark']     = "请注意调整后的时间,感谢老师的支持!";
@@ -921,7 +921,7 @@ class wx_parent_api extends Controller
         $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
         $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
         $data_parent = [
-            'first' => "$stu_nick 的家长您好, 您的调课申请经过协商已经做出修改, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}",
+            'first' => "$stu_nick 的家长您好, 您的调课申请经过协商已经做出修改, 原课程时间: $lesson_old_time   , 最终时间调整至".date('m月d日',$lesson_time_arr[0]),
             'keyword1' =>"$lesson_name",
             'keyword2' => "$lesson_new_time",
             'keyword3' => "$stu_nick",
@@ -940,7 +940,7 @@ class wx_parent_api extends Controller
         $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
 
         $data_leo = [
-            'first'    => "由 $stu_nick 的家长发起的调课申请已经处理完成, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}",
+            'first'    => "由 $stu_nick 的家长发起的调课申请已经处理完成, 原课程时间: $lesson_old_time   , 最终时间调整至".date('m月d日',$lesson_time_arr[0]),
             'keyword1' => "$lesson_name",
             'keyword2' => "$lesson_new_time",
             'keyword3' => "$stu_nick",

@@ -53,7 +53,7 @@ class  parent_wx_server extends Controller
             array('id'=>'3', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'', 'code'=>''),
             //array('id'=>'6', 'pid'=>'3', 'name'=>'帐号绑定', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/binding'),
             array('id'=>'7', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
-            array('id'=>'8', 'pid'=>'3', 'name'=>'试听课程', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/index'),
+            array('id'=>'8', 'pid'=>'3', 'name'=>'课程详情', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/index'),
             array('id'=>'9', 'pid'=>'3', 'name'=>'我要投诉', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/complain' ),
             //array('id'=>'9', 'pid'=>'3', 'name'=>'我要投诉', 'type'=>'view', 'code'=>'https://wj.qq.com/s/1299964/375f/'),
 
