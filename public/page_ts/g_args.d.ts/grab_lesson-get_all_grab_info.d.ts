@@ -25,6 +25,7 @@ interface RowData {
 	adminid	:any;
 	create_time	:any;
 	requireids	:any;
+	fail_reason	:any;
 	visit_count	:any;
 	grab_count	:any;
 	succ_count	:any;
