@@ -1774,29 +1774,9 @@ class tongji extends Controller
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
-        if(count($ret_info)>0){
-            dd($ret_info);
-            $ret_info = array_sort($ret_info,'money6','desc');
-        }
+        $money6_arr = array_column($ret_info,'money6');
+        array_multisort($money6_arr,SORT_DESC,$ret_info);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
-    }
-
-    public function array_sort($array,$keys,$type='asc'){
-        //$array为要排序的数组,$keys为要用来排序的键名,$type默认为升序排序
-        $keysvalue = $new_array = array();
-        foreach ($array as $k=>$v){
-            $keysvalue[$k] = $v[$keys];
-        }
-        if($type == 'asc'){
-            asort($keysvalue);
-        }else{
-            arsort($keysvalue);
-        }
-        reset($keysvalue);
-        foreach ($keysvalue as $k=>$v){
-            $new_array[$k] = $array[$k];
-        }
-        return $new_array;
     }
 
     public function seller_personal_rank() {
