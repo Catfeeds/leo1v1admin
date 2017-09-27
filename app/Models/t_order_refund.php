@@ -274,7 +274,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             //  "o.contract_status =3",
             "so.lesson_left >0"
         ];
-        $sql = $this->gen_sql_new("select r.userid,r.orderid,so.orderid so_orderid,so.lesson_left,so.contract_type "
+        $sql = $this->gen_sql_new("select r.userid,r.orderid,so.orderid so_orderid,so.lesson_left,so.contract_type,o.competition_flag "
                                   ." from %s r left join %s o on r.orderid=o.orderid"
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s so on so.parent_order_id = o.orderid"

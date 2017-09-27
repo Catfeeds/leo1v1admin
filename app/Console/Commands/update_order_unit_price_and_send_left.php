@@ -57,6 +57,7 @@ class update_order_unit_price_and_send_left extends Command
                     "apply_time"    => time()
                 ]);
             }
+            $task->t_course_order->reset_assigned_lesson_count($l["userid"],$l["competition_flag"]);
 
         }
         //dd($ret);

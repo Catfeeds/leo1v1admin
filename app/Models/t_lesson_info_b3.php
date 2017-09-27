@@ -980,16 +980,34 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_on_teacherid(){
-        $where_arr = [
-            "l.lesson_start>1490976000"
-        ];
-        $sql = $this->gen_sql_new(" select t.teacherid from %s t "
-                                  ." where not EXISTS (select * from %s tt left join %s l on l.teacherid=tt.teacherid where l.lesson_start>1490976000 and tt.is_test_user=0 and tt.trial_lecture_is_pass =1 ) "
+        // $sql = $this->gen_sql_new(" select t.teacherid from %s t "
+        //                           ." where not EXISTS (select * from %s t left join %s l on l.teacherid=t.teacherid where l.lesson_start>1490976000 and t.is_test_user=0 and t.trial_lecture_is_pass =1 ) "
+        //                           ,t_teacher_info::DB_TABLE_NAME
+        //                           ,t_teacher_info::DB_TABLE_NAME,
+        //                           t_lesson_info::DB_TABLE_NAME
+        // );
+
+
+        $sql = $this->gen_sql_new(" select if(l.lesson_end<1490976000,1,0) from %s t left join %s l on l.teacherid=t.teacherid "
+                                  ." where  t.is_test_user=0 and t.trial_lecture_is_pass =1 "
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  // ,t_teacher_info::DB_TABLE_NAME
+                                  , t_lesson_info::DB_TABLE_NAME
+        );
+
+
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_on_num(){
+        $sql = $this->gen_sql_new("select * from %s tt left join %s l on l.teacherid=tt.teacherid where l.lesson_start>1490976000 and tt.is_test_user=0 and tt.trial_lecture_is_pass =1 "
                                   ,t_teacher_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME
         );
 
         return $this->main_get_list($sql);
     }
+
+
 }
