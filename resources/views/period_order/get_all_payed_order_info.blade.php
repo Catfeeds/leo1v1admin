@@ -123,6 +123,7 @@
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-user opt-user" title="个人信息" ></a>
+                                <a class=" opt-order-detail-info" title="分期明细" >分期明细</a>
                             </div>
                         </td>
             </tr>

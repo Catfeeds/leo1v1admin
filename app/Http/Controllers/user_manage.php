@@ -2126,6 +2126,10 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
+    public function complaint_department_deal_teacher_tea_jy(){
+        return $this->complaint_department_deal_teacher_tea();
+    }
+
     public function complaint_department_deal_teacher_tea(){
         $this->set_in_value('account_type',2);
         return $this->complaint_department_deal();

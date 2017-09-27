@@ -197,7 +197,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         $sql = $this->gen_sql_new(" select p.wx_openid from %s p ".
                                   " left join %s pc on p.parentid = pc.parentid".
                                   " left join %s l on pc.userid = l.userid ".
-                                  " where l.lessonid = %d",
+                                  " where l.lessonid = %d order by pc.last_modified_time desc",
                                   self::DB_TABLE_NAME,
                                   t_parent_child::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,

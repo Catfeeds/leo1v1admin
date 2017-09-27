@@ -441,8 +441,8 @@ $(function(){
     });
 
     $(".opt-tea_origin_url").on("click",function(){
-	    var phone = $(this).get_opt_data("phone");
-        var url = "http://wx-teacher-web.leo1v1.com/tea.html?"+phone;
+	      var phone = $(this).get_opt_data("phone");
+        var url   = "http://wx-teacher-web.leo1v1.com/tea.html?"+phone;
         BootstrapDialog.alert(url);
     });
 

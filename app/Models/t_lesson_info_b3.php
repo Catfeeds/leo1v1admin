@@ -952,5 +952,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function get_teacher_list_for_total_info($start_time,$end_time){
+        $where_arr = [
+            ["l.lesson_start>%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            "l.lesson_type<1000",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.phone,sum(if(l.lesson_type=2,1,0)) as trial_num,"
+                                  ." count(r.id) as succ_num,count(distinct(l2.userid)) as normal_stu_num,"
+                                  ." group_concat(distinct(l.subject)) as stu_subject"
+                                  ." from %s t"
+                                  ." left join %s l force index(lesson_start) on t.teacherid=l.teacherid"
+                                  ." left join %s r on l.lessonid=r.lessonid"
+                                  ." left join %s l2 on l.lessonid=l2.lessonid and l2.lesson_type!=2"
+                                  ." where %s"
+                                  ." group by t.teacherid"
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_money_list::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

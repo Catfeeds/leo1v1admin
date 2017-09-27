@@ -248,7 +248,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    public function get_teacher_detail_list_new($teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,$lend,$teacherid_arr=[]){
+    public function get_teacher_detail_list_new(
+        $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
+        $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
+        $lstart,$lend,$teacherid_arr=[],$create_start=0,$create_end=0
+    ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
             array( "gender=%u ", $gender, -1 ),
@@ -260,6 +264,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
+            array( "create_time>%u ", $create_start, 0 ),
+            array( "create_time<%u ", $create_end, 0 ),
         );
 
         if ($address) {
@@ -1376,8 +1382,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $end_time   = time();
             $start_time = strtotime("-2 month",$end_time);
             $where_arr  = [
-                ["create_time>%u",$start_time,0],
-                ["create_time<%u",$end_time,0],
+                // ["create_time>%u",$start_time,0],
+                // ["create_time<%u",$end_time,0],
                 ["is_test_user=%u",$is_test_user,-1],
                 "trial_lecture_is_pass=1",
                 "train_through_new_time=0",

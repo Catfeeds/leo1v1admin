@@ -5420,7 +5420,8 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"){
+    public function get_tea_month_list($start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current")
+    {
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
             ["l.lesson_start<%u",$end,0],
@@ -5440,7 +5441,7 @@ lesson_type in (0,1) "
         }
         $where_arr = $this->lesson_common_where_arr($where_arr);
         $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"
-                                  ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,t.test_transfor_per,"
+                                  ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,"
                                   ." t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type,t.teacher_money_flag,"
                                   ." t.idcard,t.bank_city,t.bank_province,t.phone,"
                                   ." sum(if(l.lesson_type in (0,1,3),l.lesson_count,0)) as lesson_1v1,"
