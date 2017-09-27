@@ -110,7 +110,6 @@ interface RowData {
 	pre_price	:any;
 	pre_pay_time	:any;
 	pre_from_orderno	:any;
-	check_money_flag_str	:any;
 	is_new_stu_str	:any;
 	grade_str	:any;
 	stu_from_type_str	:any;

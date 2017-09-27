@@ -34,6 +34,8 @@ $(function(){
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
             is_complaint_state:	$('#id_is_complaint_state').val(),
+            is_allot_flag:	$('#id_is_allot_flag').val(),
+
 
         });
     }
@@ -57,7 +59,7 @@ $(function(){
 
     $('#id_account_type').val(g_args.account_type);
     $('#id_is_complaint_state').val(g_args.is_complaint_state);
-
+    $('#id_is_allot_flag').val(g_args.is_allot_flag);
 
 
 

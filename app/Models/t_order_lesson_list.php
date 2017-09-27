@@ -85,6 +85,7 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_value($sql);
     }
 
