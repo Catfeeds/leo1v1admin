@@ -644,8 +644,7 @@ class common_new extends Controller
             $cdr_answer_time,
             $cdr_end_time,
             $duration,
-            $called_flag==2?1:0
-            ,
+            $cdr_status==28?1:0,
             "");
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
@@ -1240,6 +1239,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //建行回调地址
     public function ccb_callback_return_info(){
         $orderNo = $this->get_in_str_val("ORDERID","701797545350");
+        $encode = mb_detect_encoding($orderNo, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        dd($encode);
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");
         $payment  = $this->get_in_str_val("PAYMENT","1.00");
