@@ -2244,9 +2244,9 @@ class test_code extends Controller
         // $not_start_time = strtotime("2017-$not_month_start");
         // $not_end_time   = strtotime("2017-$not_month_end");
         // $end_time   = strtotime("+1 month",$start_time);
-        if($month_start>$month_end || $not_start_time>$not_end_time){
-            return $this->output_err("时间出错!结束不能小于开始!");
-        }
+        // if($month_start>$month_end || $not_start_time>$not_end_time){
+        //     return $this->output_err("时间出错!结束不能小于开始!");
+        // }
 
         $list = $this->t_lesson_info_b3->get_teacher_list_for_total_info($start_time,$end_time);
         echo "姓名|手机|常规学生数|试听课次|成功课次|科目";
