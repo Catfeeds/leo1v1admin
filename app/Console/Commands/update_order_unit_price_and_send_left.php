@@ -47,11 +47,16 @@ class update_order_unit_price_and_send_left extends Command
                 "lesson_left"  =>0,
                 "contract_status" =>3
             ]);
-            $task->t_order_refund->row_insert([
-                "userid"        => $l["userid"],
-                "orderid"       => $l["so_orderid"],
-                "should_refund" => $l["lesson_left"],
-            ]);
+            $rt = $task->t_order_refund->check_order_is_refund($l["so_orderid"]);
+            if($rt != 1){
+                $task->t_order_refund->row_insert([
+                    "userid"        => $l["userid"],
+                    "orderid"       => $l["so_orderid"],
+                    "should_refund" => $l["lesson_left"],
+                    "refund_status" => 1,
+                    "apply_time"    => time()
+                ]);
+            }
 
         }
         //dd($ret);

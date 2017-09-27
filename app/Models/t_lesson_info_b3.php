@@ -979,4 +979,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
+    public function get_on_teacherid(){
+        $where_arr = [
+            "l.lesson_start>1490976000"
+        ];
+        $sql = $this->gen_sql_new(" select count(teacherid) from %s t "
+                                  ."  "
+        );
+    }
 }

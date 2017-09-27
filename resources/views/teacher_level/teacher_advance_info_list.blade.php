@@ -53,6 +53,7 @@
                 <tr>
                     <td>老师</td>
                     <td>当前等级</td>
+                    <td>晋升后等级</td>
                    <td>入职时间</td>
                     <td>晋升情况</td>
                     <td> 操作  </td>
@@ -63,6 +64,7 @@
                     <tr>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_before_str"]}} </td>
+                        <td>{{@$var["level_after_str"]}} </td>
                         <td>{{@$var["become_member_time"]}} </td>
                         <td>
                             @if(empty($var["require_time"]))

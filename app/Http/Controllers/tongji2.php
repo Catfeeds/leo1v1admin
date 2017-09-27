@@ -1108,11 +1108,11 @@ class tongji2 extends Controller
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
-        $arr['total_price']        = $ret_total[0]['total_price'] / 100; //现金总收入
-        $arr['person_num']         = $ret_total[0]['person_num']; //下单总人数
-        $arr['contract_num']       = $ret_total[0]['order_num']; //合同数
-        $arr['total_price_thirty'] = $ret_total_thirty[0]['total_price'] / 100; //入职完整月人员签单额
-        $arr['person_num_thirty']  = $ret_total_thirty[0]['person_num'];  //入职完整月人员人数
+        $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
+        $arr['person_num']         = $ret_total['person_num']; //下单总人数
+        $arr['contract_num']       = $ret_total['order_num']; //合同数
+        $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //入职完整月人员签单额
+        $arr['person_num_thirty']  = $ret_total_thirty['person_num'];  //入职完整月人员人数
 
         $arr['cr_num']             = $ret_cr;//在职人数
         $arr['refund_num']         = $ret_refund;//退费总人数
@@ -1160,8 +1160,8 @@ class tongji2 extends Controller
         }
 
         //续费
-        $arr['total_renew'] = $ret_total[0]['total_renew']/100; //续费金额
-        $arr['renew_num']   = $ret_total[0]['renew_num'];       //总笔数
+        $arr['total_renew'] = $ret_total['total_renew']/100; //续费金额
+        $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
         if($arr['renew_num']){
             $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
         }else{
@@ -1169,13 +1169,19 @@ class tongji2 extends Controller
         }
 
         //转介绍
-        $arr['tranfer_num']   = $ret_total[0]['tranfer_num']/1;  //转介绍成单数量
-        $arr['total_tranfer'] = $ret_total[0]['total_tranfer']/100; //转介绍总金额
+        $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
+        $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
         if($arr['tranfer_num'] > 0){
             $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
         }else{
             $arr['tranfer_num_per'] = 0;
         }
+
+        //扩科
+        $kk = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+        $arr['total_test_lesson_num'] = $kk['total_test_lesson_num'];
+        $arr['fail_num'] = $kk['fail_num'];
+        $arr['wait_num'] = $kk['wait_num'];
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 

@@ -568,6 +568,11 @@ class teacher_level extends Controller
         return $this->output_succ();
 
     }
+
+    public function get_teacher_advance_info_fulltime(){
+        $this->set_in_value( "fulltime_flag_new", 1);
+        return $this->get_teacher_advance_info(); 
+    }
     public function get_teacher_advance_info(){
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
@@ -578,10 +583,11 @@ class teacher_level extends Controller
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $accept_flag       = $this->get_in_int_val("accept_flag",-1);
-        $fulltime_flag       = $this->get_in_int_val("fulltime_flag",-1);
+        
+        $fulltime_flag_new       = $this->get_in_int_val("fulltime_flag_new",0);
 
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level_before");
             E\Elevel::set_item_value_str($item,"level_after");
@@ -597,7 +603,7 @@ class teacher_level extends Controller
 
     public function teacher_advance_info_list(){
         $this->set_in_value("quarter_start",'2017-07-01');
-        $quarter_start = $this->get_in_int_val("quarter_start");
+        $quarter_start = $this->get_in_str_val("quarter_start");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $accept_flag        = $this->get_in_int_val("accept_flag",-1);
@@ -610,6 +616,7 @@ class teacher_level extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
             E\Elevel::set_item_value_str($item,"level_before");
+            E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
         }
         return $this->pageView(__METHOD__,$ret_info);
