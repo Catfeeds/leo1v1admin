@@ -22,6 +22,12 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span>推荐人</span>
+                        <input class="opt-change" id="id_reference"/>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span>等级</span>
                         <select class="opt-change" id="id_level">
                         </select>

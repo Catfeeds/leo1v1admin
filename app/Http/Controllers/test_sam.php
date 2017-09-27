@@ -31,6 +31,18 @@ class test_sam  extends Controller
 
 
      public function  tt(){
-       
-    }        
+        $ret = $this->t_course_order->get_course_list();
+        foreach ($ret as $key => $value) {
+            $ret[$key]["left_lesson_count"] = ($ret[$key]["assigned_lesson_count"]-$ret[$key]["finish_lesson_count"])/100;
+        }
+        foreach($ret as $key => $value){
+            if($ret[$key]["left_lesson_count"] > 0){
+                echo "<br>";
+                echo $value['userid']."|".$value['courseid']."|".$value['left_lesson_count'];
+
+                //$ret_info = $this->t_course_order->update_course_status($ret[$key]['courseid']);
+                echo "</br>";
+            }
+        }
+    }
 }

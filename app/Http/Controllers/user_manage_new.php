@@ -2755,7 +2755,6 @@ class user_manage_new extends Controller
         }else{
             $flag = 1;
         }
-
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
@@ -4320,6 +4319,24 @@ class user_manage_new extends Controller
         if(!in_array($account,["zero","echo"])){
             return $this->output_err("你没有权限");
         }
+        $old_price = $this->t_order_info->get_price($orderid);
+        
+        $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid,0);
+        $child_order_info= $child_order_info[0];
+        $new_price = $price-$old_price+$child_order_info["price"];
+        if($child_order_info["pay_status"]){
+             return $this->output_err("子合同已付款,请联系开发人员处理");
+        }
+        if($new_price <0){
+            return $this->output_err("请先重新拆分合同!");
+        }
+        //更新子合同金额
+        $this->t_child_order_info->field_update_list($child_order_info["child_orderid"],[
+           "price"  => $new_price 
+        ]);
+
+
+
 
         $ret = $this->t_order_info->field_update_list($orderid,[
             "price"          => $price*100,

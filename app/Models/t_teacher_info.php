@@ -1433,7 +1433,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             }elseif($has_limit>0){
                 $where_arr[]="limit_plan_lesson_type>0";
             }
+        }else{
+            $where_arr=[];
         }
+
         $sql = $this->gen_sql_new("select t.teacherid "
                                   ." from %s t"
                                   ." where %s"
