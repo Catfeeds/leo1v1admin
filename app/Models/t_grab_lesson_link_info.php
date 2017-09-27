@@ -29,7 +29,7 @@ class t_grab_lesson_link_info extends \App\Models\Zgen\z_t_grab_lesson_link_info
             ['g.adminid=%u', $adminid, ''],
         ];
         $sql = $this->gen_sql_new(
-            "select g.grabid,g.grab_lesson_link,g.live_time,g.adminid,g.create_time,g.requireids,p.fail_reason,"
+            "select g.grabid,g.grab_lesson_link,g.live_time,g.adminid,g.create_time,g.requireids,"
             ." count(v.visitid) as visit_count, sum(if(v.operation=1,1,0)) as grab_count,"
             ." sum(if(p.success_flag=1,1,0)) as succ_count, sum( if(p.success_flag=0,1,0) ) as fail_count"
             ." from %s g "
