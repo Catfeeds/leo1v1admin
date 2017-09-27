@@ -9,10 +9,11 @@ class t_grab_lesson_link_visit_operation extends \App\Models\Zgen\z_t_grab_lesso
 
 	}
 
-    public function get_operationid_by_tea_requireid($teacherid,$requireid){
+    public function get_operationid_by_tea_requireid($teacherid,$requireid,$visitid){
         $where_arr = [
             "teacherid='$teacherid'",
             "requireid='$requireid'",
+            "visitid='$visitid'",
         ];
         $sql = $this->gen_sql_new("select operationid "
                                   ." from %s "

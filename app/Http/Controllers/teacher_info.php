@@ -2173,19 +2173,17 @@ class teacher_info extends Controller
                 'operation' => 1,
             ]);
 
-            $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid);
+            //修改逻辑，visitid-requireid-teacherid三个对应唯一
+            $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid, $visitid);
 
             if ($operationid > 0 ){
 
                 $ret = $this->t_grab_lesson_link_visit_operation->field_update_list($operationid,[
-                    'visitid'     => $visitid,
-                    'teacherid'   => $teacherid,
                     'create_time' => time(),
                     'success_flag'=> $success_flag,
                 ]);
 
             } else {
-
                 $ret = $this->t_grab_lesson_link_visit_operation->row_insert([
                     'visitid'     => $visitid,
                     'teacherid'   => $teacherid,
