@@ -2938,8 +2938,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "o.userid = $userid",
             "o.contract_type = 0",
-            "o.contract_status = 1",
-            "o.order_status in (1,2) ",
+            "o.contract_status in (1,2)",
             ["o.pay_time <%u" ,$check_time, -1 ]
         ];
         //E\Econtract_status
@@ -3402,7 +3401,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
     public function get_total_price_thirty($start_time,$end_time){
         $where_arr = [
@@ -3421,7 +3420,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                    $where_arr);
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
 
     }
 

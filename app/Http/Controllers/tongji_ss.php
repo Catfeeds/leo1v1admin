@@ -6915,7 +6915,6 @@ class tongji_ss extends Controller
         $start_time = strtotime(date("Y-m-01",$end_time-100));
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time, [-1],"" );
 
-
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );

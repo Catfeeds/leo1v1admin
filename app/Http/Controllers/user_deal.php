@@ -658,10 +658,6 @@ class user_deal extends Controller
         }
 
         // 第一次常规课后 将课程规划与试听交接单推送老师
-
-
-
-
         if ($ret) {
             if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
@@ -670,7 +666,7 @@ class user_deal extends Controller
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
-            $url              = "http://wx-teacher.leo1v1.com";
+            $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
             $old_lesson_end   = date('Y-m-d H:i:s',$lesson_info['lesson_end']);
             $lesson_start     = date('Y-m-d H:i:s',$lesson_start);
@@ -2712,6 +2708,18 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $userid= 149681;
+        $orderid = 14908;
+        $this->t_order_refund->row_insert([
+            "userid"        => $userid,
+            "orderid"       => $orderid,
+            "should_refund" => 300,
+            "refund_status" => 1,
+            "apply_time"    => time()
+        ]);
+        $this->t_student_info->reset_lesson_count($userid);
+        dd(111);
+
         $list = $this->t_test_lesson_subject_require->get_no_high_require();
         foreach($list as $val){
             $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[

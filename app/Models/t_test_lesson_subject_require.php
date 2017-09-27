@@ -1534,6 +1534,35 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
     }
+
+    public function get_seller_top_lesson_list($start_time,$end_time,$adminid){
+        $where_arr = [
+            ["tr.require_assign_time >= %u",$start_time,-1],
+            ["tr.require_assign_time <= %u",$end_time,-1],
+            ["tr.accept_adminid = %u",$adminid,-1],
+            "s.is_test_user=0",
+            "test_lesson_student_status in(210,220,290,300,301,302,420)",
+            "seller_top_flag=1"
+            
+        ];
+        $sql = $this->gen_sql_new("select s.nick,t.realname,t.teacherid,tr.test_lesson_student_status,"
+                                  ."tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject "
+                                  ." from %s tr left join %s l on tr.current_lessonid = l.lessonid"
+                                  ." left join %s tss on tr.current_lessonid = tss.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr                                  
+        );
+        return $this->main_get_list($sql);
+
+    }
+
     public function get_jw_teacher_test_lesson_info($start_time,$end_time){
         $where_arr = [
             ["require_assign_time >= %u",$start_time,-1],

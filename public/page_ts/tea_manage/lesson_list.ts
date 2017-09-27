@@ -96,7 +96,7 @@ $(function(){
 
 
     $('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $('#id_origin').val(g_args.origin);
 
 

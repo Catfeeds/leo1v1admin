@@ -1210,6 +1210,55 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_value($sql);
     }
 
+    public function tongji_kk_data($start_time,$end_time) {
+        $where_arr = [
+            "l.lesson_del_flag = 0 ",
+            ['l.lesson_start>%u',$start_time,-1],
+            ['l.lesson_start<%u',$end_time,-1],
+            " (ass_test_lesson_type= 1 or ( ass_test_lesson_type= 0 and  tr.origin='助教-扩课') or (ass_test_lesson_type= '' and  tr.origin='助教-扩课')) ",
+        ];
+        $sql = $this->gen_sql_new(" select count(distinct(tr.require_id)) as total_test_lesson_num,"
+                                  ." sum(if(order_confirm_flag=2,1,0)) as fail_num, "
+                                  ." sum(if( ( 	(success_flag=0 or order_confirm_flag=0) and l.lesson_user_online_status =1),1,0 )) as wait_num"
+                                  ." from  %s tss"
+                                  ." left join %s l ON tss.lessonid = l.lessonid"
+                                  ." left join %s tr ON tss.require_id = tr.require_id"
+                                  ." left join %s tt ON tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m ON tr.cur_require_adminid = m.uid"
+                                  ." left join %s a ON a.phone = m.phone"
+                                  ." where %s"
+                                  , t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  , t_lesson_info::DB_TABLE_NAME
+                                  , t_test_lesson_subject_require::DB_TABLE_NAME
+                                  , t_test_lesson_subject::DB_TABLE_NAME
+                                  , t_manager_info::DB_TABLE_NAME
+                                  , t_assistant_info::DB_TABLE_NAME
+                                  , $where_arr);
+        return $this->main_get_row($sql);
+    }
+    public function tongji_success_order($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_del_flag = 0 ",
+            ['l.lesson_start>%u',$start_time,-1],
+            ['l.lesson_start<%u',$end_time,-1],
+            " (ass_test_lesson_type= 1 or ( ass_test_lesson_type= 0 and  tr.origin='助教-扩课') or (ass_test_lesson_type= '' and  tr.origin='助教-扩课')) ",
+            "k.lesson_type = 0 ",
+            "k.lesson_start > l.lesson_start "
+        ];
+        $sql = $this->gen_sql_new(" select  count(distinct(k.userid )) as sum"
+                                  ." from  %s tss"
+                                  ." left join %s l ON tss.lessonid = l.lessonid"
+                                  ." left join %s k on k.userid = l.userid "
+                                  ." left join %s tr ON tss.require_id = tr.require_id"
+                                  ." left join %s tt ON tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." where %s"
+                                  , t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  , t_lesson_info::DB_TABLE_NAME
+                                  , t_lesson_info::DB_TABLE_NAME
+                                  , t_test_lesson_subject_require::DB_TABLE_NAME
+                                  , t_test_lesson_subject::DB_TABLE_NAME
+                                  , $where_arr);
+        return $this->main_get_value($sql);
 
-
+    }
 }
