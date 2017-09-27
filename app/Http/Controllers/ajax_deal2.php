@@ -1598,7 +1598,12 @@ class ajax_deal2 extends Controller
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
 
         $adminid = $this->get_in_int_val("adminid",-1);
+        $start_time = strtotime("2017-09-01");
+        $end_time = strtotime("2017-10-01");
+        $adminid = 343;
         $list = $this->t_test_lesson_subject_require->get_seller_top_lesson_list($start_time,$end_time,$adminid);
+        dd($list);
+
 
         foreach($list as &$item){
             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
