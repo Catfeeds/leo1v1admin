@@ -1351,7 +1351,43 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
     public function jack_test(){
+
+        dd(public_path());
+        define("filePath","/home/jack/work/admin/tmp");//.pfx和.cer文件放置的地址
+        define("pfxFileName","MC1005928_CCB.pfx");//.pfx文件名
+        define("password","14285714");//.pfx文件的密码
+        /*实现.pfx文件转为.pem文件*/
+        $file = filePath.pfxFileName;
+        $results = array();
+        $worked = openssl_pkcs12_read(file_get_contents($file), $results, password);
+        dd($worked);
+        $certificateCApem =$file.'.pem';
+        @file_put_contents($certificateCApem, $results);
         
+      /*实现对传来的数据进行排序*/
+         function dataSort($data) {
+         $dataArr=explode(";",$data);
+           sort($dataArr);
+             $dataStr=implode(',',$dataArr);
+             $TransData=str_replace(",","&",$dataStr);
+             return  $TransData;
+               }
+            
+             /*实现加签功能*/
+             function sign($data) {
+                     $priKey = file_get_contents(filePath.pfxFileName.'.pem');
+                     $res = openssl_get_privatekey($priKey);
+                  openssl_sign($data, $sign, $res);
+                     openssl_free_key($res);
+                    $sign = base64_encode($sign);
+                    return $sign;
+                 }
+             
+             $data="";//用户传进的要加签的数据,中间每个参数用';'分隔开
+        // $data="name=amdin;code=12313;pass=admin;email=admin@qq.com;id=25536"; //测试用的$data数据
+             
+             $dataReturn=dataSort($data).'&'.'signType="RSA"'.'&'.'sign='.sign(dataSort($data));//业务需求需要返回的数据格式，使用者可根据实际需要改变
+        print_r($dataReturn);//生成加签后的数据 
     }
 
 

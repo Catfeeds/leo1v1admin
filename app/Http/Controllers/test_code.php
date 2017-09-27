@@ -49,6 +49,7 @@ class test_code extends Controller
         return $arr;
     }
 
+
     /**
      * 批量导入公开课学生
      */
@@ -2202,7 +2203,7 @@ class test_code extends Controller
     public function get_tea_stu_num(){
         $month_start = $this->get_in_int_val("month_start");
         $month_end   = $this->get_in_int_val("month_end");
-        $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid   = $this->get_in_int_val("teacherid");
         if($teacherid==0){
             return $this->output_err("id不能为0");
         }
@@ -2307,7 +2308,6 @@ class test_code extends Controller
 
     public function get_reference_list(){
         $list = $this->t_teacher_info->get_reference_list_for_reset();
-
     }
 
 
