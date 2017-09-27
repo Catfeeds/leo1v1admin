@@ -1176,6 +1176,12 @@ class tongji2 extends Controller
         }else{
             $arr['tranfer_num_per'] = 0;
         }
+
+        //扩科
+        $kk = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+        dd($kk);
+        $arr['total_test_lesson_num'] = $kk[0]['total_test_lesson_num'];
+        $arr['fail_num'] = $kk[0]['fail_num'];
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 
