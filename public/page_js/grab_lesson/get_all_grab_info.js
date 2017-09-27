@@ -40,7 +40,7 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" :  "list", // or "list"
-            "url"          : "/grab_lesson/get_list_by_grabid_js",
+            "url"      : "/grab_lesson/get_list_by_grabid_js",
             //其他参数
             "args_ex" : {
                 grabid:opt_data.grabid
