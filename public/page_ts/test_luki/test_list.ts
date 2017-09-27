@@ -34,9 +34,11 @@ $(function(){
 
     $("#id_add").on("click",function(){
         var $grade= $("<select/>" );
-        Enum_map.append_option_list("grade", $grade);
+        var $value= $("<input/>" );
+        Enum_map.append_option_list("grade", $grade,true);
         var arr=[
             ["年级" ,$grade  ],
+            ["value" ,$value ],
         ] ;
 
         $.show_key_value_table("新增申请", arr ,{
@@ -44,7 +46,8 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/test_luki/test_add",{
-                    "grade" : $grade.val()
+                    "grade" : $grade.val(),
+                    "value" : $value.val(),
                 });
             }
         });
@@ -54,8 +57,6 @@ $(function(){
 
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
-
-
         var $grade= $("<select/>" );
         Enum_map.append_option_list("grade", $grade,true);
         var arr=[
@@ -74,7 +75,22 @@ $(function(){
             }
         });
 
-
     });
 
+    $(".opt-del").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var arr=[
+        ] ;
+
+        $.show_key_value_table("xx",arr,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/test_luki/test_del",{
+                    "id" : opt_data.id
+                });
+            }
+        });
+
+      });
 });

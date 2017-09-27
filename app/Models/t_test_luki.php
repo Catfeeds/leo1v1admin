@@ -7,6 +7,7 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
     {
         parent::__construct();
     }
+
     public function  get_list( $page_info,$grade ,$start_time, $end_time) {
         $where_arr=[
         ];

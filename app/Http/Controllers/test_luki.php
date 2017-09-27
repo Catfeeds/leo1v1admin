@@ -58,4 +58,10 @@ class test_luki extends Controller
         ]);
         return $this->output_succ();
     }
+    public function test_del() {
+        $id= $this->get_in_int_val("id");
+        $this->t_test_luki->row_delete($id);
+        return $this->output_succ();
+    }
+
 }
