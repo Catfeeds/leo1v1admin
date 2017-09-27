@@ -21,6 +21,7 @@ class url_power_map {
 			'/teacher_level/get_teacher_level_quarter_info_new'	=>1321800,
 			'/teacher_level/get_teacher_advance_info'	=>1401600,
 			'/teacher_level/teacher_advance_info_list'	=>1401900,
+			'/teacher_level/get_teacher_advance_info_fulltime'	=>1402000,
 			'/teacher_level/teacher_switch_list_finally'	=>1401700,
 			'/supervisor/monitor'	=>1012200,
 			'/user_manage/all_users'	=>1010100,

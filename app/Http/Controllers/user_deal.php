@@ -658,10 +658,6 @@ class user_deal extends Controller
         }
 
         // 第一次常规课后 将课程规划与试听交接单推送老师
-
-
-
-
         if ($ret) {
             if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
@@ -670,7 +666,7 @@ class user_deal extends Controller
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
-            $url              = "http://wx-teacher.leo1v1.com";
+            $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
             $old_lesson_end   = date('Y-m-d H:i:s',$lesson_info['lesson_end']);
             $lesson_start     = date('Y-m-d H:i:s',$lesson_start);

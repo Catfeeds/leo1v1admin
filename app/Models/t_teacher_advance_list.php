@@ -19,10 +19,11 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         if($fulltime_flag==0){
             $where_arr[] = "(m.account_role <> 5 or m.account_role is null)"; 
         }elseif($fulltime_flag==1){
-            $where_arr[] = "m.account_role =5 and fulltime_teacher_type=1";
-        }elseif($fulltime_flag==2){           
-            $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
+            $where_arr[] = "m.account_role =5";
         }
+        /*elseif($fulltime_flag==2){           
+            $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
+            }*/
         $sql = $this->gen_sql_new("select a.*,t.realname,m.create_time become_member_time "
                                   ." from %s a left join %s t on a.teacherid = t.teacherid"
                                   ." left join %s m on t.phone = m.phone"
