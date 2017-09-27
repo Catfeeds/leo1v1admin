@@ -1,13 +1,15 @@
 <?php
 namespace App\Models;
 use \App\Enums as E;
-class t_test_luki extends \App\Models\Zgen\z_t_test_luki
+class t_test_abner extends \App\Models\Zgen\z_t_test_abner
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
+
+   
     public function  get_list( $page_info,$grade ,$start_time, $end_time) {
 
         $where_arr=[
@@ -16,7 +18,7 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
         $this->where_arr_add_time_range($where_arr,"value",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
-            "select * from %s where %s ",
+            "select  * from %s where %s ",
             self::DB_TABLE_NAME,
             $where_arr
         );
@@ -34,4 +36,16 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
         $this->main_get_list($sql);
     }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
