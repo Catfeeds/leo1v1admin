@@ -2740,11 +2740,9 @@ class user_manage_new extends Controller
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
         $show_type                   = $this->get_in_str_val("show_type","current");
-        $reference                   = $this->get_in_int_val("reference");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-
         $now_date  = date("Y-m",$start_time);
         $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
         //需要重新拉取  flag  0 不需要  1 需要
@@ -2757,7 +2755,6 @@ class user_manage_new extends Controller
         }else{
             $flag = 1;
         }
-        $reference_phone = $this->t_teacher_info->get_phone($reference);
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
