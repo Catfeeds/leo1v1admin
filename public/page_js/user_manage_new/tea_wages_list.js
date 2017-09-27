@@ -16,7 +16,7 @@ $(function(){
 			      reference : $('#id_reference').val(),
         });
     }
-    $.admin_select_user($("#id_reference"),"teacher");
+    $.admin_select_user($("#id_reference"),"teacher",function(){load_data();});
     $("#id_reference").val(g_args.reference);
 
     $('#id_date_range').select_date_range({

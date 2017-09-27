@@ -1607,8 +1607,8 @@ class ajax_deal2 extends Controller
             E\Esubject::set_item_value_str($item);
             E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
             if(empty($item["teacher_dimension"])){
-                $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
-                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
+                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
                 if($tea_in["test_transfor_per"]>=20){
                     $teacher_dimension="维度A";
                 }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){

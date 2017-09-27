@@ -9,7 +9,7 @@ interface GargsStatic {
 	level:	number;
 	show_data:	number;
 	show_type:	string;
-	reference:	string;
+	reference:	number;
 }
 declare module "g_args" {
     export = g_args;
