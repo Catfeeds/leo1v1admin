@@ -983,8 +983,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $where_arr = [
             "l.lesson_start>1490976000"
         ];
-        $sql = $this->gen_sql_new(" select count(teacherid) from %s t "
-                                  ." where not EXISTS (select * from %s tt where is_test_user=0) "
+        $sql = $this->gen_sql_new(" select t.teacherid from %s t "
+                                  ." where not EXISTS (select * from %s tt left join %s l on l.teacherid=tt.teacherid where l.lesson_start>1490976000 and tt.is_test_user=0 and tt.trial_lecture_is_pass =1 ) "
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME
         );
+
+        return $this->main_get_list($sql);
     }
 }
