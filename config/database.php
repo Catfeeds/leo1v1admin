@@ -171,6 +171,15 @@ return [
             'database' => 0,
         ],
 
+        'api' => [
+            'host'     => env('API_REDIS_HOST', 'localhost'),
+            'password' => env('API_REDIS_PASSWORD', null),
+            'port'     => env('API_REDIS_PORT', 6379),
+            'database' => 0,
+        ],
+
+
+
 
     ],
 

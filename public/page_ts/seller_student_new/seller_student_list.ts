@@ -272,13 +272,13 @@ $(function(){
                 if(ret.subject <=0){
                     alert("没有设置科目!");
                     $(me).parent().find(".opt-edit-new").click();
-                    return; 
+                    return;
                 }
                 if(ret.new_demand_flag ==1){
                     if(ret.stu_nick=="" || ret.grade==0 || ret.gender==0 || ret.region==""  || ret.city=="" || ret.area=="" || ret.class_rank=="" || ret.academic_goal==0 || ret.test_stress==0 || ret.entrance_school_type==0 || ret.study_habit=="" || ret.character_type=="" || ret.need_teacher_style=="" || ret.intention_level==0 || ret.demand_urgency==0 || ret.quotation_reaction==0 || ret.stu_request_test_lesson_demand=="" || ret.recent_results=="" ){
                         alert("请完善试听需求!");
                         $(me).parent().find(".opt-edit-new").click();
-                        return; 
+                        return;
 
                     }
                 }
@@ -670,7 +670,7 @@ $(function(){
 });
 
 function init_edit() {
-    
+
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var opt_obj=this;
@@ -1998,7 +1998,7 @@ function init_edit() {
         var click_type=1;
 
         edit_user_info_new(opt_data,opt_obj,click_type);
-        
+
     });
 
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
@@ -2115,9 +2115,9 @@ function init_edit() {
             if(click_type==1){
                 //id_revisit_info_new.hide();
             }
-            
+
             html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
-           
+
             html_node.find("#id_stu_reset_next_revisit_time").on("click",function(){
                 id_next_revisit_time.val("");
             });
@@ -2137,9 +2137,9 @@ function init_edit() {
             Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
             Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
 
-            
 
-            
+
+
             id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',
                 timepicker:true,
@@ -2150,7 +2150,7 @@ function init_edit() {
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
                 id_stu_request_test_lesson_time.val("");
-            });           
+            });
 
             id_study_habit.data("v",data.study_habit);
             id_study_habit.on("click",function(){
@@ -2176,20 +2176,20 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                            
+
                             $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
-                                "study_habit" : JSON.stringify(select_list)                                
+                                "study_habit" : JSON.stringify(select_list)
                             },function(res){
-                                id_study_habit.val(res.data); 
+                                id_study_habit.val(res.data);
                                 id_study_habit.data("v",res.data);
                             });
 
                             dlg.close();
                         }
                     });
-                    
+
                 });
-                
+
             });
 
             id_interests_hobbies.data("v",data.interests_and_hobbies);
@@ -2216,20 +2216,20 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                            
+
                             $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
-                                "interests_hobbies" : JSON.stringify(select_list)                                
+                                "interests_hobbies" : JSON.stringify(select_list)
                             },function(res){
-                                id_interests_hobbies.val(res.data); 
+                                id_interests_hobbies.val(res.data);
                                 id_interests_hobbies.data("v",res.data);
                             });
 
                             dlg.close();
                         }
                     });
-                    
+
                 });
-                
+
             });
 
             id_character_type.data("v",data.character_type);
@@ -2256,20 +2256,20 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                            
+
                             $.do_ajax("/ss_deal2/get_stu_character_type_name",{
-                                "character_type" : JSON.stringify(select_list)                                
+                                "character_type" : JSON.stringify(select_list)
                             },function(res){
-                                id_character_type.val(res.data); 
+                                id_character_type.val(res.data);
                                 id_character_type.data("v",res.data);
                             });
 
                             dlg.close();
                         }
                     });
-                    
+
                 });
-                
+
             });
 
             id_need_teacher_style.data("v",data.need_teacher_style);
@@ -2296,22 +2296,21 @@ function init_edit() {
                         multi_selection : true,
                         select_list     : select_list,
                         onChange        : function( select_list,dlg) {
-                            
+
                             $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
-                                "need_teacher_style" : JSON.stringify(select_list)                                
+                                "need_teacher_style" : JSON.stringify(select_list)
                             },function(res){
-                                id_need_teacher_style.val(res.data); 
+                                id_need_teacher_style.val(res.data);
                                 id_need_teacher_style.data("v",res.data);
                             });
 
                             dlg.close();
                         }
                     });
-                    
-                });
-                
-            });
 
+                });
+
+            });
 
 
 
@@ -2328,110 +2327,110 @@ function init_edit() {
             if(old_area == ''){
                 old_city="选择区（县）";
             }
-            
-            
 
-            var province = html_node.find("#province");  
-            var city = html_node.find("#city");  
-            var area = html_node.find("#area");  
-            var preProvince = "<option value=\"\">"+old_province+"</option>";  
-            var preCity = "<option value=\"\">"+old_city+"</option>";  
-            var preArea = "<option value=\"\">"+old_area+"</option>";  
-            
-            //初始化  
-            province.html(preProvince);  
-            city.html(preCity);  
+
+
+            var province = html_node.find("#province");
+            var city = html_node.find("#city");
+            var area = html_node.find("#area");
+            var preProvince = "<option value=\"\">"+old_province+"</option>";
+            var preCity = "<option value=\"\">"+old_city+"</option>";
+            var preArea = "<option value=\"\">"+old_area+"</option>";
+
+            //初始化
+            province.html(preProvince);
+            city.html(preCity);
             area.html(preArea);
-            
-            //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用  
-            //func_suc_getXmlProvice进行 省的 解析  
-            $.ajax({  
-                type : "GET",  
-                url : "/province_city_select_Info.xml",  
-                success : func_suc_getXmlProvice  
-            });  
-            
-            //省 下拉选择发生变化触发的事件  
-            province.change(function() {  
-                //province.val()  : 返回是每个省对应的下标,序号从0开始  
-                if (province.val() != "") {  
-                    if(data.region != html_node.find("#province").find("option:selected").text()){
-                        var preCity = "<option value=\"\">选择市（区）</option>";  
-                        var preArea = "<option value=\"\">选择区（县）</option>";   
-                    }
-                    city.html(preCity);  
-                    area.html(preArea);  
-                    
-                    //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
-                    //func_suc_getXmlProvice进行省对应的市的解析  
-                    $.ajax({  
-                        type : "GET",  
-                        url : "/province_city_select_Info.xml",  
-                        success : func_suc_getXmlCity  
-                    });  
-                    
-                }  
-            });  
-            
-            //市 下拉选择发生变化触发的事件  
-            city.change(function() {  
-                if(data.city != html_node.find("#city").find("option:selected").text()){  
-                    var preArea = "<option value=\"\">选择区（县）</option>";   
-                } 
 
-                area.html(preArea);  
-                $.ajax({  
-                    type : "GET",  
-                    url : "/province_city_select_Info.xml",  
-                    
-                    //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用  
-                    //func_suc_getXmlArea进行省对应的市对于的区的解析  
-                    success : func_suc_getXmlArea  
-                });  
-            });  
-            
-            //区 下拉选择发生变化触发的事件  
-            area.change(function() {  
-                var value = province.find("option:selected").text()  
-                    + city.find("option:selected").text()  
-                    + area.find("option:selected").text();  
-                id_address.val(value);  
-                $("#txtProCity").val(value);  
-            });  
-            
-            //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中  
-            function func_suc_getXmlProvice(xml) {  
-                //jquery的查找功能  
-                var sheng = $(xml).find("prov");  
-                
-                //jquery的遍历与查询匹配 eq功能,并将其放到下拉框中  
-                sheng.each(function(i) {  
-                    province.append("<option value=" + i + ">"  
-                                    + sheng.eq(i).attr("text") + "</option>");  
-                });  
-            }  
-            
-            function func_suc_getXmlCity(xml) {  
-                var xml_sheng = $(xml).find("prov");  
-                var pro_num = parseInt(province.val());  
-                var xml_shi = xml_sheng.eq(pro_num).find("city");  
-                xml_shi.each(function(j) {  
-                    city.append("<option  value=" + j + ">"  
-                                + xml_shi.eq(j).attr("text") + "</option>");  
-                });  
-            }  
-            
-            function func_suc_getXmlArea(xml) {  
-                var xml_sheng = $(xml).find("prov");  
-                var pro_num = parseInt(province.val());  
-                var xml_shi = xml_sheng.eq(pro_num).find("city");  
-                var city_num = parseInt(city.val());  
-                var xml_xianqu = xml_shi.eq(city_num).find("county");  
-                xml_xianqu.each(function(k) {  
-                    area.append("<option  value=" + k + ">"  
-                                + xml_xianqu.eq(k).attr("text") + "</option>");  
-                });  
-            } 
+            //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用
+            //func_suc_getXmlProvice进行 省的 解析
+            $.ajax({
+                type : "GET",
+                url : "/province_city_select_Info.xml",
+                success : func_suc_getXmlProvice
+            });
+
+            //省 下拉选择发生变化触发的事件
+            province.change(function() {
+                //province.val()  : 返回是每个省对应的下标,序号从0开始
+                if (province.val() != "") {
+                    if(data.region != html_node.find("#province").find("option:selected").text()){
+                        var preCity = "<option value=\"\">选择市（区）</option>";
+                        var preArea = "<option value=\"\">选择区（县）</option>";
+                    }
+                    city.html(preCity);
+                    area.html(preArea);
+
+                    //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                    //func_suc_getXmlProvice进行省对应的市的解析
+                    $.ajax({
+                        type : "GET",
+                        url : "/province_city_select_Info.xml",
+                        success : func_suc_getXmlCity
+                    });
+
+                }
+            });
+
+            //市 下拉选择发生变化触发的事件
+            city.change(function() {
+                if(data.city != html_node.find("#city").find("option:selected").text()){
+                    var preArea = "<option value=\"\">选择区（县）</option>";
+                }
+
+                area.html(preArea);
+                $.ajax({
+                    type : "GET",
+                    url : "/province_city_select_Info.xml",
+
+                    //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                    //func_suc_getXmlArea进行省对应的市对于的区的解析
+                    success : func_suc_getXmlArea
+                });
+            });
+
+            //区 下拉选择发生变化触发的事件
+            area.change(function() {
+                var value = province.find("option:selected").text()
+                    + city.find("option:selected").text()
+                    + area.find("option:selected").text();
+                id_address.val(value);
+                $("#txtProCity").val(value);
+            });
+
+            //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中
+            function func_suc_getXmlProvice(xml) {
+                //jquery的查找功能
+                var sheng = $(xml).find("prov");
+
+                //jquery的遍历与查询匹配 eq功能,并将其放到下拉框中
+                sheng.each(function(i) {
+                    province.append("<option value=" + i + ">"
+                                    + sheng.eq(i).attr("text") + "</option>");
+                });
+            }
+
+            function func_suc_getXmlCity(xml) {
+                var xml_sheng = $(xml).find("prov");
+                var pro_num = parseInt(province.val());
+                var xml_shi = xml_sheng.eq(pro_num).find("city");
+                xml_shi.each(function(j) {
+                    city.append("<option  value=" + j + ">"
+                                + xml_shi.eq(j).attr("text") + "</option>");
+                });
+            }
+
+            function func_suc_getXmlArea(xml) {
+                var xml_sheng = $(xml).find("prov");
+                var pro_num = parseInt(province.val());
+                var xml_shi = xml_sheng.eq(pro_num).find("city");
+                var city_num = parseInt(city.val());
+                var xml_xianqu = xml_shi.eq(city_num).find("county");
+                xml_xianqu.each(function(k) {
+                    area.append("<option  value=" + k + ">"
+                                + xml_xianqu.eq(k).attr("text") + "</option>");
+                });
+            }
 
 
             /*
@@ -2618,9 +2617,9 @@ function init_edit() {
             if(!data.knowledge_point_location ){
                 html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
             }else{
-                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location); 
+                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
             }
-           
+
 
 
             var reset_seller_student_status_options=function()  {
@@ -2709,7 +2708,7 @@ function init_edit() {
                             area="";
                         }
 
-                        
+
 
 
                         $.do_ajax("/ss_deal/save_user_info_new",{
@@ -2768,7 +2767,7 @@ function init_edit() {
                     }
                 }]
             });
-            
+
 
             dlg.getModalDialog().css("width","78%");
 
@@ -2784,16 +2783,16 @@ function init_edit() {
                     console.log(res);
                     id_test_paper.val(res.key);
 
-                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);  
+                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 clearTimeout(th);
             }, 1000);
 
 
         });
-        
+
     };
-   
-   
+
+
 
 
 

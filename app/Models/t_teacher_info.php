@@ -251,7 +251,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
         $address,$limit_plan_lesson_type,$lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,
-        $lstart,$lend,$teacherid_arr=[],$create_start=0,$create_end=0
+        $lstart,$lend,$teacherid_arr=[],$through_start=0,$through_end=0
     ){
         $where_arr = array(
             array( "teacherid=%u", $teacherid, -1 ),
@@ -264,8 +264,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "limit_plan_lesson_type=%u ", $limit_plan_lesson_type, -1 ),
             array( "train_through_new=%u ", $train_through_new, -1 ),
             array( "lesson_hold_flag=%u ", $lesson_hold_flag, -1 ),
-            array( "create_time>%u ", $create_start, 0 ),
-            array( "create_time<%u ", $create_end, 0 ),
+            // array( "through_new_time>%u ", $through_start, 0 ),
+            // array( "through_new_time<%u ", $through_end, 0 ),
         );
 
         if ($address) {

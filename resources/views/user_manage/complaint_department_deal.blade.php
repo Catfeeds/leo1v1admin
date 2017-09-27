@@ -10,6 +10,27 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">处理状态</span>
+                        <select id="id_is_complaint_state" class="opt-change" >
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否跟进</span>
+                        <select class="opt-change form-control" id="id_is_allot_flag" >
+                            <option value="-1">全部</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+
+
             </div>
         </div>
         <hr/>

@@ -2771,14 +2771,15 @@ class user_manage_new extends Controller
             //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
             // );
             // $list = array_merge($list,$reward_list);
-            file_put_contents($file_name,json_encode($list));
+            // file_put_contents($file_name,json_encode($list));
         // }else{
         //     $list = json_decode($file_info,true);
         // }
 
         // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-            $stu_num = 0;
-        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        // $stu_num = 0;
+
+        $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
              $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
@@ -4260,6 +4261,42 @@ class user_manage_new extends Controller
             'lesson_total'             => $lesson_goal_total,
             'default_lesson_count'     => 1,
         ]);
+
+        //子合同处理
+        $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid);
+        $child_order_info_goal = $this->t_child_order_info->get_all_child_order_info($orderid_goal,0);
+        $goal_info= $child_order_info_goal[0];
+        foreach($child_order_info as $val){
+            if($val["child_order_type"]==0){
+                if($val["pay_status"]==$goal_info["pay_status"]){
+                    $new_price = $val["price"]+$goal_info["price"];
+                    $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
+                        "price"  =>$new_price 
+                    ]);
+                    $this->t_child_order_info->row_delete($val["child_orderid"]);
+  
+                }elseif($val["pay_status"]==0 && $goal_info["pay_status"]==1){
+                    $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
+                        "child_order_type"  =>3 
+                    ]);
+                    $this->t_child_order_info->field_update_list($val["child_orderid"],[
+                        "parent_orderid"  =>$orderid_goal 
+                    ]);
+                }elseif($val["pay_status"]==1 && $goal_info["pay_status"]==0){
+                    $this->t_child_order_info->field_update_list($val["child_orderid"],[
+                        "parent_orderid"  =>$orderid_goal,
+                        "child_order_type"=>3
+                    ]);
+
+                }
+            }else{
+                $this->t_child_order_info->field_update_list($val["child_orderid"],[
+                   "parent_orderid"  =>$orderid_goal 
+                ]);
+            }
+        }
+
+        
         if(!$ret){
             $this->t_order_info->rollback();
             return $this->output_err("合并失败！");

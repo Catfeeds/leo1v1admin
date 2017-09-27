@@ -210,7 +210,6 @@ class seller_student_new2 extends Controller
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,
             $limit_require_send_adminid,$require_id,$lesson_plan_style
         );
-
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
@@ -313,15 +312,12 @@ class seller_student_new2 extends Controller
             }else{
                 $item['is_accept_adminid']="0";
             }
-                          
-
         }
 
         $adminid           = $this->get_account_id();
         $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
-
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
