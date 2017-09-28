@@ -134,7 +134,6 @@ class main_page extends Controller
             $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
             $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
-            dd($ret_info);
 
 
             // 金额转化率占比
@@ -144,6 +143,7 @@ class main_page extends Controller
             $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
             $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
+            dd($ret_info);
             if($ret_info['income_price']>0){
                 $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
                 $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
