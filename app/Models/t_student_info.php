@@ -386,6 +386,35 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     }
+
+    public function get_two_stu_for_archive( $grade, $sum_start)
+    {
+        $where_arr=[
+            "type=0 ",
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
+        $this->where_arr_add_int_or_idlist ($where_arr,"grade", $grade  );
+
+        $sql = $this->gen_sql_new(
+            "select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
+            ." phone, is_test_user, originid, grade, praise, assistantid, parent_name, parent_type, "
+            ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
+            ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
+            ." if(realname='',nick,realname) as nick, "
+            ." sum(b.lesson_count) as lesson_total "
+            ." from %s a left join %s b on a.userid = b.userid "
+            ."  where  %s group by a.userid "
+            ,self::DB_TABLE_NAME
+            ,t_week_regular_course::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_page_random($sql,2,true);
+
+    }
+
+
     public function get_student_sum_archive(  $assistantid)
     {
         $where_arr=[

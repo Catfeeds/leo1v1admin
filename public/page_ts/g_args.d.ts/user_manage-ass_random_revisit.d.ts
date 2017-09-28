@@ -68,10 +68,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../user_manage; vi  ../user_manage/ass_archive.ts
+	 mkdir -p ../user_manage; vi  ../user_manage/ass_random_revisit.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage-ass_archive.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage-ass_random_revisit.d.ts" />
 
 $(function(){
     function load_data(){
