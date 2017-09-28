@@ -1003,6 +1003,28 @@ class tongji2 extends Controller
 
             
         }
+
+        $ass_group=[];
+        foreach($ass_list as $key=>$va){
+            // echo $key;
+            //  $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            // $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
+            $master_adminid_ass = $va["master_adminid"];
+            @$ass_group[$master_adminid_ass]["student_all"]  += $va["student_all"];
+            @$ass_group[$master_adminid_ass]["student_finish"]     += $va["student_finish"];
+            @$ass_group[$master_adminid_ass]["student_online"]     += $va["student_online"];
+            @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];          
+            @$ass_group[$master_adminid_ass]["lesson_money"]     += $va["lesson_money"];
+            @$ass_group[$master_adminid_ass]["renw_target"]           += $va["renw_target"];
+            @$ass_group[$master_adminid_ass]["renw_price"]       += $va["renw_price"];
+            @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
+            @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
+            @$ass_group[$master_adminid_ass]["tran_num"]       += $va["tran_num"];
+            @$ass_group[$master_adminid_ass]["group_name"]       += $va["group_name"];
+
+
+        }
+
         if(!empty($ass_list)){
             foreach($ass_list as $v){  
                 $flag[] = $v['people_per'];  

@@ -1,6 +1,5 @@
 <?php
 return array(
-    ["db_weiyi","t_test_abner", "id"],
     ["db_weiyi_admin","t_test_luki", "id"],
     ["db_weiyi","t_seller_tongji_for_month", "id"],
     ["db_weiyi_admin","t_user_group_change_log", "id"],
