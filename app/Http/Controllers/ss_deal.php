@@ -2590,7 +2590,6 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
                                      "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand]);
-        // echo $stu_request_test_lesson_time.' ~ '.$test_lesson_subject_id;
 
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 

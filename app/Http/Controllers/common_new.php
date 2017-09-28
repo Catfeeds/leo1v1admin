@@ -1259,7 +1259,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $cmd ="cd /home/ybai/bin/Cbb/ && java Main ".$data." ".$sign;
         dd($cmd);
-        $verifyResult = 
+        $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
+        dd($verifyResult);
+ 
         
         //当前默认为true
         $verifyResult=true;
