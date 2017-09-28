@@ -168,7 +168,7 @@ class main_page extends Controller
 
 
             $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-            dd($ret_info['seller_schedule_num']);
+            dd($ret_info['test_lesson_succ_num']);
 
 
             $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
