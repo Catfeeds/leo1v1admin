@@ -13,11 +13,11 @@ class TTeacherInfoAddNewTrainFlag extends Migration
     public function up()
     {
         //
+
         Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
             t_field($table->tinyInteger("lessonid"),"全职老师参加新师培训标识");
         });
-
     }
 
     /**

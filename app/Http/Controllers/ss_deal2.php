@@ -485,7 +485,7 @@ class ss_deal2 extends Controller
 
     public function ass_add_require_test_lesson() {
         $userid                         = $this->get_in_userid();
-        $paret_name                     = $this->get_in_str_val('parent_name');
+        $parent_name                     = $this->get_in_str_val('parent_name');
         $gender                         = $this->get_in_int_val("gender");
         $grade                          = $this->get_in_grade();
         $subject                        = $this->get_in_subject();
@@ -509,7 +509,7 @@ class ss_deal2 extends Controller
         $tea_area                       = $this->get_in_str_val("tea_area");//老师县市
         $stu_request_test_lesson_demand = $this->get_in_str_val("stu_request_test_lesson_demand");//试听需求
         $intention_level                = $this->get_in_int_val("intention_level");//上课意向
-        $stu_request_test_lesson_time   = $this->get_in_str_val("stu_request_test_lesson_time");//试听时间
+        $stu_request_test_lesson_time   = strtotime($this->get_in_str_val("stu_request_test_lesson_time"));//试听时间
         $stu_test_paper                 = $this->get_in_str_val("test_paper");//试卷
         $test_stress                    = $this->get_in_int_val("test_stress");//应试压力
         $entrance_school_type           = $this->get_in_int_val("entrance_school_type");//升学目标
@@ -521,7 +521,6 @@ class ss_deal2 extends Controller
         $url                            = $this->get_in_str_val('change_reason_url');//申请原因图片
         $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
         $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
-
         \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -542,21 +541,24 @@ class ss_deal2 extends Controller
         }else{
             $is_green_flag=0;
         }
-
+        //update t_student_info
+        $ss_arr=[
+            "parent_name"           => $parent_name,
+            "grade"                 => $grade,
+            "school"                => $school,
+            "editionid"             => $editionid,
+            "province"              => $province,
+            "city"                  => $city,
+            "area"                  => $area,
+            "region"                => $region,
+        ];
+        $this->t_student_info->field_update_list($userid,$ss_arr);
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {//进例子,insert t_seller_student_new
             $phone=$this->t_student_info->get_phone($userid);
             $phone_location = \App\Helper\Common::get_phone_location($phone);
             $this->t_seller_student_new->row_insert([
                 "userid"                => $userid,
-                "parent_name"           => $parent_name,
-                "grade"                 => $grade,
-                "school"                => $school,
-                "editionid"             => $editionid,
-                "province"              => $province,
-                "city"                  => $city,
-                "area"                  => $area,
-                "region"                => $region,
                 "class_rank"            => $class_rank,
                 "grade_rank"            => $grade_rank,
                 "academic_goal"         => $academic_goal,
@@ -564,9 +566,6 @@ class ss_deal2 extends Controller
                 "interests_and_hobbies" => $interests_and_hobbies,
                 "character_type"        => $character_type,
                 "need_teacher_style"    => $need_teacher_style,
-                "tea_province"          => $tea_province,
-                "tea_city"              => $tea_city,
-                "tea_area"              => $tea_area,
                 "test_stress"           => $test_stress,
                 "entrance_school_type"  => $entrance_school_type,
                 "interest_cultivation"  => $interest_cultivation,
@@ -574,18 +573,9 @@ class ss_deal2 extends Controller
                 "habit_remodel"         => $habit_remodel,
                 "phone"                 => $phone,
                 "add_time"              => time(NULL) ,
-                "phone_location"        => $phone_location,
             ]);
         }else{//update t_seller_student_new
             $ss_arr=[
-                "parent_name"           => $parent_name,
-                "grade"                 => $grade,
-                "school"                => $school,
-                "editionid"             => $editionid,
-                "province"              => $province,
-                "city"                  => $city,
-                "area"                  => $area,
-                "region"                => $region,
                 "class_rank"            => $class_rank,
                 "grade_rank"            => $grade_rank,
                 "academic_goal"         => $academic_goal,
@@ -598,9 +588,6 @@ class ss_deal2 extends Controller
                 "interest_cultivation"  => $interest_cultivation,
                 "extra_improvement"     => $extra_improvement,
                 "habit_remodel"         => $habit_remodel,
-                "phone"                 => $phone,
-                "add_time"              => time(NULL) ,
-                "phone_location"        => $phone_location,
             ];
             $this->t_seller_student_new->field_update_list($userid,$ss_arr);
         }
@@ -622,7 +609,7 @@ class ss_deal2 extends Controller
                 "stu_test_paper"                 => $stu_test_paper,
                 "ass_test_lesson_type"           => $ass_test_lesson_type,
             ]);
-        //update t_test_lesson_subject_require
+        //insert t_test_lesson_subject_require
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -634,21 +621,24 @@ class ss_deal2 extends Controller
             $grade,
             $test_stu_request_test_lesson_demand
         );
-
+        //update t_test_lesson_subject_require
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+        if($require_id>0 && $ass_test_lesson_type ==2){
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"  => $change_reason_url,
+                "change_teacher_reason_type"     => $change_teacher_reason_type
+            ]);
+        }
         if (!$ret){
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
-            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
             $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
-                "change_teacher_reason_type"    => $change_teacher_reason_type,
-                "change_teacher_reason_img_url" => $change_reason_url,
-                "change_teacher_reason"         => $change_reason,
                 "is_green_flag"                 => $is_green_flag,
                 "green_channel_teacherid"       => $green_channel_teacherid,
                 "change_teacher_reason_type"    => $change_teacher_reason_type,
             ]);
-
             if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
                 //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                 $now = date('Y-m-d H:i:s',time());

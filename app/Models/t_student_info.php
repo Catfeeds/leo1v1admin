@@ -2650,7 +2650,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_studentid(){
@@ -2772,5 +2771,32 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
         return $this->main_get_list($sql);
     }
-
+    public function get_finish_num($start_time,$end_time){
+        $where_arr = [
+            [' last_lesson_time>=%u',$start_time,-1],
+            [' last_lesson_time<=%u',$end_time,-1],
+            ' lesson_count_left = 0',
+            ' type = 1 ',
+        ];
+        $sql = $this->gen_sql_new("select count(userid) as finish_num "
+                                  ." from %s s"
+                                  ." where %s and NOT EXISTS ( SELECT 1 FROM %s WHERE s.userid = userid)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_order_refund::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+    public function get_read_num($start_time,$end_time){
+        $where_arr = [
+            " type = 0 ",
+            " assistantid > 0",
+            " is_test_user = 0 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(userid)) as read_num"
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_value($sql);
+    }
 }
