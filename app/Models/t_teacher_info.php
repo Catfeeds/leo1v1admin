@@ -3665,7 +3665,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_test_user=0",
             // ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
-            "t.teacher_money_type in (5,6)"
+            "t.teacher_money_type in (5,6)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
             "l.lesson_type in (0,1,3)"
