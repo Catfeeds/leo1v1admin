@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTTestAbnerTable extends Migration
+class AddVotesToTTestAbner extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateTTestAbnerTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_test_abner', function (Blueprint $table) {
-            $table->increments('id'); 
-            $table->string('msg'); 
-            $table->integer('grade'); 
-            $table->integer('value'); 
+        Schema::table('t_test_abner', function (Blueprint $table) {
+            //
+            t_field($table->integer("email"),"msg xx  ");
+  
         });
-
     }
 
     /**
@@ -28,6 +26,8 @@ class CreateTTestAbnerTable extends Migration
      */
     public function down()
     {
-        Schema::drop('t_test_abner');
+        Schema::table('t_test_abner', function (Blueprint $table) {
+            //
+        });
     }
 }

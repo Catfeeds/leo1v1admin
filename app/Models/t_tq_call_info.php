@@ -490,4 +490,24 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_value($sql);
     }
 
+    /*
+     *@desn:获取负责人联系次数
+     *@date:2017-09-28
+     *@author:Abner<abner@leo.edu.com>
+     *@param:$adminid :拨打者id
+     *@author:$phone : 拨打电话
+     */
+
+    public function get_cur_adminid_call_count($adminid,$phone){
+
+        $sql = $this->gen_sql_new(
+            "select count(*) from %s where phone='%s' and adminid = %u "
+            ,self::DB_TABLE_NAME
+            ,$phone
+            ,$adminid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }
