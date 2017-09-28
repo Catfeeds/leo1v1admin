@@ -14,7 +14,7 @@ class test_boby extends Controller
       $this->switch_tongji_database();
     }
     public function table_start(){
-        $s = '<table border=1><tr>';
+        $s   = '<table border=1><tr>';
         $arr = func_get_args();
         foreach ($arr as $v) {
             $s = $s."<th>{$v}</th>";
@@ -24,8 +24,8 @@ class test_boby extends Controller
 
     public function tr_add($table_start){
         $arr = func_get_args();
-        $s = $table_start.'<tr>';
-        foreach($arr as $k=>$v){
+        $s   = $table_start.'<tr>';
+        foreach($arr as $k => $v){
             if($k) {
                 $s = $s."<td>{$v}</td>";
             }
@@ -577,6 +577,13 @@ class test_boby extends Controller
             $this->t_gift_info->update_all_price( $item['giftid'], $price );
         }
         echo 'ok';
+    }
+
+    public function get_all_parameters($arr) {
+        foreach( $arr as $vel) {
+            $a = $vel;
+            // $$a = 
+        }
     }
 
 }

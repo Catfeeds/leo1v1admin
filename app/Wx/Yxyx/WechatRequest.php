@@ -448,8 +448,7 @@ class WechatRequest  {
                 'title' => '学员反馈',
                 'description' => '',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/a7ee56745585a55a4703baadfbd9f5c11501667371977.JPG',
-                'url' => 'https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy',
-                // 'url' => 'http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='.$wx_openid,
+                'url' => 'http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='.$wx_openid,
             );
         }elseif($eventKey == 'card'){
             $tuwenList[] = array(
