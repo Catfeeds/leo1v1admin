@@ -1052,7 +1052,10 @@ class tongji2 extends Controller
         
             array_multisort($flag, SORT_DESC, $ass_list);
         }
-        return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
+        return $this->pageView(__METHOD__,null,[
+            "ass_list"=>$ass_list,
+            "ass_group"=>$ass_group
+        ]);
     }
     
     public function seller_origin_info() {

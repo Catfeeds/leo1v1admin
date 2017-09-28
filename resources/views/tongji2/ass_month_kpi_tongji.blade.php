@@ -77,6 +77,77 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
+                            各组明细
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>小组</td>
+                                        <td>在册学员</td>
+                                        <td>结课学生数</td>
+                                        <td>结课率</td>
+                                        <td>上课学生数</td>
+                                        <td>上课率</td>
+                                        <td>消耗课时</td>
+                                        <td>课时达成率</td>
+                                        <td>课时收入</td>
+                                        <td>续费目标</td>
+                                        <td>实际续费</td>
+                                        <td>续费达成率</td>
+                                        <td>扩科数量</td>
+                                        <td>转介绍人数</td>
+                                        <td>转介绍金额</td>
+                                        <td>人效</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_ass_group">
+                                    @foreach ( $ass_group as $key=> $var )
+                                        <tr>
+                                            <td  > {{@$var["group_name"]}} </td> 
+                                            <td>{{@$var["all_student"]}} </td>
+                                            <td>{{@$var["read_student_last"]}} </td>
+                                            <td>{{@$var["lesson_student"]}} </td>
+                                            <td>{{@$var["end_stu_num"]}} </td>
+                                            <td>{{@$var["month_stop_student"]}} </td>
+                                            <td>{{@$var["refund_student"]}} </td>
+                                            <td>{{@$var["warning_student"]}} </td>
+                                            <td>{{@$var["lesson_total_old"]}} </td>
+                                            <td>{{@$var["lesson_total"]}} </td>
+                                            <td>{{@$var["lesson_money"]}} </td>
+                                            <td  class="per" data-per="{{@$var["lesson_per"]}}" >
+                                                <a href="javascript:;" >{{@$var["lesson_ratio"]}}</a>
+                                            </td>
+                                            <td  class="per" data-per="{{@$var["lesson_per"]}}" >
+                                                <a href="javascript:;" >{{@$var["lesson_per"]}}%</a>
+                                            </td>
+
+                                            <td  class="per" data-per="{{@$var["return_stu_per"]}}" >
+                                                <a href="javascript:;" >{{@$var["renw_student"]}}</a>
+                                            </td>
+                                            <td  class="per" data-per="{{@$var["renw_per"]}}" >
+                                                <a href="javascript:;" >{{@$var["renw_price"]}}</a>
+                                            </td>
+
+                                            <td>{{@$var["tran_price"]}}</td>
+                                            
+                                            <td>{{@$var["kk_suc"]}}</td>
+                                            <td>{{@$var["kk_require"]}}</td>
+                                            <td>{{@$var["new_refund_money"]}} </td>
+                                            <td>{{@$var["renw_refund_money"]}} </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
                             组员明细
                         </div>
                         <div class="panel-body">
