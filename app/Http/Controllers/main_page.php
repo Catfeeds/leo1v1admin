@@ -137,31 +137,34 @@ class main_page extends Controller
 
 
             // 金额转化率占比
-            // $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
-
             $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
             $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
             $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
-            dd($ret_info);
             if($ret_info['income_price']>0){
-                $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['income_price']*100;
+                $ret_info['referral_money_rate'] = $ret_info['income_referral']/$ret_info['income_price']*100;
                 $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
-                $ret_info['junior_money_rate']   =  $ret_info['junior_money']/$ret_info['income_price']*100;
-                $ret_info['primary_money_rate']   =  $ret_info['primary_money']/$ret_info['income_price']*100;
+                $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['income_price']*100;
+                $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['income_price']*100;
             }else{
-                $ret_info['referral_money_rate'] = 0;
-                $ret_info['high_school_money_rate']   = 0;
-                $ret_info['junior_money_rate']   =  0;
-                $ret_info['primary_money_rate']   =  0;
+                $ret_info['referral_money_rate']    = 0;
+                $ret_info['high_school_money_rate'] = 0;
+                $ret_info['junior_money_rate']      = 0;
+                $ret_info['primary_money_rate']     = 0;
             }
+
+            //以上已完成
+
 
             // 月邀请率
             // 合同人数
             $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);
 
             // 转化率
-            $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
+            // $ret_info['seller_invit_num'] = $this->t_tongji_seller_top_info->get_invit_num($start_time); // 销售邀约数
+            $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
+
+            dd($ret_info['seller_invit_num']);
 
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_sub_list->get_seller_schedule_num($start_time); // 教务已排课
 

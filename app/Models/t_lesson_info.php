@@ -3377,7 +3377,7 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
         ];
         $where_arr = $this->lesson_common_where_arr($where_arr);
-        $sql = $this->gen_sql_new("select lessonid,t.realname as tea_nick,s.realname as stu_nick,l.assistantid,l.lesson_type"
+        $sql = $this->gen_sql_new("select l.lessonid,t.realname as tea_nick,s.realname as stu_nick,l.assistantid,l.lesson_type"
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"

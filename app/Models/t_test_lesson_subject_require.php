@@ -1542,7 +1542,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "s.is_test_user=0",
             "test_lesson_student_status in(210,220,290,300,301,302,420)",
             "seller_top_flag=1"
-            
+
         ];
         $sql = $this->gen_sql_new("select s.nick,t.realname,t.teacherid,tr.test_lesson_student_status,"
                                   ."tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject "
@@ -1556,7 +1556,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                  
+                                  $where_arr
         );
         return $this->main_get_list($sql);
 
@@ -2920,7 +2920,7 @@ ORDER BY require_time ASC";
             "seller_top_flag=1"
         ];
         $this->where_arr_add_time_range($where_arr,'curl_stu_request_test_lesson_time',$start_time,$end_time);
-        
+
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
 
@@ -2935,5 +2935,25 @@ ORDER BY require_time ASC";
         );
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_invit_num($start_time, $end_time){ //获取邀约数
+        $where_arr = [
+            "s.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(distinct(ts.userid)) from %s tr "
+                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+                           ." left join %s s on ts.userid=s.userid"
+                           ." where %s"
+                           ,self::DB_TABLE_NAME
+                           ,t_test_lesson_subject::DB_TABLE_NAME
+                           ,t_student_info::DB_TABLE_NAME
+                           ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }

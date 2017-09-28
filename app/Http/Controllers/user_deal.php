@@ -2708,6 +2708,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $lessonid = $this->t_lesson_info_b3->get_first_new_train_lessonid();
+        dd($lessonid);
+
         $start_time = strtotime("2017-08-01");
         $end_time   = strtotime("2017-09-01");
         $one_account = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
