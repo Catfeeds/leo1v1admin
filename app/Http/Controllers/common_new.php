@@ -1254,18 +1254,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $errmsg = $this->get_in_str_val("ERRMSG");
         $sign = $this->get_in_str_val("SIGN","047ce2d3d089d964da91b7247046d1474aed6a5b6ef8898424723844b25e3334383617605f5b5993dc37a0273f7b1ad03c7d72bd3f4bbfe65e2ed81f4d9baf98e6501842f6dfa4fe95ab9d6e6f903136c97e00286a2d05a440f6d9a410dbec4dfa23685b622d58aa4b379293a5536870d9283551633ef75dd591b3524e468142");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
-        //$data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
+        // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
-        $pem = chunk_split(base64_encode(hex2bin($der_data)), 64, "\n");
-
-        $public_key = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
-        dd($public_key);
-        $pkeyid = openssl_get_publickey($public_key);
- 
-        $verifyResult = openssl_verify($data, pack("H",$sign),$pkeyid,OPENSSL_ALGO_MD5);
- 
-        openssl_free_key($pkeyid);
- 
+        
+        //当前默认为true
+        $verifyResult=true;
         if($verifyResult){
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
@@ -1350,46 +1343,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         
     }
 
-    public function jack_test(){
-
-        dd(public_path());
-        define("filePath","/home/jack/work/admin/tmp");//.pfx和.cer文件放置的地址
-        define("pfxFileName","MC1005928_CCB.pfx");//.pfx文件名
-        define("password","14285714");//.pfx文件的密码
-        /*实现.pfx文件转为.pem文件*/
-        $file = filePath.pfxFileName;
-        $results = array();
-        $worked = openssl_pkcs12_read(file_get_contents($file), $results, password);
-        dd($worked);
-        $certificateCApem =$file.'.pem';
-        @file_put_contents($certificateCApem, $results);
-        
-      /*实现对传来的数据进行排序*/
-         function dataSort($data) {
-         $dataArr=explode(";",$data);
-           sort($dataArr);
-             $dataStr=implode(',',$dataArr);
-             $TransData=str_replace(",","&",$dataStr);
-             return  $TransData;
-               }
-            
-             /*实现加签功能*/
-             function sign($data) {
-                     $priKey = file_get_contents(filePath.pfxFileName.'.pem');
-                     $res = openssl_get_privatekey($priKey);
-                  openssl_sign($data, $sign, $res);
-                     openssl_free_key($res);
-                    $sign = base64_encode($sign);
-                    return $sign;
-                 }
-             
-             $data="";//用户传进的要加签的数据,中间每个参数用';'分隔开
-        // $data="name=amdin;code=12313;pass=admin;email=admin@qq.com;id=25536"; //测试用的$data数据
-             
-             $dataReturn=dataSort($data).'&'.'signType="RSA"'.'&'.'sign='.sign(dataSort($data));//业务需求需要返回的数据格式，使用者可根据实际需要改变
-        print_r($dataReturn);//生成加签后的数据 
-    }
-
+   
 
 
 }

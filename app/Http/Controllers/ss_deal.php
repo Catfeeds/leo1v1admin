@@ -2587,10 +2587,9 @@ class ss_deal extends Controller
 
         $origin="助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
 
-        $this->t_test_lesson_subject->field_update_list(
+        $ret = $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
                                      "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand]);
-
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
@@ -2605,34 +2604,31 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        if (!$ret){
-            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
 
-            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
-        }else{
-
-            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
-                "green_channel_teacherid"=>$green_channel_teacherid,
-                "is_green_flag"          =>$is_green_flag,
+        if($require_id>0 && $ass_test_lesson_type ==2){
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"  => $change_reason_url,
                 "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
+        }
 
-            if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
-                //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                $now = date('Y-m-d H:i:s',time());
-                $data = [
-                    'first'    => '换老师统计-调试',
-                    'keyword1' => '换老师统计-调试',
-                    'keyword2' => "换老师统计-调试 $now"
-                ];
-                $teacher_url = 'http://admin.yb1v1.com/tongji_ss/tongji_change_teacher_info';
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc','rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o', $data,$teacher_url);
+        if (!$ret){
+            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
+        }else{
 
-            }
+            // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "green_channel_teacherid"=>$green_channel_teacherid,
+                "is_green_flag"          =>$is_green_flag,
+                // "change_teacher_reason"          => $change_reason,
+                // "change_teacher_reason_img_url"  => $change_reason_url,
+                // "change_teacher_reason_type"     => $change_teacher_reason_type
+            ]);
+
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
             return $this->output_succ();
