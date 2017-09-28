@@ -309,7 +309,8 @@ class channel_manage extends Controller
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
 
         ///面试预约数
-        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
+        //$lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
+        $lesson_add = $this->t_teacher_record_list->get_all_interview_count_by_reference($start_time,$end_time,-1);
         
         //入职总人数以及各老师类型入职人数
         $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);

@@ -2034,7 +2034,7 @@ $(function(){
                     var now=(new Date()).getTime()/1000;
                     var min_date_time="";
                     var nowDayOfWeek = (new Date()).getDay();
-                    if ( (new Date()).getHours() <18 ) {
+                    if ((new Date()).getHours() <18 ) {
                         min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
                     }else{
                         if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
@@ -2051,47 +2051,45 @@ $(function(){
                     if (require_time < need_start_time ) {
                         alert("试听时间不能早于 "+ min_date_time );
                         return;
-                        //申请时间
                     }
-                    $.do_ajax("/ss_deal/save_user_info_new",{
-                        new_demand_flag                : 1,
-                        userid                         : id_userid.val(),
-                        parent_name                    : id_par_nick.val(),
-                        gender                         : id_gender.val(),
-                        grade                          : id_grade.val(),
-                        subject                        : id_subject.val(),
-                        school                         : id_school.val(),
-                        editionid                      : id_editionid,
-                        province                       : province,
-                        city                           : city,
-                        area                           : area,
-                        region                         : region,
-                        recent_results                 : id_recent_results,
-                        advice_flag                    : id_advice_flag.val(),
-                        class_rank                     : id_class_rank.val(),
-                        grade_rank                     : id_grade_rank.val(),
-                        academic_goal                  : id_academic_goal.val(),
-                        study_habit                    : id_study_habit.val(),
-                        interests_and_hobbies          : id_interests_hobbies.val(),
-                        character_type                 : id_character_type.val(),
-                        need_teacher_style             : id_need_teacher_style.val(),
-                        tea_province                   : tea_province,
-                        tea_city                       : tea_city,
-                        tea_area                       : tea_area,
-                        stu_request_test_lesson_demand : id_stu_request_test_lesson_demand.val(),
-                        intention_level                : id_intention_level.val(),
-                        stu_request_test_lesson_time   : id_stu_request_test_lesson_time.val(),
-                        test_paper                     : id_test_paper.val(),
-                        test_stress                    : id_test_stress.val(),
-                        entrance_school_type           : id_entrance_school_type.val(),
-                        interest_cultivation           : id_interest_cultivation.val(),
-                        extra_improvement              : id_extra_improvement.val(),
-                        habit_remodel                  : id_habit_remodel.val(),
-                        ass_test_lesson_type           : id_ass_test_lesson_type.val(),
-                        change_teacher_reason_type     : id_change_teacher_reason_type.val(),
-                        change_reason_url              : id_change_reason_url.val(),
-                        green_channel_teacherid        : id_green_channel_teacherid.val(),
-                        change_reason                  : id_change_reason.val(),
+                    $.do_ajax("/ss_deal2/ass_add_require_test_lesson",{
+                        'userid':id_userid.val(),
+                        'parent_name':id_par_nick.val(),
+                        'gender':id_gender.val(),
+                        'grade':id_grade.val(),
+                        'subject':id_subject.val(),
+                        'school':id_school.val(),
+                        'editionid':id_editionid.val(),
+                        'province':province,
+                        'city':city,
+                        'area':area,
+                        'region':region,
+                        'recent_results':id_recent_results.val(),
+                        'advice_flag':id_advice_flag.val(),
+                        'class_rank':id_class_rank.val(),
+                        'grade_rank':id_grade_rank.val(),
+                        'academic_goal':id_academic_goal.val(),
+                        'study_habit':id_study_habit.val(),
+                        'interests_and_hobbies':id_interests_hobbies.val(),
+                        'character_type':id_character_type.val(),
+                        'need_teacher_style':id_need_teacher_style.val(),
+                        'tea_province':tea_province,
+                        'tea_city':tea_city,
+                        'tea_area':tea_area,
+                        'stu_request_test_lesson_demand':id_stu_request_test_lesson_demand.val(),
+                        'intention_level':id_intention_level.val(),
+                        'stu_request_test_lesson_time':id_stu_request_test_lesson_time.val(),
+                        'test_paper':id_test_paper.val(),
+                        'test_stress':id_test_stress.val(),
+                        'entrance_school_type':id_entrance_school_type.val(),
+                        'interest_cultivation':id_interest_cultivation.val(),
+                        'extra_improvement':id_extra_improvement.val(),
+                        'habit_remodel':id_habit_remodel.val(),
+                        'ass_test_lesson_type':id_ass_test_lesson_type.val(),
+                        'change_teacher_reason_type':id_change_teacher_reason_type.val(),
+                        'change_reason_url':id_change_reason_url.val(),
+                        'green_channel_teacherid':id_green_channel_teacherid.val(),
+                        'change_reason':id_change_reason.val(),
                     });
                 }
             }]
@@ -2105,7 +2103,8 @@ $(function(){
         var th = setTimeout(function(){
             $.custom_upload_file('id_upload_change_reason_url',true,function (up, info, file) {
                 var res = $.parseJSON(info);
-                $("#change_reason_url").val(res.key);
+                console.log(res);
+                id_change_reason_url.val(res.key);
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
             $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
                 var res = $.parseJSON(info);
@@ -2124,7 +2123,6 @@ $(function(){
         var click_type=1;
 
         edit_user_info_new(opt_data,opt_obj,click_type);
-
     });
 
     var edit_user_info_new=function(opt_data,opt_obj,click_type){
