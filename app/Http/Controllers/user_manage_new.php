@@ -2951,6 +2951,7 @@ class user_manage_new extends Controller
     public function get_lesson_price(){
         $start_time = $this->get_in_int_val("start_time");
         $end_time   = $this->get_in_int_val("end_time");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
 
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
     }
