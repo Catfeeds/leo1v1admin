@@ -53,7 +53,7 @@ class reset_lesson_count_when_lesson_start extends Command
                 echo "$userid\n";
                 $task->t_seller_student_new->reset_sys_invaild_flag($userid);
                 $phone= $item["phone"];
-                $admin_revisiterid= $item["admin_revisiterid"];
+                $adminid = $item["admin_revisiterid"];
                 $cur_adminid_call_count= $task->t_tq_call_info->get_cur_adminid_call_count($adminid,$phone);
                 if ($cur_adminid_call_count != $item["cur_adminid_call_count"]) {
                     $task->t_seller_student_new->field_update_list($userid,[
