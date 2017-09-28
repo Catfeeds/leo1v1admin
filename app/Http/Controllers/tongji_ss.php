@@ -8013,10 +8013,11 @@ class tongji_ss extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
-        $list = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
+        $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
+        dd($list);
      
 
-        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+        // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
         foreach($list["list"] as &$item){
             if($item['grade_start']>0){
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])

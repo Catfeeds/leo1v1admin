@@ -62,10 +62,10 @@ class test_code extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_list_by_reference($reference);
         dd($tea_list);
         foreach($tea_list as $val){
-            $this->t_teacher_info->field_update_list($val['teacherid'],[
-                "teacher_money_type" => E\Eteacher_money_type::V_6,
-                "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
-            ]);
+                $this->t_teacher_info->field_update_list($val['teacherid'],[
+                    "teacher_money_type" => E\Eteacher_money_type::V_6,
+                    "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
+                ]);
         }
     }
 

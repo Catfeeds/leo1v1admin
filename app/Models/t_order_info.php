@@ -3397,9 +3397,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new( "  select sum(0.price) from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
+                                   ." left join %s s on s.userid = o.userid"
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
                                    ,t_manager_info::DB_TABLE_NAME
+
                                    ,$where_arr
         );
 
