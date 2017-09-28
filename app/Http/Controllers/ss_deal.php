@@ -809,7 +809,7 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-
+    
 
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();

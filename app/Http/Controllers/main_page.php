@@ -98,7 +98,6 @@ class main_page extends Controller
             $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
             $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
-
             // $main_type = 2;// 销售
             $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标
             if (!$ret_info['seller_target_income'] ) {
@@ -106,30 +105,20 @@ class main_page extends Controller
             }
 
             $month_finish_define_money_2=$ret_info['seller_target_income']/100;
-
             $month_start_time = strtotime( date("Y-m-01",  $start_time));
             $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
             $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
             $cur_money=0;
             $today=time(NULL);
-            // foreach ($month_date_money_list as $date=> &$item ) {
-            //     $date_time=strtotime($date);
-            //     if ($date_time<=$today) {
-            //         $cur_money+=@$item["money"];
-            //         $item["month_finish_persent"] = intval($cur_money/$month_finish_define_money_2) ;
-            //     }
-            // }
-
-
             foreach ($month_date_money_list as $date=> &$item ) {
                 $date_time=strtotime($date);
-                if ($date_time>$today) {
-
-                }else{
+                if ($date_time<=$today) {
                     $cur_money+=@$item["money"];
-                    $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
+                    $item["month_finish_persent"] = intval($cur_money/$month_finish_define_money_2) ;
                 }
             }
+
+
 
 
 

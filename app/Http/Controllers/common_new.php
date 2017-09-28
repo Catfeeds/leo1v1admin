@@ -1238,6 +1238,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //建行回调地址
     public function ccb_callback_return_info(){
+
         $orderNo = $this->get_in_str_val("ORDERID","701797545350");
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");
@@ -1269,7 +1270,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //$verifyResult=true;
         if($verifyResult){
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
-            dd($orderid);
             $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
             if(empty($check_exist)){
                 return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
