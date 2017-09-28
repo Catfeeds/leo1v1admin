@@ -28,7 +28,7 @@ class grab_lesson extends Controller
         foreach($ret_info['list'] as &$item) {
             $this->cache_set_item_account_nick($item,"adminid", "nick");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-            $item['live_time']    = $item['live_time'] / 60;
+            $item['live_time']    = intval( $item['live_time'] / 60 );
             $item['lesson_count'] = count( explode(',', $item['requireids']));
         }
 
