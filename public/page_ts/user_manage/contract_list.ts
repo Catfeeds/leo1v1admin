@@ -3,6 +3,7 @@
 
 function load_data(){
     $.reload_self_page({
+			orderid:	$('#id_orderid').val(),
         date_type         : $('#id_date_type').val(),
         opt_date_type     : $('#id_opt_date_type').val(),
         seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
@@ -62,6 +63,7 @@ $(function(){
 
 
     //init  input data
+	  $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
     $("#id_contract_type").val(g_args.contract_type);
     $("#id_contract_status").val(g_args.contract_status);

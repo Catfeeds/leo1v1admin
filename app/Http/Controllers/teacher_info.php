@@ -938,7 +938,7 @@ class teacher_info extends Controller
         $text       = $this->get_in_str_val("text");
         $time       = $this->get_in_str_val("time","0");
         // $require_id = trim(base64_decode($text),",");
-        $grabid = base64_decode($text);
+        $grabid     = base64_decode($text);
         $require_id = $this->t_grab_lesson_link_info->get_requireids_by_grabid($grabid);
 
 
@@ -974,7 +974,8 @@ class teacher_info extends Controller
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
         //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
-            "err_info"=>$err_info
+            "err_info"=>$err_info,
+            "grabid" => $grabid
         ]);
     }
 
@@ -2152,6 +2153,7 @@ class teacher_info extends Controller
         $visitid      = $this->get_in_int_val('visitid', 0);
         $requireid    = $this->get_in_int_val('requireid', 0);
         $success_flag = $this->get_in_int_val('success_flag', 0);
+        $fail_reason  = $this->get_in_str_val('fail_reason', '');
 
         if ($visitid == 0 & $grabid >0) {//首次打开页面,自动记录
             $ret = $this->t_grab_lesson_link_visit_info->row_insert([
@@ -2172,25 +2174,25 @@ class teacher_info extends Controller
                 'operation' => 1,
             ]);
 
-            $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid);
+            //修改逻辑，visitid-requireid-teacherid三个唯一
+            $operationid = $this->t_grab_lesson_link_visit_operation->get_operationid_by_tea_requireid($teacherid,$requireid, $visitid);
 
             if ($operationid > 0 ){
 
                 $ret = $this->t_grab_lesson_link_visit_operation->field_update_list($operationid,[
-                    'visitid'     => $visitid,
-                    'teacherid'   => $teacherid,
                     'create_time' => time(),
                     'success_flag'=> $success_flag,
+                    'fail_reason' => $fail_reason,
                 ]);
 
             } else {
-
                 $ret = $this->t_grab_lesson_link_visit_operation->row_insert([
                     'visitid'     => $visitid,
                     'teacherid'   => $teacherid,
                     'create_time' => time(),
                     'requireid'   => $requireid,
                     'success_flag'=> $success_flag,
+                    'fail_reason' => $fail_reason,
                 ]);
 
             }

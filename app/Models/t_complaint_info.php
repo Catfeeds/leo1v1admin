@@ -10,13 +10,19 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
 
-    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type ){
+    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type, $is_allot_flag ){
 
         $where_arr = [
             ["complaint_state = %d",$is_complaint_state,-1],
             ["account_type   = %d",$account_type ,-1],
             "complaint_type <>5"
         ];
+
+        if($is_allot_flag==0){
+            $where_arr[] = "tc.current_adminid=0";
+        }elseif($is_allot_flag ==1){
+            $where_arr[] = "tc.current_adminid>0";
+        }
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
@@ -36,11 +42,12 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
     }
 
 
-    public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type){
+    public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type, $is_allot_flag, $is_complaint_state){
 
         $where_arr = [
             ["ta.assign_flag=%d",0],
-            ["tc.account_type=%d",$account_type],
+            ["tc.account_type=%d",$account_type,-1],
+            ["complaint_state = %d",$is_complaint_state,-1],
         ];
 
         if($complaint_type !=5){
@@ -53,6 +60,12 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
             $where_arr[] =  ["ta.accept_adminid > %d",0];
         }else{
             $where_arr[] =  ["ta.accept_adminid in ('%s')",$account_id_str];
+        }
+
+        if($is_allot_flag == 0){
+            $where_arr[] = "tc.current_adminid=0";
+        }elseif($is_allot_flag == 1){
+            $where_arr[] = "tc.current_adminid>0";
         }
 
         // $where_arr[] = ["tc.complaint_type = %d",$complaint_type,-1];

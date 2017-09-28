@@ -5,7 +5,7 @@
         <div>
             <div class="row" >                              
                
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-2" style="display:none">
                     <div class="input-group ">
                         <span class="input-group-addon">老师类型</span>
                         <select class="opt-change form-control " id="id_fulltime_flag" >

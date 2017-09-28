@@ -41,7 +41,8 @@ $(function(){
 			record_score_num:	$('#id_record_score_num').val(),
 			identity:	$('#id_identity').val(),
 			tea_label_type:	$('#id_tea_label_type').val(),
-			plan_level:	$('#id_plan_level').val()
+			plan_level:	$('#id_plan_level').val(),
+			teacher_textbook:	$('#id_teacher_textbook').val()
         });
     }
 
@@ -68,6 +69,7 @@ $(function(){
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
     Enum_map.append_option_list("identity", $("#id_identity") );
     Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
+    Enum_map.append_option_list("region_version", $("#id_teacher_textbook") );
 
 
     $('#id_teacher_type').val(g_args.teacher_type);
@@ -104,6 +106,7 @@ $(function(){
 	$('#id_identity').val(g_args.identity);
 	$('#id_tea_label_type').val(g_args.tea_label_type);
 	$('#id_plan_level').val(g_args.plan_level);
+	$('#id_teacher_textbook').val(g_args.teacher_textbook);
 
 
 
@@ -842,6 +845,10 @@ $(function(){
 
 
 
+
+    if ( window.location.pathname=="/human_resource/index" || window.location.pathname=="/human_resource/index/") {
+         $("#id_free_time").parent().parent().show();
+    }
 
 
 
@@ -1749,6 +1756,7 @@ $(function(){
         });
     }
 
+
     if(acc=="alan"){
         $(".opt-edit").show();
     }
@@ -2044,6 +2052,41 @@ $(function(){
         });
 
     }
+
+    if(acc=="alina" || acc=="nina" || acc=="jack"){
+         $("#id_plan_level").parent().parent().show();
+    }else{
+         $("#id_plan_level").parent().parent().hide();
+    }
+
+    $(".opt-identity").on("click",function(){
+	      var data = $(this).get_opt_data();
+
+        var id_identity = $("<select/>");
+        var arr = [
+            ["老师身份",id_identity]
+        ];
+        Enum_map.append_option_list("identity",id_identity,true);
+        id_identity.val(data.identity);
+
+        $.show_key_value_table("设置身份",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage_new/update_teacher_identity",{
+                    "teacherid" : data.teacherid,
+                    "identity"  : id_identity.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
+
 
 
 });

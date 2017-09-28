@@ -481,7 +481,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ['phone = %d',$phone,-1],
             'is_called_phone = 1',
         ];
-        $this->where_arr_add_time_range($where_arr,'start_time',time(),time()-3600);
+        $this->where_arr_add_time_range($where_arr,'start_time',time()-3600*24,time());
         $sql = $this->gen_sql_new(" select is_called_phone from %s "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME

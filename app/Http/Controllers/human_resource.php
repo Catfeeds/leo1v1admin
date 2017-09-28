@@ -676,7 +676,7 @@ class human_resource extends Controller
         return $this->teacher_info_new () ;
     }
     public function index_zs(){
-        return $this->teacher_info_new () ;
+        return $this->teacher_info_new() ;
     }
 
     public function index_new_jw(){
@@ -770,6 +770,10 @@ class human_resource extends Controller
         $identity                 = $this->get_in_int_val("identity", -1);
         $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
         $plan_level               = $this->get_in_int_val("plan_level", -1);
+        $teacher_textbook         = $this->get_in_int_val("teacher_textbook", -1);
+        if($teacher_textbook != -1){
+            $teacher_textbook = $teacher_textbook;
+        }
         if($tea_label_type==-1){
             $tea_label_type_str="";
         }else{
@@ -808,7 +812,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num,$identity,$tea_label_type_str,$plan_level
+            $record_score_num,$identity,$tea_label_type_str,$plan_level,$teacher_textbook
         );
 
         $tea_list = [];
@@ -2605,9 +2609,6 @@ class human_resource extends Controller
             return $this->output_err("更新出错！请重新提交！");
         }
 
-        /* $this->add_teacher_label(
-            $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
-            );*/
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2617,11 +2618,9 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
                 "train_through_new"      => 1,
                 "level"                  =>1
-                //"train_through_new_time" => time(),
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-
 
             //等级升级通知
             /**
@@ -2650,7 +2649,6 @@ class human_resource extends Controller
             }
 
             //邮件推送
-            // $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             $html = $this->teacher_level_up_html($teacher_info);
             $email = $teacher_info["email"];
             if($email){
@@ -2659,10 +2657,10 @@ class human_resource extends Controller
                 ));
             }
 
-
+            //添加模拟试听奖金
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
-                $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
+                $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
                     "type"       => 5,
@@ -3927,6 +3925,7 @@ class human_resource extends Controller
 
     public function teacher_info_new(){
         $this->switch_tongji_database();
+        list($through_start,$through_end) = $this->get_in_date_range(0,0,0,null,3);
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $is_freeze              = $this->get_in_int_val('is_freeze',-1);
         $free_time              = $this->get_in_str_val("free_time","");
@@ -3943,13 +3942,13 @@ class human_resource extends Controller
         $seller_flag            = $this->get_in_int_val("seller_flag",0);
         $adminid                = $this->get_account_id();
 
-        $right_list             = $this->get_tea_subject_and_right_by_adminid($adminid);
-        $tea_subject            = $right_list["tea_subject"];
-        $tea_right              = $right_list["tea_right"];
-        $qz_flag                = $right_list["qz_flag"];
+        $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
+        $tea_subject = $right_list["tea_subject"];
+        $tea_right   = $right_list["tea_right"];
+        $qz_flag     = $right_list["qz_flag"];
 
         if($adminid==486 || $adminid==478){
-            $tea_subject= "";
+            $tea_subject = "";
         }
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
@@ -3967,7 +3966,7 @@ class human_resource extends Controller
             $teacherid,$is_freeze,$page_num,$is_test_user,$gender,
             $grade_part_ex,$subject,$second_subject,$address,$limit_plan_lesson_type,
             $lesson_hold_flag,$train_through_new,$seller_flag,$tea_subject,$lstart,
-            $lend,$teacherid_arr
+            $lend,$teacherid_arr,$through_start,$through_end
         );
 
         foreach($ret_info['list'] as  &$item){

@@ -263,7 +263,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
             ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time ,  if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand ,tr.intention_level, "
-            ." s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
+            ." s.gender,s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
             ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
             ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,"
             ." tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason,tr.seller_require_change_flag,"
@@ -436,8 +436,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
-
-        if (!$this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id)){
+        $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
+        if (!$is_has){
             return  false;
         }
 
@@ -1534,6 +1534,35 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
     }
+
+    public function get_seller_top_lesson_list($start_time,$end_time,$adminid){
+        $where_arr = [
+            ["tr.require_assign_time >= %u",$start_time,-1],
+            ["tr.require_assign_time <= %u",$end_time,-1],
+            ["tr.accept_adminid = %u",$adminid,-1],
+            "s.is_test_user=0",
+            "test_lesson_student_status in(210,220,290,300,301,302,420)",
+            "seller_top_flag=1"
+            
+        ];
+        $sql = $this->gen_sql_new("select s.nick,t.realname,t.teacherid,tr.test_lesson_student_status,"
+                                  ."tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject "
+                                  ." from %s tr left join %s l on tr.current_lessonid = l.lessonid"
+                                  ." left join %s tss on tr.current_lessonid = tss.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr                                  
+        );
+        return $this->main_get_list($sql);
+
+    }
+
     public function get_jw_teacher_test_lesson_info($start_time,$end_time){
         $where_arr = [
             ["require_assign_time >= %u",$start_time,-1],
@@ -2395,40 +2424,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
-    public function get_test_plan_data($start_time,$end_time){
-        $where_arr = [
-            ["tr.require_time>%u",$start_time,0],
-            ["tr.require_time<%u",$end_time,0],
-        ];
-        $order_str=[
-            ["pay_time>%u",$start_time,0],
-            ["pay_time<%u",$end_time,0],
-        ];
-
-        $sql = $this->gen_sql_new("select t.userid,current_lessonid,success_flag,o.orderid,l.tea_attend,l.stu_attend"
-                                  ." from %s tr "
-                                  ." left join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-                                  ." left join %s ts on tr.require_id=ts.require_id "
-                                  ." left join %s s on t.userid=s.userid "
-                                  ." left join %s o on t.userid=o.userid and o.contract_type=0 and o.contract_status in (1,2,3) "
-                                  ." and %s"
-                                  ." left join %s l on tr.current_lessonid=l.lessonid "
-                                  ." where %s "
-                                  ." and s.grade<106 "
-                                  ." and t.require_admin_type=2"
-                                  ." group by t.userid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$order_str
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_jw_no_plan_time_list($accept_adminid){
         $time= time();
         $where_arr=[
@@ -2929,6 +2924,17 @@ ORDER BY require_time ASC";
         
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
+
+    }
+
+    public function get_no_high_require(){
+        $sql = $this->gen_sql_new("select * from %s tr"
+                                  ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  ." where tr.seller_top_flag=1 and tr.intention_level <>1",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
 
     }
 }

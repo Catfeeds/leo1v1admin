@@ -42,6 +42,7 @@ class main_page extends Controller
         }
 
         $sys_info=[
+            ["当前IP", $this->get_in_client_ip() ],
             ["课时审查时间节点",\App\Helper\Config::get_lesson_confirm_start_time()],
         ];
 
@@ -60,34 +61,40 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');
 
-
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-            $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
-            $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-            $ret_info['income_price'] = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
-            $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
+            //概况
+            $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
-            if($ret_info['income_count']>0){
-                $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
+            $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+
+            $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
+
+            $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+
+            $ret_info['income_price'] = $order_info_total['total_price'];
+
+            if($order_info_total['total_num']>0){
+                $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
             }else{
                 $ret_info['aver_count'] = 0; //平均单笔
             }
+            // dd($ret_info);
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
-            $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-
-            $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
-
-            $total_price = 0;
+            $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+            $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
+            $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
             if($ret_info['formal_num']>0){
                 $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
             }else{
                 $ret_info['aver_money'] = 0;
             }
+
+            // dd($ret_info);
 
             $month = date('Y-m-01');
             $main_type = 2;// 销售
@@ -356,6 +363,10 @@ class main_page extends Controller
         $next_revisit_count = isset($row_item['next_revisit_count'])?$row_item['next_revisit_count']:0;
         $next_time_str = "date_type=1&opt_date_type=0&start_time=".$before_week_today."&end_time=".$today;
         // dd($ret_info);
+        //判断是不是总监
+        $adminid   = $this->get_account_id();
+        $is_master = $this->t_admin_majordomo_group_name->is_master($adminid);
+
         return $this->pageView(__METHOD__, $ret_info, [
             "ret_info_num"           => $ret_info_num,
             "group_list"             => $group_list,
@@ -376,6 +387,7 @@ class main_page extends Controller
             "seller_top_flag"        => $seller_top_flag,
             "next_revisit_count"     => $next_revisit_count,
             "next_time_str"          => $next_time_str,
+            "is_master"              => $is_master,
         ]);
     }
 
@@ -1705,10 +1717,12 @@ class main_page extends Controller
         $account_id  = $this->get_account_id();
         $master_adminid    = $this->t_admin_group_user->get_master_adminid_by_adminid($account_id);
         $up_master_adminid = $this->t_admin_main_group_name->get_up_group_adminid( $master_adminid);
-        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
 
+        $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month);
         $lesson_count_list_old=[];
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+
+
 
         $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);

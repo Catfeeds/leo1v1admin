@@ -658,10 +658,6 @@ class user_deal extends Controller
         }
 
         // 第一次常规课后 将课程规划与试听交接单推送老师
-
-
-
-
         if ($ret) {
             if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
@@ -670,7 +666,7 @@ class user_deal extends Controller
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
             // 发送微信提醒send_template_msg($teacherid,$template_id,$data,
-            $url              = "http://wx-teacher.leo1v1.com";
+            $url              = "";
             $old_lesson_start = date('Y-m-d H:i:s',$lesson_info['lesson_start']);
             $old_lesson_end   = date('Y-m-d H:i:s',$lesson_info['lesson_end']);
             $lesson_start     = date('Y-m-d H:i:s',$lesson_start);
@@ -2209,12 +2205,19 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 重置学生年级并更新所选时间后的课程年级
+     * @param userid 重置的学生id
+     * @param start_time 重置课程的开始时间,没有则不重置
+     * @param grade 重置年级
+     */
     public function set_stu_grade() { //设置
         $userid     = $this->get_in_userid();
         $start_time = $this->get_in_start_time_from_str();
         $grade      = $this->get_in_grade();
-        $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
         $acc = $this->get_account();
+
+        $lesson_confirm_start_time=\App\Helper\Config::get_lesson_confirm_start_time();
 
         if($acc != "jim" && $acc != "adrian" && $acc != "cora" ) {
             if(!$this->t_order_info->has_1v1_order($userid)) {
@@ -2224,8 +2227,8 @@ class user_deal extends Controller
             }
         }
 
-        if ( $start_time < $lesson_confirm_start_time  ) {
-            $start_time= $lesson_confirm_start_time;
+        if ( $start_time < $lesson_confirm_start_time && $start_time>0 ) {
+            $start_time = $lesson_confirm_start_time;
         }
 
         $db_grade=$this->t_student_info->get_grade($userid);
@@ -2705,222 +2708,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_student_subject_list->get_info_by_userid(-1);
-        $arr=[];
-        foreach($list as $item){
-            @$arr[$item["userid"]] .= E\Esubject::get_desc ($item["subject"]).",";
-        }
-        foreach($arr as $k=>$v){
-            $this->t_student_info->field_update_list($k,[
-                "subject_ex"  =>trim($v,",")         
-            ]);
-
-        }
-        dd($arr);
-        $this->t_student_info->field_update_list($userid,[
-            "subject_ex"  =>trim($subject_ex,",")           
-        ]);
-
-        $orderid=516;
-        $list = $this->get_baidu_money_charge_pay_info($orderid);
-        dd($list);
-        $dd = $this->t_test_lesson_subject->get_knowledge_point_location(542956);
-        dd($dd);
-        $list = $this->t_test_lesson_subject->get_no_demand_list();
-        foreach($list as $val){
-            $this->t_test_lesson_subject->field_update_list($val["test_lesson_subject_id"],[
-               "stu_request_test_lesson_demand" =>$val["knowledge_point_location"] 
-            ]);
-        }
-        dd($list);
-        $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num(strtotime("2017-09-01"),strtotime("2017-10-01"),349);
-        dd($top_num);
-
-        $list = $this->t_test_lesson_subject_require->get_seller_top_list();
-        foreach($list as $val){
-            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$val["curl_stu_request_test_lesson_time"]))-200));
-            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($val["cur_require_adminid"], $start_time);
-            if(!isset($self_top_info[6]["top_index"]) || $self_top_info[6]["top_index"]>25 ){
-                $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
-                   "seller_top_flag"=>0 
-                ]);
-            }
-            
-        }
-        dd($list);
-        dd($self_top_info);
- 
+        $start_time = strtotime("2017-08-01");
+        $end_time   = strtotime("2017-09-01");
+        $one_account = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
+        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference_detail($start_time,$end_time);
+        dd($one_account);
+        dd($lesson_add);
         
-        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_all();
-
-        foreach($jw_teacher_list as $k=>$val){
-            $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
-            if (!$json_ret) {
-                $json_ret=0;
-                \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
-            }
-            $normal_arr[$k]=$json_ret;
-            /*if($json_ret==1){
-              $i++;
-              }*/
-            // echo $json_ret;
-        }
-        asort($normal_arr);
-        dd($normal_arr);
-
-        $arr=["436"=>11,"400"=>333,"566"=>56,"66"=>1];
-        asort($arr);
-        dd($arr);
-        $list = $this->t_order_info->get_no_pay_order_list();
-        foreach($list as $item){
-            $orderid = $item["orderid"];
-            $data = $this->t_child_order_info->get_all_child_order_info($orderid);
-            if(empty($data)){
-                if(empty($item["pre_price"])){
-                    $price = $this->t_order_info->get_price($orderid);
-                    $this->t_child_order_info->row_insert([
-                        "child_order_type" =>0,
-                        "pay_status"       =>0,
-                        "add_time"         =>time(),
-                        "parent_orderid"   =>$orderid,
-                        "price"            => $price
-                    ]);
-                }else{
-                    $left_price = $item["price"]-$item["pre_price"];
-                    $this->t_child_order_info->row_insert([
-                        "child_order_type" =>0,
-                        "pay_status"       =>0,
-                        "add_time"         =>time(),
-                        "parent_orderid"   =>$orderid,
-                        "price"            => $left_price
-                    ]);
-                    if($item["pre_pay_time"]>0){
-                        $status =1;
-                        $this->t_child_order_info->row_insert([
-                            "child_order_type" =>1,
-                            "pay_status"       =>1,
-                            "add_time"         =>time(),
-                            "parent_orderid"   =>$orderid,
-                            "price"            => $item["pre_price"],
-                            "pay_time"         =>$item["pre_pay_time"],
-                            "channel"          =>$item["channel"],
-                            "from_orderno"     =>$item["pre_from_orderno"]
-                        ]);
-
-                        
-                    }else{
-                        $this->t_child_order_info->row_insert([
-                            "child_order_type" =>1,
-                            "pay_status"       =>0,
-                            "add_time"         =>time(),
-                            "parent_orderid"   =>$orderid,
-                            "price"            => $item["pre_price"],                           
-                        ]);
-
-                    }
-                    
-                   
-                    
-
-                    
-                }
-
-            }
-
-        }
-        dd($list);
-        /* $ret = $this->t_teacher_info->get_textbook_by_id(30018);
-        foreach($ret as $val){
-            $arr = explode(",",$val["teacher_textbook"]);
-            $i=0;
-            foreach($arr as $k=>$v){
-                if($v==30018){
-                    unset($arr[$k]);
-                }
-                if($v==6){
-                    $i=1;
-                }
-            }
-            if($i==0){
-                $arr[] = 6;
-            }
-            $str = implode(",",$arr);
-            $this->t_teacher_info->field_update_list($val["teacherid"],[
-               "teacher_textbook" =>$str
-            ]);
-            }*/
-        $ret = $this->t_student_info->get_stu_by_textbook(30018);
-        foreach($ret as $val){
-            $this->t_student_info->field_update_list($val["userid"],[
-               "editionid" =>6
-            ]);
-        }
-        dd($ret);
-        $start_time = strtotime(date("Y-m-d",time()))-15*86400;
-        $end_time   = time();
-        $level      = [0=>"",1=>"加油",2=>"还行",3=>"不错",4=>"良好",5=>"优秀"];
-
-        $lesson_info = $this->t_lesson_info->get_performance_stu_new($start_time,$end_time);
-        foreach ($lesson_info as $item){
-            $item["stu_email"] = "jhp0416@163.com";
-            if(!empty($item['stu_performance']) && !empty($item['stu_email']) && $item["lessonid"]==315060){
-                $ret_info     = json_decode($item['stu_performance'],true);
-                $lesson_start = date('Y-m-d H:i',$item['lesson_start']);
-                $lesson_end   = date('H:i',$item['lesson_end']);
-                $stu_email    = trim($item['stu_email']);
-                $level_stu    = $level[$ret_info['total_judgement']];
-                if(isset($ret_info['point_note_list']) && is_array($ret_info['point_note_list'])){
-                    foreach($ret_info['point_note_list'] as $key => $val){
-                        \App\Helper\Utils::logger("send_code_stu1".json_encode($val));
-
-                        $ret_info['point_name'][$key]     = @$val['point_name'];
-                        $ret_info['point_stu_desc'][$key] = @$val['point_stu_desc'];
-                    }
-                }
-                $num  = count(@$ret_info['point_stu_desc']);
-                $time = date('Y-m-d H:i:s',time());
-
-                if(is_array($ret_info['stu_comment'])){
-                    $str = json_encode($ret_info['stu_comment']);
-                    $str = "总结如下:<br>".$this->get_test_lesson_comment_str($str);
-                }else{
-                    $str = $ret_info['stu_comment'];
-                }
-                $ret_info['stu_comment'] = $str;
-
-                if($num>=3){
-                    $num = 3;
-                    dispatch( new \App\Jobs\SendEmail(
-                        "jack@leoedu.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
-                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."、".@$ret_info['point_name'][2]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li><li><i>".@$ret_info['point_name'][2]."</i><p>".@$ret_info['point_stu_desc'][2]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    ));
-                    echo 1111;
-                }elseif($num== 2){
-                    dispatch( new \App\Jobs\SendEmail(
-                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
-                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."、".@$ret_info['point_name'][1]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li><li><i>".@$ret_info['point_name'][1]."</i><p>".@$ret_info['point_stu_desc'][1]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    ));
-                    echo 1112;
-                }elseif($num==1 ){
-                    dispatch( new \App\Jobs\SendEmail(
-                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
-                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><p style=\"margin-top:20px\">课程中我们进行了：<span style=\"color:#e8a541\">".@$ret_info['point_name'][0]."</span><span > ". $num."</span>个知识点的学习</p><ul ><li><i >".@$ret_info['point_name'][0]."</i><p>".@$ret_info['point_stu_desc'][0]."</p></li></ul><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    ));
-                    echo 1113;
-                }else{
-                    dispatch( new \App\Jobs\SendEmail(
-                        "jhp0416@163.com",$lesson_start."-".$lesson_end." ".$item['stu_nick']." 课堂反馈",
-                        "<div style=\"width:700px;font-size:18px\"><div style=\"margin-top:30px\">总体评价:<span style=\"color:#e8a541\">".$level_stu."</span></div><div style=\"margin-top:30px\">上次作业<span style=\"color:#e8a541\">".$ret_info['homework_situation']."</span></div><div style=\"margin-top:10px\">上课时<span  style=\"color:#e8a541\">".$ret_info['lesson_interact']."</span></div><div style=\"margin-top:10px\">课程内容<span  style=\"color:#e8a541\">".$ret_info['content_grasp']."</span></div><div style=\"margin-top:40px\">".@$ret_info['stu_comment']."</div><div style=\"float:right;margin-top:20px\"><img src=\"http://dev.admin.yb1v1.com/images/dack2.png\" ><div style=\"margin-top:-100px;margin-left:120px\">老师:".$item['tea_nick']."</div><div style=\"margin-left:100px\">".$time."</div></div></div>"
-                    ));
-                    echo 1114;
-                }
-                $this->t_lesson_info->field_update_list($item['lessonid'],["lesson_comment_send_email_flag"=>1]);
-                \App\Helper\Utils::logger("send email.lessonid:".$item['lessonid']." date:".date("Y-m-d H:i",time()));
-            }
-
-        }
-
-
 
     }
 

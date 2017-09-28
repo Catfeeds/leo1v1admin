@@ -644,8 +644,7 @@ class common_new extends Controller
             $cdr_answer_time,
             $cdr_end_time,
             $duration,
-            $called_flag==2?1:0
-            ,
+            $cdr_status==28?1:0,
             "");
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
@@ -1239,32 +1238,41 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //建行回调地址
     public function ccb_callback_return_info(){
-        $orderNo = $this->get_in_str_val("ORDERID");
-        $posid   = $this->get_in_str_val("POSID");
-        $branchid = $this->get_in_str_val("BRANCHID");
-        $payment  = $this->get_in_str_val("PAYMENT");
-        $curcode = $this->get_in_str_val("CURCODE");
-        $remark1 = $this->get_in_str_val("REMARK1");
-        $remark2 = $this->get_in_str_val("REMARK2");
-        $success = $this->get_in_str_val("SUCCESS");
-        $sign = $this->get_in_str_val("SIGN");
-        $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
+        $orderNo = $this->get_in_str_val("ORDERID","701797545350");
+        $posid   = $this->get_in_str_val("POSID","002171923");
+        $branchid = $this->get_in_str_val("BRANCHID","310000000");
+        $payment  = $this->get_in_str_val("PAYMENT","1.00");
+        $curcode = $this->get_in_str_val("CURCODE","01");
+        $remark1 = $this->get_in_str_val("REMARK1","");
+        $remark2 = $this->get_in_str_val("REMARK2","");
+        $success = $this->get_in_str_val("SUCCESS","Y");
+        $acc_type = $this->get_in_str_val("ACC_TYPE","30");
+        $type = $this->get_in_str_val("TYPE","1");
+        $referer = $this->get_in_str_val("REFERER","");
+        $clientip = $this->get_in_str_val("CLIENTIP","116.226.191.6");
+        $installnum = $this->get_in_str_val("INSTALLNUM","12");
+        $errmsg = $this->get_in_str_val("ERRMSG");
+        $sign = $this->get_in_str_val("SIGN","047ce2d3d089d964da91b7247046d1474aed6a5b6ef8898424723844b25e3334383617605f5b5993dc37a0273f7b1ad03c7d72bd3f4bbfe65e2ed81f4d9baf98e6501842f6dfa4fe95ab9d6e6f903136c97e00286a2d05a440f6d9a410dbec4dfa23685b622d58aa4b379293a5536870d9283551633ef75dd591b3524e468142");
+        $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
+        // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";
-        $pem = chunk_split(base64_encode(hex2bin($der_data)), 64, "\n");
 
-        $public_key = "-----BEGIN PUBLIC KEY-----\n" . $pem . "-----END PUBLIC KEY-----\n";
-        $pkeyid = openssl_get_publickey($public_key);
+        $cmd ='cd /home/ybai/bin/Cbb/ && java Main "'.$data.'" "'.$sign.'"';
+        // echo $cmd;
+        //dd(11);
+        // dd($cmd);
+        $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
+        // dd($verifyResult);
  
-        $verifyResult = openssl_verify($data, pack("H",$sign),$pkeyid,OPENSSL_ALGO_MD5);
- 
-        openssl_free_key($pkeyid);
- 
+        
+        //当前默认为true
+        //$verifyResult=true;
         if($verifyResult){
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
             if(empty($check_exist)){
-                // return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
-                return false;
+                return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);
+                // return false;
             }else{
                 $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
                 //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
@@ -1330,17 +1338,20 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
 
             }
-            //return $this->output_succ(["status"=>0,"msg"=>"success"]);
-            return true;
+            return $this->output_succ(["status"=>0,"msg"=>"success"]);
+            //return true;
+            
  
         }else{
-            return false;
+            // return false;
+            return $this->output_succ(["status"=>1,"msg"=>"验证失败"]);
         }
  
         
         
     }
 
+   
 
 
 }

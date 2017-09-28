@@ -154,7 +154,7 @@
                                             <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["ass_green_tran_count"]}}</a> </td>
 
                                             <td class="tra_per_str">{{@$var["tra_per_str"]}} </td>
-                                            <td>{{@$var["top_count"]}} </td>
+                                            <td class="top_count" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["top_count"]}}</a> </td>
                                             <td>{{@$var["top_un_count"]}} </td>
                                             <td>{{@$var["tran_count_seller_top"]}} </td>
                                             <td>{{@$var["top_per"]}} </td>

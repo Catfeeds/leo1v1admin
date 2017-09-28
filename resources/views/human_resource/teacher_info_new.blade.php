@@ -22,6 +22,10 @@
     <section class="content ">
         <div>
             <div class="row ">
+                <div class="col-xs-12 col-md-4"  data-title="时间段">
+                    <div id="id_date_range" class="opt-change">
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >老师 </span>

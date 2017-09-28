@@ -414,6 +414,7 @@ class user_manage extends Controller
             3 => array("app_time", "申请日期"),
         ],3);
 
+        $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
@@ -454,7 +455,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
-            , $spec_flag
+            , $spec_flag,$orderid
         );
 
         $all_lesson_count = 0;
@@ -2079,6 +2080,8 @@ class user_manage extends Controller
         $page_num = $this->get_in_page_num();
         $account_type = $this->get_in_int_val('account_type',-1);
         $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
+        $is_allot_flag = $this->get_in_int_val('is_allot_flag',-1);
+
         if(!$account_type){
             $account_type = -1;
         }
@@ -2088,7 +2091,7 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type   );
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type,$is_allot_flag   );
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
@@ -2124,6 +2127,10 @@ class user_manage extends Controller
     public function complaint_department_deal_teacher_qc(){
         $this->set_in_value('account_type',2);
         return $this->complaint_department_deal();
+    }
+
+    public function complaint_department_deal_teacher_tea_jy(){
+        return $this->complaint_department_deal_teacher_tea();
     }
 
     public function complaint_department_deal_teacher_tea(){
@@ -2232,7 +2239,12 @@ class user_manage extends Controller
         $page_info    = $this->get_in_page_info();
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
-        $account_type = $this->get_in_int_val('account_type');
+
+        $account_type = $this->get_in_int_val('account_type',-1);
+        $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
+        $is_allot_flag = $this->get_in_int_val('is_allot_flag',-1);
+
+
         $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
@@ -2263,7 +2275,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type, $is_allot_flag, $is_complaint_state );
 
 
         foreach($ret_info['list'] as $index=>&$item){
@@ -2852,7 +2864,7 @@ class user_manage extends Controller
     //助教未试听扩课
     public function ass_no_test_lesson_kk_list(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 ); 
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );
 
         $list= $this->t_month_ass_student_info->get_ass_hand_kk_num($start_time);
         $ass_lead = $this->t_admin_group_name->get_leader_list(1);
@@ -2864,9 +2876,23 @@ class user_manage extends Controller
                     unset($list["list"][$k]);
                 }
             }
-  
+
         }
         return $this->pageView(__METHOD__, $list);
+    }
+
+    public function set_dynamic_passwd()
+    {
+        $phone  = $this->get_in_str_val('phone', '');
+        $role   = $this->get_in_int_val('role', 0);
+        $passwd = $this->get_in_str_val('passwd', '');
+        $connection_conf="api";
+        if ($role == E\Erole::V_PARENT) {
+            $connection_conf="default";
+        }
+
+        $ret_set = \App\Helper\Net::set_dynamic_passwd($phone,$role,md5($passwd), $connection_conf );
+        return $this->output_bool_ret($ret_set);
     }
 
 }

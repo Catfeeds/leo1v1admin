@@ -112,9 +112,9 @@ class teacher_test_lesson_tra_order extends Command
             $num = $item["num"];
             $tea_arr =$task->get_admin_group_subject_list($k);
             $subject_str = E\Esubject::get_desc($k);
-            $tea_arr[72]="Erick";
+            // $tea_arr[72]="Erick";
             $tea_arr[448]="rolon";
-            $tea_arr[349]="Jack";
+            // $tea_arr[349]="Jack";
             foreach($tea_arr as $kk=>$vv){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($kk,"理优监课组","老师试听课转化率过低报警通知",$vv."老师你好,系统检查到".$subject_str."学科如下 ".$num."位 老师20次试听课转化率低于5%
 

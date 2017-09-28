@@ -3,6 +3,28 @@
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
 $(function(){
+    $(".opt-set-server ").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $server=$ ("<select >  <option value=\"h_01\">杭州</option> <option value=\"q_01\">青岛</option>   <option value=\"b_01\">北京</option> "
+                       + "<option value=\"a_01\" >青岛_27</option> "
+                       +" </select>");
+        var arr=[
+            ["服务器", $server]
+        ];
+        $server.val(opt_data.current_server);
+        $.show_key_value_table("选择服务器", arr, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
+                    "courseid" : opt_data.courseid,
+                    "current_server" :  $server.val()
+                });
+            }
+        });
+
+    });
+
     function load_data( ){
         $.reload_self_page({
             date_type     :	$('#id_date_type').val(),
@@ -23,17 +45,19 @@ $(function(){
             is_with_test_user : $("#id_is_with_test_user").val(),
             has_performance   : $("#id_has_performance").val(),
             lesson_count      : $("#id_lesson_count").val(),
-			lesson_del_flag:	$('#id_lesson_del_flag').val(),
+      lesson_del_flag:	$('#id_lesson_del_flag').val(),
 
             origin : $("#id_origin").val(),
 
             has_video_flag            :	$('#id_has_video_flag').val(),
             lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
             lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
+      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
+    Enum_map.append_option_list( "fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     $(".opt-change-price").on("click",function(){
         var lessonid     = $(this).parent().data("lessonid");
         var tea_money    = $(this).parent().data("teacher_price");
@@ -72,6 +96,7 @@ $(function(){
 
 
     $('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $('#id_origin').val(g_args.origin);
 
 
@@ -487,6 +512,9 @@ $(function(){
             data     : {"lessonid":lessonid},
             success  : function(result){
                 if(result.ret == 0){
+                    console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                    +"&audio="+encodeURIComponent(result.audio_url)
+                                    +"&start="+result.real_begin_time);
                     if ( false && !$.check_in_phone() ) {
 
                         // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
@@ -926,6 +954,8 @@ $(function(){
             var args="title=lessonid : "+lessonid+"&beginTime="+data.real_begin_time+"&endTime="+data.real_end_time+"&drawUrl="+data.draw+"&audioUrl="+data.audio;
             var args_64 = $.base64.encode(args);
             var text = encodeURIComponent(url+args_64);
+
+            console.log(text);
             var dlg = BootstrapDialog.show({
                 title: title,
                 message  : "<div style=\"text-align:center\"><img width=\"300\" src=\"/common/get_qr?text="+text+"\"></img><br/>" +  url+args_64+"<br/> "+args +"</div>",
@@ -970,7 +1000,7 @@ $(function(){
 
     $("#id_studentid").val(g_args.studentid);
     $("#id_seller_adminid").val(g_args.seller_adminid);
-	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
+  $('#id_lesson_del_flag').val(g_args.lesson_del_flag);
 
 
     $.admin_select_user( $("#id_studentid"), "student", load_data);
@@ -1004,6 +1034,65 @@ $(function(){
                     "lessonid": lessonid
                 });
             }
+        });
+    });
+
+    $(".opt-confirm-test").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+
+        var $fail_greater_4_hour_flag = $("<select> <option value=0>否</option> <option value=1>是</option>  </select>") ;
+        var $success_flag = $("<select><option value=0>未设置</option><option value=1>成功</option><option value=2>失败</option></select>") ;
+        var $test_lesson_fail_flag=$("<select></select>") ;
+        var $fail_reason=$("<textarea></textarea>") ;
+        Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true );
+        $success_flag.val(opt_data.success_flag );
+        $fail_reason.val(opt_data.fail_reason);
+        $test_lesson_fail_flag.val(opt_data.test_lesson_fail_flag);
+        $fail_greater_4_hour_flag .val(opt_data.fail_greater_4_hour_flag);
+
+        var arr=[
+            ["学生", opt_data.nick  ],
+            ["老师", opt_data.realname],
+            ["上课时间", opt_data.lesson_start_str   ],
+            ["是否成功",  $success_flag ],
+            ["是否离上课4个小时以前(不付老师工资)", $fail_greater_4_hour_flag],
+            ["失败类型", $test_lesson_fail_flag],
+            ["失败原因", $fail_reason],
+        ];
+
+        var update_show_status =function ()  {
+            var show_flag =  $success_flag.val()==2 ;
+            $fail_greater_4_hour_flag.key_value_table_show( show_flag);
+            $test_lesson_fail_flag.key_value_table_show( show_flag);
+            $fail_reason.key_value_table_show( show_flag);
+            $test_lesson_fail_flag.html("");
+            if ($fail_greater_4_hour_flag.val() ==1 ) { //不付老师工资
+                Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true, [100,106,107,108,109,110,111,112,113 ] );
+            }else{
+                Enum_map.append_option_list("test_lesson_fail_flag", $test_lesson_fail_flag, true ,
+                                            [1,2,109,110,111,112,113] );
+            }
+        };
+
+        $success_flag.on("change",update_show_status);
+        $fail_greater_4_hour_flag.on("change",update_show_status);
+
+
+
+        $.show_key_value_table("课程确认", arr, {
+            label    : '提交',
+            cssClass : 'btn-danger',
+            action   : function(dialog) {
+                $.do_ajax("/ss_deal/confirm_test_lesson_ass", {
+                    "lessonid"                 : opt_data.lessonid ,
+                    "success_flag"             : $success_flag.val(),
+                    "fail_reason"              : $fail_reason.val(),
+                    "test_lesson_fail_flag"    : $test_lesson_fail_flag.val(),
+                    "fail_greater_4_hour_flag" : $fail_greater_4_hour_flag.val(),
+                });
+            }
+        },function(){
+            update_show_status();
         });
     });
 
@@ -1086,21 +1175,21 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/user_deal/lesson_set_confirm", {
-                    "lessonid"       : lessonid,
-                    "confirm_flag"   : $confirm_flag.val(),
-                    "confirm_reason" : $confirm_reason.val(),
+                    "lessonid"                                  : lessonid,
+                    "confirm_flag"                              : $confirm_flag.val(),
+                    "confirm_reason"                            : $confirm_reason.val(),
                     "lesson_cancel_reason_next_lesson_time"     : $lesson_cancel_reason_next_lesson_time.val(),
                     "lesson_cancel_reason_next_lesson_end_time" : $lesson_cancel_reason_next_lesson_end_time.val(),
-                    "lesson_cancel_reason_type" : $lesson_cancel_reason_type.val(),
-                    "lesson_cancel_time_type"   : $lesson_cancel_time_type.val(),
-                    "lesson_count" : $lesson_count.val(),
-                    "courseid"     : opt_data.courseid,
-                    "lesson_type"  : opt_data.lesson_type,
-                    "subject"      : opt_data.subject,
-                    "grade"        : opt_data.grade,
-                    "teacherid"    : opt_data.teacherid,
-                    "userid"       : opt_data.stu_id,
-                    "phone"        : opt_data.stu_phone
+                    "lesson_cancel_reason_type"                 : $lesson_cancel_reason_type.val(),
+                    "lesson_cancel_time_type"                   : $lesson_cancel_time_type.val(),
+                    "lesson_count"                              : $lesson_count.val(),
+                    "courseid"                                  : opt_data.courseid,
+                    "lesson_type"                               : opt_data.lesson_type,
+                    "subject"                                   : opt_data.subject,
+                    "grade"                                     : opt_data.grade,
+                    "teacherid"                                 : opt_data.teacherid,
+                    "userid"                                    : opt_data.stu_id,
+                    "phone"                                     : opt_data.stu_phone
                 });
             }
         },function(){
@@ -1353,6 +1442,11 @@ $(function(){
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ||  window.location.pathname =="/tea_manage/lesson_list_seller/" || window.location.pathname =="/tea_manage/lesson_list_ass" || window.location.pathname =="/tea_manage/lesson_list_ass/") {
         $(".opt-seller-ass-record").show();
     }
+
+    if (window.location.pathname =="/tea_manage/lesson_list_fulltime" ||  window.location.pathname =="/tea_manage/lesson_list_fulltime/") {
+         $("#id_fulltime_teacher_type").parent().parent().hide();
+    }
+
 
     $(".opt-user-video-info").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -1736,7 +1830,7 @@ $(function(){
     $('.opt-manage-all').on('click',function(){
         var opt_data=$(this).get_opt_data();
         var js_pot = JSON.stringify(opt_data);
-        window.open('supervisor/lesson_all_info?lessonid='+opt_data.lessonid);
+        window.open('/supervisor/lesson_all_info?lessonid='+opt_data.lessonid);
     });
 
     $(".opt-add_reward").on("click",function(){
@@ -1768,4 +1862,56 @@ $(function(){
             }
         });
     });
+
+
+    $('.opt-modify-lesson-time').on("click",function(){
+        var opt_data        = $(this).get_opt_data();
+        var id_modify_time_start  = $('<input/>');
+        var id_modify_time_end    = $('<input/>');
+        $.do_ajax("/ss_deal/get_lesson_time",{
+            'lessonid' : opt_data.lessonid
+        },function(result){
+            var data = result.data;
+
+            id_modify_time_start.datetimepicker({
+                lang:'ch',
+                timepicker:true,
+                format:'Y-m-d H:i'
+            });
+
+            id_modify_time_end.datetimepicker({
+                lang:'ch',
+                timepicker:true,
+                format:'Y-m-d H:i'
+            });
+
+            id_modify_time_start.val(data.lesson_start);
+            id_modify_time_end.val(data.lesson_end);
+
+            var arr=[
+                [ "课程开始时间", id_modify_time_start],
+                [ "课程结束时间", id_modify_time_end],
+            ];
+
+            $.show_key_value_table("调换上课时间", arr,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax("/ss_deal/set_lesson_time",{
+                        'lessonid' :  opt_data.lessonid,
+                        'lesson_start' : id_modify_time_start.val(),
+                        'lesson_end'   : id_modify_time_end.val()
+                    },function(result){
+                        alert(result.info);
+                        load_data();
+                    });
+                }
+            },function(){
+            });
+        }
+       );
+
+    });
+
+
 });

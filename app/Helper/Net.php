@@ -1,7 +1,9 @@
 <?php
 namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
+use Illuminate\Support\Facades\Redis ;
 
+defined('DYNAMIC_PASSWD_DB') OR define('DYNAMIC_PASSWD_DB', 10);
 class Net {
     public static  function rpc( $url,  $args =null ){
         /*
@@ -184,5 +186,19 @@ class Net {
         curl_close($ch);
         return $result;
         //return file_get_contents($opt_url);
+    }
+
+    static public function set_dynamic_passwd( $phone, $role, $passwd, $connection_conf="api" )
+    {
+        $redis = Redis::connection($connection_conf );
+
+        if (!$redis->select(DYNAMIC_PASSWD_DB)) {
+            return false;
+        }
+
+        $key = $phone.'_'.$role;
+        $result = $redis->setex($key, 3600*2, $passwd);
+        //$redis->close();
+        return $result;
     }
 }

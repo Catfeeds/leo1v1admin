@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	orderid:	number;
 	contract_type:	number;
 	contract_status:	number;
 	config_courseid:	number;
@@ -147,6 +148,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			orderid:	$('#id_orderid').val(),
 			contract_type:	$('#id_contract_type').val(),
 			contract_status:	$('#id_contract_status').val(),
 			config_courseid:	$('#id_config_courseid').val(),
@@ -183,6 +185,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_orderid').val(g_args.orderid);
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_config_courseid').val(g_args.config_courseid);
@@ -213,6 +216,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">orderid</span>
+                <input class="opt-change form-control" id="id_orderid" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

@@ -262,6 +262,10 @@ class ss_deal extends Controller
         $phone                          = $this->get_in_phone();
         $test_lesson_subject_id         = $this->get_in_test_lesson_subject_id();
         $stu_nick                       = $this->get_in_str_val("stu_nick");
+        $parent_name                    = $this->get_in_str_val("parent_name");
+        $gender                         = $this->get_in_str_val("gender");
+        $grade                          = $this->get_in_str_val("grade");
+        $subject                        = $this->get_in_str_val("subject");
         $editionid                      = $this->get_in_int_val("editionid");
         $school                         = $this->get_in_str_val("school");
         $stu_request_test_lesson_time   = $this->get_in_str_val("stu_request_test_lesson_time");
@@ -300,13 +304,13 @@ class ss_deal extends Controller
             $stu_request_test_lesson_time=0;
         }
 
-
         $stu_arr=[
             "nick"        => $stu_nick,
+            "parent_name" => $parent_name,
+            "gender"      => $gender,
             "editionid"   => $editionid,
             "school"      => $school,
         ];
-
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
 
@@ -315,6 +319,7 @@ class ss_deal extends Controller
             "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
             "ass_test_lesson_type" => $ass_test_lesson_type,
+            "subject" => $subject,
         ];
 
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
@@ -326,7 +331,8 @@ class ss_deal extends Controller
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "change_teacher_reason"          => $change_reason,
             "change_teacher_reason_img_url"      => $change_reason_url,
-            "change_teacher_reason_type" => $change_teacher_reason_type
+            "change_teacher_reason_type" => $change_teacher_reason_type,
+            "test_stu_grade"   => $grade,
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
@@ -852,6 +858,7 @@ class ss_deal extends Controller
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+        $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
 
 
         $this->t_seller_student_new->field_update_list($userid,['stu_test_ipad_flag'=>$stu_test_ipad_flag,'not_test_ipad_reason'=>$not_test_ipad_reason]);
@@ -895,7 +902,7 @@ class ss_deal extends Controller
             $require_adminid = $this->get_account_id();
             $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time))-200));
-            
+
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
             if(isset($self_top_info[6]["top_index"]) || $require_adminid == 349){
                 $rank = @$self_top_info[6]["top_index"];
@@ -903,8 +910,8 @@ class ss_deal extends Controller
                     $month_start = strtotime(date("Y-m-01",$curl_stu_request_test_lesson_time));
                     $month_end = strtotime(date("Y-m-01",$month_start+40*86400));
                     $top_num = $this->t_test_lesson_subject_require->get_seller_top_require_num($month_start,$month_end,$require_adminid);
-                    if($top_num>=40){
-                        $seller_top_flag=0; 
+                    if($intention_level !=1 || $top_num>=40){
+                        $seller_top_flag=0;
                     }else{
                         $seller_top_flag=1;
                     }
@@ -930,7 +937,7 @@ class ss_deal extends Controller
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
 
             }
-            
+
             return $this->output_succ(["seller_top_flag"=>$seller_top_flag,"top_num"=>$top_num]);
         }
     }
@@ -1282,11 +1289,31 @@ class ss_deal extends Controller
             $teacherid
         );
 
+        //老师维度计算
+        $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
+        $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+        if($tea_in["test_transfor_per"]>=20){
+            $teacher_dimension="维度A";
+        }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+            $teacher_dimension="维度B";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度C";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+            $teacher_dimension="维度C候选";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度D";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+            $teacher_dimension="维度D候选";
+        }else{
+            $teacher_dimension="其他";
+        }
+
         $this->t_test_lesson_subject_sub_list->row_insert([
             "lessonid"  => $lessonid,
             "require_id" => $require_id,
             "set_lesson_adminid"  => $this->get_account_id(),
             "set_lesson_time"  => time(NULL) ,
+            "teacher_dimension" =>$teacher_dimension
             // "seller_require_flag"=> 10
         ]);
 
@@ -1446,12 +1473,33 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
             "grade"  => $grade,
         ]);
+
+        //老师维度计算
+        $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
+        $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+        if($tea_in["test_transfor_per"]>=20){
+            $teacher_dimension="维度A";
+        }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+            $teacher_dimension="维度B";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度C";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+            $teacher_dimension="维度C候选";
+        }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+            $teacher_dimension="维度D";
+        }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+            $teacher_dimension="维度D候选";
+        }else{
+            $teacher_dimension="其他";
+        }
+
         $this->t_test_lesson_subject_sub_list->row_insert([
             "lessonid"           => $lessonid,
             "require_id"         => $require_id,
             "set_lesson_adminid" => $this->get_account_id(),
             "set_lesson_time"    => time(NULL) ,
-            "top_seller_flag"    => $top_seller_flag
+            "top_seller_flag"    => $top_seller_flag,
+            "teacher_dimension"  => $teacher_dimension
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             'current_lessonid'      => $lessonid,
@@ -1541,7 +1589,7 @@ class ss_deal extends Controller
                         );
                     }
                 }else if($grade==203){
-                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 ){
+                    if($grade_part_ex !=2 && $grade_part_ex!=5 && $grade_part_ex!=4 && $grade_part_ex!=7 && $grade_part_ex!=6){
                         return $this->output_err(
                             "请安排与老师年级段相符合的课程!"
                         );
@@ -1941,6 +1989,9 @@ class ss_deal extends Controller
 
             if($promotion_spec_diff_money <0 ){
                 $promotion_spec_diff_money =0;
+            }
+            if ($promotion_spec_diff_money > $promotion_spec_discount *0.5 ) {
+                return $this->output_err("数据有误,折扣太多");
             }
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
@@ -2493,6 +2544,8 @@ class ss_deal extends Controller
 
         $url = $this->get_in_str_val('change_reason_url');
 
+        \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
+
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -2508,8 +2561,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
-
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -2533,13 +2584,11 @@ class ss_deal extends Controller
             ]);
         }
 
-        // $grade = $this->t_student_info->get_grade($userid);
-
         // init t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
+        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
@@ -2559,17 +2608,32 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+
+        if($require_id>0 && $ass_test_lesson_type ==2){
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"  => $change_reason_url,
+                "change_teacher_reason_type"     => $change_teacher_reason_type
+            ]);
+        }
+
         if (!$ret){
+            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
-            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-            $this->t_test_lesson_subject_require->field_update_list($require_id,[
+
+            // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
-                "change_teacher_reason"          => $change_reason,
-                "change_teacher_reason_img_url"      => $change_reason_url,
-                "change_teacher_reason_type" => $change_teacher_reason_type
+                // "change_teacher_reason"          => $change_reason,
+                // "change_teacher_reason_img_url"  => $change_reason_url,
+                // "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
+
+            \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
+
             return $this->output_succ();
         }
     }
@@ -5543,8 +5607,8 @@ class ss_deal extends Controller
     }
 
     public function do_complaint_assign_department(){
-        $accept_adminid_nick = $this->get_in_str_val('accept_adminid_nick');
-        $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
+        $accept_adminid = $this->get_in_str_val('accept_adminid');
+        // $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
         $this->set_in_value('accept_adminid',$accept_adminid);
         return $this->do_complaint_assign();
     }
@@ -5553,7 +5617,7 @@ class ss_deal extends Controller
         $assign_adminid   = $this->get_account_id();
         $complaint_id     = $this->get_in_int_val('complaint_id');
         $assign_remarks   = $this->get_in_str_val('ass_remark');
-        $accept_adminid   = $this->get_in_str_val('accept_adminid');
+        $accept_adminid   = $this->get_in_int_val('accept_adminid');
 
         $time_date        = date('Y-m-d H:i:s',time(NULL));
 

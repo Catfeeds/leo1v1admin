@@ -8,6 +8,8 @@ interface GargsStatic {
 	teacher_money_type:	number;
 	level:	number;
 	show_data:	number;
+	show_type:	string;
+	reference:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -55,7 +57,9 @@ $(function(){
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
 			teacher_money_type:	$('#id_teacher_money_type').val(),
 			level:	$('#id_level').val(),
-			show_data:	$('#id_show_data').val()
+			show_data:	$('#id_show_data').val(),
+			show_type:	$('#id_show_type').val(),
+			reference:	$('#id_reference').val()
         });
     }
 
@@ -74,6 +78,8 @@ $(function(){
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_level').val(g_args.level);
 	$('#id_show_data').val(g_args.show_data);
+	$('#id_show_type').val(g_args.show_type);
+	$('#id_reference').val(g_args.reference);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -109,6 +115,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">show_data</span>
                 <input class="opt-change form-control" id="id_show_data" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">show_type</span>
+                <input class="opt-change form-control" id="id_show_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">reference</span>
+                <input class="opt-change form-control" id="id_reference" />
             </div>
         </div>
 */

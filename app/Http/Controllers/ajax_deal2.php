@@ -1532,8 +1532,8 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $teacherid              = $this->get_in_int_val("teacherid");
-        $start_time = time()-90*86400;
+        $teacherid              = $this->get_in_int_val("teacherid",50272);
+        /* $start_time = time()-90*86400;
         $end_time = time();
 
         $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
@@ -1545,8 +1545,36 @@ class ajax_deal2 extends Controller
             if(($max - $min) >= 90*86400){
                 $num++;
             }
+            }*/
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $tea_arr =[$teacherid];
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
+        if(!empty($cc_list)){
+            $cc_list = $cc_list[$teacherid];
+            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        }else{
+            $cc_per =0;
         }
-        return $this->output_succ(["data"=>$num]);
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+        if(!empty($cr_list)){
+            $cr_list = $cr_list[$teacherid];
+            $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
+        }else{
+            $cr_per =0;
+        }
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
+        $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
+
+        return $this->output_succ(["cc_per"=>$cc_per,"cr_per"=>$cr_per,"score"=>$score,"level"=>$level]);
     }
 
     //更改家长姓名
@@ -1563,5 +1591,75 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+
+    //百度分期还款明细
+    public function get_baidu_period_detail_info(){
+        $orderid              = $this->get_in_int_val("orderid",177);
+        $list = $this->get_baidu_money_charge_pay_info($orderid);
+        if(!$list){
+            return $this->output_err('无数据!');
+        }
+        if($list["status"]>0){
+           return $this->output_err($list["msg"]); 
+        }
+        $data = $list["data"];
+        foreach($data as &$item){
+            if($item["bStatus"]==48){
+                $item["bStatus_str"] = "已还款";
+            }elseif($item["bStatus"]==80){
+                $item["bStatus_str"] = "未还但未到期";
+            }elseif($item["bStatus"]==112){
+                $item["bStatus_str"] = "未还款";
+            }elseif($item["bStatus"]==144){
+                $item["bStatus_str"] = "未还并逾期";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "paidTime","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "dueDate","_str");
+
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
+    //精排试听详情获取
+    public function get_seller_top_lesson_info(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $list = $this->t_test_lesson_subject_require->get_seller_top_lesson_list($start_time,$end_time,$adminid);
+
+
+        foreach($list as &$item){
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
+            if(empty($item["teacher_dimension"])){
+                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
+                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
+                if($tea_in["test_transfor_per"]>=20){
+                    $teacher_dimension="维度A";
+                }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+                    $teacher_dimension="维度B";
+                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+                    $teacher_dimension="维度C";
+                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+                    $teacher_dimension="维度C候选";
+                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+                    $teacher_dimension="维度D";
+                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+                    $teacher_dimension="维度D候选";
+                }else{
+                    $teacher_dimension="其他";
+                }
+                $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
+                   "teacher_dimension" =>$teacher_dimension 
+                ]);
+
+            }
+        }
+        return $this->output_succ(["data"=> $list]);
+    }
+
 
 }

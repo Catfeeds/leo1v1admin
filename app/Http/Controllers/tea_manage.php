@@ -1514,10 +1514,11 @@ class tea_manage extends Controller
         $page_num        = $this->get_in_page_num();
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $lesson_status   = $this->get_in_int_val("lesson_status",-1);
+        $train_type      = $this->get_in_int_val("train_type",7);
         $acc             = $this->get_account();
         $ret_info = $this->t_lesson_info->get_train_lesson(
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,
-            -1,-1,7
+            -1,-1,$train_type
         );
         if(!empty($ret_info['list'])){
             $server_map = $this->gen_server_map($ret_info['list']);
@@ -1745,7 +1746,7 @@ class tea_manage extends Controller
         $is_freeze      = $this->get_in_int_val("is_freeze",-1);
         $train_lessonid = $this->get_in_int_val("train_lessonid",-1);
         $through_start  = strtotime($this->get_in_str_val("through_start"));
-        $through_end  = strtotime($this->get_in_str_val("through_end"));
+        $through_end    = strtotime($this->get_in_str_val("through_end"));
 
         $lesson_teacher = $this->t_lesson_info->get_teacherid($lessonid);
         if($userid!=0 && $lesson_teacher==$userid){
@@ -1785,11 +1786,13 @@ class tea_manage extends Controller
                 }else{
                     $create_time = 0;
                 }
+
                 $teacherid_list = $this->t_teacher_info->get_need_join_train_teacher_list(
                     $type,$lessonid,$subject,$grade_part_ex,$create_time,$min_per,$max_per,$is_test_user,$has_limit,$is_freeze
                 );
             }
         }
+
         if($type==0){
             $this->t_train_lesson_user->row_insert([
                 "lessonid" => $lessonid,

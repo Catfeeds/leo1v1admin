@@ -36,6 +36,12 @@
                     <button class="btn btn-primary add_new">添加</button>
                 </div>
             </div>
+            <!-- <div class="col-xs-2">
+                 <div class="input-group input-group-btn ">
+                 <a href="/t_yxyx_custom_type/get_all" target="_block" class="btn btn-info">添加自定义标签</a>
+                 </div>
+                 </div>
+               -->
         </div>
         <hr/>
         <table class="common-table">
@@ -52,6 +58,11 @@
                     <td>封面</td>
                     <td>操作人员</td>
                     <td>添加时间</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+
+                    ["访问次数" , "visit_num"],
+                    ["分享次数" , "share_num"],
+                    ]) !!}
                     <td>操作</td>
                 </tr>
             </thead>
@@ -73,6 +84,9 @@
                         <td><img src="{{$var["poster"]}}" height="100"></td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["create_time"]}}</td>
+
+                        <td>{{$var["visit_num"]}}</td>
+                        <td>{{$var["share_num"]}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-new_info" title="更改"></a>
@@ -90,12 +104,12 @@
 	          <tbody>
                 <tr>
 			              <td style="text-align:right; width:30%;">标题</td>
-			              <td><input value="" class="add_test_title" type="text" style="width:50%"/></td>
+			              <td><input value="" class="add_test_title" type="text" style="width:80%"/></td>
 		            </tr>
                 <tr>
 			              <td style="text-align:right; width:30%;">内容</td>
 			              <td>
-                        <textarea class="add_test_des" cols="5" style ="width:50%"></textarea>
+                        <textarea class="add_test_des" cols="5" style ="width:80%;height:150px;"></textarea>
                     </td>
 		            </tr>
                 <tr>

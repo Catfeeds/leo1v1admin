@@ -78,6 +78,7 @@ interface RowData {
 	stu_request_test_lesson_time	:any;
 	stu_request_test_lesson_demand	:any;
 	intention_level	:any;
+	gender	:any;
 	origin_assistantid	:any;
 	subject	:any;
 	grade	:any;

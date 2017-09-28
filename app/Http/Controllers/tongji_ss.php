@@ -1312,7 +1312,6 @@ class tongji_ss extends Controller
         $adminid_right     = [] ;
         $adminid_all       = [] ;
 
-
         $account=$this->get_account();
         $show_yueyue_flag = false;
         if ($account =="yueyue" || $account=="jim" || $account=="echo" ) {
@@ -6916,7 +6915,6 @@ class tongji_ss extends Controller
         $start_time = strtotime(date("Y-m-01",$end_time-100));
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time, [-1],"" );
 
-
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
@@ -8013,15 +8011,25 @@ class tongji_ss extends Controller
     public function get_reference_teacher_money_info(){
        
         $this->switch_tongji_database();
-        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
+     
+
+        // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
         foreach($list["list"] as &$item){
-            if($item['grade_start']>0){
+            /* if($item['grade_start']>0){
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
                     ."-".E\Egrade_range::get_desc($item['grade_end']);
             }else{
                 $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_part_ex']);
             }
-            $item['subject_ex']   = E\Esubject::get_desc($item['subject']);
+            $item['subject_ex']   = E\Esubject::get_desc($item['subject']);*/
+            if($item["teacher_money_type"]==6){
+                $item["teacher_money_type_str"] = "第四版规则";
+            }else{
+                $item["teacher_money_type_str"] = "平台合作";
+            }
 
         }
         return $this->pageView(__METHOD__,$list);

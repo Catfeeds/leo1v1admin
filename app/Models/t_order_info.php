@@ -636,6 +636,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.contract_status in (1,2)",
             ["m.account_role=%u", $account_role, -1],
             "s.is_test_user = 0",
+            "m.del_flag = 0",
         ];
         if ($user_info >0 ) {
             if  ($user_info < 10000) {
@@ -941,7 +942,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in(0,3)",
             "contract_status in(1,2)",
             "m.account_role=2",
-            "g.master_adminid<>364",
+            "g.master_adminid not in(364,416)",
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
@@ -1460,10 +1461,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                 ["order_time>=%u" , $start_time, -1],
                 ["order_time<=%u" , $end_time, -1],
                 ["is_test_user=%u" , $is_test_user, -1],
-                ["check_money_flag=%u" , $check_money_flag, -1],
+                // ["check_money_flag=%u" , $check_money_flag, -1],
                 ["stu_from_type=%u" , $stu_from_type, -1],
                 ["sys_operator like '%%%s%%'" , $sys_operator, ""],
             ];
+            if($check_money_flag == 0){//未确认
+                $where_arr[] = "check_money_flag=0";
+            }elseif($check_money_flag == 1){//已付款
+                $where_arr[] = "t1.contract_status<>0";
+            }elseif($check_money_flag == 2){//未付款
+                $where_arr[] = "t1.contract_status=0";
+            }
 
             if ($isset_assistantid==0) {
                 $where_arr[]="t2.assistantid =0 " ;
@@ -1510,8 +1518,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." sum(if(stu_from_type=0,price,0)) new_price,"
                                   ." sum(if(stu_from_type=10,price,0)) normal_price,"
                                   ." sum(if(stu_from_type=11,price,0)) extend_price, "
-                                  ." sum(if(t1.check_money_flag=1,price,0)) all_price_suc,"
-                                  ." sum(if(t1.check_money_flag=0,price,0)) all_price_fail"
+                                  ." sum(if(t1.contract_status<>0,price,0)) all_price_suc,"
+                                  ." sum(if(t1.contract_status=0,price,0)) all_price_fail"
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "
@@ -2106,26 +2114,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_order_total_price($start,$end){
-        $where_arr=[
-            ["pay_time>%u",$start,0],
-            ["pay_time<%u",$end,0],
-        ];
-
-        $sql = $this->gen_sql_new("select sum(price) as all_price,sum(lesson_total*default_lesson_count) as lesson_total"
-                                  ." from %s o "
-                                  ." left join %s s on o.userid=s.userid"
-                                  ." where %s"
-                                  ." and is_test_user=0"
-                                  ." and contract_type in (0,3)"
-                                  ." and contract_status in (1,2,3)"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_row($sql);
-    }
-
     public function get_test_plan_order($start_time,$end_time){
         $where_arr=[
             ["pay_time>%u",$start_time,0],
@@ -2191,10 +2179,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
-        ,$spec_flag=-1
+        ,$spec_flag=-1, $orderid=-1
     ){
         $where_arr=[];
-        if($userid>=0){
+        if($orderid>=0){
+            $where_arr=[["t1.orderid=%u",$orderid,-1]];
+        }else if($userid>=0){
             $where_arr=[["t1.userid=%u",$userid,-1]];
         }elseif( $config_courseid>0 ){
             $where_arr=[["config_courseid=%u",$config_courseid,-1]];
@@ -2789,28 +2779,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_order_5(){
-        $where_arr = [
-            "contract_type in (0,3)",
-            "contract_status > 0",
-            "is_test_user= 0",
-        ];
-        $sql = $this->gen_sql_new("select count(1) as have_order,s.userid,s.phone,s.nick,s.assistantid,m.name as seller_name"
-                                  ." from %s o"
-                                  ." left join %s s on o.userid=s.userid"
-                                  ." left join %s m on seller_adminid=uid"
-                                  ." where %s"
-                                  ." group by o.userid"
-                                  ." having have_order>=5"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-
     public function get_stu_renw_order($userid,$time){
         $where_arr = [
             "contract_type in (3,3001)",
@@ -2931,8 +2899,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "o.userid = $userid",
             "o.contract_type = 0",
-            "o.contract_status = 1",
-            "o.order_status in (1,2) ",
+            "o.contract_status in (1,2)",
             ["o.pay_time <%u" ,$check_time, -1 ]
         ];
         //E\Econtract_status
@@ -3072,34 +3039,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
-    public function get_referral_income($start_time, $end_time){ // 转介绍
-
-        $where_arr = [
-            "is_test_user=0",
-            "m.account_role=2",
-            "sys_operator<>'jim'",
-            "contract_status <> 0",
-            "s.origin_userid>0",
-            ["s.origin like '%%%s%%'" , '转介绍'],
-
-        ];
-
-        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
-
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*) as all_count  "
-                                  ." from %s o "
-                                  ."left join %s s on o.userid = s.userid "
-                                  ."left join %s n on n.userid = s.userid "
-                                  ."left join %s m on o.sys_operator = m.account "
-                                  ." where %s  ",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_row($sql);
-    }
 
     //
 
@@ -3168,18 +3107,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $check_time = time() - 30*86400;
         $where_arr = [
             "is_test_user=0",
-            "contract_type =0 ",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            "m.become_full_member_time <= $check_time or m.create_time<=$check_time",
-            "m.del_flag=0"
+            "m.leave_member_time>=$start_time or m.leave_member_time=0 or m.create_time<$start_time ",
+            "m.del_flag=0",
+            "o.price>0",
+            "contract_status<>0",
         ];
-
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select  sum(price)/100 as all_price"
+        $sql = $this->gen_sql_new("select  sum(price)/100 as job_price, count(distinct(o.sys_operator)) as job_num "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3191,7 +3130,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 
@@ -3375,5 +3314,91 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_total_price($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "contract_status <> 0",
+            "price > 0",
+            "m.account_role = 1"
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num,"
+                                  ."count(orderid ) as order_num , sum(if(contract_type  =3, price, 0)) as total_renew,"
+                                  ."sum(if(contract_type =3, 1, 0)) as renew_num,sum(if(origin_userid <> 0, 1, 0)) as tranfer_num,"
+                                  ."sum(if(origin_userid <> 0, price, 0)) as total_tranfer  "
+                                  ." from %s o "
+                                  ." left join %s m on o.sys_operator = m.account"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_row($sql);
+    }
 
+    public function get_total_price_thirty($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            ['m.create_time+86400*30 < %u',$start_time,-1], //大于订单时间
+            "contract_status <> 0",
+            "price > 0",
+            "m.account_role = 1",
+            "m.leave_member_time =0" //离职时间
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num ".
+                                  "from %s o ".
+                                  "left join %s m on o.sys_operator = m.account".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                   $where_arr);
+        return $this->main_get_row($sql);
+
+    }
+
+    public function get_total_money($start_time, $end_time){
+        $where_arr = [
+            "o.price>0",
+            "contract_status<> 0",
+            "m.account_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+
+        $sql = $this->gen_sql_new( "  select sum(o.price) total_price, count(*) total_num  from %s o "
+                                   ." left join %s m on o.sys_operator = m.account "
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+    public function get_referral_income($start_time, $end_time){
+        $where_arr = [
+            "o.price>0",
+            "contract_status<>0",
+            "m.account_role=2",
+            "s.origin_userid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+
+        $sql = $this->gen_sql_new( "  select sum(o.price) referral_price, count(*) referral_num from %s o "
+                                   ." left join %s m on o.sys_operator = m.account "
+                                   ." left join %s s on s.userid = o.userid"
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,t_student_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
 }

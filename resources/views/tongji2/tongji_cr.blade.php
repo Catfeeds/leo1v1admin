@@ -69,7 +69,30 @@
             <hr/>      
 
             <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            月度目标
+                        </div>
+                        <div class="panel-body">
 
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td width="200px" align="center">月度目标收入</td>
+                                        <td>{{@$arr['target']}}</td>
+                                        <td width="200px" align="center">完成金额</td>
+                                        <td>{{@$arr['total_price']}}</td>
+                                        <td width="200px" align="center">完成率</td>
+                                        <td >{{@$arr['kpi_per']}}%</td>
+                                        <td width="200px" align="center">缺口金额</td>
+                                        <td >{{@$arr['gap_money']}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
@@ -100,7 +123,7 @@
                                         <td> {{@$arr['person_num_thirty']}}</td> 
                                         <td> {{@$arr['person_num_thirty_per']}}</td> 
                                         <td> {{@$arr['contract_per']}} </td> 
-                                        <td> 节点 </td> 
+                                        <td> {{@$arr['kpi_per']}}% </td> 
                                         <td> {{@$arr['cr_num']}}</td> 
                                         <td class="panel-yellow" > 存档 </td> 
                                         <td> {{@$arr['refund_num']}}</td> 
@@ -137,16 +160,15 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                         <tr>
-                                            <td class="panel-yellow" > 存档</td> 
-                                            <td class="panel-yellow" > 存档  </td> 
-                                            <td class="panel-yellow" > 存档 </td> 
-                                            <td> 节点</td> 
+                                            <td class="panel-yellow" > 存档</td>
+                                            <td class="panel-yellow" > 存档  </td>
+                                            <td class="panel-yellow" > 存档 </td>
                                             <td> 节点</td>
-
-                                            <td> 节点</td> 
-                                            <td> 节点</td> 
-                                            <td> 节点 </td> 
-                                            <td > 节点  </td> 
+                                            <td> {{@$arr['lesson_consume']}}</td>
+                                            <td> {{@$arr['teacher_leave']}}</td>
+                                            <td> {{@$arr['student_leave']}}</td>
+                                            <td> {{@$arr['other_leave']}}</td>
+                                            <td > 节点  </td>
                                             <td class="panel-yellow" > 存档  </td> 
 
                                             <td class="panel-yellow" > 存档 </td> 
@@ -184,8 +206,8 @@
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td class="panel-blue">  漏斗-存档  </td> 
                                             <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td>  节点</td> 
-                                            <td>  节点</td>
+                                            <td>{{@$arr['total_renew']}}</td> 
+                                            <td>{{@$arr['renew_num_per']}}</td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                             <td class="panel-blue">  漏斗-存档 </td>
                                         </tr>
@@ -220,9 +242,9 @@
                                             <td class="panel-green">  漏斗-存档-节点 </td> 
                                             <td class="panel-green">  漏斗-存档-节点 </td>
                                             <td class="panel-blue">  漏斗-存档  </td>
-                                            <td> 节点</td>
-                                            <td> 节点</td>
-                                            <td> 节点</td>
+                                            <td>{{@$arr['tranfer_num']}}</td>
+                                            <td>{{@$arr['total_tranfer']}}</td>
+                                            <td>{{@$arr['tranfer_num_per']}}</td>
 
                                         </tr>
                                 </tbody>
@@ -250,10 +272,10 @@
                                 </thead>
                                 <tbody >
                                     <tr>
-                                        <td class="panel-green">  漏斗-存档-节点  </td>
-                                        <td class="panel-green">  漏斗-存档-节点  </td>
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
-                                        <td class="panel-green">  漏斗-存档-节点  </td> 
+                                        <td class="panel-green">{{@$arr['total_test_lesson_num']}}  </td>
+                                        <td class="panel-green">  {{@$arr['success_num']}}</td>
+                                        <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
+                                        <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
                                         <td class="panel-blue">  漏斗-存档 </td> 
 
                                     </tr>

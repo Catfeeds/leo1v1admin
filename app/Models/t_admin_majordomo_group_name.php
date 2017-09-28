@@ -19,6 +19,11 @@ class t_admin_majordomo_group_name extends \App\Models\Zgen\z_t_admin_majordomo_
         return $this->main_get_value($sql);
     }
 
+    public function is_master($adminid){
+        $sql = $this->gen_sql_new("select groupid from %s where master_adminid='$adminid'",self::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+
 
 
 }

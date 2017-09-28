@@ -237,9 +237,37 @@ class testbb extends Controller
 
 
 
+    public function get_num(){
+        $this->switch_tongji_database();
+        // $teacherid = $this->t_lesson_info_b3->get_on_num();
+        $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
+        //get_on_num
+        $aa = [];
+        foreach($teacherid as $item){
+            $aa[] = $item['teacherid'];
+        }
+        // dd($aa);
+        $str = implode(',',$aa);
+
+        $ret_info = $this->t_teacher_info->get_on_total($str);
+        dd($ret_info);
+
+    }
 
     public function ss(){
 
+
+        $seller_student_status= E\Eseller_student_status::V_200;
+
+        dd($seller_student_status);
+        //547549
+        $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(365466);
+        // $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(547549);
+
+        dd($ret);
+
+        $lesson_end_date   = date('H:i',time() );
+        dd($lesson_end_date);
 
         $start_time = strtotime(date('Y-m-d 0:0:0'))-6*86400;
 

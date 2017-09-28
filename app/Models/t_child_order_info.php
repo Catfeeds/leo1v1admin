@@ -8,8 +8,12 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
 		parent::__construct();
 	}
 
-    public function get_all_child_order_info($orderid){
-        $sql = $this->gen_sql_new("select * from %s where parent_orderid = %u",self::DB_TABLE_NAME,$orderid);
+    public function get_all_child_order_info($orderid,$child_order_type=-1){
+        $where_arr=[
+            ["child_order_type=%u",$child_order_type,-1],                 
+            ["parent_orderid=%u",$orderid,-1],                 
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 
@@ -70,7 +74,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
                                   ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
                                   ." s.lesson_count_left,o.lesson_total,o.default_lesson_count,o.competition_flag, "
-                                  ." s.phone,c.parent_orderid,s.parent_name,s.subject_ex "
+                                  ." s.phone,c.parent_orderid,s.parent_name,s.subject_ex,c.child_orderid "
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." where %s",

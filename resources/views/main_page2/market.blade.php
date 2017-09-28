@@ -94,7 +94,7 @@
                                     <tr>
                                         <td>助教</td>
                                         <td>  </td>
-                                        <td> {{$role_2_diff_money}} </td>
+                                        <td> {{$role_1_diff_money}} </td>
                                         <td>  </td>
                                     </tr>
                                 </tbody>

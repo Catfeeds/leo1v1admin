@@ -99,6 +99,7 @@
                                         
                                         <td>退费扣分值</td>
                                         <td>月课时收入</td>
+                                        <td>月课时</td>
                                         <td>扩课数量</td>
                                         <td>转介绍金额</td>
                                         <td>续费总额</td>
@@ -107,6 +108,7 @@
                                         <td>结课学生数</td>
                                         <td>结课率</td>
                                         <td>上课学生</td>
+                                        <td>课时达成率</td>
                                         <td>上课率</td>
                                         <td>人效</td>
                                         <td>KPI</td>
@@ -131,6 +133,7 @@
                                             <td>{{@$var["refund_score"]}}</td>
 
                                             <td>{{@$var["lesson_money"]}} </td>
+                                            <td>{{@$var["lesson_total"]}} </td>
                                             <td>{{@$var["kk_succ"]}} </td>
                                             <td>{{@$var["tran_price"]}} </td>
 
@@ -140,6 +143,7 @@
                                             <td>{{@$var["student_finish"]}}</td>
                                             <td>{{@$var["student_finish_per"]}}%</td>
                                             <td>{{@$var["student_online"]}}</td>
+                                            <td>{{@$var["lesson_do_per"]}}%</td>
                                             <td>{{@$var["student_online_per"]}}%</td>
                                             <td>{{@$var["people_per"]}}</td>
                                             <td>{{@$var["kpi"]}}</td>
