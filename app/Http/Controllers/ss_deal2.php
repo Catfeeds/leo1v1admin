@@ -593,9 +593,6 @@ class ss_deal2 extends Controller
                 "interests_and_hobbies" => $interests_and_hobbies,
                 "character_type"        => $character_type,
                 "need_teacher_style"    => $need_teacher_style,
-                "tea_province"          => $tea_province,
-                "tea_city"              => $tea_city,
-                "tea_area"              => $tea_area,
                 "test_stress"           => $test_stress,
                 "entrance_school_type"  => $entrance_school_type,
                 "interest_cultivation"  => $interest_cultivation,
@@ -614,6 +611,9 @@ class ss_deal2 extends Controller
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,[
                 "subject"                        => $subject,
+                "tea_province"                   => $tea_province,
+                "tea_city"                       => $tea_city,
+                "tea_area"                       => $tea_area,
                 "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
                 "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
                 "recent_results"                 => $recent_results,
