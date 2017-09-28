@@ -61,12 +61,14 @@ class test_code extends Controller
 
         $tea_list = $this->t_teacher_info->get_teacher_list_by_reference($reference);
         foreach($tea_list as $val){
-            echo $val['teacherid'];
-            echo "<br>";
-                // $this->t_teacher_info->field_update_list($val['teacherid'],[
-                //     "teacher_money_type" => E\Eteacher_money_type::V_6,
-                //     "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
-                // ]);
+            if($val['trial_lecture_is_pass']>0 && $val['train_through_new']>0){
+                echo $val['teacherid'];
+                echo "<br>";
+            }
+            // $this->t_teacher_info->field_update_list($val['teacherid'],[
+            //     "teacher_money_type" => E\Eteacher_money_type::V_6,
+            //     "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
+            // ]);
         }
     }
 
