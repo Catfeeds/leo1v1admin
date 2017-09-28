@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TGrabLessonLinkOperationAddFailReason extends Migration
+class CreateTTestAbnerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class TGrabLessonLinkOperationAddFailReason extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('db_weiyi.t_grab_lesson_link_visit_operation', function( Blueprint $table)
-        {
-            t_field($table->string("fail_reason")->nullable(),"失败原因");
+        Schema::create('t_test_abner', function (Blueprint $table) {
+            $table->increments('id'); 
+            $table->string('msg'); 
+            $table->integer('grade'); 
+            $table->integer('value'); 
         });
 
     }
@@ -27,6 +28,6 @@ class TGrabLessonLinkOperationAddFailReason extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('t_test_abner');
     }
 }

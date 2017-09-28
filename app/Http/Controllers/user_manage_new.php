@@ -2732,7 +2732,7 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
-    public function tea_wages_list() {
+    public function tea_wages_list(){
         // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
@@ -2743,18 +2743,18 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
-        //需要重新拉取  flag  0 不需要  1 需要
-        $flag = 0;
-        if(is_file($file_name)){
-            $file_info = file_get_contents($file_name);
-            if(empty($file_info) || $file_info==""){
-                $flag = 1;
-            }
-        }else{
-            $flag = 1;
-        }
+        // $now_date  = date("Y-m",$start_time);
+        // $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
+        // //需要重新拉取  flag  0 不需要  1 需要
+        // $flag = 0;
+        // if(is_file($file_name)){
+        //     $file_info = file_get_contents($file_name);
+        //     if(empty($file_info) || $file_info==""){
+        //         $flag = 1;
+        //     }
+        // }else{
+        //     $flag = 1;
+        // }
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
@@ -2778,8 +2778,6 @@ class user_manage_new extends Controller
         // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $stu_num = 0;
 
-        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
-             $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
@@ -2818,7 +2816,6 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$list,[
             "stu_num"          => $stu_num,
-            "all_lesson_money" => $all_lesson_money,
             "all_lesson_total" => $all_lesson_total,
             "all_lesson_1v1"   => $all_lesson_1v1,
             "all_lesson_trial" => $all_lesson_trial,
@@ -2941,6 +2938,26 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$result);
     }
+
+    /**
+     * 获取时间范围内的课程收入
+     * @param start_time 开始时间
+     * @param end_time   结束时间
+     * @return float     结束时间
+     */
+    public function get_lesson_price(){
+        $start_date         = $this->get_in_str_val("start_time");
+        $end_date           = $this->get_in_str_val("end_time");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+
+        $start_time         = strtotime($start_date);
+        $end_time           = strtotime($end_date);
+
+        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+
+        return $this->output_succ(['lesson_price'=>$lesson_price]);
+    }
+
 
     private function get_price_percent($price,$all_price){
         if($all_price!=0){

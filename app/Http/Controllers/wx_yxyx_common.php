@@ -503,7 +503,7 @@ class wx_yxyx_common extends Controller
             E\Etest_type::set_item_value_str($ret_info,"test_type");
             $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
             unset($ret_info['pic']);
-            //获取所有id，随机选取三个(当天之前的14天之内)->改为取１００条，时间倒叙
+            //获取所有id，随机选取四个(当天之前的14天之内)->改为取１００条，时间倒叙
             // $start_time = strtotime('-15 days');
             $end_time  = strtotime('today');
             $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, 0, $end_time);
@@ -511,7 +511,7 @@ class wx_yxyx_common extends Controller
             $id_arr    = [];
             $num_arr   = [];
             $loop_num  = 0;
-            $max_loop  = $count_num >3?3:$count_num;
+            $max_loop  = $count_num >4?4:$count_num;
             while ( $loop_num < $max_loop) {
                 $key = mt_rand(0, $count_num);
                 if( !in_array($key, $num_arr) ) {
@@ -561,6 +561,83 @@ class wx_yxyx_common extends Controller
             return $this->output_err("信息有误！");
         }
     }
+
+    public function get_wx_js_config(){
+
+        $ref=$this->get_in_str_val("ref");
+
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+
+        $signature_str = $this->get_signature_str($ref, $wx_config["appid"] , $wx_config["appsecret"] );
+        $config = [
+            'debug' => 'false',
+            'appId' => $wx_config["appid"], // 必填，公众号的唯一标识
+            'timestamp' => '1494474414', // 必填，生成签名的时间戳(随意值)
+            'nonceStr'  => 'leo123', // 必填，生成签名的随机串(随意值)
+            'signature' => $signature_str,// 必填，签名
+            'jsApiList' => [
+                "checkJsApi",
+                "chooseImage",
+                "previewImage",
+                "uploadImage",
+                "downloadImage",
+                "getLocalImgData",
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        ];
+        return $this->output_succ($config);
+    }
+
+    /**
+     *老师端微信上传图片
+    **/
+    public function get_signature_str( $ref, $appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
+        $token = $this->get_wx_token_jssdk(  $appid_tec, $appscript_tec);
+
+        $key_arr     = "wx_tec_jssdk_arr_$appid_tec";
+        $key_str     = 'wx_tec_jssdk_str_$appid_tec';
+
+        $ret_arr = \App\Helper\Common::redis_get_json($key_arr);
+        $now     = time(NULL);
+
+        if (!$ret_arr || !isset($ret_arr["ticket"])  ||  $ret_arr["get_time"]+7000 <  $now ) {
+
+            $jssdk    = $this->get_wx_jsapi_ticket($token);
+            $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
+            $ret_arr["get_time"] = time(NULL);
+            \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
+
+        }
+
+        $jsapi_ticket = $ret_arr["ticket"];
+
+        if(isset($_SERVER["HTTP_REFERER"])){
+            $http_ref = $_SERVER["HTTP_REFERER"];
+        }else{
+            $http_ref = "";
+        }
+        $ref= $ref?$ref:$http_ref;
+        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo123&timestamp=1494474414"
+                   . "&url=$ref" ;
+
+        \App\Helper\Utils::logger( "signature:$signature" );
+
+        $signature_str = sha1($signature);
+        return $signature_str;
+    }
+
+    public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
+
+        $wx        = new \App\Helper\Wx();
+        return $wx->get_wx_token($appid_tec,$appscript_tec);
+    }
+
+    public function get_wx_jsapi_ticket($token){
+        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi ");
+
+        return $json_jssdk_data;
+    }
+
+
 
 
 }

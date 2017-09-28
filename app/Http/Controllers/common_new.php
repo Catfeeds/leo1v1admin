@@ -1238,7 +1238,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //建行回调地址
     public function ccb_callback_return_info(){
-        $orderNo = $this->get_in_str_val("ORDERID","701797545350");
+
+        $orderNo = $this->get_in_str_val("ORDERID","701748525753");
         $posid   = $this->get_in_str_val("POSID","002171923");
         $branchid = $this->get_in_str_val("BRANCHID","310000000");
         $payment  = $this->get_in_str_val("PAYMENT","1.00");
@@ -1252,7 +1253,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $clientip = $this->get_in_str_val("CLIENTIP","116.226.191.6");
         $installnum = $this->get_in_str_val("INSTALLNUM","12");
         $errmsg = $this->get_in_str_val("ERRMSG");
-        $sign = $this->get_in_str_val("SIGN","047ce2d3d089d964da91b7247046d1474aed6a5b6ef8898424723844b25e3334383617605f5b5993dc37a0273f7b1ad03c7d72bd3f4bbfe65e2ed81f4d9baf98e6501842f6dfa4fe95ab9d6e6f903136c97e00286a2d05a440f6d9a410dbec4dfa23685b622d58aa4b379293a5536870d9283551633ef75dd591b3524e468142");
+        $sign = $this->get_in_str_val("SIGN","&CLIENTIP=116.226.191.6&INSTALLNUM=12&ERRMSG=&SIGN=5d00745445c4e3cc4dc99653bb2516cdac417701431e591088b5fdfddb984a116760e6156641ddd46cb6d434a6b5150aa4c37f7cf4732b2b94241ea926b0e1d4234b53f458d3ab2f80d6df3f6fc785450240105ace4b76dc6525191cbca54e1c09377b67cd6f42de89582e2987de1fd557368fa18dca273541f2d5a823ff30f6");
         $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&ACC_TYPE=".$acc_type."&SUCCESS=".$success."&TYPE=".$type."&REFERER=".$referer."&CLIENTIP=".$clientip."&INSTALLNUM=".$installnum."&ERRMSG=".$errmsg;
         // $data = "POSID=".$posid."&BRANCHID=".$branchid."&ORDERID=".$orderNo."&PAYMENT=".$payment."&CURCODE=".$curcode."&REMARK1=".$remark1."&REMARK2=".$remark2."&SUCCESS=".$success;
         $der_data = "30819d300d06092a864886f70d010101050003818b0030818702818100d3248e9cfda6a7ca49fb480bc9539415e3083c07a82b3bded3fd39e33550228c6d9283b36219b78dab80783c01e241963e91dd2b8de8e400c8b0d19ce312d29fb790ec7d9257fbc421501ea0155f252635d52a7d5d8c5e0d5fe64202e41a096615b1e6a0164dd7ce3e4ce66e814fa3c1096c6d33c23710c736ebb69c1e9da205020111";

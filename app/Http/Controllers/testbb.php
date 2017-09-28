@@ -257,45 +257,10 @@ class testbb extends Controller
     public function ss(){
 
 
+        list($start_time,$end_time) = $this->get_in_date_range_day(-1);
+        dd($start_time.' ~ '.$end_time);
         $seller_student_status= E\Eseller_student_status::V_200;
 
-        dd($seller_student_status);
-        //547549
-        $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(365466);
-        // $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(547549);
-
-        dd($ret);
-
-        $lesson_end_date   = date('H:i',time() );
-        dd($lesson_end_date);
-
-        $start_time = strtotime(date('Y-m-d 0:0:0'))-6*86400;
-
-        $end_time   = strtotime(date('Y-m-d 0:0:0'))+86400;
-
-        dd($start_time);
-
-        $aa = $this->t_parent_info->get_xx();
-        dd($aa);
-        $start_time = strtotime(date('Y-m-d','1506130271'));
-
-        dd($start_time);
-
-        $parentid = $this->get_in_int_val('parentid');
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type=-1);
-
-        $a = ['51353','51642'];
-        foreach($ret_list as $item){
-            $i = $item['userid'];
-            if(in_array($i,$a)){
-                echo $i.'<br>';
-            }
-        }
-        exit();
-        dd($ret_list);
-
-        $a = '[{"day":"9-30","hours":[12,16]}]';
-        dd(json_decode($a,true));
 
 
     }

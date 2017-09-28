@@ -3377,7 +3377,7 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
         ];
         $where_arr = $this->lesson_common_where_arr($where_arr);
-        $sql = $this->gen_sql_new("select lessonid,t.realname as tea_nick,s.realname as stu_nick,l.assistantid,l.lesson_type"
+        $sql = $this->gen_sql_new("select l.lessonid,t.realname as tea_nick,s.realname as stu_nick,l.assistantid,l.lesson_type"
                                   ." from %s l"
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"
@@ -3857,19 +3857,25 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_teacher_test_person_num_list( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[]){
+    public function get_teacher_test_person_num_list( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid_list=[],$account_role=2){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
             "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
+            "l.lesson_status>1"
             // "require_admin_type =2",
             //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
             //"m.account_role=2",
-            "m.account_role=2 or tq.origin like '%%转介绍%%'",
-            "m.del_flag=0"
+            // "m.account_role=2 or tq.origin like '%%转介绍%%'",
+            // "m.del_flag=0"
         ];
+        if($account_role==2){
+            $where_arr[] = "m.account_role=2 or tq.origin like '%%转介绍%%'";
+        }elseif($account_role==1){
+            $where_arr[] = "m.account_role=1 or tq.origin not like '%%转介绍%%'";
+        }
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
         }else{

@@ -292,18 +292,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if ($phone) {
             $where_arr[]=  "phone like '%".$phone."%'";
         }
-        $sql = $this->gen_sql("select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,a.nick, a.phone, originid, a.grade "
-                              ." from %s a left join %s b on a.userid = b.userid "
-                              ." left join %s m on b.sys_operator = m.account"
-                              ." left join %s t on t.phone = m.phone "
-                              ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
-                              self::DB_TABLE_NAME,
-                              t_revisit_info::DB_TABLE_NAME,
-                              t_manager_info::DB_TABLE_NAME,
-                              t_assistant_info::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $start,
-                              $end
+        $sql = $this->gen_sql(
+            "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
+            ." a.nick, a.phone, originid, a.grade,tq.duration"
+            ." from %s a left join %s b on a.userid = b.userid "
+            ." left join %s m on b.sys_operator = m.account"
+            ." left join %s t on t.phone = m.phone "
+            ." left join %s tq on tq.id = b.call_phone_id "
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
+            self::DB_TABLE_NAME,
+            t_revisit_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            [$this->where_str_gen($where_arr)],
+            $start,
+            $end
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -382,6 +386,35 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     }
+
+    public function get_two_stu_for_archive( $grade, $sum_start)
+    {
+        $where_arr=[
+            "type=0 ",
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
+        $this->where_arr_add_int_or_idlist ($where_arr,"grade", $grade  );
+
+        $sql = $this->gen_sql_new(
+            "select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
+            ." phone, is_test_user, originid, grade, praise, assistantid, parent_name, parent_type, "
+            ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
+            ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
+            ." if(realname='',nick,realname) as nick, "
+            ." sum(b.lesson_count) as lesson_total "
+            ." from %s a left join %s b on a.userid = b.userid "
+            ."  where  %s group by a.userid "
+            ,self::DB_TABLE_NAME
+            ,t_week_regular_course::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_page_random($sql,2,true);
+
+    }
+
+
     public function get_student_sum_archive(  $assistantid)
     {
         $where_arr=[

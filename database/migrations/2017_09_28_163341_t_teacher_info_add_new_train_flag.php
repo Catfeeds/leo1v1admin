@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TGarbLessonLinkOperationAddVisitid extends Migration
+class TTeacherInfoAddNewTrainFlag extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class TGarbLessonLinkOperationAddVisitid extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_grab_lesson_link_visit_operation', function( Blueprint $table)
-        {
-            t_field($table->integer("visitid"),'当次访问ｉｄ');
-        });
 
+        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
+        {
+            t_field($table->tinyInteger("lessonid"),"全职老师参加新师培训标识");
+        });
     }
 
     /**

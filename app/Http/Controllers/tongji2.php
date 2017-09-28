@@ -919,6 +919,9 @@ class tongji2 extends Controller
 
         $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
+
+        //课时目标系数
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -952,6 +955,7 @@ class tongji2 extends Controller
             $val["refund_score"] = isset($ass_month[$k])?$ass_month[$k]["refund_score"]/100:0;
             // $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
+            $val["lesson_total"] = isset($ass_month[$k])?$ass_month[$k]["lesson_total"]/100:0;
             $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
             
 
@@ -961,6 +965,7 @@ class tongji2 extends Controller
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             //  $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
             $val["student_online"] = isset($ass_month[$k])?$ass_month[$k]["read_student_new"]:0;
+            $val["lesson_do_per"] = !empty( $val["student_online"])?round($val["lesson_total"]/$val["student_online"]/$lesson_target*100,2):0;
             //$val["student_all"] += $val["student_finish"];
             $val["student_all"] =  isset($ass_month[$k]["all_student_new"])?$ass_month[$k]["all_student_new"]:0;
             if($val['student_all'] > 0){
@@ -998,6 +1003,51 @@ class tongji2 extends Controller
 
             
         }
+
+        $ass_group=[];
+        foreach($ass_list as $key=>$va){
+            // echo $key;
+            //  $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            // $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
+            $master_adminid_ass = $va["master_adminid"];
+            @$ass_group[$master_adminid_ass]["student_all"]  += $va["student_all"];
+            @$ass_group[$master_adminid_ass]["student_finish"]     += $va["student_finish"];
+            @$ass_group[$master_adminid_ass]["student_online"]     += $va["student_online"];
+            @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];          
+            @$ass_group[$master_adminid_ass]["lesson_money"]     += $va["lesson_money"];
+            @$ass_group[$master_adminid_ass]["renw_target"]           += $va["renw_target"];
+            @$ass_group[$master_adminid_ass]["renw_price"]       += $va["renw_price"];
+            @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
+            @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
+            @$ass_group[$master_adminid_ass]["tran_num"]       += $va["tran_num"];
+            @$ass_group[$master_adminid_ass]["group_name"]       = $va["group_name"];
+
+
+        }
+
+        foreach($ass_group as $ke=>&$tt){
+            if($tt['student_all'] > 0){
+                $tt["student_finish_per"] = round($tt["student_finish"]/$tt["student_all"]*100,2);
+                $tt["student_online_per"] = round($tt["student_online"]/$tt["student_all"]*100,2);
+            }else{
+                $tt["student_finish_per"] = 0;
+                $tt["student_online_per"] = 0;
+            }
+            $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
+            $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
+            if($tt["student_online"]){
+                $tt["people_per"] = round(($tt["lesson_money"]+$tt["renw_price"]+$tt["tran_price"])/$tt["student_online"],2);
+            }else{
+                $tt["people_per"] = 0;
+            }
+            if(empty($tt["group_name"])){
+                unset($ass_group[$ke]);
+            }
+
+
+
+        }
+
         if(!empty($ass_list)){
             foreach($ass_list as $v){  
                 $flag[] = $v['people_per'];  
@@ -1006,7 +1056,10 @@ class tongji2 extends Controller
         
             array_multisort($flag, SORT_DESC, $ass_list);
         }
-        return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
+        return $this->pageView(__METHOD__,null,[
+            "ass_list"=>$ass_list,
+            "ass_group"=>$ass_group
+        ]);
     }
     
     public function seller_origin_info() {
