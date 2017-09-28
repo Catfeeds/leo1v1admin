@@ -82,25 +82,5 @@ class t_teacher_switch_money_type_list extends \App\Models\Zgen\z_t_teacher_swit
         return $this->main_get_value($sql);
     }
 
-    public function get_need_reset_list(){
-        $lesson_start = strtotime("2017-8-1");
-        $lesson_end   = strtotime("2017-9-1");
-        $where_arr = [
-            ["lesson_start>%u",$lesson_start,0],
-            ["lesson_start<%u",$lesson_end,0],
-            "batch in (1,2)",
-            "lesson_type in (0,1,3)"
-        ];
-        $sql = $this->gen_sql_new("select l.teacherid,l.teacher_money_type,l.level"
-                                  ." from %s sw"
-                                  ." left join %s l on sw.teacherid=l.teacherid"
-                                  ." where %s "
-                                  ." group by l.teacherid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
 
 }

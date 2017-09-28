@@ -712,6 +712,38 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     }
 
+    public function get_all_interview_count_by_reference($start_time,$end_time,$trial_train_status){
+        $where_arr=[
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            //  "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
+            "tr.type=10",
+            "l.lesson_del_flag = 0",
+            "l.lesson_type = 1100",
+            "l.train_type=5"
+            // ["tr.trial_train_status=%u",$trial_train_status,-1]
+        ];
+        if($trial_train_status==-2){
+            $where_arr[]="tr.trial_train_status <>2";
+        }else{
+            $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
+        }
+        $sql = $this->gen_sql_new("select distinct l.userid,la.reference "
+                                  ." from %s tr left join %s l on tr.train_lessonid = l.lessonid "
+                                  ." left join %s tt on l.userid = tt.teacherid "
+                                  ." left join %s la on tt.phone = la.phone"
+                                  ." where %s and la.accept_adminid>0 group by la.reference  ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
 
     public function get_all_interview_count_by_grade($start_time,$end_time,$trial_train_status){
         $where_arr=[

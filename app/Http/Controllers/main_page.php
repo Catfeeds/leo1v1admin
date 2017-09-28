@@ -63,7 +63,7 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-            $ret_info['order_price'] = '';
+            $ret_info['order_price'] = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
             $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
             $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍

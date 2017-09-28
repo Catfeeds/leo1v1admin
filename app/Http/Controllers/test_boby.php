@@ -31,11 +31,12 @@ class test_boby extends Controller
             }
         }
         return $s.'</tr>';
-
     }
+
     public function table_end($s){
         return $s.'</table>';
     }
+
     public function test(){
         $str = $this->table_start('姓名','电话','年龄');
         $str = $this->tr_add($str, 'sdfa',13213,45);
@@ -47,14 +48,12 @@ class test_boby extends Controller
         return $str;
     }
     public function get_b_txt($file_name="b"){
-//        $info = file_get_contents("/home/boby/".$file_name.".txt");
-//        $arr  = explode("\n",$info);
-//        return $arr;
-return 'is ok';
+       $info = file_get_contents("/home/boby/".$file_name.".txt");
+       $arr  = explode("\n",$info);
+       return $arr;
     }
 
     public function p_list(){
-return 'test ok';
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
         $account_role= $this->get_in_el_account_role();
@@ -64,7 +63,6 @@ return 'test ok';
     }
 
     public function  ss() {
-
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
         $account_role= $this->get_in_el_account_role();
@@ -99,8 +97,6 @@ return 'test ok';
             $this->cache_set_item_account_nick($item,"uid", "unick");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-
-        // dd($ret_info);
 
         return $this->pageView( __METHOD__, $ret_info);
     }
