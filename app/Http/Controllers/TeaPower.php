@@ -2227,7 +2227,7 @@ trait TeaPower {
                 $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price,
+                    "money"      => $ref_price*100,
                     "money_info" => $teacher_info['teacherid'],
                     "add_time"   => time(),
                     "type"       => E\Ereward_type::V_6,
@@ -2524,7 +2524,7 @@ trait TeaPower {
             $phone,$reference_type,$begin_time
         );
         $ref_price = \App\Helper\Utils::get_reference_money($identity,$ref_num);
-        return $ref_price*100;
+        return $ref_price;
     }
 
     /**
