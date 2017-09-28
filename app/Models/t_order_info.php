@@ -2114,26 +2114,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_order_total_price($start,$end){
-        $where_arr=[
-            ["pay_time>%u",$start,0],
-            ["pay_time<%u",$end,0],
-        ];
-
-        $sql = $this->gen_sql_new("select sum(price) as all_price,sum(lesson_total*default_lesson_count) as lesson_total"
-                                  ." from %s o "
-                                  ." left join %s s on o.userid=s.userid"
-                                  ." where %s"
-                                  ." and is_test_user=0"
-                                  ." and contract_type in (0,3)"
-                                  ." and contract_status in (1,2,3)"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_row($sql);
-    }
-
     public function get_test_plan_order($start_time,$end_time){
         $where_arr=[
             ["pay_time>%u",$start_time,0],
@@ -2199,10 +2179,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
-        ,$spec_flag=-1
+        ,$spec_flag=-1, $orderid=-1
     ){
         $where_arr=[];
-        if($userid>=0){
+        if($orderid>=0){
+            $where_arr=[["t1.orderid=%u",$orderid,-1]];
+        }else if($userid>=0){
             $where_arr=[["t1.userid=%u",$userid,-1]];
         }elseif( $config_courseid>0 ){
             $where_arr=[["config_courseid=%u",$config_courseid,-1]];
@@ -2797,28 +2779,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_order_5(){
-        $where_arr = [
-            "contract_type in (0,3)",
-            "contract_status > 0",
-            "is_test_user= 0",
-        ];
-        $sql = $this->gen_sql_new("select count(1) as have_order,s.userid,s.phone,s.nick,s.assistantid,m.name as seller_name"
-                                  ." from %s o"
-                                  ." left join %s s on o.userid=s.userid"
-                                  ." left join %s m on seller_adminid=uid"
-                                  ." where %s"
-                                  ." group by o.userid"
-                                  ." having have_order>=5"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-
     public function get_stu_renw_order($userid,$time){
         $where_arr = [
             "contract_type in (3,3001)",
@@ -3404,6 +3364,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+
     public function get_total_price_thirty($start_time,$end_time){
         $where_arr = [
             ['order_time>%u',$start_time,-1],
@@ -3424,5 +3385,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
 
     }
+
+    public function get_total_money($start_time, $end_time){
+        $where_arr = [
+            "o.price>0",
+            "contract_status<> 0",
+            "m.account_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+
+        $sql = $this->gen_sql_new( "  select sum(0.price) from %s o "
+                                   ." left join %s m on o.sys_operator = m.account "
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 
 }

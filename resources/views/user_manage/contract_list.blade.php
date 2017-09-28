@@ -23,6 +23,14 @@
                   <div  id="id_date_range" >
                   </div>
               </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">订单号</span>
+                <input class="opt-change form-control" id="id_orderid" />
+            </div>
+        </div>
+
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">类型</span>
@@ -252,9 +260,7 @@
                         <td >{{$var["teacher_nick"]}}</td>
                         <td >{{$var["check_money_desc"]}}</td>
                         <td>{!!$var["flow_status_str"]!!} <br/>
-                            @if ($var["flowid"] )
                             <br/>价值: {!!$var["promotion_spec_diff_money"]!!}
-                            @endif
                             <br/>{!!$var["promotion_spec_is_not_spec_flag_str"]!!}
                         </td>
                         <td >{{$var["get_packge_time"]}}</td>

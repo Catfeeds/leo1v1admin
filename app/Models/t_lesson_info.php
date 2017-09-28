@@ -8945,28 +8945,6 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
-    public function get_lesson_pay_order($start,$end){
-        $where_arr=[
-            ["lesson_start>%u",$start,0],
-            ["lesson_start<%u",$end,0],
-            "lesson_type=2",
-            "lesson_del_flag=0",
-            "contract_type=0",
-            "contract_status in (1,2,3)",
-        ];
-
-        $sql = $this->gen_sql_new("select l.userid,lesson_start,order_time,pay_time"
-                                  ." from %s l"
-                                  ." left join %s o on l.userid=o.userid "
-                                  ." where %s"
-                                  ." group by l.userid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_test_person_num_list_by_subject( $start_time,$end_time){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],

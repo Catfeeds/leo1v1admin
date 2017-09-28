@@ -2708,26 +2708,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $userid= 149681;
-        $orderid = 14908;
-        $this->t_order_refund->row_insert([
-            "userid"        => $userid,
-            "orderid"       => $orderid,
-            "should_refund" => 300,
-            "refund_status" => 1,
-            "apply_time"    => time()
-        ]);
-        $this->t_student_info->reset_lesson_count($userid);
-        dd(111);
-
-        $list = $this->t_test_lesson_subject_require->get_no_high_require();
-        foreach($list as $val){
-            $this->t_test_lesson_subject_require->field_update_list($val["require_id"],[
-               "seller_top_flag" =>0 
-            ]);
-            @$tt .=  $val["require_id"].",";
-        }
-        dd($tt);
+        $start_time = strtotime("2017-08-01");
+        $end_time   = strtotime("2017-09-01");
+        $one_account = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
+        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference_detail($start_time,$end_time);
+        dd($one_account);
+        dd($lesson_add);
+        
 
     }
 
