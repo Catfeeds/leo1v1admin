@@ -158,20 +158,13 @@ class main_page extends Controller
 
             // 月邀请率
             // 合同人数
-            $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);
+            // $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);//待处理
 
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
-
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
-
-
-
             $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-            dd($ret_info['test_lesson_succ_num']);
-
-
-            $ret_info['new_order_num'] = $this->t_order_info->get_new_order_num($start_time, $end_time); // 新签合同
+            $ret_info['new_order_num'] = $ret_info['total_num']; // 合同数量
 
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
