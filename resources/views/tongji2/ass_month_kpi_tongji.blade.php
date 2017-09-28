@@ -106,36 +106,22 @@
                                     @foreach ( $ass_group as $key=> $var )
                                         <tr>
                                             <td  > {{@$var["group_name"]}} </td> 
-                                            <td>{{@$var["all_student"]}} </td>
-                                            <td>{{@$var["read_student_last"]}} </td>
-                                            <td>{{@$var["lesson_student"]}} </td>
-                                            <td>{{@$var["end_stu_num"]}} </td>
-                                            <td>{{@$var["month_stop_student"]}} </td>
-                                            <td>{{@$var["refund_student"]}} </td>
-                                            <td>{{@$var["warning_student"]}} </td>
-                                            <td>{{@$var["lesson_total_old"]}} </td>
+                                            <td>{{@$var["student_all"]}}</td>
+                                            <td>{{@$var["student_finish"]}}</td>
+                                            <td>{{@$var["student_finish_per"]}}%</td>
+                                            <td>{{@$var["student_online"]}}</td>
+                                            <td>{{@$var["student_online_per"]}}%</td>
                                             <td>{{@$var["lesson_total"]}} </td>
+                                            <td>{{@$var["lesson_do_per"]}}%</td>
                                             <td>{{@$var["lesson_money"]}} </td>
-                                            <td  class="per" data-per="{{@$var["lesson_per"]}}" >
-                                                <a href="javascript:;" >{{@$var["lesson_ratio"]}}</a>
-                                            </td>
-                                            <td  class="per" data-per="{{@$var["lesson_per"]}}" >
-                                                <a href="javascript:;" >{{@$var["lesson_per"]}}%</a>
-                                            </td>
-
-                                            <td  class="per" data-per="{{@$var["return_stu_per"]}}" >
-                                                <a href="javascript:;" >{{@$var["renw_student"]}}</a>
-                                            </td>
-                                            <td  class="per" data-per="{{@$var["renw_per"]}}" >
-                                                <a href="javascript:;" >{{@$var["renw_price"]}}</a>
-                                            </td>
-
-                                            <td>{{@$var["tran_price"]}}</td>
-                                            
-                                            <td>{{@$var["kk_suc"]}}</td>
-                                            <td>{{@$var["kk_require"]}}</td>
-                                            <td>{{@$var["new_refund_money"]}} </td>
-                                            <td>{{@$var["renw_refund_money"]}} </td>
+                                            <td  > {{@$var["renw_target"]}} </td> 
+                                            <td  > {{@$var["renw_price"]}} </td> 
+                                            <td  > {{@$var["renw_per"]}}% </td>
+                                            <td>{{@$var["kk_succ"]}} </td>
+                                            <td>{{@$var["tran_num"]}} </td>
+                                            <td>{{@$var["tran_price"]}} </td>
+                                            <td>{{@$var["people_per"]}}</td>
+                                          
                                         </tr>
                                     @endforeach
                                 </tbody>

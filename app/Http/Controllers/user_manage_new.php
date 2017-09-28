@@ -2946,9 +2946,12 @@ class user_manage_new extends Controller
      * @return float     结束时间
      */
     public function get_lesson_price(){
-        $start_time = $this->get_in_int_val("start_time");
-        $end_time   = $this->get_in_int_val("end_time");
+        $start_date         = $this->get_in_str_val("start_time");
+        $end_date           = $this->get_in_str_val("end_time");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+
+        $start_time         = strtotime($start_date);
+        $end_time           = strtotime($end_date);
 
         $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
 

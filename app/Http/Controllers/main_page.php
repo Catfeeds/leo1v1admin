@@ -126,25 +126,20 @@ class main_page extends Controller
             $second_group = '咨询二部';
             $third_group  = '咨询三部';
             $new_group    = '新人营';
-            $ret_info['first_num']  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-            $ret_info['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-            $ret_info['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-            $ret_info['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
-            $ret_info['traing_num'] = '';// 培训中
+            $ret_info['first_num']  = $seller_num_arr['first_num']  = $this->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
+            $ret_info['second_num'] = $seller_num_arr['second_num'] = $this->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
+            $ret_info['third_num']  = $seller_num_arr['third_num']  = $this->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
+            $ret_info['new_num']    = $seller_num_arr['new_num']    = $this->t_admin_group_name->get_group_new_count($new_group);// 新人营
+            $ret_info['traing_num'] = $seller_num_arr['traing_num'] = '';// 培训中
             $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
+            $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
             dd($ret_info);
 
-            $seller_num_arr['first_num']  = $ret_info['first_num'];
-            $seller_num_arr['second_num'] = $ret_info['second_num'];
-            $seller_num_arr['third_num']  = $ret_info['third_num'];
-            $seller_num_arr['new_num']    = $ret_info['new_num'];
-            $seller_num_arr['traing_num'] = $ret_info['traing_num'];
-
-            $ret_info['department_num_info'] = json_encode($seller_num_arr);
 
             // 金额转化率占比
-            $ret_info['referral_money'] = $this->t_order_info->get_referral_money_for_month($start_time, $end_time);
+            // $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
+
             $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
             $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
             $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);

@@ -170,7 +170,7 @@ $(function(){
             }
         };
 
-        $.do_ajax("/user_manager_new/get_lesson_price",{
+        $.do_ajax("/user_manage_new/get_lesson_price",{
             "start_time"         : g_args.start_time,
             "end_time"           : g_args.end_time,
             "teacher_money_type" : $("#id_teacher_money_type").val(),

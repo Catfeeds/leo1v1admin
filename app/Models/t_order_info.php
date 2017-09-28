@@ -3170,6 +3170,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
+            "o.price>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
@@ -3229,6 +3230,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
+            "o.price>0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
