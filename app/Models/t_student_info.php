@@ -292,18 +292,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if ($phone) {
             $where_arr[]=  "phone like '%".$phone."%'";
         }
-        $sql = $this->gen_sql("select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,a.nick, a.phone, originid, a.grade "
-                              ." from %s a left join %s b on a.userid = b.userid "
-                              ." left join %s m on b.sys_operator = m.account"
-                              ." left join %s t on t.phone = m.phone "
-                              ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
-                              self::DB_TABLE_NAME,
-                              t_revisit_info::DB_TABLE_NAME,
-                              t_manager_info::DB_TABLE_NAME,
-                              t_assistant_info::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $start,
-                              $end
+        $sql = $this->gen_sql(
+            "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
+            ." a.nick, a.phone, originid, a.grade,tq.duration"
+            ." from %s a left join %s b on a.userid = b.userid "
+            ." left join %s m on b.sys_operator = m.account"
+            ." left join %s t on t.phone = m.phone "
+            ." left join %s tq on tq.id = b.call_phone_id "
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
+            self::DB_TABLE_NAME,
+            t_revisit_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            [$this->where_str_gen($where_arr)],
+            $start,
+            $end
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }

@@ -160,7 +160,7 @@ class user_manage extends Controller
             $this->cache_set_item_assistant_nick($item);
             E\Erevisit_type::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-
+            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->Pageview(__METHOD__,$ret_info);
     }
