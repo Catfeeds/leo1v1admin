@@ -211,6 +211,19 @@ class fulltime_teacher_kaoqin extends Command
                 "\n延休天数:".$value['day_num'].
                 "\n延休日期:".$value['cross_time'],'');
           }
+          $namelist = '';
+          $num = 0;
+          foreach ($arr as $key => $value) {
+              if($value['day_num'] != 0){
+                  $namelist .= $value['realname'];
+                  $namelist .= ',';
+                  ++$num;
+              }
+          }
+          $namelist = trim($namelist,',');
+          $task->t_manager_info->send_wx_todo_msg_by_adminid (72,"国庆延休统计","全职老师国庆延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); //erick
+          $task->t_manager_info->send_wx_todo_msg_by_adminid (480,"国庆延休统计","全职老师国庆延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); //low-key
+
           //email
           $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
           $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
