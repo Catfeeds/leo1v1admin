@@ -74,9 +74,9 @@ class teacher_first_test_lesson_wx extends Command
             }
             $tea_arr =$task->get_admin_group_subject_list($k);
             $subject_str = E\Esubject::get_desc($k);
-            $tea_arr[72]="Erick";
+            //$tea_arr[72]="Erick";
             $tea_arr[448]="rolon";
-            $tea_arr[349]="Jack";
+            // $tea_arr[349]="Jack";
             foreach($tea_arr as $kk=>$vv){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($kk,"理优监课组","老师第一次试听课监课一周汇总",$vv."老师你好,系统检查到本周未".$subject_str."学科如下 ".$num."位 老师新入职老师,其中".$un_num."位老师还未反馈
 

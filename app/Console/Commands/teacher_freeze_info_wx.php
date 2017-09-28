@@ -47,9 +47,9 @@ class teacher_freeze_info_wx extends Command
         foreach($jw_teacher_list as $lll){
             $tea_arr[$lll["uid"]]=$lll["account"];
         }
-        $tea_arr[349]="jack";
-        $tea_arr[72] ="Erick";
-        $tea_arr[74] ="王寅";
+        // $tea_arr[349]="jack";
+        // $tea_arr[72] ="Erick";
+        // $tea_arr[74] ="王寅";
         $tea_arr[448]="rolon";
         //$tea_arr=["343"=>"nina","418"=>"June","349"=>"Jack","434"=>"lee","436"=>"alina","454"=>"maze","492"=>"zoe","74"=>"王寅","72"=>"Erick"];
         //$tea_arr=["349"=>"Jack",72=>"Erick"];
