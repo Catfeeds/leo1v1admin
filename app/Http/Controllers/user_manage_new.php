@@ -2942,6 +2942,17 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$result);
     }
 
+    /**
+     * 获取时间范围内的课程收入
+     * @param start_time 开始时间
+     * @param end_time   结束时间
+     * @return float     结束时间
+     */
+    public function get_lesson_price(){
+
+    }
+
+
     private function get_price_percent($price,$all_price){
         if($all_price!=0){
             $price_percent = (round($price/$all_price,4)*100).'%';

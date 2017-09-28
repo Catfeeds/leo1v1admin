@@ -70,9 +70,7 @@ class main_page extends Controller
             $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
             $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-
             $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-
             $ret_info['income_price'] = $order_info_total['total_price'];
 
             if($order_info_total['total_num']>0){
@@ -80,10 +78,8 @@ class main_page extends Controller
             }else{
                 $ret_info['aver_count'] = 0; //平均单笔
             }
-            // dd($ret_info);
 
-            $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
-
+            // $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
             $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
             $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
             $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
@@ -99,7 +95,7 @@ class main_page extends Controller
             $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
             // $main_type = 2;// 销售
-            $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标
+            $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
             if (!$ret_info['seller_target_income'] ) {
                 $ret_info['seller_target_income'] = 1600000;
             }
@@ -108,21 +104,16 @@ class main_page extends Controller
             $month_start_time = strtotime( date("Y-m-01",  $start_time));
             $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
             $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-            $cur_money=0;
+            $ret_info['cur_money']=0;
             $today=time(NULL);
             foreach ($month_date_money_list as $date=> &$item ) {
                 $date_time=strtotime($date);
                 if ($date_time<=$today) {
-                    $cur_money+=@$item["money"];
-                    $item["month_finish_persent"] = intval($cur_money/$month_finish_define_money_2) ;
+                    $ret_info['cur_money']+=@$item["money"];
                 }
             }
-
-
-
-
-
-            dd($cur_money);
+            $ret_info['month_finish_persent'] = $ret_info['cur_money']/$ret_info['seller_target_income'];//月kpi完成率
+            $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['cur_money'];//
 
             if($ret_info['seller_target_income']>0){
                 $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income']*100;
@@ -142,6 +133,7 @@ class main_page extends Controller
             $ret_info['traing_num'] = '';// 培训中
             $ret_info['seller_num'] = $ret_info['first_num']+$ret_info['second_num']+$ret_info['third_num']+$ret_info['new_num'];// 咨询一部+咨询二部+咨询三部+新人营
 
+            dd($ret_info);
 
             $seller_num_arr['first_num']  = $ret_info['first_num'];
             $seller_num_arr['second_num'] = $ret_info['second_num'];

@@ -101,8 +101,6 @@ $(function(){
         var teacher_cost_tax    = 0;
         var teacher_full_money  = 0;
 
-
-
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr              = $(row_list[do_index]);
@@ -171,7 +169,15 @@ $(function(){
                 do_one();
             }
         };
-        do_one();
+
+        $.do_ajax("/user_manager_new/get_lesson_price",{
+            "start_time" : g_args.start_time,
+            "end_time"   : g_args.end_time,
+        },function(result){
+            $("#id_lesson_price").val(result.lesson_price);
+            do_one();
+        });
+
     });
 
     $("#id_reset_lesson_count_all").on("click",function(){

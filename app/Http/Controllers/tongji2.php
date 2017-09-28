@@ -1025,6 +1025,25 @@ class tongji2 extends Controller
 
         }
 
+        foreach($ass_group as &$tt){
+            if($tt['student_all'] > 0){
+                $tt["student_finish_per"] = round($tt["student_finish"]/$tt["student_all"]*100,2);
+                $tt["student_online_per"] = round($tt["student_online"]/$tt["student_all"]*100,2);
+            }else{
+                $tt["student_finish_per"] = 0;
+                $tt["student_online_per"] = 0;
+            }
+            $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
+            $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
+            if($tt["student_online"]){
+                $tt["people_per"] = round(($tt["lesson_money"]+$tt["all_price"])/$tt["student_online"],2);
+            }else{
+                $tt["people_per"] = 0;
+            }
+
+
+        }
+
         if(!empty($ass_list)){
             foreach($ass_list as $v){  
                 $flag[] = $v['people_per'];  
