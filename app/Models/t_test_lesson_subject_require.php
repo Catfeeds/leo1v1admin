@@ -2944,14 +2944,14 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(distinct(ts.userid)) from %s tr "
-                           ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-                           ." left join %s s on ts.userid=s.userid"
-                           ." where %s"
-                           ,self::DB_TABLE_NAME
-                           ,t_test_lesson_subject::DB_TABLE_NAME
-                           ,t_student_info::DB_TABLE_NAME
-                           ,$where_arr
+        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+                                  ." left join %s s on ts.userid=s.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
 
         return $this->main_get_value($sql);
