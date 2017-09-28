@@ -464,7 +464,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                                                      $sys_operator);
 
         return true;
-
     }
 
     public function add_require_and_lessonid( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$seller_student_status) {
