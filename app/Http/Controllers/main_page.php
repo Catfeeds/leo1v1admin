@@ -153,7 +153,6 @@ class main_page extends Controller
                 $ret_info['primary_money_rate']     = 0;
             }
 
-            //以上已完成
 
 
             // 月邀请率
@@ -165,6 +164,9 @@ class main_page extends Controller
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
             $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
             $ret_info['new_order_num'] = $ret_info['total_num']; // 合同数量
+
+            //以上已完成
+
 
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
