@@ -1269,6 +1269,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         //$verifyResult=true;
         if($verifyResult){
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
+            dd($orderid);
             $check_exist = $this->t_child_order_info->get_parent_orderid($orderid);
             if(empty($check_exist)){
                 return $this->output_succ(["status"=>1,"msg"=>"订单不存在"]);

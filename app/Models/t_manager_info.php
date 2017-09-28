@@ -1711,6 +1711,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_value($sql);
     }
+
     public function get_cr_num($start_time,$end_time){
         $where_arr = [
             'account_role = 1',

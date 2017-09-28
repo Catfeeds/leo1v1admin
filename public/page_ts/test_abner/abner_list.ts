@@ -43,7 +43,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/test_luki/test_add",{
+                $.do_ajax("/test_abner/test_add",{
                     "grade" : $grade.val()
                 });
             }
@@ -67,7 +67,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/test_luki/test_set2",{
+                $.do_ajax("/test_abner/test_set2",{
                     "id" : opt_data.id,
                     "grade" : $grade.val()
                 });
@@ -80,7 +80,7 @@ $(function(){
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-        $.do_ajax("/test_luki/test_del",{
+        $.do_ajax("/test_abner/test_del",{
             "id" : opt_data.id,
         });
 

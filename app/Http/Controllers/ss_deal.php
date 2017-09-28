@@ -1990,6 +1990,9 @@ class ss_deal extends Controller
             if($promotion_spec_diff_money <0 ){
                 $promotion_spec_diff_money =0;
             }
+            if ($promotion_spec_diff_money > $promotion_spec_discount *0.5 ) {
+                return $this->output_err("数据有误,折扣太多");
+            }
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
