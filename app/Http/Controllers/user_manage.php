@@ -381,33 +381,13 @@ class user_manage extends Controller
     public function ass_random_revisit() {
         $this->switch_tongji_database();
 
-        $test_user    = $this->get_in_int_val('test_user',"-1");
-        // $originid     = $this->get_in_int_val('originid',"-1");
-        $grade        = $this->get_in_el_grade();
-        // $user_name    = trim($this->get_in_str_val('user_name',''));
-        // $phone        = trim($this->get_in_str_val('phone',''));
-        // $teacherid    = $this->get_in_int_val("teacherid",-1);
-        // $student_type = $this->get_in_int_val("student_type",-1);
-        // $assistantid  = $this->get_in_int_val("assistantid",-1);
-        // $page_num     = $this->get_in_page_num();
-        // $status       = -1;
-        // $userid       = $this->get_in_userid(-1);
-        // $revisit_flag = $this->get_in_int_val('revisit_flag',-1);
-        // $warning_stu  = $this->get_in_int_val('warning_stu',-1);
+        $grade = $this->get_in_el_grade();
+
         $now  = strtotime(date("Y-m-d",time()));
         $date = \App\Helper\Utils::get_week_range($now,1);
         $day  = $date["edate"];
-        // if (is_numeric($user_name)) {
-        //     $userid=$user_name;
-        //     $user_name="";
-        //     if ($userid >1000000 ) {
-        //         $phone=$userid;
-        //         $userid=-1;
-        //     }
-        // }
-
         $month_start = strtotime(date("Y-m-01",time()));
-        $month_time = $month_start;
+        $month_time  = $month_start;
         $m = date("m",time());
         $y = date("Y",time());
         $d = date("d",time());
@@ -419,16 +399,14 @@ class user_manage extends Controller
             $next_m ="0".$next_m;
         }
         $month_end_str = $y."-".$next_m."-"."01";
-        $month_end = strtotime(date($month_end_str));
-        $cur_start = $month_start+15*86400;
-        $cur_end =  $month_end;
-        $last_start = $month_start;
-        $last_end =  $month_start+15*86400;
-
-
+        $month_end     = strtotime(date($month_end_str));
+        $cur_start     = $month_start+15*86400;
+        $cur_end       = $month_end;
+        $last_start    = $month_start;
+        $last_end      = $month_start+15*86400;
         $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
-        $ret = $this->t_student_info->get_student_sum_archive( -1);
+        $ret           = $this->t_student_info->get_student_sum_archive( -1);
         if($d<=15){
             $sum_start = $last_start;
             $sum_end = $last_end;
@@ -439,9 +417,8 @@ class user_manage extends Controller
         //  dd(date("Y-m-d",$sum_start));
         $sumweek = $this->t_student_info->get_student_sum_archive_new(-1,$sum_start);
 
-        // $ret_info = $this->t_student_info->get_student_list_archive( $userid, $grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num, $student_type, $revisit_flag, $warning_stu,$sum_start);
         $ret_info = $this->t_student_info->get_two_stu_for_archive( $grade, $sum_start);
-        dd($ret_info);
+
         $userid_list=[];
         foreach($ret_info['list'] as $t_item) {
             $userid_list[]=$t_item["userid"];
@@ -455,23 +432,23 @@ class user_manage extends Controller
 
         $now=time(NULL);
         foreach($ret_info['list'] as &$item) {
-            $item['originid']          = E\Estu_origin::get_desc($item['originid']);
-            $item['type_str']          = $item['type']  ;
-            $item['type']              = E\Estudent_type::get_desc($item['type']);
-            $item['is_test_user']      = E\Etest_user::get_desc($item['is_test_user']);
-            $item['user_agent_simple'] = get_machine_info_from_user_agent($item["user_agent"] );
-            $item['last_login_ip']     = long2ip( $item['last_login_ip'] );
-            $item['last_login_time']   = unixtime2date( $item['last_login_time']);
-            $item['ass_assign_time_str']   = unixtime2date( $item['ass_assign_time']);
-            $item['lesson_count_all']  = $item['lesson_count_all']/100;
-            $item['lesson_count_left'] = $item['lesson_count_left']/100;
-            $item['lesson_count_done'] = $item['lesson_count_all']-$item['lesson_count_left'];
-            $item['lesson_total'] = $item['lesson_total']/100;
-            $item["assistant_nick"]    = $this->cache_get_assistant_nick ($item["assistantid"] );
-            $ass_revisit_last_week_time = $item ["ass_revisit_last_week_time"];
-            $ass_revisit_last_month_time = $item ["ass_revisit_last_month_time"];
-            $item ["ass_revisit_week_flag"]= (($now - $ass_revisit_last_week_time) < 7*86400 )  ;
-            $item ["ass_revisit_month_flag"]= (($now - $ass_revisit_last_month_time) < 28*86400 )  ;
+            $item['originid']                = E\Estu_origin::get_desc($item['originid']);
+            $item['type_str']                = $item['type'];
+            $item['type']                    = E\Estudent_type::get_desc($item['type']);
+            $item['is_test_user']            = E\Etest_user::get_desc($item['is_test_user']);
+            $item['user_agent_simple']       = get_machine_info_from_user_agent($item["user_agent"] );
+            $item['last_login_ip']           = long2ip( $item['last_login_ip'] );
+            $item['last_login_time']         = unixtime2date( $item['last_login_time']);
+            $item['ass_assign_time_str']     = unixtime2date( $item['ass_assign_time']);
+            $item['lesson_count_all']        = $item['lesson_count_all']/100;
+            $item['lesson_count_left']       = $item['lesson_count_left']/100;
+            $item['lesson_count_done']       = $item['lesson_count_all']-$item['lesson_count_left'];
+            $item['lesson_total']            = $item['lesson_total']/100;
+            $item["assistant_nick"]          = $this->cache_get_assistant_nick ($item["assistantid"] );
+            $ass_revisit_last_week_time      = $item ["ass_revisit_last_week_time"];
+            $ass_revisit_last_month_time     = $item ["ass_revisit_last_month_time"];
+            $item ["ass_revisit_week_flag"]  = (($now - $ass_revisit_last_week_time) < 7*86400 )  ;
+            $item ["ass_revisit_month_flag"] = (($now - $ass_revisit_last_month_time) < 28*86400 )  ;
             E\Eboolean::set_item_value_str($item, "ass_revisit_week_flag");
             E\Eboolean::set_item_value_str($item, "ass_revisit_month_flag");
 
@@ -497,43 +474,14 @@ class user_manage extends Controller
 
             }
 
-
-            /* $item['week_second'] = @$ret_revisit_info[$item['userid']]['week_second'];
-            if(isset($item['week_second']) && $item['week_second']>0){
-                $item['week_second'] = 1;
-            }else{
-                $item['week_second'] = 0;
-
-            }
-
-            $item['week_third'] = @$ret_revisit_info[$item['userid']]['week_third'];
-            if(isset($item['week_third']) && $item['week_third']>0){
-                $item['week_third'] = 1;
-            }else{
-                $item['week_third'] = 0;
-            }
-
-            $item['week_fourth'] = @$ret_revisit_info[$item['userid']]['week_fourth'];
-            if(isset($item['week_fourth']) && $item['week_fourth']>0){
-                $item['week_fourth'] = 1;
-            }else{
-                $item['week_fourth'] = 0;
-            }
-
-            $item["week_now"] = $item["week_fourth"]+$item["week_third"];
-            if($item["week_now"]>0) $item["week_now"]=1;
-            $item["week_last"] = $item["week_second"]+$item["week_first"];
-            if($item["week_last"]>0) $item["week_last"]=1;*/
-
             E\Eboolean::set_item_value_str($item, "cur");
             E\Eboolean::set_item_value_str($item, "last");
             if(empty($item["phone_location"])){
                 $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
             }else{
-                $item["location"]= $item["phone_location"];
+                $item["location"] = $item["phone_location"];
             }
 
-            //$item["course_list_total"] = $this->t_course_order->get_list_total($item['userid'],-1,0);
             $ret_get_list_total = $this->t_course_order->get_list_total($item['userid'],-1,0);
             $arr = [];
             foreach ($ret_get_list_total as $key => $value) {
@@ -543,15 +491,22 @@ class user_manage extends Controller
         }
 
         $account_id = $this->get_account_id();
-        $main_type = 1;
-        $is_master = $this->t_admin_group_name->check_is_master($main_type,$account_id);
+        $main_type  = 1;
+        $is_master  = $this->t_admin_group_name->check_is_master($main_type,$account_id);
         if($is_master>0 || $account_id==74 || $account_id=349){
-            $master_adminid=1;
+            $master_adminid = 1;
         }else{
-            $master_adminid=0;
+            $master_adminid = 0;
         }
-        dd($ret_info);
-        return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
+        // dd($ret_info);
+        return $this->Pageview(__METHOD__,$ret_info,[
+            'sumweek'        => $sumweek,
+            'summonth'       => $ret['summonth'],
+            "master_adminid" => $master_adminid,
+            "cur_time_str"   => $cur_time_str,
+            "last_time_str"  => $last_time_str,
+            "acc"            => session("acc")
+        ]);
     }
 
 
