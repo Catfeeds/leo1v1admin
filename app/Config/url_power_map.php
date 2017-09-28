@@ -388,6 +388,7 @@ class url_power_map {
 			'/tongji_ss/ass_weekly_info_master'	=>1138400,
 			'/tongji_ss/ass_month_info'	=>1135700,
 			'/tongji_ss/tongji_ass_leader_kpi'	=>1138100,
+			'/user_manage/ass_random_revisit'	=>1139800,
 			'/tongji_ss/tongji_ass_kpi'	=>1138500,
 			'/tongji_ss/tongji_ass_kpi_master'	=>1138600,
 			'/user_manage_new/assistant_admin_member_list'	=>1139900,
