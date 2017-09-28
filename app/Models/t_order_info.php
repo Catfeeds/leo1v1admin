@@ -3039,34 +3039,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
-    public function get_referral_income($start_time, $end_time){ // 转介绍
-
-        $where_arr = [
-            "is_test_user=0",
-            "m.account_role=2",
-            "sys_operator<>'jim'",
-            "contract_status <> 0",
-            "s.origin_userid>0",
-            ["s.origin like '%%%s%%'" , '转介绍'],
-
-        ];
-
-        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
-
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_price,count(*) as all_count  "
-                                  ." from %s o "
-                                  ."left join %s s on o.userid = s.userid "
-                                  ."left join %s n on n.userid = s.userid "
-                                  ."left join %s m on o.sys_operator = m.account "
-                                  ." where %s  ",
-                                  self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
-                                  $where_arr
-        );
-        return $this->main_get_row($sql);
-    }
 
     //
 
@@ -3135,18 +3107,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $check_time = time() - 30*86400;
         $where_arr = [
             "is_test_user=0",
-            "contract_type =0 ",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
-            "m.become_full_member_time <= $check_time or m.create_time<=$check_time",
-            "m.del_flag=0"
+            "m.leave_member_time>=$start_time or m.leave_member_time=0 or m.create_time<$start_time ",
+            "m.del_flag=0",
+            "o.price>0",
+            "contract_status<>0",
         ];
-
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select  sum(price)/100 as all_price"
+        $sql = $this->gen_sql_new("select  sum(price)/100 as job_price, count(distinct(o.sys_operator)) as job_num "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
@@ -3158,7 +3130,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 
@@ -3395,18 +3367,38 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(0.price) from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price) total_price, count(*) total_num  from %s o "
+                                   ." left join %s m on o.sys_operator = m.account "
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+    public function get_referral_income($start_time, $end_time){
+        $where_arr = [
+            "o.price>0",
+            "contract_status<>0",
+            "m.account_role=2",
+            "s.origin_userid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+
+        $sql = $this->gen_sql_new( "  select sum(o.price) referral_price, count(*) referral_num from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
                                    ,t_manager_info::DB_TABLE_NAME
-
+                                   ,t_student_info::DB_TABLE_NAME
                                    ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
-
-
 }

@@ -63,33 +63,38 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-            $ret_info['order_price'] = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
-            $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
-            $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+            //概况
+            $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
-            $ret_info['income_price'] = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
-            $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
+            $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-            if($ret_info['income_count']>0){
-                $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
+            $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
+
+            $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+
+            $ret_info['income_price'] = $order_info_total['total_price'];
+
+            if($order_info_total['total_num']>0){
+                $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
             }else{
                 $ret_info['aver_count'] = 0; //平均单笔
             }
+            // dd($ret_info);
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
-            $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-
-            $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
-
-            $total_price = 0;
+            $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+            $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
+            $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
             if($ret_info['formal_num']>0){
                 $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
             }else{
                 $ret_info['aver_money'] = 0;
             }
+
+            // dd($ret_info);
 
             $month = date('Y-m-01');
             $main_type = 2;// 销售

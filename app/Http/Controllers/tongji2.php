@@ -919,6 +919,9 @@ class tongji2 extends Controller
 
         $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
+
+        //课时目标系数
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -952,6 +955,7 @@ class tongji2 extends Controller
             $val["refund_score"] = isset($ass_month[$k])?$ass_month[$k]["refund_score"]/100:0;
             // $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
+            $val["lesson_total"] = isset($ass_month[$k])?$ass_month[$k]["lesson_total"]/100:0;
             $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
             
 
@@ -961,6 +965,7 @@ class tongji2 extends Controller
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             //  $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
             $val["student_online"] = isset($ass_month[$k])?$ass_month[$k]["read_student_new"]:0;
+            $val["lesson_do_per"] = !empty( $val["student_online"])?round($val["lesson_total"]/$val["student_online"]/$lesson_target*100,2):0;
             //$val["student_all"] += $val["student_finish"];
             $val["student_all"] =  isset($ass_month[$k]["all_student_new"])?$ass_month[$k]["all_student_new"]:0;
             if($val['student_all'] > 0){

@@ -3675,7 +3675,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,t.realname,"
                                   ."count(distinct l.userid) stu_num,t.teacher_money_type "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
-                                  ." where %s group by t.teacherid ",
+                                  ." where %s group by t.teacherid having(lesson_count>0) ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
