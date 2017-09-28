@@ -519,7 +519,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$main_master_flag=0,$self_adminid=-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$call_count,$main_master_flag=0,$self_adminid=-1
     ) {
 
 
@@ -556,6 +556,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
             $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
             $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"cur_adminid_call_count",$call_count);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -598,7 +599,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $sql=$this->gen_sql_new(
             "select  aa.nickname,seller_resource_type ,first_call_time,first_contact_time,first_revisit_time,last_revisit_time,tmk_assign_time,last_contact_time, competition_call_adminid, competition_call_time,sys_invaild_flag,wx_invaild_flag, return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, add_time,  global_tq_called_flag, seller_student_status,wx_invaild_flag, s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad,t.require_adminid ,tmk_student_status "
-            . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status "
+            . ",first_tmk_set_valid_admind,first_tmk_set_valid_time,tmk_set_seller_adminid,first_tmk_set_seller_time,first_admin_master_adminid,first_admin_master_time,first_admin_revisiterid,first_admin_revisiterid_time,first_seller_status,cur_adminid_call_count as call_count "
             ." from %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ." left join %s s on ss.userid=s.userid "
@@ -1911,7 +1912,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(
-            "select userid from %s where %s ",
+            "select userid,phone, admin_revisiterid, cur_adminid_call_count  from %s where %s ",
             self::DB_TABLE_NAME, $where_arr );
         return $this->main_get_list($sql);
     }

@@ -9,6 +9,7 @@ $(function(){
 			end_time        : $('#id_end_time').val(),
 			lesson_status   : $('#id_lesson_status').val(),
 			teacherid       : $('#id_teacherid').val(),
+			train_type      : $('#id_train_type').val()
         });
     }
 
@@ -22,8 +23,12 @@ $(function(){
             load_data();
         }
     });
+
+    Enum_map.append_option_list("train_type",$("#id_train_type"),true,[1,7]);
+
     $("#id_lesson_status").val(g_args.lesson_status);
     $("#id_teacherid").val(g_args.teacherid);
+	$('#id_train_type').val(g_args.train_type);
 
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 

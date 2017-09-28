@@ -14,7 +14,7 @@ class test_boby extends Controller
       $this->switch_tongji_database();
     }
     public function table_start(){
-        $s = '<table border=1><tr>';
+        $s   = '<table border=1><tr>';
         $arr = func_get_args();
         foreach ($arr as $v) {
             $s = $s."<th>{$v}</th>";
@@ -24,18 +24,19 @@ class test_boby extends Controller
 
     public function tr_add($table_start){
         $arr = func_get_args();
-        $s = $table_start.'<tr>';
-        foreach($arr as $k=>$v){
+        $s   = $table_start.'<tr>';
+        foreach($arr as $k => $v){
             if($k) {
                 $s = $s."<td>{$v}</td>";
             }
         }
         return $s.'</tr>';
-
     }
+
     public function table_end($s){
         return $s.'</table>';
     }
+
     public function test(){
         $str = $this->table_start('姓名','电话','年龄');
         $str = $this->tr_add($str, 'sdfa',13213,45);
@@ -47,14 +48,12 @@ class test_boby extends Controller
         return $str;
     }
     public function get_b_txt($file_name="b"){
-//        $info = file_get_contents("/home/boby/".$file_name.".txt");
-//        $arr  = explode("\n",$info);
-//        return $arr;
-return 'is ok';
+       $info = file_get_contents("/home/boby/".$file_name.".txt");
+       $arr  = explode("\n",$info);
+       return $arr;
     }
 
     public function p_list(){
-return 'test ok';
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
         $account_role= $this->get_in_el_account_role();
@@ -64,7 +63,6 @@ return 'test ok';
     }
 
     public function  ss() {
-
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
         $account_role= $this->get_in_el_account_role();
@@ -99,8 +97,6 @@ return 'test ok';
             $this->cache_set_item_account_nick($item,"uid", "unick");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-
-        // dd($ret_info);
 
         return $this->pageView( __METHOD__, $ret_info);
     }
@@ -581,6 +577,13 @@ return 'test ok';
             $this->t_gift_info->update_all_price( $item['giftid'], $price );
         }
         echo 'ok';
+    }
+
+    public function get_all_parameters($arr) {
+        foreach( $arr as $vel) {
+            $a = $vel;
+            // $$a = 
+        }
     }
 
 }

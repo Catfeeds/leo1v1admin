@@ -1532,8 +1532,8 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $teacherid              = $this->get_in_int_val("teacherid");
-        $start_time = time()-90*86400;
+        $teacherid              = $this->get_in_int_val("teacherid",50272);
+        /* $start_time = time()-90*86400;
         $end_time = time();
 
         $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
@@ -1545,8 +1545,36 @@ class ajax_deal2 extends Controller
             if(($max - $min) >= 90*86400){
                 $num++;
             }
+            }*/
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $tea_arr =[$teacherid];
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
+        if(!empty($cc_list)){
+            $cc_list = $cc_list[$teacherid];
+            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        }else{
+            $cc_per =0;
         }
-        return $this->output_succ(["data"=>$num]);
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+        if(!empty($cr_list)){
+            $cr_list = $cr_list[$teacherid];
+            $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
+        }else{
+            $cr_per =0;
+        }
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
+        $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
+
+        return $this->output_succ(["cc_per"=>$cc_per,"cr_per"=>$cr_per,"score"=>$score,"level"=>$level]);
     }
 
     //更改家长姓名

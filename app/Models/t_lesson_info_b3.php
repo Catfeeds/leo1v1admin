@@ -594,7 +594,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql,function($item){
             return $item["set_lesson_adminid"];
         });
-
     }
 
     public function get_need_reset_list($time){

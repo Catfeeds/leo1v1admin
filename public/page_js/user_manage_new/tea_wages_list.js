@@ -101,6 +101,8 @@ $(function(){
         var teacher_cost_tax    = 0;
         var teacher_full_money  = 0;
 
+
+
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr              = $(row_list[do_index]);

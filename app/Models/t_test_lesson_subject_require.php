@@ -2423,40 +2423,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
-    public function get_test_plan_data($start_time,$end_time){
-        $where_arr = [
-            ["tr.require_time>%u",$start_time,0],
-            ["tr.require_time<%u",$end_time,0],
-        ];
-        $order_str=[
-            ["pay_time>%u",$start_time,0],
-            ["pay_time<%u",$end_time,0],
-        ];
-
-        $sql = $this->gen_sql_new("select t.userid,current_lessonid,success_flag,o.orderid,l.tea_attend,l.stu_attend"
-                                  ." from %s tr "
-                                  ." left join %s t on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-                                  ." left join %s ts on tr.require_id=ts.require_id "
-                                  ." left join %s s on t.userid=s.userid "
-                                  ." left join %s o on t.userid=o.userid and o.contract_type=0 and o.contract_status in (1,2,3) "
-                                  ." and %s"
-                                  ." left join %s l on tr.current_lessonid=l.lessonid "
-                                  ." where %s "
-                                  ." and s.grade<106 "
-                                  ." and t.require_admin_type=2"
-                                  ." group by t.userid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$order_str
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_jw_no_plan_time_list($accept_adminid){
         $time= time();
         $where_arr=[

@@ -604,12 +604,13 @@ class wx_parent_api extends Controller
 
             $day_time = date('Y-m-d H:i:s');
             $wx     = new \App\Helper\Wx();
-            $url = '';
+            //
+            $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
                 "first"     => " 调课申请受理中",
                 "keyword1"  => " 调换上课时间",
-                "keyword2"  => " 原上课时间:{ $lesson_start_date ~ $lesson_end_date }, $result,申请受理中,请稍等!",
+                "keyword2"  => " 原上课时间: $lesson_start_date ~ $lesson_end_date , $result,申请受理中,请稍等!",
                 "keyword3"  => " $day_time",
                 "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
             ];
@@ -621,14 +622,11 @@ class wx_parent_api extends Controller
             $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html?lessonid='.$lessonid; //待定
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = " 调课申请 ";
-            $data['keyword1']   = " 您的学生{".$stu_nick."}的家长申请修改上课时间";
-            $data['keyword2']   = " 原上课时间:{ $lesson_start_date ~ $lesson_end_date };$result";
+            $data['keyword1']   = " 您的学生".$stu_nick."的家长申请修改上课时间";
+            $data['keyword2']   = " 原上课时间: $lesson_start_date ~ $lesson_end_date ;$result";
             $data['keyword3']   = "$day_time";
             $data['remark']     = "请点击详情查看家长勾选的时间并进行处理!";
             $ret_teacher = \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
-
-            \App\Helper\Utils::logger('wx_lessonid'.$lessonid." ret_parent: ".$ret_parent.' ~ ret_teacher: '.$ret_teacher.' ~ parent_wx_openid: '.$parent_wx_openid."~ teacher_wx_openid ".$teacher_wx_openid);
-
 
             return $this->output_succ();
         }else{

@@ -160,7 +160,7 @@ class user_manage extends Controller
             $this->cache_set_item_assistant_nick($item);
             E\Erevisit_type::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-
+            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->Pageview(__METHOD__,$ret_info);
     }
@@ -414,6 +414,7 @@ class user_manage extends Controller
             3 => array("app_time", "申请日期"),
         ],3);
 
+        $orderid = $this->get_in_int_val('orderid',-1);
         $contract_type     = $this->get_in_int_val('contract_type',-1);
         $contract_status   = $this->get_in_int_val('contract_status',-1);
         $config_courseid   = $this->get_in_int_val('config_courseid',-1);
@@ -454,7 +455,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
-            , $spec_flag
+            , $spec_flag,$orderid
         );
 
         $all_lesson_count = 0;

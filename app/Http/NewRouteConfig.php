@@ -26,6 +26,7 @@ class NewRouteConfig {
         "lesson_info"       => true,
         "yxyx_wx_server"       => true,
         "test_luki" => true,
+       "test_abner" => true,
         "o"       => true,
         "wx_yxyx_common"       => true,
         "wx_yxyx_web"       => true,

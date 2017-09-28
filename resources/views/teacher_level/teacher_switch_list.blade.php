@@ -46,16 +46,6 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
-
-                <!-- <div class="col-xs-6 col-md-2">
-                     <button class="btn btn-primary" id="id_add_data"> 新增晋升老师 </button>
-                     </div> -->
-                <!-- <div class="col-xs-6 col-md-2">
-                     <div class="input-group ">
-                     <span class="input-group-addon">老师</span>
-                     <input id="id_teacherid"/>
-                     </div>
-                     </div> -->
             </div>
         </div>
         <hr/>

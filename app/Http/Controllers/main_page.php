@@ -63,27 +63,30 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-            $ret_info['order_price'] = '';
 
-            $ret_info['income_new']      = $this->t_order_info->get_new_income($start_time, $end_time); //  新签
-            $ret_info['income_referral'] = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+            //概况
+            $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
-            $ret_info['income_price'] = $ret_info['income_new']['all_price']+$ret_info['income_referral']['all_price'];
-            $ret_info['income_count'] = $ret_info['income_new']['all_count']+$ret_info['income_referral']['all_count'];
+            $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-            if($ret_info['income_count']>0){
-                $ret_info['aver_count'] = $ret_info['income_price']/$ret_info['income_count'];//平均单笔
+            $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
+
+            $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+
+            $ret_info['income_price'] = $order_info_total['total_price'];
+
+            if($order_info_total['total_num']>0){
+                $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
             }else{
                 $ret_info['aver_count'] = 0; //平均单笔
             }
+            // dd($ret_info);
 
             $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
 
-            $ret_info['formal_info'] = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-
-            $ret_info['formal_num']  = $this->t_manager_info->get_formal_num($start_time, $end_time); // 入职完整月人员人数
-
-            $total_price = 0;
+            $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+            $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
+            $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
             if($ret_info['formal_num']>0){
                 $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; //平均人效
@@ -91,9 +94,35 @@ class main_page extends Controller
                 $ret_info['aver_money'] = 0;
             }
 
-            $month = date('Y-m-01');
-            $main_type = 2;// 销售
-            $ret_info['seller_target_income'] = $this->t_admin_group_month_time->get_all_target($month, $main_type); // 销售月目标
+            // dd($ret_info);
+            $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+            $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+
+            // $main_type = 2;// 销售
+            $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标
+            if (!$ret_info['seller_target_income'] ) {
+                $ret_info['seller_target_income'] = 1600000;
+            }
+
+            $month_finish_define_money_2=$ret_info['seller_target_income']/100;
+            $month_start_time = strtotime( date("Y-m-01",  $start_time));
+            $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
+            $month_date_money_list = $this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+            $cur_money=0;
+            $today=time(NULL);
+            foreach ($month_date_money_list as $date=> &$item ) {
+                $date_time=strtotime($date);
+                if ($date_time<=$today) {
+                    $cur_money+=@$item["money"];
+                    $item["month_finish_persent"] = intval($cur_money/$month_finish_define_money_2) ;
+                }
+            }
+
+
+
+
+
+            dd($cur_money);
 
             if($ret_info['seller_target_income']>0){
                 $ret_info['seller_kpi'] = $ret_info['income_price']/$ret_info['seller_target_income']*100;
