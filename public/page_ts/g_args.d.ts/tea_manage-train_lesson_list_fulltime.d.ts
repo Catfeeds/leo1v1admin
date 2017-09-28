@@ -8,6 +8,7 @@ interface GargsStatic {
 	page_count:	number;
 	teacherid:	number;
 	lesson_status:	number;
+	train_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -65,7 +66,8 @@ $(function(){
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			teacherid:	$('#id_teacherid').val(),
-			lesson_status:	$('#id_lesson_status').val()
+			lesson_status:	$('#id_lesson_status').val(),
+			train_type:	$('#id_train_type').val()
         });
     }
 
@@ -82,6 +84,7 @@ $(function(){
     });
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_lesson_status').val(g_args.lesson_status);
+	$('#id_train_type').val(g_args.train_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -103,6 +106,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">lesson_status</span>
                 <input class="opt-change form-control" id="id_lesson_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">train_type</span>
+                <input class="opt-change form-control" id="id_train_type" />
             </div>
         </div>
 */

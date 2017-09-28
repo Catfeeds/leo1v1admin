@@ -3257,7 +3257,7 @@ class user_manage_new extends Controller
         //  $account_id = 297;
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
-        if($is_master>0 || in_array($account_id,[349,188,74]) ){
+        if($is_master>0 || in_array($account_id,[349,188,74,944]) ){
             $up_master_adminid=-1;
         }else{
             $up_master_adminid=0;
