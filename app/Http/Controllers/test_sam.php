@@ -89,7 +89,7 @@ class test_sam  extends Controller
             }
         }
         $namelist = trim($namelist,',');
-
+        print_r($namelist);
         $this->t_manager_info->send_wx_todo_msg_by_adminid (944,"国庆延休统计","全职老师国庆延休安排情况如下","如下".$num."位老师满足条件,具体名单如下:".$namelist,""); 
           
         }  
