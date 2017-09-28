@@ -576,7 +576,7 @@ class menu{
 
             ]],
 
-            ["power_id"=>13, "name"=>"角色-助教助长",  "list"=>[
+            ["power_id"=>13, "name"=>"角色-助教组长",  "list"=>[
                 ["power_id"=>100, "name"=>"首页",   "url"=>"/main_page/assistant_leader" ],
                 ["power_id"=>80, "name"=>"首页-new",   "url"=>"/main_page/assistant_leader_new" ],
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
@@ -586,6 +586,7 @@ class menu{
                 ["power_id"=>84, "name"=>"周报-主管",   "url"=>"/tongji_ss/ass_weekly_info_master" ],
                 ["power_id"=>57, "name"=>"月报-主管",   "url"=>"/tongji_ss/ass_month_info" ],
                 ["power_id"=>81, "name"=>"助教组长KPI",   "url"=>"/tongji_ss/tongji_ass_leader_kpi" ],
+                ["power_id"=>101, "name"=>"助教组长满意度回访",   "url"=>"/user_manage/ass_random_revisit" ],
                 ["power_id"=>85, "name"=>"助教KPI",   "url"=>"/tongji_ss/tongji_ass_kpi" ],
                 ["power_id"=>86, "name"=>"助教KPI-主管",   "url"=>"/tongji_ss/tongji_ass_kpi_master" ],
                 ["power_id"=>99, "name"=>"每月系数录入",  "url"=>"/user_manage_new/assistant_admin_member_list"],
