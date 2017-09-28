@@ -62,7 +62,7 @@
                     <div class="input-group">
                         @if(in_array($acc,["echo","adrian","ted","jim","michelle","sherry"]))
                             <span class="input-group">课程收入</span>
-                            <input value="{{@$all_lesson_money}}">
+                            <input id="id_lesson_price" value="0">
                         @endif
                         <span class="input-group">总课时</span>
                         <input class="all_lesson_total" value="{{@$all_lesson_total}}">
