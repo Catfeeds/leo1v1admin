@@ -2778,8 +2778,6 @@ class user_manage_new extends Controller
         // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $stu_num = 0;
 
-        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
-             $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
@@ -2818,7 +2816,6 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$list,[
             "stu_num"          => $stu_num,
-            "all_lesson_money" => $all_lesson_money,
             "all_lesson_total" => $all_lesson_total,
             "all_lesson_1v1"   => $all_lesson_1v1,
             "all_lesson_trial" => $all_lesson_trial,
@@ -2941,6 +2938,26 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$result);
     }
+
+    /**
+     * 获取时间范围内的课程收入
+     * @param start_time 开始时间
+     * @param end_time   结束时间
+     * @return float     结束时间
+     */
+    public function get_lesson_price(){
+        $start_date         = $this->get_in_str_val("start_time");
+        $end_date           = $this->get_in_str_val("end_time");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+
+        $start_time         = strtotime($start_date);
+        $end_time           = strtotime($end_date);
+
+        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+
+        return $this->output_succ(['lesson_price'=>$lesson_price]);
+    }
+
 
     private function get_price_percent($price,$all_price){
         if($all_price!=0){
