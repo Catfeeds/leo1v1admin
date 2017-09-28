@@ -3347,7 +3347,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
-            "m.leave_member_time =0" //离职时间
+            " ( m.leave_member_time =0 or m.leave_member_time > $start_time)" //离职时间
         ];
         $sql = $this->gen_sql_new("select sum(price) as total_price, count(distinct(sys_operator )) as person_num ".
                                   "from %s o ".
@@ -3357,7 +3357,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                    $where_arr);
         return $this->main_get_row($sql);
-
     }
 
     public function get_total_money($start_time, $end_time){
@@ -3378,6 +3377,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
 
         return $this->main_get_row($sql);
+
     }
 
 

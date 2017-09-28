@@ -9567,14 +9567,14 @@ lesson_type in (0,1) "
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)"
         ];
-        $sql = $this->gen_sql_new("select sum(lesson_count) as total_consume ".
+        $sql = $this->gen_sql_new("select sum(lesson_count) as total_consume, count(distinct(l.userid)) as total_student ".
                                   "from %s l ".
                                   "left join %s s on s.userid = l.userid".
                                   " where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr);
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
     public function get_leave_num($start_time,$end_time){
         $where_arr = [
@@ -9590,5 +9590,22 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
 
     }
+    public function get_total_lesson($start_time,$end_time){
+        $where_arr = [
+            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start<%u',$end_time,-1],
+            "lesson_type IN (0, 1, 3) ",
+            "(s.is_test_user = 0 or s.is_test_user is null)"
+        ];
+        $sql = $this->gen_sql_new("select  count(courseid) as total_plan, "
+                                  ."sum(if( lesson_user_online_status = 1,1 ,0))as student_arrive ".
+                                  "from %s l ".
+                                  "left join %s s on s.userid = l.userid".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_row($sql);
 
+    }
 }
