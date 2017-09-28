@@ -125,7 +125,7 @@
                                         <td> {{@$arr['contract_per']}} </td> 
                                         <td> {{@$arr['kpi_per']}}% </td> 
                                         <td> {{@$arr['cr_num']}}</td> 
-                                        <td class="panel-yellow" > 存档 </td> 
+                                        <td class="panel-yellow" > {{@$arr['finish_num']}}</td> 
                                         <td> {{@$arr['refund_num']}}</td> 
                                     </tr>
                                 </tbody>
@@ -161,15 +161,15 @@
                                 <tbody id="id_lesson_count_list">
                                         <tr>
                                             <td class="panel-yellow" > 存档</td>
-                                            <td class="panel-yellow" > 存档  </td>
-                                            <td class="panel-yellow" > 存档 </td>
+                                            <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
+                                            <td class="panel-yellow" > {{@$arr['total_student']}} </td>
                                             <td> 节点</td>
                                             <td> {{@$arr['lesson_consume']}}</td>
                                             <td> {{@$arr['teacher_leave']}}</td>
                                             <td> {{@$arr['student_leave']}}</td>
                                             <td> {{@$arr['other_leave']}}</td>
                                             <td > 节点  </td>
-                                            <td class="panel-yellow" > 存档  </td> 
+                                            <td class="panel-yellow" >{{@$arr['student_arrive_per']}}%</td> 
 
                                             <td class="panel-yellow" > 存档 </td> 
 
