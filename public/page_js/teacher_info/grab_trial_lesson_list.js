@@ -16,22 +16,22 @@ $(function(){
                 'fail_reason'  : fail_reason,
             },
             success : function (ret){
-                visitid   = ret.visitid;
 
+                visitid   = ret.visitid;
                 $(".opt-grab_trial_lesson").on("click",function(){
                     var data=$(this).get_opt_data();
                     BootstrapDialog.show({
-	                      title: "接受确认",
-	                      message : "是否确认接受此课程?<br/><b><font color='red'>点击 确认按钮 代表老师您已经接课成功并同意理优的奖惩制度！<br/>若对课程有任何疑问可直接联系对应排课老师！</font></b>",
-	                      buttons: [{
-		                        label: "返回",
-		                        action: function(dialog) {
-			                          dialog.close();
-		                        }
-	                      }, {
-		                        label: "确认",
-		                        cssClass: "btn-warning",
-		                        action: function(dialog) {
+                        title: "接受确认",
+                        message : "是否确认接受此课程?<br/><b><font color='red'>点击 确认按钮 代表老师您已经接课成功并同意理优的奖惩制度！<br/>若对课程有任何疑问可直接联系对应排课老师！</font></b>",
+                        buttons: [{
+                            label: "返回",
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }, {
+                            label: "确认",
+                            cssClass: "btn-warning",
+                            action: function(dialog) {
                                 dialog.close();
                                 $.do_ajax("/teacher_info/course_set_new",{
                                     "require_id"   : data.require_id,
@@ -52,8 +52,8 @@ $(function(){
                                     }
                                 })
 
-		                        }
-	                      }]
+                            }
+                        }]
                     });
                 });
 
