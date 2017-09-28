@@ -874,6 +874,9 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_user_online_status in (0,1)",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
+            "tss.test_lesson_fail_flag=0",
+            "tss.fail_greater_4_hour_flag=0"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -1019,6 +1022,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
 
         return $this->main_get_list($sql);
+    }
+
+    public function get_first_new_train_lessonid(){
+        $time =time();
+        $sql = $this->gen_sql_new("select lessonid from %s"
+                                  ." where lesson_start>%u "
+                                  ."and lesson_del_flag=0"
+                                  ." and lesson_type=1100 and train_type=1"
+                                  ." order by lesson_start limit 1",
+                                  self::DB_TABLE_NAME,
+                                  $time
+        );
+        return $this->main_get_value($sql);
     }
 
 

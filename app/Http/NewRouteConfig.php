@@ -250,6 +250,7 @@ class NewRouteConfig {
         "/user_manage/user_info_by_month"                       => true,
         "/user_manage/user_login_list"                          => true,
         "/user_manage/tongji_login_ip_info"                     => true,
+        "/user_manage/ass_random_revisit"                       => true,
         "/user_manage/no_type_student_score"                    => true,
         "/user_manage/tongji_student_subject"                   => true,
         "/user_manage/tongji_student_grade_subject"             => true,

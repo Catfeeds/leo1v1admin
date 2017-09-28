@@ -840,6 +840,12 @@ class ajax_deal2 extends Controller
             "train_through_new"   =>1,
             "train_through_new_time"=>$create_time
         ]);
+
+        // $new_train_flag = $this->t_teacher_info->get_new_train_flag($teacherid);
+        //$lessonid = $this->t_lesson_info_b3->get_first_new_train_lessonid();
+        /* if($new_train_flag==0 && $lessonid >0){
+            
+           }*/
         return $this->output_succ();
     }
 

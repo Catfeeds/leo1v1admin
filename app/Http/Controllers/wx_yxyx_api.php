@@ -696,4 +696,5 @@ class wx_yxyx_api extends Controller
         $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
     }
 
+
 }

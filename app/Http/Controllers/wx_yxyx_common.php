@@ -426,6 +426,13 @@ class wx_yxyx_common extends Controller
             \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
         }
         $jsapi_ticket = $ret_arr["ticket"];
+
+        if(isset($_SERVER["HTTP_REFERER"])){
+            $http_ref = $_SERVER["HTTP_REFERER"];
+        }else{
+            $http_ref = "";
+        }
+        $ref= $ref?$ref:$http_ref;
         // $ref= $ref?$ref:$_SERVER['HTTP_REFERER'];
         $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo456&timestamp=1501516800";
                    // . "&url=$ref" ;
