@@ -26,6 +26,10 @@ use \App\Enums as E;
 
 class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 {
+    static public $relation_map =[
+        t_test_lesson_subject::class=> [ ] ,
+    ];
+
     public function __construct()
     {
         parent::__construct();
