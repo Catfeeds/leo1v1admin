@@ -169,7 +169,7 @@
                                             <td> {{@$arr['student_leave']}}</td>
                                             <td> {{@$arr['other_leave']}}</td>
                                             <td > 节点  </td>
-                                            <td class="panel-yellow" >{{@$arr['student_arrive_per']}}%</td> 
+                                            <td class="panel-yellow" >{{@$arr['student_arrive_per']}}%({{@$arr['student_arrive']}}/{{@$arr['lesson_plan']}})</td> 
 
                                             <td class="panel-yellow" > 存档 </td> 
 

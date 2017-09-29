@@ -9567,12 +9567,14 @@ lesson_type in (0,1) "
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)"
         ];
-        $sql = $this->gen_sql_new("select sum(lesson_count) as total_consume, count(distinct(l.userid)) as total_student ".
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) as total_consume, count(distinct(l.userid)) as total_student , sum(o.price) as total_income ".
                                   "from %s l ".
-                                  "left join %s s on s.userid = l.userid".
+                                  "left join %s s on s.userid = l.userid ".
+                                  "left join %s o on o.lessonid = l.lessonid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_order_lesson_list::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_row($sql);
     }
