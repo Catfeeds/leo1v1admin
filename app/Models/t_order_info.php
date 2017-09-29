@@ -3404,6 +3404,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
+    public function get_cr_to_cc_order_num($start_time,$end_time){
+        $where_arr = [
+            "contract_status <> 0 ",
+            "price > 0",
+            "m.account_role = 2 ",
+            "n.account_role = 1",
+            [' order_time > %u',$start_time,-1],
+            [' order_time < %u',$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price, count(orderid) as total_num"
+                                  ." from %s o  "
+                                  ." left join %s m ON o.sys_operator = m.account "
+                                  ." left join %s s ON o.userid = s.userid  "
+                                  ." left join %s k on k.userid = s.userid  "
+                                  ." left join %s n on s.origin_assistantid = n.uid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_row($sql);
+    }
+
 
     public function get_order_sign_month($start_time, $end_time){
         $hwere_arr = [
