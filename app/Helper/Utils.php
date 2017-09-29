@@ -1740,7 +1740,7 @@ class Utils  {
     }
 
     static public function revisit_warning_type_count($item, &$warning_type_count){
-        $one = strtotime('yesterday');
+        $one = strtotime('today');
         $two = $one - 86400*5;
         $three = $one - 86400*7;
         $retime = $item['revisit_time'];
