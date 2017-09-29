@@ -1743,6 +1743,7 @@ class Utils  {
         $one    = strtotime('today');
         $two    = $one - 86400*5;
         $three  = $one - 86400*7;
+        $month  = strtotime( date('Y-m-01', time()) );
         $retime = $item['revisit_time'];
         if ($retime < $one & $retime >= $two) {
             $warning_type_count['warning_type_one'] = @$warning_type_count['warning_type_one'] + 1;
@@ -1752,19 +1753,6 @@ class Utils  {
             $warning_type_count['warning_type_three'] = @$warning_type_count['warning_type_three'] + 1;
         }
     }
-
-    static public function warning_type_filter($list, $warning_type_flag){
-        $new_list = [];
-        foreach($list as $item){
-            if( $item['warning_type'] === $warning_type_flag) {
-                $new_list[] = $item;
-            }
-        }
-        return $new_list;
-    }
-
-
-
 
 
 };
