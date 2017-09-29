@@ -167,7 +167,7 @@
                                         <td class="panel-red">认领率</td>
                                         <td class="panel-red">邀约数</td>
                                         <td class="panel-red">未消耗例子数</td>
-                                        <td class="panel-red">月例子消耗数</td>
+                                        <td class="panel-red">月例子消耗率</td>
                                         <td class="panel-red">人均呼出量</td>
                                         <td class="panel-red">人均邀约数</td>
                                         <td class="panel-red">人均通时(分钟)</td>
