@@ -962,7 +962,7 @@ trait TeaPower {
             }
 
         }else{
-            $limit_num= ceil($require_month[$m]*0.016);
+            $limit_num= ceil($require_month[$m]*0.026);
         }
 
         $num = $this->t_test_lesson_subject_require->get_month_limit_require_num($master_adminid,$start_time,$end_time);

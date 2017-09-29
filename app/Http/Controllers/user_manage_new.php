@@ -3502,9 +3502,9 @@ class user_manage_new extends Controller
 
     public function ass_revisit_warning_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-        $page_num        = $this->get_in_page_num();
-        $is_warning_flag = $this->get_in_int_val("is_warning_flag",1);
-        $ass_adminid = $this->get_in_int_val("ass_adminid",-1);
+        $page_num             = $this->get_in_page_num();
+        $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
+        $ass_adminid          = $this->get_in_int_val("ass_adminid",-1);
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
@@ -3516,12 +3516,19 @@ class user_manage_new extends Controller
 
 
         $this->t_revisit_info->switch_tongji_database();
-        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
-        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
         $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
 
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
         foreach($ret_info['list'] as &$item){
-            // \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_count);
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
             E\Erevisit_type::set_item_value_str($item);
             E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
@@ -3542,7 +3549,7 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
-            "warning"       => $warning_count[0]
+            "warning"       => $warning_type_num
         ] );
     }
 

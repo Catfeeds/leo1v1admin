@@ -459,7 +459,7 @@
                             </td>
                             <td >{{$var["teacher_nick"]}}</td>
                             <td >{{$var["lesson_start"]}}</td>
-                            <td >
+                            <td class="limit-require-info">
                                 申请原因:{{$var["limit_require_reason"]}}<br>
                                 申请人:{{$var["limit_require_account"]}}<br>
                                 申请时间:{{$var["limit_require_time_str"]}}<br>

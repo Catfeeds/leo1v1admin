@@ -95,7 +95,7 @@ $(function(){
     init_noit_btn("warning-two", "预警5～7", "2" );
     init_noit_btn("warning-three", "预警超时", "3" );
     $(".opt-warning-type").on("click",function(){
-        $('#id_warning_type').val( $(this).attr('data-warning') );
+        $('#id_revisit_warning_type').val( $(this).attr('data-warning') );
         load_data();
     });
 
