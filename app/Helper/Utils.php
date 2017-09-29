@@ -1754,18 +1754,5 @@ class Utils  {
         }
     }
 
-    static public function warning_type_filter($list, $warning_type_flag){
-        $new_list = [];
-        foreach($list as $item){
-            if( $item['warning_type'] === $warning_type_flag) {
-                $new_list[] = $item;
-            }
-        }
-        return $new_list;
-    }
-
-
-
-
 
 };
