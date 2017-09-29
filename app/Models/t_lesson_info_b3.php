@@ -896,6 +896,34 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_test_succ_for_month($start_time,$end_time){
+        $where_arr = [
+            "l.lesson_user_online_status in (0,1)",
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
+            // "tll.test_lesson_fail_flag=0",
+            "tll.fail_greater_4_hour_flag=0"
+
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tll.set_lesson_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
+                                  ." left join %s tll on tll.lessonid=l.lessonid "
+                                  ." left join %s tlr on tlr.require_id=tll.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_tea_stu_num_list($start_time,$end_time,$teacherid){
         $where_arr=[
             ["lesson_start>%u",$start_time,0],
@@ -1037,5 +1065,15 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_value($sql);
     }
 
+    public function get_lesson_info($lessonid){
+        $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick from %s l"
+                                   ." left join %s s on s.userid=l.userid"
+                                   ." where l.lessonid=$lessonid"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_student_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_row($sql);
+    }
 
 }

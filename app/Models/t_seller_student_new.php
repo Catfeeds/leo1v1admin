@@ -2288,7 +2288,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function get_tq_succ_for_month($start_time, $end_time){
+    public function get_tq_succ_for_invit_month($start_time, $end_time){
 
         $where_arr = [
             "s.is_test_user = 0",
@@ -2309,6 +2309,31 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
+
+
+    public function get_tq_succ_num_for_sign($start_time, $end_time){
+
+        $where_arr = [
+            "tq.is_called_phone=1"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
+                                  ." left join %s ss on tq.phone=ss.phone"
+                                  ." left join %s ts on ts.userid=s.userid"
+                                  ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"
+                                  ." left join %s tss on tss.require_id=tr.require_id"
+                                  ." where %s"
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 
 
     public function get_all_stu_uid(){
