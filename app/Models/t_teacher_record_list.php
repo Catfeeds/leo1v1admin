@@ -717,6 +717,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     }       
 
+ 
+
     public function get_all_interview_count_by_reference($start_time,$end_time,$trial_train_status){
         $where_arr=[
             ["l.lesson_start >= %u",$start_time,-1],
@@ -734,16 +736,18 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
         }
         $sql = $this->gen_sql_new("select count(distinct tt.phone) lesson_add_num,la.reference,t.teacher_ref_type,c.channel_id,c.channel_name,t.realname,t.phone "
-                                  ." from %s tr left join %s l on tr.train_lessonid = l.lessonid "
-                                  ." left join %s tt on l.userid = tt.teacherid "
+                                  ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
+                                  ." left join %s tt on ta.userid = tt.teacherid "
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s la on tt.phone = la.phone"
                                   ." left join %s t on la.reference = t.phone"
                                   ." left join %s cg on t.teacher_ref_type = cg.ref_type"
                                   ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s and la.accept_adminid>0 group by  la.reference ",
                                   self::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_admin_channel_group::DB_TABLE_NAME,

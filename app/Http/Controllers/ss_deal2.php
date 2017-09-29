@@ -504,7 +504,7 @@ class ss_deal2 extends Controller
         $interests_and_hobbies          = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
         $character_type                 = $this->get_in_str_val("character_type");//学习习惯
         $need_teacher_style             = $this->get_in_str_val("need_teacher_style");//所需老师风格
-        $tea_province                   = $this->get_in_int_val("tea_province");//老师省
+        $tea_province                   = $this->get_in_str_val("tea_province");//老师省
         $tea_city                       = $this->get_in_str_val("tea_city");//老师市.区
         $tea_area                       = $this->get_in_str_val("tea_area");//老师县市
         $stu_request_test_lesson_demand = $this->get_in_str_val("stu_request_test_lesson_demand");//试听需求
@@ -619,7 +619,8 @@ class ss_deal2 extends Controller
             $origin,
             $curl_stu_request_test_lesson_time,
             $grade,
-            $test_stu_request_test_lesson_demand
+            $test_stu_request_test_lesson_demand,
+            $change_reason_url
         );
         //update t_test_lesson_subject_require
         $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
@@ -659,23 +660,45 @@ class ss_deal2 extends Controller
     public function ass_save_user_info()
     {
         $userid                         = $this->get_in_userid();
-        $phone                          = $this->get_in_phone();
-        $test_lesson_subject_id         = $this->get_in_test_lesson_subject_id();
-        $stu_nick                       = $this->get_in_str_val("stu_nick");
-        $parent_name                    = $this->get_in_str_val("parent_name");
-        $gender                         = $this->get_in_str_val("gender");
-        $grade                          = $this->get_in_str_val("grade");
-        $subject                        = $this->get_in_str_val("subject");
-        $editionid                      = $this->get_in_int_val("editionid");
+        $test_lesson_subject_id         = $this->get_in_int_val('test_lesson_subject_id');
+        $require_id                     = $this->get_in_int_val("require_id");
+        $parent_name                    = $this->get_in_str_val('parent_name');
+        $gender                         = $this->get_in_int_val("gender");
+        $grade                          = $this->get_in_grade();
+        $subject                        = $this->get_in_subject();
         $school                         = $this->get_in_str_val("school");
-        $stu_request_test_lesson_time   = $this->get_in_str_val("stu_request_test_lesson_time");
-        $stu_request_test_lesson_demand = $this->get_in_str_val("stu_request_test_lesson_demand");
-        $ass_test_lesson_type    = $this->get_in_int_val("ass_test_lesson_type");
-        $origin_userid = $this->get_in_int_val("origin_userid");
-        $require_id = $this->get_in_int_val("require_id");
-        $change_reason = trim($this->get_in_str_val('change_reason'));
-        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
-        $url = $this->get_in_str_val('change_reason_url');
+        $editionid                      = $this->get_in_int_val("editionid");//教材id
+        $province                       = $this->get_in_int_val("province");//省
+        $city                           = $this->get_in_str_val("city");//市.区
+        $area                           = $this->get_in_str_val("area");//县市
+        $region                         = $this->get_in_str_val("region");//上学省
+        $recent_results                 = $this->get_in_str_val("recent_results");//近期成绩
+        $advice_flag                    = $this->get_in_int_val("advice_flag");//是否进步
+        $class_rank                     = $this->get_in_str_val("class_rank");//班级排名
+        $grade_rank                     = $this->get_in_str_val("grade_rank");//年级排名
+        $academic_goal                  = $this->get_in_int_val("academic_goal");//升学目标
+        $study_habit                    = $this->get_in_str_val("study_habit");//学习习惯
+        $interests_and_hobbies          = $this->get_in_str_val("interests_and_hobbies");//兴趣爱好
+        $character_type                 = $this->get_in_str_val("character_type");//学习习惯
+        $need_teacher_style             = $this->get_in_str_val("need_teacher_style");//所需老师风格
+        $tea_province                   = $this->get_in_str_val("tea_province");//老师省
+        $tea_city                       = $this->get_in_str_val("tea_city");//老师市.区
+        $tea_area                       = $this->get_in_str_val("tea_area");//老师县市
+        $stu_request_test_lesson_demand = $this->get_in_str_val("stu_request_test_lesson_demand");//试听需求
+        $intention_level                = $this->get_in_int_val("intention_level");//上课意向
+        $stu_request_test_lesson_time   = $this->get_in_str_val("stu_request_test_lesson_time");//试听时间
+        $stu_test_paper                 = $this->get_in_str_val("test_paper");//试卷
+        $test_stress                    = $this->get_in_int_val("test_stress");//应试压力
+        $entrance_school_type           = $this->get_in_int_val("entrance_school_type");//升学目标
+        $interest_cultivation           = $this->get_in_int_val("interest_cultivation");//趣味培养
+        $extra_improvement              = $this->get_in_int_val("extra_improvement");//课外提高
+        $habit_remodel                  = $this->get_in_int_val("habit_remodel");//习惯重塑
+        $ass_test_lesson_type           = $this->get_in_int_val('ass_test_lesson_type');//分类
+        $change_teacher_reason_type     = $this->get_in_int_val('change_teacher_reason_type');//换老师原因分类
+        $url                            = $this->get_in_str_val('change_reason_url');//申请原因图片
+        $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
+        $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
+        // dd($province,$region,$city,$area,$tea_province,$tea_city,$tea_area);
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
         }elseif($ass_test_lesson_type == 2 && !$change_reason){
@@ -699,29 +722,58 @@ class ss_deal2 extends Controller
         } else {
             $stu_request_test_lesson_time=0;
         }
+        //update t_student_info
         $stu_arr=[
-            "nick"        => $stu_nick,
-            "parent_name" => $parent_name,
-            "gender"      => $gender,
-            "editionid"   => $editionid,
-            "school"      => $school,
+            "parent_name"           => $parent_name,
+            "grade"                 => $grade,
+            "gender"                => $gender,
+            "school"                => $school,
+            "editionid"             => $editionid,
+            "province"              => $province,
+            "city"                  => $city,
+            "area"                  => $area,
+            "region"                => $region,
         ];
         $this->t_student_info->field_update_list($userid,$stu_arr);
+        //update t_seller_student_new
+        $ss_arr=[
+            "class_rank"            => $class_rank,
+            "grade_rank"            => $grade_rank,
+            "academic_goal"         => $academic_goal,
+            "study_habit"           => $study_habit,
+            "interests_and_hobbies" => $interests_and_hobbies,
+            "character_type"        => $character_type,
+            "need_teacher_style"    => $need_teacher_style,
+            "test_stress"           => $test_stress,
+            "entrance_school_type"  => $entrance_school_type,
+            "interest_cultivation"  => $interest_cultivation,
+            "extra_improvement"     => $extra_improvement,
+            "habit_remodel"         => $habit_remodel,
+        ];
+        $this->t_seller_student_new->field_update_list($userid,$ss_arr);
+        //update t_test_lesson_subject
         $tt_arr=[
-            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
-            "ass_test_lesson_type" => $ass_test_lesson_type,
-            "subject" => $subject,
+            "subject"                        => $subject,
+            "tea_province"                   => $tea_province,
+            "tea_city"                       => $tea_city,
+            "tea_area"                       => $tea_area,
+            "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
+            "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
+            "recent_results"                 => $recent_results,
+            "advice_flag"                    => $advice_flag,
+            "intention_level"                => $intention_level,
+            "stu_test_paper"                 => $stu_test_paper,
+            "ass_test_lesson_type"           => $ass_test_lesson_type,
         ];
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
-        // dd($ret);
+        //update t_test_lesson_subject_require
         $require_arr = [
-            "test_stu_request_test_lesson_demand"=>$stu_request_test_lesson_demand,
-            "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "change_teacher_reason"          => $change_reason,
-            "change_teacher_reason_img_url"      => $change_reason_url,
-            "change_teacher_reason_type" => $change_teacher_reason_type,
-            "test_stu_grade"   => $grade,
+            "test_stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
+            "curl_stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
+            "test_stu_grade"                      => $grade,
+            "change_teacher_reason"               => $change_reason,
+            "change_teacher_reason_img_url"       => $change_reason_url,
+            "change_teacher_reason_type"          => $change_teacher_reason_type,
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 

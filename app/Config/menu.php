@@ -526,7 +526,7 @@ class menu{
                 // ["power_id"=>20, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
                 // ["power_id"=>21, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
                 // ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller_mix"],
-                ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
+                ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller"],
                 // ["power_id"=>29, "name"=>"合同-已付费-主管",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
                 ["power_id"=>40, "name"=>"new-转介绍例子",   "url"=>"/seller_student_new/seller_seller_student_list"],
 
@@ -566,7 +566,6 @@ class menu{
                     ["power_id"=>2, "name"=>"我负责的用户",   "url"=>"/seller_student/student_list2"],
 
                     ["power_id"=>12, "name"=>"未打通用户-抢学生",   "url"=>"/seller_student/no_called_list"],
-                    ["power_id"=>5, "name"=>"合同管理-销售",   "url"=>"/user_manage/contract_list_seller"],
 
                     ["power_id"=>7, "name"=>"转介绍例子-销售",   "url"=>"/seller_student/ass_add_student_list_seller"],
                     ["power_id"=>3, "name"=>"我负责的重复用户",   "url"=>"/seller_student/student_sub_list"],

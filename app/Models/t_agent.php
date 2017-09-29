@@ -1160,7 +1160,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         switch ( $agent_status ) {
         case E\Eagent_status::V_1 :
             return 500;
-
+        case E\Eagent_status::V_2 :
+            return 500;
         case E\Eagent_status::V_10 :
             return 1000;
         case E\Eagent_status::V_20 :

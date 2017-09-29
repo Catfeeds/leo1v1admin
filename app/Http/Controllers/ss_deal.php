@@ -180,7 +180,7 @@ class ss_deal extends Controller
     public function  get_user_info() {
         $userid= $this->get_in_userid();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
-
+        $require_id = $this->get_in_int_val('require_id');
         $student = $this->t_student_info->field_get_list($userid, "*");
         /*
         if (  @$student["lesson_count_left"] >100 ) {
@@ -190,6 +190,7 @@ class ss_deal extends Controller
         //$this->t_admin_group->
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
+        $tr_item = $this->t_test_lesson_subject_require->field_get_list($require_id,"*");
 
         $ret["test_lesson_count"]   = $this->t_lesson_info_b2-> get_test_lesson_count($userid);
 
@@ -252,6 +253,15 @@ class ss_deal extends Controller
         $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
         $ret["intention_level"]    = $tt_item["intention_level"];
         $ret["new_demand_flag"]    = $ss_item["new_demand_flag"];
+        $ret["tea_province"] = $tt_item["tea_province"];
+        $ret["tea_city"] = $tt_item["tea_city"];
+        $ret["tea_area"] = $tt_item["tea_area"];
+        $ret["stu_test_paper"] = $tt_item["stu_test_paper"];
+        $ret["ass_test_lesson_type"] = $tt_item["ass_test_lesson_type"];
+        $ret["change_teacher_reason_type"] = $tr_item["change_teacher_reason_type"];
+        $ret["change_teacher_reason_img_url"] = $tr_item["change_teacher_reason_img_url"];
+        $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
+        $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -6213,7 +6223,7 @@ class ss_deal extends Controller
                 "parent_name" => $parent_name,
             ]);
         }
-        return $this->output_err($errno);
+        return $this->output_succ();
 
     }
 

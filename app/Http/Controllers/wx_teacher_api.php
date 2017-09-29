@@ -580,63 +580,12 @@ class wx_teacher_api extends Controller
             $ret_info['has_do'] = 1;// 已处理
             return $this->output_succ(['data'=>$ret_info]);
         }else{
-            $lesson_time = $this->t_lesson_info_b2->get_lesson_time_row($lessonid);
-
-            $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
-
-            $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
-            $time_info['lseeon_time'] = $lesson_time;
-            $time_info['parent_modify_time'] = $parent_modify_time;
+            $time_info = $this->t_lesson_info_b3->get_lesson_info($lessonid);
+            $time_info['subject'] = E\Esubject::get_desc($time_info['subject']);
+            $time_info['parent_modify_time']  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
             $time_info['has_do'] = 0;  // 未处理
-
             return $this->output_succ(['data'=>$time_info]);
         }
-
-
-
-
-
-        // $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
-        // foreach($all_tea_stu_lesson_time  as $item){
-        //     $t['time'][0] = date('Y-m-d',$item['lesson_start']);
-        //     $t['time'][1] = date('H',$item['lesson_start']).':59:00';
-        //     $t['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
-        //     array_push($lesson_time_arr,$t);
-        //     $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
-        //     $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
-        //     $t2['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
-        //     array_push($lesson_time_arr,$t2);
-        // }
-
-       // foreach($lesson_time as $item){
-       //     $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
-       //     $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
-       //     $t4['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
-       //     array_push($lesson_time_arr,$t4);
-       //     $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
-       //     $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
-       //     $t3['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
-       //     array_push($lesson_time_arr,$t3);
-       // }
-
-       // $parent_modify_time_arr = explode(',',$parent_modify_time);
-
-       // if($parent_modify_time){
-       //     $parent_modify_time = json_decode($parent_modify_time,true);
-
-       //     foreach($parent_modify_time as $item){
-       //         // $t5['time'][0] = date('Y-m-d',$item);
-       //         $t5['time'][0] = $item['day'];
-
-       //         foreach($item['hours'] as $vv){
-       //             $t5['time'][] = "$vv:59:00";
-       //         }
-
-       //         $t5['can_edit'] = 3;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑 3:家长填写的调课时间
-       //         array_push($lesson_time_arr,$t5);
-       //     }
-       // }
-       // return $this->output_succ(['data'=>$lesson_time_arr]);
     }
 
 
@@ -676,11 +625,8 @@ class wx_teacher_api extends Controller
     public function teacher_get_modify_lesson_time(){  // 2008 // 老师更换时间
         $lessonid = $this->get_in_int_val('lessonid');
 
-        $lesson_time         = $this->t_lesson_info_b2->get_lesson_time($lessonid);
-        // $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
-        // $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
         $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
-        // $parent_modify_time_arr = explode(',',$parent_modify_time);
 
         $time_info['lseeon_time'] = $lesson_time;
         $time_info['parent_modify_time'] = $parent_modify_time;

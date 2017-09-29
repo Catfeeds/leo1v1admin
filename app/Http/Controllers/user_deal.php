@@ -2708,9 +2708,15 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new("助教,,,");
+
+        // $adminid_list_ex = $this->t_admin_group_name->get_adminid_list_by_main_type(1);
+        dd($require_adminid_list);
+
         $start_time = strtotime("2017-08-01");
         $end_time   = strtotime("2017-09-01");
         $one_account = $this->t_teacher_record_list->get_all_interview_count_by_reference($start_time,$end_time,-1);
+        dd($one_account);
         $tt=0;
         foreach($one_account as $val){
             $tt +=$val["lesson_add_num"]; 
