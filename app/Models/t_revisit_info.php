@@ -216,6 +216,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
     public function get_ass_revisit_warning_count($ass_adminid){
         $where_arr=[
             "r.is_warning_flag=1",
+            "r.revisit_type=0",
             ["m.uid= %u",$ass_adminid,-1]
         ];
 
