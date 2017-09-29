@@ -3507,11 +3507,18 @@ class user_manage_new extends Controller
         $ass_adminid = $this->get_in_int_val("ass_adminid",-1);
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        $adminid_right              = $this->get_seller_adminid_and_right();
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $warning_type_flag    = $this->get_in_str_val('warning_type_flag',1);
 
         $this->t_revisit_info->switch_tongji_database();
         $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $warning_type_count = [
+            'warning_type_one'   => 0,
+            'warning_type_two'   => 0,
+            'warning_type_three' => 0,
+        ];
         foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_count);
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
             E\Erevisit_type::set_item_value_str($item);
             E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
@@ -3525,8 +3532,13 @@ class user_manage_new extends Controller
             E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
             E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
         }
+        if ($warning_type_flag != 1) {
+            $ret_info['list'] = \App\Helper\Utils::warning_type_filter($ret_info['list'], $warning_type_flag);
+        }
+
         return $this->pageView(__METHOD__,$ret_info,[
-            "adminid_right"   =>$adminid_right
+            "adminid_right" => $adminid_right,
+            "warning"       => $warning_type_count
         ] );
     }
 
@@ -4287,16 +4299,16 @@ class user_manage_new extends Controller
                 if($val["pay_status"]==$goal_info["pay_status"]){
                     $new_price = $val["price"]+$goal_info["price"];
                     $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
-                        "price"  =>$new_price 
+                        "price"  =>$new_price
                     ]);
                     $this->t_child_order_info->row_delete($val["child_orderid"]);
-  
+
                 }elseif($val["pay_status"]==0 && $goal_info["pay_status"]==1){
                     $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
-                        "child_order_type"  =>3 
+                        "child_order_type"  =>3
                     ]);
                     $this->t_child_order_info->field_update_list($val["child_orderid"],[
-                        "parent_orderid"  =>$orderid_goal 
+                        "parent_orderid"  =>$orderid_goal
                     ]);
                 }elseif($val["pay_status"]==1 && $goal_info["pay_status"]==0){
                     $this->t_child_order_info->field_update_list($val["child_orderid"],[
@@ -4307,12 +4319,12 @@ class user_manage_new extends Controller
                 }
             }else{
                 $this->t_child_order_info->field_update_list($val["child_orderid"],[
-                   "parent_orderid"  =>$orderid_goal 
+                   "parent_orderid"  =>$orderid_goal
                 ]);
             }
         }
 
-        
+
         if(!$ret){
             $this->t_order_info->rollback();
             return $this->output_err("合并失败！");
@@ -4337,7 +4349,7 @@ class user_manage_new extends Controller
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
-        
+
         $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid,0);
         $child_order_info= $child_order_info[0];
         $new_price = $price-$old_price+$child_order_info["price"];
@@ -4349,7 +4361,7 @@ class user_manage_new extends Controller
         }
         //更新子合同金额
         $this->t_child_order_info->field_update_list($child_order_info["child_orderid"],[
-           "price"  => $new_price 
+           "price"  => $new_price
         ]);
 
 
