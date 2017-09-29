@@ -13,7 +13,7 @@ class TGrabLessonLinkVisitOperationDrop extends Migration
     public function up()
     {
         //
-        Schema::drop('db_weiyi.t_grab_lesson_link_visit_operation');
+        //Schema::drop('db_weiyi.t_grab_lesson_link_visit_operation');
     }
 
     /**

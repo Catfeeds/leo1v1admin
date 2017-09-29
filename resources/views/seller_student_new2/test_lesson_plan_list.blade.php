@@ -305,10 +305,10 @@
                                        data-textbook="{{$var["editionid_str"]}}"
                                 />
                             </td>
-                            <td > {{$var["phone"]}} </td>
+                            <td > {{$var["phone_ex"]}} </td>
                             <td >
                                 序号: {{$var["id"]}} <br/>
-                                {{$var["phone"]}} <br/>
+                                {{$var["phone_ex"]}} <br/>
                                 {{$var["phone_location"]}} <br/>
                                 姓名：{{$var["nick"]}}  <br/>
                                 性别：{{$var["gender_str"]}}  <br/>
