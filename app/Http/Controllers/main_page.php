@@ -322,7 +322,12 @@ class main_page extends Controller
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
-
+        if($start_time == 1504195200){//9.1-10.2
+            $end_time = 1506960000;
+        }
+        if($start_time == 1506787200){//10.3-10.31
+            $start_time = 1506960000;
+        }
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
         $groupid =$this->get_in_int_val("groupid",-1);
