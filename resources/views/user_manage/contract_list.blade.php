@@ -210,6 +210,7 @@
                     <td >特殊折扣申请状态</td>
                     <td >发放礼拜时间</td>
                     <td >个人总课时</td>
+                    <td >是否分期</td>
                     <td class="remove-for-xs">操作</td>
                 </tr>
             </thead>
@@ -265,6 +266,7 @@
                         </td>
                         <td >{{$var["get_packge_time"]}}</td>
                         <td >{{$var["lesson_count_all"]/100}}</td>
+                        <td >{!! $var["is_is_staged_flag_str"] !!}</td>
                         <td >
                             <div class="btn-group"
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
