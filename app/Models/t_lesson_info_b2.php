@@ -1834,7 +1834,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_teacher_time_by_lessonid($lessonid,$start,$end){
 
-        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and del_flag = 0 ",
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and lesson_del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid,
@@ -2156,7 +2156,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
     public function get_student_lesson_time_by_lessonid($lessonid ,$start=0, $end=0 ){
         $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end from %s l ".
-                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and del_flag = 0 ",
+                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and lesson_del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid
