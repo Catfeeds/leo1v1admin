@@ -12,6 +12,7 @@ class o extends Controller
 {
 
     public function index() {
+	dd("线路修复中,请到前台拿空调遥控器");
         $id=$this->get_in_int_val("id");
         return $this->pageView(__METHOD__,null, [
             "id" => $id,

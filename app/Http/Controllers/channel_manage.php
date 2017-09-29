@@ -311,6 +311,7 @@ class channel_manage extends Controller
         ///面试预约数
         //$lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
         $lesson_add = $this->t_teacher_record_list->get_all_interview_count_by_reference($start_time,$end_time,-1);
+       
         
         //入职总人数以及各老师类型入职人数
         $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
@@ -335,22 +336,61 @@ class channel_manage extends Controller
             $val["through_video"] = isset($train_through_video[$k])?$train_through_video[$k]["through_video"]:0;
             $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
         }
+       
+        $arr_tmp =[];
         foreach($video_add as $k=>$v){
             if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
+                 $arr_tmp[$k]=$v;
             }
         }
         foreach($lesson_add as $k=>$v){
             if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["lesson_add_num"] +=$v["lesson_add_num"];
+                }
             }
         }
         foreach($train_through_all as $k=>$v){
             if(!isset($ret_info[$k])){
-                $ret_info[$k]=$v;
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["through_all"] +=$v["through_all"];
+                    @$arr_tmp[$k]["through_jg"] +=$v["through_jg"];
+                    @$arr_tmp[$k]["through_gx"] +=$v["through_gx"];
+                    @$arr_tmp[$k]["through_zz"] +=$v["through_zz"];
+                    @$arr_tmp[$k]["through_gxs"] +=$v["through_gxs"];
+                }
+
             }
         }
-        //dd($ret_info);
+
+        foreach( $train_through_video as $k=>$v){
+            if(!isset($ret_info[$k])){
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["through_video"] +=$v["through_video"];
+                }
+            }
+        }
+        foreach( $train_through_lesson as $k=>$v){
+            if(!isset($ret_info[$k])){
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["through_lesson"] +=$v["through_lesson"];
+                }
+            }
+        }
+
+        foreach($arr_tmp as $k=>$v){
+            $ret_info[$k]=$v;
+        }
+
+
         foreach ($list as $key => $value) {
 
             if(isset($value['admin_phone'])){

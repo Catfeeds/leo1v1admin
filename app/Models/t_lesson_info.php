@@ -9567,9 +9567,9 @@ lesson_type in (0,1) "
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)"
         ];
-        $sql = $this->gen_sql_new("select sum(lesson_count) as total_consume, count(distinct(l.userid)) as total_student ".
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) as total_consume, count(distinct(l.userid)) as total_student ".
                                   "from %s l ".
-                                  "left join %s s on s.userid = l.userid".
+                                  "left join %s s on s.userid = l.userid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -9606,6 +9606,26 @@ lesson_type in (0,1) "
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_row($sql);
-
     }
+    public function get_total_income($start_time,$end_time){
+        $where_arr = [
+            ['lesson_start>%u',$start_time,-1],
+            ['lesson_start<%u',$end_time,-1],
+            "lesson_type IN (0, 1, 3) ",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+            "o.price > 0"
+        ];
+        $sql = $this->gen_sql_new("select  sum(o.price) as total_income ".
+                                  "from %s l ".
+                                  "left join %s o on o.lessonid = l.lessonid ".
+                                  "left join %s s on s.userid = l.userid ".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_order_lesson_list::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_value($sql);
+    }
+
+
 }
