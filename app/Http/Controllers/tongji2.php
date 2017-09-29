@@ -1214,7 +1214,7 @@ class tongji2 extends Controller
         }
 
         //续费
-        $arr['total_renew'] = $ret_total['total_renew']/100; //续费金额
+        $arr['total_renew'] = round($ret_total['total_renew']/100,2); //续费金额
         $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
         if($arr['renew_num']){
             $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
@@ -1223,8 +1223,13 @@ class tongji2 extends Controller
         }
 
         //转介绍
+        $tranfer = $this->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $tranfer_data = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
         $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
         $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
+        $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
+        $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
+        $arr['tranfer_total_num']   = $tranfer_data['total_num'];
         if($arr['tranfer_num'] > 0){
             $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
         }else{

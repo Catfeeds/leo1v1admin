@@ -238,9 +238,9 @@
                                 </thead>
                                 <tbody >
                                         <tr>
-                                            <td class="panel-green">  漏斗-存档-节点  </td> 
-                                            <td class="panel-green">  漏斗-存档-节点 </td> 
-                                            <td class="panel-green">  漏斗-存档-节点 </td>
+                                            <td class="panel-green"> {{@$arr['tranfer_phone_num']}}  </td> 
+                                            <td class="panel-green"> {{@$arr['tranfer_total_price']}} </td> 
+                                            <td class="panel-green"> {{@$arr['tranfer_total_num']}}</td>
                                             <td class="panel-blue">  漏斗-存档  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>

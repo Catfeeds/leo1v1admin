@@ -2387,5 +2387,23 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_value($sql);
     }
-
+    public function get_tranfer_phone_num($start_time,$end_time){
+        $where_arr = [
+            "s.origin_assistantid <> 0 ",
+            "m.account_role = 1",
+            "m.del_flag = 0 ",
+            ['admin_assign_time >=%u',$start_time,-1],
+            ['admin_assign_time <=%u',$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new(" select count(distinct(s.phone)) as phone_num "
+                                  ." from %s k "
+                                  ." left join %s s on k.userid = s.userid "
+                                  ." left join %s m on m.uid = s.origin_assistantid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_value($sql);
+    }
 }
