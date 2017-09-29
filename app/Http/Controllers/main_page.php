@@ -275,10 +275,10 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-        if($start_time == 1504195200){//9.1-10.2
+        if($start_time == 1504195200){//9月,9.1-10.2
             $end_time = 1506960000;
         }
-        if($start_time == 1506787200){//10.3-10.31
+        if($start_time == 1506787200){//10月,10.3-10.31
             $start_time = 1506960000;
         }
         $adminid=$this->get_account_id();
