@@ -1071,6 +1071,7 @@ class user_manage_new extends Controller
                     $item["pre_status"]="定金未支付";
                 }
             }
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [
