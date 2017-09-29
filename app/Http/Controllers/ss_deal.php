@@ -156,10 +156,12 @@ class ss_deal extends Controller
                 $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
 
             $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
+            $nick = $this->t_student_info->get_nick($userid);
             $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
             if($opt_type==0 && $account_role==1 && $origin_assistantid>0){
                 $phone = $this->t_manager_info->get_phone($opt_adminid);
                 $ass_account = $this->t_manager_info->get_account($origin_assistantid);
+                $this->t_manager_info->send_wx_todo_msg($ass_account,""  );
             }
         }
 
