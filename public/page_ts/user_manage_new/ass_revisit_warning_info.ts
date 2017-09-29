@@ -4,14 +4,14 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            date_type_config  :	$('#id_date_type_config').val(),
-            date_type         :	$('#id_date_type').val(),
-            opt_date_type     :	$('#id_opt_date_type').val(),
-            start_time        :	$('#id_start_time').val(),
-            end_time          :	$('#id_end_time').val(),
-            is_warning_flag   :	$('#id_is_warning_flag').val(),
-            seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
-            warning_type_flag :	$('#id_warning_type').val()
+            date_type_config     : $('#id_date_type_config').val(),
+            date_type            : $('#id_date_type').val(),
+            opt_date_type        : $('#id_opt_date_type').val(),
+            start_time           : $('#id_start_time').val(),
+            end_time             : $('#id_end_time').val(),
+            is_warning_flag      : $('#id_is_warning_flag').val(),
+            seller_groupid_ex    : $('#id_seller_groupid_ex').val(),
+            revisit_warning_type : $('#id_revisit_warning_type').val()
         });
     }
 
@@ -91,16 +91,16 @@ $(function(){
         btn.attr('data-warning', type);
     };
 
-    init_noit_btn("warning-one", "预警1～5","warning-one" );
-    init_noit_btn("warning-two", "预警5～7", "warning-two" );
-    init_noit_btn("warning-three", "预警超时", "warning-three" );
+    init_noit_btn("warning-one", "预警1～5","1" );
+    init_noit_btn("warning-two", "预警5～7", "2" );
+    init_noit_btn("warning-three", "预警超时", "3" );
     $(".opt-warning-type").on("click",function(){
         $('#id_warning_type').val( $(this).attr('data-warning') );
         load_data();
     });
 
     var init_warning = function() {
-        $('#id_warning_type').val(-1);
+        $('#id_revisit_warning_type').val(-1);
     }
   $('.opt-change').set_input_change_event(init_warning);
   $('.opt-change').set_input_change_event(load_data);
