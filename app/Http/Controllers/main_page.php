@@ -70,8 +70,10 @@ class main_page extends Controller
             $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
             $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-            $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+            $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
             $ret_info['income_price'] = $order_info_total['total_price'];
+            $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
+
 
             if($order_info_total['total_num']>0){
                 $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
@@ -79,7 +81,6 @@ class main_page extends Controller
                 $ret_info['aver_count'] = 0; //平均单笔
             }
 
-            // $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
             $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
             $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
             $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
@@ -238,9 +239,9 @@ class main_page extends Controller
                 $ret_info['called_rate'] = 0;
             }
 
-            if($ret_info['cc_called_num']>0){ // 人均呼出量
-                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num'];
-                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num'];
+            if($ret_info['cc_called_num']>0){
+                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
+                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
             }else{
                 $ret_info['aver_called'] = 0;
                 $ret_info['invit_rate'] = 0;
