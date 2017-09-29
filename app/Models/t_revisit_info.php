@@ -197,10 +197,10 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                 ["is_warning_flag=%u",$is_warning_flag,-1],
                 ["m.uid= %u",$ass_adminid,-1],
             ];
+            $this->where_arr_add_time_range($where_arr,"r.revisit_time",$start_time,$end_time);
         }
 
         $this->where_arr_adminid_in_list($where_arr,"m.uid", $require_adminid_list );
-        $this->where_arr_add_time_range($where_arr,"r.revisit_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             "select r.revisit_time,revisit_person,r.operator_note,operator_audio,sys_operator,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,s.nick,r.userid "
             ."from %s r left join %s m on m.account = r.sys_operator "
