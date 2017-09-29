@@ -227,7 +227,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
-            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price"
+            ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price,"
+            ." if(co.child_order_type = 2, 1, 0) is_staged_flag "
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
             ." left join %s t3 on t1.sys_operator = t3.account "
@@ -238,7 +239,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m on t2.ass_master_adminid = m.uid"
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
-            ." where %s  order by $order_by_str ",
+            ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
+            ." where %s group by t1.orderid order by $order_by_str ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -249,6 +251,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
@@ -2261,7 +2264,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." t1.from_key,t1.from_url,"
             ." contract_type,contract_status,invoice,is_invoice, "
             ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
-            ." contract_endtime,t1.grade,t1.lesson_total,price,discount_price,discount_reason,"
+            ." contract_endtime,t1.grade,t1.lesson_total,t1.price,discount_price,discount_reason,"
             ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
             ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
             ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
@@ -2270,7 +2273,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
-            ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno "
+            ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno, "
+            ." if(co.child_order_type=2,1,0) is_staged_flag"
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
             ." left join %s t3 on t1.sys_operator = t3.account "
@@ -2281,7 +2285,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m on t2.ass_master_adminid = m.uid"
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
+            ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
             ." where %s "
+            ." group by t1.orderid "
             ." order by $order_by_str ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
@@ -2293,6 +2299,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);

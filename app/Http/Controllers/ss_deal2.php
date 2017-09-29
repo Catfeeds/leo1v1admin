@@ -771,9 +771,9 @@ class ss_deal2 extends Controller
             "test_stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
             "curl_stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
             "test_stu_grade"                      => $grade,
-            "change_teacher_reason"               => $change_reason,
-            "change_teacher_reason_img_url"       => $change_reason_url,
             "change_teacher_reason_type"          => $change_teacher_reason_type,
+            "change_teacher_reason_img_url"       => $change_reason_url,
+            "change_teacher_reason"               => $change_reason,
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
