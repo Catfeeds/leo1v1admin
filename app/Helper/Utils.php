@@ -1743,6 +1743,7 @@ class Utils  {
         $one    = strtotime('today');
         $two    = $one - 86400*5;
         $three  = $one - 86400*7;
+        $month  = strtotime( date('Y-m-01', time()) );
         $retime = $item['revisit_time'];
         if ($retime < $one & $retime >= $two) {
             $warning_type_count['warning_type_one'] = @$warning_type_count['warning_type_one'] + 1;
