@@ -3403,4 +3403,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_row($sql);
     }
+
+
+    public function get_order_num_month($start_time, $end_time){
+        $hwere_arr = [
+            "tq.is_called_phone=1"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(o.orderid) from %s o "
+                                  ." left join %s ss on ss.userid=o.userid"
+                                  ." left join %s tq on tq.phone=ss.phone"
+                                  ." left join %s ts on ts.userid=o.userid"
+                                  ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"
+                                  ." left join %s tss on tss.require_id=tr.require_id"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,t_tq_call_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

@@ -183,10 +183,52 @@ class main_page extends Controller
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
             //以上已完成
             $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
-            $ret_info['has_tq_succ_month']  = $this->t_test_lesson_subject_require->get_tq_succ_for_month($start_time, $end_time); // 已拨通[月邀约数]
+            $ret_info['has_tq_succ_invit_month']  = $this->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
+
+            $ret_info['seller_plan_invit_month'] = $this->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
+            $ret_info['seller_test_succ_month'] = $this->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
+
+            $ret_info['has_tq_succ_sign_month'] = $this->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
+            $ret_info['order_num_month'] = $this->t_order_info->get_order_num_month($start_time, $end_time); // 合同人数[月签约率]
 
 
-            dd($ret_info['cc_called_num']);
+            // dd($ret_info['cc_called_num']);
+
+            if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
+                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month'];
+            }else{
+                $ret_info['invit_month_rate'] = 0;
+            }
+
+
+            if($ret_info['seller_plan_invit_month']>0){ //月排课率
+                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month'];
+            }else{
+                $ret_info['test_plan_month_rate'] = 0;
+            }
+
+            if($ret_info['seller_schedule_num']>0){ //月到课率
+                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num'];
+            }else{
+                $ret_info['lesson_succ_month_rate'] = 0;
+            }
+
+
+            if($ret_info['seller_test_succ_month']>0){ //月试听转化率
+                $ret_info['trans_month_rate'] = $ret_info['order_num_month']/$ret_info['seller_test_succ_month'];
+            }else{
+                $ret_info['trans_month_rate'] = 0;
+            }
+
+
+            if($ret_info['seller_test_succ_month']>0){ //月签约率
+                $ret_info['sign_month_rate'] = $ret_info['order_num_month']/$ret_info['seller_test_succ_month'];
+            }else{
+                $ret_info['sign_month_rate'] = 0;
+            }
+
+
+
 
             if($ret_info['has_called']>0){ //接通率
                 $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called'];

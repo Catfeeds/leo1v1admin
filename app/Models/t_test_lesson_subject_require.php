@@ -674,7 +674,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ." join %s s on s.userid = l.userid "
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2 "
+                ." and require_admin_type = 2 and l.lesson_type=2  "
                 ." group by check_value " ,
                 self::DB_TABLE_NAME,
                 t_test_lesson_subject::DB_TABLE_NAME,
@@ -694,7 +694,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ." join %s s on s.userid = l.userid "
                 ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
                 ." and is_test_user=0 "
-                ." and require_admin_type = 2 "
+                ." and require_admin_type = 2  and l.lesson_type=2 "
                 ." and success_flag in (0,1) "
                 ." group by check_value " ,
                 self::DB_TABLE_NAME,
@@ -2957,6 +2957,30 @@ ORDER BY require_time ASC";
         return $this->main_get_value($sql);
     }
 
+
+    public function get_plan_invit_num_for_month($start_time, $end_time){ 
+        $where_arr = [
+            "s.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+                                  ." left join %s tss on tss.require_id=tr.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+                                  ." left join %s s on ts.userid=s.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_invit_num_for_month($start_time, $end_time){ //获取邀约数
         $where_arr = [
             "s.is_test_user=0"
@@ -2980,6 +3004,35 @@ ORDER BY require_time ASC";
     }
 
 
+    // public function get_plan_num_for_month($start_time, $end_time){ 
+
+    //     $where_arr = [
+    //         "s.is_test_user=0",
+    //         "tr.accept_flag=1",
+    //         // "tss.test_lesson_fail_flag=0",
+    //         "tss.fail_greater_4_hour_flag=0"
+    //     ];
+
+    //     $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+    //     $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
+    //                               ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+    //                               ." left join %s tss on tss.require_id=tr.require_id  "
+    //                               ." left join %s s on ts.userid=s.userid"
+    //                               ." where %s"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,t_test_lesson_subject::DB_TABLE_NAME
+    //                               ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+    //                               ,t_student_info::DB_TABLE_NAME
+    //                               ,$where_arr
+    //     );
+
+    //     return $this->main_get_value($sql);
+
+    // }
+
+
+
     public function get_seller_schedule_num($start_time, $end_time ){// 试听排课数
         $where_arr = [
             "s.is_test_user=0",
@@ -2988,7 +3041,7 @@ ORDER BY require_time ASC";
             "tss.fail_greater_4_hour_flag=0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
