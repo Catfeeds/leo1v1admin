@@ -2711,6 +2711,7 @@ class user_deal extends Controller
         $start_time = strtotime("2017-08-01");
         $end_time   = strtotime("2017-09-01");
         $one_account = $this->t_teacher_record_list->get_all_interview_count_by_reference($start_time,$end_time,-1);
+        dd($one_account);
         $tt=0;
         foreach($one_account as $val){
             $tt +=$val["lesson_add_num"]; 
