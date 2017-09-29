@@ -367,6 +367,30 @@ class channel_manage extends Controller
             }
         }
 
+        foreach( $train_through_video as $k=>$v){
+            if(!isset($ret_info[$k])){
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["through_video"] +=$v["through_video"];
+                }
+            }
+        }
+        foreach( $train_through_lesson as $k=>$v){
+            if(!isset($ret_info[$k])){
+                if(!isset($arr_tmp[$k])){
+                    $arr_tmp[$k]=$v;
+                }else{
+                    @$arr_tmp[$k]["through_lesson"] +=$v["through_lesson"];
+                }
+            }
+        }
+
+        foreach($arr_tmp as $k=>$v){
+            $ret_info[$k]=$v;
+        }
+
+
         foreach ($list as $key => $value) {
 
             if(isset($value['admin_phone'])){
