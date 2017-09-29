@@ -161,7 +161,9 @@ class ss_deal extends Controller
             if($opt_type==0 && $account_role==1 && $origin_assistantid>0){
                 $phone = $this->t_manager_info->get_phone($opt_adminid);
                 $ass_account = $this->t_manager_info->get_account($origin_assistantid);
-                $this->t_manager_info->send_wx_todo_msg($ass_account,""  );
+                $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+                $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+
             }
         }
 
