@@ -256,6 +256,23 @@ class testbb extends Controller
 
     public function ss(){
 
+        $a = "[1506866400,1506835800,1507039200,1507023000,1507282200]";
+        $date_modify = json_decode($a,true);
+        $day_date = [];
+        foreach($date_modify as $item){
+            $day_date[] = date('Y-m-d',$item);
+        }
+        $b = array_flip(array_flip($day_date));
+        foreach($b as $val){
+            $begin_time = strtotime($val);
+            $end_time   = $begin_time+86400;
+            $teacher_lesson_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+        }
+
+
+        dd($b);
+        // dd(json_decode($a,true));
+
         $ret_arr = \App\Helper\Common::redis_set_json('a',['a'=>1]);
 
         list($start_time,$end_time) = $this->get_in_date_range_day(-1);
