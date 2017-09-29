@@ -496,6 +496,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             // ["tt.teacherid = %u",$reference_teacherid,-1],
             ["tt.identity = %u",$identity,-1],
             "tr.type=10",
+            "l.lesson_del_flag = 0",
+            "l.lesson_type = 1100",
+            "l.train_type=5",
             "(tr.acc is not null && tr.acc <> '')"
         ];
         if(!empty($tea_subject)){
@@ -516,13 +519,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   " left join %s ta on tr.train_lessonid  = ta.lessonid ".
                                   " left join %s l on tr.train_lessonid  = l.lessonid ".
                                   " left join %s tt on ta.userid = tt.teacherid ".
-                                  " where %s ",
+                                  " left join %s la on tt.phone = la.phone".
+                                  " where %s and la.accept_adminid>0",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);
