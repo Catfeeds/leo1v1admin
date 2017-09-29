@@ -1228,6 +1228,7 @@ class tongji2 extends Controller
         $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
         $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
         $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
+        
         $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
         $arr['tranfer_total_num']   = $tranfer_data['total_num'];
         if($arr['tranfer_num'] > 0){
