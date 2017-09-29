@@ -189,7 +189,6 @@ class main_page extends Controller
 
             $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
 
-            // dd($ret_info['cc_called_num']);
 
             if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
                 $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month'];
@@ -253,7 +252,7 @@ class main_page extends Controller
                 $ret_info['stu_consume_rate'] = 0;
             }
 
-            dd($ret_info);
+            // dd($ret_info);
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);

@@ -284,6 +284,9 @@ class seller_student_new extends Controller
             $status_list_str="";
         }
 
+        $ftf = json_encode($require_adminid_list);
+        \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
