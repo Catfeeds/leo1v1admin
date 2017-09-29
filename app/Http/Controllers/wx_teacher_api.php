@@ -573,33 +573,6 @@ class wx_teacher_api extends Controller
 
 
 
-        $time_info = $this->t_lesson_info_b3->get_lesson_info($lessonid);
-        $time_info['subject'] = E\Esubject::get_desc($time_info['subject']);
-        $time_info['grade'] = E\Egrade::get_desc($time_info['grade']);
-        $time_info['parent_modify_time']  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
-
-        $date_modify = json_decode($time_info['parent_modify_time'],true);
-        $day_date = [];
-        foreach($date_modify as $item){
-            $day_date[] = date('Y-m-d',$item);
-        }
-        $b = array_flip(array_flip($day_date));
-        $time_info['teacher_lesson_time'] = [];
-        foreach($b as $val){
-            $begin_time = strtotime($val);
-            $end_time   = $begin_time+86400;
-            $tea_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
-        }
-
-        foreach($tea_time as $v){
-            foreach($v as $vv){
-                $teacher_time[] = $vv;
-            }
-        }
-        $time_info['teacher_lesson_time'] = $teacher_time;
-
-        $time_info['has_do'] = 0;  // 未处理
-        return $this->output_succ(['data'=>$time_info]);
 
 
 
@@ -635,6 +608,36 @@ class wx_teacher_api extends Controller
 
             // $time_info['has_do'] = 0;  // 未处理
             // return $this->output_succ(['data'=>$time_info]);
+
+
+            $time_info = $this->t_lesson_info_b3->get_lesson_info($lessonid);
+            $time_info['subject'] = E\Esubject::get_desc($time_info['subject']);
+            $time_info['grade'] = E\Egrade::get_desc($time_info['grade']);
+            $time_info['parent_modify_time']  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+
+            $date_modify = json_decode($time_info['parent_modify_time'],true);
+            $day_date = [];
+            foreach($date_modify as $item){
+                $day_date[] = date('Y-m-d',$item);
+            }
+            $b = array_flip(array_flip($day_date));
+            $time_info['teacher_lesson_time'] = [];
+            foreach($b as $val){
+                $begin_time = strtotime($val);
+                $end_time   = $begin_time+86400;
+                $tea_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+            }
+
+            foreach($tea_time as $v){
+                foreach($v as $vv){
+                    $teacher_time[] = $vv;
+                }
+            }
+            $time_info['teacher_lesson_time'] = $teacher_time;
+
+            $time_info['has_do'] = 0;  // 未处理
+            return $this->output_succ(['data'=>$time_info]);
+
         }
     }
 
