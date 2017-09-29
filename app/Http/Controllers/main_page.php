@@ -178,12 +178,14 @@ class main_page extends Controller
 
             $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
 
-            //以上已完成
-
 
             $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
-
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
+            //以上已完成
+            $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
+            $ret_info['has_tq_succ_month']  = $this->t_test_lesson_subject_require->get_tq_succ_for_month($start_time, $end_time); // 已拨通[月邀约数]
+
+
             dd($ret_info['cc_called_num']);
 
             if($ret_info['has_called']>0){ //接通率

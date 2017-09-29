@@ -2957,6 +2957,28 @@ ORDER BY require_time ASC";
         return $this->main_get_value($sql);
     }
 
+    public function get_invit_num_for_month($start_time, $end_time){ //获取邀约数
+        $where_arr = [
+            "s.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+                                  ." left join %s s on ts.userid=s.userid"
+                                  ." left join %s ss on ss.userid=ts.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_seller_student_new::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 
     public function get_seller_schedule_num($start_time, $end_time ){// 试听排课数
         $where_arr = [
