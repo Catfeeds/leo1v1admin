@@ -822,7 +822,7 @@ class common extends Controller
                 imagejpeg($imgg,$datapath_new);
                 $image_5 = imagecreatefromjpeg($datapath_new);
             }
-            $image_6 = imageCreatetruecolor(190,190);     //新建微信头像图
+            $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
             imageColorTransparent($image_6, $color);
@@ -835,7 +835,7 @@ class common extends Controller
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
             imagecopymerge($image_3,$image_4,288,2221,0,0,imagesx($image_4),imagesy($image_4),100);
-            imagecopymerge($image_3,$image_6,354,35,0,0,190,190,100);
+            imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
             imagepng($image_3,$agent_qr_url);
 
 
