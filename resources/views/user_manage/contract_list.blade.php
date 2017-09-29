@@ -266,7 +266,7 @@
                         </td>
                         <td >{{$var["get_packge_time"]}}</td>
                         <td >{{$var["lesson_count_all"]/100}}</td>
-                        <td >{!! $var["is_is_staged_flag_str"] !!}</td>
+                        <td >{!! $var["is_staged_flag_str"] !!}</td>
                         <td >
                             <div class="btn-group"
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

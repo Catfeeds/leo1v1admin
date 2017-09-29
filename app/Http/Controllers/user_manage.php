@@ -661,7 +661,7 @@ class user_manage extends Controller
             } else {
                 $item['status_color'] = 'color:green';
             }
-            $item["is_is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_is_staged_flag"]);
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         $acc = $this->get_account();
