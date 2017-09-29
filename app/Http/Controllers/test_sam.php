@@ -43,7 +43,7 @@ class test_sam  extends Controller
         //$arr['total_student'] = $lesson_consume['total_student']; //实际有效课时
         $arr['lesson_plan'] = $lesson_plan['total_plan']; //计划排课数量
         $arr['student_arrive'] = $lesson_plan['student_arrive']; //学生有效课程数量
-        $arr['lesson_income'] = $lesson_income;
+        $arr['lesson_income'] = round($lesson_income/100,2);
         if($arr['lesson_plan']){
             $arr['student_arrive_per'] = round(100*$arr['student_arrive']/$arr['lesson_plan'],2);
         }else{
