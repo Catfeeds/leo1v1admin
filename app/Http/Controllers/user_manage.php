@@ -679,6 +679,11 @@ class user_manage extends Controller
         $userid  = $this->get_in_int_val("userid");
 
 
+        $child_status = $this->t_child_order_info->chick_all_order_have_pay($orderid,1);
+        if($child_status==1){
+            return $this->output_err("已有子合同付过款,不能删除");
+        }
+
         //get from_type
         $from_type = $this->t_order_info->get_from_type($orderid);
         if($from_type==E\Efrom_type::V_1) {
@@ -706,6 +711,9 @@ class user_manage extends Controller
             foreach($son_order_list as $item){
                 $this->t_order_info->del_contract($item["orderid"],$userid);
             }
+
+            //删除子合同
+            $this->t_child_order_info->del_contract($orderid);
         }
 
         return outputjson_ret($ret);

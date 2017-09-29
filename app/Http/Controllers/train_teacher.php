@@ -21,7 +21,7 @@ class train_teacher extends Controller
         $train_type      = $this->get_in_int_val("train_type",-1);
         $acc             = $this->get_account();
         $page_num        = $this->get_in_page_num();
-        
+
         $this->t_lesson_info->switch_tongji_database();
         $ret_info = $this->t_lesson_info->get_train_lesson(
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,

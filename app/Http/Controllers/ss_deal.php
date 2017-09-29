@@ -6223,7 +6223,7 @@ class ss_deal extends Controller
                 "parent_name" => $parent_name,
             ]);
         }
-        return $this->output_err($errno);
+        return $this->output_succ();
 
     }
 
