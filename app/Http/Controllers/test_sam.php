@@ -50,6 +50,8 @@ class test_sam  extends Controller
             $arr['student_arrive_per'] = 0;
         }
 
+        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
+
         dd($arr);
     }
 }

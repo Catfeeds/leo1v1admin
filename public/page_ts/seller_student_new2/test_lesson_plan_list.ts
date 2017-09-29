@@ -1480,6 +1480,10 @@ $(function(){
 
     $(".opt-set-limit-require-agree").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        if(g_adminid != opt_data.limit_require_send_adminid){
+            alert("您无权处置!");
+            return;
+        }
 
         BootstrapDialog.confirm(
             "同意该申请?",
@@ -1497,6 +1501,11 @@ $(function(){
 
     $(".opt-set-limit-require-refuce").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        if(g_adminid != opt_data.limit_require_send_adminid){
+            alert("您无权处置!");
+            return;
+        }
+
 
         BootstrapDialog.confirm(
             "驳回该申请?",
