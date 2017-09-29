@@ -28,6 +28,19 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
             self::DB_TABLE_NAME, $orderid );
         return $this->main_get_list($sql);
     }
+    public function get_count_by_order_activity_type( $order_activity_type) {
+        $sql = $this ->gen_sql_new("select count(*) from %s where order_activity_type =%u",
+                                   self::DB_TABLE_NAME, $order_activity_type
+        );
+        return $this->main_get_value($sql);
+    }
+    public function del_by_orderid($orderid ) {
+        $sql=$this->gen_sql_new(
+            "delete  from %s  "
+            . " where orderid=%u  ",
+            self::DB_TABLE_NAME, $orderid );
+        return $this->main_update($sql);
+    }
 
 }
 

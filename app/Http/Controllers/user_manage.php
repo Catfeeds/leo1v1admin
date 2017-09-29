@@ -714,6 +714,7 @@ class user_manage extends Controller
 
             //删除子合同
             $this->t_child_order_info->del_contract($orderid);
+            $this->t_order_activity_info->del_by_orderid($orderid);
         }
 
         return outputjson_ret($ret);
