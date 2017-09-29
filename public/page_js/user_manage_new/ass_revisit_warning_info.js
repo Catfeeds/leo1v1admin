@@ -83,8 +83,7 @@ $(function(){
             "title":title,
             "html":true
         });
-        var value =btn.data("value");
-        btn.text(value);
+        var value = parseInt( btn.text() );
         if (value >0 ) {
             btn.addClass("btn-warning");
         }
