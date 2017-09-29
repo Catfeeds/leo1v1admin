@@ -2394,7 +2394,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(*) from %s ss "
+        $sql = $this->gen_sql_new("  select count(ss.userid) from %s ss "
                                   ." left join %s s on s.userid = ss.userid"
                                   ." left join %s tq on tq.phone=ss.phone"
                                   ." where %s"

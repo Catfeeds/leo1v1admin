@@ -1066,7 +1066,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     public function get_lesson_info($lessonid){
-        $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick from %s l"
+        $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick, l.grade from %s l"
                                    ." left join %s s on s.userid=l.userid"
                                    ." where l.lessonid=$lessonid"
                                    ,self::DB_TABLE_NAME

@@ -582,6 +582,7 @@ class wx_teacher_api extends Controller
         }else{
             $time_info = $this->t_lesson_info_b3->get_lesson_info($lessonid);
             $time_info['subject'] = E\Esubject::get_desc($time_info['subject']);
+            $time_info['grade'] = E\Egrade::get_desc($time_info['grade']);
             $time_info['parent_modify_time']  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
             $time_info['has_do'] = 0;  // 未处理
             return $this->output_succ(['data'=>$time_info]);
