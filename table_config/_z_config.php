@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_order_activity_info", "orderid", "subid"],
     ["db_weiyi_admin","t_test_luki", "id"],
     ["db_weiyi","t_seller_tongji_for_month", "id"],
     ["db_weiyi_admin","t_user_group_change_log", "id"],
@@ -20,9 +21,9 @@ return array(
     ["db_weiyi","t_yxyx_test_pic_visit_info", "test_pic_id"],
     ["db_weiyi","t_yxyx_custom_type", "custom_type_id"],
     ["db_weiyi","t_yxyx_new_list", "id"],
-    ["db_weiyi","t_grab_lesson_link_info", "grabid"],
-    ["db_weiyi","t_grab_lesson_link_visit_info", "visitid"],
-    ["db_weiyi","t_grab_lesson_link_visit_operation", "operationid"],
+    //["db_weiyi","t_grab_lesson_link_info", "grabid"],
+    //["db_weiyi","t_grab_lesson_link_visit_info", "visitid"],
+    //["db_weiyi","t_grab_lesson_link_visit_operation", "operationid"],
 
     ["db_weiyi","t_teacher_switch_money_type_list", "id"],
     ["db_weiyi","t_teacher_reward_rule_list","rewrad_type"],

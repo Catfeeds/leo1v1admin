@@ -149,4 +149,13 @@ class order_price_base {
         */
         return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc, "price" => $price  ];
     }
+
+    static public function gen_activity_item($order_activity_type,$succ_flag, $desc , $cur_price, $cur_present_lesson_count  ) {
+        return [ "order_activity_type" => $order_activity_type ,
+                 "succ_flag"=> $succ_flag ,
+                 "activity_desc"=>$desc,
+                 "cur_price" => $cur_price  ,
+                 "cur_present_lesson_count" => $cur_present_lesson_count
+        ];
+    }
 }
