@@ -175,15 +175,15 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             $where_arr = [
                 ["is_warning_flag=%u",$is_warning_flag,-1],
                 ["m.uid= %u",$ass_adminid,-1],
-                "r.revisit_time>=$one",
-                "r.revisit_time<$two",
+                "r.revisit_time<$one",
+                "r.revisit_time>=$two",
             ];
         } else if ($revisit_warning_type == 2){
             $where_arr = [
                 ["is_warning_flag=%u",$is_warning_flag,-1],
                 ["m.uid= %u",$ass_adminid,-1],
-                "r.revisit_time>=$two",
-                "r.revisit_time<$three",
+                "r.revisit_time<$two",
+                "r.revisit_time>=$three",
             ];
 
         } else if ($revisit_warning_type == 3){
