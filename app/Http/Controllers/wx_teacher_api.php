@@ -591,10 +591,12 @@ class wx_teacher_api extends Controller
                 $day_date[] = date('Y-m-d',$item);
             }
             $b = array_flip(array_flip($day_date));
+            $time_info['teacher_lesson_time'] = [];
             foreach($b as $val){
                 $begin_time = strtotime($val);
                 $end_time   = $begin_time+86400;
-                $time_info['teacher_lesson_time'][] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+                $teacher_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+                array_merge($time_info['teacher_lesson_time'],$teacher_time);
             }
 
             $time_info['has_do'] = 0;  // 未处理
