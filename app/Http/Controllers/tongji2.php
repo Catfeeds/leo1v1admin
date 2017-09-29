@@ -1244,6 +1244,7 @@ class tongji2 extends Controller
         $finish_num = $this->t_student_info->get_finish_num($start_time,$end_time);//结课学员数
         $read_num   = $this->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
         $lesson_plan    = $this->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
+
         $arr['finish_num'] = $finish_num;
         $arr['read_num']   = $read_num;
         $arr['total_student'] = $lesson_consume['total_student']; //实际有效课时
