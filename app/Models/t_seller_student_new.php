@@ -2321,16 +2321,17 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
-                                  ." left join %s ts on ts.userid=s.userid"
+                                  ." left join %s ts on ts.userid=ss.userid"
                                   ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"
                                   ." left join %s tss on tss.require_id=tr.require_id"
                                   ." where %s"
                                   ,t_tq_call_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
         );
-
         return $this->main_get_value($sql);
     }
 
