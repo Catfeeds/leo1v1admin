@@ -284,7 +284,7 @@ $(function(){
         Enum_map.append_option_list( "school_work_change_type", $school_work_change_type,true);
         Enum_map.append_option_list( "tea_content_satisfy_type", $tea_content_satisfy_type,true);
         Enum_map.append_option_list( "tea_content_satisfy_flag", $tea_content_satisfy_flag,true);
-        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[0,3,4,5,6]);
+        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[7]);
         Enum_map.append_option_list("revisit_person",id_return_record_person,true,[0,1,2,3]);
         Enum_map.append_option_list("revisit_path",id_revisit_path,true);
 
