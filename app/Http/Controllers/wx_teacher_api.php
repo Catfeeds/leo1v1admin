@@ -585,6 +585,18 @@ class wx_teacher_api extends Controller
             $time_info['grade'] = E\Egrade::get_desc($time_info['grade']);
             $time_info['parent_modify_time']  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
 
+            $date_modify = json_decode($time_info['parent_modify_time'],true);
+            $day_date = [];
+            foreach($date_modify as $item){
+                $day_date[] = date('Y-m-d',$item);
+            }
+            $b = array_flip(array_flip($day_date));
+            foreach($b as $val){
+                $begin_time = strtotime($val);
+                $end_time   = $begin_time+86400;
+                $time_info['teacher_lesson_time'][] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+            }
+
             $time_info['has_do'] = 0;  // 未处理
             return $this->output_succ(['data'=>$time_info]);
         }
