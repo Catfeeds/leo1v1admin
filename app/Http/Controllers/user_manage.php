@@ -589,7 +589,6 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag,$orderid
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -662,6 +661,7 @@ class user_manage extends Controller
             } else {
                 $item['status_color'] = 'color:green';
             }
+            $item["is_is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_is_staged_flag"]);
         }
 
         $acc = $this->get_account();
