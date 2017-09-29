@@ -3541,10 +3541,6 @@ class user_manage_new extends Controller
             E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
             E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
         }
-        // if ($warning_type_flag != 1) {
-        //     $ret_info['list'] = \App\Helper\Utils::warning_type_filter($ret_info['list'], $warning_type_flag);
-        // }
-        // dd($warning_count);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,

@@ -510,6 +510,18 @@ class main_page extends Controller
             $all_money_ass += $val["all_price"];
         }
         #dd($assistant_renew);exit;
+
+        $ass_adminid = $this->get_account_id();
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
             "end_time" => $end_time_date,
@@ -521,7 +533,8 @@ class main_page extends Controller
             "all_money_ass"=>$all_money_ass,
             "lesson_all"   =>$lesson_all,
             "user_all"     =>$user_all,
-            "xs"           =>$xs
+            "xs"           =>$xs,
+            "warning"      => $warning_type_num
         ]);
 
     }
