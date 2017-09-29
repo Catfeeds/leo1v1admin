@@ -3516,7 +3516,8 @@ class user_manage_new extends Controller
 
 
         $this->t_revisit_info->switch_tongji_database();
-        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
         $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
 
         foreach($ret_info['list'] as &$item){
@@ -3537,6 +3538,7 @@ class user_manage_new extends Controller
         // if ($warning_type_flag != 1) {
         //     $ret_info['list'] = \App\Helper\Utils::warning_type_filter($ret_info['list'], $warning_type_flag);
         // }
+        // dd($warning_count);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,
