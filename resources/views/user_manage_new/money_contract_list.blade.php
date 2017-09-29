@@ -126,7 +126,6 @@
                     <td >财务确认人</td>
                     <td >财务确认时间</td>
                     <td >财务确认说明</td>
-                    <!-- <td >是否分期</td> -->
                     <td  >操作</td>
                 </tr>
             </thead>
@@ -191,7 +190,6 @@
                         <td >{{$var["check_money_admin_nick"]}}</td>
                         <td >{{$var["check_money_time"]}}</td>
                         <td >{{$var["check_money_desc"]}}</td>
-                        <!-- <td >{!! $var["is_staged_flag_str"] !!}</td> -->
                         <td >
                             <div class="btn-group"
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
