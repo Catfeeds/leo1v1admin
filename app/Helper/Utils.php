@@ -1744,14 +1744,12 @@ class Utils  {
         $two = $one - 86400*5;
         $three = $one - 86400*7;
         $retime = $item['revisit_time'];
-        if(!$item['warning_deal_info'] & !$item['warning_deal_url']) {
-            if ($retime < $one & $retime >= $two) {
-                $warning_type_count['warning_type_one'] = @$warning_type_count['warning_type_one'] + 1;
-            } else if ($retime < $two & $retime >= $three) {
-                $warning_type_count['warning_type_two'] = @$warning_type_count['warning_type_two'] + 1;
-            } else if ($retime < $three) {
-                $warning_type_count['warning_type_three'] = @$warning_type_count['warning_type_three'] + 1;
-            }
+        if ($retime < $one & $retime >= $two) {
+            $warning_type_count['warning_type_one'] = @$warning_type_count['warning_type_one'] + 1;
+        } else if ($retime < $two & $retime >= $three) {
+            $warning_type_count['warning_type_two'] = @$warning_type_count['warning_type_two'] + 1;
+        } else if ($retime < $three) {
+            $warning_type_count['warning_type_three'] = @$warning_type_count['warning_type_three'] + 1;
         }
     }
 
