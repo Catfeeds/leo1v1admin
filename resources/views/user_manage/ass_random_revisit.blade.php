@@ -31,6 +31,7 @@
                     <td >id</td>
                     <td >姓名</td>
                     <td >地区</td>
+                    <td >学员类型</td>
                     <td >家长姓名</td>
                     <td >助教</td>
                     <td >关系</td>
