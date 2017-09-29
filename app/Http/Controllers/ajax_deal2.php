@@ -28,6 +28,12 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+    public function get_order_activity_list ( ) {
+        $orderid= $this->get_in_int_val("orderid");
+        $list = $this->t_order_activity_info->get_order_activity_list($orderid);
+        return $this->output_succ([ "list"=> $list] );
+    }
+
 
     public function sync_email() {
         $email=$this->get_in_str_val( "email" );
@@ -1255,6 +1261,7 @@ class ajax_deal2 extends Controller
         $arr=\App\Helper\Utils::json_decode_as_array($str,true);
         $tr_str="";
 
+        $row_count=0;
         if ( is_array($arr)){
             foreach($arr as $item ) {
                 if ($item["succ_flag"]) {
@@ -1262,12 +1269,20 @@ class ajax_deal2 extends Controller
                 }else{
                     $succ_str="<font color=\"red\">未匹配</font>";
                 }
-                $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font>  </tr> ";
-            }
-        }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  </tr> $tr_str </table>";
-        return $this->output_succ(["html_str" => $html_str ]);
+                if(isset ($item["title"] )) { //旧版
+                    $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
+                }else{
+                    $tr_str.= " <tr><td> <font color=\"blue\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> <td>".$succ_str."<td>".$item["activity_desc"]
+                        . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
+                        . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                        . " </tr> ";
+                }
+            }
+            $row_count= count( $arr);
+        }
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时   </tr>  $tr_str </table>";
+        return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
     public function add_textbook_one(){

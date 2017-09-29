@@ -2561,10 +2561,22 @@ $(function(){
 
     $(".opt-price_desc").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
-            "str" : JSON.stringify( opt_data.order_price_desc)
-        }, function (resp){
-            BootstrapDialog.alert($(resp.html_str));
+
+        $.do_ajax( "/ajax_deal2/get_order_activity_list",{
+            "orderid" : opt_data.orderid
+        },function(resp){
+            var list= resp.list;
+            var data=opt_data.order_price_desc;
+            if( list.length >0 )  {
+                data=list;
+            }
+            $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
+                "str" : JSON.stringify(list )
+            }, function (resp){
+                BootstrapDialog.alert($(resp.html_str));
+            } );
+
+
         } );
 
     });
