@@ -2841,12 +2841,7 @@ class ss_deal extends Controller
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
 
         $origin_nick=$this->cache_get_student_nick($origin_userid);
-        $this->t_book_revisit->add_book_revisit(
-            $phone,
-            "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ",
-            "system"
-        );
-
+       
 
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
@@ -2894,9 +2889,22 @@ class ss_deal extends Controller
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1,"/seller_student_new/seller_student_list_all?userid=$userid");
 
+            $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
+            $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售经理".$name,
+                "system"
+            );
+
 
 
         }else{
+            $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ",
+                "system"
+            );
+
             //分配给原来的销售
             $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
             //$admin_revisiterid= $origin_assistantid;
