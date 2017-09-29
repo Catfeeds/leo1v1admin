@@ -248,7 +248,7 @@ class main_page extends Controller
             }
 
             if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called']/$ret_info['new_stu'];
+                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu'];
             }else{
                 $ret_info['stu_consume_rate'] = 0;
             }

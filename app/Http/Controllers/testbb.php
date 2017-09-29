@@ -256,6 +256,7 @@ class testbb extends Controller
 
     public function ss(){
 
+        $ret_arr = \App\Helper\Common::redis_get_json($key_arr);
 
         list($start_time,$end_time) = $this->get_in_date_range_day(-1);
         dd($start_time.' ~ '.$end_time);
