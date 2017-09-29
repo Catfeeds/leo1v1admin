@@ -2944,7 +2944,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
                                   ." where %s"
@@ -2965,7 +2965,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s tss on tss.require_id=tr.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
@@ -2988,7 +2988,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
                                   ." left join %s ss on ss.userid=ts.userid"
