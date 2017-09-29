@@ -305,10 +305,10 @@
                                        data-textbook="{{$var["editionid_str"]}}"
                                 />
                             </td>
-                            <td > {{$var["phone"]}} </td>
+                            <td > {{$var["phone_ex"]}} </td>
                             <td >
                                 序号: {{$var["id"]}} <br/>
-                                {{$var["phone"]}} <br/>
+                                {{$var["phone_ex"]}} <br/>
                                 {{$var["phone_location"]}} <br/>
                                 姓名：{{$var["nick"]}}  <br/>
                                 性别：{{$var["gender_str"]}}  <br/>
@@ -459,7 +459,7 @@
                             </td>
                             <td >{{$var["teacher_nick"]}}</td>
                             <td >{{$var["lesson_start"]}}</td>
-                            <td >
+                            <td class="limit-require-info">
                                 申请原因:{{$var["limit_require_reason"]}}<br>
                                 申请人:{{$var["limit_require_account"]}}<br>
                                 申请时间:{{$var["limit_require_time_str"]}}<br>
@@ -908,21 +908,21 @@
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
-                                <select class="form-control" id="province" name="province">
+                                <select class="form-control" id="province_new" name="province">
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp市</span>
-                                <select class="form-control" id="city" name="city">
+                                <select class="form-control" id="city_new" name="city">
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp区(县)</span>
-                                <select class="form-control" id="area" name="area">
+                                <select class="form-control" id="area_new" name="area">
                                 </select>
                             </div>
                         </div>
@@ -1005,14 +1005,14 @@
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师所在省</span>
-                                <select class="form-control" id="tea_province" name="province">
+                                <select class="form-control" id="tea_province_new" name="province">
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师所在市</span>
-                                <select class="form-control" id="tea_city" name="city">
+                                <select class="form-control" id="tea_city_new" name="city">
                                 </select>
 
                             </div>
@@ -1020,7 +1020,7 @@
                         <div class="col-xs-12 col-md-2">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师所在区(县)</span>
-                                <select class="form-control" id="tea_area" name="area">
+                                <select class="form-control" id="tea_area_new" name="area">
                                 </select>
                             </div>
                         </div>
@@ -1055,9 +1055,9 @@
                         <div class="col-xs-12 col-md-12 ">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
-                                <input id="id_stu_request_test_lesson_time_new" class=" form-control "   />
+                                <input id="id_stu_request_test_lesson_time" class=" form-control "   />
                                 <div class=" input-group-btn "  >
-                                    <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time_new"  title="取消" >
+                                    <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消" >
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -1132,21 +1132,21 @@
                         <div class="col-xs-12 col-md-3  ">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp分类：</span>
-                                <select id="id_ass_test_lesson_type_new" class=" form-control "   >
+                                <select id="id_ass_test_lesson_type" class=" form-control "   >
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-3  "  style="display:none;">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp换老师类型：</span>
-                                <select id="id_change_teacher_reason_type_new" class=" form-control "   >
+                                <select id="id_change_teacher_reason_type" class=" form-control "   >
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-3  " style="display:none;" >
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因(图片)：</span>
-                                <input type="text" class=" form-control "  id="id_change_reason_url_new"   / >
+                                <input type="text" class=" form-control "  id="id_change_reason_url"  / >
                                 <div class=" input-group-btn "  >
                                     <button class="btn  btn-primary upload_change_reason_url"  title="上传" >
                                         上传
@@ -1157,13 +1157,13 @@
                         <div class="col-xs-12 col-md-3  " style="display:none;" >
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因：</span>
-                                <textarea class="form-control" style="height:75px;" id="id_change_reason_new" > </textarea>
+                                <textarea class="form-control" style="height:75px;" id="id_change_reason" > </textarea>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-3 ">
                             <div class="input-group ">
                                 <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
-                                <input type="text" class=" form-control "  id="id_green_channel_teacherid_new"  />
+                                <input type="text" class=" form-control "  id="id_green_channel_teacherid"  />
                             </div>
                         </div>
                     </div>

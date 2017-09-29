@@ -38,6 +38,14 @@ class test_sam  extends Controller
         $read_num   = $this->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
         $lesson_plan    = $this->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
         $lesson_income  = $this->t_lesson_info->get_total_income($start_time,$end_time);//课时有效收入
+
+        $tranfer = $this->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $tranfer_data = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
+
+        $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
+        $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
+        $arr['tranfer_total_num']   = $tranfer_data['total_num'];
+        
         $arr['finish_num'] = $finish_num;
         $arr['read_num']   = $read_num;
         //$arr['total_student'] = $lesson_consume['total_student']; //实际有效课时
@@ -49,6 +57,8 @@ class test_sam  extends Controller
         }else{
             $arr['student_arrive_per'] = 0;
         }
+
+        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
 
         dd($arr);
     }

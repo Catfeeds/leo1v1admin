@@ -433,7 +433,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
 
     }
-    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand) {
+    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='') {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
         $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
@@ -443,7 +443,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         \App\Helper\Utils::logger("add_require2");
         $seller_student_status= E\Eseller_student_status::V_200;
-
         $this->t_test_lesson_subject_require->row_insert([
             "test_lesson_subject_id" => $test_lesson_subject_id ,
             'origin' =>  $origin ,
@@ -452,6 +451,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "curl_stu_request_test_lesson_time"=>$curl_stu_request_test_lesson_time,
             "test_stu_grade" => $test_stu_grade,
             "test_stu_request_test_lesson_demand" => $test_stu_request_test_lesson_demand,
+            "change_teacher_reason_img_url" => $change_reason_url,
         ]);
         $require_id= $this->t_test_lesson_subject_require->get_last_insertid();
         \App\Helper\Utils::logger("require_id:$require_id");
@@ -2944,7 +2944,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
                                   ." where %s"
@@ -2965,7 +2965,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s tss on tss.require_id=tr.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
@@ -2988,7 +2988,7 @@ ORDER BY require_time ASC";
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(require_id) from %s tr "
+        $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
                                   ." left join %s s on ts.userid=s.userid"
                                   ." left join %s ss on ss.userid=ts.userid"

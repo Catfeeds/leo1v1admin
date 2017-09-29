@@ -70,8 +70,10 @@ class main_page extends Controller
             $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
             $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-            $ret_info['income_new']  = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+            $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
             $ret_info['income_price'] = $order_info_total['total_price'];
+            $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
+
 
             if($order_info_total['total_num']>0){
                 $ret_info['aver_count'] = $order_info_total['total_price']/$order_info_total['total_num'];//平均单笔
@@ -79,7 +81,6 @@ class main_page extends Controller
                 $ret_info['aver_count'] = 0; //平均单笔
             }
 
-            // $ret_info['income_num']  = $this->t_order_info->get_income_num($start_time, $end_time); // 有签单的销售人数
             $job_info = $this->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
             $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
             $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
@@ -155,10 +156,6 @@ class main_page extends Controller
 
 
 
-            // 月邀请率
-            // 合同人数
-            // $ret_info['seller_order_num'] = $this->t_order_info->get_order_num($start_time, $end_time);//待处理
-
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
@@ -170,7 +167,7 @@ class main_page extends Controller
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
             //  外呼情况
-            // $ret_info['seller_call_num'] = $ret_info['has_called'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['seller_call_num'] = $ret_info['has_called'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
 
             $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
 
@@ -181,18 +178,18 @@ class main_page extends Controller
 
             $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
-            //以上已完成
             $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
             $ret_info['has_tq_succ_invit_month']  = $this->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
 
             $ret_info['seller_plan_invit_month'] = $this->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
             $ret_info['seller_test_succ_month'] = $this->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
+            $ret_info['order_trans_month'] = $this->t_order_info->get_order_trans_month($start_time, $end_time); // 合同人数[月试听转化率]
 
             $ret_info['has_tq_succ_sign_month'] = $this->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
-            $ret_info['order_num_month'] = $this->t_order_info->get_order_num_month($start_time, $end_time); // 合同人数[月签约率]
+            $ret_info['order_sign_month'] = $this->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
 
+            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
 
-            // dd($ret_info['cc_called_num']);
 
             if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
                 $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month'];
@@ -215,26 +212,26 @@ class main_page extends Controller
 
 
             if($ret_info['seller_test_succ_month']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_num_month']/$ret_info['seller_test_succ_month'];
+                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month'];
             }else{
                 $ret_info['trans_month_rate'] = 0;
             }
 
 
-            if($ret_info['seller_test_succ_month']>0){ //月签约率
-                $ret_info['sign_month_rate'] = $ret_info['order_num_month']/$ret_info['seller_test_succ_month'];
+            if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
+                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month'];
             }else{
                 $ret_info['sign_month_rate'] = 0;
             }
 
-
-
-
-            if($ret_info['has_called']>0){ //接通率
-                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called'];
+            if($ret_info['has_called']>0){
+                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']; //接通率
+                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']; //认领率
             }else{
+                $ret_info['claim_num_rate'] = 0;
                 $ret_info['succ_called_rate'] = 0;
             }
+
 
             if($ret_info['seller_num']>0){ // 人均通时
                 $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
@@ -242,25 +239,21 @@ class main_page extends Controller
                 $ret_info['called_rate'] = 0;
             }
 
-            if($ret_info['seller_num']>0){ // 人均邀约数
-                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['seller_num'];
+            if($ret_info['cc_called_num']>0){
+                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
+                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
             }else{
+                $ret_info['aver_called'] = 0;
                 $ret_info['invit_rate'] = 0;
             }
 
-            if($ret_info['seller_call_num']>0){ // 人均呼出量
-                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num'];
-            }else{
-                $ret_info['aver_called'] = 0;
-            }
-
             if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called']/$ret_info['new_stu'];
+                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu'];
             }else{
                 $ret_info['stu_consume_rate'] = 0;
             }
 
-            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
+            // dd($ret_info);
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
@@ -282,6 +275,12 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        if($start_time == 1504195200){//9月,9.1-10.2
+            $end_time = 1506960000;
+        }
+        if($start_time == 1506787200){//10月,10.3-10.31
+            $start_time = 1506960000;
+        }
         $adminid=$this->get_account_id();
 
         //判断top25,排课情况每月40
@@ -329,7 +328,7 @@ class main_page extends Controller
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
-
+        
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
         $groupid =$this->get_in_int_val("groupid",-1);
