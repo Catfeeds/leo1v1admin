@@ -588,15 +588,19 @@ class wx_teacher_api extends Controller
         foreach($b as $val){
             $begin_time = strtotime($val);
             $end_time   = $begin_time+86400;
-            $tea_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+            $tea_time   = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
+            array_push($time_info['teacher_lesson_time'],$tea_time);
+            // foreach($tea_time as $v){
+                
+            // }
         }
 
-        foreach($tea_time as $v){
-            foreach($v as $vv){
-                $teacher_time[] = $vv;
-            }
-        }
-        dd($teacher_time);
+        // foreach($tea_time as $v){
+        //     foreach($v as $vv){
+        //         $teacher_time[] = $vv;
+        //     }
+        // }
+        dd( $time_info['teacher_lesson_time']);
 
         $time_info['has_do'] = 0;  // 未处理
         return $this->output_succ(['data'=>$time_info]);
