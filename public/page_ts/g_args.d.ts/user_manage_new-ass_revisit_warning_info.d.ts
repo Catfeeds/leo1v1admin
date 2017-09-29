@@ -9,6 +9,7 @@ interface GargsStatic {
 	is_warning_flag:	number;
 	ass_adminid:	number;
 	seller_groupid_ex:	string;
+	warning_type_flag:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -78,7 +79,8 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			is_warning_flag:	$('#id_is_warning_flag').val(),
 			ass_adminid:	$('#id_ass_adminid').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+			warning_type_flag:	$('#id_warning_type_flag').val()
         });
     }
 
@@ -96,6 +98,7 @@ $(function(){
 	$('#id_is_warning_flag').val(g_args.is_warning_flag);
 	$('#id_ass_adminid').val(g_args.ass_adminid);
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_warning_type_flag').val(g_args.warning_type_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -124,6 +127,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_groupid_ex</span>
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">warning_type_flag</span>
+                <input class="opt-change form-control" id="id_warning_type_flag" />
             </div>
         </div>
 */

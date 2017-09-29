@@ -34,8 +34,14 @@
                         <input class="opt-change form-control" id="id_seller_groupid_ex" />
                     </div>
                 </div>
-
-
+            </div>
+            <div class="row" >
+                <div  class="col-xs-6 col-md-4">
+                    <input id="id_warning_type" style="display:none;" />
+                    <button type="button" class="btn btn-default opt-warning-type" id="warning-one">{{$warning['warning_type_one']}}</button>
+                    <button type="button" class="btn btn-default opt-warning-type" id="warning-two">{{$warning['warning_type_two']}}</button>
+                    <button type="button" class="btn btn-default opt-warning-type" id="warning-three">{{$warning['warning_type_three']}}</button>
+                </div>
             </div>
         </div>
         <hr/>
