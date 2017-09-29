@@ -1240,21 +1240,7 @@ class tongji2 extends Controller
         $arr['wait_num'] = $kk['wait_num'];
 
 
-        //存档------------------------------------------------
-        $finish_num = $this->t_student_info->get_finish_num($start_time,$end_time);//结课学员数
-        $read_num   = $this->t_student_info->get_read_num($start_time,$end_time);//在读学员数量
-        $lesson_plan    = $this->t_lesson_info->get_total_lesson($start_time,$end_time); //实际有效课时/排课量
-
-        $arr['finish_num'] = $finish_num;
-        $arr['read_num']   = $read_num;
-        $arr['total_student'] = $lesson_consume['total_student']; //实际有效课时
-        $arr['lesson_plan'] = $lesson_plan['total_plan']; //计划排课数量
-        $arr['student_arrive'] = $lesson_plan['student_arrive']; //学生有效课程数量
-        if($arr['lesson_plan']){
-            $arr['student_arrive_per'] = round(100*$arr['student_arrive']/$arr['lesson_plan'],2);
-        }else{
-            $arr['student_arrive_per'] = 0;
-        }
+        
         return $this->pageView(__METHOD__,null,["arr"=>$arr]);
     }
 

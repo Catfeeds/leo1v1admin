@@ -171,7 +171,7 @@
                                             <td > 节点  </td>
                                             <td class="panel-yellow" >{{@$arr['student_arrive_per']}}%({{@$arr['student_arrive']}}/{{@$arr['lesson_plan']}})</td> 
 
-                                            <td class="panel-yellow" > 存档 </td> 
+                                            <td class="panel-yellow" > {{@$arr['lesson_income']}} </td> 
 
                                         </tr>
                                    
