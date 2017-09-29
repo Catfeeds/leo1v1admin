@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="row" >
-                <div  class="col-xs-6 col-md-4 hide">
+                <div  class="col-xs-6 col-md-4">
                     <input id="id_revisit_warning_type" style="display:none;" />
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-one">{{$warning['warning_type_one']}}</button>
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-two">{{$warning['warning_type_two']}}</button>
