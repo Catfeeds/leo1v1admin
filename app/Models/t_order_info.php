@@ -2327,8 +2327,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
-        // return $this->main_get_list_by_page($sql,$page_num,10);
-        return $this->main_get_list_by_page($sql,$page_num);
+        return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
     public function get_order_list_require_adminid_new(
