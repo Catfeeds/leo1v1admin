@@ -35,7 +35,7 @@ class test_sam  extends Controller
         $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
         $userlist = '';
         foreach ($warning_list_new as $key => $value) {
-          $userlist = $userlist .',';
+          $userlist .= ','.$value['userid'];
         }
         $userlist = trim(',',$userlist);
         dd($userlist);
