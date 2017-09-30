@@ -1611,17 +1611,19 @@ class ajax_deal2 extends Controller
         if($wx_openid){
             $data=[];
             $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = "老师您好,您的面试课程已排好";
-            $data['keyword1'] = "1对1面试课程";
+            $data['first']    = "老师您好，适逢国庆长假，第三方劳务公司工作顺延，特此温馨提示：老师们九月份工资将于10月13日发放，请老师注意查收。";
+            $data['keyword1'] = "九月份工资发放事宜";
             /* $data['keyword2'] = "\n面试时间：$lesson_time_str "
                               ."\n面试账号：$phone"
                               ."\n面试密码：123456"
                               ."\n年级科目 : ".$grade_str."".$subject_str;*/
-            $data['keyword2'] ="hahahah";
+            $data['keyword2'] ="10月13日发放";
             $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "请查阅邮件(报名时填写的邮箱),准备好耳机和话筒,并在面试开始前5分钟进入软件,理优教育致力于打造高水平的教学服务团队,期待您的加入,加油!";
+            $data['remark']   = "以上感谢老师的理解，预祝老师节日快乐！";
             $url = "";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxEFnaJL_QgRXD69Bj088hXM",$template_id,$data,$url);
+            // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxGZQHlRENGlUeA7Tn1nSeII",$template_id,$data,$url);
         }
         return $this->output_succ();
 
