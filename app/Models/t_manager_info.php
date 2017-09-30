@@ -429,7 +429,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url,$desc="点击进入管理系统操作"  ) {
+    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url="",$desc="点击进入管理系统操作"  ) {
         $account=$this->get_account($adminid);
         \App\Helper\Utils::logger("SEND TODO MSG: $account ");
 

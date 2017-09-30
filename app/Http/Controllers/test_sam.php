@@ -37,7 +37,7 @@ class test_sam  extends Controller
         foreach ($warning_list_new as $key => $value) {
           $userlist .= ','.$value['userid'];
         }
-        $userlist = trim(',',$userlist);
+        $userlist = trim($userlist,',');
         dd($userlist);
 
         $end_time = strtotime(date('Y-m-d'),time()); //
