@@ -396,6 +396,8 @@ class url_power_map {
 			'/user_manage/ass_archive'	=>1131400,
 			'/user_manage/user_info_by_month'	=>1136000,
 			'/seller_student/ass_add_student_list'	=>1131200,
+			'/seller_student_new2/get_ass_tran_to_seller_detail_info'	=>1131600,
+			'/seller_student_new2/get_ass_tran_to_seller_detail_info_leader'	=>1131700,
 			'/seller_student_new2/get_ass_test_lesson_info_master'	=>1131100,
 			'/seller_student_new2/get_ass_test_lesson_info_leader'	=>1131300,
 			'/seller_student_new2/get_from_ass_tran_lesson_info_master'	=>1131500,

@@ -2803,20 +2803,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
-    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid){
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid){
         $where_arr=[
             ["n.add_time>=%u",$add_time,0],
             ["s.assistantid=%u",$assistantid,-1],
+            ["c.campus_id=%u",$campus_id,-1],
+            ["na.groupid=%u",$groupid,-1],
             "s.is_test_user=0",
             "s.origin_assistantid>0",
             "mm.account_role=1",
             "(n.admin_revisiterid=0 or m.account_role=2)"
         ];
-        $sql = $this->gen_sql_new("select s.nick,mm.name ass_nick,n.add_time,m.account,"
+        if($leader_flag==1){
+            $where_arr[]=["na.master_adminid =%u",$account_id,-1];
+        }
+        $sql = $this->gen_sql_new("select if(s.nick='',s.realname,s.nick) nick,mm.name ass_nick,n.add_time,m.account,"
                                   ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
                                   ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
-                                  ."cc.campus_name seller_campus_name,"
-                                  ." na.group_name "
+                                  ."cc.campus_name seller_campus_name,aa.nick ass_name,"
+                                  ." na.group_name,s.userid "
                                   ." from %s s left join %s n on s.userid = n.userid"
                                   ." left join %s mm on s.origin_assistantid=mm.uid"
                                   ." left join %s aa on s.assistantid = aa.assistantid"
@@ -2831,7 +2836,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s nna on uu.groupid = nna.groupid"
                                   ." left join %s ann on nna.up_groupid = ann.groupid"
                                   ." left join %s cc on ann.campus_id = cc.campus_id "
-                                  ." where %s group by s.userid",
+                                  ." where %s group by s.userid order by n.add_time desc",
                                   self::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,

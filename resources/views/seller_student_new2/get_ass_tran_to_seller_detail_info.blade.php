@@ -25,6 +25,31 @@
                         <input id="id_assistantid"  /> 
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">校区</span>
+                        <select class="opt-change form-control" id="id_campus_id" >
+                            <option value="-1">全部</option>
+                            @foreach($campus_list as $v)
+                                <option value="{{$v["campus_id"]}}">{{$v["campus_name"]}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">小组</span>
+                        <select class="opt-change form-control" id="id_groupid" >
+                            <option value="-1">全部</option>
+                            @foreach($groupid_list as $v)
+                                <option value="{{$v["groupid"]}}">{{$v["group_name"]}}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+
+
                
             </div>
         </div>

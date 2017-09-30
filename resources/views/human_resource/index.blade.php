@@ -190,11 +190,11 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >新入职培训</span>
+                        <span >入职流程完成</span>
                         <select id="id_train_through_new" class ="opt-change" >
                             <option value="-1">全部</option>
-                            <option value="0">未通过</option>
-                            <option value="1">已通过</option>
+                            <option value="0">未完成</option>
+                            <option value="1">已完成</option>
                         </select>
                     </div>
                 </div>
