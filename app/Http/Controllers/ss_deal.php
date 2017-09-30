@@ -154,6 +154,17 @@ class ss_deal extends Controller
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
                 $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
+
+            $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
+            $nick = $this->t_student_info->get_nick($userid);
+            $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+            if($opt_type==0 && $account_role==1 && $origin_assistantid>0){
+                $phone = $this->t_manager_info->get_phone($opt_adminid);
+                $ass_account = $this->t_manager_info->get_account($origin_assistantid);
+                $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+                $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+
+            }
         }
 
         return $this->output_succ();
