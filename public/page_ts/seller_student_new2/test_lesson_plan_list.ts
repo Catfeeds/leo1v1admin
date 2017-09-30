@@ -2728,6 +2728,9 @@ $(function(){
         });
     }
 
-    download_hide();
+  //  download_hide();
+    $(".fa-download").hide();
+    $(".page-opt-show-all-xls").hide();
+
 
 });
