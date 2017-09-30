@@ -16,8 +16,8 @@ class warning_overtime extends Controller
     //每分钟刷新，获取7*24*3600（7天前）的对应分钟内的超时信息
     public function add_overtime() {
         $now = strtotime( date("Y-m-d H:i:00", time()) );
-        $start_time = $now - 7*24*3600;
-        $end_time   = $start_time - 60;
+        $end_time = $now - 7*24*3600;
+        $start_time   = $end_time - 60;
         $ret_list   = $this->t_revisit_info->get_overtime_by_now($start_time, $end_time);
         dd($ret_list);
 
