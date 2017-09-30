@@ -809,6 +809,10 @@ class seller_student_new2 extends Controller
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_adminid_2_nick");
  
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        $master_flag=1;
+        return $this->pageView(__METHOD__, $ret_info,[
+            "master_flag"  =>$master_flag
+        ]);
+
     }
 }
