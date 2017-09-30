@@ -2812,16 +2812,42 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "mm.account_role=1",
             "(n.admin_revisiterid=0 or m.account_role=2)"
         ];
-        $sql = $this->gen_sql_new("select s.nick,a.nick ass_nick,n.add_time,m.account,"
+        $sql = $this->gen_sql_new("select s.nick,mm.name ass_nick,n.add_time,m.account,"
                                   ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
-                                  ." n.sub_assign_adminid_2 "
+                                  ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
+                                  ."cc.campus_name seller_campus_name,"
+                                  ." na.group_name "
                                   ." from %s s left join %s n on s.userid = n.userid"
                                   ." left join %s mm on s.origin_assistantid=mm.uid"
-                                  ." left join %s a on s.assistantid = a.assistantid"
-                                  ." left join %s m on n.admin_revisiterid = m.uid",
+                                  ." left join %s aa on s.assistantid = aa.assistantid"
+                                  ." left join %s m on n.admin_revisiterid = m.uid"
                                   ." left join %s o on s.userid = o.userid and"
                                   ." o.contract_type in (0,3) and o.contract_status>0"
-                                  ." where %s group by s.userid"
+                                  ." left join %s u on s.origin_assistantid = u.adminid"
+                                  ." left join %s na on u.groupid = na.groupid"
+                                  ." left join %s an  on na.up_groupid = an.groupid"
+                                  ." left join %s c on an.campus_id = c.campus_id "
+                                  ." left join %s uu on   n.admin_revisiterid= uu.adminid"
+                                  ." left join %s nna on uu.groupid = nna.groupid"
+                                  ." left join %s ann on nna.up_groupid = ann.groupid"
+                                  ." left join %s cc on ann.campus_id = cc.campus_id "
+                                  ." where %s group by s.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  $where_arr
         );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 }
