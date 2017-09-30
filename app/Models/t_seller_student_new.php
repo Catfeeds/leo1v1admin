@@ -738,6 +738,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."where " 
             ."o.contract_type = 0 and o.contract_status > 0 "
             ."and s.is_test_user = 0 "
+            ." group by o.userid "
             ."order by ss.add_time";
         return $this->main_get_list_by_page($sql,$page_num,$page_count,true);
     }
