@@ -136,7 +136,7 @@
                                         <td> {{@$arr['person_num_thirty']}}</td> 
                                         <td> {{@$arr['person_num_thirty_per']}}</td> 
                                         <td> {{@$arr['contract_per']}} </td> 
-                                        <td> {{@$arr['kpi_per']}}% </td> 
+                                        <td> {{@$arr['month_kpi_per']}}% </td> 
                                         <td> {{@$arr['cr_num']}}</td> 
                                         <td class="panel-yellow" > {{@$arr['finish_num']}}</td> 
                                         <td> {{@$arr['refund_num']}}</td> 

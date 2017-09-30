@@ -1174,9 +1174,9 @@ class tongji2 extends Controller
         }elseif($is_history_data === 2){
             $cur_start   = strtotime(date('Y-m-01',$start_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
+            $start_month = date("Y-m",$start_time);
+            $end_month   = date("Y-m",$end_time);
             if($opt_date_type == 2){ //周报
-                $start_month = date("Y-m",$start_time);
-                $end_month   = date("Y-m",$end_time);
                 if($start_month == $end_month){ //周报
                     $type = 2;
                     $start_time = $start_time + 86400;
@@ -1198,6 +1198,7 @@ class tongji2 extends Controller
             //节点
             //概况
             $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+            $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
@@ -1216,7 +1217,6 @@ class tongji2 extends Controller
             }else{
                 $arr['gap_money'] = 0;  //缺口金额
             }
-
             if($arr['total_price']){
                 $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);
             }else{
@@ -1228,15 +1228,19 @@ class tongji2 extends Controller
                 $arr['person_num_thirty_per'] = 0;
             }
 
+
+            //month_kpi_per  
+
             if($arr['target']){
                 $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
+                $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target'],2);
             }else{
                 $arr['kpi_per'] = 0;
+                $arr['month_kpi_per'] = 0;
             }
             //课时消耗
             $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量,上课学生数
             $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
-
             $arr['lesson_consume'] = round($lesson_consume['total_consume']/100,2);
             $arr['teacher_leave'] = 0;
             $arr['student_leave'] = 0;
@@ -1252,7 +1256,6 @@ class tongji2 extends Controller
                     $arr['other_leave'] += round($value['num']/100,2);
                 }
             }
-
             //续费
             $arr['total_renew'] = round($ret_total['total_renew']/100,2); //续费金额
             $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
@@ -1286,7 +1289,7 @@ class tongji2 extends Controller
             $arr['wait_num'] = $kk['wait_num'];
 
             //存档data
-            $ret_info = $this->t_cr_week_month_info->get_data_by_type($start_time,$type);
+            $ret_info = $this->t_cr_week_month_info->get_data_by_type($end_time,$type);
             $arr['finish_num']         = $ret_info['finish_num'];//结课学员数
             $arr['lesson_target']      = $ret_info['lesson_target'];//课时系数目标量
             $arr['read_num']           = $ret_info['read_num']; //在读学生数量
@@ -1295,17 +1298,15 @@ class tongji2 extends Controller
             $arr['student_arrive']     = $ret_info['student_arrive'];//学生到课数量
             $arr['lesson_plan']        = $ret_info['lesson_plan'];//排课数量
             $arr['lesson_income']      = $ret_info['lesson_income'];//课时收入
-
             $arr['expect_finish_num']  = $ret_info['expect_finish_num'];//预计结课学生数量
             $arr['plan_renew_num']     = $ret_info['plan_renew_num'];//计划内续费学生数量
             $arr['other_renew_num']    = $ret_info['other_renew_num'];//计划外续费学生数量
             $arr['real_renew_num']     = $ret_info['real_renew_num'];//实际续费学生数量
-
             $arr['renew_per']          = $ret_info['renew_per'];//月续费率
             $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
-
             $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
-            $arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率   
+            $arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
+ 
             return $this->pageView(__METHOD__,null,["arr"=>$arr]);
         }
     }
