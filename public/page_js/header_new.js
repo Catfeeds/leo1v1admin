@@ -451,7 +451,3 @@ function bind_td_info($table){
 
 }
 
-function download_hide(){
-    $(".fa-download").hide();
-    $(".page-opt-show-all-xls").hide();
-}

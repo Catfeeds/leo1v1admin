@@ -2691,6 +2691,13 @@ var get_new_whiteboard = function (obj_drawing_list){
     return ret;
 };
 
+//下载隐藏
+function download_hide(){
+    $(".fa-download").hide();
+    $(".page-opt-show-all-xls").hide();
+}
+
+
 
 
 //countly_log("管理平台");

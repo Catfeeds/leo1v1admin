@@ -223,6 +223,23 @@ $(function(){
  
     });
 
+    $(".show_phone").on("click",function(){
+        
+        var phone = $(this).data("phone");
+       
+        BootstrapDialog.alert({
+            title: "数据",
+            message:phone ,
+            closable: true,
+            callback: function(){
+                
+            }
+
+        }); 
+        
+    });
+
+    download_hide();
 	$('.opt-change').set_input_change_event(load_data);
 });
 

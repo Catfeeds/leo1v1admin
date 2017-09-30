@@ -889,7 +889,7 @@ class human_resource extends Controller
 
             $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
 
-            $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
+            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
             if(!empty($item["freeze_adminid"])){
                 $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
             }else{
@@ -3866,6 +3866,7 @@ class human_resource extends Controller
                 @$item["textbook"] .=  E\Eregion_version::get_desc ($val).",";
             }
             $item["textbook"] = trim($item["textbook"],",");
+            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
 
 
         }

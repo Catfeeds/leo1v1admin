@@ -1404,6 +1404,7 @@ class tongji_ss extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Eset_boolean::set_item_value_str($item,"success_flag");
+            $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -1484,6 +1485,11 @@ class tongji_ss extends Controller
         foreach($ret_info["list"] as $id => &$item){
             E\Emain_type::set_item_value_str($item);
             $item['id'] = $start_index+$id;
+            $item['call_time_long'] = isset($item['call_time_long'])?$item['call_time_long']:0;
+            $hour = floor($item['call_time_long']/3600);
+            $min = floor($item['call_time_long']%3600/60);
+            $sec = floor($item['call_time_long']%3600%60);
+            $item['call_time_long'] = $hour.'时'.$min.'分'.$sec.'秒';
         }
 
         return $this->pageView(__METHOD__,$ret_info,["adminid_right"=>$adminid_right]);

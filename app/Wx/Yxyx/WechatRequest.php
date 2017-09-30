@@ -268,10 +268,14 @@ class WechatRequest  {
      * @return array
      */
     public static function eventSubscribe(&$request){
-
-
         $wx_config= \App\Helper\Config::get_config("yxyx_wx");
         $base_url=$wx_config["url"];
+        $t_agent = new \App\Models\t_agent();
+        $agent = $t_agent->get_agent_info_by_openid($request['fromusername']);
+        $phone = '';
+        if(isset($agent['phone'])){
+            $phone = $agent['phone'];
+        }
         $content =
             self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
@@ -289,9 +293,9 @@ class WechatRequest  {
 
 推广材料：
 点击下方蓝字，将内容转发给好友或朋友圈
-<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】</a>
-<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】</a>
-<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_leo-Introduction/index.html'>【理优简介】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_BoutiqueContent/index.html?p_phone='".$phone."&wx_openid=".$request['fromusername'].">【精品内容】</a>
+<a href='http://wx-yxyx-web.leo1v1.com/wx_yxyx_student_feedback/index.html?wx_openid='".$request['fromusername'].">【学员反馈】</a>
 
 点击蓝字:<a href='http://www.leo1v1.com/market-l/index.html'>预约试听课</a>";
         $_SESSION['wx_openid'] = $request['fromusername'];
