@@ -228,6 +228,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
             ." t1.pre_from_orderno ,t1.from_orderno,t1.pre_pay_time,t1.pre_price"
+            // ." ,if(co.child_order_type = 2, 1, 0) is_staged_flag "
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
             ." left join %s t3 on t1.sys_operator = t3.account "
@@ -238,7 +239,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m on t2.ass_master_adminid = m.uid"
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
-            ." where %s  order by $order_by_str ",
+            ." where %s order by $order_by_str ",
+            // ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
+            // ." where %s group by t1.orderid order by $order_by_str ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -249,6 +252,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
+            // t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
@@ -2179,7 +2183,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
-        ,$spec_flag=-1, $orderid=-1
+        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false
     ){
         $where_arr=[];
         if($orderid>=0){
@@ -2189,21 +2193,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         }elseif( $config_courseid>0 ){
             $where_arr=[["config_courseid=%u",$config_courseid,-1]];
         }else{
-            $where_arr=[
-                ["is_test_user=%u" , $is_test_user, -1],
-                ["check_money_flag=%u" , $check_money_flag, -1],
-                ["stu_from_type=%u" , $stu_from_type, -1],
-                ["t1.grade=%u" , $grade, -1],
-                ["t1.subject=%u" , $subject, -1],
-                ["need_receipt=%u" , $need_receipt, -1],
-                ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
-                ["l.teacherid=%u" , $teacherid, -1],
-            ];
+            if($show_son_flag){//查看下级的
+                $where_arr=[
+                    ["is_test_user=%u" , $is_test_user, -1],
+                    ["check_money_flag=%u" , $check_money_flag, -1],
+                    ["stu_from_type=%u" , $stu_from_type, -1],
+                    ["t1.grade=%u" , $grade, -1],
+                    ["t1.subject=%u" , $subject, -1],
+                    ["need_receipt=%u" , $need_receipt, -1],
+                    ["l.teacherid=%u" , $teacherid, -1],
+                ];
+            }else{
+                $where_arr=[
+                    ["is_test_user=%u" , $is_test_user, -1],
+                    ["check_money_flag=%u" , $check_money_flag, -1],
+                    ["stu_from_type=%u" , $stu_from_type, -1],
+                    ["t1.grade=%u" , $grade, -1],
+                    ["t1.subject=%u" , $subject, -1],
+                    ["need_receipt=%u" , $need_receipt, -1],
+                    ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
+                    ["l.teacherid=%u" , $teacherid, -1],
+                ];
+            }
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
+			if ($order_activity_type != -1 ) {
+				$sub_where_arr =[
+					["order_activity_type=%u", $order_activity_type , -1 ],
+					"succ_flag=1"
+				];
+            	$this->where_arr_add_time_range($sub_where_arr,$opt_date_str,$start_time,$end_time);
+		
+				$where_arr[]= $this->gen_sql_new(
+					"t1.orderid in (select s_o.orderid  from %s s_o join %s soa  on s_o.orderid=soa.orderid where %s)   ", self::DB_TABLE_NAME, 
+					t_order_activity_info::DB_TABLE_NAME,  
+					$sub_where_arr );
+			}
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
@@ -2261,7 +2289,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." t1.from_key,t1.from_url,"
             ." contract_type,contract_status,invoice,is_invoice, "
             ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
-            ." contract_endtime,t1.grade,t1.lesson_total,price,discount_price,discount_reason,"
+            ." contract_endtime,t1.grade,t1.lesson_total,t1.price,discount_price,discount_reason,"
             ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
             ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
             ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
@@ -2270,7 +2298,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
-            ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno "
+            ." t2.ass_master_adminid,m.account master_nick, pdf_url ,pre_price, pre_pay_time, pre_from_orderno, "
+            ." if(co.child_order_type=2,1,0) is_staged_flag"
             ." from %s t1 "
             ." left join %s t2 on t1.userid = t2.userid "
             ." left join %s t3 on t1.sys_operator = t3.account "
@@ -2281,7 +2310,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m on t2.ass_master_adminid = m.uid"
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
+            ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
             ." where %s "
+            ." group by t1.orderid "
             ." order by $order_by_str ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
@@ -2293,6 +2324,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
+            t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10);

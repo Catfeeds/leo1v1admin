@@ -253,7 +253,6 @@ class main_page extends Controller
                 $ret_info['stu_consume_rate'] = 0;
             }
 
-            // dd($ret_info);
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
@@ -275,6 +274,12 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        if($start_time == 1504195200){//9月,9.1-10.2
+            $end_time = 1506960000;
+        }
+        if($start_time == 1506787200){//10月,10.3-10.31
+            $start_time = 1506960000;
+        }
         $adminid=$this->get_account_id();
 
         //判断top25,排课情况每月40
@@ -322,7 +327,7 @@ class main_page extends Controller
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
-
+        
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
         $groupid =$this->get_in_int_val("groupid",-1);
@@ -504,6 +509,18 @@ class main_page extends Controller
             $all_money_ass += $val["all_price"];
         }
         #dd($assistant_renew);exit;
+
+        // $ass_adminid = $this->get_account_id();
+        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0
+        ];
+        // foreach($warning_count as $item){
+        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        // }
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
             "end_time" => $end_time_date,
@@ -515,7 +532,8 @@ class main_page extends Controller
             "all_money_ass"=>$all_money_ass,
             "lesson_all"   =>$lesson_all,
             "user_all"     =>$user_all,
-            "xs"           =>$xs
+            "xs"           =>$xs,
+            "warning"      => $warning_type_num
         ]);
 
     }

@@ -1071,6 +1071,7 @@ class user_manage_new extends Controller
                     $item["pre_status"]="定金未支付";
                 }
             }
+            // $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [
@@ -3510,10 +3511,9 @@ class user_manage_new extends Controller
         $adminid_right        = $this->get_seller_adminid_and_right();
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
 
-        $one = strtotime('yesterday');
+        $one = strtotime('today');
         $two = $one - 86400*5;
         $three = $one - 86400*7;
-
 
         $this->t_revisit_info->switch_tongji_database();
         $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
@@ -3542,10 +3542,6 @@ class user_manage_new extends Controller
             E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
             E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
         }
-        // if ($warning_type_flag != 1) {
-        //     $ret_info['list'] = \App\Helper\Utils::warning_type_filter($ret_info['list'], $warning_type_flag);
-        // }
-        // dd($warning_count);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid_right" => $adminid_right,

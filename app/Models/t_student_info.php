@@ -1289,7 +1289,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){
-                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
+                if($account_role==1){
+                    $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                }
             }
             $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
             $master_list=[];

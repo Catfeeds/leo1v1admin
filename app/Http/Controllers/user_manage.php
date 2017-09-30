@@ -568,6 +568,7 @@ class user_manage extends Controller
         $assistantid       = $this->get_in_assistantid(-1);
         $from_key          = $this->get_in_str_val('from_key');
         $from_url          = $this->get_in_str_val('from_url');
+        $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -575,6 +576,25 @@ class user_manage extends Controller
         $show_yueyue_flag = false;
         if ($account == "yueyue" || $account == "jim") {
             $show_yueyue_flag = true;
+        }
+
+        $show_son_flag = false;
+        if(count($require_adminid_list)>0){//查看下级人员的
+            $adminid = $this->get_account_id();
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list,$require_adminid_arr);
+            if(count($intersect)>0){
+                $show_son_flag = true;
+                $show_yueyue_flag = true;
+                $require_adminid_list = $intersect;
+            }
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
@@ -587,9 +607,8 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
-            , $spec_flag,$orderid
+            , $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -662,6 +681,7 @@ class user_manage extends Controller
             } else {
                 $item['status_color'] = 'color:green';
             }
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         $acc = $this->get_account();
@@ -714,6 +734,7 @@ class user_manage extends Controller
 
             //删除子合同
             $this->t_child_order_info->del_contract($orderid);
+            $this->t_order_activity_info->del_by_orderid($orderid);
         }
 
         return outputjson_ret($ret);
