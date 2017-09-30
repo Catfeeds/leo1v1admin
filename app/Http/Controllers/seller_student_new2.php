@@ -795,4 +795,12 @@ class seller_student_new2 extends Controller
         ]);
 
     }
+
+    public function get_ass_tran_to_seller_detail_info(){
+        $add_time = strtotime("2017-09-01");
+        $page_info = $this->get_in_page_info();
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid);
+        dd($ret_info);
+    }
 }
