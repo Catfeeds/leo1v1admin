@@ -18,6 +18,7 @@
                     <td>teacherid </td>
                     <td>老师</td>
                     <td>wxid</td>                                                                      
+                    <td>标识</td>                                                                      
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["wx_openid"]}} </td>
+                        <td class="fff"></td>
                        
                        
                                               
