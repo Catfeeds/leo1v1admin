@@ -809,13 +809,16 @@ class seller_student_new2 extends Controller
         $groupid = $this->get_in_int_val("groupid",-1);
         $leader_flag = $this->get_in_int_val("leader_flag",0);
         $account_id = $this->get_account_id();
-        $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id);
+        $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time","_str");          
             \App\Helper\Utils::unixtime2date_for_item($item, "ass_assign_time","_str");
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_1","sub_assign_adminid_1_nick");
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_adminid_2_nick");
+            if(!$item["nick"]){
+                $item["nick"]="无名";
+            }
  
         }
         $master_flag=1;

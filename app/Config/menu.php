@@ -594,6 +594,8 @@ class menu{
                 ["power_id"=>14, "name"=>"学员档案-全部",   "url"=>"/user_manage/ass_archive"],
                 ["power_id"=>60, "name"=>"每月学员科目统计",   "url"=>"/user_manage/user_info_by_month"],
                 ["power_id"=>12, "name"=>"转介绍例子",   "url"=>"/seller_student/ass_add_student_list"],
+                ["power_id"=>16, "name"=>"转介绍例子-主管",   "url"=>"/seller_student_new2/get_ass_tran_to_seller_detail_info"],
+                ["power_id"=>17, "name"=>"转介绍例子-组长",   "url"=>"/seller_student_new2/get_ass_tran_to_seller_detail_info_leader"],
                 ["power_id"=>11, "name"=>"试听课跟进-主管",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_master"],
                 ["power_id"=>13, "name"=>"试听课跟进-组长",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_leader"],
                 ["power_id"=>15, "name"=>"转介绍试听跟进-主管", "url"=>"/seller_student_new2/get_from_ass_tran_lesson_info_master"],

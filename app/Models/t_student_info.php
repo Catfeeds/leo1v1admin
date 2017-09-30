@@ -2803,10 +2803,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
-    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id){
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid){
         $where_arr=[
             ["n.add_time>=%u",$add_time,0],
             ["s.assistantid=%u",$assistantid,-1],
+            ["c.campus_id=%u",$campus_id,-1],
+            ["na.groupid=%u",$groupid,-1],
             "s.is_test_user=0",
             "s.origin_assistantid>0",
             "mm.account_role=1",
@@ -2834,7 +2836,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s nna on uu.groupid = nna.groupid"
                                   ." left join %s ann on nna.up_groupid = ann.groupid"
                                   ." left join %s cc on ann.campus_id = cc.campus_id "
-                                  ." where %s group by s.userid order by n.add_time",
+                                  ." where %s group by s.userid order by n.add_time desc",
                                   self::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
