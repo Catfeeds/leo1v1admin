@@ -326,13 +326,18 @@ class agent extends Controller
     }
 
     public function check(){
-        $a = ['a'=>1,'b'=>2];
-        $b = 1;
-        if($b == 1){
-            // dd('a');
-            $a['c'] = 3;
-        }
-        dd($a);
+        list($start_time,$end_time)=[1504195200,1506787200];
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        //$adminid_right  = $this->get_seller_adminid_and_right();
+        $adminid_right  =  [];//$this->get_seller_adminid_and_right();
+        $adminid_all  = [];
+
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $ret_info=$this->t_test_lesson_subject_require->require_count_seller($start_time, $end_time,$adminid_list,$adminid_all);
+
+        $set_lesson_list= $this->t_test_lesson_subject_require->tongin_set_lesson_time_info($start_time,$end_time,$adminid_list,$adminid_all );
+        \App\Helper\Common::merge_row_data($ret_info["list"] ,$set_lesson_list ,"adminid");
     }
 
 
