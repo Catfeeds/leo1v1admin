@@ -1606,7 +1606,7 @@ class ajax_deal2 extends Controller
          * 日期：{{keyword3.DATA}}
          * {{remark.DATA}}
          */
-        $teacherid = 240314;
+        //$teacherid = 240314;
         $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
         if($wx_openid){
             $data=[];
