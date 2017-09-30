@@ -78,7 +78,7 @@ class test_sam  extends Controller
         }
         if($arr['target']){
             $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);//3-完成率
-            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target'],2);
+            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']/100,2);
         }else{
             $arr['kpi_per'] = 0;
             $arr['month_kpi_per'] = 0;
@@ -175,7 +175,7 @@ class test_sam  extends Controller
         //扩科
         $month_kk          = $this->t_test_lesson_subject_sub_list->tongji_kk_data(strtotime($end_month),$end_time) ;
         $month_success_num = $this->t_test_lesson_subject_sub_list->tongji_success_order(strtotime($end_month),$end_time);
-        $arr['month_total_test_lesson_num'] = $kk['total_test_lesson_num'];                 //E1-扩课试听数量
+        $arr['month_total_test_lesson_num'] = $month_kk['total_test_lesson_num'];                 //E1-扩课试听数量
         $arr['month_success_num'] = $month_success_num;                                           //E2-扩课成单数量
         if($arr['month_total_test_lesson_num']){
           $arr['kk_success_per'] = round(100*$arr['month_success_num']/$arr['month_total_test_lesson_num'],2);//E5-月扩课成功率
