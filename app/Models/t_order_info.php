@@ -2254,9 +2254,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"origin_userid", $origin_userid);
 
             if ($has_money ==0) {
-               $where_arr[]="price=0" ;
+               $where_arr[]="t1.price=0" ;
             }else if ($has_money ==1) {
-               $where_arr[]="price>0" ;
+                $where_arr[]="t1.price>0" ;
             }
             $where_arr[]=$this->where_get_in_str("m2.uid", $require_adminid_list );
         }

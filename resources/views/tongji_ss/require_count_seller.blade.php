@@ -54,7 +54,7 @@
                         <td >{{@$var["set_lesson_count"]}}</td>
                         <td >{{@$var["call_count"]}}</td>
                         <td >{{@$var["is_called_count"]}}</td>
-                        <td >{{@$var["call_long_time"]}}</td>
+                        <td >{{@$var["call_time_long"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

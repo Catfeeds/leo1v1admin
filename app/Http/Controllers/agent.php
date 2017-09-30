@@ -326,6 +326,13 @@ class agent extends Controller
     }
 
     public function check(){
+        $item['call_time_long'] = 3620;
+        $hour = floor($item['call_time_long']/3600);
+        $min = floor($item['call_time_long']%3600/60);
+        $sec = floor($item['call_time_long']%3600%60);
+        $item['call_time_long'] = $hour.'时'.$min.'分'.$sec.'秒';
+        dd($item['call_time_long']);
+
         list($start_time,$end_time)=[1504195200,1506787200];
         $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
         $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
