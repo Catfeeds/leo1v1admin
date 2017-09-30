@@ -568,6 +568,7 @@ class user_manage extends Controller
         $assistantid       = $this->get_in_assistantid(-1);
         $from_key          = $this->get_in_str_val('from_key');
         $from_url          = $this->get_in_str_val('from_url');
+        $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -587,7 +588,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
-            , $spec_flag,$orderid
+            , $spec_flag,$orderid ,$order_activity_type
         );
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;

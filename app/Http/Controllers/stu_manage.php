@@ -215,7 +215,8 @@ class stu_manage extends Controller
 
         $this->t_student_info->field_update_list($this->sid,[
             "assistantid"     => $assistantid,
-            "ass_assign_time" => time()
+            "ass_assign_time" => time(),
+            "type"            => 0
         ]);
 
         $this->t_lesson_info->set_user_assistantid( $this->sid,$assistantid  );

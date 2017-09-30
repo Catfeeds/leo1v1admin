@@ -13,6 +13,7 @@ function load_data(){
         grade             : $('#id_grade').val(),
         subject           : $('#id_subject').val(),
         contract_type     : $("#id_contract_type").val(),
+        order_activity_type : $("#id_order_activity_type").val(),
         contract_status   : $("#id_contract_status").val(),
         studentid         : $("#id_studentid").val(),
         test_user         : $("#id_test_user").val(),
@@ -41,6 +42,7 @@ function isNumber( s ){
 
 $(function(){
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
+    Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
     Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
@@ -66,6 +68,7 @@ $(function(){
 	  $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
     $("#id_contract_type").val(g_args.contract_type);
+    $("#id_order_activity_type").val(g_args.order_activity_type );
     $("#id_contract_status").val(g_args.contract_status);
     $("#id_test_user").val(g_args.test_user);
     $("#id_studentid").val(g_args.studentid);
