@@ -2803,7 +2803,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_value($sql);
     }
 
-    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid){
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id){
         $where_arr=[
             ["n.add_time>=%u",$add_time,0],
             ["s.assistantid=%u",$assistantid,-1],
@@ -2812,6 +2812,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "mm.account_role=1",
             "(n.admin_revisiterid=0 or m.account_role=2)"
         ];
+        if($leader_flag==1){
+            $where_arr[]=["na.master_adminid =%u",$account_id,-1];
+        }
         $sql = $this->gen_sql_new("select s.nick,mm.name ass_nick,n.add_time,m.account,"
                                   ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
                                   ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
