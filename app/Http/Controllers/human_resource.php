@@ -3866,7 +3866,7 @@ class human_resource extends Controller
                 @$item["textbook"] .=  E\Eregion_version::get_desc ($val).",";
             }
             $item["textbook"] = trim($item["textbook"],",");
-            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
+            $item["phone_ex"] = preg_replace('/(1[3456789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
 
 
         }
