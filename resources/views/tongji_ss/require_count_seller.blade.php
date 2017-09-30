@@ -36,9 +36,9 @@
                     <td>成员 </td>
                     <td>申请数 </td>
                     <td>排课数</td>
-                    <td>月拨打次数</td>
-                    <td>月拨通次数</td>
-                    <td>月通话时长</td>
+                    <td>拨打次数</td>
+                    <td>拨通次数</td>
+                    <td>通话时长</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -54,7 +54,7 @@
                         <td >{{@$var["set_lesson_count"]}}</td>
                         <td >{{@$var["call_count"]}}</td>
                         <td >{{@$var["is_called_count"]}}</td>
-                        <td >{{@$var["call_long_time"]}}</td>
+                        <td >{{@$var["call_time_long"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
