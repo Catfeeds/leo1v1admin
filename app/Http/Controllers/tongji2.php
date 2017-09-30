@@ -1227,10 +1227,6 @@ class tongji2 extends Controller
             }else{
                 $arr['person_num_thirty_per'] = 0;
             }
-
-
-            //month_kpi_per  
-
             if($arr['target']){
                 $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
                 $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target'],2);
