@@ -1171,7 +1171,7 @@ class tongji2 extends Controller
             }
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
             return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
-        }else{
+        }elseif($is_history_data === 2){
             $cur_start   = strtotime(date('Y-m-01',$start_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
             if($opt_date_type == 2){ //周报
@@ -1186,6 +1186,12 @@ class tongji2 extends Controller
                     $start_time = strtotime($end_month);
                     $end_time = $end_time + 86400;
                 }
+            }elseif($opt_date_type == 3){
+
+            }else{
+                $arr = [];
+                $arr['create_time_range'] = "不在统计时间段内";
+                return $this->pageView(__METHOD__,null,["arr"=>$arr]);
             }
             $arr = [];
             $arr['create_time_range'] = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
