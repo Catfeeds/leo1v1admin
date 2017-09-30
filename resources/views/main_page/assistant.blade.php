@@ -62,7 +62,7 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
-                <div  class="col-xs-6 col-md-4">
+                <div  class="col-xs-6 col-md-4 hide">
                     <input id="id_revisit_warning_type" style="display:none;" />
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-one">{{$warning['warning_type_one']}}</button>
                     <button type="button" class="btn btn-default opt-warning-type" id="warning-two">{{$warning['warning_type_two']}}</button>
