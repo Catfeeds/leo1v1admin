@@ -795,4 +795,20 @@ class seller_student_new2 extends Controller
         ]);
 
     }
+
+    public function get_ass_tran_to_seller_detail_info(){
+        $add_time = strtotime("2017-09-01");
+        $page_info = $this->get_in_page_info();
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid);
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time","_str");          
+            \App\Helper\Utils::unixtime2date_for_item($item, "ass_assign_time","_str");
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_1","sub_assign_adminid_1_nick");
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_adminid_2_nick");
+ 
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
 }
