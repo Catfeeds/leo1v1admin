@@ -2954,7 +2954,8 @@ class user_manage_new extends Controller
         $start_time         = strtotime($start_date);
         $end_time           = strtotime($end_date);
 
-        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        //$lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        $lesson_price = 0;
 
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
