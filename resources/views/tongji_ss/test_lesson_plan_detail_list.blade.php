@@ -96,7 +96,7 @@
                     <tr>
                         <td>{{$var["lesson_start"]}} </td>
                         <td>{{$var["nick"]}} </td>
-                        <td>{{$var["phone"]}} </td>
+                        <td>{{$var["phone_ex"]}} </td>
                         <td>{{$var["set_lesson_admin_nick"]}} </td>
                         <td>{{$var["require_admin_nick"]}} </td>
                         <td>{{$var["teacher_nick"]}} </td>
