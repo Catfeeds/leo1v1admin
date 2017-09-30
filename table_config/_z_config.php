@@ -42,6 +42,7 @@ return array(
     ["db_weiyi","t_cs_intended_user_info", "id"],
     ["db_weiyi","t_cs_complaint_user_info", "id"],
     ["db_weiyi","t_cs_proposal_info", "id"],
+    //    ["db_weiyi","t_cr_week_month_info","id"],
     ["db_weiyi","t_requirement_info", "id"],
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
     ["db_weiyi","t_child_order_info", "child_orderid"],
