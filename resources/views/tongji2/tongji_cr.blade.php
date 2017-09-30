@@ -118,12 +118,12 @@
                                     <tr>
                                         <td>现金总收入</td>
                                         <td>下单总人数</td>
-                                        <td class="panel-red">入职完整月人员签单额</td>
-                                        <td class="panel-red">入职完整月人员人数</td>
-                                        <td class="panel-red">平均人效</td>
-                                        <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月KPI完整率</td>
-                                        <td class="panel-red">CR总人数</td>
+                                        <td>入职完整月人员签单额</td>
+                                        <td>入职完整月人员人数</td>
+                                        <td>平均人效</td>
+                                        <td>平均单笔</td>
+                                        <td>月KPI完整率</td>
+                                        <td>CR总人数</td>
                                         <td>结课学员数</td>
                                         <td>退费总人数</td>
                                     </tr>
@@ -208,9 +208,9 @@
                                         <td>计划外续费学生数量</td>
                                         <td>实际续费学生数量</td>
                                         <td>续费金额</td>
-                                        <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月续费率</td>
-                                        <td class="panel-red">月预警续费率</td>
+                                        <td>平均单笔</td>
+                                        <td>月续费率</td>
+                                        <td>月预警续费率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
@@ -240,12 +240,12 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td class="panel-red">转介绍至CC例子量</td>
-                                        <td class="panel-red">转介绍至CC例子签单量</td>
-                                        <td class="panel-red">转介绍至CC例子签单金额</td>
-                                        <td class="panel-red">月转介绍至CC签单率</td>
-                                        <td class="panel-red">转介绍成单数量</td>
-                                        <td class="panel-red">转介绍总金额</td>
+                                        <td>转介绍至CC例子量</td>
+                                        <td>转介绍至CC例子签单量</td>
+                                        <td>转介绍至CC例子签单金额</td>
+                                        <td>月转介绍至CC签单率</td>
+                                        <td>转介绍成单数量</td>
+                                        <td>转介绍总金额</td>
                                         <td>平均单笔</td>
                                     </tr>
                                 </thead>
@@ -280,7 +280,7 @@
                                         <td>扩课成单数量</td>
                                         <td>扩科待跟进数量</td>
                                         <td>扩科未成单数量</td>
-                                        <td class="panel-red">月扩课成功率</td>
+                                        <td>月扩课成功率</td>
                                     </tr>
                                 </thead>
                                 <tbody >
