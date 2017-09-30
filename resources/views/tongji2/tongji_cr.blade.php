@@ -173,7 +173,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                         <tr>
-                                            <td class="panel-yellow" > 存档</td>
+                                            <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
                                             <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
                                             <td class="panel-yellow" > {{@$arr['total_student']}} </td>
                                             <td> 节点</td>
@@ -215,14 +215,14 @@
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
                                         <tr>
-                                            <td class="panel-blue">  漏斗-存档</td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
+                                            <td class="panel-blue">  {{@$arr['expect_finish_num']}}</td> 
+                                            <td class="panel-blue">  {{@$arr['plan_renew_num']}}  </td> 
+                                            <td class="panel-blue">  {{@$arr['other_renew_num']}} </td> 
+                                            <td class="panel-blue">  {{@$arr['real_renew_num']}}  </td> 
                                             <td>{{@$arr['total_renew']}}</td> 
                                             <td>{{@$arr['renew_num_per']}}</td>
-                                            <td class="panel-blue">  漏斗-存档 </td>
-                                            <td class="panel-blue">  漏斗-存档 </td>
+                                            <td class="panel-blue">  {{@$arr['renew_per']}} </td>
+                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}} </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -254,7 +254,7 @@
                                             <td class="panel-green"> {{@$arr['tranfer_phone_num']}}  </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_price']}} </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_num']}}</td>
-                                            <td class="panel-blue">  漏斗-存档  </td>
+                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>
                                             <td>{{@$arr['tranfer_num_per']}}</td>
@@ -289,7 +289,7 @@
                                         <td class="panel-green">  {{@$arr['success_num']}}</td>
                                         <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
                                         <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
-                                        <td class="panel-blue">  漏斗-存档 </td> 
+                                        <td class="panel-blue">  {{@$arr['kk_success_per']}} </td> 
 
                                     </tr>
                                 </tbody>
