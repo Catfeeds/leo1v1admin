@@ -1150,8 +1150,33 @@ class tongji2 extends Controller
 
     public function tongji_cr(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $opt_date_type = $this->get_in_int_val("opt_date_type");
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $is_history_data = $this->get_in_int_val('history',1);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",2);
+        if($is_history_data === 1){//历史记录
+            if($opt_date_type == 3){ //月报
+                $type = 1;
+                $create_time = $start_time;
+            }elseif($opt_date_type == 2){ //周报
+                //                $start_month =
+                $start_month = date("Y-m",$start_time);
+                $end_month   = date("Y-m",$end_time);
+                if($start_month == $end_month){ //周报
+                    $type = 2;
+                    $create_time = $start_time + 86400;
+                }else{//跨月报
+                    $type = 3;
+                    $create_time = strtotime($end_month);
+                }
+            }
+            $arr = [];
+            $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+        }else{
+
+        }
+       
+
+
         $arr = [];
         //节点
         //概况

@@ -31,6 +31,8 @@ class test_sam  extends Controller
 
 
     public function  tt(){
+        $time = strtotime("2017-09");
+        dd($time);
         $start_time = 1504195200;
         $end_time = 1506787200;
       //存档------------------------------------------------
@@ -45,7 +47,7 @@ class test_sam  extends Controller
         $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
         $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
         $arr['tranfer_total_num']   = $tranfer_data['total_num'];
-        
+          
         $arr['finish_num'] = $finish_num;
         $arr['read_num']   = $read_num;
         //$arr['total_student'] = $lesson_consume['total_student']; //实际有效课时

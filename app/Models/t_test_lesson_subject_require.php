@@ -1178,14 +1178,20 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_all);
         $sql=$this->gen_sql_new(
-            "select  cur_require_adminid  as adminid,   count(*) as require_count "
+            "select  m.account,tr.cur_require_adminid  as adminid,count(*) as require_count,"
+            ."count(tq.id) call_count,(count(if(tq.is_called_phone,tq.id,0))-1) is_called_count,"
+            ."sum(tq.end_time-tq.start_time) call_long_time"
             ."  from %s tr   "
             ."  left join  %s t   on t.test_lesson_subject_id=tr.test_lesson_subject_id  "
             ."  left join  %s s   on t.userid=s.userid"
-            ." where  %s group by cur_require_adminid   ",
+            ."  left join  %s m   on m.uid=tr.cur_require_adminid"
+            ."  left join  %s tq  on tq.uid=m.tquin"
+            ." where  %s group by tr.cur_require_adminid   ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){

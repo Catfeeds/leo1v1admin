@@ -61,10 +61,20 @@
     <section class="content " id="id_content" style="max-width:1200px;">
         <div>
             <div class="row">
-                <div class="col-xs-12 col-md-5">
+                <div class="col-xs-12 col-md-4">
                     <div id="id_date_range" >
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">历史记录</span>
+                    <select class="opt-change form-control" id="id_is_history_data">
+                        <option value="1" >是</option>
+                        <option value="2" >否</option>
+                    </select>
+                </div>
+            </div>
             </div>
             <hr/>      
 
