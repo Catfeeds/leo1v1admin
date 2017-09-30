@@ -428,7 +428,7 @@
                         <td>{{@$var["level_str"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
                         <td>
-                            @if($account_role!=3)
+                            @if($account_role)
                                 <a href="javascript:;" class="show_phone" data-phone="{{$var["phone_spare"]}}" >
                                     {{@$var["phone_ex"]}}
                                 </a>
