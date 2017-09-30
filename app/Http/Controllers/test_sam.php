@@ -32,6 +32,13 @@ class test_sam  extends Controller
 
     public function  tt(){
         //every week
+        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
+        $userlist = '';
+        foreach ($warning_list_new as $key => $value) {
+          $userlist = $userlist .',';
+        }
+        $userlist = trim(',',$userlist);
+        dd($userlist);
 
         $end_time = strtotime(date('Y-m-d'),time()); //
         $start_time = $end_time - 7 * 86400;
@@ -48,7 +55,6 @@ class test_sam  extends Controller
             $create_time = $end_time;//
         }else{//跨月报
             $type = 3;
-            $start_time  = strtotime($end_month);
             $create_time = $end_time;
         }
 
@@ -182,16 +188,12 @@ class test_sam  extends Controller
         }else{
           $arr['kk_success_per'] = 0;
         }
-        dd($arr);
+
         $this->t_cr_week_month_info->row_insert([
-            "teacherid"    =>$teacherid,
-            "type"         =>$type,
-            "record_info"  =>$record_info,
-            "add_time"     =>$add_time,
-            "acc"          =>$acc,
+            
         ]);
         $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
-
+        dd($arr);
         dd($arr);
     }
 }
