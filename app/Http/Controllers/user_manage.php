@@ -578,6 +578,25 @@ class user_manage extends Controller
             $show_yueyue_flag = true;
         }
 
+        if(count($require_adminid_list)>0){//查看下级人员的
+            $adminid = $this->get_account_id();
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            // dd($require_adminid_list,$require_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list,$require_adminid_arr);
+            if(count($intersect)>0){
+                $show_yueyue_flag = true;
+                $require_adminid_list = $intersect;
+            }
+        }
+
+
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
         $ret_list = $this->t_order_info->get_order_list_require_adminid(
             $page_num,$start_time,$end_time,$contract_type,
