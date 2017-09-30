@@ -802,16 +802,13 @@ class seller_student_new2 extends Controller
 
     }
     public function get_ass_tran_to_seller_detail_info(){
-        $add_time = strtotime("2017-09-01");
+        $add_time = strtotime("2017-08-01");
         $page_info = $this->get_in_page_info();
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $campus_id = $this->get_in_int_val("campus_id",-1);
         $groupid = $this->get_in_int_val("groupid",-1);
         $leader_flag = $this->get_in_int_val("leader_flag",0);
         $account_id = $this->get_account_id();
-        if($account_id==349){
-            $account_id=702;
-        }
         $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");

@@ -2815,7 +2815,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if($leader_flag==1){
             $where_arr[]=["na.master_adminid =%u",$account_id,-1];
         }
-        $sql = $this->gen_sql_new("select s.nick,mm.name ass_nick,n.add_time,m.account,"
+        $sql = $this->gen_sql_new("select if(s.nick='',s.realname,s.nick) nick,mm.name ass_nick,n.add_time,m.account,"
                                   ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
                                   ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
                                   ."cc.campus_name seller_campus_name,aa.nick ass_name,"
@@ -2834,7 +2834,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s nna on uu.groupid = nna.groupid"
                                   ." left join %s ann on nna.up_groupid = ann.groupid"
                                   ." left join %s cc on ann.campus_id = cc.campus_id "
-                                  ." where %s group by s.userid",
+                                  ." where %s group by s.userid order by n.add_time",
                                   self::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
