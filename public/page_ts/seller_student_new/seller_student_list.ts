@@ -1608,8 +1608,9 @@ function init_edit() {
     $("#id_new_no_called_count").on("click",function(){
         init_and_reload(function(now){
             $.filed_init_date_range( 4,  0, now-86400*60 ,  now);
-            $('#id_seller_student_status').val(0);
-            $("#id_seller_resource_type").val(0);
+            // $('#id_seller_student_status').val(0);
+            // $("#id_seller_resource_type").val(0);
+            $("#id_tq_called_flag").val(0);
         });
     });
     $("#id_tmk_new_no_called_count").on("click",function(){
