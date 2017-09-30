@@ -337,7 +337,6 @@ class agent extends Controller
         $ret_info=$this->t_test_lesson_subject_require->require_count_seller($start_time, $end_time,$adminid_list,$adminid_all);
 
         $set_lesson_list= $this->t_test_lesson_subject_require->tongin_set_lesson_time_info($start_time,$end_time,$adminid_list,$adminid_all );
-        dd($ret_info,$set_lesson_list);
         \App\Helper\Common::merge_row_data($ret_info["list"] ,$set_lesson_list ,"adminid");
     }
 
