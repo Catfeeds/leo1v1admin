@@ -27,6 +27,7 @@ interface GargsStatic {
 	assistantid:	number;
 	from_key:	string;
 	from_url:	string;
+	order_activity_type:	number;//\App\Enums\Eorder_activity_type
 	spec_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
@@ -111,6 +112,7 @@ interface RowData {
 	pre_price	:any;
 	pre_pay_time	:any;
 	pre_from_orderno	:any;
+	is_staged_flag	:any;
 	is_new_stu_str	:any;
 	grade_str	:any;
 	stu_from_type_str	:any;
@@ -130,6 +132,7 @@ interface RowData {
 	pre_money_info	:any;
 	promotion_spec_is_not_spec_flag_str	:any;
 	status_color	:any;
+	is_staged_flag_str	:any;
 }
 
 /*
@@ -169,10 +172,12 @@ $(function(){
 			assistantid:	$('#id_assistantid').val(),
 			from_key:	$('#id_from_key').val(),
 			from_url:	$('#id_from_url').val(),
+			order_activity_type:	$('#id_order_activity_type').val(),
 			spec_flag:	$('#id_spec_flag').val()
         });
     }
 
+	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
 	Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
     $('#id_date_range').select_date_range({
@@ -206,6 +211,7 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
+	$('#id_order_activity_type').val(g_args.order_activity_type);
 	$('#id_spec_flag').val(g_args.spec_flag);
 
 
@@ -361,6 +367,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">from_url</span>
                 <input class="opt-change form-control" id="id_from_url" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_activity_type</span>
+                <select class="opt-change form-control" id="id_order_activity_type" >
+                </select>
             </div>
         </div>
 
