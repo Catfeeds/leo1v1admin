@@ -83,6 +83,9 @@
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
                             月度目标
+                            @if($arr['create_time_range'])
+                                <br/>统计时段({{@$arr['create_time_range']}})
+                            @endif
                         </div>
                         <div class="panel-body">
 
