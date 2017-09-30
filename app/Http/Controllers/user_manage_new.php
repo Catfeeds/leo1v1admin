@@ -3517,8 +3517,8 @@ class user_manage_new extends Controller
         $three = $one - 86400*7;
 
         $this->t_revisit_info->switch_tongji_database();
-        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
-        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
         // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
 
         $warning_type_num = [
@@ -3527,7 +3527,7 @@ class user_manage_new extends Controller
             'warning_type_three' =>0,
         ];
         // foreach($warning_count as $item){
-        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+            // \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         // }
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");

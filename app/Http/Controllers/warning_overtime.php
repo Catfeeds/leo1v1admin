@@ -26,6 +26,7 @@ class warning_overtime extends Controller
                     'revisit_time' => $item['revisit_time'],
                     'sys_operator' => $item['sys_operator'],
                     'create_time'  => time(),
+                    'deal_time'    => 0,
                     'deal_type'    => 0
                 ]);
             }
