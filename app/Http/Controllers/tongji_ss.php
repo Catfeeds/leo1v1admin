@@ -1404,6 +1404,7 @@ class tongji_ss extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Eset_boolean::set_item_value_str($item,"success_flag");
+            $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
         }
 
         return $this->pageView(__METHOD__,$ret_info);
