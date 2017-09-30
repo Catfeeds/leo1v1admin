@@ -2802,4 +2802,26 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
+
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid){
+        $where_arr=[
+            ["n.add_time>=%u",$add_time,0],
+            ["s.assistantid=%u",$assistantid,-1],
+            "s.is_test_user=0",
+            "s.origin_assistantid>0",
+            "mm.account_role=1",
+            "(n.admin_revisiterid=0 or m.account_role=2)"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,a.nick ass_nick,n.add_time,m.account,"
+                                  ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
+                                  ." n.sub_assign_adminid_2 "
+                                  ." from %s s left join %s n on s.userid = n.userid"
+                                  ." left join %s mm on s.origin_assistantid=mm.uid"
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." left join %s m on n.admin_revisiterid = m.uid",
+                                  ." left join %s o on s.userid = o.userid and"
+                                  ." o.contract_type in (0,3) and o.contract_status>0"
+                                  ." where %s group by s.userid"
+        );
+    }
 }
