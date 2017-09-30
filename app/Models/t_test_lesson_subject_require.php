@@ -870,7 +870,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_admin_type=2",
             "is_test_user=0",
         ];
-        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
