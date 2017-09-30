@@ -8025,11 +8025,12 @@ class tongji_ss extends Controller
         $end_time = strtotime("2017-10-01");
         //$list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
         $list = $this->t_teacher_info->get_teacher_openid_list_new();
+        $list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
         // dd($list);
      
 
         // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
-        foreach($list["list"] as &$item){
+        foreach($list["list"] as $k=>&$item){
             /* if($item['grade_start']>0){
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
                     ."-".E\Egrade_range::get_desc($item['grade_end']);
