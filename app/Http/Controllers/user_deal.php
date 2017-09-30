@@ -2712,6 +2712,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        
         $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new("助教,,,");
 
         // $adminid_list_ex = $this->t_admin_group_name->get_adminid_list_by_main_type(1);

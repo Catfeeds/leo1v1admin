@@ -3105,7 +3105,7 @@ trait TeaPower {
        
         $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
-            $orderNo=123456789;
+            $orderNo=726749100101;
         }
 
         $arrParams = array(
