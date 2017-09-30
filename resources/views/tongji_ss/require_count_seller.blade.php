@@ -52,9 +52,9 @@
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
                         <td >{{@$var["require_count"]}}</td>
                         <td >{{@$var["set_lesson_count"]}}</td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
+                        <td >{{@$var["call_count"]}}</td>
+                        <td >{{@$var["is_called_count"]}}</td>
+                        <td >{{@$var["call_long_time"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
