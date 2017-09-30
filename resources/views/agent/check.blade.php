@@ -253,6 +253,15 @@
                         <input class="opt-change form-control" id="id_suc_test_count" />
                     </div>
                 </div>
+                
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">负责人联系次数</span>
+                        <input class="opt-change form-control" id="id_call_count" />
+                    </div>
+                </div>
+
+
 
             </div>
 
@@ -342,6 +351,7 @@
                         <td >科目</td>
                         <td >是否有pad</td>
                         <td >负责人</td>
+                        <td >负责人联系次数</td>
                         <td >TMK负责人</td>
                         <td >抢单人/时间</td>
                         <td style="display:none" >试听申请人</td>
@@ -414,10 +424,15 @@
                             <td>
                                 {{$var["has_pad_str"]}} <br/>
                             </td>
+                            
 
                             <td>
                                 {{$var["sub_assign_admin_2_nick"]}} / {{$var["admin_revisiter_nick"]}}
                                 <br/>
+                            </td>
+                            
+                            <td>
+                                {{$var["call_count"]}} <br/>
                             </td>
 
                             <td>
@@ -464,5 +479,4 @@
         </table>
         @include("layouts.page")
     </section>
-
 @endsection
