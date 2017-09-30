@@ -206,10 +206,10 @@ class user_deal extends Controller
             $confirm_reason = "";
         }
 
-        $tea_attend = $this->t_lesson_info->get_tea_attend($lessonid);
+        /* $tea_attend = $this->t_lesson_info->get_tea_attend($lessonid);
         if($tea_attend>0 && $confirm_flag==2){
             return $this->output_err("老师已进入课堂,不能取消课程");
-        }
+            }*/
         $lesson_confirm_start_time = \App\Helper\Config::get_lesson_confirm_start_time();
         $lesson_info  = $this->t_lesson_info->get_all_lesson_info($lessonid);
         $lesson_start = $lesson_info['lesson_start'];
