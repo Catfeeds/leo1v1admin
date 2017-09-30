@@ -735,9 +735,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."left join db_weiyi_admin.t_manager_info m on  ss.admin_revisiterid =m.uid  "
             ."left join db_weiyi.t_agent a on  a.userid =ss.userid  "
             ."left join db_weiyi.t_agent aa on  aa.id =a.parentid  "
-            ."where add_time>=1496246400 and add_time<1498838400 " 
-            ."and o.contract_type = 0 and o.contract_status > 0 "
+            ."where " 
+            ."o.contract_type = 0 and o.contract_status > 0 "
             ."and s.is_test_user = 0 "
+            ."group by o.userid "
             ."order by ss.add_time";
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
     }
