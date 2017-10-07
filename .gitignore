@@ -1,6 +1,7 @@
 app/Enums/*.php
 app/Models/Zgen/*
 app/Models/.*
+docker/dbdata/
 app/Http/Controllers/ControllerEx.php
 app/Http/Controllers/.*
 app/Http/Controllers/ControllerEnums.php
