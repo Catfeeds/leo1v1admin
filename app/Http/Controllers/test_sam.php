@@ -273,7 +273,7 @@ class test_sam  extends Controller
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围
           "type"                    => $type,                   //存档类型
-          "target"                  => $arr['target'],          //1-月度目标收入
+          "target"                  => intval($arr['target']),  //1-月度目标收入
           "total_price"             => $arr['total_price'],     //2-完成金额
           "kpi_per"                 => intval($arr['kpi_per']*100), //3-完成率
           "gap_money"               => $arr['gap_money'],       //4-缺口金额
@@ -283,7 +283,7 @@ class test_sam  extends Controller
           "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
           "person_num_thirty_per"   => intval($arr['person_num_thirty_per']*100),//A5-平均人效
-          "contract_per"            => $arr['contract_per'],     //A6-平均单笔
+          "contract_per"            => intval($arr['contract_per']),//A6-平均单笔
           "month_kpi_per"           => intval($arr['month_kpi_per']*100),//A7-月KPI完整率(月初至今)
           "cr_num"                  => $arr['cr_num'],           //A8-CR总人数
           "finish_num"              => $arr['finish_num'],       //A9-结课学员数///存档
