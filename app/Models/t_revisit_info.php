@@ -168,10 +168,9 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
 
     public function get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type){
 
-        $now   = time();
-        $one   = $now - 86400;
-        $two   = $now - 86400*5;
-        $three = $now - 86400*7;
+        $one   = time();
+        $two   = $one - 86400*5;
+        $three = $one - 86400*7;
         if ($revisit_warning_type == 1) {
             $where_arr = [
                 "is_warning_flag=1",
