@@ -329,6 +329,7 @@ class testbb extends Controller
             t_field($table->integer("claim_num"),"已认领");
             t_field($table->integer("has_called_stu"),"已拨打例子量[月例子消耗率]");
             t_field($table->integer("new_stu"),"本月新进例子数");
+
             t_field($table->integer("cc_call_time"),"cc总计通话时长");
 
         });
