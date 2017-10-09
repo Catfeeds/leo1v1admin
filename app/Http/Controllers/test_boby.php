@@ -522,9 +522,9 @@ class test_boby extends Controller
 
         if($start !=0 ) {
 
-            $sql = " select ss.phone,if(max(tq.start_time) >0,1,0) as call_flag,max(tq.is_called_phone) as call_succ,p.wx_openid,if(tl.test_lesson_subject_id >0,1,0) as test_flag,l.lesson_user_online_status,o.orderid  from t_seller_student_new ss left join db_weiyi_admin.t_tq_call_info tq on tq.phone = ss.phone and tq.admin_role=2 left join t_parent_child pc on pc.userid=ss.userid left join t_parent_info p on p.parentid=pc.parentid left join t_test_lesson_subject tl on tl.userid=ss.userid  left join t_test_lesson_subject_require tr on tr.test_lesson_subject_id =tl.test_lesson_subject_id  left join t_test_lesson_subject_sub_list tsl on tsl.require_id = tr.require_id   left join t_lesson_info l on l.lessonid=tsl.lessonid  left join t_order_info o on o.userid=ss.userid and o.contract_type=0 and o.pay_time>0 and o.contract_status >0  where ss.add_time >= $start_time and ss.add_time < $end_time group by ss.phone";
+            $sql = " select ss.phone,if(max(tq.start_time) >0,1,0) as call_flag,max(tq.is_called_phone) as call_succ,p.wx_openid,if(tsl.lessonid >0,1,0) as test_flag,l.lesson_user_online_status,o.orderid  from t_seller_student_new ss left join db_weiyi_admin.t_tq_call_info tq on tq.phone = ss.phone and tq.admin_role=2 left join t_parent_child pc on pc.userid=ss.userid left join t_parent_info p on p.parentid=pc.parentid left join t_test_lesson_subject tl on tl.userid=ss.userid  left join t_test_lesson_subject_require tr on tr.test_lesson_subject_id =tl.test_lesson_subject_id  left join t_test_lesson_subject_sub_list tsl on tsl.require_id = tr.require_id   left join t_lesson_info l on l.lessonid=tsl.lessonid  left join t_order_info o on o.userid=ss.userid and o.contract_type=0 and o.pay_time>0 and o.contract_status >0  where ss.add_time >= $start_time and ss.add_time < $end_time group by ss.phone";
             $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
-            $th_arr = ['电话','ｃｃ是否拨打','是否打通','是否绑定微信','是否排试听课','试听是否成功','是否签单'];
+            $th_arr = ['电话','ｃｃ是否拨打(1是，０，否)','是否打通(0,否；１，是)','是否绑定微信（为空则未绑定）','是否排试听课','试听是否成功','是否签单'];
             $s = $this->table_start($th_arr);
 
             foreach ($ret_info as $item ) {
