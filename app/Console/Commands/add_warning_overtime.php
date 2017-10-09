@@ -67,7 +67,6 @@ class add_warning_overtime extends Command
             'deal_type'    => 0
         ]);
 
-
     }
 
 }
