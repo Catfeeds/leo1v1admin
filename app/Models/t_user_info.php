@@ -59,6 +59,7 @@ class t_user_info extends \App\Models\Zgen\z_t_user_info
         }
 
     }
+
     public function check_login_userid($phone, $passwd, $role = \App\Enums\Erole::V_TEACHER  )
     {
         $sql = $this->gen_sql("select p.userid ".
@@ -69,4 +70,5 @@ class t_user_info extends \App\Models\Zgen\z_t_user_info
                        $phone, $passwd, $role );
         return $this->main_get_value( $sql  );
     }
+
 }

@@ -273,23 +273,61 @@ class test_sam  extends Controller
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围
           "type"                    => $type,                   //存档类型
-          "target"                  => $arr['target'],          //1-月度目标收入
+          "target"                  => intval($arr['target']),  //1-月度目标收入
           "total_price"             => $arr['total_price'],     //2-完成金额
-          "kpi_per"                 => $arr['kpi_per']*100,     //3-完成率
+          "kpi_per"                 => intval($arr['kpi_per']*100), //3-完成率
           "gap_money"               => $arr['gap_money'],       //4-缺口金额
 
           "total_income"            => $arr['total_income'],    //A1-现金总收入
           "person_num"              => $arr['person_num'],      //A2-下单总人数
           "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
-          "person_num_thirty_per"   => $arr['person_num_thirty_per']*100,//A5-平均人效
-          "contract_per"            => $arr['contract_per'],     //A6-平均单笔
-          "month_kpi_per"           => $arr['month_kpi_per'],    //A7-月KPI完整率(月初至今)
+          "person_num_thirty_per"   => intval($arr['person_num_thirty_per']*100),//A5-平均人效
+          "contract_per"            => intval($arr['contract_per']),//A6-平均单笔
+          "month_kpi_per"           => intval($arr['month_kpi_per']*100),//A7-月KPI完整率(月初至今)
+          "cr_num"                  => $arr['cr_num'],           //A8-CR总人数
+          "finish_num"              => $arr['finish_num'],       //A9-结课学员数///存档
+          "refund_num"              => $arr['refund_num'],       //A10-退费总人数
 
+          "read_num"                => $arr['read_num'],         //B2-在读学生数量
+          "total_student"           => $arr['total_student'],    //B3-上课学生数量
+
+          "lesson_consume"          => intval($arr['lesson_consume']*100),//B5-课时消耗实际数量
+          "teacher_leave"           => intval($arr['teacher_leave']*100),//B6-老师请假课时
+          "student_leave"           => intval($arr['student_leave']*100),//B7-学生请假课时
+          "other_leave"             => intval($arr['other_leave']*100),  //B8-其他原因未上课时
+
+          "student_arrive"          => $arr['student_arrive'],   //学生到课数量
+          "lesson_plan"             => $arr['lesson_plan'],      //排课数量
+          "student_arrive_per"      => intval($arr['student_arrive_per']*100),//B10-学生到课率
+          "lesson_income"           => intval($arr['lesson_income']*100),//B11-课时收入
+
+          "expect_finish_num"       => $arr['expect_finish_num'],//C1-预计结课学生数量
+          "plan_renew_num"          => $arr['plan_renew_num'],   //C2-计划内续费学生数量
+          "other_renew_num"         => $arr['other_renew_num'],  //C3-计划外续费学生数量
+          "real_renew_num"          => $arr['real_renew_num'],   //C4-实际续费学生数量
+          "total_renew"             => intval($arr['total_renew']*100),  //C5-续费金额
+          "renew_num_per"           => intval($arr['renew_num_per']*100),//C6-续费平均单笔
+          "renew_per"               => intval($arr['renew_per']*100),    //C7-月续费率
+          "finish_renew_per"        => intval($arr['finish_renew_per']*100),//C8-月预警续费率
+
+          "tranfer_phone_num"       => $arr['tranfer_phone_num'],//D1-转介绍至CC例子量
+          "tranfer_total_price"     => intval($arr['tranfer_total_price']*100), //D2-转介绍至CC例子签单金额
+          "tranfer_total_num"       => $arr['tranfer_total_num'], //D3-转介绍至CC例子签单量
+          "tranfer_success_per"     => intval($arr['tranfer_success_per']*100),//D4-月转介绍至CC签单率
+          "tranfer_num"             => $arr['tranfer_num'],       //D5-转介绍成单数量
+          "total_tranfer"           => intval($arr['total_tranfer']*100), //D6-转介绍总金额
+          "tranfer_num_per"         => intval($arr['tranfer_num_per']*100),//D7- 转介绍平均单笔
+
+          "total_test_lesson_num"   => $arr['total_test_lesson_num'],//E1-扩课试听数量
+          "success_num"             => $arr['success_num'],       //E2-扩课成单数量
+          "wait_num"                => $arr['wait_num'],          //E3-扩科待跟进数量
+          "fail_num"                => $arr['fail_num'],          //E4-扩科未成单数量
+          "kk_success_per"          => intval($arr['kk_success_per']*100),    //E5-月扩课成功率
+
+          "student_list"            => $arr['student_list'],      //预警学员列表
         ];
-        echo "<pre>";
-        var_dump($insert_data);
-        echo "</pre>";
-        dd($arr);
+        dd($insert_data);
     }
 }
+
