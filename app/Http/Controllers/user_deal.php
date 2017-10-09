@@ -2713,6 +2713,9 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
        
+        $month = strtotime("2017-09-01");        
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($month);
+        dd($ass_month);
         $assign_lesson  = 0;
         if($item['lesson_ratio_month'] < $lesson_target){
             $assign_lesson = 0;
@@ -2754,7 +2757,6 @@ class user_deal extends Controller
 
         dd(111);
 
-        $month = strtotime("2017-01-01");        
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
         $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
         for($i=0;$i<=7;$i++){
