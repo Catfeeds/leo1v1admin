@@ -677,8 +677,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
      *@modify:Abner<abner@leo.edu.com>
      *@param:$opt_date_str  按类型统计 [order_time:添加时间check_money_time:财务确认时间]
      */
-    public function get_1v1_order_list( $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],$adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag  =-1,$opt_date_str) {
-
+    public function get_1v1_order_list(
+        $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],
+        $adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag=-1,$opt_date_str=""){
+        if($opt_date_str==""){
+            $opt_date_str = "order_time";
+        }
         $where_arr = [
             ["$opt_date_str>=%u" , $start_time, -1],
             ["$opt_date_str<=%u" , $end_time, -1],
