@@ -32,9 +32,9 @@ class SetTeacherMoney extends Command
 
     /**
      * Execute the console command.
-     * type=1  每周二更新老师荣誉榜
-     * type=2  每天更新兼职老师的试听签单奖励
-     * type=3  每天更新全职老师的试听签单奖励
+     * @param type  1 每周二更新老师荣誉榜
+     2,3 每天更新老师的试听签单奖励
+     * @param day 老师签单奖更新的时间周期
      * @return mixed
      */
     public function handle()
@@ -54,7 +54,7 @@ class SetTeacherMoney extends Command
         if($type==1){
             $task->set_teacher_lesson_total_list();
         }elseif($type==2 || $type==3){
-            $task->set_teacher_trial_success_reward($type);
+            $task->set_teacher_trial_success_reward($type,$day);
         }
     }
 
