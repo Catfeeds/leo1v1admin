@@ -219,10 +219,10 @@ class test_sam  extends Controller
             $warning_list = $this->t_cr_week_month_info->get_student_list_new($type,$start_time);
             $renew_student_list = $this->t_order_info->get_renew_student_list($start_time,$end_time);
 
-            $waring_num = 0;
+            $warning_num = 0;
             if($warning_list != 0){
-                $warning_list = explode(",",$waring_list);
-                $waring_num = empty($warning_list) ? 0 : count($waring_list);
+                $warning_list = explode(",",$warning_list);
+                $warning_num = empty($warning_list) ? 0 : count($warning_list);
             }
             $arr['real_renew_num'] = empty($renew_student_list)?0: count($renew_student_list); //   实际续费学生数量
             if($arr['real_renew_num'] == 0){
@@ -239,15 +239,15 @@ class test_sam  extends Controller
                 }
                 $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
             }
-            $arr['expect_finish_num'] = $waring_num; //预计结课学生数量
+            $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
             //月初至今
             $month_warning_list = $this->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
             $month_renew_student_list = $this->t_order_info->get_renew_student_list(strtotime($end_month),$end_time);
 
-            $month_waring_num = 0;
+            $month_warning_num = 0;
             if($month_warning_list != 0){
                 $month_warning_list = explode(",",$month_warning_list);
-                $month_waring_num = empty($month_warning_list) ? 0 : count($month_warning_list);
+                $month_warning_num = empty($month_warning_list) ? 0 : count($month_warning_list);
             }
             $month_real_renew_num = empty($month_renew_student_list)?0: count($month_renew_student_list); //   实际续费学生数量
             if($month_real_renew_num == 0){
@@ -266,8 +266,8 @@ class test_sam  extends Controller
 
             $month_real_renew_num = empty($month_renew_student_list)?0: count($month_renew_student_list); //  实际续费学生数量
 
-            $arr['renew_per'] = $month_waring_num == 0 ? 0:round(100*$month_real_renew_num/$month_waring_num,2);//  月续费率
-            $arr['finish_renew_per'] = $month_waring_num == 0 ? 0:round(100*$month_plan_renew_num/$month_waring_num,2);//  月续费率
+            $arr['renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_real_renew_num/$month_warning_num,2);//  月续费率
+            $arr['finish_renew_per'] = $month_warning_num == 0 ? 0:round(100*$month_plan_renew_num/$month_warning_num,2);//  月续费率
 
             $insert_data = [
               "create_time"             => $create_time,            //存档时间
