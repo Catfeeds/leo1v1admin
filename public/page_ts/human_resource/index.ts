@@ -1315,6 +1315,26 @@ $(function(){
         });
     }
 
+    var switch_teacher_to_test = function(opt_data){
+        BootstrapDialog.show({
+	          title   : "设置为999开头的测试老师",
+	          message : "是否设置为999开头的测试老师账号?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    
+		            }
+	          }]
+        });
+
+    }
+
     $(".opt-change-level").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_level = $("<select/>");
