@@ -3451,7 +3451,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                         
         //获取分期金额
         $where_arr = [
-            "o.contract_type <> 1",
+            "o.contract_type = 0",
             [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
 
         ];
