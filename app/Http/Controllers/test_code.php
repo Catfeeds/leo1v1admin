@@ -49,6 +49,14 @@ class test_code extends Controller
         return $arr;
     }
 
+    public function get_success_lesson(){
+        $begin_time = strtotime("2016-12-1");
+        $type = 2;
+        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
+        dd($list);
+    }
+
+
     /**
      * 切换工作室渠道的老师工资版本
      adrian
