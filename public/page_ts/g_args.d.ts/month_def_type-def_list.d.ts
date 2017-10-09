@@ -1,5 +1,8 @@
 interface GargsStatic {
-	date_type_config:	string;
+	page_num:	number;
+	page_count:	number;
+	month_def_type:	string;//枚举列表: \App\Enums\Emonth_def_type
+ 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
@@ -18,14 +21,15 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../main_page; vi  ../main_page/teacher_management_info.ts
+	 mkdir -p ../month_def_type; vi  ../month_def_type/def_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page-teacher_management_info.d.ts" />
+/// <reference path="../g_args.d.ts/month_def_type-def_list.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			month_def_type:	$('#id_month_def_type').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -45,6 +49,8 @@ $(function(){
             load_data();
         }
     });
+	$('#id_month_def_type').val(g_args.month_def_type);
+	$.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -54,4 +60,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">month_def_type</span>
+                <input class="opt-change form-control" id="id_month_def_type" />
+            </div>
+        </div>
 */

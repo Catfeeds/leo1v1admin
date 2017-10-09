@@ -86,6 +86,8 @@ class get_ass_stu_info_update extends Command
         // $lesson_count_list_old = $task->t_manager_info->get_assistant_lesson_count_info_old($start_time,$end_time);        
                    
         $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+
+        //续费金额 分期按80%计算,按新方法获取
         $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
         $refund_info = $task->t_order_refund->get_ass_refund_info($start_time,$end_time);
 

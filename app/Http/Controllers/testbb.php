@@ -294,21 +294,34 @@ class testbb extends Controller
             t_field($table->integer("referral_money"),"转介绍合同收入");
             t_field($table->integer("new_money"),"新签合同收入");
             t_field($table->integer("order_num"),"下单总人数");
-            // t_field($table->text("income_info"),"对应人员收入签单额度");
-            t_field($table->integer("cc_num"),"cc入职完整月人数");
             t_field($table->integer("formal_info"),"入职完整月人员收入");
-            t_field($table->integer("formal_num"),"入职完整月人员收入");
-            t_field($table->string("department_num_info"),"销售各部人数信息 json [咨询各部+新人营+培训中]");
-
+            t_field($table->integer("formal_num"),"入职完整月人员人数");
+            t_field($table->integer("seller_target_income"),"销售目标收入");
+            t_field($table->integer("total_num"),"销售合同量");
+            t_field($table->integer("one_department"),"销售一部人数");
+            t_field($table->integer("two_department"),"销售二部人数");
+            t_field($table->integer("three_department"),"销售三部人数");
+            t_field($table->integer("new_department"),"销售新人营人数");
+            t_field($table->integer("train_department"),"销售培训中");
             t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");
             t_field($table->integer("junior_money"),"初中金额");
             t_field($table->integer("primary_money"),"小学金额");
 
+
+
+
             t_field($table->integer("test_invit_num"),"试听邀约数");
             t_field($table->integer("seller_schedule_num"),"试听排课数");
             t_field($table->integer("test_succ_num"),"试听成功数");
-            t_field($table->integer("new_order_num"),"新签合同数");
+            t_field($table->integer("seller_invit_month"),"拨通电话数量[月签约率]");
+            t_field($table->integer("has_tq_succ_invit_month"),"已拨通[月签约率]");
+
+            t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
+            t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
+
+
+
 
             t_field($table->integer("seller_call_num"),"电话呼出量");
             t_field($table->integer("has_called"),"已拨打数量");

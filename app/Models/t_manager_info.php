@@ -1043,6 +1043,35 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
+    //助教续费金额 分期按80%计算
+    public function get_ass_renw_money_new($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] ,
+            ["uid=%u",$adminid,-1],
+            "o.contract_status in (1)" ,
+            "(m.uid <> 68 and m.uid <> 74)",
+            "m.account_role = 1 ",
+            "m.del_flag =0",
+            "o.price >0"
+        ];
+        $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
+        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type in (3,3001),1,0)) renw_num ".
+                                 " from  %s m ".
+                                 " left join %s o on o.sys_operator  = m.account".
+                                 " where %s group by uid",
+                                 self::DB_TABLE_NAME,
+                                 t_order_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+ 
+    }
+
+
     public function get_assistant_jk_stu_info(){
         $sql=$this->gen_sql("select uid,count(userid) jk_num"
                             ." from  %s m left join %s a on m.phone = a.phone"
