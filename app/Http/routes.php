@@ -57,8 +57,11 @@ Route::group(['middleware' => ['web']], function () {
         if ($ctl=="custom") {
             Route::any (  $_REQUEST["_url"] , "custom@index" );
         }else{
-            if (  is_numeric( $act)  ) {
-                dd("无效链接" );
+            if (   !preg_match("/^[a-zA-Z][a-zA-Z0-9_]*$/", $act   )  ) {
+                /*
+                echo ("无效链接" );
+                exit;
+                */
             }
             \App\Helper\Utils::logger( "ROUTE:[".session("acc")."]: ". $_REQUEST["_url"]  );
             Route::any (  $_REQUEST["_url"] , $ctl."@".$act );

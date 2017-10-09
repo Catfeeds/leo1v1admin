@@ -1,11 +1,12 @@
 interface GargsStatic {
-	date_type_config:	string;
+	page_num:	number;
+	page_count:	number;
+	month_def_type:	string;//枚举列表: \App\Enums\Emonth_def_type
+ 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	history_data:	number;
-	seller_groupid_ex:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -15,26 +16,31 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	month_def_type	:any;
+	def_time	:any;
+	start_time	:any;
+	end_time	:any;
+	month_def_type_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../main_page; vi  ../main_page/get_seller_total_info.ts
+	 mkdir -p ../month_def_type; vi  ../month_def_type/list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page-get_seller_total_info.d.ts" />
+/// <reference path="../g_args.d.ts/month_def_type-list.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			month_def_type:	$('#id_month_def_type').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			history_data:	$('#id_history_data').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+			end_time:	$('#id_end_time').val()
         });
     }
 
@@ -49,8 +55,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_history_data').val(g_args.history_data);
-	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_month_def_type').val(g_args.month_def_type);
+	$.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -63,15 +69,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">history_data</span>
-                <input class="opt-change form-control" id="id_history_data" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">seller_groupid_ex</span>
-                <input class="opt-change form-control" id="id_seller_groupid_ex" />
+                <span class="input-group-addon">month_def_type</span>
+                <input class="opt-change form-control" id="id_month_def_type" />
             </div>
         </div>
 */

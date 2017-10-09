@@ -50,12 +50,27 @@ class test_code extends Controller
     }
 
     public function get_success_lesson(){
-        $begin_time = strtotime("2016-12-1");
-        $type = 2;
+        $day  = $this->get_in_int_val("day",30);
+        $type = $this->get_in_int_val("type",2);
+
+        $begin_time = $this->get_begin_time($type,$day);
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
         dd($list);
     }
 
+    public function get_begin_time($type,$day){
+        $begin_time = strtotime("-$day day",time());
+        if($type==2){
+            $check_time = strtotime("2016-12-1");
+        }elseif($type==3){
+            $check_time = strtotime("2017-4-1");
+        }
+
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+        return $begin_time;
+    }
 
     /**
      * 切换工作室渠道的老师工资版本
