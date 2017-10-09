@@ -1328,7 +1328,16 @@ $(function(){
 		            label    : "确认",
 		            cssClass : "btn-warning",
 		            action   : function(dialog) {
-                    
+                    $.do_ajax("/human_resource/switch_teacher_to_test",{
+                        "":
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
 		            }
 	          }]
         });
