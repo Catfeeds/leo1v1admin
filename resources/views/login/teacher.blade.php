@@ -196,6 +196,9 @@
              color:#fff;
          }
         </style>
+        <script>
+         var downflag = '{{$downflag}}';
+        </script>
     </head>
     <body>
         <!-- head-start -->
