@@ -25,6 +25,7 @@ class NewRouteConfig {
         "wx_parent_gift"       => true,
         "lesson_info"       => true,
         "yxyx_wx_server"       => true,
+        "month_def_type" => true,
         "test_luki" => true,
         "o"       => true,
         "wx_yxyx_common"       => true,
