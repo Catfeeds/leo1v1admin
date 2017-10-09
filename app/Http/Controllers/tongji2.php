@@ -1186,10 +1186,14 @@ class tongji2 extends Controller
                     $type = 2;
                     $start_time = $start_time + 86400;
                     $end_time = $end_time + 86400;
+                    $create_time = $end_time ;
+                    $arr = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
                 }else{//跨月报
                     $type = 3;
                     $start_time = $start_time + 86400;
                     $end_time = $end_time + 86400;
+                    $create_time = $end_time ;
+                    $arr = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
                 }
             }elseif($opt_date_type == 3){
                 $type = 1;
