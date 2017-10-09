@@ -621,8 +621,8 @@ class wx_parent_api extends Controller
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             // $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html?lessonid='.$lessonid; //待定
-            $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
-            //$teach http://wx-teacher-web.leo1v1.com/handle-adjust/index.html
+            // $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
+            $teacher_url ="http://wx-parent-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = " 调课申请 ";
             $data['keyword1']   = " 您的学生".$stu_nick."的家长申请修改上课时间";
