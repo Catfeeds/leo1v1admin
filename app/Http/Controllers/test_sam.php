@@ -63,15 +63,19 @@ class test_sam  extends Controller
                 $create_time = $end_time;
                 $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
             } 
-            echo "<pre>";
+           /* echo "<pre>";
             var_dump(date("Y-m-d ",$start_time),date("Y-m-d ",$end_time));
             var_dump($type);
-            echo "</pre>";
+            echo "</pre>";*/
             //节点
 
             //概况
             $ret_total         = $this->t_order_info->get_total_price($start_time,$end_time);
-            $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time); //月初至今
+            if($type == 3){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+            }elseif($type == 1 || $type == 2){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
+            }//月初至今
             $ret_total_thirty  = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
@@ -333,19 +337,19 @@ class test_sam  extends Controller
                 $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
                 if($ret_id>0){
                     $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
-                    echo 2;
+                    //echo 2;
                 }else{
                     $this->t_cr_week_month_info->row_insert($insert_data);
-                    echo 4;
+                    //echo 4;
                 }
             }else if($type == 3){
                 $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time($type,$create_time);
                 if($ret_id>0){
                     $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
-                    echo 1;
+                    //echo 1;
                 }else{
                     $this->t_cr_week_month_info->row_insert($insert_data);
-                    echo 3;
+                    //echo 3;
                 }
             }
 
