@@ -191,7 +191,7 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
-                            老师转化率<a class=" fa fa-download"></a>                        
+                            老师转化率                       
                         </div>
                         <div class="panel-body" style="height:500px; overflow:scroll;">
 

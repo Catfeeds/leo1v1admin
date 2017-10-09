@@ -1329,19 +1329,18 @@ $(function(){
 		            cssClass : "btn-warning",
 		            action   : function(dialog) {
                     $.do_ajax("/human_resource/switch_teacher_to_test",{
-                        "":
+                        "teacherid" : opt_data.teacherid,
+                        "phone"     : opt_data.phone,
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();
                         }else{
                             BootstrapDialog.alert(result.info);
                         }
-                    })
-
+                    });
 		            }
 	          }]
         });
-
     }
 
     $(".opt-change-level").on("click",function(){
@@ -1803,6 +1802,7 @@ $(function(){
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-primary'>设为测试</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
+        var id_switch_teacher_to_test  = $("<button class='btn btn-primary'>一键转为测试老师</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1814,6 +1814,7 @@ $(function(){
         id_set_test_user.on("click",function(){set_test_user(data);});
         id_update_check_subject.on("click",function(){update_tea_check_info(data);});
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
+        id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
 
         var arr = [
             ["",id_subject_info],
@@ -1826,6 +1827,7 @@ $(function(){
             ["",id_set_test_user],
             ["",id_update_check_subject],
             ["",id_update_tea_ref_type],
+            ["",id_switch_teacher_to_test],
         ];
 
         $.show_key_value_table("账号信息修改",arr);
