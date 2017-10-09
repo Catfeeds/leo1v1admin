@@ -82,7 +82,7 @@ class test_sam  extends Controller
             $arr['gap_money'] = 0;  
         }
         if($arr['target']){
-            $arr['kpi_per'] = round($arr['total_price']/$arr['target'],2);//3-完成率
+            $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);//3-完成率
             $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']/100,2);
         }else{
             $arr['kpi_per'] = 0;
@@ -273,7 +273,7 @@ class test_sam  extends Controller
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围
           "type"                    => $type,                   //存档类型
-          "target"                  => $arr['target']*100,      //1-月度目标收入*100
+          "target"                  => $arr['target'],      //1-月度目标收入
           "total_price"             => $arr['total_price'],     //2-完成金额
           "kpi_per"                 => $arr['kpi_per']*100,     //3-完成率
           "gap_money"               => $arr['gap_money'],       //4-缺口金额
