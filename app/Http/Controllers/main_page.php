@@ -2079,11 +2079,11 @@ class main_page extends Controller
         }
 
         \App\Helper\Utils::order_list( $seller_all,"per", 0 );
-        foreach($seller_all as $s=>$v){
+        /* foreach($seller_all as $s=>$v){
             if($s>9){
                 unset($seller_all[$s]);
             }
-        }
+            }*/
 
         //老师
         $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1);
@@ -2102,18 +2102,18 @@ class main_page extends Controller
             $valll["top_per"] = !empty($valll["top_num"])?round($valll["top_order"]/$valll["top_num"]*100,2):0;
             $valll["green_per"] = !empty($valll["green_num"])?round($valll["green_order"]/$valll["green_num"]*100,2):0;
             $valll["normal_per"] = !empty($valll["normal_num"])?round($valll["normal_order"]/$valll["normal_num"]*100,2):0;
-            if($valll["person_num"] <10){
+            /* if($valll["person_num"] <10){
                 unset($tea_all[$kk]);
-            }
+                }*/
 
         }
 
         \App\Helper\Utils::order_list( $tea_all,"per", 0 );
-        foreach($tea_all as $s=>$v){
+        /*foreach($tea_all as $s=>$v){
             if($s>9){
                 unset($tea_all[$s]);
             }
-        }
+            }*/
 
         //教务
         $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2);
