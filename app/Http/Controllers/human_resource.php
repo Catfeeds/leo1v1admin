@@ -3373,7 +3373,8 @@ class human_resource extends Controller
         $this->t_phone_to_user->start_transaction();
         $update_ret = $this->t_phone_to_user->set_phone($new_phone,$role,$userid);
         $tea_ret    = $this->t_teacher_info->field_update_list($userid,[
-            "phone"=>$new_phone,
+            "phone"       => $new_phone,
+            "phone_spare" => $new_phone,
         ]);
 
         if($update_ret && $tea_ret){

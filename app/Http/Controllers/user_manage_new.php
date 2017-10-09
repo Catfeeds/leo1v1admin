@@ -3558,6 +3558,65 @@ class user_manage_new extends Controller
         ] );
     }
 
+    public function ass_revisit_warning_info_new(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $page_num             = $this->get_in_page_num();
+        $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
+        $ass_adminid          = $this->get_in_int_val("ass_adminid",-1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
+
+        //获取组长的所有组员   开发中
+        // if($ass_adminid == -1) {
+        //     $adminid = $this->get_account_id();
+
+        //     $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        // }
+
+
+        $this->t_revisit_info->switch_tongji_database();
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
+            E\Erevisit_type::set_item_value_str($item);
+            E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
+            E\Eset_boolean::set_item_value_str($item,"school_work_change_flag");
+            E\Etea_content_satisfy_flag::set_item_value_str($item,"tea_content_satisfy_flag");
+            E\Eschool_work_change_type::set_item_value_str($item,"school_work_change_type");
+            E\Eschool_score_change_flag::set_item_value_str($item,"school_score_change_flag");
+            E\Eoperation_satisfy_type::set_item_value_str($item,"operation_satisfy_type");
+            E\Etea_content_satisfy_type::set_item_value_str($item,"tea_content_satisfy_type");
+            E\Echild_class_performance_flag::set_item_value_str($item,"child_class_performance_flag");
+            E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
+            E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right" => $adminid_right,
+            "warning"       => $warning_type_num
+        ] );
+    }
+
     public function ass_revisit_warning_info_sub(){
         $this->set_in_value("ass_adminid",$this->get_account_id());
         return $this->ass_revisit_warning_info();

@@ -35,8 +35,8 @@ class test_sam  extends Controller
         $end_time = strtotime(date('Y-m-d'),time()); //
         $start_time = $end_time - 7 * 86400;
 
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
+        $start_time = 1503936000;
+        $end_time   = 1504540800;
         $start_month = date("Y-m",$start_time);
         $end_month   = date("Y-m",$end_time);
 
@@ -45,26 +45,29 @@ class test_sam  extends Controller
         if(date('d',$start_time) == '1' && date('d',$end_time) == '1'){//月报
             $type = 1;
             $create_time = $end_time;
+            $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
         }else if($start_month == $end_month){ //周报
             $type = 2;
             $create_time = $end_time;//
+            $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
         }else{//跨月报
             $type = 3;
             $create_time = $end_time;
-        }
+            $create_time_range = date('Y-m-d H:i:s',strtotime($end_month)).'~'.date('Y-m-d H:i:s',$end_time);
+        } 
 
         var_dump(date("Y-m-d ",$start_time),date("Y-m-d ",$end_time));
         var_dump($type);
         //节点
 
         //概况
-        $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+        $ret_total         = $this->t_order_info->get_total_price($start_time,$end_time);
         $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time); //月初至今
-        $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
+        $ret_total_thirty  = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
-        $arr['target']             = $target;                                //1-续费目标
+        $arr['target']             = $target * 100;                                //1-续费目标
         $arr['total_price']        = $ret_total['total_price'] ;             //2-现金总收入
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
@@ -80,13 +83,13 @@ class test_sam  extends Controller
         }
         if($arr['target']){
             $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);//3-完成率
-            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']/100,2);
+            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']*100,2);
         }else{
             $arr['kpi_per'] = 0;
             $arr['month_kpi_per'] = 0;
         }
         if($arr['total_price']){
-            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);//A6-平均单笔
+            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
         }else{
             $arr['contract_per']   = 0;
         }
@@ -192,13 +195,6 @@ class test_sam  extends Controller
           $arr['kk_success_per'] = 0;
         }
 
-
-        /*        $this->t_cr_week_month_info->row_insert([
-            "create_time"           => $arr['create_time'],
-            "create_time_range"     => $arr['create_time_range'],
-            "type"                  => 2,
-            "target"                => $arr['target'],
-            ]);*/
         if($type==2 ||$type ==3){//周报,跨月周报
             $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
         }else if($type == 1){//月报
@@ -211,7 +207,7 @@ class test_sam  extends Controller
         $student_list = trim($student_list,',');
         $arr['student_list'] = $student_list;
         //续费
-        $warning_list = $this->t_cr_week_month_info->get_student_list($type,$start_time);
+        $warning_list = $this->t_cr_week_month_info->get_student_list_new($type,$start_time);
         $renew_student_list = $this->t_order_info->get_renew_student_list($start_time,$end_time);
 
         $waring_num = 0;
@@ -236,7 +232,7 @@ class test_sam  extends Controller
         }
         $arr['expect_finish_num'] = $waring_num; //预计结课学生数量
         //月初至今
-        $month_warning_list = $this->t_cr_week_month_info->get_student_list(1,$start_time); //月初拉上个月数据
+        $month_warning_list = $this->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
         $month_renew_student_list = $this->t_order_info->get_renew_student_list(strtotime($end_month),$end_time);
 
         $month_waring_num = 0;
@@ -263,6 +259,37 @@ class test_sam  extends Controller
 
         $arr['renew_per'] = $month_waring_num == 0 ? 0:round(100*$month_real_renew_num/$month_waring_num,2);//  月续费率
         $arr['finish_renew_per'] = $month_waring_num == 0 ? 0:round(100*$month_plan_renew_num/$month_waring_num,2);//  月续费率
+
+
+
+
+        /*        $this->t_cr_week_month_info->row_insert([
+            "create_time"           => $arr['create_time'],
+            "create_time_range"     => $arr['create_time_range'],
+            "type"                  => 2,
+            "target"                => $arr['target'],
+            ]);*/
+        $insert_data = [
+          "create_time"             => $create_time,            //存档时间
+          "create_time_range"       => $create_time_range,      //存档时间范围
+          "type"                    => $type,                   //存档类型
+          "target"                  => $arr['target'],          //1-月度目标收入
+          "total_price"             => $arr['total_price'],     //2-完成金额
+          "kpi_per"                 => $arr['kpi_per']*100,     //3-完成率
+          "gap_money"               => $arr['gap_money'],       //4-缺口金额
+
+          "total_income"            => $arr['total_income'],    //A1-现金总收入
+          "person_num"              => $arr['person_num'],      //A2-下单总人数
+          "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
+          "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
+          "person_num_thirty_per"   => $arr['person_num_thirty_per']*100,//A5-平均人效
+          "contract_per"            => $arr['contract_per'],     //A6-平均单笔
+          "month_kpi_per"           => $arr['month_kpi_per'],    //A7-月KPI完整率(月初至今)
+
+        ];
+        echo "<pre>";
+        var_dump($insert_data);
+        echo "</pre>";
         dd($arr);
     }
 }
