@@ -3364,7 +3364,8 @@ class human_resource extends Controller
         $this->set_in_value("phone",$phone);
         $this->set_in_value("new_phone",$new_phone);
         $this->set_in_value("role",E\Erole::V_TEACHER);
-        $this->change_phone();
+        $ret = $this->change_phone();
+        return $ret;
     }
 
     /**

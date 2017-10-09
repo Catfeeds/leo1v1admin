@@ -522,8 +522,8 @@ class login extends Controller
 
     public function teacher() {
         global $_SESSION;
-
-        return $this->pageView(__METHOD__);
+        $download = $this->get_in_str_val('download',-1);
+        return $this->pageView(__METHOD__,[],['downflag' => $download]);
     }
 
 }

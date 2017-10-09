@@ -69,22 +69,24 @@ class t_order_lesson_list extends \App\Models\Zgen\z_t_order_lesson_list
         return $this->main_get_list($sql);
     }
 
-    public function get_all_lesson_money($start_time,$end_time,$teacher_money_type){
+    public function get_all_lesson_money($start_time,$end_time){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
-            // ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            "lesson_type in (0,1,3)",
+            "s.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select sum(price)/100 as all_money  "
-                                  ." from %s ol"
-                                  ." left join %s l on ol.lessonid=l.lessonid"
-                                  // ." left join %s t on l.teacherid=t.teacherid"
+                                  ." from %s l force index(lesson_type_and_start)"
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
+                                  ." left join %s s on l.userid=s.userid"
                                   ." where %s"
-                                  ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  // ,t_teacher_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_value($sql);
     }
 
