@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi_admin","t_ssh_login_log", "id"],
     ["db_weiyi_admin","t_month_def_type","id"],
     ["db_weiyi","t_order_activity_info", "orderid", "subid"],
     ["db_weiyi_admin","t_test_luki", "id"],
