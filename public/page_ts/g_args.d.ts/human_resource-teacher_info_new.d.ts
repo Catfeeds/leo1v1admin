@@ -1,4 +1,9 @@
 interface GargsStatic {
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
 	teacherid:	number;
 	is_freeze:	number;
 	free_time:	string;
@@ -179,6 +184,7 @@ interface RowData {
 	major	:any;
 	hobby	:any;
 	speciality	:any;
+	train_type	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
@@ -213,6 +219,11 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			date_type_config:	$('#id_date_type_config').val(),
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val(),
 			teacherid:	$('#id_teacherid').val(),
 			is_freeze:	$('#id_is_freeze').val(),
 			free_time:	$('#id_free_time').val(),
@@ -230,6 +241,16 @@ $(function(){
     }
 
 
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_is_freeze').val(g_args.is_freeze);
 	$('#id_free_time').val(g_args.free_time);

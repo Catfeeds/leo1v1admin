@@ -404,6 +404,7 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
+                ["power_id"=>82, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
 
                 // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],

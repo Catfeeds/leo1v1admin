@@ -226,6 +226,7 @@
                 <div class="col-xs-3 col-md-1">
                     <div class="input-group ">
                         <button class="btn btn-primary " id="id_add">试听申请</button>
+                        <!-- <button class="btn btn-primary " id="id_add_new">试听申请</button> -->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
@@ -518,6 +519,351 @@
             @include("layouts.page")
         </div>
 
+
+        <div style="display:none;" id="id_dlg_post_user_info_new_two">
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>基本信息&nbsp<font style="color:red">标记红色星号*的为必填内容</font></span>
+                </div>
+                <div class="col-xs-12 col-md-12  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学员姓名：</span>
+                                <input type="text" class=" form-control "  id="id_stu_nick"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">家长姓名：</span>
+                                <input type="text" class=" form-control "  id="id_par_nick"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学生性别：</span>
+                                <select id="id_stu_gender" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学生年级：</span>
+                                <select id="id_stu_grade" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">　　<font style="color:red">*</font>&nbsp科目：</span>
+                                <select id="id_stu_subject" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">在读学校：</span>
+                                <input type="text" id="id_stu_school"  class="form-control"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp教材版本：</span>
+                                <select id="id_stu_editionid" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-2">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp省</span>
+                                <select class="form-control" id="province" name="province">
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp市</span>
+                                <select class="form-control" id="city" name="city">
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp区(县)</span>
+                                <select class="form-control" id="area" name="area">
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-6 " style="display:none">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp家庭住址：</span>
+                                <input type="text" id="id_stu_addr"  class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>学习情况</span>
+                </div>
+                <div class="col-xs-12 col-md-12  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp近期成绩：</span>
+                                <input type="text" class=" form-control "  id="id_recent_results"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 " style="display:none">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp是否进步：</span>
+                                <select id="id_advice_flag" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp班级排名：</span>
+                                <input type="text" class=" form-control "  id="id_class_rank"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">年级排名：</span>
+                                <input type="text" class=" form-control "  id="id_grade_rank"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学目标：</span>
+                                <select id="id_academic_goal" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp有无进步：</span>
+                                <select id="id_is_improve" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>非智力因素</span>
+                </div>
+                <div class="col-xs-12 col-md-12  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学习习惯：</span>
+                                <input type="text" class=" form-control "  id="id_study_habit"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">兴趣爱好：</span>
+                                <input type="text" class=" form-control "  id="id_interests_hobbies"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"> <font style="color:red">*</font>&nbsp性格特点：</span>
+                                <input type="text" class=" form-control "  id="id_character_type"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp老师要求：</span>
+                                <input type="text" class=" form-control "  id="id_need_teacher_style"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp所需老师地区：</span>
+                                <input type="text" class=" form-control "  id="id_need_teacher_location"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+           
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>试听需求</span>
+                </div>
+                <div class="col-xs-12 col-md-9  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon" >　<font style="color:red">*</font>&nbsp　试听内容：</span>
+                                <textarea class="form-control" style="height:115px;" id="id_stu_request_test_lesson_demand" > </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-3  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp上课意向：</span>
+                                <select id="id_intention_level" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-12 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp试听时间：</span>
+                                <input id="id_stu_request_test_lesson_time" class=" form-control "   />
+                                <div class=" input-group-btn "  >
+                                    <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消" >
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-xs-12 col-md-12  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">上传试卷：</span>
+                                <input type="text" class=" form-control "  id="id_test_paper"   / >
+                                <div class=" input-group-btn "  >
+                                    <button class="btn  btn-primary upload_test_paper"  title="上传" >
+                                        上传
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>核心诉求</span>
+                </div>
+                <div class="col-xs-12 col-md-12  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp应试压力：</span>
+                                <select id="id_test_stress" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp升学学校要求：</span>
+                                <select id="id_entrance_school_type" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-3 " style="display:none">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp趣味培养：</span>
+                                <select id="id_interest_cultivation" class=" form-control "   >
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">课外提高：</span>
+                                <select id="id_extra_improvement" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">习惯重塑：</span>
+                                <select id="id_habit_remodel" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon">趣味培养：</span>
+                                <select id="id_habit_train" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-12  ">
+                    <span>其他</span>
+                </div>
+                <div class="col-xs-12 col-md-12  ">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp分类：</span>
+                                <select id="id_ass_test_lesson_type" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp换老师类型：</span>
+                                <select id="id_change_teacher_reason_type" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因：</span>
+                                <select id="id_change_reason" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3  ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp申请原因(图片)：</span>
+                                <select id="id_change_reason_url" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
+                                <select id="id_green_channel_teacherid" class=" form-control "   >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div style="display:none;" id="id_dlg_post_user_info_new">
 

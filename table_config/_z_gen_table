@@ -15,7 +15,7 @@
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); // wait to connect
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3);//wait to execute
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);//wait to execute
 
 
         { //Loger
