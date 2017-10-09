@@ -42,10 +42,9 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                       /* $tr.find(".cc_per").text(resp.cc_per); 
+                        $tr.find(".cc_per").text(resp.cc_per); 
                         $tr.find(".cr_per").text(resp.cr_per); 
-                        $tr.find(".record_score").text(resp.score);*/ 
-                        $tr.find(".fff").text("已发"); 
+                        $tr.find(".record_score").text(resp.score);
                                              
 
                        

@@ -71,6 +71,33 @@ class order_price_20171001 extends order_price_base
         303 => 2,
     ];
 
+
+    //2017-1008  每满15000减500 88个名额 
+    static  public function get_activity_2017100801 (&$price,  &$present_lesson_count,  &$desc_list ){
+
+        $free_money=floor($price /15000)*500;
+
+
+        $order_activity_type= E\Eorder_activity_type::V_2017100801 ;
+
+        $task= self::get_task_controler();
+        $now_count= $task->t_order_activity_info->get_count_by_order_activity_type($order_activity_type);
+
+
+        $max_count=88;
+        $activity_desc_cur_count="当前已用($now_count/$max_count) ";
+        if ($now_count<$max_count  && $free_money>0) {
+            $price-=$free_money;
+            $activity_desc="立减 $free_money, $activity_desc_cur_count ";
+            $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
+        }else{
+            $activity_desc=" $activity_desc_cur_count ";
+            $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
+
+        }
+
+
+    }
     //2017-0801 当配活动(常规)
     static  public function get_activity_20170801 (&$price,  &$present_lesson_count,  &$desc_list, $args ,$lesson_times ){
 
@@ -241,10 +268,11 @@ class order_price_20171001 extends order_price_base
 
         }
 
+        static::get_activity_2017100801($price, $present_lesson_count,  $desc_list  );
+
         if (!$off_86_flag) {
             static::get_activity_20170801($price, $present_lesson_count,  $desc_list,  $args,$lesson_times);
         }
-
 
 
         return [

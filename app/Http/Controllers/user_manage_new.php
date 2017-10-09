@@ -3385,16 +3385,21 @@ class user_manage_new extends Controller
 
     public function teacher_trial_reward_list(){
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-d",time()),0,0,null,3);
-        $teacherid = $this->get_in_int_val("teacherid",-1);
-        $type      = $this->get_in_int_val("type",-1);
-        $lessonid  = $this->get_in_int_val("lessonid",-1);
+        $teacherid  = $this->get_in_int_val("teacherid",-1);
+        $type       = $this->get_in_int_val("type",-1);
+        $lessonid   = $this->get_in_int_val("lessonid",-1);
+        $has_lesson = $this->get_in_int_val("has_lesson",-1);
 
-        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid);
+        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
+            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+        );
+
         foreach($list as &$val){
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['teacherid']);
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
             E\Ereward_type::set_item_value_str($val,"type");
             $val['money'] /= 100;
+
             if(in_array($val['type'],[2,3])){
                 $val['money_info_extra'] = $this->cache_get_student_nick($val['userid']);
             }elseif($val['type']==6){
@@ -3512,23 +3517,26 @@ class user_manage_new extends Controller
         $adminid_right        = $this->get_seller_adminid_and_right();
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
 
-        $one = strtotime('today');
-        $two = $one - 86400*5;
-        $three = $one - 86400*7;
-
         $this->t_revisit_info->switch_tongji_database();
         // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
-        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
-        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
 
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
             'warning_type_three' =>0,
         ];
-        // foreach($warning_count as $item){
-            // \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        // }
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $warning_type_num['warning_type_three'] = $three_count;
+
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
             E\Erevisit_type::set_item_value_str($item);

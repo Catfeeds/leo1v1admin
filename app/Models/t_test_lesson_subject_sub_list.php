@@ -228,7 +228,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_status=2 "
                                   ." ) "
                                   ." and tl.lessonid not in ( "
-                                  ." select money_info from %s "
+                                  ." select lessonid from %s "
                                   ." where teacherid=l.teacherid "
                                   ." and type=2 "
                                   ." ) "
@@ -1214,7 +1214,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   , t_manager_info::DB_TABLE_NAME
                                   , t_assistant_info::DB_TABLE_NAME
                                   , $where_arr);
-        var_dump($sql);
         return $this->main_get_row($sql);
     }
     public function tongji_success_order($start_time,$end_time){

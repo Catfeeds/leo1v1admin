@@ -2712,7 +2712,102 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-09-01");  
+        $end_time = strtotime("2017-10-10");  
+        $order_list = $this->t_order_info->get_order_list_by_time($start_time,$end_time);
+        dd($order_list);
+        $this->t_child_order_info->set_all_order_payed_by_parent_orderid(24389);
+        dd(111);
+
+        $month = strtotime("2017-01-01");        
+        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
+        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
+        for($i=0;$i<=7;$i++){
+            $month = strtotime(date("Y-m-01",$month+40*86400));
+            foreach($admin_main_group_name_list as $item){
+                $tt = $this->t_main_group_name_month->get_main_type($item["groupid"],$month);
+                if($tt){
+                    $this->t_main_group_name_month->field_update_list_2($item["groupid"],$month,[
+                        "up_groupid"    =>$item["up_groupid"]
+                    ]);
+                }
+            }
+
+            foreach($major_admin_list as $k=>$item){
+                $this->t_main_major_group_name_month->row_insert([
+                    "groupid"  =>$item["groupid"],
+                    "month"    =>$month,
+                    "main_type"=>$item["main_type"],
+                    "group_name"=>$item["group_name"],
+                    "master_adminid"=>$item["master_adminid"],
+                    "main_assign_percent" =>$item["main_assign_percent"]
+                ]);
+            }
+                      
+        }
+
+        dd(111);
+        foreach($major_admin_list as $k=>$item){
+            $this->t_main_major_group_name_month->row_insert([
+                "groupid"  =>$item["groupid"],
+                "month"    =>$month,
+                "main_type"=>$item["main_type"],
+                "group_name"=>$item["group_name"],
+                "master_adminid"=>$item["master_adminid"],
+                "main_assign_percent" =>$item["main_assign_percent"]
+            ]);
+        }
         
+
+        $i=2;
+        $first_group_list = $this->t_main_major_group_name_month->get_group_list($i,$month);
+        $up_group_list = $this->t_main_group_name_month->get_group_list_for_major($i,$month,8);
+        dd($up_group_list);
+        for ($i=1; $i<=$max_main_type; $i++) {
+            $n = $num;
+            $list[] = ["main_type"=>$i,"first_group_name"=>"","up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
+            if($monthtime_flag==1){
+                $first_group_list = $task->t_admin_majordomo_group_name->get_group_list($i);
+            }else{
+                $first_group_list = $task->t_main_major_group_name_month->get_group_list($i,$month);
+            }
+            foreach($first_group_list as $value){
+                $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2", "first_master_adminid"=>$value["master_adminid"],"first_groupid"=>$value["groupid"]];
+                if($monthtime_flag==1){
+                    $up_group_list = $task->t_admin_main_group_name->get_group_list_for_major($i,$value['groupid']);
+                }else{
+                    $up_group_list = $task->t_main_group_name_month->get_group_list_for_major($i,$month,$value['groupid']);
+                }
+
+
+                $s = $num;
+                foreach($up_group_list as $item){
+                    $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s ,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-3","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];
+                    if($monthtime_flag==1){
+                        $group_list = $task->t_admin_group_name->get_group_name_list($i,$item["groupid"]);
+                    }else{
+                        $group_list = $task->t_group_name_month->get_group_name_list($i,$item["groupid"],$month);
+                    }
+
+                    $m = $num;
+                    foreach($group_list as $val){
+                        $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-4","master_adminid"=>$val["master_adminid"]];
+                        if($monthtime_flag==1){
+                            $admin_list = $task->t_admin_group_user->get_user_list_new($val["groupid"]);
+                        }else{
+                            $admin_list = $task->t_group_user_month->get_user_list_new($val["groupid"],$month);
+                        }
+
+                        $c = $num;
+                        foreach($admin_list as $v){
+                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5","become_member_time"=>$v["become_member_time"],"leave_member_time"=>$v["leave_member_time"],"create_time"=>$v["create_time"],"del_flag"=>$v["del_flag"]];
+
+                        }
+                    }
+                }
+            }
+        }
+
         $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new("助教,,,");
 
         // $adminid_list_ex = $this->t_admin_group_name->get_adminid_list_by_main_type(1);
@@ -4309,6 +4404,7 @@ class user_deal extends Controller
         $this->t_group_name_month->del_by_month($month);
         $this->t_group_user_month->del_by_month($month);
         $this->t_main_group_name_month->del_by_month($month);
+        $this->t_main_major_group_name_month->del_by_month($month);
         $admin_group_name_list = $this->t_admin_group_name->get_all_list();
         foreach($admin_group_name_list as $item){
             $this->t_group_name_month->row_insert([
@@ -4338,6 +4434,19 @@ class user_deal extends Controller
                 "month"      =>$month,
                 "main_type"  =>$item["main_type"],
                 "group_name" =>$item["group_name"],
+                "master_adminid"=>$item["master_adminid"],
+                "main_assign_percent" =>$item["main_assign_percent"],
+                "up_groupid"    =>$item["up_groupid"]
+            ]);
+        }
+
+        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
+        foreach($major_admin_list as $k=>$item){
+            $this->t_main_major_group_name_month->row_insert([
+                "groupid"  =>$item["groupid"],
+                "month"    =>$month,
+                "main_type"=>$item["main_type"],
+                "group_name"=>$item["group_name"],
                 "master_adminid"=>$item["master_adminid"],
                 "main_assign_percent" =>$item["main_assign_percent"]
             ]);

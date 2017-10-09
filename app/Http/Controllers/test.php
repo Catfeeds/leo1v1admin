@@ -12,7 +12,8 @@ class test extends Controller
 {
     var $check_login_flag =false;
 
-    public function ssssff() {
+    public function tt() {
+        phpinfo();
     }
 
     public function t() {
@@ -383,6 +384,7 @@ class test extends Controller
         $account_role= $this->get_in_el_account_role();
         $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__,$ret_info);
+
     }
 
 

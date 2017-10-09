@@ -546,7 +546,7 @@ class common extends Controller
             $lesson_type     = $item['lesson_type'];
             $real_begin_time = $item['real_begin_time'];
 
-            if ($real_begin_time > $item["lesson_start"]) {
+            if ($real_begin_time > $item["lesson_start"]  || $real_begin_time < $item["lesson_start"]-30*60 ) {
                 $item["real_begin_time"] = $item["lesson_start"];
                 $this->t_lesson_info->field_update_list($lessonid,[
                     "real_begin_time" => $item["real_begin_time"]

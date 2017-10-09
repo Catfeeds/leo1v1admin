@@ -353,9 +353,14 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
-        foreach($ret_info["list"] as $item ) {
+        foreach($ret_info["list"] as &$item ) {
             $map[$item["adminid"] ]=true;
+            //$sys_operator = $item["account"];
+            //$sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
+            //$item["stage_money"] = @$sort_moeny["stage_money"];
+            //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
+		unset($item);
 
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"] ] ) {
@@ -1183,7 +1188,7 @@ class tongji2 extends Controller
                     $end_time = $end_time + 86400;
                 }else{//跨月报
                     $type = 3;
-                    $start_time = strtotime($end_month);
+                    $start_time = $start_time + 86400;
                     $end_time = $end_time + 86400;
                 }
             }elseif($opt_date_type == 3){
@@ -1198,7 +1203,11 @@ class tongji2 extends Controller
             //节点
             //概况
             $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
-            $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+            if($type == 3){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+            }elseif($type == 1 || $type == 2){
+                $month_ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+            }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
