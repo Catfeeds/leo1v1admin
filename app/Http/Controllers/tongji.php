@@ -15,16 +15,26 @@ class tongji extends Controller
 
     public function contract()
     {
-        $opt_date_type= $this->get_in_int_val("opt_date_type",0);
-        $start_time = $this->get_in_start_time_from_str(date("Y-m-d",time(NULL)-86400*14));
-        $end_time   = $this->get_in_end_time_from_str(date("Y-m-d",time(NULL)));
-        $end_time += 86400;
+
+
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -14, -1, 0, [
+                0 => array( "order_time", "合同生成时间"),
+                1 => array("check_money_time","财务确认时间"),
+            ], 0,0
+        );
+
+
+        //$opt_date_type= $this->get_in_int_val("opt_date_type",0);
+        //$start_time = $this->get_in_start_time_from_str(date("Y-m-d",time(NULL)-86400*14));
+        //$end_time   = $this->get_in_end_time_from_str(date("Y-m-d",time(NULL)));
+        //$end_time += 86400;
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
 
         $stu_from_type = $this->get_in_int_val("stu_from_type",-1);
         $contract_type = $this->get_in_enum_val(E\Econtract_type::class, 0);
 
-        $list      = $this->t_order_info->get_1v1_order_list($start_time,$end_time,"", $stu_from_type, [],[] ,$contract_type );
+        $list      = $this->t_order_info->get_1v1_order_list($start_time,$end_time,"", $stu_from_type, [],[] ,$contract_type,"",-1,$opt_date_str);
         $all_item=[
             "title"=>"全部",
             "order_count"=> 0,
