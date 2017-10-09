@@ -67,9 +67,9 @@ class test_sam  extends Controller
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
-        $arr['target']             = $target;                                //1-续费目标
-        $arr['total_price']        = $ret_total['total_price'] /100;             //2-现金总收入
-        $arr['total_income']       = $ret_total['total_price'] /100;             //A1-现金总收入
+        $arr['target']             = $target * 100;                                //1-续费目标
+        $arr['total_price']        = $ret_total['total_price'] ;             //2-现金总收入
+        $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
         $arr['contract_num']       = $ret_total['order_num']; //合同数
         $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //A3-入职完整月人员签单额
