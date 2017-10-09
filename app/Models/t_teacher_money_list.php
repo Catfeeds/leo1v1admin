@@ -118,7 +118,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
-,$has_sql
+                                  ,$has_sql
         );
         return $this->main_get_list($sql);
     }
