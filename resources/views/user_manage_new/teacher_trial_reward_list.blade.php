@@ -43,13 +43,13 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td>id</td>
+                    <td style="display:none">id</td>
                     <td>姓名</td>
-                    <td>银行卡</td>
-                    <td>开户行</td>
-                    <td>持卡人</td>
-                    <td>银行手机</td>
-                    <td>银行类型</td>
+                    <td style="display:none">银行卡</td>
+                    <td style="display:none">开户行</td>
+                    <td style="display:none">持卡人</td>
+                    <td style="display:none">银行手机</td>
+                    <td style="display:none">银行类型</td>
                     <td>奖励类型</td>
                     <td>添加时间</td>
                     <td>金额</td>

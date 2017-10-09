@@ -3455,7 +3455,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
-        $sql = $this->get_sql_new(
+        $sql = $this->gen_sql_new(
             "select sum( if( co.child_order_type =2, co.price,0) ) as stage_money,".
             " sum( if(co.child_order_type <> 2,co.price,0) ) as no_stage_money".
             " from %s co".

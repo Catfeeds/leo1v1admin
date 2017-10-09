@@ -228,7 +228,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_status=2 "
                                   ." ) "
                                   ." and tl.lessonid not in ( "
-                                  ." select money_info from %s "
+                                  ." select lessonid from %s "
                                   ." where teacherid=l.teacherid "
                                   ." and type=2 "
                                   ." ) "
