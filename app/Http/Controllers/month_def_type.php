@@ -7,7 +7,7 @@ use \App\Helper\Config;
 
 class month_def_type extends Controller
 {
-    public function list()
+    public function def_list()
     {
         $page_info = $this->get_in_page_info();
         $month_def_type = $this->get_in_el_month_def_type();
