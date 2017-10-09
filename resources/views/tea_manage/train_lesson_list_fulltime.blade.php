@@ -40,6 +40,13 @@
                     <input type="text" class="form-control opt-change" id="id_teacherid"/>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group">
+                    <span>培训类型</span>
+                    <select id="id_train_type" class="opt-change" >
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-xs-6 col-md-1">

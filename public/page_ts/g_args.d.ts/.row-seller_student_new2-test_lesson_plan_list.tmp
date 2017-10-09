@@ -143,3 +143,8 @@
 	limit_require_tea_nick	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
+<<<<<<< HEAD
+=======
+	accept_account	:any;
+	phone_ex	:any;
+>>>>>>> 49749a3b7f888cf315f53db9044462c643ff4ba0

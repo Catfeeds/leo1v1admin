@@ -527,7 +527,7 @@ class menu{
                 // ["power_id"=>20, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
                 // ["power_id"=>21, "name"=>"合同-已付费",   "url"=>"/user_manage/contract_list_seller_payed"],
                 // ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller_mix"],
-                ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
+                ["power_id"=>22, "name"=>"合同",   "url"=>"/user_manage/contract_list_seller"],
                 // ["power_id"=>29, "name"=>"合同-已付费-主管",   "url"=>"/user_manage_new/contract_list_seller_payed_new"],
                 ["power_id"=>40, "name"=>"new-转介绍例子",   "url"=>"/seller_student_new/seller_seller_student_list"],
 
@@ -567,7 +567,6 @@ class menu{
                     ["power_id"=>2, "name"=>"我负责的用户",   "url"=>"/seller_student/student_list2"],
 
                     ["power_id"=>12, "name"=>"未打通用户-抢学生",   "url"=>"/seller_student/no_called_list"],
-                    ["power_id"=>5, "name"=>"合同管理-销售",   "url"=>"/user_manage/contract_list_seller"],
 
                     ["power_id"=>7, "name"=>"转介绍例子-销售",   "url"=>"/seller_student/ass_add_student_list_seller"],
                     ["power_id"=>3, "name"=>"我负责的重复用户",   "url"=>"/seller_student/student_sub_list"],
@@ -577,7 +576,7 @@ class menu{
 
             ]],
 
-            ["power_id"=>13, "name"=>"角色-助教助长",  "list"=>[
+            ["power_id"=>13, "name"=>"角色-助教组长",  "list"=>[
                 ["power_id"=>100, "name"=>"首页",   "url"=>"/main_page/assistant_leader" ],
                 ["power_id"=>80, "name"=>"首页-new",   "url"=>"/main_page/assistant_leader_new" ],
                 ["power_id"=>88, "name"=>"首页-new2.0",   "url"=>"/tongji2/ass_month_kpi_tongji_master" ],
@@ -587,6 +586,7 @@ class menu{
                 ["power_id"=>84, "name"=>"周报-主管",   "url"=>"/tongji_ss/ass_weekly_info_master" ],
                 ["power_id"=>57, "name"=>"月报-主管",   "url"=>"/tongji_ss/ass_month_info" ],
                 ["power_id"=>81, "name"=>"助教组长KPI",   "url"=>"/tongji_ss/tongji_ass_leader_kpi" ],
+                ["power_id"=>98, "name"=>"助教组长满意度回访",   "url"=>"/user_manage/ass_random_revisit" ],
                 ["power_id"=>85, "name"=>"助教KPI",   "url"=>"/tongji_ss/tongji_ass_kpi" ],
                 ["power_id"=>86, "name"=>"助教KPI-主管",   "url"=>"/tongji_ss/tongji_ass_kpi_master" ],
                 ["power_id"=>99, "name"=>"每月系数录入",  "url"=>"/user_manage_new/assistant_admin_member_list"],
@@ -595,6 +595,8 @@ class menu{
                 ["power_id"=>14, "name"=>"学员档案-全部",   "url"=>"/user_manage/ass_archive"],
                 ["power_id"=>60, "name"=>"每月学员科目统计",   "url"=>"/user_manage/user_info_by_month"],
                 ["power_id"=>12, "name"=>"转介绍例子",   "url"=>"/seller_student/ass_add_student_list"],
+                ["power_id"=>16, "name"=>"转介绍例子-主管",   "url"=>"/seller_student_new2/get_ass_tran_to_seller_detail_info"],
+                ["power_id"=>17, "name"=>"转介绍例子-组长",   "url"=>"/seller_student_new2/get_ass_tran_to_seller_detail_info_leader"],
                 ["power_id"=>11, "name"=>"试听课跟进-主管",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_master"],
                 ["power_id"=>13, "name"=>"试听课跟进-组长",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_leader"],
                 ["power_id"=>15, "name"=>"转介绍试听跟进-主管", "url"=>"/seller_student_new2/get_from_ass_tran_lesson_info_master"],

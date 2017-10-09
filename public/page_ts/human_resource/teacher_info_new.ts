@@ -446,4 +446,6 @@ $(function(){
         BootstrapDialog.alert(url);
     });
 
+    download_hide();
+
 });

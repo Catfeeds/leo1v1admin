@@ -1107,19 +1107,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_teacherid_by_name($name,$not_str=""){
-        $where_arr = [
-            ["realname='%s'",$name,""],
-            ["teacherid not in (%s)",$not_str,""],
-        ];
-
-        $sql = $this->gen_sql_new("select teacherid from %s where %s "
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_value($sql);
-    }
-
     public function get_teacherid_by_adminid($adminid){
         $sql=$this->gen_sql_new("select teacherid "
                                 ." from %s t join %s m on t.phone = m.phone "
@@ -1223,7 +1210,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 "t.nick like '%%%s%%' or t.realname like '%%%s%%' or t.phone like '%%%s%%' ",[$nick_phone,$nick_phone,$nick_phone]
             ];
         }else{
-            $where_arr=" true ";
+            $where_arr = " true ";
         }
 
         $sql=$this->gen_sql_new("select t.teacherid as id,t.nick,t.phone,gender,t.realname"
@@ -1433,7 +1420,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             }elseif($has_limit>0){
                 $where_arr[]="limit_plan_lesson_type>0";
             }
+        }else{
+            $where_arr=[];
         }
+
         $sql = $this->gen_sql_new("select t.teacherid "
                                   ." from %s t"
                                   ." where %s"
@@ -2073,6 +2063,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    /**
+     * 获取工作室助理老师列表
+     */
     public function get_teacher_type_list(){
         $where_arr = [
             "teacher_ref_type>0",
@@ -2119,22 +2112,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql=$this->gen_sql_new("select teacherid,grade_part_ex,grade_end,grade_start,not_grade_limit,limit_plan_lesson_type"
                                 ." from %s where limit_plan_lesson_type >0",
                                 self::DB_TABLE_NAME
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_change_teacher_list(){
-        $where_arr = [
-            "grade_start=0",
-            "grade_part_ex!=0",
-            "subject!=0",
-        ];
-        $sql = $this->gen_sql_new("select teacherid,grade_part_ex,subject "
-                                  ." from %s "
-                                  ." where %s"
-                                  ." limit 100"
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -2336,28 +2313,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_reference_teacher($teacher_ref_type){
-        $where_arr = [
-            ["t.teacher_ref_type=%u",$teacher_ref_type,-1],
-        ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.teacher_ref_type,t.phone,t.teacher_money_type,"
-                                  ." t2.realname as ref_realname,t2.phone as ref_phone,"
-                                  ." t2.teacher_money_type as ref_teacher_money_type,t2.teacher_ref_type as ref_teacher_ref_type"
-                                  ." from %s t"
-                                  ." left join %s ta on t.phone=ta.phone"
-                                  ." left join %s t2 on ta.reference=t2.phone"
-                                  ." where %s "
-                                  ." and t.is_test_user=0"
-                                  ." and t.teacher_money_type=5"
-                                  ." and t.teacher_type <20"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_wx_openid_by_teacherid($teacherid){
         $sql = $this->gen_sql_new(
             "select wx_openid from %s where teacherid='%s' ",
@@ -2365,25 +2320,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_value($sql);
 
-    }
-
-    public function get_teacher_name_list(){
-        $where_arr = [
-            "t1.is_test_user=1",
-            "t1.phone_spare!=''",
-            "t2.phone!=''",
-        ];
-        $sql = $this->gen_sql_new("select t1.teacherid as origin_teacherid,t1.realname,t1.phone_spare,t2.teacherid,t2.phone,"
-                                  ." t2.teacherid"
-                                  ." from %s t1"
-                                  ." left join %s t2 on t1.phone_spare=t2.phone and t1.teacherid!=t2.teacherid"
-                                  ." where %s"
-                                  ." group by t2.teacherid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function get_reset_is_test(){
@@ -3010,6 +2946,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_teacher_openid_list_new(){ //　查询在值老师openid
+        $where_arr = [
+            "train_through_new =1",
+            "is_quit = 0",
+            "is_test_user = 0",
+            "wx_openid is not null"
+        ];
+        $sql = $this->gen_sql_new(" select distinct wx_openid,teacherid,realname from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_as_page($sql);
+    }
+
 
     public function get_teacher_simulate_list(
         $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0,
@@ -3683,39 +3635,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_old_teacher_money_type_list($start,$end){
-        $where_arr = [
-            ["lesson_start>%u",$start,0],
-            ["lesson_start<%u",$end,0],
-            "lesson_type in (0,1,3)",
-            "lesson_del_flag=0",
-            "t.teacher_money_type=6",
-            "t.is_test_user=0",
-        ];
-        $where_arr2 = [
-            ["lesson_start>%u",$start,0],
-            ["lesson_start<%u",$end,0],
-        ];
-        $sql = $this->gen_sql_new("select t.teacherid,l.teacher_money_type as old_teacher_money_type,l.level as old_level,"
-                                  ." t.teacher_money_type as now_teacher_money_type,t.level as now_level"
-                                  ." from %s t"
-                                  ." left join %s l force index(lesson_type_and_start) on t.teacherid=l.teacherid"
-                                  ." where %s"
-                                  ." and not exists "
-                                  ." (select 1 from %s where l.teacherid=teacherid and "
-                                  ." lesson_start>l.lesson_start and lesson_del_flag=0 and lesson_type in (0,1,3) and %s"
-                                  ." )"
-                                  ." group by t.teacherid"
-                                  ." order by lesson_start desc"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr2
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_no_lesson_teacher_list(){
         $where_arr = [
             "teacher_money_type not in (5,6)",
@@ -3731,8 +3650,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_reference_list_for_reset(){
-
+    public function get_teacher_list_by_reference($phone){
+        $where_arr = [
+            ["reference='%s'",$phone,""]
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,t.phone,t.teacher_money_type,t.level,t.realname,t.trial_lecture_is_pass,"
+                                  ." t.train_through_new"
+                                  ." from %s t"
+                                  ." left join %s tl on t.phone=tl.phone"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 
@@ -3745,6 +3676,45 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_lesson_info_by_money_type($start_time,$end_time){
+        $where_arr=[
+            "t.is_quit=0",
+            "t.is_test_user=0",
+            // ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            // "t.train_through_new = 1",
 
+            "t.teacher_money_type in (5,6)",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            "l.lesson_status >1",
+            "l.lesson_type in (0,1,3)",
+            // "t.teacherid in (151160,159071)"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,t.realname,"
+                                  ."count(distinct l.userid) stu_num,t.teacher_money_type "
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid"
+                                  ." where %s group by t.teacherid having(lesson_count>0) ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+
+
+    }
+
+    public function get_max_test_phone(){
+        $where_arr = [
+            "phone like '999%'"
+        ];
+        $sql = $this->gen_sql_new("select max(phone)"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

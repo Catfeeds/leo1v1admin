@@ -20,6 +20,7 @@ class test_luki extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"value");
             E\Egrade::set_item_value_str($item);
 
+
         }
         return $this->pageView(__METHOD__,$ret_info);
 

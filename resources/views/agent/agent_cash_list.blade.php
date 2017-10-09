@@ -21,6 +21,11 @@
                     <td>提现类型 </td>
                     <td>银行卡号 </td>
                     <td>银行卡类型 </td>
+                    <td>持卡人 </td>
+                    <td>银行预留手机号 </td>
+                    <td>开户行和支行 </td>
+                    <td>开户省 </td>
+                    <td>开户市 </td>
                     <td>支付宝姓名 </td>
                     <td>支付宝账户 </td>
                     <td>财务审核状态 </td>
@@ -49,6 +54,11 @@
                         @endif
                         <td>{{@$var["bankcard"]}} </td>
                         <td>{{@$var["bank_type"]}} </td>
+                        <td>{{@$var["bank_account"]}} </td>
+                        <td>{{@$var["bank_phone"]}} </td>
+                        <td>{{@$var["bank_address"]}} </td>
+                        <td>{{@$var["bank_province"]}} </td>
+                        <td>{{@$var["bank_city"]}} </td>
                         <td>{{@$var["zfb_name"]}} </td>
                         <td>{{@$var["zfb_account"]}} </td>
                         <td>{{@$var["agent_check_money_flag_str"]}} </td>

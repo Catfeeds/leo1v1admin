@@ -35,7 +35,7 @@
   mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
 
   文件权限
-  chmod a+wr -R ./storage/ ./bootstrap/cache #./public/page_ts/g_args.d.ts
+  chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
 
 
 * nginx 配置
@@ -47,4 +47,4 @@
   sudo /etc/init.d/nginx reload
 
   /etc/hosts 加入
- 127.0.0.1  self.admin.yb1v1.com
+  127.0.0.1  self.admin.yb1v1.com

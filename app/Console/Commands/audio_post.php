@@ -48,7 +48,7 @@ class audio_post extends cmd_base
         }
 
         $list=$this->task->t_tq_call_info->get_list_for_post($start_time,$end_time);
-        $url='http://rcrai.com:8001/leoedu/call/';
+        $rcrai_url='http://rcrai.com:8001/leoedu/call/';
 
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
         $admin_info=$this->task->t_manager_info->get_admin_member_list();
@@ -58,15 +58,21 @@ class audio_post extends cmd_base
             $record_url = $item["record_url"];
             $adminid= $item["adminid"];
             $admin_info= @$admin_map[$adminid];
-
-
-            if ( $admin_info && $admin_info["group_name"]
-                 && preg_match("/api.clink.cn/", $record_url ) ) {
-
-
-                $post_data=[];
-                $post_data["unique_id"]=$item["id"];
+               $post_data=[];
+            $find_flag=false;
+            if(preg_match("/api.clink.cn/", $record_url ) ) {
+                $find_flag=true;
                 $post_data["url"]=$item["record_url"] .$clink_args;
+            }else if  (preg_match("/mdb.tq.cn/", $record_url ) ) {
+                $find_flag=true;
+                $post_data["url"]=$item["record_url"] ;
+                echo "do  tq: \n";
+            }
+
+            if ( $admin_info && $admin_info["group_name"] &&  $find_flag ) {
+
+
+                $post_data["unique_id"]=$item["id"];
                 $post_data["timestamp"]=$item["start_time"];
 
                 $post_data["customer"]=[
@@ -88,7 +94,7 @@ class audio_post extends cmd_base
                     ]
                 ];
 
-                $ret=\App\Helper\Net::http_post_data($url, json_encode($post_data));
+                $ret=\App\Helper\Net::http_post_data($rcrai_url, json_encode($post_data));
                 echo "deal : $adminid, ".  $item["phone"]. ":".json_encode($ret)."\n";
             }
 

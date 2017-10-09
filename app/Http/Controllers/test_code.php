@@ -49,32 +49,49 @@ class test_code extends Controller
         return $arr;
     }
 
-    /**
-     * 批量导入公开课学生
-     */
-    public function add_open_user(){
-        $num = 0;
-        foreach($user_info as $val){
-            if($val!=""){
-                $user_arr = explode("|",$val);
-                if(preg_match("/^1\d{10}$/",$user_arr[1])){
-                    $userid = $this->t_student_info->get_userid_by_phone($user_arr[1]);
-                    if(!$userid){
-                        $num++;
-                        echo $num.$br;
-                        echo $red."reg :".$user_arr[1].$div;
-                        $userid = $this->t_user_info->user_reg($passwd,0,0);
-                        $this->t_phone_to_user->add($user_arr[1],1,$userid);
-                        $this->t_student_info->add_student($userid,$user_arr[2],$user_arr[1],$user_arr[0],0);
-                        $this->users->add_ejabberd_info($userid,$passwd);
-                    }
+    public function get_success_lesson(){
+        $day  = $this->get_in_int_val("day",30);
+        $type = $this->get_in_int_val("type",2);
 
-                    if($userid){
-                        $job = new \App\Jobs\add_lesson_user($lessonid_list[$user_arr[2]],$userid);
-                        dispatch($job);
-                    }
-                }
+        $begin_time = $this->get_begin_time($type,$day);
+        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
+        dd($list);
+    }
+
+    public function get_begin_time($type,$day){
+        $begin_time = strtotime("-$day day",time());
+        if($type==2){
+            $check_time = strtotime("2016-12-1");
+        }elseif($type==3){
+            $check_time = strtotime("2017-4-1");
+        }
+
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+        return $begin_time;
+    }
+
+    /**
+     * 切换工作室渠道的老师工资版本
+     adrian
+     */
+    public function change_studio_tea_list(){
+        $reference = $this->get_in_str_val("reference");
+        if($reference==""){
+            return $this->output_err("手机号不能为空!");
+        }
+
+        $tea_list = $this->t_teacher_info->get_teacher_list_by_reference($reference);
+        foreach($tea_list as $val){
+            if($val['trial_lecture_is_pass']>0 && $val['train_through_new']>0){
+                echo $val['teacherid'];
+                echo "<br>";
             }
+            // $this->t_teacher_info->field_update_list($val['teacherid'],[
+            //     "teacher_money_type" => E\Eteacher_money_type::V_6,
+            //     "teacher_ref_type"   => E\Eteacher_ref_type::V_0,
+            // ]);
         }
     }
 
@@ -88,7 +105,6 @@ class test_code extends Controller
         $br      = "<br>";
         $red     = "<div style=\"color:red\">";
         $div     = "</div>".$br;
-
         \App\Helper\Utils::debug_to_html( $info );
 
         /**
@@ -116,118 +132,8 @@ class test_code extends Controller
         }
     }
 
-
-    function GetIp(){
-        $realip = '';
-        $unknown = 'unknown';
-        if (isset($_SERVER)){
-            if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) && strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $unknown)){
-                $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                foreach($arr as $ip){
-                    $ip = trim($ip);
-                    if ($ip != 'unknown'){
-                        $realip = $ip;
-                        break;
-                    }
-                }
-            }else if(isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP']) && strcasecmp($_SERVER['HTTP_CLIENT_IP'], $unknown)){
-                $realip = $_SERVER['HTTP_CLIENT_IP'];
-            }else if(isset($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['REMOTE_ADDR']) && strcasecmp($_SERVER['REMOTE_ADDR'], $unknown)){
-                $realip = $_SERVER['REMOTE_ADDR'];
-            }else{
-                $realip = $unknown;
-            }
-        }else{
-            if(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), $unknown)){
-                $realip = getenv("HTTP_X_FORWARDED_FOR");
-            }else if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), $unknown)){
-                $realip = getenv("HTTP_CLIENT_IP");
-            }else if(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), $unknown)){
-                $realip = getenv("REMOTE_ADDR");
-            }else{
-                $realip = $unknown;
-            }
-        }
-        $realip = preg_match("/[\d\.]{7,15}/", $realip, $matches) ? $matches[0] : $unknown;
-        return $realip;
-    }
-
     /**
-     * 新浪接口
-     */
-    function GetIpLookup($ip = ''){
-        if(empty($ip)){
-            $ip = GetIp();
-        }
-        $res = @file_get_contents('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' . $ip);
-        if(empty($res)){ return false; }
-        $jsonMatches = array();
-        preg_match('#\{.+?\}#', $res, $jsonMatches);
-        if(!isset($jsonMatches[0])){ return false; }
-        $json = json_decode($jsonMatches[0], true);
-        if(isset($json['ret']) && $json['ret'] == 1){
-            $json['ip'] = $ip;
-            unset($json['ret']);
-        }else{
-            return false;
-        }
-        return $json;
-    }
-
-    public function set_teacher_address(){
-        $tea_list = $this->t_teacher_info->get_teacher_simple_list();
-        foreach($tea_list as $val){
-            if($val['address']==""){
-                $address = $this->get_mobile_area($val['phone']);
-                if($address){
-                    $this->t_teacher_info->field_update_list($val['teacherid'],[
-                        "address"=>$address
-                    ]);
-                }
-            }
-        }
-    }
-
-    /**
-     * 从淘宝接口获取电话号码所在地
-     */
-    function get_mobile_area($mobile){
-        $url = "https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=".$mobile;
-
-        $content  = file_get_contents($url);
-        $content  = mb_convert_encoding( $content, 'UTF-8', 'UTF-8,GBK,GB2312,BIG5');
-        $str      = strstr($content,"province");
-        $province = mb_substr($str,10,2,"utf-8");
-
-        return $province;
-    }
-
-    public function get_test_lesson(){
-        return $this->output_succ();
-        $begin_date = "2016-12-1";
-        $begin_time = strtotime($begin_date);
-
-        $this->t_test_lesson_subject_sub_list->switch_tongji_database();
-        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time);
-
-        echo "<pre>";
-        var_dump($list);
-        echo "</pre>";
-        exit;
-
-
-        $begin_time = strtotime("2017-2-1 10:00");
-        foreach($list as $val){
-            $time = strtotime($val['last_modified_time']);
-            if($time<$begin_time){
-                $time = $begin_time;
-            }
-
-        }
-    }
-
-    /*
-      测试发送微信推送信息
+     * 新版本升级推送
      */
     public function test_template(){
         $teacherid=$this->get_in_int_val("teacherid");
@@ -274,125 +180,6 @@ class test_code extends Controller
     }
 
     /**
-     * 转介绍最少成功一人切双方在读
-     * 12月份开始至4月8日
-     */
-    public function zhuan_1(){
-        $start_time = strtotime("2016-12-1");
-        $end_time   = strtotime("2017-4-8");
-        $list       = $this->t_student_info->get_zhuan_1($start_time,$end_time);
-
-        foreach($list as $val){
-            $ass_nick=$this->cache_get_assistant_nick($val['assistantid']);
-            echo "姓名：".$val['nick']." 成功学生数：".$val['stu_num']." 剩余课时数：".($val['lesson_count_left']/100)." 助教：".$ass_nick;
-            echo "<br>";
-        }
-    }
-
-    /**
-     * 1-3月份合同总课时以及总金额
-     */
-    public function get_order_info(){
-        $start     = strtotime("2017-1-1");
-        $shut_time = strtotime("2017-4-1");
-        $end       = 0;
-        for($i=0;$end<$shut_time;$i++){
-            $end   = strtotime("+1 month",$start);
-            if($start==1483200000){
-                $start=strtotime("2017-1-4");
-            }
-            $list  = $this->t_order_info->get_order_total_price($start,$end);
-            echo "月份:".date("m",$start)."  总价格:".($list['all_price']/100)."  总课时:".($list['lesson_total']/100);
-            echo "<br>";
-            $start = $end;
-        }
-    }
-
-    /**
-     * 12,1,2,3月份的试听申请;成功，未设置课程数;签单数，签单课时及金额;
-     */
-    public function test_plan_data(){
-        $num=$this->get_in_int_val("num");
-        $begin_date = strtotime("2016-12-1");
-        $start_time = strtotime("+$num month",$begin_date);
-        $num++;
-        $end_time   = strtotime("+$num month",$begin_date);
-        echo "start_time|".date("Y-m-d",$start_time)."|end_time|".date("Y-m-d",$end_time);
-        echo "<br>";
-
-        $list = $this->t_test_lesson_subject_require->get_test_plan_data($start_time,$end_time);
-        $lesson_num      = 0;
-        $not_set_lesson_num= 0;
-        $succ_lesson_num = 0;
-        $all_price       = 0;
-        $all_total       = 0;
-        $order_num       = 0;
-        foreach($list as $val){
-            if(isset($val['current_lessonid']) && $val['current_lessonid']>0){
-                $lesson_num++;
-            }
-
-            if(isset($val['success_flag'])){
-                if($val['success_flag']==0){
-                    $not_set_lesson_num++;
-                }
-                if($val['tea_attend']>0 && $val['stu_attend']>0){
-                    $succ_lesson_num++;
-                }
-            }
-            if(isset($val['orderid']) && $val['orderid']>0){
-                $order_num++;
-            }
-        }
-        $order_list=$this->t_order_info->get_test_plan_order($start_time,$end_time);
-        foreach($order_list as $val){
-            if(isset($val['price'])){
-                $all_price+=($val['price']/100);
-            }
-            if(isset($val['lesson_total'])){
-                $all_total+=($val['lesson_total']*$val['default_lesson_count']/100);
-            }
-        }
-        echo "lesson_num|".$lesson_num."|not_set_lesson_num|".$not_set_lesson_num
-                          ."|succ_lesson_num|".$succ_lesson_num
-                          ."|order_num|".$order_num
-                          ."|all_price|".$all_price
-                          ."|all_total|".$all_total
-                          ;
-    }
-
-
-    /**
-     * 被转介绍用户是否签单，签单课时，签单金额
-     */
-    public function origin_user(){
-        $userid = $this->get_in_int_val("userid");
-        $type   = $this->get_in_int_val("type",1);
-        if($userid==0){
-            echo "userid 为 0";
-            exit;
-        }
-
-        $list = $this->t_student_info->get_orgin_user($userid,$type);
-        if($type == 1){
-            $origin_name = $this->cache_get_student_nick($userid);
-        }elseif($type == 2){
-            $origin_userid = $this->t_student_info->get_origin_userid($userid);
-            $origin_name   = $this->cache_get_student_nick($origin_userid);
-        }
-        foreach($list as $key=>$val){
-            if($key == 0){
-                echo "手机|姓名|年级|科目|支付日期|金额|课时|推荐人<br>";
-            }
-            $grade_str = E\Egrade::get_desc($val['grade']);
-            $sub_str   = E\Esubject::get_desc($val['subject']);
-            echo $val['phone']."|".$val['nick']."|".$grade_str."|".$sub_str."|"
-                              .date("Y-m-d",$val['pay_time'])."|".($val['price']/100)."|"
-                              .($val['order_total']/100)."|".$origin_name."<br>";
-        }
-    }
-
-    /**
      * 设置工作室助理的老师类型
      */
     public function set_teacher_type(){
@@ -405,516 +192,6 @@ class test_code extends Controller
         }
     }
 
-    public function teacher_type(){
-        return $this->output_succ();
-        $type = $this->get_in_int_val("type",3);
-        if($type==3){
-            $begin_date = "2017-4-1";
-        }else{
-            $begin_date = "2016-12-1";
-        }
-        $begin_time = strtotime($begin_date);
-        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
-        \App\Helper\Utils::debug_to_html( $list );
-    }
-
-    public function push_parent(){
-        $template_id = "5FzZ_eN4qabZMh8FgKZvPCA7TZyvfmBROsTpaWbyEKw";
-        $data        = [
-            "first"    => "",
-            "keyword1" => "免费领取《吴姐姐讲历史故事》音频 1000集",
-            "keyword2" => "5月3日~5月10日",
-            "keyword3" => "理优1对1平台",
-            "keyword4" => "理优1对1辅导订阅号",
-            "remark"   => "",
-        ];
-        $url = "https://mp.weixin.qq.com/s?__biz=MzIwMzI0NDcxNQ==&mid=504260746&idx=1&sn=de9c415202ad91e8e4b603e1b1035613";
-        exit;
-        $job = new \App\Jobs\PushWxToParent($template_id,$data,$url);
-        dispatch($job);
-    }
-
-    public function lesson_pay_order(){
-        $t2 = strtotime("2017-2-1");
-        $t3 = strtotime("2017-3-1");
-        $t4 = strtotime("2017-4-1");
-        $t5 = strtotime("2017-5-1");
-
-        $list = $this->t_lesson_info->get_lesson_pay_order($t2,$t5);
-        $month_list[2]=[
-            1=>0,
-            2=>0,
-            3=>0,
-        ];
-        $month_list[3]=[
-            1=>0,
-            2=>0,
-            3=>0,
-        ];
-        $month_list[4]=[
-            1=>0,
-            2=>0,
-            3=>0,
-        ];
-
-        $one = 86400;
-        foreach($list as $val){
-            $lesson_time = $val['lesson_start'];
-            $order_time  = $val['order_time'];
-            $pay_time    = $val['pay_time'];
-            $o = $pay_time-$order_time;
-            $t = $order_time-$lesson_time;
-
-            if($lesson_time<$t3){
-                $month=2;
-            }elseif($lesson_time<$t4){
-                $month=3;
-            }elseif($lesson_time<$t5){
-                $month=4;
-            }
-
-            if($o<$one){
-                $month_list[$month][3]++;
-            }elseif($t<$one && $o>$one){
-                $month_list[$month][2]++;
-            }elseif($t>$one){
-                $month_list[$month][1]++;
-            }
-        }
-        foreach($month_list as $key=>$val){
-            echo $key." |".$val[1]."|".$val[2]."|".$val[3];
-            echo "<br>";
-        }
-    }
-
-    public function trial(){
-        $begin_date = strtotime("2016-11-1");
-        $end_date   = strtotime("2017-5-1");
-        for($i=1;$begin_date<=$end_date;$i++){
-            $start_time = $begin_date;
-            $begin_date = strtotime("+1 month",$begin_date);
-            $count      = $this->t_test_lesson_subject_require->get_count($start_time,$begin_date);
-            echo date("Y-m-d",$start_time).":".$count;
-            echo "<br>";
-        }
-    }
-
-    public function change_teacher_grade(){
-        $list = $this->t_teacher_info->get_change_teacher_list();
-        echo "<pre>";
-        var_dump($list);
-        echo "</pre>";
-        exit;
-        foreach($list as $val){
-            $grade=$val['grade_part_ex'];
-            if($grade==1){
-                $data=["grade_start"=>1,"grade_end"=>2];
-            }elseif($grade==2){
-                $data=["grade_start"=>3,"grade_end"=>4];
-            }elseif($grade==3){
-                $data=["grade_start"=>5,"grade_end"=>6];
-            }elseif($grade==4){
-                $data=["grade_start"=>1,"grade_end"=>4];
-            }elseif($grade==5){
-                $data=["grade_start"=>3,"grade_end"=>6];
-            }elseif($grade==6){
-                $data=["grade_start"=>2,"grade_end"=>4,"not_grade"=>"104,105"];
-            }elseif($grade==7){
-                $data=["grade_start"=>3,"grade_end"=>6];
-            }
-            if(isset($data)){
-                $this->t_teacher_info->field_update_list($val['teacherid'],$data);
-            }
-        }
-    }
-
-    public function notice_feedback(){
-        $list = $this->t_teacher_feedback_list->get_admin_list();
-
-        $has_push   = [];
-        $from_user  = "反馈系统";
-        $header_msg = "今天有未处理的老师反馈，请及时处理。";
-        $msg        = "";
-
-        foreach($list as $val){
-            $acc = "";
-            if(in_array($val['feedback_type'],[201,202,203,204,205])){
-                if($val['accept_adminid']){
-                    if(!in_array($val['accept_adminid'],$has_push)){
-                        $acc = $this->t_manager_info->get_account($val['accept_adminid']);
-                        $has_push[] = $val['accept_adminid'];
-                    }
-                }elseif($val['assistantid']){
-                    if($val['assistantid']=="134509"){
-                        echo $val['lessonid'];
-                        exit;
-                    }
-                    if(!in_array($val['assistantid'],$has_push)){
-                        $acc = $this->t_assistant_info->get_account_by_id($val['assistantid']);
-                        $has_push[] = $val['assistantid'];
-                    }
-                }
-            }else{
-                if(!in_array("adrian",$has_push)){
-                    $acc        = "adrian";
-                    $has_push[] = $acc;
-                }
-            }
-        }
-        \App\Helper\Utils::debug_to_html( $has_push );
-    }
-
-    public function get_grade_count(){
-        $stu_list = $this->t_student_info->get_grade_count(0);
-        $grade   = [];
-        $teacher = [];
-        if(!empty($stu_list)){
-            foreach($stu_list as $val){
-                $stu_grade          = $val['grade'];
-                $teacher_money_type = $val['teacher_money_type'];
-                $level              = $val['level'];
-                if(!isset($grade[$stu_grade])){
-                    $grade[$stu_grade]=1;
-                }else{
-                    $grade[$stu_grade]++;
-                }
-                if(!isset($teacher[$teacher_money_type][$level])){
-                    $teacher[$teacher_money_type][$level]=1;
-                }else{
-                    $teacher[$teacher_money_type][$level]++;
-                }
-            }
-        }
-        // foreach($grade as $key=>$val){
-        //     echo $key.":".$val;
-        //     echo "<br>";
-        // }
-        foreach($teacher as $key=>$val){
-            foreach($val as $l_k =>$l_v){
-                $key_str = E\Eteacher_money_type::get_desc($key);
-                $l_k_str = E\Elevel::get_desc($l_k);
-                echo $key_str."|".$l_k_str."|".$l_v;
-                echo "<br>";
-            }
-        }
-    }
-
-    public function get_student_type(){
-        $start_time = strtotime("2017-1-1");
-        $end_date   = strtotime("2017-5-1");
-
-        $this->t_student_info->switch_readonly_database();
-        for($i=0;$start_time<$end_date;$i++){
-            $end_time=strtotime("+1 month",$start_time);
-            echo date("Y-m-d",$start_time);
-            echo "<br>";
-            $list = $this->t_student_info->get_student_type_list($start_time,$end_time);
-            foreach($list as $val){
-                $val['first_lesson'] = $this->t_lesson_info->get_first_lesson($val['userid']);
-                echo $val['phone']."|".E\Egrade::get_desc($val['grade'])."|".date("Y-m-d",$val['first_lesson']);
-                echo "<br>";
-            }
-            $start_time = strtotime("+1 month ",$start_time);
-        }
-    }
-
-    public function get_teacher_by_openid(){
-        $wx_openid = "oJ_4fxMnrQoavTSNF09JEngG0X7k";
-        $teacherid = $this->t_teacher_info->get_teacher_info_by_wx_openid($wx_openid);
-    }
-
-    public function send_curl_post(){
-        $data = [
-            "account"    => "推送测试1",
-            "from_user"  => "测试2",
-            "header_msg" => "测试3",
-            "msg"        => "",
-            "url"        => "",
-        ];
-        $post_url = "http://admin.yb1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $post_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
-        curl_close($ch);
-    }
-
-    public function get_all_reference_teacher(){
-        $teacher_ref_type = $this->get_in_int_val("teacher_ref_type",-1);
-
-        $teacher_list = $this->t_teacher_info->get_all_reference_teacher($teacher_ref_type);
-
-        foreach($teacher_list as $key=>$val){
-            $money_start = "";
-            $money_end   = "";
-            if($val['teacher_money_type'] != $val['ref_teacher_money_type']
-               || $val['teacher_ref_type'] !=$val['ref_teacher_ref_type']
-            ){
-                $money_start="<font color='red'>";
-                $money_end="</font>";
-            }
-            if($key==0){
-                echo "姓名|电话|渠道|姓名（推）|电话（推）|渠道（推）";
-                echo "<br>";
-            }
-
-            $teacher_money_type_str = E\Eteacher_money_type::get_desc($val['teacher_money_type']);
-            $teacher_ref_type_str   = E\Eteacher_ref_type::get_desc($val['teacher_ref_type']);
-            $ref_money_type         = E\Eteacher_money_type::get_desc($val['ref_teacher_money_type']);
-            $ref_type_str           = E\Eteacher_ref_type::get_desc($val['ref_teacher_ref_type']);
-
-            echo $money_start;
-            echo $val['realname']."|".$val['phone']."|".$teacher_ref_type_str."|";
-            echo $val['ref_realname']."|".$val['ref_phone']."|".$ref_type_str;
-            echo $money_end;
-            echo "<br>";
-
-        }
-    }
-
-    public function get_ref_teacher_list(){
-        $list = $this->t_teacher_lecture_appointment_info->get_ref_teacher_list();
-
-        $ret_list=[];
-        foreach($list as $val){
-            $date    = date("Y-m",$val['answer_begin_time']);
-            $ret_str = E\Eteacher_ref_type::get_desc($val['teacher_ref_type']);
-
-            if(!isset($ret_list[$date])){
-                $ret_list[$date]=[];
-            }
-            if(!isset($ret_list[$date][$ret_str])){
-                $ret_list[$date][$ret_str]=[
-                    "all_num"=>0,
-                    "put_num"=>0,
-                    "succ_num"=>0,
-                ];
-            }
-
-            $ret_list[$date][$ret_str]["all_num"]++;
-            if(isset($val['teacherid']) && $val['teacherid']>0){
-                $ret_list[$date][$ret_str]["succ_num"]++;
-            }
-            if(isset($val['lid']) && $val['lid']>0){
-                $ret_list[$date][$ret_str]["put_num"]++;
-            }
-        }
-
-        foreach($ret_list as $key=>$val){
-            echo "月份|工作室|所有人数|提交视频|通过人数";
-            echo "<br>";
-
-            foreach($val as $k=>$v){
-                echo $key."|".$k."|".$v['all_num']."|".$v['put_num']."|".$v['succ_num'];
-                echo "<br>";
-            }
-        }
-    }
-
-
-    /**
-     * 工资分类统计数据
-     */
-    public function get_wage_data(){
-        $begin_data = $this->get_in_str_val("begin_data","2017-1-1");
-        $end_data   = $this->get_in_str_val("end_data","2017-5-1");
-        $begin_time = strtotime($begin_data);
-        $final_time = strtotime($end_data);
-
-        $this->t_lesson_info->switch_tongji_database();
-
-        $start_time = 0;
-        $count_list = [];
-        for($i=0;$start_time<$final_time;$i++){
-            $start_time = strtotime("+$i month",$begin_time);
-            $end_time   = strtotime("+1 month",$start_time);
-
-            $tea_list   = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,-1,0,-1,-1
-            );
-            $full_start_time = strtotime("-1 month",$start_time);
-            $full_tea_list   = $this->t_lesson_info->get_tea_month_list(
-                $full_start_time,$start_time,-1,3,-1,-1
-            );
-            $list = array_merge($tea_list,$full_tea_list);
-
-            $date_str = date("m-d",$start_time);
-            $count_list[$date_str]["all"]["stu_num"]=$this->t_lesson_info->get_stu_total($start_time,$end_time,-1);
-            $count_list[$date_str]["all"]["teacher_1v1"]   = 0;
-            $count_list[$date_str]["all"]["teacher_trial"] = 0;
-            foreach($list as &$val){
-                $teacher_money_type = (string)$val['teacher_money_type'];
-                if(!isset($count_list[$date_str][$teacher_money_type]["stu_num"])){
-                    $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-                    $count_list[$date_str][$teacher_money_type]["stu_num"] = $stu_num;
-                }
-
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["teacher_1v1"],0);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["teacher_trial"],0);
-                if($val['lesson_1v1']>0){
-                    $this->check_isset_data($count_list[$date_str]["all"]["teacher_1v1"]);
-                    $this->check_isset_data($count_list[$date_str][$teacher_money_type]["teacher_1v1"]);
-                }else{
-                    $this->check_isset_data($count_list[$date_str]["all"]["teacher_trial"]);
-                    $this->check_isset_data($count_list[$date_str][$teacher_money_type]["teacher_trial"]);
-                }
-
-                $lesson_1v1   = $val['lesson_1v1']/100;
-                $lesson_trial = $val['lesson_trial']/100;
-                $lesson_total = $val['lesson_total']/100;
-                $lesson_price = $val['lesson_price']/100;
-
-                $this->check_isset_data($count_list[$date_str]["all"]["lesson_money"],$lesson_price);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["lesson_money"],$lesson_price);
-                $this->check_isset_data($count_list[$date_str]["all"]["lesson_1v1"],$lesson_1v1);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["lesson_1v1"],$lesson_1v1);
-                $this->check_isset_data($count_list[$date_str]["all"]["lesson_trial"],$lesson_trial);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["lesson_trial"],$lesson_trial);
-                $this->check_isset_data($count_list[$date_str]["all"]["lesson_total"],$lesson_total);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["lesson_total"],$lesson_total);
-                $this->check_isset_data($count_list[$date_str]["all"]["teacher_num"]);
-                $this->check_isset_data($count_list[$date_str][$teacher_money_type]["teacher_num"]);
-            }
-        }
-
-        foreach($count_list as $key=>$val){
-            echo $key."|总收入|总课耗|1对1课耗|试听课耗|总老师|1对1老师|试听课老师|在读学员|师生比|月平均课耗|";
-            echo "<br>";
-            foreach($val as $k=>$v){
-                if($k!="all" || $k=="0"){
-                    $k = E\Eteacher_money_type::get_desc($k);
-                }
-                $shishengbi = round($v["stu_num"]/$v['teacher_num'],2);
-                $per_total  = round($v['lesson_1v1']/$v["teacher_num"],2);
-                echo $k."|".$v['lesson_money']."|".$v['lesson_total']."|".$v["lesson_1v1"]."|".$v["lesson_trial"]."|"
-                       .$v['teacher_num']."|".$v['teacher_1v1']."|".$v["teacher_trial"]."|".$v['stu_num']."|"
-                       .$shishengbi."|".$per_total;
-                echo "<br>";
-            }
-            echo "<br>";
-        }
-    }
-
-    public function check_isset_data(&$data,$add_data=1){
-        if(!isset($data)){
-            $data=$add_data;
-        }else{
-            $data+=$add_data;
-        }
-    }
-
-    public function get_origin_stu(){
-        $origin_list=[];
-
-        $this->t_student_info->switch_tongji_database();
-        $list = $this->t_student_info->get_origin_stu();
-        foreach($list as &$val){
-            E\Egrade::set_item_value_str($val);
-            $val["cc"] = $this->t_manager_info->get_account($val['seller_adminid']);
-            $val["cr"] = $this->t_assistant_info->get_nick($val['assistantid']);
-            $val['lesson_count_left']      /= 100;
-            $ret_list = $this->t_student_info->get_stu_list_by_origin($val['userid'],0);
-            foreach($ret_list as $o_val){
-                E\Egrade::set_item_value_str($o_val);
-                $o_val["cc"] = $this->t_manager_info->get_account($o_val['seller_adminid']);
-                $o_val["cr"] = $this->t_assistant_info->get_nick($o_val['assistantid']);
-                $o_val['lesson_count_left'] /= 100;
-            }
-            $origin_list[$val['userid']][]=$ret_list;
-        }
-
-        echo "<pre>";
-        var_dump($list);
-        echo "</pre>";
-        exit;
-    }
-
-    public function get_course_list(){
-        $new_teacherid = [202135,202149,202152,202159,202157,202158];
-        $old_teacherid = [158531,170356,170591,165795,173755,176412];
-        
-        exit;
-        foreach($new_teacherid as $n_key => $n_val){
-            $course_list = $this->t_course_order->get_course_list_by_teacherid($n_val);
-
-            foreach($course_list as $c_val){
-                $teacherid = $old_teacherid[$n_key];
-                $this->t_course_order->row_insert([
-                    "userid"               => $c_val['userid'],
-                    "subject"              => $c_val['subject'],
-                    "grade"                => $c_val['grade'],
-                    "teacherid"            => $teacherid,
-                    "assistantid"          => $c_val['assistantid'],
-                    "default_lesson_count" => $c_val['default_lesson_count'],
-                    "lesson_grade_type"    => $c_val['lesson_grade_type'],
-                    "course_status"        => $c_val['course_status'],
-                    "is_kk_flag"           => $c_val['is_kk_flag'],
-                    "competition_flag"     => $c_val['competition_flag'],
-                ]);
-            }
-        }
-    }
-
-    public function train_lesson_user(){
-        $teacherid    = $this->get_in_int_val("teacherid",$this->teacherid);
-        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-
-        $grade    = $this->change_grade_end_to_grade($teacher_info);
-        $courseid = $this->t_course_order->add_course_info_new(
-            0,0,$grade,$teacher_info['subject'],0
-            ,1100,1,0,0,0
-            ,$teacher_info['teacherid']
-        );
-        $lessonid = $this->t_lesson_info->add_lesson(
-            $courseid,1,0,0,1100,$teacher_info['teacherid'],0
-            ,0,0,$grade,$teacher_info['subject'],100
-            ,$teacher_info['teacher_money_type'],$teacher_info['level'],0,2,0
-            ,0,1,4
-        );
-        $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
-        $this->t_teacher_record_list->row_insert([
-            "teacherid"      => $teacher_info['teacherid'],
-            "type"           => 9,
-            "add_time"       => time(),
-            "train_lessonid" => $lessonid,
-        ]);
-        echo $lessonid;
-    }
-
-    public function change_grade_end_to_grade($teacher_info){
-        $grade_end = $teacher_info['grade_end'];
-        $subject   = $teacher_info['subject'];
-        if($subject==10){
-            $grade=200;
-        }else{
-            if($grade_end>=5){
-                $grade=300;
-            }elseif($grade_end>=3){
-                $grade=200;
-            }else{
-                $grade=100;
-            }
-        }
-        return $grade;
-    }
-
-    public function get_new_order(){
-        $start_time = strtotime("2017-5-1");
-        $end_time   = strtotime("2017-6-13");
-
-        $ret_info=$this->t_order_info->get_new_order($start_time,$end_time);
-
-        $order_list=[];
-        foreach($ret_info as $val){
-            $date_str=date("Y-m-d",$val['pay_time']);
-            if($val['orderid']>0){
-                \App\Helper\Utils::check_isset_data($order_list[$date_str]);
-            }
-            echo $val['nick']."|".date("Y-m-d",$val['pay_time'])."|".$val['default_lesson_count']*$val['lesson_total']/100;
-            echo "<br>";
-        }
-    }
 
     public function get_lecture_list(){
         header("Content-type: text/html; charset=utf-8"); 
@@ -922,16 +199,15 @@ class test_code extends Controller
         if($phone==""){
             return $this->output_err("手机号为空！");
         }
+
         $teacher_info = $this->t_teacher_lecture_appointment_info->get_lecture_appointment_info($phone);
         if(empty($teacher_info)){
             return $this->output_err("您此手机号还未报名！请先报名才可录制试讲！");
         }
-            
         $subject_list   = [];
         $grade_list     = [];
         $lecture_status = [];
         $ret_list       = [];
-            
         $subject       = $teacher_info['subject_ex'];
         $grade         = $teacher_info['grade_ex'];
         $trans_subject = $teacher_info['trans_subject_ex'];
@@ -988,92 +264,6 @@ class test_code extends Controller
             }
         }
         return $ret_list;
-    }
-
-    public function get_origin_user(){
-        $num = $this->get_in_int_val("num",4);
-
-        $start_time = strtotime("2017-".$num."-1");
-        $end_time   = strtotime("+1 month",$start_time);
-
-        $this->switch_tongji_database();
-        $userid_list = $this->t_student_info->get_origin_user_list();
-        $userid     = array_keys($userid_list);
-        $userid_str = implode(",",$userid);
-
-        $stu_list    = $this->t_student_info->get_origin_user($start_time,$end_time);
-        // $origin_list = $this->t_student_info->get_origin_user_2($start_time,$end_time,$userid_str);
-
-        echo "被转介绍";
-        echo "<br>";
-        echo "昵称|真实姓名|电话|邮箱|区域|年级|设备|签单人|合同类型|购买课时|剩余课时|退费情况|"
-            ."介绍人昵称|介绍人真实姓名|介绍人电话|介绍人设备|介绍人CC|介绍人年级|介绍人地区";
-        echo "<br>";
-        foreach($stu_list as $val){
-            $agent = json_decode($val['user_agent'],true);
-            $origin_agent = json_decode($val['origin_user_agent'],true);
-            E\Econtract_type::set_item_value_str($val);
-            E\Egrade::set_item_value_str($val);
-            E\Egrade::set_item_value_str($val,"origin_grade");
-            $val['seller_nick'] = $this->cache_get_seller_nick($val['origin_seller']);
-            echo $val['nick']."|".$val['realname']."|".$val['phone']."|".$val['email']
-                             ."|".$val['phone_location']."|".$val['grade_str']
-                             ."|".$agent['device_model']."|".$val['sys_operator']
-                             ."|".$val['contract_type_str']."|".$val['lesson_total_all']
-                             ."|".$val['lesson_left_all']."|".$val['refund_num']
-
-                             ."|".$val['origin_nick']."|".$val['origin_realname']."|".$val['origin_phone']
-                             ."|".$origin_agent['device_model']."|".$val['seller_nick']."|".$val['origin_grade_str']
-                             ."|".$val['origin_phone_location'];
-            echo "<br>";
-        }
-
-        // echo "介绍人";
-        // echo "<br>";
-        // echo "昵称|真实姓名|电话|邮箱|区域|年级|设备|签单人|合同类型|购买课时|剩余课时|退费情况";
-        // echo "<br>";
-
-        // foreach($origin_list as $val){
-        //     $agent = json_decode($val['user_agent'],true);
-        //     E\Econtract_type::set_item_value_str($val);
-        //     E\Egrade::set_item_value_str($val);
-        //     echo $val['nick']."|".$val['realname']."|".$val['phone']."|".$val['email']
-        //                      ."|".$val['phone_location']."|".$val['grade_str']
-        //                      ."|".$agent['device_model']."|".$val['sys_operator']
-        //                      ."|".$val['contract_type_str']."|".$val['lesson_total_all']
-        //                      ."|".$val['lesson_left_all']."|".$val['refund_num'];
-        //     echo "<br>";
-        // }
-    }
-
-    public function reset_teacher_name(){
-        $list = $this->t_teacher_info->get_teacher_name_list();
-        foreach($list as $val){
-            echo $val['phone_spare']."|".$val['phone']."|".$val['origin_teacherid']."|".$val["teacherid"];
-            echo "<br>";
-             $this->t_teacher_info->field_update_list($val['teacherid'],[
-                 "realname" => $val['realname'],
-                 "nick"     => $val['realname'],
-             ]);
-        }
-    }
-
-    public function get_origin_list(){
-        $arr = $this->get_b_txt();
-        $phone_str = "";
-        $this->switch_tongji_database();
-        echo "姓名|手机号|版本|所在地|推荐人姓名|手机|版本|所在地";
-        echo "<br>";
-
-        foreach($arr as $val){
-            if($val!=""){
-                $info = $this->t_student_info->get_teacher_origin_info($val);
-                echo $info["nick"]."|".$info['phone']."|".$info['user_agent']."|".$info['phone_location']
-                                  ."|".$info["origin_nick"]."|".$info['origin_phone']."|".$info['origin_user_agent']
-                                  ."|".$info['origin_location'];
-                echo "<br>";
-            }
-        }
     }
 
     public function get_teacher_lesson_count(){
@@ -1239,28 +429,6 @@ class test_code extends Controller
         }
     }
 
-    public function test_teacher_qr(){
-        header("Content-type:image/jpeg");
-        $phone = $this->get_in_str_val("phone","18790256265");
-
-        $phone_qr_name  = $phone."_qr_summer.png";
-        $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
-        $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation.png";
-        $qr_url         = "/tmp/".$phone.".png";
-        $teacher_qr_url = "/tmp/".$phone_qr_name;
-        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
-        
-        $image_1 = imagecreatefrompng($bg_url);
-        $image_2 = imagecreatefrompng($qr_url);
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
-        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-        imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
-        imagepng($image_3,$teacher_qr_url);
-        imagedestroy($image_1);
-        imagedestroy($image_2);
-        imagedestroy($image_3);
-    }
-
     public function test_lesson_total(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $this->switch_tongji_database();
@@ -1272,114 +440,6 @@ class test_code extends Controller
         $full_list = $this->t_lesson_info_b2->test_lesson_total($full_start,$full_end,3);
         echo count($full_list);
     }
-
-    public function add_lesson_for_11(){
-        $arr=$this->get_b_txt();
-        $today_date=date("Y-m-d",time());
-        $stu_arr=[
-            "肖芸"   => "241094",
-            "董瑞雯" => "241096",
-        ];
-
-        foreach($arr as $val){
-            if($val != ""){
-                $lesson_info = explode("\t",$val);
-                /* 0 上课老师 1 上课时间段 2 学生 3 上课老师手机号 */
-                $lesson_time  = explode("-",$lesson_info[1]);
-                
-                $lesson_start  = strtotime($today_date." ".$lesson_time[0]); 
-                $lesson_end    = strtotime($today_date." ".$lesson_time[1]); 
-                $teacherid     = $this->t_teacher_info->get_teacherid_by_phone($lesson_info[3]);
-                $check_teacher = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
-                if($check_teacher){
-                    echo "老师".$lesson_info[0]."时间冲突！上课时间:".$lesson_info[1]."冲突id：".$check_teacher['lessonid'];
-                    echo "<br>";
-                    continue;
-                }
-                $userid     = $stu_arr[$lesson_info[2]];
-                $check_user = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
-                if($check_user){
-                    echo "学生".$lesson_info[2]."时间冲突！上课时间:".$lesson_info[1]."冲突id:".$check_user['lessonid'];
-                    echo "<br>";
-                    continue;
-                }
-
-                // $lessonid = $this->t_lesson_info->add_lesson(
-                //     0,0,$userid,0,2,
-                //     $teacherid,0,$lesson_start,$lesson_end,100,
-                //     11,100
-                // );
-                echo $lesson_info[0]."|".$lesson_info[2];
-                echo "<br>";
-            }
-        }
-    }
-
-    public function add_trial_lesson(){
-        $userid    = $this->get_in_int_val("userid",241094);
-        $teacherid = $this->get_in_int_val("teacherid",240469);
-
-        $grade   = 100;
-        $subject = 11;
-        $lesson_start = strtotime("2017-7-15 21:00");
-        $lesson_end = strtotime("2017-7-15 22:00");
-
-        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
-        //检查时间是否冲突
-        if ($ret_row1) {
-            $error_lessonid=$ret_row1["lessonid"];
-            return $this->output_err(
-                "<div>有现存的学生课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
-            );
-        }
-        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
-        if($ret_row2){
-            $error_lessonid = $ret_row2["lessonid"];
-            return $this->output_err(
-                "<div>有现存的老师课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
-            );
-        }
-
-        $courseid = $this->t_course_order->add_course_info_new(1,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
-        $lessonid = $this->t_lesson_info->add_lesson(
-            $courseid,0,$userid,0,2,
-            $teacherid,0,$lesson_start,$lesson_end,$grade,
-            $subject,100,4,1
-        );
-    }
-
-    public function get_origin_order(){
-        $origin     = $this->get_in_str_val("origin","问卷星");
-        $start_time = strtotime("2017-5-1");
-        $end_time   = time();
-
-        $list = $this->t_order_info->get_origin_order($start_time,$end_time,$origin);
-        echo "姓名|年级|手机|学生城市|签单课时|金额|下单人|合同生效时间|合同类型|渠道";
-        echo "<br>";
-
-        foreach($list as $val){
-            $grade_str    = E\Egrade::get_desc($val['grade']);
-            $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
-            $price        = $val['price']/100;
-            $pay_time = date("Y-m-d H:i",$val['pay_time']);
-            $contract_str = E\Econtract_type::get_desc($val['contract_type']);
-
-            echo $val['nick']."|".$grade_str."|".$val['phone']."|".$val['phone_location']
-                             ."|".$lesson_total
-                             ."|".$price."|".$val['sys_operator']
-                             ."|".$pay_time."|".$contract_str."|".$val['origin'];
-            echo "<br>";
-        }
-    }
-
-    public function get_origin_user_list(){
-        $list = $this->t_order_info->get_origin_user_list();
-        foreach($list as $val){
-            echo $val['nick']."|".$val['phone']."|".$val['ass_nick']."|".$val['seller_nick'];
-            echo "<br>";
-        }
-    }
-
     public function get_create_teacher(){
         $num = $this->get_in_int_val("num",0);
         $start_time = strtotime("2017-4-1");
@@ -1406,53 +466,6 @@ class test_code extends Controller
             echo $val['nick']."|".$val['phone']."|".$create_date."|".$trial_count."|".$succ_trial."|".$normal_count."|".$succ_per;
             echo "<br>";
         }
-    }
-
-    public function get_amanda(){
-        $start_time = strtotime("2015-1-1");
-        $end_time   = strtotime("2017-8-1");
-        $end_time   = time();
-        $start_time = strtotime("-1 year",$end_time);
-        $list = $this->t_student_info->get_has_lesson($start_time,$end_time);
-        echo count($list);
-        foreach($list as $val){
-            $str=E\Estudent_type::get_desc($val['type']);
-            echo $val['nick']."|".$val['phone']."|".$str;
-            echo "<br>";
-        }
-    }
-
-    /**
-     * 有5个合同以上的名单
-     */
-    public function get_order_5(){
-        $this->switch_tongji_database();
-        $list = $this->t_order_info->get_order_5();
-
-        foreach($list as $val){
-            $ass_nick    = $this->cache_get_assistant_nick($val['assistantid']);
-            $last_lesson = $this->t_lesson_info->get_last_lesson_time($val['userid']);
-            $last_lesson = date("Y-m-d",$last_lesson);
-            echo $val['nick']."|".$val['phone']."|".$val['have_order']."|".$ass_nick."|".$val['seller_name']."|".$last_lesson;
-            echo "<br>";
-        }
-
-        $userid=$this->t_student_info->register($phone,$passwd,$reg_channel,$grade,$ip,$nick,$region);
-    }
-
-    public function test_push_wx_to_teacher(){
-        $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-        $teacherid   = 58052;
-        $openid = $this->t_teacher_info->get_wx_openid($teacherid);
-        $nick   = $this->t_teacher_info->get_realname($teacherid);
-        $data['first']    = $nick."老师您好！";
-        $data['keyword1'] = "邀请参训通知";
-        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
-        $data['keyword3'] = date("Y-m-d",time());
-        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
-        $list[0]['wx_openid'] = $openid;
-        $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
-        dispatch($job);
     }
 
     /**
@@ -1977,9 +990,10 @@ class test_code extends Controller
 
     /**
      * 切换老师后,更新课程信息
+     adrian
      */
     public function reset_teacher_info(){
-        $time  = strtotime("2017-9-23 19:30");
+        $time  = strtotime("2017-9-26");
         $arr = $this->t_lesson_info_b3->get_need_reset_list($time);
         dd($arr);
         foreach($arr as $val){
@@ -2052,45 +1066,9 @@ class test_code extends Controller
             //     \App\Helper\Utils::send_teacher_msg_for_wx($val['wx_openid'],$template_id,$data);
             // }
         }
-
     }
 
 
-    /**
-     * 设置老师批次
-     */
-    public function reset_teacher_batch(){
-        $list = $this->t_teacher_switch_money_type_list->get_teacher_switch_list(-1,-1,-1,0,8);
-        $tea_list=[];
-        foreach($list as $l_val){
-            $lesson_total=(float)$l_val['lesson_total']/100;
-            $y = (float)$l_val['all_money_different'];
-            $x = (float)$l_val['base_money_different']/$lesson_total;
-            $batch = 0;
-
-            if($x>(float)0 && $y>(float)0){
-                $batch = 1;
-            }elseif($x<=(float)0 && $y>=(float)0){
-                $batch = 2;
-            }elseif($x>=(float)0 && $y<=(float)0){
-                $batch = 3;
-            }elseif($x>=(float)-2 && $y>=(float)-200){
-                $batch = 4;
-            }elseif($x<=(float)-2 && $y>=(float)-200){
-                $batch = 5;
-            }elseif($x<=(float)-2 && $y<=(float)-200){
-                $batch = 6;
-            }
-
-            echo $l_val['realname']."|".$x."|".$y."|".$batch."|".$lesson_total."|";
-            echo "<br>";
-            // $this->t_teacher_switch_money_type_list->field_update_list($l_val['id'],[
-            //     "batch"=>$batch
-            // ]);
-            $tea_list[$batch][]=$l_val['realname'];
-        }
-        dd($tea_list);
-    }
 
     /**
      * 重置试讲通过,但科目未设置的老师科目和年级
@@ -2111,49 +1089,6 @@ class test_code extends Controller
     public function reset_already_lesson_count(){
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_key);
         \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_simulate_key);
-    }
-
-    public function reset_teacher_simulate_info(){
-        $list =$this->t_teacher_switch_money_type_list->get_need_reset_list();
-        dd($list);
-        foreach($list as $val){
-            $this->t_teacher_info->field_update_list($val['teacherid'],[
-                "teacher_money_type_simulate" => $val['teacher_money_type'],
-                "level_simulate"              => $val['level'],
-            ]);
-        }
-
-    }
-
-    /**
-     * 获取之前第三版的等级和转换后的
-     */
-    public function get_teacher_list(){
-        $start = strtotime("2017-5-1");
-        $end   = strtotime("2017-9-1");
-        $list  = $this->t_teacher_info->get_old_teacher_money_type_list($start,$end);
-        dd($list);
-        // $info = $this->get_b_txt();
-        // dd($info);
-        foreach($info as $val){
-            if($val!=""){
-                $teacher_info = $this->t_teacher_info->get_teacher_info($val);
-                $teacher_money_type_str = E\Eteacher_money_type::get_desc($teacher_info['teacher_money_type']);
-                $teacher_money_type_simulate_str = E\Eteacher_money_type::get_desc($teacher_info['teacher_money_type_simulate']);
-                echo $teacher_money_type_str."|".$teacher_money_type_simulate_str;
-                echo "<br>";
-            }
-        }
-    }
-
-    public function get_teacherid_str(){
-        $info = $this->get_b_txt();
-        $teacherid_str ="";
-        foreach($info as $val){
-            if($val!=""){
-                $teacherid = $this->t_teacher_info->get_teacherid_by_name($val,$teacherid_str);
-            }
-        }
     }
 
     public function teacher_lesson_total(){
@@ -2179,30 +1114,12 @@ class test_code extends Controller
     }
 
     /**
-     * 检测课程的老师工资类型
-     */
-    public function CheckLessonTeacherMoneyType(){
-
-        $list = $this->t_lesson_info_b3->check_lesson_teacher_money_type();
-        dd($list);
-        foreach($list as $val){
-            $this->t_lesson_info->field_update_list($val['lessonid'],[
-                "teacher_money_type" => $val['teacher_money_type'],
-                "level"              => $val['level'],
-            ]);
-            echo "has update :".$val['lessonid'];
-        }
-
-    }
-
-
-    /**
      * 老师所带学生数
      */
     public function get_tea_stu_num(){
         $month_start = $this->get_in_int_val("month_start");
         $month_end   = $this->get_in_int_val("month_end");
-        $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid   = $this->get_in_int_val("teacherid");
         if($teacherid==0){
             return $this->output_err("id不能为0");
         }
@@ -2223,13 +1140,6 @@ class test_code extends Controller
         echo "<br>";
         echo "$name|".$not_num."|".$num;
         echo "<br>";
-    }
-
-    public function get_zhao_num(){
-        $phone = "15831024307";
-        $identity = 1;
-        $price = $this->get_teacher_reference_price($phone,$identity);
-        echo $price;
     }
 
     public function get_teacher_list_for_total_info(){
@@ -2301,14 +1211,6 @@ class test_code extends Controller
         }
     }
 
-    public function test_api(){
-        echo "test_api";
-    }
-
-    public function get_reference_list(){
-        $list = $this->t_teacher_info->get_reference_list_for_reset();
-
-    }
 
 
 }

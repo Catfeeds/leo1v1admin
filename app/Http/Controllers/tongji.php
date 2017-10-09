@@ -1760,7 +1760,6 @@ class tongji extends Controller
                     $money6 += $money;
                 }
             }
-            $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
             $ret_info[$key]['money1']  = $money1/100;
@@ -1774,18 +1773,17 @@ class tongji extends Controller
         foreach($date_list as $key=>&$item){
             $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
-        $ret_info_new = [];
-        foreach($ret_info as $key=>&$item){
-            foreach($ret_info as $info){
-                if($item['money6']<$info['money6']){
-                    $item = $info;
-                }
-            }
+        $money6_arr = array_column($ret_info,'money6');
+        array_multisort($money6_arr,SORT_DESC,$ret_info);
+        foreach($ret_info as $key=>$item){
+            $ret_info[$key]['id'] = $num++;
         }
+
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),['date_list'=>$date_list]);
     }
 
     public function seller_personal_rank() {
+
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
 
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time,-1, '');

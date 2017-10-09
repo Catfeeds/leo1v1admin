@@ -5,7 +5,7 @@
     </script>
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -27,7 +27,7 @@
         </div>
         <hr/>
 
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>类型 </td>
@@ -36,24 +36,30 @@
                     <td>成员 </td>
                     <td>申请数 </td>
                     <td>排课数</td>
+                    <td>拨打次数</td>
+                    <td>拨通次数</td>
+                    <td>通话时长</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    
+
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
                         <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
-                        <td >{{@$var["require_count"]}}</td> 
-                        <td >{{@$var["set_lesson_count"]}}</td> 
+                        <td >{{@$var["require_count"]}}</td>
+                        <td >{{@$var["set_lesson_count"]}}</td>
+                        <td >{{@$var["call_count"]}}</td>
+                        <td >{{@$var["is_called_count"]}}</td>
+                        <td >{{@$var["call_time_long"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                
+
                             </div>
                         </td>
                     </tr>
@@ -61,7 +67,5 @@
             </tbody>
         </table>
     </section>
-    
+
 @endsection
-
-

@@ -3,11 +3,13 @@ namespace App\OrderPrice;
 
 use \App\Enums as E;
 class order_price_base {
-    static $cur_order_price_type=E\Eorder_price_type::V_20170901;
+    //static $cur_order_price_type=E\Eorder_price_type::V_20170901;
+    static $cur_order_price_type=E\Eorder_price_type::V_20171001;
     static $order_price_type_config=[
         E\Eorder_price_type::V_20170101 => order_price_20170101::class,
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
         E\Eorder_price_type::V_20170901 => order_price_20170901::class,
+        E\Eorder_price_type::V_20171001 => order_price_20171001::class,
     ];
 
     /**
@@ -138,6 +140,9 @@ class order_price_base {
     }
 
     static public function get_price_ex_cur( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args) {
+        if (time(NULL) < strtotime("2017-10-01") ) {
+            static::$cur_order_price_type = E\Eorder_price_type::V_20170901 ;
+        }
         return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) ;
     }
 
@@ -148,5 +153,14 @@ class order_price_base {
         }
         */
         return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc, "price" => $price  ];
+    }
+
+    static public function gen_activity_item($order_activity_type,$succ_flag, $desc , $cur_price, $cur_present_lesson_count  ) {
+        return [ "order_activity_type" => $order_activity_type ,
+                 "succ_flag"=> $succ_flag ,
+                 "activity_desc"=>$desc,
+                 "cur_price" => $cur_price  ,
+                 "cur_present_lesson_count" => $cur_present_lesson_count
+        ];
     }
 }

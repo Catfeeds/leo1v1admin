@@ -9,7 +9,7 @@ use CacheNick;
 /**
  * 老师奖励金额类型
  * type=1 荣誉榜奖励金额,每个周期课时消耗前5(第5名并列可取多)
- * type=2 第三版工资类型的老师的试听签单奖
+ * type=2 兼职老师的试听签单奖
  * type=3 公司全职老师试听签单奖
  */
 class TeacherMoneyTask extends TaskController
@@ -51,15 +51,10 @@ class TeacherMoneyTask extends TaskController
 
     /**
      * @param type 2 兼职老师的签单奖 3 全职老师的签单奖
-
+     * @param day  老师签单奖更新的时间周期('day'天以内,如果为0则使用默认值)
      */
-    public function set_teacher_trial_success_reward($type){
-        if($type==2){
-            $begin_date = "2016-12-1";
-        }elseif($type==3){
-            $begin_date = "2017-4-1";
-        }
-        $begin_time = strtotime($begin_date);
+    public function set_teacher_trial_success_reward($type,$day){
+        $begin_time = $this->get_begin_time($type,$day);
 
         $this->t_test_lesson_subject_sub_list->switch_tongji_database();
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
@@ -67,6 +62,8 @@ class TeacherMoneyTask extends TaskController
         \App\Helper\Utils::logger("set_trial_reward :".json_encode($list)." time ".time());
         $lessonid = "";
         foreach($list as $val){
+            $stu_nick = $this->cache_get_student_nick($val['userid']);
+            $tea_nick = $this->cache_get_student_nick($val['teacherid']);
             if($type==3){
                 if($val['require_admin_type']==E\Eaccount_role::V_2){
                     $money = 16000;
@@ -83,6 +80,7 @@ class TeacherMoneyTask extends TaskController
                 "add_time"   => time(),
                 "money"      => $money,
                 "money_info" => $val['lessonid'],
+                "lessonid"   => $val['lessonid'],
             ]);
 
             if($ret){
@@ -94,8 +92,8 @@ class TeacherMoneyTask extends TaskController
                    高转化率老师可获得晋升等级的机会，请继续加油提供高品质教学服务。
                 */
                 $data = [
-                    "tea_nick" => $this->cache_get_teacher_nick($val['teacherid']),
-                    "stu_nick" => $this->cache_get_student_nick($val['userid']),
+                    "tea_nick" => $tea_nick,
+                    "stu_nick" => $stu_nick,
                     "price"    => ($money/100),
                 ];
                 \App\Helper\Utils::sms_common($val['phone'],"51410003",$data);
@@ -103,18 +101,22 @@ class TeacherMoneyTask extends TaskController
         }
     }
 
-    public function get_trial_reward_money($type,$val){
-        $money = 0;
+    /**
+     * 获取签单奖检测的开始时间
+     */
+    public function get_begin_time($type,$day){
+        $begin_time = strtotime("-$day day",time());
         if($type==2){
-            $money=6000;
+            $check_time = strtotime("2016-12-1");
         }elseif($type==3){
-            if($val['require_admin_type']==2){
-                $money=16000;
-            }else{
-                $money=10000;
-            }
+            $check_time = strtotime("2017-4-1");
         }
-        return $money;
+
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+        return $begin_time;
     }
+
 
 }

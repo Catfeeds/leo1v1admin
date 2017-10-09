@@ -86,6 +86,11 @@ class get_ass_stu_info_update extends Command
         // $lesson_count_list_old = $task->t_manager_info->get_assistant_lesson_count_info_old($start_time,$end_time);        
                    
         $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+
+        //续费金额 分期按80%计算,按新方法获取
+        $ass_renw_money = $task->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
+
+        //扩课成功数
         $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
         $refund_info = $task->t_order_refund->get_ass_refund_info($start_time,$end_time);
 
@@ -164,7 +169,8 @@ class get_ass_stu_info_update extends Command
             $item["lesson_total"]          = @$lesson_count_list[$k]["lesson_count"];
             $item["lesson_ratio"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,2):0;
 
-            $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];
+            // $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];
+            $item["renw_price"]            = @$ass_renw_money[$k]["money"];
             $item["all_price"]             = @$assistant_renew_list[$k]["all_price"];
             $item["tran_price"]            = @$assistant_renew_list[$k]["tran_price"];
             $item["renw_student"]          = @$assistant_renew_list[$k]["all_student"];
@@ -284,19 +290,21 @@ class get_ass_stu_info_update extends Command
             }
 
             if(date("d",time())=="01"){
+                $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+
                 //add 课耗活动-------------------------------------------------------------------------------
                 $item["lesson_ratio_month"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,3):0; //课程系数
-                $item["effective_student"] = $student_all_detail[$k]; //带学生人数
+                $item["effective_student"] = @$student_all_detail[$k]; //带学生人数
 
                 //ca
                 $assign_lesson  = 0;
-                if($item['lesson_ratio_month'] < 14.220){
+                if($item['lesson_ratio_month'] < $lesson_target){
                     $assign_lesson = 0;
-                }elseif($item['lesson_ratio_month'] < 15.642){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
                     $assign_lesson = 900;  //3
-                }elseif($item['lesson_ratio_month'] < 17.064){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
                     $assign_lesson = 1500; //5
-                }elseif($item['lesson_ratio_month'] < 18.486){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
                     $assign_lesson = 2100; //7
                 }else{
                     $assign_lesson = 2700; //9

@@ -88,6 +88,10 @@ class self_manage extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(-60,0);
         $adminid         = $this->get_account_id();
 
+        if($adminid == 1118){ // 孙瞿
+            $adminid = 684;
+        }
+
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);
         $flow_check_flag = $this->get_in_int_val("flow_check_flag",-1,E\Eflow_check_flag::class);
         $flow_type       = $this->get_in_int_val("flow_type",-1, E\Eflow_type::class );

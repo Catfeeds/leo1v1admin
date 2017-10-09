@@ -3,6 +3,7 @@
 
 function load_data(){
     $.reload_self_page({
+			orderid:	$('#id_orderid').val(),
         date_type         : $('#id_date_type').val(),
         opt_date_type     : $('#id_opt_date_type').val(),
         seller_groupid_ex :	$('#id_seller_groupid_ex').val(),
@@ -12,6 +13,7 @@ function load_data(){
         grade             : $('#id_grade').val(),
         subject           : $('#id_subject').val(),
         contract_type     : $("#id_contract_type").val(),
+        order_activity_type : $("#id_order_activity_type").val(),
         contract_status   : $("#id_contract_status").val(),
         studentid         : $("#id_studentid").val(),
         test_user         : $("#id_test_user").val(),
@@ -40,6 +42,7 @@ function isNumber( s ){
 
 $(function(){
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
+    Enum_map.append_option_list( "order_activity_type", $("#id_order_activity_type"));
     Enum_map.append_option_list( "test_user", $("#id_test_user"));
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
@@ -62,8 +65,10 @@ $(function(){
 
 
     //init  input data
+	  $('#id_orderid').val(g_args.orderid);
     $("#id_has_money").val(g_args.has_money);
     $("#id_contract_type").val(g_args.contract_type);
+    $("#id_order_activity_type").val(g_args.order_activity_type );
     $("#id_contract_status").val(g_args.contract_status);
     $("#id_test_user").val(g_args.test_user);
     $("#id_studentid").val(g_args.studentid);
@@ -2559,10 +2564,22 @@ $(function(){
 
     $(".opt-price_desc").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
-            "str" : JSON.stringify( opt_data.order_price_desc)
-        }, function (resp){
-            BootstrapDialog.alert($(resp.html_str));
+
+        $.do_ajax( "/ajax_deal2/get_order_activity_list",{
+            "orderid" : opt_data.orderid
+        },function(resp){
+            var list= resp.list;
+            var data=opt_data.order_price_desc;
+            if( list.length >0 )  {
+                data=list;
+            }
+            $.do_ajax( "/ajax_deal2/get_order_desc_html_str",{
+                "str" : JSON.stringify(list )
+            }, function (resp){
+                BootstrapDialog.alert($(resp.html_str));
+            } );
+
+
         } );
 
     });

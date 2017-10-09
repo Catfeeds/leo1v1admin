@@ -1,0 +1,39 @@
+* 安装软件
+  sudo apt-get install git   mysql-client gawk  docker nginx php-cli
+* docker 加速  
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://i80iz2o3.mirror.aliyuncs.com"]
+}
+EOF
+
+
+ 
+* 下载git代码
+  cd ~
+  git clone    git@192.168.0.5:root/admin_yb1v1.git
+
+
+  cd ~/admin_yb1v1
+
+  #复制配置文件
+  cp .env.example .env
+
+
+  目录
+  mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
+
+  文件权限
+  chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
+
+  #生成 自动生成的代码
+  ./gen_code.sh
+
+
+* nginx 配置
+  sudo cp ./install_files/docker.conf /etc/nginx/sites-enabled/
+  sudo /etc/init.d/nginx reload
+
+  /etc/hosts 加入
+ 127.0.0.1  d.admin.yb1v1.com

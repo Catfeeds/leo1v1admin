@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TGarbLessonLinkOperationDropVisitid extends Migration
+class CreateTTestAbnerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class TGarbLessonLinkOperationDropVisitid extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('db_weiyi.t_grab_lesson_link_visit_operation', function( Blueprint $table)
-        {
-            $table->dropColumn('visitid');
+        Schema::create('t_test_abner', function (Blueprint $table) {
+            $table->increments('id'); 
+            $table->string('msg'); 
+            $table->integer('grade'); 
+            $table->integer('value'); 
         });
-
 
     }
 
@@ -28,6 +28,6 @@ class TGarbLessonLinkOperationDropVisitid extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('t_test_abner');
     }
 }

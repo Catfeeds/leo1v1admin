@@ -77,6 +77,7 @@
                 <td  >回访类型</td>
                 <td  >年级</td>
                 <td  >回访时间</td>
+                <td  >通话时间（秒）</td>
                 <td  >回访内容</td>
                 <td  >回访人</td>
                 <td  >操作</td>
@@ -92,6 +93,7 @@
                     <td >{{$var["revisit_type_str"]}}</td>
                     <td >{{$var["grade_str"]}}</td>
                     <td >{{$var["revisit_time"]}}</td>
+                    <td >{{$var["duration"]}}</td>
                     <td >{{$var["operator_note"]}}</td>
                     <td >{{$var["sys_operator"]}}</td>
                     <td >

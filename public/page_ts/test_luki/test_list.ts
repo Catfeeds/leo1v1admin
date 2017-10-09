@@ -79,6 +79,7 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
+<<<<<<< HEAD
         var arr=[
         ] ;
 
@@ -93,4 +94,14 @@ $(function(){
         });
 
       });
+=======
+
+        $.do_ajax("/test_luki/test_del",{
+            "id" : opt_data.id,
+        });
+
+    });
+
+
+>>>>>>> 49749a3b7f888cf315f53db9044462c643ff4ba0
 });

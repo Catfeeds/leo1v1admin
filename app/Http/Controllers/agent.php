@@ -326,199 +326,148 @@ class agent extends Controller
     }
 
     public function check(){
-dd('b');
-        $phone = '18763822496';
-        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
-        $competition_call_adminid = 860;
-        $ret = 0;
-        $admin_revisiterid = $this->t_seller_student_new->get_row_by_admin_revisiterid($userid,$competition_call_adminid);
-        if($admin_revisiterid){//认领过
-            dd('认领过');
+        $self_groupid = $this->get_in_int_val("self_groupid",-1);
+
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -30*6, 1, 0, [
+            0 => array( "add_time", "资源进来时间"),
+            4 => array("sub_assign_time_2","分配给主管时间"),
+            5 => array("admin_assign_time","分配给组员时间"),
+            6 => array("tmk_assign_time","微信分配时间"),
+            ], 0,0, true
+        );
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
+
+        $userid            = $this->get_in_userid(-1);
+        $origin            = trim($this->get_in_str_val('origin', ''));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        // dd($origin_ex);
+        $grade             = $this->get_in_el_grade();
+        $subject           = $this->get_in_subject(-1);
+        $phone_location    = trim($this->get_in_str_val('phone_location', ''));
+        $admin_revisiterid = $this->get_in_int_val('admin_revisiterid', -1);
+        $tq_called_flag    = $this->get_in_int_val("tq_called_flag", -1,E\Etq_called_flag::class);
+        $global_tq_called_flag = $this->get_in_int_val("global_tq_called_flag", -1,E\Etq_called_flag::class);
+        $seller_student_status = $this->get_in_el_seller_student_status();
+
+        $page_num              = $this->get_in_page_num();
+        $page_count            = $this->get_in_page_count();
+        $has_pad               = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
+        $sub_assign_adminid_2  = $this->get_in_int_val("sub_assign_adminid_2", 0);
+        $origin_assistantid    = $this->get_in_int_val("origin_assistantid",-1  );
+        $tmk_adminid           = $this->get_in_int_val("tmk_adminid",-1, "");
+        $account_role     = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
+        $origin_level          = $this-> get_in_el_origin_level("0,1,2,3,4");
+        $seller_student_sub_status = $this->get_in_enum_val(E\Eseller_student_sub_status::class,-1);
+        $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
+        $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
+        $sys_invaild_flag  =$this->get_in_e_boolean(0,"sys_invaild_flag");
+        $publish_flag  = $this->get_in_e_boolean(1,"publish_flag");
+        $show_list_flag = $this->get_in_int_val("show_list_flag", 0);
+        $seller_level = $this->get_in_el_seller_level();
+
+        $admin_del_flag  = $this->get_in_e_boolean(-1 ,"admin_del_flag");
+        //wx
+        $wx_invaild_flag  =$this->get_in_e_boolean(-1,"wx_invaild_flag");
+        //dd($wx_invaild_flag);
+        $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
+        $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
+        $call_phone_count= $this->get_in_intval_range("call_phone_count");
+        $call_count= $this->get_in_intval_range("call_count");
+        $suc_test_count= $this->get_in_intval_range("suc_test_count", -1);
+        $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
+        $self_adminid = $this->get_account_id();
+        if($self_adminid==349){
+            $self_adminid=-1;
         }
-        $tquin = $this->t_manager_info->get_tquin($competition_call_adminid);
-        $is_called_flag = $this->t_tq_call_info->get_call_info_row($tquin,$phone);
-        if($is_called_flag == 0){//未拨通
-            dd('未拨通');
-        }
-        //近1小时内有拨通过
-        // if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子")){
-        //     $account=$this->t_manager_info->get_account( $competition_call_adminid );
-        //     $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
-        //     $ret_update = $this->t_book_revisit->add_book_revisit(
-        //         $phone,
-        //         "操作者:  抢单 [$account] ",
-        //         "system"
-        //     );
-        //     $this->t_seller_student_new->field_update_list($userid,['admin_revisiterid'=>$competition_call_adminid]);
-        //     $ret = 1;
-        // }
-       dd($phone,$tquin,$is_called_flag);
-    }
+        $this->switch_tongji_database();
+
+        $this->t_seller_student_new->switch_tongji_database();
+        $ret_info = $this->t_seller_student_new->get_assign_list_new_test(
+            $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
+            $origin,$opt_date_str,$start_time,$end_time,$grade,
+            $subject,$phone_location,$origin_ex,$has_pad,$sub_assign_adminid_2,
+            $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
+            $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
+            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,$main_master_flag,$self_adminid );
+
+        $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+        foreach( $ret_info["list"] as $index=> &$item ) {
+            $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
+            $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
+            \App\Helper\Utils::unixtime2date_for_item($item,"admin_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"competition_call_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_contact_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_call_time");
+            $item["opt_time"] = $item[$opt_date_str];
+            $item["index"]    = $start_index + $index ;
+            E\Eseller_student_status::set_item_value_str($item);
+            E\Eseller_student_sub_status::set_item_value_str($item);
+            E\Etmk_student_status::set_item_value_str($item);
+            E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Eseller_resource_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"sys_invaild_flag");
+            E\Esubject::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
+            E\Eorigin_level::set_item_value_str($item);
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
+            $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+            $this->cache_set_item_account_nick($item,"competition_call_adminid","competition_call_admin_nick");
+            $this->cache_set_item_account_nick($item,"require_adminid","require_admin_nick");
+
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_valid_desc",
+                                                     "first_tmk_set_valid_admind",
+                                                     "first_tmk_set_valid_time" );
 
 
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_set_cc_desc",
+                                                     "tmk_set_seller_adminid",
+                                                     "first_tmk_set_seller_time" );
 
-    public function agent_add(){
-        // $p_phone = '18616626799';
-        // $phone   = '17701796622';
-        $type   = E\Eagent_type::V_1;
-        $userid = $this->t_phone_to_user->get_userid($phone);
-        $student_info = $this->t_student_info->field_get_list($userid,'*');
-        $orderid = 0;
-        if($userid){
-            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
-            if($order_info['orderid']){
-                $orderid = $order_info['orderid'];
-            }
-        }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        if($p_phone == $phone){
-            return $this->output_err("不能邀请自己!");
-        }
-        if(!$type){
-            return $this->output_err("请选择报名类型!");
-        }
-        // if($userid
-        //    && $student_info['type'] ==  E\Estudent_type::V_0
-        //    && $student_info['is_test_user'] == 0
-        //    && $orderid
-        //    && $type == E\Eagent_type::V_1
-        // ){//在读非测试
-        //     dd($student_info);
-        //     return $this->output_err("您已是在读学员!");
-        // }
-        // dd('b');
-        if(!$p_phone){
-            return $this->output_err("无推荐人!");
-        }
-        $phone_str = implode(',',[$phone,$p_phone]);
-        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
-        foreach($ret_list as $item){
-            if($phone == $item['phone']){
-                $ret_info = $item;
-            }else{
-                $ret_info_p = $item;
-            }
-        }
-        $parentid = $ret_info_p['id'];
-        $p_wx_openid = $ret_info_p['wx_openid'];
-        $p_agent_level = $ret_info_p['agent_level'];
-        $pp_wx_openid = $ret_info_p['pp_wx_openid'];
-        $pp_agent_level = $ret_info_p['pp_agent_level'];
-        if(isset($ret_info['id'])){//已存在,则更新父级和类型
-            if($type == $ret_info['type'] or $ret_info['type']==3){
-                return $this->output_err("您已被邀请过!");
-            }
-            $type_new = $ret_info['type']=0?$type:3;
-            $this->t_agent->field_update_list($ret_info['id'],[
-                "parentid" => $parentid,
-                "type"     => $type_new,
-            ]);
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
-            return $this->output_succ("邀请成功!");
-        }
-        if($type == 1){//进例子
-            $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            $this->cache_set_item_account_nick_time ($item, "first_set_master_desc",
+                                                     "first_admin_master_adminid",
+                                                     "first_admin_master_time" );
 
-            if ($db_userid)  {
-                $add_time=$this->t_seller_student_new->get_add_time($userid);
-                if ($add_time < time(NULL) -60*86400 ) { //60天前例子
-                    $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-                    if ($userid) {
-                        $this->t_student_info->field_update_list($userid, [
-                            "origin_level" => E\Eorigin_level::V_99
-                        ] );
-                    }
-                }
-            }else{
-                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-            }
+            $this->cache_set_item_account_nick_time ($item, "first_set_cc_desc",
+                                                     "first_admin_revisiterid",
+                                                     "first_admin_revisiterid_time" );
+
+
+            E\Eseller_student_status::set_item_value_str($item,"first_seller_status");
+
+
         }
-        $userid = null;
-        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-        if($userid_new){
-            $userid = $userid_new;
-        }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
-        if($ret){
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
-            return $this->output_succ("邀请成功!");
+
+        // 未分配信息
+        if ($self_groupid >0 ) { //主管
+            $unallot_info=$this->t_test_lesson_subject->get_unallot_info_sub_assign_adminid_2($sub_assign_adminid_2);
         }else{
-            return $this->output_err("数据请求异常!");
+            $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
+        // dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "unallot_info" => $unallot_info,
+            "show_list_flag" => $show_list_flag,
+        ]);
     }
 
-    public function send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level){
-        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
-        $url = '';
-        if($p_wx_openid){
-            if($type == 1){//邀请学员
-                $type_str = '邀请学员成功!';
-                if($p_agent_level == 1){//黄金
-                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
-                }else{//水晶
-                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
-                }
-            }else{//邀请会员
-                $type_str = '邀请会员成功!';
-                $remark = '恭喜您成功邀请会员'.$phone;
-            }
-            $data = [
-                'first'    => $type_str,
-                'keyword1' => $phone,
-                'keyword2' => $phone,
-                'keyword3' => date('Y-m-d H:i:s',time()),
-                'remark'   => $remark,
-            ];
-            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+    public function test_new(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($date_list) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]]];
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
         }
-        if($pp_wx_openid){
-            if($type == 1){//邀请学员
-                $type_str = '邀请学员成功!';
-                if($pp_agent_level == 1){//黄金
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课。';
-                }else{//水晶
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
-                }
-            }else{//邀请会员
-                $type_str = '邀请会员成功!';
-                $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone;
-            }
-            $data_p = [
-                'first'    => $type_str,
-                'keyword1' => $phone,
-                'keyword2' => $phone,
-                'keyword3' => date('Y-m-d H:i:s',time()),
-                'remark'   => $remark,
-            ];
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data_p,$url);
-        }
+        dd($date_list);
     }
-
-
-
-    public function get_agent_test_lesson($agent_id){
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
-    }
-
-    public function update_lesson_call_end_time(){
-        $adminid = $this->get_in_int_val('adminid');
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        if(count($lesson_call_end)>0){
-            foreach($lesson_call_end as $item){
-                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-            }
-        }else{
-            $ret = 1;
-        }
-
-        return $ret;
-    }
-
-
-
 
     public function get_my_pay($phone){
         $pay = 0;
@@ -1564,7 +1513,7 @@ dd('b');
      * @param  string $imgpath [description]
      * @return [type]          [description]
      */
-        function yuan_img($imgpath = './tx.jpg') {
+    function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
         switch ($ext['extension']) {

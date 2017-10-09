@@ -196,7 +196,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_or_idlist($where_arr,"t1.del_flag", $del_flag);
         $this->where_arr_add_int_or_idlist($where_arr,"t1.uid", $adminid);
 
-        $sql =$this->gen_sql_new("select  t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
+        $sql =$this->gen_sql_new("select t1.create_time,leave_member_time,become_member_time,call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
                                  self::DB_TABLE_NAME,
                                  t_admin_users::DB_TABLE_NAME,
                                  t_wx_user_info::DB_TABLE_NAME,
@@ -429,7 +429,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url,$desc="点击进入管理系统操作"  ) {
+    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url="",$desc="点击进入管理系统操作"  ) {
         $account=$this->get_account($adminid);
         \App\Helper\Utils::logger("SEND TODO MSG: $account ");
 
@@ -571,7 +571,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
-        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
+        $sql = $this->gen_sql_new("select tm.group_name as first_group_name,g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
                                   "am.account, ".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am left join %s u on (am.uid = u.adminid and u.month=%u)".
@@ -579,6 +579,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
+                                  " left join %s tm on tm.groupid = m.up_groupid and tm.month = %u".
                                   // " where %s and am.del_flag=0".
                                   " where %s ".
                                   "  group by am.uid",
@@ -591,6 +592,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $month,
                                   t_seller_student_new::DB_TABLE_NAME,//ss
                                   t_test_lesson_subject::DB_TABLE_NAME,//t
+                                  t_main_major_group_name_month::DB_TABLE_NAME,
+                                  $month,
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
@@ -1040,6 +1043,38 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
+    //助教续费金额 分期按80%计算
+    public function get_ass_renw_money_new($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] ,
+            //  ["uid=%u",$adminid,-1],
+            //"o.contract_status in (1)" ,
+            "(m.uid <> 68 and m.uid <> 74)",
+            "m.account_role = 1 ",
+            "m.del_flag =0",
+            "o.price >0",
+            "o.contract_type in (3,3001)"
+        ];
+        // $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
+        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2,co.price*0.8,co.price)) money ".
+                                 " from  %s m ".
+                                 " left join %s o on o.sys_operator  = m.account".
+                                 " left join %s co on o.orderid = co.parent_orderid and co.pay_status=1".
+                                 " where %s group by uid",
+                                 self::DB_TABLE_NAME,
+                                 t_order_info::DB_TABLE_NAME,
+                                 t_child_order_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+ 
+    }
+
+
     public function get_assistant_jk_stu_info(){
         $sql=$this->gen_sql("select uid,count(userid) jk_num"
                             ." from  %s m left join %s a on m.phone = a.phone"
@@ -1192,6 +1227,27 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             return $item["uid"];
         });
     }
+
+    public function get_ass_list_by_adminid($adminid){
+        $where_arr = [
+            "account_role=1",
+            "master_adminid=$adminid",
+        ];
+        $sql = $this->gen_sql_new("select uid".
+                                  " from %s m ".
+                                  // "left join %s a on m.phone = a.phone ".
+                                  " left join %s u on m.uid=u.adminid".
+                                  " left join %s n on u.groupid = n.groupid".
+                                  " where %s and del_flag =0 and uid <> 325 and uid<>74",
+                                  self::DB_TABLE_NAME,
+                                  // t_assistant_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return  $this->main_get_list($sql);
+    }
+
 
     public function get_adminid_num_by_account_role($account_role){
         $sql = $this->gen_sql_new("select count(*) from %s ".
@@ -1711,6 +1767,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_value($sql);
     }
+
     public function get_cr_num($start_time,$end_time){
         $where_arr = [
             'account_role = 1',

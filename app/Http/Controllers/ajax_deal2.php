@@ -28,6 +28,12 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+    public function get_order_activity_list ( ) {
+        $orderid= $this->get_in_int_val("orderid");
+        $list = $this->t_order_activity_info->get_order_activity_list($orderid);
+        return $this->output_succ([ "list"=> $list] );
+    }
+
 
     public function sync_email() {
         $email=$this->get_in_str_val( "email" );
@@ -840,6 +846,12 @@ class ajax_deal2 extends Controller
             "train_through_new"   =>1,
             "train_through_new_time"=>$create_time
         ]);
+
+        // $new_train_flag = $this->t_teacher_info->get_new_train_flag($teacherid);
+        //$lessonid = $this->t_lesson_info_b3->get_first_new_train_lessonid();
+        /* if($new_train_flag==0 && $lessonid >0){
+            
+           }*/
         return $this->output_succ();
     }
 
@@ -1249,6 +1261,7 @@ class ajax_deal2 extends Controller
         $arr=\App\Helper\Utils::json_decode_as_array($str,true);
         $tr_str="";
 
+        $row_count=0;
         if ( is_array($arr)){
             foreach($arr as $item ) {
                 if ($item["succ_flag"]) {
@@ -1256,12 +1269,20 @@ class ajax_deal2 extends Controller
                 }else{
                     $succ_str="<font color=\"red\">未匹配</font>";
                 }
-                $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font>  </tr> ";
-            }
-        }
-        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  </tr> $tr_str </table>";
-        return $this->output_succ(["html_str" => $html_str ]);
+                if(isset ($item["title"] )) { //旧版
+                    $tr_str.= " <tr><td> <font color=\"blue\"> ". $item["title"]. "</font> <td>".$succ_str."<td>".$item["desc"]. "<td> <font color=\"red\"> ". $item["price"]."  </font> <td> </tr> ";
 
+                }else{
+                    $tr_str.= " <tr><td> <font color=\"blue\"> ". E\Eorder_activity_type::get_desc( $item["order_activity_type"]). "</font> <td>".$succ_str."<td>".$item["activity_desc"]
+                        . "<td> <font color=\"red\"> ". $item["cur_price"]."  </font> "
+                        . "<td> <font color=\"red\"> ". $item["cur_present_lesson_count"]."  </font> "
+                        . " </tr> ";
+                }
+            }
+            $row_count= count( $arr);
+        }
+        $html_str="<table class=\"table table-bordered table-striped\" > <tr> <th>项目 <th> 匹配与否 <th>说明 <th>  计算后的价格  <th>  计算后的赠送课时   </tr>  $tr_str </table>";
+        return $this->output_succ(["html_str" => $html_str, "row_count" =>$row_count ] );
     }
 
     public function add_textbook_one(){
@@ -1532,11 +1553,11 @@ class ajax_deal2 extends Controller
 
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
-        $teacherid              = $this->get_in_int_val("teacherid");
-        $start_time = time()-90*86400;
+        $teacherid              = $this->get_in_int_val("teacherid",50272);
+        /*$start_time = time()-90*86400;
         $end_time = time();
 
-        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
+        /*$list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
         $num=0;
         foreach($list as $v){
             $userid = $v["userid"];
@@ -1545,8 +1566,44 @@ class ajax_deal2 extends Controller
             if(($max - $min) >= 90*86400){
                 $num++;
             }
+            }*/
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $tea_arr =[$teacherid];
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
+        if(!empty($cc_list)){
+            $cc_list = $cc_list[$teacherid];
+            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        }else{
+            $cc_per =0;
         }
-        return $this->output_succ(["data"=>$num]);
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+        if(!empty($cr_list)){
+            $cr_list = $cr_list[$teacherid];
+            $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
+        }else{
+            $cr_per =0;
+        }
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+
+        $tea_arr =[$teacherid];
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+        if(!empty($teacher_record_score)){
+            $score_list = $teacher_record_score[$teacherid];
+            $score = !empty($score_list["num"])?round($score_list["score"]/$score_list["num"],2):0;
+        }else{
+            $score =0; 
+        }
+
+        //  $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
+
+        return $this->output_succ(["score"=>$score,"cc_per"=>$cc_per,"cr_per"=>$cr_per]);
+
+       
+        //return $this->output_succ();
+
     }
 
     //更改家长姓名
@@ -1607,8 +1664,8 @@ class ajax_deal2 extends Controller
             E\Esubject::set_item_value_str($item);
             E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
             if(empty($item["teacher_dimension"])){
-                $tea_in = $this->t_teacher_info->field_get_list($teacherid,"test_transfor_per,identity,month_stu_num");
-                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($teacherid);
+                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
+                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
                 if($tea_in["test_transfor_per"]>=20){
                     $teacher_dimension="维度A";
                 }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){

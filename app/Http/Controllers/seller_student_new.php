@@ -115,6 +115,7 @@ class seller_student_new extends Controller
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
         $call_phone_count= $this->get_in_intval_range("call_phone_count");
+        $call_count= $this->get_in_intval_range("call_count");
         $suc_test_count= $this->get_in_intval_range("suc_test_count", -1);
         $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
         $self_adminid = $this->get_account_id();
@@ -131,7 +132,7 @@ class seller_student_new extends Controller
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
-            $first_seller_adminid ,$suc_test_count,$call_phone_count,$main_master_flag,$self_adminid );
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,$main_master_flag,$self_adminid );
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
@@ -282,6 +283,9 @@ class seller_student_new extends Controller
         if ( $check_need_jump_flag){
             $status_list_str="";
         }
+
+        // $ftf = json_encode($require_adminid_list);
+        // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
 
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
@@ -1182,10 +1186,9 @@ class seller_student_new extends Controller
     }
 
     public function test_lesson_order_fail_list_new(){
-        $userid = $this->get_in_int_val('userid')?$this->get_in_int_val('userid'):-1;
-        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
+        $userid = $this->get_in_int_val('userid',-1);
         $cur_require_adminid = $this->get_account_id();
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid);
         $ret = isset($ret_info['require_id'])?$ret_info['require_id']:0;
         return $ret;
     }
@@ -1194,9 +1197,8 @@ class seller_student_new extends Controller
         $admin_revisiterid=$this->get_account_id();
         $user_list = $this->t_seller_student_new->get_no_hold_list($admin_revisiterid);
         $userid = isset($user_list[0]['userid'])?$user_list[0]['userid']:-1;
-        $flag = $userid?(E\Etest_lesson_order_fail_flag::V_1701):-1;
         $cur_require_adminid = $this->get_account_id();
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid,$flag);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row_new_tow($cur_require_adminid,$userid);
         $ret['ret'] = isset($ret_info['require_id'])?$ret_info['require_id']:0;
         $ret['userid'] = $userid?$userid:0;
         return $ret;
@@ -1354,7 +1356,8 @@ class seller_student_new extends Controller
         if (in_array( $cur_week*1,[6,0] ) ) {
             $limit_arr=array( [0,11*60] );
         }else{
-            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            //$limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            $limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;

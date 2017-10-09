@@ -172,7 +172,7 @@ class limit_require_deal extends Command
             }elseif($val["limit_require_send_adminid"]==416){
                 $limit_num= ceil($require_month[$m]*0.009);
             }else{
-                $limit_num= ceil($require_month[$m]*0.016);
+                $limit_num= ceil($require_month[$m]*0.026);
             }
 
             $num = $task->t_test_lesson_subject_require->get_month_limit_require_num($val["limit_require_send_adminid"],$start_time,$end_time);

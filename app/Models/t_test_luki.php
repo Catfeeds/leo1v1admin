@@ -9,6 +9,7 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
     }
 
     public function  get_list( $page_info,$grade ,$start_time, $end_time) {
+
         $where_arr=[
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"grade",$grade,-1);
@@ -22,6 +23,7 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
 
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
     public function  test11( ) {
         $sql = $this->gen_sql_new("select * from %s where id=1", self::DB_TABLE_NAME);
         return $this->main_get_row($sql);

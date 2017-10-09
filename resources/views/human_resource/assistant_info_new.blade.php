@@ -256,8 +256,8 @@
                     <div class="input-group">
                         <span class="input-group-addon">兼职|全职</span>
                         <select class="edi" id="tea_job" >
-                            <option value="1">兼职</option>
-                            <option value="0">全职</option>
+                            <option value="1">全职</option>
+                            <option value="2">兼职</option>
                         </select>
                     </div>
                     <div class="input-group">

@@ -187,7 +187,7 @@ class stu_manage extends Controller
 
     public function  set_assistantid() {
         $assistantid=$this->get_in_assistantid();
-        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu","adrian","kj"])) {
+        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu","adrian","kj","foster","sam"])) {
             return $this->output_err("没有权限");
         }
 
@@ -215,7 +215,8 @@ class stu_manage extends Controller
 
         $this->t_student_info->field_update_list($this->sid,[
             "assistantid"     => $assistantid,
-            "ass_assign_time" => time()
+            "ass_assign_time" => time(),
+            "type"            => 0
         ]);
 
         $this->t_lesson_info->set_user_assistantid( $this->sid,$assistantid  );

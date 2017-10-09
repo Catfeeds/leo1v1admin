@@ -61,7 +61,7 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td> {{@number_format($ret_info['income_price'],2)}}</td>
-                                        <td> {{@$ret_info['income_count']}} </td>
+                                        <td> {{@$ret_info['income_num']}} </td>
                                         <td> {{@number_format($ret_info['formal_info'],2)}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
@@ -135,15 +135,15 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
-                                        <td> {{@$ret_info['income_count']}} </td>
-                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
-                                        <td> {{@$ret_info['formal_num']}} </td>
-                                        <td> {{@number_format($ret_info['aver_money'],2)}} </td>
-                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
-                                        <td> {{@number_format($ret_info['aver_count'],2)}} </td>
-                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
-                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
+                                        <td> {{@$ret_info['seller_invit_num']}}</td>
+                                        <td> {{@$ret_info['seller_schedule_num']}} </td>
+                                        <td> {{@$ret_info['test_lesson_succ_num']}} </td>
+                                        <td> {{@$ret_info['new_order_num']}} </td>
+                                        <td> {{@number_format($ret_info['invit_month_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['test_plan_month_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['lesson_succ_month_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['trans_month_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['sign_month_rate'],2)}}% </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -167,23 +167,23 @@
                                         <td class="panel-red">认领率</td>
                                         <td class="panel-red">邀约数</td>
                                         <td class="panel-red">未消耗例子数</td>
-                                        <td class="panel-red">月例子消耗数</td>
+                                        <td class="panel-red">月例子消耗率</td>
                                         <td class="panel-red">人均呼出量</td>
                                         <td class="panel-red">人均邀约数</td>
-                                        <td class="panel-red">人均通时</td>
+                                        <td class="panel-red">人均通时(分钟)</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['seller_call_num']}} </td>
+                                        <td> {{@number_format($ret_info['seller_call_num'])}} </td>
                                         <td> {{@number_format($ret_info['succ_called_rate'],2)}}% </td>
-                                        <td> {{@$ret_info['claim_num']}}</td>
+                                        <td> {{@number_format($ret_info['claim_num_rate'],2)}}%</td>
                                         <td> {{@$ret_info['seller_invit_num']}}</td>
                                         <td> {{@$ret_info['un_consumed']}} </td>
-                                        <td> {{@number_format($ret_info['stu_consume_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['stu_consume_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['aver_called'],2)}} </td>
                                         <td> {{@number_format($ret_info['invit_rate'],2)}} </td>
-                                        <td> {{@number_format($ret_info['called_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['called_rate']/60,2)}} </td>
                                     </tr>
                                 </tbody>
                             </table>
