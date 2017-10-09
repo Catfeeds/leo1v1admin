@@ -21,7 +21,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             }
         }
         $sql=$this->gen_sql_new(
-            "insert ignore into %s (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role) values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u )",
+            " insert ignore into %s "
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u)",
             self::DB_TABLE_NAME,
             $id,
             $uid,
