@@ -425,7 +425,7 @@
                                             hide
                                             @endif
                                             ">
-                                    <button type="button" data-toggle="modal" data-name="bank-info">绑定银行卡</button>
+                                    <button type="button" data-toggle="modal" class="btn btn-block btn-info ft18  opt-edit" data-name="bank-info">绑定银行卡</button>
                                 </div>
                             </div>
                         </div>
