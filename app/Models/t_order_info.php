@@ -3441,12 +3441,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
      *@desn:获取cc不同类型合同的金额  [分期、非分期]
      *@date:2017-09-29
      *@author:Abner<abner@leo.edu.com>
-     *@param:$sys_operator : 下单人
+     *@param:$admind : 下单人id
      *@param:$start_time : 开始时间
      *@param:$end_time : 结束时间
      *@return:Array [分期金额，非分期金额]
      */
-    public function get_sort_order_count_money($sys_operator,$start_time,$end_time){
+    public function get_sort_order_count_money($admind,$start_time,$end_time){
+        $sys_operator= $this->t_manager_info->get_account($adminid);
+                                        
         //获取分期金额
         $where_arr = [
             "o.contract_type <> 1",
