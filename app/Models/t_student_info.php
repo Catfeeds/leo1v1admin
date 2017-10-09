@@ -292,18 +292,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if ($phone) {
             $where_arr[]=  "phone like '%".$phone."%'";
         }
-        $sql = $this->gen_sql("select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,a.nick, a.phone, originid, a.grade "
-                              ." from %s a left join %s b on a.userid = b.userid "
-                              ." left join %s m on b.sys_operator = m.account"
-                              ." left join %s t on t.phone = m.phone "
-                              ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
-                              self::DB_TABLE_NAME,
-                              t_revisit_info::DB_TABLE_NAME,
-                              t_manager_info::DB_TABLE_NAME,
-                              t_assistant_info::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $start,
-                              $end
+        $sql = $this->gen_sql(
+            "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
+            ." a.nick, a.phone, originid, a.grade,tq.duration"
+            ." from %s a left join %s b on a.userid = b.userid "
+            ." left join %s m on b.sys_operator = m.account"
+            ." left join %s t on t.phone = m.phone "
+            ." left join %s tq on tq.id = b.call_phone_id "
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
+            self::DB_TABLE_NAME,
+            t_revisit_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            [$this->where_str_gen($where_arr)],
+            $start,
+            $end
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -382,6 +386,35 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     }
+
+    public function get_two_stu_for_archive( $grade, $sum_start)
+    {
+        $where_arr=[
+            "type=0 ",
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
+        $this->where_arr_add_int_or_idlist ($where_arr,"grade", $grade  );
+
+        $sql = $this->gen_sql_new(
+            "select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
+            ." phone, is_test_user, originid, grade, praise, assistantid, parent_name, parent_type, "
+            ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
+            ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
+            ." if(realname='',nick,realname) as nick, "
+            ." sum(b.lesson_count) as lesson_total "
+            ." from %s a left join %s b on a.userid = b.userid "
+            ."  where  %s group by a.userid "
+            ,self::DB_TABLE_NAME
+            ,t_week_regular_course::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_page_random($sql,2,true);
+
+    }
+
+
     public function get_student_sum_archive(  $assistantid)
     {
         $where_arr=[
@@ -1256,7 +1289,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){
-                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
+                if($account_role==1){
+                    $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                }
             }
             $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
             $master_list=[];
@@ -1836,6 +1872,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list($sql);
     }
+    public function get_warning_stu_list_month_new(){
+        $sql = $this->gen_sql_new("select s.userid, count(*) lesson_num, s.lesson_count_left, "
+                                  ." sum(b.lesson_count) as lesson_total,m.uid,u.groupid,n.group_name "
+                                  ." from %s s left join %s b on s.userid = b.userid "
+                                  ." left join %s a  on a.assistantid=s.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
+                                  ." left join %s u on m.uid = u.adminid"
+                                  ." left join %s n on u.groupid = n.groupid"
+                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count) - sum(s.lesson_count_left)/count(*)/1.2) >=0)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_week_regular_course::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function set_ass_revisit_last_week_time($userid , $ass_revisit_last_week_time) {
         $sql = $this->gen_sql_new(
             "update %s  set  ass_revisit_last_week_time =%d"
@@ -1857,33 +1912,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,type_change_time from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
 
-    }
-
-
-    public function get_zhuan_1($start,$end){
-        $where_arr = [
-            ["pay_time>%u",$start,0],
-            ["pay_time<%u",$end,0],
-        ];
-
-        $sql = $this->gen_sql_new("select s.origin_userid,s2.phone,s2.nick,count(s.userid) as stu_num,s2.lesson_count_left, "
-                                  ." s2.assistantid"
-                                  ." from %s s "
-                                  ." left join %s o1 on s.userid=o1.userid "
-                                  ." and contract_type=0 "
-                                  ." and contract_status in (1,2,3)"
-                                  ." left join %s s2 on s.origin_userid=s2.userid "
-                                  ." where %s"
-                                  ." and s.is_test_user=0 "
-                                  ." and s2.is_test_user=0 "
-                                  ." group by s.origin_userid "
-                                  ." having s2.lesson_count_left>0 "
-                                  ,self::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function get_trans_stu_info_new($start_time,$end_time){
@@ -2021,27 +2049,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
         return $ret_info;
-    }
-
-    public function get_orgin_user($userid,$type){
-        if($type==1){
-            $userid_str = "origin_userid";
-        }elseif($type==2){
-            $userid_str = "s.userid";
-        }
-        $where_arr = [
-            ["$userid_str=%u",$userid,0]
-        ];
-        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.grade,o.subject,o.pay_time,o.price,"
-                                  ." o.lesson_total*o.default_lesson_count as order_total"
-                                  ." from %s s "
-                                  ." left join %s o on s.userid=o.userid and contract_type =0 and contract_status=1 "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function get_refund_stu_by_assid($assistantid){
@@ -2309,33 +2316,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
-    public function get_grade_count($type){
-        $where_arr = [
-            ["type=%u",$type,-1]
-        ];
-        $sql = $this->gen_sql_new("select s.userid,s.grade,t.teacher_money_type,t.level,"
-                                  ." count(1) as course_num,c.assigned_lesson_count,"
-                                  ." sum(l.lesson_count) as  lesson_cost "
-                                  ." from %s s "
-                                  ." left join %s c on s.userid=c.userid "
-                                  ." left join %s l on c.courseid=l.courseid "
-                                  ." left join %s t on c.teacherid=t.teacherid"
-                                  ." where %s "
-                                  ." and s.is_test_user=0"
-                                  ." and t.is_test_user=0"
-                                  ." and s.userid!=0"
-                                  ." and c.course_type in (0,1,3)"
-                                  ." group by s.userid,c.courseid"
-                                  ." having lesson_cost<assigned_lesson_count"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_course_order::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_stu_info_by_type($type){
         $sql = $this->gen_sql_new("select userid,type,last_lesson_time "
                                   ." from %s "
@@ -2345,29 +2325,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." limit 0,50"
                                   ,self::DB_TABLE_NAME
                                   ,$type
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_student_type_list($start_time,$end_time){
-        $where_arr = [
-            ["last_lesson_time>%u",$start_time,0],
-            ["last_lesson_time<%u",$end_time,0],
-            "type=1",
-            "last_lesson_time>0",
-            "is_test_user=0",
-            "lesson_count_left=0",
-        ];
-        $sql = $this->gen_sql_new("select s.userid,s.phone,s.grade"
-                                  ." from %s s"
-                                  ." where %s"
-                                  ." and not exists ("
-                                  ." select 1 from %s where s.userid=userid"
-                                  ." ) "
-                                  ." group by s.userid"
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-                                  ,t_order_refund::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
@@ -2418,37 +2375,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
 
         return $this->main_get_value($sql);
-    }
-
-    public function get_origin_stu(){
-        $where_arr = [
-            "s1.origin_userid>0",
-            "s2.type=0",
-        ];
-        $sql = $this->gen_sql_new("select s2.userid,s2.realname,s2.grade,s2.lesson_count_left,s2.assistantid,"
-                                  ." s2.seller_adminid"
-                                  ." from %s s1"
-                                  ." left join %s s2 on s1.origin_userid=s2.userid"
-                                  ." where %s"
-                                  ." group by s2.userid"
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
-    public function get_stu_list_by_origin($origin_userid,$type=-1){
-        $where_arr = [
-            ["origin_userid=%u",$origin_userid,0],
-            ["type=%u",$type,-1],
-        ];
-        $sql = $this->gen_sql_new("select userid,grade,lesson_count_left,seller_adminid,assistantid"
-                                  ." from %s "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
     }
 
     public function get_email_two_info($start_time){
@@ -2504,27 +2430,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_origin_user_2($start_time,$end_time,$userid){
-        $where_arr = [
-            ["pay_time>%u",$start_time,0],
-            ["pay_time<%u",$end_time,0],
-            ["s.userid in (%s)",$userid,""],
-        ];
-        $sql = $this->gen_sql_new("select s.nick,s.realname,s.phone,s.email,s.phone_location,s.grade,s.user_agent,o.sys_operator,"
-                                  ." sum(o.lesson_total*o.default_lesson_count/100) as lesson_total_all,o.contract_type,"
-                                  ." sum(o.lesson_left/100) as lesson_left_all,"
-                                  ." sum(if(o.order_status=3,1,0)) as refund_num"
-                                  ." from %s s"
-                                  ." left join %s o on s.userid=o.userid"
-                                  ." where %s"
-                                  ." group by s.userid,o.orderid"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_origin_user_list(){
         $where_arr = [
             "origin_userid>0"
@@ -2557,23 +2462,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
-    }
-
-    public function get_teacher_origin_info($phone){
-        $where_arr = [
-            ["t.phone='%s'",$phone,0]
-        ];
-        $sql = $this->gen_sql_new("select t.nick,t.phone,t.user_agent,t.phone_location,"
-                                  ." t2.nick as origin_nick,t2.phone as origin_phone,t2.user_agent as origin_user_agent,"
-                                  ." t2.phone_location as origin_location"
-                                  ." from %s t"
-                                  ." left join %s t2 on t.origin_userid=t2.userid"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_row($sql);
     }
 
     public function get_stu_row_by_phone($phone){
@@ -2686,25 +2574,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_has_lesson($start,$end){
-        $where_arr=[
-            ["lesson_start>%u",$start,0],
-            ["lesson_start<%u",$end,0],
-        ];
-        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.type"
-                                  ." from %s s "
-                                  ." where type =0  "
-                                  // ." and grade=203"
-                                  ." and is_test_user=0"
-                                  ." and lesson_count_left>1"
-                                  ." and exists (select 1 from %s where s.userid=userid and lesson_type in (0,1,3) and %s)"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
         $where_arr=[
           ['o.assistantid=%d', $assistantid, -1],
@@ -2803,7 +2672,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_studentid(){
@@ -2925,5 +2793,85 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
         return $this->main_get_list($sql);
     }
+    public function get_finish_num($start_time,$end_time){
+        $where_arr = [
+            [' last_lesson_time>=%u',$start_time,-1],
+            [' last_lesson_time<=%u',$end_time,-1],
+            ' lesson_count_left = 0',
+            ' type = 1 ',
+        ];
+        $sql = $this->gen_sql_new("select count(userid) as finish_num "
+                                  ." from %s s"
+                                  ." where %s and NOT EXISTS ( SELECT 1 FROM %s WHERE s.userid = userid)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_order_refund::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+    public function get_read_num($start_time,$end_time){
+        $where_arr = [
+            " type = 0 ",
+            " assistantid > 0",
+            " is_test_user = 0 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(userid)) as read_num"
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_value($sql);
+    }
 
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid){
+        $where_arr=[
+            ["n.add_time>=%u",$add_time,0],
+            ["s.assistantid=%u",$assistantid,-1],
+            ["c.campus_id=%u",$campus_id,-1],
+            ["na.groupid=%u",$groupid,-1],
+            "s.is_test_user=0",
+            "s.origin_assistantid>0",
+            "mm.account_role=1",
+            "(n.admin_revisiterid=0 or m.account_role=2)"
+        ];
+        if($leader_flag==1){
+            $where_arr[]=["na.master_adminid =%u",$account_id,-1];
+        }
+        $sql = $this->gen_sql_new("select if(s.nick='',s.realname,s.nick) nick,mm.name ass_nick,n.add_time,m.account,"
+                                  ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
+                                  ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
+                                  ."cc.campus_name seller_campus_name,aa.nick ass_name,"
+                                  ." na.group_name,s.userid "
+                                  ." from %s s left join %s n on s.userid = n.userid"
+                                  ." left join %s mm on s.origin_assistantid=mm.uid"
+                                  ." left join %s aa on s.assistantid = aa.assistantid"
+                                  ." left join %s m on n.admin_revisiterid = m.uid"
+                                  ." left join %s o on s.userid = o.userid and"
+                                  ." o.contract_type in (0,3) and o.contract_status>0"
+                                  ." left join %s u on s.origin_assistantid = u.adminid"
+                                  ." left join %s na on u.groupid = na.groupid"
+                                  ." left join %s an  on na.up_groupid = an.groupid"
+                                  ." left join %s c on an.campus_id = c.campus_id "
+                                  ." left join %s uu on   n.admin_revisiterid= uu.adminid"
+                                  ." left join %s nna on uu.groupid = nna.groupid"
+                                  ." left join %s ann on nna.up_groupid = ann.groupid"
+                                  ." left join %s cc on ann.campus_id = cc.campus_id "
+                                  ." where %s group by s.userid order by n.add_time desc",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+    }
 }

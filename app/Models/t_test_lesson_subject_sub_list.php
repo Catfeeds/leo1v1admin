@@ -201,14 +201,14 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         }elseif($type==3 || $type==4){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
-        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,c.last_modified_time,t.phone,"
-                                  ." tls.require_admin_type"
+        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
+                                  // ." ,c.last_modified_time"
                                   ." from %s tl "
                                   ." left join %s tr on tl.require_id=tr.require_id"
                                   ." left join %s tls on tr.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s l on tl.lessonid=l.lessonid "
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s c on l.teacherid=c.teacherid and l.subject=c.subject and l.userid=c.userid "
+                                  // ." left join %s c on l.teacherid=c.teacherid and l.subject=c.subject and l.userid=c.userid "
                                   ." where %s "
                                   ." and exists ( "
                                   ." select 1 from %s "
@@ -228,7 +228,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_status=2 "
                                   ." ) "
                                   ." and tl.lessonid not in ( "
-                                  ." select money_info from %s "
+                                  ." select lessonid from %s "
                                   ." where teacherid=l.teacherid "
                                   ." and type=2 "
                                   ." ) "
@@ -238,12 +238,13 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_course_order::DB_TABLE_NAME
+                                  // ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_money_list::DB_TABLE_NAME
         );
+        dd($sql);
         return $this->main_get_list($sql);
     }
 
@@ -864,7 +865,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         if($master_flag==1){
 
         }else{
-            // $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
             $where_arr[]= "tr.cur_require_adminid in ($adminid_str)" ;
             // $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
         }
@@ -1190,25 +1190,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
     }
 
-    public function get_seller_schedule_num($start_time){
-        $where_arr = [
-            "tsl.set_lesson_time > $start_time",
-            "m.account_role=3"
-        ];
-        $sql = $this->gen_sql_new("  select sum(if(tsr.current_lessonid>0,1,0)) as sche_num from %s tsl "
-                                  ." left join %s tsr on tsr.require_id=tsl.require_id "
-                                  ." left join %s ts on ts.test_lesson_subject_id=tsr.test_lesson_subject_id "
-                                  ." left join %s m on m.uid=set_lesson_adminid  "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_manager_info::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-
-        return $this->main_get_value($sql);
-    }
 
     public function tongji_kk_data($start_time,$end_time) {
         $where_arr = [

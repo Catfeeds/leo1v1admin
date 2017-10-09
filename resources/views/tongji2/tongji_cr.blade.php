@@ -61,10 +61,20 @@
     <section class="content " id="id_content" style="max-width:1200px;">
         <div>
             <div class="row">
-                <div class="col-xs-12 col-md-5">
+                <div class="col-xs-12 col-md-4">
                     <div id="id_date_range" >
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">历史记录</span>
+                    <select class="opt-change form-control" id="id_is_history_data">
+                        <option value="1" >是</option>
+                        <option value="2" >否</option>
+                    </select>
+                </div>
+            </div>
             </div>
             <hr/>      
 
@@ -73,6 +83,9 @@
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
                             月度目标
+                            @if($arr['create_time_range'])
+                                <br/>统计时段({{@$arr['create_time_range']}})
+                            @endif
                         </div>
                         <div class="panel-body">
 
@@ -105,12 +118,12 @@
                                     <tr>
                                         <td>现金总收入</td>
                                         <td>下单总人数</td>
-                                        <td class="panel-red">入职完整月人员签单额</td>
-                                        <td class="panel-red">入职完整月人员人数</td>
-                                        <td class="panel-red">平均人效</td>
-                                        <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月KPI完整率</td>
-                                        <td class="panel-red">CR总人数</td>
+                                        <td>入职完整月人员签单额</td>
+                                        <td>入职完整月人员人数</td>
+                                        <td>平均人效</td>
+                                        <td>平均单笔</td>
+                                        <td>月KPI完整率</td>
+                                        <td>CR总人数</td>
                                         <td>结课学员数</td>
                                         <td>退费总人数</td>
                                     </tr>
@@ -123,9 +136,9 @@
                                         <td> {{@$arr['person_num_thirty']}}</td> 
                                         <td> {{@$arr['person_num_thirty_per']}}</td> 
                                         <td> {{@$arr['contract_per']}} </td> 
-                                        <td> {{@$arr['kpi_per']}}% </td> 
+                                        <td> {{@$arr['month_kpi_per']}}% </td> 
                                         <td> {{@$arr['cr_num']}}</td> 
-                                        <td class="panel-yellow" > 存档 </td> 
+                                        <td class="panel-yellow" > {{@$arr['finish_num']}}</td> 
                                         <td> {{@$arr['refund_num']}}</td> 
                                     </tr>
                                 </tbody>
@@ -160,18 +173,18 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                         <tr>
-                                            <td class="panel-yellow" > 存档</td>
-                                            <td class="panel-yellow" > 存档  </td>
-                                            <td class="panel-yellow" > 存档 </td>
+                                            <td class="panel-yellow" > {{@$arr['lesson_target']}}</td>
+                                            <td class="panel-yellow" > {{@$arr['read_num']}}  </td>
+                                            <td class="panel-yellow" > {{@$arr['total_student']}} </td>
                                             <td> 节点</td>
                                             <td> {{@$arr['lesson_consume']}}</td>
                                             <td> {{@$arr['teacher_leave']}}</td>
                                             <td> {{@$arr['student_leave']}}</td>
                                             <td> {{@$arr['other_leave']}}</td>
                                             <td > 节点  </td>
-                                            <td class="panel-yellow" > 存档  </td> 
+                                            <td class="panel-yellow" >{{@$arr['student_arrive_per']}}%({{@$arr['student_arrive']}}/{{@$arr['lesson_plan']}})</td> 
 
-                                            <td class="panel-yellow" > 存档 </td> 
+                                            <td class="panel-yellow" > {{@$arr['lesson_income']}} </td> 
 
                                         </tr>
                                    
@@ -195,21 +208,21 @@
                                         <td>计划外续费学生数量</td>
                                         <td>实际续费学生数量</td>
                                         <td>续费金额</td>
-                                        <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月续费率</td>
-                                        <td class="panel-red">月预警续费率</td>
+                                        <td>平均单笔</td>
+                                        <td>月续费率</td>
+                                        <td>月预警续费率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
                                         <tr>
-                                            <td class="panel-blue">  漏斗-存档</td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
-                                            <td class="panel-blue">  漏斗-存档  </td> 
+                                            <td class="panel-blue">  {{@$arr['expect_finish_num']}}</td> 
+                                            <td class="panel-blue">  {{@$arr['plan_renew_num']}}  </td> 
+                                            <td class="panel-blue">  {{@$arr['other_renew_num']}} </td> 
+                                            <td class="panel-blue">  {{@$arr['real_renew_num']}}  </td> 
                                             <td>{{@$arr['total_renew']}}</td> 
                                             <td>{{@$arr['renew_num_per']}}</td>
-                                            <td class="panel-blue">  漏斗-存档 </td>
-                                            <td class="panel-blue">  漏斗-存档 </td>
+                                            <td class="panel-blue">  {{@$arr['renew_per']}} </td>
+                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}} </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -227,21 +240,21 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td class="panel-red">转介绍至CC例子量</td>
-                                        <td class="panel-red">转介绍至CC例子签单量</td>
-                                        <td class="panel-red">转介绍至CC例子签单金额</td>
-                                        <td class="panel-red">月转介绍至CC签单率</td>
-                                        <td class="panel-red">转介绍成单数量</td>
-                                        <td class="panel-red">转介绍总金额</td>
+                                        <td>转介绍至CC例子量</td>
+                                        <td>转介绍至CC例子签单量</td>
+                                        <td>转介绍至CC例子签单金额</td>
+                                        <td>月转介绍至CC签单率</td>
+                                        <td>转介绍成单数量</td>
+                                        <td>转介绍总金额</td>
                                         <td>平均单笔</td>
                                     </tr>
                                 </thead>
                                 <tbody >
                                         <tr>
-                                            <td class="panel-green">  漏斗-存档-节点  </td> 
-                                            <td class="panel-green">  漏斗-存档-节点 </td> 
-                                            <td class="panel-green">  漏斗-存档-节点 </td>
-                                            <td class="panel-blue">  漏斗-存档  </td>
+                                            <td class="panel-green"> {{@$arr['tranfer_phone_num']}}  </td> 
+                                            <td class="panel-green"> {{@$arr['tranfer_total_num']}} </td> 
+                                            <td class="panel-green"> {{@$arr['tranfer_total_price']}}</td>
+                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>
                                             <td>{{@$arr['tranfer_num_per']}}</td>
@@ -267,7 +280,7 @@
                                         <td>扩课成单数量</td>
                                         <td>扩科待跟进数量</td>
                                         <td>扩科未成单数量</td>
-                                        <td class="panel-red">月扩课成功率</td>
+                                        <td>月扩课成功率</td>
                                     </tr>
                                 </thead>
                                 <tbody >
@@ -276,7 +289,7 @@
                                         <td class="panel-green">  {{@$arr['success_num']}}</td>
                                         <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
                                         <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
-                                        <td class="panel-blue">  漏斗-存档 </td> 
+                                        <td class="panel-blue">  {{@$arr['kk_success_per']}} </td> 
 
                                     </tr>
                                 </tbody>

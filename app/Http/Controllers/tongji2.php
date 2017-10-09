@@ -353,9 +353,14 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
-        foreach($ret_info["list"] as $item ) {
+        foreach($ret_info["list"] as &$item ) {
             $map[$item["adminid"] ]=true;
+            //$sys_operator = $item["account"];
+            //$sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
+            //$item["stage_money"] = @$sort_moeny["stage_money"];
+            //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
+		//unset($item);
 
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"] ] ) {
@@ -919,6 +924,9 @@ class tongji2 extends Controller
 
         $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
+
+        //课时目标系数
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($cur_start);
         foreach($ass_list as $k=>&$val){
             /*$val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -952,6 +960,7 @@ class tongji2 extends Controller
             $val["refund_score"] = isset($ass_month[$k])?$ass_month[$k]["refund_score"]/100:0;
             // $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
+            $val["lesson_total"] = isset($ass_month[$k])?$ass_month[$k]["lesson_total"]/100:0;
             $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
             
 
@@ -961,6 +970,7 @@ class tongji2 extends Controller
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             //  $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
             $val["student_online"] = isset($ass_month[$k])?$ass_month[$k]["read_student_new"]:0;
+            $val["lesson_do_per"] = !empty( $val["student_online"])?round($val["lesson_total"]/$val["student_online"]/$lesson_target*100,2):0;
             //$val["student_all"] += $val["student_finish"];
             $val["student_all"] =  isset($ass_month[$k]["all_student_new"])?$ass_month[$k]["all_student_new"]:0;
             if($val['student_all'] > 0){
@@ -998,6 +1008,51 @@ class tongji2 extends Controller
 
             
         }
+
+        $ass_group=[];
+        foreach($ass_list as $key=>$va){
+            // echo $key;
+            //  $master_adminid_ass_list = $this->t_admin_group_user->get_master_adminid_group_info($key);
+            // $master_adminid_ass = $master_adminid_ass_list["master_adminid"];
+            $master_adminid_ass = $va["master_adminid"];
+            @$ass_group[$master_adminid_ass]["student_all"]  += $va["student_all"];
+            @$ass_group[$master_adminid_ass]["student_finish"]     += $va["student_finish"];
+            @$ass_group[$master_adminid_ass]["student_online"]     += $va["student_online"];
+            @$ass_group[$master_adminid_ass]["lesson_total"]      += $va["lesson_total"];          
+            @$ass_group[$master_adminid_ass]["lesson_money"]     += $va["lesson_money"];
+            @$ass_group[$master_adminid_ass]["renw_target"]           += $va["renw_target"];
+            @$ass_group[$master_adminid_ass]["renw_price"]       += $va["renw_price"];
+            @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
+            @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
+            @$ass_group[$master_adminid_ass]["tran_num"]       += $va["tran_num"];
+            @$ass_group[$master_adminid_ass]["group_name"]       = $va["group_name"];
+
+
+        }
+
+        foreach($ass_group as $ke=>&$tt){
+            if($tt['student_all'] > 0){
+                $tt["student_finish_per"] = round($tt["student_finish"]/$tt["student_all"]*100,2);
+                $tt["student_online_per"] = round($tt["student_online"]/$tt["student_all"]*100,2);
+            }else{
+                $tt["student_finish_per"] = 0;
+                $tt["student_online_per"] = 0;
+            }
+            $tt["lesson_do_per"] = !empty( $tt["student_online"])?round($tt["lesson_total"]/$tt["student_online"]/$lesson_target*100,2):0;
+            $tt["renw_per"] = !empty( $tt["renw_target"])?round($tt["renw_price"]/$tt["renw_target"]*100,2):0;
+            if($tt["student_online"]){
+                $tt["people_per"] = round(($tt["lesson_money"]+$tt["renw_price"]+$tt["tran_price"])/$tt["student_online"],2);
+            }else{
+                $tt["people_per"] = 0;
+            }
+            if(empty($tt["group_name"])){
+                unset($ass_group[$ke]);
+            }
+
+
+
+        }
+
         if(!empty($ass_list)){
             foreach($ass_list as $v){  
                 $flag[] = $v['people_per'];  
@@ -1006,7 +1061,10 @@ class tongji2 extends Controller
         
             array_multisort($flag, SORT_DESC, $ass_list);
         }
-        return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
+        return $this->pageView(__METHOD__,null,[
+            "ass_list"=>$ass_list,
+            "ass_group"=>$ass_group
+        ]);
     }
     
     public function seller_origin_info() {
@@ -1097,95 +1155,164 @@ class tongji2 extends Controller
 
     public function tongji_cr(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $opt_date_type = $this->get_in_int_val("opt_date_type");
-        $arr = [];
-        //概况
-        $cur_start   = strtotime(date('Y-m-01',$start_time));
-        $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-        $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
-        $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
-        $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
-        $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
-        $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
-        $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
-        $arr['person_num']         = $ret_total['person_num']; //下单总人数
-        $arr['contract_num']       = $ret_total['order_num']; //合同数
-        $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //入职完整月人员签单额
-        $arr['person_num_thirty']  = $ret_total_thirty['person_num'];  //入职完整月人员人数
-
-        $arr['cr_num']             = $ret_cr;//在职人数
-        $arr['refund_num']         = $ret_refund;//退费总人数
-        $arr['target']             = $target;   //续费目标
-        if(($arr['target']-$arr['total_price']) > 0){
-            $arr['gap_money'] = $arr['target'] - $arr['total_price'];
-        }else{
-            $arr['gap_money'] = 0;  //缺口金额
-        }
-
-        if($arr['total_price']){
-            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);
-        }else{
-            $arr['contract_per']   = 0;
-        }
-        if($arr['person_num_thirty']){
-            $arr['person_num_thirty_per'] = round($arr['total_price_thirty'] / $arr['person_num_thirty'],2);
-        }else{
-            $arr['person_num_thirty_per'] = 0;
-        }
-
-        if($arr['target']){
-            $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
-        }else{
-            $arr['kpi_per'] = 0;
-        }
-        //课时消耗
-        $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量
-        $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
-
-        $arr['lesson_consume'] = round($lesson_consume/100,2);
-        $arr['teacher_leave'] = 0;
-        $arr['student_leave'] = 0;
-        $arr['other_leave'] = 0;
-        foreach($leave_num as $key => $value){
-            if($value['lesson_cancel_reason_type'] == 11){ //学生请假11
-                $arr['student_leave'] = round($value['num']/100,2);
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $is_history_data = $this->get_in_int_val('history',1);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",2);
+        if($is_history_data === 1){//历史记录
+            if($opt_date_type == 3){ //月报
+                $type = 1;
+                $create_time = $end_time;
+            }elseif($opt_date_type == 2){ //周报
+                //                $start_month =
+                $start_month = date("Y-m",$start_time);
+                $end_month   = date("Y-m",$end_time);
+                if($start_month == $end_month){ //周报
+                    $type = 2;
+                    $create_time = $end_time + 86400;
+                }else{//跨月报
+                    $type = 3;
+                    $create_time = $end_time + 86400;
+                }
             }
-            if($value['lesson_cancel_reason_type'] == 12){ //老师请假
-                $arr['teacher_leave'] = round($value['num']/100,2);
+            $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+            return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
+        }elseif($is_history_data === 2){
+            $cur_start   = strtotime(date('Y-m-01',$start_time));
+            $last_month  = strtotime(date('Y-m-01',$cur_start-100));
+            $start_month = date("Y-m",$start_time);
+            $end_month   = date("Y-m",$end_time);
+            if($opt_date_type == 2){ //周报
+                if($start_month == $end_month){ //周报
+                    $type = 2;
+                    $start_time = $start_time + 86400;
+                    $end_time = $end_time + 86400;
+                }else{//跨月报
+                    $type = 3;
+                    $start_time = $start_time + 86400;
+                    $end_time = $end_time + 86400;
+                }
+            }elseif($opt_date_type == 3){
+                $type = 1;
+            }else{
+                $arr = [];
+                $arr['create_time_range'] = "不在统计时间段内";
+                return $this->pageView(__METHOD__,null,["arr"=>$arr]);
             }
-            if($value['lesson_cancel_reason_type'] == 3 || $value['lesson_cancel_reason_type'] == 4){ //网络设备
-                $arr['other_leave'] += round($value['num']/100,2);
+            $arr = [];
+            $arr['create_time_range'] = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
+            //节点
+            //概况
+            $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+            if($type == 3){
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+            }elseif($type == 1 || $type == 2){
+                $month_ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
             }
-        }
+            $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
+            $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
+            $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
+            $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
+            $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
+            $arr['person_num']         = $ret_total['person_num']; //下单总人数
+            $arr['contract_num']       = $ret_total['order_num']; //合同数
+            $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //入职完整月人员签单额
+            $arr['person_num_thirty']  = $ret_total_thirty['person_num'];  //入职完整月人员人数
 
-        //续费
-        $arr['total_renew'] = $ret_total['total_renew']/100; //续费金额
-        $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
-        if($arr['renew_num']){
-            $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
-        }else{
-            $arr['renew_num_per'] = 0;
-        }
+            $arr['cr_num']             = $ret_cr;//在职人数
+            $arr['refund_num']         = $ret_refund;//退费总人数
+            $arr['target']             = $target;   //续费目标
+            if(($arr['target']-$arr['total_price']) > 0){
+                $arr['gap_money'] = $arr['target'] - $arr['total_price'];
+            }else{
+                $arr['gap_money'] = 0;  //缺口金额
+            }
+            if($arr['total_price']){
+                $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);
+            }else{
+                $arr['contract_per']   = 0;
+            }
+            if($arr['person_num_thirty']){
+                $arr['person_num_thirty_per'] = round($arr['total_price_thirty'] / $arr['person_num_thirty'],2);
+            }else{
+                $arr['person_num_thirty_per'] = 0;
+            }
+            if($arr['target']){
+                $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2); 
+                $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target'],2);
+            }else{
+                $arr['kpi_per'] = 0;
+                $arr['month_kpi_per'] = 0;
+            }
+            //课时消耗
+            $lesson_consume    = $this->t_lesson_info->get_total_consume($start_time,$end_time); //课时消耗实际数量,上课学生数
+            $leave_num         = $this->t_lesson_info->get_leave_num($start_time,$end_time); //老师,学生请假课时
+            $arr['lesson_consume'] = round($lesson_consume['total_consume']/100,2);
+            $arr['teacher_leave'] = 0;
+            $arr['student_leave'] = 0;
+            $arr['other_leave'] = 0;
+            foreach($leave_num as $key => $value){
+                if($value['lesson_cancel_reason_type'] == 11){ //学生请假11
+                    $arr['student_leave'] = round($value['num']/100,2);
+                }
+                if($value['lesson_cancel_reason_type'] == 12){ //老师请假
+                    $arr['teacher_leave'] = round($value['num']/100,2);
+                }
+                if($value['lesson_cancel_reason_type'] == 3 || $value['lesson_cancel_reason_type'] == 4){ //网络设备
+                    $arr['other_leave'] += round($value['num']/100,2);
+                }
+            }
+            //续费
+            $arr['total_renew'] = round($ret_total['total_renew']/100,2); //续费金额
+            $arr['renew_num']   = $ret_total['renew_num'];       //总笔数
+            if($arr['renew_num']){
+                $arr['renew_num_per'] = round($arr['total_renew']/$arr['renew_num'],2); //平均单笔
+            }else{
+                $arr['renew_num_per'] = 0;
+            }
 
-        //转介绍
-        $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
-        $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
-        if($arr['tranfer_num'] > 0){
-            $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
-        }else{
-            $arr['tranfer_num_per'] = 0;
-        }
+            //转介绍
+            $tranfer = $this->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+            $tranfer_data = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
+            $arr['tranfer_num']   = $ret_total['tranfer_num']/1;  //转介绍成单数量
+            $arr['total_tranfer'] = $ret_total['total_tranfer']/100; //转介绍总金额
+            $arr['tranfer_phone_num'] = $tranfer; //转介绍至CC例子量
+            
+            $arr['tranfer_total_price'] = round($tranfer_data['total_price'] /100,2);
+            $arr['tranfer_total_num']   = $tranfer_data['total_num'];
+            if($arr['tranfer_num'] > 0){
+                $arr['tranfer_num_per'] = round($arr['total_tranfer']/$arr['tranfer_num'],2);
+            }else{
+                $arr['tranfer_num_per'] = 0;
+            }
 
-        //扩科
-        $kk          = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
-        $success_num = $this->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
-        $arr['total_test_lesson_num'] = $kk['total_test_lesson_num'];
-        $arr['success_num'] = $success_num;
-        $arr['fail_num'] = $kk['fail_num'];
-        $arr['wait_num'] = $kk['wait_num'];
-        return $this->pageView(__METHOD__,null,["arr"=>$arr]);
+            //扩科
+            $kk          = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+            $success_num = $this->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
+            $arr['total_test_lesson_num'] = $kk['total_test_lesson_num'];
+            $arr['success_num'] = $success_num;
+            $arr['fail_num'] = $kk['fail_num'];
+            $arr['wait_num'] = $kk['wait_num'];
+
+            //存档data
+            $ret_info = $this->t_cr_week_month_info->get_data_by_type($end_time,$type);
+            $arr['finish_num']         = $ret_info['finish_num'];//结课学员数
+            $arr['lesson_target']      = $ret_info['lesson_target'];//课时系数目标量
+            $arr['read_num']           = $ret_info['read_num']; //在读学生数量
+            $arr['total_student']      = $ret_info['total_student'];//上课学生数量
+            $arr['student_arrive_per'] = $ret_info['student_arrive_per'];//学生到课率
+            $arr['student_arrive']     = $ret_info['student_arrive'];//学生到课数量
+            $arr['lesson_plan']        = $ret_info['lesson_plan'];//排课数量
+            $arr['lesson_income']      = $ret_info['lesson_income'];//课时收入
+            $arr['expect_finish_num']  = $ret_info['expect_finish_num'];//预计结课学生数量
+            $arr['plan_renew_num']     = $ret_info['plan_renew_num'];//计划内续费学生数量
+            $arr['other_renew_num']    = $ret_info['other_renew_num'];//计划外续费学生数量
+            $arr['real_renew_num']     = $ret_info['real_renew_num'];//实际续费学生数量
+            $arr['renew_per']          = $ret_info['renew_per'];//月续费率
+            $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
+            $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
+            $arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
+ 
+            return $this->pageView(__METHOD__,null,["arr"=>$arr]);
+        }
     }
-
-
 }

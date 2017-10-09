@@ -429,7 +429,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url,$desc="点击进入管理系统操作"  ) {
+    public function send_wx_todo_msg_by_adminid ($adminid, $from_user, $header_msg,$msg,$url="",$desc="点击进入管理系统操作"  ) {
         $account=$this->get_account($adminid);
         \App\Helper\Utils::logger("SEND TODO MSG: $account ");
 
@@ -571,7 +571,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $this->where_arr_add_int_field($where_arr,"u.adminid",$adminid);
 
-        $sql = $this->gen_sql_new("select g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
+        $sql = $this->gen_sql_new("select tm.group_name as first_group_name,g.main_type,g.group_name group_name,g.groupid groupid,m.group_name up_group_name,am.uid adminid,".
                                   "am.account, ".
                                   "am.create_time,am.become_member_time,am.leave_member_time,am.del_flag ".
                                   " from %s am left join %s u on (am.uid = u.adminid and u.month=%u)".
@@ -579,6 +579,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
+                                  " left join %s tm on tm.groupid = m.up_groupid and tm.month = %u".
                                   // " where %s and am.del_flag=0".
                                   " where %s ".
                                   "  group by am.uid",
@@ -591,6 +592,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $month,
                                   t_seller_student_new::DB_TABLE_NAME,//ss
                                   t_test_lesson_subject::DB_TABLE_NAME,//t
+                                  t_main_major_group_name_month::DB_TABLE_NAME,
+                                  $month,
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
@@ -1711,6 +1714,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_value($sql);
     }
+
     public function get_cr_num($start_time,$end_time){
         $where_arr = [
             'account_role = 1',

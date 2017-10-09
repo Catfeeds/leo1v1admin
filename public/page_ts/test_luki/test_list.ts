@@ -77,4 +77,14 @@ $(function(){
 
     });
 
+    $(".opt-del").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+
+        $.do_ajax("/test_luki/test_del",{
+            "id" : opt_data.id,
+        });
+
+    });
+
+
 });

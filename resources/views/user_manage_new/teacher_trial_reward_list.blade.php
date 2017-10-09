@@ -20,6 +20,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span >是否有课</span>
+                        <select id="id_has_lesson" class="opt-change">
+                        </select>
+                    </div>
+                </div>
                 <div class=" col-xs-6  col-md-2">
                     <div class="input-group col-sm-12">
                         <input type="text" class="opt-change " id="id_lessonid" placeholder="试听课程ID" />
@@ -36,7 +43,13 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td style="display:none">id</td>
                     <td>姓名</td>
+                    <td style="display:none">银行卡</td>
+                    <td style="display:none">开户行</td>
+                    <td style="display:none">持卡人</td>
+                    <td style="display:none">银行手机</td>
+                    <td style="display:none">银行类型</td>
                     <td>奖励类型</td>
                     <td>添加时间</td>
                     <td>金额</td>
@@ -48,7 +61,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["teacherid"]}}</td>
                         <td>{{@$var["tea_nick"]}}</td>
+                        <td>银行卡:{{@$var["bankcard"]}}</td>
+                        <td>{{@$var["bank_address"]}}</td>
+                        <td>{{@$var["bank_account"]}}</td>
+                        <td>{{@$var["bank_phone"]}}</td>
+                        <td>{{@$var["bank_type"]}}</td>
                         <td>{{@$var["type_str"]}}</td>
                         <td>{{@$var["add_time_str"]}}</td>
                         <td>{{@$var["money"]}}</td>

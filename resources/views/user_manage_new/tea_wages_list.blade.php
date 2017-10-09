@@ -22,6 +22,12 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span>推荐人</span>
+                        <input class="opt-change" id="id_reference"/>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span>等级</span>
                         <select class="opt-change" id="id_level">
                         </select>
@@ -56,7 +62,7 @@
                     <div class="input-group">
                         @if(in_array($acc,["echo","adrian","ted","jim","michelle","sherry"]))
                             <span class="input-group">课程收入</span>
-                            <input value="{{@$all_lesson_money}}">
+                            <input id="id_lesson_price" value="0">
                         @endif
                         <span class="input-group">总课时</span>
                         <input class="all_lesson_total" value="{{@$all_lesson_total}}">
@@ -94,10 +100,10 @@
                         <input id="id_teacher_ref_money_2" value="0">
                         <span class="input-group">明日之星</span>
                         <input id="id_teacher_ref_money_3" value="0">
-                        <span class="input-group">方超工作室</span>
-                        <input id="id_teacher_ref_money_4" value="0">
-                        <span class="input-group">王磊工作室</span>
-                        <input id="id_teacher_ref_money_5" value="0">
+                        <!-- <span class="input-group">方超工作室</span>
+                             <input id="id_teacher_ref_money_4" value="0">
+                             <span class="input-group">王磊工作室</span>
+                             <input id="id_teacher_ref_money_5" value="0"> -->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-10" style="display:none">
@@ -108,10 +114,10 @@
                         <input id="id_lesson_ref_money_2" value="0">
                         <span class="input-group">明日之星</span>
                         <input id="id_lesson_ref_money_3" value="0">
-                        <span class="input-group">方超</span>
-                        <input id="id_lesson_ref_money_4" value="0">
-                        <span class="input-group">王磊</span>
-                        <input id="id_lesson_ref_money_5" value="0">
+                        <!-- <span class="input-group">方超</span>
+                             <input id="id_lesson_ref_money_4" value="0">
+                             <span class="input-group">王磊</span>
+                             <input id="id_lesson_ref_money_5" value="0"> -->
                     </div>
                 </div>
                 <!-- <div class="col-xs-6 col-md-10">

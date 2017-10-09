@@ -9,6 +9,7 @@ function load_data(){
         opt_date_type:	$('#id_opt_date_type').val(),
 			  call_phone_count:	$('#id_call_phone_count').val(),
 			  suc_test_count:	$('#id_suc_test_count').val(),
+			  call_count:	$('#id_call_count').val(),
         seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
@@ -125,6 +126,7 @@ $(function(){
     $('#id_filter_flag').val(g_args.filter_flag);
 	  $('#id_call_phone_count').val(g_args.call_phone_count);
 	  $('#id_suc_test_count').val(g_args.suc_test_count);
+	  $('#id_call_count').val(g_args.call_count);
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]

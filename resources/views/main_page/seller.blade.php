@@ -235,6 +235,13 @@
                                     </tr>
                                     @endif
                                 @endforeach
+                                @if( $is_master)
+                                    <tr>
+                                        <td colspan="4">
+                                            <a type="button" href="/tongji/seller_personal_rank" target="_block" class="btn btn-default pull-right" >查看更多</a>
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
 

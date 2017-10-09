@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -17,11 +19,23 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
 	realname	:any;
-	all_lesson	:any;
-	order_num	:any;
-	per	:any;
+	train_through_new_time	:any;
+	train_through_new	:any;
+	subject	:any;
+	grade_part_ex	:any;
+	phone	:any;
+	confirm_time	:any;
 	work_day	:any;
+	subject_str	:any;
+	grade_part_ex_str	:any;
+	order_num	:any;
+	all_lesson	:any;
+	per	:any;
+	first_time_str	:any;
+	first_time	:any;
+	confirm_time_str	:any;
 }
 
 /*

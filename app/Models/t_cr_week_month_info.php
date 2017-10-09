@@ -1,0 +1,18 @@
+<?php
+namespace App\Models;
+use \App\Enums as E;
+class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+    public function get_data_by_type($create_time,$type){
+        $where_arr = [
+            ["create_time=%u",$create_time,-1],
+            ["type=%u",$type,-1]
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_row($sql);
+    }
+}

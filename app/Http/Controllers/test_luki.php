@@ -20,6 +20,7 @@ class test_luki extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"value");
             E\Egrade::set_item_value_str($item);
 
+
         }
         return $this->pageView(__METHOD__,$ret_info);
 
@@ -56,6 +57,12 @@ class test_luki extends Controller
         $this->t_test_luki->field_update_list($id,[
             "grade" => $grade,
         ]);
+        return $this->output_succ();
+    }
+
+    public function test_del(){
+        $id = $this->get_in_int_val("id");
+        $this->t_test_luki->row_delete($id);
         return $this->output_succ();
     }
 }

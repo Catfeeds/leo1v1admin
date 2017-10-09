@@ -140,7 +140,11 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["identity_str"]}}  </td>
                         <td>{{@$var["work_day"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
+                        <td>
+                            <a href="javascript:;" class="show_phone" data-phone="{{$var["phone"]}}" >
+                                {{@$var["phone_ex"]}}
+                            </a>
+                        </td>
                         <td>
                             @if(@$var["grade_start"]>0)
                                 {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}

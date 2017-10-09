@@ -105,12 +105,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
     public function get_list_by_parent_id( $parentid,$lessonid=-1,$type) {
         $check_lesson_time=time(NULL)-90*86400;
+        $now = time() + 14*86400;
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
             ["lesson_type=%d",$type,-1],
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
+            "lesson_start<$now", //试听
         ];
 
         $sql = $this->gen_sql_new(
@@ -1832,7 +1834,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_teacher_time_by_lessonid($lessonid,$start,$end){
 
-        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and del_flag = 0 ",
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and lesson_del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid,
@@ -2154,7 +2156,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
     public function get_student_lesson_time_by_lessonid($lessonid ,$start=0, $end=0 ){
         $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end from %s l ".
-                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and del_flag = 0 ",
+                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and lesson_del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid
@@ -3661,6 +3663,33 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             return $item["reference"];
         });
     }
+
+    public function get_lesson_add_num_by_reference_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type = 1100",
+            "l.lesson_del_flag = 0",
+            "l.train_type=5"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select distinct l.userid,ta.reference"
+                                  ." from %s l left join %s t on l.userid = t.teacherid"
+                                  ." left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
    
 

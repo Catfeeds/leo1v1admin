@@ -18,10 +18,12 @@ declare var g_adminid: any;
 interface RowData {
 	assistantid	:any;
 	userid	:any;
+	grade	:any;
 	lesson_count	:any;
 	count	:any;
 	student_nick	:any;
 	assistant_nick	:any;
+	lesson_price	:any;
 }
 
 /*

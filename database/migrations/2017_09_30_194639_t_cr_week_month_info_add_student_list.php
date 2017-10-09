@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TGrabLessonLinkOperationAddFailReason extends Migration
+class TCrWeekMonthInfoAddStudentList extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class TGrabLessonLinkOperationAddFailReason extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_grab_lesson_link_visit_operation', function( Blueprint $table)
+        Schema::table('db_weiyi.t_cr_week_month_info', function( Blueprint $table)
         {
-            t_field($table->string("fail_reason")->nullable(),"失败原因");
+            t_field($table->string("student_list",8192),"student");
         });
-
     }
 
     /**
@@ -28,5 +27,6 @@ class TGrabLessonLinkOperationAddFailReason extends Migration
     public function down()
     {
         //
+
     }
 }

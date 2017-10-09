@@ -1514,10 +1514,11 @@ class tea_manage extends Controller
         $page_num        = $this->get_in_page_num();
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $lesson_status   = $this->get_in_int_val("lesson_status",-1);
+        $train_type      = $this->get_in_int_val("train_type",7);
         $acc             = $this->get_account();
         $ret_info = $this->t_lesson_info->get_train_lesson(
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,
-            -1,-1,7
+            -1,-1,$train_type
         );
         if(!empty($ret_info['list'])){
             $server_map = $this->gen_server_map($ret_info['list']);

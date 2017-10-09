@@ -154,6 +154,17 @@ class ss_deal extends Controller
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
                 $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
+
+            $origin_assistantid= $this->t_student_info->get_origin_assistantid($userid);
+            $nick = $this->t_student_info->get_nick($userid);
+            $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+            if($opt_type==0 && $account_role==1 && $origin_assistantid>0){
+                $phone = $this->t_manager_info->get_phone($opt_adminid);
+                $ass_account = $this->t_manager_info->get_account($origin_assistantid);
+                $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+                $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
+
+            }
         }
 
         return $this->output_succ();
@@ -180,7 +191,7 @@ class ss_deal extends Controller
     public function  get_user_info() {
         $userid= $this->get_in_userid();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
-
+        $require_id = $this->get_in_int_val('require_id');
         $student = $this->t_student_info->field_get_list($userid, "*");
         /*
         if (  @$student["lesson_count_left"] >100 ) {
@@ -190,6 +201,7 @@ class ss_deal extends Controller
         //$this->t_admin_group->
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
+        $tr_item = $this->t_test_lesson_subject_require->field_get_list($require_id,"*");
 
         $ret["test_lesson_count"]   = $this->t_lesson_info_b2-> get_test_lesson_count($userid);
 
@@ -252,6 +264,15 @@ class ss_deal extends Controller
         $ret["stu_test_paper"]    = $tt_item["stu_test_paper"];
         $ret["intention_level"]    = $tt_item["intention_level"];
         $ret["new_demand_flag"]    = $ss_item["new_demand_flag"];
+        $ret["tea_province"] = $tt_item["tea_province"];
+        $ret["tea_city"] = $tt_item["tea_city"];
+        $ret["tea_area"] = $tt_item["tea_area"];
+        $ret["stu_test_paper"] = $tt_item["stu_test_paper"];
+        $ret["ass_test_lesson_type"] = $tt_item["ass_test_lesson_type"];
+        $ret["change_teacher_reason_type"] = $tr_item["change_teacher_reason_type"];
+        $ret["change_teacher_reason_img_url"] = $tr_item["change_teacher_reason_img_url"];
+        $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
+        $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -552,6 +573,9 @@ class ss_deal extends Controller
         $userid                 = $this->get_in_userid();
         $phone                  = $this->get_in_phone();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
+		if ($phone == "") {
+            $phone=$this->t_seller_student_new->get_phone($userid);
+		}
 
         $grade         = $this->get_in_grade();
         $gender        = $this->get_in_int_val("gender");
@@ -674,12 +698,9 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
         if($db_grade!= $grade && !$this->t_order_info->has_1v1_order($userid)){
-            $this->t_book_revisit->row_insert([
-                "phone"  => $phone,
-                "revisit_time"  =>time(),
-                "operator_note" =>"年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]",
-                "sys_operator"  =>$this->get_account()
-            ]);
+         	$revisite_info="年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]";
+
+            $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
             $this->t_field_modified_list->row_insert([
                 "modified_time"  =>time(),
                 "last_value"     =>$db_grade,
@@ -809,7 +830,7 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
-
+    
 
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
@@ -1971,7 +1992,7 @@ class ss_deal extends Controller
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
-        $order_price_desc= json_encode( $price_ret["desc_list"]);
+        $order_activity_list= $price_ret["desc_list"];
         $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
         $promotion_spec_diff_money =0;
@@ -1989,6 +2010,9 @@ class ss_deal extends Controller
 
             if($promotion_spec_diff_money <0 ){
                 $promotion_spec_diff_money =0;
+            }
+            if ($promotion_spec_diff_money > $promotion_spec_discount *0.5 ) {
+                return $this->output_err("数据有误,折扣太多");
             }
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
@@ -2037,7 +2061,7 @@ class ss_deal extends Controller
             $promotion_spec_present_lesson,$contract_from_type,
             $from_parent_order_lesson_count,
             $pre_price,
-            $order_price_desc,
+            "",
             $order_partition_flag
         );
 
@@ -2071,6 +2095,7 @@ class ss_deal extends Controller
             "parent_orderid"   =>$orderid,
             "price"            => $price
         ]);
+        $this->t_order_activity_info-> add_order_info( $orderid, $order_activity_list );
         return $this->output_succ();
     }
 
@@ -2585,7 +2610,7 @@ class ss_deal extends Controller
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
+        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
@@ -2605,34 +2630,30 @@ class ss_deal extends Controller
             $test_stu_request_test_lesson_demand
         );
 
-        if (!$ret){
-            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+        $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
 
-            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
-        }else{
-
-            $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
-            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
-                "green_channel_teacherid"=>$green_channel_teacherid,
-                "is_green_flag"          =>$is_green_flag,
+        if($require_id>0 && $ass_test_lesson_type ==2){
+            $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"  => $change_reason_url,
                 "change_teacher_reason_type"     => $change_teacher_reason_type
             ]);
+        }
 
-            if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
-                //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                $now = date('Y-m-d H:i:s',time());
-                $data = [
-                    'first'    => '换老师统计-调试',
-                    'keyword1' => '换老师统计-调试',
-                    'keyword2' => "换老师统计-调试 $now"
-                ];
-                $teacher_url = 'http://admin.yb1v1.com/tongji_ss/tongji_change_teacher_info';
+        if (!$ret){
+            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
+            return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
+        }else{
 
-                \App\Helper\Utils::send_teacher_msg_for_wx('oJ_4fxPmwXgLmkCTdoJGhSY1FTlc','rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o', $data,$teacher_url);
+            // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
+            $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
+                "green_channel_teacherid"=>$green_channel_teacherid,
+                "is_green_flag"          =>$is_green_flag,
+                // "change_teacher_reason"          => $change_reason,
+                // "change_teacher_reason_img_url"  => $change_reason_url,
+                // "change_teacher_reason_type"     => $change_teacher_reason_type
+            ]);
 
-            }
             \App\Helper\Utils::logger("add_require: $test_lesson_subject_id ret_flag: $ret_flag");
 
             return $this->output_succ();
@@ -2832,12 +2853,7 @@ class ss_deal extends Controller
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
 
         $origin_nick=$this->cache_get_student_nick($origin_userid);
-        $this->t_book_revisit->add_book_revisit(
-            $phone,
-            "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ",
-            "system"
-        );
-
+       
 
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
@@ -2885,9 +2901,22 @@ class ss_deal extends Controller
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1,"/seller_student_new/seller_student_list_all?userid=$userid");
 
+            $name = $this->t_manager_info->get_account($sub_assign_adminid_1);
+            $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ,分配给销售经理".$name,
+                "system"
+            );
+
 
 
         }else{
+            $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ",
+                "system"
+            );
+
             //分配给原来的销售
             $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
             //$admin_revisiterid= $origin_assistantid;
@@ -6214,7 +6243,7 @@ class ss_deal extends Controller
                 "parent_name" => $parent_name,
             ]);
         }
-        return $this->output_err($errno);
+        return $this->output_succ();
 
     }
 

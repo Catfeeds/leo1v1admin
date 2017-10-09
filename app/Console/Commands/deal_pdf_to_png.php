@@ -88,7 +88,7 @@ class deal_pdf_to_png extends cmd_base
 
                 @chmod($savePathFile, 0777);
 
-                $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+                $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
 
                 $file_name_origi = array();
                 foreach($imgs_url_list as $item){
@@ -143,7 +143,7 @@ class deal_pdf_to_png extends cmd_base
         $is_exit = file_exists($pdf);
 
         if($is_exit){
-            @$IM->readImage($pdf);
+            $IM->readImage($pdf);
             foreach($IM as $key => $Var){
                 @$Var->setImageFormat('png');
                 $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;

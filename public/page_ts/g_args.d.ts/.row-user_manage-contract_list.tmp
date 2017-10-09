@@ -72,6 +72,7 @@
 	pre_price	:any;
 	pre_pay_time	:any;
 	pre_from_orderno	:any;
+	is_staged_flag	:any;
 	is_new_stu_str	:any;
 	grade_str	:any;
 	stu_from_type_str	:any;
@@ -91,3 +92,4 @@
 	pre_money_info	:any;
 	promotion_spec_is_not_spec_flag_str	:any;
 	status_color	:any;
+	is_staged_flag_str	:any;

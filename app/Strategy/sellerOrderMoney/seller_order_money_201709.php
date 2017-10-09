@@ -100,6 +100,13 @@ class seller_order_money_201709  extends  seller_order_money_base
         $ret_arr["new_account_value"] =  $new_account_value;
         $ret_arr["create_time"] = \App\Helper\Utils::unixtime2date($create_time, "Y-m-d"  );
 
+        //获取分期不分期金额
+        //$sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
+
+        //$ret_arr['sort_money'] = $sort['sort_money'];
+        //$ret_arr['no_sort_money'] = $sort['no_sort_money'];
+        $ret_arr['sort_money'] = 1;
+
         return $ret_arr;
     }
 
@@ -195,6 +202,7 @@ class seller_order_money_201709  extends  seller_order_money_base
 
         $ret_arr["new_account_value"] =  $new_account_value;
         $ret_arr["create_time"] = \App\Helper\Utils::unixtime2date($create_time, "Y-m-d"  );
+
         return $ret_arr;
     }
 

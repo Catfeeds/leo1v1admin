@@ -36,6 +36,7 @@ interface GargsStatic {
 	filter_flag:	number;//\App\Enums\Eboolean
 	first_seller_adminid:	number;
 	call_phone_count:	string;
+	call_count:	string;
 	suc_test_count:	string;
 	main_master_flag:	number;
 }
@@ -93,6 +94,7 @@ interface RowData {
 	first_admin_revisiterid	:any;
 	first_admin_revisiterid_time	:any;
 	first_seller_status	:any;
+	call_count	:any;
 	last_call_time_space	:any;
 	opt_time	:any;
 	index	:any;
@@ -165,6 +167,7 @@ $(function(){
 			filter_flag:	$('#id_filter_flag').val(),
 			first_seller_adminid:	$('#id_first_seller_adminid').val(),
 			call_phone_count:	$('#id_call_phone_count').val(),
+			call_count:	$('#id_call_count').val(),
 			suc_test_count:	$('#id_suc_test_count').val(),
 			main_master_flag:	$('#id_main_master_flag').val()
         });
@@ -228,6 +231,7 @@ $(function(){
 	$('#id_filter_flag').val(g_args.filter_flag);
 	$('#id_first_seller_adminid').val(g_args.first_seller_adminid);
 	$('#id_call_phone_count').val(g_args.call_phone_count);
+	$('#id_call_count').val(g_args.call_count);
 	$('#id_suc_test_count').val(g_args.suc_test_count);
 	$('#id_main_master_flag').val(g_args.main_master_flag);
 
@@ -459,6 +463,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">call_phone_count</span>
                 <input class="opt-change form-control" id="id_call_phone_count" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">call_count</span>
+                <input class="opt-change form-control" id="id_call_count" />
             </div>
         </div>
 

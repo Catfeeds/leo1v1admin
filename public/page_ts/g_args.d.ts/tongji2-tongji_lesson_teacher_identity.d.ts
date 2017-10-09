@@ -14,6 +14,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	identity	:any;
+	num	:any;
+	identity_str	:any;
 }
 
 /*

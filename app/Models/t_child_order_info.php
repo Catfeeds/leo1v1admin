@@ -36,10 +36,14 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
-    public function chick_all_order_have_pay($parent_orderid){
-        $sql = $this->gen_sql_new("select 1 from %s where parent_orderid=%u and price>0 and pay_status=0",
+    public function chick_all_order_have_pay($parent_orderid,$pay_status=0){
+        $where_arr=[
+            ["pay_status=%u",$pay_status,-1] 
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where parent_orderid=%u and price>0 and %s",
                                   self::DB_TABLE_NAME,
-                                  $parent_orderid
+                                  $parent_orderid,
+                                  $where_arr
         );
         return $this->main_get_value($sql);
     }
@@ -86,6 +90,28 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
+
+    public function  del_contract ($parent_orderid) {
+        $sql = sprintf("delete from %s "
+                       . "where parent_orderid = %u ",
+                       self::DB_TABLE_NAME,
+                       $parent_orderid
+        );
+        return $this->main_update($sql);
+    }
+
+    public function set_all_order_payed_by_parent_orderid($parent_orderid){
+        $sql = $this->gen_sql_new("update %s set pay_status = 1,"
+                                  ." pay_time = %u "
+                                  ." where parent_orderid = %u and price>0 and pay_status=0 "
+                                  ,self::DB_TABLE_NAME
+                                  ,time()
+                                  ,$parent_orderid
+        );
+        return $this->main_update( $sql );
+ 
+    }
+
 
 }
 

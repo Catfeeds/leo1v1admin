@@ -13,8 +13,11 @@ $(function(){
 			      level               : $('#id_level').val(),
 			      show_data           : $('#id_show_data').val(),
 			      show_type           : $('#id_show_type').val(),
+			      reference : $('#id_reference').val(),
         });
     }
+    $.admin_select_user($("#id_reference"),"teacher",function(){load_data();});
+    $("#id_reference").val(g_args.reference);
 
     $('#id_date_range').select_date_range({
         'date_type'      : g_args.date_type,
@@ -166,7 +169,16 @@ $(function(){
                 do_one();
             }
         };
-        do_one();
+
+        $.do_ajax("/user_manage_new/get_lesson_price",{
+            "start_time"         : g_args.start_time,
+            "end_time"           : g_args.end_time,
+            "teacher_money_type" : $("#id_teacher_money_type").val(),
+        },function(result){
+            $("#id_lesson_price").val(result.lesson_price);
+            do_one();
+        });
+
     });
 
     $("#id_reset_lesson_count_all").on("click",function(){
