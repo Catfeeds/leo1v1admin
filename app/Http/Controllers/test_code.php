@@ -50,8 +50,8 @@ class test_code extends Controller
     }
 
     public function get_success_lesson(){
-        $day  = 30;
-        $type = 2;
+        $day  = $this->get_in_int_val("day",30);
+        $type = $this->get_in_int_val("type",2);
 
         $begin_time = $this->get_begin_time($type,$day);
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
