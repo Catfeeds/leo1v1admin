@@ -1913,5 +1913,7 @@ $(function(){
 
     });
 
+    download_hide();
+    $(".opt-download").show();
 
 });

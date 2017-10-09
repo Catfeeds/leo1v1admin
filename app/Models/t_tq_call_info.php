@@ -506,4 +506,26 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_value($sql);
     }
 
+    public function get_call_info_by_adminid_list($start_time, $end_time,$adminid_list,$adminid_all){
+        $where_arr=[
+            "m.account_role=2",
+        ];
+        $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
+        $sql=$this->gen_sql_new(
+            "select count(*) call_count,sum(if(is_called_phone=1,1,0)) is_called_count,"
+            ."sum(if(tq.end_time>0 and tq.start_time>0,tq.end_time - tq.start_time,0)) call_time_long, "
+            ."m.uid adminid "
+            ."  from %s tq"
+            ."  left join  %s m on m.tquin=tq.uid"
+            ." where  %s group by m.uid ",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["adminid"];
+        });
+    }
 }

@@ -2183,7 +2183,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
-        ,$spec_flag=-1, $orderid=-1
+        ,$spec_flag=-1, $orderid=-1 ,$order_activity_type=-1,$show_son_flag=false
     ){
         $where_arr=[];
         if($orderid>=0){
@@ -2193,21 +2193,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         }elseif( $config_courseid>0 ){
             $where_arr=[["config_courseid=%u",$config_courseid,-1]];
         }else{
-            $where_arr=[
-                ["is_test_user=%u" , $is_test_user, -1],
-                ["check_money_flag=%u" , $check_money_flag, -1],
-                ["stu_from_type=%u" , $stu_from_type, -1],
-                ["t1.grade=%u" , $grade, -1],
-                ["t1.subject=%u" , $subject, -1],
-                ["need_receipt=%u" , $need_receipt, -1],
-                ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
-                ["l.teacherid=%u" , $teacherid, -1],
-            ];
+            if($show_son_flag){//查看下级的
+                $where_arr=[
+                    ["is_test_user=%u" , $is_test_user, -1],
+                    ["check_money_flag=%u" , $check_money_flag, -1],
+                    ["stu_from_type=%u" , $stu_from_type, -1],
+                    ["t1.grade=%u" , $grade, -1],
+                    ["t1.subject=%u" , $subject, -1],
+                    ["need_receipt=%u" , $need_receipt, -1],
+                    ["l.teacherid=%u" , $teacherid, -1],
+                ];
+            }else{
+                $where_arr=[
+                    ["is_test_user=%u" , $is_test_user, -1],
+                    ["check_money_flag=%u" , $check_money_flag, -1],
+                    ["stu_from_type=%u" , $stu_from_type, -1],
+                    ["t1.grade=%u" , $grade, -1],
+                    ["t1.subject=%u" , $subject, -1],
+                    ["need_receipt=%u" , $need_receipt, -1],
+                    ["t1.sys_operator like '%%%s%%'" , $sys_operator, ""],
+                    ["l.teacherid=%u" , $teacherid, -1],
+                ];
+            }
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
+			if ($order_activity_type != -1 ) {
+				$sub_where_arr =[
+					["order_activity_type=%u", $order_activity_type , -1 ],
+					"succ_flag=1"
+				];
+            	$this->where_arr_add_time_range($sub_where_arr,$opt_date_str,$start_time,$end_time);
+		
+				$where_arr[]= $this->gen_sql_new(
+					"t1.orderid in (select s_o.orderid  from %s s_o join %s soa  on s_o.orderid=soa.orderid where %s)   ", self::DB_TABLE_NAME, 
+					t_order_activity_info::DB_TABLE_NAME,  
+					$sub_where_arr );
+			}
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
@@ -2230,9 +2254,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"origin_userid", $origin_userid);
 
             if ($has_money ==0) {
-               $where_arr[]="price=0" ;
+               $where_arr[]="t1.price=0" ;
             }else if ($has_money ==1) {
-               $where_arr[]="price>0" ;
+                $where_arr[]="t1.price>0" ;
             }
             $where_arr[]=$this->where_get_in_str("m2.uid", $require_adminid_list );
         }
@@ -2303,7 +2327,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,10);
+        return $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
     public function get_order_list_require_adminid_new(

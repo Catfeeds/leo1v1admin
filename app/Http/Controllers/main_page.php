@@ -510,16 +510,16 @@ class main_page extends Controller
         }
         #dd($assistant_renew);exit;
 
-        $ass_adminid = $this->get_account_id();
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        // $ass_adminid = $this->get_account_id();
+        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
             'warning_type_three' =>0
         ];
-        foreach($warning_count as $item){
-            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        }
+        // foreach($warning_count as $item){
+        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        // }
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -539,6 +539,7 @@ class main_page extends Controller
     }
 
     public  function assistant_leader() {
+        dd("暂停使用");
         $account_id = $this->get_account_id();
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);

@@ -2728,5 +2728,9 @@ $(function(){
         });
     }
 
+    download_hide();
+    $(".opt-download-test-paper").show();
+   // $(".page-opt-show-all-xls").hide();
+
 
 });

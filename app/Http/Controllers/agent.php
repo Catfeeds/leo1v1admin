@@ -326,13 +326,138 @@ class agent extends Controller
     }
 
     public function check(){
-        $a = ['a'=>1,'b'=>2];
-        $b = 1;
-        if($b == 1){
-            // dd('a');
-            $a['c'] = 3;
+$self_groupid = $this->get_in_int_val("self_groupid",-1);
+
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -30*6, 1, 0, [
+            0 => array( "add_time", "资源进来时间"),
+            4 => array("sub_assign_time_2","分配给主管时间"),
+            5 => array("admin_assign_time","分配给组员时间"),
+            6 => array("tmk_assign_time","微信分配时间"),
+            ], 0,0, true
+        );
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
+
+        $userid            = $this->get_in_userid(-1);
+        $origin            = trim($this->get_in_str_val('origin', ''));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        // dd($origin_ex);
+        $grade             = $this->get_in_el_grade();
+        $subject           = $this->get_in_subject(-1);
+        $phone_location    = trim($this->get_in_str_val('phone_location', ''));
+        $admin_revisiterid = $this->get_in_int_val('admin_revisiterid', -1);
+        $tq_called_flag    = $this->get_in_int_val("tq_called_flag", -1,E\Etq_called_flag::class);
+        $global_tq_called_flag = $this->get_in_int_val("global_tq_called_flag", -1,E\Etq_called_flag::class);
+        $seller_student_status = $this->get_in_el_seller_student_status();
+
+        $page_num              = $this->get_in_page_num();
+        $page_count            = $this->get_in_page_count();
+        $has_pad               = $this->get_in_int_val("has_pad", -1, E\Epad_type::class);
+        $sub_assign_adminid_2  = $this->get_in_int_val("sub_assign_adminid_2", 0);
+        $origin_assistantid    = $this->get_in_int_val("origin_assistantid",-1  );
+        $tmk_adminid           = $this->get_in_int_val("tmk_adminid",-1, "");
+        $account_role     = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
+        $origin_level          = $this-> get_in_el_origin_level("0,1,2,3,4");
+        $seller_student_sub_status = $this->get_in_enum_val(E\Eseller_student_sub_status::class,-1);
+        $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
+        $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
+        $sys_invaild_flag  =$this->get_in_e_boolean(0,"sys_invaild_flag");
+        $publish_flag  = $this->get_in_e_boolean(1,"publish_flag");
+        $show_list_flag = $this->get_in_int_val("show_list_flag", 0);
+        $seller_level = $this->get_in_el_seller_level();
+
+        $admin_del_flag  = $this->get_in_e_boolean(-1 ,"admin_del_flag");
+        //wx
+        $wx_invaild_flag  =$this->get_in_e_boolean(-1,"wx_invaild_flag");
+        //dd($wx_invaild_flag);
+        $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
+        $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
+        $call_phone_count= $this->get_in_intval_range("call_phone_count");
+        $call_count= $this->get_in_intval_range("call_count");
+        $suc_test_count= $this->get_in_intval_range("suc_test_count", -1);
+        $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
+        $self_adminid = $this->get_account_id();
+        if($self_adminid==349){
+            $self_adminid=-1;
         }
-        dd($a);
+        $this->switch_tongji_database();
+
+        $this->t_seller_student_new->switch_tongji_database();
+        $ret_info = $this->t_seller_student_new->get_assign_list_new_test(
+            $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
+            $origin,$opt_date_str,$start_time,$end_time,$grade,
+            $subject,$phone_location,$origin_ex,$has_pad,$sub_assign_adminid_2,
+            $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
+            $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
+            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$call_count,$main_master_flag,$self_adminid );
+
+        $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+        foreach( $ret_info["list"] as $index=> &$item ) {
+            $lass_call_time_space = $item['last_revisit_time']?(time()-$item['last_revisit_time']):(time()-$item['add_time']);
+            $item['last_call_time_space'] = (int)($lass_call_time_space/86400);
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
+            \App\Helper\Utils::unixtime2date_for_item($item,"admin_assign_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"competition_call_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_contact_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_call_time");
+            $item["opt_time"] = $item[$opt_date_str];
+            $item["index"]    = $start_index + $index ;
+            E\Eseller_student_status::set_item_value_str($item);
+            E\Eseller_student_sub_status::set_item_value_str($item);
+            E\Etmk_student_status::set_item_value_str($item);
+            E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Eseller_resource_type::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"sys_invaild_flag");
+            E\Esubject::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
+            E\Eorigin_level::set_item_value_str($item);
+            $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
+            $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+            $this->cache_set_item_account_nick($item,"competition_call_adminid","competition_call_admin_nick");
+            $this->cache_set_item_account_nick($item,"require_adminid","require_admin_nick");
+
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_valid_desc",
+                                                     "first_tmk_set_valid_admind",
+                                                     "first_tmk_set_valid_time" );
+
+
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_set_cc_desc",
+                                                     "tmk_set_seller_adminid",
+                                                     "first_tmk_set_seller_time" );
+
+            $this->cache_set_item_account_nick_time ($item, "first_set_master_desc",
+                                                     "first_admin_master_adminid",
+                                                     "first_admin_master_time" );
+
+            $this->cache_set_item_account_nick_time ($item, "first_set_cc_desc",
+                                                     "first_admin_revisiterid",
+                                                     "first_admin_revisiterid_time" );
+
+
+            E\Eseller_student_status::set_item_value_str($item,"first_seller_status");
+
+
+        }
+
+        // 未分配信息
+        if ($self_groupid >0 ) { //主管
+            $unallot_info=$this->t_test_lesson_subject->get_unallot_info_sub_assign_adminid_2($sub_assign_adminid_2);
+        }else{
+            $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
+        }
+        // dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "unallot_info" => $unallot_info,
+            "show_list_flag" => $show_list_flag,
+        ]);
     }
 
 

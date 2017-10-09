@@ -2954,7 +2954,8 @@ class user_manage_new extends Controller
         $start_time         = strtotime($start_date);
         $end_time           = strtotime($end_date);
 
-        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        //$lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        $lesson_price = 0;
 
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
@@ -3518,16 +3519,16 @@ class user_manage_new extends Controller
         $this->t_revisit_info->switch_tongji_database();
         // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
         $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
 
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
             'warning_type_three' =>0,
         ];
-        foreach($warning_count as $item){
-            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        }
+        // foreach($warning_count as $item){
+            // \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        // }
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
             E\Erevisit_type::set_item_value_str($item);

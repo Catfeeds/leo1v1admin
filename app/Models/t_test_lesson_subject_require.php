@@ -870,7 +870,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "require_admin_type=2",
             "is_test_user=0",
         ];
-        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
@@ -1234,6 +1235,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $where_arr=[
             "require_admin_type=2" ,
             "is_test_user=0" ,
+            "tss.success_flag<2" ,
+            "l.del_flag=0" ,
         ];
         $this->where_arr_add_time_range($where_arr,"set_lesson_time",$start_time,$end_time);
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
@@ -1244,11 +1247,13 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ."  from %s tr   "
             ."  left join  %s t   on t.test_lesson_subject_id=tr.test_lesson_subject_id  "
             ."  left join  %s tss   on tss.lessonid =tr.current_lessonid"
+            ."  left join  %s l   on l.lessonid =tss.lessonid"
             ."  left join  %s s   on t.userid =s.userid"
             ." where  %s group by require_adminid  ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr
         );

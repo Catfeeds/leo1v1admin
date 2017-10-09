@@ -450,3 +450,4 @@ function bind_td_info($table){
     });
 
 }
+

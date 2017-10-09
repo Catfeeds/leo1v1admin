@@ -136,6 +136,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
                                    ." and %s"
                                    ." where %s"
                                    ." group by y.id"
+                                   ." order by y.id desc"
                                    ,self::DB_TABLE_NAME
                                    ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
                                    ,$on_where

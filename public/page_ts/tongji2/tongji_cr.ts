@@ -8,10 +8,10 @@ $(function(){
 			      date_type:	$('#id_date_type').val(),
 			      opt_date_type:	$('#id_opt_date_type').val(),
 			      start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val()
+			      end_time:	$('#id_end_time').val(),
+            history:	$('#id_is_history_data').val()
         });
     }
-
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -23,6 +23,8 @@ $(function(){
             load_data();
         }
     });
+
+    $('#id_is_history_data').val(g_args.history);
 
 
 	$('.opt-change').set_input_change_event(load_data);
