@@ -303,7 +303,6 @@ class testbb extends Controller
             t_field($table->integer("three_department"),"销售三部人数");
             t_field($table->integer("new_department"),"销售新人营人数");
             t_field($table->integer("train_department"),"销售培训中");
-            t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");
             t_field($table->integer("junior_money"),"初中金额");
             t_field($table->integer("primary_money"),"小学金额");
