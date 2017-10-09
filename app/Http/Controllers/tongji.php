@@ -1760,7 +1760,6 @@ class tongji extends Controller
                     $money6 += $money;
                 }
             }
-            // $ret_info[$key]['id']      = $num++;
             $ret_info[$key]['adminid'] = $adminid;
             $ret_info[$key]['account'] = $account;
             $ret_info[$key]['money1']  = $money1/100;

@@ -58,7 +58,7 @@
 
     </style>
 
-  
+
 
 
     <section class="content " id="id_content" >
@@ -70,9 +70,9 @@
                 </div>
             </div>
             <hr/>
-           
 
-            
+
+
             <div class="row">
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
@@ -105,7 +105,7 @@
                                 <tbody id="id_ass_group">
                                     @foreach ( $ass_group as $key=> $var )
                                         <tr>
-                                            <td  > {{@$var["group_name"]}} </td> 
+                                            <td  > {{@$var["group_name"]}} </td>
                                             <td>{{@$var["student_all"]}}</td>
                                             <td>{{@$var["student_finish"]}}</td>
                                             <td>{{@$var["student_finish_per"]}}%</td>
@@ -114,14 +114,14 @@
                                             <td>{{@$var["lesson_total"]}} </td>
                                             <td>{{@$var["lesson_do_per"]}}%</td>
                                             <td>{{@$var["lesson_money"]}} </td>
-                                            <td  > {{@$var["renw_target"]}} </td> 
-                                            <td  > {{@$var["renw_price"]}} </td> 
+                                            <td  > {{@$var["renw_target"]}} </td>
+                                            <td  > {{@$var["renw_price"]}} </td>
                                             <td  > {{@$var["renw_per"]}}% </td>
                                             <td>{{@$var["kk_succ"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
                                             <td>{{@$var["tran_price"]}} </td>
                                             <td>{{@$var["people_per"]}}</td>
-                                          
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -153,7 +153,7 @@
                                         <td>新学生数</td>
                                         <td>24小时内首次回访量</td>
                                         <td>未首次回访量</td>
-                                        
+
                                         <td>退费扣分值</td>
                                         <td>月课时收入</td>
                                         <td>月课时</td>
@@ -173,20 +173,20 @@
                                 </thead>
                                 <tbody id="id_ass_list">
                                     @foreach ( $ass_list as $key=> $var )
-                                        <tr>                                           
-                                            <td  > {{@$var["group_name"]}} </td> 
-                                            <td  > {{@$var["account"]}} </td> 
-                                            <td  > {{@$var["nick"]}} </td> 
-                                            <td  > {{@$var["revisit_target"]}} </td> 
-                                            <td  > {{@$var["revisit_real"]}} </td> 
-                                            <td  > {{@$var["revisit_per"]}}% </td> 
-                                            <td  > {{@$var["renw_target"]}} </td> 
-                                            <td  > {{@$var["renw_price"]}} </td> 
+                                        <tr>
+                                            <td  > {{@$var["group_name"]}} </td>
+                                            <td  > {{@$var["account"]}} </td>
+                                            <td  > {{@$var["nick"]}} </td>
+                                            <td  > {{@$var["revisit_target"]}} </td>
+                                            <td  > {{@$var["revisit_real"]}} </td>
+                                            <td  > {{@$var["revisit_per"]}}% </td>
+                                            <td  > {{@$var["renw_target"]}} </td>
+                                            <td  > {{@$var["renw_price"]}} </td>
                                             <td  > {{@$var["renw_per"]}}% </td>
 
-                                            <td  > {{@$var["new_num"]}} </td> 
-                                            <td  > {{@$var["first_revisit_num"]}} </td> 
-                                            <td  > {{@$var["un_first_revisit_num"]}} </td> 
+                                            <td  > {{@$var["new_num"]}} </td>
+                                            <td  > {{@$var["first_revisit_num"]}} </td>
+                                            <td  > {{@$var["un_first_revisit_num"]}} </td>
                                             <td>{{@$var["refund_score"]}}</td>
 
                                             <td>{{@$var["lesson_money"]}} </td>
@@ -213,11 +213,8 @@
                     </div>
                 </div>
             </div>
-             
+
         </div>
     </section>
-    
+
 @endsection
-
-
-

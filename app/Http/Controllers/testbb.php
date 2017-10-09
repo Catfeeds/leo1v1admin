@@ -294,11 +294,11 @@ class testbb extends Controller
             t_field($table->integer("referral_money"),"转介绍合同收入");
             t_field($table->integer("new_money"),"新签合同收入");
             t_field($table->integer("order_num"),"下单总人数");
-            // t_field($table->text("income_info"),"对应人员收入签单额度");
-            t_field($table->integer("cc_num"),"cc入职完整月人数");
             t_field($table->integer("formal_info"),"入职完整月人员收入");
-            t_field($table->integer("formal_num"),"入职完整月人员收入");
-            t_field($table->string("department_num_info"),"销售各部人数信息 json [咨询各部+新人营+培训中]");
+            t_field($table->integer("formal_num"),"入职完整月人员人数");
+            t_field($table->integer("seller_target_income"),"销售目标收入");
+            t_field($table->integer("total_num"),"销售合同量");
+            t_field($table->integer("department_num_info"),"销售各部人数信息 json [咨询各部+新人营+培训中]");
 
             t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");

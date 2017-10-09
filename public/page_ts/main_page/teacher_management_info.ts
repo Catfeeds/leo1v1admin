@@ -24,6 +24,29 @@ $(function(){
         }
     });
 
+    $(".fa-download").on("click",function(){
+        var list_data=[];
+        var $tr_list=$(this).parent().parent().find("table").find("tr" );
+        $.each($tr_list ,function(i,tr_item )  {
+            var row_data= [];
+            var $td_list= $(tr_item ).find("td");
+            $.each(  $td_list, function( i, td_item)  {
+                if ( i>0 && i< $td_list.length-1 ) {
+                    row_data.push( $.trim( $(td_item).text()) );
+                }
+            });
+            list_data.push(row_data);
+        });
+
+
+        $.do_ajax ( "/page_common/upload_xls_data",{
+            xls_data :  JSON.stringify(list_data )
+        },function(data){
+            window.location.href= "/common_new/download_xls";
+        });
+        
+    });
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });
