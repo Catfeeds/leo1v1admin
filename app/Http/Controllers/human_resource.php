@@ -3351,11 +3351,31 @@ class human_resource extends Controller
         }
     }
 
+    /**
+     * 一键把老师设置为999开头的测试老师
+     */
+    public function switch_teacher_to_test(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $phone     = $this->get_in_int_val("phone");
+
+        $max_phone = $this->t_teacher_info->get_max_test_phone();
+        $new_phone = $max_phone+1;
+        $this->set_in_value("userid",$teacherid);
+        $this->set_in_value("phone",$phone);
+        $this->set_in_value("new_phone",$new_phone);
+        $this->set_in_value("role",E\Erole::V_TEACHER);
+        $ret = $this->change_phone();
+        return $ret;
+    }
+
+    /**
+     * 更改用户的手机号
+     */
     public function change_phone(){
         $userid    = $this->get_in_int_val("userid");
         $phone     = $this->get_in_int_val("phone");
         $new_phone = $this->get_in_int_val("new_phone");
-        $role      = $this->get_in_int_val("role",1);
+        $role      = $this->get_in_int_val("role",E\Erole::V_STUDENT);
 
         $ret = \App\Helper\Utils::check_phone($new_phone);
         if(!$ret){
@@ -3369,17 +3389,23 @@ class human_resource extends Controller
         if(!empty($new_ret)){
             return $this->output_err("该账号已存在！");
         }
+        $update_tea_arr = [
+            "phone"       => $new_phone,
+            "phone_spare" => $new_phone,
+        ];
+        if(substr($new_phone,0,3)=="999"){
+            $update_tea_arr["is_test_user"] = 1;
+        }
 
         $this->t_phone_to_user->start_transaction();
         $update_ret = $this->t_phone_to_user->set_phone($new_phone,$role,$userid);
-        $tea_ret    = $this->t_teacher_info->field_update_list($userid,[
-            "phone"=>$new_phone,
-        ]);
+        $tea_ret    = $this->t_teacher_info->field_update_list($userid,$update_tea_arr);
 
         if($update_ret && $tea_ret){
             $this->t_phone_to_user->commit();
             \App\Helper\Utils::logger("update teacher phone success!teacherid:".$userid
                                       ." old phone:".$phone." new phone:".$new_phone);
+
             if($role==E\Erole::V_TEACHER){
                 $record_info="手机变更,由".$phone."变更为".$new_phone;
                 $this->t_teacher_record_list->row_insert([

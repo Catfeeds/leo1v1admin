@@ -2734,7 +2734,6 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list(){
-        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
@@ -2756,6 +2755,7 @@ class user_manage_new extends Controller
         // }else{
         //     $flag = 1;
         // }
+
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
@@ -2766,35 +2766,21 @@ class user_manage_new extends Controller
                 $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
             );
             $list = array_merge($tea_list,$full_tea_list);
-            // 规定时间内没有上课但有额外奖励的老师列表
-            // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
-            //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
-            // );
-            // $list = array_merge($list,$reward_list);
             // file_put_contents($file_name,json_encode($list));
         // }else{
         //     $list = json_decode($file_info,true);
         // }
 
-        // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-        $stu_num = 0;
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
-        $teacher_1v1      = 0;
-        $teacher_trial    = 0;
         $num              = 1;
-
         foreach($list as &$val){
             \App\Helper\Utils::check_isset_data($val['lesson_1v1'],0,0);
             \App\Helper\Utils::check_isset_data($val['lesson_trial'],0,0);
             \App\Helper\Utils::check_isset_data($val['lesson_total'],0,0);
-            if($val['lesson_1v1']>0){
-                $teacher_1v1++;
-            }else{
-                $teacher_trial++;
-            }
+
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
@@ -2816,13 +2802,9 @@ class user_manage_new extends Controller
         }
 
         return $this->pageView(__METHOD__,$list,[
-            "stu_num"          => $stu_num,
             "all_lesson_total" => $all_lesson_total,
             "all_lesson_1v1"   => $all_lesson_1v1,
             "all_lesson_trial" => $all_lesson_trial,
-            "teacher_1v1"      => $teacher_1v1,
-            "teacher_trial"    => $teacher_trial,
-            "teacher_num"      => ($teacher_1v1+$teacher_trial),
             "show_data"        => $show_data,
             "acc"              => $acc,
         ]);
@@ -2947,15 +2929,13 @@ class user_manage_new extends Controller
      * @return float     结束时间
      */
     public function get_lesson_price(){
-        $start_date         = $this->get_in_str_val("start_time");
-        $end_date           = $this->get_in_str_val("end_time");
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $start_date = $this->get_in_str_val("start_time");
+        $end_date   = $this->get_in_str_val("end_time");
 
-        $start_time         = strtotime($start_date);
-        $end_time           = strtotime($end_date);
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date)+86400;
 
-        //$lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
-        $lesson_price = 0;
+        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time);
 
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }
@@ -3516,6 +3496,65 @@ class user_manage_new extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
+
+        $this->t_revisit_info->switch_tongji_database();
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
+            E\Erevisit_type::set_item_value_str($item);
+            E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
+            E\Eset_boolean::set_item_value_str($item,"school_work_change_flag");
+            E\Etea_content_satisfy_flag::set_item_value_str($item,"tea_content_satisfy_flag");
+            E\Eschool_work_change_type::set_item_value_str($item,"school_work_change_type");
+            E\Eschool_score_change_flag::set_item_value_str($item,"school_score_change_flag");
+            E\Eoperation_satisfy_type::set_item_value_str($item,"operation_satisfy_type");
+            E\Etea_content_satisfy_type::set_item_value_str($item,"tea_content_satisfy_type");
+            E\Echild_class_performance_flag::set_item_value_str($item,"child_class_performance_flag");
+            E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
+            E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right" => $adminid_right,
+            "warning"       => $warning_type_num
+        ] );
+    }
+
+    public function ass_revisit_warning_info_new(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $page_num             = $this->get_in_page_num();
+        $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
+        $ass_adminid          = $this->get_in_int_val("ass_adminid",-1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
+
+        //获取组长的所有组员   开发中
+        // if($ass_adminid == -1) {
+        //     $adminid = $this->get_account_id();
+
+        //     $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        // }
+
 
         $this->t_revisit_info->switch_tongji_database();
         // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);

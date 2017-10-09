@@ -24,7 +24,6 @@
                         <input class="opt-change form-control" id="id_msg" />
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <button id="id_add" class="btn btn-primary"> add </button>
@@ -69,3 +68,4 @@
     </section>
 
 @endsection
+

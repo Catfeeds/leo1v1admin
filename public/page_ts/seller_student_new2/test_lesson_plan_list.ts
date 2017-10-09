@@ -220,6 +220,7 @@ $(function(){
 
     $(".opt-confirm").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data.require_id);
         if(!( opt_data.lessonid )) {
             alert("还没有排课,无需确认");
             return;

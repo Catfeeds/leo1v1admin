@@ -381,6 +381,7 @@ class NewRouteConfig {
         "/news_info/push_news_info"          => true,
 
         "/human_resource/get_check_textbook_tea_list"        => true,
+        "/human_resource/switch_teacher_to_test"        => true,
         "/human_resource/origin_list"        => true,
         "/human_resource/teacher_total_list" => true,
         "/human_resource/zs_origin_list"     => true,

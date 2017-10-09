@@ -222,8 +222,6 @@ class TeacherTask extends TaskController
                         $data['keyword3'] = date("Y-m-d H:i",time());
                         $data['remark']   = "";
                         $url = "";
-                        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
-
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
 
                         $wx_come_flag = 1;
@@ -749,7 +747,6 @@ class TeacherTask extends TaskController
                             $data['remark']   = "";
                             $url = "";
                         }
-                        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
 
@@ -815,10 +812,7 @@ class TeacherTask extends TaskController
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "wx_before_thiry_minute_remind_flag"   => $wx_before_thiry_minute_remind_flag
                     ]);
-
                 }
-
-
             }
         }
     }

@@ -3577,7 +3577,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_flow::DB_TABLE_NAME
                                   ,t_child_order_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_order_list_by_time($start_time,$end_time){

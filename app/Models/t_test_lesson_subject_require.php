@@ -2117,16 +2117,16 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function  get_test_fail_row($cur_require_adminid,$userid = -1,$flag = -1)
+    public function  get_test_fail_row($cur_require_adminid,$userid = -1)
     {
         $time = time(null);
         $where_arr=[
+            "s.is_test_user = 0",
             "l.lesson_status = 2",
             "l.lesson_del_flag = 0",
-            "test_lesson_order_fail_flag in (0,null)",
+            "tr.test_lesson_order_fail_flag=0 or tr.test_lesson_order_fail_flag is null",
             'contract_status=0 or contract_status is null',
             ['t.userid = %u ',$userid,-1],
-            ['tr.test_lesson_order_fail_flag = %u ',$flag,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"require_time",1504195200,$time);
         $this->where_arr_add_time_range($where_arr,"l.lesson_end",1504195200,$time);
@@ -2140,7 +2140,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             " left join %s l on tr.current_lessonid = l.lessonid ".
             " left join %s s on l.userid = s.userid ".
             " left join %s o on tss.lessonid = o.from_test_lesson_id".
-            " where %s  order by lesson_start desc ",
+            " where %s  order by lesson_start desc limit 1",
             self::DB_TABLE_NAME,//tr
             t_test_lesson_subject::DB_TABLE_NAME,//t
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,//tss
@@ -2153,33 +2153,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function  get_test_fail_row_new($cur_require_adminid)
     {
-        /*
-          select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status
-          from db_weiyi.t_test_lesson_subject_require tr
-          left join db_weiyi.t_test_lesson_subject t on tr.test_lesson_subject_id = t.test_lesson_subject_id
-          left join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid = tss.lessonid
-          left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid
-          left join db_weiyi.t_student_info s on l.userid = s.userid
-          left join db_weiyi.t_order_info o on tss.lessonid = o.from_test_lesson_id
-          where lesson_del_flag=0 and test_lesson_order_fail_flag=0 and require_time>=1501516800 and require_time<1504195200 and cur_require_adminid=734 and (contract_status=0 or  contract_status is null)  order by lesson_start desc   limit 0,10;
-
-
-          select tr.require_id,l.lesson_start,l.userid,l.teacherid ,s.grade,l.subject,cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,o.contract_status
-          from db_weiyi.t_test_lesson_subject_require tr
-          left join db_weiyi.t_test_lesson_subject t on tr.test_lesson_subject_id = t.test_lesson_subject_id
-          left join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid = tss.lessonid
-          left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid
-          left join db_weiyi.t_student_info s on l.userid = s.userid
-          left join db_weiyi.t_order_info o on tss.lessonid = o.from_test_lesson_id
-          where lesson_del_flag=0 and test_lesson_order_fail_flag=0 and contract_status in (0,null) and require_time>=1503849600 and require_time<1504256620 and cur_require_adminid=734  order by lesson_start desc limit 0,10;
-
-
-
-        */
-
-
-
-
         $where_arr=[
             "lesson_del_flag=0",
             "test_lesson_order_fail_flag in (0,null)",
@@ -2212,6 +2185,38 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_row($sql);
     }
 
+    public function  get_test_fail_row_new_tow($cur_require_adminid,$userid = -1)
+    {
+        $time = time(null);
+        $where_arr=[
+            "l.lesson_status = 2",
+            "l.lesson_del_flag = 0",
+            'contract_status=0 or contract_status is null',
+            ['t.userid = %u ',$userid,-1],
+            ['tr.test_lesson_order_fail_flag = %u ',E\Etest_lesson_order_fail_flag::V_1701,-1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"require_time",1504195200,$time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_end",1504195200,$time);
+        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
+
+        $sql= $this->gen_sql_new(
+            "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
+            " from %s tr".
+            " left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id".
+            " left join %s tss on tr.current_lessonid = tss.lessonid ".
+            " left join %s l on tr.current_lessonid = l.lessonid ".
+            " left join %s s on l.userid = s.userid ".
+            " left join %s o on tss.lessonid = o.from_test_lesson_id".
+            " where %s  order by lesson_start desc limit 1",
+            self::DB_TABLE_NAME,//tr
+            t_test_lesson_subject::DB_TABLE_NAME,//t
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,//tss
+            t_lesson_info::DB_TABLE_NAME,//l
+            t_student_info::DB_TABLE_NAME,//s
+            t_order_info::DB_TABLE_NAME,//o
+            $where_arr);
+        return $this->main_get_row($sql);
+    }
 
     public function  tongji_get_order_fail($start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$require_admin_type)
     {
