@@ -104,8 +104,8 @@ class seller_order_money_201709  extends  seller_order_money_base
 
         $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
 
-        $ret_arr['stage_money'] = $sort['stage_money'];
-        $ret_arr['no_stage_money'] = $sort['no_stage_money'];
+        $ret_arr['stage_money'] = $sort['stage_money']/100;
+        $ret_arr['no_stage_money'] = $sort['no_stage_money']/100;
 
         return $ret_arr;
     }
