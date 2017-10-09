@@ -2723,11 +2723,16 @@ class user_deal extends Controller
                     $location=substr($location, 0, -6);
                     $grade=100;
                     $ret= $this->t_location_subject_grade_textbook_info->get_info_by_province_and_subject_and_grade($location,$val["subject"],$grade);
-                    $teacher_textbook="";
+                    $teacher_textbook=[];
                     foreach($ret as $item){
-                        
+                        $arr = explode($item["teacher_textbook"],",");
+                        foreach($arr as $v){
+                            if(!in_array($teacher_textbook,$v)){
+                                $teacher_textbook[] = $v;
+                            }
+                        }
                     }
-                    dd($ret);
+                    dd($teacher_textbook);
                 }
                 
             }
