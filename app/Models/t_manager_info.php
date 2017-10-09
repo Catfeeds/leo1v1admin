@@ -1048,20 +1048,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $where_arr=[
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] ,
-            ["uid=%u",$adminid,-1],
-            "o.contract_status in (1)" ,
+            //  ["uid=%u",$adminid,-1],
+            //"o.contract_status in (1)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
             "m.del_flag =0",
-            "o.price >0"
+            "o.price >0",
+            "o.contract_type in (3,3001)"
         ];
-        $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type in (3,3001),1,0)) renw_num ".
+        // $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
+        $sql =$this->gen_sql_new("select  uid,sum(if(co.child_order_type=2,co.price*0.8,co.price)) money ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
+                                 " left join %s co on o.orderid = co.parent_orderid and co.pay_status=1".
                                  " where %s group by uid",
                                  self::DB_TABLE_NAME,
                                  t_order_info::DB_TABLE_NAME,
+                                 t_child_order_info::DB_TABLE_NAME,
                                  $where_arr
         );
 
