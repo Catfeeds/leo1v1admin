@@ -83,13 +83,11 @@ class test_sam  extends Controller
         }
         if($arr['target']){
             $arr['kpi_per'] = round(100*$arr['total_price']/$arr['target'],2);//3-完成率
-            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']/100,2);
+            $arr['month_kpi_per'] = round($month_ret_total['total_price']/$arr['target']*100,2);
         }else{
             $arr['kpi_per'] = 0;
             $arr['month_kpi_per'] = 0;
         }
-        print_r($month_ret_total);
-        dd($arr['month_kpi_per']);
         if($arr['total_price']){
             $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
         }else{
