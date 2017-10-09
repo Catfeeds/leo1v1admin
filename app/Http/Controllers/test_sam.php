@@ -224,9 +224,7 @@ class test_sam  extends Controller
                 $warning_list = explode(",",$warning_list);
                 $warning_num = empty($warning_list) ? 0 : count($warning_list);
             }
-            var_dump($renew_student_list);
             $arr['real_renew_num'] = empty($renew_student_list)?0: count($renew_student_list); //   实际续费学生数量
-            dd($arr['real_renew_num']);
             if($arr['real_renew_num'] == 0){
                 $arr['plan_renew_num'] = 0; //计划内续费学生数量
                 $arr['other_renew_num'] = 0;//计划外续费学生数量
