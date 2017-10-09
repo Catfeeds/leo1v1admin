@@ -13,10 +13,9 @@ class test_boby extends Controller
     public function __construct(){
       $this->switch_tongji_database();
     }
-    public function table_start(){
+    public function table_start($th_arr){
         $s   = '<table border=1><tr>';
-        $arr = func_get_args();
-        foreach ($arr as $v) {
+        foreach ($th_arr as $v) {
             $s = $s."<th>{$v}</th>";
         }
         return $s.'</tr>';
@@ -38,7 +37,8 @@ class test_boby extends Controller
     }
 
     public function test(){
-        $str = $this->table_start('姓名','电话','年龄');
+        $th_arr = ['姓名','电话','年龄'];
+        $str = $this->table_start($th_arr);
         $str = $this->tr_add($str, 'sdfa',13213,45);
         $str = $this->tr_add($str, 'sdfsf',353513,15);
         $str = $this->tr_add($str, 'aaasf',111113,15);
@@ -52,7 +52,6 @@ class test_boby extends Controller
        $arr  = explode("\n",$info);
        return $arr;
     }
-
     public function p_list(){
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
@@ -61,7 +60,6 @@ class test_boby extends Controller
         $ret_info=$this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__,$ret_info);
     }
-
     public function  ss() {
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
@@ -75,7 +73,6 @@ class test_boby extends Controller
         return $this->pageView( __METHOD__,$ret_info);
 
     }
-
     public function sf() {
         $page_info = $this->get_in_page_info();
         $nick_phone = $this->get_in_str_val("nick_phone");
@@ -83,7 +80,6 @@ class test_boby extends Controller
         $ret_info = $this->t_manager_info->get_list_test($page_info,$nick_phone);
         return $this->pageView( __METHOD__, $ret_info);
     }
-
     public function st() {
         list($start_time,$end_time) = $this->get_in_date_range(-365, 0 );
         $page_info = $this->get_in_page_info();
@@ -100,7 +96,6 @@ class test_boby extends Controller
 
         return $this->pageView( __METHOD__, $ret_info);
     }
-
     public function ajax() {
         $phone = $this->get_in_str_val('phone');
         $arr = [1313,34645132,3546312,645413,6846312,64513268,635312686,31684,641,87,987,61,35,4,876,46416,49,8464,68,74964,6];
@@ -112,7 +107,6 @@ class test_boby extends Controller
         }
         return json_encode($newArr);
     }
-
     public function test_one(){
         $phone    = $this->get_in_phone();
         $origin   = $this->get_in_str_val("origin");
@@ -149,7 +143,6 @@ class test_boby extends Controller
         return $this->output_succ();
 
    }
-
     public function for_add_news() {
         $title = $this->get_in_str_val("title");
         $type = $this->get_in_int_val("type");
@@ -161,7 +154,6 @@ class test_boby extends Controller
         $ret_info = $this->t_yxyx_wxnews_info->add_news($title, $des,$pic,$new_link,$adminid,$type);
         dd($ret_info);
     }
-
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         if ( !$this->get_in_str_val("boby")) {
@@ -191,7 +183,6 @@ class test_boby extends Controller
         return $s;
         dd($ret_info);
     }
-
     public function get_origin_rate(){
         $n = $this->get_in_int_val('yue');
         $start_time = strtotime("2017-0".$n."-01");
@@ -215,7 +206,6 @@ class test_boby extends Controller
 
         dd($ret_info);
     }
-
     public function get_money_origin_rate(){
         $n = $this->get_in_int_val('yue');
         $start_time = strtotime("2017-0".$n."-01");
@@ -224,20 +214,18 @@ class test_boby extends Controller
         $ret_info = $this->t_student_info->get_stu_money_rate($start_time, $end_time);
         dd($ret_info);
     }
-
     public function get_info(){
         $sql =  'select distinct tq.phone,tq.uid,tq.start_time,tq.end_time,tq.is_called_phone, m.account,t.seller_student_status from db_weiyi.t_agent a left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on a.phone=tq.phone left join db_weiyi_admin.t_manager_info m on tq.uid=m.tquin left join db_weiyi.t_seller_student_new n on n.phone= tq.phone left join db_weiyi.t_test_lesson_subject t on t.userid= s.userid where a.type=1 and tq.start_time>1501516800 and a.create_time>1501516800 order by a.phone ';
         $ret_info = $this->t_manager_info->get_some_info($sql);
-        $s = '<table border=1><tr><td>电话</td><td>uid</td><td>拨打时间</td><td>是否接通</td><td>拨打者</td><td>状态</td></tr>';
+
+        $th_arr = ['电话','uid','拨打时间','是否接通','拨打者','状态'];
+        $s = $this->table_start($th_arr);
         foreach ($ret_info as $item) {
-            $s = $s."<tr><td>".$item['phone']."</td><td>".$item['uid']."</td><td>"
-                .date('Y-m-d H:i:s',$item['start_time'])."</td><td>".$item['is_called_phone']."</td><td>"
-                .$item['account']."</td><td>".$item['seller_student_status']."</td></tr>";
+            $s = $this->tr_add($s, $item['phone'], $item['uid'], date('Y-m-d H:i:s',$item['start_time']), $item['is_called_phone'], $item['account'], $item['seller_student_status']);
         }
-        $s = $s.'</table>';
+        $s = $this->table_end($s);
         return $s;
     }
-
     //通过订单号查询老师，科目
     public function get_teacher_subject_by_orderid(){
         // $arr = $this->get_b_txt();
@@ -262,35 +250,23 @@ class test_boby extends Controller
 
         dd($ret_info);
     }
-
-    //刷新userid对应的电话拨打信息
-    public function reset_flag(){
-        // $arr=[];
-        // foreach ($arr as $v) {
-        //     $this->t_seller_student_new->reset_sys_invaild_flag($v);
-        // }
-        return 1;
-    }
-
     //公开课6.7.8月，报名数，年级，科目
     public function get_open_lesson_info(){
         $start_time = strtotime('2017-06-01');
         $end_time = strtotime('2017-09-01');
         $ret_info = $this->t_lesson_info_b2->get_open_lesson_info($start_time, $end_time);
 
-        $s = '<table border=1><tr><td>科目</td><td>人数</td><td>上课人数</td><td>时间</td><td>年级</td><td>公开课id</td></tr>';
+        $th_arr = ['科目','人数','上课人数','时间','年级','公开课id'];
+        $s = $this->table_start($th_arr);
         foreach ($ret_info as &$item) {
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
-            $s = $s."<tr><td>".$item['subject_str']."</td><td>".$item['num']."</td><td>{$item['cur_num']}</td><td>{$item['lesson_start']}</td><td>"
-                .$item['grade_str']."</td><td>".$item['lessonid']."</td></tr>";
+            $s = $this->tr_add($s,$item['subject_str'], $item['num'], $item['cur_num'], $item['lesson_start'],$item['grade_str'], $item['lessonid']);
         }
-        $s = $s.'</table>';
+        $s = $this->table_end($s);
         return $s;
     }
-
-
     //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
     public function get_acc_tmk_by_order(){
         return 'bey';
@@ -300,19 +276,8 @@ class test_boby extends Controller
         $ret_info = $this->t_order_info->get_order_stu_acc_info($start_time, $end_time);
 
         // dd($ret_info);
-        $s = '<table border=1><tr>'
-           .'<td>orderid</td>'
-           .'<td>签单人</td>'
-           .'<td>渠道</td>'
-           .'<td>金额</td>'
-           .'<td>电话</td>'
-           .'<td>城市</td>'
-           .'<td>下单时间</td>'
-           .'<td>拨打者</td>'
-           .'<td>角色</td>'
-           .'<td>拨打时间</td>'
-           .'<td>是否打通(0:否；1：是)</td>'
-           .'</tr>';
+        $th_arr = ['orderid','签单人','渠道' ,'金额' ,'电话' ,'城市' ,'下单时间' ,'拨打者' ,'角色' ,'拨打时间' ,'是否打通(0:否；1：是)'];
+        $s = $this->table_start($th_arr);
 
         foreach ($ret_info as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
@@ -321,24 +286,12 @@ class test_boby extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"start_time");
                 $this->cache_set_item_account_nick($val);
                 E\Eaccount_role::set_item_value_str($val,"admin_role");
-                // dd($item['orderid']);
-                $s = $s.'<tr><td>'.$item["orderid"].'</td>'
-                   .'<td>'.$item["sys_operator"].'</td>'
-                   .'<td>'.$item["origin"].'</td>'
-                   .'<td>'.$item["price"].'</td>'
-                   .'<td>'.$item["phone"].'</td>'
-                   .'<td>'.$item["phone_location"].'</td>'
-                   .'<td>'.$item["order_time"].'</td>'
-                   .'<td>'.$val["admin_nick"].'</td>'
-                   .'<td>'.$val["admin_role_str"].'</td>'
-                   .'<td>'.$val["start_time"].'</td>'
-                   .'<td>'.$val["is_called_phone"].'</td>'
-                   .'</tr>';
+                $s = $this->tr_add($s,$item["orderid"], $item["sys_operator"],$item["origin"],$item["price"],$item["phone"],$item["phone_location"],$item["order_time"],$val["admin_nick"],$val["admin_role_str"],$val["start_time"],$val["is_called_phone"]);
             }
 
         }
 
-        $s = $s.'</table>';
+        $s = $this->table_end($s);
         return $s;
 
     }
@@ -443,26 +396,15 @@ class test_boby extends Controller
     public function get_teacher(){
 
         exit;
-        $s = '<table border=1><tr>'
-           .'<td>id</td>'
-           .'<td>名字</td>'
-           .'<td>tel</td>'
-           .'<td>科目</td>'
-           .'<td>上课时间</td>'
-           .'</tr>';
-
+        $th_arr = ['id','名字','电话','科目','上课时间'];
+        $s = $this->table_start($th_arr);
         foreach ($ret as &$item) {
             E\Esubject::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
-                $s = $s.'<tr><td>'.$item["userid"].'</td>'
-                   .'<td>'.$item["nick"].'</td>'
-                   .'<td>'.$item["phone"].'</td>'
-                   .'<td>'.$item["subject_str"].'</td>'
-                   .'<td>'.$item["lesson_start"].'</td>'
-                   .'</tr>';
+            $s = $this->tr_add($s,$item["userid"],$item["nick"],$item["phone"],$item["subject_str"],$item["lesson_start"]);
         }
 
-        $s = $s.'</table>';
+        $s = $this->table_end($s);
         return $s;
 
     }
@@ -470,41 +412,34 @@ class test_boby extends Controller
     public function get_role(){
         return false;
         $arr = $this->get_b_txt();
-        $s = '<table border=1><tr>'
-           .'<td>电话</td>'
-           .'<td>老师</td>'
-           .'<td>员工</td>'
-           .'<td>学生</td>'
-           .'<td></td>'
-           .'</tr>';
+        $th_arr = ['电话','老师','员工','学生','其他'];
+        $s = $this->table_start($th_arr);
         $admin = [];
         foreach ($arr as $k) {
             $sql = "select teacherid from db_weiyi.t_teacher_info where phone='{$k}'";
             $ret = $this->t_teacher_info->is_teacher($sql);
             if ($ret) {
-                $s = $s."<tr><td>{$k}</td><td>老师</td><td></td><td></td><td></td></tr>";
+                $s = $this->tr_add($s,$k,'老师','','','');
             }else {
 
                 $sql = "select create_time from db_weiyi_admin.t_manager_info where phone='{$k}'";
                 $ret = $this->t_teacher_info->is_teacher($sql);
                 if ($ret) {
-                    $s = $s."<tr><td>{$k}</td><td></td><td>员工</td><td></td><td></td></tr>";
+                    $s = $this->tr_add($s,$k,'','员工','','');
                 }else {
 
                     $sql = "select userid from db_weiyi.t_student_info where phone='{$k}'";
                     $ret = $this->t_teacher_info->is_teacher($sql);
                     if ($ret) {
-                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td>学生</td><td></td></tr>";
+                        $s = $this->tr_add($s,$k,'','','学生','');
                     }else {
-                        $s = $s."<tr><td>{$k}</td><td></td><td></td><td></td><td>其他</td></tr>";
+                        $s = $this->tr_add($s,$k,'','','','其他');
                     }
                 }
             }
         }
 
-
-
-        $s = $s.'</table>';
+        $s = $this->table_end($s);
         return $s;
     }
 
@@ -577,13 +512,6 @@ class test_boby extends Controller
             $this->t_gift_info->update_all_price( $item['giftid'], $price );
         }
         echo 'ok';
-    }
-
-    public function get_all_parameters($arr) {
-        foreach( $arr as $vel) {
-            $a = $vel;
-            // $$a = 
-        }
     }
 
 }
