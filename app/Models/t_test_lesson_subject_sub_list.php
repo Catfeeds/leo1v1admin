@@ -211,7 +211,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   // ." left join %s c on l.teacherid=c.teacherid and l.subject=c.subject and l.userid=c.userid "
                                   ." where %s "
-
                                   ." and exists ( "
                                   ." select 1 from %s "
                                   ." where subject=l.subject "
@@ -221,7 +220,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_status=2"
                                   ." and confirm_flag!=2"
                                   ." ) "
-
                                   ." and not exists( "
                                   ." select 1 from %s where l.lesson_start<lesson_start "
                                   ." and l.teacherid=teacherid "
@@ -230,7 +228,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." and lesson_del_flag=0 "
                                   ." and lesson_status=2 "
                                   ." ) "
-
                                   ." and tl.lessonid not in ( "
                                   ." select lessonid from %s "
                                   ." where teacherid=l.teacherid "
@@ -248,6 +245,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_money_list::DB_TABLE_NAME
         );
+        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
