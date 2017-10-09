@@ -54,7 +54,6 @@ class NewRouteConfig {
         return !isset(static::$old_ctl_map[$ctl]);
     }
 
-
     //config
     static public $url_map = [
         "/warning_overtime/add_overtime"       => true,
