@@ -573,6 +573,9 @@ class ss_deal extends Controller
         $userid                 = $this->get_in_userid();
         $phone                  = $this->get_in_phone();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id();
+		if ($phone == "") {
+            $phone=$this->t_seller_student_new->get_phone($userid);
+		}
 
         $grade         = $this->get_in_grade();
         $gender        = $this->get_in_int_val("gender");
@@ -695,12 +698,9 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
         if($db_grade!= $grade && !$this->t_order_info->has_1v1_order($userid)){
-            $this->t_book_revisit->row_insert([
-                "phone"  => $phone,
-                "revisit_time"  =>time(),
-                "operator_note" =>"年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]",
-                "sys_operator"  =>$this->get_account()
-            ]);
+         	$revisite_info="年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]";
+
+            $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
             $this->t_field_modified_list->row_insert([
                 "modified_time"  =>time(),
                 "last_value"     =>$db_grade,
@@ -2619,6 +2619,9 @@ class ss_deal extends Controller
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
+
+        \App\Helper\Utils::logger("");
+
 
         $ret=$this->t_test_lesson_subject_require->add_require(
             $this->get_account_id(),

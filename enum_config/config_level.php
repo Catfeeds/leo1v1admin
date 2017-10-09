@@ -1,4 +1,5 @@
 <?php
+
 return array(
     array (0 , "初级" ,"C"),
     array (1 , "中级" ,"B"),

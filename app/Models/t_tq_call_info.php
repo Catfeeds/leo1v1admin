@@ -514,7 +514,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
         $sql=$this->gen_sql_new(
-            "select count(*) call_count,count(is_called_phone=1) is_called_count,"
+            "select count(*) call_count,sum(if(is_called_phone=1,1,0)) is_called_count,"
             ."sum(if(tq.end_time>0 and tq.start_time>0,tq.end_time - tq.start_time,0)) call_time_long, "
             ."m.uid adminid "
             ."  from %s tq"

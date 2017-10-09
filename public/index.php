@@ -1,5 +1,6 @@
 <?php
 // url config  in  ../app/Http/NewRouteConfig.php
+@ini_set('session.auto_start', 0); 
 
 function get_request_method() {
     global $HTTP_RAW_POST_DATA;

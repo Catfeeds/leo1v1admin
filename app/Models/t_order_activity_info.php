@@ -29,7 +29,7 @@ class t_order_activity_info extends \App\Models\Zgen\z_t_order_activity_info
         return $this->main_get_list($sql);
     }
     public function get_count_by_order_activity_type( $order_activity_type) {
-        $sql = $this ->gen_sql_new("select count(*) from %s where order_activity_type =%u",
+        $sql = $this ->gen_sql_new("select count(*) from %s where order_activity_type =%u and  succ_flag =1 ",
                                    self::DB_TABLE_NAME, $order_activity_type
         );
         return $this->main_get_value($sql);

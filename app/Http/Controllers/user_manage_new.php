@@ -3385,11 +3385,15 @@ class user_manage_new extends Controller
 
     public function teacher_trial_reward_list(){
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-d",time()),0,0,null,3);
-        $teacherid = $this->get_in_int_val("teacherid",-1);
-        $type      = $this->get_in_int_val("type",-1);
-        $lessonid  = $this->get_in_int_val("lessonid",-1);
+        $teacherid  = $this->get_in_int_val("teacherid",-1);
+        $type       = $this->get_in_int_val("type",-1);
+        $lessonid   = $this->get_in_int_val("lessonid",-1);
+        $has_lesson = $this->get_in_int_val("has_lesson",-1);
 
-        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid);
+        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
+            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+        );
+
         foreach($list as &$val){
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['teacherid']);
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");

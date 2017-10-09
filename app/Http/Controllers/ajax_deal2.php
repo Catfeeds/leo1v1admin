@@ -1554,10 +1554,10 @@ class ajax_deal2 extends Controller
     //获取老师所带学习超过三个月的学生
     public function get_three_month_stu_num(){
         $teacherid              = $this->get_in_int_val("teacherid",50272);
-        /* $start_time = time()-90*86400;
+        /*$start_time = time()-90*86400;
         $end_time = time();
 
-        $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
+        /*$list = $this->t_lesson_info_b3->get_teacher_stu_three_month_list($teacherid);
         $num=0;
         foreach($list as $v){
             $userid = $v["userid"];
@@ -1567,7 +1567,7 @@ class ajax_deal2 extends Controller
                 $num++;
             }
             }*/
-        /* $start_time = strtotime("2017-07-01");
+        $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
         $tea_arr =[$teacherid];
         $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,2);
@@ -1584,6 +1584,10 @@ class ajax_deal2 extends Controller
         }else{
             $cr_per =0;
         }
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+
+        $tea_arr =[$teacherid];
         $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
         if(!empty($teacher_record_score)){
             $score_list = $teacher_record_score[$teacherid];
@@ -1592,38 +1596,13 @@ class ajax_deal2 extends Controller
             $score =0; 
         }
 
-        $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
-        $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
+        //  $level_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        //  $level = \App\Helper\Utils::get_teacher_letter_level($level_info["teacher_money_type"],$level_info["level"]); 
 
-        return $this->output_succ(["cc_per"=>$cc_per,"cr_per"=>$cr_per,"score"=>$score,"level"=>$level]);*/
+        return $this->output_succ(["score"=>$score,"cc_per"=>$cc_per,"cr_per"=>$cr_per]);
 
-        /**
-         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-         * 标题课程 : 待办事项提醒
-         * {{first.DATA}}
-         * 待办主题：{{keyword1.DATA}}
-         * 待办内容：{{keyword2.DATA}}
-         * 日期：{{keyword3.DATA}}
-         * {{remark.DATA}}
-         */
-        $teacherid = 240314;
-        $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-        if($wx_openid){
-            $data=[];
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = "老师您好,您的面试课程已排好";
-            $data['keyword1'] = "1对1面试课程";
-            /* $data['keyword2'] = "\n面试时间：$lesson_time_str "
-                              ."\n面试账号：$phone"
-                              ."\n面试密码：123456"
-                              ."\n年级科目 : ".$grade_str."".$subject_str;*/
-            $data['keyword2'] ="hahahah";
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "请查阅邮件(报名时填写的邮箱),准备好耳机和话筒,并在面试开始前5分钟进入软件,理优教育致力于打造高水平的教学服务团队,期待您的加入,加油!";
-            $url = "";
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
-        }
-        return $this->output_succ();
+       
+        //return $this->output_succ();
 
     }
 

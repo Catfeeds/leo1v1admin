@@ -1511,6 +1511,9 @@ class user_manage extends Controller
 
         $this->t_order_info->set_order_payed($orderid, $channelid, $pay_number);
 
+        //更新子合同状态
+        $this->t_child_order_info->set_all_order_payed_by_parent_orderid($orderid);
+
         if(in_array($ret_type,[0,3])){
             $this->add_praise_by_order($orderid,$userid,$ret_type,$lesson_total);
         }

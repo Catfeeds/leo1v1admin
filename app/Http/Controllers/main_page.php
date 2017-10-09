@@ -274,6 +274,7 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+		$group_start_time=	 $start_time;
         if($start_time == 1504195200){//9月,9.1-10.2
             $end_time = 1506960000;
         }
@@ -284,7 +285,7 @@ class main_page extends Controller
 
         //判断top25,排课情况每月40
         $account_role = $this->t_manager_info->get_account_role($adminid);
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $start_time );
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($adminid,  $group_start_time );
         if(isset($self_top_info[6]["top_index"]) || $adminid == 349){
             $rank = @$self_top_info[6]["top_index"];
             if(($account_role ==2 && $rank<=25) || $adminid == 349){
@@ -347,7 +348,7 @@ class main_page extends Controller
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
 
         }
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
 
@@ -384,7 +385,7 @@ class main_page extends Controller
         foreach ($half_week_info["list"] as $key=> &$item) {
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
         }
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $start_time );
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         //提成刺激
         $money_info = $this->seller_month_money_list($adminid);
         $self_money['differ_price'] = $money_info['next_all_price']-$money_info['all_price'];
