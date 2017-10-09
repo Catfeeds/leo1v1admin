@@ -61,9 +61,9 @@ class test_sam  extends Controller
         //节点
 
         //概况
-        $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+        $ret_total         = $this->t_order_info->get_total_price($start_time,$end_time);
         $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time); //月初至今
-        $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
+        $ret_total_thirty  = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
@@ -88,6 +88,8 @@ class test_sam  extends Controller
             $arr['kpi_per'] = 0;
             $arr['month_kpi_per'] = 0;
         }
+        print_r($month_ret_total);
+        dd($arr['month_kpi_per']);
         if($arr['total_price']){
             $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
         }else{
@@ -284,6 +286,8 @@ class test_sam  extends Controller
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
           "person_num_thirty_per"   => $arr['person_num_thirty_per']*100,//A5-平均人效
           "contract_per"            => $arr['contract_per'],     //A6-平均单笔
+          "month_kpi_per"           => $arr['month_kpi_per'],    //A7-月KPI完整率(月初至今)
+
         ];
         echo "<pre>";
         var_dump($insert_data);
