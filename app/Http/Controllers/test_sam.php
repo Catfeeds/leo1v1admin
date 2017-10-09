@@ -61,7 +61,7 @@ class test_sam  extends Controller
             }else{//跨月报
                 $type = 3;
                 $create_time = $end_time;
-                $create_time_range = date('Y-m-d H:i:s',strtotime($end_month)).'~'.date('Y-m-d H:i:s',$end_time);
+                $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
             } 
             echo "<pre>";
             var_dump(date("Y-m-d ",$start_time),date("Y-m-d ",$end_time));
