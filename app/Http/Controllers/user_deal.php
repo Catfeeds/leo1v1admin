@@ -2715,14 +2715,15 @@ class user_deal extends Controller
         $arr= $this->t_fulltime_teacher_attendance_list->get_holiday_info();
         //email
         $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
-        $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
+        $table .= '<tr><td>假期名称</td><td colspan=\"3\"><font color="red">国庆节</font></td></tr>';
         $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
         foreach ($arr as $key => $value) {
-            $$value['realname'] = $this->t_teacher_info->get_realname($value["teacherid"]);
+            $value['realname'] = $this->t_teacher_info->get_realname($value["teacherid"]);
+            $value['cross_time'] = "10.09-".date('m.d',1507478400+($value['day_num']-1)*86400);
             if($value['day_num'] != 0){
                 $table .= '<tr>';
                 $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
-                $table .= '<td><font color="red">'.$value['lesson_count']/100.'</font></td>';
+                $table .= '<td><font color="red">'.($value['lesson_count']/100).'</font></td>';
                 $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
                 $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
                 $table .= '</tr>';
@@ -2739,10 +2740,12 @@ class user_deal extends Controller
                       "sherry@leoedu.com",
                       "cindy@leoedu.com",
                       "limingyu@leoedu.com"];
+        $email_arr = ["jack@leoedu.com"];
+
         foreach($email_arr as $email){
             dispatch( new \App\Jobs\SendEmailNew(
                 $email,
-                "全职老师国庆假期累计上课时间及延休安排",
+                "全职老师国庆假期累计上课时间及延休安排(更新)",
                 $content
             ));  
         }

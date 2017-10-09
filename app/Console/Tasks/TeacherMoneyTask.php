@@ -83,8 +83,7 @@ class TeacherMoneyTask extends TaskController
                 "type"       => 2,
                 "add_time"   => time(),
                 "money"      => $money,
-                // "money_info" => $val['lessonid'],
-                "money_info" => $stu_nick,
+                "money_info" => $val['lessonid'],
                 "lessonid"   => $val['lessonid'],
             ]);
 
