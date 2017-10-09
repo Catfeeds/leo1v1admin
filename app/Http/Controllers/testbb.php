@@ -311,8 +311,8 @@ class testbb extends Controller
             t_field($table->integer("test_invit_num"),"试听邀约数");
             t_field($table->integer("seller_schedule_num"),"试听排课数");
             t_field($table->integer("test_succ_num"),"试听成功数");
-            // t_field($table->integer("new_order_num"),"新签合同数");
-            //has_tq_succ_sign_month
+            t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
+            t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
 
             t_field($table->integer("seller_call_num"),"电话呼出量");
             t_field($table->integer("has_called"),"已拨打数量");
