@@ -47,4 +47,4 @@
   sudo /etc/init.d/nginx reload
 
   /etc/hosts 加入
- 127.0.0.1  self.admin.yb1v1.com
+  127.0.0.1  self.admin.yb1v1.com
