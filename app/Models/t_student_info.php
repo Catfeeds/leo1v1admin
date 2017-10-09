@@ -1872,6 +1872,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list($sql);
     }
+    public function get_warning_stu_list_month_new(){
+        $sql = $this->gen_sql_new("select s.userid, count(*) lesson_num, s.lesson_count_left, "
+                                  ." sum(b.lesson_count) as lesson_total,m.uid,u.groupid,n.group_name "
+                                  ." from %s s left join %s b on s.userid = b.userid "
+                                  ." left join %s a  on a.assistantid=s.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
+                                  ." left join %s u on m.uid = u.adminid"
+                                  ." left join %s n on u.groupid = n.groupid"
+                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count) - sum(s.lesson_count_left)/count(*)/1.2) >=0)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_week_regular_course::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function set_ass_revisit_last_week_time($userid , $ass_revisit_last_week_time) {
         $sql = $this->gen_sql_new(
             "update %s  set  ass_revisit_last_week_time =%d"

@@ -2712,7 +2712,53 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $month = strtotime("2017-01-01");        
+       
+        $month = strtotime("2017-09-01");        
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($month);
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($month);
+        foreach($ass_month as $item){
+            $assign_lesson  = 0;
+            if($item['lesson_ratio'] < $lesson_target){
+                $assign_lesson = 0;
+            }elseif($item['lesson_ratio'] < $lesson_target*1.1){
+                $assign_lesson = 900;  //3
+            }elseif($item['lesson_ratio'] < $lesson_target*1.2){
+                $assign_lesson = 1500; //5
+            }elseif($item['lesson_ratio'] < $lesson_target*1.3){
+                $assign_lesson = 2100; //7
+            }else{
+                $assign_lesson = 2700; //9
+            }
+            if($item['effective_student'] < 30){ 
+                $assign_lesson = $assign_lesson * 0.2;
+            }elseif ($item['effective_student'] < 50) {
+                $assign_lesson = $assign_lesson * 0.4;
+            }elseif ($item['effective_student'] < 70) {
+                $assign_lesson = $assign_lesson * 0.6;
+            }elseif ($item['effective_student'] < 90) {
+                $assign_lesson = $assign_lesson * 0.8;
+            }
+
+            //update assign_lesson in t_month_ass_student_info 
+            $update_arr =  [
+                "assign_lesson"              =>$assign_lesson
+            ];
+            $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+
+            //get assistantid
+            $ret_assistantid = $task->t_manager_info->get_assistant_id($k);
+            //get assign_lesson_count
+            $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+            if($assign_lesson_count == ''){
+                $assign_lesson_count = 0;
+            }
+
+            //update assign_lesson_count
+            $task->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+        }
+
+        dd(111);
+
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
         $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
         for($i=0;$i<=7;$i++){

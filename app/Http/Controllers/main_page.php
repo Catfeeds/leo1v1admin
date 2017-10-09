@@ -511,16 +511,22 @@ class main_page extends Controller
         }
         #dd($assistant_renew);exit;
 
-        // $ass_adminid = $this->get_account_id();
-        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        $ass_adminid = $this->get_account_id();
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
             'warning_type_three' =>0
         ];
-        // foreach($warning_count as $item){
-        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        // }
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $warning_type_num['warning_type_three'] = $three_count;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
