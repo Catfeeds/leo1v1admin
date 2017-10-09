@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerTongjiForMonthReset extends Migration
+class ResetCreateTSellerTongjiForMonth extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class TSellerTongjiForMonthReset extends Migration
     public function up()
     {
         //
-        Schema::dropIfExists('db_weiyi.t_seller_tongji_for_month');
+                Schema::dropIfExists('db_weiyi.t_seller_tongji_for_month');
 
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
