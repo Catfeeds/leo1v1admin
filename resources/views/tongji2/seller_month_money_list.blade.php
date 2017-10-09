@@ -16,11 +16,13 @@
             <thead>
                 <tr>
 
-                        <td>类型 </td>
-                        <td>主管 </td>
-                        <td>小组 </td>
-                        <td>负责人 </td>
+                    <td>类型 </td>
+                    <td>主管 </td>
+                    <td>小组 </td>
+                    <td>负责人 </td>
                     <td >签约总金额 </td>
+                    <td >分期金额 </td>
+                    <td >非分期金额 </td>
                     <td >一天内签约金额 </td>
                     <td >团队签约金额</td>
                     <td >团队签约目标</td>
@@ -53,6 +55,8 @@
 
 
                         <td class="all_price" ></td>
+                        <td class="stage_money" ></td>
+                        <td class="no_stage_money" ></td>
                         <td class="24_hour_all_price"></td>
                         <td class="group_all_price"  ></td>
                         <td class="group_default_money"  ></td>

@@ -353,9 +353,14 @@ class tongji2 extends Controller
         $account_role= E\Eaccount_role::V_2;
         $order_user_list=$this->t_order_info->get_admin_list ($start_time,$end_time,$account_role);
         $map=[];
-        foreach($ret_info["list"] as $item ) {
+        foreach($ret_info["list"] as &$item ) {
             $map[$item["adminid"] ]=true;
+            //$sys_operator = $item["account"];
+            //$sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
+            //$item["stage_money"] = @$sort_moeny["stage_money"];
+            //$item["no_stage_money"] = @$sort_moeny["no_stage_money"];
         }
+		unset($item);
 
         foreach($order_user_list as $item ) {
             if(!@$map[$item["adminid"] ] ) {

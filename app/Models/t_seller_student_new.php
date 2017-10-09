@@ -1435,7 +1435,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
                 }else{
                     $this->t_manager_info->send_wx_todo_msg_by_adminid($competition_call_adminid,"sys",
-                                                                       "已到达抢例子上限");
+                                                                       "已到达抢例子上限","已到达抢例子上限");
                 }
             }
 
