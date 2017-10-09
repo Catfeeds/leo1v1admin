@@ -18,14 +18,14 @@ class tongji extends Controller
 
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -14, -1, 0, [
+            -14, 1, 0, [
                 0 => array( "order_time", "合同生成时间"),
                 1 => array("check_money_time","财务确认时间"),
             ], 0,0
         );
 
 
-        //$opt_date_type= $this->get_in_int_val("opt_date_type",0);
+        $opt_date_type= $this->get_in_int_val("opt_date_type",0);
         //$start_time = $this->get_in_start_time_from_str(date("Y-m-d",time(NULL)-86400*14));
         //$end_time   = $this->get_in_end_time_from_str(date("Y-m-d",time(NULL)));
         //$end_time += 86400;
