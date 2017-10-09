@@ -2712,12 +2712,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-09-01");  
+        /* $start_time = strtotime("2017-09-01");  
         $end_time = strtotime("2017-10-10");  
         $order_list = $this->t_order_info->get_order_list_by_time($start_time,$end_time);
         foreach($order_list as $val){
             $this->t_child_order_info->set_all_order_payed_by_parent_orderid($val["orderid"]); 
-        }
+            }*/
         dd(111);
 
         $month = strtotime("2017-01-01");        
