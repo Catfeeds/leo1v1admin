@@ -1,6 +1,10 @@
 <?php
 return array(
+<<<<<<< HEAD
+    ["db_weiyi_admin","t_month_def_type","id"],
+=======
     ["db_weiyi","t_order_activity_info", "orderid", "subid"],
+>>>>>>> d699f6a6cf127d3e72ca90003fb0506138118eb3
     ["db_weiyi_admin","t_test_luki", "id"],
     ["db_weiyi","t_seller_tongji_for_month", "id"],
     ["db_weiyi_admin","t_user_group_change_log", "id"],
