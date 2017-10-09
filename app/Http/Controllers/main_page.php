@@ -63,7 +63,6 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-
             //概况
             $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
@@ -153,8 +152,6 @@ class main_page extends Controller
                 $ret_info['junior_money_rate']      = 0;
                 $ret_info['primary_money_rate']     = 0;
             }
-
-
 
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
@@ -2042,11 +2039,25 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $top_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,1); //咨询/老师1000精排总体
+        $top_seller_total["per"] = !empty($top_seller_total["person_num"])?round($top_seller_total["have_order"]/$top_seller_total["person_num"]*100,2):0;
+
         $green_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,1); //咨询/老师绿色通道总体
-        $normal_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1); //咨询/老师普通排课总体
+        $green_seller_total["per"] = !empty($green_seller_total["person_num"])?round($green_seller_total["have_order"]/$green_seller_total["person_num"]*100,2):0;
+
+        $normal_seller_total_grab = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,1); //咨询/老师普通排课总体(抢课)
+        $normal_seller_total_grab["per"] = !empty($normal_seller_total_grab["person_num"])?round($normal_seller_total_grab["have_order"]/$normal_seller_total_grab["person_num"]*100,2):0;
+
+        $normal_seller_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,1,0); //咨询/老师普通排课总体(非抢课)
+        $normal_seller_total["per"] = !empty($normal_seller_total["person_num"])?round($normal_seller_total["have_order"]/$normal_seller_total["person_num"]*100,2):0;
         $top_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,1,2); //教务1000精排总体
+        $top_jw_total["per"] = !empty($top_jw_total["person_num"])?round($top_jw_total["have_order"]/$top_jw_total["person_num"]*100,2):0;
+
         $green_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,2,2); //教务绿色通道总体
-        $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2); //教务普通排课总体
+        $green_jw_total["per"] = !empty($green_jw_total["person_num"])?round($green_jw_total["have_order"]/$green_jw_total["person_num"]*100,2):0;
+        $normal_jw_total_grab = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,1); //教务普通排课总体(抢课)
+        $normal_jw_total_grab["per"] = !empty($normal_jw_total_grab["person_num"])?round($normal_jw_total_grab["have_order"]/$normal_jw_total_grab["person_num"]*100,2):0;
+        $normal_jw_total = $this->t_lesson_info_b3->get_seller_test_lesson_tran_info( $start_time,$end_time,3,2,0); //教务普通排课总体(非抢课)
+        $normal_jw_total["per"] = !empty($normal_jw_total["person_num"])?round($normal_jw_total["have_order"]/$normal_jw_total["person_num"]*100,2):0;
 
         //咨询
         $seller_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_seller( $start_time,$end_time,-1,1);
@@ -2068,11 +2079,11 @@ class main_page extends Controller
         }
 
         \App\Helper\Utils::order_list( $seller_all,"per", 0 );
-        foreach($seller_all as $s=>$v){
+        /* foreach($seller_all as $s=>$v){
             if($s>9){
                 unset($seller_all[$s]);
             }
-        }
+            }*/
 
         //老师
         $tea_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea( $start_time,$end_time,-1,1);
@@ -2091,18 +2102,18 @@ class main_page extends Controller
             $valll["top_per"] = !empty($valll["top_num"])?round($valll["top_order"]/$valll["top_num"]*100,2):0;
             $valll["green_per"] = !empty($valll["green_num"])?round($valll["green_order"]/$valll["green_num"]*100,2):0;
             $valll["normal_per"] = !empty($valll["normal_num"])?round($valll["normal_order"]/$valll["normal_num"]*100,2):0;
-            if($valll["person_num"] <10){
+            /* if($valll["person_num"] <10){
                 unset($tea_all[$kk]);
-            }
+                }*/
 
         }
 
         \App\Helper\Utils::order_list( $tea_all,"per", 0 );
-        foreach($tea_all as $s=>$v){
+        /*foreach($tea_all as $s=>$v){
             if($s>9){
                 unset($tea_all[$s]);
             }
-        }
+            }*/
 
         //教务
         $jw_all = $this->t_lesson_info_b3->get_seller_test_lesson_tran_jw( $start_time,$end_time,-1,2);
@@ -2135,9 +2146,11 @@ class main_page extends Controller
             "top_jw_total" => $top_jw_total,
             "green_jw_total" => $green_jw_total,
             "normal_jw_total" => $normal_jw_total,
+            "normal_jw_total_grab" => $normal_jw_total_grab,
             "top_seller_total" => $top_seller_total,
             "green_seller_total" => $green_seller_total,
             "normal_seller_total" => $normal_seller_total,
+            "normal_seller_total_grab" => $normal_seller_total_grab,
             "seller_all" => $seller_all,
             "tea_all" => $tea_all,
             "jw_all" => $jw_all,

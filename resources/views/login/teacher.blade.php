@@ -353,7 +353,7 @@
         <script type="text/javascript" src="/js/jquery.query.js"></script>
 
         <script type="text/javascript" src="/js/jquery.websocket.js"></script>
-        <script type="text/javascript" src="/page_ts/login/teacher.ts?{{$_publish_version}}"></script>
+        <script type="text/javascript" src="/page_ts/login/teacher.js?{{$_publish_version}}"></script>
         <!-- Bootstrap -->
         <script src="/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/bootstrap-dialog.js" type="text/javascript"></script>

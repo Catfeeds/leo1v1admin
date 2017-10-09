@@ -11,7 +11,7 @@ class SetTeacherMoney extends Command
      *
      * @var string
      */
-    protected $signature = 'command:SetTeacherMoney {--type=}';
+    protected $signature = 'command:SetTeacherMoney {--type=}{--day=}';
 
     /**
      * The console command description.
@@ -32,22 +32,29 @@ class SetTeacherMoney extends Command
 
     /**
      * Execute the console command.
-     * type=1  每周二更新老师荣誉榜
-     * type=2  每天更新第三版老师的试听签单奖励
+     * @param type  1 每周二更新老师荣誉榜
+     2,3 每天更新老师的试听签单奖励
+     * @param day 老师签单奖更新的时间周期
      * @return mixed
      */
     public function handle()
     {
         $task = new \App\Console\Tasks\TeacherMoneyTask();
         $type = $this->option('type');
+        $day  = $this->option('day');
+        \App\Helper\Utils::logger("set_teacher_money_day:".$day);
+
         if($type===null){
             $type = 1;
+        }
+        if($day===null){
+            $day = 0;
         }
 
         if($type==1){
             $task->set_teacher_lesson_total_list();
         }elseif($type==2 || $type==3){
-            $task->set_teacher_trial_success_reward($type);
+            $task->set_teacher_trial_success_reward($type,$day);
         }
     }
 
