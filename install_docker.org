@@ -1,5 +1,14 @@
 * 安装软件
   sudo apt-get install git   mysql-client gawk  docker nginx php-cli
+* docker 加速  
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://i80iz2o3.mirror.aliyuncs.com"]
+}
+EOF
+
+
  
 * 下载git代码
   cd ~
