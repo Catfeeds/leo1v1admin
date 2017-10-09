@@ -30,6 +30,8 @@ services:
 
   redis:
     image: redis:4.0
+    ports:
+      - "7379:6379"
     networks:
       - code-network
 
