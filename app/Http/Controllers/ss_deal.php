@@ -2620,9 +2620,6 @@ class ss_deal extends Controller
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
 
-        \App\Helper\Utils::logger("");
-
-
         $ret=$this->t_test_lesson_subject_require->add_require(
             $this->get_account_id(),
             $this->get_account(),

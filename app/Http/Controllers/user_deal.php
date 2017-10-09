@@ -2718,6 +2718,7 @@ class user_deal extends Controller
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($month);
         foreach($ass_month as $item){
             $assign_lesson  = 0;
+            $item["effective_student"] = $item["all_student_new"]-$item["student_finsh"];
             if($item['lesson_ratio'] < $lesson_target){
                 $assign_lesson = 0;
             }elseif($item['lesson_ratio'] < $lesson_target*1.1){
@@ -2743,10 +2744,10 @@ class user_deal extends Controller
             $update_arr =  [
                 "assign_lesson"              =>$assign_lesson
             ];
-            $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+            $task->t_month_ass_student_info->get_field_update_arr($item["adminid"],$month,1,$update_arr);
 
             //get assistantid
-            $ret_assistantid = $task->t_manager_info->get_assistant_id($k);
+            $ret_assistantid = $task->t_manager_info->get_assistant_id($item["adminid"]);
             //get assign_lesson_count
             $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
             if($assign_lesson_count == ''){
