@@ -1175,31 +1175,31 @@ class tongji2 extends Controller
                 }
             }
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
-            dd($ret_info);
-            //处理
-            $ret_info['target']        = $ret_info['target']>0?$ret_info['target']/100:0;
-
-            $ret_info['total_price']   = $ret_info['total_price']>0?$ret_info['total_price']/100:0;
-            $ret_info['kpi_per']       = $ret_info['kpi_per'] >0?$ret_info['kpi_per']/100:0;
-            $ret_info['gap_money']     = $ret_info['gap_money']>0?$ret_info['gap_money']/100:0;
-            $ret_info['total_income']  = $ret_info['total_income']>0?$ret_info['total_income']/100:0;
-            $ret_info['person_num_thirty_per'] = $ret_info['person_num_thirty_per']>0?$ret_info['person_num_thirty_per']/100:0;
-            $ret_info['contract_per']  = $ret_info['contract_per']>0?$ret_info['contract_per']/100:0;
-            $ret_info['month_kpi_per'] = $ret_info['month_kpi_per']>0?$ret_info['month_kpi_per']/100:0;
-            $ret_info['lesson_consume']= $ret_info['lesson_consume']>0?$ret_info['lesson_consume']/100:0;
-            $ret_info['teacher_leave'] = $ret_info['teacher_leave'] >0?$ret_info['teacher_leave']/100:0;
-            $ret_info['student_leave'] = $ret_info['student_leave'] >0?$ret_info['student_leave']/100:0;
-            $ret_info['other_leave']   = $ret_info['other_leave']>0?$ret_info['other_leave']/100:0;
-            $ret_info['student_arrive_per'] = $ret_info['student_arrive_per']>0?$ret_info['student_arrive_per']/100:0;
-            $ret_info['lesson_income'] = $ret_info['lesson_income']>0?$ret_info['lesson_income']/100:0;
-            $ret_info['total_renew']   = $ret_info['total_renew']>0?$ret_info['total_renew']/100:0;
-            $ret_info['renew_num_per'] = $ret_info['renew_num_per']>0?$ret_info['renew_num_per']/100:0;
-            $ret_info['renew_per']     = $ret_info['renew_per']>0?$ret_info['renew_per']/100:0;
-            $ret_info['finish_renew_per'] = $ret_info['finish_renew_per']>0?$ret_info['finish_renew_per']/100:0;
-            $ret_info['tranfer_total_price'] = $ret_info['tranfer_total_price']>0?$ret_info['tranfer_total_price']/100:0;
-            $ret_info['tranfer_success_per'] = $ret_info['tranfer_success_per']>0?$ret_info['tranfer_success_per']/100:0;
-            $ret_info['total_tranfer'] = $ret_info['total_tranfer']>0?$ret_info['total_tranfer']/100:0;
-            $ret_info['tranfer_num_per']=$ret_info['tranfer_num_per']>0?$ret_info['tranfer_num_per']/100:0;
+            if($ret_info){
+                //处理
+                $ret_info['target']        = $ret_info['target']>0?$ret_info['target']/100:0;
+                $ret_info['total_price']   = $ret_info['total_price']>0?$ret_info['total_price']/100:0;
+                $ret_info['kpi_per']       = $ret_info['kpi_per'] >0?$ret_info['kpi_per']/100:0;
+                $ret_info['gap_money']     = $ret_info['gap_money']>0?$ret_info['gap_money']/100:0;
+                $ret_info['total_income']  = $ret_info['total_income']>0?$ret_info['total_income']/100:0;
+                $ret_info['person_num_thirty_per'] = $ret_info['person_num_thirty_per']>0?$ret_info['person_num_thirty_per']/100:0;
+                $ret_info['contract_per']  = $ret_info['contract_per']>0?$ret_info['contract_per']/100:0;
+                $ret_info['month_kpi_per'] = $ret_info['month_kpi_per']>0?$ret_info['month_kpi_per']/100:0;
+                $ret_info['lesson_consume']= $ret_info['lesson_consume']>0?$ret_info['lesson_consume']/100:0;
+                $ret_info['teacher_leave'] = $ret_info['teacher_leave'] >0?$ret_info['teacher_leave']/100:0;
+                $ret_info['student_leave'] = $ret_info['student_leave'] >0?$ret_info['student_leave']/100:0;
+                $ret_info['other_leave']   = $ret_info['other_leave']>0?$ret_info['other_leave']/100:0;
+                $ret_info['student_arrive_per'] = $ret_info['student_arrive_per']>0?$ret_info['student_arrive_per']/100:0;
+                $ret_info['lesson_income'] = $ret_info['lesson_income']>0?$ret_info['lesson_income']/100:0;
+                $ret_info['total_renew']   = $ret_info['total_renew']>0?$ret_info['total_renew']/100:0;
+                $ret_info['renew_num_per'] = $ret_info['renew_num_per']>0?$ret_info['renew_num_per']/100:0;
+                $ret_info['renew_per']     = $ret_info['renew_per']>0?$ret_info['renew_per']/100:0;
+                $ret_info['finish_renew_per'] = $ret_info['finish_renew_per']>0?$ret_info['finish_renew_per']/100:0;
+                $ret_info['tranfer_total_price'] = $ret_info['tranfer_total_price']>0?$ret_info['tranfer_total_price']/100:0;
+                $ret_info['tranfer_success_per'] = $ret_info['tranfer_success_per']>0?$ret_info['tranfer_success_per']/100:0;
+                $ret_info['total_tranfer'] = $ret_info['total_tranfer']>0?$ret_info['total_tranfer']/100:0;
+                $ret_info['tranfer_num_per']=$ret_info['tranfer_num_per']>0?$ret_info['tranfer_num_per']/100:0;
+            }
             return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
         }elseif($is_history_data === 2){
             $cur_start   = strtotime(date('Y-m-01',$start_time));
