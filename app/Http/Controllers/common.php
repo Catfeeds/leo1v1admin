@@ -676,7 +676,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_hk.png";
+        $phone_qr_name = $phone."_qr_agent_gk.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -689,19 +689,29 @@ class common extends Controller
             $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建背景图
-            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
-            $image_4 = imagecreatefrompng($headimgurl);     //微信头像
-            if($row['headimgurl']){
-                $headimgurl = $row['headimgurl'];
-                $datapath ="/tmp/".$phone."_headimg.jpeg";
-                $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-                shell_exec($wgetshell);
 
-                $imgg = $this->yuan_img($datapath);
-                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-                imagejpeg($imgg,$datapath_new);
-                $image_4 = imagecreatefromjpeg($datapath_new);
-            }
+            //请求微信头像
+            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+            $datapath ="/tmp/".$phone."_headimg.jpeg";
+            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+            shell_exec($wgetshell);
+
+            $imgg = $this->yuan_img($datapath);
+            $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+            imagejpeg($imgg,$datapath_new);
+            $image_4 = imagecreatefromjpeg($datapath_new);
+
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             $color = imagecolorallocate($image_5, 255, 255, 255);
             imagefill($image_5, 0, 0, $color);
@@ -799,7 +809,7 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_bv.png";
+        $phone_qr_name = $phone."_qr_agent_new_bo.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -808,20 +818,28 @@ class common extends Controller
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+            //请求微信头像
+            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+            $datapath ="/tmp/".$phone."_headimg.jpeg";
+            $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+            shell_exec($wgetshell);
 
-            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
-            $image_5 = imagecreatefrompng($headimgurl);     //微信头像
-            if($row['headimgurl']){
-                $headimgurl = $row['headimgurl'];
-                $datapath ="/tmp/".$phone."_headimg.jpeg";
-                $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-                shell_exec($wgetshell);
+            $imgg = $this->yuan_img($datapath);
+            $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+            imagejpeg($imgg,$datapath_new);
+            $image_5 = imagecreatefromjpeg($datapath_new);
 
-                $imgg = $this->yuan_img($datapath);
-                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
-                imagejpeg($imgg,$datapath_new);
-                $image_5 = imagecreatefromjpeg($datapath_new);
-            }
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);

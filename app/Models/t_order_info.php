@@ -3496,7 +3496,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     public function get_order_sign_month($start_time, $end_time){
-        $hwere_arr = [
+        $where_arr = [
             "tq.is_called_phone=1"
         ];
 
@@ -3522,7 +3522,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_order_trans_month($start_time, $end_time){
-        $hwere_arr = [
+        $where_arr = [
             "l.lesson_user_online_status=1"
         ];
 
@@ -3545,6 +3545,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_order_list_by_time($start_time,$end_time){
+        $where_arr = [
+            "contract_type in (0,3)"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"pay_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select orderid from %s "
+                                  ." where contract_status>0 and order_status=1 and %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }
