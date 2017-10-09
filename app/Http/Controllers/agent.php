@@ -326,7 +326,7 @@ class agent extends Controller
     }
 
     public function check(){
-$self_groupid = $this->get_in_int_val("self_groupid",-1);
+        $self_groupid = $this->get_in_int_val("self_groupid",-1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -30*6, 1, 0, [
@@ -460,7 +460,94 @@ $self_groupid = $this->get_in_int_val("self_groupid",-1);
         ]);
     }
 
+    public function get_agent_qr_new(){
+        // $wx_openid = $this->get_in_str_val("wx_openid");
+        $wx_openid = 'oAJiDwLDUjDSL27u-1OZzDi6aOfs';
+        $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        dd($row);
+        $phone = '';
+        if(isset($row['phone'])){
+            $phone = $row['phone'];
+        }
+        if(!$phone || $wx_openid==""){
+            return "";
+        }
 
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $phone_qr_name = $phone."_qr_agent_new_bv.png";
+        $qiniu_url     = $qiniu['public']['url'];
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        if(!$is_exists){
+            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
+            $qr_url       = "/tmp/".$phone.".png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/4fa4f2970f6df4cf69bc37f0391b14751506672309999.png";
+            $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            $image_5 = imagecreatefrompng($headimgurl);     //微信头像
+            if($row['headimgurl']){
+                $headimgurl = $row['headimgurl'];
+                $datapath ="/tmp/".$phone."_headimg.jpeg";
+                $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+                shell_exec($wgetshell);
+                dd($datapath);
+                $imgg = $this->yuan_img($datapath);
+                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+                imagejpeg($imgg,$datapath_new);
+                $image_5 = imagecreatefromjpeg($datapath_new);
+            }
+            $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
+            $color = imagecolorallocate($image_6, 255, 255, 255);
+            imagefill($image_6, 0, 0, $color);
+            imageColorTransparent($image_6, $color);
+            imagecopyresampled($image_6,$image_5,0,0,0,0,imagesx($image_6),imagesy($image_6),imagesx($image_5),imagesy($image_5));
+
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imageCreatetruecolor(176,176);     //新建二维码图
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_4,$image_2,0,0,0,0,imagesx($image_4),imagesy($image_4),imagesx($image_2),imagesy($image_2));
+            imagecopymerge($image_3,$image_4,287,1100,0,0,imagesx($image_4),imagesy($image_4),100);
+            imagecopymerge($image_3,$image_6,295,29,0,0,160,160,100);
+            imagepng($image_3,$agent_qr_url);
+
+
+            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+            if($file_name!=''){
+                $cmd_rm = "rm /tmp/".$phone."*.png";
+                \App\Helper\Utils::exec_cmd($cmd_rm);
+            }
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+        }else{
+            $file_name=$phone_qr_name;
+        }
+
+        $file_url = $qiniu_url."/".$file_name;
+        return $file_url;
+    }
+
+    public function get_wx_user_info(){
+        $wx_openid = 'oAJiDwLDUjDSL27u-1OZzDi6aOfs';
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        dd($data);
+
+        return $data;
+    }
 
     public function agent_add(){
         // $p_phone = '18616626799';
@@ -1669,7 +1756,7 @@ $self_groupid = $this->get_in_int_val("self_groupid",-1);
      * @param  string $imgpath [description]
      * @return [type]          [description]
      */
-        function yuan_img($imgpath = './tx.jpg') {
+    function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
         switch ($ext['extension']) {

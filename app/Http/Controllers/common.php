@@ -809,10 +809,25 @@ class common extends Controller
             $agent_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
-            $image_5 = imagecreatefrompng($headimgurl);     //微信头像
-            if($row['headimgurl']){
-                $headimgurl = $row['headimgurl'];
+            // $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            // $image_5 = imagecreatefrompng($headimgurl);     //微信头像
+            // if($row['headimgurl']){
+
+            $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+            $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $data = json_decode($output,true);
+            $headimgurl = $data['headimgurl'];
+
+
+                // $headimgurl = $row['headimgurl'];
                 $datapath ="/tmp/".$phone."_headimg.jpeg";
                 $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
                 shell_exec($wgetshell);
@@ -821,7 +836,7 @@ class common extends Controller
                 $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
                 imagejpeg($imgg,$datapath_new);
                 $image_5 = imagecreatefromjpeg($datapath_new);
-            }
+            // }
             $image_6 = imageCreatetruecolor(160,160);     //新建微信头像图
             $color = imagecolorallocate($image_6, 255, 255, 255);
             imagefill($image_6, 0, 0, $color);
