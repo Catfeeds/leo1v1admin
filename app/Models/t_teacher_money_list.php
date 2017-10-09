@@ -81,7 +81,8 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
     }
 
     //签单奖
-    public function get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid){
+    public function get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson=-1){
+		$has_sql = "true";
         if($lessonid==-1){
             $where_arr = [
                 ["add_time>%u",$start_time,0],
@@ -89,19 +90,35 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                 ["type=%u",$type,-1],
                 ["tm.teacherid=%u",$teacherid,-1],
             ];
+
+            if($has_lesson==0){
+                $has_arr = [
+                    ["lesson_start>%u",$start_time,0],
+                    ["lesson_start<%u",$end_time,0],
+                    "tm.teacherid=teacherid",
+                    "lesson_type <1000 ",
+                ];
+                $has_sql = $this->gen_sql_new("not exists (select 1 from %s where %s)",t_lesson_info::DB_TABLE_NAME,$has_arr);
+            }
+
         }else{
             $where_arr = [
                 ["money_info='%s'",$lessonid,0],
             ];
         }
 
-        $sql = $this->gen_sql_new("select id,money,money_info,add_time,type,tm.teacherid,l.userid,tm.acc "
+        $sql = $this->gen_sql_new("select id,money,money_info,add_time,type,tm.teacherid,l.userid,tm.acc,"
+                                  ." t.bankcard,bank_address,bank_account,bank_phone,bank_type,bank_province,bank_city "
                                   ." from %s tm "
                                   ." left join %s l on tm.money_info=l.lessonid "
+                                  ." left join %s t on tm.teacherid=t.teacherid"
                                   ." where %s "
+								  ."and %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
+,$has_sql
         );
         return $this->main_get_list($sql);
     }

@@ -35,8 +35,8 @@ class test_sam  extends Controller
         $end_time = strtotime(date('Y-m-d'),time()); //
         $start_time = $end_time - 7 * 86400;
 
-        $start_time = 1505750400;
-        $end_time   = 1506355200;
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
         $start_month = date("Y-m",$start_time);
         $end_month   = date("Y-m",$end_time);
 
@@ -51,6 +51,7 @@ class test_sam  extends Controller
         }
 
         var_dump(date("Y-m-d ",$start_time),date("Y-m-d ",$end_time));
+        var_dump($type);
         //节点
 
         //概况
@@ -189,15 +190,16 @@ class test_sam  extends Controller
         }
 
 
-        $this->t_cr_week_month_info->row_insert([
+        /*        $this->t_cr_week_month_info->row_insert([
             "create_time"           => $arr['create_time'],
-            "create_time_range"     => $arr['create_time_range']
+            "create_time_range"     => $arr['create_time_range'],
             "type"                  => 2,
             "target"                => $arr['target'],
             
-        ]);
+            ]);*/
         $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
-        dd($arr);
+        $arr['student_list'] = $warning_list_new;
+        var_dump($warning_list_new);
         dd($arr);
     }
 }

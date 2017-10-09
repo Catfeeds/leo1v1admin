@@ -39,7 +39,7 @@ class CheckLessonTeacherMoneyType extends cmd_base
     {
         $list = $this->task->t_lesson_info_b3->check_lesson_teacher_money_type();
         foreach($list as $val){
-            $this->t_lesson_info->field_update_list($val['lessonid'],[
+            $this->task->t_lesson_info->field_update_list($val['lessonid'],[
                 "teacher_money_type" => $val['teacher_money_type'],
                 "level"              => $val['level'],
             ]);

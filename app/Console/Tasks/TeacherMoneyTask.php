@@ -9,7 +9,7 @@ use CacheNick;
 /**
  * 老师奖励金额类型
  * type=1 荣誉榜奖励金额,每个周期课时消耗前5(第5名并列可取多)
- * type=2 第三版工资类型的老师的试听签单奖
+ * type=2 兼职老师的试听签单奖
  * type=3 公司全职老师试听签单奖
  */
 class TeacherMoneyTask extends TaskController
@@ -67,6 +67,8 @@ class TeacherMoneyTask extends TaskController
         \App\Helper\Utils::logger("set_trial_reward :".json_encode($list)." time ".time());
         $lessonid = "";
         foreach($list as $val){
+            $stu_nick = $this->cache_get_student_nick($val['userid']);
+            $tea_nick = $this->cache_get_student_nick($val['teacherid']);
             if($type==3){
                 if($val['require_admin_type']==E\Eaccount_role::V_2){
                     $money = 16000;
@@ -82,7 +84,9 @@ class TeacherMoneyTask extends TaskController
                 "type"       => 2,
                 "add_time"   => time(),
                 "money"      => $money,
-                "money_info" => $val['lessonid'],
+                // "money_info" => $val['lessonid'],
+                "money_info" => $stu_nick,
+                "lessonid"   => $val['lessonid'],
             ]);
 
             if($ret){
@@ -94,8 +98,8 @@ class TeacherMoneyTask extends TaskController
                    高转化率老师可获得晋升等级的机会，请继续加油提供高品质教学服务。
                 */
                 $data = [
-                    "tea_nick" => $this->cache_get_teacher_nick($val['teacherid']),
-                    "stu_nick" => $this->cache_get_student_nick($val['userid']),
+                    "tea_nick" => $tea_nick,
+                    "stu_nick" => $stu_nick,
                     "price"    => ($money/100),
                 ];
                 \App\Helper\Utils::sms_common($val['phone'],"51410003",$data);

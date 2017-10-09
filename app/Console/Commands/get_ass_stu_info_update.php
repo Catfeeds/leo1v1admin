@@ -286,7 +286,7 @@ class get_ass_stu_info_update extends Command
             if(date("d",time())=="01"){
                 //add 课耗活动-------------------------------------------------------------------------------
                 $item["lesson_ratio_month"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,3):0; //课程系数
-                $item["effective_student"] = $student_all_detail[$k]; //带学生人数
+                $item["effective_student"] = @$student_all_detail[$k]; //带学生人数
 
                 //ca
                 $assign_lesson  = 0;

@@ -100,6 +100,18 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_update($sql);
     }
 
+    public function set_all_order_payed_by_parent_orderid($parent_orderid){
+        $sql = $this->gen_sql_new("update %s set pay_status = 1,"
+                                  ." pay_time = %u,"
+                                  ." where parent_orderid = %u and price>0 "
+                                  ,self::DB_TABLE_NAME
+                                  ,time()
+                                  ,$parent_orderid
+        );
+        return $this->main_update( $sql );
+ 
+    }
+
 
 }
 

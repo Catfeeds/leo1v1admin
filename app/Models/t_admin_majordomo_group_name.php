@@ -24,6 +24,12 @@ class t_admin_majordomo_group_name extends \App\Models\Zgen\z_t_admin_majordomo_
         return $this->main_get_value($sql);
     }
 
+    public function get_all_list(){
+        $sql=$this->gen_sql_new("select * from %s ",
+                                self::DB_TABLE_NAME) ;
+        return $this->main_get_list($sql);
+    }
+
 
 
 }

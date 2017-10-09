@@ -128,6 +128,7 @@ class testbb extends Controller
         $lessonid  = $this->get_in_int_val('lessonid');
         $pdf_file_path = $this->gen_download_url($pdf_url);
 
+        // dd($pdf_file_path);
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
         if($pdf_url){
