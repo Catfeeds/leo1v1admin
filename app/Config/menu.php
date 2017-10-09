@@ -540,6 +540,7 @@ class menu{
 
                 ["power_id"=>51, "name"=>"试听未签-抢学生",   "url"=>"/seller_student_new/test_lesson_no_order_list"],
                 ["power_id"=>58, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
+                ["power_id"=>73, "name"=>"销售等级列表",   "url"=>"/seller_level_goal/seller_level_goal_list"],
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],

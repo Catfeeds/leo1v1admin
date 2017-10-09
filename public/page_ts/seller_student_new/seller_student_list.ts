@@ -375,7 +375,7 @@ $(function(){
                                         var uu=40-resp.top_num;
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
-                                        sleep(1500);
+                                        sleep(3500);
                                         window.location.reload();
 
                                     }else if(resp.top_num==29){
