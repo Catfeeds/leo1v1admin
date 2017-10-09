@@ -89,7 +89,7 @@ class test_sam  extends Controller
             $arr['month_kpi_per'] = 0;
         }
         if($arr['total_price']){
-            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);//A6-平均单笔
+            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
         }else{
             $arr['contract_per']   = 0;
         }
@@ -273,11 +273,17 @@ class test_sam  extends Controller
           "create_time"             => $create_time,            //存档时间
           "create_time_range"       => $create_time_range,      //存档时间范围
           "type"                    => $type,                   //存档类型
-          "target"                  => $arr['target'],      //1-月度目标收入
+          "target"                  => $arr['target'],          //1-月度目标收入
           "total_price"             => $arr['total_price'],     //2-完成金额
           "kpi_per"                 => $arr['kpi_per']*100,     //3-完成率
           "gap_money"               => $arr['gap_money'],       //4-缺口金额
 
+          "total_income"            => $arr['total_income'],    //A1-现金总收入
+          "person_num"              => $arr['person_num'],      //A2-下单总人数
+          "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
+          "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
+          "person_num_thirty_per"   => $arr['person_num_thirty_per']*100,//A5-平均人效
+          "contract_per"            => $arr['contract_per'],     //A6-平均单笔
         ];
         echo "<pre>";
         var_dump($insert_data);
