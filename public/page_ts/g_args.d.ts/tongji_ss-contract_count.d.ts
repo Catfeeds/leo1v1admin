@@ -1,4 +1,7 @@
 interface GargsStatic {
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
 	contract_type:	number;
@@ -44,6 +47,9 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			date_type_config:	$('#id_date_type_config').val(),
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			contract_type:	$('#id_contract_type').val(),
@@ -60,8 +66,16 @@ $(function(){
 
 	Enum_map.append_option_list("boolean",$("#id_is_test_user"));
 
-	$('#id_start_time').val(g_args.start_time);
-	$('#id_end_time').val(g_args.end_time);
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_is_test_user').val(g_args.is_test_user);
 	$('#id_studentid').val(g_args.studentid);
@@ -80,20 +94,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">start_time</span>
-                <input class="opt-change form-control" id="id_start_time" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">end_time</span>
-                <input class="opt-change form-control" id="id_end_time" />
-            </div>
-        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
