@@ -2712,8 +2712,41 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
-       
+        $arr= $this->t_fulltime_teacher_attendance_list->get_holiday_info();
+        dd($arr);
+        //email
+        $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
+        $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
+        $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
+        foreach ($arr as $key => $value) {
+            if($value['day_num'] != 0){
+                $table .= '<tr>';
+                $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
+                $table .= '<td><font color="red">'.$value['lesson_count'].'</font></td>';
+                $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
+                $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
+                $table .= '</tr>';
+            }
+        }
+        $table .= "</table>";
+        $content = "Dear all：<br>全职老师国庆延休安排情况如下<br/>";
+        $content .= "数据见下表<br>";
+        $content .= $table;
+        $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优教育</div><div>";
+        $email_arr = ["low-key@leoedu.com",
+                      "erick@leoedu.com",
+                      "hejie@leoedu.com",
+                      "sherry@leoedu.com",
+                      "cindy@leoedu.com",
+                      "limingyu@leoedu.com"];
+        foreach($email_arr as $email){
+            dispatch( new \App\Jobs\SendEmailNew(
+                $email,
+                "全职老师国庆假期累计上课时间及延休安排",
+                $content
+            ));  
+        }
+ 
         dd(111);
 
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();

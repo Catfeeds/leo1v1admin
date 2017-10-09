@@ -63,7 +63,6 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-
             //概况
             $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
