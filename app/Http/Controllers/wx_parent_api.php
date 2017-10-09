@@ -650,10 +650,10 @@ class wx_parent_api extends Controller
         if($original_time ){
             $original_time_arr = explode(',',$original_time);
             $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$original_time_arr[0]).'-'.date('H:i:s',$original_time_arr[1]);
-
             $lesson_time_arr['lesson_time_new'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
         }else{
             $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
+            $lesson_time_arr['lesson_time_new'] = '';
         }
 
         $lesson_time_arr['status']       = 0;
