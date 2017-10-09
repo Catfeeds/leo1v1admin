@@ -42,7 +42,10 @@ class test_sam  extends Controller
 
         $cur_start   = strtotime(date('Y-m-01',$start_time));
         $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-        if($start_month == $end_month){ //周报
+        if(date('d',$start_time) == '1' && date('d',$end_time) == '1'){//月报
+            $type = 1;
+            $create_time = $end_time;
+        }else if($start_month == $end_month){ //周报
             $type = 2;
             $create_time = $end_time;//
         }else{//跨月报
@@ -56,7 +59,7 @@ class test_sam  extends Controller
 
         //概况
         $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
-        $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+        $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time); //月初至今
         $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
         $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
         $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
@@ -171,8 +174,8 @@ class test_sam  extends Controller
 
         //转介绍 
         $month_tranfer_data = $this->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
-        $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);     
-        $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];                     
+        $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
+        $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
         if($arr['month_tranfer_total_num']){
           $arr['tranfer_success_per'] = round($arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
         }else{
@@ -195,10 +198,21 @@ class test_sam  extends Controller
             "create_time_range"     => $arr['create_time_range'],
             "type"                  => 2,
             "target"                => $arr['target'],
-            
             ]);*/
-        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
-        $arr['student_list'] = $warning_list_new;
+        if($type==2 ||$type ==3){//周报,跨月周报
+            $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
+        }else if($type == 1){//月报
+            $warning_list_new = $this->t_student_info->get_warning_stu_list_month_new();
+        }
+        $student_list = '';
+        $num = 0;
+        foreach($warning_list_new as $key => $value){
+            $student_list .= ','.$value['userid'];
+        }
+        $student_list = trim($student_list,',');
+        $arr['student_list'] = $student_list;
+        //续费
+        
         var_dump($warning_list_new);
         dd($arr);
     }
