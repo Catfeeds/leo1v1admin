@@ -2712,12 +2712,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-10-01");
-        $end_time = strtotime("2017-10-10");
-        $ass_renw_money = $this->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
-
+        $list = $this->t_teacher_info->get_all_no_textbook_teacher_info(); 
        
-        dd($ass_renw_money);
+        dd($list);
 
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
         $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();

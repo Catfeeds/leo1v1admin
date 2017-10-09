@@ -823,6 +823,7 @@ class wx_teacher_api extends Controller
             $result = "原因: $parent_keep_original_remark ";
 
 
+
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
 

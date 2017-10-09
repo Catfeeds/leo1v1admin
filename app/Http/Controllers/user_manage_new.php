@@ -2734,7 +2734,6 @@ class user_manage_new extends Controller
     }
 
     public function tea_wages_list(){
-        // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
@@ -2756,6 +2755,7 @@ class user_manage_new extends Controller
         // }else{
         //     $flag = 1;
         // }
+
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
@@ -2766,35 +2766,21 @@ class user_manage_new extends Controller
                 $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
             );
             $list = array_merge($tea_list,$full_tea_list);
-            // 规定时间内没有上课但有额外奖励的老师列表
-            // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
-            //     $start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level
-            // );
-            // $list = array_merge($list,$reward_list);
             // file_put_contents($file_name,json_encode($list));
         // }else{
         //     $list = json_decode($file_info,true);
         // }
 
-        // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
-        $stu_num = 0;
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
-        $teacher_1v1      = 0;
-        $teacher_trial    = 0;
         $num              = 1;
-
         foreach($list as &$val){
             \App\Helper\Utils::check_isset_data($val['lesson_1v1'],0,0);
             \App\Helper\Utils::check_isset_data($val['lesson_trial'],0,0);
             \App\Helper\Utils::check_isset_data($val['lesson_total'],0,0);
-            if($val['lesson_1v1']>0){
-                $teacher_1v1++;
-            }else{
-                $teacher_trial++;
-            }
+
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
@@ -2816,13 +2802,9 @@ class user_manage_new extends Controller
         }
 
         return $this->pageView(__METHOD__,$list,[
-            "stu_num"          => $stu_num,
             "all_lesson_total" => $all_lesson_total,
             "all_lesson_1v1"   => $all_lesson_1v1,
             "all_lesson_trial" => $all_lesson_trial,
-            "teacher_1v1"      => $teacher_1v1,
-            "teacher_trial"    => $teacher_trial,
-            "teacher_num"      => ($teacher_1v1+$teacher_trial),
             "show_data"        => $show_data,
             "acc"              => $acc,
         ]);
@@ -2949,13 +2931,11 @@ class user_manage_new extends Controller
     public function get_lesson_price(){
         $start_date         = $this->get_in_str_val("start_time");
         $end_date           = $this->get_in_str_val("end_time");
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
 
         $start_time         = strtotime($start_date);
-        $end_time           = strtotime($end_date);
+        $end_time           = strtotime($end_date)+86400;
 
-        //$lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
-        $lesson_price = 0;
+        $lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time);
 
         return $this->output_succ(['lesson_price'=>$lesson_price]);
     }

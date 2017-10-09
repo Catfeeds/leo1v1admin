@@ -596,7 +596,8 @@ class wx_parent_api extends Controller
 
             $lesson_start_date = date('Y-m-d H:i',$lesson_start_time );
             $lesson_end_date   = date('H:i',$lesson_end_time );
-            $result = "原因:{".$parent_modify_remark."}";
+            // $result = "原因:{".$parent_modify_remark."}";
+            $result = "";
 
             if(!$parent_modify_remark){
                 $result = '';
@@ -610,7 +611,7 @@ class wx_parent_api extends Controller
             $data_msg = [
                 "first"     => " 调课申请受理中",
                 "keyword1"  => " 调换上课时间",
-                "keyword2"  => " 原上课时间: $lesson_start_date ~ $lesson_end_date , $result,申请受理中,请稍等!",
+                "keyword2"  => " 原上课时间: $lesson_start_date ~ $lesson_end_date ,申请受理中,请稍等!",
                 "keyword3"  => " $day_time",
                 "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
             ];
@@ -844,7 +845,8 @@ class wx_parent_api extends Controller
             //推送给老师
 
             $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
-            $result = "原因: $parent_keep_original_remark ";
+            // $result = "原因: $parent_keep_original_remark ";
+            $result = " ";
 
 
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
