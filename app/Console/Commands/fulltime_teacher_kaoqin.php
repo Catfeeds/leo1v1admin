@@ -179,9 +179,9 @@ class fulltime_teacher_kaoqin extends Command
               @$arr[$key]['day_num'] = floor($value/10.5);
               @$arr[$key]['attendance_time'] = 1507478400;//2017/10/9 0:0:0
               if($arr[$key]['day_num'] == 0){
-                @$arr[$key]['cross_time'] = "";
+                  @$arr[$key]['cross_time'] = "";
               }else{
-                @$arr[$key]['cross_time'] = "10.9-".date('m-d',1507478400+$arr[$key]['day_num']*86400);
+                  @$arr[$key]['cross_time'] = "10.9-".date('m.d',1507478400+($arr[$key]['day_num']-1)*86400);
               }
               
           }

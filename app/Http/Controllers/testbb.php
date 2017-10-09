@@ -286,16 +286,18 @@ class testbb extends Controller
 
     public function install(){
         // 暂时未建
-        Schema::create('db_weiyi.t_seller_tongji_funnel_data_for_month', function( Blueprint $table)
+        Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
             $table->increments("id","id");
             t_field($table->integer("create_time"),"创建时间");
-            t_field($table->integer("from_time"),"来自于那个月份 月份的第一天时间戳");
+            t_field($table->integer("from_time"),"来自于那个月份 或者 周 第一天时间戳");
             t_field($table->integer("referral_money"),"转介绍合同收入");
             t_field($table->integer("new_money"),"新签合同收入");
+            t_field($table->integer("order_num"),"下单总人数");
             t_field($table->text("income_info"),"对应人员收入签单额度");
             t_field($table->integer("cc_num"),"cc入职完整月人数");
-            t_field($table->integer("order_num"),"下单总人数");
+            t_field($table->integer("formal_info"),"入职完整月人员收入");
+            t_field($table->integer("formal_num"),"入职完整月人员收入");
             t_field($table->string("department_num_info"),"销售各部人数信息 json [咨询各部+新人营+培训中]");
 
             t_field($table->integer("referral_money"),"转介绍金额");

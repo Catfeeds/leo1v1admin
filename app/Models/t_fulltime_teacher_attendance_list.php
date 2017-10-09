@@ -41,6 +41,11 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
 
     }
 
+    public function get_holiday_info(){
+        $sql = $this->gen_sql_new("select * from %s where attendance_type=3",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+
 }
 
 
