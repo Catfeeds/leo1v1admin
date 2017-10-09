@@ -32,14 +32,6 @@ class test_sam  extends Controller
 
     public function  tt(){
         //every week
-        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
-        $userlist = '';
-        foreach ($warning_list_new as $key => $value) {
-          $userlist .= ','.$value['userid'];
-        }
-        $userlist = trim($userlist,',');
-        dd($userlist);
-
         $end_time = strtotime(date('Y-m-d'),time()); //
         $start_time = $end_time - 7 * 86400;
 
@@ -167,6 +159,13 @@ class test_sam  extends Controller
             $arr['student_arrive_per'] = 0;
         }
         //续费 6
+        $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
+        $userlist = '';
+        foreach ($warning_list_new as $key => $value) {
+          $userlist .= ','.$value['userid'];
+        }
+        $userlist = trim($userlist,',');
+
 
 
         //转介绍 
@@ -189,7 +188,12 @@ class test_sam  extends Controller
           $arr['kk_success_per'] = 0;
         }
 
+
         $this->t_cr_week_month_info->row_insert([
+            "create_time"           => $arr['create_time'],
+            "create_time_range"     => $arr['create_time_range']
+            "type"                  => 2,
+            "target"                => $arr['target'],
             
         ]);
         $warning_list_new = $this->t_student_info->get_warning_stu_list_new();
