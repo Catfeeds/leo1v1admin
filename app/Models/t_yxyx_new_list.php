@@ -51,6 +51,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
     public function get_all_list($page_info){
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content,create_time,adminid"
                                     ." from %s"
+                                    ." order by id desc"
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page($sql,$page_info);
@@ -60,6 +61,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
     public function get_all_for_wx(){
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content"
                                     ." from %s"
+                                    ." order by id desc"
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);

@@ -28,7 +28,7 @@ $(function(){
             jw_test_lesson_status:       $('#id_jw_test_lesson_status').val(),
             jw_teacher:                  $('#id_jw_teacher').val(),
             ass_test_lesson_type:        $('#id_ass_test_lesson_type').val(),
-      lesson_plan_style:	$('#id_lesson_plan_style').val()
+            lesson_plan_style:	$('#id_lesson_plan_style').val()
         });
     }
 
@@ -140,9 +140,9 @@ $(function(){
         Enum_map.append_option_list("boolean",id_top_seller_flag,true);
 
         if(opt_data.teacherid > 0){
-             id_teacherid.val(opt_data.teacherid);
+            id_teacherid.val(opt_data.teacherid);
         }else if(opt_data.green_channel_teacherid > 0){
-             id_teacherid.val(opt_data.green_channel_teacherid);
+            id_teacherid.val(opt_data.green_channel_teacherid);
         }
 
         id_start_time.datetimepicker({
@@ -441,28 +441,28 @@ $(function(){
         }
         var require_id = opt_data.require_id;
         $.ajax({
-      type     :"post",
-      url      :"/ss_deal/jw_test_lesson_status_change",
-      dataType :"json",
-      data     :{
+            type     :"post",
+            url      :"/ss_deal/jw_test_lesson_status_change",
+            dataType :"json",
+            data     :{
                 "require_id"  : require_id,
                 "jw_test_lesson_status" : opt_data.jw_test_lesson_status
             },
             success : function(result){
-               load_data();
-      }
+                load_data();
+            }
         });
 
     });
     $("#id_test_lesson_assign").on("click",function(){
         $.ajax({
-      type     :"post",
-      url      :"/ss_deal/jw_teacher_work_status_change",
-      dataType :"json",
-      data     :{
+            type     :"post",
+            url      :"/ss_deal/jw_teacher_work_status_change",
+            dataType :"json",
+            data     :{
             },
             success : function(result){
-               // console.log(result);
+                // console.log(result);
                 if(result.ret==-1){
                     alert(result.info);
                 }else{
@@ -568,7 +568,7 @@ $(function(){
 
                 if (require_time < need_start_time ) {
                     alert("试听时间不能早于 "+ min_date_time );
-                  //  $(me).parent().find(".opt-edit").click();
+                    //  $(me).parent().find(".opt-edit").click();
                     return;
                     //申请时间
                 }
@@ -626,7 +626,7 @@ $(function(){
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-      if(opt_data.accept_flag !=0 ) {
+        if(opt_data.accept_flag !=0 ) {
             alert("教务已处理,不能删除!");
             return;
         }
@@ -651,14 +651,14 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var id_lesson_start_time = $("<input/>");
         id_lesson_start_time.datetimepicker({
-        lang:'ch',
-        datepicker:true,
-        timepicker:true,
-        format:'Y-m-d H:i',
-        step:30,
-          onChangeDateTime :function(){
+            lang:'ch',
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
             }
-      });
+        });
 
         var arr=[
             ["目标上课时间", id_lesson_start_time]  ,
@@ -730,14 +730,14 @@ $(function(){
         var $stu_request_test_lesson_demand = $("<textarea/> ").val(opt_data.stu_request_test_lesson_demand );
         $editionid.val( opt_data.editionid );
         $stu_request_test_lesson_time.datetimepicker({
-        lang:'ch',
-        datepicker:true,
-        timepicker:true,
-        format:'Y-m-d H:i',
-        step:30,
-          onChangeDateTime :function(){
+            lang:'ch',
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
             }
-      });
+        });
 
         // console.log($stu_request_test_lesson_time);
 
@@ -848,8 +848,6 @@ $(function(){
             $id_change_teacher_reason_type.find('option[value="'+opt_data.change_teacher_reason_type+'"]').attr('selected',1);
 
         });
-
-
     });
 
 
@@ -866,11 +864,11 @@ $(function(){
         $teacherid.val(opt_data.teacherid);
         $lesson_start.val(opt_data.lesson_start );
         $lesson_start.datetimepicker({
-        lang:'ch',
-        datepicker:true,
-        timepicker:true,
-        format:'Y-m-d H:i',
-        step:30,
+            lang:'ch',
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
             onChangeDateTime :function(){
             }
 
@@ -974,8 +972,8 @@ $(function(){
 
         init_and_reload(function(now) {
             $.filed_init_date_range(4, 0,
-                $.strtotime($.DateFormat(now, "yyyy-MM-01")),
-                now);
+                                    $.strtotime($.DateFormat(now, "yyyy-MM-01")),
+                                    now);
             $("#id_accept_flag").val(1);
             $("#id_success_flag").val(2);
             $("#id_require_admin_type").val(2);
@@ -998,7 +996,7 @@ $(function(){
 
     $(" .opt-binding-course-order ").on("click", function() {
         var opt_data = $(this).get_opt_data();
-       // alert(opt_data.require_id);
+        // alert(opt_data.require_id);
 
         console.log(opt_data.lessonid);
 
@@ -1052,7 +1050,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
-       // alert(opt_data.require_id);
+        // alert(opt_data.require_id);
         console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");
@@ -1065,7 +1063,7 @@ $(function(){
             ["签约失败说明", $test_lesson_order_fail_desc ] ,
         ];
 
-      Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
+        Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
         $test_lesson_order_fail_flag.val( opt_data.test_lesson_order_fail_flag);
         $test_lesson_order_fail_desc.val( opt_data.test_lesson_order_fail_desc);
 
@@ -1298,17 +1296,17 @@ $(function(){
         }
 
         BootstrapDialog.show({
-          title   : "操作确认",
-          message : info,
-          buttons : [{
-            label  : "返回",
-            action : function(dialog) {
-                dialog.close();
-            }
-          }, {
-            label: "确认",
-            cssClass: "btn-warning",
-            action: function(dialog) {
+            title   : "操作确认",
+            message : info,
+            buttons : [{
+                label  : "返回",
+                action : function(dialog) {
+                    dialog.close();
+                }
+            }, {
+                label: "确认",
+                cssClass: "btn-warning",
+                action: function(dialog) {
                     $.do_ajax("/seller_student_new2/grab_test_lesson_plan",{
                         "requireid"   : data.require_id,
                         "grab_status" : grab_status
@@ -1322,8 +1320,8 @@ $(function(){
                             BootstrapDialog.alert(result.info);
                         }
                     })
-            }
-          }]
+                }
+            }]
         });
     });
 
@@ -1415,21 +1413,21 @@ $(function(){
         });
     }
 
-   $(".opt-limit-lesson-require").on("click",function(){
-       //alert("开发中");
-       var opt_data=$(this).get_opt_data();
-       // console.log(opt_data.require_id);
-       //  alert(opt_data.require_id);
-       if(opt_data.test_lesson_student_status != 200){
-           alert("非预约未排课状态,不能申请!");
+    $(".opt-limit-lesson-require").on("click",function(){
+        //alert("开发中");
+        var opt_data=$(this).get_opt_data();
+        // console.log(opt_data.require_id);
+        //  alert(opt_data.require_id);
+        if(opt_data.test_lesson_student_status != 200){
+            alert("非预约未排课状态,不能申请!");
             return;
         }
-       if(opt_data.limit_require_flag==1 && opt_data.limit_accept_flag <2){
-           alert("已有申请!");
-           return;
-       }
+        if(opt_data.limit_require_flag==1 && opt_data.limit_accept_flag <2){
+            alert("已有申请!");
+            return;
+        }
 
-       var $limit_require_teacherid =$("<input/>");
+        var $limit_require_teacherid =$("<input/>");
         if(opt_data.green_channel_teacherid > 0){
             $limit_require_teacherid.val(opt_data.green_channel_teacherid);
         }
@@ -1482,6 +1480,10 @@ $(function(){
 
     $(".opt-set-limit-require-agree").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        if(g_adminid != opt_data.limit_require_send_adminid){
+            alert("您无权处置!");
+            return;
+        }
 
         BootstrapDialog.confirm(
             "同意该申请?",
@@ -1499,6 +1501,11 @@ $(function(){
 
     $(".opt-set-limit-require-refuce").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        if(g_adminid != opt_data.limit_require_send_adminid){
+            alert("您无权处置!");
+            return;
+        }
+
 
         BootstrapDialog.confirm(
             "驳回该申请?",
@@ -1594,220 +1601,594 @@ $(function(){
     });
 
     var edit_user_info_new_tow=function(){
-            var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
-            var show_noti_info_flag=false;
-            var id_stu_nick          = html_node.find("#id_stu_nick");
-            var id_par_nick          = html_node.find("#id_par_nick");
-            var id_grade             = html_node.find("#id_stu_grade");
-            var id_gender            = html_node.find("#id_stu_gender");
-            var id_address           = html_node.find("#id_stu_addr");
-            var id_subject           = html_node.find("#id_stu_subject");
-            var id_status            = html_node.find("#id_stu_status");
-            var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
-            var id_user_desc         = html_node.find("#id_stu_user_desc");
-            var id_has_pad           = html_node.find("#id_stu_has_pad");
-            var id_editionid         = html_node.find("#id_stu_editionid");
-            var id_school            = html_node.find("#id_stu_school");
-            var id_intention_level            = html_node.find("#id_intention_level");
-            var id_next_revisit_time = html_node.find("#id_next_revisit_time");
-            var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
-            var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
-            var id_advice_flag = html_node.find("#id_advice_flag");
-            var id_academic_goal = html_node.find("#id_academic_goal");
-            var id_test_stress = html_node.find("#id_test_stress");
-            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
-            var id_extra_improvement = html_node.find("#id_extra_improvement");
-            var id_habit_remodel = html_node.find("#id_habit_remodel");
-            var id_interest_cultivation = html_node.find("#id_interest_cultivation");
-            var id_study_habit = html_node.find("#id_study_habit");
-            var id_interests_hobbies = html_node.find("#id_interests_hobbies");
-            var id_character_type = html_node.find("#id_character_type");
-            var id_need_teacher_style = html_node.find("#id_need_teacher_style");
-            var id_intention_level = html_node.find("#id_intention_level");
-            var id_test_paper = html_node.find("#id_test_paper");
-            var id_demand_urgency = html_node.find("#id_demand_urgency");
-            var id_quotation_reaction = html_node.find("#id_quotation_reaction");
-            var id_revisit_info_new = html_node.find("#id_revisit_info_new");
-            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
-            Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
-            Enum_map.append_option_list("pad_type", id_has_pad, true);
-            Enum_map.append_option_list("subject", id_subject, true);
-            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
-            Enum_map.append_option_list("boolean", id_advice_flag, true);
-            Enum_map.append_option_list("academic_goal", id_academic_goal, true);
-            Enum_map.append_option_list("test_stress", id_test_stress, true);
-            Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
-            Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
-            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
-            Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
-            Enum_map.append_option_list("intention_level", id_intention_level, true);
-            Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
-            Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-            id_stu_request_test_lesson_time.datetimepicker( {
-                lang:'ch',
-                timepicker:true,
-                format: "Y-m-d H:i",
-                onChangeDateTime :function(){
+        var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
+        var show_noti_info_flag = false;
+        var id_userid           = html_node.find("#id_stu_nick_new");//学生姓名
+        $.admin_select_user(id_userid,"student");
+        var id_par_nick         = html_node.find("#id_par_nick_new");//家长姓名
+        var id_gender           = html_node.find("#id_stu_gender_new");//学生性别
+        Enum_map.append_option_list("gender", id_gender, true);
+        var id_grade            = html_node.find("#id_stu_grade_new");//学生年级
+        Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
+        var id_subject          = html_node.find("#id_stu_subject_new");//学生科目
+        Enum_map.append_option_list("subject", id_subject, true);
+        var id_school           = html_node.find("#id_stu_school_new");//在读学校
+        var id_editionid        = html_node.find("#id_stu_editionid_new");//学生教材
+        var province            = html_node.find("#province");//学生省
+        var city                = html_node.find("#city");//学生市
+        var area                = html_node.find("#area");//学生区
+        var preProvince         = "<option value=\"\">"+"选择省（市）"+"</option>";
+        var preCity             = "<option value=\"\">"+"选择市（区）"+"</option>";
+        var preArea             = "<option value=\"\">"+"选择区（县）"+"</option>";
+        //初始化
+        province.html(preProvince);
+        city.html(preCity);
+        area.html(preArea);
+        //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用
+        //func_suc_getXmlProvice进行 省的 解析
+        $.ajax({
+            type : "GET",
+            url : "/province_city_select_Info.xml",
+            success : func_suc_getXmlProvice
+        });
+        //省 下拉选择发生变化触发的事件
+        province.change(function() {
+            if (province.val() != "") {
+                var preCity = "<option value=\"\">选择市（区）</option>";
+                var preArea = "<option value=\"\">选择区（县）</option>";
+                city.html(preCity);
+                area.html(preArea);
+                //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                //func_suc_getXmlProvice进行省对应的市的解析
+                $.ajax({
+                    type : "GET",
+                    url : "/province_city_select_Info.xml",
+                    success : func_suc_getXmlCity
+                });
+
+            }
+        });
+        //市 下拉选择发生变化触发的事件
+        city.change(function() {
+            var preArea = "<option value=\"\">选择区（县）</option>";
+            area.html(preArea);
+            $.ajax({
+                type : "GET",
+                url : "/province_city_select_Info.xml",
+                //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                //func_suc_getXmlArea进行省对应的市对于的区的解析
+                success : func_suc_getXmlArea
+            });
+        });
+        //区 下拉选择发生变化触发的事件
+        area.change(function() {
+            var value = province.find("option:selected").text()
+                + city.find("option:selected").text()
+                + area.find("option:selected").text();
+            $("#txtProCity").val(value);
+        });
+        //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中
+        function func_suc_getXmlProvice(xml) {
+            //jquery的查找功能
+            var sheng = $(xml).find("prov");
+            //jquery的遍历与查询匹配 eq功能,并将其放到下拉框中
+            sheng.each(function(i) {
+                province.append("<option value=" + i + ">"
+                                + sheng.eq(i).attr("text") + "</option>");
+            });
+        }
+        function func_suc_getXmlCity(xml) {
+            var xml_sheng = $(xml).find("prov");
+            var pro_num = parseInt(province.val());
+            var xml_shi = xml_sheng.eq(pro_num).find("city");
+            xml_shi.each(function(j) {
+                city.append("<option  value=" + j + ">"
+                            + xml_shi.eq(j).attr("text") + "</option>");
+            });
+        }
+        function func_suc_getXmlArea(xml) {
+            var xml_sheng = $(xml).find("prov");
+            var pro_num = parseInt(province.val());
+            var xml_shi = xml_sheng.eq(pro_num).find("city");
+            var city_num = parseInt(city.val());
+            var xml_xianqu = xml_shi.eq(city_num).find("county");
+            xml_xianqu.each(function(k) {
+                area.append("<option  value=" + k + ">"
+                            + xml_xianqu.eq(k).attr("text") + "</option>");
+            });
+        }
+        var id_recent_results = html_node.find("#id_recent_results_new");//近期成绩
+        var id_advice_flag = html_node.find("#id_advice_flag_new");//是否进步
+        var id_class_rank = html_node.find("#id_class_rank_new");//班级排名
+        var id_grade_rank = html_node.find("#id_grade_rank_new");//年级排名
+        var id_academic_goal = html_node.find("#id_academic_goal_new");//升学目标
+        var id_study_habit = html_node.find("#id_study_habit_new");//学习习惯
+        id_study_habit.on("click",function(){
+            var study_habit  = id_study_habit.data("v");
+            $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
+                "study_habit" : study_habit
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["study_habit"]  ]);
+
+                    if (this["has_study_habit"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","学习习惯" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+
+                        $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
+                            "study_habit" : JSON.stringify(select_list)
+                        },function(res){
+                            id_study_habit.val(res.data);
+                            id_study_habit.data("v",res.data);
+                        });
+
+                        dlg.close();
+                    }
+                });
+
+            });
+
+        });
+        var id_interests_hobbies = html_node.find("#id_interests_hobbies_new");//兴趣爱好
+        id_interests_hobbies.on("click",function(){
+            var interests_hobbies  = id_interests_hobbies.data("v");
+            $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
+                "interests_hobbies" : interests_hobbies
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["interests_hobbies"]  ]);
+
+                    if (this["has_interests_hobbies"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","兴趣爱好" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+
+                        $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
+                            "interests_hobbies" : JSON.stringify(select_list)
+                        },function(res){
+                            id_interests_hobbies.val(res.data);
+                            id_interests_hobbies.data("v",res.data);
+                        });
+
+                        dlg.close();
+                    }
+                });
+
+            });
+
+        });
+        var id_character_type = html_node.find("#id_character_type_new");//性格特点
+        id_character_type.on("click",function(){
+            var character_type  = id_character_type.data("v");
+            $.do_ajax("/ss_deal2/get_stu_character_type_list",{
+                "character_type" : character_type
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["character_type"]  ]);
+
+                    if (this["has_character_type"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","性格特点" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+
+                        $.do_ajax("/ss_deal2/get_stu_character_type_name",{
+                            "character_type" : JSON.stringify(select_list)
+                        },function(res){
+                            id_character_type.val(res.data);
+                            id_character_type.data("v",res.data);
+                        });
+
+                        dlg.close();
+                    }
+                });
+
+            });
+
+        });
+        var id_need_teacher_style = html_node.find("#id_need_teacher_style_new");//老师要求
+        id_need_teacher_style.on("click",function(){
+            var need_teacher_style  = id_need_teacher_style.data("v");
+            $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
+                "need_teacher_style" : need_teacher_style
+            },function(response){
+                var data_list   = [];
+                var select_list = [];
+                $.each( response.data,function(){
+                    data_list.push([this["num"], this["need_teacher_style"]  ]);
+
+                    if (this["has_need_teacher_style"]) {
+                        select_list.push (this["num"]) ;
+                    }
+
+                });
+
+                $(this).admin_select_dlg({
+                    header_list     : [ "id","老师要求" ],
+                    data_list       : data_list,
+                    multi_selection : true,
+                    select_list     : select_list,
+                    onChange        : function( select_list,dlg) {
+
+                        $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
+                            "need_teacher_style" : JSON.stringify(select_list)
+                        },function(res){
+                            id_need_teacher_style.val(res.data);
+                            id_need_teacher_style.data("v",res.data);
+                        });
+
+                        dlg.close();
+                    }
+                });
+
+            });
+
+        });
+        var tea_province = html_node.find("#tea_province");//老师所在省
+        var tea_city = html_node.find("#tea_city");//老师所在市
+        var tea_area = html_node.find("#tea_area");//老师所在区
+        var tea_preProvince = "<option value=\"\">"+"选择省（市）"+"</option>";
+        var tea_preCity = "<option value=\"\">"+"选择市（区）"+"</option>";
+        var tea_preArea = "<option value=\"\">"+"选择区（县）"+"</option>";
+        //初始化
+        tea_province.html(tea_preProvince);
+        tea_city.html(tea_preCity);
+        tea_area.html(tea_preArea);
+        //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用
+        //func_suc_getXmlProvice进行 省的 解析
+        $.ajax({
+            type : "GET",
+            url : "/province_city_select_Info.xml",
+            success : tea_func_suc_getXmlProvice
+        });
+        //省 下拉选择发生变化触发的事件
+        tea_province.change(function() {
+            if (tea_province.val() != "") {
+                var tea_preCity = "<option value=\"\">选择市（区）</option>";
+                var tea_preArea = "<option value=\"\">选择区（县）</option>";
+                tea_city.html(tea_preCity);
+                tea_area.html(tea_preArea);
+                //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                //func_suc_getXmlProvice进行省对应的市的解析
+                $.ajax({
+                    type : "GET",
+                    url : "/province_city_select_Info.xml",
+                    success : tea_func_suc_getXmlCity
+                });
+
+            }
+        });
+        //市 下拉选择发生变化触发的事件
+        tea_city.change(function() {
+            var tea_preArea = "<option value=\"\">选择区（县）</option>";
+            tea_area.html(tea_preArea);
+            $.ajax({
+                type : "GET",
+                url : "/province_city_select_Info.xml",
+                //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
+                //func_suc_getXmlArea进行省对应的市对于的区的解析
+                success : tea_func_suc_getXmlArea
+            });
+        });
+        //区 下拉选择发生变化触发的事件
+        tea_area.change(function() {
+            var tea_value = tea_province.find("option:selected").text()
+                + tea_city.find("option:selected").text()
+                + tea_area.find("option:selected").text();
+            $("#txtProCity").val(tea_value);
+        });
+        //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中
+        function tea_func_suc_getXmlProvice(xml) {
+            //jquery的查找功能
+            var sheng = $(xml).find("prov");
+            //jquery的遍历与查询匹配 eq功能,并将其放到下拉框中
+            sheng.each(function(i) {
+                tea_province.append("<option value=" + i + ">"
+                                    + sheng.eq(i).attr("text") + "</option>");
+            });
+        }
+        function tea_func_suc_getXmlCity(xml) {
+            var xml_sheng = $(xml).find("prov");
+            var pro_num = parseInt(tea_province.val());
+            var xml_shi = xml_sheng.eq(pro_num).find("city");
+            xml_shi.each(function(j) {
+                tea_city.append("<option  value=" + j + ">"
+                                + xml_shi.eq(j).attr("text") + "</option>");
+            });
+        }
+        function tea_func_suc_getXmlArea(xml) {
+            var xml_sheng = $(xml).find("prov");
+            var pro_num = parseInt(tea_province.val());
+            var xml_shi = xml_sheng.eq(pro_num).find("city");
+            var city_num = parseInt(tea_city.val());
+            var xml_xianqu = xml_shi.eq(city_num).find("county");
+            xml_xianqu.each(function(k) {
+                tea_area.append("<option  value=" + k + ">"
+                                + xml_xianqu.eq(k).attr("text") + "</option>");
+            });
+        }
+        var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand_new");//试听需求
+        var id_intention_level            = html_node.find("#id_intention_level_new");//上课意向
+        var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time_new");//试听时间
+        html_node.find("#id_stu_reset_stu_request_test_lesson_time_new").on("click",function(){
+            id_stu_request_test_lesson_time.val("");
+        });
+        id_stu_request_test_lesson_time.datetimepicker( {
+            lang:'ch',
+            timepicker:true,
+            format: "Y-m-d H:i",
+            onChangeDateTime :function(){
+            }
+        });
+        var id_test_paper = html_node.find("#id_test_paper_new");//上传试卷
+        html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
+        var id_test_stress = html_node.find("#id_test_stress_new");//应试压力
+        var id_entrance_school_type = html_node.find("#id_entrance_school_type_new");//升学学校要求
+        var id_interest_cultivation = html_node.find("#id_interest_cultivation_new");//趣味培养
+        var id_extra_improvement = html_node.find("#id_extra_improvement_new");//课外提高
+        var id_habit_remodel = html_node.find("#id_habit_remodel_new");//习惯重塑
+        var id_ass_test_lesson_type = html_node.find("#id_ass_test_lesson_type_new");//分类
+        Enum_map.append_option_list("ass_test_lesson_type",id_ass_test_lesson_type,true);
+        var id_change_teacher_reason_type = html_node.find("#id_change_teacher_reason_type_new");//换老师类型
+        Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
+        var id_change_reason_url = html_node.find("#id_change_reason_url_new");//换老师原因图片
+        html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
+        var id_green_channel_teacherid = html_node.find("#id_green_channel_teacherid_new");//绿色通道
+        $.admin_select_user(id_green_channel_teacherid,"teacher");
+        var id_change_reason = html_node.find("#id_change_reason_new");//换老师原因
+
+        Enum_map.append_option_list("boolean", id_advice_flag, true);
+        Enum_map.append_option_list("academic_goal", id_academic_goal, true);
+        Enum_map.append_option_list("test_stress", id_test_stress, true);
+        Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
+        Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
+        Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+        Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
+        Enum_map.append_option_list("intention_level", id_intention_level, true);
+        Enum_map.append_option_list("region_version", id_editionid, true);
+
+        id_ass_test_lesson_type.on("change",function(){
+            if(id_ass_test_lesson_type.val() == 2){
+                id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                id_change_reason.parent().parent().css('display','table-row');
+                id_change_reason_url.parent().parent().css('display','table-row');
+            }else{
+                id_change_teacher_reason_type.parent().parent().css('display','none');
+                id_change_reason.parent().parent().css('display','none');
+                id_change_reason_url.parent().parent().css('display','none');
+
+                id_change_teacher_reason_type.val(0);
+                id_change_reason.val('');
+                id_change_reason_url.val('');
+            }
+        });
+
+        var title= '添加试听申请';
+        var dlg=BootstrapDialog.show({
+            title:  title,
+            size: "size-wide",
+            message : html_node,
+            closable: false,
+            buttons: [{
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
                 }
-            });
-            html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
-                id_stu_request_test_lesson_time.val("");
-            });
-            id_study_habit.on("click",function(){
-                var study_habit  = id_study_habit.data("v");
-                $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
-                    "study_habit" : study_habit
-                },function(response){
-                    var data_list   = [];
-                    var select_list = [];
-                    $.each( response.data,function(){
-                        data_list.push([this["num"], this["study_habit"]  ]);
-
-                        if (this["has_study_habit"]) {
-                            select_list.push (this["num"]) ;
+            },{
+                label: '提交',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    var region = html_node.find("#province").find("option:selected").text();
+                    var province = html_node.find("#province").val();
+                    var city = html_node.find("#city").find("option:selected").text();
+                    var area = html_node.find("#area").find("option:selected").text();
+                    if(province==""){
+                        region="";
+                        city="";
+                        area="";
+                    }
+                    if(html_node.find("#city").val()==""){
+                        city="";
+                    }
+                    if(html_node.find("#area").val()==""){
+                        area="";
+                    }
+                    var tea_province = html_node.find("#tea_province").find("option:selected").text();
+                    var tea_city = html_node.find("#tea_city").find("option:selected").text();
+                    var tea_area = html_node.find("#tea_area").find("option:selected").text();
+                    if(tea_province==""){
+                        tea_city="";
+                        tea_area="";
+                    }
+                    if(html_node.find("#tea_city").val()==""){
+                        tea_city="";
+                    }
+                    if(html_node.find("#tea_area").val()==""){
+                        tea_area="";
+                    }
+                    var require_time= $.strtotime(id_stu_request_test_lesson_time.val());
+                    var need_start_time=0;
+                    var now=(new Date()).getTime()/1000;
+                    var min_date_time="";
+                    var nowDayOfWeek = (new Date()).getDay();
+                    if ((new Date()).getHours() <18 ) {
+                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
+                    }else{
+                        if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                        }else{
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
                         }
-
+                    }
+                    need_start_time=$.strtotime(min_date_time );
+                    if(!require_time){
+                        alert("请选择试听时间!");
+                        return;
+                    }
+                    if (require_time < need_start_time ) {
+                        alert("试听时间不能早于 "+ min_date_time );
+                        return;
+                    }
+                    $.do_ajax("/ss_deal2/ass_add_require_test_lesson",{
+                        'userid':id_userid.val(),
+                        'parent_name':id_par_nick.val(),
+                        'gender':id_gender.val(),
+                        'grade':id_grade.val(),
+                        'subject':id_subject.val(),
+                        'school':id_school.val(),
+                        'editionid':id_editionid.val(),
+                        'province':province,
+                        'city':city,
+                        'area':area,
+                        'region':region,
+                        'recent_results':id_recent_results.val(),
+                        'advice_flag':id_advice_flag.val(),
+                        'class_rank':id_class_rank.val(),
+                        'grade_rank':id_grade_rank.val(),
+                        'academic_goal':id_academic_goal.val(),
+                        'study_habit':id_study_habit.val(),
+                        'interests_and_hobbies':id_interests_hobbies.val(),
+                        'character_type':id_character_type.val(),
+                        'need_teacher_style':id_need_teacher_style.val(),
+                        'tea_province':tea_province,
+                        'tea_city':tea_city,
+                        'tea_area':tea_area,
+                        'stu_request_test_lesson_demand':id_stu_request_test_lesson_demand.val(),
+                        'intention_level':id_intention_level.val(),
+                        'stu_request_test_lesson_time':id_stu_request_test_lesson_time.val(),
+                        'test_paper':id_test_paper.val(),
+                        'test_stress':id_test_stress.val(),
+                        'entrance_school_type':id_entrance_school_type.val(),
+                        'interest_cultivation':id_interest_cultivation.val(),
+                        'extra_improvement':id_extra_improvement.val(),
+                        'habit_remodel':id_habit_remodel.val(),
+                        'ass_test_lesson_type':id_ass_test_lesson_type.val(),
+                        'change_teacher_reason_type':id_change_teacher_reason_type.val(),
+                        'change_reason_url':id_change_reason_url.val(),
+                        'green_channel_teacherid':id_green_channel_teacherid.val(),
+                        'change_reason':id_change_reason.val(),
                     });
-                    $(this).admin_select_dlg({
-                        header_list     : [ "id","学习习惯" ],
-                        data_list       : data_list,
-                        multi_selection : true,
-                        select_list     : select_list,
-                        onChange        : function( select_list,dlg) {
+                }
+            }]
+        });
+        dlg.getModalDialog().css("width","78%");
+        var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
+        dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
+        close_btn.on("click",function(){
+            dlg.close();
+        } );
+        var th = setTimeout(function(){
+            $.custom_upload_file('id_upload_change_reason_url',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+                console.log(res);
+                id_change_reason_url.val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+            $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
+                var res = $.parseJSON(info);
+                console.log(res);
+                id_test_paper.val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+            clearTimeout(th);
+        }, 1000);
+    }
 
-                            $.do_ajax("/ss_deal2/get_stu_study_habit_name",{
-                                "study_habit" : JSON.stringify(select_list)
-                            },function(res){
-                                id_study_habit.val(res.data);
-                                id_study_habit.data("v",res.data);
-                            });
 
-                            dlg.close();
-                        }
-                    });
 
-                });
+    $(".opt-edit-new").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var opt_obj=this;
+        var click_type=1;
 
-            });
-            id_interests_hobbies.on("click",function(){
-                var interests_hobbies  = id_interests_hobbies.data("v");
-                $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
-                    "interests_hobbies" : interests_hobbies
-                },function(response){
-                    var data_list   = [];
-                    var select_list = [];
-                    $.each( response.data,function(){
-                        data_list.push([this["num"], this["interests_hobbies"]  ]);
+        edit_user_info_new(opt_data,opt_obj,click_type);
+    });
 
-                        if (this["has_interests_hobbies"]) {
-                            select_list.push (this["num"]) ;
-                        }
+    var edit_user_info_new=function(opt_data,opt_obj,click_type){
+        $.do_ajax("/ss_deal/get_user_info",{
+            "userid" : opt_data.userid ,
+            "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
+            "require_id" : opt_data.require_id,
+        } ,function(ret){
+            var data=ret.data;
+            var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new");
+            var show_noti_info_flag = false;
+            var id_userid           = html_node.find("#id_stu_nick");//学生姓名
+            id_userid.val(opt_data.userid);
+            $.admin_select_user(id_userid,"student");
+            var id_par_nick         = html_node.find("#id_par_nick");//家长姓名
+            id_par_nick.val(data.par_nick);
+            var id_gender           = html_node.find("#id_stu_gender");//学生性别
+            Enum_map.append_option_list("gender", id_gender, true);
+            id_gender.val(data.gender);
+            var id_grade            = html_node.find("#id_stu_grade");//学生年级
+            Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
+            id_grade.val(data.grade);
+            var id_subject          = html_node.find("#id_stu_subject");//学生科目
+            Enum_map.append_option_list("subject", id_subject, true);
+            id_subject.val(data.subject);
+            var id_school           = html_node.find("#id_stu_school");//在读学校
+            id_school.val(data.school);
+            var id_editionid        = html_node.find("#id_stu_editionid");//学生教材
+            Enum_map.append_option_list("region_version", id_editionid, true);
+            id_editionid.val(data.editionid);
 
-                    });
-
-                    $(this).admin_select_dlg({
-                        header_list     : [ "id","兴趣爱好" ],
-                        data_list       : data_list,
-                        multi_selection : true,
-                        select_list     : select_list,
-                        onChange        : function( select_list,dlg) {
-
-                            $.do_ajax("/ss_deal2/get_stu_interests_hobbies_name",{
-                                "interests_hobbies" : JSON.stringify(select_list)
-                            },function(res){
-                                id_interests_hobbies.val(res.data);
-                                id_interests_hobbies.data("v",res.data);
-                            });
-
-                            dlg.close();
-                        }
-                    });
-
-                });
-
-            });
-            id_character_type.on("click",function(){
-                var character_type  = id_character_type.data("v");
-                $.do_ajax("/ss_deal2/get_stu_character_type_list",{
-                    "character_type" : character_type
-                },function(response){
-                    var data_list   = [];
-                    var select_list = [];
-                    $.each( response.data,function(){
-                        data_list.push([this["num"], this["character_type"]  ]);
-
-                        if (this["has_character_type"]) {
-                            select_list.push (this["num"]) ;
-                        }
-
-                    });
-
-                    $(this).admin_select_dlg({
-                        header_list     : [ "id","性格特点" ],
-                        data_list       : data_list,
-                        multi_selection : true,
-                        select_list     : select_list,
-                        onChange        : function( select_list,dlg) {
-
-                            $.do_ajax("/ss_deal2/get_stu_character_type_name",{
-                                "character_type" : JSON.stringify(select_list)
-                            },function(res){
-                                id_character_type.val(res.data);
-                                id_character_type.data("v",res.data);
-                            });
-
-                            dlg.close();
-                        }
-                    });
-
-                });
-
-            });
-            id_need_teacher_style.on("click",function(){
-                var need_teacher_style  = id_need_teacher_style.data("v");
-                $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
-                    "need_teacher_style" : need_teacher_style
-                },function(response){
-                    var data_list   = [];
-                    var select_list = [];
-                    $.each( response.data,function(){
-                        data_list.push([this["num"], this["need_teacher_style"]  ]);
-
-                        if (this["has_need_teacher_style"]) {
-                            select_list.push (this["num"]) ;
-                        }
-
-                    });
-
-                    $(this).admin_select_dlg({
-                        header_list     : [ "id","老师要求" ],
-                        data_list       : data_list,
-                        multi_selection : true,
-                        select_list     : select_list,
-                        onChange        : function( select_list,dlg) {
-
-                            $.do_ajax("/ss_deal2/get_stu_need_teacher_style_name",{
-                                "need_teacher_style" : JSON.stringify(select_list)
-                            },function(res){
-                                id_need_teacher_style.val(res.data);
-                                id_need_teacher_style.data("v",res.data);
-                            });
-
-                            dlg.close();
-                        }
-                    });
-
-                });
-
-            });
-
-            var province = html_node.find("#province");
-            var city = html_node.find("#city");
-            var area = html_node.find("#area");
-            var preProvince = "<option value=\"\">"+"选择省（市）"+"</option>";
-            var preCity = "<option value=\"\">"+"选择市（区）"+"</option>";
-            var preArea = "<option value=\"\">"+"选择区（县）"+"</option>";
+            var old_province = data.region;
+            var province_val = data.province;
+            var city_val = data.city;
+            var area_val = data.area;
+            var region_val = data.region;
+            if(old_province == ''){
+                old_province="选择省（市）";
+                province_val = 0;
+                city_val = '';
+                area_val = '';
+                region_val = '';
+            }
+            var old_city = data.city;
+            if(old_city == ''){
+                old_city="选择市（区）";
+                city_val = '';
+                area_val = '';
+            }
+            var old_area = data.area;
+            if(old_area == ''){
+                old_area="选择区（县）";
+                area_val = '';
+            }
+            var province            = html_node.find("#province_new");//学生省
+            var city                = html_node.find("#city_new");//学生市
+            var area                = html_node.find("#area_new");//学生区
+            var preProvince         = "<option value=\"\">"+old_province+"</option>";
+            var preCity             = "<option value=\"\">"+old_city+"</option>";
+            var preArea             = "<option value=\"\">"+old_area+"</option>";
             //初始化
             province.html(preProvince);
             city.html(preCity);
@@ -1826,7 +2207,6 @@ $(function(){
                     var preArea = "<option value=\"\">选择区（县）</option>";
                     city.html(preCity);
                     area.html(preArea);
-
                     //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
                     //func_suc_getXmlProvice进行省对应的市的解析
                     $.ajax({
@@ -1836,6 +2216,10 @@ $(function(){
                     });
 
                 }
+                province_val = html_node.find("#province_new").val();
+                region_val = html_node.find("#province_new").find("option:selected").text();
+                city_val = '';
+                area_val = '';
             });
             //市 下拉选择发生变化触发的事件
             city.change(function() {
@@ -1844,19 +2228,20 @@ $(function(){
                 $.ajax({
                     type : "GET",
                     url : "/province_city_select_Info.xml",
-
                     //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
                     //func_suc_getXmlArea进行省对应的市对于的区的解析
                     success : func_suc_getXmlArea
                 });
+                city_val = html_node.find("#city_new").find("option:selected").text();
+                area_val = '';
             });
             //区 下拉选择发生变化触发的事件
             area.change(function() {
                 var value = province.find("option:selected").text()
                     + city.find("option:selected").text()
                     + area.find("option:selected").text();
-                id_address.val(value);
                 $("#txtProCity").val(value);
+                area_val = html_node.find("#area_new").find("option:selected").text();
             });
             //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中
             function func_suc_getXmlProvice(xml) {
@@ -1888,287 +2273,21 @@ $(function(){
                                 + xml_xianqu.eq(k).attr("text") + "</option>");
                 });
             }
-            Enum_map.append_option_list("gender", id_gender, true);
-            Enum_map.append_option_list("region_version", id_editionid, true);
-
-            var reset_seller_student_status_options=function()  {
-                var opt_list=[0];
-                var desc_map=g_enum_map["seller_student_sub_status"]["desc_map"];
-                var seller_student_status=  parseInt( id_status.val());
-                $.each(desc_map, function(k,v){
-                    if(k>0 ) {
-                        if (  Math.floor(k/1000) == seller_student_status ){
-                            opt_list.push(parseInt(k));
-                        }
-                    }
-                });
-                id_seller_student_sub_status.html("");
-                Enum_map.append_option_list("seller_student_sub_status", id_seller_student_sub_status,true, opt_list );
-            };
-
-            reset_seller_student_status_options();
-
-            var title= '添加试听申请';
-            var dlg=BootstrapDialog.show({
-                title:  title,
-                size: "size-wide",
-                message : html_node,
-                closable: false,
-                buttons: [{
-                    label: '返回',
-                    action: function(dialog) {
-                        dialog.close();
-                    }
-                },{
-                    label: '提交',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        var region = html_node.find("#province").find("option:selected").text();
-                        var province = html_node.find("#province").val();
-                        var city = html_node.find("#city").find("option:selected").text();
-                        var area = html_node.find("#area").find("option:selected").text();
-                        if(province==""){
-                            region="";
-                            city="";
-                            area="";
-                        }
-                        if(html_node.find("#city").val()==""){
-                             city="";
-                        }
-                        if(html_node.find("#area").val()==""){
-                            area="";
-                        }
-
-                        $.do_ajax("/ss_deal/save_user_info_new",{
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            par_nick      : id_par_nick.val(),
-                            grade         : id_grade.val(),
-                            gender        : id_gender.val(),
-                            address       : id_address.val(),
-                            subject       : id_subject.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            user_desc     : id_user_desc.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            editionid : id_editionid.val(),
-                            school: id_school.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                            has_pad       : id_has_pad.val(),
-                            intention_level       : id_intention_level.val(),
-                            class_rank: html_node.find("#id_class_rank").val(),
-                            grade_rank: html_node.find("#id_grade_rank").val(),
-                            academic_goal: html_node.find("#id_academic_goal").val(),
-                            test_stress: html_node.find("#id_test_stress").val(),
-                            entrance_school_type: html_node.find("#id_entrance_school_type").val(),
-                            interest_cultivation: html_node.find("#id_interest_cultivation").val(),
-                            extra_improvement : html_node.find("#id_extra_improvement").val(),
-                            habit_remodel: html_node.find("#id_habit_remodel").val(),
-                            study_habit : html_node.find("#id_study_habit").val(),
-                            interests_and_hobbies: html_node.find("#id_interests_hobbies").val(),
-                            character_type: html_node.find("#id_character_type").val(),
-                            need_teacher_style: html_node.find("#id_need_teacher_style").val(),
-                            demand_urgency: html_node.find("#id_demand_urgency").val(),
-                            quotation_reaction: html_node.find("#id_quotation_reaction").val(),
-                            recent_results: html_node.find("#id_recent_results").val(),
-                            advice_flag: html_node.find("#id_advice_flag").val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                            test_paper: html_node.find("#id_test_paper").val(),
-                        });
-                    }
-                }]
-            });
-            dlg.getModalDialog().css("width","78%");
-            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
-            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
-            close_btn.on("click",function(){
-                dlg.close();
-            } );
-            var th = setTimeout(function(){
-                $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
-                    var res = $.parseJSON(info);
-                    console.log(res);
-                    id_test_paper.val(res.key);
-
-                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
-                clearTimeout(th);
-            }, 1000);
-    }
-
-
-
-    $(".opt-edit-new").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var opt_obj=this;
-        var click_type=1;
-
-        edit_user_info_new(opt_data,opt_obj,click_type);
-
-    });
-
-    var edit_user_info_new=function(opt_data,opt_obj,click_type){
-       // var opt_data=$(this).get_opt_data();
-        //var opt_obj=this;
-       // alert(opt_data.test_lesson_subject_id);
-
-        $.do_ajax("/ss_deal/get_user_info",{
-            "userid" : opt_data.userid ,
-            "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
-        } ,function(ret){
-            var data=ret.data;
-            var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info_new");
-            var show_noti_info_flag=false;
-            var $note_info=html_node.find(".note-info");
-            var note_msg="";
-            if (data.test_lesson_count >0 ) {
-                show_noti_info_flag=true;
-                note_msg="已有试听课:"+data.test_lesson_count +"次" ;
-            }
-
-            if (!show_noti_info_flag) {
-                $note_info.hide();
-            }else{
-                $note_info.find("span").html( note_msg);
-            }
-
-            if( data.status !=0 ) {
-                html_node.find("#id_stu_rev_info").removeClass("btn-primary");
-                html_node.find("#id_stu_rev_info").addClass("btn-warning");
-            }else{
-                html_node.find("#id_stu_rev_info").addClass("btn-primary");
-                html_node.find("#id_stu_rev_info").removeClass("btn-warning");
-            }
-            html_node.find("#id_send_sms").on("click",function(){
-                $.do_ajax("/user_deal/get_admin_wx_info",{},function(resp){
-                    var data=resp.data;
-                    var xing=$.trim(data.name).substr(0,1);
-                    var dlg=BootstrapDialog.show({
-                        title: "发送信息内容:",
-                        message : "您好，我是刚刚联系您的"+xing+"老师 ，如果您还需要申请我们的试听课，请添加一下我的微信："+data.wx_id+"。我们会尽快帮您安排，理优教育服务热线："+data.phone,
-                        closable: true,
-                        buttons: [{
-                            label: '返回',
-                            action: function(dialog) {
-                                dialog.close();
-                            }
-                        },{
-                            label: '发送',
-                            cssClass: 'btn-warning',
-                            action: function(dialog) {
-                                $.do_ajax("/user_deal/send_seller_sms_msg", {
-                                    "phone":opt_data.phone,
-                                    "name":xing,
-                                    "wx_id":data.wx_id,
-                                    "seller_phone":data.phone,
-                                },function( resp){
-                                    alert("发送成功");
-                                } );
-                            }
-                        }]
-                    });
-
-
-                    /*
-                      BootstrapDialog.show();
-                    */
-
-                });
-            });
-
-            html_node.find("#id_stu_rev_info") .on("click",function(){
-                $(opt_obj).parent().find(".opt-return-back-list").click();
-            });
-            var id_stu_nick          = html_node.find("#id_stu_nick");
-            var id_par_nick          = html_node.find("#id_par_nick");
-            var id_grade             = html_node.find("#id_stu_grade");
-            var id_gender            = html_node.find("#id_stu_gender");
-            var id_address           = html_node.find("#id_stu_addr");
-            var id_subject           = html_node.find("#id_stu_subject");
-            var id_status            = html_node.find("#id_stu_status");
-            var id_seller_student_sub_status = html_node.find("#id_seller_student_sub_status");
-            var id_user_desc         = html_node.find("#id_stu_user_desc");
-           // var id_revisite_info     = html_node.find("#id_stu_revisite_info");
-            var id_has_pad           = html_node.find("#id_stu_has_pad");
-            var id_editionid         = html_node.find("#id_stu_editionid");
-            var id_school            = html_node.find("#id_stu_school");
-            var id_intention_level            = html_node.find("#id_intention_level");
-            var id_next_revisit_time = html_node.find("#id_next_revisit_time");
-            var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");
-           var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");
-          //  var id_stu_score_info = html_node.find("#id_stu_score_info");
-           // var id_stu_character_info = html_node.find("#id_stu_character_info");
-           // var id_stu_test_lesson_level = html_node.find("#id_stu_test_lesson_level");
-            var id_stu_test_ipad_flag = html_node.find("#id_stu_test_ipad_flag");
-           // var id_stu_request_test_lesson_time_info = html_node.find("#id_stu_request_test_lesson_time_info");
-           // var id_stu_request_lesson_time_info = html_node.find("#id_stu_request_lesson_time_info");
-            var id_advice_flag = html_node.find("#id_advice_flag");
-            var id_academic_goal = html_node.find("#id_academic_goal");
-            var id_test_stress = html_node.find("#id_test_stress");
-            var id_entrance_school_type = html_node.find("#id_entrance_school_type");
-            var id_extra_improvement = html_node.find("#id_extra_improvement");
-            var id_habit_remodel = html_node.find("#id_habit_remodel");
-            var id_interest_cultivation = html_node.find("#id_interest_cultivation");
-            var id_study_habit = html_node.find("#id_study_habit");
-            var id_interests_hobbies = html_node.find("#id_interests_hobbies");
-            var id_character_type = html_node.find("#id_character_type");
-            var id_need_teacher_style = html_node.find("#id_need_teacher_style");
-            var id_intention_level = html_node.find("#id_intention_level");
-            var id_test_paper = html_node.find("#id_test_paper");
-            var id_demand_urgency = html_node.find("#id_demand_urgency");
-            var id_quotation_reaction = html_node.find("#id_quotation_reaction");
-            var id_revisit_info_new = html_node.find("#id_revisit_info_new");
-            if(click_type==1){
-                //id_revisit_info_new.hide();
-            }
-
-            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
-
-            html_node.find("#id_stu_reset_next_revisit_time").on("click",function(){
-                id_next_revisit_time.val("");
-            });
-            Enum_map.append_option_list("grade", id_grade, true,[101,102,103,104,105,106,201,202,203,301,302,303]);
-            Enum_map.append_option_list("pad_type", id_has_pad, true);
-            Enum_map.append_option_list("subject", id_subject, true);
-            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+            var id_recent_results = html_node.find("#id_recent_results");//近期成绩
+            id_recent_results.val(data.recent_results);
+            var id_advice_flag = html_node.find("#id_advice_flag");//是否进步
             Enum_map.append_option_list("boolean", id_advice_flag, true);
-          //  Enum_map.append_option_list("test_lesson_level", id_stu_test_lesson_level, true);
+            id_advice_flag.val(data.advice_flag);
+            var id_class_rank = html_node.find("#id_class_rank");//班级排名
+            id_class_rank.val(data.class_rank);
+            var id_grade_rank = html_node.find("#id_grade_rank");//年级排名
+            id_grade_rank.val(data.grade_rank);
+            var id_academic_goal = html_node.find("#id_academic_goal");//升学目标
             Enum_map.append_option_list("academic_goal", id_academic_goal, true);
-            Enum_map.append_option_list("test_stress", id_test_stress, true);
-            Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
-            Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
-            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
-            Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
-            Enum_map.append_option_list("intention_level", id_intention_level, true);
-            Enum_map.append_option_list("demand_urgency", id_demand_urgency, true);
-            Enum_map.append_option_list("quotation_reaction", id_quotation_reaction, true);
-
-
-
-
-            id_stu_request_test_lesson_time.datetimepicker( {
-                lang:'ch',
-                timepicker:true,
-                format: "Y-m-d H:i",
-                onChangeDateTime :function(){
-                }
-            });
-
-            html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
-                id_stu_request_test_lesson_time.val("");
-            });
-
-            id_study_habit.data("v",data.study_habit);
+            id_academic_goal.val(data.academic_goal);
+            var id_study_habit = html_node.find("#id_study_habit");//学习习惯
+            id_study_habit.val(data.study_habit);
             id_study_habit.on("click",function(){
-                // var study_habit= data.study_habit;
                 var study_habit  = id_study_habit.data("v");
                 $.do_ajax("/ss_deal2/get_stu_study_habit_list",{
                     "study_habit" : study_habit
@@ -2183,7 +2302,6 @@ $(function(){
                         }
 
                     });
-
                     $(this).admin_select_dlg({
                         header_list     : [ "id","学习习惯" ],
                         data_list       : data_list,
@@ -2205,10 +2323,9 @@ $(function(){
                 });
 
             });
-
-            id_interests_hobbies.data("v",data.interests_and_hobbies);
+            var id_interests_hobbies = html_node.find("#id_interests_hobbies");//兴趣爱好
+            id_interests_hobbies.val(data.interests_and_hobbies);
             id_interests_hobbies.on("click",function(){
-                // var interests_hobbies= data.interests_hobbies;
                 var interests_hobbies  = id_interests_hobbies.data("v");
                 $.do_ajax("/ss_deal2/get_stu_interests_hobbies_list",{
                     "interests_hobbies" : interests_hobbies
@@ -2245,10 +2362,9 @@ $(function(){
                 });
 
             });
-
-            id_character_type.data("v",data.character_type);
+            var id_character_type = html_node.find("#id_character_type");//性格特点
+            id_character_type.val(data.character_type);
             id_character_type.on("click",function(){
-                // var character_type= data.character_type;
                 var character_type  = id_character_type.data("v");
                 $.do_ajax("/ss_deal2/get_stu_character_type_list",{
                     "character_type" : character_type
@@ -2285,10 +2401,9 @@ $(function(){
                 });
 
             });
-
-            id_need_teacher_style.data("v",data.need_teacher_style);
+            var id_need_teacher_style = html_node.find("#id_need_teacher_style");//老师要求
+            id_need_teacher_style.val(data.need_teacher_style);
             id_need_teacher_style.on("click",function(){
-                // var need_teacher_style= data.need_teacher_style;
                 var need_teacher_style  = id_need_teacher_style.data("v");
                 $.do_ajax("/ss_deal2/get_stu_need_teacher_style_list",{
                     "need_teacher_style" : need_teacher_style
@@ -2326,366 +2441,182 @@ $(function(){
 
             });
 
-
-
-            var old_province = data.region;
-            if(old_province == ''){
-                old_province="选择省（市）";
+            var tea_old_province = data.tea_province;
+            var tea_province_val = data.tea_province;
+            var tea_city_val = data.tea_city;
+            var tea_area_val = data.tea_area;
+            if(tea_old_province == ''){
+                tea_old_province="选择省（市）";
+                tea_province_val = 0;
             }
-
-            var old_city = data.city;
-            if(old_city == ''){
-                old_city="选择市（区）";
+            var tea_old_city = data.tea_city;
+            if(tea_old_city == ''){
+                tea_old_city="选择市（区）";
+                tea_city_val = '';
             }
-            var old_area = data.area;
-            if(old_area == ''){
-                old_city="选择区（县）";
+            var tea_old_area = data.tea_area;
+            if(tea_old_area == ''){
+                tea_old_area="选择区（县）";
+                tea_area_val = '';
             }
-
-
-
-            var province = html_node.find("#province");
-            var city = html_node.find("#city");
-            var area = html_node.find("#area");
-            var preProvince = "<option value=\"\">"+old_province+"</option>";
-            var preCity = "<option value=\"\">"+old_city+"</option>";
-            var preArea = "<option value=\"\">"+old_area+"</option>";
-
+            var tea_province = html_node.find("#tea_province_new");//老师所在省
+            var tea_city = html_node.find("#tea_city_new");//老师所在市
+            var tea_area = html_node.find("#tea_area_new");//老师所在区
+            var tea_preProvince = "<option value=\"\">"+tea_old_province+"</option>";
+            var tea_preCity = "<option value=\"\">"+tea_old_city+"</option>";
+            var tea_preArea = "<option value=\"\">"+tea_old_area+"</option>";
             //初始化
-            province.html(preProvince);
-            city.html(preCity);
-            area.html(preArea);
-
+            tea_province.html(tea_preProvince);
+            tea_city.html(tea_preCity);
+            tea_area.html(tea_preArea);
             //文档加载完毕:即从province_city_select_Info.xml获取数据,成功之后采用
             //func_suc_getXmlProvice进行 省的 解析
             $.ajax({
                 type : "GET",
                 url : "/province_city_select_Info.xml",
-                success : func_suc_getXmlProvice
+                success : tea_func_suc_getXmlProvice
             });
-
             //省 下拉选择发生变化触发的事件
-            province.change(function() {
-                //province.val()  : 返回是每个省对应的下标,序号从0开始
-                if (province.val() != "") {
-                    if(data.region != html_node.find("#province").find("option:selected").text()){
-                        var preCity = "<option value=\"\">选择市（区）</option>";
-                        var preArea = "<option value=\"\">选择区（县）</option>";
-                    }
-                    city.html(preCity);
-                    area.html(preArea);
-
+            tea_province.change(function() {
+                if(tea_province.val() != ""){
+                    var tea_preCity = "<option value=\"\">选择市（区）</option>";
+                    var tea_preArea = "<option value=\"\">选择区（县）</option>";
+                    tea_city.html(tea_preCity);
+                    tea_area.html(tea_preArea);
                     //根据下拉得到的省对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
                     //func_suc_getXmlProvice进行省对应的市的解析
                     $.ajax({
                         type : "GET",
                         url : "/province_city_select_Info.xml",
-                        success : func_suc_getXmlCity
+                        success : tea_func_suc_getXmlCity
                     });
-
                 }
+                tea_province_val = html_node.find("#tea_province_new").find("option:selected").text();
+                tea_city_val = '';
+                tea_area_val = '';
             });
-
             //市 下拉选择发生变化触发的事件
-            city.change(function() {
-                if(data.city != html_node.find("#city").find("option:selected").text()){
-                    var preArea = "<option value=\"\">选择区（县）</option>";
-                }
-
-                area.html(preArea);
+            tea_city.change(function() {
+                var tea_preArea = "<option value=\"\">选择区（县）</option>";
+                tea_area.html(tea_preArea);
                 $.ajax({
                     type : "GET",
                     url : "/province_city_select_Info.xml",
-
                     //根据下拉得到的省、市对于的下标序号,动态从从province_city_select_Info.xml获取数据,成功之后采用
                     //func_suc_getXmlArea进行省对应的市对于的区的解析
-                    success : func_suc_getXmlArea
+                    success : tea_func_suc_getXmlArea
                 });
+                tea_city_val = html_node.find("#tea_city_new").find("option:selected").text();
+                tea_area_val = '';
             });
-
             //区 下拉选择发生变化触发的事件
-            area.change(function() {
-                var value = province.find("option:selected").text()
-                    + city.find("option:selected").text()
-                    + area.find("option:selected").text();
-                id_address.val(value);
-                $("#txtProCity").val(value);
+            tea_area.change(function() {
+                var tea_value = tea_province.find("option:selected").text()
+                    + tea_city.find("option:selected").text()
+                    + tea_area.find("option:selected").text();
+                $("#txtProCity").val(tea_value);
+                tea_area_val = html_node.find("#tea_area_new").find("option:selected").text();
             });
-
             //解析获取xml格式文件中的prov标签,得到所有的省,并逐个进行遍历 放进下拉框中
-            function func_suc_getXmlProvice(xml) {
+            function tea_func_suc_getXmlProvice(xml) {
                 //jquery的查找功能
                 var sheng = $(xml).find("prov");
-
                 //jquery的遍历与查询匹配 eq功能,并将其放到下拉框中
                 sheng.each(function(i) {
-                    province.append("<option value=" + i + ">"
-                                    + sheng.eq(i).attr("text") + "</option>");
+                    tea_province.append("<option value=" + i + ">"
+                                        + sheng.eq(i).attr("text") + "</option>");
                 });
             }
-
-            function func_suc_getXmlCity(xml) {
+            function tea_func_suc_getXmlCity(xml) {
                 var xml_sheng = $(xml).find("prov");
-                var pro_num = parseInt(province.val());
+                var pro_num = parseInt(tea_province.val());
                 var xml_shi = xml_sheng.eq(pro_num).find("city");
                 xml_shi.each(function(j) {
-                    city.append("<option  value=" + j + ">"
-                                + xml_shi.eq(j).attr("text") + "</option>");
+                    tea_city.append("<option  value=" + j + ">"
+                                    + xml_shi.eq(j).attr("text") + "</option>");
                 });
             }
-
-            function func_suc_getXmlArea(xml) {
+            function tea_func_suc_getXmlArea(xml) {
                 var xml_sheng = $(xml).find("prov");
-                var pro_num = parseInt(province.val());
+                var pro_num = parseInt(tea_province.val());
                 var xml_shi = xml_sheng.eq(pro_num).find("city");
-                var city_num = parseInt(city.val());
+                var city_num = parseInt(tea_city.val());
                 var xml_xianqu = xml_shi.eq(city_num).find("county");
                 xml_xianqu.each(function(k) {
-                    area.append("<option  value=" + k + ">"
-                                + xml_xianqu.eq(k).attr("text") + "</option>");
+                    tea_area.append("<option  value=" + k + ">"
+                                    + xml_xianqu.eq(k).attr("text") + "</option>");
                 });
             }
-
-
-            /*
-              array(0,"","未回访" ),
-              array(1,"","无效资源" ),
-              array(2,"","未接通" ),
-              array(3,"","有效-意向A档" ),
-              array(4,"","有效-意向B档" ),
-              array(5,"","有效-意向C档" ),
-              array(6,"","已试听-待跟进" ),
-              array(7,"","已试听-未签A档" ),
-              array(20,"","已试听-未签B档" ),
-              array(21,"","已试听-未签C档" ),
-              array(8,"","已试听-已签" ),
-              array(9,"test_lesson_report","试听-预约" ),
-              array(10,"test_lesson_set_lesson","试听-已排课" ),
-              array(11,"","试听-时间待定" ), //,有预约意向，但时间没有确定
-              array(12,"","试听-时间确定" ), //
-              array(13,"","试听-无法排课" ),
-              array(14,"","试听-驳回" ),
-              array(15,"","试听-课程取消" ),
-
-            */
-
-
-            var now=(new Date()).getTime()/1000;
-
-            var status=data.status*1;
-            var show_status_list=[];
-
-            var cur_page= g_args.cur_page;
-
-            show_status_list=[];
-
-            /*
-              return $this->seller_student_list_ex(0,"0,2");
-              return $this->seller_student_list_ex(103,"100,103");
-              return $this->seller_student_list_ex(101,"101,102");
-              return $this->seller_student_list_ex(110,"110,120");
-              return $this->seller_student_list_ex(200);
-              return $this->seller_student_list_ex(1);
-              return $this->seller_student_list_ex(210);
-              return $this->seller_student_list_ex(220);
-              return $this->seller_student_list_ex(290);
-              return $this->seller_student_list_ex(301, "300,301,302,420");
-            */
-
-            if(opt_data.stu_type==1){
-                switch ( opt_data.seller_student_status) {
-                case 0:
-                case  2:
-                    show_status_list=[ 1,2, 100,101,102,103 ];
-                    break;
-                case 1:
-                    show_status_list=[  100, 101,102,103 ];
-                    break;
-                case  60:
-                    show_status_list=[ 1,2,61, 100,101,102,103 ];
-                    break;
-                case 61:
-                    show_status_list=[1,2,60,  100, 101,102,103 ];
-                    break;
-
-                case 101:
-                case  102:
-                    show_status_list=[ 100, 101,102,103, 1  ];
-                    break;
-
-                case 100:case 103:
-                    show_status_list=[ 1, 100, 101,102,103 ];
-                    break;
-
-                case 110:case 120:
-                    show_status_list=[ 1,100, 101,102,103 ];
-                    break;
-
-                case 200:
-                    show_status_list=[ ];
-                    break;
-
-                case 210:
-                    show_status_list=[ 220, 290  ];
-                    break;
-                case 220: //待开课
-                    show_status_list=[ 290,300,301,302 ];
-                    break;
-
-                case 290: //待跟进
-                    show_status_list=[ 300,301,302 ];
-                    break;
-
-                case 300:case 301:case 302:   //未签
-                    show_status_list=[ 300,301,302,420  ];
-                    break;
-                case 400:case 410:case 420: //
-                    show_status_list=[  60,61 ];
-                    break;
-                }
-
-            }else{
-                switch ( opt_data.seller_student_status) {
-                case 0:
-                case  2:
-                    show_status_list=[ 1,2, 100,101,102,103 ];
-                    break;
-                case 1:
-                    show_status_list=[  100, 101,102,103 ];
-                    break;
-                case 101:
-                case  102:
-                    show_status_list=[ 100, 101,102,103, 1  ];
-                    break;
-
-                case 100:case 103:
-                    show_status_list=[ 1, 100, 101,102,103 ];
-                    break;
-
-                case 110:case 120:
-                    show_status_list=[ 1,100, 101,102,103 ];
-                    break;
-
-                case 200:
-                    show_status_list=[ ];
-                    break;
-
-                case 210:
-                    show_status_list=[ 220, 290  ];
-                    break;
-                case 220: //待开课
-                    show_status_list=[ 290,300,301,302 ];
-                    break;
-
-                case 290: //待跟进
-                    show_status_list=[ 300,301,302 ];
-                    break;
-
-                case 300:case 301:case 302:case 420 :   //未签
-                    show_status_list=[ 300,301,302,420  ];
-                    break;
-                case 400:case 410:case 420: //
-                    show_status_list=[   ];
-                    break;
-                }
-
-            }
-
-            show_status_list.push(status);
-
-            Enum_map.append_option_list("seller_student_status", id_status ,true , show_status_list );
-            Enum_map.append_option_list("gender", id_gender, true);
-            Enum_map.append_option_list("region_version", id_editionid, true);
-
-            id_stu_nick.val(data.stu_nick);
-            id_par_nick.val(data.par_nick);
-            id_grade.val(data.grade);
-            id_gender.val(data.gender);
-            id_address.val(data.address);
-            id_subject.val(data.subject);
-            id_status.val(data.status);
-            id_user_desc.val(data.user_desc);
-           // id_revisite_info.val(data.revisite_info);
-            id_has_pad.val(data.has_pad);
-            id_school.val(data.school);
-            id_editionid.val(data.editionid);
-            id_next_revisit_time.val(data.next_revisit_time);
-            html_node.find("#id_class_rank").val(data.class_rank);
-            html_node.find("#id_grade_rank").val(data.grade_rank);
-            html_node.find("#id_academic_goal").val(data.academic_goal);
-            html_node.find("#id_test_stress").val(data.test_stress);
-            html_node.find("#id_entrance_school_type").val(data.entrance_school_type);
-            html_node.find("#id_interest_cultivation").val(data.interest_cultivation);
-            html_node.find("#id_extra_improvement").val(data.extra_improvement);
-            html_node.find("#id_habit_remodel").val(data.habit_remodel);
-            html_node.find("#id_study_habit").val(data.study_habit);
-            html_node.find("#id_interests_hobbies").val(data.interests_and_hobbies);
-            html_node.find("#id_character_type").val(data.character_type);
-            html_node.find("#id_need_teacher_style").val(data.need_teacher_style);
-            html_node.find("#id_intention_level").val(data.intention_level);
-            html_node.find("#id_demand_urgency").val(data.demand_urgency);
-            html_node.find("#id_quotation_reaction").val(data.quotation_reaction);
-            html_node.find("#id_recent_results").val(data.recent_results);
-            html_node.find("#id_advice_flag").val(data.advice_flag);
-            html_node.find("#id_test_paper").val(data.stu_test_paper);
-            if(!data.knowledge_point_location ){
-                html_node.find("#id_knowledge_point_location").val(data.stu_request_test_lesson_demand);
-            }else{
-                html_node.find("#id_knowledge_point_location").val(data.knowledge_point_location);
-            }
-
-
-
-            var reset_seller_student_status_options=function()  {
-                var opt_list=[0];
-                var desc_map=g_enum_map["seller_student_sub_status"]["desc_map"];
-                var seller_student_status=  parseInt( id_status.val());
-                $.each(desc_map, function(k,v){
-                    if(k>0 ) {
-                        if (  Math.floor(k/1000) == seller_student_status ){
-                            opt_list.push(parseInt(k));
-                        }
-                    }
-                });
-                id_seller_student_sub_status.html("");
-                Enum_map.append_option_list("seller_student_sub_status", id_seller_student_sub_status,true, opt_list );
-            };
-
-            reset_seller_student_status_options();
-            id_seller_student_sub_status.val(data.seller_student_sub_status);
-            id_status.on("change",function(){
-                reset_seller_student_status_options();
-            });
-
-
+            var id_stu_request_test_lesson_demand= html_node.find("#id_stu_request_test_lesson_demand");//试听需求
+            id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand);
+            var id_intention_level            = html_node.find("#id_intention_level");//上课意向
+            Enum_map.append_option_list("intention_level", id_intention_level, true);
+            id_intention_level.val(data.intention_level);
+            var id_stu_request_test_lesson_time = html_node.find("#id_stu_request_test_lesson_time");//试听时间
             id_stu_request_test_lesson_time.val(data.stu_request_test_lesson_time);
-            id_stu_request_test_lesson_demand.val(data.stu_request_test_lesson_demand );
-           // id_stu_score_info.val(data.stu_score_info);
-           // id_stu_test_lesson_level.val(data.stu_test_lesson_level);
-            id_stu_test_ipad_flag.val(data.stu_test_ipad_flag);
-           // id_stu_character_info.val(data.stu_character_info);
-
-            id_next_revisit_time.datetimepicker( {
+            html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
+                id_stu_request_test_lesson_time.val("");
+            });
+            id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',
                 timepicker:true,
                 format: "Y-m-d H:i",
                 onChangeDateTime :function(){
                 }
             });
-            var origin=data.origin;
-            if (  /bm_/.test(origin) ||
-                  /bw_/.test(origin) ||
-                  /baidu/.test(origin)
-               ) {
-                //origin="百度:"+ origin;
-                origin="百度";
+            var id_test_paper = html_node.find("#id_test_paper");//上传试卷
+            id_test_paper.val(data.stu_test_paper);
+            html_node.find(".upload_test_paper").attr("id","id_upload_test_paper");
+            var id_test_stress = html_node.find("#id_test_stress");//应试压力
+            Enum_map.append_option_list("test_stress", id_test_stress, true);
+            id_test_stress.val(data.test_stress);
+            var id_entrance_school_type = html_node.find("#id_entrance_school_type");//升学学校要求
+            Enum_map.append_option_list("entrance_school_type", id_entrance_school_type, true);
+            id_entrance_school_type.val(data.entrance_school_type);
+            var id_interest_cultivation = html_node.find("#id_interest_cultivation");//趣味培养
+            Enum_map.append_option_list("interest_cultivation", id_interest_cultivation, true);
+            id_interest_cultivation.val(data.interest_cultivation);
+            var id_extra_improvement = html_node.find("#id_extra_improvement");//课外提高
+            Enum_map.append_option_list("extra_improvement", id_extra_improvement, true);
+            id_extra_improvement.val(data.extra_improvement);
+            var id_habit_remodel = html_node.find("#id_habit_remodel");//习惯重塑
+            Enum_map.append_option_list("habit_remodel", id_habit_remodel, true);
+            id_habit_remodel.val(data.habit_remodel);
+            var id_ass_test_lesson_type = html_node.find("#id_ass_test_lesson_type");//分类
+            Enum_map.append_option_list("ass_test_lesson_type",id_ass_test_lesson_type,true);
+            id_ass_test_lesson_type.val(data.ass_test_lesson_type);
+            var id_change_teacher_reason_type = html_node.find("#id_change_teacher_reason_type");//换老师类型
+            Enum_map.append_option_list("change_teacher_reason_type",id_change_teacher_reason_type,true);
+            id_change_teacher_reason_type.val(data.change_teacher_reason_type);
+            var id_change_reason_url = html_node.find("#id_change_reason_url");//换老师原因图片
+            id_change_reason_url.val(data.change_teacher_reason_img_url);
+            html_node.find(".upload_change_reason_url").attr("id","id_upload_change_reason_url");
+            var id_change_reason = html_node.find("#id_change_reason");//换老师原因
+            id_change_reason.val(data.change_teacher_reason);
+            var id_green_channel_teacherid = html_node.find("#id_green_channel_teacherid");//绿色通道
+            id_green_channel_teacherid.val(data.green_channel_teacherid);
+            $.admin_select_user(id_green_channel_teacherid,"teacher");
+            id_ass_test_lesson_type.on("change",function(){
+                if(id_ass_test_lesson_type.val() == 2){
+                    id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                    id_change_reason.parent().parent().css('display','table-row');
+                    id_change_reason_url.parent().parent().css('display','table-row');
+                }else{
+                    id_change_teacher_reason_type.parent().parent().css('display','none');
+                    id_change_reason.parent().parent().css('display','none');
+                    id_change_reason_url.parent().parent().css('display','none');
+
+                    id_change_teacher_reason_type.val(0);
+                    id_change_reason.val('');
+                    id_change_reason_url.val('');
+                }
+            });
+            if(id_ass_test_lesson_type.val() == 2){
+                    id_change_teacher_reason_type.parent().parent().css('display','table-row');
+                    id_change_reason.parent().parent().css('display','table-row');
+                    id_change_reason_url.parent().parent().css('display','table-row');
             }
-
-            var title= '用户信息['+opt_data.phone+':'+opt_data.phone_location+']';
-            // if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
-            //     title= title+"-渠道:["+origin+"]";
-            // }
-
+            var title= '添加试听申请';
             var dlg=BootstrapDialog.show({
                 title:  title,
                 size: "size-wide",
@@ -2699,105 +2630,107 @@ $(function(){
                 },{
                     label: '提交',
                     cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        if (  id_seller_student_sub_status.find("option").length>1  && id_seller_student_sub_status.val()=="0" ) {
-                            alert("请选择回访状态的子分类");
+                    action: function(dialog){
+                        var province = province_val;
+                        var city = city_val;
+                        var area = area_val;
+                        var region = region_val;
+                        var tea_province = tea_province_val;
+                        var tea_city = tea_city_val;
+                        var tea_area = tea_area_val;
+
+                        var require_time= $.strtotime(id_stu_request_test_lesson_time.val());
+                        var need_start_time=0;
+                        var now=(new Date()).getTime()/1000;
+                        var min_date_time="";
+                        var nowDayOfWeek = (new Date()).getDay();
+                        if ((new Date()).getHours() <18 ) {
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
+                        }else{
+                            if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
+                                min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                            }else{
+                                min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+                            }
+                        }
+                        need_start_time=$.strtotime(min_date_time );
+                        if(!require_time){
+                            alert("请选择试听时间!");
                             return;
                         }
-                        var region = html_node.find("#province").find("option:selected").text();
-                        var province = html_node.find("#province").val();
-                        var city = html_node.find("#city").find("option:selected").text();
-                        var area = html_node.find("#area").find("option:selected").text();
-                        // alert(province);
-                        if(province==""){
-                            region="";
-                            city="";
-                            area="";
+                        if (require_time < need_start_time ) {
+                            alert("试听时间不能早于 "+ min_date_time );
+                            return;
                         }
-                        if(html_node.find("#city").val()==""){
-                             city="";
-                        }
-                        if(html_node.find("#area").val()==""){
-                            area="";
-                        }
-
-                        $.do_ajax("/ss_deal/save_user_info_new",{
-                            new_demand_flag   : 1,
-                            click_type        : click_type,
-                            userid            : opt_data.userid,
-                            test_lesson_subject_id : opt_data.test_lesson_subject_id,
-                            phone: opt_data.phone,
-                            stu_nick      : id_stu_nick.val(),
-                            par_nick      : id_par_nick.val(),
-                            grade         : id_grade.val(),
-                            gender        : id_gender.val(),
-                            address       : id_address.val(),
-                            subject       : id_subject.val(),
-                            seller_student_status : id_status.val(),
-                            seller_student_sub_status : id_seller_student_sub_status.val(),
-                            user_desc     : id_user_desc.val(),
-                           // revisite_info : id_revisite_info.val(),
-                            next_revisit_time : id_next_revisit_time.val(),
-                            editionid : id_editionid.val(),
-                            school: id_school.val(),
-                            stu_request_test_lesson_time:id_stu_request_test_lesson_time.val(),
-                            stu_request_test_lesson_demand:id_stu_request_test_lesson_demand.val(),
-                           // stu_score_info:id_stu_score_info.val(),
-                           // stu_test_lesson_level:id_stu_test_lesson_level.val(),
-                            stu_test_ipad_flag:id_stu_test_ipad_flag.val(),
-                          //  stu_character_info:id_stu_character_info.val(),
-                          //  stu_request_test_lesson_time_info:id_stu_request_test_lesson_time_info.data("v"),
-                          //  stu_request_lesson_time_info:id_stu_request_lesson_time_info.data("v"),
-                            has_pad       : id_has_pad.val(),
-                            intention_level       : id_intention_level.val(),
-                            class_rank: html_node.find("#id_class_rank").val(),
-                            grade_rank: html_node.find("#id_grade_rank").val(),
-                            academic_goal: html_node.find("#id_academic_goal").val(),
-                            test_stress: html_node.find("#id_test_stress").val(),
-                            entrance_school_type: html_node.find("#id_entrance_school_type").val(),
-                            interest_cultivation: html_node.find("#id_interest_cultivation").val(),
-                            extra_improvement : html_node.find("#id_extra_improvement").val(),
-                            habit_remodel: html_node.find("#id_habit_remodel").val(),
-                            study_habit : html_node.find("#id_study_habit").val(),
-                            interests_and_hobbies: html_node.find("#id_interests_hobbies").val(),
-                            character_type: html_node.find("#id_character_type").val(),
-                            need_teacher_style: html_node.find("#id_need_teacher_style").val(),
-                            demand_urgency: html_node.find("#id_demand_urgency").val(),
-                            quotation_reaction: html_node.find("#id_quotation_reaction").val(),
-                           // knowledge_point_location: html_node.find("#id_knowledge_point_location").val(),
-                            recent_results: html_node.find("#id_recent_results").val(),
-                            advice_flag: html_node.find("#id_advice_flag").val(),
-                            province: province,
-                            city: city,
-                            area: area,
-                            region: region,
-                            test_paper: html_node.find("#id_test_paper").val(),
+                        $.do_ajax("/ss_deal2/ass_save_user_info",{
+                            "userid" : opt_data.userid ,
+                            "test_lesson_subject_id":opt_data.test_lesson_subject_id ,
+                            "require_id":opt_data.require_id,
+                            'parent_name':id_par_nick.val(),
+                            'gender':id_gender.val(),
+                            'grade':id_grade.val(),
+                            'subject':id_subject.val(),
+                            'school':id_school.val(),
+                            'editionid':id_editionid.val(),
+                            'province':province,
+                            'city':city,
+                            'area':area,
+                            'region':region,
+                            'recent_results':id_recent_results.val(),
+                            'advice_flag':id_advice_flag.val(),
+                            'class_rank':id_class_rank.val(),
+                            'grade_rank':id_grade_rank.val(),
+                            'academic_goal':id_academic_goal.val(),
+                            'study_habit':id_study_habit.val(),
+                            'interests_and_hobbies':id_interests_hobbies.val(),
+                            'character_type':id_character_type.val(),
+                            'need_teacher_style':id_need_teacher_style.val(),
+                            'tea_province':tea_province,
+                            'tea_city':tea_city,
+                            'tea_area':tea_area,
+                            'stu_request_test_lesson_demand':id_stu_request_test_lesson_demand.val(),
+                            'intention_level':id_intention_level.val(),
+                            'stu_request_test_lesson_time':id_stu_request_test_lesson_time.val(),
+                            'test_paper':id_test_paper.val(),
+                            'test_stress':id_test_stress.val(),
+                            'entrance_school_type':id_entrance_school_type.val(),
+                            'interest_cultivation':id_interest_cultivation.val(),
+                            'extra_improvement':id_extra_improvement.val(),
+                            'habit_remodel':id_habit_remodel.val(),
+                            'ass_test_lesson_type':id_ass_test_lesson_type.val(),
+                            'change_teacher_reason_type':id_change_teacher_reason_type.val(),
+                            'change_reason_url':id_change_reason_url.val(),
+                            'green_channel_teacherid':id_green_channel_teacherid.val(),
+                            'change_reason':id_change_reason.val(),
                         });
-
                     }
                 }]
             });
-
-
             dlg.getModalDialog().css("width","78%");
-
-
             var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
             dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
             close_btn.on("click",function(){
                 dlg.close();
             } );
             var th = setTimeout(function(){
+                $.custom_upload_file('id_upload_change_reason_url',true,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    console.log(res);
+                    id_change_reason_url.val(res.key);
+                }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 $.custom_upload_file('id_upload_test_paper', false,function (up, info, file) {
                     var res = $.parseJSON(info);
                     console.log(res);
                     id_test_paper.val(res.key);
-
                 }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
                 clearTimeout(th);
             }, 1000);
         });
     }
+
+    download_hide();
+    $(".opt-download-test-paper").show();
+   // $(".page-opt-show-all-xls").hide();
 
 
 });

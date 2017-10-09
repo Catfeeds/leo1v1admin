@@ -927,5 +927,7 @@ $(function(){
   });
 
 
+    download_hide();
+
 
 });

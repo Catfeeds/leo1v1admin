@@ -120,14 +120,16 @@ class NewRouteConfig {
         "textbook_manage"             => true,
         "teacher_money_www"           => true,
         "grab_lesson"                 => true,
-        "teacher_info_www"           => true,
-        "period_order"               => true
+        "teacher_info_www"            => true,
+        "period_order"                => true,
+        "warning_overtime"            => true
     ];
 
     //config
     static public $url_map = [
-        "/grab_lesson/add_requireids"        => true,
-        "/grab_lesson/upadte_lesson_link"        => true,
+        "/warning_overtime/add_overtime"       => true,
+        "/grab_lesson/add_requireids"          => true,
+        "/grab_lesson/upadte_lesson_link"      => true,
         "/grab_lesson/get_all_grab_info"       => true,
         "/teacher_info/grab_visit_info"        => true,
         "/lesson_manage/stu_status_count"      => true,
@@ -250,6 +252,7 @@ class NewRouteConfig {
         "/user_manage/user_info_by_month"                       => true,
         "/user_manage/user_login_list"                          => true,
         "/user_manage/tongji_login_ip_info"                     => true,
+        "/user_manage/ass_random_revisit"                       => true,
         "/user_manage/no_type_student_score"                    => true,
         "/user_manage/tongji_student_subject"                   => true,
         "/user_manage/tongji_student_grade_subject"             => true,

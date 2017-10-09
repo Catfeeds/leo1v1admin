@@ -292,18 +292,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if ($phone) {
             $where_arr[]=  "phone like '%".$phone."%'";
         }
-        $sql = $this->gen_sql("select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,a.nick, a.phone, originid, a.grade "
-                              ." from %s a left join %s b on a.userid = b.userid "
-                              ." left join %s m on b.sys_operator = m.account"
-                              ." left join %s t on t.phone = m.phone "
-                              ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
-                              self::DB_TABLE_NAME,
-                              t_revisit_info::DB_TABLE_NAME,
-                              t_manager_info::DB_TABLE_NAME,
-                              t_assistant_info::DB_TABLE_NAME,
-                              [$this->where_str_gen($where_arr)],
-                              $start,
-                              $end
+        $sql = $this->gen_sql(
+            "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
+            ." a.nick, a.phone, originid, a.grade,tq.duration"
+            ." from %s a left join %s b on a.userid = b.userid "
+            ." left join %s m on b.sys_operator = m.account"
+            ." left join %s t on t.phone = m.phone "
+            ." left join %s tq on tq.id = b.call_phone_id "
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
+            self::DB_TABLE_NAME,
+            t_revisit_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            [$this->where_str_gen($where_arr)],
+            $start,
+            $end
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -382,6 +386,35 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
 
     }
+
+    public function get_two_stu_for_archive( $grade, $sum_start)
+    {
+        $where_arr=[
+            "type=0 ",
+            "is_test_user=0 ",
+            "assistantid>0",
+        ];
+        $this->where_arr_add_int_or_idlist ($where_arr,"grade", $grade  );
+
+        $sql = $this->gen_sql_new(
+            "select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
+            ." phone, is_test_user, originid, grade, praise, assistantid, parent_name, parent_type, "
+            ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
+            ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
+            ." if(realname='',nick,realname) as nick, "
+            ." sum(b.lesson_count) as lesson_total "
+            ." from %s a left join %s b on a.userid = b.userid "
+            ."  where  %s group by a.userid "
+            ,self::DB_TABLE_NAME
+            ,t_week_regular_course::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_page_random($sql,2,true);
+
+    }
+
+
     public function get_student_sum_archive(  $assistantid)
     {
         $where_arr=[
@@ -1256,7 +1289,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){
-                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                $account_role = $this->task->get_account_role($user_info["origin_assistantid"]);
+                if($account_role==1){
+                    $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+                }
             }
             $master_adminid_list = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
             $master_list=[];
@@ -2617,7 +2653,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_studentid(){
@@ -2739,5 +2774,85 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select userid,editionid from %s where editionid=%u",self::DB_TABLE_NAME,$editionid);
         return $this->main_get_list($sql);
     }
+    public function get_finish_num($start_time,$end_time){
+        $where_arr = [
+            [' last_lesson_time>=%u',$start_time,-1],
+            [' last_lesson_time<=%u',$end_time,-1],
+            ' lesson_count_left = 0',
+            ' type = 1 ',
+        ];
+        $sql = $this->gen_sql_new("select count(userid) as finish_num "
+                                  ." from %s s"
+                                  ." where %s and NOT EXISTS ( SELECT 1 FROM %s WHERE s.userid = userid)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_order_refund::DB_TABLE_NAME);
+        return $this->main_get_value($sql);
+    }
+    public function get_read_num($start_time,$end_time){
+        $where_arr = [
+            " type = 0 ",
+            " assistantid > 0",
+            " is_test_user = 0 "
+        ];
+        $sql = $this->gen_sql_new("select count(distinct(userid)) as read_num"
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_value($sql);
+    }
 
+    public function get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid){
+        $where_arr=[
+            ["n.add_time>=%u",$add_time,0],
+            ["s.assistantid=%u",$assistantid,-1],
+            ["c.campus_id=%u",$campus_id,-1],
+            ["na.groupid=%u",$groupid,-1],
+            "s.is_test_user=0",
+            "s.origin_assistantid>0",
+            "mm.account_role=1",
+            "(n.admin_revisiterid=0 or m.account_role=2)"
+        ];
+        if($leader_flag==1){
+            $where_arr[]=["na.master_adminid =%u",$account_id,-1];
+        }
+        $sql = $this->gen_sql_new("select if(s.nick='',s.realname,s.nick) nick,mm.name ass_nick,n.add_time,m.account,"
+                                  ."n.admin_assign_time,sum(o.price) order_price,n.sub_assign_adminid_1, "
+                                  ." n.sub_assign_adminid_2,s.ass_assign_time,c.campus_name,"
+                                  ."cc.campus_name seller_campus_name,aa.nick ass_name,"
+                                  ." na.group_name,s.userid "
+                                  ." from %s s left join %s n on s.userid = n.userid"
+                                  ." left join %s mm on s.origin_assistantid=mm.uid"
+                                  ." left join %s aa on s.assistantid = aa.assistantid"
+                                  ." left join %s m on n.admin_revisiterid = m.uid"
+                                  ." left join %s o on s.userid = o.userid and"
+                                  ." o.contract_type in (0,3) and o.contract_status>0"
+                                  ." left join %s u on s.origin_assistantid = u.adminid"
+                                  ." left join %s na on u.groupid = na.groupid"
+                                  ." left join %s an  on na.up_groupid = an.groupid"
+                                  ." left join %s c on an.campus_id = c.campus_id "
+                                  ." left join %s uu on   n.admin_revisiterid= uu.adminid"
+                                  ." left join %s nna on uu.groupid = nna.groupid"
+                                  ." left join %s ann on nna.up_groupid = ann.groupid"
+                                  ." left join %s cc on ann.campus_id = cc.campus_id "
+                                  ." where %s group by s.userid order by n.add_time desc",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  t_admin_campus_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+    }
 }

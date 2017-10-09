@@ -157,32 +157,33 @@ $(function(){
   });
 
     function get_ass_detail(assistantid){
-    $.ajax({
-      type     :"post",
-      url      :"/human_resource/ass_detail_info",
-      dataType :"json",
-      data     :{'assistantid':assistantid},
-      success  : function(result){
-        var info = result.info;
-        $("#id_detail_name").html(info.ass_nick);
-        $("#id_ass_gender").html(info.gender);
-        $("#id_ass_gender").data('gender_num', info.gender_num);
-        $("#id_ass_birth").html(info.birth);
-        $("#id_ass_work_year").html(info.work_year);
-        $("#id_detail_phone").html(info.phone);
-        $("#id_ass_email").html(info.email);
-        $("#id_ass_school").html(info.school);
-        $("#id_ass_type").html(info.is_part_time);
-        $("#id_ass_score").html(info.rate_score);
-        $("#id_ass_style").html(info.ass_style);
-        $("#id_ass_prize").html(info.prize);
-        $("#id_ass_achievement").html(info.achievement);
-        $("#id_ass_base_intro").html(info.base_intro);
-        $(".header_img").html(info.face);
+        $.ajax({
+            type     :"post",
+            url      :"/human_resource/ass_detail_info",
+            dataType :"json",
+            data     :{'assistantid':assistantid},
+            success  : function(result){
+                var info = result.info;
+                $("#id_detail_name").html(info.ass_nick);
+                $("#id_ass_gender").html(info.gender);
+                $("#id_ass_gender").attr('gender_num', info.gender_num);
+                $("#id_ass_birth").html(info.birth);
+                $("#id_ass_work_year").html(info.work_year);
+                $("#id_detail_phone").html(info.phone);
+                $("#id_ass_email").html(info.email);
+                $("#id_ass_school").html(info.school);
+                $("#id_ass_type").html(info.is_part_time);
+                $("#id_ass_type").attr('ass_type', info.ass_type);
+                $("#id_ass_score").html(info.rate_score);
+                $("#id_ass_style").html(info.ass_style);
+                $("#id_ass_prize").html(info.prize);
+                $("#id_ass_achievement").html(info.achievement);
+                $("#id_ass_base_intro").html(info.base_intro);
+                $(".header_img").html(info.face);
 
-      }
-    });
-    $('.teach_mesg').show().siblings('.teacher_list').hide();
+            }
+        });
+        $('.teach_mesg').show().siblings('.teacher_list').hide();
     }
 
   $(".done_o").on("click", function(){
@@ -431,28 +432,31 @@ $(function(){
             return;
         }
     }
-        $("#id_modify").on("click", function(){
+    $("#id_modify").on("click", function(){
         var html_node = $("<div></div>").html(dlg_get_html_by_class('dlg_modify_assistant'));
         html_node.find("#id_edit_birth").datetimepicker({
-        lang:'ch',
-        timepicker:false,
-        format:'Y-m-d'
+            lang:'ch',
+            timepicker:false,
+            format:'Y-m-d'
         });
         html_node.find("#id_edit_name").val($("#id_detail_name").text());
         html_node.find("#id_edit_work_year").val($("#id_ass_work_year").text());
         html_node.find("#id_edit_birth").val($("#id_ass_birth").text());
         html_node.find("#id_edit_email").val($("#id_ass_email").text());
         html_node.find("#id_edit_school").val($("#id_ass_school").text());
-        html_node.find("#tea_job").children().filter(function(){
+      /*  html_node.find("#tea_job").children().filter(function(){
             return $(this).text().localeCompare($("#id_ass_type").text());
-        }).attr("selected", true);
+            }).attr("selected", true);*/
+        html_node.find("#tea_job").val($("#id_ass_type").attr("ass_type"));
+       // alert($("#id_ass_type").attr("ass_type"));
         html_node.find("#id_edit_style").val($("#id_ass_style").text());
         html_node.find("#id_edit_achievement").val($("#id_ass_achievement").text());
         html_node.find("#id_edit_base_intro").val($("#id_ass_base_intro").text());
         html_node.find("#id_edit_prize").val($("#id_ass_prize").text());
-        html_node.find("#tea_sexy").children().filter(function(){
+       /* html_node.find("#tea_sexy").children().filter(function(){
             return $(this).text().localeCompare( $("#id_ass_gender").text());
-        }).attr("selected", true);
+            }).attr("selected", true);*/
+       html_node.find("#tea_sexy").val($("#id_ass_gender").attr("gender_num")); 
 
 
         BootstrapDialog.show({

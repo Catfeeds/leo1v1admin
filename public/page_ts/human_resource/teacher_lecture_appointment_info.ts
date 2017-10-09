@@ -963,10 +963,8 @@ $(function(){
 
             }
         }]);
-        return;
 
-        alert(111);
-        var teacherid = $(this).data("teacherid");
+       /* var teacherid = $(this).data("teacherid");
         if(teacherid > 0){
             var title = "学生详情";
             var html_node = $("<div id=\"div_table\"><div class=\"col-md-12\" id=\"div_grade\"><div class=\"col-md-2\">年级统计:</div></div><br><div class=\"col-md-12\" id=\"div_subject\"><div class=\"col-md-2\">科目统计:</div></div><br><br><br><table   class=\"table table-bordered \"><tr><td>id</td><td>名字</td><td>年级</td><td>科目</td><tr></table></div>");
@@ -983,11 +981,11 @@ $(function(){
                 }
                 for(var i in subject_count){
                     html_node.find("#div_subject").append("<div class=\"col-md-1\">"+i+":"+subject_count[i]+"</div>");
-                }
+                }*/
 
                 /*html_node.prepend("<div class=\"col-md-12\"><div class=\"col-md-2\">年级统计:</div><div class=\"col-md-3\">小学:"+grade_count.primary+"</div><div class=\"col-md-3\">初中:"+grade_count.junior+"</div><div class=\"col-md-3\">高中:"+grade_count.senior+"</div></div><br><br><br>");*/
                 
-                $.each(userid_list,function(i,item){
+                /*$.each(userid_list,function(i,item){
                     var userid = item["userid"];
                     var name = item["nick"];
                     var subject = item["subject_str"];
@@ -1016,7 +1014,7 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
 
-        }
+        }*/
         
     });
 

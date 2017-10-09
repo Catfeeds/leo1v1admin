@@ -160,7 +160,7 @@ class user_manage extends Controller
             $this->cache_set_item_assistant_nick($item);
             E\Erevisit_type::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-
+            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->Pageview(__METHOD__,$ret_info);
     }
@@ -378,6 +378,138 @@ class user_manage extends Controller
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
     }
 
+    public function ass_random_revisit() {
+        $this->switch_tongji_database();
+
+        $grade = $this->get_in_el_grade();
+
+        $now  = strtotime(date("Y-m-d",time()));
+        $date = \App\Helper\Utils::get_week_range($now,1);
+        $day  = $date["edate"];
+        $month_start = strtotime(date("Y-m-01",time()));
+        $month_time  = $month_start;
+        $m = date("m",time());
+        $y = date("Y",time());
+        $d = date("d",time());
+        $next_m = $m+1;
+        if($next_m >12){
+            $next_m="01";
+            $y = $y+1;
+        }else if($next_m<10){
+            $next_m ="0".$next_m;
+        }
+        $month_end_str = $y."-".$next_m."-"."01";
+        $month_end     = strtotime(date($month_end_str));
+        $cur_start     = $month_start+15*86400;
+        $cur_end       = $month_end;
+        $last_start    = $month_start;
+        $last_end      = $month_start+15*86400;
+        $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
+        $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
+        $ret           = $this->t_student_info->get_student_sum_archive( -1);
+        if($d<=15){
+            $sum_start = $last_start;
+            $sum_end = $last_end;
+        }else{
+            $sum_start = $cur_start;
+            $sum_end = $cur_end;
+        }
+        //  dd(date("Y-m-d",$sum_start));
+        $sumweek = $this->t_student_info->get_student_sum_archive_new(-1,$sum_start);
+
+        $ret_info = $this->t_student_info->get_two_stu_for_archive( $grade, $sum_start);
+
+        $userid_list=[];
+        foreach($ret_info['list'] as $t_item) {
+            $userid_list[]=$t_item["userid"];
+        }
+
+        $ret_revisit_info =[];
+        if ( count( $userid_list)>0) {
+            $ret_revisit_info_cur = $this->t_revisit_info->get_ass_revisit_info_new(-1,$cur_start,$cur_end,$userid_list);
+            $ret_revisit_info_last = $this->t_revisit_info->get_ass_revisit_info_new(-1,$last_start,$last_end,$userid_list);
+        }
+
+        $now=time(NULL);
+        foreach($ret_info['list'] as &$item) {
+            $item['originid']                = E\Estu_origin::get_desc($item['originid']);
+            $item['type_str']                = $item['type'];
+            $item['type']                    = E\Estudent_type::get_desc($item['type']);
+            $item['is_test_user']            = E\Etest_user::get_desc($item['is_test_user']);
+            $item['user_agent_simple']       = get_machine_info_from_user_agent($item["user_agent"] );
+            $item['last_login_ip']           = long2ip( $item['last_login_ip'] );
+            $item['last_login_time']         = unixtime2date( $item['last_login_time']);
+            $item['ass_assign_time_str']     = unixtime2date( $item['ass_assign_time']);
+            $item['lesson_count_all']        = $item['lesson_count_all']/100;
+            $item['lesson_count_left']       = $item['lesson_count_left']/100;
+            $item['lesson_count_done']       = $item['lesson_count_all']-$item['lesson_count_left'];
+            $item['lesson_total']            = $item['lesson_total']/100;
+            $item["assistant_nick"]          = $this->cache_get_assistant_nick ($item["assistantid"] );
+            $ass_revisit_last_week_time      = $item ["ass_revisit_last_week_time"];
+            $ass_revisit_last_month_time     = $item ["ass_revisit_last_month_time"];
+            $item ["ass_revisit_week_flag"]  = (($now - $ass_revisit_last_week_time) < 7*86400 )  ;
+            $item ["ass_revisit_month_flag"] = (($now - $ass_revisit_last_month_time) < 28*86400 )  ;
+            E\Eboolean::set_item_value_str($item, "ass_revisit_week_flag");
+            E\Eboolean::set_item_value_str($item, "ass_revisit_month_flag");
+
+            //add 本月是否开始添加成绩记录
+            $item['status'] = $this->t_student_score_info->get_is_status($item['userid'],$month_time);
+            if($item['status'] > 0){
+                $item['status_str'] = "是";
+            }else{
+                $item['status_str'] = "否";
+            }
+            $item['cur'] = @$ret_revisit_info_cur[$item['userid']]['num'];
+            if(isset($item['cur']) && $item['cur']>0){
+                $item['cur'] = 1;
+            }else{
+                $item['cur'] = 0;
+
+            }
+            $item['last'] = @$ret_revisit_info_last[$item['userid']]['num'];
+            if(isset($item['last']) && $item['last']>0){
+                $item['last'] = 1;
+            }else{
+                $item['last'] = 0;
+
+            }
+
+            E\Eboolean::set_item_value_str($item, "cur");
+            E\Eboolean::set_item_value_str($item, "last");
+            if(empty($item["phone_location"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
+            }else{
+                $item["location"] = $item["phone_location"];
+            }
+
+            $ret_get_list_total = $this->t_course_order->get_list_total($item['userid'],-1,0);
+            $arr = [];
+            foreach ($ret_get_list_total as $key => $value) {
+                $arr[] = $value['subject'];
+            }
+            $item["course_list_total"] = count(array_unique($arr));
+        }
+
+        $account_id = $this->get_account_id();
+        $main_type  = 1;
+        $is_master  = $this->t_admin_group_name->check_is_master($main_type,$account_id);
+        if($is_master>0 || $account_id==74 || $account_id=349){
+            $master_adminid = 1;
+        }else{
+            $master_adminid = 0;
+        }
+        // dd($ret_info);
+        return $this->Pageview(__METHOD__,$ret_info,[
+            'sumweek'        => $sumweek,
+            'summonth'       => $ret['summonth'],
+            "master_adminid" => $master_adminid,
+            "cur_time_str"   => $cur_time_str,
+            "last_time_str"  => $last_time_str,
+            "acc"            => session("acc")
+        ]);
+    }
+
+
     public function contract_list_seller () {
         $this->set_in_value("sys_operator", $this->get_account());
         return $this->contract_list();
@@ -436,6 +568,7 @@ class user_manage extends Controller
         $assistantid       = $this->get_in_assistantid(-1);
         $from_key          = $this->get_in_str_val('from_key');
         $from_url          = $this->get_in_str_val('from_url');
+        $order_activity_type = $this->get_in_e_order_activity_type( -1 );
         $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -443,6 +576,25 @@ class user_manage extends Controller
         $show_yueyue_flag = false;
         if ($account == "yueyue" || $account == "jim") {
             $show_yueyue_flag = true;
+        }
+
+        $show_son_flag = false;
+        if(count($require_adminid_list)>0){//查看下级人员的
+            $adminid = $this->get_account_id();
+            $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
+            $son_adminid_arr = [];
+            foreach($son_adminid as $item){
+                $son_adminid_arr[] = $item['adminid'];
+            }
+            array_unshift($son_adminid_arr,$adminid);
+            $require_adminid_arr = array_unique($son_adminid_arr);
+            $group_type = count($require_adminid_arr)>1?1:0;
+            $intersect = array_intersect($require_adminid_list,$require_adminid_arr);
+            if(count($intersect)>0){
+                $show_son_flag = true;
+                $show_yueyue_flag = true;
+                $require_adminid_list = $intersect;
+            }
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
@@ -455,9 +607,8 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
             , " t2.assistantid asc , order_time desc"
-            , $spec_flag,$orderid
+            , $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -530,6 +681,7 @@ class user_manage extends Controller
             } else {
                 $item['status_color'] = 'color:green';
             }
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         $acc = $this->get_account();
@@ -546,6 +698,11 @@ class user_manage extends Controller
         $orderid = $this->get_in_int_val("orderid");
         $userid  = $this->get_in_int_val("userid");
 
+
+        $child_status = $this->t_child_order_info->chick_all_order_have_pay($orderid,1);
+        if($child_status==1){
+            return $this->output_err("已有子合同付过款,不能删除");
+        }
 
         //get from_type
         $from_type = $this->t_order_info->get_from_type($orderid);
@@ -574,6 +731,10 @@ class user_manage extends Controller
             foreach($son_order_list as $item){
                 $this->t_order_info->del_contract($item["orderid"],$userid);
             }
+
+            //删除子合同
+            $this->t_child_order_info->del_contract($orderid);
+            $this->t_order_activity_info->del_by_orderid($orderid);
         }
 
         return outputjson_ret($ret);
@@ -2894,5 +3055,7 @@ class user_manage extends Controller
         $ret_set = \App\Helper\Net::set_dynamic_passwd($phone,$role,md5($passwd), $connection_conf );
         return $this->output_bool_ret($ret_set);
     }
+
+
 
 }

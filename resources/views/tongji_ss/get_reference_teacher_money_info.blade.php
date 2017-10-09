@@ -17,13 +17,11 @@
                 <tr>
                     <td>teacherid </td>
                     <td>老师</td>
-                    <td>类型</td>
-                    <td>等级</td>
+                    <td>课时数(总)</td>
                     <td>常规学生数</td>
-                    <td>课耗</td>                                                      
-                    <td>CC转化率</td>                                                      
-                    <td>CR转化率</td>                                                      
-                    <td>教学反馈得分</td>                                                      
+                    <td>CC转化率</td>
+                    <td>CR转化率</td>                                                                      
+                    <td>反馈得分</td>                                                                      
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -32,13 +30,12 @@
                     <tr>
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["teacher_money_type_str"]}} </td>
-                        <td class="level"></td>
-                        <td>{{@$var["stu_num"]}} </td>
                         <td>{{@$var["lesson_count"]/100}} </td>
+                        <td>{{@$var["stu_num"]}} </td>
                         <td class="cc_per"></td>
                         <td class="cr_per"></td>
                         <td class="record_score"></td>
+                       
                        
                                               
                         <td>

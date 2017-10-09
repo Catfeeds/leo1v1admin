@@ -284,6 +284,9 @@ class seller_student_new extends Controller
             $status_list_str="";
         }
 
+        // $ftf = json_encode($require_adminid_list);
+        // \App\Helper\Utils::logger("XX111 adminid_list:$ftf");
+
         $ret_info = $this->t_seller_student_new->get_seller_list(
             $page_num, $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -1355,7 +1358,8 @@ class seller_student_new extends Controller
         if (in_array( $cur_week*1,[6,0] ) ) {
             $limit_arr=array( [0,11*60] );
         }else{
-            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            //$limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            $limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;

@@ -71,12 +71,17 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             ['y.subject=%u', $subject , -1],
             ['y.test_type=%u', $test_type , -1],
         ];
+        if ($order_by_str) {
+            $order_by = $order_by_str;
+        } else {
+            $order_by = 'order by y.id desc';
+        }
         $sql = $this->gen_sql_new(
             "select y.id, y.test_title, y.test_des, y.grade, y.subject, y.visit_num, y.share_num ,"
             ." y.custom_type, y.test_type, y.poster, y.create_time, a.account"
             ." from %s y "
             ." left join %s a on a.uid=y.adminid"
-            ." where %s $order_by_str"
+            ." where %s $order_by"
             ,self::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
             ,$where_arr
@@ -131,6 +136,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
                                    ." and %s"
                                    ." where %s"
                                    ." group by y.id"
+                                   ." order by y.id desc"
                                    ,self::DB_TABLE_NAME
                                    ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
                                    ,$on_where

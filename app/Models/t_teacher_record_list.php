@@ -496,6 +496,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             // ["tt.teacherid = %u",$reference_teacherid,-1],
             ["tt.identity = %u",$identity,-1],
             "tr.type=10",
+            "l.lesson_del_flag = 0",
+            "l.lesson_type = 1100",
+            "l.train_type=5",
             "(tr.acc is not null && tr.acc <> '')"
         ];
         if(!empty($tea_subject)){
@@ -516,13 +519,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   " left join %s ta on tr.train_lessonid  = ta.lessonid ".
                                   " left join %s l on tr.train_lessonid  = l.lessonid ".
                                   " left join %s tt on ta.userid = tt.teacherid ".
-                                  " where %s ",
+                                  " left join %s la on tt.phone = la.phone".
+                                  " where %s and la.accept_adminid>0",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);
@@ -710,7 +715,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             return $item["accept_adminid"];
         });
 
-    }
+    }       
+
+ 
 
     public function get_all_interview_count_by_reference($start_time,$end_time,$trial_train_status){
         $where_arr=[
@@ -728,19 +735,28 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
         }
-        $sql = $this->gen_sql_new("select distinct l.userid,la.reference "
-                                  ." from %s tr left join %s l on tr.train_lessonid = l.lessonid "
-                                  ." left join %s tt on l.userid = tt.teacherid "
+        $sql = $this->gen_sql_new("select count(distinct tt.phone) lesson_add_num,la.reference,t.teacher_ref_type,c.channel_id,c.channel_name,t.realname,t.phone "
+                                  ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
+                                  ." left join %s tt on ta.userid = tt.teacherid "
+                                  ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s la on tt.phone = la.phone"
-                                  ." where %s and la.accept_adminid>0 group by la.reference  ",
+                                  ." left join %s t on la.reference = t.phone"
+                                  ." left join %s cg on t.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s and la.accept_adminid>0 group by  la.reference ",
                                   self::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
-
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
     }
 
 
@@ -900,10 +916,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "type =1",
             "record_score>0"
         ];
-        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+        //  $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $this->where_arr_teacherid($where_arr,"teacherid", $tea_arr);
         if($tongji_flag==1){
             $where_arr[]="lesson_style in (1,2,3,4)";
+            //  $where_arr[]="lesson_style in (3,4)";
         }
         $sql = $this->gen_sql_new("select count(*) num,sum(record_score) score,teacherid"
                                   ." from %s  where %s group by teacherid",

@@ -1404,6 +1404,7 @@ class tongji_ss extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Eset_boolean::set_item_value_str($item,"success_flag");
+            $item["phone_ex"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone']);
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -1474,7 +1475,9 @@ class tongji_ss extends Controller
         $ret_info=$this->t_test_lesson_subject_require->require_count_seller($start_time, $end_time,$adminid_list,$adminid_all);
 
         $set_lesson_list= $this->t_test_lesson_subject_require->tongin_set_lesson_time_info($start_time,$end_time,$adminid_list,$adminid_all );
+        $call_info_list = $this->t_tq_call_info->get_call_info_by_adminid_list($start_time, $end_time,$adminid_list,$adminid_all);
         \App\Helper\Common::merge_row_data($ret_info["list"] ,$set_lesson_list ,"adminid");
+        \App\Helper\Common::merge_row_data($ret_info["list"] ,$call_info_list ,"adminid");
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         $ret_info["list"]=\App\Helper\Common::gen_admin_member_data($ret_info['list']);
@@ -1482,6 +1485,11 @@ class tongji_ss extends Controller
         foreach($ret_info["list"] as $id => &$item){
             E\Emain_type::set_item_value_str($item);
             $item['id'] = $start_index+$id;
+            $item['call_time_long'] = isset($item['call_time_long'])?$item['call_time_long']:0;
+            $hour = floor($item['call_time_long']/3600);
+            $min = floor($item['call_time_long']%3600/60);
+            $sec = floor($item['call_time_long']%3600%60);
+            $item['call_time_long'] = $hour.'时'.$min.'分'.$sec.'秒';
         }
 
         return $this->pageView(__METHOD__,$ret_info,["adminid_right"=>$adminid_right]);
@@ -8010,14 +8018,19 @@ class tongji_ss extends Controller
 
     public function get_reference_teacher_money_info(){
        
+       
         $this->switch_tongji_database();
+       
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
         $list = $this->t_teacher_info->get_teacher_lesson_info_by_money_type($start_time,$end_time);
+        // $list = $this->t_teacher_info->get_teacher_openid_list_new();
+        //$list["list"][]=["teacherid"=>240314,"realname"=>"hahah","wx_openid"=>1111];
+        // dd($list);
      
 
-        // $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
-        foreach($list["list"] as &$item){
+        //  $list = $this->t_lesson_info_b3->get_teacher_stu_three_month_info();
+        foreach($list["list"] as $k=>&$item){
             /* if($item['grade_start']>0){
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
                     ."-".E\Egrade_range::get_desc($item['grade_end']);

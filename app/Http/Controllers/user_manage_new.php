@@ -1071,6 +1071,7 @@ class user_manage_new extends Controller
                     $item["pre_status"]="定金未支付";
                 }
             }
+            // $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [
@@ -2732,7 +2733,7 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
-    public function tea_wages_list() {
+    public function tea_wages_list(){
         // list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
@@ -2743,18 +2744,18 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        $now_date  = date("Y-m",$start_time);
-        $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
-        //需要重新拉取  flag  0 不需要  1 需要
-        $flag = 0;
-        if(is_file($file_name)){
-            $file_info = file_get_contents($file_name);
-            if(empty($file_info) || $file_info==""){
-                $flag = 1;
-            }
-        }else{
-            $flag = 1;
-        }
+        // $now_date  = date("Y-m",$start_time);
+        // $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
+        // //需要重新拉取  flag  0 不需要  1 需要
+        // $flag = 0;
+        // if(is_file($file_name)){
+        //     $file_info = file_get_contents($file_name);
+        //     if(empty($file_info) || $file_info==""){
+        //         $flag = 1;
+        //     }
+        // }else{
+        //     $flag = 1;
+        // }
         // if($flag){
             $tea_list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
@@ -2778,8 +2779,6 @@ class user_manage_new extends Controller
         // $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $stu_num = 0;
 
-        // $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
-             $all_lesson_money = 0;
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
         $all_lesson_total = 0;
@@ -2818,7 +2817,6 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$list,[
             "stu_num"          => $stu_num,
-            "all_lesson_money" => $all_lesson_money,
             "all_lesson_total" => $all_lesson_total,
             "all_lesson_1v1"   => $all_lesson_1v1,
             "all_lesson_trial" => $all_lesson_trial,
@@ -2941,6 +2939,27 @@ class user_manage_new extends Controller
 
         return $this->pageView(__METHOD__,$result);
     }
+
+    /**
+     * 获取时间范围内的课程收入
+     * @param start_time 开始时间
+     * @param end_time   结束时间
+     * @return float     结束时间
+     */
+    public function get_lesson_price(){
+        $start_date         = $this->get_in_str_val("start_time");
+        $end_date           = $this->get_in_str_val("end_time");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+
+        $start_time         = strtotime($start_date);
+        $end_time           = strtotime($end_date);
+
+        //$lesson_price = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
+        $lesson_price = 0;
+
+        return $this->output_succ(['lesson_price'=>$lesson_price]);
+    }
+
 
     private function get_price_percent($price,$all_price){
         if($all_price!=0){
@@ -3366,11 +3385,15 @@ class user_manage_new extends Controller
 
     public function teacher_trial_reward_list(){
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-d",time()),0,0,null,3);
-        $teacherid = $this->get_in_int_val("teacherid",-1);
-        $type      = $this->get_in_int_val("type",-1);
-        $lessonid  = $this->get_in_int_val("lessonid",-1);
+        $teacherid  = $this->get_in_int_val("teacherid",-1);
+        $type       = $this->get_in_int_val("type",-1);
+        $lessonid   = $this->get_in_int_val("lessonid",-1);
+        $has_lesson = $this->get_in_int_val("has_lesson",-1);
 
-        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list($start_time,$end_time,$teacherid,$type,$lessonid);
+        $list = $this->t_teacher_money_list->get_teacher_trial_reward_list(
+            $start_time,$end_time,$teacherid,$type,$lessonid,$has_lesson
+        );
+
         foreach($list as &$val){
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['teacherid']);
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
@@ -3485,15 +3508,31 @@ class user_manage_new extends Controller
 
     public function ass_revisit_warning_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-        $page_num        = $this->get_in_page_num();
-        $is_warning_flag = $this->get_in_int_val("is_warning_flag",1);
-        $ass_adminid = $this->get_in_int_val("ass_adminid",-1);
+        $page_num             = $this->get_in_page_num();
+        $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
+        $ass_adminid          = $this->get_in_int_val("ass_adminid",-1);
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        $adminid_right              = $this->get_seller_adminid_and_right();
+        $adminid_right        = $this->get_seller_adminid_and_right();
+        $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
+
+        $one = strtotime('today');
+        $two = $one - 86400*5;
+        $three = $one - 86400*7;
 
         $this->t_revisit_info->switch_tongji_database();
-        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
+        $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        // foreach($warning_count as $item){
+            // \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        // }
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
             E\Erevisit_type::set_item_value_str($item);
@@ -3508,8 +3547,10 @@ class user_manage_new extends Controller
             E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
             E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
         }
+
         return $this->pageView(__METHOD__,$ret_info,[
-            "adminid_right"   =>$adminid_right
+            "adminid_right" => $adminid_right,
+            "warning"       => $warning_type_num
         ] );
     }
 
@@ -4270,16 +4311,16 @@ class user_manage_new extends Controller
                 if($val["pay_status"]==$goal_info["pay_status"]){
                     $new_price = $val["price"]+$goal_info["price"];
                     $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
-                        "price"  =>$new_price 
+                        "price"  =>$new_price
                     ]);
                     $this->t_child_order_info->row_delete($val["child_orderid"]);
-  
+
                 }elseif($val["pay_status"]==0 && $goal_info["pay_status"]==1){
                     $this->t_child_order_info->field_update_list($goal_info["child_orderid"],[
-                        "child_order_type"  =>3 
+                        "child_order_type"  =>3
                     ]);
                     $this->t_child_order_info->field_update_list($val["child_orderid"],[
-                        "parent_orderid"  =>$orderid_goal 
+                        "parent_orderid"  =>$orderid_goal
                     ]);
                 }elseif($val["pay_status"]==1 && $goal_info["pay_status"]==0){
                     $this->t_child_order_info->field_update_list($val["child_orderid"],[
@@ -4290,12 +4331,12 @@ class user_manage_new extends Controller
                 }
             }else{
                 $this->t_child_order_info->field_update_list($val["child_orderid"],[
-                   "parent_orderid"  =>$orderid_goal 
+                   "parent_orderid"  =>$orderid_goal
                 ]);
             }
         }
 
-        
+
         if(!$ret){
             $this->t_order_info->rollback();
             return $this->output_err("合并失败！");
@@ -4320,7 +4361,7 @@ class user_manage_new extends Controller
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
-        
+
         $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid,0);
         $child_order_info= $child_order_info[0];
         $new_price = $price-$old_price+$child_order_info["price"];
@@ -4332,7 +4373,7 @@ class user_manage_new extends Controller
         }
         //更新子合同金额
         $this->t_child_order_info->field_update_list($child_order_info["child_orderid"],[
-           "price"  => $new_price 
+           "price"  => $new_price
         ]);
 
 

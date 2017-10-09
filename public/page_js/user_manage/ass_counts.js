@@ -6,18 +6,18 @@ $(function(){
     Enum_map.td_show_desc("relation_ship", $(".td-parent-type"));
 
     $('#id_start_date').val(g_args.start_date);
-	$("#id_revisit_type").val(g_args.revisit_type);
+	  $("#id_revisit_type").val(g_args.revisit_type);
     $('#id_end_date').val(g_args.end_date);
     $("#id_assistantid").val(g_args.assistantid);
     $("#id_revisit_assistantid").val(g_args.revisit_assistantid);
-	$("#id_grade").val(g_args.grade);
-	$("#id_test_user").val(g_args.test_user);
-	$("#id_origin").val(g_args.originid);
-	$("#id_user_name").val(g_args.user_name);
-	$("#id_phone").val(g_args.phone);
-	$(".stu_sel" ).on( "change",function(){
-		load_data();
-	});
+	  $("#id_grade").val(g_args.grade);
+	  $("#id_test_user").val(g_args.test_user);
+	  $("#id_origin").val(g_args.originid);
+	  $("#id_user_name").val(g_args.user_name);
+	  $("#id_phone").val(g_args.phone);
+	  $(".stu_sel" ).on( "change",function(){
+		    load_data();
+	  });
 
 	$(".for_input").on ("keypress",function(e){
 		if (e.keyCode==13){

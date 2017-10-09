@@ -25,6 +25,7 @@ interface RowData {
 	level	:any;
 	main_type_str	:any;
 	id	:any;
+	call_time_long	:any;
 }
 
 /*

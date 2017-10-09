@@ -2947,6 +2947,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_openid_list_new(){ //　查询在值老师openid
+        $where_arr = [
+            "train_through_new =1",
+            "is_quit = 0",
+            "is_test_user = 0",
+            "wx_openid is not null"
+        ];
+        $sql = $this->gen_sql_new(" select distinct wx_openid,teacherid,realname from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_as_page($sql);
+    }
+
+
     public function get_teacher_simulate_list(
         $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1,$not_start=0,$not_end=0,
         $teacher_money_type_simulate=-1,$batch=-1
@@ -3638,7 +3654,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["reference='%s'",$phone,""]
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.phone,t.teacher_money_type,t.level"
+        $sql = $this->gen_sql_new("select t.teacherid,t.phone,t.teacher_money_type,t.level,t.realname,t.trial_lecture_is_pass,"
+                                  ." t.train_through_new"
                                   ." from %s t"
                                   ." left join %s tl on t.phone=tl.phone"
                                   ." where %s"
@@ -3664,12 +3681,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.is_quit=0",
             "t.is_test_user=0",
             // ["t.teacher_money_type=%u",$teacher_money_type,-1],
-            "t.train_through_new = 1",
+            // "t.train_through_new = 1",
+
             "t.teacher_money_type in (5,6)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
-            "l.lesson_status >0",
-            "l.lesson_type in (0,1,3)"
+            "l.lesson_status >1",
+            "l.lesson_type in (0,1,3)",
+            // "t.teacherid in (151160,159071)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,t.realname,"

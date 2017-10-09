@@ -1,6 +1,6 @@
 <?php
 return array(
-    ["db_weiyi","t_test_abner", "id"],
+    ["db_weiyi","t_order_activity_info", "orderid", "subid"],
     ["db_weiyi_admin","t_test_luki", "id"],
     ["db_weiyi","t_seller_tongji_for_month", "id"],
     ["db_weiyi_admin","t_user_group_change_log", "id"],
@@ -43,6 +43,7 @@ return array(
     ["db_weiyi","t_cs_intended_user_info", "id"],
     ["db_weiyi","t_cs_complaint_user_info", "id"],
     ["db_weiyi","t_cs_proposal_info", "id"],
+    ["db_weiyi","t_cr_week_month_info","id"],
     ["db_weiyi","t_requirement_info", "id"],
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
     ["db_weiyi","t_child_order_info", "child_orderid"],
@@ -88,6 +89,7 @@ return array(
     ["db_weiyi","t_teacher_lecture_info","id"] ,
     ["db_weiyi","t_teacher_apply","id"] ,
     ["db_weiyi","t_revisit_info","userid","revisit_time" ] ,
+    ["db_weiyi","t_revisit_warning_overtime_info","overtime_id" ] ,
     ["db_weiyi","t_parent_info","parentid"] ,
     ["db_weiyi","t_error_info","id"] ,
     ["db_weiyi","t_quiz_info","quizid"] ,

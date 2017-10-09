@@ -2,13 +2,13 @@
 namespace App\Models;
 class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
 
-  	public function get_yuedu_time($userid)
+    public function get_yuedu_time($userid)
     {
         $sql=$this->gen_sql("select max(a.revisit_time) from %s a left join %s b on a.userid = b.userid where a.userid = %u and revisit_type = 2 and b.type=0",
                             self::DB_TABLE_NAME,
@@ -18,79 +18,79 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_value($sql);
     }
 
-  	public function get_last_revisit($userid)
-	{
-		$sql = sprintf("select revisit_time , operator_note ,sys_operator  ".
-			" from %s where userid = %u  order by revisit_time desc limit 1",
+    public function get_last_revisit($userid)
+    {
+        $sql = sprintf("select revisit_time , operator_note ,sys_operator  ".
+                       " from %s where userid = %u  order by revisit_time desc limit 1",
                        self::DB_TABLE_NAME,$userid);
         return $this->main_get_row($sql);
-	}
+    }
 
     public function get_max_revisit_time($userid)
-	{
-		$sql = sprintf("select revisit_time ".
+    {
+        $sql = sprintf("select revisit_time ".
                        " from %s where userid = %u and revisit_type=0 order by revisit_time desc limit 1",
                        self::DB_TABLE_NAME,$userid);
         return $this->main_get_value($sql);
-	}
+    }
     public function get_max_revisit_time_list($userid)
-	{
+    {
         $where_arr= [
             ["r.userid= %u",$userid,-1]
         ];
-		$sql = $this->gen_sql_new("select max(r.revisit_time) time,r.userid ".
-                       " from %s r left join %s s on r.userid = s.userid where %s and s.type=0 and revisit_type=0 group by r.userid ",
-                       self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr);
+        $sql = $this->gen_sql_new("select max(r.revisit_time) time,r.userid ".
+                                  " from %s r left join %s s on r.userid = s.userid where %s and s.type=0 and revisit_type=0 group by r.userid ",
+                                  self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
-	}
+    }
 
 
-  	public function get_first_revisit($userid)
-	{
-		$sql = sprintf("select revisit_time , operator_note ,sys_operator  ".
-			" from %s where userid = %u and revisit_type = 1 order by revisit_time desc limit 1 ",
+    public function get_first_revisit($userid)
+    {
+        $sql = sprintf("select revisit_time , operator_note ,sys_operator  ".
+                       " from %s where userid = %u and revisit_type = 1 order by revisit_time desc limit 1 ",
                        self::DB_TABLE_NAME,$userid);
         return $this->main_get_row($sql);
-	}
+    }
 
 
-  	public function get_all_revisit($userid)
-	{
-		$sql = sprintf("select userid, revisit_type, from_unixtime( revisit_time ) as revisit_time, stu_nick, revisit_person, ".
-			" sys_operator, operator_note, operator_audio from %s where userid = %u order by revisit_time desc",
+    public function get_all_revisit($userid)
+    {
+        $sql = sprintf("select userid, revisit_type, from_unixtime( revisit_time ) as revisit_time, stu_nick, revisit_person, ".
+                       " sys_operator, operator_note, operator_audio from %s where userid = %u order by revisit_time desc",
                        self::DB_TABLE_NAME, $userid);
         return $this->main_get_list($sql);
-	}
+    }
 
     public function get_all_revisits($start,$end)
-	{
-		$sql = sprintf("select userid, revisit_type, from_unixtime( revisit_time ) as revisit_time, stu_nick, revisit_person, ".
-			" sys_operator, operator_note, operator_audio from %s where revisit_time > %u and revisit_time < %u order by userid desc",
+    {
+        $sql = sprintf("select userid, revisit_type, from_unixtime( revisit_time ) as revisit_time, stu_nick, revisit_person, ".
+                       " sys_operator, operator_note, operator_audio from %s where revisit_time > %u and revisit_time < %u order by userid desc",
                        self::DB_TABLE_NAME, $start, $end);
         return $this->main_get_list($sql);
-	}
-  	public function get_all_revisit_ex($userid)
-	{
-		$sql = sprintf("select userid, revisit_type, revisit_time ,revisit_path, stu_nick, revisit_person, ".
-			" sys_operator, operator_note, operator_audio from %s where userid = %u order by revisit_time desc limit 10",
+    }
+    public function get_all_revisit_ex($userid)
+    {
+        $sql = sprintf("select userid, revisit_type, revisit_time ,revisit_path, stu_nick, revisit_person, ".
+                       " sys_operator, operator_note, operator_audio from %s where userid = %u order by revisit_time desc limit 10",
                        self::DB_TABLE_NAME , $userid);
         return $this->main_get_list($sql);
-	}
+    }
 
     public function get_all_revisit_limit_list($userid)
-	{
-		$sql = sprintf("select * from %s where userid = %u order by revisit_time desc limit 10",
+    {
+        $sql = sprintf("select * from %s where userid = %u order by revisit_time desc limit 10",
                        self::DB_TABLE_NAME , $userid);
         return $this->main_get_list($sql);
-	}
+    }
 
 
     public function sys_log( $account, $userid ,  $msg ) {
         return $this->add_revisit_record($userid, time(NULL),"", 0, $account ,  $msg, 10 ) ;
     }
 
-	public function add_revisit_record($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0)
-	{
+    public function add_revisit_record($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0)
+    {
         return  $ret= $this->row_insert([
             "userid"         => $userid,
             "revisit_time"   => $revisit_time,
@@ -121,13 +121,13 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "is_warning_flag"         =>$is_warning_flag
 
         ],false, true, true);
- 
-	}
+
+    }
     public function check_add_existed($userid,$revisit_time) {
         $sql=$this->gen_sql_new(
             "select 1 from %s where userid=%u and revisit_time=%u",
             self::DB_TABLE_NAME, $userid,$revisit_time);
-        return $this->main_get_row($sql); 
+        return $this->main_get_row($sql);
     }
     public function get_revisit_list($page_num,$userid,$is_warning_flag=-1){
         $where_arr=[
@@ -165,7 +165,73 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                                   $where_arr);
         return $this->main_get_list_by_page($sql,$page_num);
     }
-    
+
+    public function get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type){
+
+        $one = time();
+        $two = $one - 86400*5;
+        $three = $one - 86400*7;
+        if ($revisit_warning_type == 1) {
+            $where_arr = [
+                ["is_warning_flag=%u",$is_warning_flag,-1],
+                ["m.uid= %u",$ass_adminid,-1],
+                "r.revisit_time<$one",
+                "r.revisit_time>=$two",
+            ];
+        } else if ($revisit_warning_type == 2){
+            $where_arr = [
+                ["is_warning_flag=%u",$is_warning_flag,-1],
+                ["m.uid= %u",$ass_adminid,-1],
+                "r.revisit_time<$two",
+                "r.revisit_time>=$three",
+            ];
+
+        } else if ($revisit_warning_type == 3){
+            $where_arr = [
+                ["is_warning_flag=%u",$is_warning_flag,-1],
+                ["m.uid= %u",$ass_adminid,-1],
+                "r.revisit_time<$three",
+            ];
+        } else {
+            $where_arr = [
+                ["is_warning_flag=%u",$is_warning_flag,-1],
+                ["m.uid= %u",$ass_adminid,-1],
+            ];
+            $this->where_arr_add_time_range($where_arr,"r.revisit_time",$start_time,$end_time);
+        }
+
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $require_adminid_list );
+        $sql = $this->gen_sql_new(
+            "select r.revisit_time,revisit_person,r.operator_note,operator_audio,sys_operator,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,s.nick,r.userid "
+            ."from %s r left join %s m on m.account = r.sys_operator "
+            ." left join %s s on r.userid = s.userid"
+            ." where %s order by r.revisit_time desc",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+    public function get_ass_revisit_warning_count($ass_adminid){
+        $where_arr=[
+            "r.is_warning_flag=1",
+            "r.revisit_type=0",
+            ["m.uid= %u",$ass_adminid,-1]
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select r.revisit_time "
+            ."from %s r left join %s m on m.account = r.sys_operator "
+            ." where %s",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_ass_revisit_info($userid,$end_time,$userid_list=[]){
         #$userid = 84727;
         $userid_in_str=$this->where_get_in_str("t.userid",$userid_list);
@@ -179,7 +245,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         ];
 
         $sql = $this->gen_sql_new("select t.userid,sum(if(  t.revisit_time > (%s -28*86400) ,1,0)) as week_first_all,sum(if( (%s- 21*86400)< t.revisit_time ,1,0)) as week_second_all,sum(if( (%s- 14*86400) < t.revisit_time,1,0)) as week_third_all,sum(if( (%s- 7*86400)<t.revisit_time,1,0)) as week_fourth from %s t left join %s s on t.userid = s.userid where %s and revisit_type in(0,2) group by t.userid order by t.userid desc ",
-            $end_time,$end_time,$end_time,$end_time,self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr
+                                  $end_time,$end_time,$end_time,$end_time,self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr
         );
         $res =  $this->main_get_list($sql,function($item){
             return $item['userid'];
@@ -207,7 +273,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
 
         $this->where_arr_add_time_range($where_arr,"t.revisit_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.userid,count(*) num from %s t left join %s s on t.userid = s.userid where %s and revisit_type in(0,2) group by t.userid order by t.userid desc ",
-                                 self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr
+                                  self::DB_TABLE_NAME,t_student_info::DB_TABLE_NAME,$where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item['userid'];
@@ -274,7 +340,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql,function($item){
             return $item['uid'];
         });
- 
+
     }
 
     public function get_ass_xq_revisit_info($start_time,$end_time,$userid_list=[],$flag=true){
@@ -302,9 +368,9 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql,function($item){
             return $item['uid'];
         });
- 
+
     }
-    
+
     public function get_ass_xq_revisit_info_new($start_time,$end_time,$userid_list=[],$flag=true){
         $where_arr = [
             // "s.assistantid > 0",
@@ -326,10 +392,10 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql,function($item){
             return $item['uid'];
         });
- 
+
     }
     public function add_revisit_record_b2($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0,$recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info)
-  {
+    {
         return  $ret= $this->row_insert([
             "userid"         => $userid,
             "revisit_time"   => $revisit_time,
@@ -367,8 +433,8 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "recent_learn_info"       =>$recent_learn_info
 
         ],false, true, true);
- 
-  }
+
+    }
 
 
     public function get_revisit_by_revisit_time_userid($userid,$revisit_time){
@@ -382,12 +448,12 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-//        dd($sql);
+        //        dd($sql);
         return $this->main_get_list($sql);
     }
 
-  public function update_revisit_record_b2($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0,$recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info)
-  {
+    public function update_revisit_record_b2($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0,$recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info)
+    {
         return  $ret= $this->field_update_list_2($userid,$revisit_time,[
             "stu_nick"       => $stu_nick,
             "revisit_person" => $revisit_person,
@@ -423,8 +489,22 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "recent_learn_info"       =>$recent_learn_info
 
         ]);
- 
-  }
 
+    }
+
+    public function get_overtime_by_now($start_time, $end_time){
+        $where_arr = [
+            "revisit_time >= $start_time",
+            "revisit_time < $end_time",
+            "is_warning_flag=1"
+        ];
+        $sql = $this->gen_sql_new("select userid,revisit_time,sys_operator"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

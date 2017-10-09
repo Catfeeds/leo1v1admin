@@ -51,5 +51,8 @@ $(function(){
 
 
 
+    //下载隐藏
+    download_hide();
+
 });
 

@@ -35,6 +35,14 @@ class t_main_major_group_name_month extends \App\Models\Zgen\z_t_main_major_grou
     }
 
 
+    public function del_by_month($month){
+        $sql = $this->gen_sql_new("delete from %s where  month=%u",
+                                  self::DB_TABLE_NAME
+                                  ,$month
+        );
+        return $this->main_update($sql);
+    }
+
 
 
 }
