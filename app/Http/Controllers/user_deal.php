@@ -2712,12 +2712,46 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        /* $start_time = strtotime("2017-09-01");  
-        $end_time = strtotime("2017-10-10");  
-        $order_list = $this->t_order_info->get_order_list_by_time($start_time,$end_time);
-        foreach($order_list as $val){
-            $this->t_child_order_info->set_all_order_payed_by_parent_orderid($val["orderid"]); 
-            }*/
+       
+        $assign_lesson  = 0;
+        if($item['lesson_ratio_month'] < $lesson_target){
+            $assign_lesson = 0;
+        }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
+            $assign_lesson = 900;  //3
+        }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
+            $assign_lesson = 1500; //5
+        }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
+            $assign_lesson = 2100; //7
+        }else{
+            $assign_lesson = 2700; //9
+        }
+        if($item['effective_student'] < 30){ 
+            $assign_lesson = $assign_lesson * 0.2;
+        }elseif ($item['effective_student'] < 50) {
+            $assign_lesson = $assign_lesson * 0.4;
+        }elseif ($item['effective_student'] < 70) {
+            $assign_lesson = $assign_lesson * 0.6;
+        }elseif ($item['effective_student'] < 90) {
+            $assign_lesson = $assign_lesson * 0.8;
+        }
+
+        //update assign_lesson in t_month_ass_student_info 
+        $update_arr =  [
+            "assign_lesson"              =>$assign_lesson
+        ];
+        $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
+
+        //get assistantid
+        $ret_assistantid = $task->t_manager_info->get_assistant_id($k);
+        //get assign_lesson_count
+        $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+        if($assign_lesson_count == ''){
+            $assign_lesson_count = 0;
+        }
+
+        //update assign_lesson_count
+        $task->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+
         dd(111);
 
         $month = strtotime("2017-01-01");        

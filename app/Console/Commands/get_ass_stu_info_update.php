@@ -284,8 +284,7 @@ class get_ass_stu_info_update extends Command
             }
 
             if(date("d",time())=="01"){
-                $last_start_time = strtotime(date("Y-m-01",time()-86400));
-                $lesson_target     = $this->t_ass_group_target->get_rate_target($last_start_time);
+                $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
 
                 //add 课耗活动-------------------------------------------------------------------------------
                 $item["lesson_ratio_month"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,3):0; //课程系数
@@ -293,13 +292,13 @@ class get_ass_stu_info_update extends Command
 
                 //ca
                 $assign_lesson  = 0;
-                if($item['lesson_ratio_month'] < 14.220){
+                if($item['lesson_ratio_month'] < $lesson_target){
                     $assign_lesson = 0;
-                }elseif($item['lesson_ratio_month'] < 15.642){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
                     $assign_lesson = 900;  //3
-                }elseif($item['lesson_ratio_month'] < 17.064){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
                     $assign_lesson = 1500; //5
-                }elseif($item['lesson_ratio_month'] < 18.486){
+                }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
                     $assign_lesson = 2100; //7
                 }else{
                     $assign_lesson = 2700; //9
