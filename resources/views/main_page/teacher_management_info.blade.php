@@ -110,12 +110,20 @@
 
                                         </tr>
                                         <tr>
-                                            <td >常规排课</td> 
+                                            <td >常规排课(抢课)</td> 
+                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}</td> 
+                                            <td >{{@$normal_jw_total_grab["have_order"]}}/{{@$normal_jw_total_grab["person_num"]}}</td> 
+                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}</td> 
+
+                                        </tr>
+                                        <tr>
+                                            <td >常规排课(非抢课)</td> 
                                             <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
                                             <td >{{@$normal_jw_total["have_order"]}}/{{@$normal_jw_total["person_num"]}}</td> 
                                             <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
 
                                         </tr>
+
 
                                 </tbody>
                             </table>

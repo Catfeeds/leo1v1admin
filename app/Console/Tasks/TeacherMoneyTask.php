@@ -51,14 +51,10 @@ class TeacherMoneyTask extends TaskController
 
     /**
      * @param type 2 兼职老师的签单奖 3 全职老师的签单奖
+     * @param day  老师签单奖更新的时间周期('day'天以内,如果为0则使用默认值)
      */
-    public function set_teacher_trial_success_reward($type){
-        if($type==2){
-            $begin_date = "2016-12-1";
-        }elseif($type==3){
-            $begin_date = "2017-4-1";
-        }
-        $begin_time = strtotime($begin_date);
+    public function set_teacher_trial_success_reward($type,$day){
+        $begin_time = $this->get_begin_time($type,$day);
 
         $this->t_test_lesson_subject_sub_list->switch_tongji_database();
         $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
@@ -105,18 +101,22 @@ class TeacherMoneyTask extends TaskController
         }
     }
 
-    public function get_trial_reward_money($type,$val){
-        $money = 0;
+    /**
+     * 获取签单奖检测的开始时间
+     */
+    public function get_begin_time($type,$day){
+        $begin_time = strtotime("-$day day",time());
         if($type==2){
-            $money=6000;
+            $check_time = strtotime("2016-12-1");
         }elseif($type==3){
-            if($val['require_admin_type']==2){
-                $money=16000;
-            }else{
-                $money=10000;
-            }
+            $check_time = strtotime("2017-4-1");
         }
-        return $money;
+
+        if($begin_time<$check_time){
+            $begin_time = $check_time;
+        }
+        return $begin_time;
     }
+
 
 }
