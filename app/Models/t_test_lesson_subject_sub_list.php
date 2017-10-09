@@ -196,19 +196,18 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "l.tea_attend>0",
         ];
 
-        if($type==2){
-            $where_arr[] = "l.teacher_money_type in (4,5,6) ";
-        }elseif($type==3 || $type==4){
-            $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
-        }
+        // if($type==2){
+        //     $where_arr[] = "l.teacher_money_type in (4,5,6) ";
+        // }elseif($type==3 || $type==4){
+        //     $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
+        // }
         $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
-                                  // ." ,c.last_modified_time"
+                                  ." t.teacher_money_type,t.teacher_type"
                                   ." from %s tl "
                                   ." left join %s tr on tl.require_id=tr.require_id"
                                   ." left join %s tls on tr.test_lesson_subject_id=tls.test_lesson_subject_id"
                                   ." left join %s l on tl.lessonid=l.lessonid "
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  // ." left join %s c on l.teacherid=c.teacherid and l.subject=c.subject and l.userid=c.userid "
                                   ." where %s "
                                   ." and exists ( "
                                   ." select 1 from %s "
@@ -238,7 +237,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  // ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME

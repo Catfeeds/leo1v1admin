@@ -3446,7 +3446,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
      *@param:$end_time : 结束时间
      *@return:Array [分期金额，非分期金额]
      */
-    public function get_sort_order_count_money($admind,$start_time,$end_time){
+    public function get_sort_order_count_money($adminid,$start_time,$end_time){
         $sys_operator= $this->t_manager_info->get_account($adminid);
                                         
         //获取分期金额
