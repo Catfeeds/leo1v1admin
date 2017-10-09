@@ -153,8 +153,6 @@ class main_page extends Controller
                 $ret_info['primary_money_rate']     = 0;
             }
 
-
-
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
