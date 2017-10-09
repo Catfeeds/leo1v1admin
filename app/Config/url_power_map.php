@@ -280,6 +280,7 @@ class url_power_map {
 			'/news_info/stu_detail_message_list'	=>1091000,
 			'/user_manage_new/record_audio_server_list'	=>1090800,
 			'/admin_manage/xmpp_server_list'	=>1098100,
+			'/login_log/login_list'	=>1098200,
 			'/tongji_ex/top_list'	=>1101000,
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,

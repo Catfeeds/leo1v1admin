@@ -100,10 +100,6 @@
                         <input id="id_teacher_ref_money_2" value="0">
                         <span class="input-group">明日之星</span>
                         <input id="id_teacher_ref_money_3" value="0">
-                        <!-- <span class="input-group">方超工作室</span>
-                             <input id="id_teacher_ref_money_4" value="0">
-                             <span class="input-group">王磊工作室</span>
-                             <input id="id_teacher_ref_money_5" value="0"> -->
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-10" style="display:none">
@@ -114,24 +110,8 @@
                         <input id="id_lesson_ref_money_2" value="0">
                         <span class="input-group">明日之星</span>
                         <input id="id_lesson_ref_money_3" value="0">
-                        <!-- <span class="input-group">方超</span>
-                             <input id="id_lesson_ref_money_4" value="0">
-                             <span class="input-group">王磊</span>
-                             <input id="id_lesson_ref_money_5" value="0"> -->
                     </div>
                 </div>
-                <!-- <div class="col-xs-6 col-md-10">
-                     <div class="input-group">
-                     <span class="input-group">所有老师</span>
-                     <input value="{{@$teacher_num}}">
-                     <span class="input-group">1对1老师</span>
-                     <input value="{{@$teacher_1v1}}">
-                     <span class="input-group">试听老师</span>
-                     <input value="{{@$teacher_trial}}">
-                     <span class="input-group">在读学生</span>
-                     <input value="{{@$stu_num}}">
-                     </div>
-                     </div> -->
                 <div class="col-xs-6 col-md-1">
                     <div class="input-group ">
                         <button class="btn btn-primary" id="id_show_money_all">显示金额</button>

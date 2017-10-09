@@ -404,6 +404,7 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
+                ["power_id"=>82, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
 
                 // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
@@ -539,6 +540,7 @@ class menu{
 
                 ["power_id"=>51, "name"=>"试听未签-抢学生",   "url"=>"/seller_student_new/test_lesson_no_order_list"],
                 ["power_id"=>58, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
+                ["power_id"=>73, "name"=>"销售等级列表",   "url"=>"/seller_level_goal/seller_level_goal_list"],
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],

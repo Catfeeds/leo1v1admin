@@ -303,15 +303,13 @@ class testbb extends Controller
             t_field($table->integer("three_department"),"销售三部人数");
             t_field($table->integer("new_department"),"销售新人营人数");
             t_field($table->integer("train_department"),"销售培训中");
-            t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");
             t_field($table->integer("junior_money"),"初中金额");
             t_field($table->integer("primary_money"),"小学金额");
 
 
 
-
-            t_field($table->integer("test_invit_num"),"试听邀约数");
+            t_field($table->integer("seller_invit_num"),"试听邀约数");
             t_field($table->integer("seller_schedule_num"),"试听排课数");
             t_field($table->integer("test_succ_num"),"试听成功数");
             t_field($table->integer("seller_invit_month"),"拨通电话数量[月签约率]");
@@ -324,13 +322,14 @@ class testbb extends Controller
             t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
 
 
-
-
             t_field($table->integer("seller_call_num"),"电话呼出量");
             t_field($table->integer("has_called"),"已拨打数量");
-            t_field($table->integer("has_tq_succ"),"已拨打数量");
-            t_field($table->integer("cc_called_num"),"已拨打的cc数量");
+            t_field($table->integer("has_tq_succ"),"已拨通数量[接通率]");
+            t_field($table->integer("claim_num"),"已认领[认领率]");
             t_field($table->integer("new_stu"),"本月新进例子数");
+            t_field($table->integer("has_called_stu"),"已拨打例子量[月例子消耗率]");
+
+            t_field($table->integer("cc_called_num"),"拨打的cc量");
             t_field($table->integer("cc_call_time"),"cc总计通话时长");
 
         });

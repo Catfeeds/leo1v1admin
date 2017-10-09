@@ -384,6 +384,7 @@ abstract class NewModel
             $sql=sprintf("select %s from %s  where  %s ", $field_name_list_str,
                          $this->field_name_list_str,
                          $where_str);
+
             return $this->main_get_row($sql);
         }else{
             return $this->get_field_list($this->field_table_name,$field_name_list_str,

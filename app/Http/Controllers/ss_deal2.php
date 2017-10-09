@@ -594,7 +594,7 @@ class ss_deal2 extends Controller
         //update t_test_lesson_subject
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
-        $origin="助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
+        $origin="3助教-".E\Eass_test_lesson_type::get_desc( $ass_test_lesson_type);
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,[
                 "subject"                        => $subject,

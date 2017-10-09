@@ -375,6 +375,8 @@ $(function(){
                                         var uu=40-resp.top_num;
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
+                                        sleep(3500);
+                                        window.location.reload();
 
                                     }else if(resp.top_num==29){
                                         dialog.close();
@@ -427,13 +429,15 @@ $(function(){
             }
 
             $.do_ajax("/seller_student_new/test_lesson_cancle_rate",{"userid" : opt_data.userid},function(resp){
-                if(resp.ret==1){
-                    alert("由于您上周试听排课取消率已超过25%,为"+resp.rate+"%,本周已被限制排课,可点击排课解冻申请继续排课");
-                    return;
-                }else if(resp.ret==2){
-                    alert("由于您上周试听排课取消率已超过25%,为"+resp.rate+"%,今天可再排1节试听课");
-                }else if(resp.ret==3){
-                    alert("您本周的取消率已达20%,大于25%下周将被限制排课,每天将只能排1节试听课,请谨慎处理");
+                if(g_args.account_role != 12){
+                    if(resp.ret==1){
+                        alert("由于您上周试听排课取消率已超过25%,为"+resp.rate+"%,本周已被限制排课,可点击排课解冻申请继续排课");
+                        return;
+                    }else if(resp.ret==2){
+                        alert("由于您上周试听排课取消率已超过25%,为"+resp.rate+"%,今天可再排1节试听课");
+                    }else if(resp.ret==3){
+                        alert("您本周的取消率已达20%,大于25%下周将被限制排课,每天将只能排1节试听课,请谨慎处理");
+                    }
                 }
                 do_add_test_lesson();
             });

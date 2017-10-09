@@ -596,7 +596,8 @@ class wx_parent_api extends Controller
 
             $lesson_start_date = date('Y-m-d H:i',$lesson_start_time );
             $lesson_end_date   = date('H:i',$lesson_end_time );
-            $result = "原因:{".$parent_modify_remark."}";
+            // $result = "原因:{".$parent_modify_remark."}";
+            $result = "";
 
             if(!$parent_modify_remark){
                 $result = '';
@@ -605,12 +606,14 @@ class wx_parent_api extends Controller
             $day_time = date('Y-m-d H:i:s');
             $wx     = new \App\Helper\Wx();
             //
-            $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+            // $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+            $url ="http://wx-parent-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
                 "first"     => " 调课申请受理中",
                 "keyword1"  => " 调换上课时间",
-                "keyword2"  => " 原上课时间: $lesson_start_date ~ $lesson_end_date , $result,申请受理中,请稍等!",
+                "keyword2"  => " 原上课时间: $lesson_start_date ~ $lesson_end_date ,申请受理中,请稍等!",
                 "keyword3"  => " $day_time",
                 "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
             ];
@@ -619,7 +622,6 @@ class wx_parent_api extends Controller
 
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
-            // $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html?lessonid='.$lessonid; //待定
             $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
             //$teach http://wx-teacher-web.leo1v1.com/handle-adjust/index.html
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -844,7 +846,8 @@ class wx_parent_api extends Controller
             //推送给老师
 
             $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
-            $result = "原因: $parent_keep_original_remark ";
+            // $result = "原因: $parent_keep_original_remark ";
+            $result = " ";
 
 
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";

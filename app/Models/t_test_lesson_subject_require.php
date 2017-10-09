@@ -2121,6 +2121,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     {
         $time = time(null);
         $where_arr=[
+            "s.is_test_user = 0",
             "l.lesson_status = 2",
             "l.lesson_del_flag = 0",
             "tr.test_lesson_order_fail_flag=0 or tr.test_lesson_order_fail_flag is null",
