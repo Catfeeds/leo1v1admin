@@ -3401,4 +3401,38 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         return $this->main_get_row($sql);
     }
+
+
+    /*
+     *@desn:获取cc不同类型合同的金额  [分期、非分期]
+     *@date:2017-09-29
+     *@author:Abner<abner@leo.edu.com>
+     *@param:$sys_operator : 下单人
+     *@param:$start_time : 开始时间
+     *@param:$end_time : 结束时间
+     *@return:Array [分期金额，非分期金额]
+     */
+    public function get_sort_order_count_money($sys_operator,$start_time,$end_time){
+        //获取分期金额
+        $where_arr = [
+            "o.contract_type <> 1",
+            [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
+
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+        $sql = $this->get_sql_new(
+            "select sum( if( co.child_order_type =2, co.price,0) ) as stage_money,".
+            " sum( if(co.child_order_type <> 2,co.price,0) ) as no_stage_money".
+            " from %s co".
+            " join %s o on co.parent_orderid = o.orderid".
+            " where %s"
+            ,t_child_order_info::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+
+    }
 }

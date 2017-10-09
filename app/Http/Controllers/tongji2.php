@@ -355,6 +355,10 @@ class tongji2 extends Controller
         $map=[];
         foreach($ret_info["list"] as $item ) {
             $map[$item["adminid"] ]=true;
+            $sys_operator = $item["account"];
+            $sort_money = $this->t_order_info->get_sort_order_count_money($sys_operator,$start_time,$end_time);
+            $ret_info["list"]["stage_money"] = $sort_moeny["stage_money"];
+            $ret_info["list"]["no_stage_money"] = $sort_moeny["no_stage_money"];
         }
 
         foreach($order_user_list as $item ) {
