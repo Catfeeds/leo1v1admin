@@ -3399,6 +3399,7 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
             E\Ereward_type::set_item_value_str($val,"type");
             $val['money'] /= 100;
+
             if(in_array($val['type'],[2,3])){
                 $val['money_info_extra'] = $this->cache_get_student_nick($val['userid']);
             }elseif($val['type']==6){
