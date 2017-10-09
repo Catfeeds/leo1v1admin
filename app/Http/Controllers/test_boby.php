@@ -515,8 +515,8 @@ class test_boby extends Controller
     }
 
     public function get_info_by_time(){
-        $start = $this->get_in_int_val('start',0);
-        $end = $this->get_in_int_val('end',0);
+        $start = $this->get_in_str_val('start',0);
+        $end = $this->get_in_str_val('end',0);
         $start_time = strtotime($start);
         $end_time = strtotime($end);
 
