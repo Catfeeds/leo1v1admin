@@ -638,7 +638,6 @@ class ss_deal2 extends Controller
             $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "is_green_flag"                 => $is_green_flag,
                 "green_channel_teacherid"       => $green_channel_teacherid,
-                "change_teacher_reason_type"    => $change_teacher_reason_type,
             ]);
             // if((!$change_teacher_reason_type || !$change_reason) && $ass_test_lesson_type ==2 ){//james
             //     //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o

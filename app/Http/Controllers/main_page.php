@@ -63,7 +63,6 @@ class main_page extends Controller
 
         if($history_data){ // 0:是历史数据 1:否历史数据
             $ret_info = &$ret_info_arr['list'];
-
             //概况
             $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
@@ -153,8 +152,6 @@ class main_page extends Controller
                 $ret_info['junior_money_rate']      = 0;
                 $ret_info['primary_money_rate']     = 0;
             }
-
-
 
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
@@ -511,16 +508,22 @@ class main_page extends Controller
         }
         #dd($assistant_renew);exit;
 
-        // $ass_adminid = $this->get_account_id();
-        // $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid);
+        $ass_adminid = $this->get_account_id();
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
             'warning_type_three' =>0
         ];
-        // foreach($warning_count as $item){
-        //     \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
-        // }
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $warning_type_num['warning_type_three'] = $three_count;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,

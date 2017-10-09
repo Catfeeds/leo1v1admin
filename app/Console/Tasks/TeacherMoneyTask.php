@@ -51,7 +51,6 @@ class TeacherMoneyTask extends TaskController
 
     /**
      * @param type 2 兼职老师的签单奖 3 全职老师的签单奖
-
      */
     public function set_teacher_trial_success_reward($type){
         if($type==2){
@@ -84,8 +83,7 @@ class TeacherMoneyTask extends TaskController
                 "type"       => 2,
                 "add_time"   => time(),
                 "money"      => $money,
-                // "money_info" => $val['lessonid'],
-                "money_info" => $stu_nick,
+                "money_info" => $val['lessonid'],
                 "lessonid"   => $val['lessonid'],
             ]);
 
