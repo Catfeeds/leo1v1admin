@@ -2744,18 +2744,18 @@ class user_deal extends Controller
             $update_arr =  [
                 "assign_lesson"              =>$assign_lesson
             ];
-            $task->t_month_ass_student_info->get_field_update_arr($item["adminid"],$month,1,$update_arr);
+            $this->t_month_ass_student_info->get_field_update_arr($item["adminid"],$month,1,$update_arr);
 
             //get assistantid
-            $ret_assistantid = $task->t_manager_info->get_assistant_id($item["adminid"]);
+            $ret_assistantid = $this->t_manager_info->get_assistant_id($item["adminid"]);
             //get assign_lesson_count
-            $assign_lesson_count = $task->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($ret_assistantid);
             if($assign_lesson_count == ''){
                 $assign_lesson_count = 0;
             }
 
             //update assign_lesson_count
-            $task->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+            $this->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
         }
 
         dd(111);

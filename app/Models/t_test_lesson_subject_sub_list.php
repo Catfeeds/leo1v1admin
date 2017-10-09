@@ -201,8 +201,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         }elseif($type==3 || $type==4){
             $where_arr[] = "t.teacher_money_type in (0,7) and t.teacher_type=3";
         }
-        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,"
-                                  ." tls.require_admin_type"
+        $sql = $this->gen_sql_new("select l.teacherid,l.userid,l.lessonid,l.lesson_start,t.phone,tls.require_admin_type"
                                   // ." ,c.last_modified_time"
                                   ." from %s tl "
                                   ." left join %s tr on tl.require_id=tr.require_id"
@@ -245,7 +244,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_money_list::DB_TABLE_NAME
         );
-        echo $sql;exit;
+        dd($sql);
         return $this->main_get_list($sql);
     }
 
