@@ -571,13 +571,6 @@ class wx_teacher_api extends Controller
         $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
         $parent_deal_time = $this->t_lesson_time_modify->get_parent_deal_time($lessonid);
 
-
-
-
-
-
-
-
         if($parent_deal_time<time()-3600){
             $ret_info['has_do'] = 2; //超时
             return $this->output_succ(['data'=>$ret_info]);
@@ -605,6 +598,7 @@ class wx_teacher_api extends Controller
                 $tea_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
             }
 
+            $teacher_time = [];
             foreach($tea_time as $v){
                 foreach($v as $vv){
                     $teacher_time[] = $vv;

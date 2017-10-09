@@ -13,7 +13,7 @@ class TSellerTongjiForMonthReset extends Migration
     public function up()
     {
         //
-        Schema::dropIfExists('t_seller_tongji_for_month');
+        Schema::dropIfExists('db_weiyi.t_seller_tongji_for_month');
 
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
@@ -61,6 +61,8 @@ class TSellerTongjiForMonthReset extends Migration
             t_field($table->integer("cc_called_num"),"拨打的cc量");
             t_field($table->integer("cc_call_time"),"cc总计通话时长");
 
+            $table->index('create_time');
+            $table->index('from_time');
         });
 
     }
