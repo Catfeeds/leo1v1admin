@@ -1,4 +1,5 @@
 interface GargsStatic {
+	download:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -21,11 +22,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			download:	$('#id_download').val()
         });
     }
 
 
+	$('#id_download').val(g_args.download);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -35,4 +37,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">download</span>
+                <input class="opt-change form-control" id="id_download" />
+            </div>
+        </div>
 */
