@@ -98,29 +98,29 @@
                                         </tr>
                                         <tr>
                                             <td >1000精排</td> 
-                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
-                                            <td >{{@$top_jw_total["have_order"]}}/{{@$top_jw_total["person_num"]}}</td> 
-                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}</td> 
+                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$top_seller_total["per"]}}%</td> 
+                                            <td >{{@$top_jw_total["have_order"]}}/{{@$top_jw_total["person_num"]}} &&nbsp&&nbsp&&nbsp&&nbsp{{@$top_jw_total["per"]}}%</td> 
+                                            <td >{{@$top_seller_total["have_order"]}}/{{@$top_seller_total["person_num"]}} &&nbsp&&nbsp&&nbsp&&nbsp{{@$top_seller_total["per"]}}%</td> 
                                         </tr>
                                         <tr>
                                             <td >绿色通道</td> 
-                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}</td> 
-                                            <td >{{@$green_jw_total["have_order"]}}/{{@$green_jw_total["person_num"]}}</td> 
-                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}</td> 
+                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$green_seller_total["per"]}}%</td> 
+                                            <td >{{@$green_jw_total["have_order"]}}/{{@$green_jw_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$green_jw_total["per"]}}%</td> 
+                                            <td >{{@$green_seller_total["have_order"]}}/{{@$green_seller_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$green_seller_total["per"]}}%</td> 
 
                                         </tr>
                                         <tr>
                                             <td >常规排课(抢课)</td> 
-                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}</td> 
-                                            <td >{{@$normal_jw_total_grab["have_order"]}}/{{@$normal_jw_total_grab["person_num"]}}</td> 
-                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}</td> 
+                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$normal_seller_total_grab["per"]}}%</td> 
+                                            <td >{{@$normal_jw_total_grab["have_order"]}}/{{@$normal_jw_total_grab["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$top_seller_total["per"]}}%</td> 
+                                            <td >{{@$normal_seller_total_grab["have_order"]}}/{{@$normal_seller_total_grab["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$normal_seller_total_grab["per"]}}%</td> 
 
                                         </tr>
                                         <tr>
                                             <td >常规排课(非抢课)</td> 
-                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
-                                            <td >{{@$normal_jw_total["have_order"]}}/{{@$normal_jw_total["person_num"]}}</td> 
-                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}</td> 
+                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$normal_seller_total["per"]}}%</td> 
+                                            <td >{{@$normal_jw_total["have_order"]}}/{{@$normal_jw_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$normal_jw_total["per"]}}%</td> 
+                                            <td >{{@$normal_seller_total["have_order"]}}/{{@$normal_seller_total["person_num"]}}&&nbsp&&nbsp&&nbsp&&nbsp{{@$normal_seller_total["per"]}}%</td> 
 
                                         </tr>
 

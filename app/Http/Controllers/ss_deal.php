@@ -2644,7 +2644,6 @@ class ss_deal extends Controller
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
-
             // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
             $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
