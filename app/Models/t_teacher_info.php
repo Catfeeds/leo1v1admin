@@ -3717,4 +3717,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_all_no_textbook_teacher_info(){
+        $sql = $this->gen_sql_new("select teacherid,phone,teacher_textbook,subject,grade_part_ex,grade_start,grade_end "
+                                  ." from %s"
+                                  ." where is_test_user=0 and train_through_new=1 and teacher_textbook='' and subject>0",
+                                  self::DB_TABLE_NAME                                 
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

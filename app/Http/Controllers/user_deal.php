@@ -2713,6 +2713,20 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $list = $this->t_teacher_info->get_all_no_textbook_teacher_info(); 
+        foreach($list as &$val){
+            
+            $location = \App\Helper\Common::get_phone_location($val["phone"]);
+            $location=substr($location, 0, -6);
+
+            if($val["grade_start"]>0){
+                if($val["grade_end"]<=2){
+                    $grade=100;
+                    $ret= $this->t_location_subject_grade_textbook_info->get_info_by_province_and_subject_and_grade($location,$val["subject"],$grade);
+                    dd($ret);
+                }
+                
+            }
+        }
        
         dd($list);
 
