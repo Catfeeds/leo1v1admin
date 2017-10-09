@@ -1175,8 +1175,10 @@ class tongji2 extends Controller
                 }
             }
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+            dd($ret_info);
             //处理
             $ret_info['target']        = $ret_info['target']>0?$ret_info['target']/100:0;
+
             $ret_info['total_price']   = $ret_info['total_price']>0?$ret_info['total_price']/100:0;
             $ret_info['kpi_per']       = $ret_info['kpi_per'] >0?$ret_info['kpi_per']/100:0;
             $ret_info['gap_money']     = $ret_info['gap_money']>0?$ret_info['gap_money']/100:0;
