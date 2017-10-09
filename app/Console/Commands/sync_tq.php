@@ -48,7 +48,9 @@ class sync_tq extends cmd_base
         if(is_array($arr)){
             array_shift($arr);
 
+
             foreach ($arr as $item ) {
+                \App\Helper\Utils::logger( "item:". json_encode($item) );
                 if(isset($item["Start_time"])){
                     if(isset($item["RecordFile"])){
                         if(is_array($item["RecordFile"])){

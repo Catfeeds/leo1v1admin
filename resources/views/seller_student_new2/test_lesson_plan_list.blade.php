@@ -486,7 +486,7 @@
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
                                         <a title="排课" class=" opt-set-lesson-new show_flag">驳回&排课 </a>
-                                        <a title="换老师/时间" class=" fa-male  opt-set-teacher-time show_flag"></a>
+                                        <!-- <a title="换老师/时间" class=" fa-male  opt-set-teacher-time show_flag"></a> -->
                                     @endif
                                     <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
                                     <a title="用户试听信息" class="fa-info  opt-user-info show_flag"> </a>
