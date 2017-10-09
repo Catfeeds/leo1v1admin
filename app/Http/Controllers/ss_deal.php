@@ -880,7 +880,7 @@ class ss_deal extends Controller
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
         $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
-
+        // dd(123);
 
         $this->t_seller_student_new->field_update_list($userid,['stu_test_ipad_flag'=>$stu_test_ipad_flag,'not_test_ipad_reason'=>$not_test_ipad_reason]);
 
@@ -889,7 +889,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="助教-扩课";
+            $origin_info["origin"]="助教-扩课1";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
