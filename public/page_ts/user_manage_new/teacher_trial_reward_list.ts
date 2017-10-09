@@ -12,6 +12,7 @@ $(function(){
 			teacherid        : $('#id_teacherid').val(),
 			type             : $('#id_reward_type').val(),
 			lessonid         : $('#id_lessonid').val(),
+			has_lesson 		 : $('#id_has_lesson').val(),
         });
     }
 
@@ -27,7 +28,9 @@ $(function(){
     });
 
     Enum_map.append_option_list("reward_type",$("#id_reward_type"));
+    Enum_map.append_option_list("boolean",$("#id_has_lesson"));
 	$('#id_reward_type').val(g_args.type);
+	$('#id_has_lesson').val(g_args.has_lesson);
     $("#id_teacherid").val(g_args.teacherid);
     $.admin_select_user( $("#id_teacherid"), "teacher",load_data);
 

@@ -3686,9 +3686,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.teacher_money_type in (5,6)",
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
-            "l.lesson_status >0",
+            "l.lesson_status >1",
             "l.lesson_type in (0,1,3)",
-            "t.teacherid in (151160,159071)"
+            // "t.teacherid in (151160,159071)"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,t.realname,"
