@@ -699,14 +699,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
 
         $sql = $this->gen_sql_new(
-            "select order_time,price,o.userid,stu_from_type ,contract_type "
+            "select  $opt_date_str as opt_date,price,o.userid,stu_from_type ,contract_type "
             ." from %s o "
             ." left join %s s on o.userid = s.userid "
             ." left join %s m on o.sys_operator = m.account "
             ." left join %s tss on o.from_test_lesson_id = tss.lessonid"
             ." left join %s tr on tr.require_id= tss.require_id"
             ." left join %s t on tr.test_lesson_subject_id= t.test_lesson_subject_id"
-            ." where %s and  contract_status <> 0 order by order_time asc",
+            ." where %s and  contract_status <> 0 order by $opt_date_str asc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
