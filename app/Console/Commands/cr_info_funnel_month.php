@@ -90,7 +90,7 @@ class cr_info_funnel_month extends Command
                         }
                     }
                 }
-                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_real_renew_num/$warning_num,2);//  月续费率
+                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
                 $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
