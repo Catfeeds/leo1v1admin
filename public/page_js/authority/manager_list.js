@@ -126,9 +126,9 @@ $(function(){
         var arr=[
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
-            [" 是否离职",del_flag],
-            [" 老师账号是否离职",tea_del_flag],
-            [" 时间",time]
+            ["是否离职",del_flag],
+            ["老师账号是否离职",tea_del_flag],
+            ["时间",time]
         ];
 
         $.show_key_value_table("更改员工状态", arr ,{
