@@ -344,12 +344,9 @@
                     <div class="input-group ">
                         <span >教材版本</span>
                         <select id="id_teacher_textbook" class ="opt-change" >
-                           
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>
