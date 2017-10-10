@@ -238,7 +238,7 @@ class menu{
 
                 ["power_id"=>31, "name"=>"部门管理",   "url"=>"/user_manage_new/admin_group_manage"],
                 ["power_id"=>40, "name"=>"校区管理",   "url"=>"/campus_manage/admin_campus_manage"],
-              
+                ["power_id"=>41, "name"=>"月份时间定义",   "url"=>"/month_def_type/def_list"],
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
                     ["power_id"=>1, "name"=>"教学事业管理部花名册","url"=>"/user_manage_new/department_memeber_list_production"],
                     ["power_id"=>2, "name"=>"TSR事业部花名册","url"=>"/user_manage_new/department_memeber_list_seller"],
@@ -544,6 +544,7 @@ class menu{
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
+                ["power_id"=>23, "name"=>"销售自定义时间",   "url"=>"/month_def_type/def_list"],
                 // ["power_id"=>36, "name"=>"销售-修改日志",   "url"=>"/authority/seller_edit_log_list"],
 
                 ["power_id"=>91, "name"=>"状态分类",  "list"=>[

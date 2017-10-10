@@ -344,8 +344,7 @@ class test_sam  extends Controller
             $cur_start   = strtotime(date('Y-m-01',$start_time));
             $cur_month   = strtotime(date('Y-m-01',$end_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-            $create_time_range = date('Y-m-d H:i:s',$cur_month).'~'.date('Y-m-d H:i:s',$end_time);
-            echo '<pre>';var_dump($start_month,$end_month,$cur_month,$start_time,$end_time,$now_time,$create_time_range);echo '</pre>';
+            $create_time_range = date('Y-m-d H:i:s',$cur_month).'~'.date('Y-m-d H:i:s',$end_time);  
             if($start_month == $end_month){ //周报
                 $type = 2;
                 $create_time = $end_time;//
@@ -355,9 +354,7 @@ class test_sam  extends Controller
                 $create_time = $end_time;
                 $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
             } 
-            echo $type;
             if($this->t_cr_week_month_info->get_data_by_type($end_time,$type)){
-                echo 4;
                 $arr = '';
                 //C2-计划内续费学生数量 //C4-实际续费学生数量 ////C7-月续费率//C8-月预警续费率
                 $warning_list       = $this->t_cr_week_month_info->get_student_list_new($type,$start_time);//进入续费预警的学员
@@ -389,7 +386,7 @@ class test_sam  extends Controller
                         }
                     }
                 }
-                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_real_renew_num/$warning_num,2);//  月续费率
+                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
                 $tranfer            = $this->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
@@ -426,10 +423,8 @@ class test_sam  extends Controller
                 $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(4,$create_time);
                 if($ret_id>0){
                     $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
-                    echo 100;
                 }else{
                     $this->t_cr_week_month_info->row_insert($insert_data);
-                    echo 999;
                 }
             }
             $i = strtotime("+7 days",$i);

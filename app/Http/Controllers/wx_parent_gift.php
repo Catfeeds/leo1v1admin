@@ -267,9 +267,17 @@ class wx_parent_gift extends Controller
     public function get_share_num_for_book () {
         $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
         $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
-
         $wx->goto_wx_login( $redirect_url );
     }
+
+    //http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book
+
+    /*
+
+      $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
+
+     */
+
 
 
 
