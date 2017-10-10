@@ -226,7 +226,9 @@
                 <div class="col-xs-3 col-md-1">
                     <div class="input-group ">
                         <button class="btn btn-primary " id="id_add">试听申请</button>
-                        <!-- <button class="btn btn-primary " id="id_add_new">试听申请</button> -->
+                        @if(in_array($adminid,[831,349,448,68,1093,1122,188,60]))
+                            <button class="btn btn-primary " id="id_add_new">试听申请-new</button>
+                        @endif
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
