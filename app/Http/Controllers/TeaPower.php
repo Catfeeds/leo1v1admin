@@ -1267,11 +1267,12 @@ trait TeaPower {
         if($check_flag){
             return "该手机号已存在";
         }
+
         $check_teacher_day = strtotime("2017-9-10");
         if(time()>$check_teacher_day){
-            $default_teacher_money_type= E\Eteacher_money_type::V_6;
+            $default_teacher_money_type = E\Eteacher_money_type::V_6;
         }else{
-            $default_teacher_money_type= E\Eteacher_money_type::V_4;
+            $default_teacher_money_type = E\Eteacher_money_type::V_4;
         }
 
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
@@ -1316,7 +1317,7 @@ trait TeaPower {
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
                 if($reference_info['teacher_type']>30){
                     $teacher_ref_type = $reference_info['teacher_ref_type'];
-                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2])){
                     $teacher_ref_type = $reference_info['teacher_ref_type'];
                     $teacher_money_type = E\Eteacher_money_type::V_5;
                 }
@@ -2487,7 +2488,7 @@ trait TeaPower {
             }elseif(in_array($adminid,[923])){
                 $subject=-1;
             }elseif(in_array($adminid,[793])){
-                $subject=5;
+                $subject=-5;
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
@@ -2506,7 +2507,7 @@ trait TeaPower {
             }elseif(in_array($adminid,[372,329])){
                 $subject=3;
             }elseif(in_array($adminid,[793])){
-                $subject=5;
+                $subject=-5;
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
