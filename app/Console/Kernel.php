@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         Commands\office_close::class,
         Commands\reset_lesson_online_user_status_by_stroke_time::class,
         Commands\update_lesson_call_time::class,
+        Commands\update_seller_level::class,
         Commands\todo_reset::class,
         Commands\agent_reset::class,
         Commands\BindUserid2Phone::class,
