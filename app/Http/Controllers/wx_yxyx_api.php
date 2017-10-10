@@ -81,7 +81,7 @@ class wx_yxyx_api extends Controller
             "all_money" => $agent_info["l2_agent_status_all_money"]/100,
             "open_moeny" => $agent_info["l2_agent_status_all_open_money"]/100,
         ];
-        $activity_money=$this->t_agent_money_ex->get_all_money($agent_id);
+        $activity_money=$this->t_agent_money_ex->get_all_money($agent_id)*1;
 
         $data["activity_money_info"] =[
             "all_money" => $activity_money,

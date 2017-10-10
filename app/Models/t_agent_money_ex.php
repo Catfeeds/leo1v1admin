@@ -30,7 +30,7 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
     }
 
     public function get_all_money ($agent_id) {
-        $sql=$this->main_get_value("select sum(money) from %s where  agent_id=%u "
+        $sql=$this->gen_sql_new( "select sum(money) from %s where  agent_id =%u "
                               ,self::DB_TABLE_NAME , $agent_id);
         return $this->main_get_value($sql);
     }
