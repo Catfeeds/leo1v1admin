@@ -43,7 +43,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
              " left join %s  n on n.userid=l.userid ",
              " left join %s  tts on tts.lessonid=l.lessonid ",
              " left join %s  tr on tr.require_id=tts.require_id ",
-             " left join %s  tq on (n.phone=tq.phone and tq.start_time > l.lesson_start )",
+             " left join %s  tq on (n.phone=tq.phone and tq.start_time > l.lesson_end )",
              " left join %s  o on ( o.from_test_lesson_id =l.lessonid  and  o.contract_status in (1,2) )",
              " where %s group by l.lessonid  $order_by_str ",
             ]

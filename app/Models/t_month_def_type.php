@@ -32,6 +32,9 @@ class t_month_def_type extends \App\Models\Zgen\z_t_month_def_type
     }
 
     public function get_all_list(){
+        $where_arr = [
+            ['month_def_type = ',E\Emonth_def_type::V_1,-1],
+        ];
         $sql=$this->gen_sql_new(
             "select * from %s where %s ",
             self::DB_TABLE_NAME,
