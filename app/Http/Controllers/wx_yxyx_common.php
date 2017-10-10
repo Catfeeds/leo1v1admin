@@ -467,7 +467,7 @@ class wx_yxyx_common extends Controller
         $grade     = $this->get_in_int_val('grade',-1);
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
-        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
@@ -504,7 +504,7 @@ class wx_yxyx_common extends Controller
     public function get_one_test_and_other() {
         $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
-        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
         if ($id < 0){
             return $this->output_err('信息有误！');
         }
