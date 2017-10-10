@@ -664,7 +664,7 @@ class wx_parent_api extends Controller
                 $lesson_time_arr['status'] = 1;// 已提交
             }elseif( $lesson_modify_arr['is_modify_time_flag'] == 1){
                 $lesson_time_arr['status'] = 2;// 已完成
-            }elseif( $lesson_modify_ar['is_modify_time_flag'] == 2){
+            }elseif( $lesson_modify_arr['is_modify_time_flag'] == 2){
                 $lesson_time_arr['status'] = 3; // 被拒绝
             }
         }

@@ -3590,7 +3590,6 @@ lesson_type in (0,1) "
                                   ." where %s"
                                   ." and lesson_del_flag=0"
                                   ." and confirm_flag!=2"
-                                  // ." and lesson_status=2"
                                   ." and lesson_type<1000"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
