@@ -175,7 +175,6 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             $where_arr = [
                 "is_warning_flag=1",
                 ["m.uid= %u",$ass_adminid,-1],
-                "r.revisit_time<$one",
                 "r.revisit_time>=$two",
             ];
         } else if ($revisit_warning_type == 2){
