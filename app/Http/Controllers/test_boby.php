@@ -545,8 +545,9 @@ class test_boby extends Controller
         $grade     = $this->get_in_int_val('grade',-1);
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
-        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
         $page_info = $this->get_in_page_info();
+        // dd($wx_openid);
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
         $end_time   = strtotime('tomorrow');
@@ -578,6 +579,37 @@ class test_boby extends Controller
         $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
         return $this->output_succ(["home_info"=>$ret_info]);
     }
+
+    public function get_yxyx_all_news(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx_new($page_info);
+        foreach ($ret_info['list'] as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+
+        if ($ret_info) {
+            $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /5);
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+    public function get_yxyx_all_new(){
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
+        foreach ($ret_info as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+        if ($ret_info) {
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+
 
 
 }

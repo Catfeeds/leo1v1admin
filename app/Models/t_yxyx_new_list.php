@@ -68,6 +68,17 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
     }
 
+    public function get_all_for_wx_new($page_info){
+        $sql = $this->gen_sql_new( "select id,new_pic,new_title,new_content"
+                                    ." from %s"
+                                    ." order by id desc"
+                                    ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,5);
+
+    }
+
+
     public function get_one_new_for_wx($id) {
         $where_arr = [
             'id='.$id,
