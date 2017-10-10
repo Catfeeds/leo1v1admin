@@ -1190,6 +1190,9 @@ class seller_student_new extends Controller
         $cur_require_adminid = $this->get_account_id();
         $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid);
         $ret = isset($ret_info['require_id'])?$ret_info['require_id']:0;
+        if(in_array($cur_require_adminid,[68,1093,1122])){//测试
+            $ret = 0;
+        }
         return $ret;
     }
 

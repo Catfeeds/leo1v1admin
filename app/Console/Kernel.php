@@ -47,6 +47,8 @@ class Kernel extends ConsoleKernel
         Commands\teacher_fifth_regular_lesson_deal::class,
         Commands\seller_new_count_day_gen::class,
         Commands\zs_lecture_info_day::class,
+        Commands\cr_info_week::class,
+        Commands\cr_info_month::class,
         Commands\zs_lecture_info_day_new::class,
         Commands\zs_lecture_info_month::class,
         Commands\zs_lecture_info_week::class,

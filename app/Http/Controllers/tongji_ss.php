@@ -1294,8 +1294,17 @@ class tongji_ss extends Controller
 
 
     public function contract_count() {
-        $start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
-        $end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
+
+        list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
+            -7, 1, 0, [
+                0 => array( "order_time", "合同生成时间"),
+                1 => array("check_money_time","财务确认时间"),
+            ], 0,0
+        );
+
+
+        //$start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
+        //$end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
         $contract_type     = $this->get_in_int_val("contract_type",-1);
         $contract_status   = -1;
         $config_courseid   = -1;
@@ -1318,7 +1327,7 @@ class tongji_ss extends Controller
             $show_yueyue_flag= true;
         }
         //$show_yueyue_flag= true;
-        $ret_info=$this->t_order_info->get_order_count_new($start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag,-1,$origin,$from_type,$sys_operator,$account_role,$adminid_list,$adminid_all);
+        $ret_info=$this->t_order_info->get_order_count_new($start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag,-1,$origin,$from_type,$sys_operator,$account_role,$adminid_list,$adminid_all,$opt_date_str);
         $ret_info = $ret_info['list'];
         $admin_info = $this->t_manager_info->get_admin_member_list();
         $admin_list= & $admin_info['list'] ;

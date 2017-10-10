@@ -293,8 +293,8 @@ class get_ass_stu_info_update extends Command
                 $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
 
                 //add 课耗活动-------------------------------------------------------------------------------
-                $item["lesson_ratio_month"]          = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,3):0; //课程系数
-                $item["effective_student"] = @$student_all_detail[$k]; //带学生人数
+                $item["lesson_ratio_month"]          = !empty(@$item["read_student_new"])?round(@$item["lesson_total"]/@$item["read_student_new"]/100,3):0; //课程系数-新版 当月课耗/当月上课人数
+                $item["effective_student"] = @$item["read_student_new"]; //带学生人数(上课学生数)
 
                 //ca
                 $assign_lesson  = 0;

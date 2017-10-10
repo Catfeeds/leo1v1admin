@@ -46,12 +46,14 @@ class testbb extends Controller
         dd($ass_list_str);
     }
 
+    public function ttt(){
+        $rid = $this->get_in_int_val('rid');
+    }
 
 
     public function test () {
 
-        $num = $this->t_teacher_day_luck_draw->compute_time();
-
+        dd($_SERVER);
         dd($num);
 
         $a = 'http://1111';
