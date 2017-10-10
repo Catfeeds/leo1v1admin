@@ -2712,7 +2712,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-09-01"); 
+        $start_time = strtotime("2017-09-01");
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
         $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
 
@@ -2734,7 +2734,7 @@ class user_deal extends Controller
             }else{
                 $assign_lesson = 2700; //9
             }
-            if($item['effective_student'] < 30){ 
+            if($item['effective_student'] < 30){
                 $assign_lesson = $assign_lesson * 0.2;
             }elseif ($item['effective_student'] < 50) {
                 $assign_lesson = $assign_lesson * 0.4;
@@ -2744,7 +2744,7 @@ class user_deal extends Controller
                 $assign_lesson = $assign_lesson * 0.8;
             }
 
-            //update assign_lesson in t_month_ass_student_info 
+            //update assign_lesson in t_month_ass_student_info
             $update_arr =  [
                 "assign_lesson"              =>$assign_lesson
             ];
@@ -2763,10 +2763,10 @@ class user_deal extends Controller
         }
         dd(111);
 
-        $list = $this->t_teacher_info->get_all_no_textbook_teacher_info(); 
+        $list = $this->t_teacher_info->get_all_no_textbook_teacher_info();
         foreach($list as &$val){
-            
-         
+
+
 
             if($val["grade_start"]>0){
                 if($val["grade_end"]<=2){
@@ -2785,10 +2785,10 @@ class user_deal extends Controller
                     }
                     dd($teacher_textbook);
                 }
-                
+
             }
         }
-       
+
         dd($list);
 
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
@@ -2814,7 +2814,7 @@ class user_deal extends Controller
                     "main_assign_percent" =>$item["main_assign_percent"]
                 ]);
             }
-                      
+
         }
 
         dd(111);
@@ -2828,7 +2828,7 @@ class user_deal extends Controller
                 "main_assign_percent" =>$item["main_assign_percent"]
             ]);
         }
-        
+
 
         $i=2;
         $first_group_list = $this->t_main_major_group_name_month->get_group_list($i,$month);
@@ -2890,13 +2890,13 @@ class user_deal extends Controller
         dd($one_account);
         $tt=0;
         foreach($one_account as $val){
-            $tt +=$val["lesson_add_num"]; 
+            $tt +=$val["lesson_add_num"];
         }
         //  dd($tt);
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference_detail($start_time,$end_time);
         dd($one_account);
         dd($lesson_add);
-        
+
 
     }
 
@@ -3464,12 +3464,29 @@ class user_deal extends Controller
         }else{
             $warning_deal_url="";
         }
+        $time = time();
         $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
             "warning_deal_url" =>$warning_deal_url,
             "warning_deal_info" => $warning_deal_info,
-            "warning_deal_time" => time(),
+            "warning_deal_time" => $time,
             "is_warning_flag" => $is_warning_flag
         ]);
+
+        if($is_warning_flag == 2) {
+            //如果状态改为‘已解决’,查询预警超时表，同步修改对应状态
+            $ret = $this->t_revisit_warning_overtime_info->get_overtime_id_and_create_time($userid, $revisit_time);
+            if (count($ret) > 0){
+                $add_month  = date('Y-m-1', $ret['create_time']);
+                $deal_month = date('Y-m-1', $time);
+                $deal_type  = ($add_month === $deal_month)? 1: 2;
+                $this->t_revisit_warning_overtime_info->field_update_list($ret['overtime_id'],[
+                    "deal_time" => $time,
+                    "deal_type" => $deal_type,
+                ]);
+
+            }
+
+        }
         return $this->output_succ();
 
     }
@@ -3849,7 +3866,7 @@ class user_deal extends Controller
         if(strlen(str_replace(" ","",$change_reason))<9){
             return $this->output_err('换老师原因不得少于3个字!');
         }
- 
+
 
         $adminid = $this->get_account_id();
         $ret = $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
