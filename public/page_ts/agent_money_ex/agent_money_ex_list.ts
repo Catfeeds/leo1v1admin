@@ -4,13 +4,11 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            grade:	$('#id_grade').val(),
             date_type_config:	$('#id_date_type_config').val(),
             date_type:	$('#id_date_type').val(),
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
-            msg:	$('#id_msg').val()
         });
     }
 
@@ -25,23 +23,21 @@ $(function(){
             load_data();
         }
     });
-    $('#id_grade').val(g_args.grade);
-    $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
-    $('#id_msg').val(g_args.msg);
 
 
     $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add").on("click",function(){
-        var $ex_type = $("<input/>");
+        var $agent_money_ex_type= $("<select/>" );
+        Enum_map.append_option_list("agent_money_ex_type", $agent_money_ex_type,true);
+
+        // var $agent_money_ex_type = $("<input/>");
         var $agent_id = $("<input/>");
-        var $adminid_id = $("<input/>");
         var $money = $("<input/>");
         var arr=[
-            ["类型" ,$ex_type ],
+            ["说明" ,$agent_money_ex_type ],
             ["用户id" ,$agent_id ],
-            ["发放人id" ,$adminid_id ],
-            ["金额(分)" ,$money ]
+            ["金额[元]" ,$money ]
         ] ;
 
         $.show_key_value_table("新增申请", arr ,{
@@ -49,33 +45,9 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/agent_money_ex/agent_add",{
-                    "ex_type" : $ex_type.val(),
+                    "agent_money_ex_type" : $agent_money_ex_type.val(),
                     "agent_id" : $agent_id.val(),
-                    "adminid_id" : $adminid_id.val(),
                     "money" : $money.val(),
-                });
-            }
-        });
-
-    });
-
-
-    $(".opt-edit").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var $grade= $("<select/>" );
-        Enum_map.append_option_list("grade", $grade,true);
-        var arr=[
-            ["年级" ,$grade  ],
-        ] ;
-        $grade.val(opt_data.grade );
-
-        $.show_key_value_table("xx", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                $.do_ajax("/test_luki/test_set2",{
-                    "id" : opt_data.id,
-                    "grade" : $grade.val()
                 });
             }
         });
@@ -84,19 +56,10 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        var arr=[
-        ] ;
 
-        $.show_key_value_table("xx",arr,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                $.do_ajax("/test_luki/test_del",{
+         $.do_ajax("/agent_money_ex/agent_money_ex_del",{
                     "id" : opt_data.id
-                });
-            }
-        });
-
-      });
+         });
+    });
 
 });

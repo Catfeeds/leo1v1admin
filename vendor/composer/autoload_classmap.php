@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddVotesToTSellerStudentNew' => $baseDir . '/database/migrations/2017_09_27_174050_add_votes_to_t_seller_student_new.php',
     'CreateTAdminMajordomoGroupName' => $baseDir . '/database/migrations/2017_09_13_183810_create_t_admin_majordomo_group_name.php',
+    'CreateTAgentMoneyEx' => $baseDir . '/database/migrations/2017_10_10_160512_create_t_agent_money_ex.php',
     'CreateTGarbLessonLinkInfo' => $baseDir . '/database/migrations/2017_09_23_104354_create_t_garb_lesson_link_info.php',
     'CreateTGrabLessonLinkInfo' => $baseDir . '/database/migrations/2017_09_21_173336_create_t_grab_lesson_link_info.php',
     'CreateTGrabLessonLinkVisitInfo' => $baseDir . '/database/migrations/2017_09_21_172147_create_t_grab_lesson_link_visit_info.php',
@@ -23,6 +24,7 @@ return array(
     'CreateTTestLessonOptLog' => $baseDir . '/database/migrations/2017_09_14_163836_create_t_test_lesson_opt_log.php',
     'CreateTTestRick' => $baseDir . '/database/migrations/2017_09_28_092953_create_t_test_rick.php',
     'CreateTUserGroupChangeLog' => $baseDir . '/database/migrations/2017_09_15_170838_create_t_user_group_change_log.php',
+    'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
     'CreateTWxShare' => $baseDir . '/database/migrations/2017_09_02_160423_create_t_wx_share.php',
     'CreateTWxShareAdd' => $baseDir . '/database/migrations/2017_09_02_163055_create_t_wx_share_add.php',
     'CreateTableTChildOrderInfo' => $baseDir . '/database/migrations/2017_09_12_161800_create_table_t_child_order_info.php',
