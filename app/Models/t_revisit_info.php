@@ -194,7 +194,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                 "wo.deal_type<>1",
             ];
 
-            if ($uid_str != -1) {
+            if ($uid_str != -1 & $uid_str ) {
                 $where_arr[] = "m.uid in ($uid_str)";
             }
 
@@ -223,7 +223,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             $this->where_arr_add_time_range($where_arr,"r.revisit_time",$start_time,$end_time);
         }
 
-        if ($uid_str != -1) {
+        if ($uid_str != -1 & $uid_str) {
             $where_arr[] = "m.uid in ($uid_str)";
         }
         $this->where_arr_adminid_in_list($where_arr,"m.uid", $require_adminid_list );
