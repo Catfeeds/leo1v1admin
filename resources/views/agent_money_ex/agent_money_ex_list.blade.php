@@ -47,7 +47,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
-                        <td>{{$var["agent_id"]}} </td>
+                        <td>{{$var["agent_id"]}} {{$var["agent_id"]}}</td>
                         <td>{{$var["ex_type"]}} </td>
                         <td>{{$var["add_time"]}} </td>
                         <td>{{$var["adminid_id"]}} </td>

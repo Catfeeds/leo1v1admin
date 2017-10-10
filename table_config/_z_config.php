@@ -1,6 +1,6 @@
 <?php
 return array(
-    ["db_weiyi","t_agent_money_ex", "id"],
+    ["db_weiyi","t_agent_moeny_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],
     ["db_weiyi_admin","t_ssh_login_log", "id"],
     ["db_weiyi_admin","t_month_def_type","id"],

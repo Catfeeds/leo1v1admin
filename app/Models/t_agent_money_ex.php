@@ -15,13 +15,11 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         $this->where_arr_add_time_range($where_arr,"ame.add_time",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
-            "select ame.ex_type,ame.add_time,ame.money,mi.account,mi.name,si.nick,si.real_name".
-            "from %s ame".
-            "left join %s si on ame.agent_id = si.user_id".
-            "left join %s mi on ame.adminid_id = mi.uid".
+            "select ame.agent_money_ex_type,ame.add_time,ame.money,mi.account,mi.name ".
+            "from %s ame ".
+            "left join %s mi on ame.adminid = mi.uid ".
             "where %s ",
             self::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             $where_arr
         );
