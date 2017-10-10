@@ -1754,12 +1754,31 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
+        $adminid = $this->get_account_id();
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str);
+        $warning_type_num['warning_type_three'] = $three_count;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,
             // "ass_group"   =>@$ass_group[$account_id],
-            "ass_list_group" =>@$ass_list_group
+            "ass_list_group" =>@$ass_list_group,
+            "warning"       => $warning_type_num
         ]);
 
 
