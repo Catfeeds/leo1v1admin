@@ -258,7 +258,7 @@
                                             <td class="panel-green"> {{@$arr['tranfer_phone_num']}}  </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_num']}} </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_price']}}</td>
-                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}  </td>
+                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}%  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>
                                             <td>{{@$arr['tranfer_num_per']}}</td>

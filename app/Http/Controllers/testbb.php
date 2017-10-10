@@ -256,6 +256,14 @@ class testbb extends Controller
 
     public function get_num(){
 
+        $no    = rand(1,10000);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
+        $appid = 'wx636f1058abca1bc1';
+
+        $u= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
+
+        header("location: $u");
+
         $this->switch_tongji_database();
         // $teacherid = $this->t_lesson_info_b3->get_on_num();
         $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
