@@ -15,7 +15,7 @@ class t_revisit_warning_overtime_info extends \App\Models\Zgen\z_t_revisit_warni
             "wo.deal_type<>1",
         ];
 
-        if ($uid_str != -1 & $uid_str !== null) {
+        if ($uid_str != -1 && $uid_str !== null) {
             $where_arr[] = "m.uid in ($uid_str)";
         }
 
