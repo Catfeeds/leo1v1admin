@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class cr_info_week extends Command
+class cr_info_month extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:cr_info_week';
+    protected $signature = 'command:cr_info_month';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '助教助长周报信息';
+    protected $description = '助教助长月报信息';
 
     /**
      * Create a new command instance.
@@ -44,9 +44,9 @@ class cr_info_week extends Command
         $timestamp = time(); 
 
 
-        $end_time   = strtotime(date('Y-m-d', strtotime("this week Tuesday", $timestamp)));  
+        $end_time   = strtotime(date('Y-m', $timestamp));  
         //        $end_time = strtotime(date('Y-m-d'),time()); //
-        $start_time = $end_time - 7 * 86400;
+        $start_time = strtotime(date('Y-m',$end_time-86400));
 
         $start_month = date("Y-m",$start_time);
         $end_month   = date("Y-m",$end_time);
