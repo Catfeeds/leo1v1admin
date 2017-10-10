@@ -1182,18 +1182,22 @@ class ss_deal extends Controller
         $change_reason = $this->get_in_str_val('change_reason');
         $change_reason_url = $this->get_in_str_val('change_reason_url');
 
-        if(!$change_reason){
-            return $this->output_err('请填写换老师原因!');
-        }elseif(strlen(str_replace(" ","",$change_reason))<9){
-            return $this->output_err('换老师原因不得少于3个字!');
-        }
+        // if(!$change_reason){
+        //     return $this->output_err('请填写换老师原因!');
+        // }elseif(strlen(str_replace(" ","",$change_reason))<9){
+        //     return $this->output_err('换老师原因不得少于3个字!');
+        // }
 
-        if($change_reason_url){
-            $domain = config('admin')['qiniu']['public']['url'];
-            $change_reason_url = $domain.'/'.$change_reason_url;
-        }else{
-            $change_reason_url = '';
-        }
+        // if($change_teacher_reason_type == 0){
+        //     return $this->output_err('换老师原因不得少于3个字!');
+        // }
+
+        // if($change_reason_url){
+        //     $domain = config('admin')['qiniu']['public']['url'];
+        //     $change_reason_url = $domain.'/'.$change_reason_url;
+        // }else{
+        //     $change_reason_url = '';
+        // }
 
 
 
