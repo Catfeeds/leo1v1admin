@@ -3549,16 +3549,17 @@ class user_manage_new extends Controller
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
 
         //获取组长的所有组员   开发中
-        if($ass_adminid == -1) {
+        if($ass_adminid == -1 & $seller_groupid_ex != '') {
             $adminid = $this->get_account_id();
-            $uid_list = $this->t_manager_info->get_uid_list_by_adminid($adminid);
+            $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        } else {
+            $uid_str = -1;
         }
-        // dd($uid_list);
 
 
         $this->t_revisit_info->switch_tongji_database();
         // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
-        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type,$uid_str);
 
         $now = time();
         $three = $now - 86400*7;

@@ -1228,12 +1228,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_uid_list_by_adminid($adminid){
+    public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
             "n.master_adminid=$adminid",
         ];
-        $sql = $this->gen_sql_new("select uid".
+        $sql = $this->gen_sql_new("select  GROUP_CONCAT(uid)".
                                   " from %s m ".
                                   " left join %s u on m.uid=u.adminid".
                                   " left join %s n on u.groupid = n.groupid".
