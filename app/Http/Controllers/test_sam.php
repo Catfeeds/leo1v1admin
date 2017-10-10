@@ -345,7 +345,6 @@ class test_sam  extends Controller
             $cur_month   = strtotime(date('Y-m-01',$end_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
             $create_time_range = date('Y-m-d H:i:s',$cur_month).'~'.date('Y-m-d H:i:s',$end_time);
-            echo '<pre>';var_dump($start_month,$end_month,$cur_month,$start_time,$end_time,$now_time,$create_time_range);echo '</pre>';
             if($start_month == $end_month){ //周报
                 $type = 2;
                 $create_time = $end_time;//
@@ -389,7 +388,7 @@ class test_sam  extends Controller
                         }
                     }
                 }
-                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_real_renew_num/$warning_num,2);//  月续费率
+                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
                 $tranfer            = $this->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
@@ -423,6 +422,7 @@ class test_sam  extends Controller
                     "tranfer_success_per"     => intval($arr['tranfer_success_per']*100),//D4-月转介绍至CC签单率
                     "kk_success_per"          => intval($arr['kk_success_per']*100),    //E5-月扩课成功率
                 ];
+                var_dump($insert_data);
                 $ret_id = $this->t_cr_week_month_info->get_info_by_type_and_time(4,$create_time);
                 if($ret_id>0){
                     $this->t_cr_week_month_info->field_update_list($ret_id,$insert_data);
