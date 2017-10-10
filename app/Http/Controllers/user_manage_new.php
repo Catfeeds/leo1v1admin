@@ -3563,7 +3563,7 @@ class user_manage_new extends Controller
 
         $now = time();
         $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,$uid_str);
 
         $warning_type_num = [
             'warning_type_one' =>0,

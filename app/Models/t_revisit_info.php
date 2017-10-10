@@ -239,13 +239,17 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function get_ass_revisit_warning_count($ass_adminid, $three){
+    public function get_ass_revisit_warning_count($ass_adminid, $three,$uid_str){
         $where_arr=[
             "r.is_warning_flag=1",
             "r.revisit_type=0",
             "r.revisit_time>=$three",
             ["m.uid= %u",$ass_adminid,-1]
         ];
+
+        if ($uid_str != -1 & $uid_str) {
+            $where_arr[] = "m.uid in ($uid_str)";
+        }
 
         $sql = $this->gen_sql_new(
             "select r.revisit_time "
