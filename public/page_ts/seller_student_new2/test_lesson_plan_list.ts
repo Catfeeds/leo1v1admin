@@ -868,6 +868,7 @@ $(function(){
             ["上课时间", $lesson_start],
             ["换老师类型",$id_change_teacher_reason_type],
             ["换老师原因",$id_change_reason],
+            ["换老师原因图片",$id_change_reason_url],
         ];
         $teacherid.val(opt_data.teacherid);
         $lesson_start.val(opt_data.lesson_start );
@@ -896,7 +897,11 @@ $(function(){
                         "grade"        : opt_data.grade,
                         "lesson_start" : $lesson_start.val(),
                         "old_teacherid":opt_data.teacherid,
-                        "old_lesson_start":opt_data.lesson_time
+                        "old_lesson_start":opt_data.lesson_time,
+                        "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
+                        "change_reason" : $id_change_reason.val(),
+                        "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
+
                     });
 
                 };

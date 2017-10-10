@@ -244,7 +244,6 @@ class authority extends Controller
     public function del_manager() {
         $uid          = $this->get_in_str_val("uid","");
         $del_flag     = $this->get_in_int_val("del_flag","");
-        $tea_del_flag = $this->get_in_int_val("tea_del_flag");
         $time_str     = $this->get_in_str_val("time");
 
         $time     = strtotime($time_str);
@@ -270,9 +269,7 @@ class authority extends Controller
          */
         if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
             $quit_info = "公司人员在职状态变更,后台账号及其老师账号状态的变更";
-            $this->set_teacher_quit_status($phone,$tea_del_flag,$quit_info);
-        }else{
-            return $this->output_err("非销售助教角色的老师离职请通过离职申请进行");
+            $this->set_teacher_quit_status($phone,$del_flag,$quit_info);
         }
 
         return $this->output_succ();
