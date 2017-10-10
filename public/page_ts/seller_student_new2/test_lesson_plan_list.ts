@@ -2118,6 +2118,7 @@ $(function(){
                         'green_channel_teacherid':id_green_channel_teacherid.val(),
                         'change_reason':id_change_reason.val(),
                         'learning_situation':id_learning_situation.val(),
+                        'new_demand_flag':1,
                     });
                 }
             }]
@@ -2181,6 +2182,8 @@ $(function(){
             var id_editionid        = html_node.find("#id_stu_editionid");//学生教材
             Enum_map.append_option_list("region_version", id_editionid, true);
             id_editionid.val(data.editionid);
+            var id_learning_situation        = html_node.find("#id_learning_situation");//学生教材
+            id_learning_situation.val(data.learning_situation);
 
             var old_province = data.region;
             var province_val = data.province;
@@ -2727,6 +2730,7 @@ $(function(){
                             'green_channel_teacherid':id_green_channel_teacherid.val(),
                             'change_reason':id_change_reason.val(),
                             'learning_situation':id_learning_situation.val(),
+                            'new_demand_flag':1,
                         });
                     }
                 }]
