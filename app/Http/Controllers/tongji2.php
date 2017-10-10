@@ -1236,7 +1236,7 @@ class tongji2 extends Controller
             $arr['lesson_target']      = $ret_info['lesson_target'];//课时系数目标量
             $arr['read_num']           = $ret_info['read_num']; //在读学生数量
             $arr['total_student']      = $ret_info['total_student'];//上课学生数量
-            $arr['student_arrive_per'] = $ret_info['student_arrive_per'];//学生到课率
+            $arr['student_arrive_per'] = $ret_info['student_arrive_per']/100;//学生到课率
             $arr['student_arrive']     = $ret_info['student_arrive'];//学生到课数量
             $arr['lesson_plan']        = $ret_info['lesson_plan'];//排课数量
             $arr['lesson_income']      = $ret_info['lesson_income']/100;//课时收入
