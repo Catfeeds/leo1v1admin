@@ -3548,7 +3548,7 @@ class user_manage_new extends Controller
         $adminid_right        = $this->get_seller_adminid_and_right();
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
 
-        //获取组长的所有组员   开发中
+        //获取组长的所有组员
         if($ass_adminid == -1 ) {
             $adminid = $this->get_account_id();
             $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
