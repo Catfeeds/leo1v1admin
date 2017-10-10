@@ -1424,13 +1424,14 @@ trait TeaPower {
      * @param phone 手机号
      */
     public function set_teacher_is_quit($phone,$quit_info=""){
-        $adminid   = $this->get_account_id();
+        $adminid   = session("adminid");
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         if($teacherid>0){
             $this->t_teacher_info->field_update_list($teacherid,[
                 "is_quit"   => 1,
                 "quit_time" => time(),
-                "quit_info" => $quit_info
+                "quit_info" => $quit_info,
+                "quit_set_adminid" => $adminid,
             ]);
         }
     }
