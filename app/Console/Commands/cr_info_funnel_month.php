@@ -42,7 +42,6 @@ class cr_info_funnel_month extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $timestamp = time(); 
-        $timestamp = 1509465600;
         $now_time   = strtotime(date('Y-m', $timestamp));  
         
         //月报刷新
@@ -112,8 +111,6 @@ class cr_info_funnel_month extends Command
                 }else{
                   $arr['kk_success_per'] = 0;
                 }
-
-
                 $insert_data = [
                     "create_time"             => $create_time,            //存档时间
                     "create_time_range"       => $create_time_range,      //存档时间范围
