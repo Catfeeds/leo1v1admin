@@ -19,8 +19,6 @@ class t_revisit_warning_overtime_info extends \App\Models\Zgen\z_t_revisit_warni
             $where_arr[] = "m.uid in ($uid_str)";
         }
 
-
-
         $sql = $this->gen_sql_new(
             "select count(1) "
             ."from %s wo left join %s m on m.account = wo.sys_operator "
