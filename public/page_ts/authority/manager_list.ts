@@ -1,8 +1,5 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
-
-
-
 $(function(){
 
     var show_name_key="";
@@ -100,17 +97,21 @@ $(function(){
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var uid = opt_data.uid;
-        var del_flag =$("<select/>");
-        var time = $("<input>");
-        var mydate = new Date();
-        var str = "" + mydate.getFullYear() + "/";
+
+        var del_flag     = $("<select/>");
+        var time         = $("<input>");
+        var mydate       = new Date();
+        var str          = "" + mydate.getFullYear() + "/";
+
         str += (mydate.getMonth()+1) + "/";
         str += mydate.getDate() + " ";
         str += mydate.getHours() + ":";
         str += mydate.getMinutes();
         time.datetimepicker();
+
         Enum_map.append_option_list( "boolean", del_flag,true);
         del_flag.val(opt_data.del_flag);
+
         if(del_flag.val() == 1){
             time.val(opt_data.leave_member_time);
         }else{
@@ -119,9 +120,11 @@ $(function(){
         var arr=[
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
-            [" 是否离职",del_flag],
-            [" 时间",time]
+            ["是否离职",del_flag],
+            ["时间",time]
         ];
+
+
         $.show_key_value_table("更改员工状态", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -136,9 +139,9 @@ $(function(){
                     var time_new = time.val();
                 }
                 $.do_ajax('/authority/del_manager', {
-                    'uid': opt_data.uid,
-                    'del_flag': del_flag.val(),
-                    'time': time_new,
+                    'uid'          : opt_data.uid,
+                    'del_flag'     : del_flag.val(),
+                    'time'         : time_new,
                 });
             }
         });

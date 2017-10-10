@@ -221,7 +221,5 @@
               </tbody>
           </table>
         </div>
-
-
     </section>
 @endsection

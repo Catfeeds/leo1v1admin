@@ -52,6 +52,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         );
         return $this->main_get_row($sql);
     }
+
     public function add_field_num($id, $field) {
         $where_arr = [
             'id='.$id,
@@ -128,7 +129,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             ['y.test_type=%u', $test_type , -1],
         ];
         $on_where = [
-            ['tv.wx_openid=%s', $wx_openid, 0],
+            ["tv.wx_openid='%s'", $wx_openid, -1],
         ];
         $sql = $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
                                    ." from %s y "
@@ -143,7 +144,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
                                    ,$where_arr
         );
         // dd($sql);
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
 

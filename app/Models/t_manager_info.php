@@ -717,6 +717,20 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_list_new_two($account_role){
+        $where_arr = [
+            ["m.account_role =%u ",$account_role,  -1] ,
+            "m.del_flag =0 ",
+        ];
+        $sql=$this->gen_sql_new(
+            "select uid,account_role,become_member_time  "
+            ." from %s m "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function get_jw_teacher_list(){
         $time=time();
@@ -1228,12 +1242,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_uid_list_by_adminid($adminid){
+    public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
             "n.master_adminid=$adminid",
         ];
-        $sql = $this->gen_sql_new("select uid".
+        $sql = $this->gen_sql_new("select  GROUP_CONCAT(uid)".
                                   " from %s m ".
                                   " left join %s u on m.uid=u.adminid".
                                   " left join %s n on u.groupid = n.groupid".
@@ -1244,7 +1258,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $where_arr
         );
 
-        return  $this->main_get_list($sql);
+        return  $this->main_get_value($sql);
     }
 
 

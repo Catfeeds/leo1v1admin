@@ -6,6 +6,18 @@ use Illuminate\Support\Facades\Redis ;
 use \App\Enums as  E;
 
 class Common {
+    static function env_obj( $key, $def =null ) {
+        $str=env($key,"");
+        if(!$str) {
+            return $def;
+        }
+        $obj=json_decode($str,true);
+        if ($obj===null) {
+            //$str= "  env json_decode err, key= $key, value = $str  ";
+            //throw new \Exception( $str );
+        }
+        return $obj;
+    }
 
     static public function  merge_row_data( &$row_list_1,$row_list_2,$field_name ) {
         foreach ($row_list_2 as  $item ) {
@@ -1668,4 +1680,5 @@ class Common {
         return $time_list;
 
     }
+
 };

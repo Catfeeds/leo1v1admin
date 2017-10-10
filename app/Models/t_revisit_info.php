@@ -166,7 +166,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type){
+    public function get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type,$uid_str){
 
         $one   = time();
         $two   = $one - 86400*5;
@@ -194,6 +194,10 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                 "wo.deal_type<>1",
             ];
 
+            if ($uid_str != -1 && $uid_str !== null ) {
+                $where_arr[] = "m.uid in ($uid_str)";
+            }
+
             $this->where_arr_adminid_in_list($where_arr,"m.uid", $require_adminid_list );
             $sql = $this->gen_sql_new(
                 "select r.revisit_time,revisit_person,r.operator_note,operator_audio,r.sys_operator,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,s.nick,r.userid "
@@ -219,6 +223,10 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             $this->where_arr_add_time_range($where_arr,"r.revisit_time",$start_time,$end_time);
         }
 
+        if ($uid_str != -1 && $uid_str !== null) {
+            $where_arr[] = "m.uid in ($uid_str)";
+        }
+
         $this->where_arr_adminid_in_list($where_arr,"m.uid", $require_adminid_list );
         $sql = $this->gen_sql_new(
             "select r.revisit_time,revisit_person,r.operator_note,operator_audio,sys_operator,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,s.nick,r.userid "
@@ -232,13 +240,17 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function get_ass_revisit_warning_count($ass_adminid, $three){
+    public function get_ass_revisit_warning_count($ass_adminid, $three,$uid_str=-1){
         $where_arr=[
             "r.is_warning_flag=1",
             "r.revisit_type=0",
             "r.revisit_time>=$three",
             ["m.uid= %u",$ass_adminid,-1]
         ];
+
+        if ($uid_str != -1 && $uid_str !== null) {
+            $where_arr[] = "m.uid in ($uid_str)";
+        }
 
         $sql = $this->gen_sql_new(
             "select r.revisit_time "

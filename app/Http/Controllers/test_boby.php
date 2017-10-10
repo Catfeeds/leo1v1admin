@@ -540,4 +540,76 @@ class test_boby extends Controller
 
     }
 
+    public function get_all_test_pic(){
+        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
+        $page_info = $this->get_in_page_info();
+        // dd($wx_openid);
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('tomorrow');
+        foreach ($ret_info['list'] as &$item) {
+            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+                $item['flag'] = 0;
+            } else {
+                $item['flag'] = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒序
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        $max_loop  = $count_num >10?10:$count_num;
+        while ( $loop_num < $max_loop) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        $ret_info['poster'] = $poster_arr;
+        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
+        return $this->output_succ(["home_info"=>$ret_info]);
+    }
+
+    public function get_yxyx_all_news(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx_new($page_info);
+        foreach ($ret_info['list'] as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+
+        if ($ret_info) {
+            $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /5);
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+    public function get_yxyx_all_new(){
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
+        foreach ($ret_info as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+        if ($ret_info) {
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+
+
+
 }

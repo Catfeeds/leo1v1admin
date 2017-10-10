@@ -273,6 +273,7 @@ class ss_deal extends Controller
         $ret["change_teacher_reason_img_url"] = $tr_item["change_teacher_reason_img_url"];
         $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
         $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
+        $ret["learning_situation"]    = $tt_item["learning_situation"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -1178,6 +1179,7 @@ class ss_deal extends Controller
         $lesson_start = strtotime($lesson_start);
         $lesson_end   = $lesson_start+ 2400;
 
+
         if (empty($teacherid) || empty($lesson_end) || empty($lesson_start) ) {
             return $this->output_err("请填写完整!");
         }
@@ -1202,7 +1204,6 @@ class ss_deal extends Controller
             if($rr){
                 return $rr;
             }
-
         }
 
         $test_lesson_subject_id=$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
@@ -2583,7 +2584,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
         if($green_channel_teacherid>0){
