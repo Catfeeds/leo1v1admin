@@ -97,6 +97,7 @@ class seller_menu{
                     ["power_id"=>3, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
                     ["power_id"=>4, "name"=>"设备统计",   "url"=>"/tongji_ss/lesson_device_info"],
                     ["power_id"=>43, "name"=>"销售等级列表",   "url"=>"/seller_level_goal/seller_level_goal_list"],
+                    ["power_id"=>23, "name"=>"销售自定义时间",   "url"=>"/month_def_type/def_list"],
                 ]],
             ]],
         ];  
