@@ -218,7 +218,7 @@ class cr_info_week extends Command
         $student_list = trim($student_list,',');
         $arr['student_list'] = $student_list;
         //续费
-        $warning_list = $task->t_cr_week_month_info->get_student_list_new($type,$start_time);
+        $warning_list = $task->t_cr_week_month_info->get_student_list_new($start_time);
         $renew_student_list = $task->t_order_info->get_renew_student_list($start_time,$end_time);
 
         $warning_num = 0;
