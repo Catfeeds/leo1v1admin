@@ -1256,6 +1256,14 @@ class tongji2 extends Controller
             //$arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
             $arr['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
             $arr['create_time_range']  = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
+            //漏斗
+            $ret_info1 = $this->t_cr_week_month_info->get_data_by_type($create_time,4);//
+            $arr['plan_renew_num']     = $ret_info1['plan_renew_num'];//计划内续费学生数量
+            $arr['real_renew_num']     = $ret_info1['real_renew_num'];//实际续费学生数量
+            $arr['renew_per']          = $ret_info1['renew_per'];//月续费率
+            $arr['finish_renew_per']   = $ret_info1['finish_renew_per'];//月预警续费率
+            $arr['tranfer_success_per']= $ret_info1['tranfer_success_per'];//月转介绍至CC签单率
+            $arr['kk_success_per']     = $ret_info1['kk_success_per']>0?$ret_info1['kk_success_per']/100:0;
             if($opt_date_type == 3){
                 $arr['type'] = 1;
             }
