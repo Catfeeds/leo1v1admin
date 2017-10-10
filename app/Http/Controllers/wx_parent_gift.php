@@ -257,14 +257,31 @@ class wx_parent_gift extends Controller
         return $this->output_succ();
     }
 
-    public function get_activity_num(){
+    public function get_share_num(){
 
     }
 
     public function set_share_num(){ //记录分享朋友圈次数
+        $parentid = $this->get_parentid();
 
     }
 
+    public function get_parentid(){
+        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
+        return $parentid;
+    }
+
+    /*
+      Schema::create('db_weiyi.t_wx_give_book', function( Blueprint $table)
+        {
+            $table->increments("id","id");
+            t_field($table->integer("create_time"),"分享时间");
+            t_field($table->integer("parentid"),"家长id");
+            t_field($table->integer("share_num"),"家长分享朋友圈次数");
+        });
+
+
+    */
 
 
 }
