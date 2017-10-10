@@ -226,6 +226,8 @@ class test_sam  extends Controller
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
         }
         $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
+        print_r($warning_num,$warning_list);
+        dd($arr);
         //月初至今
         $month_warning_list = $this->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
         $month_renew_student_list = $this->t_order_info->get_renew_student_list(strtotime($end_month),$end_time);
