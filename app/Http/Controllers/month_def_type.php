@@ -11,8 +11,8 @@ class month_def_type extends Controller
     {
         $page_info = $this->get_in_page_info();
         $month_def_type = $this->get_in_el_month_def_type();
-        list($start_time, $end_time) = $this->get_in_date_range_day(0);
-        $ret_info = $this->t_month_def_type->get_list($page_info, $month_def_type, $start_time, $end_time);
+        //list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $ret_info = $this->t_month_def_type->get_list($page_info, $month_def_type);
 
         foreach($ret_info["list"] as &$item) {
             $item['def_time'] = date('Y-m-d', $item["def_time"]);
@@ -28,20 +28,27 @@ class month_def_type extends Controller
     public function add_data()
     {
         $month_def_type = $this->get_in_int_val("month_def_type");
+        if ($month_def_type == -1) {$month_def_type = 1;}
         $def_time = strtotime($this->get_in_str_val("def_time"));
         $start_time = $this->get_in_str_val("start_time");
         $end_time = $this->get_in_str_val("end_time");
         $start_time = strtotime($start_time);
         $end_time = strtotime($end_time);
 
-        $this->t_month_def_type->row_insert([
-            "month_def_type" => $month_def_type,
-            //'def_time' => time(),
-            'def_time' => $def_time,
-            "start_time" => $start_time,
-            "end_time" => $end_time
-        ]);
-        return $this->output_succ();
+        $res = $this->t_month_def_type->get_count_by_def_time($def_time);
+        if (!$res) {
+            $this->t_month_def_type->row_insert([
+                "month_def_type" => $month_def_type,
+                //'def_time' => time(),
+                'def_time' => $def_time,
+                "start_time" => $start_time,
+                "end_time" => $end_time
+            ]);
+
+            return $this->output_succ();
+        } else {
+            return $this->output_err('本月已有数据，请不要重复添加');
+        }
     }
 
     public function update_data()
