@@ -293,7 +293,7 @@
                                         <td class="panel-green">  {{@$arr['success_num']}}</td>
                                         <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
                                         <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
-                                        <td class="panel-blue">  {{@$arr['kk_success_per']}} </td> 
+                                        <td class="panel-blue">  {{@$arr['kk_success_per']}}% </td> 
 
                                     </tr>
                                 </tbody>
