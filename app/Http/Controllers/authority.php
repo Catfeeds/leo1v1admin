@@ -271,6 +271,8 @@ class authority extends Controller
         if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
             $quit_info = "公司人员在职状态变更,后台账号及其老师账号状态的变更";
             $this->set_teacher_quit_status($phone,$tea_del_flag,$quit_info);
+        }else{
+            return $this->output_err("非销售助教角色的老师离职请通过离职申请进行");
         }
 
         return $this->output_succ();
