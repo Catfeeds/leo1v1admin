@@ -282,6 +282,7 @@ class wx_parent_gift extends Controller
 
 
     public function check_identity_for_book(){
+        dd(123);
         $code = $this->get_in_str_val('code');
         $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
         $token_info = $wx->get_token_from_code($code);

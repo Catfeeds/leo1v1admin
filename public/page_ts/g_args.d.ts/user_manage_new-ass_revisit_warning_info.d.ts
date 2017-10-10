@@ -47,6 +47,7 @@ interface RowData {
 	warning_deal_url	:any;
 	warning_deal_info	:any;
 	nick	:any;
+	userid	:any;
 	revisit_time_str	:any;
 	revisit_type_str	:any;
 	operation_satisfy_flag_str	:any;

@@ -105,7 +105,7 @@ class cr_info_funnel_week extends Command
                 $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($cur_month,$now_time); //签单数量(分配例子当月1号到6个月)
                 $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
                 if($arr['month_tranfer_total_num']){
-                  $arr['tranfer_success_per'] = round($arr['month_tranfer_total_num']/$tranfer,2); //D4-月转介绍至CC签单率
+                  $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_num']/$tranfer,2); //D4-月转介绍至CC签单率
                 }else{
                   $arr['tranfer_success_per'] = 0;
                 }

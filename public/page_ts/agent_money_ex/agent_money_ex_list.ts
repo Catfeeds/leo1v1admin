@@ -28,21 +28,15 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add").on("click",function(){
-        //var $agent_money_ex_type= $("<select/>" );
-        //Enum_map.append_option_list("agent_money_ex_type", $agent_money_ex_type,true);
-        //var arr=[
-         //   ["年级" ,$grade  ],
-        //] ;
-        //$grade.val(opt_data.grade );
+        var $agent_money_ex_type= $("<select/>" );
+        Enum_map.append_option_list("agent_money_ex_type", $agent_money_ex_type,true);
 
-        var $agent_money_ex_type = $("<input/>");
+        // var $agent_money_ex_type = $("<input/>");
         var $agent_id = $("<input/>");
-        var $adminid = $("<input/>");
         var $money = $("<input/>");
         var arr=[
-            ["类型" ,$agent_money_ex_type ],
+            ["说明" ,$agent_money_ex_type ],
             ["用户id" ,$agent_id ],
-            ["发放人id" ,$adminid ],
             ["金额[元]" ,$money ]
         ] ;
 
@@ -53,7 +47,6 @@ $(function(){
                 $.do_ajax("/agent_money_ex/agent_add",{
                     "agent_money_ex_type" : $agent_money_ex_type.val(),
                     "agent_id" : $agent_id.val(),
-                    "adminid" : $adminid.val(),
                     "money" : $money.val(),
                 });
             }
@@ -63,10 +56,17 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "要删除用户:" + opt_data.phone+ opt_data.agent_money_ex_type_str+"金额："+opt_data.money+"元的记录吗？"  ,
+            function(val){
+                if (val) {
+                     $.do_ajax("/agent_money_ex/agent_money_ex_del",{
+                         "id" : opt_data.id
+                     });
 
-         $.do_ajax("/agent_money_ex/agent_money_ex_del",{
-                    "id" : opt_data.id
-         });
+                }
+            });
+
     });
 
 });
