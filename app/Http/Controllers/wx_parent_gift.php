@@ -270,6 +270,15 @@ class wx_parent_gift extends Controller
         $wx->goto_wx_login( $redirect_url );
     }
 
+    //http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book
+
+    /*
+
+      $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
+
+     */
+
+
 
 
     public function check_identity_for_book(){
