@@ -2744,13 +2744,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.record_info <> ''";
         }
+        
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
+
 
         $this->where_arr_add_time_range($where_arr,"tr.lesson_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand   "
@@ -2841,10 +2845,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.record_info <>''";
         }
+
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2912,6 +2919,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2949,13 +2958,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
+        
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time,l.grade ,tr.lesson_invalid_flag"
@@ -3019,9 +3032,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
+
 
         $this->where_arr_add_time_range($where_arr,"tr.lesson_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tr.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade ,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand"

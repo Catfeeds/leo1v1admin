@@ -257,12 +257,59 @@ class wx_parent_gift extends Controller
         return $this->output_succ();
     }
 
-    public function get_share_num(){
 
+
+
+
+
+
+
+    public function get_share_num_for_book () {
+        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
+        $wx->goto_wx_login( $redirect_url );
+    }
+
+
+
+    public function check_identity_for_book(){
+        $code = $this->get_in_str_val('code');
+        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
+        $token_info = $wx->get_token_from_code($code);
+        $openid   = @$token_info["openid"];
+
+        dd($openid);
+
+        $share_flag = $this->t_wx_give_book->check_share_flag($openid);
+        if($share_flag>0){
+            return $this->output_succ(['share_num'=>$share_num]);
+        }else{
+            $ret = $this->t_wx_give_book->row_insert([
+                "openid"    => $parentid,
+                "create_time" => time(),
+                "share_num"   => 1
+            ]);
+
+            return $this->output_succ(['share_num'=>1]);
+        }
+
+        $share_num = $this->t_wx_give_book->get_share_num_by_openid($openid);
+
+
+    }
+
+
+
+    public function get_share_num(){
+        $parentid = $this->get_parentid();
+        $share_num = $this->t_wx_give_book->get_share_num_by_parentid($parentid);
+
+        return $this->output_succ(['share_num'=>$share_num]);
     }
 
     public function set_share_num(){ //记录分享朋友圈次数
         $parentid = $this->get_parentid();
+        $this->t_wx_give_book->row_delete_by_parentid($parentid);
 
         $ret = $this->t_wx_give_book->row_insert([
             "parentid"    => $parentid,
@@ -270,24 +317,12 @@ class wx_parent_gift extends Controller
             "share_num"   => 1
         ]);
 
+        return $this->output_succ();
     }
 
     public function get_parentid(){
         $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
         return $parentid;
     }
-
-    /*
-      Schema::create('db_weiyi.t_wx_give_book', function( Blueprint $table)
-        {
-            $table->increments("id","id");
-            t_field($table->integer("create_time"),"分享时间");
-            t_field($table->integer("parentid"),"家长id");
-            t_field($table->integer("share_num"),"家长分享朋友圈次数");
-        });
-
-
-    */
-
 
 }

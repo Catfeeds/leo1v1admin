@@ -7,6 +7,7 @@ $(function(){
             seller_level : $('#id_seller_level').val(),
             level_goal   : $('#id_level_goal').val(),
             level_face   : $('#id_level_face').val(),
+            num          : $('#id_num').val(),
         });
     }
 
@@ -14,17 +15,20 @@ $(function(){
     $('#id_seller_level').val(g_args.seller_level);
     $('#id_level_goal').val(g_args.level_goal);
     $('#id_level_face').val(g_args.level_face);
+    $('#id_num').val(g_args.num);
 
     $("#id_add").on("click",function(){
         var $id_seller_level  = $("<select/>");
         var $id_level_goal  = $("<input/>");
         var $id_level_face = $("<div><input class=\"change_level_face_url\" id=\"level_face_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_level_face\" href=\"javascript:;\">上传</a></span></div>");
+        var $id_num  = $("<input/>");
 
         Enum_map.append_option_list("seller_level",$id_seller_level,true);
         var arr=[
             ["销售等级",  $id_seller_level],
             ["等级目标",  $id_level_goal ],
-            ["等级头像 ", $id_level_face],
+            ["等级头像", $id_level_face],
+            ["等级顺序", $id_num],
         ];
 
         $.show_key_value_table("添加销售等级信息", arr ,[{
@@ -35,6 +39,7 @@ $(function(){
                     'seller_level' : $id_seller_level.val(),
                     'level_goal'   : $id_level_goal.val(),
                     'level_face'   : $id_level_face.find("#level_face_url").val(),
+                    'num'          : $id_num.val(),
                 });
             }
         }],function(){
@@ -51,14 +56,17 @@ $(function(){
         var $id_seller_level  = $("<select disabled='disabled' />");
         var $id_level_goal  = $("<input/>");
         var $id_level_face = $("<div><input class=\"change_level_face_url\" id=\"level_face_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_level_face\" href=\"javascript:;\">上传</a></span></div>");
+        var $id_num  = $("<input/>");
         Enum_map.append_option_list("seller_level",$id_seller_level,true);
         $id_seller_level.val(opt_data.seller_level);
         $id_level_goal.val(opt_data.level_goal);
         $id_level_face.val(opt_data.level_face);
+        $id_num.val(opt_data.num);
         var arr=[
             ["销售等级",  $id_seller_level],
             ["等级目标",  $id_level_goal ],
             ["等级头像 ", $id_level_face],
+            ["等级顺序 ", $id_num],
         ];
 
         $.show_key_value_table("添加销售等级信息", arr ,[{
@@ -69,6 +77,7 @@ $(function(){
                     'seller_level' : opt_data.seller_level,
                     'level_goal'   : $id_level_goal.val(),
                     'level_face'   : $id_level_face.find("#level_face_url").val(),
+                    'num'          : $id_num.val(),
                 });
             }
         }],function(){

@@ -580,5 +580,36 @@ class test_boby extends Controller
         return $this->output_succ(["home_info"=>$ret_info]);
     }
 
+    public function get_yxyx_all_news(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx_new($page_info);
+        foreach ($ret_info['list'] as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+
+        if ($ret_info) {
+            $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /5);
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+    public function get_yxyx_all_new(){
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
+        foreach ($ret_info as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+        if ($ret_info) {
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
+
+
 
 }

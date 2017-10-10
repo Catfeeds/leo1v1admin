@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function  get_list( $page_info,$start_time, $end_time) {
 
@@ -27,15 +27,10 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_all_money ($agent_id) {
+        $sql=$this->gen_sql_new( "select sum(money) from %s where  agent_id =%u "
+                              ,self::DB_TABLE_NAME , $agent_id);
+        return $this->main_get_value($sql);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
