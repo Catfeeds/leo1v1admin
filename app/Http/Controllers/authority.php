@@ -266,6 +266,7 @@ class authority extends Controller
         $phone = $this->t_manager_info->get_phone($uid);
         /**
          * 助教和销售离职,需要把其老师账号设为离职
+         * 其他角色离职,需要手动设置其老师账号是否离职
          */
         if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2]) || $tea_del_flag){
             $this->set_teacher_is_quit($phone);
