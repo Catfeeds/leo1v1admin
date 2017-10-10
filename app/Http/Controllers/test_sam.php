@@ -331,7 +331,6 @@ class test_sam  extends Controller
     public function  tt(){
         //every month
         $timestamp = time(); 
-        $timestamp = 1509465600;
         $now_time   = strtotime(date('Y-m', $timestamp));  
         
         //月报刷新
