@@ -204,7 +204,7 @@ class test_sam  extends Controller
         //续费
         $warning_list = $this->t_cr_week_month_info->get_student_list_new($type,$start_time);
         $renew_student_list = $this->t_order_info->get_renew_student_list($start_time,$end_time);
-
+        var_dump($warning_list);
         $warning_num = 0;
         if($warning_list != 0){
             $warning_list = explode(",",$warning_list);
@@ -226,7 +226,8 @@ class test_sam  extends Controller
             $arr['other_renew_num'] = $arr['real_renew_num'] - $arr['plan_renew_num'];
         }
         $arr['expect_finish_num'] = $warning_num; //预计结课学生数量
-        print_r($warning_num,$warning_list);
+        print_r($warning_num);
+        print_r($warning_list);
         dd($arr);
         //月初至今
         $month_warning_list = $this->t_cr_week_month_info->get_student_list_new(1,$start_time); //月初拉上个月数据
