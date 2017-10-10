@@ -400,6 +400,7 @@
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
+                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
                                         <font color="blue"> 销售top25</font><br/>
                                     @endif
@@ -844,7 +845,7 @@
                         </div>
                         <div class="col-xs-12 col-md-3 ">
                             <div class="input-group ">
-                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
+                                <span class="input-group-addon">&nbsp绿色通道：</span>
                                 <input type="text" class=" form-control "  id="id_green_channel_teacherid_new"  />
                             </div>
                         </div>
@@ -1173,7 +1174,7 @@
                         </div>
                         <div class="col-xs-12 col-md-3 ">
                             <div class="input-group ">
-                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
+                                <span class="input-group-addon">&nbsp绿色通道：</span>
                                 <input type="text" class=" form-control "  id="id_green_channel_teacherid"  />
                             </div>
                         </div>
