@@ -58,15 +58,6 @@ class add_warning_overtime extends Command
             }
         }
 
-        $task->t_revisit_warning_overtime_info->row_insert([
-            'userid'       => 1,
-            'revisit_time' => 12346,
-            'sys_operator' => 'test',
-            'create_time'  => time(),
-            'deal_time'    => 0,
-            'deal_type'    => 0
-        ]);
-
     }
 
 }

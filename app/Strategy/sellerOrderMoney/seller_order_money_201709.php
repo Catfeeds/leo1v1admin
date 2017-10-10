@@ -12,7 +12,7 @@ class seller_order_money_201709  extends  seller_order_money_base
         80000 => 8,
         130000 => 10,
         180000 => 12,
-        230000 => 13,
+        230000 => 15,
     ];
 
 
@@ -102,11 +102,10 @@ class seller_order_money_201709  extends  seller_order_money_base
 
         //获取分期不分期金额
 
-        //$sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
+        $sort = $tt->t_order_info->get_sort_order_count_money($adminid,$start_time,$end_time);
 
-        //$ret_arr['sort_money'] = $sort['sort_money'];
-        //$ret_arr['no_sort_money'] = $sort['no_sort_money'];
-        $ret_arr['sort_money'] = 1;
+        $ret_arr['stage_money'] = $sort['stage_money']/100;
+        $ret_arr['no_stage_money'] = $sort['no_stage_money']/100;
 
         return $ret_arr;
     }

@@ -273,6 +273,7 @@ class ss_deal extends Controller
         $ret["change_teacher_reason_img_url"] = $tr_item["change_teacher_reason_img_url"];
         $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
         $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
+        $ret["learning_situation"]    = $tt_item["learning_situation"];
 
         return $this->output_succ(["data" => $ret ]);
     }
@@ -880,7 +881,7 @@ class ss_deal extends Controller
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
         $intention_level  =  $this->t_test_lesson_subject->get_intention_level($test_lesson_subject_id);
-
+        // dd(123);
 
         $this->t_seller_student_new->field_update_list($userid,['stu_test_ipad_flag'=>$stu_test_ipad_flag,'not_test_ipad_reason'=>$not_test_ipad_reason]);
 
@@ -889,7 +890,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="助教-扩课";
+            $origin_info["origin"]="助教-扩课1";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -1178,6 +1179,7 @@ class ss_deal extends Controller
         $lesson_start = strtotime($lesson_start);
         $lesson_end   = $lesson_start+ 2400;
 
+
         if (empty($teacherid) || empty($lesson_end) || empty($lesson_start) ) {
             return $this->output_err("请填写完整!");
         }
@@ -1202,7 +1204,6 @@ class ss_deal extends Controller
             if($rr){
                 return $rr;
             }
-
         }
 
         $test_lesson_subject_id=$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
@@ -2583,7 +2584,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
         if($green_channel_teacherid>0){
@@ -2610,7 +2610,7 @@ class ss_deal extends Controller
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
+        $origin="2助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
@@ -2644,7 +2644,6 @@ class ss_deal extends Controller
             \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
-
             // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
             $ret_flag = $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,

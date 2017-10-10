@@ -673,11 +673,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_1v1_order_list( $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],$adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag  =-1 ) {
-
+    /*
+     *@modify:Abner<abner@leo.edu.com>
+     *@param:$opt_date_str  按类型统计 [order_time:添加时间check_money_time:财务确认时间]
+     */
+    public function get_1v1_order_list(
+        $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],
+        $adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag=-1,$opt_date_str=""){
+        if($opt_date_str==""){
+            $opt_date_str = "order_time";
+        }
         $where_arr = [
-            ["order_time>=%u" , $start_time, -1],
-            ["order_time<=%u" , $end_time, -1],
+            ["$opt_date_str>=%u" , $start_time, -1],
+            ["$opt_date_str<=%u" , $end_time, -1],
             ["is_test_user=%u" , 0, -1],
             ["sys_operator='%s'" , $sys_operator, ''],
             "contract_type in(0,1,3)",
@@ -691,14 +699,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
 
         $sql = $this->gen_sql_new(
-            "select order_time,price,o.userid,stu_from_type ,contract_type "
+            "select  $opt_date_str as opt_date,price,o.userid,stu_from_type ,contract_type "
             ." from %s o "
             ." left join %s s on o.userid = s.userid "
             ." left join %s m on o.sys_operator = m.account "
             ." left join %s tss on o.from_test_lesson_id = tss.lessonid"
             ." left join %s tr on tr.require_id= tss.require_id"
             ." left join %s t on tr.test_lesson_subject_id= t.test_lesson_subject_id"
-            ." where %s and  contract_status <> 0 order by order_time asc",
+            ." where %s and  contract_status <> 0 order by $opt_date_str asc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -1450,10 +1458,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql)>0;
     }
 
+    /*
+     *@modify:Abner<abner@leo.edu.com>
+     *@param:$opt_date_str 筛选类型[order_time:下单时间check_money_time:财务确认时间]
+     */
     public function get_order_count_new($start_time,$end_time,$contract_type,$contract_status,$userid
                                         ,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money,$check_money_flag=-1
                                         ,$isset_assistantid=-1,$origin="",$stu_from_type=-1,$sys_operator="",$account_role=-1
-                                        ,$adminid_list=[],$adminid_all=[]
+                                        ,$adminid_list=[],$adminid_all=[],$opt_date_str
     ){
         $where_arr=[];
         if($userid>0){
@@ -1462,8 +1474,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr=[["config_courseid=%u" , $config_courseid, -1]];
         }else{
             $where_arr=[
-                ["order_time>=%u" , $start_time, -1],
-                ["order_time<=%u" , $end_time, -1],
+                ["$opt_date_str>=%u" , $start_time, -1],
+                ["$opt_date_str<=%u" , $end_time, -1],
                 ["is_test_user=%u" , $is_test_user, -1],
                 // ["check_money_flag=%u" , $check_money_flag, -1],
                 ["stu_from_type=%u" , $stu_from_type, -1],
@@ -3451,7 +3463,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                         
         //获取分期金额
         $where_arr = [
-            "o.contract_type <> 1",
+            "o.contract_status in (1,2)",
+            "o.contract_type = 0",
             [ "o.sys_operator='%s'",  $sys_operator, "XXXX" ],
 
         ];
@@ -3547,6 +3560,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
 
         return $this->main_get_value($sql);
+    }
+    public function get_renew_student_list($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "is_test_user = 0 ",
+            "contract_type = 3 ",
+            "contract_status <> 0",
+            "t1.price > 0"
+        ];
+        $sql = $this->gen_sql_new(" select t1.userid"
+                                  ." from %s t1 "
+                                  ." left join %s t2 on t1.userid = t2.userid "
+                                  ." left join %s f ON f.from_key_int = t1.orderid and  f.flow_type IN (2002, 3002)"
+                                  ." left join %s co ON co.parent_orderid = t1.orderid and co.child_order_type = 2 "
+                                  ." where %s order by t1.userid asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+                                  ,t_child_order_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
     }
 
     public function get_order_list_by_time($start_time,$end_time){

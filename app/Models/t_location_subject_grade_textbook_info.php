@@ -61,6 +61,19 @@ class t_location_subject_grade_textbook_info extends \App\Models\Zgen\z_t_locati
 
     }
 
+    public function get_info_by_province_and_subject_and_grade($province,$subject,$grade){
+        $sql = $this->gen_sql_new("select * from %s "
+                                  ." where province ='%s' and subject = %u and grade=%u",
+                                  self::DB_TABLE_NAME,
+                                  $province,
+                                  $subject,
+                                  $grade
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
 }
 
 

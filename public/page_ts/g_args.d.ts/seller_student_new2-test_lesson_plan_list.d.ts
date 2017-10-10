@@ -95,6 +95,7 @@ interface RowData {
 	stu_test_paper	:any;
 	tea_download_paper_time	:any;
 	success_flag	:any;
+	learning_situation	:any;
 	fail_greater_4_hour_flag	:any;
 	test_lesson_fail_flag	:any;
 	fail_reason	:any;

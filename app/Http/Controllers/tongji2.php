@@ -1173,8 +1173,40 @@ class tongji2 extends Controller
                     $type = 3;
                     $create_time = $end_time + 86400;
                 }
+            }else{
+                $arr = [];
+                $arr['create_time_range'] = "不在统计时间段内";
+                $arr['type'] = 0;
+                return $this->pageView(__METHOD__,null,["arr"=>$arr]);
             }
+
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+            if($ret_info){
+                //处理
+                $ret_info['target']        = $ret_info['target']>0?$ret_info['target']/100:0;
+                $ret_info['total_price']   = $ret_info['total_price']>0?$ret_info['total_price']/100:0;
+                $ret_info['kpi_per']       = $ret_info['kpi_per'] >0?$ret_info['kpi_per']/100:0;
+                $ret_info['gap_money']     = $ret_info['gap_money']>0?$ret_info['gap_money']/100:0;
+                $ret_info['total_income']  = $ret_info['total_income']>0?$ret_info['total_income']/100:0;
+                $ret_info['person_num_thirty_per'] = $ret_info['person_num_thirty_per']>0?$ret_info['person_num_thirty_per']/100:0;
+                $ret_info['contract_per']  = $ret_info['contract_per']>0?$ret_info['contract_per']/100:0;
+                $ret_info['month_kpi_per'] = $ret_info['month_kpi_per']>0?$ret_info['month_kpi_per']/100:0;
+                $ret_info['lesson_consume']= $ret_info['lesson_consume']>0?$ret_info['lesson_consume']/100:0;
+                $ret_info['teacher_leave'] = $ret_info['teacher_leave'] >0?$ret_info['teacher_leave']/100:0;
+                $ret_info['student_leave'] = $ret_info['student_leave'] >0?$ret_info['student_leave']/100:0;
+                $ret_info['other_leave']   = $ret_info['other_leave']>0?$ret_info['other_leave']/100:0;
+                $ret_info['student_arrive_per'] = $ret_info['student_arrive_per']>0?$ret_info['student_arrive_per']/100:0;
+                $ret_info['lesson_income'] = $ret_info['lesson_income']>0?$ret_info['lesson_income']/100:0;
+                $ret_info['total_renew']   = $ret_info['total_renew']>0?$ret_info['total_renew']/100:0;
+                $ret_info['renew_num_per'] = $ret_info['renew_num_per']>0?$ret_info['renew_num_per']/100:0;
+                $ret_info['renew_per']     = $ret_info['renew_per']>0?$ret_info['renew_per']/100:0;
+                $ret_info['finish_renew_per'] = $ret_info['finish_renew_per']>0?$ret_info['finish_renew_per']/100:0;
+                $ret_info['tranfer_total_price'] = $ret_info['tranfer_total_price']>0?$ret_info['tranfer_total_price']/100:0;
+                $ret_info['tranfer_success_per'] = $ret_info['tranfer_success_per']>0?$ret_info['tranfer_success_per']/100:0;
+                $ret_info['total_tranfer'] = $ret_info['total_tranfer']>0?$ret_info['total_tranfer']/100:0;
+                $ret_info['tranfer_num_per']=$ret_info['tranfer_num_per']>0?$ret_info['tranfer_num_per']/100:0;
+                $ret_info['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
+            }
             return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
         }elseif($is_history_data === 2){
             $cur_start   = strtotime(date('Y-m-01',$start_time));
@@ -1186,27 +1218,54 @@ class tongji2 extends Controller
                     $type = 2;
                     $start_time = $start_time + 86400;
                     $end_time = $end_time + 86400;
+                    $create_time = $end_time ;
                 }else{//跨月报
                     $type = 3;
                     $start_time = $start_time + 86400;
                     $end_time = $end_time + 86400;
+                    $create_time = $end_time ;
                 }
             }elseif($opt_date_type == 3){
                 $type = 1;
+                $create_time = $end_time ;
             }else{
                 $arr = [];
                 $arr['create_time_range'] = "不在统计时间段内";
+                $arr['type'] = 0;
                 return $this->pageView(__METHOD__,null,["arr"=>$arr]);
             }
+            //存档data
             $arr = [];
-            $arr['create_time_range'] = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
+            $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+            $arr['type']               = isset($ret_info['type'])?$ret_info['type']:0;
+            $arr['finish_num']         = $ret_info['finish_num'];//结课学员数
+            $arr['lesson_target']      = $ret_info['lesson_target'];//课时系数目标量
+            $arr['read_num']           = $ret_info['read_num']; //在读学生数量
+            $arr['total_student']      = $ret_info['total_student'];//上课学生数量
+            $arr['student_arrive_per'] = $ret_info['student_arrive_per']/100;//学生到课率
+            $arr['student_arrive']     = $ret_info['student_arrive'];//学生到课数量
+            $arr['lesson_plan']        = $ret_info['lesson_plan'];//排课数量
+            $arr['lesson_income']      = $ret_info['lesson_income']/100;//课时收入
+            $arr['expect_finish_num']  = $ret_info['expect_finish_num'];//预计结课学生数量
+            $arr['plan_renew_num']     = $ret_info['plan_renew_num'];//计划内续费学生数量
+            $arr['other_renew_num']    = $ret_info['other_renew_num'];//计划外续费学生数量
+            $arr['real_renew_num']     = $ret_info['real_renew_num'];//实际续费学生数量
+            $arr['renew_per']          = $ret_info['renew_per'];//月续费率
+            $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
+            $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
+            //$arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
+            $arr['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
+            $arr['create_time_range']  = date("Y-m-d H:i:s",$start_time)."--".date("Y-m-d H:i:s",$end_time);
+            if($opt_date_type == 3){
+                $arr['type'] = 1;
+            }
             //节点
             //概况
             $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
             if($type == 3){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
             }elseif($type == 1 || $type == 2){
-                $month_ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
+                $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
             $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
@@ -1293,25 +1352,6 @@ class tongji2 extends Controller
             $arr['fail_num'] = $kk['fail_num'];
             $arr['wait_num'] = $kk['wait_num'];
 
-            //存档data
-            $ret_info = $this->t_cr_week_month_info->get_data_by_type($end_time,$type);
-            $arr['finish_num']         = $ret_info['finish_num'];//结课学员数
-            $arr['lesson_target']      = $ret_info['lesson_target'];//课时系数目标量
-            $arr['read_num']           = $ret_info['read_num']; //在读学生数量
-            $arr['total_student']      = $ret_info['total_student'];//上课学生数量
-            $arr['student_arrive_per'] = $ret_info['student_arrive_per'];//学生到课率
-            $arr['student_arrive']     = $ret_info['student_arrive'];//学生到课数量
-            $arr['lesson_plan']        = $ret_info['lesson_plan'];//排课数量
-            $arr['lesson_income']      = $ret_info['lesson_income'];//课时收入
-            $arr['expect_finish_num']  = $ret_info['expect_finish_num'];//预计结课学生数量
-            $arr['plan_renew_num']     = $ret_info['plan_renew_num'];//计划内续费学生数量
-            $arr['other_renew_num']    = $ret_info['other_renew_num'];//计划外续费学生数量
-            $arr['real_renew_num']     = $ret_info['real_renew_num'];//实际续费学生数量
-            $arr['renew_per']          = $ret_info['renew_per'];//月续费率
-            $arr['finish_renew_per']   = $ret_info['finish_renew_per'];//月预警续费率
-            $arr['tranfer_success_per']= $ret_info['tranfer_success_per'];//月转介绍至CC签单率
-            $arr['kk_success_per']     = $ret_info['kk_success_per'];//月扩课成功率 
- 
             return $this->pageView(__METHOD__,null,["arr"=>$arr]);
         }
     }

@@ -226,7 +226,9 @@
                 <div class="col-xs-3 col-md-1">
                     <div class="input-group ">
                         <button class="btn btn-primary " id="id_add">试听申请</button>
-                        <!-- <button class="btn btn-primary " id="id_add_new">试听申请</button> -->
+                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60]))
+                            <button class="btn btn-primary " id="id_add_new">试听申请-new</button>
+                        @endif
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
@@ -379,6 +381,7 @@
                                     试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
                                     教材：{{$var["editionid_str"]}}<br/>
                                     学生成绩情况: {{$var["stu_score_info"]}} <br/><br/>
+                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
                                         <font color="blue"> 销售top25</font><br/>
                                     @endif
@@ -397,6 +400,7 @@
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
+                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
                                         <font color="blue"> 销售top25</font><br/>
                                     @endif
@@ -482,7 +486,9 @@
                                     @if ($cur_page =="ass_test_lesson_list" || $cur_page =="ass_test_lesson_list_tran" )
                                         <a title="上传试卷" id="upload-test-paper-{{$var["require_id"]}}" class="fa-upload opt-upload-test-paper show_flag"></a>
                                         <a title="编辑" class=" fa-edit opt-edit show_flag"></a>
-                                        <!-- <a title="编辑" class=" fa-edit opt-edit-new show_flag"></a> -->
+                                        @if(in_array($adminid,[99,831,349,448,68,1093,1122,188,60]))
+                                            <a title="编辑-new" class=" fa-edit opt-edit-new show_flag"></a>
+                                        @endif
                                         <a title="删除" class=" fa-trash-o opt-del show_flag"></a>
                                     @else
                                         <a title="排课" class=" opt-set-lesson-new show_flag">驳回&排课 </a>
@@ -839,8 +845,14 @@
                         </div>
                         <div class="col-xs-12 col-md-3 ">
                             <div class="input-group ">
-                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
+                                <span class="input-group-addon">&nbsp绿色通道：</span>
                                 <input type="text" class=" form-control "  id="id_green_channel_teacherid_new"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>
+                                <textarea class="form-control" style="height:75px;" id="id_learning_situation_new" ></textarea>
                             </div>
                         </div>
                     </div>
@@ -1162,8 +1174,14 @@
                         </div>
                         <div class="col-xs-12 col-md-3 ">
                             <div class="input-group ">
-                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp绿色通道：</span>
+                                <span class="input-group-addon">&nbsp绿色通道：</span>
                                 <input type="text" class=" form-control "  id="id_green_channel_teacherid"  />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><font style="color:red">*</font>&nbsp学情反馈：</span>
+                                <textarea class="form-control" style="height:75px;" id="id_learning_situation" ></textarea>
                             </div>
                         </div>
                     </div>

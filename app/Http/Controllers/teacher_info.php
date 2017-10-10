@@ -2096,9 +2096,11 @@ class teacher_info extends Controller
     public function get_pub_upload_token(){
         $qiniu         = \app\helper\config::get_config("qiniu");
         $public_bucket = $qiniu["public"]['bucket'];
-        $accesskey     = $qiniu['access_key'];
-        $secretkey     = $qiniu['secret_key'];
-        $auth  = new \qiniu\auth ($accesskey, $secretkey);
+        $auth = new \Qiniu\Auth(
+            \App\Helper\Config::get_qiniu_access_key(),
+            \App\Helper\Config::get_qiniu_secret_key()
+        );
+
         $token = $auth->uploadtoken($public_bucket);
         return $this->output_succ(["upload_token"=> $token]);
 

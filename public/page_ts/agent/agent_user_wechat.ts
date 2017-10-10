@@ -82,6 +82,7 @@ $(function(){
             $("#id_l2_invite_money_not_open_not_lesson_succ").text(user.l2_invite_money_info.all_money- user.l2_invite_money_info.open_moeny   );
             $("#id_order_user_count").text(user.order_user_count);
             $("#id_child_all_count").text(user.child_all_count);
+            $("#id_activity_money").text(user.activity_money_info.all_money );
 
         },
         error:function(){

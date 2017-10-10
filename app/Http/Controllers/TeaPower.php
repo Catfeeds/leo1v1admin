@@ -1267,11 +1267,12 @@ trait TeaPower {
         if($check_flag){
             return "该手机号已存在";
         }
+
         $check_teacher_day = strtotime("2017-9-10");
         if(time()>$check_teacher_day){
-            $default_teacher_money_type= E\Eteacher_money_type::V_6;
+            $default_teacher_money_type = E\Eteacher_money_type::V_6;
         }else{
-            $default_teacher_money_type= E\Eteacher_money_type::V_4;
+            $default_teacher_money_type = E\Eteacher_money_type::V_4;
         }
 
         \App\Helper\Utils::set_default_value($acc,$teacher_info,"","acc");
@@ -1316,7 +1317,7 @@ trait TeaPower {
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
                 if($reference_info['teacher_type']>30){
                     $teacher_ref_type = $reference_info['teacher_ref_type'];
-                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2])){
                     $teacher_ref_type = $reference_info['teacher_ref_type'];
                     $teacher_money_type = E\Eteacher_money_type::V_5;
                 }
@@ -1417,6 +1418,32 @@ trait TeaPower {
         ]);
 
         return (int)$teacherid;
+    }
+
+    /**
+     * 通过手机号设置老师为离职状态
+     * @param phone string 手机号
+     * @param is_quit int 离职状态 0 未离职 1 已离职
+     * @param quit_info string 离职信息
+     */
+    public function set_teacher_quit_status($phone,$is_quit=0,$quit_info=""){
+        $adminid   = session("adminid");
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        if($teacherid>0){
+            $old_is_quit = $this->t_teacher_info->get_is_quit($teacherid);
+            if($old_is_quit != $is_quit){
+                $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                    "is_quit"   => $is_quit,
+                    "quit_time" => time(),
+                    "quit_info" => $quit_info,
+                    "quit_set_adminid" => $adminid,
+                ]);
+                if(!$ret){
+                    return $this->output_err("老师离职状态变更失败!");
+                }
+            }
+        }
+        return $this->output_succ();
     }
 
     /**
@@ -2461,7 +2488,7 @@ trait TeaPower {
             }elseif(in_array($adminid,[923])){
                 $subject=-1;
             }elseif(in_array($adminid,[793])){
-                $subject=5;
+                $subject=-5;
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
@@ -2480,7 +2507,7 @@ trait TeaPower {
             }elseif(in_array($adminid,[372,329])){
                 $subject=3;
             }elseif(in_array($adminid,[793])){
-                $subject=5;
+                $subject=-5;
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){

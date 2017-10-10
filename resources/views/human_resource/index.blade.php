@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" >
-     var acc= "{{$acc}}";
-     var tea_right= "{{$tea_right}}";
+     var acc = "{{$acc}}";
+     var tea_right = "{{$tea_right}}";
+     var account_role = "{{$account_role}}";
     </script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <link rel='stylesheet' href='/css/fullcalendar.css' />
@@ -343,12 +344,9 @@
                     <div class="input-group ">
                         <span >教材版本</span>
                         <select id="id_teacher_textbook" class ="opt-change" >
-                           
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>

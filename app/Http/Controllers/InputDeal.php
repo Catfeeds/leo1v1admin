@@ -443,6 +443,16 @@ trait  InputDeal {
         return $this->get_in_date_range($init_start_date,0, $date_type, $date_type_config, 3 );
     }
 
+    /*
+     *@desn:组合时间筛选条件
+     *@param:$init_start_date 开始时间[init]
+     *@param:$init_end_date  结束时间[int]
+     *@param:$date_type  默认显示筛选根据
+     *@param:$date_type_config  日期筛选根据数组
+     *@param:$opt_date_type  日期显示区间 [1:日2:周3:月]
+     *@param:$date_field_index 扩展配置
+     *@param:$timepacler_flag 时间段处理标识  [不处理$endtime]
+     */
     public function get_in_date_range($init_start_date,$init_end_date,$date_type=0,$date_type_config=[], $opt_date_type=0,$date_field_index=0,$timepacker_flag=false ){
         $now=time(NULL);
         if (is_int($init_start_date)) {

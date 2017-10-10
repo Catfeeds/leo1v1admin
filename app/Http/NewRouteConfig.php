@@ -218,6 +218,7 @@ class NewRouteConfig {
         "/authority/set_permission"          => true,
         "/authority/seller_edit_log_list"          => true,
         "/authority/set_group_img"          => true,
+        "/authority/update_lesson_call_end_time"             => true,
         "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
@@ -381,6 +382,7 @@ class NewRouteConfig {
         "/news_info/push_news_info"          => true,
 
         "/human_resource/get_check_textbook_tea_list"        => true,
+        "/human_resource/switch_teacher_to_test"        => true,
         "/human_resource/origin_list"        => true,
         "/human_resource/teacher_total_list" => true,
         "/human_resource/zs_origin_list"     => true,

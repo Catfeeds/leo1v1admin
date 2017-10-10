@@ -49,6 +49,8 @@
             <thead>
                 <tr>
                     <td>时间</td>
+                    <td>接通时间</td>
+                    <td>结束时间</td>
                     <td>拨打者</td>
                     <td>角色</td>
                     <td>拨打者id</td>
@@ -63,6 +65,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["start_time"]}} </td>
+                        <td>{{$var["obj_start_time"]}} </td>
+                        <td>{{$var["end_time"]}} </td>
                         <td>{{$var["admin_nick"]}} </td>
                         <td>{{$var["admin_role_str"]}} </td>
                         <td>{{$var["uid"]}} </td>

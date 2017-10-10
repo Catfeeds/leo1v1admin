@@ -15,15 +15,15 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common() { // 协议编号 1003
-        $teacherid          = $this->get_teacherid();
-        $lessonid           = $this->get_in_int_val('lessonid');
-        $now                = time(NULL);
-        $total_judgement    = $this->get_in_int_val("total_judgement");
-        $homework_situation = $this->get_in_str_val("homework_situation");
-        $content_grasp      = $this->get_in_str_val("content_grasp");
-        $lesson_interact    = $this->get_in_str_val("lesson_interact");
+        $teacherid           = $this->get_teacherid();
+        $lessonid            = $this->get_in_int_val('lessonid');
+        $now                 = time(NULL);
+        $total_judgement     = $this->get_in_int_val("total_judgement");
+        $homework_situation  = $this->get_in_str_val("homework_situation");
+        $content_grasp       = $this->get_in_str_val("content_grasp");
+        $lesson_interact     = $this->get_in_str_val("lesson_interact");
         $teacher_message_str = $this->get_in_str_val("teacher_message");
-        $stu_comment        = $this->get_in_str_val("stu_comment");
+        $stu_comment         = $this->get_in_str_val("stu_comment");
 
         $point_note_list_arr = [];
         if(is_array($teacher_message_str)){
@@ -79,6 +79,8 @@ class lesson extends TeaWxController
 
         if($com_state){
             return $this->output_succ(['time'=>$com_state]);
+        }else{
+            return $this->output_err("更新失败,请稍后重试!");
         }
     }
 

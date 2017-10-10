@@ -460,7 +460,19 @@ class agent extends Controller
         ]);
     }
 
-
+    public function test_new(){
+        $ret = 1;
+        if(in_array(100,[100,68,1093,1122])){//测试
+            $ret = 0;
+        }
+        dd($ret);
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($date_list) = [[['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0],['month'=>0]]];
+        foreach($date_list as $key=>&$item){
+            $item['month'] = date("m", strtotime("-".(5-$key)." months", $start_time));
+        }
+        dd($date_list);
+    }
 
     public function get_my_pay($phone){
         $pay = 0;
