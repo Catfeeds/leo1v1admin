@@ -241,7 +241,6 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_money_list::DB_TABLE_NAME
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

@@ -49,6 +49,7 @@ class LessonTask extends TaskController
             if (isset( $ret_arr["server_list"] ) &&  isset( $ret_arr["server_list"][0])) {
                 $server_config = $ret_arr["server_list"][0];
                 $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+if(isset($server_config['ip'])){
                 $user_list = Utils::get_room_users($roomid,$server_config);
 
                 Log::debug("check room info  $roomid  , userid_list:".json_encode($user_list));
@@ -63,6 +64,7 @@ class LessonTask extends TaskController
                         $this->t_baidu_msg->change_lesson_start_message_status($lessonid);
                     }
                 }
+}
             }else{
                 Log::debug("no find server info for lessonid = $lessonid ");
                 continue;

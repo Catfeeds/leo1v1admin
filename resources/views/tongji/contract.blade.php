@@ -1,17 +1,17 @@
 @extends('layouts.app')
 @section('content')
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
 
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
-	<script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
+  <script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
     <script type="text/javascript" >
-     
+
      var g_data_ex_list= <?php  echo json_encode ($data_ex_list); ?> ;
     </script>
 
     <section class="content ">
         <div class="row">
-            <div class="col-xs-12 col-md-5">
+            <div class="col-xs-12 col-md-6">
                 <div id="id_date_range"> </div>
             </div>
             <div class="col-xs-6 col-md-2">
@@ -42,7 +42,7 @@
         <div style="font-size:22px"> 合同人次</div>
         <div id="id_contract_user"> </div>
 
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr> <td>时间 </td> <td>合同金额</td> <td> 合同个数</td>
 
@@ -68,9 +68,8 @@
         </table>
 
 
-        
+
 
     </section>
-    
-@endsection
 
+@endsection

@@ -375,7 +375,7 @@ $(function(){
                                         var uu=40-resp.top_num;
                                         dialog.close();
                                         BootstrapDialog.alert("试听申请成功,您的精排名额剩余"+uu+"个");
-                                        sleep(1500);
+                                        sleep(3500);
                                         window.location.reload();
 
                                     }else if(resp.top_num==29){
@@ -2145,13 +2145,23 @@ function init_edit() {
 
 
 
-            id_stu_request_test_lesson_time.datetimepicker( {
+           /* id_stu_request_test_lesson_time.datetimepicker( {
                 lang:'ch',
                 timepicker:true,
                 format: "Y-m-d H:i",
                 onChangeDateTime :function(){
                 }
+            });*/
+
+            id_stu_request_test_lesson_time.datetimepicker({
+                lang             : 'ch',
+                timepicker       : true,
+                format:'Y-m-d H:i',
+                step             : 30,
+                onChangeDateTime : function(){
+                }
             });
+
 
             html_node.find("#id_stu_reset_stu_request_test_lesson_time").on("click",function(){
                 id_stu_request_test_lesson_time.val("");

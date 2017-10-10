@@ -37,12 +37,13 @@
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="input-group ">
+                <div id="id_date_range"> </div>
+                <!--<div class="input-group ">
                     <span class="input-group-addon">下单时间:</span>
                     <input type="text" class=" form-control " id="id_start_time" />
                     <span class="input-group-addon">-</span>
                     <input type="text" class=" form-control opt-change "  id="id_end_time" />
-                </div>
+                </div>-->
             </div>
 
             <div class="col-xs-6 col-md-2">
