@@ -2712,6 +2712,21 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $jw_teacher_list_all = $this->t_manager_info->get_jw_teacher_list_all();
+            /* $num_all = count($jw_teacher_list_all);
+               $i=0;*/
+        $left_arr=[];
+        foreach($jw_teacher_list_all as $k=>$val){
+            $json_ret=\App\Helper\Common::redis_get_json("JW_AUTO_ASSIGN_NEW_$k");
+            if (!$json_ret) {
+                $json_ret=0;
+                \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", $json_ret);
+            }
+            $left_arr[$k]=$json_ret;
+        }
+        dd($left_arr);
+                    /* if($json_ret==1){
+
         $start_time = strtotime("2017-09-01"); 
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
         $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);

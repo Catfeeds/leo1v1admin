@@ -62,7 +62,10 @@ Route::group(['middleware' => ['web']], function () {
                 echo ("无效链接" );
                 exit;
             }
-            $class = new ReflectionClass("\\App\\Http\\Controllers\\".$ctl ); 
+            $class = new ReflectionClass("\\App\\Http\\Controllers\\$ctl" ); 
+            if($class) {
+
+            }
 
             if (   !preg_match("/^[a-zA-Z][a-zA-Z0-9_]*$/", $act   )  ) {
                 echo ("无效链接" );
