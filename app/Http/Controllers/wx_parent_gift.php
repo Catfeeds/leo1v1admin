@@ -257,5 +257,14 @@ class wx_parent_gift extends Controller
         return $this->output_succ();
     }
 
+    public function get_activity_num(){
+
+    }
+
+    public function set_share_num(){ //记录分享朋友圈次数
+
+    }
+
+
 
 }
