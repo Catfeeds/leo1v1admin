@@ -30,7 +30,7 @@ class wx_parent extends Controller
             $to_url=$this->get_in_str_val("_url");
             $goto_url_arr=preg_split("/\//", $to_url);
             $action=@$goto_url_arr[2];
-            $url="$web_html_url/$action";
+            $url="$web_html_url/$action?".@$_SERVER["QUERY_STRING"];
             \App\Helper\Utils::logger("wx_url1:$url");
 
             header("Location: $url");

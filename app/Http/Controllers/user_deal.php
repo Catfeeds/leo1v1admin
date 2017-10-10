@@ -2712,6 +2712,61 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-09-01"); 
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        dd($ass_month);
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+
+        foreach($ass_month as $item){
+            //add 课耗活动-------------------------------------------------------------------------------
+            $item["lesson_ratio_month"]          = !empty(@$item["read_student_new"])?round(@$item["lesson_total"]/@$item["read_student_new"]/100,3):0; //课程系数-新版 当月课耗/当月上课人数
+            $item["effective_student"] = @$item["read_student_new"]; //带学生人数(上课学生数)
+
+            //ca
+            $assign_lesson  = 0;
+            if($item['lesson_ratio_month'] < $lesson_target){
+                $assign_lesson = 0;
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
+                $assign_lesson = 900;  //3
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
+                $assign_lesson = 1500; //5
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
+                $assign_lesson = 2100; //7
+            }else{
+                $assign_lesson = 2700; //9
+            }
+            if($item['effective_student'] < 30){ 
+                $assign_lesson = $assign_lesson * 0.2;
+            }elseif ($item['effective_student'] < 50) {
+                $assign_lesson = $assign_lesson * 0.4;
+            }elseif ($item['effective_student'] < 70) {
+                $assign_lesson = $assign_lesson * 0.6;
+            }elseif ($item['effective_student'] < 90) {
+                $assign_lesson = $assign_lesson * 0.8;
+            }
+
+            //update assign_lesson in t_month_ass_student_info 
+            $update_arr =  [
+                "assign_lesson"              =>$assign_lesson
+            ];
+            $this->t_month_ass_student_info->get_field_update_arr($item["adminid"],$start_time,1,$update_arr);
+
+            //get assistantid
+            $ret_assistantid = $this->t_manager_info->get_assistant_id($item["adminid"]);
+            $this->t_assistant_info->field_update_list($ret_assistantid,[
+               "assign_lesson_count"=>0 
+            ]);
+            //get assign_lesson_count
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+            if($assign_lesson_count == ''){
+                $assign_lesson_count = 0;
+            }
+
+            //update assign_lesson_count
+            $this->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+        }
+        dd(111);
+
         $list = $this->t_teacher_info->get_all_no_textbook_teacher_info(); 
         foreach($list as &$val){
             
