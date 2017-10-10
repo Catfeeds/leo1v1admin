@@ -53,7 +53,8 @@ class testbb extends Controller
 
     public function test () {
 
-        $ret=\App\Helper\Common::env_obj( "AUDIO_SERVER_LIST" );
+        $ret=\App\Helper\Config::get_config("audio_server_list");
+        //$ret=\App\Helper\Common::env_obj( "AUDIO_SERVER_LIST" );
         dd($ret);
         dd($_SERVER);
         dd($num);
