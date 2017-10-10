@@ -257,8 +257,11 @@ class testbb extends Controller
     public function get_num(){
 
         $no    = rand(1,10000);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
 
-        $u= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book&response_type=code&no=100&scope=snsapi_userinfo&state=STATE_&connect_redirect=1&callback=jQuery22303489741044891643_1507631908791&_=1507631908792";
+        $u= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=$$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_&connect_redirect=1";
+
+        header("location: $u");
 
         $this->switch_tongji_database();
         // $teacherid = $this->t_lesson_info_b3->get_on_num();
