@@ -471,9 +471,8 @@ class wx_yxyx_common extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
-        $end_time   = strtotime('tomorrow');
         foreach ($ret_info['list'] as &$item) {
-            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+            if (!$item['flag'] &  $item['create_time'] > $start_time) {
                 $item['flag'] = 0;
             } else {
                 $item['flag'] = 1;
