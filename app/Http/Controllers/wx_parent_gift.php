@@ -280,9 +280,21 @@ class wx_parent_gift extends Controller
 
         dd($openid);
 
+        $share_flag = $this->t_wx_give_book->check_share_flag($openid);
+        if($share_flag>0){
+            return $this->output_succ(['share_num'=>$share_num]);
+        }else{
+            $ret = $this->t_wx_give_book->row_insert([
+                "openid"    => $parentid,
+                "create_time" => time(),
+                "share_num"   => 1
+            ]);
+
+            return $this->output_succ(['share_num'=>1]);
+        }
+
         $share_num = $this->t_wx_give_book->get_share_num_by_openid($openid);
 
-        return $this->output_succ(['share_num'=>$share_num]);
 
     }
 

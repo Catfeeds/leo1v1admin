@@ -8,7 +8,7 @@ class t_wx_give_book extends \App\Models\Zgen\z_t_wx_give_book
 		parent::__construct();
 	}
 
-    public function get_share_num_by_parentid($parentid){
+    public function check_share_flag($parentid){
         $sql = $this->gen_sql_new("  select share_num from %s "
                                   ." where parentid = $parentid"
                                   ,self::DB_TABLE_NAME
