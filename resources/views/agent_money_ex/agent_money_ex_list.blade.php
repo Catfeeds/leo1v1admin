@@ -35,7 +35,8 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>用户id </td>
+                    <td>用户电话 </td>
+                    <td>微信昵称</td>
                     <td>说明 </td>
                     <td>添加时间 </td>
                     <td>操作人</td>
@@ -46,7 +47,8 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{$var["agent_id"]}}</td>
+                        <td>{{$var["phone"]}} </td>
+                        <td>{{$var["nickname"]}}</td>
                         <td>{{$var["agent_money_ex_type_str"]}} </td>
                         <td>{{$var["add_time"]}} </td>
                         <td>{{$var["account"]}}&#12288;真实姓名：{{$var["name"]}}</td>

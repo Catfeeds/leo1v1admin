@@ -56,10 +56,17 @@ $(function(){
 
     $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "要删除用户:" + opt_data.phone+ opt_data.agent_money_ex_type_str+"金额："+opt_data.money+"元的记录吗？"  ,
+            function(val){
+                if (val) {
+                     $.do_ajax("/agent_money_ex/agent_money_ex_del",{
+                         "id" : opt_data.id
+                     });
 
-         $.do_ajax("/agent_money_ex/agent_money_ex_del",{
-                    "id" : opt_data.id
-         });
+                }
+            });
+
     });
 
 });
