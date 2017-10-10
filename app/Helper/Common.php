@@ -11,7 +11,11 @@ class Common {
         if(!$str) {
             return $def;
         }
-        $obj=json_decode($str);
+        $obj=json_decode($str,true);
+        if ($obj===null) {
+            //$str= "  env json_decode err, key= $key, value = $str  ";
+            //throw new \Exception( $str );
+        }
         return $obj;
     }
 
