@@ -522,6 +522,7 @@ class ss_deal2 extends Controller
         $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
         $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
         $learning_situation             = $this->get_in_str_val('learning_situation');//学情反馈
+        $new_demand_flag                = $this->get_in_int_val('new_demand_flag',0);//试听需求新版本标识
         \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -553,6 +554,13 @@ class ss_deal2 extends Controller
             "area"                  => $area,
             "region"                => $region,
         ];
+
+        if($new_demand_flag){//update_t_seller_student_new
+            $this->t_seller_student_new->field_update_list($userid,[
+                'new_demand_flag'=>$new_demand_flag,
+            ]);
+        }
+
         $this->t_student_info->field_update_list($userid,$ss_arr);
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {//进例子,insert t_seller_student_new
@@ -699,6 +707,7 @@ class ss_deal2 extends Controller
         $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
         $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
         $learning_situation             = $this->get_in_str_val('learning_situation');//学情反馈
+        $new_demand_flag                = $this->get_in_int_val('new_demand_flag',0);//试听需求新版本标识
         // dd($province,$region,$city,$area,$tea_province,$tea_city,$tea_area);
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -750,6 +759,7 @@ class ss_deal2 extends Controller
             "interest_cultivation"  => $interest_cultivation,
             "extra_improvement"     => $extra_improvement,
             "habit_remodel"         => $habit_remodel,
+            'new_demand_flag'       => $new_demand_flag,
         ];
         $this->t_seller_student_new->field_update_list($userid,$ss_arr);
         //update t_test_lesson_subject

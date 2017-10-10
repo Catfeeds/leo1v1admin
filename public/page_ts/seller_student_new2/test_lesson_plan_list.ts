@@ -2113,6 +2113,7 @@ $(function(){
                         'green_channel_teacherid':id_green_channel_teacherid.val(),
                         'change_reason':id_change_reason.val(),
                         'learning_situation':id_learning_situation.val(),
+                        'new_demand_flag':1,
                     });
                 }
             }]
@@ -2722,6 +2723,7 @@ $(function(){
                             'green_channel_teacherid':id_green_channel_teacherid.val(),
                             'change_reason':id_change_reason.val(),
                             'learning_situation':id_learning_situation.val(),
+                            'new_demand_flag':1,
                         });
                     }
                 }]
