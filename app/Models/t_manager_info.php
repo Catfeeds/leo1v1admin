@@ -1244,7 +1244,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $where_arr
         );
 
-        return  $this->main_get_list($sql);
+        return  $this->main_get_value($sql);
     }
 
 
