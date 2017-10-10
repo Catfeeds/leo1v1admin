@@ -2712,6 +2712,191 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-09-01");
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+
+        foreach($ass_month as $item){
+            //add 课耗活动-------------------------------------------------------------------------------
+            $item["lesson_ratio_month"]          = !empty(@$item["read_student_new"])?round(@$item["lesson_total"]/@$item["read_student_new"]/100,3):0; //课程系数-新版 当月课耗/当月上课人数
+            $item["effective_student"] = @$item["read_student_new"]; //带学生人数(上课学生数)
+
+            //ca
+            $assign_lesson  = 0;
+            if($item['lesson_ratio_month'] < $lesson_target){
+                $assign_lesson = 0;
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
+                $assign_lesson = 900;  //3
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
+                $assign_lesson = 1500; //5
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
+                $assign_lesson = 2100; //7
+            }else{
+                $assign_lesson = 2700; //9
+            }
+            if($item['effective_student'] < 30){
+                $assign_lesson = $assign_lesson * 0.2;
+            }elseif ($item['effective_student'] < 50) {
+                $assign_lesson = $assign_lesson * 0.4;
+            }elseif ($item['effective_student'] < 70) {
+                $assign_lesson = $assign_lesson * 0.6;
+            }elseif ($item['effective_student'] < 90) {
+                $assign_lesson = $assign_lesson * 0.8;
+            }
+
+            //update assign_lesson in t_month_ass_student_info
+            $update_arr =  [
+                "assign_lesson"              =>$assign_lesson
+            ];
+            $this->t_month_ass_student_info->get_field_update_arr($item["adminid"],$start_time,1,$update_arr);
+
+            //get assistantid
+            $ret_assistantid = $this->t_manager_info->get_assistant_id($item["adminid"]);
+            //get assign_lesson_count
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+            if($assign_lesson_count == ''){
+                $assign_lesson_count = 0;
+            }
+
+            //update assign_lesson_count
+            $this->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+        }
+        dd(111);
+
+        $list = $this->t_teacher_info->get_all_no_textbook_teacher_info();
+        foreach($list as &$val){
+
+
+
+            if($val["grade_start"]>0){
+                if($val["grade_end"]<=2){
+                    $location = \App\Helper\Common::get_phone_location($val["phone"]);
+                    $location=substr($location, 0, -6);
+                    $grade=100;
+                    $ret= $this->t_location_subject_grade_textbook_info->get_info_by_province_and_subject_and_grade($location,$val["subject"],$grade);
+                    $teacher_textbook=[];
+                    foreach($ret as $item){
+                        $arr = explode(",",$item["teacher_textbook"]);
+                        foreach($arr as $v){
+                            if(!in_array($v,$teacher_textbook)){
+                                $teacher_textbook[] = $v;
+                            }
+                        }
+                    }
+                    dd($teacher_textbook);
+                }
+
+            }
+        }
+
+        dd($list);
+
+        $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
+        $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();
+        for($i=0;$i<=7;$i++){
+            $month = strtotime(date("Y-m-01",$month+40*86400));
+            foreach($admin_main_group_name_list as $item){
+                $tt = $this->t_main_group_name_month->get_main_type($item["groupid"],$month);
+                if($tt){
+                    $this->t_main_group_name_month->field_update_list_2($item["groupid"],$month,[
+                        "up_groupid"    =>$item["up_groupid"]
+                    ]);
+                }
+            }
+
+            foreach($major_admin_list as $k=>$item){
+                $this->t_main_major_group_name_month->row_insert([
+                    "groupid"  =>$item["groupid"],
+                    "month"    =>$month,
+                    "main_type"=>$item["main_type"],
+                    "group_name"=>$item["group_name"],
+                    "master_adminid"=>$item["master_adminid"],
+                    "main_assign_percent" =>$item["main_assign_percent"]
+                ]);
+            }
+
+        }
+
+        dd(111);
+        foreach($major_admin_list as $k=>$item){
+            $this->t_main_major_group_name_month->row_insert([
+                "groupid"  =>$item["groupid"],
+                "month"    =>$month,
+                "main_type"=>$item["main_type"],
+                "group_name"=>$item["group_name"],
+                "master_adminid"=>$item["master_adminid"],
+                "main_assign_percent" =>$item["main_assign_percent"]
+            ]);
+        }
+
+
+        $i=2;
+        $first_group_list = $this->t_main_major_group_name_month->get_group_list($i,$month);
+        $up_group_list = $this->t_main_group_name_month->get_group_list_for_major($i,$month,8);
+        dd($up_group_list);
+        for ($i=1; $i<=$max_main_type; $i++) {
+            $n = $num;
+            $list[] = ["main_type"=>$i,"first_group_name"=>"","up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
+            if($monthtime_flag==1){
+                $first_group_list = $task->t_admin_majordomo_group_name->get_group_list($i);
+            }else{
+                $first_group_list = $task->t_main_major_group_name_month->get_group_list($i,$month);
+            }
+            foreach($first_group_list as $value){
+                $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".++$num,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-2", "first_master_adminid"=>$value["master_adminid"],"first_groupid"=>$value["groupid"]];
+                if($monthtime_flag==1){
+                    $up_group_list = $task->t_admin_main_group_name->get_group_list_for_major($i,$value['groupid']);
+                }else{
+                    $up_group_list = $task->t_main_group_name_month->get_group_list_for_major($i,$month,$value['groupid']);
+                }
+
+
+                $s = $num;
+                foreach($up_group_list as $item){
+                    $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s ,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-3","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];
+                    if($monthtime_flag==1){
+                        $group_list = $task->t_admin_group_name->get_group_name_list($i,$item["groupid"]);
+                    }else{
+                        $group_list = $task->t_group_name_month->get_group_name_list($i,$item["groupid"],$month);
+                    }
+
+                    $m = $num;
+                    foreach($group_list as $val){
+                        $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-4","master_adminid"=>$val["master_adminid"]];
+                        if($monthtime_flag==1){
+                            $admin_list = $task->t_admin_group_user->get_user_list_new($val["groupid"]);
+                        }else{
+                            $admin_list = $task->t_group_user_month->get_user_list_new($val["groupid"],$month);
+                        }
+
+                        $c = $num;
+                        foreach($admin_list as $v){
+                            $list[] = ["main_type"=>$i,"first_group_name"=>$value["group_name"],"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"main_type-".$n,"first_group_name_class"=>"first_group_name-".$s,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-5","become_member_time"=>$v["become_member_time"],"leave_member_time"=>$v["leave_member_time"],"create_time"=>$v["create_time"],"del_flag"=>$v["del_flag"]];
+
+                        }
+                    }
+                }
+            }
+        }
+
+        $require_adminid_list  = $this->t_admin_main_group_name->get_adminid_list_new("助教,,,");
+
+        // $adminid_list_ex = $this->t_admin_group_name->get_adminid_list_by_main_type(1);
+        dd($require_adminid_list);
+
+        $start_time = strtotime("2017-08-01");
+        $end_time   = strtotime("2017-09-01");
+        $one_account = $this->t_teacher_record_list->get_all_interview_count_by_reference($start_time,$end_time,-1);
+        dd($one_account);
+        $tt=0;
+        foreach($one_account as $val){
+            $tt +=$val["lesson_add_num"];
+        }
+        //  dd($tt);
+        $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference_detail($start_time,$end_time);
+        dd($one_account);
+        dd($lesson_add);
+
                
 
     }
@@ -3280,12 +3465,29 @@ class user_deal extends Controller
         }else{
             $warning_deal_url="";
         }
+        $time = time();
         $this->t_revisit_info->field_update_list_2($userid,$revisit_time,[
             "warning_deal_url" =>$warning_deal_url,
             "warning_deal_info" => $warning_deal_info,
-            "warning_deal_time" => time(),
+            "warning_deal_time" => $time,
             "is_warning_flag" => $is_warning_flag
         ]);
+
+        if($is_warning_flag == 2) {
+            //如果状态改为‘已解决’,查询预警超时表，同步修改对应状态
+            $ret = $this->t_revisit_warning_overtime_info->get_overtime_id_and_create_time($userid, $revisit_time);
+            if (count($ret) > 0){
+                $add_month  = date('Y-m-1', $ret['create_time']);
+                $deal_month = date('Y-m-1', $time);
+                $deal_type  = ($add_month === $deal_month)? 1: 2;
+                $this->t_revisit_warning_overtime_info->field_update_list($ret['overtime_id'],[
+                    "deal_time" => $time,
+                    "deal_type" => $deal_type,
+                ]);
+
+            }
+
+        }
         return $this->output_succ();
 
     }
@@ -3665,7 +3867,7 @@ class user_deal extends Controller
         if(strlen(str_replace(" ","",$change_reason))<9){
             return $this->output_err('换老师原因不得少于3个字!');
         }
- 
+
 
         $adminid = $this->get_account_id();
         $ret = $this->t_change_teacher_list->check_is_exist($teacherid,$userid,$subject,$commend_type);
