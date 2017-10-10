@@ -1178,6 +1178,7 @@ class ss_deal extends Controller
         $lesson_start = strtotime($lesson_start);
         $lesson_end   = $lesson_start+ 2400;
 
+
         if (empty($teacherid) || empty($lesson_end) || empty($lesson_start) ) {
             return $this->output_err("请填写完整!");
         }
@@ -1202,7 +1203,6 @@ class ss_deal extends Controller
             if($rr){
                 return $rr;
             }
-
         }
 
         $test_lesson_subject_id=$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);

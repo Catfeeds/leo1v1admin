@@ -99,7 +99,6 @@ $(function(){
         var uid = opt_data.uid;
 
         var del_flag     = $("<select/>");
-        var tea_del_flag = $("<select/>");
         var time         = $("<input>");
         var mydate       = new Date();
         var str          = "" + mydate.getFullYear() + "/";
@@ -111,9 +110,7 @@ $(function(){
         time.datetimepicker();
 
         Enum_map.append_option_list( "boolean", del_flag,true);
-        Enum_map.append_option_list( "boolean", tea_del_flag,true);
         del_flag.val(opt_data.del_flag);
-        tea_del_flag.val(0);
 
         if(del_flag.val() == 1){
             time.val(opt_data.leave_member_time);
@@ -124,9 +121,9 @@ $(function(){
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
             ["是否离职",del_flag],
-            ["老师账号是否离职",tea_del_flag],
             ["时间",time]
         ];
+
 
         $.show_key_value_table("更改员工状态", arr ,{
             label: '确认',
@@ -144,7 +141,6 @@ $(function(){
                 $.do_ajax('/authority/del_manager', {
                     'uid'          : opt_data.uid,
                     'del_flag'     : del_flag.val(),
-                    'tea_del_flag' : tea_del_flag.val(),
                     'time'         : time_new,
                 });
             }
