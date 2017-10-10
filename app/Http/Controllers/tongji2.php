@@ -1199,6 +1199,7 @@ class tongji2 extends Controller
                 $ret_info['tranfer_success_per'] = $ret_info['tranfer_success_per']>0?$ret_info['tranfer_success_per']/100:0;
                 $ret_info['total_tranfer'] = $ret_info['total_tranfer']>0?$ret_info['total_tranfer']/100:0;
                 $ret_info['tranfer_num_per']=$ret_info['tranfer_num_per']>0?$ret_info['tranfer_num_per']/100:0;
+                $ret_info['kk_success_per'] = $ret_info['kk_success_per']>0?$ret_info['kk_success_per']/100:0;
             }
             return $this->pageView(__METHOD__,null,["arr"=>$ret_info]);
         }elseif($is_history_data === 2){
