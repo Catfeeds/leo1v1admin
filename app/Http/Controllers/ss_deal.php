@@ -2583,7 +2583,6 @@ class ss_deal extends Controller
         }else{
             $change_reason_url = '';
         }
-
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
         if($green_channel_teacherid>0){

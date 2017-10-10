@@ -19,4 +19,24 @@ class seller_level_goal extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    public function add_seller_level_goal(){
+        $seller_level = $this->get_in_int_val('seller_level');
+        $level_goal = $this->get_in_int_val('level_goal');
+        $level_face = $this->get_in_str_val('level_face');
+        if($level_face){
+            $domain = config('admin')['qiniu']['public']['url'];
+            $level_face_url = $domain.'/'.$level_face;
+        }else{
+            $level_face_url = '';
+        }
+        $this->t_seller_level_goal->row_insert([
+            "seller_level" => $seller_level,
+            "level_goal"   => $level_goal ,
+            "level_face"   => $level_face_url,
+            "create_time"  => time(null),
+        ]);
+
+        return $this->output_succ();
+    }
 }
