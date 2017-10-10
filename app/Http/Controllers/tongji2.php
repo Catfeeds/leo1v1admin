@@ -1175,6 +1175,7 @@ class tongji2 extends Controller
                 }
             }
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
+            dd($ret_info);
             if($ret_info){
                 //处理
                 $ret_info['target']        = $ret_info['target']>0?$ret_info['target']/100:0;
