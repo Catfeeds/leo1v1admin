@@ -175,6 +175,7 @@ class url_power_map {
 			'/authority/manager_list_for_qz_wuhan'	=>1063800,
 			'/user_manage_new/admin_group_manage'	=>1063100,
 			'/campus_manage/admin_campus_manage'	=>1064000,
+			'/month_def_type/def_list'	=>1064100,
 			'/user_manage_new/department_memeber_list_production'	=>1063501,
 			'/user_manage_new/department_memeber_list_seller'	=>1063502,
 			'/user_manage_new/department_memeber_list_sc'	=>1063503,
