@@ -41,11 +41,12 @@ class Handler extends ExceptionHandler
           "SERVER_NAME" => "admin.yb1v1.com"
         */
 
-        $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_NAME"];
+        $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
+        $cmd_info= @join(" ", @$global["argv"]);
 
         $account=@$_SESSION["acc"];
 
-        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/> server_info $server_info<br/> ";
+        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/> server_info $server_info  $cmd_info<br/> ";
 
         foreach( $e->getTrace() as &$bt_item ) {
             //$args=json_encode($bt_item["args"]);
