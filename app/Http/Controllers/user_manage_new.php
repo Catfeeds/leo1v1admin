@@ -3574,7 +3574,7 @@ class user_manage_new extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, $uid_str);
         $warning_type_num['warning_type_three'] = $three_count;
 
         foreach($ret_info['list'] as &$item){

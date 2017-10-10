@@ -248,7 +248,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             ["m.uid= %u",$ass_adminid,-1]
         ];
 
-        if ($uid_str != -1 && $uid_str) {
+        if ($uid_str != -1 & $uid_str !== null) {
             $where_arr[] = "m.uid in ($uid_str)";
         }
 
