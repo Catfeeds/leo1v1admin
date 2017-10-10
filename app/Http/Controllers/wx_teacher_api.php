@@ -1007,7 +1007,6 @@ class wx_teacher_api extends Controller
 
 
         foreach($wx_openid_arr as $item_openid ){
-            \App\Helper\Utils::logger(" send wx to seller1 $item_openid");
             $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
         }
 
