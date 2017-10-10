@@ -408,7 +408,7 @@ class test_sam  extends Controller
                   $arr['kk_success_per'] = 0;
                 }
 
-
+                echo $arr['month_success_num'].'-'.$arr['month_total_test_lesson_num'];
                 $insert_data = [
                     "create_time"             => $create_time,            //存档时间
                     "create_time_range"       => $create_time_range,      //存档时间范围
