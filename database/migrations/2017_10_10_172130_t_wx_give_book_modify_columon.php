@@ -13,9 +13,12 @@ class TWxGiveBookModifyColumon extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi_admin.t_seller_level_goal', function( Blueprint $table)
+        Schema::table('db_weiyi.t_wx_give_book', function( Blueprint $table)
         {
-            t_field($table->integer("num"),"等级序号");
+            $table->dropColumn('parentid');
+            t_field($table->string("openid"),"用户openid");
+
+            $table->index('openid');
         });
 
     }

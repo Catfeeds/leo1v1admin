@@ -58,7 +58,8 @@ class Handler extends ExceptionHandler
         $ip=@$_SERVER["REMOTE_ADDR"];
 
         if( \App\Helper\Utils::check_env_is_release() ) {
-            if ( substr($ip,0,9 )!= "121.42.0."  ) { //阿里云盾
+            $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
+            if ( !in_array( $ip_fix ,[ "121.42.0", "140.205.225" ])   ) { //阿里云盾
 
                 dispatch( new \App\Jobs\send_error_mail(
                     "", date("H:i:s")."ERR1:" .$e->getMessage(),

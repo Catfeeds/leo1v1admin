@@ -278,51 +278,46 @@ class wx_parent_gift extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
-        dd($openid);
-
-        $share_flag = $this->t_wx_give_book->check_share_flag($openid);
-        if($share_flag>0){
+        $share_num = @$this->t_wx_give_book->check_share_flag($openid);
+        if($share_num>0){
             return $this->output_succ(['share_num'=>$share_num]);
         }else{
             $ret = $this->t_wx_give_book->row_insert([
-                "openid"    => $parentid,
+                "openid"    => $openid,
                 "create_time" => time(),
                 "share_num"   => 1
             ]);
 
-            return $this->output_succ(['share_num'=>1]);
+            return $this->output_succ(['share_num'=>0]);
         }
 
-        $share_num = $this->t_wx_give_book->get_share_num_by_openid($openid);
-
-
     }
 
 
 
-    public function get_share_num(){
-        $parentid = $this->get_parentid();
-        $share_num = $this->t_wx_give_book->get_share_num_by_parentid($parentid);
+    // public function get_share_num(){
+    //     $parentid = $this->get_parentid();
+    //     $share_num = $this->t_wx_give_book->get_share_num_by_parentid($parentid);
 
-        return $this->output_succ(['share_num'=>$share_num]);
-    }
+    //     return $this->output_succ(['share_num'=>$share_num]);
+    // }
 
-    public function set_share_num(){ //记录分享朋友圈次数
-        $parentid = $this->get_parentid();
-        $this->t_wx_give_book->row_delete_by_parentid($parentid);
+    // public function set_share_num(){ //记录分享朋友圈次数
+    //     $parentid = $this->get_parentid();
+    //     $this->t_wx_give_book->row_delete_by_parentid($parentid);
 
-        $ret = $this->t_wx_give_book->row_insert([
-            "parentid"    => $parentid,
-            "create_time" => time(),
-            "share_num"   => 1
-        ]);
+    //     $ret = $this->t_wx_give_book->row_insert([
+    //         "parentid"    => $parentid,
+    //         "create_time" => time(),
+    //         "share_num"   => 1
+    //     ]);
 
-        return $this->output_succ();
-    }
+    //     return $this->output_succ();
+    // }
 
-    public function get_parentid(){
-        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
-        return $parentid;
-    }
+    // public function get_parentid(){
+    //     $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
+    //     return $parentid;
+    // }
 
 }
