@@ -46,7 +46,7 @@ class testbb extends Controller
         dd($ass_list_str);
     }
 
-    public function ttt(){
+    public function ttt(){// 更新扩课信息
         $require_id = $this->get_in_int_val('rid');
         $origin = $this->get_in_str_val('origin');
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
