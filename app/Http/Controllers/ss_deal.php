@@ -1179,6 +1179,7 @@ class ss_deal extends Controller
         $lesson_end   = $lesson_start+ 2400;
 
 
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
         // "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
         //                                                         "change_reason" : $id_change_reason.val(),
         //                                                         "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
