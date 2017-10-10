@@ -72,6 +72,7 @@
                     <td >合同类型</td>
                     <td style="display:none;">生效日期</td>
                     <td style="display:none;">下单日期</td>
+                    <td style="display:none;">家长姓名</td>
                     <td >总课时</td>
                     <td >剩余课时</td>
                     <td style="display:none;">每次课课时数</td>
@@ -105,6 +106,7 @@
                         </td>
                         <td>{{$var["order_pay_time_str"]}}</td>
                         <td >{{$var["order_time_str"]}}</td>
+                        <td >{{$var["parent_name"]}}</td>
                         <td >{{$var["lesson_total"]}}</td>
                         <td >{{$var["order_left"]}}</td>
                         <td >{{$var["default_lesson_count"]/100}}</td>

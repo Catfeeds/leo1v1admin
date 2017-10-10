@@ -46,8 +46,19 @@ class testbb extends Controller
         dd($ass_list_str);
     }
 
-    public function ttt(){
-        $rid = $this->get_in_int_val('rid');
+    public function ttt(){// 更新扩课信息
+        $require_id = $this->get_in_int_val('rid');
+        $origin = $this->get_in_str_val('origin');
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+        $change_teacher_reason = $this->get_in_str_val('change_teacher_reason');
+
+        $ret= $this->t_test_lesson_subject_require->field_update_list($require_id,[
+            "origin" => $origin,
+            "change_teacher_reason_type" => $change_teacher_reason_type,
+            "change_teacher_reason" => $change_teacher_reason
+        ]);
+
+        return $ret;
     }
 
 

@@ -1420,6 +1420,32 @@ trait TeaPower {
     }
 
     /**
+     * 通过手机号设置老师为离职状态
+     * @param phone string 手机号
+     * @param is_quit int 离职状态 0 未离职 1 已离职
+     * @param quit_info string 离职信息
+     */
+    public function set_teacher_quit_status($phone,$is_quit=0,$quit_info=""){
+        $adminid   = session("adminid");
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        if($teacherid>0){
+            $old_is_quit = $this->t_teacher_info->get_is_quit($teacherid);
+            if($old_is_quit != $is_quit){
+                $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                    "is_quit"   => $is_quit,
+                    "quit_time" => time(),
+                    "quit_info" => $quit_info,
+                    "quit_set_adminid" => $adminid,
+                ]);
+                if(!$ret){
+                    return $this->output_err("老师离职状态变更失败!");
+                }
+            }
+        }
+        return $this->output_succ();
+    }
+
+    /**
      * @param teacher_info arr 原有老师信息 使用t_teacher_info 中的 get_teacher_info_by_phone 获取
      * @param check_info arr 待检测更新的年级和科目信息
      */

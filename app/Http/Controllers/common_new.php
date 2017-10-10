@@ -277,9 +277,9 @@ class common_new extends Controller
         }
 
         if($full_time==1){
-            $accept_adminid=492; 
+            $accept_adminid=492;
         }else{
-            $accept_adminid = $this->get_zs_accept_adminid($reference); 
+            $accept_adminid = $this->get_zs_accept_adminid($reference);
         }
         $accept_time=0;
         if($accept_adminid>0){
@@ -1110,16 +1110,16 @@ class common_new extends Controller
 
             //分期期数
             // $period = $this->t_child_order_info->get_period_num($orderid);
-           
+
             //成交价格
             $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
             //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
             $userid = $this->t_order_info->get_userid($parent_orderid);
             $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
             $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
 
-          
+
 
             $arrParams = [];
 
@@ -1181,14 +1181,14 @@ class common_new extends Controller
                             "学生:".$user_info["nick"]." 合同已支付全款",
                             "");
 
- 
+
                     }
 
 
                 }
                 return $this->output_succ(["status"=>0,"msg"=>"success"]);
             }
- 
+
         }
         // dd(111);
     }
@@ -1264,8 +1264,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         // dd($cmd);
         $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
         // dd($verifyResult);
- 
-        
+
+
         //当前默认为true
         //$verifyResult=true;
         if($verifyResult){
@@ -1277,7 +1277,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }else{
                 $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
                 //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
                 $userid = $this->t_order_info->get_userid($parent_orderid);
                 $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
                 $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
@@ -1334,25 +1334,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         "学生:".$user_info["nick"]." 合同已支付全款",
                         "");
 
- 
+
                 }
 
 
             }
             return $this->output_succ(["status"=>0,"msg"=>"success"]);
             //return true;
-            
- 
+
+
         }else{
             // return false;
             return $this->output_succ(["status"=>1,"msg"=>"验证失败"]);
         }
- 
-        
-        
+
+
+
     }
 
-   
+
 
 
 }

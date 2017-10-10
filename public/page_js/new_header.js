@@ -311,16 +311,11 @@ function table_init() {
 
                                 input.parent().parent().hide();
                             }
-
                         }
                     }
                 }
-
             });
         });
-
-        //
-
     }
 
 
@@ -333,10 +328,10 @@ function table_init() {
         if ($(th_item).parent().hasClass("table-clean-flag") ){
             return;
         }
-        var path_list=window.location.pathname.split("/");
-        var table_key=path_list[1]+"-"+path_list[2]+"-"+ table_i;
-        var opt_td=$(th_item).find ("td:last");
-        var download_item=$( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
+        var path_list     = window.location.pathname.split("/");
+        var table_key     = path_list[1]+"-"+path_list[2]+"-"+ table_i;
+        var opt_td        = $(th_item).find ("td:last");
+        var download_item = $( " <a href=\"javascript:;\" title=\"下载为xls \" class=\"fa fa-download\"></a>");
         var download_fun=function () {
             var list_data=[];
             var $tr_list=$(th_item).closest("table").find("tr" );
@@ -351,30 +346,27 @@ function table_init() {
                 list_data.push(row_data);
             });
 
-
             $.do_ajax ( "/page_common/upload_xls_data",{
                 xls_data :  JSON.stringify(list_data )
             },function(data){
                 window.location.href= "/common_new/download_xls";
             });
-
         };
 
         download_item.on("click",function(){
             if ($(".page-opt-show-all").length >0 ) {
-
                 BootstrapDialog.show({
-                    title: '下载为xls',
-                    message: '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
-                    buttons: [{
-                        label: '返回',
-                        action: function(dialog) {
+                    title   : '下载为xls',
+                    message : '你没有全部显示，要下载全部,请 点击 <全部显示>　, <br/>下载本页面的吗?',
+                    buttons : [{
+                        label  : '返回',
+                        action : function(dialog) {
                             dialog.close();
                         }
                     }, {
-                        label: '确认',
-                        cssClass: 'btn-warning',
-                        action: function(dialog) {
+                        label    : '确认',
+                        cssClass : 'btn-warning',
+                        action   : function(dialog) {
                             download_fun();
 
                         }
