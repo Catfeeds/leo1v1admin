@@ -191,7 +191,7 @@ class cr_info_week extends Command
         $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
         $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
         if($arr['month_tranfer_total_num']){
-          $arr['tranfer_success_per'] = round($arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
+          $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
         }else{
           $arr['tranfer_success_per'] = 0;
         }
