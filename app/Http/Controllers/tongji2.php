@@ -1173,7 +1173,13 @@ class tongji2 extends Controller
                     $type = 3;
                     $create_time = $end_time + 86400;
                 }
+            }else{
+                $arr = [];
+                $arr['create_time_range'] = "不在统计时间段内";
+                $arr['type'] = 0;
+                return $this->pageView(__METHOD__,null,["arr"=>$arr]);
             }
+
             $ret_info = $this->t_cr_week_month_info->get_data_by_type($create_time,$type);
             if($ret_info){
                 //处理
