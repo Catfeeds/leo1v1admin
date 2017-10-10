@@ -923,6 +923,11 @@ $(function(){
             }
         },function(){
             $.admin_select_user($teacherid,"teacher" );
+            $.custom_upload_file('id_upload_change_reason',true,function (up, info, file) {
+                var res = $.parseJSON(info);
+                $("#change_reason_url").val(res.key);
+            }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
+
 
         });
 
