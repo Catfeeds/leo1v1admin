@@ -866,9 +866,9 @@ $(function(){
             ["电话", opt_data.phone ],
             ["老师", $teacherid],
             ["上课时间", $lesson_start],
-            ["换老师类型",$id_change_teacher_reason_type],
-            ["换老师原因",$id_change_reason],
-            ["换老师原因图片",$id_change_reason_url],
+            // ["换老师类型",$id_change_teacher_reason_type],
+            // ["换老师原因",$id_change_reason],
+            // ["换老师原因图片",$id_change_reason_url],
         ];
         $teacherid.val(opt_data.teacherid);
         $lesson_start.val(opt_data.lesson_start );
