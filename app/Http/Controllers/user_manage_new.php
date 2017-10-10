@@ -3559,7 +3559,7 @@ class user_manage_new extends Controller
 
         $this->t_revisit_info->switch_tongji_database();
         // $ret_info      = $this->t_revisit_info->get_ass_revisit_warning_info($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list);
-        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type);
+        $ret_info = $this->t_revisit_info->get_ass_revisit_warning_info_new($start_time,$end_time,$page_num,$is_warning_flag,$ass_adminid,$require_adminid_list,$revisit_warning_type,$uid_str);
 
         $now = time();
         $three = $now - 86400*7;
