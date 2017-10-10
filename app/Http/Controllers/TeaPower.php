@@ -1420,6 +1420,19 @@ trait TeaPower {
     }
 
     /**
+     * 通过手机号设置老师为离职状态
+     * @param phone 手机号
+     */
+    public function set_teacher_is_quit($phone){
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        if($teacherid>0){
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "is_quit" => 1
+            ]);
+        }
+    }
+
+    /**
      * @param teacher_info arr 原有老师信息 使用t_teacher_info 中的 get_teacher_info_by_phone 获取
      * @param check_info arr 待检测更新的年级和科目信息
      */

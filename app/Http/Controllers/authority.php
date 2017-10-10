@@ -242,10 +242,10 @@ class authority extends Controller
     }
 
     public function del_manager() {
-        $uid = $this->get_in_str_val("uid","");
+        $uid      = $this->get_in_str_val("uid","");
         $del_flag = $this->get_in_int_val("del_flag","");
         $time_str = $this->get_in_str_val("time");
-        $time = strtotime($time_str);
+        $time     = strtotime($time_str);
         $set_arr['del_flag'] = $del_flag;
         if($del_flag){
             $set_arr['leave_member_time'] = $time;
@@ -260,6 +260,7 @@ class authority extends Controller
         }
         $this->t_manager_info->field_update_list($uid, $set_arr);
         $this->t_manager_info->sync_kaoqin_user($uid);
+        $phone = $this->t_manager_info->get_phone($uid);
 
         return $this->output_succ();
     }
