@@ -1,8 +1,5 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
-
-
-
 $(function(){
 
     var show_name_key="";

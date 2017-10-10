@@ -641,7 +641,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_lesson_condition_info($courseid, $lesson_num ) {
         $sql= $this->gen_sql_new(
-            "select lessonid,lesson_condition  from  %s"
+            "select lessonid,lesson_condition ,teacherid from  %s"
             . "  where courseid= %u and lesson_num =%u ",
             self::DB_TABLE_NAME, $courseid, $lesson_num  );
         return $this->main_get_row($sql);

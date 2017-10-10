@@ -268,9 +268,9 @@ class authority extends Controller
          * 助教和销售离职,需要把其老师账号设为离职
          * 其他角色离职,需要手动设置其老师账号是否离职
          */
-        if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2]) || $tea_del_flag){
-            $quit_info = "公司人员离职,后台账号及其老师账号设置为离职";
-            $this->set_teacher_is_quit($phone,$quit_info);
+        if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
+            $quit_info = "公司人员在职状态变更,后台账号及其老师账号状态的变更";
+            $this->set_teacher_quit_status($phone,$tea_del_flag,$quit_info);
         }
 
         return $this->output_succ();

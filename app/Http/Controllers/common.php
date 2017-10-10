@@ -1986,10 +1986,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
             $condition =$ret_arr["lesson_condition"];
             $lessonid=$ret_arr["lessonid"];
-            $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
-            $this->t_lesson_info->field_update_list($lessonid,[
-                "lesson_condition" => $condition_new
-            ]);
+            
+            if ($utype=="tea" && $ret_arr["teacherid"] != $userid ) { //不是老师,是cc,不处理
+
+            }else{
+                $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_condition" => $condition_new
+                ]);
+            }
         }
 
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )

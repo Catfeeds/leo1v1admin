@@ -1421,19 +1421,25 @@ trait TeaPower {
 
     /**
      * 通过手机号设置老师为离职状态
-     * @param phone 手机号
+     * @param phone string 手机号
+     * @param is_quit int 离职状态 0 未离职 1 已离职
+     * @param quit_info string 离职信息
      */
-    public function set_teacher_is_quit($phone,$quit_info=""){
+    public function set_teacher_quit_status($phone,$is_quit=0,$quit_info=""){
         $adminid   = session("adminid");
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         if($teacherid>0){
-            $this->t_teacher_info->field_update_list($teacherid,[
-                "is_quit"   => 1,
+            $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                "is_quit"   => $is_quit,
                 "quit_time" => time(),
                 "quit_info" => $quit_info,
                 "quit_set_adminid" => $adminid,
             ]);
+            if(!$ret){
+                return false;
+            }
         }
+        return true;
     }
 
     /**
