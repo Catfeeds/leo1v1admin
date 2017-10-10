@@ -35,10 +35,17 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        /*
+          "SERVER_ADDR" => "118.190.65.189"
+          "SERVER_PORT" => "80"
+          "SERVER_NAME" => "admin.yb1v1.com"
+        */
+
+        $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_NAME"];
 
         $account=@$_SESSION["acc"];
 
-        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
+        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/> server_info $server_info<br/> ";
 
         foreach( $e->getTrace() as &$bt_item ) {
             //$args=json_encode($bt_item["args"]);
