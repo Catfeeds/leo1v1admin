@@ -2714,7 +2714,6 @@ class user_deal extends Controller
     {
         $start_time = strtotime("2017-09-01"); 
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
-        dd($ass_month);
         $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
 
         foreach($ass_month as $item){
@@ -2753,9 +2752,6 @@ class user_deal extends Controller
 
             //get assistantid
             $ret_assistantid = $this->t_manager_info->get_assistant_id($item["adminid"]);
-            $this->t_assistant_info->field_update_list($ret_assistantid,[
-               "assign_lesson_count"=>0 
-            ]);
             //get assign_lesson_count
             $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($ret_assistantid);
             if($assign_lesson_count == ''){
