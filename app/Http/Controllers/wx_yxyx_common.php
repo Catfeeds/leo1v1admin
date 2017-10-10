@@ -473,7 +473,7 @@ class wx_yxyx_common extends Controller
         $start_time = strtotime('-14 days');
         $end_time   = strtotime('tomorrow');
         foreach ($ret_info['list'] as &$item) {
-            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+            if (!$item['flag'] && $item['create_time'] > $start_time) {
                 $item['flag'] = 0;
             } else {
                 $item['flag'] = 1;
