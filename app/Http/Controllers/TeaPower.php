@@ -1429,17 +1429,20 @@ trait TeaPower {
         $adminid   = session("adminid");
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         if($teacherid>0){
-            $ret = $this->t_teacher_info->field_update_list($teacherid,[
-                "is_quit"   => $is_quit,
-                "quit_time" => time(),
-                "quit_info" => $quit_info,
-                "quit_set_adminid" => $adminid,
-            ]);
-            if(!$ret){
-                return false;
+            $old_is_quit = $this->t_teacher_info->get_is_quit($teacherid);
+            if($old_is_quit != $is_quit){
+                $ret = $this->t_teacher_info->field_update_list($teacherid,[
+                    "is_quit"   => $is_quit,
+                    "quit_time" => time(),
+                    "quit_info" => $quit_info,
+                    "quit_set_adminid" => $adminid,
+                ]);
+                if(!$ret){
+                    return $this->output_err("老师离职状态变更失败!");
+                }
             }
         }
-        return true;
+        return $this->output_succ();
     }
 
     /**

@@ -856,14 +856,23 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var $teacherid= $("<input/>") ;
         var $lesson_start= $("<input/>") ;
+        var $id_change_teacher_reason_type = $("<select />");
+        var $id_change_reason = $("<textarea />");
+        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+
+
         var arr=[
             ["学生", opt_data.nick  ],
             ["电话", opt_data.phone ],
             ["老师", $teacherid],
             ["上课时间", $lesson_start],
+            ["换老师类型",$id_change_teacher_reason_type],
+            ["换老师原因",$id_change_reason],
         ];
         $teacherid.val(opt_data.teacherid);
         $lesson_start.val(opt_data.lesson_start );
+
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
         $lesson_start.datetimepicker({
             lang:'ch',
             datepicker:true,
@@ -1966,6 +1975,7 @@ $(function(){
         var id_green_channel_teacherid = html_node.find("#id_green_channel_teacherid_new");//绿色通道
         $.admin_select_user(id_green_channel_teacherid,"teacher");
         var id_change_reason = html_node.find("#id_change_reason_new");//换老师原因
+        var id_learning_situation = html_node.find("#id_learning_situation_new");//学情反馈
 
         Enum_map.append_option_list("boolean", id_advice_flag, true);
         Enum_map.append_option_list("academic_goal", id_academic_goal, true);
@@ -2097,6 +2107,7 @@ $(function(){
                         'change_reason_url':id_change_reason_url.val(),
                         'green_channel_teacherid':id_green_channel_teacherid.val(),
                         'change_reason':id_change_reason.val(),
+                        'learning_situation':id_learning_situation.val(),
                     });
                 }
             }]
@@ -2617,6 +2628,8 @@ $(function(){
                     id_change_reason.parent().parent().css('display','table-row');
                     id_change_reason_url.parent().parent().css('display','table-row');
             }
+            var id_learning_situation  = html_node.find("#id_learning_situation");//学情反馈
+
             var title= '添加试听申请';
             var dlg=BootstrapDialog.show({
                 title:  title,
@@ -2703,6 +2716,7 @@ $(function(){
                             'change_reason_url':id_change_reason_url.val(),
                             'green_channel_teacherid':id_green_channel_teacherid.val(),
                             'change_reason':id_change_reason.val(),
+                            'learning_situation':id_learning_situation.val(),
                         });
                     }
                 }]
