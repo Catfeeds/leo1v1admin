@@ -82,7 +82,11 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
-                            月度目标
+                            @if($arr['type'] == 1)
+                                月报
+                            @else
+                                周报
+                            @endif
                             @if($arr['create_time_range'])
                                 <br/>统计时段({{@$arr['create_time_range']}})
                             @endif
@@ -221,8 +225,8 @@
                                             <td class="panel-blue">  {{@$arr['real_renew_num']}}  </td> 
                                             <td>{{@$arr['total_renew']}}</td> 
                                             <td>{{@$arr['renew_num_per']}}</td>
-                                            <td class="panel-blue">  {{@$arr['renew_per']}} </td>
-                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}} </td>
+                                            <td class="panel-blue">  {{@$arr['renew_per']}}%</td>
+                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}}% </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -289,7 +293,7 @@
                                         <td class="panel-green">  {{@$arr['success_num']}}</td>
                                         <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
                                         <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
-                                        <td class="panel-blue">  {{@$arr['kk_success_per']}} </td> 
+                                        <td class="panel-blue">  {{@$arr['kk_success_per']}}% </td> 
 
                                     </tr>
                                 </tbody>

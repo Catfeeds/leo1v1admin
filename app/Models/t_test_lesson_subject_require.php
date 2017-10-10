@@ -265,7 +265,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time ,  if(test_stu_request_test_lesson_demand='',stu_request_test_lesson_demand,test_stu_request_test_lesson_demand) as  stu_request_test_lesson_demand ,tr.intention_level, "
             ." s.gender,s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
             ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
-            ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,"
+            ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,t.learning_situation,"
             ." tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason,tr.seller_require_change_flag,"
             ." tr.require_change_lesson_time,tr.seller_require_change_time , assigned_lesson_count ,tr.accept_adminid,"
             ." jw_test_lesson_status,set_lesson_time,tr.green_channel_teacherid,tc.cancel_time,t.textbook,tr.cur_require_adminid,"
@@ -2121,6 +2121,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     {
         $time = time(null);
         $where_arr=[
+            "s.is_test_user = 0",
             "l.lesson_status = 2",
             "l.lesson_del_flag = 0",
             "tr.test_lesson_order_fail_flag=0 or tr.test_lesson_order_fail_flag is null",

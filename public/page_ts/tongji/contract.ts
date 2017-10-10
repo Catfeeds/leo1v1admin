@@ -5,18 +5,23 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      date_type:	$('#id_date_type').val(),
             stu_from_type : $("#id_stu_from_type").val(),
-			contract_type:	$('#id_contract_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val()
+			      contract_type:	$('#id_contract_type').val(),
+
         });
     }
 
     $("#id_date_range").select_date_range({
-        "opt_date_type" : g_args.opt_date_type,
-        "start_time"    : g_args.start_time,
-        "end_time"      : g_args.end_time,
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        timepicker : true,
         onQuery :function() {
             load_data();
         }

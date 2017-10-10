@@ -3580,17 +3580,17 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
-    public function get_teacherid_for_reset_lesson_count($start,$end){
+    public function get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type=0){
         $where_arr=[
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
+            ["teacher_money_type=%u",$teacher_money_type,-1],
         ];
         $sql = $this->gen_sql_new("select distinct(teacherid) "
                                   ." from %s"
                                   ." where %s"
                                   ." and lesson_del_flag=0"
                                   ." and confirm_flag!=2"
-                                  // ." and lesson_status=2"
                                   ." and lesson_type<1000"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

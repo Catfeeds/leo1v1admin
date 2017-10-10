@@ -78,13 +78,15 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
                                   ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
                                   ." s.lesson_count_left,o.lesson_total,o.default_lesson_count,o.competition_flag, "
-                                  ." s.phone,c.parent_orderid,s.parent_name,s.subject_ex,c.child_orderid "
+                                  ." s.phone,c.parent_orderid,p.nick parent_name,s.subject_ex,c.child_orderid "
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
+                                  ." left join %s p on s.parentid = p.parentid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

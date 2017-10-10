@@ -157,7 +157,7 @@ class test_boby extends Controller
     //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         if ( !$this->get_in_str_val("boby")) {
-                exit; 
+                exit;
             }
         $start_time = strtotime('2017-07-01');
         $end_time  = strtotime('2017-08-01');
@@ -513,5 +513,71 @@ class test_boby extends Controller
         }
         echo 'ok';
     }
+
+    public function get_info_by_time(){
+        $start = $this->get_in_str_val('start',0);
+        $end = $this->get_in_str_val('end',0);
+        $start_time = strtotime($start);
+        $end_time = strtotime($end);
+
+        if($start !=0 ) {
+
+            $sql = " select ss.phone,if(max(tq.start_time) >0,1,0) as call_flag,max(tq.is_called_phone) as call_succ,p.wx_openid,if(max(tsl.lessonid) >0,1,0) as test_flag,max(if (l.lesson_user_online_status=1,1,0)) as test_succ,o.orderid  from t_seller_student_new ss left join db_weiyi_admin.t_tq_call_info tq on tq.phone = ss.phone and tq.admin_role=2 left join t_parent_child pc on pc.userid=ss.userid left join t_parent_info p on p.parentid=pc.parentid left join t_test_lesson_subject tl on tl.userid=ss.userid  left join t_test_lesson_subject_require tr on tr.test_lesson_subject_id =tl.test_lesson_subject_id  left join t_test_lesson_subject_sub_list tsl on tsl.require_id = tr.require_id   left join t_lesson_info l on l.lessonid=tsl.lessonid  left join t_order_info o on o.userid=ss.userid and o.contract_type=0 and o.pay_time>0 and o.contract_status >0  where ss.add_time >= $start_time and ss.add_time < $end_time group by ss.phone";
+            $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+            $th_arr = ['电话','ｃｃ是否拨打(1是，０，否)','是否打通(0,否；１，是)','是否绑定微信（为空则未绑定）','是否排试听课(0否1是)','试听是否成功（１成功，别的都不成功）','是否签单(有数字就是签单)'];
+            $s = $this->table_start($th_arr);
+
+            foreach ($ret_info as $item ) {
+
+                $s = $this->tr_add($s,$item['phone'],$item['call_flag'],$item['call_succ'],$item['wx_openid'],$item['test_flag'], $item['test_succ'], $item['orderid']);
+            }
+
+            $s = $this->table_end($s);
+            return $s;
+        } else {
+            return '在浏览器地址栏后面添加"?start=2016-1-1&end=2016-2-1"';
+        }
+
+    }
+
+    public function get_all_test_pic(){
+        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('tomorrow');
+        foreach ($ret_info['list'] as &$item) {
+            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+                $item['flag'] = 0;
+            } else {
+                $item['flag'] = 1;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+
+        //随机获取十张海报/不足十张，取所有,取100条以内,时间倒序
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,0,$end_time);
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        $max_loop  = $count_num >10?10:$count_num;
+        while ( $loop_num < $max_loop) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        $ret_info['poster'] = $poster_arr;
+        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
+        return $this->output_succ(["home_info"=>$ret_info]);
+    }
+
 
 }

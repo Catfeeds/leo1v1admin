@@ -2712,47 +2712,84 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $arr= $this->t_fulltime_teacher_attendance_list->get_holiday_info();
-        //email
-        $table = '<table border=1 cellspacing="0" bordercolor="#000000"  style="border-collapse:collapse;"><tr><td colspan="4">全职老师假期累计上课时间及延休安排</td></tr>';
-        $table .= '<tr><td>假期名称</td><td><font color="red">国庆节</font></td><td></td><td></td></tr>';
-        $table .= "<tr><td>老师姓名</td><td>累计上课时长</td><td>延休天数</td><td>延休日期</td></tr>";
-        foreach ($arr as $key => $value) {
-            $value['realname'] = $this->t_teacher_info->get_realname($value["teacherid"]);
-            $value['cross_time'] = "10.09-".date('m.d',1507478400+($value['day_num']-1)*86400);
-            if($value['day_num'] != 0){
-                $table .= '<tr>';
-                $table .= '<td><font color="red">'.$value['realname'].'</font></td>';
-                $table .= '<td><font color="red">'.($value['lesson_count']/100).'</font></td>';
-                $table .= '<td><font color="red">'.$value['day_num'].'</font></td>';
-                $table .= '<td><font color="red">'.$value['cross_time'].'</font></td>';
-                $table .= '</tr>';
+        $start_time = strtotime("2017-09-01"); 
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+
+        foreach($ass_month as $item){
+            //add 课耗活动-------------------------------------------------------------------------------
+            $item["lesson_ratio_month"]          = !empty(@$item["read_student_new"])?round(@$item["lesson_total"]/@$item["read_student_new"]/100,3):0; //课程系数-新版 当月课耗/当月上课人数
+            $item["effective_student"] = @$item["read_student_new"]; //带学生人数(上课学生数)
+
+            //ca
+            $assign_lesson  = 0;
+            if($item['lesson_ratio_month'] < $lesson_target){
+                $assign_lesson = 0;
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.1){
+                $assign_lesson = 900;  //3
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.2){
+                $assign_lesson = 1500; //5
+            }elseif($item['lesson_ratio_month'] < $lesson_target*1.3){
+                $assign_lesson = 2100; //7
+            }else{
+                $assign_lesson = 2700; //9
+            }
+            if($item['effective_student'] < 30){ 
+                $assign_lesson = $assign_lesson * 0.2;
+            }elseif ($item['effective_student'] < 50) {
+                $assign_lesson = $assign_lesson * 0.4;
+            }elseif ($item['effective_student'] < 70) {
+                $assign_lesson = $assign_lesson * 0.6;
+            }elseif ($item['effective_student'] < 90) {
+                $assign_lesson = $assign_lesson * 0.8;
+            }
+
+            //update assign_lesson in t_month_ass_student_info 
+            $update_arr =  [
+                "assign_lesson"              =>$assign_lesson
+            ];
+            $this->t_month_ass_student_info->get_field_update_arr($item["adminid"],$start_time,1,$update_arr);
+
+            //get assistantid
+            $ret_assistantid = $this->t_manager_info->get_assistant_id($item["adminid"]);
+            //get assign_lesson_count
+            $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($ret_assistantid);
+            if($assign_lesson_count == ''){
+                $assign_lesson_count = 0;
+            }
+
+            //update assign_lesson_count
+            $this->t_assistant_info->set_assign_lesson_count($ret_assistantid,$assign_lesson_count,$assign_lesson);
+        }
+        dd(111);
+
+        $list = $this->t_teacher_info->get_all_no_textbook_teacher_info(); 
+        foreach($list as &$val){
+            
+         
+
+            if($val["grade_start"]>0){
+                if($val["grade_end"]<=2){
+                    $location = \App\Helper\Common::get_phone_location($val["phone"]);
+                    $location=substr($location, 0, -6);
+                    $grade=100;
+                    $ret= $this->t_location_subject_grade_textbook_info->get_info_by_province_and_subject_and_grade($location,$val["subject"],$grade);
+                    $teacher_textbook=[];
+                    foreach($ret as $item){
+                        $arr = explode(",",$item["teacher_textbook"]);
+                        foreach($arr as $v){
+                            if(!in_array($v,$teacher_textbook)){
+                                $teacher_textbook[] = $v;
+                            }
+                        }
+                    }
+                    dd($teacher_textbook);
+                }
+                
             }
         }
-        $table .= "</table>";
-        $content = "Dear all：<br>全职老师国庆延休安排情况如下<br/>";
-        $content .= "数据见下表<br>";
-        $content .= $table;
-        $content .= "<br><br><br><div style=\"float:right\"><div>用心教学,打造高品质教学质量</div><div style=\"float:right\">理优教育</div><div>";
-        $email_arr = ["low-key@leoedu.com",
-                      "erick@leoedu.com",
-                      "hejie@leoedu.com",
-                      "sherry@leoedu.com",
-                      "cindy@leoedu.com",
-                      "limingyu@leoedu.com",
-                      "jack@leoedu.com"
-        ];
-        // $email_arr = ["jack@leoedu.com"];
-
-        foreach($email_arr as $email){
-            dispatch( new \App\Jobs\SendEmailNew(
-                $email,
-                "全职老师国庆假期累计上课时间及延休安排(更新)",
-                $content
-            ));  
-        }
- 
-        dd(111);
+       
+        dd($list);
 
         $admin_main_group_name_list = $this->t_admin_main_group_name->get_all_list();
         $major_admin_list = $this->t_admin_majordomo_group_name->get_all_list();

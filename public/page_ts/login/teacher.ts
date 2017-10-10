@@ -63,6 +63,9 @@ $(function(){
         return false;
     } );
 
+    if (downflag > 0) {
+        $("[data-id=#download]").click();
+    }
 
 });
 

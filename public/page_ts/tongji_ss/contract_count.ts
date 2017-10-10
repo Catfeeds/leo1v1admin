@@ -15,10 +15,24 @@ $(function(){
 		        from_type:	$('#id_from_type').val(),
 		        account_role:	$('#id_account_role').val(),
 			      seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-		        sys_operator:	$('#id_sys_operator').val()
+		        sys_operator:	$('#id_sys_operator').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      date_type:	$('#id_date_type').val()
         });
     }
-
+    
+    $("#id_date_range").select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        timepicker : true,
+        onQuery :function() {
+            load_data();
+        }
+    });
+    
     Enum_map.append_option_list( "check_money_flag", $("#id_check_money_flag"));
     Enum_map.append_option_list( "contract_from_type", $("#id_from_type"));
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));

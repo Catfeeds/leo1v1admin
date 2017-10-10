@@ -511,7 +511,7 @@ class main_page extends Controller
         $ass_adminid = $this->get_account_id();
         $now = time();
         $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
@@ -521,7 +521,7 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $warning_type_num['warning_type_three'] = $three_count;
 
 
