@@ -521,6 +521,7 @@ class ss_deal2 extends Controller
         $url                            = $this->get_in_str_val('change_reason_url');//申请原因图片
         $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
         $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
+        $learning_situation             = $this->get_in_str_val('learning_situation');//学情反馈
         \App\Helper\Utils::logger("ass_add_require_test_lesson-change_reason: $change_reason change_teacher_reason_type: $change_teacher_reason_type");
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -608,6 +609,7 @@ class ss_deal2 extends Controller
                 "intention_level"                => $intention_level,
                 "stu_test_paper"                 => $stu_test_paper,
                 "ass_test_lesson_type"           => $ass_test_lesson_type,
+                'learning_situation'             => $learning_situation,
             ]);
         //insert t_test_lesson_subject_require
         $curl_stu_request_test_lesson_time = $this->t_test_lesson_subject->get_stu_request_test_lesson_time($test_lesson_subject_id);
@@ -696,6 +698,7 @@ class ss_deal2 extends Controller
         $url                            = $this->get_in_str_val('change_reason_url');//申请原因图片
         $green_channel_teacherid        = $this->get_in_int_val("green_channel_teacherid");//绿色通道
         $change_reason                  = trim($this->get_in_str_val('change_reason'));//申请原因
+        $learning_situation             = $this->get_in_str_val('learning_situation');//学情反馈
         // dd($province,$region,$city,$area,$tea_province,$tea_city,$tea_area);
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
@@ -762,6 +765,7 @@ class ss_deal2 extends Controller
             "intention_level"                => $intention_level,
             "stu_test_paper"                 => $stu_test_paper,
             "ass_test_lesson_type"           => $ass_test_lesson_type,
+            'learning_situation'             => $learning_situation,
         ];
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
         //update t_test_lesson_subject_require
