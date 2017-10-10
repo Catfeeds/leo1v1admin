@@ -15,7 +15,7 @@ class TAgentMoneyEx extends Migration
         //
 
         //
-        Schema::create('db_weiyi.t_agent_moeny_ex', function( Blueprint $table)
+        Schema::create('db_weiyi.t_agent_money_ex', function( Blueprint $table)
         {
             $table->increments('id'); 
             t_field($table->integer("agent_id"),"agent_id");

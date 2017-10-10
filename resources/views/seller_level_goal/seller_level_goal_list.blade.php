@@ -82,9 +82,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["seller_level"]}} </td>
+                        <td>{{@$var["seller_level_str"]}} </td>
                         <td>{{@$var["level_goal"]}} </td>
-                        <td>{{@$var["level_face"]}} </td>
+                        <td><img src="{{@$var["level_face"]}}" width="100px;" height="100px;" alt="" /></td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
@@ -92,7 +92,6 @@
                             >
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
-
                             </div>
                         </td>
                     </tr>
