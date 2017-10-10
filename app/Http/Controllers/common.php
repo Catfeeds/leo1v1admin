@@ -493,11 +493,12 @@ class common extends Controller
         if(($pcm_file_count >10 || $pcm_file_all_size < 10000 ) ) {
             $lessonid=$this->t_lesson_info_b2->get_lessonid_by_courseid_num($courseid,$lesson_num);
             \App\Helper\Utils::logger(" ERROR, lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size    ");
-
-            dispatch( new \App\Jobs\send_error_mail(
-                "xcwenn@qq.com","报错: lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size   " ,
-                " lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size  "
-            ));
+            if(\App\Helper\Utils::check_env_is_release() ) {
+                dispatch( new \App\Jobs\send_error_mail(
+                    "xcwenn@qq.com","报错: lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size   " ,
+                    " lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size  "
+                ));
+            }
         }
         return $this->output_succ();
     }
