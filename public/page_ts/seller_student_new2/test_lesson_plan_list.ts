@@ -856,14 +856,23 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var $teacherid= $("<input/>") ;
         var $lesson_start= $("<input/>") ;
+        var $id_change_teacher_reason_type = $("<select />");
+        var $id_change_reason = $("<textarea />");
+        var $id_change_reason_url = $("<div><input class=\"change_reason_url\" id=\"change_reason_url\" type=\"text\"readonly ><span ><a class=\"upload_gift_pic\" id=\"id_upload_change_reason\" href=\"javascript:;\">上传</a></span></div>");
+
+
         var arr=[
             ["学生", opt_data.nick  ],
             ["电话", opt_data.phone ],
             ["老师", $teacherid],
             ["上课时间", $lesson_start],
+            ["换老师类型",$id_change_teacher_reason_type],
+            ["换老师原因",$id_change_reason],
         ];
         $teacherid.val(opt_data.teacherid);
         $lesson_start.val(opt_data.lesson_start );
+
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
         $lesson_start.datetimepicker({
             lang:'ch',
             datepicker:true,
