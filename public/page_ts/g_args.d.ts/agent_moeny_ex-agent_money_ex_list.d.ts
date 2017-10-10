@@ -28,10 +28,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../agent_money_ex; vi  ../agent_money_ex/agent_money_ex_list.ts
+	 mkdir -p ../agent_moeny_ex; vi  ../agent_moeny_ex/agent_money_ex_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent_money_ex-agent_money_ex_list.d.ts" />
+/// <reference path="../g_args.d.ts/agent_moeny_ex-agent_money_ex_list.d.ts" />
 
 $(function(){
     function load_data(){
