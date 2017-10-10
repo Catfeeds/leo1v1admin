@@ -898,9 +898,9 @@ $(function(){
                         "lesson_start" : $lesson_start.val(),
                         "old_teacherid":opt_data.teacherid,
                         "old_lesson_start":opt_data.lesson_time,
-                        "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
-                        "change_reason" : $id_change_reason.val(),
-                        "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
+                        // "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
+                        // "change_reason" : $id_change_reason.val(),
+                        // "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
 
                     });
 
@@ -2182,6 +2182,8 @@ $(function(){
             var id_editionid        = html_node.find("#id_stu_editionid");//学生教材
             Enum_map.append_option_list("region_version", id_editionid, true);
             id_editionid.val(data.editionid);
+            var id_learning_situation        = html_node.find("#id_learning_situation");//学生教材
+            id_learning_situation.val(data.learning_situation);
 
             var old_province = data.region;
             var province_val = data.province;

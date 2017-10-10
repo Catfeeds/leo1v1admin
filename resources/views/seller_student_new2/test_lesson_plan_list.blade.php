@@ -400,6 +400,7 @@
                                     上课意向: {{ $var["intention_level_str"] }} <br/>
                                     需求急迫性: {{ $var["demand_urgency_str"] }} <br/>
                                     报价反应: {{ $var["quotation_reaction_str"] }} <br/><br/>
+                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
                                         <font color="blue"> 销售top25</font><br/>
                                     @endif

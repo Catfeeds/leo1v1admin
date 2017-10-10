@@ -497,6 +497,7 @@ class wx_yxyx_common extends Controller
             }
         }
         $ret_info['poster'] = $poster_arr;
+        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
         return $this->output_succ(["home_info"=>$ret_info]);
     }
 
