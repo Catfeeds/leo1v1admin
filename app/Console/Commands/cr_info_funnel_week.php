@@ -41,29 +41,37 @@ class cr_info_funnel_week extends Command
         //every week
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $timestamp = time(); 
-        $now_time   = strtotime(date('Y-m', $timestamp));  
-        
-        //月报刷新
+        //every month
+        $timestamp = time();  
+        $now_time   = strtotime(date('Y-m-d', strtotime("this week Tuesday", $timestamp)));  
+        //        $end_time = strtotime(date('Y-m-d'),time()); //
+        //周报刷新
         $first_time = strtotime("-6 month", $now_time);
+        $first_time = strtotime(date('Y-m-d',strtotime("this week Tuesday",$first_time)));
         for($i = $first_time; $i < $now_time;){
             $end_time = $i;
-            $start_time = strtotime(date('Y-m',$end_time-86400));
+            $start_time  = $end_time - 7 * 86400;;
             $start_month = date("Y-m",$start_time);
             $end_month   = date("Y-m",$end_time);
             $cur_start   = strtotime(date('Y-m-01',$start_time));
+            $cur_month   = strtotime(date('Y-m-01',$end_time));
             $last_month  = strtotime(date('Y-m-01',$cur_start-100));
-            if($task->t_cr_week_month_info->get_data_by_type($end_time,1)){
-                if(date('d',$start_time) == '1' && date('d',$end_time) == '1'){//月报
-                    $type = 1;
-                    $create_time = $end_time;
-                    $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
-                }
+            $create_time_range = date('Y-m-d H:i:s',$cur_month).'~'.date('Y-m-d H:i:s',$end_time);  
+            if($start_month == $end_month){ //周报
+                $type = 2;
+                $create_time = $end_time;//
+                $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
+            }else{//跨月报
+                $type = 3;
+                $create_time = $end_time;
+                $create_time_range = date('Y-m-d H:i:s',$start_time).'~'.date('Y-m-d H:i:s',$end_time);
+            } 
+            if($task->t_cr_week_month_info->get_data_by_type($end_time,$type)){
                 $arr = '';
                 //C2-计划内续费学生数量 //C4-实际续费学生数量 ////C7-月续费率//C8-月预警续费率
-                $warning_list       = $task->t_cr_week_month_info->get_student_list_new(1,$start_time);//进入续费预警的学员
-                $renew_student_list = $task->t_order_info->get_renew_student_list($start_time,$now_time);//往后6个月的合同学生数量
-                $month_renew_student_list = $task->t_order_info->get_renew_student_list($start_time,$end_time);//往后1个月的合同学生数量
+                $warning_list       = $task->t_cr_week_month_info->get_student_list_new($type,$start_time);//进入续费预警的学员
+                $renew_student_list = $task->t_order_info->get_renew_student_list($cur_month,$now_time);//往后6个月的合同学生数量
+                $month_renew_student_list = $task->t_order_info->get_renew_student_list($cur_month,$end_time);//往后1个月的合同学生数量
                 $warning_num = 0;
                 if($warning_list != 0){
                     $warning_list = explode(",",$warning_list);
@@ -90,11 +98,11 @@ class cr_info_funnel_week extends Command
                         }
                     }
                 }
-                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_real_renew_num/$warning_num,2);//  月续费率
+                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
-                $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
-                $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$now_time); //签单数量(分配例子当月1号到6个月)
+                $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
+                $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($cur_month,$now_time); //签单数量(分配例子当月1号到6个月)
                 $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
                 if($arr['month_tranfer_total_num']){
                   $arr['tranfer_success_per'] = round($arr['month_tranfer_total_num']/$tranfer,2); //D4-月转介绍至CC签单率
@@ -102,8 +110,8 @@ class cr_info_funnel_week extends Command
                   $arr['tranfer_success_per'] = 0;
                 }
                 //E5-月扩课成功率
-                $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
-                $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
+                $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data($cur_month,$end_time) ;
+                $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order($cur_month,$end_time);
                 $arr['month_total_test_lesson_num'] = $month_kk['total_test_lesson_num'];                 //E1-扩课试听数量
                 $arr['month_success_num'] = $month_success_num;                                           //E2-扩课成单数量
                 if($arr['month_total_test_lesson_num']){
@@ -111,6 +119,8 @@ class cr_info_funnel_week extends Command
                 }else{
                   $arr['kk_success_per'] = 0;
                 }
+
+
                 $insert_data = [
                     "create_time"             => $create_time,            //存档时间
                     "create_time_range"       => $create_time_range,      //存档时间范围
@@ -129,7 +139,7 @@ class cr_info_funnel_week extends Command
                     $task->t_cr_week_month_info->row_insert($insert_data);
                 }
             }
-            $i = strtotime("+1 month",$i);
+            $i = strtotime("+7 days",$i);
         }
     }
 }
