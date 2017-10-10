@@ -391,6 +391,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
             $where_arr[]="l.subject in (7,8,9)";
+        }elseif($tea_subject==-5){
+            $where_arr[]="l.subject in (5,10)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
