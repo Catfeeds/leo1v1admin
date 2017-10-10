@@ -50,4 +50,8 @@ class wx_parent extends Controller
     public function complain () {
 
     }
+
+    public function adjust_progress() {
+
+    }
 }
