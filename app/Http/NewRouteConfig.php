@@ -218,6 +218,7 @@ class NewRouteConfig {
         "/authority/set_permission"          => true,
         "/authority/seller_edit_log_list"          => true,
         "/authority/set_group_img"          => true,
+        "/authority/update_lesson_call_end_time"             => true,
         "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,

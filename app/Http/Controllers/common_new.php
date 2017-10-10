@@ -614,8 +614,8 @@ class common_new extends Controller
           CDR(userfield) 使用第三方外呼调用接口时传递了参数userField 该值只是第三方外呼调用接口发起的呼叫，且传递了userField参数，在挂机推送时用来获取userField传递的值。
 
         */
-        //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
-        $cdr_bridge_time=$this->get_in_int_val("cdr_answer_time");
+        $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        $obj_start_time=$this->get_in_int_val("cdr_answer_time");
         //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
         $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
 
@@ -629,10 +629,10 @@ class common_new extends Controller
         $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
 
         $duration=0;
-        if ($cdr_bridge_time ) {
-            $duration= $cdr_end_time-$cdr_bridge_time;
+        if ($obj_start_time) {
+            $duration= $cdr_end_time-$obj_start_time;
         }
-        \App\Helper\Utils::logger("duration ,$duration, $cdr_bridge_time");
+        \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
 
 
         $called_flag=($cdr_status==28 && $duration>60  )?2:1;
@@ -645,7 +645,7 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "");
+            "",0,0, $obj_start_time);
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
     }
