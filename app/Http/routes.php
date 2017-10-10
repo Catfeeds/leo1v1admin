@@ -65,7 +65,7 @@ Route::group(['middleware' => ['web']], function () {
             try {
                 $class = new ReflectionClass("\\App\\Http\\Controllers\\$ctl" ); 
             }catch(\Exception $e) {
-                dd("xx");
+                throw $e;
             }
 
 
