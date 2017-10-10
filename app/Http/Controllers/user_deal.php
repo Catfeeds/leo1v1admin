@@ -3475,15 +3475,17 @@ class user_deal extends Controller
 
         if($is_warning_flag == 2) {
             //如果状态改为‘已解决’,查询预警超时表，同步修改对应状态
-            $ret = $this->t_revisit_warning_overtime_info->get_overtime_id_and_create_time($userid, $revisit_time);
+            $ret = $this->t_revisit_warning_overtime_info->get_overtime_info($userid, $revisit_time);
             if (count($ret) > 0){
-                $add_month  = date('Y-m-1', $ret['create_time']);
-                $deal_month = date('Y-m-1', $time);
-                $deal_type  = ($add_month === $deal_month)? 1: 2;
-                $this->t_revisit_warning_overtime_info->field_update_list($ret['overtime_id'],[
-                    "deal_time" => $time,
-                    "deal_type" => $deal_type,
-                ]);
+                if ($ret['deal_type'] == 0) {
+                    $add_month  = date('Y-m-1', $ret['create_time']);
+                    $deal_month = date('Y-m-1', $time);
+                    $deal_type  = ($add_month === $deal_month)? 1: 2;
+                    $this->t_revisit_warning_overtime_info->field_update_list($ret['overtime_id'],[
+                        "deal_time" => $time,
+                        "deal_type" => $deal_type,
+                    ]);
+                }
 
             }
 
