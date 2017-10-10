@@ -273,6 +273,7 @@ class ss_deal extends Controller
         $ret["change_teacher_reason_img_url"] = $tr_item["change_teacher_reason_img_url"];
         $ret["change_teacher_reason"] = $tr_item["change_teacher_reason"];
         $ret["green_channel_teacherid"] = $tr_item["green_channel_teacherid"];
+        $ret["learning_situation"]    = $tt_item["learning_situation"];
 
         return $this->output_succ(["data" => $ret ]);
     }
