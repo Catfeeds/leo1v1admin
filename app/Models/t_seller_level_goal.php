@@ -10,7 +10,7 @@ class t_seller_level_goal extends \App\Models\Zgen\z_t_seller_level_goal
     public function get_all_list($page_info){
         $sql = $this->gen_sql_new(
             "select * "
-            ." from %s "
+            ." from %s order by num "
             ,self::DB_TABLE_NAME
         );
 
