@@ -792,4 +792,6 @@ class ss_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
 }
