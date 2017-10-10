@@ -381,6 +381,7 @@
                                     试听需求:{{$var["stu_request_test_lesson_demand"]}}<br/>
                                     教材：{{$var["editionid_str"]}}<br/>
                                     学生成绩情况: {{$var["stu_score_info"]}} <br/><br/>
+                                    学情反馈: {{$var["learning_situation"]}} <br/><br/>
                                     @if($var["seller_top_flag"]==1)
                                         <font color="blue"> 销售top25</font><br/>
                                     @endif
