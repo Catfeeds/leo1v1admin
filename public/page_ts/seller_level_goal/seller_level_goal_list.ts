@@ -30,7 +30,7 @@ $(function(){
     $("#id_add").on("click",function(){
         var $seller_level = $("<select></select>");
         var $level_goal   = $("<input/>");
-        var $level_face   = $("<input id='id_upload_level_face' /> <button class='btn  btn-primary upload_change_reason_url' title='上传'>上传</button>");
+        var $level_face   = $("<input id='id_upload_level_face' /> <button value='1' class='btn  btn-primary upload_change_reason_url' title='上传'>上传</button>");
         Enum_map.append_option_list("seller_level",$seller_level);
         $level_face.find(".upload_change_reason_url").attr("id","id_upload_level_face_url");
         var th = setTimeout(function(){
