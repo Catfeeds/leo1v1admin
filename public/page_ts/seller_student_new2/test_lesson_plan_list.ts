@@ -898,9 +898,9 @@ $(function(){
                         "lesson_start" : $lesson_start.val(),
                         "old_teacherid":opt_data.teacherid,
                         "old_lesson_start":opt_data.lesson_time,
-                        "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
-                        "change_reason" : $id_change_reason.val(),
-                        "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
+                        // "change_teacher_reason_type" : $id_change_teacher_reason_type.val(),
+                        // "change_reason" : $id_change_reason.val(),
+                        // "change_reason_url" : $id_change_reason_url.find("#change_reason_url").val()
 
                     });
 
