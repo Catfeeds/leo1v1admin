@@ -263,7 +263,7 @@ class wx_parent_gift extends Controller
 
     public function set_share_num(){ //记录分享朋友圈次数
         $parentid = $this->get_parentid();
-        
+
         // $this->t_wx_gi
 
     }
