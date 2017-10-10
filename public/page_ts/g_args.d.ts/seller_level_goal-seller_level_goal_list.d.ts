@@ -2,6 +2,7 @@ interface GargsStatic {
 	seller_level:	number;
 	level_goal:	number;
 	level_face:	string;
+	num:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -17,6 +18,7 @@ interface RowData {
 	level_goal	:any;
 	level_face	:any;
 	create_time	:any;
+	num	:any;
 	seller_level_str	:any;
 }
 
@@ -33,7 +35,8 @@ $(function(){
         $.reload_self_page ( {
 			seller_level:	$('#id_seller_level').val(),
 			level_goal:	$('#id_level_goal').val(),
-			level_face:	$('#id_level_face').val()
+			level_face:	$('#id_level_face').val(),
+			num:	$('#id_num').val()
         });
     }
 
@@ -41,6 +44,7 @@ $(function(){
 	$('#id_seller_level').val(g_args.seller_level);
 	$('#id_level_goal').val(g_args.level_goal);
 	$('#id_level_face').val(g_args.level_face);
+	$('#id_num').val(g_args.num);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -69,6 +73,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">level_face</span>
                 <input class="opt-change form-control" id="id_level_face" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">num</span>
+                <input class="opt-change form-control" id="id_num" />
             </div>
         </div>
 */
