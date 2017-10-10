@@ -196,8 +196,8 @@ class cr_info_month extends Command
           $arr['tranfer_success_per'] = 0;
         }
         //扩科
-        $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data(strtotime($end_month),$end_time) ;
-        $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order(strtotime($end_month),$end_time);
+        $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+        $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
         $arr['month_total_test_lesson_num'] = $month_kk['total_test_lesson_num'];                 //E1-扩课试听数量
         $arr['month_success_num'] = $month_success_num;                                           //E2-扩课成单数量
         if($arr['month_total_test_lesson_num']){

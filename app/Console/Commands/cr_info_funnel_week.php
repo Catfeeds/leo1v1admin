@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class cr_info_funnel_month extends Command
+class cr_info_funnel_week extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:cr_info_funnel_month';
+    protected $signature = 'command:cr_info_funnel_week';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '助教助长月报漏斗信息';
+    protected $description = '助教助长周报漏斗信息';
 
     /**
      * Create a new command instance.
@@ -90,7 +90,7 @@ class cr_info_funnel_month extends Command
                         }
                     }
                 }
-                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
+                $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_real_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
                 $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);

@@ -51,6 +51,7 @@ class Kernel extends ConsoleKernel
         Commands\cr_info_week::class,
         Commands\cr_info_month::class,
         Commands\cr_info_funnel_month::class,
+        Commands\cr_info_funnel_week::class,
         Commands\zs_lecture_info_day_new::class,
         Commands\zs_lecture_info_month::class,
         Commands\zs_lecture_info_week::class,
