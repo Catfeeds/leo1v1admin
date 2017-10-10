@@ -1228,23 +1228,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_ass_list_by_adminid($adminid){
+    public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
-            "master_adminid=$adminid",
+            "n.master_adminid=$adminid",
         ];
-        $sql = $this->gen_sql_new("select uid".
+        $sql = $this->gen_sql_new("select  GROUP_CONCAT(uid)".
                                   " from %s m ".
-                                  // "left join %s a on m.phone = a.phone ".
                                   " left join %s u on m.uid=u.adminid".
                                   " left join %s n on u.groupid = n.groupid".
                                   " where %s and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
-                                  // t_assistant_info::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,
                                   $where_arr
         );
+
         return  $this->main_get_list($sql);
     }
 

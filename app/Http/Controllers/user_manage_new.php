@@ -3487,7 +3487,7 @@ class user_manage_new extends Controller
     }
 
 
-    public function ass_revisit_warning_info(){
+    public function ass_revisit_warning_info_old(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num             = $this->get_in_page_num();
         $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
@@ -3538,7 +3538,7 @@ class user_manage_new extends Controller
         ] );
     }
 
-    public function ass_revisit_warning_info_new(){
+    public function ass_revisit_warning_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num             = $this->get_in_page_num();
         $is_warning_flag      = $this->get_in_int_val("is_warning_flag",1);
@@ -3549,11 +3549,12 @@ class user_manage_new extends Controller
         $revisit_warning_type = $this->get_in_str_val('revisit_warning_type',-1);
 
         //获取组长的所有组员   开发中
-        // if($ass_adminid == -1) {
-        //     $adminid = $this->get_account_id();
-
-        //     $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
-        // }
+        if($ass_adminid == -1 & $seller_groupid_ex != '') {
+            $adminid = $this->get_account_id();
+            $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        } else {
+            $uid_str = -1;
+        }
 
 
         $this->t_revisit_info->switch_tongji_database();

@@ -1005,6 +1005,7 @@ class wx_teacher_api extends Controller
 
         $url_leo = '';
 
+
         foreach($wx_openid_arr as $item_openid ){
             $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
         }

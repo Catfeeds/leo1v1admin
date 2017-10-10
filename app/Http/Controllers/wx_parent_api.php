@@ -607,7 +607,7 @@ class wx_parent_api extends Controller
             $wx     = new \App\Helper\Wx();
             //
             // $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
-            $url ="http://wx-parent-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+            $url ="http://wx-parent.leo1v1.com/wx_parent/adjust_progress?lessonid=".$lessonid;
 
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
