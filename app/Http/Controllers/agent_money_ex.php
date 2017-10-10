@@ -29,6 +29,10 @@ class agent_money_ex extends Controller
     }
 
     public function agent_add( ) {
+        if (!$this->check_account_in_arr(["jim"]) ) {
+            return $this->output_err("没有权限");
+        }
+
         $agent_money_ex_type = $this->get_in_int_val("agent_money_ex_type");
         $agent_id = $this->get_in_int_val("agent_id");
         $money = $this->get_in_str_val("money");
@@ -43,6 +47,10 @@ class agent_money_ex extends Controller
         return $this->output_succ();
     }
    public function agent_money_ex_del() {
+       if (!$this->check_account_in_arr(["jim"]) ) {
+           return $this->output_err("没有权限");
+       }
+
         $id= $this->get_in_int_val("id");
         $this->t_agent_money_ex->row_delete($id);
         return $this->output_succ();

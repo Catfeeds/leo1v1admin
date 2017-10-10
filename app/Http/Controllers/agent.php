@@ -461,6 +461,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
+        dd($start_time,$end_time);
         $ret = 1;
         if(in_array(100,[100,68,1093,1122])){//测试
             $ret = 0;
