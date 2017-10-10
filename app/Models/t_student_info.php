@@ -1880,7 +1880,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s m on a.phone = m.phone"
                                   ." left join %s u on m.uid = u.adminid"
                                   ." left join %s n on u.groupid = n.groupid"
-                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count) - sum(s.lesson_count_left)/count(*)/1.2) >=0)"
+                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count)*4 - sum(s.lesson_count_left)/count(*)/1.2) >=0)"
                                   ,self::DB_TABLE_NAME
                                   ,t_week_regular_course::DB_TABLE_NAME
                                   ,t_assistant_info::DB_TABLE_NAME

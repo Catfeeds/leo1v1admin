@@ -157,8 +157,8 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
      * @return array
      */
     public static function image(&$request){
-        // $content = '收到图片';
-        // return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+        $content = '收到图片';
+        return ResponsePassive::text($request['fromusername'], $request['tousername'], $request['fromusername']);
 
         // 测试
 
