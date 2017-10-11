@@ -165,9 +165,76 @@ class test_sam  extends Controller
         //dd($province);
     }
 
+    public function tt(){
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
+        echo '--------续费率--------'.'<br/>';
+        $ret_info_order = $this->t_cr_week_month_info->get_renew_province($start_time,$end_time);
+        $province_order = [];
+        $province_order['其它'] = 0;
+        foreach($ret_info_order as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
 
+                $province_order['其它'] += $value['total'];
+            }else{
+                $pro_order = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province_order[$pro_order])){
+                    $province_order[$pro_order] = 0;
+                    $province_order[$pro_order] += $value['total'];
+                }else{
+                    $province_order[$pro_order] += $value['total'];
+                }
 
-    public function  tt(){
+            }
+        }
+        foreach ($province_order as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+
+        echo '--------------------'.'<br/>';
+        $ret_info_order_grade = $this->t_cr_week_month_info->get_total_renew_grade_num($start_time,$end_time);
+        $order_grade = [];
+        $order_grade['其它'] = 0;
+        foreach ($ret_info_order_grade as $key => $value) {
+            if($value['grade'] < 100 ){
+                $order_grade['其它'] += $value['total'];
+            }else{
+                $order_gr = E\Egrade::get_desc($value['grade']);
+                if(!isset($order_grade[$order_gr])){
+                    $order_grade[$order_gr] = 0;
+                    $order_grade[$order_gr] += $value['total'];
+                }else{
+                    $order_grade[$order_gr] += $value['total'];
+                }
+            }
+        }
+        foreach ($order_grade as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+        echo '--------------------'.'<br/>';
+        $ret_info_order_subject = $this->t_cr_week_month_info->get_total_renew_subject_num($start_time,$end_time);
+        $order_subject = [];
+        $order_subject['其它'] = 0;
+        foreach ($ret_info_order_subject as $key => $value) {
+            if($value['subject'] < 1 || $value['subject'] > 11){
+                $order_subject['其它'] += $value['total'];
+            }else{
+                $subject_gr = E\Esubject::get_desc($value['subject']);
+                if(!isset($order_subject[$subject_gr])){
+                    $order_subject[$subject_gr] = 0;
+                    $order_subject[$subject_gr] += $value['total'];
+                }else{
+                    $order_subject[$subject_gr] += $value['total'];
+
+                }
+            }
+        }
+        foreach ($order_subject as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+    }
+
+    public function  aa(){
         $ret_info = $this->t_cr_week_month_info->get_tongji2();
         foreach ($ret_info as $key => $value) {
             $phone=trim($value['phone']);
