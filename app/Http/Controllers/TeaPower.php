@@ -1668,7 +1668,6 @@ trait TeaPower {
     }
 
     public function get_fulltime_teacher_test_lesson_score($teacherid,$start_time,$end_time){
-        var_dump($start_time,$end_time);
         $qz_tea_arr=[$teacherid];
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
         
