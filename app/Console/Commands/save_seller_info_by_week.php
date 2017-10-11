@@ -54,7 +54,6 @@ class save_seller_info_by_week extends Command
 
         $ret_info['from_time'] = $start_time;
 
-
         $order_info_total = $task->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
@@ -138,7 +137,19 @@ class save_seller_info_by_week extends Command
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);
+
+
+        // 更新漏斗型数据
+
+
+
     }
+
+
+
+
+
+
 
 
 
