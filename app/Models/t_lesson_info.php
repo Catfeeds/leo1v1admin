@@ -714,7 +714,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type ".
+            " lesson_num,c.current_server,server_type , xmpp_server_name".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s tss on l.lessonid = tss.lessonid ".
@@ -1925,7 +1925,7 @@ lesson_type in (0,1) "
 
         $sql = $this->gen_sql_new(
             "select l.lessonid,  require_adminid,  account, l.userid,  l.teacherid ,   l.assistantid , lesson_start, lesson_end, l.courseid,  l.lesson_type, " .
-            " lesson_num,   c.current_server ,  server_type , l.lesson_condition,lesson_status ".
+            " lesson_num,   c.current_server ,  server_type , l.lesson_condition,lesson_status, xmpp_server_name  ".
             " from    %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s tss on l.lessonid = tss.lessonid ".

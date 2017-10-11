@@ -1955,7 +1955,7 @@ trait TeaPower {
                 }
                 $this->t_teacher_record_list->row_insert([
                     "teacherid"   => $k,
-                    "type"        => 11,
+                    "type"        => E\Erecord_type::V_11,
                     "record_info" => $str,
                     "add_time"    => $time,
                     "acc"         => $account,
@@ -2109,10 +2109,10 @@ trait TeaPower {
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
         $this->t_teacher_record_list->row_insert([
             "teacherid"      => $teacher_info['teacherid'],
-            "type"           => 1,
+            "type"           => E\Erecord_type::V_1,
             "add_time"       => time()+1000,
             "train_lessonid" => $lessonid,
-            "lesson_style"   => 5
+            "lesson_style"   => E\Elesson_style::V_5
         ]);
         if($flag==1){
             if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
@@ -3203,7 +3203,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $concatStr .= 'key='.$strSecretKey;
         return strtoupper(md5($concatStr));
     }
-
 
 
 

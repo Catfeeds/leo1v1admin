@@ -135,6 +135,9 @@ class supervisor extends Controller
         }
 
         session([$monitor_key=>$ret_info["list"]]);
+
+        $server_map = $this->t_xmpp_server_config->get_server_name_map();
+        //eval_real_xmpp_server
         if(!empty($ret_info['list'])){
             $server_map = $this->gen_server_map($ret_info['list']);
         }

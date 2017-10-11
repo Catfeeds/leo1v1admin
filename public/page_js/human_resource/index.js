@@ -1794,9 +1794,9 @@ $(function(){
 	      var data = $(this).get_opt_data();
 
         var id_switch_teacher_to_test  = $("<button class='btn btn-primary'>一键转为测试老师</button>");
-        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
-        var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
         var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
+        var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
+        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
 
         var id_update_tea_level        = $("<button class='btn btn-primary'>老师工资类型</button>");
         var id_update_tea_bank         = $("<button class='btn btn-danger'>银行卡</button>");
@@ -1820,9 +1820,9 @@ $(function(){
 
         var arr = [
             ["",id_switch_teacher_to_test],
-            ["",id_subject_info],
-            ["",id_change_tea_to_new],
             ["",id_change_phone],
+            ["",id_change_tea_to_new],
+            ["",id_subject_info],
         ];
 
         if(account_role == 12 ){
