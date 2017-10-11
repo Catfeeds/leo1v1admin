@@ -147,7 +147,7 @@ class test_sam  extends Controller
         $order_subject['其它'] = 0;
         foreach ($ret_info_order_subject as $key => $value) {
             if($value['subject'] < 1 || $value['subject'] > 11){
-                $subject['其它'] += $value['total'];
+                $order_subject['其它'] += $value['total'];
             }else{
                 $order_gr = E\Esubject::get_desc($value['subject']);
                 if(!isset($subject[$order_gr])){
