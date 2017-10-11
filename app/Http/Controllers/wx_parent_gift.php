@@ -260,8 +260,10 @@ class wx_parent_gift extends Controller
 
 
 
-    public function set_session(){
-        session(['check_flag'=>1]);
+    public function del_session(){
+        $_SESSION['check_flag']=0;
+
+        return $_SESSION['check_flag'];
     }
 
 
@@ -269,7 +271,7 @@ class wx_parent_gift extends Controller
 
     public function get_share_num_for_book () {
 
-        return $_SESSION('check_flag');
+        return @$_SESSION['check_flag'];
         $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
         $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
         $wx->goto_wx_login( $redirect_url );
@@ -277,64 +279,23 @@ class wx_parent_gift extends Controller
 
     }
 
-    //http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book
+    public function set_identity_for_book(){
+        $_SESSION['check_flag']=1;
+        return $this->output_succ(['share_num'=>1]);
 
-    /*
-
-      $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
-
-     */
-
-
-
+    }
 
     public function check_identity_for_book(){
-        $code = $this->get_in_str_val('code');
-        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
-        $token_info = $wx->get_token_from_code($code);
-        $openid   = @$token_info["openid"];
-        dd("code".$code .'openid'.$openid);
+        $share_num = @$_SESSION['check_flag'];
 
-        $share_num = @$this->t_wx_give_book->check_share_flag($openid);
         if($share_num>0){
             return $this->output_succ(['share_num'=>$share_num]);
         }else{
-            $ret = $this->t_wx_give_book->row_insert([
-                "openid"    => $openid,
-                "create_time" => time(),
-                "share_num"   => 1
-            ]);
-
             return $this->output_succ(['share_num'=>0]);
         }
 
     }
 
 
-
-    // public function get_share_num(){
-    //     $parentid = $this->get_parentid();
-    //     $share_num = $this->t_wx_give_book->get_share_num_by_parentid($parentid);
-
-    //     return $this->output_succ(['share_num'=>$share_num]);
-    // }
-
-    // public function set_share_num(){ //记录分享朋友圈次数
-    //     $parentid = $this->get_parentid();
-    //     $this->t_wx_give_book->row_delete_by_parentid($parentid);
-
-    //     $ret = $this->t_wx_give_book->row_insert([
-    //         "parentid"    => $parentid,
-    //         "create_time" => time(),
-    //         "share_num"   => 1
-    //     ]);
-
-    //     return $this->output_succ();
-    // }
-
-    // public function get_parentid(){
-    //     $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
-    //     return $parentid;
-    // }
 
 }
