@@ -48,4 +48,13 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         $sql = "select userid,phone from t_student_info where phone_location='免商店充值卡 ' or phone_location='' or phone_location = '鹏博士' and is_test_user = 0  and reg_time > 1475251200 and reg_time < 1506787200 ";
         return $this->main_get_list($sql);
     }
+    public function get_total_province($start_time,$end_time){
+        $where_arr = [
+            ["reg_time>%u",$start_time,-1],
+            ["reg_time<%u",$end_time,-1],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(userid) as total,phone_location from t_student_info where %s group by phone_location", $where_arr);
+        return $this->main_get_list($sql);
+    }
 }

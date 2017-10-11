@@ -26,13 +26,33 @@ class test_sam  extends Controller
     }
     public function test(){
         
-        $ret_info = $this->t_cr_week_month_info->get_tongji();
+        /*$ret_info = $this->t_cr_week_month_info->get_tongji();
         echo "统计时间:2016.10.1~2017.10.1"."<br/>";
         echo "总注册学生数:".$ret_info['total_student']."<br/>";
         echo "总签单数:".$ret_info['total_order']."<br/>";
         echo "第二次购买的学生数".$ret_info['total_renew_order'].'<br/>';
         echo "电话接通数:".$ret_info['total_call']."<br/>";
-     
+        */
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
+        $ret_info = $this->t_cr_week_month_info->get_total_province($start_time,$end_time);
+        $province = [];
+        $province['其它'] = 0;
+        foreach($ret_info as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡'){
+
+                $province['其它'] += $value['total'];
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province[$pro])){
+                    $province[$pro] = 0;
+                }else{
+                    $province[$pro] += $value['total'];
+                }
+
+            }
+        }
+        dd($province);
     }
 
 
