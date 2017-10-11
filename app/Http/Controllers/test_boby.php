@@ -554,6 +554,21 @@ class test_boby extends Controller
         }
     }
 
+    public function update_call_count(){
+        $ret_info = $this->t_revisit_assess_info->update_revisit_assess();
+        $time = time();
+        foreach( $ret_info as $item ){
+            $this->t_revisit_assess_info->row_insert([
+                'uid'     => $item['uid'],
+                'stu_num' => $item['stu_num'],
+                'revisit_num' => 0,
+                'call_count'  => 0,
+                'create_time' => $time,
+            ]);
+        }
+    }
+
+
 
 
 
