@@ -35,6 +35,13 @@
                 @endif
         >查看转正申请详情</button>
     </div>                
+    <div class="col-xs-6 col-md-2">
+        <div class="input-group ">
+            <span class="input-group-addon">全职老师</span>
+            <input class="opt-change form-control" id="id_accept_adminid" />
+        </div>
+    </div>
+
 
 
     <table  border="1" width="100%" align="center" cellpadding="10" >

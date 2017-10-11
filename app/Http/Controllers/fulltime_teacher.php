@@ -157,12 +157,14 @@ class fulltime_teacher extends Controller
         $check_is_late = $this->t_fulltime_teacher_positive_require_list->check_is_late($adminid);
         // dd($check_is_late);
         //dd($positive_fail_type);
+        $acc = $this->get_account();
         return $this->Pageview(__METHOD__,null,[
             "account_info"  =>$account_info,
             "ret_info"      =>$ret_info,
             "positive_info" =>$positive_info,
             "positive_type_old" =>$positive_fail_type,
-            "check_is_late" =>$check_is_late
+            "check_is_late" =>$check_is_late,
+            "acc"           =>$acc
         ]);
     }
 
