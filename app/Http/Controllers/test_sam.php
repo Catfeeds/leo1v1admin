@@ -125,9 +125,9 @@ class test_sam  extends Controller
         $ret_info_order_grade = $this->t_cr_week_month_info->get_total_order_grade_num($start_time,$end_time);
         $order_grade = [];
         $order_grade['其它'] = 0;
-        foreach ($ret_info_grade as $key => $value) {
+        foreach ($ret_info_order_grade as $key => $value) {
             if($value['grade'] < 100 ){
-                $grade['其它'] += $value['total'];
+                $order_grade['其它'] += $value['total'];
             }else{
                 $order_gr = E\Egrade::get_desc($value['grade']);
                 if(!isset($order_grade[$order_gr])){
