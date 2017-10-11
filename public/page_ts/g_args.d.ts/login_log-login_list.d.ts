@@ -21,6 +21,8 @@ interface RowData {
 	serverip	:any;
 	account	:any;
 	login_time	:any;
+	login_succ_flag	:any;
+	login_ip	:any;
 }
 
 /*

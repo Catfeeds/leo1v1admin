@@ -142,7 +142,7 @@ class ss_deal extends Controller
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
-        // dd($seller_resource_type);
+        //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }

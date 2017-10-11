@@ -28,11 +28,13 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>字段11 </td>
-                    <td>字段11 </td>
-                    <td>字段11 </td>
-                    <td>字段11 </td>
-                    <td>字段11 </td>
+                    <td>id </td>
+                    <td>用户 </td>
+                    <td>服务器IP </td>
+                    <td>登录IP </td>
+                    <td>type </td>
+                    <td>登录成功</td>
+                    <td>登录时间 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -42,7 +44,9 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["serverip"]}} </td>
+                        <td>{{@$var["login_ip"]}} </td>
                         <td>{{@$var["type"]}} </td>
+                        <td>{{@$var["login_succ_flag"]}} </td>
                         <td>{{@$var["login_time"]}} </td>
                         <td>
                             <div
