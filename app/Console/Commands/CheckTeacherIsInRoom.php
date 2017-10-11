@@ -46,7 +46,7 @@ class CheckTeacherIsInRoom extends Command
             $start_time  = strtotime(date("Y-m-d",time()));
             $end_time    = strtotime(date("Y-m-d 24:00",time()));
             $lesson_list = $task->t_lesson_info->get_need_check_teacher_lesson($type,$start_time,$end_time);
-            $server_name_map = $this->t_xmpp_server_config->get_server_name_map();
+            $server_name_map = $task->t_xmpp_server_config->get_server_name_map();
             if(is_array($lesson_list)){
                 foreach($lesson_list as $lesson_val){
                     $lesson_start = $lesson_val['lesson_start'];
