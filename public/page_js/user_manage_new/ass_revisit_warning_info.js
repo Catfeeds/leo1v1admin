@@ -56,11 +56,11 @@ $(function(){
             action   : function(dialog) {
 
                 $.do_ajax("/user_deal/set_revisit_warning_deal_info", {
-                    userid : opt_data.userid,
-                    revisit_time: opt_data.revisit_time,
-                    warning_deal_url : id_warning_deal_url.find("#warning_deal_url").val(),
-                    warning_deal_info: id_warning_deal_info.val(),
-                    is_warning_flag:id_is_warning_flag.val()
+                    userid            : opt_data.userid,
+                    revisit_time      : opt_data.revisit_time,
+                    warning_deal_url  : id_warning_deal_url.find("#warning_deal_url").val(),
+                    warning_deal_info : id_warning_deal_info.val(),
+                    is_warning_flag   : id_is_warning_flag.val()
                 });
             }
         },function(){
@@ -71,9 +71,6 @@ $(function(){
             }, null,["png", "jpg",'jpeg','bmp','gif','rar','zip']);
 
         });
-
-
-
 
     });
 

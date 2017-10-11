@@ -673,6 +673,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function  get_seller_price($start_time ,$end_time,$adminid=-1)  {
+        $where_arr=[
+            "o.contract_type =0",
+            "o.contract_status in (1,2)",
+            ["m.account_role=%u", E\Eaccount_role::V_2, -1],
+            "s.is_test_user = 0",
+            "m.del_flag = 0",
+            ["m.uid=%u",$adminid, -1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new(
+            " select sum(o.price) price "
+            ." from %s o "
+            ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on o.userid = s.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     /*
      *@modify:Abner<abner@leo.edu.com>
      *@param:$opt_date_str  按类型统计 [order_time:添加时间check_money_time:财务确认时间]

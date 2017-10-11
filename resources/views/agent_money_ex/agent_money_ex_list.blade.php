@@ -35,28 +35,28 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>字段1 </td>
-                    <td>字段1 </td>
-                    <td>字段1 </td>
-                    <td>字段1 </td>
-                    <td>字段1 </td>
+                    <td>用户电话 </td>
+                    <td>微信昵称</td>
+                    <td>说明 </td>
+                    <td>添加时间 </td>
+                    <td>操作人</td>
+                    <td>金额[元] </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["id"]}} </td>
-                        <td>{{$var["agent_id"]}} </td>
-                        <td>{{$var["ex_type"]}} </td>
+                        <td>{{$var["phone"]}} </td>
+                        <td>{{$var["nickname"]}}</td>
+                        <td>{{$var["agent_money_ex_type_str"]}} </td>
                         <td>{{$var["add_time"]}} </td>
-                        <td>{{$var["adminid_id"]}} </td>
+                        <td>{{$var["account"]}}&#12288;真实姓名：{{$var["name"]}}</td>
                         <td>{{$var["money"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>

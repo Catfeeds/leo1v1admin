@@ -1794,11 +1794,14 @@ class tea_manage extends Controller
         }
 
         if($type==0){
-            $this->t_train_lesson_user->row_insert([
-                "lessonid" => $lessonid,
-                "userid"   => $userid,
-                "add_time" => time(),
-            ]);
+            $check_flag = $this->t_train_lesson_user->check_user_exists($lessonid,$userid);
+            if(!$check_flag){
+                $this->t_train_lesson_user->row_insert([
+                    "lessonid" => $lessonid,
+                    "userid"   => $userid,
+                    "add_time" => time(),
+                ]);
+            }
         }else{
             $job = new \App\Jobs\AddUserToTrainLesson($lessonid,$teacherid_list,$type);
             dispatch($job);

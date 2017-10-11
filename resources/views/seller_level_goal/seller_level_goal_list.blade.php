@@ -72,6 +72,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>等级序号 </td>
                     <td>销售等级 </td>
                     <td>等级目标 </td>
                     <td>等级头像 </td>
@@ -82,6 +83,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["seller_level_str"]}} </td>
                         <td>{{@$var["level_goal"]}} </td>
                         <td><img src="{{@$var["level_face"]}}" width="100px;" height="100px;" alt="" /></td>

@@ -257,33 +257,45 @@ class wx_parent_gift extends Controller
         return $this->output_succ();
     }
 
-    public function get_share_num(){
+
+
+
+    public function del_session(){
+        $_SESSION['check_flag']=0;
+
+        return $_SESSION['check_flag'];
+    }
+
+
+
+
+    public function get_share_num_for_book () {
+
+        return @$_SESSION['check_flag'];
+        $wx= new \App\Helper\Wx("wx636f1058abca1bc1","756ca8483d61fa9582d9cdedf202e73e");
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
+        $wx->goto_wx_login( $redirect_url );
+
 
     }
 
-    public function set_share_num(){ //记录分享朋友圈次数
-        $parentid = $this->get_parentid();
-        
-        // $this->t_wx_gi
+    public function set_identity_for_book(){
+        $_SESSION['check_flag']=1;
+        return $this->output_succ(['share_num'=>1]);
 
     }
 
-    public function get_parentid(){
-        $parentid= $this->get_in_int_val("_parentid")?$this->get_in_int_val("_parentid") : session("parentid");
-        return $parentid;
+    public function check_identity_for_book(){
+        $share_num = @$_SESSION['check_flag'];
+
+        if($share_num>0){
+            return $this->output_succ(['share_num'=>$share_num]);
+        }else{
+            return $this->output_succ(['share_num'=>0]);
+        }
+
     }
 
-    /*
-      Schema::create('db_weiyi.t_wx_give_book', function( Blueprint $table)
-        {
-            $table->increments("id","id");
-            t_field($table->integer("create_time"),"分享时间");
-            t_field($table->integer("parentid"),"家长id");
-            t_field($table->integer("share_num"),"家长分享朋友圈次数");
-        });
-
-
-    */
 
 
 }

@@ -16,8 +16,7 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	phone	:any;
-	nickname	:any;
+	agent_id	:any;
 	agent_money_ex_type	:any;
 	add_time	:any;
 	money	:any;
@@ -29,10 +28,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../agent_money_ex; vi  ../agent_money_ex/agent_money_ex_list.ts
+	 mkdir -p ../agent_moeny_ex; vi  ../agent_moeny_ex/agent_money_ex_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/agent_money_ex-agent_money_ex_list.d.ts" />
+/// <reference path="../g_args.d.ts/agent_moeny_ex-agent_money_ex_list.d.ts" />
 
 $(function(){
     function load_data(){

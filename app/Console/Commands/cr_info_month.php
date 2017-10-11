@@ -191,13 +191,13 @@ class cr_info_month extends Command
         $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
         $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
         if($arr['month_tranfer_total_num']){
-          $arr['tranfer_success_per'] = round($arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
+          $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
         }else{
           $arr['tranfer_success_per'] = 0;
         }
         //扩科
-        $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data(strtotime($end_month),$end_time) ;
-        $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order(strtotime($end_month),$end_time);
+        $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
+        $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order($start_time,$end_time);
         $arr['month_total_test_lesson_num'] = $month_kk['total_test_lesson_num'];                 //E1-扩课试听数量
         $arr['month_success_num'] = $month_success_num;                                           //E2-扩课成单数量
         if($arr['month_total_test_lesson_num']){

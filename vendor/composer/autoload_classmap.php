@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddVotesToTSellerStudentNew' => $baseDir . '/database/migrations/2017_09_27_174050_add_votes_to_t_seller_student_new.php',
     'CreateTAdminMajordomoGroupName' => $baseDir . '/database/migrations/2017_09_13_183810_create_t_admin_majordomo_group_name.php',
+    'CreateTAgentMoneyEx' => $baseDir . '/database/migrations/2017_10_10_160512_create_t_agent_money_ex.php',
     'CreateTGarbLessonLinkInfo' => $baseDir . '/database/migrations/2017_09_23_104354_create_t_garb_lesson_link_info.php',
     'CreateTGrabLessonLinkInfo' => $baseDir . '/database/migrations/2017_09_21_173336_create_t_grab_lesson_link_info.php',
     'CreateTGrabLessonLinkVisitInfo' => $baseDir . '/database/migrations/2017_09_21_172147_create_t_grab_lesson_link_visit_info.php',
