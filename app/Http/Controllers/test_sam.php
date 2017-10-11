@@ -149,13 +149,13 @@ class test_sam  extends Controller
             if($value['subject'] < 1 || $value['subject'] > 11){
                 $order_subject['其它'] += $value['total'];
             }else{
-                $order_gr = E\Esubject::get_desc($value['subject']);
-                if(!isset($subject[$order_gr])){
-                    $order_subject[$order_gr] = 0;
-                    $order_subject[$order_gr] += $value['total'];
+                $subject_gr = E\Esubject::get_desc($value['subject']);
+                if(!isset($order_subject[$subject_gr])){
+                    $order_subject[$subject_gr] = 0;
+                    $order_subject[$subject_gr] += $value['total'];
                 }else{
-                    var_dump($order_subject);
-                    $order_subject[$order_gr] += $value['total'];
+                    $order_subject[$subject_gr] += $value['total'];
+
                 }
             }
         }
