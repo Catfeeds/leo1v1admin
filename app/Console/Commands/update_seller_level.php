@@ -33,7 +33,7 @@ class update_seller_level extends cmd_base
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $start_time<$item['end_time']){
+            if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time_this = $item['start_time'];
                 $end_time_this = $item['end_time'];
             }
