@@ -633,6 +633,11 @@ class teacher_money extends Controller
             $this->t_manager_info->send_wx_todo_msg("sunny","银行卡号变更",$header_msg,$msg,$url,$desc);
         }
 
+        if($type=="admin"){
+            $acc = $this->get_account();
+        }
+
+
         return $this->output_succ();
     }
 
