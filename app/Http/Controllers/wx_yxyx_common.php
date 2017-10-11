@@ -595,6 +595,20 @@ class wx_yxyx_common extends Controller
             return $this->output_err("信息有误！");
         }
     }
+    
+    /*
+     *@desn:获取邀请记录 
+     *@date:2017-10-11
+     *@author:Abner<abner@leo.edu.com>
+     *@return:Array 
+     */
+    public function top_invite_list(){
+        $agent_info = $this->t_yxyx_new_list->get_agent_info();
 
-
+        if($agent_info){
+            return $this->output_succ(["list"=>$agent_info]);
+        }else{
+            return $this->output_err("信息有误！");
+        }
+    }
 }

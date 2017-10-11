@@ -94,5 +94,25 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
     }
 
+    public function get_agent_info(){
+        $where_arr = [
+            'a.create_time >='.strtotime('- 2 day',time(NULL)),
+        ];
+        $sql =  $this->gen_sql_new( "select a.id,a.phone as new_phone,a.nickname as new_nick,"
+                                    ."pa.phone as from_phone,pa.nickname as from_nick"
+                                    ." from %s a"
+                                    ." left join %s pa on a.parentid = pa.id"
+                                    ." where %s"
+                                    ." order by a.create_time desc"
+                                    ." limit %u"
+                                    ,t_agent::DB_TABLE_NAME
+                                    ,t_agent::DB_TABLE_NAME
+                                    , $where_arr
+                                    ,50
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }
 
