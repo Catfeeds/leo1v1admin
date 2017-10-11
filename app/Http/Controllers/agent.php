@@ -531,7 +531,11 @@ class agent extends Controller
             //统计上上个月
 
         }
-        dd($update_seller_list);
+        foreach($update_seller_list as &$item){
+            $item['account'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
+            E\Eseller_level::set_item_value_str($item);
+        }
+        dd(count($seller_list),$update_seller_list);
     }
 
     public function get_my_pay($phone){
