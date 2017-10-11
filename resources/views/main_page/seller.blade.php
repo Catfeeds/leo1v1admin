@@ -182,7 +182,10 @@
                                             <td colspan="4">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/146ba063e107d23a3d5745f3a1cfbe6b1507697031726.png" width="100%"  alt="" />
+                                                            <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
+                                                        </p>
                                                         <span style="color:#F6A623;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#F6A623;" ></a>
