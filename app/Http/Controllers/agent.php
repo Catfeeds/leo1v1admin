@@ -531,11 +531,15 @@ class agent extends Controller
             //统计上上个月
 
         }
-        foreach($update_seller_list as &$item){
-            $item['account'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
-            E\Eseller_level::set_item_value_str($item);
+        $ret_info = [];
+        foreach($update_seller_list as $key=>$item){
+            $ret_info[$key]['销售'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
+            $ret_info[$key]['当前等级'] = E\Eseller_level::get_desc($item['seller_level']).'级';
+            $ret_info[$key]['目标金额'] = $item['seller_goal'].'元';
+            $ret_info[$key]['签单金额'] = $item['price'];
+            $ret_info[$key]['下一等级'] = E\Eseller_level::get_desc($item['next_level']).'级';
         }
-        dd(count($seller_list),$update_seller_list);
+        dd(count($seller_list),$update_seller_list,$ret_info);
     }
 
     public function get_my_pay($phone){
