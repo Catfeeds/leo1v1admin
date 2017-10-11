@@ -131,7 +131,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
         $sql = $this->gen_sql("select lessonid,l.userid,teacherid,c.courseid,"
                               . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
-                              " from %s ".
+                              " from %s l".
                               " left join  %s c on c.courseid=l.courseid ".
                               "where lesson_end > %u  and lesson_end < %u and  lesson_status < 2",
                               self::DB_TABLE_NAME,

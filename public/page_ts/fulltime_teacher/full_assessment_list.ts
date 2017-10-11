@@ -8,6 +8,7 @@ $(function(){
         });
     }
 
+    alert(g_args.acc);
     $("#name").on("click",function(){
         var tt = parseInt($("#rate_stars").text());
         alert(tt);

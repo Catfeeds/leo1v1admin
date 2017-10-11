@@ -38,7 +38,7 @@
     <div class="col-xs-6 col-md-2">
         <div class="input-group ">
             <span class="input-group-addon">全职老师</span>
-            <input class="opt-change form-control" id="id_accept_adminid" />
+            <input class="opt-change form-control" id="id_fulltime_adminid" />
         </div>
     </div>
 
