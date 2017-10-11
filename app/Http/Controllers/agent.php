@@ -494,14 +494,8 @@ class agent extends Controller
         }
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        $update_seller_list = [
-            'adminid' => 0,
-            'seller_level' => 0,
-            'level_goal' => 0,
-            'price' => 0,
-            'next_level' => 0,
-        ];
-        foreach($seller_list as $item){
+        $update_seller_list = [];
+        foreach($seller_list as $key=>$item){
             $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
             $adminid = $item['uid'];
             $num = $ret_this['num'];
@@ -521,11 +515,11 @@ class agent extends Controller
               E\Eseller_level::V_101;
              */
             if($price>$level_goal){
-                $update_seller_list['adminid'] = $adminid;
-                $update_seller_list['seller_level'] = $this_level;
-                $update_seller_list['level_goal'] = $level_goal;
-                $update_seller_list['price'] = $price;
-                $update_seller_list['next_level'] = $next_level;
+                $update_seller_list[$key]['adminid'] = $adminid;
+                $update_seller_list[$key]['seller_level'] = $this_level;
+                $update_seller_list[$key]['level_goal'] = $level_goal;
+                $update_seller_list[$key]['price'] = $price;
+                $update_seller_list[$key]['next_level'] = $next_level;
                 // if($adminid == 831){
                 //     dd($price,$level_goal,$this_level,$next_level,$num,$next_num);
                     // $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
