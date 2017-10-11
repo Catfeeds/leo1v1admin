@@ -256,20 +256,20 @@ class main_page extends Controller
             $ret_info = &$ret_info_arr['list'];
 
             if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month']*100;
+                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
             }else{
                 $ret_info['invit_month_rate'] = 0;
             }
 
 
-            if($ret_info['seller_plan_invit_month']>0){ //月排课率
-                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month']*100;
+            if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
+                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
             }else{
                 $ret_info['test_plan_month_rate'] = 0;
             }
 
             if($ret_info['seller_schedule_num']>0){ //月到课率
-                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num']*100;
+                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
             }else{
                 $ret_info['lesson_succ_month_rate'] = 0;
             }
