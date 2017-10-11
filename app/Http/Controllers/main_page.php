@@ -102,11 +102,8 @@ class main_page extends Controller
             $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
 
             // 金额转化率占比
-            $ret_info['high_school_money'] = $this->t_order_info->get_high_money_for_month($start_time, $end_time);
-            $ret_info['junior_money']      = $this->t_order_info->get_junior_money_for_month($start_time, $end_time);
-            $ret_info['primary_money']     = $this->t_order_info->get_primary_money_for_month($start_time, $end_time);
 
-            if($ret_info['income_price']>0){
+            if($ret_info['formal_info']>0){
                 $ret_info['referral_money_rate'] = $ret_info['income_referral']/$ret_info['income_price']*100;
                 $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['income_price']*100;
                 $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['income_price']*100;
