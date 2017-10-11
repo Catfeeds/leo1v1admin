@@ -4,12 +4,10 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Http\Controllers\Controller;
 
 
 class save_seller_info extends Command
 {
-    use TeaPower;
 
     /**
      * The name and signature of the console command.
@@ -85,7 +83,7 @@ class save_seller_info extends Command
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
 
         // $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = (new tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+        $ret_info['seller_target_income'] = (new App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
         if (!$ret_info['seller_target_income'] ) {
             $ret_info['seller_target_income'] = 1600000;
         }
