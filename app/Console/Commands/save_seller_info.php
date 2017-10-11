@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 
 class save_seller_info extends Command
 {
+    use TeaPower;
+
     /**
      * The name and signature of the console command.
      *
