@@ -22,4 +22,14 @@ class t_seller_tongji_for_month extends \App\Models\Zgen\z_t_seller_tongji_for_m
         return $this->main_get_row($sql);
     }
 
+
+    public function update_funnel_date($start_time, $seller_invit_month, $has_tq_succ_invit_month, $seller_plan_invit_month, $seller_test_succ_month, $order_trans_month, $order_sign_month, $has_tq_succ_sign_month, $has_called_stu ){
+        $six_month_ = $start_time-30*6;
+        $where_arr = [
+            ["from_time" ]
+        ];
+
+
+    }
+
 }

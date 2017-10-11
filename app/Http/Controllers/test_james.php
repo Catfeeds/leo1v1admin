@@ -320,7 +320,7 @@ class test_james extends Controller
 
     public function install(){
         // 暂时未建
-
+        dd(date('Y-m-d', strtotime('-1 month')));
 
 
     }
