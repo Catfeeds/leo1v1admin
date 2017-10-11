@@ -39,7 +39,7 @@ class test_sam  extends Controller
         $province = [];
         $province['其它'] = 0;
         foreach($ret_info as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡'){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['中麦通信'] ||$value['重庆U友'] || $value['江苏U友']){
 
                 $province['其它'] += $value['total'];
             }else{
@@ -53,7 +53,10 @@ class test_sam  extends Controller
 
             }
         }
-        dd($province);
+        foreach ($province as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+        //dd($province);
     }
 
 
