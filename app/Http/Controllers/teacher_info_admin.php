@@ -660,7 +660,7 @@ class teacher_info_admin extends Controller
         $second_grade_start = $this->get_in_int_val("second_grade_start");
         $second_grade_end   = $this->get_in_int_val("second_grade_end");
 
-        $old_info = $this->t_teacher_info->get_teacher_info_by_teacherid($teacherid);
+        $old_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "subject"            => $subject,

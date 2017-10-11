@@ -137,7 +137,7 @@
                                     <tr>
                                         <td> {{@$ret_info['seller_invit_num']}}</td>
                                         <td> {{@$ret_info['seller_schedule_num']}} </td>
-                                        <td> {{@$ret_info['test_lesson_succ_num']}} </td>
+                                        <td> {{@$ret_info['test_succ_num']}} </td>
                                         <td> {{@$ret_info['new_order_num']}} </td>
                                         <td> {{@number_format($ret_info['invit_month_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['test_plan_month_rate'],2)}}% </td>

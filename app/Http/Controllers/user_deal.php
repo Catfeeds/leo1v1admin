@@ -2712,6 +2712,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        dd($_SERVER["REMOTE_ADDR"]);
         $month = strtotime("2017-09-01");
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,1);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,0);

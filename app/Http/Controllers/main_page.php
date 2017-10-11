@@ -158,7 +158,7 @@ class main_page extends Controller
             // 转化率
             $ret_info['seller_invit_num'] = $this->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
             $ret_info['seller_schedule_num'] = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
-            $ret_info['test_lesson_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+            $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
             $ret_info['new_order_num'] = $order_info_total['total_num']; // 合同数量
 
 
@@ -603,18 +603,13 @@ class main_page extends Controller
         $warning_type_num['warning_type_three'] = $three_count;
 
         $start_time = strtotime( date('Y-m-1', time()) );
-        $end_time   = $start_time + 86400*27;
-        $month_stu = $this->t_revisit_assess_info->get_stu_num_by_uid($ass_adminid, $start_time, $end_time);
-        $month_goal = [
-            'type' => '本月',
-            'revisit_goal' => $month_stu*2,
-            'call_goal' => $month_stu*2*3,
-        ];
+        $end_time   = strtotime("+1 month",$start_time);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
 
-        $revisit_assess_list = [
-            $month_goal,
-            ['type' =>'本月'],
-        ];
+        $start_time = strtotime( "today" );
+        $end_time   = strtotime("tomorrow");
+        $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $today_info['goal'] = ceil($today_info['stu_num']/10);
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -629,7 +624,8 @@ class main_page extends Controller
             "user_all"     =>$user_all,
             "xs"           =>$xs,
             "warning"      => $warning_type_num,
-            "revisit_assess_list" => $revisit_assess_list
+            "month_info"   => $month_info,
+            "today_info"   => $today_info,
         ]);
 
     }

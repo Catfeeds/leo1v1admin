@@ -345,11 +345,36 @@ class test_james extends Controller
 
 
 
+    public function ss1(){
+        $start_time = $this->get_in_int_val('s');
+
+        $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
+        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+
+        if (!$month_finish_define_money) {
+            $month_finish_define_money=1600000;
+        }
+        $month_finish_define_money_2=$month_finish_define_money/100;
+        $cur_money=0;
+        $today=time(NULL);
+        foreach ($month_date_money_list as $date=> &$item ) {
+            $date_time=strtotime($date);
+            if ($date_time>$today) {
+
+            }else{
+                $cur_money+=@$item["money"];
+                // $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
+            }
+        }
+
+        dd($cur_money);
+
+    }
 
 
 
 
-        public function get_seller_total_info(){ // cc 总表信息
+    public function get_seller_total_info(){ // cc 总表信息
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
         $history_data = $this->get_in_int_val('history_data');

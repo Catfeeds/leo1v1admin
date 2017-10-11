@@ -310,7 +310,10 @@ class testbb extends Controller
     }
 
     public function install(){
+
         // 暂时未建
+
+        // new_order_num  //test_lesson_succ_num
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
             $table->increments("id","id");
