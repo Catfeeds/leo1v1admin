@@ -70,9 +70,9 @@ class update_seller_level extends cmd_base
             $become_member_time = $item['create_time'];
             // $next_num = $num + 1;
             // $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
-            if($ret_next){
-                $next_level = $ret_next['seller_level'];
-            }
+            // if($ret_next){
+            //     $next_level = $ret_next['seller_level'];
+            // }
             //统计本月
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
