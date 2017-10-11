@@ -76,8 +76,7 @@ class update_seller_level extends cmd_base
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
             if($price>$level_goal){
-                echo "$adminid,$price,$level_goal"."/n";
-                // $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
+                $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
             }
 
             //统计上个月
