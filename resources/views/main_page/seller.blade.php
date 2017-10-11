@@ -242,7 +242,9 @@
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
                                         <td>
                                             <font style="color:#000000;">{{$var["all_price"]}}</font>
-                                            <img src="{{$var["level_icon"]}}" width="30px" height="30px" alt="" />
+                                            <span style="margin:-5px 25px 0px 0px">
+                                                <img src="{{$var["level_icon"]}}" width="30px" height="30px" alt="" />
+                                            </span>
                                         </td>
                                     </tr>
                                     @endif
