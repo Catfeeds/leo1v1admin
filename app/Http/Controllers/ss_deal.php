@@ -2632,7 +2632,7 @@ class ss_deal extends Controller
 
         $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
 
-        if($require_id>0 && $ass_test_lesson_type ==2){
+        if($ass_test_lesson_type ==2){
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "change_teacher_reason"          => $change_reason,
                 "change_teacher_reason_img_url"  => $change_reason_url,
