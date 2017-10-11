@@ -15,13 +15,10 @@ class fulltime_teacher extends Controller
         //  $adminid=713; //WUhan
         // $adminid=920; //Shanghai
         //print_r($adminid);
-<<<<<<< HEAD
         if($adminid==349){
             $adminid=863;
         }
-=======
         $adminid = 863;
->>>>>>> b1752bf8b8b630355ad1444890fa3bcca9d7c1bc
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
