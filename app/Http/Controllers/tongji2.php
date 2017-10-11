@@ -399,6 +399,7 @@ class tongji2 extends Controller
         return $this->test_lesson_frist_call_time();
         // dd($master_info);
     }
+
     public function test_lesson_frist_call_time() {
         list($start_time, $end_time) = $this->get_in_date_range_day(-1);
         $page_num                    = $this->get_in_page_num();
