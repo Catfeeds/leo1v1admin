@@ -159,7 +159,7 @@ class fulltime_teacher extends Controller
         //dd($positive_fail_type);
         $acc = $this->get_account();
         $this->set_in_value("acc",$acc);
-        // $acc = $this->get_in_int_val("acc");
+        $acc = $this->get_in_str_val("acc");
 
         return $this->Pageview(__METHOD__,null,[
             "account_info"  =>$account_info,
