@@ -2679,6 +2679,14 @@ class tongji_ss extends Controller
         return $this->output_succ(["data"=> $list]);
     }
 
+    public function get_suc_seller_top_info(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+
+        $adminid = $this->get_in_int_val("adminid",-1);
+
+    }
+
     public function teacher_lecture_tongji_day(){
         $start_time = strtotime("2017-01-01");
         $end_time = time();
