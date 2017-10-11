@@ -214,7 +214,6 @@ class login extends Controller
         }
 
         \App\Helper\Utils::logger("menu_str_show: $menu_str");
-
         return $menu_str;
     }
 
