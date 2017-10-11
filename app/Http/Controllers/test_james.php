@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail ;
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
-class testbb extends Controller
+class test_james extends Controller
 {
     use CacheNick;
 
@@ -311,6 +311,12 @@ class testbb extends Controller
 
     public function install(){
         // 暂时未建
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
+
+        dd($ret_info);
+
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
             t_field($table->integer("seller_invit_month_funnel"),"试听邀约数-[漏斗型]-月更新");

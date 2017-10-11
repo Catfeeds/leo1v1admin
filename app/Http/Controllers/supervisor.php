@@ -136,17 +136,15 @@ class supervisor extends Controller
 
         session([$monitor_key=>$ret_info["list"]]);
 
-        $server_map = $this->t_xmpp_server_config->get_server_name_map();
-        //eval_real_xmpp_server
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
+        $server_name_map = $this->t_xmpp_server_config->get_server_name_map();
 
         $i = 1;
         foreach($ret_info['list'] as $key=> &$item){
             $item['index']       = $i;
             $i++;
-            $server_info         = @$server_map[$item['courseid']];
+            $xmpp_server_name=  $item["xmpp_server_name"];
+            $current_server=  $item["current_server"];
+            $server_info         = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
             $lesson_type         = $item['lesson_type'];
             $item['region']      = @$server_info['region'];
             $item['ip']          = @$server_info['ip'];
