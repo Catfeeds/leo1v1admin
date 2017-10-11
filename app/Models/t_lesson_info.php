@@ -8387,14 +8387,16 @@ lesson_type in (0,1) "
         if($type==1){
             $where_arr[] = "lesson_type in (1001,1002)";
         }
-        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid,"
+        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid, xmpp_server_name, c.current_server  "
                                   ." l.lesson_start,l.lesson_end"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s c on c.courseid=l.courseid"
                                   ." where %s"
                                   ." and is_test_user=0"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
