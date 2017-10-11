@@ -80,7 +80,7 @@ class save_seller_info extends Command
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
         $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $ret_info['formal_info']=0;
+        $ret_info['formal_info']=0; //入职完整月人员签单额
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);

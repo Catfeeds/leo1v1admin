@@ -2744,9 +2744,6 @@ class tea_manage extends Controller
         $lesson_type=$ret_arr["lesson_type"];
         $server_type=$ret_arr["server_type"];
 
-        if($ret_arr['current_server'] == ""){
-            $ret_arr['current_server'] = $this->g_config['default_server']['id'];
-        }
 
         $server_info= $this->t_lesson_info_b3->get_real_xmpp_server($lessonid) ;
 

@@ -39,6 +39,40 @@
         <div class="row">
 
             <div class="row">
+
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            @if($arr['type'] == 1)
+                                月报
+                            @else
+                                周报
+                            @endif
+                            @if($arr['create_time_range'])
+                                <br/>统计时段({{@$arr['create_time_range']}})
+                            @endif
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td width="200px" align="center">月度目标收入</td>
+                                        <td>{{@$ret_info['formal_info']}}</td>
+                                        <td width="200px" align="center">完成金额</td>
+                                        <td>{{@$arr['total_price']}}</td>
+                                        <td width="200px" align="center">完成率</td>
+                                        <td >{{@$arr['kpi_per']}}%</td>
+                                        <td width="200px" align="center">缺口金额</td>
+                                        <td >{{@$arr['gap_money']}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
