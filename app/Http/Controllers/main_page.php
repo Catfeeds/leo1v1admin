@@ -165,8 +165,8 @@ class main_page extends Controller
 
             //  外呼情况
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-            // $ret_info['has_called'] = // 已拨打例子
-            
+            $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+
             $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
 
             $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
@@ -272,7 +272,7 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-		$group_start_time=	 $start_time;
+        $group_start_time=   $start_time;
         if($start_time == 1504195200){//9月,9.1-10.2
             $end_time = 1506960000;
         }
@@ -326,7 +326,7 @@ class main_page extends Controller
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
-        
+
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
         $groupid =$this->get_in_int_val("groupid",-1);
