@@ -118,8 +118,6 @@ class main_page extends Controller
 
             $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
 
-
-
             if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
                 $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
             }else{
