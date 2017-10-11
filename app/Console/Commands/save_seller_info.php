@@ -62,7 +62,7 @@ class save_seller_info extends Command
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-        $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
+        // $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
         $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
@@ -80,12 +80,12 @@ class save_seller_info extends Command
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
         $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $cur_money=0;
+        $ret_info['formal_info']=0;
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);
             if ($date_time<=$today) {
-                $cur_money+=@$item["money"];
+                $ret_info['formal_info']+=@$item["money"];
             }
         }
 
