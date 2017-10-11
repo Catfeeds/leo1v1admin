@@ -49,7 +49,7 @@ class t_xmpp_server_config extends \App\Models\Zgen\z_t_xmpp_server_config
 
         $sql=$this->gen_sql_new(
             "select id,server_name,server_desc,ip,xmpp_port,webrtc_port,websocket_port,weights"
-            . " from %s where  ",  self::DB_TABLE_NAME );
+            . " from %s  ",  self::DB_TABLE_NAME );
 
         return $this->main_get_list($sql,function($item){
             return $item["server_name"];

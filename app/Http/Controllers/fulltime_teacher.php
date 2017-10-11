@@ -46,7 +46,7 @@ class fulltime_teacher extends Controller
         }
         //获取试用期内月平均课时消耗数和设置评分
         $start_time = $account_info['create_time'];
-        $per_start = time()-90*86400;
+        $per_start = time()-92*86400;
         if($start_time >=$per_start){
             $per_start = $start_time;
         }
