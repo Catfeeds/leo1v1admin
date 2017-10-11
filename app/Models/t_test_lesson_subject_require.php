@@ -452,7 +452,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_stu_grade" => $test_stu_grade,
             "test_stu_request_test_lesson_demand" => $test_stu_request_test_lesson_demand,
             "change_teacher_reason_img_url" => $change_reason_url,
-            "change_reason" => $change_reason,
+            "change_teacher_reason" => $change_reason,
             "change_teacher_reason_type" => $change_teacher_reason_type
         ]);
         $require_id= $this->t_test_lesson_subject_require->get_last_insertid();

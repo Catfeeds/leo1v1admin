@@ -41,6 +41,7 @@
                         <a href="javascript:;" id="id_select_other" title="反选">反</a>
                     </td>
 
+                    <td>lessonid</td>
                     <td>声音服务器</td>
                     <td>xmpp服务器</td>
                     <td>上课时间</td>
@@ -54,6 +55,7 @@
                     <tr>
 
                         <td> <input type="checkbox" class="opt-select-item" data-id="{{$var["lessonid"]}}"/>   {{$var["index"]}} </td>
+                        <td>{{@$var["lessonid"]}} </td>
                         <td>{{@$var["record_audio_server1"]}} </td>
                         <td>{{@$var["xmpp_server_name"]}} </td>
                         <td>{{@$var["lesson_time"]}} </td>
@@ -64,6 +66,8 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+
+                                <a class="fa  opt-lesson" title=""> 课程 </a>
                             </div>
                         </td>
                     </tr>

@@ -837,18 +837,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-
-
-    public function get_real_xmpp_server($lessonid ) {
-        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
-        $xmpp_server= $lesson_info["xmpp_server_name"];
-        if(!$xmpp_server) {
-            $xmpp_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+    public function eval_real_xmpp_server( $xmpp_server, $current_server, $map=null ) {
+        if (!$xmpp_server) {
+            $xmpp_server=$current_server;
         }
         if (!$xmpp_server) { //默认设置到杭州
             $xmpp_server="h_01";
         }
-        $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
+
+        if (!$map)  {
+            $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
+        }else{
+            $row=@$map[$xmpp_server];
+        }
         if ($row) {
             $ret=[
                 'ip'          => $row["ip"] ,
@@ -868,6 +869,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ];
         }
 
+    }
+
+
+    public function get_real_xmpp_server($lessonid ) {
+        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
+        $xmpp_server= $lesson_info["xmpp_server_name"];
+        $current_server="";
+        if(!$xmpp_server) {
+            $current_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+        }
+        return $this->eval_real_xmpp_server( $xmpp_server, $current_server );
     }
 
 
