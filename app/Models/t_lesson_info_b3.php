@@ -894,7 +894,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
         ];
 
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tll.lessonid) from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
