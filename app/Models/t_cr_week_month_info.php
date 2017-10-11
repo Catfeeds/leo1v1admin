@@ -107,7 +107,7 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             "contract_type =0 ",
             "contract_status>0 "
         ];
-        $sql = $this->gen_sql_new("select count( s.userid) as total, o.subject from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.subject", $where_arr);
+        $sql = $this->gen_sql_new("select count(s.userid) as total, o.subject from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.subject", $where_arr);
         return $this->main_get_list($sql);
     }
 }

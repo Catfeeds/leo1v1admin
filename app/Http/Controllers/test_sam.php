@@ -154,6 +154,7 @@ class test_sam  extends Controller
                     $order_subject[$order_gr] = 0;
                     $order_subject[$order_gr] += $value['total'];
                 }else{
+                    var_dump($order_subject);
                     $order_subject[$order_gr] += $value['total'];
                 }
             }
