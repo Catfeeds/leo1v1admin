@@ -301,13 +301,13 @@ $(function(){
         console.log(adminid);
         if(adminid > 0){           
             var title = "精排转化详情";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>状态</td><td>lessonid</td><td>时间</td><td>老师</td><td>维度</td><td>学生</td><td>年级</td><td>科目</td><td>咨询师</td></tr></table></div>");
 
-            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+
+            $.do_ajax('/tongji_ss/get_suc_seller_top_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
                 "end_time":g_args.end_time,
-                "is_green_flag":1
             },function(resp) {
                 var userid_list = resp.data;
                 console.log(userid_list);
