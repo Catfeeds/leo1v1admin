@@ -516,7 +516,7 @@ class agent extends Controller
              */
             // if($price>$level_goal){
                 if($adminid == 831){
-                    // dd($price,$level_goal,$item['seller_level']);
+                    dd($price,$level_goal,$this_level,$next_level);
                     $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
                 }
             // }
