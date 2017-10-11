@@ -83,7 +83,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =0 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count( s.userid) as total, s.phone_location from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
@@ -94,7 +95,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =0 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count( s.userid) as total, o.grade from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.grade", $where_arr);
         return $this->main_get_list($sql);
@@ -105,7 +107,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =0 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count(s.userid) as total, o.subject from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.subject", $where_arr);
         return $this->main_get_list($sql);
@@ -117,7 +120,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =3 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count( s.userid) as total, s.phone_location from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
@@ -128,7 +132,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =3 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count( s.userid) as total, o.grade from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.grade", $where_arr);
         return $this->main_get_list($sql);
@@ -139,7 +144,8 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             ["order_time<%u",$end_time,-1],
             "is_test_user=0",
             "contract_type =3 ",
-            "contract_status>0 "
+            "contract_status>0 ",
+            " price>0"
         ];
         $sql = $this->gen_sql_new("select count(s.userid) as total, o.subject from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.subject", $where_arr);
         return $this->main_get_list($sql);
