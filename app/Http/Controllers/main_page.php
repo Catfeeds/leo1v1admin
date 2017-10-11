@@ -605,8 +605,8 @@ class main_page extends Controller
         //月回访信息
         $start_time = strtotime( date('Y-m-1', time()) );
         $end_time   = strtotime("+1 month",$start_time);
-        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-
+        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $month_info = $month_list[0];
         //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
@@ -1861,6 +1861,20 @@ class main_page extends Controller
 
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str);
         $warning_type_num['warning_type_three'] = $three_count;
+
+        //月回访信息
+        $start_time = strtotime( date('Y-m-1', time()) );
+        $end_time   = strtotime("+1 month",$start_time);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $start_time, $end_time,$uid_str);
+        // dd($month_info);
+
+        //当天回访信息
+        // $start_time = strtotime( "today" );
+        // $end_time   = strtotime("tomorrow");
+        // $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        // $today_info['goal'] = ceil($today_info['stu_num']/10);
+
+
 
 
         return $this->pageView(__METHOD__ ,null, [
