@@ -240,7 +240,10 @@
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
-                                        <td><font style="color:#000000;">{{$var["all_price"]}}</font> </td>
+                                        <td>
+                                            <font style="color:#000000;">{{$var["all_price"]}}</font>
+                                            <img src="{{$var["level_icon"]}}" width="30px" height="30px" alt="" />
+                                        </td>
                                     </tr>
                                     @endif
                                 @endforeach
