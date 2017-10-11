@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      $this->switch_tongji_database();
+      // $this->switch_tongji_database();
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';

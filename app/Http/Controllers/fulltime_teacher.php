@@ -15,10 +15,7 @@ class fulltime_teacher extends Controller
         //  $adminid=713; //WUhan
         // $adminid=920; //Shanghai
         //print_r($adminid);
-        if($adminid==349){
-            $adminid=863;
-        }
-        $adminid = 863;
+        $adminid = $this->get_in_int_val("fulltime_adminid",$adminid);
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
@@ -59,7 +56,7 @@ class fulltime_teacher extends Controller
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
         $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
         //        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
-        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.16);
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.2);
         if($account_info["lesson_count_avg_score"]>=20){//25->20
             $account_info["lesson_count_avg_score"]=20;
         }
@@ -158,12 +155,17 @@ class fulltime_teacher extends Controller
         $check_is_late = $this->t_fulltime_teacher_positive_require_list->check_is_late($adminid);
         // dd($check_is_late);
         //dd($positive_fail_type);
+        $acc = $this->get_account();
+        $this->set_in_value("acc",$acc);
+        $acc = $this->get_in_str_val("acc");
+
         return $this->Pageview(__METHOD__,null,[
             "account_info"  =>$account_info,
             "ret_info"      =>$ret_info,
             "positive_info" =>$positive_info,
             "positive_type_old" =>$positive_fail_type,
-            "check_is_late" =>$check_is_late
+            "check_is_late" =>$check_is_late,
+            "acc"           =>$acc
         ]);
     }
 
