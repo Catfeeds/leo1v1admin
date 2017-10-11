@@ -97,8 +97,8 @@ class test_sam  extends Controller
         foreach ($subject as $key => $value) {
             echo $key."|".$value."<br/>";
         }
-
-        echo '--------------------'.'<br/>';
+        echo '################################################################################'.'<br/>';
+        echo '--------签单率--------'.'<br/>';
         $ret_info_order = $this->t_cr_week_month_info->get_order_province($start_time,$end_time);
         $province_order = [];
         $province_order['其它'] = 0;
@@ -118,6 +118,27 @@ class test_sam  extends Controller
             }
         }
         foreach ($province_order as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+
+        echo '--------------------'.'<br/>';
+        $ret_info_order_grade = $this->t_cr_week_month_info->get_total_order_grade_num($start_time,$end_time);
+        $order_grade = [];
+        $order_grade['其它'] = 0;
+        foreach ($ret_info_grade as $key => $value) {
+            if($value['grade'] < 100 ){
+                $grade['其它'] += $value['total'];
+            }else{
+                $order_gr = E\Egrade::get_desc($value['grade']);
+                if(!isset($order_grade[$order_gr])){
+                    $order_grade[$gr] = 0;
+                    $order_grade[$gr] += $value['total'];
+                }else{
+                    $order_grade[$gr] += $value['total'];
+                }
+            }
+        }
+        foreach ($order_grade as $key => $value) {
             echo $key."|".$value."<br/>";
         }
 
