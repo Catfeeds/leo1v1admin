@@ -181,7 +181,7 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="row">
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4" style="width:110px:height:240px;">
                                                         <p>
                                                             <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/f19dcf8890a5148d6ede72d04ee3a7ba1507696988396.png" width="100%"  alt="" />
                                                             <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
@@ -207,7 +207,7 @@
                                                         </span>
                                                     </div>
                                     @elseif($var['index'] == 3)
-                                                    <div class="col-xs-4">
+                                                    <div class="col-xs-4" style="width:110px:height:240px;" >
                                                         <p>
                                                             <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/89aff3cbc879529e2143e7528b9961071507696959137.png" width="100%"  alt="" />
                                                             <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
