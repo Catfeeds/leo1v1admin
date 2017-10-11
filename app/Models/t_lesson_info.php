@@ -7289,12 +7289,13 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.realname as tea_nick,lesson_start,lesson_end,lesson_type,"
                                   ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,courseid,lesson_num,"
                                   ." tea_cw_url,count(distinct(tl.userid)) as user_num,count(distinct(lo.userid)) as login_num,"
-                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type "
+                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type, l.xmpp_server_name, c.current_server "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s lo on l.lessonid=lo.lessonid"
                                   ." left join %s t2 on tl.userid=t2.teacherid and t2.train_through_new_time>0"
+                                  ." left join %s c on c.courseid= l.courseid "
                                   ." where %s"
                                   ." and lesson_type=1100"
                                   ." group by l.lessonid"
@@ -7304,6 +7305,7 @@ lesson_type in (0,1) "
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_opt_log::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true,"",function($item){
