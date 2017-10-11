@@ -51,7 +51,7 @@ class fulltime_teacher extends Controller
             $per_start = $start_time;
         }
         $end_time   = time();
-        $n = ($end_time - $start_time)/86400/31;
+        $n = ($end_time - $per_start)/86400/31;
         $qz_tea_arr = array("$teacherid");
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($per_start,$end_time,$qz_tea_arr);
         $val = $teacher_info;
