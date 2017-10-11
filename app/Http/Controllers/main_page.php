@@ -612,7 +612,7 @@ class main_page extends Controller
         ];
 
         $revisit_assess_list = [
-            ['type' =>'今日'],
+            $month_goal,
             ['type' =>'本月'],
         ];
 
