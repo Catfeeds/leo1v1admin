@@ -90,6 +90,9 @@ class supervisor extends Controller
         $this->set_in_value("run_flag",-1);
         return $this->monitor();
     }
+    public function get_xmpp_server_info($xmpp_server_name, $current_server, $map) {
+        //$this->t_lesson_info_b3
+    }
 
     public function monitor()
     {
