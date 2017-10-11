@@ -250,7 +250,6 @@ class main_page extends Controller
                 $ret_info['stu_consume_rate'] = 0;
             }
 
-
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
 
