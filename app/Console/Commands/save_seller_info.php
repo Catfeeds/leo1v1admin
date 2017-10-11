@@ -100,7 +100,6 @@ class save_seller_info extends Command
         $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group);// 新人营
         $ret_info['train_department']  = 0;// 培训中
-        // $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营+培训中
 
         // 金额转化率占比
         $ret_info['high_school_money'] = $task->t_order_info->get_high_money_for_month($start_time, $end_time);
@@ -137,7 +136,6 @@ class save_seller_info extends Command
 
         $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
-
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);

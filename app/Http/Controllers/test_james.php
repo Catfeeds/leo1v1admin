@@ -347,14 +347,16 @@ class test_james extends Controller
 
     public function ss1(){
         $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
 
-        $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
-        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
+        // $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
+        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($start_time,$end_time,$adminid_list);
 
-        if (!$month_finish_define_money) {
-            $month_finish_define_money=1600000;
-        }
-        $month_finish_define_money_2=$month_finish_define_money/100;
+        // if (!$month_finish_define_money) {
+        //     $month_finish_define_money=1600000;
+        // }
+        // $month_finish_define_money_2=$month_finish_define_money/100;
         $cur_money=0;
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
