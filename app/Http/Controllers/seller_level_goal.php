@@ -13,6 +13,7 @@ class seller_level_goal extends Controller
         $seller_level = $this->get_in_int_val('seller_level');
         $level_goal = $this->get_in_int_val('level_goal');
         $level_face = $this->get_in_str_val('level_face');
+        $level_icon = $this->get_in_str_val('level_icon');
         $num = $this->get_in_int_val('num');
         $page_num   = $this->get_in_page_num();
         $page_info  = $this->get_in_page_info();
