@@ -147,9 +147,9 @@
                                         <tr>
                                             <td>本月</td>
                                             <td>{{$month_info["revisit_num"]}} </td>
-                                            <td>{{$month_info["stu_num"]/10}} </td>
+                                            <td>{{$month_info["stu_num"]*2}} </td>
                                             <td>{{$month_info["call_num"]/60}} </td>
-                                            <td>{{$month_info["stu_num"]*3/10}} </td>
+                                            <td>{{$month_info["stu_num"]*6}} </td>
                                         </tr>
 
                                 </tbody>
