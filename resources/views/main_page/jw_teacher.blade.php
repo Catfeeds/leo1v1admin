@@ -129,6 +129,7 @@
                                         <td>精排未排</td>
                                         <td>精排转化</td>
                                         <td>精排转化率</td>
+                                        <td>签单数量</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_per_count_list">
@@ -158,6 +159,7 @@
                                             <td>{{@$var["top_un_count"]}} </td>
                                             <td class="tran_count_seller_top" data-adminid={{@$var["accept_adminid"]}}><a href="javascript:;" >{{@$var["tran_count_seller_top"]}}</a> </td>
                                             <td>{{@$var["top_per"]}} </td>
+                                            <td class="order_num" data-adminid={{@$var["accept_adminid"]}}><a href="javascript:;" >{{@$var["order_num"]}}</a> </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

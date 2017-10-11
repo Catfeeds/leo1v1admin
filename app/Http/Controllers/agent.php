@@ -494,6 +494,7 @@ class agent extends Controller
         }
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
+        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
         $update_seller_list = [];
         foreach($seller_list as $key=>$item){
             $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
@@ -502,26 +503,32 @@ class agent extends Controller
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            $next_num = $num+1;
+            $next_goal = $level_goal;
+            $next_num = $num + 1;
             $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num);
             if($ret_next){
-                $next_level = $ret_next['seller_level'];
+                $next_goal = $ret_next['level_goal'];
             }
             //统计本月
             $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
-            /*
-              E\Eseller_level::V_100;
-              E\Eseller_level::V_101;
-             */
-            if($price>$level_goal){
+            if($price>$next_goal){
+                foreach($ret_level_goal as $info){
+                    if($price >= $info['level_goal']){
+                        $next_num = $info['num'];
+                        $next_level = $info['seller_level'];
+                        $update_seller_list[$key]['next_goal'] = $info['level_goal'];
+                    }
+                }
                 $update_seller_list[$key]['adminid'] = $adminid;
                 $update_seller_list[$key]['seller_level'] = $this_level;
                 $update_seller_list[$key]['level_goal'] = $level_goal;
                 $update_seller_list[$key]['price'] = $price;
                 $update_seller_list[$key]['next_level'] = $next_level;
+                $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num+1);
+                $update_seller_list[$key]['next_goal_new'] = $ret_next['level_goal'];
                 // if($adminid == 831){
-                //     dd($price,$level_goal,$this_level,$next_level,$num,$next_num);
+                    // dd($price,$level_goal,$this_level,$next_level,$num,$next_num);
                     // $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
                 // }
             }
@@ -535,9 +542,11 @@ class agent extends Controller
         foreach($update_seller_list as $key=>$item){
             $ret_info[$key]['销售'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
             $ret_info[$key]['当前等级'] = E\Eseller_level::get_desc($item['seller_level']).'级';
-            $ret_info[$key]['目标金额'] = $item['level_goal'].'元';
+            $ret_info[$key]['当前等级目标'] = $item['level_goal'].'元';
             $ret_info[$key]['签单金额'] = $item['price'];
-            $ret_info[$key]['下一等级'] = E\Eseller_level::get_desc($item['next_level']).'级';
+            $ret_info[$key]['升到等级'] = E\Eseller_level::get_desc($item['next_level']).'级';
+            $ret_info[$key]['升到等级目标'] = $item['next_goal'];
+            $ret_info[$key]['再升级目标'] = $item['next_goal_new'];
         }
         dd(count($seller_list),$update_seller_list,$ret_info);
     }
