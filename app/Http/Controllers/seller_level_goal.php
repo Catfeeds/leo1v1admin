@@ -68,7 +68,7 @@ class seller_level_goal extends Controller
         $level_icon_old = $this->get_in_str_val('level_icon_old');
         $num = $this->get_in_int_val('num');
         if($level_face){
-            if($level_face_url == $level_face_old){
+            if($level_face == $level_face_old){
                 $level_face_url = $level_face_old;
             }else{
                 $domain = config('admin')['qiniu']['public']['url'];
@@ -78,7 +78,7 @@ class seller_level_goal extends Controller
             $level_face_url = '';
         }
         if($level_icon){
-            if($level_icon_url == $level_icon_old){
+            if($level_icon == $level_icon_old){
                 $level_icon_url = $level_icon_old;
             }else{
                 $domain = config('admin')['qiniu']['public']['url'];
