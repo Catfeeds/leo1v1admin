@@ -129,9 +129,13 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
 
-        $sql = $this->gen_sql("select lessonid,userid,teacherid,courseid,lesson_type,lesson_num,lesson_end from %s ".
+        $sql = $this->gen_sql("select lessonid,userid,teacherid,c.courseid,"
+                              . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
+                              " from %s ".
+                              " left join  %s c on c.courseid=l.courseid ".
                               "where lesson_end > %u  and lesson_end < %u and  lesson_status < 2",
                               self::DB_TABLE_NAME,
+                              t_course_order::DB_TABLE_NAME,
                               $start_time,
                               $end_time
         );
@@ -7287,7 +7291,7 @@ lesson_type in (0,1) "
         }
         $where_arr=$this->lesson_common_where_arr($where_arr);
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.realname as tea_nick,lesson_start,lesson_end,lesson_type,"
-                                  ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,courseid,lesson_num,"
+                                  ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,l.courseid,lesson_num,"
                                   ." tea_cw_url,count(distinct(tl.userid)) as user_num,count(distinct(lo.userid)) as login_num,"
                                   ." count(distinct(t2.teacherid)) as through_num,l.train_type, l.xmpp_server_name, c.current_server "
                                   ." from %s l"

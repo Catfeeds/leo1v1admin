@@ -18,7 +18,6 @@ class fulltime_teacher extends Controller
         if($adminid==349){
             $adminid=863;
         }
-        $adminid = 863;
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);

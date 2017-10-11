@@ -1521,9 +1521,6 @@ class tea_manage extends Controller
             -1,-1,$train_type
         );
         $server_name_map=$this->t_xmpp_server_config->get_server_name_map();
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
 
         $n = 1;
         foreach($ret_info['list'] as &$val){
@@ -1540,7 +1537,10 @@ class tea_manage extends Controller
 
             $val['index']  = $n;
             $n++;
-            $server_info   = @$server_map[$val['courseid']];
+            $xmpp_server_name= $val["xmpp_server_name"];
+            $current_server= $val["current_server"];
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
+
             $val['region'] = @$server_info['region'];
             $val['ip']     = @$server_info['ip'];
             $val['port']   = @$server_info['webrtc_port'];
@@ -1572,9 +1572,7 @@ class tea_manage extends Controller
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,
             $lessonid,$lesson_sub_type,$train_type
         );
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
+        $server_name_map=$this->t_xmpp_server_config->get_server_name_map();
 
         $n = 1;
         foreach($ret_info['list'] as &$val){
@@ -1591,7 +1589,11 @@ class tea_manage extends Controller
 
             $val['index']  = $n;
             $n++;
-            $server_info   = @$server_map[$val['courseid']];
+
+            $xmpp_server_name= $val["xmpp_server_name"];
+            $current_server= $val["current_server"];
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
             $val['region'] = @$server_info['region'];
             $val['ip']     = @$server_info['ip'];
             $val['port']   = @$server_info['webrtc_port'];
@@ -1708,24 +1710,6 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    private function gen_server_map($list){
-        $id_list = [];
-        foreach ($list as $item) {
-            $id_list[] = $item["courseid"];
-        }
-
-        $server_map = array();
-        if(!\App\Helper\Utils::check_env_is_testing()){
-            $server_arr = \App\Helper\Net::get_server_info($id_list);
-            if(isset($server_arr['server_list']) && !empty($server_arr['server_list'])){
-                foreach($server_arr["server_list"] as $key => $value){
-                    $server_map[$value['courseid']] = $value;
-                }
-            }
-        }
-
-        return $server_map;
-    }
 
     /**
      * 添加培训课程的参与者
