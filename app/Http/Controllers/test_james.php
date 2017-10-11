@@ -346,7 +346,11 @@ class test_james extends Controller
 
 
     public function ss1(){
-        $month_finish_define_money = $this->get_month_finish_define_money($seller_groupid_ex,$start_time);
+        $start_time = $this->get_in_int_val('s');
+
+        $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
+        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
+
         if (!$month_finish_define_money) {
             $month_finish_define_money=1600000;
         }
@@ -359,9 +363,11 @@ class test_james extends Controller
 
             }else{
                 $cur_money+=@$item["money"];
-                $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
+                // $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
             }
         }
+
+        dd($cur_money);
 
     }
 

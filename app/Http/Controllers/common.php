@@ -213,7 +213,7 @@ class common extends Controller
         $origin = "官网试卷用户";
 
         $check_flag = \App\Helper\Utils::check_phone($phone);
-        if(!$check_flag && $phone!=""){
+        if(!$check_flag && $phone != ""){
             return $this->output_err("请填写正确的手机号!");
         }
 
