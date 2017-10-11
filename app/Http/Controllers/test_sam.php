@@ -46,6 +46,7 @@ class test_sam  extends Controller
                 $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
                 if(!isset($province[$pro])){
                     $province[$pro] = 0;
+                    $province[$pro] += $value['total'];
                 }else{
                     $province[$pro] += $value['total'];
                 }
