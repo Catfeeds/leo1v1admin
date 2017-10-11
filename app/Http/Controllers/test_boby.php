@@ -541,8 +541,17 @@ class test_boby extends Controller
     }
 
     public function get_ass_stu_num(){
-        $uid_stu_list = $this->t_manager_info->get_ass_uid();
-        dd($uid_stu_list);
+        $ret_info = $this->t_manager_info->get_uid_stu_num();
+        $time = time();
+        foreach( $ret_info as $item ){
+            $this->t_revisit_assess_info->row_insert([
+                'uid'     => $item['uid'],
+                'stu_num' => $item['stu_num'],
+                'revisit_num' => 0,
+                'call_count'  => 0,
+                'create_time' => $time,
+            ]);
+        }
     }
 
 
