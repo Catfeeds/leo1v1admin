@@ -59,7 +59,7 @@ class fulltime_teacher extends Controller
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
         $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
         //        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
-        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.16);
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.2);
         if($account_info["lesson_count_avg_score"]>=20){//25->20
             $account_info["lesson_count_avg_score"]=20;
         }
