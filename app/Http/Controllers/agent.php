@@ -461,36 +461,42 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $timestamp = strtotime(date("Y-m-01"));
-        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
-        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
-        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
-        dd($start_time_last,$end_time_last);
         $time = time(null);
-        list($start_time_this,$end_time_this)= $this->get_in_date_range_month(date("Y-m-01"));
         $ret_time = $this->t_month_def_type->get_all_list();
+        $firstday = date("Y-m-01");
+        $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
+        list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
             if($time>=$item['start_time'] && $start_time<$item['end_time']){
                 $start_time_this = $item['start_time'];
                 $end_time_this = $item['end_time'];
             }
         }
-        // foreach($ret_time as $item){//上月
-        //     if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
-        //         $start_time_last = $item['start_time'];
-        //         $end_time_last = $item['end_time'];
-        //     }
-        // }
-        // foreach($ret_time as $item){//上上月
-        //     if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
-        //         $start_time_very_last = $item['start_time'];
-        //         $end_time_very_last = $item['end_time'];
-        //     }
-        // }
+        $timestamp = strtotime(date("Y-m-01"));
+        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
+        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
+        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
+        foreach($ret_time as $item){//上月
+            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
+                $start_time_last = $item['start_time'];
+                $end_time_last = $item['end_time'];
+            }
+        }
+        $timestamp_very_last=strtotime(date("Y-m-01"));
+        $firstday_very_last=date('Y-m-01',strtotime(date('Y',$timestamp_very_last).'-'.(date('m',$timestamp_very_last)-2).'-01'));
+        $lastday_very_last=date('Y-m-d',strtotime("$firstday_very_last +1 month -1 day"));
+        list($start_time_very_last,$end_time_very_last)= [strtotime($firstday_very_last),strtotime($lastday_very_last)];
+        foreach($ret_time as $item){//上上月
+            if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
+                $start_time_very_last = $item['start_time'];
+                $end_time_very_last = $item['end_time'];
+            }
+        }
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
         foreach($seller_list as $item){
             $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
+            $adminid = $item['uid'];
             $num = $ret_this['num'];
             $adminid = $item['uid'];
             $level_goal = $ret_this['level_goal'];
@@ -504,9 +510,16 @@ class agent extends Controller
             //统计本月
             $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
-            if($price>$level_goal){
-                $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-            }
+            /*
+              E\Eseller_level::V_100;
+              E\Eseller_level::V_101;
+             */
+            dd($price,$level_goal);
+            // if($price>$level_goal){
+            //     if($adminid == 831){
+            //         $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
+            //     }
+            // }
 
             //统计上个月
 
