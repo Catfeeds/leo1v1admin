@@ -1579,7 +1579,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "seller_top_flag=1"
         ];
 
-        $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid".
+        $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid, s.nick,t.realname,t.teacherid,tr.test_lesson_student_status,".
+                                  "tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject ".
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
                                   " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
                                   " join %s ll on tr.current_lessonid = ll.lessonid".
