@@ -2627,7 +2627,10 @@ class ss_deal extends Controller
             $origin,
             $curl_stu_request_test_lesson_time,
             $grade,
-            $test_stu_request_test_lesson_demand
+            $test_stu_request_test_lesson_demand,
+            $change_reason_url,
+            $change_reason,
+            $change_teacher_reason_type
         );
 
         $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
@@ -2641,7 +2644,6 @@ class ss_deal extends Controller
         }
 
         if (!$ret){
-            \App\Helper\Utils::logger("add_require:  $test_lesson_subject_id");
             return $this->output_err("当前该同学的申请请求 还没处理完毕,不可新建");
         }else{
             // $require_id = $this->t_test_lesson_subject->get_current_require_id($test_lesson_subject_id);
