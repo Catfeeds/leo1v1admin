@@ -57,10 +57,10 @@ class save_seller_info extends Command
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-        $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-        $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-        $ret_info['income_price'] = $order_info_total['total_price'];
-        $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
+        $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
+        $ret_info['new_money']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+        // $ret_info['income_price'] = $order_info_total['total_price'];
+        $ret_info['order_num']   = $order_info_total['total_num']; // 有签单的销售人数
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
@@ -69,27 +69,25 @@ class save_seller_info extends Command
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
-        // dd(1);
         $main_type = 2;// 销售
-        // $ret_info['seller_target_income'] = (new \App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
         $ret_info['seller_target_income'] = $this->get_month_finish_define_money(0,$start_time); // 销售月目标收入
         if (!$ret_info['seller_target_income'] ) {
             $ret_info['seller_target_income'] = 1600000;
         }
 
 
-        dd(2);
+        // dd(2);
 
         $month_finish_define_money_2=$ret_info['seller_target_income']/100;
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
         $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $ret_info['cur_money']=0;
+        $cur_money=0;
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);
             if ($date_time<=$today) {
-                $ret_info['cur_money']+=@$item["money"];
+                $cur_money+=@$item["money"];
             }
         }
 
@@ -104,7 +102,7 @@ class save_seller_info extends Command
         $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group);// 新人营
         $ret_info['train_department']  = 0;// 培训中
-        $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营+培训中
+        // $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营+培训中
 
         // 金额转化率占比
         $ret_info['high_school_money'] = $task->t_order_info->get_high_money_for_month($start_time, $end_time);
@@ -151,6 +149,7 @@ class save_seller_info extends Command
 
 
     public function get_month_finish_define_money($seller_groupid_ex,$start_time){
+        $task = new \App\Console\Tasks\TaskController();
         $task->t_admin_main_group_name->switch_tongji_database();
         $task->t_admin_group_name->switch_tongji_database();
         $task->t_manager_info->switch_tongji_database();
