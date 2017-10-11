@@ -605,8 +605,14 @@ class wx_yxyx_common extends Controller
     public function top_invite_list(){
         $agent_info = $this->t_yxyx_new_list->get_agent_info();
 
-        if($agent_info){
-            return $this->output_succ(["list"=>$agent_info]);
+        foreach($agent_info as $key => $val){
+            $ret_info[$key]['new_nick'] = $val['new_phone'].$val['new_nick'];
+            $ret_info[$key]['from_nick'] = $val['from_phone'].$val['from_nick'];
+            $ret_info[$key]['create_time'] = date('Y-m-d',$val['create_time']);
+        }
+
+        if($ret_info){
+            return $this->output_succ(["list"=>$ret_info]);
         }else{
             return $this->output_err("信息有误！");
         }
