@@ -71,11 +71,15 @@ class save_seller_info extends Command
         // $seller_groupid_ex = $task->get_in_str_val('seller_groupid_ex', "");
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
+        // dd(1);
         // $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = (new \App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
-        if (!$ret_info['seller_target_income'] ) {
-            $ret_info['seller_target_income'] = 1600000;
-        }
+        // $ret_info['seller_target_income'] = (new \App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+        // if (!$ret_info['seller_target_income'] ) {
+        //     $ret_info['seller_target_income'] = 1600000;
+        // }
+
+
+        dd(2);
 
         $month_finish_define_money_2=$ret_info['seller_target_income']/100;
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
@@ -139,71 +143,6 @@ class save_seller_info extends Command
         $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
 
-        // $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
-
-
-
-        // if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
-        //     $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
-        // }else{
-        //     $ret_info['invit_month_rate'] = 0;
-        // }
-
-
-        // if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
-        //     $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-        // }else{
-        //     $ret_info['test_plan_month_rate'] = 0;
-        // }
-
-        // if($ret_info['seller_schedule_num']>0){ //月到课率
-        //     $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
-        // }else{
-        //     $ret_info['lesson_succ_month_rate'] = 0;
-        // }
-
-
-        // if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
-        //     $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month_funnel']*100;
-        // }else{
-        //     $ret_info['trans_month_rate'] = 0;
-        // }
-
-
-        // if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
-        //     $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
-        // }else{
-        //     $ret_info['sign_month_rate'] = 0;
-        // }
-
-        // if($ret_info['has_called']>0){
-        //     $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-        //     $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
-        // }else{
-        //     $ret_info['claim_num_rate'] = 0;
-        //     $ret_info['succ_called_rate'] = 0;
-        // }
-
-
-        // if($ret_info['seller_num']>0){ // 人均通时
-        //     $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
-        // }else{
-        //     $ret_info['called_rate'] = 0;
-        // }
-
-        // if($ret_info['cc_called_num']>0){
-        //     $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
-        //     $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
-        // }else{
-        //     $ret_info['aver_called'] = 0;
-        //     $ret_info['invit_rate'] = 0;
-        // }
-
-        // if($ret_info['new_stu']>0){ //月例子消耗数
-        //     $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
-        // }else{
-        //     $ret_info['stu_consume_rate'] = 0;
-        // }
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);
