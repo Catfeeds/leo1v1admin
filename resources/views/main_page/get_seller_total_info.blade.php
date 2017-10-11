@@ -55,7 +55,7 @@
                                         <td width="200px" align="center">完成金额</td>
                                         <td>{{@$ret_info['formal_info']}}</td>
                                         <td width="200px" align="center">完成率</td>
-                                        <td >{{number_format($ret_info['month_finish_persent'],2)}}%</td>
+                                        <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                         <td width="200px" align="center">缺口金额</td>
                                         <td >{{@$ret_info['month_left_money']}}</td>
                                     </tr>
@@ -76,24 +76,18 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td>现金总收入(元)</td>
                                         <td>下单总人数</td>
-                                        <td class="panel-red">入职完整月人员签单额</td>
                                         <td class="panel-red">入职完整月人员人数</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月KPI完整率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
                                         <td> {{@$ret_info['income_num']}} </td>
-                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
-                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -65,6 +65,12 @@ class main_page extends Controller
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
 
             $ret_info = &$ret_info_arr['list'];
+
+
+            dd($ret_info_arr);
+
+
+
             //概况
             $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
