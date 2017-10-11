@@ -1360,8 +1360,8 @@ class seller_student_new extends Controller
         if (in_array( $cur_week*1,[6,0] ) ) {
             $limit_arr=array( [0,11*60] );
         }else{
-            //$limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
-            $limit_arr=array( [0, 10*60 ] );
+            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            //$limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;
