@@ -7,6 +7,7 @@ $(function(){
             seller_level : $('#id_seller_level').val(),
             level_goal   : $('#id_level_goal').val(),
             level_face   : $('#id_level_face').val(),
+            level_icon   : $('#id_level_icon').val(),
             num          : $('#id_num').val(),
         });
     }
@@ -15,6 +16,7 @@ $(function(){
     $('#id_seller_level').val(g_args.seller_level);
     $('#id_level_goal').val(g_args.level_goal);
     $('#id_level_face').val(g_args.level_face);
+    $('#id_level_icon').val(g_args.level_icon);
     $('#id_num').val(g_args.num);
 
     $("#id_add").on("click",function(){
