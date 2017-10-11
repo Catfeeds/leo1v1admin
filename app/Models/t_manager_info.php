@@ -1242,8 +1242,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_adminid_list_by_account_role_new($account_role,$history_flag=0){
-        
+    public function get_adminid_list_by_account_role_new($account_role,$month,$history_flag=0){        
         $where_arr=[];
         $where_arr[]=["n.main_type=%u",$account_role,-1];      
         if($history_flag==0){
@@ -1261,13 +1260,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }else{
             $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
                                       " from %s m left join %s a on m.phone = a.phone ".
-                                      " left join %s u on m.uid=u.adminid".
-                                      " left join %s n on u.groupid = n.groupid".
+                                      " left join %s u on m.uid=u.adminid and u.month= %u".
+                                      " left join %s n on u.groupid = n.groupid and n.month= %u".
                                       " where %s ",
                                       self::DB_TABLE_NAME,
                                       t_assistant_info::DB_TABLE_NAME,
-                                      t_admin_group_user::DB_TABLE_NAME,
-                                      t_admin_group_name::DB_TABLE_NAME,
+                                      t_group_user_month::DB_TABLE_NAME,
+                                      $month,
+                                      t_group_name_month::DB_TABLE_NAME,
+                                      $month,
                                       $where_arr
             );
    
