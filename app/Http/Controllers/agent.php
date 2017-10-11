@@ -503,9 +503,6 @@ class agent extends Controller
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            if($ret_next){
-                $next_level = $ret_next['seller_level'];
-            }
             //统计本月
             $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
