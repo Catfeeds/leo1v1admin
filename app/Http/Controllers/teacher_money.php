@@ -623,7 +623,7 @@ class teacher_money extends Controller
         if(!$ret && $bankcard!=$old_bankcard){
             return $this->output_err("更新失败！请重试！");
         }
-        if($old_bankcard!=""){
+        if($old_bankcard != $bankcard){
             $tea_nick = $this->t_teacher_info->get_realname($teacherid);
             $header_msg = $tea_nick."老师，修改了绑定的银行卡号。";
             $msg  = "持卡人姓名：$tea_nick \n 银行卡类型： $bank_type \n 卡号：$bankcard";
@@ -631,13 +631,19 @@ class teacher_money extends Controller
             $desc = "点击详情，查看修改后的银行卡号及详细信息";
 
             $this->t_manager_info->send_wx_todo_msg("sunny","银行卡号变更",$header_msg,$msg,$url,$desc);
+
+            if($type=="admin"){
+                $acc = $this->get_account();
+                $record_info = $acc."修改了".$tea_nick."的银行卡信息";
+                $this->t_teacher_record_list->row_insert([
+                    "teacherid"   => $teacherid,
+                    "type"        => E\Erecord_type::V_6,
+                    "record_info" => $record_info,
+                    "add_time"    => time(),
+                    "acc"         => $acc,
+                ]);
+            }
         }
-
-        if($type=="admin"){
-            $acc = $this->get_account();
-        }
-
-
         return $this->output_succ();
     }
 

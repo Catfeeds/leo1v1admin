@@ -255,7 +255,7 @@ class main_page extends Controller
 
             $ret_info = &$ret_info_arr['list'];
 
-            if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
+            if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
                 $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month']*100;
             }else{
                 $ret_info['invit_month_rate'] = 0;
