@@ -60,6 +60,7 @@ class update_seller_level extends cmd_base
         }
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
+        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
         foreach($seller_list as $item){
             $ret_this = $this->task->t_seller_level_goal->field_get_list($item['seller_level'],'*');
             $num = $ret_this['num'];
@@ -67,8 +68,8 @@ class update_seller_level extends cmd_base
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            $next_num = $num + 1;
-            $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
+            // $next_num = $num + 1;
+            // $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
             if($ret_next){
                 $next_level = $ret_next['seller_level'];
             }
@@ -76,6 +77,11 @@ class update_seller_level extends cmd_base
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
             if($price>$level_goal){
+                foreach($ret_level_goal as $item){
+                    if($price > $item['level_goal']){
+                        $next_level = $item['level_goal'];
+                    }
+                }
                 $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
             }
 
