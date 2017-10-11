@@ -18,6 +18,7 @@ class t_grab_lesson_link_visit_info extends \App\Models\Zgen\z_t_grab_lesson_lin
             ." from %s v"
             ." left join %s p on p.visitid=v.visitid "
             ." where %s"
+            ." order by p.create_time desc"
             ,self::DB_TABLE_NAME
             ,t_grab_lesson_link_visit_operation::DB_TABLE_NAME
             ,$where_arr

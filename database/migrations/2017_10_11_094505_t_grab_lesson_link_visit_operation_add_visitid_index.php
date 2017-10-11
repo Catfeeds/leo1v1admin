@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TTeacherRecordListAddTrainType extends Migration
+class TGrabLessonLinkVisitOperationAddVisitidIndex extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class TTeacherRecordListAddTrainType extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_teacher_record_list', function($table){
-             t_field($table->string("train_type"),"培训类型");
+        Schema::table('db_weiyi.t_grab_lesson_link_visit_operation', function( Blueprint $table)
+        {
+            $table->index("visitid","visitid");
         });
     }
 

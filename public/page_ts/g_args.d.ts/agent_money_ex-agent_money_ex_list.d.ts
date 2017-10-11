@@ -16,7 +16,8 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	agent_id	:any;
+	phone	:any;
+	nickname	:any;
 	agent_money_ex_type	:any;
 	add_time	:any;
 	money	:any;
