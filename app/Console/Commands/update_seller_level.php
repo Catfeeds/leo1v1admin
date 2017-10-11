@@ -68,15 +68,16 @@ class update_seller_level extends cmd_base
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            // $next_num = $num + 1;
-            // $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
-            // if($ret_next){
-            //     $next_level = $ret_next['seller_level'];
-            // }
+            $next_goal = $level_goal;
+            $next_num = $num + 1;
+            $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
+            if($ret_next){
+                $next_goal = $ret_next['next_goal'];
+            }
             //统计本月
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
-            if($price>$level_goal){
+            if($price>$next_goal){
                 foreach($ret_level_goal as $item){
                     if($price > $item['level_goal']){
                         $next_level = $item['level_goal'];
