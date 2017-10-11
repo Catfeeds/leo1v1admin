@@ -84,7 +84,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['income_num']}} </td>
+                                        <td> {{@$ret_info['order_num']}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
@@ -117,11 +117,11 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td> {{@$ret_info['seller_num']}} </td>
-                                        <td> {{@$ret_info['first_num']}}  </td>
-                                        <td> {{@$ret_info['second_num']}} </td>
-                                        <td> {{@$ret_info['third_num']}} </td>
-                                        <td> {{@$ret_info['new_num']}} </td>
-                                        <td> {{@$ret_info['traing_num']}}</td>
+                                        <td> {{@$ret_info['one_department']}}  </td>
+                                        <td> {{@$ret_info['two_department']}} </td>
+                                        <td> {{@$ret_info['three_department']}} </td>
+                                        <td> {{@$ret_info['new_department']}} </td>
+                                        <td> {{@$ret_info['train_department']}}</td>
                                         <td> {{@number_format($ret_info['referral_money_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['high_school_money_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['junior_money_rate'],2)}}% </td>
