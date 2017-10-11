@@ -3016,34 +3016,6 @@ ORDER BY require_time ASC";
     }
 
 
-    // public function get_plan_num_for_month($start_time, $end_time){ 
-
-    //     $where_arr = [
-    //         "s.is_test_user=0",
-    //         "tr.accept_flag=1",
-    //         // "tss.test_lesson_fail_flag=0",
-    //         "tss.fail_greater_4_hour_flag=0"
-    //     ];
-
-    //     $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
-
-    //     $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
-    //                               ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-    //                               ." left join %s tss on tss.require_id=tr.require_id  "
-    //                               ." left join %s s on ts.userid=s.userid"
-    //                               ." where %s"
-    //                               ,self::DB_TABLE_NAME
-    //                               ,t_test_lesson_subject::DB_TABLE_NAME
-    //                               ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-    //                               ,t_student_info::DB_TABLE_NAME
-    //                               ,$where_arr
-    //     );
-
-    //     return $this->main_get_value($sql);
-
-    // }
-
-
 
     public function get_seller_schedule_num($start_time, $end_time ){// 试听排课数
         $where_arr = [
