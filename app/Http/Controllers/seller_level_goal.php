@@ -63,17 +63,27 @@ class seller_level_goal extends Controller
         $seller_level = $this->get_in_int_val('seller_level');
         $level_goal = $this->get_in_int_val('level_goal');
         $level_face = $this->get_in_str_val('level_face');
+        $level_face_old = $this->get_in_str_val('level_face_old');
         $level_icon = $this->get_in_str_val('level_icon');
+        $level_icon_old = $this->get_in_str_val('level_icon_old');
         $num = $this->get_in_int_val('num');
         if($level_face){
-            $domain = config('admin')['qiniu']['public']['url'];
-            $level_face_url = $domain.'/'.$level_face;
+            if($level_face == $level_face_old){
+                $level_face_url = $level_face_old;
+            }else{
+                $domain = config('admin')['qiniu']['public']['url'];
+                $level_face_url = $domain.'/'.$level_face;
+            }
         }else{
             $level_face_url = '';
         }
         if($level_icon){
-            $domain = config('admin')['qiniu']['public']['url'];
-            $level_icon_url = $domain.'/'.$level_icon;
+            if($level_icon == $level_icon_old){
+                $level_icon_url = $level_icon_old;
+            }else{
+                $domain = config('admin')['qiniu']['public']['url'];
+                $level_icon_url = $domain.'/'.$level_icon;
+            }
         }else{
             $level_icon_url = '';
         }

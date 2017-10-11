@@ -2387,7 +2387,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_new_stu_num($start_time, $end_time){
 
         $where_arr = [
-            "s.is_test_user = 0",
+            // "s.is_test_user = 0",
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);

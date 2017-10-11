@@ -604,7 +604,7 @@ class wx_yxyx_common extends Controller
      */
     public function top_invite_list(){
         $agent_info = $this->t_yxyx_new_list->get_agent_info();
-
+        $ret_info = [];
         foreach($agent_info as $key => $val){
             $new_division = empty($val['new_nick']) ? '':'/';
             $from_division = empty($val['from_nick']) ? '':'/';

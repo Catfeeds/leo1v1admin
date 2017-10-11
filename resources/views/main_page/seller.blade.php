@@ -182,7 +182,10 @@
                                             <td colspan="4">
                                                 <div class="row">
                                                     <div class="col-xs-4">
-                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/146ba063e107d23a3d5745f3a1cfbe6b1507697031726.png" width="100%"  alt="" />
+                                                            <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
+                                                        </p>
                                                         <span style="color:#F6A623;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#F6A623;" ></a>
@@ -196,7 +199,10 @@
                                                     </div>
                                     @elseif($var['index'] == 2)
                                                     <div class="col-xs-4">
-                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/f19dcf8890a5148d6ede72d04ee3a7ba1507696988396.png" width="100%"  alt="" />
+                                                            <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
+                                                        </p>
                                                         <span style="color:#9EB0C2;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
@@ -208,7 +214,10 @@
                                                     </div>
                                     @elseif($var['index'] == 3)
                                                     <div class="col-xs-4">
-                                                        <p> <img src="{{$var["face_pic"]}}" width="100%"  alt="" /> </p>
+                                                        <p>
+                                                            <img src="http://7u2f5q.com2.z0.glb.qiniucdn.com/89aff3cbc879529e2143e7528b9961071507696959137.png" width="100%"  alt="" />
+                                                            <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
+                                                        </p>
                                                         <span style="color:#CB7F31;">
                                                         <p>
                                                             <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
@@ -231,7 +240,10 @@
                                             <font style="color:#000000;">{{$var["sys_operator"]}}</font>
                                         </td>
                                         <td><font style="color:#000000;">{{$var["all_count"]}}</font> </td>
-                                        <td><font style="color:#000000;">{{$var["all_price"]}}</font> </td>
+                                        <td>
+                                            <font style="color:#000000;">{{$var["all_price"]}}</font>
+                                            <img src="{{$var["level_icon"]}}" width="30px" height="30px" alt="" style="margin:-9% -40% 0% 0%;padding:0px 0px 0px 0px;" />
+                                        </td>
                                     </tr>
                                     @endif
                                 @endforeach

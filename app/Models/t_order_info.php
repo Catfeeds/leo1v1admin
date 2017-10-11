@@ -894,16 +894,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic "
+        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+                                  ." g.level_icon "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
                                   ."left join %s m on o.sys_operator = m.account "
+                                  ."left join %s g on g.seller_level = m.seller_level "
                                   ." where %s      group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_seller_level_goal::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page ($sql);
