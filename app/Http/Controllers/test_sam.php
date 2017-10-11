@@ -131,10 +131,10 @@ class test_sam  extends Controller
             }else{
                 $order_gr = E\Egrade::get_desc($value['grade']);
                 if(!isset($order_grade[$order_gr])){
-                    $order_grade[$gr] = 0;
-                    $order_grade[$gr] += $value['total'];
+                    $order_grade[$order_gr] = 0;
+                    $order_grade[$order_gr] += $value['total'];
                 }else{
-                    $order_grade[$gr] += $value['total'];
+                    $order_grade[$order_gr] += $value['total'];
                 }
             }
         }
