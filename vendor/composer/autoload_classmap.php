@@ -630,7 +630,7 @@ return array(
     'TTeacherMoneyListAddLessonid' => $baseDir . '/database/migrations/2017_09_26_202933_t_teacher_money_list_add_lessonid.php',
     'TTeacherMoneyListAddLessonidIndex' => $baseDir . '/database/migrations/2017_09_26_203419_t_teacher_money_list_add_lessonid_index.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
-    'TTeacherRecordListAddTrainType' => $baseDir . '/database/migrations/2017_09_14_102938_t_teacher_record_list_add_train_type.php',
+    'TTeacherRecordListAddTrainType' => $baseDir . '/database/migrations/2017_09_12_115211_t_teacher_record_list_add_train_type.php',
     'TTeacherRecordListUpdateTrainType' => $baseDir . '/database/migrations/2017_09_14_101845_t_teacher_record_list_update_train_type.php',
     'TTeacherSwitchMoneyTypeListAddLessonTotal' => $baseDir . '/database/migrations/2017_09_12_110336_t_teacher_switch_money_type_list_add_lesson_total.php',
     'TTeacherSwitchMoneyTypeListAddMoney' => $baseDir . '/database/migrations/2017_09_12_104441_t_teacher_switch_money_type_list_add_money.php',

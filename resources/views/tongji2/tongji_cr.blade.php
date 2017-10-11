@@ -56,6 +56,10 @@
 
 
     </style>
+    <script type="text/javascript" >
+     var g_data= <?php  echo json_encode($arr); ?> ;
+    </script>
+
 
 
     <section class="content " id="id_content" style="max-width:1200px;">
@@ -67,14 +71,18 @@
                 </div>
 
                 <div class="col-xs-6 col-md-2">
-                <div class="input-group ">
-                    <span class="input-group-addon">历史记录</span>
-                    <select class="opt-change form-control" id="id_is_history_data">
-                        <option value="1" >是</option>
-                        <option value="2" >否</option>
-                    </select>
+                    <div class="input-group ">
+                        <span class="input-group-addon">历史记录</span>
+                        <select class="opt-change form-control" id="id_is_history_data">
+                            <option value="1" >是</option>
+                            <option value="2" >否</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="col-xs-12 col-md-1 col-md-offset-5">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
+                </div>
+
             </div>
             <hr/>      
 
