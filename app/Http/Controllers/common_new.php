@@ -398,7 +398,6 @@ class common_new extends Controller
         return $this->output_succ();
     }
 
-
     public function upload_from_xls_data($obj_file) {
         $grade_map = [
             '200'    => 201,

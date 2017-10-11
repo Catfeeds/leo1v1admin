@@ -49,6 +49,17 @@ class test_code extends Controller
         return $arr;
     }
 
+    public function reset_teacher_name(){
+        $arr = $this->get_b_txt();
+
+        foreach($arr  as $val){
+            if($val>0 && $val!=''){
+                $teacher_info =$this->t_teacher_info->get_teacher_info($val);
+                
+            }
+        }
+    }
+
     public function get_success_lesson(){
         $day  = $this->get_in_int_val("day",30);
         $type = $this->get_in_int_val("type",2);
