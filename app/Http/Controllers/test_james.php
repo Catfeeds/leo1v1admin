@@ -309,6 +309,15 @@ class test_james extends Controller
 
     }
 
+    public function has_called(){
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+
+        $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+
+        dd($ret_info);
+    }
+
     public function install(){
         // 暂时未建
         $start_time = $this->get_in_int_val('s');

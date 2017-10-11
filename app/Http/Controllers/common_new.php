@@ -1061,11 +1061,14 @@ class common_new extends Controller
         $account=$this->get_in_str_val("account");
         $remote_host=$this->get_in_str_val("remote_host");
         $server_ip=$this->get_in_str_val("server_ip");
-        if ($server_ip )
+        if (!$server_ip ){
+            $server_ip= $this->get_in_client_ip();
+        }
         $ssh_login_time=\App\Helper\Common::redis_get("SSH_LOGIN_TIME_$account");
         $check_ip_list=[
             //公司网络
             "116.226.191.6",
+            "101.81.224.61",
             //外网网互通
             "118.190.115.161",
             "118.190.135.205",
@@ -1079,15 +1082,28 @@ class common_new extends Controller
             "118.190.65.189",
             "118.190.65.193",
         ];
+        $login_flag=false;
         if(in_array($remote_host, $check_ip_list )){
-            return "1";
+            $login_flag=true;
         }
 
+
         if (time(NULL)-$ssh_login_time  < 3600 ){
+            $login_flag=true;
+        }
+        $this->t_ssh_login_log->row_insert([
+            "type"=> 0,
+            "serverip"=> $server_ip,
+            'account' => $account,
+            "login_time" =>time(),
+        ]);
+
+        if ($login_flag ) {
             return "1";
         }else{
-            dispatch( new \App\Jobs\send_error_mail( "","ssh 异常登录" , " 登录 ip $remote_host 服务器: $server_ip  账号 :$account " ) );
+            dispatch( new \App\Jobs\send_error_mail( "","ssh 异常登录 登录 ip: $remote_host ,服务器: $server_ip  账号 :$account" , " 登录 ip $remote_host 服务器: $server_ip  账号 :$account " ) );
             return "0";
+
         }
     }
 

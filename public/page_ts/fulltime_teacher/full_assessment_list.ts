@@ -278,6 +278,10 @@ $(function(){
 
     })
 
+    if(g_args.acc=="jack" || g_args.acc=="low-key"){
+        $("#id_fulltime_adminid").parent().parent().hide();
+    }
+
 	$('.opt-change').set_input_change_event(load_data);
 });
 

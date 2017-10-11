@@ -837,18 +837,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-    public function eval_real_xmpp_server( $xmpp_server, $current_server, $map=null ) {
-        if (!$xmpp_server) {
-            $xmpp_server=$current_server;
+    public function eval_real_xmpp_server( $xmpp_server_name, $current_server, $map=null ) {
+        if (!$xmpp_server_name) {
+            $xmpp_server_name=$current_server;
         }
-        if (!$xmpp_server) { //默认设置到杭州
-            $xmpp_server="h_01";
+        if (!$xmpp_server_name) { //默认设置到杭州
+            $xmpp_server_name="h_01";
         }
 
         if (!$map)  {
-            $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
+            $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server_name );
         }else{
-            $row=@$map[$xmpp_server];
+            $row=@$map[$xmpp_server_name];
         }
         if ($row) {
             $ret=[
