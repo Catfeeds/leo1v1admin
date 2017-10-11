@@ -66,119 +66,125 @@ class main_page extends Controller
 
             $ret_info = &$ret_info_arr['list'];
 
-
-            dd($ret_info_arr);
-
-            //概况
-            $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
-
-            // $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
-
-            // $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-            // $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-            // $ret_info['income_price'] = $order_info_total['total_price'];
-            // $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
+            if($ret_info){
 
 
-            $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income'] *100;//月kpi完成率
-            $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                dd($ret_info_arr);
+
+                //概况
+                $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
+
+                // $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+
+                // $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
+                // $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
+                // $ret_info['income_price'] = $order_info_total['total_price'];
+                // $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
+
+                if($ret_info['seller_target_income']>0){
+                    $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
+                }
+
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
 
 
 
-            if($order_info_total['order_num']>0){ //平均单笔
-                $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
-            }else{
-                $ret_info['aver_count'] = 0;
+                if($ret_info['total_num']>0){ //平均单笔
+                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
+                }else{
+                    $ret_info['aver_count'] = 0;
+                }
+
+                if($ret_info['formal_num']>0){ //平均人效
+                    $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
+                }else{
+                    $ret_info['aver_money'] = 0;
+                }
+
+                $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
+
+                // 金额转化率占比
+
+                if($ret_info['formal_info']>0){
+                    $ret_info['referral_money_rate'] = $ret_info['income_referral']/$ret_info['formal_info']*100;
+                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['formal_info']*100;
+                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['formal_info']*100;
+                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['formal_info']*100;
+                }else{
+                    $ret_info['referral_money_rate']    = 0;
+                    $ret_info['high_school_money_rate'] = 0;
+                    $ret_info['junior_money_rate']      = 0;
+                    $ret_info['primary_money_rate']     = 0;
+                }
+
+
+                //  外呼情况
+
+                $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
+
+                if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
+                    $ret_info['invit_month_rate'] = $ret_info['seller_invit_month_funnel']/$ret_info['has_tq_succ_invit_month_funnel']*100;
+                }else{
+                    $ret_info['invit_month_rate'] = 0;
+                }
+
+
+                if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
+                    $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
+                }else{
+                    $ret_info['test_plan_month_rate'] = 0;
+                }
+
+                if($ret_info['seller_schedule_num']>0){ //月到课率
+                    $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
+                }else{
+                    $ret_info['lesson_succ_month_rate'] = 0;
+                }
+
+
+                if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
+                    $ret_info['trans_month_rate'] = $ret_info['order_trans_month_funnel']/$ret_info['seller_test_succ_month_funnel']*100;
+                }else{
+                    $ret_info['trans_month_rate'] = 0;
+                }
+
+
+                if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
+                    $ret_info['sign_month_rate'] = $ret_info['order_sign_month_funnel']/$ret_info['has_tq_succ_sign_month_funnel']*100;
+                }else{
+                    $ret_info['sign_month_rate'] = 0;
+                }
+
+                if($ret_info['has_called']>0){
+                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
+                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+                }else{
+                    $ret_info['claim_num_rate'] = 0;
+                    $ret_info['succ_called_rate'] = 0;
+                }
+
+
+                if($ret_info['seller_num']>0){ // 人均通时
+                    $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+                }else{
+                    $ret_info['called_rate'] = 0;
+                }
+
+                if($ret_info['cc_called_num']>0){
+                    $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
+                    $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
+                }else{
+                    $ret_info['aver_called'] = 0;
+                    $ret_info['invit_rate'] = 0;
+                }
+
+                if($ret_info['new_stu']>0){ //月例子消耗数
+                    $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
+                }else{
+                    $ret_info['stu_consume_rate'] = 0;
+                }
             }
 
-            if($ret_info['formal_num']>0){ //平均人效
-                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
-            }else{
-                $ret_info['aver_money'] = 0;
-            }
-
-            $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营
-
-            // 金额转化率占比
-
-            if($ret_info['formal_info']>0){
-                $ret_info['referral_money_rate'] = $ret_info['income_referral']/$ret_info['formal_info']*100;
-                $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['formal_info']*100;
-                $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['formal_info']*100;
-                $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['formal_info']*100;
-            }else{
-                $ret_info['referral_money_rate']    = 0;
-                $ret_info['high_school_money_rate'] = 0;
-                $ret_info['junior_money_rate']      = 0;
-                $ret_info['primary_money_rate']     = 0;
-            }
-
-
-            //  外呼情况
-
-            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
-
-            if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month_funnel']/$ret_info['has_tq_succ_invit_month_funnel']*100;
-            }else{
-                $ret_info['invit_month_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
-                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
-            }else{
-                $ret_info['test_plan_month_rate'] = 0;
-            }
-
-            if($ret_info['seller_schedule_num']>0){ //月到课率
-                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
-            }else{
-                $ret_info['lesson_succ_month_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month_funnel']*100;
-            }else{
-                $ret_info['trans_month_rate'] = 0;
-            }
-
-
-            if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
-                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
-            }else{
-                $ret_info['sign_month_rate'] = 0;
-            }
-
-            if($ret_info['has_called']>0){
-                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
-            }else{
-                $ret_info['claim_num_rate'] = 0;
-                $ret_info['succ_called_rate'] = 0;
-            }
-
-
-            if($ret_info['seller_num']>0){ // 人均通时
-                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
-            }else{
-                $ret_info['called_rate'] = 0;
-            }
-
-            if($ret_info['cc_called_num']>0){
-                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
-                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
-            }else{
-                $ret_info['aver_called'] = 0;
-                $ret_info['invit_rate'] = 0;
-            }
-
-            if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
-            }else{
-                $ret_info['stu_consume_rate'] = 0;
-            }
 
         }else{ // 历史数据 [从数据库中取]
             $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
@@ -255,6 +261,10 @@ class main_page extends Controller
             "page_num"       => 1,
         );
 
+
+        if(!$ret_info_arr['list']){
+            $ret_info_arr['list'] = [];
+        }
 
         return $this->pageView(__METHOD__, $ret_info_arr,[
             "ret_info" => $ret_info_arr['list']

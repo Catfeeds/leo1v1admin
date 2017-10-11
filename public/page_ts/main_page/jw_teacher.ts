@@ -317,8 +317,8 @@ $(function(){
                     var time = item["lesson_start_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                    var tea_name=item["tea_name"];
-                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                    var tea_name=item["realname"];
+                    html_node.find("table").append("<tr><td>"+item["test_lesson_student_status_str"]+"</td><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+item["teacher_dimension"]+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["account"]+"</td></tr>");                
                 });
             });
 
