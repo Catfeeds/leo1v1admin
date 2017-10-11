@@ -48,6 +48,7 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         $sql = "select userid,phone from t_student_info where phone_location='免商店充值卡 ' or phone_location='' or phone_location = '鹏博士' and is_test_user = 0  and reg_time > 1475251200 and reg_time < 1506787200 ";
         return $this->main_get_list($sql);
     }
+    //-------------------------------------------------------
     public function get_total_province($start_time,$end_time){
         $where_arr = [
             ["reg_time>%u",$start_time,-1],
@@ -73,6 +74,16 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             "is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select t.subject ,count(s.userid) as total from t_student_info s  left join t_seller_student_new k on s.userid = k.userid left join t_test_lesson_subject t on t.userid = s.userid where %s group by t.subject", $where_arr);
+        return $this->main_get_list($sql);
+    }
+    //-------------------------------------------------------------
+    public function get_order_province($start_time,$end_time){
+        $where_arr = [
+            ["order_time>%u",$start_time,-1],
+            ["order_time<%u",$end_time,-1],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count( s.userid) as total, s.phone_location from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
     }
 }
