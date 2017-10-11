@@ -88,11 +88,11 @@ class main_page extends Controller
             if($order_info_total['order_num']>0){ //平均单笔
                 $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
             }else{
-                $ret_info['aver_count'] = 0; 
+                $ret_info['aver_count'] = 0;
             }
 
             if($ret_info['formal_num']>0){ //平均人效
-                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; 
+                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
             }else{
                 $ret_info['aver_money'] = 0;
             }

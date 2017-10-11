@@ -1569,6 +1569,45 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
+    public function get_seller_top_lesson_suc_list($start_time,$end_time,$adminid){
+        $where_arr = [
+            "accept_adminid =".$adminid,
+            "m.account_role = 3",
+            "s.is_test_user=0",
+            // "ll.lesson_user_online_status in (0,1)",
+            "ll.lesson_del_flag=0",
+            "seller_top_flag=1"
+        ];
+
+        $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid".
+                                  " from %s tr join %s m on tr.accept_adminid = m.uid ".
+                                  " join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id ".
+                                  " join %s ll on tr.current_lessonid = ll.lessonid".
+                                  " join %s l on (ll.teacherid = l.teacherid ".
+                                  " and ll.userid = l.userid ".
+                                  " and ll.subject = l.subject ".
+                                  " and l.lesson_start= ".
+                                  " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
+                                  " join %s s on ll.userid = s.userid ".
+                                  " join %s tt on ll.teacherid = tt.teacherid ".
+                                  " where %s order by ll.userid ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $start_time,
+                                  $end_time,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
     public function get_jw_teacher_test_lesson_info($start_time,$end_time){
         $where_arr = [
             ["require_assign_time >= %u",$start_time,-1],
