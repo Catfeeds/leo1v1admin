@@ -4,10 +4,11 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			fulltime_adminid:	$('#id_fulltime_adminid').val()
         });
     }
 
+	$('#id_fulltime_adminid').val(g_args.fulltime_adminid);
     $.admin_select_user(
         $('#id_fulltime_adminid'),
         "admin", load_data,false,{"main_type":5});
