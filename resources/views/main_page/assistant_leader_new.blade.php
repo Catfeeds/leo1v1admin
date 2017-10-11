@@ -355,6 +355,40 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="panel panel-warning"  >
+                    <div class="panel-heading center-title ">
+                        月回访考核
+                    </div>
+                    <div class="panel-body">
+
+                        <table   class="table table-bordered "   >
+                            <thead>
+                                <tr>
+                                    <td>项目</td>
+                                    <td>已回访量</td>
+                                    <td>目标回访量</td>
+                                    <td>已回访通时(分钟)</td>
+                                    <td>目标回访通时(分钟)</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( $month_info as $var )
+                                <tr>
+                                    <td>{{$var['sys_operator']}}</td>
+                                    <td>{{$var["revisit_num"]}} </td>
+                                    <td>{{$var["stu_num"]*2}} </td>
+                                    <td>{{$var["call_num"]/60}} </td>
+                                    <td>{{$var["stu_num"]*6}} </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 @endsection

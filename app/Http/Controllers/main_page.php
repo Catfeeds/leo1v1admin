@@ -88,11 +88,11 @@ class main_page extends Controller
             if($order_info_total['order_num']>0){ //平均单笔
                 $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
             }else{
-                $ret_info['aver_count'] = 0; 
+                $ret_info['aver_count'] = 0;
             }
 
             if($ret_info['formal_num']>0){ //平均人效
-                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num']; 
+                $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
             }else{
                 $ret_info['aver_money'] = 0;
             }
@@ -119,7 +119,7 @@ class main_page extends Controller
             $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
 
             if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
+                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month_funnel']/$ret_info['has_tq_succ_invit_month_funnel']*100;
             }else{
                 $ret_info['invit_month_rate'] = 0;
             }
@@ -533,7 +533,8 @@ class main_page extends Controller
         $start_time = strtotime( date('Y-m-1', time()) );
         $end_time   = strtotime("+1 month",$start_time);
         $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        $month_info = $month_list[0];
+        // dd($month_list);
+        $month_info = @$month_list[0];
         //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
@@ -1809,7 +1810,8 @@ class main_page extends Controller
             "ass_list"  =>@$ass_list,
             // "ass_group"   =>@$ass_group[$account_id],
             "ass_list_group" =>@$ass_list_group,
-            "warning"       => $warning_type_num
+            "warning"       => $warning_type_num,
+            "month_info" =>$month_info,
         ]);
 
 

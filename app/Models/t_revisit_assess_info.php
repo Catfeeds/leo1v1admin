@@ -22,12 +22,13 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
 
 
         $sql = $this->gen_sql_new(
-            "select ra.stu_num,count(distinct r.userid) as revisit_num,sum(tq.duration) as call_num"
+            "select ra.uid,r.sys_operator,ra.stu_num,count(distinct r.userid) as revisit_num,sum(tq.duration) as call_num"
             ." from %s ra"
             ." left join %s m on m.uid=ra.uid"
             ." left join %s r on r.sys_operator=m.account and r.revisit_type=0"
             ." left join %s tq on tq.id=r.call_phone_id"
             ." where %s"
+            ." group by ra.uid"
             ,self::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
             ,t_revisit_info::DB_TABLE_NAME
