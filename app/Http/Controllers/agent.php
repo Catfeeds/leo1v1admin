@@ -513,7 +513,7 @@ class agent extends Controller
             if($price>$level_goal){
                 foreach($ret_level_goal as $item){
                     if($price > $item['level_goal']){
-                        $next_level = $item['level_goal'];
+                        $next_level = $item['seller_level'];
                     }
                 }
                 $update_seller_list[$key]['adminid'] = $adminid;
