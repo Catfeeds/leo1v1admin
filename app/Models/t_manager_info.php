@@ -1807,4 +1807,25 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
+
+    public function get_ass_uid(){
+        $where_arr = [
+            'm.account_role = 1 ',
+            'm.del_flag = 0 ',
+        ];
+        $sql = $this->gen_sql_new(
+            "select uid,count(s.userid) as stu_num "
+            ." from %s m"
+            ." left join %s a on a.phone=m.phone"
+            ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
+            ." where %s"
+            ." group by uid"
+            ,self::DB_TABLE_NAME
+            ,t_assistant_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
