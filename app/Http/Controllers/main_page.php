@@ -341,11 +341,22 @@ class main_page extends Controller
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time);
 
+        $ret_info_first = [];
+        $ret_info_two = [];
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
-
+            if($key == 0){
+                $ret_info_first = $item;
+            }elseif($key == 1){
+                $ret_info_two = $item;
+            }
         }
+        if(count($ret_info["list"])>0){
+            $ret_info["list"][0] = $ret_info_two;
+            $ret_info["list"][1] = $ret_info_first;
+        }
+
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
         $this->get_in_int_val("is_group_leader_flag",$is_group_leader_flag);
