@@ -7,6 +7,7 @@ $(function(){
             seller_level : $('#id_seller_level').val(),
             level_goal   : $('#id_level_goal').val(),
             level_face   : $('#id_level_face').val(),
+            level_icon   : $('#id_level_icon').val(),
             num          : $('#id_num').val(),
         });
     }
@@ -15,6 +16,7 @@ $(function(){
     $('#id_seller_level').val(g_args.seller_level);
     $('#id_level_goal').val(g_args.level_goal);
     $('#id_level_face').val(g_args.level_face);
+    $('#id_level_icon').val(g_args.level_icon);
     $('#id_num').val(g_args.num);
 
     $("#id_add").on("click",function(){
@@ -68,8 +70,8 @@ $(function(){
         Enum_map.append_option_list("seller_level",$id_seller_level,true);
         $id_seller_level.val(opt_data.seller_level);
         $id_level_goal.val(opt_data.level_goal);
-        $id_level_face.val(opt_data.level_face);
-        $id_level_icon.val(opt_data.level_icon);
+        $id_level_face.find('#level_face_url').val(opt_data.level_face);
+        $id_level_icon.find('#level_icon_url').val(opt_data.level_icon);
         $id_num.val(opt_data.num);
         var arr=[
             ["销售等级",  $id_seller_level],
