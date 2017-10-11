@@ -1637,7 +1637,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
                                   " left join %s s on t.userid = s.userid".
-                                  " left join %s o  on tr.current_lessonid = o.from_test_lesson_id and o.contract_type in(0,3) and contract_status>0"
+                                  " left join %s o  on tr.current_lessonid = o.from_test_lesson_id and o.contract_type in(0,3) and contract_status>0".
                                   " where %s group by accept_adminid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
