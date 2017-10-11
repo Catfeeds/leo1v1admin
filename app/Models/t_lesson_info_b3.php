@@ -641,7 +641,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_lesson_condition_info($courseid, $lesson_num ) {
         $sql= $this->gen_sql_new(
-            "select lessonid,lesson_condition  from  %s"
+            "select lessonid,lesson_condition ,teacherid from  %s"
             . "  where courseid= %u and lesson_num =%u ",
             self::DB_TABLE_NAME, $courseid, $lesson_num  );
         return $this->main_get_row($sql);
@@ -837,18 +837,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-
-
-    public function get_real_xmpp_server($lessonid ) {
-        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
-        $xmpp_server= $lesson_info["xmpp_server_name"];
-        if(!$xmpp_server) {
-            $xmpp_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+    public function eval_real_xmpp_server( $xmpp_server_name, $current_server, $map=null ) {
+        if (!$xmpp_server_name) {
+            $xmpp_server_name=$current_server;
         }
-        if (!$xmpp_server) { //默认设置到杭州
-            $xmpp_server="h_01";
+        if (!$xmpp_server_name) { //默认设置到杭州
+            $xmpp_server_name="h_01";
         }
-        $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
+
+        if (!$map)  {
+            $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server_name );
+        }else{
+            $row=@$map[$xmpp_server_name];
+        }
         if ($row) {
             $ret=[
                 'ip'          => $row["ip"] ,
@@ -868,6 +869,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ];
         }
 
+    }
+
+
+    public function get_real_xmpp_server($lessonid ) {
+        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
+        $xmpp_server= $lesson_info["xmpp_server_name"];
+        $current_server="";
+        if(!$xmpp_server) {
+            $current_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+        }
+        return $this->eval_real_xmpp_server( $xmpp_server, $current_server );
     }
 
 

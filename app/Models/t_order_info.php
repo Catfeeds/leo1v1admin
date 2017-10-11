@@ -673,11 +673,44 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_1v1_order_list( $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],$adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag  =-1 ) {
+    public function  get_seller_price($start_time ,$end_time,$adminid=-1)  {
+        $where_arr=[
+            "o.contract_type =0",
+            "o.contract_status in (1,2)",
+            ["m.account_role=%u", E\Eaccount_role::V_2, -1],
+            "s.is_test_user = 0",
+            "m.del_flag = 0",
+            ["m.uid=%u",$adminid, -1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
 
+        $sql=$this->gen_sql_new(
+            " select sum(o.price) price "
+            ." from %s o "
+            ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on o.userid = s.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    /*
+     *@modify:Abner<abner@leo.edu.com>
+     *@param:$opt_date_str  按类型统计 [order_time:添加时间check_money_time:财务确认时间]
+     */
+    public function get_1v1_order_list(
+        $start_time,$end_time ,$sys_operator="",$stu_from_type=-1,$adminid_list=[],
+        $adminid_all=[],$contract_type=-1,$grade_list=[-1], $stu_test_paper_flag=-1,$opt_date_str=""){
+        if($opt_date_str==""){
+            $opt_date_str = "order_time";
+        }
         $where_arr = [
-            ["order_time>=%u" , $start_time, -1],
-            ["order_time<=%u" , $end_time, -1],
+            ["$opt_date_str>=%u" , $start_time, -1],
+            ["$opt_date_str<=%u" , $end_time, -1],
             ["is_test_user=%u" , 0, -1],
             ["sys_operator='%s'" , $sys_operator, ''],
             "contract_type in(0,1,3)",
@@ -691,14 +724,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_all);
 
         $sql = $this->gen_sql_new(
-            "select order_time,price,o.userid,stu_from_type ,contract_type "
+            "select  $opt_date_str as opt_date,price,o.userid,stu_from_type ,contract_type "
             ." from %s o "
             ." left join %s s on o.userid = s.userid "
             ." left join %s m on o.sys_operator = m.account "
             ." left join %s tss on o.from_test_lesson_id = tss.lessonid"
             ." left join %s tr on tr.require_id= tss.require_id"
             ." left join %s t on tr.test_lesson_subject_id= t.test_lesson_subject_id"
-            ." where %s and  contract_status <> 0 order by order_time asc",
+            ." where %s and  contract_status <> 0 order by $opt_date_str asc",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -861,16 +894,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic "
+        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+                                  ." g.level_icon "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
                                   ."left join %s m on o.sys_operator = m.account "
+                                  ."left join %s g on g.seller_level = m.seller_level "
                                   ." where %s      group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_seller_level_goal::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page ($sql);
@@ -1450,10 +1486,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql)>0;
     }
 
+    /*
+     *@modify:Abner<abner@leo.edu.com>
+     *@param:$opt_date_str 筛选类型[order_time:下单时间check_money_time:财务确认时间]
+     */
     public function get_order_count_new($start_time,$end_time,$contract_type,$contract_status,$userid
                                         ,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money,$check_money_flag=-1
                                         ,$isset_assistantid=-1,$origin="",$stu_from_type=-1,$sys_operator="",$account_role=-1
-                                        ,$adminid_list=[],$adminid_all=[]
+                                        ,$adminid_list=[],$adminid_all=[],$opt_date_str
     ){
         $where_arr=[];
         if($userid>0){
@@ -1462,8 +1502,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $where_arr=[["config_courseid=%u" , $config_courseid, -1]];
         }else{
             $where_arr=[
-                ["order_time>=%u" , $start_time, -1],
-                ["order_time<=%u" , $end_time, -1],
+                ["$opt_date_str>=%u" , $start_time, -1],
+                ["$opt_date_str<=%u" , $end_time, -1],
                 ["is_test_user=%u" , $is_test_user, -1],
                 // ["check_money_flag=%u" , $check_money_flag, -1],
                 ["stu_from_type=%u" , $stu_from_type, -1],
@@ -3569,7 +3609,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_flow::DB_TABLE_NAME
                                   ,t_child_order_info::DB_TABLE_NAME
                                   ,$where_arr);
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_order_list_by_time($start_time,$end_time){

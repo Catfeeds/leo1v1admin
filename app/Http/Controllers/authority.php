@@ -7,7 +7,7 @@ use \App\Enums as E;
 class authority extends Controller
 {
     use CacheNick;
-
+    use TeaPower;
 
     public function get_login_list() {
 
@@ -242,10 +242,11 @@ class authority extends Controller
     }
 
     public function del_manager() {
-        $uid = $this->get_in_str_val("uid","");
-        $del_flag = $this->get_in_int_val("del_flag","");
-        $time_str = $this->get_in_str_val("time");
-        $time = strtotime($time_str);
+        $uid          = $this->get_in_str_val("uid","");
+        $del_flag     = $this->get_in_int_val("del_flag","");
+        $time_str     = $this->get_in_str_val("time");
+
+        $time     = strtotime($time_str);
         $set_arr['del_flag'] = $del_flag;
         if($del_flag){
             $set_arr['leave_member_time'] = $time;
@@ -260,6 +261,16 @@ class authority extends Controller
         }
         $this->t_manager_info->field_update_list($uid, $set_arr);
         $this->t_manager_info->sync_kaoqin_user($uid);
+        $account_role = $this->t_manager_info->get_account_role($uid);
+        $phone = $this->t_manager_info->get_phone($uid);
+        /**
+         * 助教和销售离职,需要把其老师账号设为离职
+         * 其他角色离职,需要手动设置其老师账号是否离职
+         */
+        if(in_array($account_role,[E\Eaccount_role::V_1,E\Eaccount_role::V_2])){
+            $quit_info = "公司人员在职状态变更,后台账号及其老师账号状态的变更";
+            $this->set_teacher_quit_status($phone,$del_flag,$quit_info);
+        }
 
         return $this->output_succ();
     }

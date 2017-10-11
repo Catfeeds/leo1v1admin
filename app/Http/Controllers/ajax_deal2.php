@@ -452,10 +452,10 @@ class ajax_deal2 extends Controller
     {
         $account = $this->get_in_str_val("account");
         $phone   = $this->get_in_int_val("phone");
-        $ret=[];
+        $ret     = [];
+
         $ret_student = $this->t_student_info->get_userid_by_phone($phone);
         $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
-        $ret_teacher = $this->t_teacher_info->check_teacher_phone($phone);
         if($ret_student != 0 && $ret_parent != 0){
             $ret['success'] =  "此手机号已经注册学生账号和家长账号";
         }else if($ret_student == 0 && $ret_parent != 0){
@@ -479,6 +479,7 @@ class ajax_deal2 extends Controller
             }
         }
 
+        $ret_teacher = $this->t_teacher_info->check_teacher_phone($phone);
         if(!$ret_teacher){
             $teacher_info['phone']         = $phone;
             $teacher_info['tea_nick']      = $account;
@@ -488,7 +489,6 @@ class ajax_deal2 extends Controller
             $teacher_info['is_test_user']  = 1;
             $this->add_teacher_common($teacher_info);
         }
-
 
         return $this->output_succ($ret);
     }

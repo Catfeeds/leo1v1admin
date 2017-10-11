@@ -82,11 +82,18 @@ class wx_yxyx_api extends Controller
             "open_moeny" => $agent_info["l2_agent_status_all_open_money"]/100,
         ];
 
+        $activity_money=$this->t_agent_money_ex->get_all_money($agent_id)/100;
+
+        $data["activity_money_info"] =[
+            "all_money" => $activity_money,
+            "open_moeny" => $activity_money ,
+        ];
+
 
         $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
         $data["order_user_count"]= $agent_info["child_order_count"] ;
 
-        //$data["order_user_count"]= //$this->ag 
+        //$data["order_user_count"]= //$this->ag
         //$data["invite_money_not_open_lesson_succ"]=$this->t_agent->get_invite_money( $agent_id  ,1,0)/100;
         //$data["invite_money_not_open_not_lesson_succ"]=$this->t_agent->get_invite_money($agent_id,0,0)/100;
 

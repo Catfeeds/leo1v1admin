@@ -13,7 +13,7 @@ class TSellerTongjiForMonthReset extends Migration
     public function up()
     {
         //
-        Schema::dropIfExists('t_seller_tongji_for_month');
+        Schema::dropIfExists('db_weiyi.t_seller_tongji_for_month');
 
         Schema::create('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
         {
@@ -32,7 +32,6 @@ class TSellerTongjiForMonthReset extends Migration
             t_field($table->integer("three_department"),"销售三部人数");
             t_field($table->integer("new_department"),"销售新人营人数");
             t_field($table->integer("train_department"),"销售培训中");
-            t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");
             t_field($table->integer("junior_money"),"初中金额");
             t_field($table->integer("primary_money"),"小学金额");
@@ -48,7 +47,6 @@ class TSellerTongjiForMonthReset extends Migration
             t_field($table->integer("seller_test_succ_month"),"试听成功数[月到课率]");
             t_field($table->integer("order_trans_month"),"合同人数[月试听转化率]");
             t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
-            t_field($table->integer("has_tq_succ_sign_month"),"拨通电话数量[月签约率]");
 
 
             t_field($table->integer("seller_call_num"),"电话呼出量");
@@ -61,6 +59,8 @@ class TSellerTongjiForMonthReset extends Migration
             t_field($table->integer("cc_called_num"),"拨打的cc量");
             t_field($table->integer("cc_call_time"),"cc总计通话时长");
 
+            $table->index('create_time');
+            $table->index('from_time');
         });
 
     }

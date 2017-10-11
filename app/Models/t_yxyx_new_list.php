@@ -68,6 +68,17 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
     }
 
+    public function get_all_for_wx_new($page_info){
+        $sql = $this->gen_sql_new( "select id,new_pic,new_title,new_content"
+                                    ." from %s"
+                                    ." order by id desc"
+                                    ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,5);
+
+    }
+
+
     public function get_one_new_for_wx($id) {
         $where_arr = [
             'id='.$id,
@@ -81,6 +92,26 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
         return $this->main_get_row($sql);
 
+    }
+
+    public function get_agent_info(){
+        $where_arr = [
+            'a.create_time >='.strtotime('- 2 day',time(NULL)),
+        ];
+        $sql =  $this->gen_sql_new( "select a.id,a.phone as new_phone,a.nickname as new_nick,"
+                                    ."pa.phone as from_phone,pa.nickname as from_nick,a.create_time"
+                                    ." from %s a"
+                                    ." left join %s pa on a.parentid = pa.id"
+                                    ." where %s"
+                                    ." order by a.create_time desc"
+                                    ." limit %u"
+                                    ,t_agent::DB_TABLE_NAME
+                                    ,t_agent::DB_TABLE_NAME
+                                    , $where_arr
+                                    ,50
+        );
+
+        return $this->main_get_list($sql);
     }
 
 }

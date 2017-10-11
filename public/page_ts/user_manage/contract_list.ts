@@ -470,7 +470,12 @@ $(function(){
                     "discount_price"  : parseFloat($discount_price.val())*100,
                     "discount_reason" : $discount_reason.val()
                 },function(result){
-                    window.location.reload();
+                    if(result.ret==-1){
+                        alert(result.info);
+                    }else{
+                        
+                        window.location.reload();
+                    }
                 });
             }
         });

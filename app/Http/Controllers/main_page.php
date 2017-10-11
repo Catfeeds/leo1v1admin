@@ -164,7 +164,8 @@ class main_page extends Controller
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
             //  外呼情况
-            $ret_info['seller_call_num'] = $ret_info['has_called'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
 
             $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
 
@@ -271,7 +272,7 @@ class main_page extends Controller
     public function seller()
     {
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
-		$group_start_time=	 $start_time;
+        $group_start_time=   $start_time;
         if($start_time == 1504195200){//9月,9.1-10.2
             $end_time = 1506960000;
         }
@@ -325,7 +326,7 @@ class main_page extends Controller
         }
         $self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
                                                               $start_time,$end_time );
-        
+
         $ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
         $groupid =$this->get_in_int_val("groupid",-1);
@@ -343,7 +344,20 @@ class main_page extends Controller
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
-
+        }
+        foreach ($ret_info["list"] as $key=> &$item) {
+            if($item["index"] == 1){
+                $item["index"] = 1001;
+            }elseif($item["index"] == 2){
+                $item["index"] = 1002;
+            }
+        }
+        foreach ($ret_info["list"] as $key=> &$item) {
+            if($item["index"] == 1001){
+                $item["index"] = 2;
+            }elseif($item["index"] == 1002){
+                $item["index"] = 1;
+            }
         }
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
@@ -511,7 +525,7 @@ class main_page extends Controller
         $ass_adminid = $this->get_account_id();
         $now = time();
         $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three);
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($ass_adminid, $three,-1);
         $warning_type_num = [
             'warning_type_one' =>0,
             'warning_type_two' =>0,
@@ -521,7 +535,7 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $warning_type_num['warning_type_three'] = $three_count;
 
 
@@ -1754,12 +1768,31 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
+        $adminid = $this->get_account_id();
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str);
+        $warning_type_num['warning_type_three'] = $three_count;
+
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,
             // "ass_group"   =>@$ass_group[$account_id],
-            "ass_list_group" =>@$ass_list_group
+            "ass_list_group" =>@$ass_list_group,
+            "warning"       => $warning_type_num
         ]);
 
 

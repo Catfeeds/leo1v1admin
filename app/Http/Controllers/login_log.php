@@ -25,7 +25,7 @@ class login_log extends Controller
     }
 
 
-    public function login_add( ) 
+    public function login_add( ){ 
         $account= $this->get_in_str_val("account");
         $serverip= $this->get_in_str_val("serverip");
         $type= $this->get_in_int_val("type");

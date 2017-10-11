@@ -12,7 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
 
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url ,$adminid=0, $admin_role=0) {
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url ,$adminid=0, $admin_role=0,  $obj_start_time=0) {
         if ($adminid==0) {
             $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
             if ($admin_info){
@@ -21,7 +21,9 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             }
         }
         $sql=$this->gen_sql_new(
-            "insert ignore into %s (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role) values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u )",
+            " insert ignore into %s "
+            ." (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role, obj_start_time) "
+            ." values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u,%u)",
             self::DB_TABLE_NAME,
             $id,
             $uid,
@@ -32,7 +34,8 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $is_called_phone,
             $record_url,
             $adminid,
-            $admin_role
+            $admin_role,
+            $obj_start_time
         ) ;
         return $this->main_insert($sql);
     }
@@ -403,6 +406,26 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             ,$adminid
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_has_called_stu_num($start_time, $end_time){
+        $where_arr = [
+            "tq.admin_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"s.add_time",$start_time,$end_time);
+
+
+        $sql=$this->gen_sql_new("  select count(distinct(s.userid)) from %s s"
+                                ." left join %s tq on s.phone=tq.phone"
+                                ." where  %s ",
+                                t_seller_student_new::DB_TABLE_NAME,
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+
+        return $this->main_get_value($sql);
+
     }
 
     public function get_tq_succ_num($start_time, $end_time){

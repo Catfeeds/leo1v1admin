@@ -95,6 +95,7 @@ interface RowData {
 	stu_test_paper	:any;
 	tea_download_paper_time	:any;
 	success_flag	:any;
+	learning_situation	:any;
 	fail_greater_4_hour_flag	:any;
 	test_lesson_fail_flag	:any;
 	fail_reason	:any;
@@ -189,8 +190,11 @@ interface RowData {
 	is_require_change	:any;
 	is_accept_adminid	:any;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	accept_account	:any;
+=======
+>>>>>>> 39ea70616030214d8cee4961381dafe5d86c226a
 	phone_ex	:any;
 >>>>>>> 49749a3b7f888cf315f53db9044462c643ff4ba0
 }

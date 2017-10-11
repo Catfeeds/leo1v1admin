@@ -571,13 +571,6 @@ class wx_teacher_api extends Controller
         $is_modify_time_flag = $this->t_lesson_time_modify->get_is_modify_time_flag($lessonid);
         $parent_deal_time = $this->t_lesson_time_modify->get_parent_deal_time($lessonid);
 
-
-
-
-
-
-
-
         if($parent_deal_time<time()-3600){
             $ret_info['has_do'] = 2; //超时
             return $this->output_succ(['data'=>$ret_info]);
@@ -605,6 +598,7 @@ class wx_teacher_api extends Controller
                 $tea_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
             }
 
+            $teacher_time = [];
             foreach($tea_time as $v){
                 foreach($v as $vv){
                     $teacher_time[] = $vv;
@@ -809,7 +803,7 @@ class wx_teacher_api extends Controller
             $data_parent = [
                 'first' => "您已拒绝 $teacher_nick  老师要求调换您发起的换时间申请",
                 'keyword1' =>"拒绝调课申请",
-                'keyword2' => "原上课时间:$lesson_old_date ,您已拒绝",
+                'keyword2' => "原上课时间:$lesson_start_date ,您已拒绝",
                 'keyword3' => "$day_date",
                 'remark'   => "详细进度稍后将以推送的形式发给您,请注意查看!"
             ];
@@ -832,12 +826,18 @@ class wx_teacher_api extends Controller
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
             // $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o"; //待处理
-            $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";  // 反馈通知
-            $data['first']      = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
-            $data['keyword1']   = " 拒绝调课申请";
-            $data['keyword2']   = " 原上课时间:".$lesson_start_date.";您已拒绝";
-            // $data['keyword3']   = "$day_date";
-            $data['remark']     = "";
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
+            // $data['first']      = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
+            // $data['keyword1']   = " 拒绝调课申请";
+            // $data['keyword2']   = " 原上课时间:".$lesson_start_date.";您已拒绝";
+            // $data['remark']     = "";
+
+            $data['first']      = " 拒绝调课申请";
+            $data['keyword1']   = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
+            $data['keyword2']   = " 原上课时间:".$lesson_start_date;
+            $data['keyword3']   = date('Y-m-d H:i:s');
+            $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
+
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
         }
 
@@ -1004,6 +1004,7 @@ class wx_teacher_api extends Controller
         ];
 
         $url_leo = '';
+
 
         foreach($wx_openid_arr as $item_openid ){
             $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);

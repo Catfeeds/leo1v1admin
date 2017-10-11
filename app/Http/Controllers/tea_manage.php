@@ -1520,9 +1520,7 @@ class tea_manage extends Controller
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,
             -1,-1,$train_type
         );
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
+        $server_name_map=$this->t_xmpp_server_config->get_server_name_map();
 
         $n = 1;
         foreach($ret_info['list'] as &$val){
@@ -1539,7 +1537,10 @@ class tea_manage extends Controller
 
             $val['index']  = $n;
             $n++;
-            $server_info   = @$server_map[$val['courseid']];
+            $xmpp_server_name= $val["xmpp_server_name"];
+            $current_server= $val["current_server"];
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
+
             $val['region'] = @$server_info['region'];
             $val['ip']     = @$server_info['ip'];
             $val['port']   = @$server_info['webrtc_port'];
@@ -1571,9 +1572,7 @@ class tea_manage extends Controller
             $page_num,$start_time,$end_time,$teacherid,$lesson_status,
             $lessonid,$lesson_sub_type,$train_type
         );
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
+        $server_name_map=$this->t_xmpp_server_config->get_server_name_map();
 
         $n = 1;
         foreach($ret_info['list'] as &$val){
@@ -1590,7 +1589,11 @@ class tea_manage extends Controller
 
             $val['index']  = $n;
             $n++;
-            $server_info   = @$server_map[$val['courseid']];
+
+            $xmpp_server_name= $val["xmpp_server_name"];
+            $current_server= $val["current_server"];
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
+            $server_info   = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
             $val['region'] = @$server_info['region'];
             $val['ip']     = @$server_info['ip'];
             $val['port']   = @$server_info['webrtc_port'];
@@ -1707,24 +1710,6 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    private function gen_server_map($list){
-        $id_list = [];
-        foreach ($list as $item) {
-            $id_list[] = $item["courseid"];
-        }
-
-        $server_map = array();
-        if(!\App\Helper\Utils::check_env_is_testing()){
-            $server_arr = \App\Helper\Net::get_server_info($id_list);
-            if(isset($server_arr['server_list']) && !empty($server_arr['server_list'])){
-                foreach($server_arr["server_list"] as $key => $value){
-                    $server_map[$value['courseid']] = $value;
-                }
-            }
-        }
-
-        return $server_map;
-    }
 
     /**
      * 添加培训课程的参与者
@@ -1794,11 +1779,14 @@ class tea_manage extends Controller
         }
 
         if($type==0){
-            $this->t_train_lesson_user->row_insert([
-                "lessonid" => $lessonid,
-                "userid"   => $userid,
-                "add_time" => time(),
-            ]);
+            $check_flag = $this->t_train_lesson_user->check_user_exists($lessonid,$userid);
+            if(!$check_flag){
+                $this->t_train_lesson_user->row_insert([
+                    "lessonid" => $lessonid,
+                    "userid"   => $userid,
+                    "add_time" => time(),
+                ]);
+            }
         }else{
             $job = new \App\Jobs\AddUserToTrainLesson($lessonid,$teacherid_list,$type);
             dispatch($job);
@@ -1930,169 +1918,6 @@ class tea_manage extends Controller
 
 
 
-    public function tea_manage_all_info() {
-
-        $date                = $this->get_in_str_val('date',date('Y-m-d', time(NULL)));
-        $st_application_nick = $this->get_in_str_val('st_application_nick',"");
-        $require_adminid     = $this->get_in_int_val('require_adminid', -1 );
-        $userid              = $this->get_in_userid(-1);
-        $teacherid           = $this->get_in_teacherid(-1);
-        $run_flag            = $this->get_in_int_val("run_flag",1);
-        $assistantid         = $this->get_in_assistantid(-1);
-
-        $start_time  = strtotime($date);
-        $end_time    = $start_time + 86400;
-        $lessonid            = $this->get_in_int_val('lessonid');
-
-        $ret_info = $this->t_lesson_info->get_lesson_info_by_lessonid($lessonid);
-
-        $adminid          = $this->get_account_id();
-        $self_groupid     = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
-        $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
-
-        if($adminid == $get_self_adminid){
-            $is_group_leader_flag = 1;
-        }else{
-            $is_group_leader_flag = 0;
-        }
-
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
-
-        $info=$this->t_lesson_info-> get_info_for_monitor($lessonid);
-        E\Egrade::set_item_value_str($info);
-        E\Esubject::set_item_value_str($info);
-
-        $i=1;
-        foreach($ret_info['list'] as $key=> &$item){
-            $item['index']       = $i;
-            $i++;
-            $server_info         = @$server_map[$item['courseid']];
-            $lesson_type         = $item['lesson_type'];
-            $item['region']      = @$server_info['region'];
-            $item['ip']          = @$server_info['ip'];
-            $item['port']        = @$server_info['webrtc_port'];
-            $item['lesson_type'] = $lesson_type;
-            $item['room_id']     = \App\Helper\Utils::gen_roomid_name($lesson_type,$item['courseid'], $item['lesson_num'] );
-            $item['lesson_time'] = date('H:i',$item['lesson_start'])."-".date('H:i',$item['lesson_end']);
-            E\Econtract_type::set_item_value_str($item,"lesson_type");
-
-            $this->cache_set_item_assistant_nick($item);
-            $this->cache_set_item_teacher_nick($item);
-            $this->cache_set_item_student_nick($item);
-            if($item['server_type']==0){
-                if ( $lesson_type <1000 ) {
-                    $item[ 'server_type_str' ]="默认:理优";
-                }else{
-                    $item[ 'server_type_str' ]="默认:声网";
-                }
-            } else if($item[ 'server_type' ] ==1  ) {
-                $item[ 'server_type_str' ]="理优";
-            }else{
-                $item[ 'server_type_str' ]="声网";
-            }
-        }
-
-        // 处理登录日志
-
-        $userid       = $ret_info['list'][$lessonid]['userid'];
-        $server_type  = $ret_info['list'][$lessonid]['server_type'];
-        $teacherid    = $ret_info['list'][$lessonid]['teacherid'];
-        $stu_id       = $ret_info['list'][$lessonid]['userid'];
-        $lesson_start = $ret_info['list'][$lessonid]['lesson_start'];
-        $lesson_end   = $ret_info['list'][$lessonid]['lesson_end'];
-
-        $ret_arr_log=$this->t_lesson_opt_log->get_lesson_log_by_pool($lessonid,$userid,$server_type
-                                                                     ,$teacherid,$stu_id,$lesson_start,$lesson_end );
-        $ret_list_log=array();
-        $server_type_conf=array("1" =>"webrtc" , "2" => "xmpp" );
-        $log_type_conf=array("1" =>"login" , "2" =>"logout", "3"=>"register", "4"=> "no_recv_data" );
-
-        // dd($ret_arr_log);
-        $ret_list_log_stu = [];
-        $ret_list_log_tea = [];
-
-        foreach( $ret_arr_log as $item_log ){
-            $item_log["server_ip"]   = long2ip($item_log["server_ip"]);
-            $item_log["opt_time"]    = unixtime2date( $item_log["opt_time"] );
-            $item_log["opt_type"]    = $log_type_conf[$item_log["opt_type"]];
-            $item_log["server_type"] = $server_type_conf[$item_log["server_type"]];
-
-            if ( $item_log["opt_type"] == "login") {
-                $item_log['cls'] = "success";
-            }elseif ( $item_log["opt_type"] == "register") {
-                $item_log['cls'] = "warning";
-            }elseif ( $item_log["opt_type"] == "logout") {
-                $item_log['cls'] = "danger";
-            }
-
-            if ($item_log['userid'] == $stu_id ) {
-                $item_log['rule_str'] = '学生';
-            } elseif ($item_log['userid'] == $teacherid) {
-                $item_log['rule_str'] = '老师';
-            }
-            $ret_list_log[] = $item_log;
-
-
-            // 处理学生是否在线             // 处理老师是否在线
-
-            if ($item_log['userid'] == $stu_id) {
-                $ret_list_log_stu[] = $item_log;
-
-            } elseif ($item_log['userid'] == $teacherid) {
-                $ret_list_log_tea[] = $item_log;
-            }
-
-        }
-
-
-        if ($ret_list_log_stu) {
-            $ret_list_log_stu_last = array_pop($ret_list_log_stu);
-
-            if ($ret_list_log_stu_last['opt_type'] == 'logout') {
-                $info['stu_log_status'] = '不在线';
-            } elseif ($ret_list_log_stu_last['opt_type'] == 'login'){
-                $info['stu_log_status'] = '在线';
-            }
-
-        }
-
-        if ($ret_list_log_tea) {
-            $ret_list_log_tea_last = array_pop($ret_list_log_tea);
-            if ($ret_list_log_tea_last['opt_type'] == 'logout') {
-                $info['tea_log_status'] = '不在线';
-            } elseif ($ret_list_log_tea_last['opt_type'] == 'login'){
-                $info['tea_log_status'] = '在线';
-            }
-        }
-
-        //处理老师退出次数[未完成]
-        $log_num_str = $this->t_lesson_info->get_lesson_conditions_by_lessonid($lessonid);
-
-        if ($log_num_str['0']['lesson_condition']) {
-            $log_num_arr = json_decode($log_num_str['0']['lesson_condition'],true);
-            $info['stu_xmpp']    = $log_num_arr['stu']['xmpp_dis'];
-            $info['stu_webrtc']  = $log_num_arr['stu']['webrtc_dis'];
-            $info['tea_xmpp']    = $log_num_arr['tea']['xmpp_dis'];
-            $info['tea_webrtc']  = $log_num_arr['tea']['webrtc_dis'];
-            $info['ass_xmpp']    = $log_num_arr['ad']['xmpp_dis'];
-            $info['ass_webrtc']  = $log_num_arr['ad']['webrtc_dis'];
-            $info['par_xmpp']    = $log_num_arr['par']['xmpp_dis'];
-            $info['par_webrtc']  = $log_num_arr['par']['webrtc_dis'];
-        } else {
-            $info['stu_xmpp']    = 0;
-            $info['stu_webrtc']  = 0;
-            $info['tea_xmpp']    = 0;
-            $info['tea_webrtc']  = 0;
-            $info['ass_xmpp']    = 0;
-            $info['ass_webrtc']  = 0;
-            $info['par_xmpp']    = 0;
-            $info['par_webrtc']  = 0;
-        }
-
-        return $this->pageView(__METHOD__,$ret_info,["self_groupid"=>$self_groupid,'stu_info'=>$info,"is_group_leader_flag"=>$is_group_leader_flag,'log_lists'=>$ret_list_log]);
-    }
 
     public function get_lesson_list(){
         $type        = $this->get_in_str_val("type","normal_lesson");

@@ -493,11 +493,12 @@ class common extends Controller
         if(($pcm_file_count >10 || $pcm_file_all_size < 10000 ) ) {
             $lessonid=$this->t_lesson_info_b2->get_lessonid_by_courseid_num($courseid,$lesson_num);
             \App\Helper\Utils::logger(" ERROR, lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size    ");
-
-            dispatch( new \App\Jobs\send_error_mail(
-                "xcwenn@qq.com","报错: lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size   " ,
-                " lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size  "
-            ));
+            if(\App\Helper\Utils::check_env_is_release() ) {
+                dispatch( new \App\Jobs\send_error_mail(
+                    "xcwenn@qq.com","报错: lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size   " ,
+                    " lessonid = $lessonid pcm_file_count=$pcm_file_count pcm_file_all_size  = $pcm_file_all_size  "
+                ));
+            }
         }
         return $this->output_succ();
     }
@@ -1986,10 +1987,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
             $condition =$ret_arr["lesson_condition"];
             $lessonid=$ret_arr["lessonid"];
-            $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
-            $this->t_lesson_info->field_update_list($lessonid,[
-                "lesson_condition" => $condition_new
-            ]);
+            
+            if ($utype=="tea" && $ret_arr["teacherid"] != $userid ) { //不是老师,是cc,不处理
+
+            }else{
+                $condition_new = $this->update_condition($condition, $utype, $user_type_arr, $opt_type, $server_type);
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_condition" => $condition_new
+                ]);
+            }
         }
 
         if ( ($lessonid && ($utype=="stu"|| $utype=="par"  || $utype=="tea") )

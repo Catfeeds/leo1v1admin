@@ -35,10 +35,18 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        /*
+          "SERVER_ADDR" => "118.190.65.189"
+          "SERVER_PORT" => "80"
+          "SERVER_NAME" => "admin.yb1v1.com"
+        */
+
+        $server_info=@$_SERVER["SERVER_NAME"].@$_SERVER["SERVER_ADDR"];
+        $cmd_info= @join(" ", @$global["argv"]);
 
         $account=@$_SESSION["acc"];
 
-        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
+        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/> server_info $server_info  $cmd_info<br/> ";
 
         foreach( $e->getTrace() as &$bt_item ) {
             //$args=json_encode($bt_item["args"]);
@@ -50,7 +58,8 @@ class Handler extends ExceptionHandler
         $ip=@$_SERVER["REMOTE_ADDR"];
 
         if( \App\Helper\Utils::check_env_is_release() ) {
-            if ( substr($ip,0,9 )!= "121.42.0."  ) { //阿里云盾
+            $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
+            if ( !in_array( $ip_fix ,[ "121.42.0", "140.205.225" ])   ) { //阿里云盾
 
                 dispatch( new \App\Jobs\send_error_mail(
                     "", date("H:i:s")."ERR1:" .$e->getMessage(),

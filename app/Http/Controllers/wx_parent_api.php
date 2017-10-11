@@ -606,7 +606,9 @@ class wx_parent_api extends Controller
             $day_time = date('Y-m-d H:i:s');
             $wx     = new \App\Helper\Wx();
             //
-            $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+            // $url = "http://wx-teacher-web.leo1v1.com/adjust-progress?lessonid=".$lessonid;
+            $url ="http://wx-parent.leo1v1.com/wx_parent/adjust_progress?lessonid=".$lessonid;
+
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
                 "first"     => " 调课申请受理中",
@@ -620,7 +622,6 @@ class wx_parent_api extends Controller
 
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
-            // $teacher_url = 'http://wx-teacher-web.leo1v1.com/handle_adjust_time.html?lessonid='.$lessonid; //待定
             $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定
             //$teach http://wx-teacher-web.leo1v1.com/handle-adjust/index.html
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
@@ -649,10 +650,10 @@ class wx_parent_api extends Controller
         if($original_time ){
             $original_time_arr = explode(',',$original_time);
             $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$original_time_arr[0]).'-'.date('H:i:s',$original_time_arr[1]);
-
             $lesson_time_arr['lesson_time_new'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
         }else{
             $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
+            $lesson_time_arr['lesson_time_new'] = '';
         }
 
         $lesson_time_arr['status']       = 0;
@@ -663,7 +664,7 @@ class wx_parent_api extends Controller
                 $lesson_time_arr['status'] = 1;// 已提交
             }elseif( $lesson_modify_arr['is_modify_time_flag'] == 1){
                 $lesson_time_arr['status'] = 2;// 已完成
-            }elseif( $lesson_modify_ar['is_modify_time_flag'] == 2){
+            }elseif( $lesson_modify_arr['is_modify_time_flag'] == 2){
                 $lesson_time_arr['status'] = 3; // 被拒绝
             }
         }

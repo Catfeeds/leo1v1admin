@@ -467,13 +467,13 @@ class wx_yxyx_common extends Controller
         $grade     = $this->get_in_int_val('grade',-1);
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
-        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
         $end_time   = strtotime('tomorrow');
         foreach ($ret_info['list'] as &$item) {
-            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+            if (!$item['flag'] && $item['create_time'] > $start_time) {
                 $item['flag'] = 0;
             } else {
                 $item['flag'] = 1;
@@ -497,13 +497,14 @@ class wx_yxyx_common extends Controller
             }
         }
         $ret_info['poster'] = $poster_arr;
+        $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /10);
         return $this->output_succ(["home_info"=>$ret_info]);
     }
 
     public function get_one_test_and_other() {
         $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
-        $wx_openid = $this->get_in_str_val('wx_openid', 0);
+        $wx_openid = $this->get_in_str_val('wx_openid', -1);
         if ($id < 0){
             return $this->output_err('信息有误！');
         }
@@ -569,6 +570,22 @@ class wx_yxyx_common extends Controller
         }
     }
 
+    public function get_yxyx_all_news(){
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx_new($page_info);
+        foreach ($ret_info['list'] as &$item) {
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
+        }
+
+        if ($ret_info) {
+            $ret_info['page_info']['total_num'] =  ceil($ret_info['page_info']['total_num'] /5);
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+    }
+
     public function get_yxyx_one_new(){
         $id = $this->get_in_int_val("id", -1);
         $ret_info = $this->t_yxyx_new_list->get_one_new_for_wx($id);
@@ -578,6 +595,28 @@ class wx_yxyx_common extends Controller
             return $this->output_err("信息有误！");
         }
     }
+    
+    /*
+     *@desn:获取邀请记录 
+     *@date:2017-10-11
+     *@author:Abner<abner@leo.edu.com>
+     *@return:Array 
+     */
+    public function top_invite_list(){
+        $agent_info = $this->t_yxyx_new_list->get_agent_info();
+        $ret_info = [];
+        foreach($agent_info as $key => $val){
+            $new_division = empty($val['new_nick']) ? '':'/';
+            $from_division = empty($val['from_nick']) ? '':'/';
+            $ret_info[$key]['new_nick'] = $val['new_phone'].$new_division.$val['new_nick'];
+            $ret_info[$key]['from_nick'] = $val['from_phone'].$from_division.$val['from_nick'];
+            $ret_info[$key]['create_time'] = date('Y-m-d',$val['create_time']);
+        }
 
-
+        if($ret_info){
+            return $this->output_succ(["list"=>$ret_info]);
+        }else{
+            return $this->output_err("信息有误！");
+        }
+    }
 }

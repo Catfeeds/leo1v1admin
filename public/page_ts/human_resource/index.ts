@@ -1792,17 +1792,19 @@ $(function(){
 
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
-        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
-        var id_change_tea_to_new       = $("<button class='btn btn-danger'>账号转移</button>");
-        var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
-        var id_update_tea_level        = $("<button class='btn btn-danger'>老师工资类型</button>");
-        var id_update_tea_bank         = $("<button class='btn btn-primary'>银行卡</button>");
-        var id_update_tea_pass_info    = $("<button class='btn btn-primary'>通过信息</button>");
-        var id_update_part_remarks     = $("<button class='btn btn-primary'>机构备注</button>");
-        var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
-        var id_set_test_user           = $("<button class='btn btn-primary'>设为测试</button>");
-        var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
+
         var id_switch_teacher_to_test  = $("<button class='btn btn-primary'>一键转为测试老师</button>");
+        var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
+        var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
+        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
+
+        var id_update_tea_level        = $("<button class='btn btn-primary'>老师工资类型</button>");
+        var id_update_tea_bank         = $("<button class='btn btn-danger'>银行卡</button>");
+        var id_update_tea_pass_info    = $("<button class='btn btn-primary'>通过信息</button>");
+        var id_update_part_remarks     = $("<button class='btn btn-danger'>机构备注</button>");
+        var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
+        var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
+        var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1817,18 +1819,24 @@ $(function(){
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
 
         var arr = [
-            ["",id_subject_info],
-            ["",id_change_tea_to_new],
-            ["",id_change_phone],
-            ["",id_update_tea_level],
-            ["",id_update_tea_bank],
-            ["",id_update_tea_pass_info],
-            ["",id_update_part_remarks],
-            ["",id_set_test_user],
-            ["",id_update_check_subject],
-            ["",id_update_tea_ref_type],
             ["",id_switch_teacher_to_test],
+            ["",id_change_phone],
+            ["",id_change_tea_to_new],
+            ["",id_subject_info],
         ];
+
+        if(account_role == 12 ){
+            var extra_arr = [
+                ["",id_update_tea_level],
+                ["",id_update_tea_bank],
+                ["",id_update_tea_pass_info],
+                ["",id_update_part_remarks],
+                ["",id_update_check_subject],
+                ["",id_set_test_user],
+                ["",id_update_tea_ref_type],
+            ];
+            arr = arr.concat(extra_arr);
+        }
 
         $.show_key_value_table("账号信息修改",arr);
     });

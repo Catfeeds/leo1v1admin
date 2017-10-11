@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" >
-     var acc= "{{$acc}}";
-     var tea_right= "{{$tea_right}}";
+     var acc = "{{$acc}}";
+     var tea_right = "{{$tea_right}}";
+     var account_role = "{{$account_role}}";
     </script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <link rel='stylesheet' href='/css/fullcalendar.css' />
@@ -343,12 +344,9 @@
                     <div class="input-group ">
                         <span >教材版本</span>
                         <select id="id_teacher_textbook" class ="opt-change" >
-                           
                         </select>
                     </div>
                 </div>
-
-
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>
@@ -538,7 +536,7 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["ted","夏宏东","haku","low-key"]) || in_array($account_role,[12]))
+                                @if(in_array($acc,["ted","夏宏东","haku","low-key","zoe","amyshen"]) || in_array($account_role,[12]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
@@ -546,11 +544,11 @@
                                 @if(in_array($acc,["ted","夏宏东"]))
                                     <a class="opt-change-lesson-num">修改排课数</a>
                                 @endif
-                                @if(in_array($acc,["zoe","amyshen"]))
-                                    <a class="opt-change-phone" title="更换老师手机">手机</a>
-                                    <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
-                                    <a class="opt-change-teacher_ref_type">渠道</a>
-                                @endif
+                                <!-- @if(in_array($acc,["zoe","amyshen"]))
+                                     <a class="opt-change-phone" title="更换老师手机">手机</a>
+                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
+                                     <a class="opt-change-teacher_ref_type">渠道</a>
+                                     @endif -->
                                 @if(in_array($acc,["coco","nick","wander","memo","lemon","CoCo老师","lily","melody","niki"]))
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                 @endif

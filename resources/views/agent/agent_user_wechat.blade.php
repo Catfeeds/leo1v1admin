@@ -106,6 +106,12 @@
                             <td id="id_l2_invite_money_not_open_not_lesson_succ"> </td>
                         </tr>
 
+                        <tr>
+                            <td>
+                            活动奖励
+                            <td id="id_activity_money"> </td>
+                        </tr>
+
                     </tbody>
 
                 </table>

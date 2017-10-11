@@ -1079,7 +1079,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
                     ];
                     $url = '';
-                    //\App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
                 }
 
                 if(!$order_info_old && $pp_wx_openid && $pp_price){
@@ -1092,7 +1092,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                         'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
                     ];
                     $url = '';
-                    //\App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
                 }
             }
 
@@ -1501,9 +1501,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $order_all_money= $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"];
         $child_order_count= $level_count_info["l1_order_count"] +$level_count_info["l2_order_count"];
 
+        //活动奖励
+        $activity_money=$this->t_agent_money_ex-> get_all_money($id);
+
         //总提成信息
-        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money;
-        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money;
+        $all_yxyx_money      = $order_all_money +  $l1_agent_status_all_money+ $l2_agent_status_all_money + $activity_money;
+        $all_open_cush_money = $order_open_all_money +  $l1_agent_status_all_open_money+ $l2_agent_status_all_open_money +$activity_money;
         $all_have_cush_money = $this->task->t_agent_cash->get_have_cash($id,1);
 
 

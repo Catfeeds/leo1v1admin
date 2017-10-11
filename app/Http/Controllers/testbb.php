@@ -46,12 +46,28 @@ class testbb extends Controller
         dd($ass_list_str);
     }
 
+    public function ttt(){// 更新扩课信息
+        $require_id = $this->get_in_int_val('rid');
+        $origin = $this->get_in_str_val('origin');
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+        $change_teacher_reason = $this->get_in_str_val('change_teacher_reason');
+
+        $ret= $this->t_test_lesson_subject_require->field_update_list($require_id,[
+            "origin" => $origin,
+            "change_teacher_reason_type" => $change_teacher_reason_type,
+            "change_teacher_reason" => $change_teacher_reason
+        ]);
+
+        return $ret;
+    }
 
 
     public function test () {
 
-        $num = $this->t_teacher_day_luck_draw->compute_time();
-
+        $ret=\App\Helper\Config::get_config("audio_server_list");
+        //$ret=\App\Helper\Common::env_obj( "AUDIO_SERVER_LIST" );
+        dd($ret);
+        dd($_SERVER);
         dd($num);
 
         $a = 'http://1111';
@@ -239,6 +255,15 @@ class testbb extends Controller
 
 
     public function get_num(){
+
+        $no    = rand(1,10000);
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_gift/check_identity_for_book" );
+        $appid = 'wx636f1058abca1bc1';
+
+        $u= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
+
+        header("location: $u");
+
         $this->switch_tongji_database();
         // $teacherid = $this->t_lesson_info_b3->get_on_num();
         $teacherid = $this->t_lesson_info_b3->get_on_teacherid();
@@ -303,7 +328,6 @@ class testbb extends Controller
             t_field($table->integer("three_department"),"销售三部人数");
             t_field($table->integer("new_department"),"销售新人营人数");
             t_field($table->integer("train_department"),"销售培训中");
-            t_field($table->integer("referral_money"),"转介绍金额");
             t_field($table->integer("high_school_money"),"高中金额");
             t_field($table->integer("junior_money"),"初中金额");
             t_field($table->integer("primary_money"),"小学金额");

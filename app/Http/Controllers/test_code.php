@@ -59,7 +59,11 @@ class test_code extends Controller
     }
 
     public function get_begin_time($type,$day){
-        $begin_time = strtotime("-$day day",time());
+        if($day>0){
+            $begin_time = strtotime("-$day day",time());
+        }else{
+            $begin_time = 0;
+        }
         if($type==2){
             $check_time = strtotime("2016-12-1");
         }elseif($type==3){

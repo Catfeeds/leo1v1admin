@@ -56,6 +56,10 @@
 
 
     </style>
+    <script type="text/javascript" >
+     var g_data= <?php  echo json_encode($arr); ?> ;
+    </script>
+
 
 
     <section class="content " id="id_content" style="max-width:1200px;">
@@ -67,14 +71,18 @@
                 </div>
 
                 <div class="col-xs-6 col-md-2">
-                <div class="input-group ">
-                    <span class="input-group-addon">历史记录</span>
-                    <select class="opt-change form-control" id="id_is_history_data">
-                        <option value="1" >是</option>
-                        <option value="2" >否</option>
-                    </select>
+                    <div class="input-group ">
+                        <span class="input-group-addon">历史记录</span>
+                        <select class="opt-change form-control" id="id_is_history_data">
+                            <option value="1" >是</option>
+                            <option value="2" >否</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="col-xs-12 col-md-1 col-md-offset-5">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
+                </div>
+
             </div>
             <hr/>      
 
@@ -82,7 +90,11 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
-                            月度目标
+                            @if($arr['type'] == 1)
+                                月报
+                            @else
+                                周报
+                            @endif
                             @if($arr['create_time_range'])
                                 <br/>统计时段({{@$arr['create_time_range']}})
                             @endif
@@ -221,8 +233,8 @@
                                             <td class="panel-blue">  {{@$arr['real_renew_num']}}  </td> 
                                             <td>{{@$arr['total_renew']}}</td> 
                                             <td>{{@$arr['renew_num_per']}}</td>
-                                            <td class="panel-blue">  {{@$arr['renew_per']}} </td>
-                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}} </td>
+                                            <td class="panel-blue">  {{@$arr['renew_per']}}%</td>
+                                            <td class="panel-blue">  {{@$arr['finish_renew_per']}}% </td>
                                         </tr>
                                 </tbody>
                             </table>
@@ -254,7 +266,7 @@
                                             <td class="panel-green"> {{@$arr['tranfer_phone_num']}}  </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_num']}} </td> 
                                             <td class="panel-green"> {{@$arr['tranfer_total_price']}}</td>
-                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}  </td>
+                                            <td class="panel-blue">  {{@$arr['tranfer_success_per']}}%  </td>
                                             <td>{{@$arr['tranfer_num']}}</td>
                                             <td>{{@$arr['total_tranfer']}}</td>
                                             <td>{{@$arr['tranfer_num_per']}}</td>
@@ -289,7 +301,7 @@
                                         <td class="panel-green">  {{@$arr['success_num']}}</td>
                                         <td class="panel-green"> {{@$arr['wait_num']}}  </td> 
                                         <td class="panel-green"> {{@$arr['fail_num']}}  </td> 
-                                        <td class="panel-blue">  {{@$arr['kk_success_per']}} </td> 
+                                        <td class="panel-blue">  {{@$arr['kk_success_per']}}% </td> 
 
                                     </tr>
                                 </tbody>

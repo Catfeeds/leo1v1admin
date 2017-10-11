@@ -1,5 +1,7 @@
 <?php
 return array(
+    ["db_weiyi","t_agent_money_ex", "id"],
+    ["db_weiyi","t_wx_give_book", "id"],
     ["db_weiyi_admin","t_ssh_login_log", "id"],
     ["db_weiyi_admin","t_month_def_type","id"],
     ["db_weiyi","t_order_activity_info", "orderid", "subid"],
@@ -9,6 +11,7 @@ return array(
     ["db_weiyi","t_xmpp_server_config", "id"],
     ["db_weiyi_admin","t_main_major_group_name_month", "groupid"],
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
+    ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
     ["db_weiyi_admin","t_admin_majordomo_group_name", "groupid"],
@@ -91,6 +94,7 @@ return array(
     ["db_weiyi","t_teacher_lecture_info","id"] ,
     ["db_weiyi","t_teacher_apply","id"] ,
     ["db_weiyi","t_revisit_info","userid","revisit_time" ] ,
+    ["db_weiyi","t_revisit_assess_info","id" ] ,
     ["db_weiyi","t_revisit_warning_overtime_info","overtime_id" ] ,
     ["db_weiyi","t_parent_info","parentid"] ,
     ["db_weiyi","t_error_info","id"] ,

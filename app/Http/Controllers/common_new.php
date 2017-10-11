@@ -277,9 +277,9 @@ class common_new extends Controller
         }
 
         if($full_time==1){
-            $accept_adminid=492; 
+            $accept_adminid=492;
         }else{
-            $accept_adminid = $this->get_zs_accept_adminid($reference); 
+            $accept_adminid = $this->get_zs_accept_adminid($reference);
         }
         $accept_time=0;
         if($accept_adminid>0){
@@ -614,8 +614,8 @@ class common_new extends Controller
           CDR(userfield) 使用第三方外呼调用接口时传递了参数userField 该值只是第三方外呼调用接口发起的呼叫，且传递了userField参数，在挂机推送时用来获取userField传递的值。
 
         */
-        //$cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
-        $cdr_bridge_time=$this->get_in_int_val("cdr_answer_time");
+        $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        $obj_start_time=$this->get_in_int_val("cdr_answer_time");
         //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
         $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
 
@@ -629,10 +629,10 @@ class common_new extends Controller
         $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
 
         $duration=0;
-        if ($cdr_bridge_time ) {
-            $duration= $cdr_end_time-$cdr_bridge_time;
+        if ($obj_start_time) {
+            $duration= $cdr_end_time-$obj_start_time;
         }
-        \App\Helper\Utils::logger("duration ,$duration, $cdr_bridge_time");
+        \App\Helper\Utils::logger("duration ,$duration, $obj_start_time");
 
 
         $called_flag=($cdr_status==28 && $duration>60  )?2:1;
@@ -645,7 +645,7 @@ class common_new extends Controller
             $cdr_end_time,
             $duration,
             $cdr_status==28?1:0,
-            "");
+            "",0,0, $obj_start_time);
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
     }
@@ -1060,10 +1060,15 @@ class common_new extends Controller
     public function check_ssh_login_time() {
         $account=$this->get_in_str_val("account");
         $remote_host=$this->get_in_str_val("remote_host");
+        $server_ip=$this->get_in_str_val("server_ip");
+        if (!$server_ip ){
+            $server_ip= $this->get_in_client_ip();
+        }
         $ssh_login_time=\App\Helper\Common::redis_get("SSH_LOGIN_TIME_$account");
         $check_ip_list=[
             //公司网络
             "116.226.191.6",
+            "101.81.224.61",
             //外网网互通
             "118.190.115.161",
             "118.190.135.205",
@@ -1077,14 +1082,28 @@ class common_new extends Controller
             "118.190.65.189",
             "118.190.65.193",
         ];
+        $login_flag=false;
         if(in_array($remote_host, $check_ip_list )){
-            return "1";
+            $login_flag=true;
         }
 
+
         if (time(NULL)-$ssh_login_time  < 3600 ){
+            $login_flag=true;
+        }
+        $this->t_ssh_login_log->row_insert([
+            "type"=> 0,
+            "serverip"=> $server_ip,
+            'account' => $account,
+            "login_time" =>time(),
+        ]);
+
+        if ($login_flag ) {
             return "1";
         }else{
+            dispatch( new \App\Jobs\send_error_mail( "","ssh 异常登录 登录 ip: $remote_host ,服务器: $server_ip  账号 :$account" , " 登录 ip $remote_host 服务器: $server_ip  账号 :$account " ) );
             return "0";
+
         }
     }
 
@@ -1110,16 +1129,16 @@ class common_new extends Controller
 
             //分期期数
             // $period = $this->t_child_order_info->get_period_num($orderid);
-           
+
             //成交价格
             $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
             //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
             $userid = $this->t_order_info->get_userid($parent_orderid);
             $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
             $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
 
-          
+
 
             $arrParams = [];
 
@@ -1181,14 +1200,14 @@ class common_new extends Controller
                             "学生:".$user_info["nick"]." 合同已支付全款",
                             "");
 
- 
+
                     }
 
 
                 }
                 return $this->output_succ(["status"=>0,"msg"=>"success"]);
             }
- 
+
         }
         // dd(111);
     }
@@ -1264,8 +1283,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         // dd($cmd);
         $verifyResult = \App\Helper\Utils::exec_cmd($cmd);
         // dd($verifyResult);
- 
-        
+
+
         //当前默认为true
         //$verifyResult=true;
         if($verifyResult){
@@ -1277,7 +1296,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }else{
                 $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
                 //  $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
                 $userid = $this->t_order_info->get_userid($parent_orderid);
                 $sys_operator = $this->t_order_info->get_sys_operator($parent_orderid);
                 $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
@@ -1334,25 +1353,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                         "学生:".$user_info["nick"]." 合同已支付全款",
                         "");
 
- 
+
                 }
 
 
             }
             return $this->output_succ(["status"=>0,"msg"=>"success"]);
             //return true;
-            
- 
+
+
         }else{
             // return false;
             return $this->output_succ(["status"=>1,"msg"=>"验证失败"]);
         }
- 
-        
-        
+
+
+
     }
 
-   
+
 
 
 }

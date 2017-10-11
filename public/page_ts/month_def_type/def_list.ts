@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/month_def_type-list.d.ts" />
+/// <reference path="../g_args.d.ts/month_def_type-def_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -14,16 +14,6 @@ $(function(){
     }
 
 
-    $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
-        'opt_date_type' : g_args.opt_date_type,
-        'start_time'    : g_args.start_time,
-        'end_time'      : g_args.end_time,
-        date_type_config : JSON.parse( g_args.date_type_config),
-        onQuery :function() {
-            load_data();
-        }
-    });
     $('#id_month_def_type').val(g_args.month_def_type);
     $.enum_multi_select( $('#id_month_def_type'), 'month_def_type', function(){load_data();} )
 
@@ -49,6 +39,8 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 var $def_time = $('input[name="def_time"]').val();
+                var def = $def_time.split('-');
+                $def_time = def[0] + '-' + def[1] + '-01'; // 定义时间为每个月的一号
                 var $start_time = $('input[name="start_time"]').val();
                 var $end_time = $('input[name="end_time"]').val();
                 if ($start_time < $end_time) {
@@ -72,17 +64,17 @@ $(function(){
 
         var $month_def_type= $("<select/>" );
         Enum_map.append_option_list("month_def_type", $month_def_type, true);
-        var d_input = $('<input type=text name=def_time value="'+ opt_data.def_time +'">');
+        //var d_input = $('<input type=text name=def_time value="'+ opt_data.def_time +'">');
         var s_input = $('<input type=text name=start_time value="'+ opt_data.start_time +'">');
         var e_input = $('<input type=text name=end_time value="'+ opt_data.end_time +'">');
         var arr=[
             ["月份定义" ,$month_def_type],
-            ['定义时间', d_input],
+            //['定义时间', d_input],
             ['开始时间', s_input],
             ['结束时间', e_input],
         ] ;
 
-        initPicker(d_input);
+        //initPicker(d_input);
         initPicker(s_input);
         initPicker(e_input);
 
@@ -90,14 +82,14 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                var $def_time = $('input[name="def_time"]').val();
+                //var $def_time = $('input[name="def_time"]').val();
                 var $start_time = $('input[name="start_time"]').val();
                 var $end_time = $('input[name="end_time"]').val();
                 if ($start_time < $end_time) {
                     $.do_ajax("/month_def_type/update_data",{
                         "id": opt_data.id,
                         "month_def_type" : $month_def_type.val(),
-                        "def_time" : $def_time,
+                        //"def_time" : $def_time,
                         "start_time" : $start_time,
                         "end_time" : $end_time,
                     });

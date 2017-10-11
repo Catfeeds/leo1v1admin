@@ -2387,16 +2387,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_new_stu_num($start_time, $end_time){
 
         $where_arr = [
-            "s.is_test_user = 0",
+            // "s.is_test_user = 0",
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(*) from %s ss "
-                                  ." left join %s s on s.userid = ss.userid"
+                                  // ." left join %s s on s.userid = ss.userid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
+                                  // ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 

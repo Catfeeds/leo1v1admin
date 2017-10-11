@@ -15,10 +15,10 @@ class supervisor extends Controller
         parent::__construct();
     }
 
+    /*
     public function get_servers()
     {
         $courseid = $this->get_in_int_val('courseid',0);
-        $server_arr = get_server_info($courseid);
 
         if(!$server_arr){
             outputJson(array('ret' => -1, 'info' => '无法获取服务器信息'));
@@ -32,6 +32,8 @@ class supervisor extends Controller
             )
         ));
     }
+    */
+
 
     public function get_lesson_contact()
     {
@@ -135,15 +137,16 @@ class supervisor extends Controller
         }
 
         session([$monitor_key=>$ret_info["list"]]);
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
+
+        $server_name_map = $this->t_xmpp_server_config->get_server_name_map();
 
         $i = 1;
         foreach($ret_info['list'] as $key=> &$item){
             $item['index']       = $i;
             $i++;
-            $server_info         = @$server_map[$item['courseid']];
+            $xmpp_server_name=  $item["xmpp_server_name"];
+            $current_server=  $item["current_server"];
+            $server_info         = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
             $lesson_type         = $item['lesson_type'];
             $item['region']      = @$server_info['region'];
             $item['ip']          = @$server_info['ip'];
@@ -177,29 +180,10 @@ class supervisor extends Controller
     }
 
 
-    private function gen_server_map($list){
-        $id_list = [];
-        foreach($list as $item){
-            $id_list[] = $item["courseid"];
-        }
-
-        $server_map = array();
-        if(!\App\Helper\Utils::check_env_is_testing()){
-            $server_arr = \App\Helper\Net::get_server_info($id_list);
-            if(isset($server_arr["server_list"]) && !empty($server_arr) ){
-                foreach($server_arr["server_list"] as $key => $value){
-                    $server_map[$value['courseid']] = $value;
-                }
-            }
-        }
-
-        return $server_map;
-    }
-
+    /*
     public function get_current_lessons()
     {
         $ret = $this->lesson_manage_model->get_current_lessons();
-        $server_map = $this->gen_server_map($ret);
 
         foreach($ret as &$item){
             if($item['current_server'] == ""){
@@ -219,6 +203,7 @@ class supervisor extends Controller
         outputJson(array('ret' => 0, data => $ret,
                          "webrtc_xmpp_server_list" => $this->config->get_webrtc_xmpp_server_list() ));
     }
+    */
 
 
     public function get_lesson_conditions_js()
@@ -318,66 +303,7 @@ class supervisor extends Controller
         return json_encode($condition_arr);
    }
 
-    public function going_monitor()
-    {
-        $page_num = $this->get_in_int_val('page_num', -1);
-        if($page_num < 1)
-            $page_num = 1;
 
-        $ret_info = $this->lesson_manage_model->get_going_lesson_condition_list($page_num);
-        $condition_arr = array();
-
-        $server_map = $this->gen_server_map($ret_info['list']);
-        $num = ($page_num-1)*5+1;
-        foreach($ret_info['list'] as $key => $value){
-            $server_info  = $server_map[$value['courseid']];
-            $condition_arr[] = array(
-                'lessonid'    => $value['lessonid'],
-                'region'      => $server_info['region'],
-                'ip'          => $server_info['ip'],
-                'port'        => $server_info['webrtc_port'],
-                'num'         => $num++,
-                'courseid'    => $value['courseid'],
-                'lesson_num'  => $value['lesson_num'],
-                'stu_nick'    => $value['stu_nick'],
-                'tea_nick'    => $value['tea_nick'],
-                'lesson_time' => date('Y-m-d H:i' ,$value['lesson_start']) . " - " . date('H:i', $value['lesson_end']),
-            );
-        }
-
-        $s_url = get_url('supervisor', 'monitor', "?page_num={Page}");
-        $this->setTplPageInfo($s_url, $ret_info['total_num'] ,  20, $page_num);
-
-        $this->tpl->assign('page_num',$page_num);
-        $this->tpl->assign('condition_arr', $condition_arr);
-//        $this->tpl->display('going_monitor.html');
-        $this->display(__METHOD__);
-    }
-
-    public function get_going_lesson_conditions()
-    {
-        $date = $this->get_in_str_val('date', date('Y-m-d', time(NULL)));
-
-        $tea_nick = $this->get_in_str_val('tea_nick', "");
-        $page_num = $this->get_in_int_val('page_num', -1);
-
-        if($page_num < 1)
-            $page_num = 1;
-        $start_s = strtotime($date);
-        $end_s = $start_s + 86400;
-
-        $ret = $this->lesson_manage_model->get_going_lesson_conditions($page_num);
-        $cond_list = $ret['list'];
-        $len = count($cond_list);
-        for($i = 0; $i < $len; $i++){
-            if($cond_list[$i]['lesson_condition'] == "")
-                $cond_list[$i]['lesson_condition'] = $this->gen_empty_cond();
-            if($cond_list[$i]['lesson_start'] < time(NULL) && $cond_list[$i]['lesson_status'] != 2)
-                $cond_list[$i]['lesson_status'] = 1;
-        }
-
-        outputJson(array('ret' => 0, 'condition_list' => $cond_list));
-    }
 
     public function update_server_type(){
         $type         = $this->get_in_int_val('type',0);
@@ -448,9 +374,6 @@ class supervisor extends Controller
             $is_group_leader_flag = 0;
         }
 
-        if(!empty($ret_info['list'])){
-            $server_map = $this->gen_server_map($ret_info['list']);
-        }
 
         $info=$this->t_lesson_info_b2-> get_info_for_monitor($lessonid);
         E\Egrade::set_item_value_str($info);
@@ -461,7 +384,7 @@ class supervisor extends Controller
         foreach($ret_info['list'] as $key=> &$item){
             $item['index']       = $i;
             $i++;
-            $server_info         = @$server_map[$item['courseid']];
+            $server_info         =  $this->t_lesson_info_b3->get_real_xmpp_server($item["lessonid"]) ;
             $lesson_type         = $item['lesson_type'];
             $item['region']      = @$server_info['region'];
             $item['ip']          = @$server_info['ip'];
