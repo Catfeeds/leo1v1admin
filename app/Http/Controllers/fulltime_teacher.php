@@ -15,6 +15,7 @@ class fulltime_teacher extends Controller
         //  $adminid=713; //WUhan
         // $adminid=920; //Shanghai
         //print_r($adminid);
+        $adminid = 863;
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
