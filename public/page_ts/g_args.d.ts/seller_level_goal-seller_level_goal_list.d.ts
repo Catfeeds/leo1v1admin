@@ -19,6 +19,7 @@ interface RowData {
 	level_face	:any;
 	create_time	:any;
 	num	:any;
+	level_icon	:any;
 	seller_level_str	:any;
 }
 

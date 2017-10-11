@@ -837,18 +837,19 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
-
-
-    public function get_real_xmpp_server($lessonid ) {
-        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
-        $xmpp_server= $lesson_info["xmpp_server_name"];
-        if(!$xmpp_server) {
-            $xmpp_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+    public function eval_real_xmpp_server( $xmpp_server_name, $current_server, $map=null ) {
+        if (!$xmpp_server_name) {
+            $xmpp_server_name=$current_server;
         }
-        if (!$xmpp_server) { //默认设置到杭州
-            $xmpp_server="h_01";
+        if (!$xmpp_server_name) { //默认设置到杭州
+            $xmpp_server_name="h_01";
         }
-        $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
+
+        if (!$map)  {
+            $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server_name );
+        }else{
+            $row=@$map[$xmpp_server_name];
+        }
         if ($row) {
             $ret=[
                 'ip'          => $row["ip"] ,
@@ -871,19 +872,31 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
 
+    public function get_real_xmpp_server($lessonid ) {
+        $lesson_info=$this->field_get_list($lessonid,"courseid,xmpp_server_name");
+        $xmpp_server= $lesson_info["xmpp_server_name"];
+        $current_server="";
+        if(!$xmpp_server) {
+            $current_server= $this->task->t_course_order->get_current_server($lesson_info["courseid"]);
+        }
+        return $this->eval_real_xmpp_server( $xmpp_server, $current_server );
+    }
+
+
     public function get_test_lesson_succ_num($start_time,$end_time){
         $where_arr = [
             "l.lesson_user_online_status in (0,1)",
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
             // "tll.test_lesson_fail_flag=0",
-            "tll.fail_greater_4_hour_flag=0"
+            "tll.fail_greater_4_hour_flag=0",
+            "tlr.accept_flag=1",
 
         ];
 
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tlr.require_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(l.lessonid) from %s l "
+        $sql = $this->gen_sql_new("  select count(tll.lessonid) from %s l "
                                   ." left join %s tll on tll.lessonid=l.lessonid "
                                   ." left join %s tlr on tlr.require_id=tll.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tlr.test_lesson_subject_id"

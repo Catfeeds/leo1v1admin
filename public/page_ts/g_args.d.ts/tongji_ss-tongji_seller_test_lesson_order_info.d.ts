@@ -14,18 +14,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	check_value	:any;
-	title	:any;
-	key1	:any;
-	key2	:any;
-	key3	:any;
-	key4	:any;
-	key1_class	:any;
-	key2_class	:any;
-	key3_class	:any;
-	key4_class	:any;
-	level	:any;
-	create_time	:any;
 }
 
 /*

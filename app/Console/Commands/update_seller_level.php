@@ -33,7 +33,7 @@ class update_seller_level extends cmd_base
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $start_time<$item['end_time']){
+            if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time_this = $item['start_time'];
                 $end_time_this = $item['end_time'];
             }
@@ -67,7 +67,7 @@ class update_seller_level extends cmd_base
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            $next_num = $num++;
+            $next_num = $num + 1;
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
             if($ret_next){
                 $next_level = $ret_next['seller_level'];

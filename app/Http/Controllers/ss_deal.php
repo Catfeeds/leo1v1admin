@@ -142,7 +142,7 @@ class ss_deal extends Controller
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
-        // dd($seller_resource_type);
+        //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
@@ -890,7 +890,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="助教-扩课1";
+            $origin_info["origin"]="助教-扩课";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -2157,6 +2157,17 @@ class ss_deal extends Controller
         if($price > $old_price ){
             return $this->output_err("新增子合同金额大于可拆分金额!!");
         }
+        
+        //分期合同不能全款
+        if($child_order_type==2){
+            $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
+            $all_price = $this->t_order_info->get_price($parent_orderid);
+            if(($price+$period_money) >($all_price-200000)){
+                 return $this->output_err("分期合同需要设置2000元的首付款!");
+            }
+        }
+
+        
         $new_price =  $old_price-$price;
         $this->t_child_order_info->field_update_list($child_orderid,[
            "price"  =>$new_price
@@ -2218,6 +2229,16 @@ class ss_deal extends Controller
 
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
+
+        //分期合同不能全款
+        if($child_order_type==2){
+            $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
+            $all_price = $this->t_order_info->get_price($parent_orderid);
+            if(($price+$period_money) >($all_price-200000)){
+                return $this->output_err("分期合同需要设置2000元的首付款!");
+            }
+        }
+
 
         if($price > ($old_price +$default_info["price"])){
             return $this->output_err("金额超出未付款总额");
@@ -2610,7 +2631,7 @@ class ss_deal extends Controller
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="2助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
+        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,

@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\save_seller_info::class,
         Commands\add_warning_overtime::class,
         Commands\reset_parent_call_status::class,
         Commands\send_wx_msg_for_test_lesson::class,
@@ -154,7 +155,6 @@ class Kernel extends ConsoleKernel
         Commands\reset_lesson_online_user_status::class,
         Commands\CheckTeacherIsInRoom::class,
         Commands\seller_reset_no_call_to_new_user::class,
-        Commands\xmpp_del_room::class,
 
     ];
 

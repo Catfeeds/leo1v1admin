@@ -408,6 +408,26 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
+    public function get_has_called_stu_num($start_time, $end_time){
+        $where_arr = [
+            "tq.admin_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"s.add_time",$start_time,$end_time);
+
+
+        $sql=$this->gen_sql_new("  select count(distinct(s.userid)) from %s s"
+                                ." left join %s tq on s.phone=tq.phone"
+                                ." where  %s ",
+                                t_seller_student_new::DB_TABLE_NAME,
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
     public function get_tq_succ_num($start_time, $end_time){
         $where_arr = [
             "tq.admin_role=2"

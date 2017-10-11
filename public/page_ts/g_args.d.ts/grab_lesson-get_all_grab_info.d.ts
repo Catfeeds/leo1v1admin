@@ -19,18 +19,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	grabid	:any;
-	grab_lesson_link	:any;
-	live_time	:any;
-	adminid	:any;
-	create_time	:any;
-	requireids	:any;
-	visit_count	:any;
-	grab_count	:any;
-	succ_count	:any;
-	fail_count	:any;
-	nick	:any;
-	lesson_count	:any;
 }
 
 /*

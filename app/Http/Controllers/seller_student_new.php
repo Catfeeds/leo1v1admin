@@ -1188,9 +1188,10 @@ class seller_student_new extends Controller
     public function test_lesson_order_fail_list_new(){
         $userid = $this->get_in_int_val('userid',-1);
         $cur_require_adminid = $this->get_account_id();
+        $account_role = $this->get_account_role();
         $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid,$userid);
         $ret = isset($ret_info['require_id'])?$ret_info['require_id']:0;
-        if(in_array($cur_require_adminid,[68,1093,1122])){//测试
+        if(in_array($cur_require_adminid,[68,1093,1122]) || $account_role != E\Eaccount_role::V_2){//测试
             $ret = 0;
         }
         return $ret;
@@ -1359,8 +1360,8 @@ class seller_student_new extends Controller
         if (in_array( $cur_week*1,[6,0] ) ) {
             $limit_arr=array( [0,11*60] );
         }else{
-            //$limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
-            $limit_arr=array( [0, 10*60 ] );
+            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+            //$limit_arr=array( [0, 10*60 ] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;

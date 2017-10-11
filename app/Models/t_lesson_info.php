@@ -129,9 +129,13 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
 
-        $sql = $this->gen_sql("select lessonid,userid,teacherid,courseid,lesson_type,lesson_num,lesson_end from %s ".
+        $sql = $this->gen_sql("select lessonid,l.userid,l.teacherid,c.courseid,"
+                              . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
+                              " from %s l".
+                              " left join  %s c on c.courseid=l.courseid ".
                               "where lesson_end > %u  and lesson_end < %u and  lesson_status < 2",
                               self::DB_TABLE_NAME,
+                              t_course_order::DB_TABLE_NAME,
                               $start_time,
                               $end_time
         );
@@ -714,7 +718,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select l.lessonid,require_adminid,account,l.userid,l.teacherid,l.assistantid,lesson_start,lesson_end,".
             " l.courseid,l.lesson_type,".
-            " lesson_num,c.current_server,server_type ".
+            " lesson_num,c.current_server,server_type , xmpp_server_name".
             " from %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s tss on l.lessonid = tss.lessonid ".
@@ -1925,7 +1929,7 @@ lesson_type in (0,1) "
 
         $sql = $this->gen_sql_new(
             "select l.lessonid,  require_adminid,  account, l.userid,  l.teacherid ,   l.assistantid , lesson_start, lesson_end, l.courseid,  l.lesson_type, " .
-            " lesson_num,   c.current_server ,  server_type , l.lesson_condition,lesson_status ".
+            " lesson_num,   c.current_server ,  server_type , l.lesson_condition,lesson_status, xmpp_server_name  ".
             " from    %s l " .
             " left join %s c on c.courseid = l.courseid  ".
             " left join %s tss on l.lessonid = tss.lessonid ".
@@ -7287,14 +7291,15 @@ lesson_type in (0,1) "
         }
         $where_arr=$this->lesson_common_where_arr($where_arr);
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.realname as tea_nick,lesson_start,lesson_end,lesson_type,"
-                                  ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,courseid,lesson_num,"
+                                  ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,l.courseid,lesson_num,"
                                   ." tea_cw_url,count(distinct(tl.userid)) as user_num,count(distinct(lo.userid)) as login_num,"
-                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type "
+                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type, l.xmpp_server_name, c.current_server "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s lo on l.lessonid=lo.lessonid"
                                   ." left join %s t2 on tl.userid=t2.teacherid and t2.train_through_new_time>0"
+                                  ." left join %s c on c.courseid= l.courseid "
                                   ." where %s"
                                   ." and lesson_type=1100"
                                   ." group by l.lessonid"
@@ -7304,6 +7309,7 @@ lesson_type in (0,1) "
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_opt_log::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true,"",function($item){
@@ -8387,14 +8393,17 @@ lesson_type in (0,1) "
         if($type==1){
             $where_arr[] = "lesson_type in (1001,1002)";
         }
-        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid,"
+        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid, "
+                                  ." xmpp_server_name, c.current_server,  "
                                   ." l.lesson_start,l.lesson_end"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s c on c.courseid=l.courseid"
                                   ." where %s"
                                   ." and is_test_user=0"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

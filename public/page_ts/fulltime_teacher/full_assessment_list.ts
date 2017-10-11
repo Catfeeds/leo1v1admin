@@ -4,9 +4,14 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			fulltime_adminid:	$('#id_fulltime_adminid').val()
         });
     }
+
+	$('#id_fulltime_adminid').val(g_args.fulltime_adminid);
+    $.admin_select_user(
+        $('#id_fulltime_adminid'),
+        "admin", load_data,false,{"main_type":5});
 
     $("#name").on("click",function(){
         var tt = parseInt($("#rate_stars").text());
@@ -277,6 +282,12 @@ $(function(){
         });                           
 
     })
+
+    if(g_args.acc=="jack" || g_args.acc=="low-key"){
+        $("#id_fulltime_adminid").parent().parent().show();
+    }else{
+        $("#id_fulltime_adminid").parent().parent().hide();
+    }
 
 	$('.opt-change').set_input_change_event(load_data);
 });
