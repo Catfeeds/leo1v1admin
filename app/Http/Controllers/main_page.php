@@ -167,12 +167,12 @@ class main_page extends Controller
             $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
             $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
 
-            $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
+            // $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
 
             $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
 
             $ret_info['new_stu'] = $this->t_seller_student_new->get_new_stu_num($start_time, $end_time); // 本月新进例子数
-            
+
 
             $ret_info['cc_called_num'] = $this->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
             $ret_info['cc_call_time'] = $this->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
@@ -246,7 +246,7 @@ class main_page extends Controller
             }
 
             if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu'];
+                $ret_info['stu_consume_rate'] = $ret_info['has_called']/$ret_info['new_stu'];
             }else{
                 $ret_info['stu_consume_rate'] = 0;
             }
