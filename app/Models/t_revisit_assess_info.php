@@ -17,7 +17,7 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
             "r.revisit_time<$end_time",
         ];
         $sql = $this->gen_sql_new(
-            "select ra.stu_num,count(distinct r.userid) as revisit_num,count(tq.duration) as call_num"
+            "select ra.stu_num,count(distinct r.userid) as revisit_num,sum(tq.duration) as call_num"
             ." from %s ra"
             ." left join %s m on m.uid=ra.uid"
             ." left join %s r on r.sys_operator=m.account and r.revisit_type=0"

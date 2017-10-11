@@ -161,12 +161,10 @@ class main_page extends Controller
             $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
             $ret_info['new_order_num'] = $order_info_total['total_num']; // 合同数量
 
-
-
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
             //  外呼情况
-            $ret_info['seller_call_num'] = $ret_info['has_called'] =  $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['seller_call_num'] = $ret_info['has_called'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
             $ret_info['has_called_stu'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
 
 
@@ -602,10 +600,12 @@ class main_page extends Controller
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $warning_type_num['warning_type_three'] = $three_count;
 
+        //月回访信息
         $start_time = strtotime( date('Y-m-1', time()) );
         $end_time   = strtotime("+1 month",$start_time);
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
 
+        //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
         $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
