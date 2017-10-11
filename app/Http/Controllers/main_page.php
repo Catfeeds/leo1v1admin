@@ -602,10 +602,12 @@ class main_page extends Controller
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $warning_type_num['warning_type_three'] = $three_count;
 
+        //月回访信息
         $start_time = strtotime( date('Y-m-1', time()) );
         $end_time   = strtotime("+1 month",$start_time);
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
 
+        //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
         $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
