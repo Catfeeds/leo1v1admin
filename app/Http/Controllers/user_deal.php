@@ -3399,6 +3399,7 @@ class user_deal extends Controller
                 "201705", $adminid, $start_time, $end_time ) ;
             break;
         default:
+
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;
