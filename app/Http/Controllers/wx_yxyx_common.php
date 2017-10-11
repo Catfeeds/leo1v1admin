@@ -223,8 +223,6 @@ class wx_yxyx_common extends Controller
         $type   = $this->get_in_int_val('type');
         $userid = $this->t_seller_student_new->get_userid_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,'*');
-        if ($this->t_seller_student_new->get_add_time($userid) > time(NULL) -86400*60   ){
-        }
         $orderid = 0;
         if($userid){
             $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
@@ -239,6 +237,11 @@ class wx_yxyx_common extends Controller
         if(!$type){
             return $this->output_err("请选择报名类型!");
         }
+
+        if($userid && $this->t_seller_student_new->get_add_time($userid) > time(NULL) -60*86400 ) {
+            return $this->output_err("您已是在读学员!");
+        }
+
         if($userid
            && $student_info['type'] ==  E\Estudent_type::V_0
            && $student_info['is_test_user'] == 0

@@ -52,14 +52,12 @@ class save_seller_info extends Command
         $ret_info['from_time'] = $start_time;
 
 
-
         $order_info_total = $task->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
         $ret_info['new_money']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-        // $ret_info['income_price'] = $order_info_total['total_price'];
         $ret_info['order_num']   = $order_info_total['total_num']; // 有签单的销售人数
 
 
