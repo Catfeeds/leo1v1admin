@@ -30,7 +30,7 @@ class t_seller_level_goal extends \App\Models\Zgen\z_t_seller_level_goal
     public function get_all_list_new(){
         $sql = $this->gen_sql_new(
             "select * "
-            ." from %s order by num "
+            ." from %s order by num desc "
             ,self::DB_TABLE_NAME
         );
 

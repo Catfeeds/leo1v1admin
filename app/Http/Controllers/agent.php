@@ -495,6 +495,7 @@ class agent extends Controller
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
         $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
+        dd($ret_level_goal);
         $update_seller_list = [];
         foreach($seller_list as $key=>$item){
             $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
