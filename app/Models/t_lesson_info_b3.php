@@ -889,7 +889,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
             // "tll.test_lesson_fail_flag=0",
-            "tll.fail_greater_4_hour_flag=0"
+            "tll.fail_greater_4_hour_flag=0",
+            "tlr.accept_flag=1",
 
         ];
 
