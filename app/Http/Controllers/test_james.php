@@ -319,6 +319,7 @@ class testbb extends Controller
             t_field($table->integer("seller_test_succ_month_funnel"),"试听成功数[月到课率]-[漏斗型]-月更新");
             t_field($table->integer("order_trans_month_funnel"),"合同人数[月试听转化率]-[漏斗型]-月更新 ");
             
+            t_field($table->integer("order_sign_month_funnel"),"合同人数[月签约率]-[漏斗型]-存档 ");
             t_field($table->integer("order_sign_month"),"合同人数[月签约率]-存档 ");
 
             //order_sign_month

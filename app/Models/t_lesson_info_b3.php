@@ -841,6 +841,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         if (!$map)  {
             $row=$this->task->t_xmpp_server_config->get_info_by_server_name($xmpp_server );
         }else{
+            $row=@$map[$xmpp_server];
         }
         if (!$xmpp_server) { //默认设置到杭州
             $xmpp_server="h_01";
