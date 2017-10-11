@@ -8393,7 +8393,8 @@ lesson_type in (0,1) "
         if($type==1){
             $where_arr[] = "lesson_type in (1001,1002)";
         }
-        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid, xmpp_server_name, c.current_server  "
+        $sql = $this->gen_sql_new("select l.lessonid,l.courseid,l.lesson_num,l.lesson_type,l.teacherid,l.userid, "
+                                  ." xmpp_server_name, c.current_server,  "
                                   ." l.lesson_start,l.lesson_end"
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"

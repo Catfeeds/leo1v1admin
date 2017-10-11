@@ -339,7 +339,8 @@ class wx_yxyx_api extends Controller
                 $item["phone"]=$p_phone;
 
                 $ret_list[]= $item;
-            }else if ($price)  { //第二级有金额
+            }
+            if ($price)  { //第二级有金额
                 if (isset($id_map[$userid ]) ) {
                     continue;
                 }
