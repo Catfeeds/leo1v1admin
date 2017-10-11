@@ -55,7 +55,7 @@ class test_code extends Controller
         foreach($arr  as $val){
             if($val>0 && $val!=''){
                 $teacher_info =$this->t_teacher_info->get_teacher_info($val);
-                
+
             }
         }
     }

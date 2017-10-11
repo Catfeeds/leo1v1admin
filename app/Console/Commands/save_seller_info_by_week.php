@@ -41,8 +41,16 @@ class save_seller_info_by_week extends Command
         // 月末保存整月信息
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime(date('Y-m-01'));
-        $end_time   =  strtotime(date('Y-m-01'));
+
+        $end_time   = strtotime(date('Y-m-d 0:0:0'));
+        $start_time = $end_time-7*86400;
+
+        $month_start_time = strtotime(date('Y-m-01'));
+
+        if($month_start_time<$start_time){
+            $month_start_time = $start_time;
+        }
+
 
 
         $ret_info['create_time'] = time();

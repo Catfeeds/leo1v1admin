@@ -932,6 +932,7 @@ $(function(){
     download_hide();
 
 
+    /*
         $("<div></div>").admin_select_dlg_ajax({
             "opt_type" :  "select", // or "list"
             "url"          : "/user_deal/get_xmpp_server_list_js",
@@ -975,6 +976,7 @@ $(function(){
             "onLoadData"       : null,
 
         });
+        */
 
 
 });

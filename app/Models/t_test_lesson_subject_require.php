@@ -1549,7 +1549,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "accept_adminid > 0",
             "m.account_role = 3",
             "s.is_test_user=0",
-            "o.orderid>0"
+            "o.orderid>0",
+            "seller_top_flag=1"
         ];
         $sql = $this->gen_sql_new("select s.nick,tt.realname,tt.teacherid,tr.test_lesson_student_status,".
                                   "tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject,mm.account ".
@@ -1667,7 +1668,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(test_lesson_student_status =200,1,0)) un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200,1,0)) top_un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) top_count,".
-                                  " sum(if(o.orderid>0,1,0)) order_num,".
+                                  " sum(if(o.orderid>0 and tr.seller_top_flag=1,1,0)) order_num,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
