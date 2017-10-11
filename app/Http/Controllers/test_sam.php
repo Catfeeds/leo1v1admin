@@ -102,17 +102,21 @@ class test_sam  extends Controller
         $ret_info_order = $this->t_cr_week_month_info->get_order_province($start_time,$end_time);
         $province_order = [];
         $province_order['其它'] = 0;
+        $province_order['total'] = 0;
         foreach($ret_info_order as $key => $value){
             if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
 
                 $province_order['其它'] += $value['total'];
+                $province_order['total'] += $value['total'];
             }else{
                 $pro_order = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
                 if(!isset($province_order[$pro])){
                     $province_order[$pro_order] = 0;
                     $province_order[$pro_order] += $value['total'];
+                    $province_order['total'] += $value['total'];
                 }else{
                     $province_order[$pro_order] += $value['total'];
+                    $province_order['total'] += $value['total'];
                 }
 
             }
