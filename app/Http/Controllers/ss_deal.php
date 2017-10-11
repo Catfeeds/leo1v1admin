@@ -2230,6 +2230,16 @@ class ss_deal extends Controller
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
 
+        //分期合同不能全款
+        if($child_order_type==2){
+            $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
+            $all_price = $this->t_order_info->get_price($parent_orderid);
+            if(($price+$period_money) >($all_price-200000)){
+                return $this->output_err("分期合同需要设置2000元的首付款!");
+            }
+        }
+
+
         if($price > ($old_price +$default_info["price"])){
             return $this->output_err("金额超出未付款总额");
         }

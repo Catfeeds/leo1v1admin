@@ -635,13 +635,7 @@ class teacher_money extends Controller
             if($type=="admin"){
                 $acc = $this->get_account();
                 $record_info = $acc."修改了".$tea_nick."的银行卡信息";
-                $this->t_teacher_record_list->row_insert([
-                    "teacherid"   => $teacherid,
-                    "type"        => E\Erecord_type::V_6,
-                    "record_info" => $record_info,
-                    "add_time"    => time(),
-                    "acc"         => $acc,
-                ]);
+                $this->t_teacher_record_list->add_teacher_action_log($teacherid,$record_info,$acc);
             }
         }
         return $this->output_succ();
