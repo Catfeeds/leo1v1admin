@@ -187,12 +187,9 @@
                                                             <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
                                                         </p>
                                                         <span style="color:#9EB0C2;">
-                                                        <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#9EB0C2;"></a>
-                                                        </p>
-                                                        <p> {{$var["sys_operator"]}} </p>
-                                                        <p>{{$var["all_count"]}} </p>
-                                                        <p>{{$var["all_price"]}} </p>
+                                                            <p> {{$var["sys_operator"]}} </p>
+                                                            <p>{{$var["all_count"]}} </p>
+                                                            <p>{{$var["all_price"]}} </p>
                                                         </span>
                                                     </div>
                                     @elseif($var['index'] == 1)
@@ -202,14 +199,11 @@
                                                             <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
                                                         </p>
                                                         <span style="color:#F6A623;">
-                                                        <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#F6A623;" ></a>
-                                                        </p>
-                                                        <p>
-                                                            {{$var["sys_operator"]}}
-                                                        </p>
-                                                        <p>{{$var["all_count"]}} </p>
-                                                        <p>{{$var["all_price"]}} </p>
+                                                            <p>
+                                                                {{$var["sys_operator"]}}
+                                                            </p>
+                                                            <p>{{$var["all_count"]}} </p>
+                                                            <p>{{$var["all_price"]}} </p>
                                                         </span>
                                                     </div>
                                     @elseif($var['index'] == 3)
@@ -219,12 +213,9 @@
                                                             <img src="{{$var["face_pic"]}}" width="100%"  alt="" />
                                                         </p>
                                                         <span style="color:#CB7F31;">
-                                                        <p>
-                                                            <a title="" class=" fa-trophy fa" style="color:#CB7F31;"></a>
-                                                        </p>
-                                                        <p> {{$var["sys_operator"]}} </p>
-                                                        <p>{{$var["all_count"]}} </p>
-                                                        <p>{{$var["all_price"]}} </p>
+                                                            <p> {{$var["sys_operator"]}} </p>
+                                                            <p>{{$var["all_count"]}} </p>
+                                                            <p>{{$var["all_price"]}} </p>
                                                         </span>
                                                     </div>
                                                 </div>
