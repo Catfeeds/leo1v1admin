@@ -514,11 +514,11 @@ class agent extends Controller
               E\Eseller_level::V_100;
               E\Eseller_level::V_101;
              */
-            dd($price,$level_goal);
             // if($price>$level_goal){
-            //     if($adminid == 831){
-            //         $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-            //     }
+                if($adminid == 831){
+                    dd($price,$level_goal,$item['seller_level']);
+                    // $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
+                }
             // }
 
             //统计上个月
