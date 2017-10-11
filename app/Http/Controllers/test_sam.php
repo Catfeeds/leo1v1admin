@@ -141,7 +141,26 @@ class test_sam  extends Controller
         foreach ($order_grade as $key => $value) {
             echo $key."|".$value."<br/>";
         }
-
+        echo '--------------------'.'<br/>';
+        $ret_info_order_subject = $this->t_cr_week_month_info->get_total_order_subject_num($start_time,$end_time);
+        $order_subject = [];
+        $order_subject['其它'] = 0;
+        foreach ($ret_info_order_subject as $key => $value) {
+            if($value['subject'] < 1 || $value['subject'] > 11){
+                $subject['其它'] += $value['total'];
+            }else{
+                $order_gr = E\Esubject::get_desc($value['subject']);
+                if(!isset($subject[$order_gr])){
+                    $order_subject[$order_gr] = 0;
+                    $order_subject[$order_gr] += $value['total'];
+                }else{
+                    $order_subject[$order_gr] += $value['total'];
+                }
+            }
+        }
+        foreach ($order_subject as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
         //dd($province);
     }
 
