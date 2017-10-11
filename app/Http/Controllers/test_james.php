@@ -320,9 +320,11 @@ class test_james extends Controller
 
     public function install(){
         // 暂时未建
-        dd(date('Y-m-d', strtotime('-1 month')));
 
+        $start_time = 1507722518;
+        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
 
+        dd($six_month_old);
     }
 
 
