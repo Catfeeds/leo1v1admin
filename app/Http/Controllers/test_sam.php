@@ -33,6 +33,7 @@ class test_sam  extends Controller
         echo "第二次购买的学生数".$ret_info['total_renew_order'].'<br/>';
         echo "电话接通数:".$ret_info['total_call']."<br/>";
         */
+
         $start_time = 1504195200;
         $end_time   = 1506787200;
         $ret_info = $this->t_cr_week_month_info->get_total_province($start_time,$end_time);
@@ -96,6 +97,30 @@ class test_sam  extends Controller
         foreach ($subject as $key => $value) {
             echo $key."|".$value."<br/>";
         }
+
+        echo '--------------------'.'<br/>';
+        $ret_info_order = $this->t_cr_week_month_info->get_order_province($start_time,$end_time);
+        $province_order = [];
+        $province_order['其它'] = 0;
+        foreach($ret_info_order as $key => $value){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
+
+                $province_order['其它'] += $value['total'];
+            }else{
+                $pro_order = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                if(!isset($province_order[$pro])){
+                    $province_order[$pro_order] = 0;
+                    $province_order[$pro_order] += $value['total'];
+                }else{
+                    $province_order[$pro_order] += $value['total'];
+                }
+
+            }
+        }
+        foreach ($province_order as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+
         //dd($province);
     }
 
