@@ -606,8 +606,10 @@ class wx_yxyx_common extends Controller
         $agent_info = $this->t_yxyx_new_list->get_agent_info();
 
         foreach($agent_info as $key => $val){
-            $ret_info[$key]['new_nick'] = $val['new_phone'].$val['new_nick'];
-            $ret_info[$key]['from_nick'] = $val['from_phone'].$val['from_nick'];
+            $new_division = empty($val['new_nick']) ? '':'/';
+            $from_division = empty($val['from_nick']) ? '':'/';
+            $ret_info[$key]['new_nick'] = $val['new_phone'].$new_division.$val['new_nick'];
+            $ret_info[$key]['from_nick'] = $val['from_phone'].$from_division.$val['from_nick'];
             $ret_info[$key]['create_time'] = date('Y-m-d',$val['create_time']);
         }
 
