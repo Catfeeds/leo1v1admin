@@ -2717,6 +2717,7 @@ class tongji_ss extends Controller
 
             }
         }
+        return $this->output_succ(["data"=> $list]);
 
 
     }
