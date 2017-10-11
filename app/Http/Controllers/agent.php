@@ -502,7 +502,7 @@ class agent extends Controller
             $level_goal = $ret_this['level_goal'];
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            $next_num = $num++;
+            $next_num = $num+1;
             $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num);
             if($ret_next){
                 $next_level = $ret_next['seller_level'];
