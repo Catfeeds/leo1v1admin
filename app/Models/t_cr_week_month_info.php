@@ -57,4 +57,13 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         $sql = $this->gen_sql_new("select count(userid) as total,phone_location from t_student_info where %s group by phone_location", $where_arr);
         return $this->main_get_list($sql);
     }
+    public function get_total_grade_num($start_time,$end_time){
+         $where_arr = [
+            ["reg_time>%u",$start_time,-1],
+            ["reg_time<%u",$end_time,-1],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select t.grade ,count(s.userid) as total from t_student_info s  left join t_seller_student_new k on s.userid = k.userid left join t_test_lesson_subject t on t.userid = s.userid where %s group by t.grade", $where_arr);
+        return $this->main_get_list($sql);
+    }
 }

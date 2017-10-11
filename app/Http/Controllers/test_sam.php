@@ -39,7 +39,7 @@ class test_sam  extends Controller
         $province = [];
         $province['其它'] = 0;
         foreach($ret_info as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友'){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
 
                 $province['其它'] += $value['total'];
             }else{
@@ -54,6 +54,26 @@ class test_sam  extends Controller
             }
         }
         foreach ($province as $key => $value) {
+            echo $key."|".$value."<br/>";
+        }
+        echo '--------------------'.'<br/>';
+        $ret_info_grade = $this->t_cr_week_month_info->get_total_grade_num($start_time,$end_time);
+        $grade = [];
+        $grade['其它'] = 0;
+        foreach ($ret_info_grade as $key => $value) {
+            if($value['grade'] < 100 ){
+                $grade['其它'] += $value['total'];
+            }else{
+                $gr = E\Egrade::get_desc($value['grade']);
+                if(!isset($grade[$gr])){
+                    $grade[$gr] = 0;
+                    $grade[$gr] += $value['total'];
+                }else{
+                    $grade[$gr] += $value['total'];
+                }
+            }
+        }
+        foreach ($grade as $key => $value) {
             echo $key."|".$value."<br/>";
         }
         //dd($province);
