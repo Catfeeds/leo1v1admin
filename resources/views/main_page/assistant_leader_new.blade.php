@@ -376,7 +376,7 @@
                             <tbody>
                                 @foreach ( $month_info as $var )
                                 <tr>
-                                    <td>{{$var['sys_operator']}}</td>
+                                    <td>{{$var['name']}}</td>
                                     <td>{{$var["revisit_num"]}} </td>
                                     <td>{{$var["stu_num"]*2}} </td>
                                     <td>{{$var["call_num"]/60}} </td>
