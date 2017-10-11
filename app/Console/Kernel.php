@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\save_seller_info_by_week::class,
         Commands\save_seller_info::class,
         Commands\add_warning_overtime::class,
         Commands\reset_parent_call_status::class,

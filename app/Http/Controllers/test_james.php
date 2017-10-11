@@ -321,7 +321,6 @@ class test_james extends Controller
     public function install(){
         // 暂时未建
 
-        dd(strtotime(date('Y-m-01')));
 
 
     }

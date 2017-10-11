@@ -11,7 +11,7 @@ class save_seller_info_by_week extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:save_seller_info_by_week';
 
     /**
      * The console command description.
@@ -38,9 +38,8 @@ class save_seller_info_by_week extends Command
 
     public function handle()
     {
-        // 月末保存整月信息
+        // 周一保存整月信息
         $task=new \App\Console\Tasks\TaskController();
-
 
         $end_time   = strtotime(date('Y-m-d 0:0:0'));
         $start_time = $end_time-7*86400;
@@ -50,8 +49,6 @@ class save_seller_info_by_week extends Command
         if($month_start_time<$start_time){
             $month_start_time = $start_time;
         }
-
-
 
         $ret_info['create_time'] = time();
 
@@ -68,7 +65,6 @@ class save_seller_info_by_week extends Command
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-        // $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
         $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
@@ -79,8 +75,6 @@ class save_seller_info_by_week extends Command
             $ret_info['seller_target_income'] = 1600000;
         }
 
-
-        // dd(2);
 
         $month_finish_define_money_2=$ret_info['seller_target_income']/100;
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
@@ -123,8 +117,7 @@ class save_seller_info_by_week extends Command
 
         //  外呼情况
         $ret_info['seller_call_num'] = $ret_info['has_called'] =  $task->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-        $ret_info['has_called_stu'] = $task->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
-
+        $ret_info['has_called_stu'] = $task->t_tq_call_info->get_has_called_stu_num($month_start_time, $end_time); // 已拨打例子
 
         $ret_info['claim_num'] = $task->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
 
@@ -133,15 +126,15 @@ class save_seller_info_by_week extends Command
 
         $ret_info['cc_called_num'] = $task->t_tq_call_info->get_cc_called_num($start_time, $end_time);// 拨打的cc量
         $ret_info['cc_call_time'] = $task->t_tq_call_info->get_cc_called_time($start_time, $end_time); // cc通话时长
-        $ret_info['seller_invit_month'] = $task->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
-        $ret_info['has_tq_succ_invit_month']  = $task->t_seller_student_new->get_tq_succ_for_invit_month($start_time, $end_time); // 已拨通[月邀约数]
+        $ret_info['seller_invit_month'] = $task->t_test_lesson_subject_require->get_invit_num_for_month($month_start_time, $end_time); // 销售邀约数[月邀约数]
+        $ret_info['has_tq_succ_invit_month']  = $task->t_seller_student_new->get_tq_succ_for_invit_month($month_start_time, $end_time); // 已拨通[月邀约数]
 
-        $ret_info['seller_plan_invit_month'] = $task->t_test_lesson_subject_require->get_plan_invit_num_for_month($start_time, $end_time); // 试听邀约数[月排课率]
-        $ret_info['seller_test_succ_month'] = $task->t_lesson_info_b3->get_test_succ_for_month($start_time, $end_time); // 试听成功数[月到课率]
-        $ret_info['order_trans_month'] = $task->t_order_info->get_order_trans_month($start_time, $end_time); // 合同人数[月试听转化率]
+        $ret_info['seller_plan_invit_month'] = $task->t_test_lesson_subject_require->get_plan_invit_num_for_month($month_start_time, $end_time); // 试听邀约数[月排课率]
+        $ret_info['seller_test_succ_month'] = $task->t_lesson_info_b3->get_test_succ_for_month($month_start_time, $end_time); // 试听成功数[月到课率]
+        $ret_info['order_trans_month'] = $task->t_order_info->get_order_trans_month($month_start_time, $end_time); // 合同人数[月试听转化率]
 
-        $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
-        $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
+        $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($month_start_time, $end_time); // 拨通电话数量[月签约率]
+        $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($month_start_time, $end_time); // 合同人数[月签约率]
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);
