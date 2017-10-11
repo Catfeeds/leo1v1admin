@@ -239,7 +239,7 @@ class wx_yxyx_common extends Controller
         }
 
         if($userid && $this->t_seller_student_new->get_add_time($userid) > time(NULL) -60*86400 ) {
-            return $this->output_err("您已是在读学员!");
+            return $this->output_err("您最近已经成为我们的用户了!");
         }
 
         if($userid
