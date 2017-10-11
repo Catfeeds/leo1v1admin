@@ -70,6 +70,7 @@ class NewRouteConfig {
         "/supervisor/get_lesson_conditions"    => true,
         "/supervisor/get_lesson_conditions_js" => true,
         "/supervisor/add_error_info"           => true,
+        "/tea_manage/get_lesson_xmpp_audio"           => true,
         "/login/teacher"           => true,
         "/lesson_manage/get_lesson_info" => true,
         "/common/add_trial_train_lesson_by_admin"           => true,

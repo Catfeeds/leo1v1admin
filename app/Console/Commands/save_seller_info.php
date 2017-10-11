@@ -62,7 +62,7 @@ class save_seller_info extends Command
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-        $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
+        // $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
         $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
@@ -80,12 +80,12 @@ class save_seller_info extends Command
         $month_start_time = strtotime( date("Y-m-01",  $start_time));
         $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $cur_money=0;
+        $ret_info['formal_info']=0; //入职完整月人员签单额
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);
             if ($date_time<=$today) {
-                $cur_money+=@$item["money"];
+                $ret_info['formal_info']+=@$item["money"];
             }
         }
 
@@ -100,7 +100,6 @@ class save_seller_info extends Command
         $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
         $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group);// 新人营
         $ret_info['train_department']  = 0;// 培训中
-        // $ret_info['seller_num'] = $ret_info['one_department']+$ret_info['two_department']+$ret_info['three_department']+$ret_info['new_department']+$ret_info['train_department'];// 咨询一部+咨询二部+咨询三部+新人营+培训中
 
         // 金额转化率占比
         $ret_info['high_school_money'] = $task->t_order_info->get_high_money_for_month($start_time, $end_time);
@@ -137,7 +136,6 @@ class save_seller_info extends Command
 
         $ret_info['has_tq_succ_sign_month'] = $task->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
         $ret_info['order_sign_month'] = $task->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
-
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);
