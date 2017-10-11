@@ -139,7 +139,7 @@ class main_page extends Controller
 
 
             if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month_funnel']*100;
+                $ret_info['trans_month_rate'] = $ret_info['order_trans_month_funnel']/$ret_info['seller_test_succ_month_funnel']*100;
             }else{
                 $ret_info['trans_month_rate'] = 0;
             }
