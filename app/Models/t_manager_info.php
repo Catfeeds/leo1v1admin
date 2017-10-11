@@ -1874,7 +1874,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new(
             "select count(distinct s.userid) as stu_num,"
             ." count(distinct r.userid) as revisit_num,"
-            ." count(tq.duration) as call_num "
+            ." sum(tq.duration) as call_num "
             ." from %s m"
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
