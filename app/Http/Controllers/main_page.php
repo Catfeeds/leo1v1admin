@@ -343,7 +343,20 @@ class main_page extends Controller
         foreach ($ret_info["list"] as $key=> &$item) {
             $item["index"]=$key+1;
             $item["all_price"] =sprintf("%.2f", $item["all_price"]  );
-
+        }
+        foreach ($ret_info["list"] as $key=> &$item) {
+            if($item["index"] == 1){
+                $item["index"] = 1001;
+            }elseif($item["index"] == 2){
+                $item["index"] = 1002;
+            }
+        }
+        foreach ($ret_info["list"] as $key=> &$item) {
+            if($item["index"] == 1001){
+                $item["index"] = 2;
+            }elseif($item["index"] == 1002){
+                $item["index"] = 1;
+            }
         }
         $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list( $adminid,  $group_start_time );
         $this->get_in_int_val("self_groupid",$self_groupid);
