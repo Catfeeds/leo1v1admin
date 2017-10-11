@@ -119,6 +119,43 @@
                 </div>
 
 
+                <div class="col-lg-5 col-md-6 hide">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            本月-回访进度
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>项目</td>
+                                        <td>已回访量</td>
+                                        <td>目标回访量</td>
+                                        <td>已回访通时</td>
+                                        <td>目标回访通时</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_revisit_assess_list">
+                                    @foreach ( $revisit_assess_list as $var )
+                                        <tr>
+                                            <td>{{@$var["type"]}} </td> 
+                                            <td>{{@$var["revisit_num"]}} </td> 
+                                            <td>{{@$var["revisit_goal"]}} </td>
+                                            <td>{{@$var["call_num"]}} </td>
+                                            <td>{{@$var["call_goal"]}} </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+
+
             </div>
 
 
