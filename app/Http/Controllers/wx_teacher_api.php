@@ -77,7 +77,7 @@ class wx_teacher_api extends Controller
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                 "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
                 "orwGAs87gepYCYKpau66viHluRGI",  // 傅文莉
-                "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
+                // "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
             ];
 
             foreach($qc_openid_arr as $qc_item){

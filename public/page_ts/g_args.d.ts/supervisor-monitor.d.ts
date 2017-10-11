@@ -8,6 +8,9 @@ interface GargsStatic {
 	teacherid:	number;
 	run_flag:	number;
 	assistantid:	number;
+	group_type:	number;
+	self_groupid:	number;
+	is_group_leader_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -63,7 +66,10 @@ $(function(){
 			userid:	$('#id_userid').val(),
 			teacherid:	$('#id_teacherid').val(),
 			run_flag:	$('#id_run_flag').val(),
-			assistantid:	$('#id_assistantid').val()
+			assistantid:	$('#id_assistantid').val(),
+			group_type:	$('#id_group_type').val(),
+			self_groupid:	$('#id_self_groupid').val(),
+			is_group_leader_flag:	$('#id_is_group_leader_flag').val()
         });
     }
 
@@ -77,6 +83,9 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_run_flag').val(g_args.run_flag);
 	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_group_type').val(g_args.group_type);
+	$('#id_self_groupid').val(g_args.self_groupid);
+	$('#id_is_group_leader_flag').val(g_args.is_group_leader_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -147,6 +156,27 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">assistantid</span>
                 <input class="opt-change form-control" id="id_assistantid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">group_type</span>
+                <input class="opt-change form-control" id="id_group_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">self_groupid</span>
+                <input class="opt-change form-control" id="id_self_groupid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_group_leader_flag</span>
+                <input class="opt-change form-control" id="id_is_group_leader_flag" />
             </div>
         </div>
 */

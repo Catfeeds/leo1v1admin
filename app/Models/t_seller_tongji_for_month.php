@@ -13,7 +13,7 @@ class t_seller_tongji_for_month extends \App\Models\Zgen\z_t_seller_tongji_for_m
             "from_time = $start_time"
         ];
 
-        $sql = $this->gen_sql_new("  select * from %s "
+        $sql = $this->gen_sql_new("select * from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

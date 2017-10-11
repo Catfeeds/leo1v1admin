@@ -1690,5 +1690,46 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["data"=> $list]);
     }
 
+    public function get_suc_order_lesson_info(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+
+        $adminid = $this->get_in_int_val("adminid",-1);
+        $list = $this->t_test_lesson_subject_require->get_jw_order_lesson_info($start_time,$end_time,$adminid);
+
+
+        foreach($list as &$item){
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
+            if(empty($item["teacher_dimension"])){
+                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
+                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
+                if($tea_in["test_transfor_per"]>=20){
+                    $teacher_dimension="维度A";
+                }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
+                    $teacher_dimension="维度B";
+                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
+                    $teacher_dimension="维度C";
+                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
+                    $teacher_dimension="维度C候选";
+                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
+                    $teacher_dimension="维度D";
+                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
+                    $teacher_dimension="维度D候选";
+                }else{
+                    $teacher_dimension="其他";
+                }
+                $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
+                    "teacher_dimension" =>$teacher_dimension 
+                ]);
+
+            }
+        }
+        return $this->output_succ(["data"=> $list]);
+
+    }
+
 
 }

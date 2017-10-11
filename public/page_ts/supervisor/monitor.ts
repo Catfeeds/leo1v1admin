@@ -1,4 +1,5 @@
 /// <reference path="../common.d.ts" />
+/// <reference path="./monitor.d.ts" />
 /// <reference path="../g_args.d.ts/supervisor-monitor.d.ts" />
 
 $(function(){
@@ -44,7 +45,7 @@ $(function(){
             }]
         }
     );
-    if(group_type == 0){
+    if(g_args.group_type == 0){
         $('#id_seller_new').attr('style','display:none');
     }
     $("#id_tongji").on("click", function () {
@@ -178,7 +179,7 @@ $(function(){
                 }
             });
     }
-    if(group_type == 1){//组长&主管
+    if(g_args.group_type == 1){//组长&主管
         setInterval(get_condition, 300000);
     }else{
         get_condition();
@@ -831,9 +832,9 @@ $(function(){
     var get_item_data = function (svg) {
         var item_data = {};
         //item_data.pageid=Math.floor(svg.attr("y").baseVal.value/768)+1;
-        item_data.pageid = Math.floor(svg.attr("y") / 768) + 1;
+        item_data["pageid"]= Math.floor(svg.attr("y") / 768) + 1;
         var opt_item = svg.children(":first");
-        item_data.opt_type = $(opt_item)[0].tagName;
+        item_data["opt_type"]= $(opt_item)[0].tagName;
         var opt_args = {};
 
         var stroke_info = opt_item.attr("stroke");
@@ -841,7 +842,7 @@ $(function(){
             stroke_info = "#" + stroke_info;
         }
 
-        switch (item_data.opt_type) {
+        switch (item_data["opt_type"]) {
             case "path":
                 opt_args = {
                     fill: "none",
@@ -873,18 +874,19 @@ $(function(){
 
                 break;
             default:
-                console.log("ERROR:" + item_data.opt_type);
+                console.log("ERROR:" + item_data["opt_type"]);
                 break;
         }
 
-        item_data.opt_args = opt_args;
+        item_data["opt_args"]= opt_args;
         return item_data;
     };
 
     if(window.location.pathname=="/supervisor/monitor_seller") {
         $("#id_st_application_nick").parent().parent().hide();
         $("#id_assistantid").parent().parent().hide();
-        if(self_groupid != 0 && is_group_leader_flag == 0){
+        if(g_args. self_groupid != 0 && g_args.is_group_leader_flag == 0){
+
             $("#id_teacherid").parent().parent().hide();
             $("#id_userid").parent().parent().hide();
         }
@@ -928,6 +930,51 @@ $(function(){
 
 
     download_hide();
+
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type" :  "select", // or "list"
+            "url"          : "/user_deal/get_xmpp_server_list_js",
+            select_primary_field   : "server_name",
+            select_display         : "server_name",
+            select_no_select_value : "",
+            select_no_select_title : "[全部]",
+
+            //其他参数
+            "args_ex" : {
+            },
+            //字段列表
+            'field_list' :[
+                {
+                    title:"ip",
+                    render:function(val,item) {return item.ip;}
+                },{
+                    title:"权重",
+                    render:function(val,item) {return item.weights ;}
+                },{
+                    title:"名称",
+                    render:function(val,item) {return item.server_name;}
+                },{
+
+                    title:"说明",
+                    render:function(val,item) {return item.server_desc;}
+                }
+            ] ,
+            filter_list: [],
+
+            "auto_close"       : true,
+            //选择
+            "onChange"         : function(v) {
+                $.do_ajax(
+                    '/ajax_deal/set_xmpp_server_list',
+                    {
+                        "xmpp_server_name" : v,
+                    });
+            },
+            //加载数据后，其它的设置
+            "onLoadData"       : null,
+
+        });
 
 
 });
