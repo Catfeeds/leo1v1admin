@@ -602,6 +602,19 @@ class main_page extends Controller
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $warning_type_num['warning_type_three'] = $three_count;
 
+        $start_time = strtotime( date('Y-m-1', time()) );
+        $end_time   = $start_time + 86400*27;
+        $month_stu = $this->t_revisit_assess_info->get_stu_num_by_uid($ass_adminid, $start_time, $end_time);
+        $month_goal = [
+            'type' => '本月',
+            'revisit_goal' => $month_stu*2,
+            'call_goal' => $month_stu*2*3,
+        ];
+
+        $revisit_assess_list = [
+            ['type' =>'今日'],
+            ['type' =>'本月'],
+        ];
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -615,7 +628,8 @@ class main_page extends Controller
             "lesson_all"   =>$lesson_all,
             "user_all"     =>$user_all,
             "xs"           =>$xs,
-            "warning"      => $warning_type_num
+            "warning"      => $warning_type_num,
+            "revisit_assess_list" => $revisit_assess_list
         ]);
 
     }
