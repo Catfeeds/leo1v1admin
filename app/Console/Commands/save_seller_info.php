@@ -14,7 +14,7 @@ class save_seller_info extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:save_seller_info';
 
     /**
      * The console command description.
@@ -44,7 +44,7 @@ class save_seller_info extends Command
         $task=new \App\Console\Tasks\TaskController();
 
         $start_time = strtotime(date('Y-m-01'));
-        $end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
+        $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
 
 
         $ret_info['create_time'] = time();
@@ -68,11 +68,11 @@ class save_seller_info extends Command
         $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         // dd($ret_info);
-        $seller_groupid_ex = $task->get_in_str_val('seller_groupid_ex', "");
-        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        // $seller_groupid_ex = $task->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
         // $main_type = 2;// 销售
-        $ret_info['seller_target_income'] = (new App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
+        $ret_info['seller_target_income'] = (new \App\Http\Controllers\tongji_ss())->get_month_finish_define_money(0,$start_time); // 销售月目标收入
         if (!$ret_info['seller_target_income'] ) {
             $ret_info['seller_target_income'] = 1600000;
         }
