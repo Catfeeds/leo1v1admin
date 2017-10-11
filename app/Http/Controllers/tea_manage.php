@@ -2735,4 +2735,41 @@ class tea_manage extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
+    public function get_lesson_xmpp_audio(){
+        $lessonid=$this->get_in_lessonid();
+        $ret_arr=$this->t_lesson_info->field_get_list($lessonid,"*");
+        $ret_arr["roomid"]= \App\Helper\Utils::gen_roomid_name( $ret_arr["lesson_type"],
+                                $ret_arr["courseid"], $ret_arr["lesson_num"]);
+
+        $lesson_type=$ret_arr["lesson_type"];
+        $server_type=$ret_arr["server_type"];
+
+        if($ret_arr['current_server'] == ""){
+            $ret_arr['current_server'] = $this->g_config['default_server']['id'];
+        }
+
+        $server_info= $this->t_lesson_info_b3->get_real_xmpp_server($lessonid) ;
+
+        $ret_arr["webrtc"] = $server_info["ip"].":".  ($server_info["webrtc_port"] -(20061 -5061 ) )  ;
+        $ret_arr["xmpp"]   = $server_info["ip"].":".  $server_info["xmpp_port"]  ;
+
+
+        if($lesson_type<1000) {
+            $ret_arr["type"]=1;
+        }else if ($lesson_type<3000 ){
+            $ret_arr["type"]=2;
+        }else{
+            $ret_arr["type"]=3;
+        }
+
+        $server_type= \App\Helper\Utils::get_lesson_server_type ($lesson_type,$server_type);
+
+        if ($server_type==1){
+            $ret_arr["audioService"]="leoedu";
+        }else{
+            $ret_arr["audioService"]="agora";
+        }
+
+        return $this->output_succ(["data"=>$ret_arr]);
+    }
 }

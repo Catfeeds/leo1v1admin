@@ -221,8 +221,10 @@ class wx_yxyx_common extends Controller
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
-        $userid = $this->t_phone_to_user->get_userid($phone);
+        $userid = $this->t_seller_student_new->get_userid_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,'*');
+        if ($this->t_seller_student_new->get_add_time($userid) > time(NULL) -86400*60   ){
+        }
         $orderid = 0;
         if($userid){
             $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );

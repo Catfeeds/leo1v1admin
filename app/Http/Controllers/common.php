@@ -212,6 +212,7 @@ class common extends Controller
         $phone  = $this->get_in_str_val("phone","");
         $origin = "官网试卷用户";
 
+
         $this->add_user_origin_info($name,$phone);
         $this->t_seller_student_info->add_or_add_to_sub($name,$phone,0,$origin,0,0,0,0);
         $this->t_seller_student_new->book_free_lesson_new($name,$phone,0,$origin,0,0);
