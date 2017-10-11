@@ -245,6 +245,13 @@ class Common {
         $data = iconv("GBK","utf-8",$data);
         $arr  = json_decode($data,true);
         return  isset($arr["carrier"])?$arr["carrier"]:"";
+
+        // if(isset($arr['province']) && isset($arr['catName'])){
+        //     $phone_location = $arr['province'].$arr['catName'];
+        // }else{
+        //     $phone_location = "";
+        // }
+        // return  $phone_location;
     }
 
     static function dispache_mail(  $address ,$title ,$message  ) {

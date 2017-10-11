@@ -45,7 +45,7 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
         return $this->main_get_row($sql);
     }
     public function get_tongji2(){
-        $sql = "select userid,phone from t_student_info where phone_location='免商店充值卡 ' or phone_location=' ' or phone_location = '鹏博士' and is_test_user = 0  and reg_time > 1475251200 and reg_time < 1506787200 ";
+        $sql = "select userid,phone from t_student_info where phone_location='免商店充值卡 ' or phone_location='' or phone_location = '鹏博士' and is_test_user = 0  and reg_time > 1475251200 and reg_time < 1506787200 ";
         return $this->main_get_list($sql);
     }
 }

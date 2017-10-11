@@ -1450,7 +1450,7 @@ class teacher_info extends Controller
                 "ted",
                 "sunny",
                 "傅文莉",
-                "孙瞿"
+                // "孙瞿"
             ];
 
             foreach($qc_openid_arr as $qc_item){

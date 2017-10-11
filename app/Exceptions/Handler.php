@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
 
         if( \App\Helper\Utils::check_env_is_release() ) {
             $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
-            if ( !in_array( $ip_fix ,[ "140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
+            if ( !in_array( $ip_fix ,["59.173.189","140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
 
                 dispatch( new \App\Jobs\send_error_mail(
                     "", date("H:i:s")."ERR1:" .$e->getMessage(),

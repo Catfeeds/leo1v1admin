@@ -40,7 +40,6 @@ class test_sam  extends Controller
     public function  tt(){
         $ret_info = $this->t_cr_week_month_info->get_tongji2();
         foreach ($ret_info as $key => $value) {
-            # code...
             $phone=trim($value['phone']);
             if ($phone =="" ) {
                 $phone_location = "" ;
@@ -55,6 +54,7 @@ class test_sam  extends Controller
                 $data = iconv("GBK","utf-8",$data);
                 $arr  = json_decode($data,true);
 
+
                 if(isset($arr['province']) && isset($arr['carrier'])){
                     if(strpos($arr['carrier'],'移动') ||strpos($arr['carrier'],'联通')||strpos($arr['carrier'],'电信')){
                         $phone_location =  $arr["carrier"];
@@ -66,9 +66,9 @@ class test_sam  extends Controller
                 }
             }
             echo $phone_location.'<br/>';
-            /*$this->t_student_info->field_update_list($value['userid'],[
-                "email" =>$email,
-            ]);*/
+            $this->t_student_info->field_update_list($value['userid'],[
+                "phone_location" =>$phone_location,
+            ]);
 
         }
 
