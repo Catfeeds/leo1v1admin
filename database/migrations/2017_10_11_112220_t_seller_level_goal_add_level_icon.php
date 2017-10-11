@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TTeacherRecordListAddTrainType extends Migration
+class TSellerLevelGoalAddLevelIcon extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class TTeacherRecordListAddTrainType extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_teacher_record_list', function($table){
-             t_field($table->string("train_type"),"培训类型");
+        Schema::table('db_weiyi_admin.t_seller_level_goal', function( Blueprint $table)
+        {
+            t_field($table->string("level_icon"),"等级角标");
         });
     }
 

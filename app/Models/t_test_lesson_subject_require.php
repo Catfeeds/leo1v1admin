@@ -433,7 +433,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
 
     }
-    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='') {
+    public function add_require( $cur_require_adminid ,$sys_operator, $test_lesson_subject_id,$origin,$curl_stu_request_test_lesson_time, $test_stu_grade,$test_stu_request_test_lesson_demand,$change_reason_url='',$change_reason='',$change_teacher_reason_type=0) {
         //检查没有其他处理中的请求
         \App\Helper\Utils::logger("add_require1");
         $is_has = $this->check_is_end_by_test_lesson_subject_id($test_lesson_subject_id);
@@ -452,6 +452,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_stu_grade" => $test_stu_grade,
             "test_stu_request_test_lesson_demand" => $test_stu_request_test_lesson_demand,
             "change_teacher_reason_img_url" => $change_reason_url,
+            "change_teacher_reason" => $change_reason,
+            "change_teacher_reason_type" => $change_teacher_reason_type
         ]);
         $require_id= $this->t_test_lesson_subject_require->get_last_insertid();
         \App\Helper\Utils::logger("require_id:$require_id");

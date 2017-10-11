@@ -723,7 +723,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "m.del_flag =0 ",
         ];
         $sql=$this->gen_sql_new(
-            "select uid,account_role,become_member_time  "
+            "select uid,account_role,create_time,seller_level  "
             ." from %s m "
             ." where %s "
             ,self::DB_TABLE_NAME

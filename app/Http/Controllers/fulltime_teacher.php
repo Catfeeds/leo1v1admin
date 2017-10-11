@@ -15,6 +15,10 @@ class fulltime_teacher extends Controller
         //  $adminid=713; //WUhan
         // $adminid=920; //Shanghai
         //print_r($adminid);
+        if($adminid==349){
+            $adminid=863;
+        }
+        $adminid = 863;
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
@@ -47,7 +51,7 @@ class fulltime_teacher extends Controller
             $per_start = $start_time;
         }
         $end_time   = time();
-        $n = ($end_time - $start_time)/86400/31;
+        $n = ($end_time - $per_start)/86400/31;
         $qz_tea_arr = array("$teacherid");
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($per_start,$end_time,$qz_tea_arr);
         $val = $teacher_info;
@@ -55,7 +59,7 @@ class fulltime_teacher extends Controller
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
         $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
         //        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
-        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.15);
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.16);
         if($account_info["lesson_count_avg_score"]>=20){//25->20
             $account_info["lesson_count_avg_score"]=20;
         }
@@ -76,7 +80,7 @@ class fulltime_teacher extends Controller
 
         //$account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
 
-        $account_info["order_per_score"] = round(0.25*$account_info["order_per"]);
+        $account_info["order_per_score"] = round(0.3125*$account_info["order_per"]);
         if($account_info["order_per_score"]>=25){//20->25
             $account_info["order_per_score"]=25;
         }

@@ -57,7 +57,17 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
                 $i++;
                 $ass_leader_arr[$i] = $val["uid"];
                 $i++;
+            }elseif($val["uid"]==955){
+                $ass_leader_arr[$i] = $val["uid"];
+                $i++;
+                $ass_leader_arr[$i] = $val["uid"];
+                $i++;
+                $ass_leader_arr[$i] = $val["uid"];
+                $i++;
+
             }else{
+                $ass_leader_arr[$i] = $val["uid"];
+                $i++;
                 $ass_leader_arr[$i] = $val["uid"];
                 $i++;
                 $ass_leader_arr[$i] = $val["uid"];
