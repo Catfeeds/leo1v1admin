@@ -189,7 +189,14 @@ interface RowData {
 	limit_require_tea_nick	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	accept_account	:any;
+=======
+>>>>>>> 39ea70616030214d8cee4961381dafe5d86c226a
 	phone_ex	:any;
+>>>>>>> 49749a3b7f888cf315f53db9044462c643ff4ba0
 }
 
 /*
