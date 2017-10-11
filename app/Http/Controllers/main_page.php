@@ -62,6 +62,8 @@ class main_page extends Controller
         $history_data = $this->get_in_int_val('history_data');
 
         if($history_data){ // 0:是历史数据 1:否历史数据
+            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
+
             $ret_info = &$ret_info_arr['list'];
             //概况
             $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
@@ -164,10 +166,9 @@ class main_page extends Controller
             $ret_info['has_tq_succ'] = $this->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
             //  外呼情况
-            $ret_info['seller_call_num'] = $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
-            $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+            $ret_info['seller_call_num'] = $ret_info['has_called'] =  $this->t_tq_call_info->get_tq_succ_num($start_time, $end_time);//  呼出量
+            $ret_info['has_called_stu'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
 
-            $ret_info['has_called_stu'] = $this->t_seller_student_new->get_has_called_stu_num($start_time, $end_time); // 已拨打例子数
 
             $ret_info['claim_num'] = $this->t_seller_student_new->get_claim_num($start_time, $end_time);//  认领量
 
@@ -186,45 +187,46 @@ class main_page extends Controller
             $ret_info['has_tq_succ_sign_month'] = $this->t_seller_student_new->get_tq_succ_num_for_sign($start_time, $end_time); // 拨通电话数量[月签约率]
             $ret_info['order_sign_month'] = $this->t_order_info->get_order_sign_month($start_time, $end_time); // 合同人数[月签约率]
 
-            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called']; // 未消耗例子数
+            $ret_info['un_consumed'] = $ret_info['new_stu']-$ret_info['has_called_stu']; // 未消耗例子数
 
 
-            if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
-                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month'];
+
+            if($ret_info['has_tq_succ_invit_month_funnel']>0){ //月邀约率
+                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month_funnel']*100;
             }else{
                 $ret_info['invit_month_rate'] = 0;
             }
 
 
-            if($ret_info['seller_plan_invit_month']>0){ //月排课率
-                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month'];
+            if($ret_info['seller_plan_invit_month_funnel']>0){ //月排课率
+                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month_funnel']*100;
             }else{
                 $ret_info['test_plan_month_rate'] = 0;
             }
 
             if($ret_info['seller_schedule_num']>0){ //月到课率
-                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num'];
+                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month_funnel']/$ret_info['seller_schedule_num']*100;
             }else{
                 $ret_info['lesson_succ_month_rate'] = 0;
             }
 
 
-            if($ret_info['seller_test_succ_month']>0){ //月试听转化率
-                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month'];
+            if($ret_info['seller_test_succ_month_funnel']>0){ //月试听转化率
+                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month_funnel']*100;
             }else{
                 $ret_info['trans_month_rate'] = 0;
             }
 
 
             if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
-                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month'];
+                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
             }else{
                 $ret_info['sign_month_rate'] = 0;
             }
 
             if($ret_info['has_called']>0){
-                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']; //接通率
-                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']; //认领率
+                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
+                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
             }else{
                 $ret_info['claim_num_rate'] = 0;
                 $ret_info['succ_called_rate'] = 0;
@@ -246,14 +248,78 @@ class main_page extends Controller
             }
 
             if($ret_info['new_stu']>0){ //月例子消耗数
-                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu'];
+                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
+            }else{
+                $ret_info['stu_consume_rate'] = 0;
+            }
+
+        }else{ // 历史数据 [从数据库中取]
+            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
+
+            $ret_info = &$ret_info_arr['list'];
+
+            if($ret_info['has_tq_succ_invit_month']>0){ //月邀约率
+                $ret_info['invit_month_rate'] = $ret_info['seller_invit_month']/$ret_info['has_tq_succ_invit_month']*100;
+            }else{
+                $ret_info['invit_month_rate'] = 0;
+            }
+
+            if($ret_info['seller_plan_invit_month']>0){ //月排课率
+                $ret_info['test_plan_month_rate'] = $ret_info['seller_schedule_num']/$ret_info['seller_plan_invit_month']*100;
+            }else{
+                $ret_info['test_plan_month_rate'] = 0;
+            }
+
+            if($ret_info['seller_schedule_num']>0){ //月到课率
+                $ret_info['lesson_succ_month_rate'] = $ret_info['seller_test_succ_month']/$ret_info['seller_schedule_num']*100;
+            }else{
+                $ret_info['lesson_succ_month_rate'] = 0;
+            }
+
+
+            if($ret_info['seller_test_succ_month']>0){ //月试听转化率
+                $ret_info['trans_month_rate'] = $ret_info['order_trans_month']/$ret_info['seller_test_succ_month']*100;
+            }else{
+                $ret_info['trans_month_rate'] = 0;
+            }
+
+
+            if($ret_info['has_tq_succ_sign_month']>0){ //月签约率
+                $ret_info['sign_month_rate'] = $ret_info['order_sign_month']/$ret_info['has_tq_succ_sign_month']*100;
+            }else{
+                $ret_info['sign_month_rate'] = 0;
+            }
+
+            if($ret_info['has_called']>0){
+                $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
+                $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+            }else{
+                $ret_info['claim_num_rate'] = 0;
+                $ret_info['succ_called_rate'] = 0;
+            }
+
+
+            if($ret_info['seller_num']>0){ // 人均通时
+                $ret_info['called_rate'] = $ret_info['cc_call_time']/$ret_info['seller_num'];
+            }else{
+                $ret_info['called_rate'] = 0;
+            }
+
+            if($ret_info['cc_called_num']>0){
+                $ret_info['aver_called'] = $ret_info['seller_call_num']/$ret_info['cc_called_num']; // 人均呼出量
+                $ret_info['invit_rate'] = $ret_info['seller_invit_num']/$ret_info['cc_called_num']; // 人均邀约率
+            }else{
+                $ret_info['aver_called'] = 0;
+                $ret_info['invit_rate'] = 0;
+            }
+
+            if($ret_info['new_stu']>0){ //月例子消耗数
+                $ret_info['stu_consume_rate'] = $ret_info['has_called_stu']/$ret_info['new_stu']*100;
             }else{
                 $ret_info['stu_consume_rate'] = 0;
             }
 
 
-        }else{ // 历史数据 [从数据库中取]
-            $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         }
 
         $ret_info_arr["page_info"] = array(

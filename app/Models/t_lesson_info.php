@@ -129,7 +129,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $end_time    = time(NULL)-5*60;
         $start_time  = $end_time-86400;
 
-        $sql = $this->gen_sql("select lessonid,l.userid,teacherid,c.courseid,"
+        $sql = $this->gen_sql("select lessonid,l.userid,l.teacherid,c.courseid,"
                               . " lesson_type,lesson_num,lesson_end, xmpp_server_name, current_server " .
                               " from %s l".
                               " left join  %s c on c.courseid=l.courseid ".
