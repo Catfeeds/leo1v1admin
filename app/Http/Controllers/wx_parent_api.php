@@ -1009,13 +1009,6 @@ class wx_parent_api extends Controller
             $rank_down = '';
         }
 
-
-
-
-        // 家长微信号
-        // $appid     = 'wx636f1058abca1bc1';
-        // $appscript = '756ca8483d61fa9582d9cdedf202e73e';
-
         $appid     = config('admin')['wx']['appid'];
         $appscript = config('admin')['wx']['appsecret'];
 
