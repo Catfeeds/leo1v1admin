@@ -1653,12 +1653,12 @@ trait TeaPower {
         $reference_teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
         $reference_count     = $this->t_teacher_lecture_appointment_info->get_reference_count($reference);
 
-        $check_flag=$this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
+        $check_flag = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
         if(!$check_flag){
             $reference_reward = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$reference_count);
             $this->t_teacher_info->row_insert([
                 "teacherid"  => $reference_teacherid,
-                "type"       => 6,
+                "type"       => E\Ereward_type::V_6,
                 "add_time"   => time(),
                 "money"      => $reward,
                 "money_info" => $teacher_info['teacherid'],
@@ -1670,7 +1670,7 @@ trait TeaPower {
     public function get_fulltime_teacher_test_lesson_score($teacherid,$start_time,$end_time){
         $qz_tea_arr=[$teacherid];
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
-        
+
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
         $item=[];
@@ -2922,10 +2922,10 @@ trait TeaPower {
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='download_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
                     <br/>
                     ​二：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可反复回看并重新录制（提交后不可再重新录制），直到自己满意后再提交 </span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>  试讲试题及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：提交前可反复回看并重新录制（提交后不可重新录制），回看满意后再提交</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容进行一对一在线面试。<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可以把面试官当您的学生进行互动。</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>

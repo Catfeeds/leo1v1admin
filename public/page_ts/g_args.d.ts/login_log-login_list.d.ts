@@ -17,12 +17,11 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	type	:any;
-	serverip	:any;
-	account	:any;
 	login_time	:any;
-	login_succ_flag	:any;
+	server_ip	:any;
 	login_ip	:any;
+	account	:any;
+	login_succ_flag	:any;
 }
 
 /*
