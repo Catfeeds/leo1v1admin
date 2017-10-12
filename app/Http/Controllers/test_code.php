@@ -50,21 +50,11 @@ class test_code extends Controller
     }
 
     public function reset_teacher_name(){
-        $arr = $this->get_b_txt();
-
-        foreach($arr  as $val){
-            if($val>0 && $val!=''){
-                $teacher_info =$this->t_teacher_info->get_teacher_info($val);
-                $nick = mb_substr($teacher_info['nick'],0,2,"utf8")."老师";
-                $real= mb_substr($teacher_info['realname'],0,2,"utf8")."老师";
-                echo $nick."|".$real;
-                // $this->t_teacher_info->field_update_list($val,[
-                //     "nick"=>$nick,
-                //     "realname"=>$real,
-                // ]);
-                echo "<br>";
-            }
-        }
+        $userid = 50728;
+        $competition_flag = 0;
+        $start_time = time();
+        $end_time= time();
+        $this->t_lesson_info->get_user_lesson_list($userid , $competition_flag,$start_time,$end_time);
     }
 
     public function get_success_lesson(){

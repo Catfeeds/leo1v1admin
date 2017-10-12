@@ -2224,6 +2224,7 @@ lesson_type in (0,1) "
                                 ,$userid
                                 ,$where_str
         );
+        // echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
