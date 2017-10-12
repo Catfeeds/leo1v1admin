@@ -64,15 +64,16 @@ class main_page extends Controller
         $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         $ret_info = &$ret_info_arr['list'];
 
-        if($opt_date_type == 2){
-            $start_time = $start_time+86400;
-            $end_time   = $end_time + 86400;
-            $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
-        }elseif($opt_date_type == 3){
-            $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
-        }
+        // if($opt_date_type == 2){
+        //     $start_time = $start_time+86400;
+        //     $end_time   = $end_time + 86400;
+        //     $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
+        // }elseif($opt_date_type == 3){
+        //     $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
+        // }
 
         if($history_data){ // 0:是历史数据 1:否历史数据
+
             if($ret_info){
                 $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
@@ -80,7 +81,7 @@ class main_page extends Controller
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
                 }
 
-                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
 
 
 
@@ -578,7 +579,6 @@ class main_page extends Controller
 
 
 
-        // $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
@@ -1824,11 +1824,10 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
-        $adminid = $this->get_account_id();
-        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($master_adminid);
         $now = time();
         $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($master_adminid, $three,$uid_str);
 
         $warning_type_num = [
             'warning_type_one' =>0,
@@ -1839,11 +1838,11 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($master_adminid, $uid_str, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         //月回访信息
-        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
         // dd($month_info);
 
         return $this->pageView(__METHOD__ ,null, [
@@ -2117,11 +2116,36 @@ class main_page extends Controller
 
             }*/
 
+        $adminid = $this->get_account_id();
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+        //月回访信息
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+
+
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,
             "ass_group"   =>@$ass_group,
-            "ass_list_group" =>@$ass_list_group
+            "ass_list_group" =>@$ass_list_group,
+            "warning"       => $warning_type_num,
+            "month_info" =>$month_info,
+
         ]);
 
 

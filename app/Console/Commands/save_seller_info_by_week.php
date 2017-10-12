@@ -50,6 +50,8 @@ class save_seller_info_by_week extends Command
             $month_start_time = $start_time;
         }
 
+        $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
+
         $ret_info['create_time'] = time();
 
         $ret_info['from_time'] = $start_time;

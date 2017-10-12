@@ -11,6 +11,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var g_data= <?php  echo json_encode($ret_info); ?> ;
     </script>
 
     <section class="content " id="id_content">
@@ -33,6 +34,10 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
+                </div>
+
             </div>
         </div>
 
@@ -41,6 +46,8 @@
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
+                            {{@$ret_info['data_type']}}
+                            <br/>
                             销售额完成情况汇总
                         </div>
                         <div class="panel-body">

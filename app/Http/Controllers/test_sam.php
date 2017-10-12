@@ -25,6 +25,36 @@ class test_sam  extends Controller
     {
     }
     public function test(){
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
+        $ret_info = $this->t_cr_week_month_info->get_total($start_time,$end_time);
+        $result = [];
+
+        foreach ($ret_info as $key => &$value) {
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
+
+                $value['phone_location'] = '其它';
+            }else{
+                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                $value['phone_location'] = $pro;
+            }
+            if($value['subject'] < 1 || $value['subject'] > 11){
+                $value['subject'] = '其它';
+            }else{
+                $sub = E\Esubject::get_desc($value['subject']);
+                $value['subject'] = $sub;
+            }
+
+            if($value['grade'] < 100 ){
+                $value['grade'] = '其它';
+            }else{
+                $gr = E\Egrade::get_desc($value['grade']);
+                $value['grade'] = $gr;
+            }
+        }
+        dd($ret_info);
+    }
+    public function ll(){
         
         /*$ret_info = $this->t_cr_week_month_info->get_tongji();
         echo "统计时间:2016.10.1~2017.10.1"."<br/>";
@@ -40,7 +70,7 @@ class test_sam  extends Controller
         $province = [];
         $province['其它'] = 0;
         foreach($ret_info as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
 
                 $province['其它'] += $value['total'];
             }else{
@@ -103,7 +133,7 @@ class test_sam  extends Controller
         $province_order = [];
         $province_order['其它'] = 0;
         foreach($ret_info_order as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
 
                 $province_order['其它'] += $value['total'];
             }else{
@@ -173,7 +203,7 @@ class test_sam  extends Controller
         $province_order = [];
         $province_order['其它'] = 0;
         foreach($ret_info_order as $key => $value){
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友'){
+            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
 
                 $province_order['其它'] += $value['total'];
             }else{
