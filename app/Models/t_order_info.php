@@ -1133,8 +1133,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "lesson_type in (0,1,3)",
             "o.userid = userid"
         ];
-        $sql=$this->gen_sql_new("select o.orderid,o.userid,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
-                                ." subject,competition_flag"
+        $sql=$this->gen_sql_new("select o.orderid,o.userid,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+                                ." competition_flag"
                                 ." from %s o"
                                 ." left join %s s on o.userid=s.userid"
                                 ." where contract_type in (0,1,3)"
