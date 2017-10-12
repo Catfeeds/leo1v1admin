@@ -2322,7 +2322,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
-            "select order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            "select  order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
             ." from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
@@ -3415,7 +3415,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ['order_time>%u',$start_time,-1],
             ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$start_time,-1], //大于订单时间
+            ['m.create_time+86400*30 < %u',$end_time,-1], //大于订单时间
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
@@ -3431,26 +3431,34 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
-    public function get_total_money($start_time, $end_time){
+    public function get_new_order_money($start_time, $end_time){
         $where_arr = [
             "o.price>0",
             "contract_status<> 0",
-            "m.account_role=2"
+            "m.account_role=2",
+            "s.origin_userid<>0"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num  from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
+                                   ." left join %s s on s.userid = o.userid"
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
                                    ,t_manager_info::DB_TABLE_NAME
+                                   ,t_student_info::DB_TABLE_NAME
                                    ,$where_arr
         );
 
         return $this->main_get_row($sql);
 
     }
+
+
+
+
 
 
     public function get_referral_income($start_time, $end_time){
@@ -3463,7 +3471,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(*) referral_num from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num  from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"

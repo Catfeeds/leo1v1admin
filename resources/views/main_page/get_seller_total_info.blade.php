@@ -88,7 +88,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['order_num']}} </td>
+                                        <td> {{@$ret_info['order_cc_num']}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>

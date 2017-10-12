@@ -310,12 +310,17 @@ class test_james extends Controller
     }
 
     public function has_called(){
+        $this->switch_tongji_database();
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+        // $order_info_total = $this->t_order_info->get_referral_income($start_time, $end_time);// 总收入
+        $order_info_total = $this->t_order_info->get_new_order_money($start_time, $end_time);// 总收入
 
-        dd($ret_info);
+        // get_new_order_money
+        // $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+
+        dd($order_info_total);
     }
 
     public function install(){

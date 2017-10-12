@@ -368,11 +368,14 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_trial_train_lesson_list($page_num,$start_time,$end_time,$status,$grade,
-                                                $subject,$teacherid,$is_test,$lesson_status,$tea_subject
+                                                $subject,$teacherid,$is_test,$lesson_status,
+                                                $tea_subject,$opt_date_str=1
     ){
         $where_arr = [
-            ["lesson_start>%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
+            //["tr.add_time>%u",$start_time,0],
+            // ["tr.add_time<%u",$end_time,0],
+            // ["lesson_start>%u",$start_time,0],
+            // ["lesson_start<%u",$end_time,0],
             ["l.grade=%u",$grade,-1],
             ["l.subject=%u",$subject,-1],
             ["l.teacherid=%u",$teacherid,-1],
@@ -396,6 +399,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+
         $sql = $this->gen_sql_new("select tr.id,l.lessonid,audio,draw,l.teacherid,l.subject,l.grade,t.realname as tea_nick,"
                                   ." t.wx_openid,l.lesson_start,l.lesson_end,l.lesson_status,tr.add_time,tr.record_monitor_class,"
                                   ." tr.record_info,tr.acc,tr.trial_train_status,l.trial_train_num,l.stu_comment "

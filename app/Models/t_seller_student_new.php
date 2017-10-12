@@ -2476,12 +2476,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid){
         $where_arr = [
-            ["a.assistantid=%u",$assistantid,-1]
+            ["a.assistantid=%u",$assistantid,-1],
+            "n.ass_leader_create_flag=1"
         ];
 
         $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new("select n.userid,s.nick,n.add_time,n.admin_assignerid,n.phone,n.phone_location,"
-                                  ."a.nick ass_nick,s.ass_assign_time,s.origin_assistantid,s.origin "
+                                  ."m.name ass_nick,s.ass_assign_time,s.origin_assistantid,s.origin "
                                   ." from %s n left join %s s on n.userid = s.userid"
                                   ." left join %s m on n.admin_revisiterid = m.uid"
                                   ." left join %s a on m.phone = a.phone"

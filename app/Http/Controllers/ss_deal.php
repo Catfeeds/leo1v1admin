@@ -53,6 +53,58 @@ class ss_deal extends Controller
         }
         return $this->output_succ();
     }
+
+
+    //助教主管新增例子
+    public function add_ss_ass_new() {
+        $phone    = $this->get_in_phone();
+        $origin   = $this->get_in_str_val("origin");
+        $grade    = $this->get_in_grade();
+        $subject  = $this->get_in_subject();
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+
+        if (strlen($phone )!=11) {
+            return $this->output_err("电话号码长度不对");
+        }
+
+        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
+        if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
+            return $this->output_err("已经有了这个科目的例子了,不能增加");
+        }
+
+        $userid=$this->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,0);
+
+        //直接分配给助教
+        $master_adminid = $this->t_admin_group_user-> get_master_adminid( $admin_revisiterid );
+        if(empty($master_adminid)){
+            $master_adminid=396;
+        }
+        $main_master_adminid = $this->t_admin_group_user->get_main_master_adminid( $admin_revisiterid );
+        if(empty($main_master_adminid)){
+            $main_master_adminid=396;
+        }
+
+        $this->t_seller_student_new->field_update_list($userid,[
+            "admin_revisiterid"  =>$admin_revisiterid,
+            "admin_assign_time"  =>time(),
+            "admin_assignerid"   =>$this->get_account_id(),
+            "sub_assign_adminid_1"=>$main_master_adminid,
+            "sub_assign_time_1"  =>time(),
+            "sub_assign_adminid_2"=>$master_adminid,
+            "sub_assign_time_2"  =>time(),
+            "ass_leader_create_flag"=>1
+        ]);
+        
+        $account=$this->get_account();
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 状态:  新增例子  :$account ",
+            "system"
+        );
+      
+        return $this->output_succ();
+    }
+
     public function set_level_b() {
         $userid_list_str= $this->get_in_str_val("userid_list");
         $origin_level= $this->get_in_e_origin_level();
