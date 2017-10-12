@@ -45,6 +45,7 @@
             <thead>
                 <tr>
                   
+                    <td>userid</td>
                     <td>学生</td>
                     <td>手机号</td>
                     <td>资源添加时间</td>
@@ -61,6 +62,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{$var["userid"]}} </td>
                         <td>{{$var["nick"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["add_time_str"]}} </td>
