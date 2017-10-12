@@ -568,6 +568,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "r.revisit_type=6",
             "r.userid=$userid",
             "m.uid=$uid",
+            "r.sys_operator!='system'",
         ];
         if($id_str) {
             $where_arr[] = ['r.call_phone_id not in (%s)', $id_str, ''];
