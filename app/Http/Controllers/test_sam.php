@@ -28,7 +28,7 @@ class test_sam  extends Controller
         $start_time = 1504195200;
         $end_time   = 1506787200;
         $ret_info = $this->t_cr_week_month_info->get_total($start_time,$end_time);
-        $result = [];
+        
 
         foreach ($ret_info as $key => &$value) {
             if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友'){
@@ -52,7 +52,17 @@ class test_sam  extends Controller
                 $value['grade'] = $gr;
             }
         }
-        dd($ret_info);
+        $result = [];
+        foreach ($ret_info as $key => $value) {
+            $index = $value['phone_location'].'|'.$value['subject'].'|'.$value['grade'];
+            if(!isset($result[$index])){
+                $result[$index] = 0;
+                $result[$index] += $value['total'];
+            }else{
+                $result[$index] += $value['total'];
+            }
+        }
+        dd($result);
     }
     public function ll(){
         
