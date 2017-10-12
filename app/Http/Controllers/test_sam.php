@@ -53,8 +53,9 @@ class test_sam  extends Controller
             }
         }
         $result = [];
+        $month = date('Y.m',$start_time);
         foreach ($ret_info as $key => $value) {
-            $index = $value['phone_location'].'|'.$value['subject'].'|'.$value['grade'];
+            $index = $month.'|'.$value['phone_location'].'|'.$value['subject'].'|'.$value['grade'];
             if(!isset($result[$index])){
                 $result[$index] = 0;
                 $result[$index] += $value['total'];
