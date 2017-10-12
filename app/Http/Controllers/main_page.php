@@ -61,21 +61,20 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
+
+        if($opt_date_type == 2){
+            $start_time = $start_time+86400;
+            $end_time = $end_time+86400;
+        }
+
         $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         $ret_info = &$ret_info_arr['list'];
 
-        // if($opt_date_type == 2){
-        //     $start_time = $start_time+86400;
-        //     $end_time   = $end_time + 86400;
-        //     $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
-        // }elseif($opt_date_type == 3){
-        //     $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
-        // }
 
         if($history_data){ // 0:是历史数据 1:否历史数据
 
             if($ret_info){
-                $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
+                // $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
 
                 if($ret_info['seller_target_income']>0){
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
@@ -85,8 +84,8 @@ class main_page extends Controller
 
 
 
-                if($ret_info['total_num']>0){ //平均单笔
-                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
+                if($ret_info['new_order_num']>0){ //平均单笔
+                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
                 }else{
                     $ret_info['aver_count'] = 0;
                 }
@@ -191,8 +190,8 @@ class main_page extends Controller
 
                 $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
 
-                if($ret_info['total_num']>0){ //平均单笔
-                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
+                if($ret_info['new_order_num']>0){ //平均单笔
+                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
                 }else{
                     $ret_info['aver_count'] = 0;
                 }
@@ -208,10 +207,10 @@ class main_page extends Controller
                 // 金额转化率占比
 
                 if($ret_info['formal_info']>0){
-                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['formal_info']*100;
-                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['formal_info']*100;
-                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['formal_info']*100;
-                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['formal_info']*100;
+                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['all_order_price']*100;
+                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['all_order_price']*100;
+                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['all_order_price']*100;
+                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['all_order_price']*100;
                 }else{
                     $ret_info['referral_money_rate']    = 0;
                     $ret_info['high_school_money_rate'] = 0;
@@ -576,9 +575,6 @@ class main_page extends Controller
             $cur_start = strtotime(date('Y-m-01',$end_time));
             $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
         }
-
-
-
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 

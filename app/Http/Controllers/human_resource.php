@@ -361,6 +361,10 @@ class human_resource extends Controller
         $arr              = explode("-",$start_time);
         $week = $arr[0];
         $start = @$arr[1];
+
+        if($start == $end_time){
+            return $this->output_err("开始时间不能与结束时间相同!") ;
+        }
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
@@ -4076,7 +4080,7 @@ class human_resource extends Controller
     }
 
     public function get_teacher_lecture_fail_score_info_zs(){
-        $this->get_teacher_lecture_fail_score_info();
+       return $this->get_teacher_lecture_fail_score_info();
     }
 
     public function get_teacher_lecture_fail_score_info(){

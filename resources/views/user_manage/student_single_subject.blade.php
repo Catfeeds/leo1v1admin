@@ -47,6 +47,7 @@
                     <td >电话</td>
                     <td >课时</td>
                     <td >课次</td> 
+                    <td >课时收入</td> 
                     <td >平均课时</td>
                     <td >科目</td>
 		    <td >年级</td>
@@ -61,6 +62,7 @@
                         <td >{{$var['phone']}}</td>
                         <td >{{$var["lesson_count"]}}</td>
                          <td class="show_detail" date-teacherid="{{$var['teacherid']}}" date-studentid="{{$var['userid']}}" date-subject="{{$var['subject']}}"><a>{{@$var["count"]}}</a></td>
+                        <td >{{$var["price"]/100}}</td>
                         <td >{{$var["count_per"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
 			            <td >{{$var["grade"]}}</td>

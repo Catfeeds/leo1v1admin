@@ -61,7 +61,7 @@
                                         <td width="200px" align="center">完成率</td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                         <td width="200px" align="center">缺口金额</td>
-                                        <td >{{@$ret_info['month_left_money']}}</td>
+                                        <td >{{@number_format($ret_info['month_left_money'],2)}}</td>
                                     </tr>
                                 </thead>
                             </table>

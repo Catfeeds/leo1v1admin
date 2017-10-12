@@ -644,6 +644,15 @@ class test_james extends Controller
     }
 
 
+    public function get_all_stu_info(){
+        $parentid = $this->get_in_int_val('parentid');
+
+        $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
+
+        return $this->output_succ(['data'=>$student_info]);
+    }
+
+
 
 
 
