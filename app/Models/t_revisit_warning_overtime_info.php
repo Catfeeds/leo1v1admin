@@ -11,21 +11,22 @@ class t_revisit_warning_overtime_info extends \App\Models\Zgen\z_t_revisit_warni
     public function get_ass_warning_overtime_count($ass_adminid, $uid_str, $start_time, $end_time) {
 
         $where_arr = [
-            ["m.uid= %u",$ass_adminid,-1],
             "wo.deal_type<>1",
             "wo.create_time>=$start_time",
             "wo.create_time<$end_time",
         ];
 
         $or_arr = [
-            ["m.uid= %u",$ass_adminid,-1],
             "wo.deal_type=0",
             "wo.create_time<$start_time",
         ];
 
         if ($uid_str != -1 && $uid_str !== null) {
-            $where_arr[] = "m.uid in ($uid_str)";
-            $or_arr[]    = "m.uid in ($uid_str)";
+            $where_arr[] = ["m.uid= %u",$ass_adminid,-1];
+            $or_arr[]    = ["m.uid= %u",$ass_adminid,-1];
+        } else {
+            $where_arr[] = ["m.uid= %u",$ass_adminid,-1];
+            $or_arr[]    = ["m.uid= %u",$ass_adminid,-1];
         }
 
         $sql = $this->gen_sql_new(
