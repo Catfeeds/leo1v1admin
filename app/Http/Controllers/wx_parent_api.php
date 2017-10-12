@@ -970,38 +970,10 @@ class wx_parent_api extends Controller
 
 
     public function input_student_score (){ //家长录入学生成绩
-        // $score   = $this->get_in_int_val('score');
-        // $subject = $this->get_in_int_val('subject');
-        // $stu_score_type = $this->get_in_int_val('stu_score_type');
-        // $rank    = $this->get_in_int_val('rank');
-        // $grade_rank  = $this->get_in_int_val('grade_rank');
-        // $total_score = $this->get_in_int_val('total_score');
-        // $reason  = $this->get_in_str_val('reason');
-        // $parentid = $this->get_parentid();
-        // $stu_id   = $this->get_in_int_val('userid');
-
-        // $ret = $this->t_student_score_info->row_insert([
-        //     'score'          => $score,
-        //     'subject'        => $subject,
-        //     'stu_score_type' => $stu_score_type,
-        //     'rank'           => $rank,
-        //     'grade_rank'     => $grade_rank,
-        //     'total_score'    => $total_score,
-        //     'reason'         => $reason,
-        //     'create_time'    => time(),
-        //     'userid'         => $stu_id,
-        //     'admin_type'     => 1, // 代表家长
-        //     'create_adminid' => $parentid
-        // ]);
-
-        // if($ret){
-        //     return $this->output_succ();
-        // }else{
-        //     return $this->output_err('成绩录入失败,请稍后重试!');
-        // }
 
 
         $userid           = $this->get_in_int_val("userid");
+        $serverId_list    = $this->get_in_str_val('serverids');
         $create_time      = time();
         $create_adminid   = $this->get_account_id();
         $subject          = $this->get_in_int_val("subject");
@@ -1036,6 +1008,23 @@ class wx_parent_api extends Controller
             $rank_up = '';
             $rank_down = '';
         }
+
+
+
+
+        // 家长微信号
+        // $appid     = 'wx636f1058abca1bc1';
+        // $appscript = '756ca8483d61fa9582d9cdedf202e73e';
+
+        $appid     = config('admin')['wx']['appid'];
+        $appscript = config('admin')['wx']['appsecret'];
+
+        $sever_name = $_SERVER["SERVER_NAME"];
+
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
+
+        $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+        $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
 
 
         $ret_info = $this->t_student_score_info->row_insert([
@@ -1235,6 +1224,12 @@ class wx_parent_api extends Controller
         }
 
     }
+
+
+
+
+
+
 
 
 

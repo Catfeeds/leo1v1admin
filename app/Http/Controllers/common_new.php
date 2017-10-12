@@ -1075,18 +1075,22 @@ class common_new extends Controller
 
             //ssh_login_server
             "118.190.115.161",
+
             //admin
+            "114.215.66.38",
             "118.190.65.189",
         ];
+
         $login_flag=false;
         if(in_array($remote_host, $check_ip_list )){
             $login_flag=true;
         }
 
 
-        if (time(NULL)-$ssh_login_time  < 3600 ){
+        if (  $account != "ybai" && time(NULL)-$ssh_login_time  < 3600  ){
             $login_flag=true;
         }
+
         $this->t_ssh_login_log->row_insert([
             "server_ip"=> ip2long($server_ip),
             "login_ip"=> ip2long($remote_host),
@@ -1145,12 +1149,15 @@ class common_new extends Controller
                 return $this->output_succ(["status"=>2,"msg"=>"参数错误"]);
             }else{
                 if($status==8){
+                    $parentid= $this->t_student_info->get_parentid($userid);
+                    $parent_name = $this->t_parent_info->get_nick($parentid);
                     $this->t_child_order_info->field_update_list($orderid,[
                         "pay_status"  =>1,
                         "pay_time"    =>time(),
                         "channel"     =>"baidu",
                         "from_orderno"=>$orderNo,
-                        "period_num"  =>$period_new
+                        "period_num"  =>$period_new,
+                        "parent_name" =>$parent_name
                     ]);
                     $this->t_manager_info->send_wx_todo_msg(
                         "jack",
