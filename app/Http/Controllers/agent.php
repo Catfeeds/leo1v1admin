@@ -461,6 +461,8 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $this->task->t_manager_info->send_wx_todo_msg_by_adminid(831,"咨询师等级升级","咨询师等级升级",'tom'."从".E\Eseller_level::get_desc(E\Eseller_level::V_100)."级升级为".E\Eseller_level::get_desc(E\Eseller_level::V_101)."级","");
+        dd('a');
         $ret = $this->t_seller_edit_log->row_insert([
             "uid"         => 99,
             "type"        => 2,
