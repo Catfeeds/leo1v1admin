@@ -5918,7 +5918,7 @@ class ss_deal extends Controller
                 "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                 "orwGAs87gepYCYKpau66viHluRGI",  // 傅文莉
-                "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
+                // "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
             ];
 
             $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);

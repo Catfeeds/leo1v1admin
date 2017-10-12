@@ -139,6 +139,11 @@ class save_seller_info extends Command
 
 
         $task->t_seller_tongji_for_month->row_insert($ret_info);
+
+
+        // 更新漏斗型数据
+
+        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $seller_invit_month, $has_tq_succ_invit_month, $seller_plan_invit_month, $seller_test_succ_month, $order_trans_month, $order_sign_month, $has_tq_succ_sign_month, $has_called_stu );
     }
 
 

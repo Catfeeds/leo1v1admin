@@ -37,17 +37,14 @@
         </div>
 
         <div class="row">
-
             <div class="row">
-
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
                             销售额完成情况汇总
                         </div>
                         <div class="panel-body">
-
-                            <table   class="table table-bordered "   >
+                            <table class="table table-bordered ">
                                 <thead>
                                     <tr>
                                         <td width="200px" align="center">月度目标收入</td>
