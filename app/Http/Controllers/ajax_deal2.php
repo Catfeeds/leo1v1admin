@@ -1412,13 +1412,26 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 在邮箱组内添加新成员
+     */
     public function  email_group_user_add () {
-        $groupid= $this->get_in_int_val("groupid");
+        $groupid = $this->get_in_int_val("groupid");
         $adminid = $this->get_in_adminid();
-        $this->t_mail_group_user_list->row_insert([
+
+        $check_flag = $this->t_mail_group_user_list->check_is_exists($groupid,$adminid);
+        if($check_flag){
+            return $this->output_err("此用户已在此用户组!");
+        }
+
+        $ret = $this->t_mail_group_user_list->row_insert([
             "groupid" => $groupid,
             "adminid" => $adminid,
         ]);
+        if(!$ret){
+            return $this->output_err("添加失败!请重试!");
+        }
+
         return $this->output_succ();
     }
 
