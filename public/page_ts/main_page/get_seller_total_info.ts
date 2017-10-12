@@ -31,8 +31,7 @@ $(function(){
     $("#download_data").on("click",function(){
         console.log(g_data);
 
-        var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
-        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100;
+        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100+'%';
         var aver_money = Math.floor(g_data.aver_money *100)/100;
 
         var list_data=[
@@ -43,7 +42,9 @@ $(function(){
 
             ["下单总人数",g_data.order_num],
             ["入职完整月人员人数",g_data.formal_num],
-
+            ["平均人效",aver_money],
+            ["平均单笔",aver_money],
+//aver_count
         ];
 
 
