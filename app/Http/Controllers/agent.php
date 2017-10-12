@@ -462,7 +462,7 @@ class agent extends Controller
 
     public function test_new(){
         $ret_arr = $this->t_order_info->get_test_new();
-        $adminid_arr = array_unique(array_column($ret_arr,'adminid'));
+        $adminid_arr = array_unique(array_column($ret_arr,'uid'));
         $ret_info = [];
         foreach($ret_arr as $item){
             foreach($adminid_arr as $key=>$info){
