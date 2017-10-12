@@ -3638,7 +3638,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_test_new(){
         $sql = $this->gen_sql_new(
-            "select group_name,m.uid,m.account,if(price/100,price/100,0) price "
+            "select group_name,m.uid,m.account,price/100 price "
             ." from %s o , %s s ,%s m, %s gu,%s g  "
             ."where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1504195200 and order_time<=1506960000 and is_test_user=0 and g.groupid=84 and g.month=1504195200 and gu.month=1504195200 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 ",
             self::DB_TABLE_NAME,
