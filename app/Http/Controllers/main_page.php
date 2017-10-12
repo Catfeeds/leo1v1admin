@@ -58,27 +58,20 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $opt_date_type = $this->get_in_int_val("opt_date_type",2);
+
+        if($opt_date_type == 2){
+
+        }
+
         $history_data = $this->get_in_int_val('history_data');
         $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         $ret_info = &$ret_info_arr['list'];
 
         if($history_data){ // 0:是历史数据 1:否历史数据
-
             if($ret_info){
-
-
-                // dd($ret_info_arr);
-
-                //概况
                 $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
-
-                // $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
-
-                // $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-                // $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-                // $ret_info['income_price'] = $order_info_total['total_price'];
-                // $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
 
                 if($ret_info['seller_target_income']>0){
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
