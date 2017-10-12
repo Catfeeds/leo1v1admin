@@ -29,6 +29,7 @@ $(function(){
 
 
     $("#download_data").on("click",function(){
+        console.log(g_data);
 
         var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
         var month_finish_persent = g_data.month_finish_persent.toFixed(2);
