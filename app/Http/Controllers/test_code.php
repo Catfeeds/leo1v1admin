@@ -82,8 +82,12 @@ class test_code extends Controller
         $userid       = $lesson_info['userid'];
         $lesson_count = $lesson_info['lesson_count'];
         $flag         = $lesson_info['competition_flag'];
-
-
+        if(isset($order_list[$userid][$flag])){
+            $order_info= current($stu_order_list[$userid][$flag]);
+            
+        }else{
+            return false;
+        }
     }
 
     public function get_success_lesson(){
