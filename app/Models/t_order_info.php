@@ -1129,25 +1129,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_pay_user_has_lesson($start_time,$end_time){
         $where_arr = [
+            "contract_type in (0,1,3)",
+            "s.is_test_user = 0 ",
+            "contract_status= 1 ",
+            "o.userid!=0 ",
+        ];
+        $lesson_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)",
             "o.userid = userid"
         ];
-        $sql=$this->gen_sql_new("select o.orderid,o.userid,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
-                                ." subject,competition_flag"
+        $sql=$this->gen_sql_new("select o.orderid,o.userid,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+                                ." competition_flag"
                                 ." from %s o"
                                 ." left join %s s on o.userid=s.userid"
-                                ." where contract_type in (0,1,3)"
-                                ." and s.is_test_user=0"
-                                ." and contract_status!=0"
-                                ." and o.userid!=0"
+                                ." where %s"
                                 ." and exists (select 1 from %s where %s)"
                                 ." order by lesson_left asc"
                                 ,self::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
-                                ,t_lesson_info::DB_TABLE_NAME
                                 ,$where_arr
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,$lesson_arr
         );
         return $this->main_get_list($sql);
     }
