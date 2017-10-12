@@ -502,6 +502,7 @@ class url_power_map {
 			'/human_resource/zs_origin_list'	=>1250900,
 			'/channel_manage/admin_channel_manage'	=>1252000,
 			'/channel_manage/zs_origin_list_new'	=>1252100,
+			'/tea_manage/trial_train_lesson_list_zs'	=>1252900,
 			'/main_page/quality_control_kpi'	=>1370100,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj'	=>1370200,
 			'/tea_manage/lesson_list_zj'	=>1370300,

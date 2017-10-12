@@ -32,15 +32,18 @@ $(function(){
     $("#id_add").on("click",function(){
         var $phone=$("<input/>");
         var $grade=$("<select/>");
+        var $subject=$("<select/>");
         var $origin=$("<input/>");
         var $admin_revisiterid=$("<input/>");
         var arr=[
             ["电话",  $phone],
             ["年级",  $grade],
+            ["科目",  $subject],
             ["渠道",  $origin],
             ["助教",  $admin_revisiterid],
         ];
         Enum_map.append_option_list("grade",$grade, true);
+        Enum_map.append_option_list("subject",$subject, true);
 
         $.show_key_value_table("新增申请", arr ,{
             label: '确认',
@@ -50,11 +53,15 @@ $(function(){
                     "phone" : $phone.val() ,
                     "admin_revisiterid" : $admin_revisiterid.val() ,
                     "grade" : $grade.val() ,
+                    "subject" : $subject.val() ,
                     "origin" : $origin.val()
                 });
             }
         },function(){
-            
+            $.admin_select_user(
+                $admin_revisiterid,
+                "admin", null,false,{"main_type":1});
+ 
         });
     });
 

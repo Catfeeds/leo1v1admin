@@ -1936,6 +1936,10 @@ class tea_manage extends Controller
     public function trial_train_lesson_list_zj(){
         return $this->trial_train_lesson_list();
     }
+    public function trial_train_lesson_list_zs(){
+        return $this->trial_train_lesson_list();
+    }
+
 
     public function trial_train_lesson_list(){
         list($start_time,$end_time) = $this->get_in_date_range(-7,7);

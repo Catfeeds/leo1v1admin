@@ -523,6 +523,10 @@ $(function(){
     });
 
     
+    if (window.location.pathname=="/tea_manage/trial_train_lesson_list_zs" || window.location.pathname=="/tea_manage/trial_train_lesson_list_zs/") {
+        $(".show_flag").children().hide();
+    }
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });
