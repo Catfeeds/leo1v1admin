@@ -3437,12 +3437,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_status<> 0",
             "m.account_role=2",
             // "s.origin_userid<>0"
-
         ];
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
+        $sql = $this->gen_sql_new( "  select o.price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
@@ -3452,7 +3451,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                    ,$where_arr
         );
 
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
+        // return $this->main_get_row($sql);
 
     }
 
