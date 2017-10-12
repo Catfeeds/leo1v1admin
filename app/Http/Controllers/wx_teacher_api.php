@@ -781,7 +781,7 @@ class wx_teacher_api extends Controller
 
     public function send_wx_msg_by_keep($lessonid,$is_teacher_keep){ // 家长或老师维持原有时间 发送微信推送
         $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
-        $lesson_start_date = date('m月d日',$lesson_start_time );
+        $lesson_start_date = date('m月d日 H:i:s',$lesson_start_time );
         $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
         $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
 
@@ -825,18 +825,13 @@ class wx_teacher_api extends Controller
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
-            // $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o"; //待处理
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";  // 待办事项
-            // $data['first']      = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
-            // $data['keyword1']   = " 拒绝调课申请";
-            // $data['keyword2']   = " 原上课时间:".$lesson_start_date.";您已拒绝";
-            // $data['remark']     = "";
 
             $data['first']      = " 拒绝调课申请";
             $data['keyword1']   = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
             $data['keyword2']   = " 原上课时间:".$lesson_start_date;
             $data['keyword3']   = date('Y-m-d H:i:s');
-            $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
+            $data['remark']     = "";
 
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
         }
