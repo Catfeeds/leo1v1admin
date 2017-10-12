@@ -1196,6 +1196,7 @@ class tongji2 extends Controller
                 $ret_info['kpi_per']       = $ret_info['kpi_per'] >0?$ret_info['kpi_per']/100:0;
                 $ret_info['gap_money']     = $ret_info['gap_money']>0?$ret_info['gap_money']/100:0;
                 $ret_info['total_income']  = $ret_info['total_income']>0?$ret_info['total_income']/100:0;
+                $ret_info['total_price_thirty']  = $ret_info['total_price_thirty']>0?$ret_info['total_price_thirty']/100:0;
                 $ret_info['person_num_thirty_per'] = $ret_info['person_num_thirty_per']>0?$ret_info['person_num_thirty_per']/100:0;
                 $ret_info['contract_per']  = $ret_info['contract_per']>0?$ret_info['contract_per']/100:0;
                 $ret_info['month_kpi_per'] = $ret_info['month_kpi_per']>0?$ret_info['month_kpi_per']/100:0;

@@ -1196,7 +1196,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         ];
         $sql = $this->gen_sql_new(" select count(distinct(tr.require_id)) as total_test_lesson_num,"
                                   ." sum(if(order_confirm_flag=2,1,0)) as fail_num, "
-                                  ." sum(if( ( 	(success_flag=0 or order_confirm_flag=0) and l.lesson_user_online_status =1),1,0 )) as wait_num"
+                                  ." sum(if(((success_flag=0 or order_confirm_flag=0) and l.lesson_user_online_status =1),1,0 )) as wait_num"
                                   ." from  %s tss"
                                   ." left join %s l ON tss.lessonid = l.lessonid"
                                   ." left join %s tr ON tss.require_id = tr.require_id"

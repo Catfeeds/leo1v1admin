@@ -156,7 +156,7 @@ class tongji_ss extends Controller
         //合同数
         $list = $this->t_order_info->get_1v1_order_list($start_time,$end_time,"",-1,$adminid_list,$adminid_all  ,-1,$grade_list, $stu_test_paper_flag );
         foreach ($list as $item) {
-            $opt_date      = date("Y-m-d",$item["order_time"]);
+            $opt_date      = date("Y-m-d",$item["opt_date"]);
             $date_item     = &$date_list[$opt_date];
             $contract_type = $item["contract_type"];
             if ($contract_type==0 ) {

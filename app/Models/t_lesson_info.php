@@ -2217,7 +2217,7 @@ lesson_type in (0,1) "
         ];
         $where_str = $this->lesson_common_where_arr($where_str);
         $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
-                                ." teacherid,grade,userid"
+                                ." teacherid,grade,userid,competition_flag"
                                 ." from %s"
                                 ." where %s"
                                 ." order by lesson_start asc"

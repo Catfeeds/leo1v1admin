@@ -50,22 +50,40 @@ class test_code extends Controller
     }
 
     public function set_order_lesson(){
-        // $flag = $this->get_in_int_val("flag");
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
-        $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
-        $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,$flag,$start_time,$end_time,-1);
+
+        $order_list     = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
+        $lesson_list    = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
         $stu_order_list = [];
         foreach($order_list as $o_val){
             $userid = $o_val['userid'];
             $flag = $o_val['competition_flag'];
-            $stu_order_list[$userid][$flag][] = $o_val;
+            $orderid = $o_val['orderid'];
+            $stu_order_list[$userid][$flag][$orderid] = $o_val;
         }
         foreach($lesson_list as $l_val){
+            $userid = $l_val['userid'];
+            $lesson_count = $l_val['lesson_count'];
+            $flag = $l_val['competition_flag'];
+
+            $order_info = current($stu_order_list[$userid][$flag]);
+            if($order_info['lesson_left'] <= 0){
+                $current_orderid = $order_info['orderid'];
+                unset($stu_order_list[$userid][$flag][$current_orderid]);
+            }
 
         }
 
         dd($stu_order_list);
+    }
+
+    public function get_current_order_info($order_list,$lesson_info){
+        $userid       = $lesson_info['userid'];
+        $lesson_count = $lesson_info['lesson_count'];
+        $flag         = $lesson_info['competition_flag'];
+
+
     }
 
     public function get_success_lesson(){
