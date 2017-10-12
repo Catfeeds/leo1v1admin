@@ -575,9 +575,6 @@ class main_page extends Controller
             $cur_start = strtotime(date('Y-m-01',$end_time));
             $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
         }
-
-
-
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
