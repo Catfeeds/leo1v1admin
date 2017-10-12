@@ -1091,9 +1091,10 @@ class common_new extends Controller
             $login_flag=true;
         }
         $this->t_ssh_login_log->row_insert([
-            "type"=> 0,
-            "serverip"=> $server_ip,
+            "server_ip"=> ip2long($server_ip),
+            "login_ip"=> ip2long($remote_host),
             'account' => $account,
+            'login_succ_flag' => $login_flag?1:0,
             "login_time" =>time(),
         ]);
 

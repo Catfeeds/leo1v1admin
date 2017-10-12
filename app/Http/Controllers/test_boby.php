@@ -547,8 +547,6 @@ class test_boby extends Controller
             $this->t_revisit_assess_info->row_insert([
                 'uid'     => $item['uid'],
                 'stu_num' => $item['stu_num'],
-                'revisit_num' => 0,
-                'call_count'  => 0,
                 'create_time' => $time,
             ]);
         }
