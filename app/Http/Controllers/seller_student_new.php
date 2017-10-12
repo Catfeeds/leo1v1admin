@@ -1598,4 +1598,16 @@ class seller_student_new extends Controller
         return $ret;
     }
 
+
+
+    //助教主管新增例子
+    public function get_new_student_ass_leader(){
+        list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3);
+        $page_info= $this->get_in_page_info();
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ret_info = $this->t_seller_student_new->get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid);
+
+        
+    }
+
 }

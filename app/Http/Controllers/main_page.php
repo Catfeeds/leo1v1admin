@@ -81,7 +81,7 @@ class main_page extends Controller
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
                 }
 
-                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
 
 
 
@@ -1827,7 +1827,7 @@ class main_page extends Controller
         $uid_str = $this->t_manager_info->get_uid_str_by_adminid($master_adminid);
         $now = time();
         $three = $now - 86400*7;
-        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count($master_adminid, $three,$uid_str);
 
         $warning_type_num = [
             'warning_type_one' =>0,
@@ -1838,11 +1838,11 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($master_adminid, $uid_str, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         //月回访信息
-        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
         // dd($month_info);
 
         return $this->pageView(__METHOD__ ,null, [
