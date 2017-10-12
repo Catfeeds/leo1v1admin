@@ -60,19 +60,30 @@ class test_code extends Controller
             $userid = $o_val['userid'];
             $flag = $o_val['competition_flag'];
             $orderid = $o_val['orderid'];
-            $stu_order_list[$userid][$flag][] = $o_val;
+            $stu_order_list[$userid][$flag][$orderid] = $o_val;
         }
         foreach($lesson_list as $l_val){
             $userid = $l_val['userid'];
             $lesson_count = $l_val['lesson_count'];
             $flag = $l_val['competition_flag'];
 
-
-
+            $order_info = current($stu_order_list[$userid][$flag]);
+            if($order_info['lesson_left'] <= 0){
+                $current_orderid = $order_info['orderid'];
+                unset($stu_order_list[$userid][$flag][$current_orderid]);
+            }
 
         }
 
         dd($stu_order_list);
+    }
+
+    public function get_current_order_info($order_list,$lesson_info){
+        $userid       = $lesson_info['userid'];
+        $lesson_count = $lesson_info['lesson_count'];
+        $flag         = $lesson_info['competition_flag'];
+
+
     }
 
     public function get_success_lesson(){
