@@ -63,6 +63,7 @@ class update_seller_level extends cmd_base
         $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
         foreach($seller_list as $item){
             $adminid = $item['uid'];
+            $account = $this->task->t_manager_info->get_account_by_uid($adminid);
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
             $ret_this = $this->task->t_seller_level_goal->field_get_list($item['seller_level'],'*');
@@ -92,6 +93,8 @@ class update_seller_level extends cmd_base
                     "new"         => $next_level,
                     "create_time" => time(NULL),
                 ],false,false,true );
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
             }
             //统计上个月
 
