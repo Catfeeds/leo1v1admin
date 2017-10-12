@@ -1606,6 +1606,9 @@ class seller_student_new extends Controller
         $page_info= $this->get_in_page_info();
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $ret_info = $this->t_seller_student_new->get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid);
+        foreach($ret_info["list"] as &$item){
+            
+        }
 
         
     }
