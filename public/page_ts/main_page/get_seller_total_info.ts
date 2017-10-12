@@ -43,6 +43,9 @@ $(function(){
         var test_plan_month_rate = Math.floor(g_data.test_plan_month_rate*100)/100+'%';
         var lesson_succ_month_rate = Math.floor(g_data.lesson_succ_month_rate*100)/100+'%';
         var trans_month_rate = Math.floor(g_data.trans_month_rate*100)/100+'%';
+        var sign_month_rate = Math.floor(g_data.sign_month_rate*100)/100+'%';
+        var succ_called_rate = Math.floor(g_data.succ_called_rate*100)/100+'%';
+        var claim_num_rate = Math.floor(g_data.claim_num_rate*100)/100+'%';
 
         var list_data=[
             ["月度目标收入",g_data.seller_target_income],
@@ -74,9 +77,13 @@ $(function(){
             ["月排课率",test_plan_month_rate],
             ["月到课率",lesson_succ_month_rate],
             ["月试听转化率",trans_month_rate],
+            ["月签约率",sign_month_rate],
 
+            ["呼出量",g_data.has_called],
+            ["接通率",succ_called_rate],
+            ["认领率",claim_num_rate],
 
-
+// 
 
         ];
 

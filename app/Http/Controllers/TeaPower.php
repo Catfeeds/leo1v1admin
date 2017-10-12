@@ -1653,12 +1653,12 @@ trait TeaPower {
         $reference_teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
         $reference_count     = $this->t_teacher_lecture_appointment_info->get_reference_count($reference);
 
-        $check_flag=$this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
+        $check_flag = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
         if(!$check_flag){
             $reference_reward = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$reference_count);
             $this->t_teacher_info->row_insert([
                 "teacherid"  => $reference_teacherid,
-                "type"       => 6,
+                "type"       => E\Ereward_type::V_6,
                 "add_time"   => time(),
                 "money"      => $reward,
                 "money_info" => $teacher_info['teacherid'],
@@ -1670,7 +1670,7 @@ trait TeaPower {
     public function get_fulltime_teacher_test_lesson_score($teacherid,$start_time,$end_time){
         $qz_tea_arr=[$teacherid];
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
-        
+
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
         $item=[];

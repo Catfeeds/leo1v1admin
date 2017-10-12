@@ -81,8 +81,8 @@
 
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
+                                <a class="fa-user-md  opt-set_ass " title="分配助教" ></a>
 
-                                <a class="fa fa-times opt-del" title="删除"> </a>
                                
                             </div>
                         </td>
