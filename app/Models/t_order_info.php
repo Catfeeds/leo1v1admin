@@ -1124,6 +1124,32 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_pay_user_has_lesson($start_time,$end_time,$competition_flag){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type in (0,1,3)",
+            "o.userid = userid"
+        ];
+
+        $sql=$this->gen_sql_new("select o.orderid,o.userid,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+                                ." subject"
+                                ." from %s o"
+                                ." where contract_type in (0,1,3)"
+                                ." and contract_status!=0"
+                                ." and o.userid!=0"
+                                ." and competition_flag=%u"
+                                ." and exists (select 1 from %s where %s)"
+                                ." group by o.userid"
+                                ,self::DB_TABLE_NAME
+                                ,$competition_flag
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        echo $sql;exit;
+        return $this->main_get_list($sql);
+    }
+
     public function order_info_list($userid,$competition_flag){
         $where_arr=[
             ["competition_flag=%d",$competition_flag,-1],

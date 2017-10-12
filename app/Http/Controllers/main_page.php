@@ -61,6 +61,12 @@ class main_page extends Controller
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
         $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
+
+        if($opt_date_type == 2){
+            $start_time = $start_time+86400;
+            $end_time = $end_time+86400;
+        }
+
         $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         $ret_info = &$ret_info_arr['list'];
 

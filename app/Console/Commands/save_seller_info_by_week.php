@@ -11,7 +11,7 @@ class save_seller_info_by_week extends Command
      *
      * @var string
      */
-    protected $signature = 'command:save_seller_info_by_week';
+    protected $signature = 'command:save_seller_info_by_week {--s=} {--e=}';
 
     /**
      * The console command description.
@@ -41,12 +41,18 @@ class save_seller_info_by_week extends Command
         // 周一保存整月信息
         $task=new \App\Console\Tasks\TaskController();
 
-        $end_time   = strtotime(date('Y-m-d 0:0:0'));
-        $start_time = $end_time-7*86400;
+        $start_time = $this->option('s');
+        $end_time   = $this->option('e');
+
+        if($start_time == null && $end_time == null ){
+            $end_time   = strtotime(date('Y-m-d 0:0:0'));
+            $start_time = $end_time-7*86400;
+        }
+
 
         $month_start_time_funnel = strtotime(date('Y-m-01'));
 
-        if($month_start_time<$start_time){
+        if($month_start_time_funnel<$start_time){
             $month_start_time_funnel = $start_time;
         }
 

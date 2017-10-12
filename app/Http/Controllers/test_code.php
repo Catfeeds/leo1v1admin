@@ -49,12 +49,19 @@ class test_code extends Controller
         return $arr;
     }
 
-    public function reset_teacher_name(){
-        $userid = 50728;
-        $competition_flag = 0;
-        $start_time = time();
-        $end_time= time();
-        $this->t_lesson_info->get_user_lesson_list($userid , $competition_flag,$start_time,$end_time);
+    public function set_order_lesson(){
+        $flag = $this->get_in_int_val("flag");
+        $start_time = strtotime("2017-10-1");
+        $end_time = strtotime("2017-11-1");
+        // $order_list = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time,$flag);
+        $lesson_list =$this->t_lesson_info->get_user_lesson_list(0,$flag,$start_time,$end_time,-1);
+        dd($lesson_list);
+        foreach($user_list as $u_val){
+            $lesson_list = $t_lesson_info->get_user_lesson_list(
+                $v['userid'],$this->competition_flag,$this->start_time,$this->end_time
+            );
+        }
+        dd($user_list);
     }
 
     public function get_success_lesson(){

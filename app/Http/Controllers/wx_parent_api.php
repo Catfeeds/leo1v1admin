@@ -959,6 +959,16 @@ class wx_parent_api extends Controller
 
 
     // 家长微信端上传试卷
+
+    public function get_all_stu_info(){
+        $parentid = $this->get_in_int_val('parentid');
+
+        $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
+
+        return $this->output_succ(['data'=>$student_info]);
+    }
+
+
     public function input_student_score (){ //家长录入学生成绩
         // $score   = $this->get_in_int_val('score');
         // $subject = $this->get_in_int_val('subject');
