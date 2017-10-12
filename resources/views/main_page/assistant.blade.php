@@ -119,6 +119,49 @@
                 </div>
 
 
+                <div class="col-lg-5 col-md-6">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            本月-回访进度
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>项目</td>
+                                        <td>已回访量</td>
+                                        <td>目标回访量</td>
+                                        <td>已回访通时(分钟)</td>
+                                        <td>目标回访通时(分钟)</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>今日</td>
+                                            <td>{{$today_info["revisit_num"]}} </td>
+                                            <td>{{$today_info["goal"]}} </td>
+                                            <td>{{$today_info["call_num"]/60}} </td>
+                                            <td>{{$today_info["goal"]*3}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>本月</td>
+                                            <td>{{$month_info["revisit_num"]}} </td>
+                                            <td>{{$month_info["stu_num"]*2}} </td>
+                                            <td>{{$month_info["call_num"]/60}} </td>
+                                            <td>{{$month_info["stu_num"]*6}} </td>
+                                        </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+
+
             </div>
 
 
@@ -144,14 +187,14 @@
                                     @foreach ( $lesson_count_list["list"] as $key=> $var )
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
-                                            <td  > {{$var["assistant_nick"]}} </td> 
+                                            <td  > {{$var["assistant_nick"]}} </td>
                                             <td>{{$var["lesson_count"]/100}} </td>
                                             <td>{{$var["user_count"]}} </td>
                                         </tr>
                                     @endforeach
                                     <tr>
                                         <td> </td>
-                                        <td  > 总计 </td> 
+                                        <td  > 总计 </td>
                                         <td>{{$lesson_all/100}} </td>
                                         <td>{{$user_all}} </td>
                                     </tr>
@@ -185,7 +228,7 @@
                                     @foreach ( $assistant_renew_list as $key=> $var )
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
-                                            <td  > {{$var["sys_operator"]}} </td> 
+                                            <td  > {{$var["sys_operator"]}} </td>
                                             <td>{{$var["all_price"]/100}} </td>
                                             <td>{{$var["all_student"]}} </td>
                                             <td>{{$var["bye_total"]/100}} </td>
@@ -203,11 +246,8 @@
 
             </div>
 
-            
+
         </div>
     </section>
-    
+
 @endsection
-
-
-

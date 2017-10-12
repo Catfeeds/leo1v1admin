@@ -859,7 +859,14 @@ class tongji2 extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $account_id    = $this->get_in_int_val('adminid',-1);
 
-        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        // $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        $cur_start = strtotime(date("Y-m-01",time()));
+        if($start_time < $cur_start){
+            $history_flag=1;
+        }else{
+            $history_flag=0;
+        }
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,$history_flag);
         $month_middle = $start_time+15*86400;
 
         /* $lesson_list_first = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);

@@ -33,15 +33,6 @@ class Net {
     }
 
 
-    /**
-     * 获取课程对于的服务器信息
-     * @return array
-     */
-    static function get_server_info($courseid_arr) {
-        $url = Config::get_api_url()."/common/get_course_server" ;
-        return Net::rpc($url, array( 'course_str' => join(",",$courseid_arr)));
-    }
-
     static public function baidu_push( $userid, $messageid, $title, $message_content ){
         $url = Config::get_monitor_url()."/notice/baidu";
         $send_data = array(

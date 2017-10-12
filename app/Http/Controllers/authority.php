@@ -555,9 +555,11 @@ class authority extends Controller
                 $item['seller_level'] = $item['new'];
                 E\Eseller_level::set_item_value_str($item);
                 $item['new'] = $item['seller_level_str'];
-
             }
             $this->cache_set_item_account_nick($item,"adminid", "adminid_nick");
+            if($item['adminid'] == 0){
+                $item['adminid_nick'] = '系统';
+            }
             $this->cache_set_item_account_nick($item,"uid", "uid_nick");
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }

@@ -11,6 +11,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var g_data= <?php  echo json_encode($ret_info); ?> ;
     </script>
 
     <section class="content " id="id_content">
@@ -33,12 +34,42 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
+                </div>
+
             </div>
         </div>
 
         <div class="row">
-
             <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            {{@$ret_info['data_type']}}
+                            <br/>
+                            销售额完成情况汇总
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <td width="200px" align="center">月度目标收入</td>
+                                        <td>{{@$ret_info['seller_target_income']}}</td>
+                                        <td width="200px" align="center">完成金额</td>
+                                        <td>{{@$ret_info['formal_info']}}</td>
+                                        <td width="200px" align="center">完成率</td>
+                                        <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
+                                        <td width="200px" align="center">缺口金额</td>
+                                        <td >{{@$ret_info['month_left_money']}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
@@ -49,24 +80,18 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
-                                        <td>现金总收入(元)</td>
                                         <td>下单总人数</td>
-                                        <td class="panel-red">入职完整月人员签单额</td>
                                         <td class="panel-red">入职完整月人员人数</td>
                                         <td class="panel-red">平均人效</td>
                                         <td class="panel-red">平均单笔</td>
-                                        <td class="panel-red">月KPI完整率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@number_format($ret_info['income_price'],2)}}</td>
-                                        <td> {{@$ret_info['income_num']}} </td>
-                                        <td> {{@number_format($ret_info['formal_info'],2)}} </td>
+                                        <td> {{@$ret_info['order_num']}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
-                                        <td> {{@number_format($ret_info['seller_kpi'],2)}}% </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,11 +121,11 @@
                                 <tbody id="id_lesson_count_list">
                                     <tr>
                                         <td> {{@$ret_info['seller_num']}} </td>
-                                        <td> {{@$ret_info['first_num']}}  </td>
-                                        <td> {{@$ret_info['second_num']}} </td>
-                                        <td> {{@$ret_info['third_num']}} </td>
-                                        <td> {{@$ret_info['new_num']}} </td>
-                                        <td> {{@$ret_info['traing_num']}}</td>
+                                        <td> {{@$ret_info['one_department']}}  </td>
+                                        <td> {{@$ret_info['two_department']}} </td>
+                                        <td> {{@$ret_info['three_department']}} </td>
+                                        <td> {{@$ret_info['new_department']}} </td>
+                                        <td> {{@$ret_info['train_department']}}</td>
                                         <td> {{@number_format($ret_info['referral_money_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['high_school_money_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['junior_money_rate'],2)}}% </td>
@@ -137,11 +162,11 @@
                                     <tr>
                                         <td> {{@$ret_info['seller_invit_num']}}</td>
                                         <td> {{@$ret_info['seller_schedule_num']}} </td>
-                                        <td> {{@$ret_info['test_lesson_succ_num']}} </td>
+                                        <td> {{@$ret_info['test_succ_num']}} </td>
                                         <td> {{@$ret_info['new_order_num']}} </td>
-                                        <td> {{@number_format($ret_info['invit_month_rate'],2)}} </td>
-                                        <td> {{@number_format($ret_info['test_plan_month_rate'],2)}} </td>
-                                        <td> {{@number_format($ret_info['lesson_succ_month_rate'],2)}} </td>
+                                        <td> {{@number_format($ret_info['invit_month_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['test_plan_month_rate'],2)}}% </td>
+                                        <td> {{@number_format($ret_info['lesson_succ_month_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['trans_month_rate'],2)}}% </td>
                                         <td> {{@number_format($ret_info['sign_month_rate'],2)}}% </td>
                                     </tr>

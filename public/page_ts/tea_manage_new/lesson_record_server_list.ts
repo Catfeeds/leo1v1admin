@@ -229,6 +229,12 @@ $(function(){
 
     });
 
+    $(".opt-lesson").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/tea_manage/lesson_list?lessonid="+opt_data.lessonid);
+    });
+
+
 
     //$.do_ajax("");
 

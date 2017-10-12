@@ -1332,4 +1332,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+    public function add_teacher_action_log($teacherid,$record_info,$acc){
+        $ret = $this->row_insert([
+            "teacherid"   => $teacherid,
+            "type"        => E\Erecord_type::V_6,
+            "record_info" => $record_info,
+            "add_time"    => time(),
+            "acc"         => $acc,
+        ]);
+        return $ret;
+    }
+
 }

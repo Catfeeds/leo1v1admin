@@ -4,16 +4,15 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			      date_type_config:	$('#id_date_type_config').val(),
-			      date_type:	$('#id_date_type').val(),
-			      opt_date_type:	$('#id_opt_date_type').val(),
-			      start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val(),
+            date_type_config:	$('#id_date_type_config').val(),
+            date_type:	$('#id_date_type').val(),
+            opt_date_type:	$('#id_opt_date_type').val(),
+            start_time:	$('#id_start_time').val(),
+            end_time:	$('#id_end_time').val(),
             history_data:	$('#id_history_data').val()
         });
     }
 
-    console.log(g_args.date_type_config);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -26,10 +25,38 @@ $(function(){
         }
     });
 
-	  $('#id_history_data').val(g_args.history_data);
+    $('#id_history_data').val(g_args.history_data);
 
 
-	  $('.opt-change').set_input_change_event(load_data);
+    $("#download_data").on("click",function(){
+        console.log(g_data);
+
+        var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
+        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100;
+        var aver_money = Math.floor(g_data.aver_money *100)/100;
+
+        var list_data=[
+            ["月度目标收入",g_data.seller_target_income],
+            ["月完成金额",g_data.formal_info],
+            ["完成率",month_finish_persent],
+            ["缺口金额",g_data.month_left_money],
+
+            ["下单总人数",g_data.order_num],
+            ["入职完整月人员人数",g_data.formal_num],
+
+        ];
+
+
+        $.do_ajax ( "/page_common/upload_xls_data",{
+            xls_data :  JSON.stringify(list_data )
+        },function(data){
+            window.location.href= "/common_new/download_xls";
+        });
+
+    });
+
+
+
+
+    $('.opt-change').set_input_change_event(load_data);
 });
-
-

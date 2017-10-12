@@ -17,6 +17,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	messageid	:any;
+	date	:any;
+	content	:any;
+	value	:any;
+	push_num	:any;
+	message_type	:any;
+	userid	:any;
+	message_type_str	:any;
+	date_str	:any;
 }
 
 /*

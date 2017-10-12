@@ -395,8 +395,8 @@ abstract class NewModel
 
     public function field_update_list ( $id, $set_field_arr) {
         if(is_array($id)){
-            $where_str = $this->where_str_gen($id);
-            $set_field_list_str=$this->get_sql_set_str( $set_field_arr);
+            $where_str          = $this->where_str_gen($id);
+            $set_field_list_str = $this->get_sql_set_str( $set_field_arr);
 
             $sql = sprintf("update %s set  %s  where  %s", $this->field_table_name , $set_field_list_str,
                          $where_str);

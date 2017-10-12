@@ -2712,8 +2712,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $rrr==111;
-        $cccc =222;
+        dd($_SERVER["REMOTE_ADDR"]);
+        $month = strtotime("2017-09-01");
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,1);
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,0);
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        dd($ass_list);//uid,account,a.nick,m.name
+
                
 
     }
@@ -3394,6 +3399,7 @@ class user_deal extends Controller
                 "201705", $adminid, $start_time, $end_time ) ;
             break;
         default:
+
             $arr=\App\Strategy\sellerOrderMoney\seller_order_money_base::get_cur_info(
                 $adminid, $start_time, $end_time ) ;
             break;

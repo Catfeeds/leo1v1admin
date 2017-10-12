@@ -76,6 +76,7 @@
                     <td>销售等级 </td>
                     <td>等级目标 </td>
                     <td>等级头像 </td>
+                    <td>等级角标 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -87,6 +88,7 @@
                         <td>{{@$var["seller_level_str"]}} </td>
                         <td>{{@$var["level_goal"]}} </td>
                         <td><img src="{{@$var["level_face"]}}" width="100px;" height="100px;" alt="" /></td>
+                        <td><img src="{{@$var["level_icon"]}}" width="100px;" height="100px;" alt="" /></td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
