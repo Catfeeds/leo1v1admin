@@ -1541,6 +1541,42 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     }
 
+    public function get_jw_order_lesson_info($start_time,$end_time,$adminid){
+        $where_arr = [
+            ["require_assign_time >= %u",$start_time,-1],
+            ["require_assign_time <= %u",$end_time,-1],
+            ["tr.accept_adminid = %u",$adminid,-1],
+            "accept_adminid > 0",
+            "m.account_role = 3",
+            "s.is_test_user=0",
+            "o.orderid>0",
+            "seller_top_flag=1"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,tt.realname,tt.teacherid,tr.test_lesson_student_status,".
+                                  "tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject,mm.account ".
+                                  " from %s tr left join %s m on tr.accept_adminid = m.uid ".
+                                  " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
+                                  " left join %s s on t.userid = s.userid".
+                                  " left join %s o  on tr.current_lessonid = o.from_test_lesson_id and o.contract_type in(0,3) and contract_status>0".
+                                  " left join %s l on tr.current_lessonid = l.lessonid".
+                                  " left join %s tss on l.lessonid = tss.lessonid".
+                                  " left join %s tt on l.teacherid = tt.teacherid".
+                                  " left join %s mm on tr.cur_require_adminid = mm.uid".
+                                  " where %s  ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_seller_top_lesson_list($start_time,$end_time,$adminid){
         $where_arr = [
             ["tr.require_assign_time >= %u",$start_time,-1],
@@ -1632,7 +1668,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(test_lesson_student_status =200,1,0)) un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200,1,0)) top_un_count,".
                                   "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) top_count,".
-                                  " sum(if(o.orderid>0,1,0)) order_num,".
+                                  " sum(if(o.orderid>0 and tr.seller_top_flag=1,1,0)) order_num,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".

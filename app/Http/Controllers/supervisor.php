@@ -171,6 +171,9 @@ class supervisor extends Controller
                 $item['server_type_str']="声网";
             }
         }
+        $this->set_filed_for_js("group_type", $group_type );
+        $this->set_filed_for_js("self_groupid", $self_groupid);
+        $this->set_filed_for_js("is_group_leader_flag", $is_group_leader_flag);
 
         return $this->pageView(__METHOD__,$ret_info,[
             "group_type"           => $group_type,
