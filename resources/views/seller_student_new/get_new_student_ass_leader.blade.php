@@ -8,6 +8,10 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/select_course.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
 
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
@@ -81,8 +85,8 @@
 
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
+                                <a class="fa-user-md  opt-set_ass " title="分配助教" ></a>
 
-                                <a class="fa fa-times opt-del" title="删除"> </a>
                                
                             </div>
                         </td>

@@ -37,26 +37,24 @@ class get_ass_stu_by_month extends Command
      */
     public function handle()
     {
-        //每月一号获取助教的所有在读学生个数
-        // $now = strtotime( date("Y-m-d H:i:00", time()) );
-        // $end_time   = $now - 7*24*3600;
-        // $start_time = $end_time - 60;
-        // /**  @var    \App\Console\Tasks\TaskController  $task*/
-        // $task=new \App\Console\Tasks\TaskController();
+        //每月一号获取助教的所有在读学生个数,每月1号凌晨2点执行一次
+        $time = time();
+        // $start_time = strtotime( date("Y-m-1", $time) );
+        // $end_time   = strtotime( "+1 month", $start_time() );
+        /**  @var    \App\Console\Tasks\TaskController  $task*/
+        $task = new \App\Console\Tasks\TaskController();
 
-        // $ret_list   = $task->t_revisit_info->get_overtime_by_now($start_time, $end_time);
-        // foreach ($ret_list as $item) {
-        //     if(is_array($item)) {
-        //         $task->t_revisit_warning_overtime_info->row_insert([
-        //             'userid'       => $item['userid'],
-        //             'revisit_time' => $item['revisit_time'],
-        //             'sys_operator' => $item['sys_operator'],
-        //             'create_time'  => time(),
-        //             'deal_time'    => 0,
-        //             'deal_type'    => 0
-        //         ]);
-        //     }
-        // }
+        // $ret_list = $task->t_manager_info->get_uid_stu_num($start_time, $end_time);
+        $ret_list = $task->t_manager_info->get_uid_stu_num();
+        foreach ($ret_list as $item) {
+            if(is_array($item)) {
+                $task->t_revisit_assess_info->row_insert([
+                    'uid'         => $item['uid'],
+                    'stu_num'     => $item['stu_num'],
+                    'create_time' => $time,
+                ]);
+            }
+        }
 
     }
 

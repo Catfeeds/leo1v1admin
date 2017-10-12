@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\save_seller_info_by_week::class,
         Commands\save_seller_info::class,
         Commands\add_warning_overtime::class,
+        Commands\get_ass_stu_by_month::class,
         Commands\reset_parent_call_status::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,

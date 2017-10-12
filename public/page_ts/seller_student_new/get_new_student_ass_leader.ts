@@ -57,6 +57,32 @@ $(function(){
         });
     });
 
+    //点击进入个人主页
+    $('.opt-user').on('click', function () {
+        var opt_data= $(this).get_opt_data();
+        $.wopen('/stu_manage?sid=' + opt_data.userid);
+    });
+
+    $(".opt-set_ass").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $(this).admin_select_user({
+            "show_select_flag" : true,
+            "type"             : "assistant",
+            "onChange"         : function(val){
+                var id = val;
+                $.do_ajax( '/stu_manage/set_assistantid',{
+                    'sid'         : opt_data.userid,
+                    'assistantid' : id
+                });
+            }
+        });
+    });
+
+
+   
+
+
+
 
 
 
