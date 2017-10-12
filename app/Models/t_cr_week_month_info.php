@@ -65,6 +65,7 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             "is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select t.grade ,count(s.userid) as total from t_student_info s  left join t_seller_student_new k on s.userid = k.userid left join t_test_lesson_subject t on t.userid = s.userid where %s group by t.grade", $where_arr);
+        dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_total_subject_num($start_time,$end_time){
@@ -148,6 +149,20 @@ class t_cr_week_month_info extends \App\Models\Zgen\z_t_cr_week_month_info
             " price>0"
         ];
         $sql = $this->gen_sql_new("select count(s.userid) as total, o.subject from t_order_info o  left join t_student_info s on s.userid = o.userid  where %s group by o.subject", $where_arr);
+        return $this->main_get_list($sql);
+    }
+
+
+
+    //-------------------------------
+    public function get_total($start_time,$end_time){
+        $where_arr = [
+            ["reg_time>%u",$start_time,-1],
+            ["reg_time<%u",$end_time,-1],
+            "is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(s.userid) as total,s.phone_location ,t.subject,t.grade from t_student_info s  left join t_seller_student_new k on s.userid = k.userid left join t_test_lesson_subject t on t.userid = s.userid
+where %s group by s.phone_location,t.subject,t.grade",$where_arr);
         return $this->main_get_list($sql);
     }
 }
