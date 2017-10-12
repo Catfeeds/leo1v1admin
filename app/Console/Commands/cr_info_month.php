@@ -187,7 +187,7 @@ class cr_info_month extends Command
 
 
         //转介绍 
-        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
+        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($start_month),$end_time); //月初至今
         $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
         $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
         if($arr['month_tranfer_total_num']){
