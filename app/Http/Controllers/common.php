@@ -325,6 +325,21 @@ class common extends Controller
         echo $str;
     }
 
+    /**
+     * 通过老师id发送入职信息
+     */
+    public function send_offer_info_by_teacherid(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        if($teacherid==0){
+            return $this->output_err("老师id不能为0!");
+        }
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $this->send_offer_info($teacher_info);
+
+        return $this->output_succ();
+    }
+
     public function add_trial_train_lesson_by_admin(){
         $teacherid    = $this->get_in_int_val("teacherid");
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);

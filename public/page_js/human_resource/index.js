@@ -1843,10 +1843,36 @@ $(function(){
         $.show_key_value_table("账号信息修改",arr);
     });
 
-    var send_ruzhi_info = function(){
-        
-    }
+    //发送入职邮件
+    var send_ruzhi_info = function(data){
+        var name = data.nick;
+        BootstrapDialog.show({
+	          title   : "发送入职邮件和微信推送",
+	          message : "确定给"+name+"发送入职邮件和微信推送么?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/common/send_offer_info_by_teacherid",{
+                        "teacherid" : data.teacherid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
 
+		            }
+	          }]
+        });
+
+    }
 
     //更新老师的科目和年级信息
     var update_subject_info = function(data){

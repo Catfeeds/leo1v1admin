@@ -2179,6 +2179,9 @@ trait TeaPower {
         return $reference;
     }
 
+    /**
+     * 老师培训通过后的处理操作
+     */
     public function teacher_train_through_deal($teacher_info,$flag){
         $today_date  = date("Y年m月d日",time());
         if($flag==0){
@@ -2193,39 +2196,14 @@ trait TeaPower {
             $teacher_info['level']=0;
         }
 
-        $level_str = E\Elevel::get_desc($teacher_info['level']);
-        if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
-            $title = "上海理优教研室";
-            $html  = $this->get_offer_html($teacher_info);
-            $ret   = \App\Helper\Common::send_paper_mail($teacher_info['email'],$title,$html);
-        }
-
-        if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
-            /**
-             * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
-             * 标题   : 入职邀请通知
-             * {{first.DATA}}
-             * 职位名称：{{keyword1.DATA}}
-             * 公司名称：{{keyword2.DATA}}
-             * 入职时间：{{keyword3.DATA}}
-             * {{remark.DATA}}
-             */
-            $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
-            $data["keyword1"] = "教职老师";
-            $data["keyword2"] = "理优教育";
-            $data["keyword3"] = $today_date;
-            $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-            $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
-        }
+        $this->send_offer_info($teacher_info);
 
         $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
         $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
         if(!empty($reference_info['teacherid']) && !$check_flag){
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
-            if(!in_array($teacher_type,[21,22,31])){
+            if(!in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
                 $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
@@ -2247,7 +2225,38 @@ trait TeaPower {
                 }
             }
         }
+    }
 
+    /**
+     * 发送入职邮件和入职微信推送
+     * @param teacher_info 老师信息
+     */
+    public function send_offer_info($teacher_info){
+        $level_str = E\Elevel::get_desc($teacher_info['level']);
+        if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
+            $title = "上海理优教研室";
+            $html  = $this->get_offer_html($teacher_info);
+            $ret   = \App\Helper\Common::send_paper_mail($teacher_info['email'],$title,$html);
+        }
+        if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
+            /**
+             * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
+             * 标题   : 入职邀请通知
+             * {{first.DATA}}
+             * 职位名称：{{keyword1.DATA}}
+             * 公司名称：{{keyword2.DATA}}
+             * 入职时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
+            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
+            $data["keyword1"] = "教职老师";
+            $data["keyword2"] = "理优教育";
+            $data["keyword3"] = $today_date;
+            $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+            $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+        }
     }
 
     public function get_offer_html($teacher_info){

@@ -62,7 +62,7 @@ class save_seller_info_by_week extends Command
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
         $ret_info['new_money']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-        $ret_info['order_num']   = $order_info_total['total_num']; // 有签单的销售人数
+        $ret_info['order_cc_num']   = $order_info_total['total_num']; // 有签单的销售人数
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
