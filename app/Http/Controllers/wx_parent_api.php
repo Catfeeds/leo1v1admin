@@ -971,16 +971,16 @@ class wx_parent_api extends Controller
         $stu_id   = $this->get_in_int_val('userid');
 
         $ret = $this->t_student_score_info->row_insert([
-            'score'       => $score,
-            'subject'     => $subject,
+            'score'          => $score,
+            'subject'        => $subject,
             'stu_score_type' => $stu_score_type,
-            'rank'        => $rank,
-            'grade_rank'  => $grade_rank,
-            'total_score' => $total_score,
-            'reason'      => $reason,
-            'create_time' => time(),
-            'userid'      => $userid,
-            'admin_type'  => 1, // 代表家长
+            'rank'           => $rank,
+            'grade_rank'     => $grade_rank,
+            'total_score'    => $total_score,
+            'reason'         => $reason,
+            'create_time'    => time(),
+            'userid'         => $stu_id,
+            'admin_type'     => 1, // 代表家长
             'create_adminid' => $parentid
         ]);
 
@@ -991,11 +991,6 @@ class wx_parent_api extends Controller
         }
     }
 
-    // function get_student_score_info(){ // 提交后获取学生成绩信息
-    //     $parentid = $this->get_parentid();
-    //     $userid   = $this->get_in_int_val('userid');
-    //     $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-    // }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $parentid       = $this->get_in_int_val('parentid',-1);

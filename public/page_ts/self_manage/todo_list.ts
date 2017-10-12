@@ -84,6 +84,37 @@ $(function(){
 
 
     }); 
+
+
+    var init_noit_btn_ex=function( id_name, count, title,desc ,value_class) {
+        var btn=$('#'+id_name);
+        count=count*1;
+        btn.data("value",count);
+        btn.tooltip({
+            "title":title + "("+desc+")",
+            "html":true
+        });
+        btn.addClass("btn-app") ;
+
+        var value =btn.data("value");
+
+        var str="<span class=\"badge  \">"+count+"</span>" + title;
+        btn.html(str);
+        if (!value_class) value_class="bg-yellow";
+        if (value >0 ) {
+            btn.addClass(value_class);
+            btn.find("span"). addClass(value_class);
+        }
+    };
+    var init_noit_btn=function( id_name, count, title,desc) {
+        init_noit_btn_ex( id_name, count, title, desc, null);
+    };
+
+
+
+    init_noit_btn("id_assign_lesson_count",   111,    "可赠送课时", "可赠送课时数" );
+
+
 }); 
 
 

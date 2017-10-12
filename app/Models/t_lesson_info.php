@@ -2203,7 +2203,7 @@ lesson_type in (0,1) "
         return $this->main_update($sql);
     }
 
-    public function get_user_lesson_list($userid,$competition,$start_time=0,$end_time=0){
+    public function get_user_lesson_list($userid,$competition=-1,$start_time=0,$end_time=0){
         $where_str = $this->where_str_gen([
             ["competition_flag=%u",$competition,-1],
             ["lesson_end>%u",$start_time,0],

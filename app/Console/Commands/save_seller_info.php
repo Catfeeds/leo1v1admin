@@ -14,7 +14,7 @@ class save_seller_info extends Command
      *
      * @var string
      */
-    protected $signature = 'command:save_seller_info';
+    protected $signature = 'command:save_seller_info  {--s=} {--e=}';
 
     /**
      * The console command description.
@@ -43,8 +43,14 @@ class save_seller_info extends Command
         // 月末保存整月信息
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime(date('Y-m-01'));
-        $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+        $start_time = $this->option('s');
+        $end_time   = $this->option('e');
+
+        if($start_time == null && $end_time == null ){
+            $start_time = strtotime(date('Y-m-01'));
+            $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+        }
+
 
         $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
 
@@ -90,7 +96,6 @@ class save_seller_info extends Command
                 $ret_info['formal_info']+=@$item["money"];
             }
         }
-
 
         // 计算电销人数
         $first_group  = '咨询一部';
@@ -144,8 +149,8 @@ class save_seller_info extends Command
 
 
         // 更新漏斗型数据
+        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $ret_info['seller_invit_month'], $ret_info['has_tq_succ_invit_month'], $ret_info['seller_plan_invit_month'], $ret_info['seller_test_succ_month'], $ret_info['order_trans_month'], $ret_info['order_sign_month'], $ret_info['has_tq_succ_sign_month'], $ret_info['has_called_stu'] );
 
-        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $seller_invit_month, $has_tq_succ_invit_month, $seller_plan_invit_month, $seller_test_succ_month, $order_trans_month, $order_sign_month, $has_tq_succ_sign_month, $has_called_stu );
     }
 
 

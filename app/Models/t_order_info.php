@@ -1077,19 +1077,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_user_order_list($userid,$competition=-1){
-        $where_str=$this->where_str_gen([
+        $where_str = $this->where_str_gen([
             ["competition_flag=%u",$competition,-1],
             ["userid=%u",$userid,-1],
         ]);
-        $sql=$this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left"
-                                ." from %s"
-                                ." where %s"
-                                ." and contract_type in (0,1,3)"
-                                ." and contract_status in (1,2)"
-                                ." and lesson_left>0"
-                                ." order by orderid asc"
-                                ,self::DB_TABLE_NAME
-                                ,$where_str
+        $sql = $this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left"
+                                  ." from %s"
+                                  ." where %s"
+                                  ." and contract_type in (0,1,3)"
+                                  ." and contract_status in (1,2)"
+                                  ." and lesson_left>0"
+                                  ." order by orderid asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_str
         );
         return $this->main_get_list($sql);
     }
@@ -3471,7 +3471,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num, count(distinct(o.sys_operator)) total_num,  from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num, count(distinct(o.sys_operator)) total_num from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
@@ -3636,7 +3636,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-
+    // public function get_has_lesson_order_list($start_time,$end_time,$lesson_status=2){
+    //     $where_arr=[
+    //         ["lesson_start>%u",$start_time,-1],
+    //         ["lesson_start<%u",$end_time,-1],
+    //         ["lesson_status=%u",$lesson_status,-1],
+    //     ];
+    //     $sql=$this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+    //                             ." competition_flag"
+    //                             ." from %s o"
+    //                             ." where %s "
+    //                             ." and exists ("
+    //                             ." select 1 from %s where %s"
+    //                             ." )"
+    //                             ,self::DB_TABLE_NAME
+    //                             ,$where_arr
+    //     );
+    //     return $this->main_get_list($sql);
+    // }
 
 
 }
