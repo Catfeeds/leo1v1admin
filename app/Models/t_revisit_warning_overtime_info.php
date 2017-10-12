@@ -22,8 +22,8 @@ class t_revisit_warning_overtime_info extends \App\Models\Zgen\z_t_revisit_warni
         ];
 
         if ($uid_str != -1 && $uid_str !== null) {
-            $where_arr[] = ["m.uid= %u",$ass_adminid,-1];
-            $or_arr[]    = ["m.uid= %u",$ass_adminid,-1];
+            $where_arr[] = "m.uid in ($uid_str)";
+            $or_arr[]    = "m.uid in ($uid_str)";
         } else {
             $where_arr[] = ["m.uid= %u",$ass_adminid,-1];
             $or_arr[]    = ["m.uid= %u",$ass_adminid,-1];
