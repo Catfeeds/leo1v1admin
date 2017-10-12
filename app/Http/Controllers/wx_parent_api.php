@@ -990,7 +990,6 @@ class wx_parent_api extends Controller
         //     return $this->output_err('成绩录入失败,请稍后重试!');
         // }
 
-        dd($file_url);
 
         $userid           = $this->get_in_int_val("userid");
         $create_time      = time();

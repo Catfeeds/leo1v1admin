@@ -8,6 +8,7 @@ interface GargsStatic {
  	todo_status:	string;//枚举列表: \App\Enums\Etodo_status
  	page_num:	number;
 	page_count:	number;
+	assign_lesson_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -36,7 +37,8 @@ $(function(){
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			todo_type:	$('#id_todo_type').val(),
-			todo_status:	$('#id_todo_status').val()
+			todo_status:	$('#id_todo_status').val(),
+			assign_lesson_count:	$('#id_assign_lesson_count').val()
         });
     }
 
@@ -55,6 +57,7 @@ $(function(){
 	$.enum_multi_select( $('#id_todo_type'), 'todo_type', function(){load_data();} )
 	$('#id_todo_status').val(g_args.todo_status);
 	$.enum_multi_select( $('#id_todo_status'), 'todo_status', function(){load_data();} )
+	$('#id_assign_lesson_count').val(g_args.assign_lesson_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -76,6 +79,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">todo_status</span>
                 <input class="opt-change form-control" id="id_todo_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">assign_lesson_count</span>
+                <input class="opt-change form-control" id="id_assign_lesson_count" />
             </div>
         </div>
 */
