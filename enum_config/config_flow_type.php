@@ -13,5 +13,5 @@ return array(
     array(3002,"order_exchange","课时转赠"),
 
     array(4001,"confirm_teacher_quit","老师离职申请确认"),
-    array(4002,"confirm_agent_money_ex","优学优享确认活动奖励"),
+    array(4002," agent_money_ex_examine","优学优享确认活动奖励"),
 );
