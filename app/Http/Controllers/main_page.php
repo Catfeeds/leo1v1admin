@@ -101,11 +101,11 @@ class main_page extends Controller
 
                 // 金额转化率占比
 
-                if($ret_info['formal_info']>0){
-                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['formal_info']*100;
-                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['formal_info']*100;
-                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['formal_info']*100;
-                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['formal_info']*100;
+                if($ret_info['all_order_price']>0){
+                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['all_order_price']*100;
+                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['all_order_price']*100;
+                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['all_order_price']*100;
+                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['all_order_price']*100;
                 }else{
                     $ret_info['referral_money_rate']    = 0;
                     $ret_info['high_school_money_rate'] = 0;

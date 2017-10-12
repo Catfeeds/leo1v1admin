@@ -59,6 +59,7 @@ class ss_deal extends Controller
     public function add_ss_ass_new() {
         $phone    = $this->get_in_phone();
         $origin   = $this->get_in_str_val("origin");
+        $name     = $this->get_in_str_val("name");
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
@@ -67,7 +68,23 @@ class ss_deal extends Controller
             return $this->output_err("电话号码长度不对");
         }
 
+        if($admin_revisiterid==0){
+            return $this->output_err("请选择助教!");
+        }
+
+        $ret = $this->t_student_info->get_student_info_by_phone($phone);
+        if($ret){
+            return $this->output_err('此账号已经注册');
+        }
+       
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
+        if ($userid && $this->t_seller_student_new->get_phone($userid)) {
+
+            $admin_nick=$this->cache_get_account_nick(
+                $this->t_seller_student_new->get_admin_revisiterid($userid)
+            );
+            return $this->output_err("系统中已有这个人的账号了,销售负责人:$admin_nick");
+        }
         if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
             return $this->output_err("已经有了这个科目的例子了,不能增加");
         }
@@ -94,6 +111,13 @@ class ss_deal extends Controller
             "sub_assign_time_2"  =>time(),
             "ass_leader_create_flag"=>1
         ]);
+        $this->t_student_info->field_update_list($userid,[
+            "nick"  =>$name,
+            "realname"=>$name,
+            "origin_assistantid"=>$admin_revisiterid,
+            "origin_userid"   =>1
+        ]);
+        
         
         $account=$this->get_account();
         $this->t_book_revisit->add_book_revisit(
