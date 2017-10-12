@@ -264,7 +264,6 @@ class menu{
                 ["power_id"=>4, "name"=>"权限execl",   "url"=>"/authority/jurisdiction"],
                 ["power_id"=>6, "name"=>"权限查询",   "url"=>"/authority/get_acc_power_list"],
                 ["power_id"=>7, "name"=>"登录日志",   "url"=>"/authority/get_login_list"],
-                ["power_id"=>72, "name"=>"ssh登录日志",   "url"=>"/login_log/login_list"],
                 ["power_id"=>71, "name"=>"websocket测试",   "url"=>"/seller_student_new/seller_student_ws"],
                 ["power_id"=>10, "name"=>"老师后台权限",   "url"=>"/user_manage_new/user_power_group_edit"],
 

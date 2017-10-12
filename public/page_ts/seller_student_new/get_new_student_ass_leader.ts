@@ -31,31 +31,62 @@ $(function(){
 
     $("#id_add").on("click",function(){
         var $phone=$("<input/>");
-        var $subject=$("<select/>");
         var $grade=$("<select/>");
         var $origin=$("<input/>");
+        var $admin_revisiterid=$("<input/>");
         var arr=[
             ["电话",  $phone],
             ["年级",  $grade],
-            ["科目",  $subject],
             ["渠道",  $origin],
+            ["助教",  $admin_revisiterid],
         ];
         Enum_map.append_option_list("grade",$grade, true);
-        Enum_map.append_option_list("subject",$subject, true);
 
         $.show_key_value_table("新增申请", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax("/ss_deal/add_ss",{
+                $.do_ajax("/ss_deal/add_ss_ass_new",{
                     "phone" : $phone.val() ,
-                    "subject" : $subject.val() ,
+                    "admin_revisiterid" : $admin_revisiterid.val() ,
                     "grade" : $grade.val() ,
                     "origin" : $origin.val()
                 });
             }
+        },function(){
+            
         });
     });
+
+
+    $("#id_set_select_to_admin_list").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var select_userid_list=[];
+
+        $(".opt-select-item").each(function(){
+            var $item=$(this) ;
+            if($item.iCheckValue()) {
+                select_userid_list.push( $item.data("userid") ) ;
+            }
+        } ) ;
+
+        var do_post= function (opt_adminid) {
+            $.do_ajax(
+                '/ss_deal/set_adminid',
+                {
+                    'userid_list' : JSON.stringify(select_userid_list ),
+                    "opt_type" : 0,
+                    "opt_adminid" : opt_adminid,
+                });
+        }
+
+        $.admin_select_user(
+            $('#id_set_select_list'),
+            "admin", function(val){
+                do_post( val);
+            },true   );
+    });
+
 
     //点击进入个人主页
     $('.opt-user').on('click', function () {
