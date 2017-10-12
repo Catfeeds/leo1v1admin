@@ -463,13 +463,13 @@ class agent extends Controller
     public function test_new(){
         $ret_arr = $this->t_order_info->get_test_new();
         $adminid_arr = array_unique(array_column($ret_arr,'uid'));
-        $ret_info = [];
+        $ret_info = [['account'=>'','group_name'=>'','price'=>0]];
         foreach($ret_arr as $item){
             foreach($adminid_arr as $key=>$info){
                 if($item['uid'] == $info){
-                    $ret_info[$key]['account'] = $item['account'];
-                    $ret_info[$key]['group_name'] = $item['group_name'];
-                    $ret_info[$key]['price'] += $item['price'];
+                    $ret_info[$info]['account'] = $item['account'];
+                    $ret_info[$info]['group_name'] = $item['group_name'];
+                    $ret_info[$info]['price'] += $item['price'];
                 }
             }
         }
