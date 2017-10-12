@@ -569,13 +569,26 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+
+
+
+        // $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
+
         //月回访信息
-        $start_time = strtotime( date('Y-m-1', time()) );
-        $end_time   = strtotime("+1 month",$start_time);
-        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
         // dd($month_list);
         $month_info = @$month_list[0];
         //当天回访信息
@@ -1830,23 +1843,12 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         //月回访信息
-        $start_time = strtotime( date('Y-m-1', time()) );
-        $end_time   = strtotime("+1 month",$start_time);
-        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $start_time, $end_time,$uid_str);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
         // dd($month_info);
-
-        //当天回访信息
-        // $start_time = strtotime( "today" );
-        // $end_time   = strtotime("tomorrow");
-        // $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        // $today_info['goal'] = ceil($today_info['stu_num']/10);
-
-
-
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
