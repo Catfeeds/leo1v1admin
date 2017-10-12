@@ -3514,7 +3514,17 @@ class user_manage_new extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid,-1,$cur_start,$cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         foreach($ret_info['list'] as &$item){
@@ -3574,7 +3584,17 @@ class user_manage_new extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, $uid_str);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, $uid_str,$cur_start,$cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         foreach($ret_info['list'] as &$item){
