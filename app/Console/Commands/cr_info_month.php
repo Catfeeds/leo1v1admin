@@ -282,7 +282,7 @@ class cr_info_month extends Command
 
           "total_income"            => $arr['total_income'],    //A1-现金总收入
           "person_num"              => $arr['person_num'],      //A2-下单总人数
-          "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
+          "total_price_thirty"      => intval($arr["total_price_thirty"]*100),//A3-入职完整月人员签单额
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
           "person_num_thirty_per"   => intval($arr['person_num_thirty_per']*100),//A5-平均人效
           "contract_per"            => intval($arr['contract_per']),//A6-平均单笔
