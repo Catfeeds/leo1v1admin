@@ -46,6 +46,7 @@ class save_seller_info extends Command
         $start_time = strtotime(date('Y-m-01'));
         $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
 
+        $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
 
         $ret_info['create_time'] = time();
 
