@@ -1127,7 +1127,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_pay_user_has_lesson($start_time,$end_time){
-        $where_arr = [
+        $lesson_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)",
@@ -1146,7 +1146,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                 ,self::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,t_lesson_info::DB_TABLE_NAME
-                                ,$where_arr
+                                ,$lesson_arr
         );
         return $this->main_get_list($sql);
     }
