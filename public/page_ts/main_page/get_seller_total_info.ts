@@ -32,8 +32,8 @@ $(function(){
         console.log(g_data);
 
         var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
-        var month_finish_persent = g_data.month_finish_persent.toFixed(2);
-        var aver_money = g_data.aver_money.toFixed(2);
+        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100;
+        var aver_money = Math.floor(g_data.aver_money *100)/100;
 
         var list_data=[
             ["月度目标收入",g_data.seller_target_income],

@@ -2473,4 +2473,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
+
+    public function get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid){
+        $where_arr = [
+            ["a.assistantid=%u",$assistantid,-1]
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new("select n.userid,s.nick,n.add_time,n.admin_assignerid,n.phone,a.nick ass_nick,s.ass_assign_time"
+                                  ." from %s n left join %s s on n.userid = s.userid"
+                                  ." left join %s m on n.admin_revisiterid = m.uid"
+                                  ." left join %s a on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  $where_arr
+                                  
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 }
