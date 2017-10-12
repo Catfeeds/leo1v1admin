@@ -561,7 +561,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql);
     }
 
-    public function get_revisit_type6_per_minute($start_time, $end_time,$uid, $id_str){
+    public function get_revisit_type6_per_minute($start_time, $end_time,$uid,$userid,$id_str){
         $where_arr = [
             "r.revisit_time>=$start_time",
             "r.revisit_time<$end_time",
