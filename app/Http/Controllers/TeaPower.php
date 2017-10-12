@@ -2908,7 +2908,7 @@ trait TeaPower {
             <div style='width:1000px;' align='left'>
                 <div align='left'>尊敬的".$name."老师：</div>
                 <div class='t20'>
-                    感谢您对理优1对1的关注，您的报名申请已收到！
+                    感谢您对理优1对1的关注，您的报名申请已收到！ 
                     <br/>
                     请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
                     <br/>
