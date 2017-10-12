@@ -31,11 +31,13 @@ $(function(){
 
     $("#id_add").on("click",function(){
         var $phone=$("<input/>");
+        var $name=$("<input/>");
         var $grade=$("<select/>");
         var $subject=$("<select/>");
         var $origin=$("<input/>");
         var $admin_revisiterid=$("<input/>");
         var arr=[
+            ["姓名",  $name],
             ["电话",  $phone],
             ["年级",  $grade],
             ["科目",  $subject],
@@ -50,6 +52,7 @@ $(function(){
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/ss_deal/add_ss_ass_new",{
+                    "name" :$name.val(),
                     "phone" : $phone.val() ,
                     "admin_revisiterid" : $admin_revisiterid.val() ,
                     "grade" : $grade.val() ,
