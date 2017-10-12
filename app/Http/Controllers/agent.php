@@ -462,7 +462,18 @@ class agent extends Controller
 
     public function test_new(){
         $ret_arr = $this->t_order_info->get_test_new();
-        dd($ret_arr);
+        $adminid_arr = array_unique(array_column($ret_arr,'adminid'));
+        $ret_info = [];
+        foreach($ret_arr as $item){
+            foreach($adminid_arr as $key=>$info){
+                if($item['uid'] == $info){
+                    $ret_info[$key]['account'] = $item['account'];
+                    $ret_info[$key]['group_name'] = $item['group_name'];
+                    $ret_info[$key]['price'] += $item['price'];
+                }
+            }
+        }
+        dd($ret_info,$ret_arr);
 
 
 
