@@ -578,7 +578,6 @@ class main_page extends Controller
 
 
 
-        // $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
         $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
@@ -2117,11 +2116,36 @@ class main_page extends Controller
 
             }*/
 
+        $adminid = $this->get_account_id();
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+        //月回访信息
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+
+
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,
             "ass_group"   =>@$ass_group,
-            "ass_list_group" =>@$ass_list_group
+            "ass_list_group" =>@$ass_list_group,
+            "warning"       => $warning_type_num,
+            "month_info" =>$month_info,
+
         ]);
 
 
