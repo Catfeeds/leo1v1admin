@@ -461,36 +461,145 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $tt= new \App\Console\Tasks\TaskController();
+        $ret_arr=$tt->t_order_info->get_seller_money_info($adminid=904,$start_time=1504195200,$end_time=1506960000);
 
-        dd('a');
-        $adminid = 99;
-        $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
-        $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
-        $image_1 = imagecreatefromjpeg($datapath);
-        $image_2 = imagecreatefrompng($datapath_new);
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
-        // $color = imagecolorallocate($image_3,255,255,255);
-        $color = imagecolorallocatealpha($image_3,255,255,255,1);
-        imagefill($image_3, 0, 0, $color);
-        imageColorTransparent($image_3, $color);
-
-        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
-        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
-        imagepng($image_1,$tmp_url);
-        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
-        $level_face_url = '';
-        if($file_name!=''){
-            $cmd_rm = "rm /tmp/".$adminid."*.png";
-            \App\Helper\Utils::exec_cmd($cmd_rm);
-            $domain = config('admin')['qiniu']['public']['url'];
-            $level_face_url = $domain.'/'.$file_name;
+        $create_time= $tt->t_manager_info->get_create_time($adminid);
+        $cur_month= date("m", $start_time );
+        $check_date_1_1= mktime(0,0,0, $cur_month-3,25  );
+        $check_date_1_2= mktime(0,0,0, $cur_month-2,25  );
+        $new_account_value=1;
+        if ($create_time >  $check_date_1_2 ) {
+            $new_account_value = 1.2;
+        }else if ( $create_time >  $check_date_1_1 ) {
+            $new_account_value = 1.1;
         }
+
+
+
+        $percent=static::get_pecent_config( $ret_arr["all_price"]);
+        $group_money_add_percent=0;
+
+        if ( $ret_arr["group_default_money"] >0  ) {
+            if ($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"] ) {
+                if ($percent){
+                    $percent+=1.5;
+                }
+                if ($ret_arr["group_adminid"] == $adminid) { //是主管
+                    $group_money_add_percent=1.8;
+                }
+            }else if ($ret_arr[ "group_all_price"] >= $ret_arr["group_default_money"] *0.75 ) {
+
+                if ($ret_arr["group_adminid"] == $adminid) { //是主管
+                    $group_money_add_percent=0.8;
+                }
+            }
+        }
+        $ret_arr["percent"]=$percent;
+        $money=0;
+        $desc="";
+
+        $all_price_1 =0;
+
+        $require_all_price_1=0;
+        $v24_hour_all_price_1 =0;
+        $require_and_24_hour_price_1 =0;
+        if ($percent >0 ) {
+            $percent_value=$percent/100;
+            $group_all_price= $ret_arr[ "group_all_price"];
+            $all_price= $ret_arr["all_price"];
+            $v_24_hour_all_price= $ret_arr["24_hour_all_price"];
+            $require_all_price=$ret_arr["require_all_price"];
+            $require_and_24_hour_price=$ret_arr["require_and_24_hour_price"];
+
+
+
+            $all_price_1 =  $all_price - (  $v_24_hour_all_price + $require_all_price - $require_and_24_hour_price  ) ;
+
+            $require_all_price_1=( $require_all_price - $require_and_24_hour_price );
+            $v24_hour_all_price_1 =  ( $v_24_hour_all_price - $require_and_24_hour_price );
+            $require_and_24_hour_price_1 = $require_and_24_hour_price;
+
+            $group_money_add_percent_val=$group_money_add_percent/100;
+
+            $money= ($all_price * $percent_value + $v_24_hour_all_price *$percent_value*0.1 - $require_all_price *$percent_value*0.15) * $new_account_value  + $group_all_price *  $group_money_add_percent_val    ;
+            $desc= "($all_price * $percent_value + $v_24_hour_all_price *$percent_value*0.1 - $require_all_price *$percent_value*0.15) * $new_account_value + $group_all_price *  $group_money_add_percent_val  "  ;
+            //$money=($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ;
+            //$desc="($all_price_1  * $percent_value + $v24_hour_all_price_1 *$percent_value*1.1 + $require_all_price_1 *$percent_value*0.85  +   $require_and_24_hour_price_1*$percent_value *0.85*1.1  ) * $new_account_value  ";
+
+        }
+        $ret_arr["money"] =$money;
+        $ret_arr["desc"] = $desc ;
+        $ret_arr["cur_month_money"] =$money*0.8;
+        $ret_arr["three_month_money"] =$money*0.2;
+
+        $ret_arr["all_price_1"]= $all_price_1;
+        $ret_arr["require_all_price_1"]= $require_all_price_1;
+        $ret_arr["v24_hour_all_price_1"]= $v24_hour_all_price_1;
+        $ret_arr["require_and_24_hour_price_1"]= $require_and_24_hour_price_1;
+        $ret_arr["group_money_add_percent"]= $group_money_add_percent;
+
+        $ret_arr["new_account_value"] =  $new_account_value;
+        $ret_arr["create_time"] = \App\Helper\Utils::unixtime2date($create_time, "Y-m-d"  );
+        dd($ret_arr);
+
+
+
+        // dd('a');
+        // $adminid = 99;
+        // $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        // $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
+        // $image_1 = imagecreatefromjpeg($datapath);
+        // $image_2 = imagecreatefrompng($datapath_new);
+        // $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        // // $color = imagecolorallocate($image_3,255,255,255);
+        // $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        // imagefill($image_3, 0, 0, $color);
+        // imageColorTransparent($image_3, $color);
+
+        // imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        // imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        // $tmp_url = "/tmp/".$adminid."_gk.png";
+        // imagepng($image_1,$tmp_url);
+        // $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        // $level_face_url = '';
+        // if($file_name!=''){
+        //     $cmd_rm = "rm /tmp/".$adminid."*.png";
+        //     \App\Helper\Utils::exec_cmd($cmd_rm);
+        //     $domain = config('admin')['qiniu']['public']['url'];
+        //     $level_face_url = $domain.'/'.$file_name;
+        // }
 
         // header('Content-type: image/jpg');
         // imagejpeg($image_1);//输出图像
         // dd($image_1);
     }
+
+    static $percent_config = [
+        0     => 0,
+        20000 => 3,
+        50000 => 5,
+        80000 => 8,
+        130000 => 10,
+        180000 => 12,
+        230000 => 15,
+    ];
+
+
+    static function get_value_from_config($config,$check_key,$def_value=0) {
+        $last_value=$def_value;
+        foreach ($config as  $k =>$v ) {
+            if ($k > $check_key )  {
+                return $last_value;
+            }
+            $last_value= $v;
+        }
+        return $last_value;
+    }
+    static function get_pecent_config( $money ) {
+        return static::get_value_from_config(static::$percent_config  ,$money);
+    }
+
 
     public function get_my_pay($phone){
         $pay = 0;
