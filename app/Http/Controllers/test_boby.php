@@ -555,6 +555,7 @@ class test_boby extends Controller
     public function get_revisit_call_info(){
         $time = time();
         $start_time = strtotime( date('Y-m-d H:i:00', $time) );
+        $start_time = strtotime('today');
         $end_time   = $start_time+60;
         //1,先查询已近记录的call_phone_id
         $id_str = $this->t_revisit_call_count->get_call_phone_id($end_time);
