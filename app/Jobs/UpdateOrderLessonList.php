@@ -39,18 +39,18 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
         $stu_list = $t_order_info->get_pay_user($this->competition_flag);
         foreach($stu_list as $v){
             $order_list  = $t_order_info->get_user_order_list($v['userid'],$this->competition_flag);
-            $lesson_list = $t_lesson_info->get_user_lesson_list($v['userid'],
-                                                                $this->competition_flag,
-                                                                $this->start_time,
-                                                                $this->end_time);
+            $lesson_list = $t_lesson_info->get_user_lesson_list(
+                $v['userid'],$this->competition_flag,$this->start_time,$this->end_time
+            );
 
             $i                 = 0;
             $left_lesson_count = 0;
             $last_lessonid     = 0;
             $length            = count($lesson_list);
-            foreach($order_list as $key=>$val){
-                if($i>$length-1 && $last_lessonid==0)
+            foreach($order_list as $key => $val){
+                if($i>$length-1 && $last_lessonid==0){
                     break;
+                }
                 $lesson_total     = $val['lesson_total']*$val['default_lesson_count']/100;
                 $lesson_left      = $val['lesson_left']/100;
                 $price            = $val['price']/100;

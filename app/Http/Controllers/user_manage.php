@@ -1525,93 +1525,10 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
-        if($ret_type == 0){
-            //$this->update_agent_order($orderid,$userid,$order_info['price']);
-        }
-
         return $this->output_succ();
     }
 
 
-    public function update_agent_order($orderid,$userid,$order_price){
-        $agent_order = [];
-        $ret_info = [];
-        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
-            // $phone    = $this->t_student_info->get_phone($userid);
-            // $ret_info = $this->t_agent->get_p_pp_id_by_phone($userid);
-            $ret_info = $this->t_agent->get_p_pp_row_by_userid($userid);
-            if(isset($ret_info['id'])){
-                $level1 = 0;
-                $level2 = 0;
-                $aid = $ret_info['id'];
-                $phone = $ret_info['phone'];
-                $p_phone = $ret_info['p_phone'];
-                $p_wx_openid = $ret_info['p_wx_openid'];
-                $pp_phone = $ret_info['pp_phone'];
-                $pp_wx_openid = $ret_info['pp_wx_openid'];
-                if($p_phone){
-                    $level1 = $this->check_agent_level($p_phone);
-                }
-                if($pp_phone){
-                    $level2 = $this->check_agent_level($pp_phone);
-                }
-                $price           = $order_price/100;
-                $level1_price    = $price/20>500?500:$price/20;
-                $level2_p_price  = $price/10>1000?1000:$price/10;
-                $level2_pp_price = $price/20>500?500:$price/20;
-                $pid = $ret_info['pid'];
-                $ppid = $ret_info['ppid'];
-                $p_price = 0;
-                $pp_price = 0;
-                if($level1 == 1){//黄金
-                    $p_price = $level1_price*100;
-                }elseif($level1 == 2){//水晶
-                    $p_price = $level2_p_price*100;
-                }
-                if($level2 == 2){//水晶
-                    $pp_price = $level2_pp_price*100;
-                }
-                $this->t_agent_order->row_insert([
-                    'orderid'     => $orderid,
-                    'aid'         => $aid,
-                    'pid'         => $pid,
-                    'p_price'     => $p_price,
-                    'p_level'     => $level1,
-                    'ppid'        => $ppid,
-                    'pp_price'    => $pp_price,
-                    'pp_level'    => $level2,
-                    'create_time' => time(null),
-                ]);
-
-                if($p_wx_openid && $p_price){
-                    $p_price_new = $p_price/100;
-                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-                    $data = [
-                        'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $p_price_new.'元',
-                        'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
-                    ];
-                    $url = '';
-                    // \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
-                }
-
-                if($pp_wx_openid && $pp_price){
-                    $pp_price_new = $pp_price/100;
-                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-                    $data = [
-                        'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $pp_price_new.'元',
-                        'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
-                    ];
-                    $url = '';
-                    // \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
-                }
-            }
-        }
-    }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
         $student_info = [];

@@ -59,8 +59,9 @@ class save_seller_info extends Command
         $ret_info['new_order_num'] = $new_order_info['order_num_new'] + $referral_order['referral_num']; // 合同数量
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
-        $ret_info['new_money']   = $new_order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-        $ret_info['order_cc_num']   = $new_order_info_total['total_num']; // 有签单的销售人数
+        $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
+        $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
+        $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
