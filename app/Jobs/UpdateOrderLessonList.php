@@ -47,7 +47,7 @@ class UpdateOrderLessonList extends Job implements ShouldQueue
             $left_lesson_count = 0;
             $last_lessonid     = 0;
             $length            = count($lesson_list);
-            foreach($order_list as $key=>$val){
+            foreach($order_list as $key => $val){
                 if($i>$length-1 && $last_lessonid==0){
                     break;
                 }

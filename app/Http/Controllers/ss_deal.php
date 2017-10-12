@@ -68,6 +68,10 @@ class ss_deal extends Controller
             return $this->output_err("电话号码长度不对");
         }
 
+        if($admin_revisiterid==0){
+            return $this->output_err("请选择助教!");
+        }
+
         $ret = $this->t_student_info->get_student_info_by_phone($phone);
         if($ret){
             return $this->output_err('此账号已经注册');
@@ -109,8 +113,11 @@ class ss_deal extends Controller
         ]);
         $this->t_student_info->field_update_list($userid,[
             "nick"  =>$name,
-            "realname"=>$name
+            "realname"=>$name,
+            "origin_assistantid"=>$admin_revisiterid,
+            "origin_userid"   =>1
         ]);
+        
         
         $account=$this->get_account();
         $this->t_book_revisit->add_book_revisit(
