@@ -3415,7 +3415,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ['order_time>%u',$start_time,-1],
             ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$start_time,-1], //大于订单时间
+            ['m.create_time+86400*30 < %u',$end_time,-1], //大于订单时间
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
