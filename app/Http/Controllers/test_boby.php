@@ -556,13 +556,11 @@ class test_boby extends Controller
         $time = time();
         $start_time = strtotime( date('Y-m-d H:i:00', $time) );
         $end_time   = $start_time+60;
-        $start_time = strtotime('today');
         //1,先查询已近记录的call_phone_id
         $id_str = $this->t_revisit_call_count->get_call_phone_id($end_time);
         //2,然后查询助教的学情回访    每分钟自动查询
         $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
 
-        // dd($ret_info);
         //3,有学情回访后，在获取当日的其他回访信息
         $start_time = strtotime('today');
         foreach($ret_info as $item) {
