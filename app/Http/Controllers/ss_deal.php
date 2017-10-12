@@ -73,22 +73,35 @@ class ss_deal extends Controller
         }
 
         $userid=$this->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,0);
-        if ($tmk_flag){
-            \App\Helper\Utils::logger("SET TMK INFO");
 
-            $this->t_seller_student_new->field_update_list($userid,[
-                "tmk_assign_time"  => time(NULL) ,
-                "tmk_adminid"  => $this->get_account_id(),
-                "tmk_join_time"  => time(NULL),
-                "tmk_student_status"  => 0,
-            ]);
-            $account=$this->get_account();
-            $ret_update = $this->t_book_revisit->add_book_revisit(
-                $phone,
-                "操作者: 状态:  TMK新增例子  :$account ",
-                "system"
-            );
+        //直接分配给助教
+        $master_adminid = $this->t_admin_group_user-> get_master_adminid( $admin_revisiterid );
+        if(empty($master_adminid)){
+            $master_adminid=396;
         }
+        $main_master_adminid = $this->t_admin_group_user->get_main_master_adminid( $admin_revisiterid );
+        if(empty($main_master_adminid)){
+            $main_master_adminid=396;
+        }
+
+        $this->t_seller_student_new->field_update_list($userid,[
+            "admin_revisiterid"  =>$admin_revisiterid,
+            "admin_assign_time"  =>time(),
+            "admin_assignerid"   =>$this->get_account_id(),
+            "sub_assign_adminid_1"=>$main_master_adminid,
+            "sub_assign_time_1"  =>time(),
+            "sub_assign_adminid_2"=>$master_adminid,
+            "sub_assign_time_2"  =>time(),
+            "ass_leader_create_flag"=>1
+        ]);
+        
+        $account=$this->get_account();
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 状态:  新增例子  :$account ",
+            "system"
+        );
+      
         return $this->output_succ();
     }
 

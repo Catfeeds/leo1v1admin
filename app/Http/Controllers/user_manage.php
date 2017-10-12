@@ -609,9 +609,11 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
+
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
+
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
             E\Econtract_from_type::set_item_value_str($item,"stu_from_type");
@@ -684,6 +686,8 @@ class user_manage extends Controller
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
 
+        // dd($price);
+        
         $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),

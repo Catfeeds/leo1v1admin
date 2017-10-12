@@ -2183,7 +2183,6 @@ trait TeaPower {
      * 老师培训通过后的处理操作
      */
     public function teacher_train_through_deal($teacher_info,$flag){
-        $today_date  = date("Y年m月d日",time());
         if($flag==0){
             $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
                 "train_through_new"      => 1,
@@ -2232,12 +2231,14 @@ trait TeaPower {
      * @param teacher_info 老师信息
      */
     public function send_offer_info($teacher_info){
+        $today_date  = date("Y年m月d日",time());
         $level_str = E\Elevel::get_desc($teacher_info['level']);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);
             $ret   = \App\Helper\Common::send_paper_mail($teacher_info['email'],$title,$html);
         }
+
         if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
             /**
              * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
