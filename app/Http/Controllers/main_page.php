@@ -1824,8 +1824,7 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
-        $adminid = $this->get_account_id();
-        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($master_adminid);
         $now = time();
         $three = $now - 86400*7;
         $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
