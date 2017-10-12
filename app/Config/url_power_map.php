@@ -426,6 +426,7 @@ class url_power_map {
 			'/user_manage/ass_no_test_lesson_kk_list'	=>1134300,
 			'/user_manage/stu_all_teacher_all'	=>1134400,
 			'/tongji2/tongji_cr'	=>1134900,
+			'/seller_student_new/get_new_student_ass_leader'	=>1135000,
 			'/main_page/assistant'	=>1120100,
 			'/main_page/assistant_new'	=>1125300,
 			'/user_manage_new/ass_warning_stu_info'	=>1125400,

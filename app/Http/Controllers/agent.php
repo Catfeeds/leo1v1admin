@@ -461,8 +461,8 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $domain = config('admin')['qiniu']['public']['url'];
-        dd($domain);
+
+        dd('a');
         $adminid = 99;
         $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
         $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
@@ -486,7 +486,6 @@ class agent extends Controller
             $domain = config('admin')['qiniu']['public']['url'];
             $level_face_url = $domain.'/'.$file_name;
         }
-        dd($level_face_url);
 
         // header('Content-type: image/jpg');
         // imagejpeg($image_1);//输出图像
