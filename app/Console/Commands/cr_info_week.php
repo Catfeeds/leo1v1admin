@@ -83,7 +83,7 @@ class cr_info_week extends Command
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
         $arr['contract_num']       = $ret_total['order_num']; //合同数
-        $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //A3-入职完整月人员签单额
+        $arr['total_price_thirty'] = round($ret_total_thirty['total_price'] / 100,2); //A3-入职完整月人员签单额
         $arr['person_num_thirty']  = $ret_total_thirty['person_num'];        //A4-入职完整月人员人数
         $arr['cr_num']             = $ret_cr;                                //A8-CR总人数
         $arr['refund_num']         = $ret_refund;                            //A10-退费总人数
