@@ -2482,10 +2482,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
         $sql = $this->gen_sql_new("select n.userid,s.nick,n.add_time,n.admin_assignerid,n.phone,n.phone_location,"
-                                  ."m.name ass_nick,s.ass_assign_time,s.origin_assistantid,s.origin "
+                                  ."m.name ass_nick,s.ass_assign_time,s.origin_assistantid,s.origin,a.nick ass_name "
                                   ." from %s n left join %s s on n.userid = s.userid"
                                   ." left join %s m on n.admin_revisiterid = m.uid"
-                                  ." left join %s a on m.phone = a.phone"
+                                  ." left join %s a on s.assistantid = a.assistantid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

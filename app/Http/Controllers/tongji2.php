@@ -1290,7 +1290,7 @@ class tongji2 extends Controller
             $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
             $arr['person_num']         = $ret_total['person_num']; //下单总人数
             $arr['contract_num']       = $ret_total['order_num']; //合同数
-            $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //入职完整月人员签单额
+            $arr['total_price_thirty'] = round($ret_total_thirty['total_price'] / 100,2); //入职完整月人员签单额
             $arr['person_num_thirty']  = $ret_total_thirty['person_num'];  //入职完整月人员人数
 
             $arr['cr_num']             = $ret_cr;//在职人数
