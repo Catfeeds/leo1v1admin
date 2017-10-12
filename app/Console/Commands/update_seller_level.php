@@ -92,7 +92,6 @@ class update_seller_level extends cmd_base
                     "new"         => $next_level,
                     "create_time" => time(NULL),
                 ],false,false,true );
-                \App\Helper\Utils::logger("update_seller_level:".$adminid.",next_level".$next_level);
             }
             //统计上个月
 
