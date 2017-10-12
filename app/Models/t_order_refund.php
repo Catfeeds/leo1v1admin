@@ -506,7 +506,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ['apply_time<%u',$end_time,-1],
             "m.assistantid > 0",
         ];
-        $sql = $this->gen_sql_new("select count(distinct(m.assistantid)) as person  ".
+        $sql = $this->gen_sql_new("select count(distinct(o.userid)) as person  ".
                                   "from %s  o ".
                                   "left join %s m on o.userid = m.userid".
                                   " where %s",

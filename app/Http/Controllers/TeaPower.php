@@ -2179,8 +2179,10 @@ trait TeaPower {
         return $reference;
     }
 
+    /**
+     * 老师培训通过后的处理操作
+     */
     public function teacher_train_through_deal($teacher_info,$flag){
-        $today_date  = date("Y年m月d日",time());
         if($flag==0){
             $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
                 "train_through_new"      => 1,
@@ -2193,6 +2195,43 @@ trait TeaPower {
             $teacher_info['level']=0;
         }
 
+        $this->send_offer_info($teacher_info);
+
+        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
+        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
+        if(!empty($reference_info['teacherid']) && !$check_flag){
+            $wx_openid      = $reference_info['wx_openid'];
+            $teacher_type   = $reference_info['teacher_type'];
+            if(!in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
+                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
+                $this->t_teacher_money_list->row_insert([
+                    "teacherid"  => $reference_info['teacherid'],
+                    "money"      => $ref_price*100,
+                    "money_info" => $teacher_info['teacherid'],
+                    "add_time"   => time(),
+                    "type"       => E\Ereward_type::V_6,
+                ]);
+
+                if($wx_openid!=""){
+                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
+                    $wx_data["keyword1"] = "已入职";
+                    $wx_data["keyword2"] = "";
+                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
+                }
+            }
+        }
+    }
+
+    /**
+     * 发送入职邮件和入职微信推送
+     * @param teacher_info 老师信息
+     */
+    public function send_offer_info($teacher_info){
+        $today_date  = date("Y年m月d日",time());
         $level_str = E\Elevel::get_desc($teacher_info['level']);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
@@ -2219,35 +2258,6 @@ trait TeaPower {
             $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
         }
-
-        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
-        if(!empty($reference_info['teacherid']) && !$check_flag){
-            $wx_openid      = $reference_info['wx_openid'];
-            $teacher_type   = $reference_info['teacher_type'];
-            if(!in_array($teacher_type,[21,22,31])){
-                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
-                $this->t_teacher_money_list->row_insert([
-                    "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price*100,
-                    "money_info" => $teacher_info['teacherid'],
-                    "add_time"   => time(),
-                    "type"       => E\Ereward_type::V_6,
-                ]);
-
-                if($wx_openid!=""){
-                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
-                    $wx_data["keyword1"] = "已入职";
-                    $wx_data["keyword2"] = "";
-                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
-                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
-                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
-                }
-            }
-        }
-
     }
 
     public function get_offer_html($teacher_info){

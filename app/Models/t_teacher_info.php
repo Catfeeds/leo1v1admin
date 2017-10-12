@@ -3371,6 +3371,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",           
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time,
+            "t.train_through_new=1",
             "ta.id>0"
         ];
 
@@ -3400,6 +3401,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",
             //  "tl.status=1",
             "tl.id>0",
+            "t.train_through_new=1",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time
         ];
@@ -3430,6 +3432,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_quit=0 ",
             " t.is_test_user =0",
             // "tr.trial_train_status=1",
+            "t.train_through_new=1",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time,
             "tr.id>0"

@@ -12,6 +12,12 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    public function ss(){
+        $start_time = 1504195200;
+        $end_time   = 1506787200;
+        $ret = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
+
+    }
     public function tt(){
         $month_list = [
                         '2016-10',

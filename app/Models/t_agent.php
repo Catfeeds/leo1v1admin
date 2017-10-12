@@ -962,12 +962,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             }
         }
         $userid_new   = $student_info['userid'];
-        $type_new     = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
         $level        = 0;
 
         if($userid
-           && $type_new ==  E\Estudent_type::V_0
            && $is_test_user == 0
            && $orderid){//在读非测试
             $level     =  E\Eagent_level::V_2 ;

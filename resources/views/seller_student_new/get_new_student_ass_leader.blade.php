@@ -45,11 +45,13 @@
             <thead>
                 <tr>
                   
+                    <td>userid</td>
                     <td>学生</td>
                     <td>手机号</td>
                     <td>资源添加时间</td>
                     <td >地区</td>
                     <td >来源</td>
+                    <td>负责人</td>
                     <td>分配助教</td>
                     <td>分配时间</td>
                     <td>分配人</td>
@@ -61,6 +63,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{$var["userid"]}} </td>
                         <td>{{$var["nick"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["add_time_str"]}} </td>
@@ -74,6 +77,7 @@
                             @endif
                         </td>
                         <td>{{$var["ass_nick"]}}</td>
+                        <td>{{$var["ass_name"]}}</td>
                         <td>{{$var["ass_assign_time_str"]}} </td>
                         <td>{{$var["admin_assignerid_nick"]}} </td>
                        
