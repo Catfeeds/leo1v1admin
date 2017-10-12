@@ -58,27 +58,24 @@ class main_page extends Controller
 
     public function get_seller_total_info(){ // cc 总表信息
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range_month(date("Y-m-01"));
+        list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
+        $opt_date_type = $this->get_in_int_val("opt_date_type",2);
         $history_data = $this->get_in_int_val('history_data');
         $ret_info_arr['list'] = $this->t_seller_tongji_for_month->get_history_data($start_time);
         $ret_info = &$ret_info_arr['list'];
 
+        // if($opt_date_type == 2){
+        //     $start_time = $start_time+86400;
+        //     $end_time   = $end_time + 86400;
+        //     $ret_info['data_type'] = "周报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
+        // }elseif($opt_date_type == 3){
+        //     $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
+        // }
+
         if($history_data){ // 0:是历史数据 1:否历史数据
 
             if($ret_info){
-
-
-                // dd($ret_info_arr);
-
-                //概况
                 $order_info_total = $this->t_order_info->get_total_money($start_time, $end_time);// 总收入
-
-                // $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
-
-                // $ret_info['income_referral'] = $referral_order['referral_price']; // 转介绍收入
-                // $ret_info['income_new']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-                // $ret_info['income_price'] = $order_info_total['total_price'];
-                // $ret_info['income_num']   = $order_info_total['total_num']; // 有签单的销售人数
 
                 if($ret_info['seller_target_income']>0){
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
@@ -569,13 +566,25 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1);
+        $opt_date_type = $this->get_in_int_val("opt_date_type",3);
+        // dd($opt_date_type);
+        if($opt_date_type==3){
+            $cur_start = $start_time;
+            $cur_end = $end_time;
+
+        }else{
+            $cur_start = strtotime(date('Y-m-01',$end_time));
+            $cur_end = strtotime(date('Y-m-01',$cur_start+40*86400));
+        }
+
+
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count($ass_adminid, -1, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
+
         //月回访信息
-        $start_time = strtotime( date('Y-m-1', time()) );
-        $end_time   = strtotime("+1 month",$start_time);
-        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
         // dd($month_list);
         $month_info = @$month_list[0];
         //当天回访信息
@@ -1815,8 +1824,7 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
         \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
 
-        $adminid = $this->get_account_id();
-        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($master_adminid);
         $now = time();
         $three = $now - 86400*7;
         $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
@@ -1830,23 +1838,12 @@ class main_page extends Controller
             \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
         }
 
-        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str);
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
         $warning_type_num['warning_type_three'] = $three_count;
 
         //月回访信息
-        $start_time = strtotime( date('Y-m-1', time()) );
-        $end_time   = strtotime("+1 month",$start_time);
-        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $start_time, $end_time,$uid_str);
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
         // dd($month_info);
-
-        //当天回访信息
-        // $start_time = strtotime( "today" );
-        // $end_time   = strtotime("tomorrow");
-        // $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        // $today_info['goal'] = ceil($today_info['stu_num']/10);
-
-
-
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
@@ -2119,11 +2116,36 @@ class main_page extends Controller
 
             }*/
 
+        $adminid = $this->get_account_id();
+        $uid_str = $this->t_manager_info->get_uid_str_by_adminid($adminid);
+        $now = time();
+        $three = $now - 86400*7;
+        $warning_count = $this->t_revisit_info->get_ass_revisit_warning_count(-1, $three,$uid_str);
+
+        $warning_type_num = [
+            'warning_type_one' =>0,
+            'warning_type_two' =>0,
+            'warning_type_three' =>0,
+        ];
+        foreach($warning_count as $item){
+            \App\Helper\Utils::revisit_warning_type_count($item, $warning_type_num);
+        }
+
+        $three_count = $this->t_revisit_warning_overtime_info->get_ass_warning_overtime_count(-1, $uid_str, $cur_start, $cur_end);
+        $warning_type_num['warning_type_three'] = $three_count;
+
+        //月回访信息
+        $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+
+
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
             "ass_list"  =>@$ass_list,
             "ass_group"   =>@$ass_group,
-            "ass_list_group" =>@$ass_list_group
+            "ass_list_group" =>@$ass_list_group,
+            "warning"       => $warning_type_num,
+            "month_info" =>$month_info,
+
         ]);
 
 

@@ -80,11 +80,18 @@ class update_seller_level extends cmd_base
             if($price>$next_goal){
                 foreach($ret_level_goal as $item){
                     if($price >= $item['level_goal']){
-                        $next_level = $item['level_goal'];
+                        $next_level = $item['seller_level'];
                     }
                 }
                 $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-                \App\Helper\Utils::logger("update_seller_level:".$adminid.",next_level".$next_level);
+
+                $this->task->t_seller_edit_log->row_insert([
+                    "uid"         => $adminid,
+                    "type"        => 2,
+                    "old"         => $this_level,
+                    "new"         => $next_level,
+                    "create_time" => time(NULL),
+                ],false,false,true );
             }
             //统计上个月
 

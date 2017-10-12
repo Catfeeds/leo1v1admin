@@ -461,6 +461,15 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $ret = $this->t_seller_edit_log->row_insert([
+            "uid"         => 99,
+            "type"        => 2,
+            "old"         => E\Eseller_level::V_100,
+            "new"         => E\Eseller_level::V_101,
+            "create_time" => time(NULL),
+        ],false,false,true );
+        dd($ret);
+
         $time = time(null);
         $ret_time = $this->t_month_def_type->get_all_list();
         $firstday = date("Y-m-01");

@@ -11,6 +11,7 @@
      }
     </style>
     <script type="text/javascript" >
+     var g_data= <?php  echo json_encode($ret_info); ?> ;
     </script>
 
     <section class="content " id="id_content">
@@ -31,6 +32,10 @@
                             <option value="1">否</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
                 </div>
 
             </div>
