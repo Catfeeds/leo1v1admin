@@ -16,14 +16,17 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         $this->where_arr_add_time_range($where_arr,"ame.add_time",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
-            "select ame.id,a.phone,a.nickname,ame.agent_money_ex_type,ame.add_time,ame.money,mi.account,mi.name ".
+            "select ame.id,a.phone,a.nickname,ame.agent_money_ex_type,ame.add_time,ame.money,".
+            "mi.account,mi.name,f.flow_status ".
             "from %s ame ".
             "left join %s mi on ame.adminid = mi.uid ".
             "left join %s a on ame.agent_id = a.id ".
+            "left join %s f on ame.id = f.from_key_int ".
             "where %s ",
             self::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
             $where_arr
         );
 
@@ -35,5 +38,17 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         return $this->main_get_value($sql);
     }
 
-
+    //获取用户的昵称和手机号
+    //@param:$agent_id 获奖id
+    public function get_agent_info($agent_id){
+        $sql=$this->gen_sql_new(
+            "select phone,nickname from %s where id = %u ",
+            t_agent::DB_TABLE_NAME,
+            $agent_id
+        );
+        
+        return $this->main_get_row($sql);
+    }
+    
+  
 }
