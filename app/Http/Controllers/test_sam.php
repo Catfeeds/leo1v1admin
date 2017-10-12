@@ -25,48 +25,65 @@ class test_sam  extends Controller
     {
     }
     public function test(){
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
-        $ret_info = $this->t_cr_week_month_info->get_total($start_time,$end_time);
-        
+        $month_list = [
+                        '2016-10',
+                        '2016-11',
+                        '2016-12',
+                        '2017-01',
+                        '2017-02',
+                        '2017-03',
+                        '2017-04',
+                        '2017-05',
+                        '2017-06',
+                        '2017-07',
+                        '2017-08',
+                        '2017-09',
+                        '2017-10'];
+        for ($i=0; $i < 12; $i++) { 
+            # code...
+            $start_time = strtotime($month_list[$i]);
+            $end_time   = strtotime($month_list[$i+1]);
+            //var_dump(date("Y-m-d H:i:s",$start_time));
+            //echo '<br/>';
+            $ret_info = $this->t_cr_week_month_info->get_total($start_time,$end_time);
+            foreach ($ret_info as $key => &$value) {
+                if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友' || $value['phone_location'] == '吉林省移动'){
 
-        foreach ($ret_info as $key => &$value) {
-            if($value['phone_location'] == "鹏博士" || $value['phone_location'] == '' || $value['phone_location'] == '免商店充值卡' || $value['phone_location'] == '中麦通信' ||$value['phone_location'] == '重庆U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '江苏U友' || $value['phone_location'] == '小米移动' || $value['phone_location'] == '北京U友' || $value['phone_location'] == "全国其它 " || $value['phone_location'] == '话机通信' || $value['phone_location'] == '阿里通信' || $value['phone_location'] == '辽宁U友' || $value['phone_location'] == '吉林省移动'){
+                    $value['phone_location'] = '其它';
+                }else{
+                    $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
+                    $value['phone_location'] = $pro;
+                }
+                if($value['subject'] < 1 || $value['subject'] > 11){
+                    $value['subject'] = '其它';
+                }else{
+                    $sub = E\Esubject::get_desc($value['subject']);
+                    $value['subject'] = $sub;
+                }
 
-                $value['phone_location'] = '其它';
-            }else{
-                $pro = substr($value['phone_location'],0,strlen($value['phone_location'])-6);
-                $value['phone_location'] = $pro;
+                if($value['grade'] < 100 ){
+                    $value['grade'] = '其它';
+                }else{
+                    $gr = E\Egrade::get_desc($value['grade']);
+                    $value['grade'] = $gr;
+                }
             }
-            if($value['subject'] < 1 || $value['subject'] > 11){
-                $value['subject'] = '其它';
-            }else{
-                $sub = E\Esubject::get_desc($value['subject']);
-                $value['subject'] = $sub;
+            $result = [];
+            $month = date('Y.m',$start_time);
+            foreach ($ret_info as $key => $value) {
+                $index = $month.'|'.$value['phone_location'].'|'.$value['subject'].'|'.$value['grade'];
+                if(!isset($result[$index])){
+                    $result[$index] = 0;
+                    $result[$index] += $value['total'];
+                }else{
+                    $result[$index] += $value['total'];
+                }
             }
-
-            if($value['grade'] < 100 ){
-                $value['grade'] = '其它';
-            }else{
-                $gr = E\Egrade::get_desc($value['grade']);
-                $value['grade'] = $gr;
+            foreach ($result as $key => $value) {
+                echo $key.'|'.$value.'<br/>';
             }
         }
-        $result = [];
-        $month = date('Y.m',$start_time);
-        foreach ($ret_info as $key => $value) {
-            $index = $month.'|'.$value['phone_location'].'|'.$value['subject'].'|'.$value['grade'];
-            if(!isset($result[$index])){
-                $result[$index] = 0;
-                $result[$index] += $value['total'];
-            }else{
-                $result[$index] += $value['total'];
-            }
-        }
-        foreach ($result as $key => $value) {
-            echo $key.'|'.$value.'<br/>';
-        }
-        dd(1);
+
     }
     public function ll(){
         
