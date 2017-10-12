@@ -52,7 +52,7 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         $ass_leader_arr=[];
         // $i=1;
         foreach($list as $val){
-            if($val["uid"]==513 || $val["uid"]==492){
+            if($val["uid"]==790 || $val["uid"]==492){
                 $key=$val["uid"];
                 $ass_leader_arr[$key] = $val["uid"];
                 $key = $val["uid"]*10;

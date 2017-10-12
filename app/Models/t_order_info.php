@@ -3440,6 +3440,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) new_order_num   from %s o "
+                                   ." left join %s m on o.sys_operator = m.account "
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+
+    }
+
+
+
+    public function get_new_order_money($start_time, $end_time){
+        $where_arr = [
+            "o.price>0",
+            "contract_status<> 0",
+            "m.account_role=2"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
+
         $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num  from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." where %s"
@@ -3451,6 +3474,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
 
     }
+
 
 
     public function get_referral_income($start_time, $end_time){
