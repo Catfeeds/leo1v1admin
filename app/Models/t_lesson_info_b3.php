@@ -851,21 +851,21 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $row=@$map[$xmpp_server_name];
         }
         if ($row) {
-            $ret=[
-                'ip'          => $row["ip"] ,
-                'xmpp_port'   => $row["xmpp_port"] ,
-                'webrtc_port' => $row["webrtc_port"] ,
+            $ret = [
+                'ip'             => $row["ip"] ,
+                'xmpp_port'      => $row["xmpp_port"] ,
+                'webrtc_port'    => $row["webrtc_port"] ,
                 'websocket_port' => $row["websocket_port"] ,
-                "region" =>   $row["server_desc"] ,
+                "region"         => $row["server_desc"] ,
             ];
             return $ret;
         }else {
             return  [
-                'ip'          => '121.43.230.95',
-                'xmpp_port'   => '5222',
-                'webrtc_port' => '5061',
+                'ip'             => '121.43.230.95',
+                'xmpp_port'      => '5222',
+                'webrtc_port'    => '5061',
                 'websocket_port' => '20061',
-                "region" => "杭州_01",
+                "region"         => "杭州_01",
             ];
         }
 
