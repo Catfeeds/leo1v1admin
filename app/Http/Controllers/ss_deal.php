@@ -2215,6 +2215,14 @@ class ss_deal extends Controller
                 $item["period_num_info"] ="";
             }
 
+            $userid = $this->t_order_info->get_userid($item["parent_orderid"]);           
+            $parentid= $this->t_student_info->get_parentid($userid);
+            $parent_name = $this->t_parent_info->get_nick($parentid);
+            if(empty($item["parent_name"])){
+                $item["parent_name"] = $parent_name;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "pay_time","_str");        
+
 
 
         }
