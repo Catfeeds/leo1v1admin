@@ -80,7 +80,7 @@ class update_seller_level extends cmd_base
             if($price>$next_goal){
                 foreach($ret_level_goal as $item){
                     if($price >= $item['level_goal']){
-                        $next_level = $item['level_goal'];
+                        $next_level = $item['seller_level'];
                     }
                 }
                 $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
