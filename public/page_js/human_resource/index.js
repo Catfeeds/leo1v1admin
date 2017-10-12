@@ -1805,6 +1805,7 @@ $(function(){
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-danger'>设为测试</button>");
         var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
+        var id_send_ruzhi_info         = $("<button class='btn btn-danger'>发送入职邮件</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1817,6 +1818,7 @@ $(function(){
         id_update_check_subject.on("click",function(){update_tea_check_info(data);});
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
+        id_send_ruzhi_info.on("click",function(){send_ruzhi_info(data);});
 
         var arr = [
             ["",id_switch_teacher_to_test],
@@ -1840,6 +1842,37 @@ $(function(){
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    //发送入职邮件
+    var send_ruzhi_info = function(data){
+        var name = data.nick;
+        BootstrapDialog.show({
+	          title   : "发送入职邮件和微信推送",
+	          message : "确定给"+name+"发送入职邮件和微信推送么?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/common/send_offer_info_by_teacherid",{
+                        "teacherid" : data.teacherid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+
+    }
 
     //更新老师的科目和年级信息
     var update_subject_info = function(data){
@@ -2126,7 +2159,6 @@ $(function(){
             }
         });
     });
-
 
     //下载隐藏
     download_hide();

@@ -246,6 +246,7 @@ class NewRouteConfig {
         "/tea_manage/set_teacher_record_account"  => true,
         "/tea_manage/trial_train_lesson_list"     => true,
         "/tea_manage/trial_train_lesson_list_zj"  => true,
+        "/tea_manage/trial_train_lesson_list_zs"  => true,
         "/tea_manage/tea_imgs_show"               => true,
         "/tea_manage/get_lesson_list"              => true,
         "/tea_manage/tea_manage_all_info"          => true,

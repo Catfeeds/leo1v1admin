@@ -4634,9 +4634,9 @@ class human_resource extends Controller
             $val['grade_str']   = $grade_str;
             $val['subject_str'] = $subject_str;
         }
-
         return $this->pageView(__METHOD__,$tea_list);
     }
+
 
 
 }

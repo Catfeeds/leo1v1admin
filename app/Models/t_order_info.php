@@ -3431,7 +3431,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
-    public function get_total_money($start_time, $end_time){
+    public function get_new_order_money($start_time, $end_time){
         $where_arr = [
             "o.price>0",
             "contract_status<> 0",
@@ -3440,7 +3440,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num  from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
@@ -3453,6 +3453,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
+
+
+
+
     public function get_referral_income($start_time, $end_time){
         $where_arr = [
             "o.price>0",
@@ -3463,7 +3467,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(*) referral_num from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num  from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
