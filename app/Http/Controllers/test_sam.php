@@ -63,7 +63,7 @@ class test_sam  extends Controller
             }
         }
         foreach ($result as $key => $value) {
-            echo $key.'|'.$value;
+            echo $key.'|'.$value.'<br/>';
         }
         dd(1);
     }
