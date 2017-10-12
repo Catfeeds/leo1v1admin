@@ -19,7 +19,6 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
             $where_arr[] = ["ra.uid=%u",$ass_adminid,-1];
         }
 
-
         $sql = $this->gen_sql_new(
             "select ra.uid,m.name,ra.stu_num,count(distinct r.userid) as revisit_num,sum(tq.duration) as call_num"
             ." from %s ra"
