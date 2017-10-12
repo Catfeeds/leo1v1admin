@@ -2206,25 +2206,24 @@ lesson_type in (0,1) "
     }
 
     public function get_user_lesson_list($userid,$competition=-1,$start_time=0,$end_time=0,$lesson_status=2){
-        $where_str = $this->where_str_gen([
+        $where_str = [
             ["competition_flag=%u",$competition,-1],
-            ["lesson_end>%u",$start_time,0],
-            ["lesson_end<%u",$end_time,0],
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
             ["userid=%u",$userid,0],
             ["lesson_status=%u",$lesson_status,-1],
             "lesson_count>0",
             "lesson_type in (0,1,3)",
-        ]);
+        ];
         $where_str = $this->lesson_common_where_arr($where_str);
-        $sql=$this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
-                                ." teacherid,grade"
+        $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
+                                ." teacherid,grade,userid"
                                 ." from %s"
                                 ." where %s"
                                 ." order by lesson_start asc"
                                 ,self::DB_TABLE_NAME
                                 ,$where_str
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 

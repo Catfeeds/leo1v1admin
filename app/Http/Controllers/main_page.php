@@ -190,8 +190,8 @@ class main_page extends Controller
 
                 $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
 
-                if($ret_info['total_num']>0){ //平均单笔
-                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['total_num'];
+                if($ret_info['new_order_num']>0){ //平均单笔
+                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
                 }else{
                     $ret_info['aver_count'] = 0;
                 }

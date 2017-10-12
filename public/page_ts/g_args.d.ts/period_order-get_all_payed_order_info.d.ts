@@ -7,6 +7,7 @@ interface GargsStatic {
 	contract_type:	number;
 	contract_status:	number;
 	pay_status:	number;
+	channel:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -38,7 +39,8 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			contract_type:	$('#id_contract_type').val(),
 			contract_status:	$('#id_contract_status').val(),
-			pay_status:	$('#id_pay_status').val()
+			pay_status:	$('#id_pay_status').val(),
+			channel:	$('#id_channel').val()
         });
     }
 
@@ -56,6 +58,7 @@ $(function(){
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
+	$('#id_channel').val(g_args.channel);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -84,6 +87,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">pay_status</span>
                 <input class="opt-change form-control" id="id_pay_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">channel</span>
+                <input class="opt-change form-control" id="id_channel" />
             </div>
         </div>
 */

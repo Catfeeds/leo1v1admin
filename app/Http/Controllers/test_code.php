@@ -50,18 +50,18 @@ class test_code extends Controller
     }
 
     public function set_order_lesson(){
-        $flag = $this->get_in_int_val("flag");
+        // $flag = $this->get_in_int_val("flag");
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
-        // $order_list = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time,$flag);
-        $lesson_list =$this->t_lesson_info->get_user_lesson_list(0,$flag,$start_time,$end_time,-1);
-        dd($lesson_list);
-        foreach($user_list as $u_val){
-            $lesson_list = $t_lesson_info->get_user_lesson_list(
-                $v['userid'],$this->competition_flag,$this->start_time,$this->end_time
-            );
+        $order_list = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
+        // $lesson_list =$this->t_lesson_info->get_user_lesson_list(0,$flag,$start_time,$end_time,-1);
+        $stu_order_list = [];
+        foreach($order_list as $o_val){
+            $userid = $o_val['userid'];
+            $flag = $o_val['competition_flag'];
+            $stu_order_list[$userid][$flag][] = $o_val;
         }
-        dd($user_list);
+        dd($stu_order_list);
     }
 
     public function get_success_lesson(){
