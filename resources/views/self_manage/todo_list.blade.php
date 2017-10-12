@@ -29,11 +29,9 @@
                 </div>
 
                 @if($account_role==1)
-                    <div class=" col-xs-12 col-md-2" >
+                    <div class=" col-xs-6 col-md-2" >
 
-                        <div class="input-group">
-                            <button class="btn  " id="id_assign_lesson_count" ></button>                       
-                        </div>
+                        <button class="btn  " id="id_assign_lesson_count" ></button>                       
                     </div>
                 @endif
 

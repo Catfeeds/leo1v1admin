@@ -206,10 +206,10 @@ class self_manage extends Controller
         $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
 
         $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
+        $this->set_filed_for_js("assign_lesson_count",$assign_lesson_count/100);
         $account_role = $this->t_manager_info->get_account_role($adminid);
 
         return $this->pageView(__METHOD__,$ret_info,[
-            "assign_lesson_count" =>$assign_lesson_count/100,
             "account_role"        =>$account_role
         ]);
 

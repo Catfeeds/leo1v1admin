@@ -960,35 +960,94 @@ class wx_parent_api extends Controller
 
     // 家长微信端上传试卷
     public function input_student_score (){ //家长录入学生成绩
-        $score   = $this->get_in_int_val('score');
-        $subject = $this->get_in_int_val('subject');
-        $stu_score_type = $this->get_in_int_val('stu_score_type');
-        $rank    = $this->get_in_int_val('rank');
-        $grade_rank  = $this->get_in_int_val('grade_rank');
-        $total_score = $this->get_in_int_val('total_score');
-        $reason  = $this->get_in_str_val('reason');
-        $parentid = $this->get_parentid();
-        $stu_id   = $this->get_in_int_val('userid');
+        // $score   = $this->get_in_int_val('score');
+        // $subject = $this->get_in_int_val('subject');
+        // $stu_score_type = $this->get_in_int_val('stu_score_type');
+        // $rank    = $this->get_in_int_val('rank');
+        // $grade_rank  = $this->get_in_int_val('grade_rank');
+        // $total_score = $this->get_in_int_val('total_score');
+        // $reason  = $this->get_in_str_val('reason');
+        // $parentid = $this->get_parentid();
+        // $stu_id   = $this->get_in_int_val('userid');
 
-        $ret = $this->t_student_score_info->row_insert([
-            'score'          => $score,
-            'subject'        => $subject,
-            'stu_score_type' => $stu_score_type,
-            'rank'           => $rank,
-            'grade_rank'     => $grade_rank,
-            'total_score'    => $total_score,
-            'reason'         => $reason,
-            'create_time'    => time(),
-            'userid'         => $stu_id,
-            'admin_type'     => 1, // 代表家长
-            'create_adminid' => $parentid
-        ]);
+        // $ret = $this->t_student_score_info->row_insert([
+        //     'score'          => $score,
+        //     'subject'        => $subject,
+        //     'stu_score_type' => $stu_score_type,
+        //     'rank'           => $rank,
+        //     'grade_rank'     => $grade_rank,
+        //     'total_score'    => $total_score,
+        //     'reason'         => $reason,
+        //     'create_time'    => time(),
+        //     'userid'         => $stu_id,
+        //     'admin_type'     => 1, // 代表家长
+        //     'create_adminid' => $parentid
+        // ]);
 
-        if($ret){
-            return $this->output_succ();
-        }else{
-            return $this->output_err('成绩录入失败,请稍后重试!');
+        // if($ret){
+        //     return $this->output_succ();
+        // }else{
+        //     return $this->output_err('成绩录入失败,请稍后重试!');
+        // }
+
+        dd($file_url);
+
+        $userid           = $this->get_in_int_val("userid");
+        $create_time      = time();
+        $create_adminid   = $this->get_account_id();
+        $subject          = $this->get_in_int_val("subject");
+        $stu_score_type   = $this->get_in_int_val("stu_score_type");
+        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
+        $score            = $this->get_in_int_val("score");
+        $rank             = $this->get_in_str_val("rank");
+        $file_url         = $this->get_in_str_val("file_url");
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
+        $rank_arr = explode("/",$grade_rank);
+        $rank_now = $rank_arr[0];
+        $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
+        if( $score > $total_score){
+            return $this->output_err("成绩输入有误!");
         }
+
+        if($grade_rank_last  && $rank_now != ''){
+            $grade_rank_last = $grade_rank_last[0]["grade_rank"];
+            $rank_last_arr = explode("/",$grade_rank_last);
+            $rank_last = $rank_last_arr[0];
+            if($rank_last - $rank_now >= 0){
+                $rank_up = $rank_last-$rank_now;
+                $rank_down = '';
+            }else{
+                $rank_up = '';
+                $rank_down = $rank_now - $rank_last;
+            }
+        }else{
+            $rank_up = '';
+            $rank_down = '';
+        }
+
+
+        $ret_info = $this->t_student_score_info->row_insert([
+            "userid"                => $userid,
+            "create_time"           => $create_time,
+            "create_adminid"        => $create_adminid,
+            "subject"               => $subject,
+            "stu_score_type"        => $stu_score_type,
+            "stu_score_time"        => $stu_score_time,
+            "score"                 => $score,
+            "rank"                  => $rank,
+            "file_url"              => $file_url,
+            "semester"              => $semester,
+            "total_score"           => $total_score,
+            "grade"                 => $grade,
+            "grade_rank"            => $grade_rank,
+            "rank_up"               => $rank_up,
+            "rank_down"             => $rank_down,
+        ],false,false,true);
+        return $this->output_succ();
+
     }
 
 

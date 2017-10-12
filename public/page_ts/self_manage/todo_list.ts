@@ -112,7 +112,7 @@ $(function(){
 
 
 
-    init_noit_btn("id_assign_lesson_count",   111,    "可赠送课时", "可赠送课时数" );
+    init_noit_btn("id_assign_lesson_count",   g_args.assign_lesson_count,    "可赠送课时", "可赠送课时数" );
 
 
 }); 

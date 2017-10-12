@@ -4076,7 +4076,7 @@ class human_resource extends Controller
     }
 
     public function get_teacher_lecture_fail_score_info_zs(){
-        $this->get_teacher_lecture_fail_score_info();
+       return $this->get_teacher_lecture_fail_score_info();
     }
 
     public function get_teacher_lecture_fail_score_info(){
