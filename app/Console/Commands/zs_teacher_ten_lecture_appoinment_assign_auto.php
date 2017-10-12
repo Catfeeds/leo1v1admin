@@ -50,34 +50,42 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         //dd($ass_leader_arr);
         $list = $task->t_manager_info->get_zs_work_status_adminid(8);
         $ass_leader_arr=[];
-        $i=1;
+        // $i=1;
         foreach($list as $val){
-            if($val["uid"]==513 || $val["uid"]==492){
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
+            if($val["uid"]==790 || $val["uid"]==492){
+                $key=$val["uid"];
+                $ass_leader_arr[$key] = $val["uid"];
+                $key = $val["uid"]*10;
+                $ass_leader_arr[$key] = $val["uid"];
+                // $key++;
             }elseif($val["uid"]==955){
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
+                $key=$val["uid"];
+                $ass_leader_arr[$key] = $val["uid"];
+                //  $key++;
+                $key=$val["uid"]*10;
+                $ass_leader_arr[$key] = $val["uid"];
+                // $key++;
+                $key=$val["uid"]*100;
+                $ass_leader_arr[$key] = $val["uid"];
+                // $key++;
 
             }else{
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
-                $ass_leader_arr[$i] = $val["uid"];
-                $i++;
+                $key=$val["uid"];
+                $ass_leader_arr[$key] = $val["uid"];
+                // $key++;
+                $key=$val["uid"]*10;
+                $ass_leader_arr[$key] = $val["uid"];
+                // $key++;
+                $key=$val["uid"]*100;
+                $ass_leader_arr[$key] = $val["uid"];
+                //  $key++;
+                $key=$val["uid"]*1000;
+                $ass_leader_arr[$key] = $val["uid"];
+                // $i++;
 
             }
         }
-        //dd($ass_leader_arr);
+        // dd($ass_leader_arr);
         // $ass_leader_arr=[1=>955,2=>1000,3=>790,4=>492,5=>513,6=>955,7=>1000,8=>790,9=>492,10=>513,11=>955,12=>1000,13=>790]; 
         $num_all = count($ass_leader_arr);
         $id = $task->t_teacher_lecture_appointment_info->get_id_list_desc_limit_ten($start_time);

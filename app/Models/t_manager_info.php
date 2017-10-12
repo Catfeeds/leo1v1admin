@@ -1242,24 +1242,37 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-    public function get_adminid_list_by_account_role_new($account_role){
+    public function get_adminid_list_by_account_role_new($account_role,$month,$history_flag=0){        
         $where_arr=[];
-        if($account_role==-2){
-            $where_arr[]="account_role in (4,9)";
+        $where_arr[]=["n.main_type=%u",$account_role,-1];      
+        if($history_flag==0){
+            $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
+                                      " from %s m left join %s a on m.phone = a.phone ".
+                                      " left join %s u on m.uid=u.adminid".
+                                      " left join %s n on u.groupid = n.groupid".
+                                      " where %s ",
+                                      self::DB_TABLE_NAME,
+                                      t_assistant_info::DB_TABLE_NAME,
+                                      t_admin_group_user::DB_TABLE_NAME,
+                                      t_admin_group_name::DB_TABLE_NAME,
+                                      $where_arr
+            );
         }else{
-            $where_arr[]=["account_role=%u",$account_role,-1];
+            $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
+                                      " from %s m left join %s a on m.phone = a.phone ".
+                                      " left join %s u on m.uid=u.adminid and u.month= %u".
+                                      " left join %s n on u.groupid = n.groupid and n.month= %u".
+                                      " where %s ",
+                                      self::DB_TABLE_NAME,
+                                      t_assistant_info::DB_TABLE_NAME,
+                                      t_group_user_month::DB_TABLE_NAME,
+                                      $month,
+                                      t_group_name_month::DB_TABLE_NAME,
+                                      $month,
+                                      $where_arr
+            );
+   
         }
-        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name,n.master_adminid,n.group_name".
-                                  " from %s m left join %s a on m.phone = a.phone ".
-                                  " left join %s u on m.uid=u.adminid".
-                                  " left join %s n on u.groupid = n.groupid".
-                                  " where %s and del_flag =0 and uid <> 325 and uid<>74",
-                                  self::DB_TABLE_NAME,
-                                  t_assistant_info::DB_TABLE_NAME,
-                                  t_admin_group_user::DB_TABLE_NAME,
-                                  t_admin_group_name::DB_TABLE_NAME,
-                                  $where_arr
-        );
         return  $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
@@ -1832,13 +1845,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function get_ass_uid(){
+    public function get_uid_stu_num(){
         $where_arr = [
             'm.account_role = 1 ',
             'm.del_flag = 0 ',
         ];
         $sql = $this->gen_sql_new(
-            "select uid,count(s.userid) as stu_num "
+            "select uid,count(distinct s.userid) as stu_num "
             ." from %s m"
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
@@ -1852,4 +1865,32 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_today_assess_info_by_uid($ass_adminid, $start_time,$end_time){
+        $where_arr = [
+            "m.uid = $ass_adminid",
+            'm.del_flag = 0 ',
+        ];
+        $sql = $this->gen_sql_new(
+            "select count(distinct s.userid) as stu_num,"
+            ." count(distinct r.userid) as revisit_num,"
+            ." sum(tq.duration) as call_num "
+            ." from %s m"
+            ." left join %s a on a.phone=m.phone"
+            ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
+            ." left join %s r on r.sys_operator=m.account and r.revisit_time>=$start_time and r.revisit_time<$end_time and r.revisit_type=0"
+            ." left join %s tq on tq.id=r.call_phone_id"
+            ." where %s"
+            // ." group by uid"
+            ,self::DB_TABLE_NAME
+            ,t_assistant_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
 }

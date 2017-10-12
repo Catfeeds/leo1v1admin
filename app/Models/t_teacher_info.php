@@ -904,11 +904,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_teacher_info($teacherid){
         $sql = $this->gen_sql(
-            "select train_through_new_time,teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
-            ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
+            "select teacherid,train_through_new_time,is_quit,teacher_money_type,level,wx_openid,nick,phone,email,"
+            ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
             ." train_through_new,trial_lecture_is_pass,wx_use_flag,teacher_money_type_simulate,level_simulate,"
-            ." is_quit"
+            ." grade_start,grade_end,subject"
             ." from %s "
             ." where teacherid=%u"
             ,self::DB_TABLE_NAME
@@ -3371,6 +3371,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",           
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time,
+            "t.train_through_new=1",
             "ta.id>0"
         ];
 
@@ -3400,6 +3401,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",
             //  "tl.status=1",
             "tl.id>0",
+            "t.train_through_new=1",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time
         ];
@@ -3430,6 +3432,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_quit=0 ",
             " t.is_test_user =0",
             // "tr.trial_train_status=1",
+            "t.train_through_new=1",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time,
             "tr.id>0"

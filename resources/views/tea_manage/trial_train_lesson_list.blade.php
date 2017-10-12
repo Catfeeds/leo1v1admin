@@ -99,7 +99,7 @@
                         <td>{{$var["acc"]}}</td>
                         <td>{{$var["add_time_str"]}}</td>
                         <td >
-                            <div
+                            <div class="show_flag"
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
                                 <a class="fa-video-camera opt-play" title="回放"></a>

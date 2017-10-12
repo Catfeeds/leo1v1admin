@@ -894,16 +894,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
 
-        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic "
+        $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+                                  ." g.level_icon "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
                                   ."left join %s n on n.userid = s.userid "
                                   ."left join %s m on o.sys_operator = m.account "
+                                  ."left join %s g on g.seller_level = m.seller_level "
                                   ." where %s      group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_seller_level_goal::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_as_page ($sql);
@@ -2017,7 +2020,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr["group_all_price"] = $group_all_price/100;
         $ret_arr["group_default_money"]  = $this->t_admin_group_month_time ->get_month_money($self_group_info["groupid"] , date("Y-m-d", $start_time )  );
         // $ret_arr["group_adminid"] = $this->t_admin_group_user-> get_master_adminid_by_adminid($adminid )  ;
-        $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1,date("Y-m-d", $start_time ) )  ;
+        $ret_arr["group_adminid"] = $this->task->t_group_user_month-> get_master_adminid_by_adminid($adminid,-1, $start_time  )  ;
         return $ret_arr;
     }
 
@@ -2319,7 +2322,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
-            "select order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
+            "select  order_price_desc, promotion_spec_is_not_spec_flag,promotion_spec_diff_money,origin_assistantid,"
             ." from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
@@ -3412,7 +3415,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ['order_time>%u',$start_time,-1],
             ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$start_time,-1], //大于订单时间
+            ['m.create_time+86400*30 < %u',$end_time,-1], //大于订单时间
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
@@ -3428,20 +3431,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
-    public function get_total_money($start_time, $end_time){
+    public function get_new_order_money($start_time, $end_time){
         $where_arr = [
             "o.price>0",
             "contract_status<> 0",
-            "m.account_role=2"
+            "m.account_role=2",
+            "s.is_test_user=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num  from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 total_price, count(distinct(o.sys_operator)) total_num, count(o.orderid) order_num_new   from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
+                                   ." left join %s s on s.userid = o.userid"
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
                                    ,t_manager_info::DB_TABLE_NAME
+                                   ,t_student_info::DB_TABLE_NAME
                                    ,$where_arr
         );
 
@@ -3450,17 +3456,22 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
+
+
+
+
     public function get_referral_income($start_time, $end_time){
         $where_arr = [
             "o.price>0",
             "contract_status<>0",
             "m.account_role=2",
-            "s.origin_userid>0"
+            "s.origin_userid>0",
+            "s.is_test_user=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(*) referral_num from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num, count(distinct(o.sys_operator)) total_num,  from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
@@ -3531,6 +3542,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr);
+        
         return $this->main_get_row($sql);
     }
 
@@ -3624,4 +3636,17 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_test_new(){
+        $sql = $this->gen_sql_new(
+            "select group_name,m.uid,m.account,price/100 price "
+            ." from %s o , %s s ,%s m, %s gu,%s g  "
+            ."where  o.userid = s.userid   and    o.sys_operator =m.account   and    m.uid=gu.adminid  and    gu.groupid =g.groupid and     order_time>=1504195200 and order_time<=1506960000 and is_test_user=0 and g.groupid=84 and g.month=1504195200 and gu.month=1504195200 and contract_type in(0,3) and contract_status in(1,2) and stu_from_type=0 and m.account_role=2 ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_group_user_month::DB_TABLE_NAME,
+            t_group_name_month::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }

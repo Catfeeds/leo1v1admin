@@ -660,6 +660,8 @@ class teacher_info_admin extends Controller
         $second_grade_start = $this->get_in_int_val("second_grade_start");
         $second_grade_end   = $this->get_in_int_val("second_grade_end");
 
+        $old_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "subject"            => $subject,
             "grade_start"        => $grade_start,
@@ -671,6 +673,9 @@ class teacher_info_admin extends Controller
         if(!$ret){
             return $this->output_err("更新失败或无需更新！");
         }
+        // $acc = $this->get_account();
+        // $record_info = json_decode();
+        // $this->t_teacher_record_list->add_teacher_action_log($teacherid,$record_info,$acc);
         return $this->output_succ();
     }
 

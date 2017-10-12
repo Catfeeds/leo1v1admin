@@ -53,6 +53,82 @@ class ss_deal extends Controller
         }
         return $this->output_succ();
     }
+
+
+    //助教主管新增例子
+    public function add_ss_ass_new() {
+        $phone    = $this->get_in_phone();
+        $origin   = $this->get_in_str_val("origin");
+        $name     = $this->get_in_str_val("name");
+        $grade    = $this->get_in_grade();
+        $subject  = $this->get_in_subject();
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+
+        if (strlen($phone )!=11) {
+            return $this->output_err("电话号码长度不对");
+        }
+
+        if($admin_revisiterid==0){
+            return $this->output_err("请选择助教!");
+        }
+
+        $ret = $this->t_student_info->get_student_info_by_phone($phone);
+        if($ret){
+            return $this->output_err('此账号已经注册');
+        }
+       
+        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
+        if ($userid && $this->t_seller_student_new->get_phone($userid)) {
+
+            $admin_nick=$this->cache_get_account_nick(
+                $this->t_seller_student_new->get_admin_revisiterid($userid)
+            );
+            return $this->output_err("系统中已有这个人的账号了,销售负责人:$admin_nick");
+        }
+        if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
+            return $this->output_err("已经有了这个科目的例子了,不能增加");
+        }
+
+        $userid=$this->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,0);
+
+        //直接分配给助教
+        $master_adminid = $this->t_admin_group_user-> get_master_adminid( $admin_revisiterid );
+        if(empty($master_adminid)){
+            $master_adminid=396;
+        }
+        $main_master_adminid = $this->t_admin_group_user->get_main_master_adminid( $admin_revisiterid );
+        if(empty($main_master_adminid)){
+            $main_master_adminid=396;
+        }
+
+        $this->t_seller_student_new->field_update_list($userid,[
+            "admin_revisiterid"  =>$admin_revisiterid,
+            "admin_assign_time"  =>time(),
+            "admin_assignerid"   =>$this->get_account_id(),
+            "sub_assign_adminid_1"=>$main_master_adminid,
+            "sub_assign_time_1"  =>time(),
+            "sub_assign_adminid_2"=>$master_adminid,
+            "sub_assign_time_2"  =>time(),
+            "ass_leader_create_flag"=>1
+        ]);
+        $this->t_student_info->field_update_list($userid,[
+            "nick"  =>$name,
+            "realname"=>$name,
+            "origin_assistantid"=>$admin_revisiterid,
+            "origin_userid"   =>1
+        ]);
+        
+        
+        $account=$this->get_account();
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 状态:  新增例子  :$account ",
+            "system"
+        );
+      
+        return $this->output_succ();
+    }
+
     public function set_level_b() {
         $userid_list_str= $this->get_in_str_val("userid_list");
         $origin_level= $this->get_in_e_origin_level();
@@ -142,7 +218,7 @@ class ss_deal extends Controller
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         $seller_resource_type = $this->get_in_int_val('seller_resource_type');
-        // dd($seller_resource_type);
+        //dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
@@ -2157,6 +2233,17 @@ class ss_deal extends Controller
         if($price > $old_price ){
             return $this->output_err("新增子合同金额大于可拆分金额!!");
         }
+        
+        //分期合同不能全款
+        if($child_order_type==2){
+            $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
+            $all_price = $this->t_order_info->get_price($parent_orderid);
+            if(($price+$period_money) >($all_price-200000)){
+                 return $this->output_err("分期合同需要设置2000元的首付款!");
+            }
+        }
+
+        
         $new_price =  $old_price-$price;
         $this->t_child_order_info->field_update_list($child_orderid,[
            "price"  =>$new_price
@@ -2218,6 +2305,16 @@ class ss_deal extends Controller
 
         $old_price = $this->t_child_order_info->get_price($child_orderid);
         $default_info = $this->t_child_order_info->get_info_by_parent_orderid($parent_orderid,0);
+
+        //分期合同不能全款
+        if($child_order_type==2){
+            $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
+            $all_price = $this->t_order_info->get_price($parent_orderid);
+            if(($price+$period_money) >($all_price-200000)){
+                return $this->output_err("分期合同需要设置2000元的首付款!");
+            }
+        }
+
 
         if($price > ($old_price +$default_info["price"])){
             return $this->output_err("金额超出未付款总额");
@@ -5897,7 +5994,7 @@ class ss_deal extends Controller
                 "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                 "orwGAs87gepYCYKpau66viHluRGI",  // 傅文莉
-                "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
+                // "orwGAs6J8tzBAO3mSKez8SX-DWq4"   // 孙瞿
             ];
 
             $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);

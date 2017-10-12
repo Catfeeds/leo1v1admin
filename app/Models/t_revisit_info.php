@@ -245,11 +245,12 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "r.is_warning_flag=1",
             "r.revisit_type=0",
             "r.revisit_time>=$three",
-            ["m.uid= %u",$ass_adminid,-1]
         ];
 
         if ($uid_str != -1 && $uid_str !== null) {
             $where_arr[] = "m.uid in ($uid_str)";
+        } else {
+            $where_arr[] = ["m.uid= %u",$ass_adminid,-1];
         }
 
         $sql = $this->gen_sql_new(

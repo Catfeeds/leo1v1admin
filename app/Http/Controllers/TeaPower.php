@@ -1644,33 +1644,10 @@ trait TeaPower {
         }
     }
 
-    /**
-     * @param phone 被推荐的老师电话
-     */
-    public function add_reference_reward($phone){
-        $teacher_info        = $this->t_teacher_info->get_teacher_info_by_phone($phone);
-        $reference           = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
-        $reference_teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
-        $reference_count     = $this->t_teacher_lecture_appointment_info->get_reference_count($reference);
-
-        $check_flag=$this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
-        if(!$check_flag){
-            $reference_reward = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$reference_count);
-            $this->t_teacher_info->row_insert([
-                "teacherid"  => $reference_teacherid,
-                "type"       => 6,
-                "add_time"   => time(),
-                "money"      => $reward,
-                "money_info" => $teacher_info['teacherid'],
-                "acc"        => session("acc"),
-            ]);
-        }
-    }
-
     public function get_fulltime_teacher_test_lesson_score($teacherid,$start_time,$end_time){
         $qz_tea_arr=[$teacherid];
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
-        
+
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
         $item=[];
@@ -1690,8 +1667,6 @@ trait TeaPower {
         $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
         $item["cc_score"] = round($item["cc_per"]*0.75,2);
         $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
-        // $item["hls_score"] = round($item["hls_per"]*0.05,2);
-        //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
         $item["all_score"] = round($item["all_per"]*0.15,2);
         if($item["cc_lesson_num"]>10){
             $cc_num=10;
@@ -2204,8 +2179,10 @@ trait TeaPower {
         return $reference;
     }
 
+    /**
+     * 老师培训通过后的处理操作
+     */
     public function teacher_train_through_deal($teacher_info,$flag){
-        $today_date  = date("Y年m月d日",time());
         if($flag==0){
             $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
                 "train_through_new"      => 1,
@@ -2218,6 +2195,43 @@ trait TeaPower {
             $teacher_info['level']=0;
         }
 
+        $this->send_offer_info($teacher_info);
+
+        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
+        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],E\Ereward_type::V_6);
+        if(!empty($reference_info['teacherid']) && !$check_flag){
+            $wx_openid      = $reference_info['wx_openid'];
+            $teacher_type   = $reference_info['teacher_type'];
+            if(!in_array($teacher_type,[E\Eteacher_type::V_21,E\Eteacher_type::V_22,E\Eteacher_type::V_31])){
+                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
+                $this->t_teacher_money_list->row_insert([
+                    "teacherid"  => $reference_info['teacherid'],
+                    "money"      => $ref_price*100,
+                    "money_info" => $teacher_info['teacherid'],
+                    "add_time"   => time(),
+                    "type"       => E\Ereward_type::V_6,
+                ]);
+
+                if($wx_openid!=""){
+                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
+                    $wx_data["keyword1"] = "已入职";
+                    $wx_data["keyword2"] = "";
+                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
+                }
+            }
+        }
+    }
+
+    /**
+     * 发送入职邮件和入职微信推送
+     * @param teacher_info 老师信息
+     */
+    public function send_offer_info($teacher_info){
+        $today_date  = date("Y年m月d日",time());
         $level_str = E\Elevel::get_desc($teacher_info['level']);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
@@ -2244,35 +2258,6 @@ trait TeaPower {
             $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
         }
-
-        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
-        if(!empty($reference_info['teacherid']) && !$check_flag){
-            $wx_openid      = $reference_info['wx_openid'];
-            $teacher_type   = $reference_info['teacher_type'];
-            if(!in_array($teacher_type,[21,22,31])){
-                $ref_price = $this->get_teacher_reference_price($reference_info['phone'],$teacher_info['identity']);
-                $this->t_teacher_money_list->row_insert([
-                    "teacherid"  => $reference_info['teacherid'],
-                    "money"      => $ref_price*100,
-                    "money_info" => $teacher_info['teacherid'],
-                    "add_time"   => time(),
-                    "type"       => E\Ereward_type::V_6,
-                ]);
-
-                if($wx_openid!=""){
-                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
-                    $wx_data["keyword1"] = "已入职";
-                    $wx_data["keyword2"] = "";
-                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
-                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
-                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
-                }
-            }
-        }
-
     }
 
     public function get_offer_html($teacher_info){
@@ -2381,7 +2366,7 @@ trait TeaPower {
             </div>
             <div class='about_us' align='left'>
                 <div class='us_title size20 color333'>关于我们</div>
-                <div class='size14' style='text-indent:2em'>理优1对1致力于为小初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
+                <div class='size14' style='text-indent:2em'>理优1对1致力于为小初高学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
                     获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
                     GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
                 </div>
@@ -2882,6 +2867,11 @@ trait TeaPower {
         }
     }
 
+    /**
+     * 老师报名邮件
+     * @param name 老师姓名
+     * @return String
+     */
     public function get_email_html_new($name=""){
         $html = "
 <html>
@@ -2908,27 +2898,23 @@ trait TeaPower {
                     请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
                     <br/>
                     <br/>
-                    【轻松三步搞定面试】
+                    【轻松搞定面试】
                     <br/>
                     <br/>
-                    第一步：理优老师客户端&nbsp;<a class='download_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
+                    一：理优老师客户端&nbsp;<a class='download_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录账号：注册报名的手机号</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录密码：leo+手机号后四位</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='download_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
                     <br/>
-                    ​第二步：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    ​二：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可反复回看并重新录制（提交后不可再重新录制），直到自己满意后再提交 </span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>  试讲试题及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容跟面试官进行一对一在线面试。<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：有面试官当您的学生进行一些场景互动。</span><br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：提交前可反复回看并重新录制（提交后不可重新录制），回看满意后再提交</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>试讲题目及视频教程←点击下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容进行一对一在线面试。<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可以把面试官当您的学生进行互动。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲，只能选择录制试讲。</span><br>
                     <br/>
-                    第三步：面试内容<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)试讲内容里的题目讲解<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3)时间一般控制在15-20分钟<br>
                 </div>
                 <div>
                     <div class='t20'>
@@ -2959,7 +2945,7 @@ trait TeaPower {
                     <div class='t20'>
                         【联系我们】
                     </div>
-                    <img  src='http://7u2f5q.com2.z0.glb.qiniucdn.com/0345859d986c76d7c33f0d6b5531e38c1501322935055.png'/><br>
+                    <img  src='http://7u2f5q.com2.z0.glb.qiniucdn.com/cc88764ab0e165ab2c909ec0b3f3a0a11507778329047.png'/><br>
                     如有其它疑问，请联系教务老师 <span class='red'>QQ:1689916647</span>
                 </div>
                 <div>

@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      $this->switch_tongji_database();
+      // $this->switch_tongji_database();
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
@@ -541,11 +541,16 @@ class test_boby extends Controller
     }
 
     public function get_ass_stu_num(){
-        $uid_stu_list = $this->t_manager_info->get_ass_uid();
-        dd($uid_stu_list);
+        $ret_info = $this->t_manager_info->get_uid_stu_num();
+        $time = time();
+        foreach( $ret_info as $item ){
+            $this->t_revisit_assess_info->row_insert([
+                'uid'     => $item['uid'],
+                'stu_num' => $item['stu_num'],
+                'create_time' => $time,
+            ]);
+        }
     }
-
-
 
 
 }

@@ -25,6 +25,7 @@ class LessonTask extends TaskController
     public function set_end_lesson() {
         Log::debug("==============================set_end_lesson");
         $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
+        $server_name_map = $this->t_xmpp_server_config->get_server_name_map();
         $now         = time();
         foreach ($lesson_list as $item) {
             $teacherid   = $item["teacherid"];
@@ -43,13 +44,12 @@ class LessonTask extends TaskController
             }
 
             //检测老师是否还在课堂内
-            $ret_arr       = Net::get_server_info(array($courseid));
-            $server_config = [];
+            $xmpp_server_name=$item["xmpp_server_name"];
+            $current_server=$item["current_server"];
 
-            if (isset( $ret_arr["server_list"] ) &&  isset( $ret_arr["server_list"][0])) {
-                $server_config = $ret_arr["server_list"][0];
-                $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
-if(isset($server_config['ip'])){
+            $server_config = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server ,$server_name_map  ) ;
+            $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+            if(isset($server_config['ip'])){
                 $user_list = Utils::get_room_users($roomid,$server_config);
 
                 Log::debug("check room info  $roomid  , userid_list:".json_encode($user_list));
@@ -64,10 +64,6 @@ if(isset($server_config['ip'])){
                         $this->t_baidu_msg->change_lesson_start_message_status($lessonid);
                     }
                 }
-}
-            }else{
-                Log::debug("no find server info for lessonid = $lessonid ");
-                continue;
             }
         }
     }

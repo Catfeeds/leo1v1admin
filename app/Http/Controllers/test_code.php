@@ -49,6 +49,14 @@ class test_code extends Controller
         return $arr;
     }
 
+    public function reset_teacher_name(){
+        $userid = 50728;
+        $competition_flag = 0;
+        $start_time = time();
+        $end_time= time();
+        $this->t_lesson_info->get_user_lesson_list($userid , $competition_flag,$start_time,$end_time);
+    }
+
     public function get_success_lesson(){
         $day  = $this->get_in_int_val("day",30);
         $type = $this->get_in_int_val("type",2);

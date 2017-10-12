@@ -206,11 +206,16 @@ class common extends Controller
         $html=$header.$body.$footer;
         $title="上海理优教研室";
         //$mail_ret=send_mail($to,$title,$html,true);
-        $ret=\App\Helper\Common::send_paper_mail($to,$title,$html);
+        $ret = \App\Helper\Common::send_paper_mail($to,$title,$html);
 
         $name   = $this->get_in_str_val("name","");
         $phone  = $this->get_in_str_val("phone","");
         $origin = "官网试卷用户";
+
+        $check_flag = \App\Helper\Utils::check_phone($phone);
+        if(!$check_flag && $phone != ""){
+            return $this->output_err("请填写正确的手机号!");
+        }
 
         $this->add_user_origin_info($name,$phone);
         $this->t_seller_student_info->add_or_add_to_sub($name,$phone,0,$origin,0,0,0,0);
@@ -318,6 +323,21 @@ class common extends Controller
             }
         }
         echo $str;
+    }
+
+    /**
+     * 通过老师id发送入职信息
+     */
+    public function send_offer_info_by_teacherid(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        if($teacherid==0){
+            return $this->output_err("老师id不能为0!");
+        }
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $this->send_offer_info($teacher_info);
+
+        return $this->output_succ();
     }
 
     public function add_trial_train_lesson_by_admin(){

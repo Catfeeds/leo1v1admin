@@ -33,7 +33,7 @@ class update_seller_level extends cmd_base
         $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
         list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
         foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $start_time<$item['end_time']){
+            if($time>=$item['start_time'] && $time<$item['end_time']){
                 $start_time_this = $item['start_time'];
                 $end_time_this = $item['end_time'];
             }
@@ -60,25 +60,42 @@ class update_seller_level extends cmd_base
         }
         $account_role = E\Eaccount_role::V_2;
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
+        $ret_level_goal = $this->task->t_seller_level_goal->get_all_list_new();
         foreach($seller_list as $item){
-            $ret_this = $this->task->t_seller_level_goal->field_get_list($item['seller_level'],'*');
-            $num = $ret_this['num'];
             $adminid = $item['uid'];
-            $level_goal = $ret_this['level_goal'];
+            $account = $this->task->t_manager_info->get_account_by_uid($adminid);
             $this_level = $item['seller_level'];
             $become_member_time = $item['create_time'];
-            $next_num = $num++;
+            $ret_this = $this->task->t_seller_level_goal->field_get_list($item['seller_level'],'*');
+            $num = isset($ret_this['num'])?$ret_this['num']:0;
+            $level_goal = isset($ret_this['level_goal'])?$ret_this['level_goal']:0;
+            $next_goal = $level_goal;
+            $next_num = $num + 1;
             $ret_next = $this->task->t_seller_level_goal->get_next_level_by_num($next_num);
             if($ret_next){
-                $next_level = $ret_next['seller_level'];
+                $next_goal = $ret_next['level_goal'];
             }
             //统计本月
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
-            if($price>$level_goal){
+            if($price>$next_goal){
+                foreach($ret_level_goal as $item){
+                    if($price >= $item['level_goal']){
+                        $next_level = $item['seller_level'];
+                    }
+                }
                 $this->task->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-            }
 
+                $this->task->t_seller_edit_log->row_insert([
+                    "uid"         => $adminid,
+                    "type"        => 2,
+                    "old"         => $this_level,
+                    "new"         => $next_level,
+                    "create_time" => time(NULL),
+                ],false,false,true );
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+            }
             //统计上个月
 
             //统计上上个月

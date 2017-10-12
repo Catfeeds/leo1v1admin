@@ -86,11 +86,13 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/seller_level_goal/edit_seller_level_goal",{
-                    'seller_level' : opt_data.seller_level,
-                    'level_goal'   : $id_level_goal.val(),
-                    'level_face'   : $id_level_face.find("#level_face_url").val(),
-                    'level_icon'   : $id_level_icon.find("#level_icon_url").val(),
-                    'num'          : $id_num.val(),
+                    'seller_level'   : opt_data.seller_level,
+                    'level_goal'     : $id_level_goal.val(),
+                    'level_face'     : $id_level_face.find("#level_face_url").val(),
+                    'level_face_old' : opt_data.level_face,
+                    'level_icon'     : $id_level_icon.find("#level_icon_url").val(),
+                    'level_icon_old' : opt_data.level_face,
+                    'num'            : $id_num.val(),
                 });
             }
         }],function(){

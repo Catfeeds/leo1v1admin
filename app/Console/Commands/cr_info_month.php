@@ -83,7 +83,7 @@ class cr_info_month extends Command
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
         $arr['contract_num']       = $ret_total['order_num']; //合同数
-        $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //A3-入职完整月人员签单额
+        $arr['total_price_thirty'] = round($ret_total_thirty['total_price'] / 100,2); //A3-入职完整月人员签单额
         $arr['person_num_thirty']  = $ret_total_thirty['person_num'];        //A4-入职完整月人员人数
         $arr['cr_num']             = $ret_cr;                                //A8-CR总人数
         $arr['refund_num']         = $ret_refund;                            //A10-退费总人数
@@ -187,11 +187,11 @@ class cr_info_month extends Command
 
 
         //转介绍 
-        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
-        $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
+        $tranfer_cr = $task->t_seller_student_new->get_tranfer_phone_num($start_time,$end_time);
+        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($start_time,$end_time); //月初至今
         $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
         if($arr['month_tranfer_total_num']){
-          $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
+          $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_num']/$tranfer_cr,2); //D4-月转介绍至CC签单率
         }else{
           $arr['tranfer_success_per'] = 0;
         }

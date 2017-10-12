@@ -55,6 +55,9 @@ class tom_do_once extends Command
      */
     public function handle()
     {
+        $account_role = E\Eaccount_role::V_2;
+        $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
+
         $now = time();
         $list=$this->task->t_seller_student_new->get_all_list();
         foreach ($list as $item) {

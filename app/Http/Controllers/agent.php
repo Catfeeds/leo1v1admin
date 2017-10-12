@@ -461,58 +461,50 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $timestamp = strtotime(date("Y-m-01"));
-        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
-        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
-        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
-        dd($start_time_last,$end_time_last);
-        $time = time(null);
-        list($start_time_this,$end_time_this)= $this->get_in_date_range_month(date("Y-m-01"));
-        $ret_time = $this->t_month_def_type->get_all_list();
-        foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $start_time<$item['end_time']){
-                $start_time_this = $item['start_time'];
-                $end_time_this = $item['end_time'];
+        $ret_arr = $this->t_order_info->get_test_new();
+        $adminid_arr = array_unique(array_column($ret_arr,'uid'));
+        $ret_info = [['account'=>'','group_name'=>'','price'=>0]];
+        foreach($ret_arr as $item){
+            foreach($adminid_arr as $key=>$info){
+                if($item['uid'] == $info){
+                    $ret_info[$info]['account'] = $item['account'];
+                    $ret_info[$info]['group_name'] = $item['group_name'];
+                    $ret_info[$info]['price'] += $item['price'];
+                }
             }
         }
-        // foreach($ret_time as $item){//上月
-        //     if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
-        //         $start_time_last = $item['start_time'];
-        //         $end_time_last = $item['end_time'];
-        //     }
+        dd($ret_info,$ret_arr);
+
+
+
+        // dd('a');
+        // $adminid = 99;
+        // $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        // $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
+        // $image_1 = imagecreatefromjpeg($datapath);
+        // $image_2 = imagecreatefrompng($datapath_new);
+        // $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        // // $color = imagecolorallocate($image_3,255,255,255);
+        // $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        // imagefill($image_3, 0, 0, $color);
+        // imageColorTransparent($image_3, $color);
+
+        // imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        // imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        // $tmp_url = "/tmp/".$adminid."_gk.png";
+        // imagepng($image_1,$tmp_url);
+        // $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        // $level_face_url = '';
+        // if($file_name!=''){
+        //     $cmd_rm = "rm /tmp/".$adminid."*.png";
+        //     \App\Helper\Utils::exec_cmd($cmd_rm);
+        //     $domain = config('admin')['qiniu']['public']['url'];
+        //     $level_face_url = $domain.'/'.$file_name;
         // }
-        // foreach($ret_time as $item){//上上月
-        //     if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
-        //         $start_time_very_last = $item['start_time'];
-        //         $end_time_very_last = $item['end_time'];
-        //     }
-        // }
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        foreach($seller_list as $item){
-            $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
-            $num = $ret_this['num'];
-            $adminid = $item['uid'];
-            $level_goal = $ret_this['level_goal'];
-            $this_level = $item['seller_level'];
-            $become_member_time = $item['create_time'];
-            $next_num = $num++;
-            $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num);
-            if($ret_next){
-                $next_level = $ret_next['seller_level'];
-            }
-            //统计本月
-            $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
-            $price = $price/100;
-            if($price>$level_goal){
-                $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-            }
 
-            //统计上个月
-
-            //统计上上个月
-
-        }
+        // header('Content-type: image/jpg');
+        // imagejpeg($image_1);//输出图像
+        // dd($image_1);
     }
 
     public function get_my_pay($phone){

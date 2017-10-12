@@ -859,7 +859,14 @@ class tongji2 extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $account_id    = $this->get_in_int_val('adminid',-1);
 
-        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        // $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
+        $cur_start = strtotime(date("Y-m-01",time()));
+        if($start_time < $cur_start){
+            $history_flag=1;
+        }else{
+            $history_flag=0;
+        }
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,$history_flag);
         $month_middle = $start_time+15*86400;
 
         /* $lesson_list_first = $this->t_lesson_info_b2->get_all_ass_stu_lesson_info($start_time,$month_middle);
@@ -1283,7 +1290,7 @@ class tongji2 extends Controller
             $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
             $arr['person_num']         = $ret_total['person_num']; //下单总人数
             $arr['contract_num']       = $ret_total['order_num']; //合同数
-            $arr['total_price_thirty'] = $ret_total_thirty['total_price'] / 100; //入职完整月人员签单额
+            $arr['total_price_thirty'] = round($ret_total_thirty['total_price'] / 100,2); //入职完整月人员签单额
             $arr['person_num_thirty']  = $ret_total_thirty['person_num'];  //入职完整月人员人数
 
             $arr['cr_num']             = $ret_cr;//在职人数
