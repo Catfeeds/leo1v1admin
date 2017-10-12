@@ -286,11 +286,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         ];
         if ($user_name) {
-            $where_arr[]= " (nick like '%" . $user_name . "%' or parent_name like '%" . $user_name . "%') "   ;
+            $where_arr[]= " (a.nick like '%" . $user_name . "%' or a.parent_name like '%" . $user_name . "%') "   ;
         }
 
         if ($phone) {
-            $where_arr[]=  "phone like '%".$phone."%'";
+            $where_arr[]=  "a.phone like '%".$phone."%'";
         }
         $sql = $this->gen_sql(
             "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
