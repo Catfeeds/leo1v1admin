@@ -221,7 +221,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
             ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
             ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
-            ." t2.parent_name as parent_nick,t2.phone,t1.origin,t1.sys_operator,t1.from_type,"
+            ." pp.nick as parent_nick,t2.phone,t1.origin,t1.sys_operator,t1.from_type,"
             ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
             ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
@@ -239,6 +239,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m on t2.ass_master_adminid = m.uid"
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
+            ." left join %s pp on t2.parentid= pp.parentid"
             ." where %s order by $order_by_str ",
             // ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
             // ." where %s group by t1.orderid order by $order_by_str ",
@@ -252,6 +253,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
+            t_parent_info::DB_TABLE_NAME,
             // t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
@@ -1077,19 +1079,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_user_order_list($userid,$competition=-1){
-        $where_str=$this->where_str_gen([
+        $where_str = $this->where_str_gen([
             ["competition_flag=%u",$competition,-1],
             ["userid=%u",$userid,-1],
         ]);
-        $sql=$this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left"
-                                ." from %s"
-                                ." where %s"
-                                ." and contract_type in (0,1,3)"
-                                ." and contract_status in (1,2)"
-                                ." and lesson_left>0"
-                                ." order by orderid asc"
-                                ,self::DB_TABLE_NAME
-                                ,$where_str
+        $sql = $this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left"
+                                  ." from %s"
+                                  ." where %s"
+                                  ." and contract_type in (0,1,3)"
+                                  ." and contract_status in (1,2)"
+                                  ." and lesson_left>0"
+                                  ." order by orderid asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_str
         );
         return $this->main_get_list($sql);
     }
@@ -1120,6 +1122,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                 ." and competition_flag=%u"
                                 ,self::DB_TABLE_NAME
                                 ,$competition_flag
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_pay_user_has_lesson($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type in (0,1,3)",
+            "o.userid = userid"
+        ];
+        $sql=$this->gen_sql_new("select o.orderid,o.userid,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+                                ." subject,competition_flag"
+                                ." from %s o"
+                                ." left join %s s on o.userid=s.userid"
+                                ." where contract_type in (0,1,3)"
+                                ." and s.is_test_user=0"
+                                ." and contract_status!=0"
+                                ." and o.userid!=0"
+                                ." and exists (select 1 from %s where %s)"
+                                ." order by lesson_left asc"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_lesson_info::DB_TABLE_NAME
+                                ,$where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -3471,7 +3498,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,'o.order_time',$start_time,$end_time);
 
-        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num, count(distinct(o.sys_operator)) total_num,  from %s o "
+        $sql = $this->gen_sql_new( "  select sum(o.price)/100 referral_price, count(o.orderid) referral_num, count(distinct(o.sys_operator)) total_num from %s o "
                                    ." left join %s m on o.sys_operator = m.account "
                                    ." left join %s s on s.userid = o.userid"
                                    ." where %s"
@@ -3635,6 +3662,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+    // public function get_has_lesson_order_list($start_time,$end_time,$lesson_status=2){
+    //     $where_arr=[
+    //         ["lesson_start>%u",$start_time,-1],
+    //         ["lesson_start<%u",$end_time,-1],
+    //         ["lesson_status=%u",$lesson_status,-1],
+    //     ];
+    //     $sql=$this->gen_sql_new("select orderid,subject,grade,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
+    //                             ." competition_flag"
+    //                             ." from %s o"
+    //                             ." where %s "
+    //                             ." and exists ("
+    //                             ." select 1 from %s where %s"
+    //                             ." )"
+    //                             ,self::DB_TABLE_NAME
+    //                             ,$where_arr
+    //     );
+    //     return $this->main_get_list($sql);
+    // }
+
 
     public function get_test_new(){
         $sql = $this->gen_sql_new(

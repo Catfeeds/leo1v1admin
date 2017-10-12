@@ -2874,4 +2874,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
+
+
+   public function get_stu_info_by_parentid($parentid){
+       $sql = $this->gen_sql_new("  select s.nick, s.grade,s.userid from %s s"
+                                 ." left join %s p on p.userid=s.userid"
+                                 ." where p.parentid=$parentid"
+                                 ,self::DB_TABLE_NAME
+                                 ,t_parent_child::DB_TABLE_NAME
+       );
+
+        return $this->main_get_list($sql);
+        
+    }
 }

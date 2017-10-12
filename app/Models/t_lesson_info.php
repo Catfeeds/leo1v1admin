@@ -1538,7 +1538,7 @@ lesson_type in (0,1) "
 
     public function get_confirm_lesson_list($start_time,$end_time) {
         $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count,a.nick assistant_nick from  %s  l, %s s,%s a  ".
-                            " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2,3)  and lesson_type in (0,1,3)"
+                            " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2)  and lesson_type in (0,1,3)"
                             . " and lesson_del_flag=0 and l.assistantid <> 59329  "
                             ." group by l.assistantid  order by lesson_count desc",
                             self::DB_TABLE_NAME,
@@ -1554,7 +1554,7 @@ lesson_type in (0,1) "
             ["s.assistantid= %u",$assistantid, -1  ],
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
-                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid,l.subject ",
                                 self::DB_TABLE_NAME,
@@ -1569,12 +1569,14 @@ lesson_type in (0,1) "
             ["l.teacherid= %u",$teacherid, -1  ],
             ["s.userid= %u",$studentid, -1  ],
         ];
-        $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.phone,l.subject,l.teacherid,l.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
-                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
+        $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.phone,l.subject,l.teacherid,l.grade,sum(l.lesson_count) as lesson_count,count(*) as count,sum(o.price) price from  %s  l left join %s s on  l.userid=s.userid "
+                                ."left join %s o on l.lessonid = o.lessonid "
+                                . " where  is_test_user=0 and lesson_start >=%u and lesson_start<%u  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid ,l.subject ",
                                 self::DB_TABLE_NAME,
-                                t_student_info::DB_TABLE_NAME, //
+                                t_student_info::DB_TABLE_NAME,
+                                t_order_lesson_list::DB_TABLE_NAME,//
                                 $start_time,$end_time,  $where_arr);
         if($num >= 1){
             $sql .= "having count(*) = ".$num;
@@ -1588,7 +1590,7 @@ lesson_type in (0,1) "
             ["s.userid= %u",$studentid, -1  ],
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid, l.teacherid,l.lesson_start,l.lesson_end, l.lesson_count  as count from  %s  l, %s s  ".
-                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 ",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME, //
@@ -1605,7 +1607,7 @@ lesson_type in (0,1) "
                             ." and lesson_start >=%s "
                             ." and lesson_start<%s "
                             ." and lesson_status =2 "
-                            ." and confirm_flag not in (2,3) "
+                            ." and confirm_flag not in (2) "
                             ." and lesson_type in (0,1,3) "
                             ,self::DB_TABLE_NAME
                             ,t_student_info::DB_TABLE_NAME
@@ -2203,28 +2205,25 @@ lesson_type in (0,1) "
         return $this->main_update($sql);
     }
 
-    public function get_user_lesson_list($userid,$competition,$start_time=0,$end_time=0){
-        $where_str = $this->where_str_gen([
+    public function get_user_lesson_list($userid,$competition=-1,$start_time=0,$end_time=0,$lesson_status=2){
+        $where_str = [
             ["competition_flag=%u",$competition,-1],
-            ["lesson_end>%u",$start_time,0],
-            ["lesson_end<%u",$end_time,0],
-        ]);
-        $sql=$this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
-                                ." teacherid,grade"
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["userid=%u",$userid,0],
+            ["lesson_status=%u",$lesson_status,-1],
+            "lesson_count>0",
+            "lesson_type in (0,1,3)",
+        ];
+        $where_str = $this->lesson_common_where_arr($where_str);
+        $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
+                                ." teacherid,grade,userid"
                                 ." from %s"
-                                ." where userid=%u"
-                                ." and confirm_flag!=2"
-                                ." and lesson_count>0"
-                                ." and lesson_status=2"
-                                ." and lesson_type in (0,1,3)"
-                                ." and lesson_del_flag=0 "
-                                ." and %s"
+                                ." where %s"
                                 ." order by lesson_start asc"
                                 ,self::DB_TABLE_NAME
-                                ,$userid
                                 ,$where_str
         );
-        // echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
