@@ -151,7 +151,7 @@
                                         <td>试听排课数</td>
                                         <td class="panel-red">试听成功数</td>
                                         <td class="panel-red">签单数</td>
-                                        <td class="panel-red">月邀请率</td>
+                                        <td class="panel-red">月邀约率</td>
                                         <td class="panel-red">月排课率</td>
                                         <td class="panel-red">月到课率</td>
                                         <td class="panel-red">月试听转化率</td>

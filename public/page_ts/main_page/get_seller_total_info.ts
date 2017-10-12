@@ -31,9 +31,18 @@ $(function(){
     $("#download_data").on("click",function(){
         console.log(g_data);
 
-        var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
-        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100;
+        var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100+'%';
         var aver_money = Math.floor(g_data.aver_money *100)/100;
+        var aver_count = Math.floor(g_data.aver_count *100)/100;
+        var seller_num = g_data.new_department+g_data.one_department+g_data.two_department+g_data.three_department+g_data.train_department;
+        var referral_money_rate = Math.floor(g_data.referral_money_rate*100)/100+'%';
+        var high_school_money_rate = Math.floor(g_data.high_school_money_rate*100)/100+'%';
+        var junior_money_rate = Math.floor(g_data.junior_money_rate*100)/100+'%';
+        var primary_money_rate = Math.floor(g_data.primary_money_rate*100)/100+'%';
+        var invit_month_rate = Math.floor(g_data.invit_month_rate*100)/100+'%';
+        var test_plan_month_rate = Math.floor(g_data.test_plan_month_rate*100)/100+'%';
+        var lesson_succ_month_rate = Math.floor(g_data.lesson_succ_month_rate*100)/100+'%';
+        var trans_month_rate = Math.floor(g_data.trans_month_rate*100)/100+'%';
 
         var list_data=[
             ["月度目标收入",g_data.seller_target_income],
@@ -43,6 +52,31 @@ $(function(){
 
             ["下单总人数",g_data.order_num],
             ["入职完整月人员人数",g_data.formal_num],
+            ["平均人效",aver_money],
+            ["平均单笔",aver_count],
+
+            ["cc总人数",seller_num],
+            ["咨询一部",g_data.one_department],
+            ["咨询二部",g_data.two_department],
+            ["咨询三部",g_data.three_department],
+            ["新人营",g_data.new_department],
+            ["培训中",g_data.train_department],
+            ["转介绍金额占比",referral_money_rate],
+            ["高中金额占比",high_school_money_rate],
+            ["初中金额占比",junior_money_rate],
+            ["小学金额占比",primary_money_rate],
+
+            ["试听邀约数",g_data.seller_invit_num],
+            ["试听排课数",g_data.seller_schedule_num],
+            ["试听成功数",g_data.test_succ_num],
+            ["签单数",g_data.new_order_num],
+            ["月邀约率",invit_month_rate],
+            ["月排课率",test_plan_month_rate],
+            ["月到课率",lesson_succ_month_rate],
+            ["月试听转化率",trans_month_rate],
+
+
+
 
         ];
 

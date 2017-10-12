@@ -13,6 +13,7 @@ class t_test_luki extends \App\Models\Zgen\z_t_test_luki
         $where_arr=[
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"grade",$grade,-1);
+        
         $this->where_arr_add_time_range($where_arr,"value",$start_time,$end_time);
 
         $sql=$this->gen_sql_new(
