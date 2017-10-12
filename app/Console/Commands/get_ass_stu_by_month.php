@@ -37,7 +37,7 @@ class get_ass_stu_by_month extends Command
      */
     public function handle()
     {
-        //每月一号获取助教的所有在读学生个数,每月1号凌晨2点执行一次
+        //每月一号获取助教的所有在读学生个数,每月1号凌晨2点30执行一次
         $time = time();
         // $start_time = strtotime( date("Y-m-1", $time) );
         // $end_time   = strtotime( "+1 month", $start_time() );
