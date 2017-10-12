@@ -95,6 +95,7 @@ return array(
     ["db_weiyi","t_teacher_apply","id"] ,
     ["db_weiyi","t_revisit_info","userid","revisit_time" ] ,
     ["db_weiyi","t_revisit_assess_info","id" ] ,
+    ["db_weiyi","t_revisit_call_count","count_id" ] ,
     ["db_weiyi","t_revisit_warning_overtime_info","overtime_id" ] ,
     ["db_weiyi","t_parent_info","parentid"] ,
     ["db_weiyi","t_error_info","id"] ,

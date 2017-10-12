@@ -1028,6 +1028,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         case 4 : //c
         case 5 : //d
             $where_arr[] = "(origin_level >3 or $check_no_call_time_str )";
+            break;
         case 6 : //e
             $where_arr[] = "(origin_level >3 )";
             break;

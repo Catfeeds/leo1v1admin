@@ -49,22 +49,30 @@ class test_code extends Controller
         return $arr;
     }
 
-    public function reset_teacher_name(){
-        $arr = $this->get_b_txt();
+    public function set_order_lesson(){
+        $start_time = strtotime("2017-10-1");
+        $end_time = strtotime("2017-11-1");
 
-        foreach($arr  as $val){
-            if($val>0 && $val!=''){
-                $teacher_info =$this->t_teacher_info->get_teacher_info($val);
-                $nick = mb_substr($teacher_info['nick'],0,2,"utf8")."老师";
-                $real= mb_substr($teacher_info['realname'],0,2,"utf8")."老师";
-                echo $nick."|".$real;
-                // $this->t_teacher_info->field_update_list($val,[
-                //     "nick"=>$nick,
-                //     "realname"=>$real,
-                // ]);
-                echo "<br>";
-            }
+        $order_list     = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
+        $lesson_list    = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+        $stu_order_list = [];
+        foreach($order_list as $o_val){
+            $userid = $o_val['userid'];
+            $flag = $o_val['competition_flag'];
+            $orderid = $o_val['orderid'];
+            $stu_order_list[$userid][$flag][] = $o_val;
         }
+        foreach($lesson_list as $l_val){
+            $userid = $l_val['userid'];
+            $lesson_count = $l_val['lesson_count'];
+            $flag = $l_val['competition_flag'];
+
+
+
+
+        }
+
+        dd($stu_order_list);
     }
 
     public function get_success_lesson(){

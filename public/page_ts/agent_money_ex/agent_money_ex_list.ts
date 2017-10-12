@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/test_luki-test_list.d.ts" />
+/// <reference path="../g_args.d.ts/agent_money_ex-agent_money_ex_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -60,13 +60,34 @@ $(function(){
             "要删除用户:" + opt_data.phone+ opt_data.agent_money_ex_type_str+"金额："+opt_data.money+"元的记录吗？"  ,
             function(val){
                 if (val) {
-                     $.do_ajax("/agent_money_ex/agent_money_ex_del",{
-                         "id" : opt_data.id
-                     });
+                    $.do_ajax("/agent_money_ex/agent_money_ex_del",{
+                        "id" : opt_data.id
+                    });
 
                 }
             });
 
+    });
+
+    //现金审批
+    $(".opt-require_agent_money_success").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var flow_type=4002;
+        var  from_key_int= opt_data.id;
+        $.flow_dlg_show("现金发放审批",function(){
+            var $input=$("<input style=\"width:180px\"  placeholder=\"理由\"/>");
+            $.show_input( "要申请:"+
+                          opt_data.account+"发放给"+opt_data.phone+"-"+opt_data.nickname+
+                          "的"+opt_data.money+"元的订单吗？",
+                          "",function(val){
+                              $.do_ajax("/agent_money_ex/examine",{
+                                  "from_key_int":  from_key_int ,
+                                  'reason'  :val,
+                                  'flow_type' : flow_type
+                              });
+                          }, $input  );
+
+        }, flow_type , from_key_int );
     });
 
 });

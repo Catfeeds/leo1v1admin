@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-
+   <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    
     <section class="content ">
 
         <div>
@@ -41,6 +42,7 @@
                     <td>添加时间 </td>
                     <td>操作人</td>
                     <td>金额[元] </td>
+                    <td>当前状态 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -53,12 +55,13 @@
                         <td>{{$var["add_time"]}} </td>
                         <td>{{$var["account"]}}&#12288;真实姓名：{{$var["name"]}}</td>
                         <td>{{$var["money"]}} </td>
+                        <td> {!!  $var["flow_status_str"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                <a class="opt-require_agent_money_success" title="申请课程成功" >申</a>
                             </div>
                         </td>
                     </tr>
