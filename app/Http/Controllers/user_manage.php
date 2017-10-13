@@ -541,8 +541,8 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("order_time","下单日期"),
-            2 => array("pay_time", "生效日期"),
+            1 => array("t1.order_time","下单日期"),
+            2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
         ],3);
 
@@ -1313,12 +1313,10 @@ class user_manage extends Controller
             $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
             $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
-
+            $item['main_deparment'] = [];
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
-                    if(intval($val['responsibility_percent'])>50){
-                        $item['main_deparment'] = '';
-                    }
+                    $item['main_deparment'][$val['value']] = intval($val['responsibility_percent']);
                 }else{
                     $item['main_deparment'] = '';
                 }

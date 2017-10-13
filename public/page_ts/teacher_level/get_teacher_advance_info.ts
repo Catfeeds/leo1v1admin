@@ -21,6 +21,7 @@ $(function(){
 
     $(".opt-accept").on("click",function(){        
         var opt_data = $(this).get_opt_data();
+        console.log(g_args.quarter_start);
         var teacherid = opt_data.teacherid;
             
         BootstrapDialog.confirm("确定同意？", function(val){
