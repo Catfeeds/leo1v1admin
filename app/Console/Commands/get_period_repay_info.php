@@ -41,9 +41,13 @@ class get_period_repay_info extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();        
-       
+                   
+        $list = $task->t_child_order_info->get_period_list(1,"baidu");
+        foreach($list as $val){
+            $data = $task->get_baidu_money_charge_pay_info($val["child_orderid"]);
             
-        
+        }
+ 
        
         
 

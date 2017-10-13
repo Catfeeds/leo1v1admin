@@ -11,7 +11,6 @@
                     <td >主要责任部门</td>
                     <td >部门责任占比</td>
                     <td >主要责任人|组别</td>
-                    <td style="min-width:120px;">操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -25,14 +24,13 @@
                         <td>{{@$var['main_deparment']}}</td>
                         <td>{{@$var['main_deparment_per']}}</td>
                         <td>
-                            {{@$var['seller_nick']}} | {{@$var['seller_group']}} <br/>
-                            {{@$var['ass_nick']}} | {{@$var['ass_group']}} 
-                        </td>
-                        <td>
-                            <div
-                                {!!\App\Helper\Utils::gen_jquery_data($var)!!}
-                            >
-                            </div>
+                            @if($var['seller_adminid'])
+                                {{@$var['seller_nick']}} | {{@$var['seller_group']}} <br/>
+                            @endif
+
+                            @if($var['ass_adminid'])
+                                {{@$var['ass_nick']}} | {{@$var['ass_group']}} 
+                            @endif
                         </td>
                     </tr>
                 @endforeach
