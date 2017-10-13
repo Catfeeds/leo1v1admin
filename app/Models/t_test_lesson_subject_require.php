@@ -576,7 +576,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
         $where_arr=[
-            // "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
         ];
@@ -588,7 +587,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." from %s tr "
             ." left join %s t on t.test_lesson_subject_id=tr.test_lesson_subject_id "
             ." left join %s s on s.userid=t.userid"
-            ." where %s ",
+            ." where %s "
+            ." group by cur_require_adminid ",
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
