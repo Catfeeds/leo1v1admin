@@ -3574,7 +3574,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr);
-
         return $this->main_get_row($sql);
     }
 
