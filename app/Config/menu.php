@@ -762,6 +762,7 @@ class menu{
                 ]],
                 ["power_id"=>50, "name"=>"未审核统计",   "url"=>"/user_manage/tongji_check"],
                 ["power_id"=>51, "name"=>"质监数据统计",   "url"=>"/tongji_ss/tongji_lesson_record_info"],
+                ["power_id"=>52, "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[

@@ -16,7 +16,7 @@ class period_order extends Controller
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,4,[
             1 => array("order_time","下单日期"),
             2 => array("o.pay_time", "生效日期"),
-            3 => array("app_time", "申请日期"),
+            //3 => array("app_time", "申请日期"),
             4 => array("c.pay_time","付款日期")
         ],3);
 

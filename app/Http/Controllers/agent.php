@@ -462,17 +462,21 @@ class agent extends Controller
 
     public function test_new(){
         $ret_info = $this->t_lesson_info_b3->get_month_list();
-        foreach($ret_info as &$item){
+        foreach($ret_info as $ke=>&$item){
             $user_agent = $item['user_agent'];
-            $user_agent = json_decode($user_agent);
-            foreach($user_agent as $key=>$info){
-                dd($key,$info);
-                if($key == 'device_model'){
-                    $item['device_model'] = $info;
+            if($user_agent){
+                $user_agent = json_decode($user_agent);
+                foreach($user_agent as $key=>$info){
+                    if($key == 'device_model'){
+                        $ret_info[$ke]['device_model'] = $info;
+                    }
+                    if($key == 'system_version'){
+                        $ret_info[$ke]['system_version'] = $info;
+                    }
                 }
-                if($key == 'system_version'){
-                    $item['system_version'] = $info;
-                }
+            }else{
+                $ret_info[$ke]['device_model'] = '';
+                $ret_info[$ke]['system_version'] = '';
             }
         }
         dd($ret_info);
