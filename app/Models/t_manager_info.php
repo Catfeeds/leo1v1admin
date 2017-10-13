@@ -1842,7 +1842,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "(del_flag = 0 or(del_flag = 1 and  leave_member_time > $start_time))"
         ];
         $sql = $this->gen_sql_new(" select  count(distinct(adminid)) as total"
-                                  ." from t_group_name_month n left join t_admin_group_user g on g.groupid = n.groupid left join t_manager_info m on g.adminid = m.uid  where %s"
+                                  ." from db_weiyi_admin.t_group_name_month n left join db_weiyi_admin.t_admin_group_user g on g.groupid = n.groupid left join db_weiyi_admin.t_manager_info m on g.adminid = m.uid  where %s"
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
