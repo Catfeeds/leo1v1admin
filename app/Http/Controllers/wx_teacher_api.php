@@ -237,9 +237,6 @@ class wx_teacher_api extends Controller
         $complaint_info    = $this->get_in_str_val('complaint_info');
         $serverId_str      = $this->get_in_str_val('serverId_str'); // 图片ids
         $teacherid         = $this->get_teacherid();
-        \App\Helper\Utils::logger("wx_software: ".$teacherid);
-        \App\Helper\Utils::logger("wx_serverId_str: ".$serverId_str);
-
         $now = time();
 
         $last_info_arr = $this->t_complaint_info->get_last_msg($teacherid);
