@@ -17,7 +17,7 @@
                 @foreach ($table_data_list as $var)
                     <tr>
                         <td >
-                            {{@$var["nick"]}} <br/>
+                            <a href="user_manage/refund_list?start_time={{@date('Y-m-d',$var['apply_time'])}}">{{@$var["nick"]}}</a> <br/>
                             {{@$var["phone"]}} <br/>
                         </td>
                         <td>{{@$var['apply_time_str']}}</td>

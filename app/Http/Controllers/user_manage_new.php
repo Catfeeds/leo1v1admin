@@ -2766,7 +2766,7 @@ class user_manage_new extends Controller
             );
             $list = array_merge($tea_list,$full_tea_list);
         }else{
-            $tea_list = $this->t_lesson_info->get_tea_month_list(
+            $list = $this->t_lesson_info->get_tea_month_list(
                 $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
             );
         }

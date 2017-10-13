@@ -4752,7 +4752,8 @@ class user_deal extends Controller
             if($main_master_deal_flag==1){
                 $this->t_manager_info->field_update_list($adminid,[
                     "become_full_member_flag" =>1,
-                    "become_full_member_time" =>$positive_time
+                    //  "become_full_member_time" =>$positive_time
+                    "become_full_member_time" =>time()
                 ]);
 
                 //修改老师等级
