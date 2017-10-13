@@ -1793,6 +1793,7 @@ $(function(){
     $(".opt-account-number").on("click",function(){
 	      var data = $(this).get_opt_data();
 
+        var id_send_offer_info         = $("<button class='btn btn-danger'>发送入职信息</button>");
         var id_switch_teacher_to_test  = $("<button class='btn btn-primary'>一键转为测试老师</button>");
         var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
         var id_change_tea_to_new       = $("<button class='btn btn-primary'>账号转移</button>");
@@ -1817,8 +1818,10 @@ $(function(){
         id_update_check_subject.on("click",function(){update_tea_check_info(data);});
         id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
         id_switch_teacher_to_test.on("click",function(){switch_teacher_to_test(data);});
+        id_send_offer_info.on("click",function(){send_offer_info(data);});
 
         var arr = [
+            ["",id_send_offer_info],
             ["",id_switch_teacher_to_test],
             ["",id_change_phone],
             ["",id_change_tea_to_new],
@@ -1840,6 +1843,36 @@ $(function(){
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    //发送入职邮件
+    var send_offer_info = function(data){
+        var name = data.nick;
+        BootstrapDialog.show({
+	          title   : "发送入职邮件和微信推送",
+	          message : "确定给"+name+"发送入职邮件和微信推送么?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/common/send_offer_info_by_teacherid",{
+                        "teacherid" : data.teacherid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+    }
 
     //更新老师的科目和年级信息
     var update_subject_info = function(data){
@@ -2126,6 +2159,17 @@ $(function(){
             }
         });
     });
+
+    $(".opt-jianli").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var jianli = data.jianli;
+        if(jianli==""){
+            BootstrapDialog.alert("此老师没有简历");
+        }else{
+            $.wopen(jianli);
+        }
+    });
+
 
 
     //下载隐藏

@@ -461,105 +461,91 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_manager_info->send_wx_todo_msg_by_adminid(831,"咨询师等级升级","咨询师等级升级",'tom'."从".E\Eseller_level::get_desc(E\Eseller_level::V_100)."级升级为".E\Eseller_level::get_desc(E\Eseller_level::V_101)."级","");
         dd('a');
-        $ret = $this->t_seller_edit_log->row_insert([
-            "uid"         => 99,
-            "type"        => 2,
-            "old"         => E\Eseller_level::V_100,
-            "new"         => E\Eseller_level::V_101,
-            "create_time" => time(NULL),
-        ],false,false,true );
-        dd($ret);
+    }
 
-        $time = time(null);
-        $ret_time = $this->t_month_def_type->get_all_list();
-        $firstday = date("Y-m-01");
-        $lastday = date("Y-m-d",strtotime("$firstday +1 month -1 day"));
-        list($start_time_this,$end_time_this)= [strtotime($firstday),strtotime($lastday)];
-        foreach($ret_time as $item){//本月
-            if($time>=$item['start_time'] && $time<$item['end_time']){
-                $start_time_this = $item['start_time'];
-                $end_time_this = $item['end_time'];
-            }
+    //处理等级头像
+    public function get_top_img(){
+        $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
+        $image_1 = imagecreatefromjpeg($datapath);
+        $image_2 = imagecreatefrompng($datapath_new);
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        // $color = imagecolorallocate($image_3,255,255,255);
+        $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        imagefill($image_3, 0, 0, $color);
+        imageColorTransparent($image_3, $color);
+
+        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        $tmp_url = "/tmp/".$adminid."_gk.png";
+        imagepng($image_1,$tmp_url);
+        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        $level_face_url = '';
+        if($file_name!=''){
+            $cmd_rm = "rm /tmp/".$adminid."*.png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+            $domain = config('admin')['qiniu']['public']['url'];
+            $level_face_url = $domain.'/'.$file_name;
         }
-        $timestamp = strtotime(date("Y-m-01"));
-        $firstday_last  = date('Y-m-01',strtotime(date('Y',$timestamp).'-'.(date('m',$timestamp)-1).'-01'));
-        $lastday_last   = date('Y-m-d',strtotime("$firstday_last +1 month -1 day"));
-        list($start_time_last,$end_time_last)= [strtotime($firstday_last),strtotime($lastday_last)];
-        foreach($ret_time as $item){//上月
-            if($start_time_this-1>=$item['start_time'] && $start_time_this-1<$item['end_time']){
-                $start_time_last = $item['start_time'];
-                $end_time_last = $item['end_time'];
-            }
-        }
-        $timestamp_very_last=strtotime(date("Y-m-01"));
-        $firstday_very_last=date('Y-m-01',strtotime(date('Y',$timestamp_very_last).'-'.(date('m',$timestamp_very_last)-2).'-01'));
-        $lastday_very_last=date('Y-m-d',strtotime("$firstday_very_last +1 month -1 day"));
-        list($start_time_very_last,$end_time_very_last)= [strtotime($firstday_very_last),strtotime($lastday_very_last)];
-        foreach($ret_time as $item){//上上月
-            if($start_time_last-1>=$item['start_time'] && $start_time_last-1<$item['end_time']){
-                $start_time_very_last = $item['start_time'];
-                $end_time_very_last = $item['end_time'];
-            }
-        }
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        $ret_level_goal = $this->t_seller_level_goal->get_all_list_new();
-        $update_seller_list = [];
-        foreach($seller_list as $key=>$item){
-            $ret_this = $this->t_seller_level_goal->field_get_list($item['seller_level'],'*');
-            $adminid = $item['uid'];
-            $num = $ret_this['num'];
-            $level_goal = $ret_this['level_goal'];
-            $this_level = $item['seller_level'];
-            $become_member_time = $item['create_time'];
-            $next_goal = $level_goal;
-            $next_num = $num + 1;
-            $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num);
-            if($ret_next){
-                $next_goal = $ret_next['level_goal'];
-            }
-            //统计本月
-            $price = $this->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
-            $price = $price/100;
-            if($price>$next_goal){
-                foreach($ret_level_goal as $info){
-                    if($price >= $info['level_goal']){
-                        $next_num = $info['num'];
-                        $next_level = $info['seller_level'];
-                        $update_seller_list[$key]['next_goal'] = $info['level_goal'];
+    }
+
+    //设备版本信息
+    public function get_user_agent_version(){
+        list($num_pad,$num_mac,$num_win,$num_android_4,$num_android_5,$num_android_6,$num_android_7,$num_android_x,$num_no) = [0,0,0,0,0,0,0,0,0];
+        $ret_info = $this->t_lesson_info_b3->get_month_list();
+        foreach($ret_info as $ke=>&$item){
+            $user_agent = $item['user_agent'];
+            if($user_agent){
+                $user_agent = json_decode($user_agent);
+                foreach($user_agent as $key=>$info){
+                    if($key == 'device_model'){
+                        $ret_info[$ke]['device_model'] = $info;
+                    }
+                    if($key == 'system_version'){
+                        $ret_info[$ke]['system_version'] = $info;
                     }
                 }
-                $update_seller_list[$key]['adminid'] = $adminid;
-                $update_seller_list[$key]['seller_level'] = $this_level;
-                $update_seller_list[$key]['level_goal'] = $level_goal;
-                $update_seller_list[$key]['price'] = $price;
-                $update_seller_list[$key]['next_level'] = $next_level;
-                $ret_next = $this->t_seller_level_goal->get_next_level_by_num($next_num+1);
-                $update_seller_list[$key]['next_goal_new'] = $ret_next['level_goal'];
-                // if($adminid == 831){
-                    // dd($price,$level_goal,$this_level,$next_level,$num,$next_num);
-                    // $this->t_manager_info->field_update_list($adminid,['seller_level'=>$next_level]);
-                // }
+                $device_model = $item['device_model'];
+                $system_version = explode('.',$item['system_version'])[0];
+                if(strpos($device_model,'iPad')!==false){
+                    $num_pad++;
+                }elseif(strpos($device_model,'Mac')!==false){
+                    $num_mac++;
+                }elseif(strpos($device_model,'Windows')!==false){
+                    $num_win++;
+                }else{
+                    if($system_version==4){
+                        $num_android_4++;
+                    }elseif($system_version==5){
+                        $num_android_5++;
+                    }elseif($system_version==6){
+                        $num_android_6++;
+                    }elseif($system_version==7){
+                        $num_android_7++;
+                    }else{
+                        $num_android_x++;
+                    }
+                }
+            }else{
+                $ret_info[$ke]['device_model'] = '';
+                $ret_info[$ke]['system_version'] = '';
+                $num_no++;
             }
-
-            //统计上个月
-
-            //统计上上个月
-
         }
-        $ret_info = [];
-        foreach($update_seller_list as $key=>$item){
-            $ret_info[$key]['销售'] = $this->t_manager_info->get_account_by_uid($item['adminid']);
-            $ret_info[$key]['当前等级'] = E\Eseller_level::get_desc($item['seller_level']).'级';
-            $ret_info[$key]['当前等级目标'] = $item['level_goal'].'元';
-            $ret_info[$key]['签单金额'] = $item['price'];
-            $ret_info[$key]['升到等级'] = E\Eseller_level::get_desc($item['next_level']).'级';
-            $ret_info[$key]['升到等级目标'] = $item['next_goal'];
-            $ret_info[$key]['再升级目标'] = $item['next_goal_new'];
-        }
-        dd(count($seller_list),$update_seller_list,$ret_info);
+        $ret = [
+            '上课数'=>count($ret_info),
+            'iPad'=>$num_pad,
+            'Mac'=>$num_mac,
+            'Windows'=>$num_win,
+            'android_4'=>$num_android_4,
+            'android_5'=>$num_android_5,
+            'android_6'=>$num_android_6,
+            'android_7'=>$num_android_7,
+            'android_x'=>$num_android_x,
+            '无设备信息'=>$num_no,
+        ];
+        dd($ret);
     }
 
     public function get_my_pay($phone){

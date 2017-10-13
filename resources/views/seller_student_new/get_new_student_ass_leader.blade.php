@@ -8,6 +8,10 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/select_course.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
 
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
@@ -41,11 +45,13 @@
             <thead>
                 <tr>
                   
+                    <td>userid</td>
                     <td>学生</td>
                     <td>手机号</td>
                     <td>资源添加时间</td>
                     <td >地区</td>
                     <td >来源</td>
+                    <td>负责人</td>
                     <td>分配助教</td>
                     <td>分配时间</td>
                     <td>分配人</td>
@@ -57,6 +63,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{$var["userid"]}} </td>
                         <td>{{$var["nick"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["add_time_str"]}} </td>
@@ -70,6 +77,7 @@
                             @endif
                         </td>
                         <td>{{$var["ass_nick"]}}</td>
+                        <td>{{$var["ass_name"]}}</td>
                         <td>{{$var["ass_assign_time_str"]}} </td>
                         <td>{{$var["admin_assignerid_nick"]}} </td>
                        
@@ -81,8 +89,8 @@
 
                             >
                                 <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
+                                <a class="fa-user-md  opt-set_ass " title="分配助教" ></a>
 
-                                <a class="fa fa-times opt-del" title="删除"> </a>
                                
                             </div>
                         </td>

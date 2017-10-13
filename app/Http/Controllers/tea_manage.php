@@ -1936,9 +1936,18 @@ class tea_manage extends Controller
     public function trial_train_lesson_list_zj(){
         return $this->trial_train_lesson_list();
     }
+    public function trial_train_lesson_list_zs(){
+        return $this->trial_train_lesson_list();
+    }
+
 
     public function trial_train_lesson_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(-7,7);
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
+            1 => array("l.lesson_start","上课时间"),
+            2 => array("tr.add_time", "审核时间"),
+            ],3);
+
+        // list($start_time,$end_time) = $this->get_in_date_range(-7,7);
         $status        = $this->get_in_int_val("status",-1);
         $lesson_status = $this->get_in_int_val("lesson_status",2);
         $grade         = $this->get_in_int_val("grade",-1);
@@ -1950,7 +1959,8 @@ class tea_manage extends Controller
         $tea_subject = $this->get_admin_subject($this->get_account_id(),1);
 
         $ret_info = $this->t_teacher_record_list->get_trial_train_lesson_list(
-            $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,$is_test,$lesson_status,$tea_subject
+            $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,
+            $is_test,$lesson_status,$tea_subject,$opt_date_str
         );
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
@@ -2477,7 +2487,7 @@ class tea_manage extends Controller
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
                 "record_info"        => $record_info,
                 "trial_train_status" => $flag,
-                "lecture_out_list"   => $lecture_out_listc
+                "lecture_out_list"   => $lecture_out_list
             ]);
         }else{
             $ret = $this->t_teacher_record_list->row_insert([

@@ -1610,6 +1610,7 @@ class seller_student_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");        
             \App\Helper\Utils::unixtime2date_for_item($item, "ass_assign_time","_str");
             $this->cache_set_item_account_nick($item,"admin_assignerid","admin_assignerid_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
  
         }
 

@@ -1721,7 +1721,8 @@ class user_manage_new extends Controller
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
 
-        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time);
+        // $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time);
+        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
         foreach($tr_info['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['require_test_count_for_month']=$item['require_test_count'];
@@ -1733,7 +1734,7 @@ class user_manage_new extends Controller
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
             if($item['test_lesson_count'] != 0){
@@ -1741,6 +1742,14 @@ class user_manage_new extends Controller
             }
 
         }
+
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+        }
+
         $this->t_order_info->switch_tongji_database();
 
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
@@ -2743,34 +2752,15 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        // $now_date  = date("Y-m",$start_time);
-        // $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
-        // //需要重新拉取  flag  0 不需要  1 需要
-        // $flag = 0;
-        // if(is_file($file_name)){
-        //     $file_info = file_get_contents($file_name);
-        //     if(empty($file_info) || $file_info==""){
-        //         $flag = 1;
-        //     }
-        // }else{
-        //     $flag = 1;
-        // }
-
-        // if($flag){
-            $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
-            );
-            //公司全职老师列表 full_tea_list
-            $full_start_time = strtotime("-1 month",$start_time);
-            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-                $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
-            );
-            $list = array_merge($tea_list,$full_tea_list);
-            // file_put_contents($file_name,json_encode($list));
-        // }else{
-        //     $list = json_decode($file_info,true);
-        // }
-
+        $tea_list = $this->t_lesson_info->get_tea_month_list(
+            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
+        );
+        //公司全职老师列表 full_tea_list
+        $full_start_time = strtotime("-1 month",$start_time);
+        $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+            $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
+        );
+        $list = array_merge($tea_list,$full_tea_list);
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
@@ -3380,10 +3370,12 @@ class user_manage_new extends Controller
             E\Ereward_type::set_item_value_str($val,"type");
             $val['money'] /= 100;
 
-            if(in_array($val['type'],[2,3])){
+            if(in_array($val['type'],[E\Ereward_type::V_2,E\Ereward_type::V_3])){
                 $val['money_info_extra'] = $this->cache_get_student_nick($val['userid']);
-            }elseif($val['type']==6){
-                $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
+            }elseif($val['type']==E\Ereward_type::V_6){
+                $identity = E\Eidentity::get_desc($val['identity']);
+                // $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
+                $val['money_info_extra'] = $val['realname']."|".$identity;
             }else{
                 $val['money_info_extra'] = "";
             }
@@ -4421,14 +4413,14 @@ class user_manage_new extends Controller
         $discount_price   = $this->get_in_str_val("discount_price");
         $account = $this->get_account();
 
-        if(!in_array($account,["zero","echo"])){
+        if(!in_array($account,["zero","echo","jack"])){
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
 
         $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid,0);
         $child_order_info= $child_order_info[0];
-        $new_price = $price-$old_price+$child_order_info["price"];
+        $new_price = $price*100-$old_price+$child_order_info["price"];
         if($child_order_info["pay_status"]){
              return $this->output_err("子合同已付款,请联系开发人员处理");
         }

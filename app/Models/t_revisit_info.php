@@ -541,4 +541,77 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql);
     }
 
+    public function get_revisit_type0_per_minute($start_time, $end_time){
+        $where_arr = [
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=0",
+            "r.sys_operator!='system'",
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select m.uid,r.userid,r.revisit_time as revisit_time1"
+            ." from %s r"
+            ." left join %s m on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_today_assess_info_by_uid($ass_adminid, $start_time,$end_time){
+        $where_arr = [
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=0",
+            "m.uid = $ass_adminid",
+            'm.del_flag = 0 ',
+        ];
+        $sql = $this->gen_sql_new(
+            "select count(distinct s.userid) as stu_num,"
+            ." count(distinct r.userid) as revisit_num"
+            ." from %s r"
+            ." left join %s m on m.account=r.sys_operator"
+            ." left join %s a on a.phone=m.phone"
+            ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,t_assistant_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
+    public function get_revisit_type6_per_minute($start_time, $end_time,$uid,$userid,$id_str){
+        $where_arr = [
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=6",
+            "r.userid=$userid",
+            "m.uid=$uid",
+        ];
+        if($id_str) {
+            $where_arr[] = ['r.call_phone_id not in (%s)', $id_str, ''];
+        }
+
+        $sql = $this->gen_sql_new(
+            "select r.revisit_time as revisit_time2,r.call_phone_id"
+            ." from %s r"
+            ." left join %s m on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 }

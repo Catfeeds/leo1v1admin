@@ -18,7 +18,7 @@
       <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
 
       <section class="content">
-          <div class="row row-query-list">
+          <div class="row">
               <div class="col-xs-12 col-md-4"  data-title="时间段">
                   <div  id="id_date_range" >
                   </div>
@@ -56,6 +56,17 @@
                       </select>
                   </div>
               </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">付款渠道</span>
+                      <select class="opt-change form-control" id="id_channel">                        
+                          <option value="-1" >全部</option>
+                          <option value="1" >百度</option>
+                          <option value="2" >其他</option>
+                      </select>
+                  </div>
+              </div>
+
 
           </div>
           <hr/>
@@ -81,6 +92,7 @@
                     <td >分期付款状态</td>
                     <td >分期期数</td>                 
                     <td >分期付款时间</td>                 
+                    <td >分期付款渠道</td>                 
                     <td  style="display:none;">分期付款订单号</td>                 
                     <td >下单人</td>                  
                     <td style="display:none;">助教</td>
@@ -115,6 +127,7 @@
                         <td>{{$var["pay_status_str"]}}</td>
                         <td>{{$var["period_num"]}}</td>
                         <td>{{$var["pay_time_str"]}}</td>
+                        <td>{{$var["channel"]}}</td>
                         <td>{{$var["from_orderno"]}}</td>
                        
                         <td >{{$var["sys_operator"]}}</td>
@@ -125,7 +138,9 @@
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa-user opt-user" title="个人信息" ></a>
-                                <a class=" opt-order-detail-info" title="分期明细" >分期明细</a>
+                                @if($var["channel"]=="baidu")
+                                    <a class=" opt-order-detail-info" title="分期明细" >分期明细</a>
+                                @endif
                             </div>
                         </td>
             </tr>

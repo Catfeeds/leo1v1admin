@@ -7,6 +7,21 @@ class t_mail_group_user_list extends \App\Models\Zgen\z_t_mail_group_user_list
 	{
 		parent::__construct();
 	}
+
+    public function check_is_exists($groupid,$adminid){
+        $where_arr = [
+            ["groupid=%u",$groupid,0],
+            ["adminid=%u",$adminid,-1],
+        ];
+        $sql = $this->gen_sql_new("select 1"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function get_list ($page_info, $groupid, $adminid) {
         $where_arr = [
             "groupid" => $groupid,

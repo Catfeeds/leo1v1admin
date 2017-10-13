@@ -48,6 +48,7 @@ class teaching_menu{
                         [ "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
                         [ "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
                         [ "name"=>"渠道统计-new-list",   "url"=>"/channel_manage/zs_origin_list_new"],
+                        [ "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zs"],
                     ]],
                     ["name"=>"培训组",  "list"=>[
                         [ "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
@@ -188,6 +189,7 @@ class teaching_menu{
                             [ "name"=>"教学质量反馈标准（新)",   "url"=>"/human_resource/teacher_record_detail_info_new"],
 
                         ]],
+                        [ "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
                     ]],
 
 

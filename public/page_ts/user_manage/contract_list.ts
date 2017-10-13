@@ -2829,7 +2829,7 @@ $(function(){
             }
             $.each(data_list,function(i,item){
                 if(item["child_order_type"]==0){
-                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a></td></tr>");
+                    html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"order_partition\"  data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">拆分</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"order_partition_rebuild\"  data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">重置</a></td></tr>");
                 }else{
                     html_node.find("table").append("<tr><td>"+item['child_order_type_str']+"</td><td>"+item['price']/100+"</td><td>"+item['period_num_info']+"</td><td>"+item['pay_status_str']+"</td><td><a href=\"javascript:;\" class=\"update_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-type=\""+item["child_order_type"]+"\" data-price=\""+item["price"]+"\" data-pnum=\""+item["period_num"]+"\" data-child_orderid=\""+item['child_orderid']+"\">修改</a>&nbsp&nbsp&nbsp&nbsp<a href=\"javascript:;\" class=\"delete_child_order_info\" data-status=\""+item["pay_status"]+"\" data-orderid=\""+item["parent_orderid"]+"\" data-child_orderid=\""+item['child_orderid']+"\">删除</a></td></tr>");
                 }
@@ -2896,6 +2896,31 @@ $(function(){
                 });
 
             });
+
+            html_node.find("table").find(".order_partition_rebuild").each(function(){
+                $(this).on("click",function(){
+                    var parent_orderid = $(this).data("orderid");
+
+                    var child_orderid = $(this).data("child_orderid");
+                    var status = $(this).data("status");
+                    if(status >0){
+                        alert("已付款,不能重置!");
+                        return;
+                    }
+
+                    BootstrapDialog.confirm("确定要重置？", function(val){
+                        if (val) {
+                            $.do_ajax( '/ss_deal/rebulid_child_order_info', {
+                                "parent_orderid" : parent_orderid,
+                            });
+
+                        }
+                    });
+
+                });
+                   
+            });
+
 
             html_node.find("table").find(".update_child_order_info").each(function(){
                 $(this).on("click",function(){

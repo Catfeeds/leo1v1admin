@@ -3586,7 +3586,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql=$this->gen_sql_new("select l.userid ,sum(o.price) price from  %s  l left join %s s on l.userid = s.userid"
                                 ." left join %s o on l.lessonid = o.lessonid"
                                 . " where s.is_test_user=0 and lesson_start >=%s and "
-                                ."lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3)  "
+                                ."lesson_start<%s  and confirm_flag not in (2)  and lesson_type in (0,1,3)  "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid ",
                                 self::DB_TABLE_NAME,

@@ -718,7 +718,6 @@ class seller_student_new2 extends Controller
         $lessonid = $this->get_in_int_val('lessonid',-1);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid, $lessonid,$end_time);
-
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);

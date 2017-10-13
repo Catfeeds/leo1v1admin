@@ -53,6 +53,82 @@ class ss_deal extends Controller
         }
         return $this->output_succ();
     }
+
+
+    //助教主管新增例子
+    public function add_ss_ass_new() {
+        $phone    = $this->get_in_phone();
+        $origin   = $this->get_in_str_val("origin");
+        $name     = $this->get_in_str_val("name");
+        $grade    = $this->get_in_grade();
+        $subject  = $this->get_in_subject();
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", 0);
+
+        if (strlen($phone )!=11) {
+            return $this->output_err("电话号码长度不对");
+        }
+
+        if($admin_revisiterid==0){
+            return $this->output_err("请选择助教!");
+        }
+
+        $ret = $this->t_student_info->get_student_info_by_phone($phone);
+        if($ret){
+            return $this->output_err('此账号已经注册');
+        }
+       
+        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
+        if ($userid && $this->t_seller_student_new->get_phone($userid)) {
+
+            $admin_nick=$this->cache_get_account_nick(
+                $this->t_seller_student_new->get_admin_revisiterid($userid)
+            );
+            return $this->output_err("系统中已有这个人的账号了,销售负责人:$admin_nick");
+        }
+        if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
+            return $this->output_err("已经有了这个科目的例子了,不能增加");
+        }
+
+        $userid=$this->t_seller_student_new->book_free_lesson_new("",$phone,$grade,$origin,$subject,0);
+
+        //直接分配给助教
+        $master_adminid = $this->t_admin_group_user-> get_master_adminid( $admin_revisiterid );
+        if(empty($master_adminid)){
+            $master_adminid=396;
+        }
+        $main_master_adminid = $this->t_admin_group_user->get_main_master_adminid( $admin_revisiterid );
+        if(empty($main_master_adminid)){
+            $main_master_adminid=396;
+        }
+
+        $this->t_seller_student_new->field_update_list($userid,[
+            "admin_revisiterid"  =>$admin_revisiterid,
+            "admin_assign_time"  =>time(),
+            "admin_assignerid"   =>$this->get_account_id(),
+            "sub_assign_adminid_1"=>$main_master_adminid,
+            "sub_assign_time_1"  =>time(),
+            "sub_assign_adminid_2"=>$master_adminid,
+            "sub_assign_time_2"  =>time(),
+            "ass_leader_create_flag"=>1
+        ]);
+        $this->t_student_info->field_update_list($userid,[
+            "nick"  =>$name,
+            "realname"=>$name,
+            "origin_assistantid"=>$admin_revisiterid,
+            "origin_userid"   =>1
+        ]);
+        
+        
+        $account=$this->get_account();
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: 状态:  新增例子  :$account ",
+            "system"
+        );
+      
+        return $this->output_succ();
+    }
+
     public function set_level_b() {
         $userid_list_str= $this->get_in_str_val("userid_list");
         $origin_level= $this->get_in_e_origin_level();
@@ -2019,7 +2095,7 @@ class ss_deal extends Controller
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
         }
-        //检查 配额 cc
+       //检查 配额 cc
         if ($promotion_spec_diff_money  &&
             $this->t_manager_info->get_account_role( $this->get_account_id() ) == E\Eaccount_role::V_2  ) {
             $now=time(NULL);
@@ -2032,7 +2108,20 @@ class ss_deal extends Controller
                 return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
             }
 
+        }elseif ($promotion_spec_diff_money  &&
+                 $this->t_manager_info->get_account_role( $this->get_account_id() ) == E\Eaccount_role::V_1  ) {
+            $now=time(NULL);
+            $start_time= strtotime( date("Y-m-01", $now));
+            $end_time=$now;
+            $spec_diff_money_all= $this->t_order_info->get_spec_diff_money_all($start_time, $end_time, E\Eaccount_role::V_1 );
+            $month_spec_money= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY ,strtotime(date("Y-m-01")  ) ) ;
+            $promotion_spec_diff_money_t= $promotion_spec_diff_money/100 ;
+            if ($spec_diff_money_all +$promotion_spec_diff_money_t  > $month_spec_money ){
+                return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
+            }
+
         }
+
 
         //最后价格
         $price=$promotion_spec_discount;
@@ -2139,6 +2228,14 @@ class ss_deal extends Controller
                 $item["period_num_info"] ="";
             }
 
+            $userid = $this->t_order_info->get_userid($item["parent_orderid"]);           
+            $parentid= $this->t_student_info->get_parentid($userid);
+            $parent_name = $this->t_parent_info->get_nick($parentid);
+            if(empty($item["parent_name"])){
+                $item["parent_name"] = $parent_name;
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "pay_time","_str");        
+
 
 
         }
@@ -2192,6 +2289,31 @@ class ss_deal extends Controller
 
     }
 
+    //重置子合同
+    public function rebulid_child_order_info(){
+        $parent_orderid  = $this->get_in_int_val("parent_orderid");
+        $child_status = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid,1);
+        if($child_status==1){
+            return $this->output_err("已有子合同付过款,不能重置");
+        }
+
+        //删除原子合同
+        $this->t_child_order_info->del_contract($parent_orderid);
+
+        //新建子合同
+        $price = $this->t_order_info->get_price($parent_orderid);
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>0,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$parent_orderid,
+            "price"            => $price
+        ]);
+        return $this->output_succ();
+        
+
+
+    }
     //删除子合同
     public function delete_child_order_info(){
         $parent_orderid  = $this->get_in_int_val("parent_orderid");

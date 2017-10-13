@@ -11,7 +11,8 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			contract_type:	$('#id_contract_type').val(),
 			contract_status:	$('#id_contract_status').val(),
-			pay_status:	$('#id_pay_status').val()
+			pay_status:	$('#id_pay_status').val(),
+			channel:	$('#id_channel').val()
         });
     }
 
@@ -30,6 +31,7 @@ $(function(){
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
+	$('#id_channel').val(g_args.channel);
 
     //点击进入个人主页
     $('.opt-user').on('click',function(){

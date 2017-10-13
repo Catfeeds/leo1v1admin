@@ -48,7 +48,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type){
+    public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
             "s.is_test_user=0",
@@ -73,12 +73,17 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
             $where_arr[]=["contract_status=%u",$contract_status,-1];
             // $this->where_get_in_str_query("contract_status",$contract_status);
         }
-        $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,"
+        if($channel==1){
+             $where_arr[] = "c.channel = 'baidu'";
+        }elseif($channel==2){
+             $where_arr[] = "c.channel <> 'baidu'";
+        }
+        $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,c.channel,"
                                   ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
                                   ." o.lesson_left,s.type,s.assistantid,s.ass_assign_time,s.lesson_count_all,"
                                   ." s.lesson_count_left,o.lesson_total,o.default_lesson_count,o.competition_flag, "
-                                  ." s.phone,c.parent_orderid,p.nick parent_name,s.subject_ex,c.child_orderid "
+                                  ." s.phone,c.parent_orderid,if(c.parent_name='',p.nick,c.parent_name) parent_name,s.subject_ex,c.child_orderid "
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s p on s.parentid = p.parentid"
@@ -120,6 +125,30 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   $parent_orderid
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_period_list($pay_status,$channel){
+        $where_arr=[
+            ["c.pay_status=%u",$pay_status,-1],
+            ["c.channel='%s'",$channel,-1],
+            "s.is_test_user=0",
+            "o.orderid>0",
+            "c.price>0",
+            "c.child_order_type=2",            
+        ];
+        $sql = $this->gen_sql_new("select c.child_order_type,c.child_orderid,"
+                                  ."c.pay_status,c.pay_time,c.from_orderno,c.channel,"
+                                  ." s.nick "
+                                  ." from %s c left join %s o on c.parent_orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr                                                                    
+        );
+        return $this->main_get_list($sql);
+
     }
 
 

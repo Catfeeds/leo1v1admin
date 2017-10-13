@@ -34,7 +34,7 @@ $(function(){
         var month_finish_persent = Math.floor(g_data.month_finish_persent * 100) / 100+'%';
         var aver_money = Math.floor(g_data.aver_money *100)/100;
         var aver_count = Math.floor(g_data.aver_count *100)/100;
-        var seller_num = g_data.new_department+g_data.one_department+g_data.two_department+g_data.three_department+g_data.train_department;
+        var seller_num = parseInt(g_data.new_department)+parseInt(g_data.one_department)+parseInt(g_data.two_department)+parseInt(g_data.three_department)+parseInt(g_data.train_department);
         var referral_money_rate = Math.floor(g_data.referral_money_rate*100)/100+'%';
         var high_school_money_rate = Math.floor(g_data.high_school_money_rate*100)/100+'%';
         var junior_money_rate = Math.floor(g_data.junior_money_rate*100)/100+'%';
@@ -43,6 +43,14 @@ $(function(){
         var test_plan_month_rate = Math.floor(g_data.test_plan_month_rate*100)/100+'%';
         var lesson_succ_month_rate = Math.floor(g_data.lesson_succ_month_rate*100)/100+'%';
         var trans_month_rate = Math.floor(g_data.trans_month_rate*100)/100+'%';
+        var sign_month_rate = Math.floor(g_data.sign_month_rate*100)/100+'%';
+        var succ_called_rate = Math.floor(g_data.succ_called_rate*100)/100+'%';
+        var claim_num_rate = Math.floor(g_data.claim_num_rate*100)/100+'%';
+        var stu_consume_rate = Math.floor(g_data.stu_consume_rate*100)/100+'%';
+        var aver_called = Math.floor(g_data.aver_called*100)/100;
+        var invit_rate = Math.floor(g_data.invit_rate*100)/100;
+        var called_rate = Math.floor(g_data.called_rate*100)/6000;
+
 
         var list_data=[
             ["月度目标收入",g_data.seller_target_income],
@@ -74,9 +82,17 @@ $(function(){
             ["月排课率",test_plan_month_rate],
             ["月到课率",lesson_succ_month_rate],
             ["月试听转化率",trans_month_rate],
+            ["月签约率",sign_month_rate],
 
-
-
+            ["呼出量",g_data.has_called],
+            ["接通率",succ_called_rate],
+            ["认领率",claim_num_rate],
+            ["邀约数",g_data.seller_invit_num],
+            ["未消耗例子数",g_data.un_consumed],
+            ["月例子消耗率",stu_consume_rate],
+            ["人均呼出量",aver_called],
+            ["人均邀约数",invit_rate],
+            ["人均通时(分钟)",called_rate],
 
         ];
 

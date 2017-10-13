@@ -122,6 +122,9 @@ class jw_teacher_test_lesson_assign_auto extends Command
 
                         $task->t_manager_info->send_wx_todo_msg_by_adminid($val,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"],$url);
                         // $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求","销售top25试听需求","销售top25试听需求,学生:".$item["nick"].",教务:".$val,$url);
+                        if($item["seller_top_flag"]==1 && !in_array($val,[436,343])){
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$item["nick"].",教务:".$val.",途径:seller",$url);
+                        }
 
                         break;
                
@@ -161,6 +164,10 @@ class jw_teacher_test_lesson_assign_auto extends Command
                      ."test_lesson_student_status=200&lessonid=undefined&is_test_user=0&"
                      ."require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$history_adminid;
                 $task->t_manager_info->send_wx_todo_msg_by_adminid($history_adminid,$require_adminid_name,$header_msg,$msg,$url);
+                if($item["seller_top_flag"]==1 && !in_array($history_adminid,[436,343])){
+                    $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$item["nick"].",教务:".$history_adminid.",途径:history",$url);
+                }
+
  
             }
            
@@ -248,6 +255,10 @@ class jw_teacher_test_lesson_assign_auto extends Command
                              ."require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$k;
                         $task->t_manager_info->send_wx_todo_msg_by_adminid($k,$require_adminid_name,$header_msg,$msg,$url);
                         //   $task->t_manager_info->send_wx_todo_msg_by_adminid(349,$require_adminid_name,$header_msg,$msg."教务:".$k,$url);
+                        if($v["seller_top_flag"]==1 && !in_array($k,[436,343])){
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$nick.",教务:".$k.",途径:history",$url);
+                        }
+
  
                         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 1);
                         break;
@@ -367,6 +378,10 @@ class jw_teacher_test_lesson_assign_auto extends Command
                         $task->t_manager_info->send_wx_todo_msg_by_adminid ($val,$require_adminid_name,"绿色通道排课申请","学生:".$nick."的试听课已由绿色通道申请至".$require_lesson_time."上课,请优先排课!","seller_student_new2/test_lesson_plan_list?date_type=2&has_1v1_lesson_flag=-1&opt_date_type=0&start_time=".$require_lesson_time."&end_time=".$require_lesson_time."&grade=-1&subject=-1&test_lesson_student_status=200&lessonid=undefined&userid=-1&teacherid=-1&success_flag=-1&require_admin_type=-1&require_adminid=".$require_adminid_list["require_adminid"]."&tmk_adminid=-1&is_test_user=0&test_lesson_fail_flag=-1&accept_flag=-1&seller_groupid_ex=&seller_require_change_flag=-1&require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$val."&ass_test_lesson_type=-1");
                         //  $task->t_manager_info->send_wx_todo_msg_by_adminid (349,$require_adminid_name,"绿色通道排课申请","学生:".$nick."的试听课已由绿色通道申请至".$require_lesson_time."上课,请优先排课!,教务:".$k,"seller_student_new2/test_lesson_plan_list?date_type=2&has_1v1_lesson_flag=-1&opt_date_type=0&start_time=".$require_lesson_time."&end_time=".$require_lesson_time."&grade=-1&subject=-1&test_lesson_student_status=200&lessonid=undefined&userid=-1&teacherid=-1&success_flag=-1&require_admin_type=-1&require_adminid=".$require_adminid_list["require_adminid"]."&tmk_adminid=-1&is_test_user=0&test_lesson_fail_flag=-1&accept_flag=-1&seller_groupid_ex=&seller_require_change_flag=-1&require_assign_flag=1&jw_test_lesson_status=0&jw_teacher=".$k."&ass_test_lesson_type=-1");
 
+                        if($v["seller_top_flag"]==1 && !in_array($val,[436,343])){
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,学生:".$nick.",教务:".$val.",途径:green",$url);
+                        }
+
                        
  
 
@@ -474,6 +489,11 @@ class jw_teacher_test_lesson_assign_auto extends Command
                         $task->t_test_lesson_subject->field_update_list($test_lesson_subject_id,[
                             "history_accept_adminid"=>$val
                         ]);
+
+                        if($v["seller_top_flag"]==1 && !in_array($val,[436,343])){
+                            $task->t_manager_info->send_wx_todo_msg_by_adminid(349,"销售top25试听需求(例外)","销售top25试听需求(例外)","销售top25试听需求,教务:".$val.",途径:normal","");
+                        }
+
 
                         // $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"普通试听","普通试听申请","教务:".$k,"");
                         \App\Helper\Common::redis_set_json("JW_AUTO_ASSIGN_NEW_$k", 1);

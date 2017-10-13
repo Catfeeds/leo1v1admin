@@ -541,8 +541,8 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("order_time","下单日期"),
-            2 => array("pay_time", "生效日期"),
+            1 => array("t1.order_time","下单日期"),
+            2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
         ],3);
 
@@ -609,9 +609,11 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag,$orderid ,$order_activity_type,$show_son_flag
         );
+
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
+
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
             E\Econtract_from_type::set_item_value_str($item,"stu_from_type");
@@ -683,6 +685,8 @@ class user_manage extends Controller
             }
             $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
         }
+
+        // dd($price);
 
         $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_list,[
@@ -1299,6 +1303,78 @@ class user_manage extends Controller
         ]);
     }
 
+
+    public function refund_duty_analysis(){
+        $this->switch_tongji_database();
+        $page_num = $this->get_in_page_num();
+
+        $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
+
+        foreach($refund_list['list'] as &$item ){
+            $item['apply_time_str']    = \App\Helper\Utils::unixtime2date($item['apply_time']);
+
+            $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
+            $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['main_duty_arr'] = [];
+
+
+
+
+
+            foreach($refund_analysis['key1_value'] as $val){
+                if(isset($val['responsibility_percent'])){
+                    $item['main_duty_arr'][] = intval($val['responsibility_percent']);
+                    $item['main_dep_arr'][$val['value']] = intval($val['responsibility_percent']);
+                }else{
+                    $item['main_deparment'] = '暂无';
+                    $item['main_deparment_per'] = '0%';
+                }
+            }
+
+            if(!empty($item['main_duty_arr'])){
+                rsort($item['main_duty_arr']);
+                if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
+                    $item['main_deparment'] = array_search($item['main_duty_arr'][0],$item['main_dep_arr']);
+                    $item['main_deparment_per'] = $item['main_duty_arr'][0].'%';
+                }elseif($item['main_duty_arr'][0] == 20){
+                    $item['main_deparment'] = '各部门均责';
+                    $item['main_deparment_per'] = '20%';
+                }else{
+                    $first = $item['main_duty_arr'][0];
+                    foreach($item['main_duty_arr'] as $vv){
+                        if($vv == $first){
+                            $key = array_search($vv,$item['main_dep_arr']);
+                            $item['main_arr'][] = $key;
+                            unset($item['main_dep_arr'][$key]);
+                            $item['main_deparment'] = implode("|",$item['main_arr']);
+                            $item['per_arr'][] = $vv.'%';
+                            $item['main_deparment_per'] = implode("|",$item['per_arr']);
+                        }
+                    }
+                }
+            }
+
+            $item['ass_group'] = '';
+            $item['seller_group'] = '';
+            if(strstr($item['main_deparment'],'助教部') !=false && $item['ass_adminid']>0){
+
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
+            }
+
+            if(strstr($item['main_deparment'],"咨询部") != false && $item['seller_adminid']>0){
+                $item['seller_group'] = $this->t_admin_group_user->get_ass_group_name($item['seller_adminid']);
+            }
+
+        }
+
+
+        dd($refund_list);
+
+
+        return $this->Pageview(__METHOD__,$refund_list);
+
+    }
+
     public function set_refund_order(){
         $userid        = $this->get_in_int_val("userid");
         $orderid       = $this->get_in_int_val("orderid");
@@ -1521,93 +1597,10 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
-        if($ret_type == 0){
-            //$this->update_agent_order($orderid,$userid,$order_info['price']);
-        }
-
         return $this->output_succ();
     }
 
 
-    public function update_agent_order($orderid,$userid,$order_price){
-        $agent_order = [];
-        $ret_info = [];
-        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
-            // $phone    = $this->t_student_info->get_phone($userid);
-            // $ret_info = $this->t_agent->get_p_pp_id_by_phone($userid);
-            $ret_info = $this->t_agent->get_p_pp_row_by_userid($userid);
-            if(isset($ret_info['id'])){
-                $level1 = 0;
-                $level2 = 0;
-                $aid = $ret_info['id'];
-                $phone = $ret_info['phone'];
-                $p_phone = $ret_info['p_phone'];
-                $p_wx_openid = $ret_info['p_wx_openid'];
-                $pp_phone = $ret_info['pp_phone'];
-                $pp_wx_openid = $ret_info['pp_wx_openid'];
-                if($p_phone){
-                    $level1 = $this->check_agent_level($p_phone);
-                }
-                if($pp_phone){
-                    $level2 = $this->check_agent_level($pp_phone);
-                }
-                $price           = $order_price/100;
-                $level1_price    = $price/20>500?500:$price/20;
-                $level2_p_price  = $price/10>1000?1000:$price/10;
-                $level2_pp_price = $price/20>500?500:$price/20;
-                $pid = $ret_info['pid'];
-                $ppid = $ret_info['ppid'];
-                $p_price = 0;
-                $pp_price = 0;
-                if($level1 == 1){//黄金
-                    $p_price = $level1_price*100;
-                }elseif($level1 == 2){//水晶
-                    $p_price = $level2_p_price*100;
-                }
-                if($level2 == 2){//水晶
-                    $pp_price = $level2_pp_price*100;
-                }
-                $this->t_agent_order->row_insert([
-                    'orderid'     => $orderid,
-                    'aid'         => $aid,
-                    'pid'         => $pid,
-                    'p_price'     => $p_price,
-                    'p_level'     => $level1,
-                    'ppid'        => $ppid,
-                    'pp_price'    => $pp_price,
-                    'pp_level'    => $level2,
-                    'create_time' => time(null),
-                ]);
-
-                if($p_wx_openid && $p_price){
-                    $p_price_new = $p_price/100;
-                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-                    $data = [
-                        'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $p_price_new.'元',
-                        'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price_new.'元。',
-                    ];
-                    $url = '';
-                    // \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
-                }
-
-                if($pp_wx_openid && $pp_price){
-                    $pp_price_new = $pp_price/100;
-                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
-                    $data = [
-                        'first'    => '恭喜您获得邀请奖金',
-                        'keyword1' => $pp_price_new.'元',
-                        'keyword2' => $phone,
-                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price_new.'元。',
-                    ];
-                    $url = '';
-                    // \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
-                }
-            }
-        }
-    }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
         $student_info = [];
@@ -2480,7 +2473,7 @@ class user_manage extends Controller
         } elseif($account_type == 2) { // 老师
             $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
             if($item['user_nick']){
-                $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+                $item['phone']      = $this->t_teacher_info->get_phone($item['userid']);
             }else{
                 $item['phone']      = "";
             }
@@ -2496,7 +2489,7 @@ class user_manage extends Controller
         $real_refund = $this->get_in_str_val("real_refund");
         $acc         = $this->get_account();
 
-        if(!in_array($acc,["echo","jim"])){
+        if(!in_array($acc,["echo","jim","zero"])){
             return $this->output_err("你没有修改退费金额的权限!");
         }
 

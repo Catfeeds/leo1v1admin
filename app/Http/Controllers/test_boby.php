@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      // $this->switch_tongji_database();
+      //$this->switch_tongji_database();
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
@@ -552,5 +552,52 @@ class test_boby extends Controller
         }
     }
 
+    public function get_revisit_call_info_new(){
+        $day = $this->get_in_int_val('day',1);
+        // $time = time();
+        // $start_time = strtotime( date('Y-m-d H:i:00', $time) );
+        $start_time = strtotime( "2017-10-".$day );
+        $time = $start_time;
+        // $end_time   = $start_time+60;
+        $end_time   = $start_time+86400;
+        //1,先查询当天已近记录的call_phone_id
+        $id_str_list = $this->t_revisit_call_count->get_call_phone_id_str($start_time,$end_time);
+        $uid_phoneid = [];
+        foreach ($id_str_list as $item) {
+            if (is_array($item)) {
+                $uid_phoneid[$item['uid']] = $item['phoneids'];
+            }
+        }
+        //2,然后查询助教的学情回访    每分钟自动查询
+        $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
+
+        //3,有学情回访后，在获取当日的其他回访信息
+        // $start_time = strtotime('today');
+        foreach($ret_info as $item) {
+            if (is_array($item)){
+                $uid = $item['uid'];
+                $userid = $item['userid'];
+                // $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
+                $end_time = $item['revisit_time1'];
+                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
+                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $end_time, $uid, $userid, $id_str);
+
+                foreach($ret_list as $val) {
+                    if (is_array($val)){
+                        $this->t_revisit_call_count->row_insert([
+                            'uid'           => $uid,
+                            'userid'        => $userid,
+                            'revisit_time1' => $item['revisit_time1'],
+                            'revisit_time2' => $val['revisit_time2'],
+                            'call_phone_id' => $val['call_phone_id'],
+                            'create_time'   => $time,
+                        ]);
+                    }
+                }
+            }
+        }
+
+
+    }
 
 }

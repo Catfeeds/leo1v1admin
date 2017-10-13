@@ -959,43 +959,95 @@ class wx_parent_api extends Controller
 
 
     // 家长微信端上传试卷
+
+    public function get_all_stu_info(){
+        $parentid = $this->get_in_int_val('parentid');
+
+        $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
+
+        return $this->output_succ(['data'=>$student_info]);
+    }
+
+
     public function input_student_score (){ //家长录入学生成绩
-        $score   = $this->get_in_int_val('score');
-        $subject = $this->get_in_int_val('subject');
-        $stu_score_type = $this->get_in_int_val('stu_score_type');
-        $rank    = $this->get_in_int_val('rank');
-        $grade_rank  = $this->get_in_int_val('grade_rank');
-        $total_score = $this->get_in_int_val('total_score');
-        $reason  = $this->get_in_str_val('reason');
-        $parentid = $this->get_parentid();
-        $stu_id   = $this->get_in_int_val('userid');
 
-        $ret = $this->t_student_score_info->row_insert([
-            'score'       => $score,
-            'subject'     => $subject,
-            'stu_score_type' => $stu_score_type,
-            'rank'        => $rank,
-            'grade_rank'  => $grade_rank,
-            'total_score' => $total_score,
-            'reason'      => $reason,
-            'create_time' => time(),
-            'userid'      => $userid,
-            'admin_type'  => 1, // 代表家长
-            'create_adminid' => $parentid
-        ]);
 
-        if($ret){
+        $userid           = $this->get_in_int_val("userid");
+        $serverId_list    = $this->get_in_str_val('serverids');
+        $create_time      = time();
+        $create_adminid   = $this->get_parentid();
+        $subject          = $this->get_in_int_val("subject");
+        $stu_score_type   = $this->get_in_int_val("stu_score_type");
+        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
+        $score            = $this->get_in_int_val("score");
+        $rank             = $this->get_in_str_val("rank");
+        $file_url         = $this->get_in_str_val("file_url");
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
+        $rank_arr = explode("/",$grade_rank);
+        $rank_now = $rank_arr[0];
+        $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
+        if( $score > $total_score){
+            return $this->output_err("成绩输入有误!");
+        }
+
+        if($grade_rank_last  && $rank_now != ''){
+            $grade_rank_last = $grade_rank_last[0]["grade_rank"];
+            $rank_last_arr = explode("/",$grade_rank_last);
+            $rank_last = $rank_last_arr[0];
+            if($rank_last - $rank_now >= 0){
+                $rank_up = $rank_last-$rank_now;
+                $rank_down = '';
+            }else{
+                $rank_up = '';
+                $rank_down = $rank_now - $rank_last;
+            }
+        }else{
+            $rank_up = '';
+            $rank_down = '';
+        }
+
+        $appid     = config('admin')['wx']['appid'];
+        $appscript = config('admin')['wx']['appsecret'];
+
+        $sever_name = $_SERVER["SERVER_NAME"];
+
+        $file_url = '';
+        if($serverId_list){
+            $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
+            $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+            $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
+        }
+
+
+        $ret_info = $this->t_student_score_info->row_insert([
+            "userid"                => $userid,
+            "create_time"           => $create_time,
+            "create_adminid"        => $create_adminid,
+            "subject"               => $subject,
+            "stu_score_type"        => $stu_score_type,
+            "stu_score_time"        => $stu_score_time,
+            "score"                 => $score,
+            "rank"                  => $rank,
+            "file_url"              => $file_url,
+            "semester"              => $semester,
+            "total_score"           => $total_score,
+            "grade"                 => $grade,
+            "grade_rank"            => $grade_rank,
+            "rank_up"               => $rank_up,
+            "rank_down"             => $rank_down,
+        ],false,false,true);
+
+        if($ret_info){
             return $this->output_succ();
         }else{
             return $this->output_err('成绩录入失败,请稍后重试!');
         }
+
     }
 
-    // function get_student_score_info(){ // 提交后获取学生成绩信息
-    //     $parentid = $this->get_parentid();
-    //     $userid   = $this->get_in_int_val('userid');
-    //     $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-    // }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $parentid       = $this->get_in_int_val('parentid',-1);
@@ -1172,6 +1224,12 @@ class wx_parent_api extends Controller
         }
 
     }
+
+
+
+
+
+
 
 
 

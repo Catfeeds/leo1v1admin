@@ -93,8 +93,9 @@
 
                                     <tr>
                                         <td>助教</td>
-                                        <td>  </td>
+                                         <td> <span> {{$role_1_diff_money_def}}</span> <a id="id_edit_teach_assistant_diff_money_def" class="fa fa-edit" href="#" ></td>
                                         <td> {{$role_1_diff_money}} </td>
+                                        <td> {{$role_1_diff_money_def-$role_1_diff_money}} </td>
                                         <td>  </td>
                                     </tr>
                                 </tbody>
