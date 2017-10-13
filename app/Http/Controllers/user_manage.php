@@ -1311,8 +1311,12 @@ class user_manage extends Controller
 
         foreach($refund_list['list'] as &$item ){
             $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
-            $item['seller_nick'] = $this->cache_get_account_nick($item['assistantid']);
+            $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
+            $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+
         }
+
+        // $this->
 
         dd($refund_list);
 
