@@ -100,7 +100,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                 ];
                 $has_sql = $this->gen_sql_new("not exists (select 1 from %s where %s)",t_lesson_info::DB_TABLE_NAME,$has_arr);
             }
-
         }else{
             $where_arr = [
                 ["money_info='%s'",$lessonid,0],
@@ -108,14 +107,17 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         }
 
         $sql = $this->gen_sql_new("select id,money,money_info,add_time,type,tm.teacherid,l.userid,tm.acc,"
-                                  ." t.bankcard,bank_address,bank_account,bank_phone,bank_type,bank_province,bank_city "
+                                  ." t.bankcard,bank_address,bank_account,bank_phone,bank_type,bank_province,bank_city, "
+                                  ." tr.realname,tr.identity"
                                   ." from %s tm "
                                   ." left join %s l on tm.money_info=l.lessonid "
                                   ." left join %s t on tm.teacherid=t.teacherid"
+                                  ." left join %s tr on tm.recommended_teacherid=tr.teacherid"
                                   ." where %s "
 								  ." and %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
                                   ,$has_sql
