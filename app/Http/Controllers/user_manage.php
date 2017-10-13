@@ -1317,14 +1317,17 @@ class user_manage extends Controller
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][$val['value']] = intval($val['responsibility_percent']);
+                    if(intval($val['responsibility_percent'])>50){
+                        $item['main_deparment'] = $val['value'];
+                    }
                 }else{
-                    $item['main_deparment'] = '';
+                    $item['main_deparment'] = '暂无';
                 }
             }
             arsort($item['main_duty_arr']);
 
             if($item['main_duty_arr'][0]){
-                
+
             }
 
 
