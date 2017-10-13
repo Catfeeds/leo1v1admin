@@ -2712,10 +2712,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $season = ceil((date('n'))/3)-4;//上季度是第几季度
-        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
-        dd(date("Y-m-d",$start_time));
-
+       
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
         dd($list);
                
