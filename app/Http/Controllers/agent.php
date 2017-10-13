@@ -461,33 +461,46 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $adminid = 99;
-        $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
-        $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
-        $image_1 = imagecreatefromjpeg($datapath);
-        $image_2 = imagecreatefrompng($datapath_new);
-        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
-        // $color = imagecolorallocate($image_3,255,255,255);
-        $color = imagecolorallocatealpha($image_3,255,255,255,1);
-        imagefill($image_3, 0, 0, $color);
-        imageColorTransparent($image_3, $color);
-
-        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
-        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
-        imagepng($image_1,$tmp_url);
-        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
-        $level_face_url = '';
-        if($file_name!=''){
-            $cmd_rm = "rm /tmp/".$adminid."*.png";
-            \App\Helper\Utils::exec_cmd($cmd_rm);
-            $domain = config('admin')['qiniu']['public']['url'];
-            $level_face_url = $domain.'/'.$file_name;
+        $ret_info = $this->t_lesson_info_b3->get_month_list();
+        foreach($ret_info as $key=>&$item){
+            $user_agent = $item['user_agent'];
+            foreach($user_agent as $ke=>$info){
+                if($ke == 'device_model'){
+                    $item[$key]['device_model'] = $info;
+                }
+                if($ke == 'system_version'){
+                    $item[$key]['system_version'] = $info;
+                }
+            }
         }
+        dd($ret_info);
+        // // $adminid = 99;
+        // $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        // $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
+        // $image_1 = imagecreatefromjpeg($datapath);
+        // $image_2 = imagecreatefrompng($datapath_new);
+        // $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        // // $color = imagecolorallocate($image_3,255,255,255);
+        // $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        // imagefill($image_3, 0, 0, $color);
+        // imageColorTransparent($image_3, $color);
 
-        // header('Content-type: image/jpg');
-        // imagejpeg($image_1);//输出图像
-        // dd($image_1);
+        // imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        // imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        // $tmp_url = "/tmp/".$adminid."_gk.png";
+        // imagepng($image_1,$tmp_url);
+        // $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        // $level_face_url = '';
+        // if($file_name!=''){
+        //     $cmd_rm = "rm /tmp/".$adminid."*.png";
+        //     \App\Helper\Utils::exec_cmd($cmd_rm);
+        //     $domain = config('admin')['qiniu']['public']['url'];
+        //     $level_face_url = $domain.'/'.$file_name;
+        // }
+
+        // // header('Content-type: image/jpg');
+        // // imagejpeg($image_1);//输出图像
+        // // dd($image_1);
     }
 
     public function get_my_pay($phone){
