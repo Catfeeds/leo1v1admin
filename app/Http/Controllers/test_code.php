@@ -55,6 +55,10 @@ class test_code extends Controller
 
         $order_list     = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
         $lesson_list    = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+        echo count($order_list);
+        echo "<br>";
+        echo count($lesson_list);
+        echo "<br>";
         $stu_order_list = [];
         foreach($order_list as $o_val){
             $userid = $o_val['userid'];
@@ -63,40 +67,47 @@ class test_code extends Controller
             $stu_order_list[$userid][$flag][$orderid] = $o_val;
         }
 
+        $sum_price = 0;
         foreach($lesson_list as $l_val){
-            $order_info = $this->get_current_order_info($stu_order_list,$l_val);
-            if($order_info===false){
+            $userid = $l_val['userid'];
+            $flag   = $l_val['competition_flag'];
+            if(!isset($stu_order_list[$userid][$flag])){
                 echo $l_val['lessonid'];
                 echo "<br>";
                 continue;
             }
-            $price = $order_info['price']/100;
-            $lesson_total = $order_info['lesson_total']*$order_info['default_lesson_count']/100;
-            $per_price = $lesson_total==0?0:($price/$lesson_total);
-
-            $lesson_count = $l_val['lesson_count']/100;
-            $lesson_price = $per_price*$lesson_count*100;
-
+            $order_list   = &$stu_order_list[$userid][$flag];
+            $lesson_price = 0;
+            $lesson_price = $this->get_lesson_price($order_list,$l_val,$lesson_price);
+            $sum_price+=$lesson_price;
         }
+        echo "总入:".$sum_price;
 
-        dd($stu_order_list);
     }
 
-    public function get_current_order_info($order_list,$lesson_info){
-        $userid       = $lesson_info['userid'];
-        $lesson_count = $lesson_info['lesson_count'];
-        $flag         = $lesson_info['competition_flag'];
-        if(isset($order_list[$userid][$flag])){
-            $order_info = current($order_list[$userid][$flag]);
-            if($order_info['lesson_left']<=0){
-                $orderid = $order_info['orderid'];
-                unset($order_list[$userid][$flag][$orderid]);
-                $order_info = $this->get_current_order_info($order_list,$lesson_info);
-                return $order_info;
-            }
+    public function get_lesson_price(&$order_list,$lesson_info,&$lesson_price){
+        $order_info = current($order_list);
+        $lesson_count_left = 0;
+        $price        = $order_info['price']/100;
+        $lesson_left  = $order_info['lesson_left']/100;
+        $lesson_total = $order_info['lesson_total']*$order_info['default_lesson_count']/100;
+        $per_price    = $lesson_total==0?0:($price/$lesson_total);
+        $lesson_count = $lesson_info['lesson_count']/100;
+        if($lesson_left<$lesson_count){
+            echo $order_info['orderid'];exit;
+            $lesson_count_left = $lesson_count-$lesson_left;
+            $lesson_count = $lesson_left;
+            $lesson_left = 0;
+            unset($order_list[$order_info['orderid']]);
         }else{
-            return false;
+            $lesson_left -= $lesson_count;
         }
+
+        $lesson_price = $lesson_count*$per_price;
+        if($lesson_count_left>0){
+            $lesson_price = $this->get_lesson_price($order_list,$lesson_info,$lesson_price);
+        }
+        return $lesson_price;
     }
 
     public function get_success_lesson(){
