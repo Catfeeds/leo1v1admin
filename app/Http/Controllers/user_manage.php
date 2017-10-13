@@ -1312,7 +1312,18 @@ class user_manage extends Controller
         foreach($refund_list['list'] as &$item ){
             $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
-            $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+            $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+
+            foreach($refund_analysis['key1_value'] as $val){
+                if(isset($val['responsibility_percent'])){
+                    if(intval($val['responsibility_percent'])>50){
+
+                    }
+                }else{
+                    $item['main_deparment'] = '';
+                }
+            }
+
 
         }
 
