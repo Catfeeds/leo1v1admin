@@ -590,7 +590,7 @@ class test_boby extends Controller
                             'revisit_time1' => $item['revisit_time1'],
                             'revisit_time2' => $val['revisit_time2'],
                             'call_phone_id' => $val['call_phone_id'],
-                            'create_time'   => 123,
+                            'create_time'   => $time,
                         ]);
                     }
                 }
