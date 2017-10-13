@@ -1841,7 +1841,9 @@ class main_page extends Controller
 
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
-        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
+        foreach( $month_info as &$item) {
+            $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
+        }
 
         // dd($month_info);
 
@@ -2136,7 +2138,9 @@ class main_page extends Controller
 
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
-        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
+        foreach( $month_info as &$item) {
+            $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
+        }
 
 
         return $this->pageView(__METHOD__ ,null, [
