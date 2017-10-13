@@ -1351,9 +1351,9 @@ class user_manage extends Controller
             }
 
             if(stripos($item['main_deparment'],'助教部')){
-                // $item['ass_group'] = $this->;
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
             }elseif(stripos($item['main_deparment'],'咨询部')){
-
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
             }
         }
 
