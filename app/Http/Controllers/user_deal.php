@@ -2713,6 +2713,7 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
+        dd($list);
                
 
     }

@@ -282,6 +282,8 @@ class test_james extends Controller
 
     public function ss(){
 
+        dd(intval('89%'));
+
         $a = "[1506866400,1506835800,1507039200,1507023000,1507282200]";
         $date_modify = json_decode($a,true);
         $day_date = [];
