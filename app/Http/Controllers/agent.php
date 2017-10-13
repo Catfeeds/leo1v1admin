@@ -462,6 +462,7 @@ class agent extends Controller
 
     public function test_new(){
         $ret_info = $this->t_lesson_info_b3->get_month_list();
+        dd($ret_info);
         foreach($ret_info as $key=>&$item){
             $user_agent = $item['user_agent'];
             foreach($user_agent as $ke=>$info){
