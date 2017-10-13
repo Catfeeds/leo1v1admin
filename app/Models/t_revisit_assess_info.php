@@ -44,7 +44,7 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
             "create_time<$cur_end ",
         ];
         if ($uid_str) {
-            $where_arr[] = ["uid in ($uid_str)"];
+            $where_arr[] = "uid in ($uid_str)";
         } else {
             return 0;
         }

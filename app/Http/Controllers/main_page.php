@@ -1843,8 +1843,9 @@ class main_page extends Controller
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
 
         //组长回访统计
-        // $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( $uid_str, $cur_start, $cur_end);
-        // $leader_revisit = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
+        $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( $uid_str, $cur_start, $cur_end);
+        // $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( 12, $cur_start, $cur_end);
+        $leader_revisit = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
 
         foreach( $month_info as &$item) {
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
