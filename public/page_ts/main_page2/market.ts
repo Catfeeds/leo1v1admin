@@ -48,4 +48,26 @@ $(function(){
 
     });
 
+    //修改助教配额
+    $("#id_edit_teach_assistant_diff_money_def").on("click",function(){
+        var $teach_assistant_diff_money_def = $("<input/>");
+        $teach_assistant_diff_money_def.val($(this).parent().find("span").text() );
+        var arr=[
+            ["配额" , $teach_assistant_diff_money_def ],
+        ];
+        $.show_key_value_table("配额编辑", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/ajax_deal2/teach_assistant_config_date_set",{
+                    "config_date_type" :2,
+                    "opt_time" :g_args.start_time,
+                    "value" : $teach_assistant_diff_money_def.val()
+                });
+            }
+        });
+
+
+    });
+
 });

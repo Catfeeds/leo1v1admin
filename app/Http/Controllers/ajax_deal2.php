@@ -836,7 +836,27 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ();
     }
+    //修改助教特殊申请配额
+    public function teach_assistant_config_date_set () {
+        $config_date_type     = $this->get_in_int_val("config_date_type");
+        $config_date_sub_type = $this->get_in_int_val("config_date_sub_type");
+        $opt_time=$this->get_in_unixtime_from_str("opt_time");
+        $value                = $this->get_in_int_val("value");
+        if ( in_array($config_date_type , array(
+            E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY )) ) {
+            $opt_time = strtotime(date("Y-m-01", $opt_time) );
+        }
 
+        if ( $config_date_type== E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY  ) {
+            if (!$this->check_account_in_arr(["jim","yueyue"]))  {
+                return $this->output_err("没有权限");
+            }
+        }
+
+        $this->t_config_date->set_config_value($config_date_type,$opt_time,$value);
+
+        return $this->output_succ();
+    }
     public function set_teacher_train_through_info(){
         $phone           = $this->get_in_str_val('phone');
         $adminid = $this->get_in_int_val("adminid");
