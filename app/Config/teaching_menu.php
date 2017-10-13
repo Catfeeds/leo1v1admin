@@ -189,6 +189,7 @@ class teaching_menu{
                             [ "name"=>"教学质量反馈标准（新)",   "url"=>"/human_resource/teacher_record_detail_info_new"],
 
                         ]],
+                        [ "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
                     ]],
 
 
