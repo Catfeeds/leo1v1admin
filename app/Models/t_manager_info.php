@@ -1820,11 +1820,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_cr_num($start_time,$end_time){
         $where_arr = [
-            'account_role = 1',
-            "(leave_member_time=0 or leave_member_time < $end_time)"
+            'main_type = 1 ',
+            ["month=%u",$start_time,-1],
+            "(del_flag = 0 or(del_flag = 1 and  leave_member_time > $start_time))"
         ];
-        $sql = $this->gen_sql_new(" select count(*) from %s where %s",
-                                  self::DB_TABLE_NAME
+        $sql = $this->gen_sql_new(" select  count(distinct(adminid)) as total"
+                                  ." from t_group_name_month n left join t_admin_group_user g on g.groupid = n.groupid left join t_manager_info m on g.adminid = m.uid  where %s"
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
