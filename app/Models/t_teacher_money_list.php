@@ -106,8 +106,8 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ];
         }
 
-        $sql = $this->gen_sql_new("select id,money,money_info,add_time,type,tm.teacherid,l.userid,tm.acc,"
-                                  ." t.bankcard,bank_address,bank_account,bank_phone,bank_type,bank_province,bank_city, "
+        $sql = $this->gen_sql_new("select tm.id,tm.money,tm.money_info,tm.add_time,tm.type,tm.teacherid,l.userid,tm.acc,"
+                                  ." t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type,t.bank_province,t.bank_city, "
                                   ." tr.realname,tr.identity"
                                   ." from %s tm "
                                   ." left join %s l on tm.money_info=l.lessonid "

@@ -1454,7 +1454,6 @@ class Common_new {
 
                             $list[]=$data;
 
-                            // 开发中
                             foreach ($item4["sub_list"] as $key5 => $item5) {
                                 $data=$item5["data"];
                                 $data["main_type"]=$key1;

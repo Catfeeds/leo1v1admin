@@ -3392,7 +3392,7 @@ class user_manage_new extends Controller
             }elseif($val['type']==E\Ereward_type::V_6){
                 $identity = E\Eidentity::get_desc($val['identity']);
                 // $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
-                $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
+                $val['money_info_extra'] = $val['realname']."|".$identity;
             }else{
                 $val['money_info_extra'] = "";
             }
