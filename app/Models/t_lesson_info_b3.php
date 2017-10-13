@@ -1095,7 +1095,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $sql = $this->gen_sql_new( " select l.userid,from_unixtime(l.lesson_start),s.user_agent "
                                    ." from %s l "
                                    ." left join %s s on s.userid=l.userid"
-                                   ." where l.lesson_start>=1507737600 and l.lesson_start<1507824000 "
+                                   ." where l.lesson_start>=1498838400 and l.lesson_start<1507824000 "
                                    ." and l.userid>0 and s.is_test_user=0 "
                                    ." order by l.lesson_start "
                                    ,self::DB_TABLE_NAME

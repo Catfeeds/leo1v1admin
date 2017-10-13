@@ -251,6 +251,7 @@ class teacher_money extends Controller
             $teacher_ref_rate = $this->get_teacher_ref_rate(
                 $start_time,$teacher_info['teacher_ref_type'],$teacher_info['teacher_money_type']
             );
+            echo $teacher_ref_rate;exit;
 
             $check_flag = $this->check_full_time_teacher($teacherid,$teacher_info['teacher_type']);
             if($check_flag){
