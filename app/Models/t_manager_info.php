@@ -732,6 +732,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_list_new_three($account_role){
+        $where_arr = [
+            ["m.account_role =%u ",$account_role,  -1] ,
+            "m.del_flag =0 ",
+        ];
+        $sql=$this->gen_sql_new(
+            "select uid,account_role,create_time,seller_level,g.level_face  "
+            ." from %s m "
+            ." left join %s g on g.seller_level = m.seller_level "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_seller_level_goal::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_jw_teacher_list(){
         $time=time();
         $sql = $this->gen_sql_new("select uid,tr.require_id from %s m".
