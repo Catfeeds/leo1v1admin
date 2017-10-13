@@ -687,7 +687,7 @@ class user_manage extends Controller
         }
 
         // dd($price);
-        
+
         $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
@@ -1301,6 +1301,11 @@ class user_manage extends Controller
             "acc"           => $acc,
             "adminid"       => $adminid
         ]);
+    }
+
+
+    public function d(){
+
     }
 
     public function set_refund_order(){
