@@ -1295,7 +1295,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-
     public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
@@ -1906,5 +1905,26 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_row($sql);
 
     }
+
+    public function get_leader_revisit_info($ass_adminid, $start_time,$end_time){
+        $where_arr = [
+            ["m.uid=%u",$ass_adminid,-1],
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=7"
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select count(distinct r.userid)"
+            ." from %s m"
+            ." left join %s r on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }

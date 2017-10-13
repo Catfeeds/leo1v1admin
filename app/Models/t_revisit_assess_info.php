@@ -38,5 +38,24 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
         return $this->main_get_list($sql);
     }
 
+    public function get_stu_num_info( $uid_str, $cur_start, $cur_end){
+        $where_arr = [
+            "create_time>=$cur_start ",
+            "create_time<$cur_end ",
+        ];
+        if ($uid_str) {
+            $where_arr[] = ["uid in (%u)", $uid_str, ''];
+        } else {
+            return 0;
+        }
+        $sql = $this->gen_sql_new(
+            "select sum(stu_num) "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
