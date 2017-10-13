@@ -1307,7 +1307,7 @@ class user_manage extends Controller
     public function refund_duty_analysis(){
         $page_num      = $this->get_in_page_num();
 
-        $refund_list = $this->t_order_refund->get_has_refund_list();
+        $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
 
     }
 
