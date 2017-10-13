@@ -466,6 +466,7 @@ class agent extends Controller
             $user_agent = $item['user_agent'];
             $user_agent = json_decode($user_agent);
             foreach($user_agent as $key=>$info){
+                dd($key,$info);
                 if($key == 'device_model'){
                     $item['device_model'] = $info;
                 }
