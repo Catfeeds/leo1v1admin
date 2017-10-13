@@ -538,7 +538,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ,$where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,20);
+        return $this->main_get_list_by_page($sql,$page_num,10);
 
     }
 

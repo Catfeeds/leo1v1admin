@@ -23,7 +23,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span>老师身份</span>
-                        <select class="opt-change" id="id_identity">
+                        <select class="opt-change" id="id_teacher_type">
                         </select>
                     </div>
                 </div>
