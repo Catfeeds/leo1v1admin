@@ -1350,10 +1350,14 @@ class user_manage extends Controller
                 }
             }
 
+            $item['ass_group'] = '';
+            $item['seller_group'] = '';
             if(stripos($item['main_deparment'],'助教部')){
                 $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
-            }elseif(stripos($item['main_deparment'],'咨询部')){
-                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
+            }
+
+            if(stripos($item['main_deparment'],'咨询部')){
+                $item['seller_group'] = $this->t_admin_group_user->get_ass_group_name($item['seller_adminid']);
             }
         }
 
