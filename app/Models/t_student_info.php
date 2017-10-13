@@ -299,7 +299,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ." left join %s m on b.sys_operator = m.account"
             ." left join %s t on t.phone = m.phone "
             ." left join %s tq on tq.id = b.call_phone_id "
-            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by a.revisit_time",
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.revisit_time",
             self::DB_TABLE_NAME,
             t_revisit_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
