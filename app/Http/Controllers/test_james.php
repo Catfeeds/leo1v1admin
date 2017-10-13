@@ -282,6 +282,9 @@ class test_james extends Controller
 
     public function ss(){
 
+        $a = '咨询部';
+        dd(stripos($a,'咨询部'));
+
         $a = ['ab'=>1,'df'=>2];
         dd($a['ab']);
 
