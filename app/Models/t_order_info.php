@@ -2292,18 +2292,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
             $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
-			if ($order_activity_type != -1 ) {
-				$sub_where_arr =[
-					["order_activity_type=%u", $order_activity_type , -1 ],
-					"succ_flag=1"
-				];
-            	$this->where_arr_add_time_range($sub_where_arr,$opt_date_str,$start_time,$end_time);
-		
-				$where_arr[]= $this->gen_sql_new(
-					"t1.orderid in (select s_o.orderid  from %s s_o join %s soa  on s_o.orderid=soa.orderid where %s)   ", self::DB_TABLE_NAME, 
-					t_order_activity_info::DB_TABLE_NAME,  
-					$sub_where_arr );
-			}
+            if ($order_activity_type != -1 ) {
+                $sub_where_arr =[
+                    ["order_activity_type=%u", $order_activity_type , -1 ],
+                    "succ_flag=1"
+                ];
+                $this->where_arr_add_time_range($sub_where_arr,$opt_date_str,$start_time,$end_time);
+
+                $where_arr[]= $this->gen_sql_new(
+                    "t1.orderid in (select s_o.orderid  from %s s_o join %s soa  on s_o.orderid=soa.orderid where %s)   ", self::DB_TABLE_NAME,
+                    t_order_activity_info::DB_TABLE_NAME,
+                    $sub_where_arr );
+            }
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
@@ -3528,7 +3528,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
      */
     public function get_sort_order_count_money($adminid,$start_time,$end_time){
         $sys_operator= $this->t_manager_info->get_account($adminid);
-                                        
+
         //获取分期金额
         $where_arr = [
             "o.contract_status in (1,2)",
@@ -3574,7 +3574,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_seller_student_new::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr);
-        
+
         return $this->main_get_row($sql);
     }
 
@@ -3701,4 +3701,5 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
 }

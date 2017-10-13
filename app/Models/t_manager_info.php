@@ -732,6 +732,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_list_new_three($account_role){
+        $where_arr = [
+            ["m.account_role =%u ",$account_role,  -1] ,
+            "m.del_flag =0 ",
+        ];
+        $sql=$this->gen_sql_new(
+            "select uid,account_role,create_time,seller_level,g.level_face  "
+            ." from %s m "
+            ." left join %s g on g.seller_level = m.seller_level "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_seller_level_goal::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_jw_teacher_list(){
         $time=time();
         $sql = $this->gen_sql_new("select uid,tr.require_id from %s m".
@@ -1880,13 +1897,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
             ." left join %s r on r.sys_operator=m.account and r.revisit_time>=$start_time and r.revisit_time<$end_time and r.revisit_type=0"
-            ." left join %s tq on tq.id=r.call_phone_id"
+            ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time"
+            ." left join %s tq on tq.id=rc.call_phone_id and tq.id>0"
             ." where %s"
-            // ." group by uid"
             ,self::DB_TABLE_NAME
             ,t_assistant_info::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_revisit_info::DB_TABLE_NAME
+            ,t_revisit_call_count::DB_TABLE_NAME
             ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );

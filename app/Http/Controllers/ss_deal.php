@@ -2110,6 +2110,7 @@ class ss_deal extends Controller
 
         }
 
+
         //最后价格
         $price=$promotion_spec_discount;
         if ($before_lesson_count && $contract_type==0) {
@@ -2276,6 +2277,31 @@ class ss_deal extends Controller
 
     }
 
+    //重置子合同
+    public function rebulid_child_order_info(){
+        $parent_orderid  = $this->get_in_int_val("parent_orderid");
+        $child_status = $this->t_child_order_info->chick_all_order_have_pay($parent_orderid,1);
+        if($child_status==1){
+            return $this->output_err("已有子合同付过款,不能重置");
+        }
+
+        //删除原子合同
+        $this->t_child_order_info->del_contract($parent_orderid);
+
+        //新建子合同
+        $price = $this->t_order_info->get_price($parent_orderid);
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>0,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$parent_orderid,
+            "price"            => $price
+        ]);
+        return $this->output_succ();
+        
+
+
+    }
     //删除子合同
     public function delete_child_order_info(){
         $parent_orderid  = $this->get_in_int_val("parent_orderid");
