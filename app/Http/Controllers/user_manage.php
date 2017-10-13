@@ -1330,10 +1330,8 @@ class user_manage extends Controller
             }
             rsort($item['main_duty_arr']);
 
-            foreach($item['main_duty_arr'] as $v){
-                if($v>50){
+            if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
 
-                }
             }
 
             // if($item['main_duty_arr'][0]){
