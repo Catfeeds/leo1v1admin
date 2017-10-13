@@ -587,7 +587,8 @@ class main_page extends Controller
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
         $today_info = $this->t_revisit_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($today_info["call_num"]);
+        $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
+        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
         return $this->pageView(__METHOD__ ,null, [
