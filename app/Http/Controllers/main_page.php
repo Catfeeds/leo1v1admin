@@ -583,10 +583,12 @@ class main_page extends Controller
         $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
         // dd($month_list);
         $month_info = @$month_list[0];
+        $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
         //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
         $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($today_info["call_num"]);
         $today_info['goal'] = ceil($today_info['stu_num']/10);
 
         return $this->pageView(__METHOD__ ,null, [
@@ -1839,6 +1841,10 @@ class main_page extends Controller
 
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
+        foreach( $month_info as &$item) {
+            $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
+        }
+
         // dd($month_info);
 
         return $this->pageView(__METHOD__ ,null, [
@@ -2132,6 +2138,9 @@ class main_page extends Controller
 
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( -1, $cur_start, $cur_end,$uid_str);
+        foreach( $month_info as &$item) {
+            $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
+        }
 
 
         return $this->pageView(__METHOD__ ,null, [

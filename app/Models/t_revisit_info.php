@@ -546,6 +546,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             "r.revisit_time>=$start_time",
             "r.revisit_time<$end_time",
             "r.revisit_type=0",
+            "r.sys_operator!='system'",
         ];
 
         $sql = $this->gen_sql_new(

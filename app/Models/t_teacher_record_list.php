@@ -107,7 +107,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
 
     }
-    public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject){
+    public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject,$lesson_invalid_flag=0){
         $where_arr=[
             ["add_time >= %u",$start_time,-1],
             ["add_time <= %u",$end_time,-1],
@@ -115,10 +115,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["r.type=%u",$type,0],
             ["t.subject=%u",$subject,-1],
             "(t.nick <> '刘辉' and t.realname <> '刘辉' and t.nick <> 'becky老师' and t.realname <> 'becky老师')",
-            "t.teacherid not in (51094,53289,59896,130462,61828,55161,90732)"
+            "t.teacherid not in (51094,53289,59896,130462,61828,55161,90732)",
+            // "lesson_invalid_flag>0"
         ];
+        if($lesson_invalid_flag==1){
+            $where_arr[] = "lesson_invalid_flag>0";
+        }
+        
 
-        $sql=$this->gen_sql_new("select  t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score  "
+        $sql=$this->gen_sql_new("select  t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score,lesson_invalid_flag   "
                                 ." from %s r "
                                 ." left join %s t on r.teacherid = t.teacherid"
                                 ." where %s "

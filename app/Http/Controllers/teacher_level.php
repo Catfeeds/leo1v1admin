@@ -577,6 +577,7 @@ class teacher_level extends Controller
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $start_time = strtotime("2017-04-01");
         $start_time = $this->get_in_int_val("start_time",$start_time);
         $this->set_in_value("quarter_start",$start_time);
         $quarter_start = $this->get_in_int_val("quarter_start");

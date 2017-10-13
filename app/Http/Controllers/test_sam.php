@@ -15,7 +15,7 @@ class test_sam  extends Controller
     public function ss(){
         $start_time = 1504195200;
         $end_time   = 1506787200;
-        $ret = $this->t_order_info->get_cr_to_cc_order_num($start_time,$end_time);
+        $ret = $this->t_test_lesson_subject_sub_list->tongji_kk_data($start_time,$end_time) ;
 
     }
     public function tt(){
