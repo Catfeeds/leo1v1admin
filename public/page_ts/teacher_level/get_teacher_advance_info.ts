@@ -4,6 +4,7 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			start_time:	$('#id_start_time').val(),
 			teacher_money_type:	$('#id_teacher_money_type').val(),
 			teacherid:	$('#id_teacherid').val(),
             accept_flag:	$('#id_accept_flag').val(),
@@ -13,6 +14,7 @@ $(function(){
 
     Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[1,4,5]);
 
+	$('#id_start_time').val(g_args.start_time);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_accept_flag').val(g_args.accept_flag);
