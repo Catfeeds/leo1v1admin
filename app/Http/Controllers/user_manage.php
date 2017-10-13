@@ -1322,6 +1322,12 @@ class user_manage extends Controller
                     if(intval($val['responsibility_percent'])>50){
                         $item['main_deparment'] = $val['value'];
                     }
+
+                    $score+=intval($val['responsibility_percent']);
+
+                    if($score>=70){
+
+                    }
                 }else{
                     $item['main_deparment'] = '暂无';
                 }
