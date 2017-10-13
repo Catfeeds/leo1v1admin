@@ -388,6 +388,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="panel panel-warning"  >
+                    <div class="panel-heading center-title ">
+                        满意度回访考核
+                    </div>
+                    <div class="panel-body">
+
+                        <table   class="table table-bordered "   >
+                            <thead>
+                                <tr>
+                                    <td>姓名</td>
+                                    <td>已回访量</td>
+                                    <td>月目标回访量</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$leader_revisit_info['nick']}}</td>
+                                    <td>{{$leader_revisit_info['leader_goal']}}</td>
+                                    <td>{{$leader_revisit_info['leader_revisited']}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
