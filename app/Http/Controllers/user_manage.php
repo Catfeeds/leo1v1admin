@@ -1318,31 +1318,26 @@ class user_manage extends Controller
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][] = intval($val['responsibility_percent']);
-                    // $item['main_dep_arr'][$val] = intval($val['responsibility_percent']);
-                    // if(intval($val['responsibility_percent'])>50){
-                    //     $item['main_deparment'] = $val['value'];
-                    //     $item['main_deparment_per'] = $val['responsibility_percent'];
-                    // }
-
+                    $item['main_dep_arr'][intval($val['responsibility_percent'])] = $val['value'];
                 }else{
                     $item['main_deparment'] = '暂无';
                     $item['main_deparment_per'] = '0%';
                 }
             }
-            rsort($item['main_duty_arr']);
 
-            if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
-
+            if(!empty($item['main_duty_arr'])){
+                rsort($item['main_duty_arr']);
+                if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
+                    $item['main_deparment'] = $item['main_dep_arr'][$item['main_duty_arr'][0]];
+                    $item['main_deparment_per'] = $item['main_duty_arr'][0].'%';
+                }elseif($item['main_duty_arr'][0] == 20){
+                    
+                }
             }
-
-            // if($item['main_duty_arr'][0]){
-
-            // }
 
 
         }
 
-        // $this->
 
         dd($refund_list);
 
@@ -2462,7 +2457,7 @@ class user_manage extends Controller
         $real_refund = $this->get_in_str_val("real_refund");
         $acc         = $this->get_account();
 
-        if(!in_array($acc,["echo","jim"])){
+        if(!in_array($acc,["echo","jim","zero"])){
             return $this->output_err("你没有修改退费金额的权限!");
         }
 
