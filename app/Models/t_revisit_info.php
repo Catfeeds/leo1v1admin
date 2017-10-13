@@ -578,7 +578,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             ." left join %s m on m.account=r.sys_operator"
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
-            ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time"
+            ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time and rc.userid=s.userid  "
             ." left join %s tq on tq.id=rc.call_phone_id and tq.id>0"
             ." where %s"
             ." group by m.uid"
