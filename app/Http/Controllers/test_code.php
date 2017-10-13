@@ -89,6 +89,7 @@ class test_code extends Controller
 
         $order_info = current($stu_order_list[$userid][$flag]);
         $lesson_count_left = 0;
+        $orderid      = $order_info['orderid'];
         $price        = $order_info['price']/100;
         $lesson_left  = $order_info['lesson_left']/100;
         $lesson_total = $order_info['lesson_total']*$order_info['default_lesson_count']/100;
