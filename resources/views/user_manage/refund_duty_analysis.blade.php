@@ -11,8 +11,6 @@
                     <td >主要责任部门</td>
                     <td >部门责任占比</td>
                     <td >主要责任人|组别</td>
-
-
                     <td style="min-width:120px;">操作</td>
                 </tr>
             </thead>

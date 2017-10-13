@@ -1842,10 +1842,12 @@ class main_page extends Controller
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
 
+        $leader_revisit_info = [];
         //组长回访统计
         $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( $uid_str, $cur_start, $cur_end);
-        // $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( 12, $cur_start, $cur_end);
-        $leader_revisit = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
+        $leader_revisit_info['leader_goal'] = ceil($leader_stu_num / 10);
+        $leader_revisit_info['leader_revisited'] = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
+        $leader_revisit_info['nick'] = $this->cache_get_account_nick($master_adminid);
 
         foreach( $month_info as &$item) {
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
@@ -1860,6 +1862,7 @@ class main_page extends Controller
             "ass_list_group" =>@$ass_list_group,
             "warning"       => $warning_type_num,
             "month_info" =>$month_info,
+            "leader_revisit_info" =>$leader_revisit_info,
         ]);
 
     }
