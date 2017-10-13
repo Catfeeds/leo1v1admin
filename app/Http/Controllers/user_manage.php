@@ -2455,7 +2455,7 @@ class user_manage extends Controller
         } elseif($account_type == 2) { // 老师
             $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
             if($item['user_nick']){
-                $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+                $item['phone']      = $this->t_teacher_info->get_phone($item['userid']);
             }else{
                 $item['phone']      = "";
             }
