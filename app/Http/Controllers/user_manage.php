@@ -1305,6 +1305,7 @@ class user_manage extends Controller
 
 
     public function refund_duty_analysis(){
+        $this->switch_tongji_database();
         $page_num      = $this->get_in_page_num();
 
         $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
@@ -1324,11 +1325,11 @@ class user_manage extends Controller
                     $item['main_deparment'] = '暂无';
                 }
             }
-            arsort($item['main_duty_arr']);
+            // arsort($item['main_duty_arr']);
 
-            if($item['main_duty_arr'][0]){
+            // if($item['main_duty_arr'][0]){
 
-            }
+            // }
 
 
         }
