@@ -581,6 +581,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time"
             ." left join %s tq on tq.id=rc.call_phone_id and tq.id>0"
             ." where %s"
+            ." group by m.uid"
             ,self::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
             ,t_assistant_info::DB_TABLE_NAME
