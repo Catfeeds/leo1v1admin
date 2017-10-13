@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      $this->switch_tongji_database();
+      //$this->switch_tongji_database();
     }
     public function table_start($th_arr){
         $s   = '<table border=1><tr>';
@@ -557,7 +557,7 @@ class test_boby extends Controller
         $start_time = strtotime( date('Y-m-d H:i:00', $time) );
         $end_time   = $start_time+60;
         //1,先查询已近记录的call_phone_id
-        $id_str = $this->t_revisit_call_count->get_call_phone_id($end_time);
+        $id_str = $this->t_revisit_call_count->get_call_phone_id_str($start_tiem,$end_time);
         //2,然后查询助教的学情回访    每分钟自动查询
         $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
 
@@ -595,8 +595,8 @@ class test_boby extends Controller
         $time = $start_time;
         // $end_time   = $start_time+60;
         $end_time   = $start_time+86400;
-        //1,先查询已近记录的call_phone_id
-        $id_str = $this->t_revisit_call_count->get_call_phone_id($end_time);
+        //1,先查询当天已近记录的call_phone_id
+        $id_str = $this->t_revisit_call_count->get_call_phone_id_str($start_time,$end_time);
         //2,然后查询助教的学情回访    每分钟自动查询
         $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
 
