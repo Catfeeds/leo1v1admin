@@ -549,9 +549,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             // "accept_flag=1",
             "require_admin_type=2",
             "is_test_user=0",
-
-            "tss.success_flag < 2",
-            "l.del_flag = 0",
         ];
         $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
         $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
@@ -562,7 +559,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid"
             ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s l on l.lessonid=tss.lessonid "
             ." join %s s on t.userid=s.userid"
             ." where   %s "
             ." group by  cur_require_adminid "
@@ -571,7 +567,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             t_test_lesson_subject::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $where_arr);
 
