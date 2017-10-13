@@ -127,6 +127,30 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_period_list($pay_status,$channel){
+        $where_arr=[
+            ["c.pay_status=%u",$pay_status,-1],
+            ["c.channel='%s'",$channel,-1],
+            "s.is_test_user=0",
+            "o.orderid>0",
+            "c.price>0",
+            "c.child_order_type=2",            
+        ];
+        $sql = $this->gen_sql_new("select c.child_order_type,c.child_orderid,"
+                                  ."c.pay_status,c.pay_time,c.from_orderno,c.channel,"
+                                  ." s.nick "
+                                  ." from %s c left join %s o on c.parent_orderid = o.orderid"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr                                                                    
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
 }
 

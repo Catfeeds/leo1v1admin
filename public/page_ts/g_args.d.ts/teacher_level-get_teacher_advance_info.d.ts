@@ -4,7 +4,7 @@ interface GargsStatic {
 	teacher_money_type:	number;
 	teacherid:	number;
 	accept_flag:	number;
-	fulltime_flag:	number;
+	fulltime_flag_new:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -68,7 +68,7 @@ $(function(){
 			teacher_money_type:	$('#id_teacher_money_type').val(),
 			teacherid:	$('#id_teacherid').val(),
 			accept_flag:	$('#id_accept_flag').val(),
-			fulltime_flag:	$('#id_fulltime_flag').val()
+			fulltime_flag_new:	$('#id_fulltime_flag_new').val()
         });
     }
 
@@ -78,7 +78,7 @@ $(function(){
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_accept_flag').val(g_args.accept_flag);
-	$('#id_fulltime_flag').val(g_args.fulltime_flag);
+	$('#id_fulltime_flag_new').val(g_args.fulltime_flag_new);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -126,8 +126,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">fulltime_flag</span>
-                <input class="opt-change form-control" id="id_fulltime_flag" />
+                <span class="input-group-addon">fulltime_flag_new</span>
+                <input class="opt-change form-control" id="id_fulltime_flag_new" />
             </div>
         </div>
 */

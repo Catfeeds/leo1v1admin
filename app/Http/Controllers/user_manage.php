@@ -541,8 +541,8 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("order_time","下单日期"),
-            2 => array("pay_time", "生效日期"),
+            1 => array("t1.order_time","下单日期"),
+            2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
         ],3);
 
@@ -1305,9 +1305,38 @@ class user_manage extends Controller
 
 
     public function refund_duty_analysis(){
+        $this->switch_tongji_database();
         $page_num      = $this->get_in_page_num();
 
-        $refund_list = $this->t_order_refund->get_has_refund_list();
+        $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
+
+        foreach($refund_list['list'] as &$item ){
+            $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
+            $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
+            $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['main_duty_arr'] = [];
+            foreach($refund_analysis['key1_value'] as $val){
+                if(isset($val['responsibility_percent'])){
+                    $item['main_duty_arr'][$val['value']] = intval($val['responsibility_percent']);
+                    if(intval($val['responsibility_percent'])>50){
+                        $item['main_deparment'] = $val['value'];
+                    }
+                }else{
+                    $item['main_deparment'] = '暂无';
+                }
+            }
+            // arsort($item['main_duty_arr']);
+
+            // if($item['main_duty_arr'][0]){
+
+            // }
+
+
+        }
+
+        // $this->
+
+        dd($refund_list);
 
     }
 

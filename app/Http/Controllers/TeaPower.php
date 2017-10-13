@@ -2663,11 +2663,11 @@ trait TeaPower {
      * 获取平台合作代理所需抽成百分比
      * @param time 检测时间之前
      * @param teacher_ref_type 老师所属的推荐渠道类别
-     * @return 
+     * @return
      */
     public function get_teacher_ref_rate($time,$teacher_ref_type,$teacher_money_type){
         $teacher_ref_rate = 0;
-        if($teacher_money_type==E\Eteacher_money_type::V_5){
+        if($teacher_money_type == E\Eteacher_money_type::V_5){
             if($teacher_ref_type==1){
                 $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
             }elseif($teacher_ref_type!=0){
@@ -3189,6 +3189,50 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
         $concatStr .= 'key='.$strSecretKey;
         return strtoupper(md5($concatStr));
+    }
+
+
+    //老师晋升,获取前4个季度的列表
+    public function get_four_season_list(){
+        $list=[];
+        //上季度
+        $season = ceil((date('n'))/3)-1;
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time);
+        $m = date("m",$start_time);
+        $md = date("m",$start_time+100*86400);
+        $list[$start_time]=$year." ".$m."-".$md;
+
+        //上上季度
+        $season_pre = ceil((date('n'))/3)-2;
+        $start_time_pre = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_pre*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_pre);
+        $m = date("m",$start_time_pre);
+        $md = date("m",$start_time_pre+100*86400);
+        $list[$start_time_pre]=$year." ".$m."-".$md;
+
+
+        //上上上季度
+        $season_se = ceil((date('n'))/3)-3;
+        $start_time_se = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_se*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_se);
+        $m = date("m",$start_time_se);
+        $md = date("m",$start_time_se+100*86400);
+        $list[$start_time_se]=$year." ".$m."-".$md;
+
+
+        //上上上上季度
+        $season_le = ceil((date('n'))/3)-4;
+        $start_time_le = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_le*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_le);
+        $m = date("m",$start_time_le);
+        $md = date("m",$start_time_le+100*86400);
+        $list[$start_time_le]=$year." ".$m."-".$md;
+
+        return $list;
+
+
+
     }
 
 

@@ -101,6 +101,20 @@ $(function(){
         var teacher_cost_tax    = 0;
         var teacher_full_money  = 0;
 
+        $("#id_lesson_price").val(0);
+        $("#id_teacher_cost").val(0);
+        $("#id_teacher_cost_tax").val(0);
+        $("#id_teacher_money_tax").val(0);
+        $("#id_teacher_money").val(0);
+        $("#id_teacher_normal").val(0);
+        $("#id_teacher_trial").val(0);
+        $("#id_teacher_reward").val(0);
+        $("#id_teacher_reward_ex").val(0);
+        $("#id_teacher_ref_money_1").val(0);
+        $("#id_teacher_ref_money_2").val(0);
+        $("#id_teacher_ref_money_3").val(0);
+
+
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr              = $(row_list[do_index]);
