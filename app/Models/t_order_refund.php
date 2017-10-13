@@ -517,8 +517,15 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
     public function get_has_refund_list(){
-        $sql = $this->gen_sql_new("  select s.userid, s.phone  ");
-        //            ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
+        $sql = $this->gen_sql_new("  select s.userid, s.phone, s.assistantid, s.seller_adminid from %s r "
+                                  ." left join %s s on s.userid=r.userid"
+                                  ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
+                                  ." where f.flow_status=2"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_flow::DB_TABLE_NAME
+
+        );
 
     }
 
