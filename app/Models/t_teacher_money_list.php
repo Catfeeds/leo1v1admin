@@ -113,7 +113,7 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ." left join %s l on tm.money_info=l.lessonid "
                                   ." left join %s t on tm.teacherid=t.teacherid"
                                   ." where %s "
-								  ."and %s"
+								  ." and %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
