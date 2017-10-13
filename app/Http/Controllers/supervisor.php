@@ -422,8 +422,15 @@ class supervisor extends Controller
         $lesson_start = $ret_info['list'][$lessonid]['lesson_start'];
         $lesson_end   = $ret_info['list'][$lessonid]['lesson_end'];
 
-        $ret_arr_log=$this->t_lesson_opt_log->get_lesson_log_by_pool($lessonid,$userid,$server_type
-                                                                     ,$teacherid,$stu_id,$lesson_start,$lesson_end );
+        $ret_arr_log=$this->t_lesson_opt_log->get_lesson_log_by_pool($lessonid,$userid,$server_type,$teacherid,$stu_id,$lesson_start,$lesson_end );
+        //查询老师最后一次登录/退出信息
+        $tea_last_login_info= $this->t_lesson_opt_log-> get_lesson_log_user_last($lessonid,$teacherid);
+        //查询学生最后一次登录/退出信息
+        $stu_last_login_info= $this->t_lesson_opt_log-> get_lesson_log_user_last($lessonid,$stu_id);
+
+        //dd($ret_arr_log_teacher_last);
+
+
         $ret_list_log=array();
         $server_type_conf=array("1" =>"webrtc" , "2" => "xmpp" );
         $log_type_conf=array("1" =>"login" , "2" =>"logout", "3"=>"register", "4"=> "no_recv_data" );
@@ -513,12 +520,11 @@ class supervisor extends Controller
             $info['par_webrtc']  = 0;
         }
 
-
-        return $this->pageView(__METHOD__,$ret_info,["self_groupid"=>$self_groupid,'stu_info'=>$info,"is_group_leader_flag"=>$is_group_leader_flag,'log_lists'=>$ret_list_log]);
-
-    }
-
-
+        //dd($ret_list_log);
+        //dd($info);
+        return $this->pageView(__METHOD__,$ret_info,["self_groupid"=>$self_groupid,'stu_info'=>$info,"is_group_leader_flag"=>$is_group_leader_flag,'log_lists'=>$ret_list_log,
+                                                     'log_tea_last'=>$tea_last_login_info,
+                                                     'log_stu_last'=>$stu_last_login_info]);}
 
 
 }

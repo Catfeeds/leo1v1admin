@@ -187,11 +187,10 @@ class cr_info_week extends Command
 
 
         //转介绍 
-        $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
-        $arr['month_tranfer_total_price'] = round($month_tranfer_data['total_price'] /100,2);
-        $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
-        if($arr['month_tranfer_total_num']){
-          $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_price']/$arr['month_tranfer_total_num'],2); //D4-月转介绍至CC签单率
+        //$month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num(strtotime($end_month),$end_time); //月初至今
+        $tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month(strtotime($end_month),$end_time);
+        if($tranfer_total_month['total_orderid']){
+          $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
         }else{
           $arr['tranfer_success_per'] = 0;
         }

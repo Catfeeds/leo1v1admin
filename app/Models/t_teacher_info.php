@@ -708,7 +708,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "tr.record_score<=90";
         }
 
-        $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,"
+        $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,t.jianli,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
                                   ." t.train_through_new, t.train_through_new_time,t.phone_spare,"
                                   ." t.birth,t.phone,t.email,t.rate_score,t.teacherid,t.user_agent,"
@@ -2086,6 +2086,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["create_time<%u",$start_time,0],
             ["teacher_ref_type=%u",$teacher_ref_type,-1],
+            // "trial_lecture_is_pass=1",
             "train_through_new=1",
         ];
         $sql = $this->gen_sql_new("select count(1) as num"

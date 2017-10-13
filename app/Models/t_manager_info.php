@@ -1295,7 +1295,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-
     public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
@@ -1891,25 +1890,41 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql = $this->gen_sql_new(
             "select count(distinct s.userid) as stu_num,"
-            ." count(distinct r.userid) as revisit_num,"
-            ." sum(tq.duration) as call_num "
+            ." count(distinct r.userid) as revisit_num"
             ." from %s m"
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
             ." left join %s r on r.sys_operator=m.account and r.revisit_time>=$start_time and r.revisit_time<$end_time and r.revisit_type=0"
-            ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time"
-            ." left join %s tq on tq.id=rc.call_phone_id and tq.id>0"
             ." where %s"
             ,self::DB_TABLE_NAME
             ,t_assistant_info::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_revisit_info::DB_TABLE_NAME
-            ,t_revisit_call_count::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_row($sql);
 
     }
+
+    public function get_leader_revisit_info($ass_adminid, $start_time,$end_time){
+        $where_arr = [
+            ["m.uid=%u",$ass_adminid,-1],
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=7"
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select count(distinct r.userid)"
+            ." from %s m"
+            ." left join %s r on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 }

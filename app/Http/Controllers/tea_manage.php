@@ -2487,7 +2487,7 @@ class tea_manage extends Controller
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
                 "record_info"        => $record_info,
                 "trial_train_status" => $flag,
-                "lecture_out_list"   => $lecture_out_listc
+                "lecture_out_list"   => $lecture_out_list
             ]);
         }else{
             $ret = $this->t_teacher_record_list->row_insert([

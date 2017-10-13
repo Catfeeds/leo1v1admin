@@ -577,10 +577,9 @@ class teacher_level extends Controller
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
-        $start_time = strtotime("2017-04-01");
+        // $start_time = strtotime("2017-04-01");
         $start_time = $this->get_in_int_val("start_time",$start_time);
-        $this->set_in_value("quarter_start",$start_time);
-        $quarter_start = $this->get_in_int_val("quarter_start");
+        $this->set_filed_for_js("quarter_start",$start_time);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $accept_flag       = $this->get_in_int_val("accept_flag",-1);
@@ -599,19 +598,29 @@ class teacher_level extends Controller
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
  
         }
-        return $this->pageView(__METHOD__,$ret_info);
+
+        //季度时间列表
+        $season_list = $this->get_four_season_list();
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "season_list"  =>$season_list
+        ]);
     }
 
     public function teacher_advance_info_list(){
-        $this->set_in_value("quarter_start",'2017-07-01');
-        $quarter_start = $this->get_in_str_val("quarter_start");
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+
+        $start_time = $this->get_in_int_val("start_time",$start_time);
+        $this->set_filed_for_js("quarter_start",$start_time);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $accept_flag        = $this->get_in_int_val("accept_flag",-1);
         $fulltime_flag      = $this->get_in_int_val("fulltime_flag",-1);
         $page_info          = $this->get_in_page_info();
 
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag,$start_time);
         foreach($ret_info["list"] as &$item){
             E\Eaccept_flag::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -620,7 +629,13 @@ class teacher_level extends Controller
             E\Elevel::set_item_value_str($item,"level_after");
             \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        //季度时间列表
+        $season_list = $this->get_four_season_list();
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "season_list"  =>$season_list
+        ]);
+
     }
 
     public function get_teacher_refund_detail_info(){

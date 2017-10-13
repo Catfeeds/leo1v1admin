@@ -1913,10 +1913,10 @@ $(function(){
 
     });
 
-    download_hide();
+   // download_hide();
     $(".opt-download").show();
-$(".opt-teacher-url").show();
-$(".opt-student-url").show();
-$(".opt-homework-url").show();
-$(".opt-quiz-url").show();		
+    $(".opt-teacher-url").show();
+    $(".opt-student-url").show();
+    $(".opt-homework-url").show();
+    $(".opt-quiz-url").show();		
 });

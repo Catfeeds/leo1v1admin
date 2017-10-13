@@ -751,7 +751,7 @@ $(function(){
     });
 
     $(".opt-set-money").on("click",function(){
-	    var data            = $(this).get_opt_data();
+	      var data            = $(this).get_opt_data();
         var id_refund_money = $("<input/>");
         var arr = [
             ["退费金额",id_refund_money],
