@@ -139,17 +139,17 @@
                                 <tbody>
                                         <tr>
                                             <td>今日</td>
-                                            <td>{{$today_info["revisit_num"]}} </td>
-                                            <td>{{$today_info["goal"]}} </td>
-                                            <td>{{$today_info["call_num"]/60}} </td>
-                                            <td>{{$today_info["goal"]*3}} </td>
+                                            <td>{{@$today_info["revisit_num"]/1}} </td>
+                                            <td>{{@$today_info["goal"]}} </td>
+                                            <td>{{@$today_info["call_num"]}} </td>
+                                            <td>{{@$today_info["goal"]*3}}:00 </td>
                                         </tr>
                                         <tr>
                                             <td>本月</td>
-                                            <td>{{$month_info["revisit_num"]}} </td>
-                                            <td>{{$month_info["stu_num"]*2}} </td>
-                                            <td>{{$month_info["call_num"]/60}} </td>
-                                            <td>{{$month_info["stu_num"]*6}} </td>
+                                            <td>{{@$month_info["revisit_num"]/1}} </td>
+                                            <td>{{@$month_info["stu_num"]*2}} </td>
+                                            <td>{{@$month_info["call_num"]}} </td>
+                                            <td>{{@$month_info["stu_num"]*6}}:00 </td>
                                         </tr>
 
                                 </tbody>

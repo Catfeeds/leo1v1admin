@@ -391,11 +391,11 @@
                                 <tbody>
                                     @foreach ( $month_info as $var )
                                         <tr>
-                                            <td>{{$var['name']}}</td>
-                                            <td>{{$var["revisit_num"]}} </td>
-                                            <td>{{$var["stu_num"]*2}} </td>
-                                            <td>{{$var["call_num"]/60}} </td>
-                                            <td>{{$var["stu_num"]*6}} </td>
+                                            <td>{{@$var['name']}}</td>
+                                            <td>{{@$var["revisit_num"]/1}} </td>
+                                            <td>{{@$var["stu_num"]*2}} </td>
+                                            <td>{{@$var["call_num"]}} </td>
+                                            <td>{{@$var["stu_num"]*6}}:00 </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
