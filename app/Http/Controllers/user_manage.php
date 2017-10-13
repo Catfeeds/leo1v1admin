@@ -1321,6 +1321,7 @@ class user_manage extends Controller
                     $item['main_duty_arr'][$val['value']] = intval($val['responsibility_percent']);
                     if(intval($val['responsibility_percent'])>50){
                         $item['main_deparment'] = $val['value'];
+                        $item['main_deparment_per'] = $val['responsibility_percent'];
                     }
 
                     $score+=intval($val['responsibility_percent']);
@@ -1330,6 +1331,7 @@ class user_manage extends Controller
                     }
                 }else{
                     $item['main_deparment'] = '暂无';
+                    $item['main_deparment_per'] = '0%';
                 }
             }
             // arsort($item['main_duty_arr']);
