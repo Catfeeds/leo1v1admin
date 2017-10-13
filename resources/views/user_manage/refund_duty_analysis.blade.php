@@ -20,14 +20,14 @@
                 @foreach ($table_data_list as $var)
                     <tr>
                         <td >
-                            {{$var["user_nick"]}} <br/>
+                            {{$var["nick"]}} <br/>
                             {{$var["phone"]}} <br/>
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td >
+                        <td>
                             <div
                                 {!!\App\Helper\Utils::gen_jquery_data($var)!!}
                             >
