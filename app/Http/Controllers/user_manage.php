@@ -1311,7 +1311,7 @@ class user_manage extends Controller
         $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
 
         foreach($refund_list['list'] as &$item ){
-            $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
+            // $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
             $item['apply_time_str']    = \App\Helper\Utils::unixtime2date($item['apply_time']);
 
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
@@ -1348,6 +1348,12 @@ class user_manage extends Controller
                         }
                     }
                 }
+            }
+
+            if(stripos($item['main_deparment'],'助教部')){
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
+            }elseif(stripos($item['main_deparment'],'咨询部')){
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
             }
         }
 
