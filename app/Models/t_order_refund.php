@@ -517,14 +517,21 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
     public function get_has_refund_list($page_num){
-        $sql = $this->gen_sql_new("  select s.userid, s.phone, s.assistantid, s.seller_adminid from %s r "
+
+        $where_arr = [
+            "f.flow_status=2",
+            "r.qc_other_reason <>'' or r.qc_analysia<>'' or r.qc_reply<>''"
+        ];
+
+        $sql = $this->gen_sql_new("  select s.nick, s.userid, f.flow_status, s.phone, s.assistantid, s.seller_adminid, r.orderid, r.apply_time from %s r "
                                   ." left join %s s on s.userid=r.userid"
                                   ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
-                                  ." where f.flow_status=2"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_flow::DB_TABLE_NAME
                                   ,E\Eflow_type::V_ASS_ORDER_REFUND
+                                  ,$where_arr
         );
 
         return $this->main_get_list_by_page($sql,$page_num,10);

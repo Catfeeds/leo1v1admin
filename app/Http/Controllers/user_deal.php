@@ -2717,7 +2717,7 @@ class user_deal extends Controller
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,1);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role_new(1,$month,0);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1); //uid,account,a.nick,m.name
-        dd($ass_list);//uid,account,a.nick,m.name
+        dd($ass_list);//uid,account,a.nick,m.nae
 
                
 

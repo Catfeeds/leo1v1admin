@@ -557,7 +557,7 @@ class test_boby extends Controller
         $start_time = strtotime( date('Y-m-d H:i:00', $time) );
         $end_time   = $start_time+60;
         //1,先查询已近记录的call_phone_id
-        $id_str = $this->t_revisit_call_count->get_call_phone_id($start_tiem,$end_time);
+        $id_str = $this->t_revisit_call_count->get_call_phone_id_str($start_tiem,$end_time);
         //2,然后查询助教的学情回访    每分钟自动查询
         $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
 
@@ -596,7 +596,7 @@ class test_boby extends Controller
         // $end_time   = $start_time+60;
         $end_time   = $start_time+86400;
         //1,先查询当天已近记录的call_phone_id
-        $id_str = $this->t_revisit_call_count->get_call_phone_id($start_time.$end_time);
+        $id_str = $this->t_revisit_call_count->get_call_phone_id_str($start_time,$end_time);
         //2,然后查询助教的学情回访    每分钟自动查询
         $ret_info = $this->t_revisit_info->get_revisit_type0_per_minute($start_time, $end_time);
 
@@ -618,7 +618,7 @@ class test_boby extends Controller
                             'revisit_time1' => $item['revisit_time1'],
                             'revisit_time2' => $val['revisit_time2'],
                             'call_phone_id' => $val['call_phone_id'],
-                            'create_time'   => $time,
+                            'create_time'   => 123,
                         ]);
                     }
                 }
