@@ -573,6 +573,31 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_as_page($sql);
 
     }
+
+    public function tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time,$grade_list=[-1] , $origin_ex="" ) {
+        $where_arr=[
+            // "accept_flag=1",
+            "require_admin_type=2",
+            "is_test_user=0",
+        ];
+        $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
+        $where_arr[]=$this->where_get_in_str_query("s.grade",$grade_list);
+
+        $sql=$this->gen_sql_new(
+            "select cur_require_adminid as  admin_revisiterid  ,count(*)  as require_test_count "
+            ." from %s tr "
+            ." left join %s t on t.test_lesson_subject_id=tr.test_lesson_subject_id "
+            ." left join %s s on s.userid=t.userid"
+            ." where %s ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_list_as_page($sql);
+    }
+
     public function tongji_require_test_lesson_list($start_time,$end_time,$admin_list,$order_str){
         $where_arr=[
         ];
