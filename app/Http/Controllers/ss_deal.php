@@ -2095,7 +2095,7 @@ class ss_deal extends Controller
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
         }
-        //检查 配额 cc
+       //检查 配额 cc
         if ($promotion_spec_diff_money  &&
             $this->t_manager_info->get_account_role( $this->get_account_id() ) == E\Eaccount_role::V_2  ) {
             $now=time(NULL);
