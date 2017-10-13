@@ -406,8 +406,8 @@
                             <tbody>
                                 <tr>
                                     <td>{{$leader_revisit_info['nick']}}</td>
-                                    <td>{{$leader_revisit_info['leader_goal']}}</td>
                                     <td>{{$leader_revisit_info['leader_revisited']}}</td>
+                                    <td>{{$leader_revisit_info['leader_goal']}}</td>
                                 </tr>
                             </tbody>
                         </table>
