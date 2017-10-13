@@ -477,11 +477,11 @@ class agent extends Controller
                 }
                 $device_model = $item['device_model'];
                 $system_version = explode('.',$item['system_version'])[0];
-                if(strpos($device_model,'iPad')!=false){
+                if(strpos($device_model,'iPad')!==false){
                     $num_pad++;
-                }elseif(strpos($device_model,'Mac')!=false){
+                }elseif(strpos($device_model,'Mac')!==false){
                     $num_mac++;
-                }elseif(strpos($device_model,'Windows')!=false){
+                }elseif(strpos($device_model,'Windows')!==false){
                     $num_win++;
                 }else{
                     if($system_version=4){
