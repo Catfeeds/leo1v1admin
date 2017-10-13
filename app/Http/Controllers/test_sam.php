@@ -16,6 +16,7 @@ class test_sam  extends Controller
         $start_time = 1504195200;
         $end_time   = 1506787200;
         $ret = $this->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time) ;
+        dd($ret);
 
     }
     public function tt(){
