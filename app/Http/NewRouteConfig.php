@@ -113,6 +113,7 @@ class NewRouteConfig {
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
 
+        "/user_manage/refund_duty_analysis"        => true,
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal_teacher_tea_jy" => true,
         "/user_manage/complaint_department_deal"        => true,
