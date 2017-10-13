@@ -1304,7 +1304,10 @@ class user_manage extends Controller
     }
 
 
-    public function d(){
+    public function refund_duty_analysis(){
+        $page_num      = $this->get_in_page_num();
+
+        // $refund_list = $this->t_
 
     }
 

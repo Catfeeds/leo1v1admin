@@ -4421,14 +4421,14 @@ class user_manage_new extends Controller
         $discount_price   = $this->get_in_str_val("discount_price");
         $account = $this->get_account();
 
-        if(!in_array($account,["zero","echo"])){
+        if(!in_array($account,["zero","echo","jack"])){
             return $this->output_err("你没有权限");
         }
         $old_price = $this->t_order_info->get_price($orderid);
 
         $child_order_info = $this->t_child_order_info->get_all_child_order_info($orderid,0);
         $child_order_info= $child_order_info[0];
-        $new_price = $price-$old_price+$child_order_info["price"];
+        $new_price = $price*100-$old_price+$child_order_info["price"];
         if($child_order_info["pay_status"]){
              return $this->output_err("子合同已付款,请联系开发人员处理");
         }

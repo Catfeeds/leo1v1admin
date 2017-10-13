@@ -415,7 +415,7 @@ $(function(){
           alert("已付款合同不能拆分");
           return;
           }*/
-        var title = "编辑子合同";
+        var title = "子合同详情";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类型</td><td>金额</td><td>分期期数</td><td>付款</td><td>渠道</td><td>订单号</td><td>付款时间</td><td>家长姓名</td></tr></table></div>");
         $.do_ajax("/ss_deal/get_child_order_list",{
             orderid: data.orderid,
