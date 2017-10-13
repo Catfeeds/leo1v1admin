@@ -2210,6 +2210,7 @@ trait TeaPower {
                     "money_info" => $teacher_info['teacherid'],
                     "add_time"   => time(),
                     "type"       => E\Ereward_type::V_6,
+                    "recommended_teacherid" => $teacher_info['teacherid'],
                 ]);
 
                 if($wx_openid!=""){

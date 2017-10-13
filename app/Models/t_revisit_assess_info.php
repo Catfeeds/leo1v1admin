@@ -25,7 +25,7 @@ class t_revisit_assess_info extends \App\Models\Zgen\z_t_revisit_assess_info
             ." left join %s m on m.uid=ra.uid"
             ." left join %s r on r.sys_operator=m.account and r.revisit_type=0 and r.revisit_time>=$start_time and r.revisit_time<$end_time"
             ." left join %s rc on rc.uid=m.uid and rc.revisit_time1=r.revisit_time"
-            ." left join %s tq on tq.id=rc.call_phone_id"
+            ." left join %s tq on tq.id=rc.call_phone_id and tq.id>0"
             ." where %s"
             ." group by ra.uid"
             ,self::DB_TABLE_NAME
