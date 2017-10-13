@@ -1733,7 +1733,7 @@ class user_manage_new extends Controller
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
             $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
             if($item['test_lesson_count'] != 0){
@@ -1741,6 +1741,13 @@ class user_manage_new extends Controller
             }
 
         }
+
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
+        foreach($test_leeson_list['list'] as $item){
+            $adminid = $item['admin_revisiterid'];
+            $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+        }
+
         $this->t_order_info->switch_tongji_database();
 
         $order_new = $this->t_order_info->get_1v1_order_list_by_adminid($start_time,$end_time,-1);
