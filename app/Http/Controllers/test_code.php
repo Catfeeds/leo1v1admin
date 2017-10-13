@@ -81,7 +81,7 @@ class test_code extends Controller
 
     public function get_lesson_price(&$stu_order_list,$lesson_info,&$lesson_price){
         $userid = $lesson_info['userid'];
-        $flag   = $lesson_info['flag'];
+        $flag   = $lesson_info['competition_flag'];
 
         if(!isset($stu_order_list[$userid][$flag])){
             return false;
