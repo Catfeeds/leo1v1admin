@@ -13,9 +13,12 @@ class login_log extends Controller
         $page_info=$this->get_in_page_info();
         list($start_time, $end_time  ) =$this->get_in_date_range_day(0);
         $account=$this->get_in_str_val("account");
-        $ret_info=$this->t_ssh_login_log->get_list($page_info,$account,$start_time, $end_time);
+        $all_account  = $this->get_in_e_boolean(0,"all_account"); //是否查询全部用户
+        $ret_info=$this->t_ssh_login_log->get_list($page_info,$account,$all_account,$start_time, $end_time);
         foreach ($ret_info["list"] as &$item ) {
             \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
+            $item["server_ip"] = long2ip($item["server_ip"]);
+            $item["login_ip"] = long2ip($item["login_ip"]);
 
         }
         //dd($ret_info);
@@ -24,7 +27,7 @@ class login_log extends Controller
     }
 
 
-    public function login_add(){ 
+    public function login_add(){
         $account= $this->get_in_str_val("account");
         $server_ip= $this->get_in_int_val("server_ip");
         $login_ip= $this->get_in_int_val("login_ip");
@@ -64,7 +67,7 @@ class login_log extends Controller
         return $this->output_succ();
     }
 
-    
+
 
 
 

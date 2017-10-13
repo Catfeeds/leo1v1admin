@@ -3,7 +3,7 @@
 function load_data(){
     $.reload_self_page ( {
 
-        order_by_str                   : g_args.order_by_str,
+        order_by_str : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
 			  show_list_flag:	$('#id_show_list_flag').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
