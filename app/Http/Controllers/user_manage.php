@@ -1328,7 +1328,7 @@ class user_manage extends Controller
                     $item['main_deparment_per'] = '0%';
                 }
             }
-            arsort($item['main_duty_arr']);
+            // rsort($item['main_duty_arr']);
 
             // if($item['main_duty_arr'][0]){
 
