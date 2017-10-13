@@ -586,7 +586,7 @@ class main_page extends Controller
         //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
-        $today_info = $this->t_revisit_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
+        $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
         $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
         $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
