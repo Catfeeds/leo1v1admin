@@ -517,7 +517,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
     public function get_has_refund_list(){
-        $sql = $this->gen_sql_new("  select ");
+        $sql = $this->gen_sql_new("  select s.userid, s.phone  ");
     }
 
 
