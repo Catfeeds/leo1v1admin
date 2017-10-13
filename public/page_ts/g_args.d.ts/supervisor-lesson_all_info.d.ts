@@ -29,7 +29,6 @@ interface RowData {
 	lesson_num	:any;
 	current_server	:any;
 	server_type	:any;
-	st_application_nick	:any;
 	index	:any;
 	region	:any;
 	ip	:any;
