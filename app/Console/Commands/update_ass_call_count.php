@@ -44,7 +44,14 @@ class update_ass_call_count extends Command
         $time = time();
         //1,先查询已近记录的call_phone_id
         $start_time1 = strtotime('today');
-        $id_str = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
+        $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
+        $uid_phoneid = [];
+        foreach ($id_str_list as $item) {
+            if (is_array($item)) {
+                $uid_phoneid[$item['uid']] = $item['phoneids'];
+            }
+        }
+
         //2,然后查询助教的学情回访    每分钟自动查询
         $start_time2 = strtotime( date('Y-m-d H:i:00', $time) );
         $end_time = $start_time2+60;
@@ -53,8 +60,9 @@ class update_ass_call_count extends Command
         //3,有学情回访后，在获取当日的其他回访信息
         foreach($ret_info as $item) {
             if (is_array($item)){
-                $uid = $item['uid'];
-                $userid = $item['userid'];
+                $uid      = $item['uid'];
+                $userid   = $item['userid'];
+                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $task->t_revisit_info->get_revisit_type6_per_minute($start_time1, $end_time, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {

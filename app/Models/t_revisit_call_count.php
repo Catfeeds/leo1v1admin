@@ -9,12 +9,13 @@ class t_revisit_call_count extends \App\Models\Zgen\z_t_revisit_call_count
 	}
 
     public function get_call_phone_id_str($start_time,$end_time){
-        $sql = $this->gen_sql_new("select group_concat(call_phone_id) "
+        $sql = $this->gen_sql_new("select group_concat(call_phone_id) as phoneids,uid "
                                   ." from %s "
                                   ." where revisit_time2>=$start_time and revisit_time2<$end_time"
+                                  ." group by uid"
                                   ,self::DB_TABLE_NAME
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 }

@@ -2663,11 +2663,11 @@ trait TeaPower {
      * 获取平台合作代理所需抽成百分比
      * @param time 检测时间之前
      * @param teacher_ref_type 老师所属的推荐渠道类别
-     * @return 
+     * @return
      */
     public function get_teacher_ref_rate($time,$teacher_ref_type,$teacher_money_type){
         $teacher_ref_rate = 0;
-        if($teacher_money_type==E\Eteacher_money_type::V_5){
+        if($teacher_money_type == E\Eteacher_money_type::V_5){
             if($teacher_ref_type==1){
                 $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
             }elseif($teacher_ref_type!=0){
