@@ -1312,6 +1312,8 @@ class user_manage extends Controller
 
         foreach($refund_list['list'] as &$item ){
             $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
+            $item['apply_time_str']    = \App\Helper\Utils::unixtime2date($item['apply_time']);
+
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
             $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['main_duty_arr'] = [];
