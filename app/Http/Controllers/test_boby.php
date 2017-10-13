@@ -579,7 +579,7 @@ class test_boby extends Controller
                 $userid = $item['userid'];
                 // $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
                 $end_time = $item['revisit_time1'];
-                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid : 1;
+                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $end_time, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {

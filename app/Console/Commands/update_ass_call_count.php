@@ -62,7 +62,7 @@ class update_ass_call_count extends Command
             if (is_array($item)){
                 $uid      = $item['uid'];
                 $userid   = $item['userid'];
-                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid : 1;
+                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $task->t_revisit_info->get_revisit_type6_per_minute($start_time1, $end_time, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
