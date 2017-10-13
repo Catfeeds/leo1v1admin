@@ -90,8 +90,14 @@
                     <span >学生电话:</span> {{$stu_info["stu_phone"]}}<br/>
                     <span >老师电话:</span> {{$stu_info["tea_phone"]}}<br/>
                     <span >年级:</span> {{$stu_info["grade_str"]}} <br/>
-                    <span >老师退出次数:</span> {{$stu_info["tea_xmpp"]}} |  {{@$stu_info['tea_log_status']}}<br/>
-                    <span >学生退出次数:</span> {{$stu_info["stu_xmpp"]}} |  {{@$stu_info['stu_log_status']}}<<br/>
+
+                    <span >老师退出次数:</span> {{$stu_info["tea_xmpp"]}} |
+                    {{@$log_tea_last['server_ip']}} |
+                    {{@$stu_info['tea_log_status']}}<br/>
+                    <span >学生退出次数:</span> {{$stu_info["stu_xmpp"]}} |
+                    {{@$log_stu_last['server_ip']}} |
+
+                    {{@$stu_info['stu_log_status']}}<br/>
                     <span >学生网络:</span> {{$stu_info["stu_situation"]}}<br/>
                     <span >老师网络:</span> {{$stu_info["tea_situation"]}}<br/>
                     <span >老师版本:</span> {{$stu_info["tea_user_agent"]}} <br/>
@@ -141,7 +147,7 @@
 
                             </div>
 
-
+                            
                             <div class="row">
                                 <div class="col-xs-12 col-md-4"  >
                                     <div class="row">
@@ -294,7 +300,9 @@
                                             <span >老师退出次数:</span>
                                         </div>
                                         <div class="col-xs-8 col-md-7  row-td-field-value">
-                                            <span>{{$stu_info["tea_xmpp"]}} | {{@$stu_info['tea_log_status']}}</span>
+                                            <span>{{$stu_info["tea_xmpp"]}} | {{@$stu_info['tea_log_status']}}
+                                                &nbsp;&nbsp;&nbsp;--{{@$log_tea_last['server_ip']}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -304,7 +312,9 @@
                                             <span >学生退出次数:</span>
                                         </div>
                                         <div class="col-xs-8 col-md-7  row-td-field-value">
-                                            <span>{{$stu_info["stu_xmpp"]}} | {{@$stu_info['stu_log_status']}}</span>
+                                            <span>{{$stu_info["stu_xmpp"]}} | {{@$stu_info['stu_log_status']}}
+                                                &nbsp;&nbsp;&nbsp;--{{@$log_stu_last['server_ip']}}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -367,7 +377,7 @@
                     </div>
                 </div>
             @endif
-        @endforeach
+       @endforeach
 
             <h5 style=" border-bottom: 2px solid #999;font-size:25px ; line-height: 50px;" >登录日志 </h5>
 

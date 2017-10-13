@@ -556,6 +556,7 @@ class test_boby extends Controller
         $day = $this->get_in_int_val('day',1);
         // $time = time();
         // $start_time = strtotime( date('Y-m-d H:i:00', $time) );
+        // dd(date('Y-m-d H:i:s', $start_time));
         $start_time = strtotime( "2017-10-".$day );
         $time = $start_time;
         // $end_time   = $start_time+60;

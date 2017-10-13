@@ -10,6 +10,7 @@ $(function(){
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
             account:	$('#id_account').val(),
+            all_account:	$('#id_all_account').val(),
         });
     }
 
@@ -24,7 +25,9 @@ $(function(){
             load_data();
         }
     });
+    Enum_map.append_option_list("boolean",$("#id_all_account"));
     $('#id_account').val(g_args.account);
+    $('#id_all_account').val(g_args.all_account);
     $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add").on("click",function(){
