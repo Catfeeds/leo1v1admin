@@ -461,7 +461,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        list($num_pad,$num_mac,$num_win,$num_android_4,$num_android_5,$num_android_6,$num_android_x,$num_no) = [0,0,0,0,0,0,0,0];
+        list($num_pad,$num_mac,$num_win,$num_android_4,$num_android_5,$num_android_6,$num_android_7,$num_android_x,$num_no) = [0,0,0,0,0,0,0,0,0];
         $ret_info = $this->t_lesson_info_b3->get_month_list();
         foreach($ret_info as $ke=>&$item){
             $user_agent = $item['user_agent'];
@@ -490,6 +490,8 @@ class agent extends Controller
                         $num_android_5++;
                     }elseif($system_version==6){
                         $num_android_6++;
+                    }elseif($system_version==7){
+                        $num_android_7++;
                     }else{
                         $num_android_x++;
                     }
@@ -508,6 +510,7 @@ class agent extends Controller
             'android_4'=>$num_android_4,
             'android_5'=>$num_android_5,
             'android_6'=>$num_android_6,
+            'android_7'=>$num_android_7,
             'android_x'=>$num_android_x,
             '无设备信息'=>$num_no,
         ];
