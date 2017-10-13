@@ -1731,8 +1731,8 @@ class user_manage_new extends Controller
             }
 
         }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
-        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
