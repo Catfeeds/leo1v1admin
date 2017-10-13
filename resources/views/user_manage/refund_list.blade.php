@@ -285,7 +285,7 @@
                                          <a class=" fa-comment   opt-analysia" title="QC退费分析"></a> -->
                                     <a href="/user_manage/refund_analysis?orderid={{$var['orderid']}}&apply_time={{$var['apply_time']}}" class=" fa-list " title="QC退费分析总表"></a>
                                     <a class=" btn fa opt-complaint" id="id_complained_adminid" title="退费投诉">投</a>
-                                    @if(in_array($acc,["echo","jim"]))
+                                    @if(in_array($acc,["echo","jim","zero"]))
                                         <a class=" btn fa fa-cny opt-set-money" title="修改退费金额"></a>
                                     @endif
                                 </div>

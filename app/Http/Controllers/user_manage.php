@@ -1318,7 +1318,7 @@ class user_manage extends Controller
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][] = intval($val['responsibility_percent']);
-                    $item['main_dep_arr'][$val] = intval($val['responsibility_percent']);
+                    // $item['main_dep_arr'][$val] = intval($val['responsibility_percent']);
                     // if(intval($val['responsibility_percent'])>50){
                     //     $item['main_deparment'] = $val['value'];
                     //     $item['main_deparment_per'] = $val['responsibility_percent'];
