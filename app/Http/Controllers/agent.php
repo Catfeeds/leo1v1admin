@@ -466,10 +466,13 @@ class agent extends Controller
             $user_agent = $item['user_agent'];
             $user_agent = json_decode($user_agent);
             foreach($user_agent as $key=>$info){
-                dd($key);
+                if($key == 'device_model'){
+                    $item['device_model'] = $info;
+                }
+                if($key == 'system_version'){
+                    $item['system_version'] = $info;
+                }
             }
-            $item['device_model'] = $user_agent['device_model'];
-            $item['system_version'] = $user_agent['system_version'];
         }
         dd($ret_info);
         // // $adminid = 99;
