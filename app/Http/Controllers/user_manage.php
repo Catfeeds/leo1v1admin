@@ -1318,7 +1318,7 @@ class user_manage extends Controller
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][] = intval($val['responsibility_percent']);
-                    $item['main_dep_arr'][intval($val['responsibility_percent'])] = $val['value'];
+                    $item['main_dep_arr'][$val['value']] = intval($val['responsibility_percent']);
                 }else{
                     $item['main_deparment'] = '暂无';
                     $item['main_deparment_per'] = '0%';
@@ -1328,21 +1328,32 @@ class user_manage extends Controller
             if(!empty($item['main_duty_arr'])){
                 rsort($item['main_duty_arr']);
                 if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
-                    $item['main_deparment'] = $item['main_dep_arr'][$item['main_duty_arr'][0]];
+                    $item['main_deparment'] = array_search($item['main_duty_arr'][0],$item['main_dep_arr']);
                     $item['main_deparment_per'] = $item['main_duty_arr'][0].'%';
                 }elseif($item['main_duty_arr'][0] == 20){
                     $item['main_deparment'] = '各部门均责';
                     $item['main_deparment_per'] = '20%';
-                }elseif($item['main_duty_arr'][0]){
-
+                }else{
+                    $first = $item['main_duty_arr'][0];
+                    foreach($item['main_duty_arr'] as $vv){
+                        if($vv == $first){
+                            $key = array_search($vv,$item['main_dep_arr']);
+                            $item['main_arr'][] = $key;
+                            unset($item['main_dep_arr'][$key]);
+                            $item['main_deparment'] = implode("|",$item['main_arr']);
+                            $item['per_arr'][] = $vv.'%';
+                            $item['main_deparment_per'] = implode("|",$item['per_arr']);
+                        }
+                    }
                 }
             }
-
-
         }
 
 
         dd($refund_list);
+
+
+        return $this->Pageview(__METHOD__,$refund_list);
 
     }
 

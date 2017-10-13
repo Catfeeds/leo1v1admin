@@ -2750,34 +2750,15 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        // $now_date  = date("Y-m",$start_time);
-        // $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
-        // //需要重新拉取  flag  0 不需要  1 需要
-        // $flag = 0;
-        // if(is_file($file_name)){
-        //     $file_info = file_get_contents($file_name);
-        //     if(empty($file_info) || $file_info==""){
-        //         $flag = 1;
-        //     }
-        // }else{
-        //     $flag = 1;
-        // }
-
-        // if($flag){
-            $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
-            );
-            //公司全职老师列表 full_tea_list
-            $full_start_time = strtotime("-1 month",$start_time);
-            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-                $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
-            );
-            $list = array_merge($tea_list,$full_tea_list);
-            // file_put_contents($file_name,json_encode($list));
-        // }else{
-        //     $list = json_decode($file_info,true);
-        // }
-
+        $tea_list = $this->t_lesson_info->get_tea_month_list(
+            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
+        );
+        //公司全职老师列表 full_tea_list
+        $full_start_time = strtotime("-1 month",$start_time);
+        $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+            $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
+        );
+        $list = array_merge($tea_list,$full_tea_list);
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
