@@ -24,7 +24,10 @@
                         <td>{{@$var['apply_time_str']}}</td>
                         <td>{{@$var['main_deparment']}}</td>
                         <td>{{@$var['main_deparment_per']}}</td>
-                        <td></td>
+                        <td>
+                            {{@$var['seller_nick']}} | {{@$var['seller_group']}} <br/>
+                            {{@$var['ass_nick']}} | {{@$var['ass_group']}} 
+                        </td>
                         <td>
                             <div
                                 {!!\App\Helper\Utils::gen_jquery_data($var)!!}

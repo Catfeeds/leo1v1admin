@@ -1368,9 +1368,6 @@ class user_manage extends Controller
         }
 
 
-        dd($refund_list);
-
-
         return $this->Pageview(__METHOD__,$refund_list);
 
     }
