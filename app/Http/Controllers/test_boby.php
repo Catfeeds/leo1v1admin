@@ -602,39 +602,29 @@ class test_boby extends Controller
 
         //3,有学情回访后，在获取当日的其他回访信息
         // $start_time = strtotime('today');
-        $call = [];
         foreach($ret_info as $item) {
             if (is_array($item)){
                 $uid = $item['uid'];
                 $userid = $item['userid'];
-                $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
+                // $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
                 $end_time = $item['revisit_time1'];
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $end_time, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
                     if (is_array($val)){
-                        $call[] = [
+                        $this->t_revisit_call_count->row_insert([
                             'uid'           => $uid,
                             'userid'        => $userid,
                             'revisit_time1' => $item['revisit_time1'],
                             'revisit_time2' => $val['revisit_time2'],
                             'call_phone_id' => $val['call_phone_id'],
                             'create_time'   => $time,
-                        ];
-                        // $this->t_revisit_call_count->row_insert([
-                        //     'uid'           => $uid,
-                        //     'userid'        => $userid,
-                        //     'revisit_time1' => $item['revisit_time1'],
-                        //     'revisit_time2' => $val['revisit_time2'],
-                        //     'call_phone_id' => $val['call_phone_id'],
-                        //     'create_time'   => $time,
-                        // ]);
+                        ]);
                     }
                 }
             }
         }
 
-        dd($call);
 
     }
 
