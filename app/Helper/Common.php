@@ -886,6 +886,17 @@ class Common {
         return sprintf("%02d:%02d:%02d", $h,$m, $s);
     }
 
+    static function get_time_format_minute($seconds) {
+        if (!$seconds ) {
+            return "无";
+        }
+        $t=$seconds;
+        $s=$t%60;
+        $m=($t-$s)/60;
+        return sprintf("%02d:%02d", $m, $s);
+    }
+
+
     static function get_url_ex($url) {
         $domain = config('admin')['qiniu']['private_url']['url'];
         $secret = config('admin')['qiniu']['secret_key'];
