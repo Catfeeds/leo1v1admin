@@ -1313,34 +1313,8 @@ class user_manage extends Controller
         foreach($refund_list['list'] as &$item ){
             $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
-            // $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['main_duty_arr'] = [];
-
-            $refund_analysis['key1_value'] = [
-                [
-                    'responsibility_percent'=>'30%',
-                    'value'=>'产品'
-                ],
-                [
-                    'responsibility_percent'=>'30%',
-                    'value'=>'助教'
-                ],
-                [
-                    'responsibility_percent'=>'10%',
-                    'value'=>'销售'
-                ],
-                [
-                    'responsibility_percent'=>'20%',
-                    'value'=>'老师'
-                ],
-                [
-                    'responsibility_percent'=>'10%',
-                    'value'=>'客户'
-                ],
-            ];
-
-
-
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][] = intval($val['responsibility_percent']);
@@ -1363,7 +1337,9 @@ class user_manage extends Controller
                     $first = $item['main_duty_arr'][0];
                     foreach($item['main_duty_arr'] as $vv){
                         if($vv == $first){
-                            $item['main_arr'][] = array_search($vv,$item['main_dep_arr']);
+                            $key = array_search($vv,$item['main_dep_arr']);
+                            $item['main_arr'][] = $key;
+                            unset($item['main_dep_arr'][$key]);
                             $item['main_deparment'] = implode("|",$item['main_arr']);
                             $item['per_arr'][] = $vv.'%';
                             $item['main_deparment_per'] = implode("|",$item['per_arr']);
