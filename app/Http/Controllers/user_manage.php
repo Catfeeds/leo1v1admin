@@ -1309,6 +1309,10 @@ class user_manage extends Controller
 
         $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
 
+        foreach($refund_list['list'] as &$item ){
+
+        }
+
         dd($refund_list);
 
     }
