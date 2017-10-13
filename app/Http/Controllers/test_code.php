@@ -76,10 +76,9 @@ class test_code extends Controller
                 echo "<br>";
                 continue;
             }
-            $order_list   = &$stu_order_list[$userid][$flag];
             $lesson_price = 0;
-            $lesson_price = $this->get_lesson_price($order_list,$l_val,$lesson_price);
-            $sum_price+=$lesson_price;
+            $lesson_price = $this->get_lesson_price($stu_order_list[$userid][$flag],$l_val,$lesson_price);
+            $sum_price    += $lesson_price;
         }
         echo "总入:".$sum_price;
 

@@ -2288,6 +2288,15 @@ class ss_deal extends Controller
         $this->t_child_order_info->del_contract($parent_orderid);
 
         //新建子合同
+        $price = $this->t_order_info->get_price($parent_orderid);
+        $this->t_child_order_info->row_insert([
+            "child_order_type" =>0,
+            "pay_status"       =>0,
+            "add_time"         =>time(),
+            "parent_orderid"   =>$parent_orderid,
+            "price"            => $price
+        ]);
+        return $this->output_succ();
         
 
 
