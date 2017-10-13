@@ -579,8 +579,7 @@ class teacher_level extends Controller
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
         $start_time = strtotime("2017-04-01");
         $start_time = $this->get_in_int_val("start_time",$start_time);
-        $this->set_in_value("quarter_start",$start_time);
-        $quarter_start = $this->get_in_int_val("quarter_start");
+        $this->set_filed_for_js("quarter_start",$start_time);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $accept_flag       = $this->get_in_int_val("accept_flag",-1);
@@ -599,6 +598,10 @@ class teacher_level extends Controller
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
  
         }
+
+        //季度时间列表
+       
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 
