@@ -62,16 +62,20 @@ class test_code extends Controller
             $orderid = $o_val['orderid'];
             $stu_order_list[$userid][$flag][$orderid] = $o_val;
         }
-        foreach($lesson_list as $l_val){
-            $userid = $l_val['userid'];
-            $lesson_count = $l_val['lesson_count'];
-            $flag = $l_val['competition_flag'];
 
-            $order_info = current($stu_order_list[$userid][$flag]);
-            if($order_info['lesson_left'] <= 0){
-                $current_orderid = $order_info['orderid'];
-                unset($stu_order_list[$userid][$flag][$current_orderid]);
+        foreach($lesson_list as $l_val){
+            $order_info = $this->get_current_order_info($stu_order_list,$l_val);
+            if($order_info===false){
+                echo $l_val['lessonid'];
+                echo "<br>";
+                continue;
             }
+            $price = $order_info['price']/100;
+            $lesson_total = $order_info['lesson_total']*$order_info['default_lesson_count']/100;
+            $per_price = $lesson_total==0?0:($price/$lesson_total);
+
+            $lesson_count = $l_val['lesson_count']/100;
+            $lesson_price = $per_price*$lesson_count*100;
 
         }
 
@@ -83,8 +87,13 @@ class test_code extends Controller
         $lesson_count = $lesson_info['lesson_count'];
         $flag         = $lesson_info['competition_flag'];
         if(isset($order_list[$userid][$flag])){
-            $order_info= current($stu_order_list[$userid][$flag]);
-            
+            $order_info = current($order_list[$userid][$flag]);
+            if($order_info['lesson_left']<=0){
+                $orderid = $order_info['orderid'];
+                unset($order_list[$userid][$flag][$orderid]);
+                $order_info = $this->get_current_order_info($order_list,$lesson_info);
+                return $order_info;
+            }
         }else{
             return false;
         }

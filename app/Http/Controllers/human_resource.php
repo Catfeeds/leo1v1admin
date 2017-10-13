@@ -2735,7 +2735,7 @@ class human_resource extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $subject   = $this->get_in_int_val("subject",-1);
         $page_num  = $this->get_in_page_info();
-        list($start_time,$end_time) = $this->get_in_date_range(-31,date("2017-05-31"));
+        list($start_time,$end_time) = $this->get_in_date_range(date("2017-05-01"),date("2017-05-31"));
         $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject);
 
         $time = time()-7*86400;
@@ -2772,7 +2772,7 @@ class human_resource extends Controller
         $subject   = $this->get_in_int_val("subject",-1);
         $page_num  = $this->get_in_page_num();
         list($start_time,$end_time) = $this->get_in_date_range(-7,0);
-        $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject);
+        $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject,1);
 
         $time = time()-7*86400;
         foreach($ret_info["list"] as &$item){
