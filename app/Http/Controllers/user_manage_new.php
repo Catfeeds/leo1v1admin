@@ -2754,11 +2754,12 @@ class user_manage_new extends Controller
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
+
+        $tea_list = $this->t_lesson_info->get_tea_month_list(
+            $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
+        );
+
         if($teacher_type==-1){
-            //兼职老师工资
-            $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
-            );
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
             $full_tea_list = $this->t_lesson_info->get_tea_month_list(
@@ -2766,9 +2767,7 @@ class user_manage_new extends Controller
             );
             $list = array_merge($tea_list,$full_tea_list);
         }else{
-            $list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
-            );
+            $list = $tea_list;
         }
 
         $all_lesson_1v1   = 0;

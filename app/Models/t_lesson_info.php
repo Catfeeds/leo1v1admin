@@ -5431,7 +5431,7 @@ lesson_type in (0,1) "
     }
 
     public function get_tea_month_list(
-        $start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"
+        $start,$end,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type="current"
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
@@ -5446,10 +5446,12 @@ lesson_type in (0,1) "
         if($show_type=="current"){
             $where_arr[]="l.lesson_status=2";
         }
-        if($teacher_type!=3){
+        if($teacher_type ==-1){
             $where_arr[] = "(t.teacher_type!=3 or l.teacherid in (51094,99504,97313))";
-        }else{
+        }elseif($teacher_type==3 ){
             $where_arr[] = "(t.teacher_type=3 and l.teacherid not in (51094,99504,97313))";
+        }else{
+            $where_arr[]=["t.teacher_type=%u",$teacher_type,-1];
         }
         $where_arr = $this->lesson_common_where_arr($where_arr);
         $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"
