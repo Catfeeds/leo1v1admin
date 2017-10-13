@@ -541,8 +541,8 @@ class user_manage extends Controller
 
     public function contract_list () {
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
-            1 => array("order_time","下单日期"),
-            2 => array("pay_time", "生效日期"),
+            1 => array("t1.order_time","下单日期"),
+            2 => array("t1.pay_time", "生效日期"),
             3 => array("app_time", "申请日期"),
         ],3);
 
@@ -1305,20 +1305,70 @@ class user_manage extends Controller
 
 
     public function refund_duty_analysis(){
-        $page_num      = $this->get_in_page_num();
+        $this->switch_tongji_database();
+        $page_num = $this->get_in_page_num();
 
         $refund_list = $this->t_order_refund->get_has_refund_list($page_num);
 
         foreach($refund_list['list'] as &$item ){
-            $item['ass_nick'] = $this->cache_get_account_nick($item['assistantid']);
+            $item['apply_time_str']    = \App\Helper\Utils::unixtime2date($item['apply_time']);
+
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
-            $arr = $this->get_refund_analysis_info($orderid,$apply_time);
+            $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
+            $item['main_duty_arr'] = [];
+
+
+
+
+
+            foreach($refund_analysis['key1_value'] as $val){
+                if(isset($val['responsibility_percent'])){
+                    $item['main_duty_arr'][] = intval($val['responsibility_percent']);
+                    $item['main_dep_arr'][$val['value']] = intval($val['responsibility_percent']);
+                }else{
+                    $item['main_deparment'] = '暂无';
+                    $item['main_deparment_per'] = '0%';
+                }
+            }
+
+            if(!empty($item['main_duty_arr'])){
+                rsort($item['main_duty_arr']);
+                if($item['main_duty_arr'][0]>$item['main_duty_arr'][1]){
+                    $item['main_deparment'] = array_search($item['main_duty_arr'][0],$item['main_dep_arr']);
+                    $item['main_deparment_per'] = $item['main_duty_arr'][0].'%';
+                }elseif($item['main_duty_arr'][0] == 20){
+                    $item['main_deparment'] = '各部门均责';
+                    $item['main_deparment_per'] = '20%';
+                }else{
+                    $first = $item['main_duty_arr'][0];
+                    foreach($item['main_duty_arr'] as $vv){
+                        if($vv == $first){
+                            $key = array_search($vv,$item['main_dep_arr']);
+                            $item['main_arr'][] = $key;
+                            unset($item['main_dep_arr'][$key]);
+                            $item['main_deparment'] = implode("|",$item['main_arr']);
+                            $item['per_arr'][] = $vv.'%';
+                            $item['main_deparment_per'] = implode("|",$item['per_arr']);
+                        }
+                    }
+                }
+            }
+
+            $item['ass_group'] = '';
+            $item['seller_group'] = '';
+            if(strstr($item['main_deparment'],'助教部') !=false && $item['ass_adminid']>0){
+
+                $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
+            }
+
+            if(strstr($item['main_deparment'],"咨询部") != false && $item['seller_adminid']>0){
+                $item['seller_group'] = $this->t_admin_group_user->get_ass_group_name($item['seller_adminid']);
+            }
 
         }
 
-        // $this->
 
-        dd($refund_list);
+        return $this->Pageview(__METHOD__,$refund_list);
 
     }
 
@@ -2420,7 +2470,7 @@ class user_manage extends Controller
         } elseif($account_type == 2) { // 老师
             $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
             if($item['user_nick']){
-                $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+                $item['phone']      = $this->t_teacher_info->get_phone($item['userid']);
             }else{
                 $item['phone']      = "";
             }
@@ -2436,7 +2486,7 @@ class user_manage extends Controller
         $real_refund = $this->get_in_str_val("real_refund");
         $acc         = $this->get_account();
 
-        if(!in_array($acc,["echo","jim"])){
+        if(!in_array($acc,["echo","jim","zero"])){
             return $this->output_err("你没有修改退费金额的权限!");
         }
 

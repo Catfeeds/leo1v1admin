@@ -975,7 +975,7 @@ class wx_parent_api extends Controller
         $userid           = $this->get_in_int_val("userid");
         $serverId_list    = $this->get_in_str_val('serverids');
         $create_time      = time();
-        $create_adminid   = $this->get_account_id();
+        $create_adminid   = $this->get_parentid();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
@@ -1014,10 +1014,12 @@ class wx_parent_api extends Controller
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
-
-        $img_arr = explode(',',$ret_arr['alibaba_url_str']);
-        $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
+        $file_url = '';
+        if($serverId_list){
+            $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
+            $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+            $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
+        }
 
 
         $ret_info = $this->t_student_score_info->row_insert([
@@ -1037,7 +1039,12 @@ class wx_parent_api extends Controller
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
         ],false,false,true);
-        return $this->output_succ();
+
+        if($ret_info){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('成绩录入失败,请稍后重试!');
+        }
 
     }
 

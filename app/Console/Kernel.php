@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\add_warning_overtime::class,
         Commands\get_ass_stu_by_month::class,
         Commands\reset_parent_call_status::class,
+        Commands\get_period_repay_info::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,
         Commands\CheckLessonTeacherMoneyType::class,

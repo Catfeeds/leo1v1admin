@@ -201,8 +201,6 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
             "lessonid=$lessonid or (lessonid=0 and opt_time+1800>=$lesson_start and opt_time-1800<=$lesson_end and userid in ($teacherid,$stu_id))"
         ];
 
-
-
         $sql = $this->gen_sql_new("select lessonid, opt_time ,userid, opt_type, server_type , server_ip,program_id "
                        ." from %s "
                        ." where %s "
@@ -211,10 +209,53 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
                        $where_arr
         );
 
-        // return $sql;
+        return $this->main_get_list($sql);
+    }
+    //查询老师最后一次登录退出的信息
+    public function get_lesson_log_user_last($lessonid,$userid )
+    {
+
+        $sql = $this->gen_sql_new("  select   max(opt_time) "
+                                  ." from %s "
+                                  ." where lessonid= %u and  userid =%u ",
+                                  self::DB_TABLE_NAME ,
+                                  $lessonid, $userid);
+        $max_opt_time=$this->main_get_value($sql);
+
+        $sql=$this->gen_sql_new("select  opt_time, server_ip from %s where  lessonid= %u and  userid =%u  and opt_time =%u ", self::DB_TABLE_NAME, $lessonid,  $userid,  $max_opt_time );
+        $ret= $this->main_get_row($sql);
+        $ret["server_ip"]=long2ip($ret["server_ip"]);
+        return $ret; 
+    }
+
+    //查询学生最后一次登录退出的信息
+    public function get_lesson_log_by_pool_stu_last($lessonid,$userid,$server_type,$teacherid,$stu_id,$lesson_start,$lesson_end )
+    {
+        if ( $userid != -1) {
+            $where_arr=[
+                ['userid=%d',$userid]
+            ];
+        }
+        if ( $server_type != -1 ){
+            $where_arr=[
+                ['server_type=%d',$server_type]
+            ];
+        }
+        $where_arr=[
+            "opt_time = (select max(opt_time) from db_weiyi.t_lesson_opt_log where userid = $stu_id)"
+        ];
+
+        $sql = $this->gen_sql_new("select  opt_time ,userid, opt_type, server_type , server_ip"
+                                  ." from %s "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME ,
+                                  $where_arr
+        );
 
         return $this->main_get_list($sql);
     }
+
+
 
     public function get_test_lesson_for_login($lessonid,$userid, $lesson_start, $lesson_end){ // 课程开始五分钟
         $where_arr=[
@@ -277,12 +318,12 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         $where_arr=[
             ["lessonid=%u",$lessonid, -1],
             ["userid=%u",$userid, -1],
-            ["opt_type=%u",$opt_type, -1],            
+            ["opt_type=%u",$opt_type, -1],
             "server_type=2",
         ];
         $sql = $this->gen_sql_new("select opt_time from %s where %s order by opt_time",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
- 
+
     }
 
 

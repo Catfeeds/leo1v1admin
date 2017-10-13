@@ -27,11 +27,10 @@
      var g_jianli= "{{@$tea_info["jianli"]}}";
      var g_is_good_flag= "{{@$tea_info["is_good_flag"]}}";
      var account_role={{@$account_role}};
-    </script>  
-    
+    </script>
     <style type="text/css">
      .row-td-field-name {
-         padding-right: 0px; 
+         padding-right: 0px;
      }
 
      .row-td-field-value {

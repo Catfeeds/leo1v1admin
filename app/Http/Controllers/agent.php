@@ -461,7 +461,11 @@ class agent extends Controller
     }
 
     public function test_new(){
-        // $adminid = 99;
+        dd('a');
+    }
+
+    //处理等级头像
+    public function get_top_img(){
         $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
         $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
         $image_1 = imagecreatefromjpeg($datapath);
@@ -484,10 +488,64 @@ class agent extends Controller
             $domain = config('admin')['qiniu']['public']['url'];
             $level_face_url = $domain.'/'.$file_name;
         }
+    }
 
-        // header('Content-type: image/jpg');
-        // imagejpeg($image_1);//输出图像
-        // dd($image_1);
+    //设备版本信息
+    public function get_user_agent_version(){
+        list($num_pad,$num_mac,$num_win,$num_android_4,$num_android_5,$num_android_6,$num_android_7,$num_android_x,$num_no) = [0,0,0,0,0,0,0,0,0];
+        $ret_info = $this->t_lesson_info_b3->get_month_list();
+        foreach($ret_info as $ke=>&$item){
+            $user_agent = $item['user_agent'];
+            if($user_agent){
+                $user_agent = json_decode($user_agent);
+                foreach($user_agent as $key=>$info){
+                    if($key == 'device_model'){
+                        $ret_info[$ke]['device_model'] = $info;
+                    }
+                    if($key == 'system_version'){
+                        $ret_info[$ke]['system_version'] = $info;
+                    }
+                }
+                $device_model = $item['device_model'];
+                $system_version = explode('.',$item['system_version'])[0];
+                if(strpos($device_model,'iPad')!==false){
+                    $num_pad++;
+                }elseif(strpos($device_model,'Mac')!==false){
+                    $num_mac++;
+                }elseif(strpos($device_model,'Windows')!==false){
+                    $num_win++;
+                }else{
+                    if($system_version==4){
+                        $num_android_4++;
+                    }elseif($system_version==5){
+                        $num_android_5++;
+                    }elseif($system_version==6){
+                        $num_android_6++;
+                    }elseif($system_version==7){
+                        $num_android_7++;
+                    }else{
+                        $num_android_x++;
+                    }
+                }
+            }else{
+                $ret_info[$ke]['device_model'] = '';
+                $ret_info[$ke]['system_version'] = '';
+                $num_no++;
+            }
+        }
+        $ret = [
+            '上课数'=>count($ret_info),
+            'iPad'=>$num_pad,
+            'Mac'=>$num_mac,
+            'Windows'=>$num_win,
+            'android_4'=>$num_android_4,
+            'android_5'=>$num_android_5,
+            'android_6'=>$num_android_6,
+            'android_7'=>$num_android_7,
+            'android_x'=>$num_android_x,
+            '无设备信息'=>$num_no,
+        ];
+        dd($ret);
     }
 
     public function get_my_pay($phone){
