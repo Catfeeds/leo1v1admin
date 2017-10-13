@@ -484,11 +484,11 @@ class agent extends Controller
                 }elseif(strpos($device_model,'Windows')!==false){
                     $num_win++;
                 }else{
-                    if($system_version=4){
+                    if($system_version==4){
                         $num_android_4++;
-                    }elseif($system_version=5){
+                    }elseif($system_version==5){
                         $num_android_5++;
-                    }elseif($system_version=6){
+                    }elseif($system_version==6){
                         $num_android_6++;
                     }else{
                         $num_android_x++;
