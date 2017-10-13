@@ -2108,6 +2108,18 @@ class ss_deal extends Controller
                 return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
             }
 
+        }elseif ($promotion_spec_diff_money  &&
+                 $this->t_manager_info->get_account_role( $this->get_account_id() ) == E\Eaccount_role::V_1  ) {
+            $now=time(NULL);
+            $start_time= strtotime( date("Y-m-01", $now));
+            $end_time=$now;
+            $spec_diff_money_all= $this->t_order_info->get_spec_diff_money_all($start_time, $end_time, E\Eaccount_role::V_1 );
+            $month_spec_money= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY ,strtotime(date("Y-m-01")  ) ) ;
+            $promotion_spec_diff_money_t= $promotion_spec_diff_money/100 ;
+            if ($spec_diff_money_all +$promotion_spec_diff_money_t  > $month_spec_money ){
+                return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
+            }
+
         }
 
         //最后价格
