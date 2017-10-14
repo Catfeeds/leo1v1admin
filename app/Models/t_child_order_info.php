@@ -51,9 +51,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
-            "s.is_test_user=0",
-            "c.price>0",
-            "child_order_type=2"
+            "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
@@ -80,23 +78,17 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }
         if($userid != -1){
             $where_arr=[
-                ["s.userid=%u",$userid,-1],
-                "c.price>0",
-                "child_order_type=2"
+                ["s.userid=%u",$userid,-1]
             ];
         }
         if($parent_orderid != -1){
             $where_arr=[
-                ["c.parent_orderid=%u",$parent_orderid,-1],
-                "c.price>0",
-                "child_order_type=2"
+                ["c.parent_orderid=%u",$parent_orderid,-1]
             ];
         }
         if($child_orderid != -1){
             $where_arr=[
-                ["c.child_orderid=%u",$child_orderid,-1],
-                "c.price>0",
-                "child_order_type=2"
+                ["c.child_orderid=%u",$child_orderid,-1]
             ];
         }
 
@@ -109,7 +101,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s p on s.parentid = p.parentid"
-                                  ." where %s",
+                                  ." where %s and c.price>0 and c.child_order_type=2",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

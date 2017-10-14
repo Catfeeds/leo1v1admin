@@ -176,9 +176,11 @@ class WechatRequest  {
         $acess_toke = $wx->get_wx_token(\App\Helper\Config::get_teacher_wx_appid(), \App\Helper\Config::get_teacher_wx_appsecret());
 
         \App\Helper\Utils::logger('img_openid777:'.$request['fromusername']);
+        $userInfo = UserManage::getUserInfo($openId['openid']);
 
 
-        return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+
+        return ResponsePassive::text($request['fromusername'], $request['tousername'], $acess_toke);
 
     }
 
