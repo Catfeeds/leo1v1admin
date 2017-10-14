@@ -375,9 +375,19 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_value($sql);
     }
 
-
-
-
+    public function get_stu_num_leader($start_time, $end_time){
+        $sql = $this->gen_sql_new(
+            "select  a.master_adminid, sum(ra.stu_num)"
+            ." from %s a"
+            ." left join %s u on u.groupid=a.groupid"
+            ." left join %s ra on ra.uid=u.adminid and create_time>=$start_time  and create_time<$end_time "
+            ." where a.main_type = 1  group by a.master_adminid "
+            ,self::DB_TABLE_NAME
+            ,t_admin_group_user::DB_TABLE_NAME
+            ,t_revisit_assess_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }
