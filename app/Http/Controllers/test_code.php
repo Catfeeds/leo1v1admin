@@ -59,7 +59,6 @@ class test_code extends Controller
         echo "<br>";
         echo count($lesson_list);
         echo "<br>";
-        exit;
 
         $stu_order_list = [];
         foreach($order_list as $o_val){
