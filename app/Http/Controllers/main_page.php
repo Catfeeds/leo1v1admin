@@ -383,6 +383,9 @@ class main_page extends Controller
             }elseif($key == 1){
                 $ret_info_two = $item;
             }
+            if($item['level_face_pic']){
+                $item['face_pic'] = $item['level_face_pic'];
+            }
         }
         if(count($ret_info["list"])>0){
             $ret_info["list"][0] = $ret_info_two;
