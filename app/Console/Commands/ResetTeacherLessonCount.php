@@ -50,22 +50,30 @@ class ResetTeacherLessonCount extends cmd_base
         }
 
         \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
-        $t_lesson_info = new \App\Models\t_lesson_info();
 
         if($teacher_money_type == E\Eteacher_money_type::V_0){
-            $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
+            $tea_list = $this->task->t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
             if(!empty($tea_list) && is_array($tea_list)){
                 foreach($tea_list as $val){
-                    $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
+                    $stu_list = $this->task->t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
                     if(!empty($stu_list) && is_array($stu_list)){
                         foreach($stu_list as $item){
-                            $t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
+                            $this->task->t_lesson_info->reset_teacher_student_already_lesson_count(
+                                $val['teacherid'],$item['userid']
+                            );
                         }
                     }
                 }
             }
         }elseif($teacher_money_type==E\Eteacher_money_type::V_7){
-
+            $lesson_list = $this->task->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+            $already_lesson_count = [];
+            foreach($lesson_list as $val){
+                $teacherid    = $val['teacherid'];
+                $lesson_count = $val['lesson_count'];
+                \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
+                $already_lesson_count[$teacherid]+=$lesson_count;
+            }
         }
 
         \App\Helper\Utils::logger("reset teacher lesson count has finished");

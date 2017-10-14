@@ -617,7 +617,6 @@ class test_boby extends Controller
         return $s;
         dd($check);
 
-
     }
 
     public function check_command(){
@@ -654,7 +653,6 @@ class test_boby extends Controller
                 $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
-                print_r($ret_list);
                 foreach($ret_list as $val) {
                     if (is_array($val)){
                         // $this->t_revisit_call_count->row_insert([
