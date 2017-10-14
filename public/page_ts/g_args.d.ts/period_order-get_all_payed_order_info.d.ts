@@ -11,6 +11,7 @@ interface GargsStatic {
 	userid:	number;
 	parent_orderid:	number;
 	child_orderid:	number;
+	repay_status:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -46,7 +47,8 @@ $(function(){
 			channel:	$('#id_channel').val(),
 			userid:	$('#id_userid').val(),
 			parent_orderid:	$('#id_parent_orderid').val(),
-			child_orderid:	$('#id_child_orderid').val()
+			child_orderid:	$('#id_child_orderid').val(),
+			repay_status:	$('#id_repay_status').val()
         });
     }
 
@@ -68,6 +70,7 @@ $(function(){
 	$('#id_userid').val(g_args.userid);
 	$('#id_parent_orderid').val(g_args.parent_orderid);
 	$('#id_child_orderid').val(g_args.child_orderid);
+	$('#id_repay_status').val(g_args.repay_status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -124,6 +127,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">child_orderid</span>
                 <input class="opt-change form-control" id="id_child_orderid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">repay_status</span>
+                <input class="opt-change form-control" id="id_repay_status" />
             </div>
         </div>
 */
