@@ -383,7 +383,7 @@ class main_page extends Controller
             }elseif($key == 1){
                 $ret_info_two = $item;
             }
-            if($item['level_face_pic']){
+            if($item['level_face_pic'] && in_array($item['index'],[1,2,3])){
                 $item['face_pic'] = $item['level_face_pic'];
             }
         }
