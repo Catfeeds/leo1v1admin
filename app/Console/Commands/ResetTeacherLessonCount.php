@@ -71,8 +71,14 @@ class ResetTeacherLessonCount extends cmd_base
             foreach($lesson_list as $val){
                 $teacherid    = $val['teacherid'];
                 $lesson_count = $val['lesson_count'];
+                $lessonid     = $val['lessonid'];
                 \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
+
                 $already_lesson_count[$teacherid]+=$lesson_count;
+                $this->task->t_lesson_info->field_update_list($lessonid,[
+                    "already_lesson_count" => $already_lesson_count[$teacherid]
+                ]);
+
             }
         }
 
