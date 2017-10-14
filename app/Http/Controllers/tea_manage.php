@@ -386,7 +386,7 @@ class tea_manage extends Controller
           ->withCookie(cookie('subject', $subject, 45000));
     }
 
-    
+
     /**
      * 老师课程列表 pad实时播放二维码
      */
@@ -444,7 +444,8 @@ class tea_manage extends Controller
             $teacher_qr_url = "/tmp/".$lessonid_qr_name;
 
             //教师节背景图
-            $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/guoqing_pic_invitation.png";
+            // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/guoqing_pic_invitation.png";
+            $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/b20278468cb5d4bc2dd1eaff3d843edd1507975354381.png";
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             list($qr_width, $qr_height)=getimagesize($qr_url);
@@ -2837,7 +2838,7 @@ class tea_manage extends Controller
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num); 
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num);
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info['list'] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
