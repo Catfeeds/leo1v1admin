@@ -603,6 +603,7 @@ class test_boby extends Controller
 
     public function check_command(){
         $time = $this->get_in_str_val('time',0);
+        // dd($time);
         $time = strtotime( $time );
         // $time = time( );
         //1,先查询今天已近记录的call_phone_id
@@ -610,11 +611,11 @@ class test_boby extends Controller
         // $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $id_str_list = $this->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $uid_phoneid = [];
-        foreach ($id_str_list as $item) {
-            if (is_array($item)) {
-                $uid_phoneid[$item['uid']] = $item['phoneids'];
-            }
-        }
+        // foreach ($id_str_list as $item) {
+        //     if (is_array($item)) {
+        //         $uid_phoneid[$item['uid']] = $item['phoneids'];
+        //     }
+        // }
 
         //2,然后查询助教的学情回访    每分钟查询上一分钟的
         $end_time    = strtotime( date('Y-m-d H:i:00', $time) );
@@ -623,13 +624,14 @@ class test_boby extends Controller
 
         $check = [];
         //3,有学情回访后，在获取当日的其他回访信息
+        echo "<per>";
         foreach($ret_info as $item) {
             if (is_array($item)){
                 $uid      = $item['uid'];
                 $userid   = $item['userid'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $end_time, $uid, $userid, $id_str);
-
+                print_r($ret_list);
                 foreach($ret_list as $val) {
                     if (is_array($val)){
                         // $this->t_revisit_call_count->row_insert([
