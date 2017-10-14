@@ -3250,4 +3250,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return true;
     }
 
+    
+    /**
+     * 常规课排课接口
+     */
+    public function add_regular_lesson($courseid,$lesson_start,$lesson_end){
+        
+    }
+
 }
