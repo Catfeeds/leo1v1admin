@@ -1541,7 +1541,6 @@ class Utils  {
     **/
    static public function deal_feedback_img($serverId_str,$sever_name)
     {
-        // $serverIdLists = json_decode($serverId_str,true);
         $serverIdLists = explode(',',$serverId_str);
         $alibaba_url   = [];
         $alibaba_url_origi = [];

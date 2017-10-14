@@ -1353,16 +1353,9 @@ class stu_manage extends Controller
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
-
-            // $img_arr = explode(',',$ret_info['list']['file_url']);
-
         }
 
-        // dd($ret_info);
-
-        return $this->pageView(__METHOD__, $ret_info,[
-            "img_url" =>$img_arr
-        ]);
+        return $this->pageView(__METHOD__, $ret_info);
     }
 
     /**
