@@ -1302,7 +1302,6 @@ class tongji_ss extends Controller
             ], 0,0
         );
 
-
         //$start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         //$end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
         $contract_type     = $this->get_in_int_val("contract_type",-1);
