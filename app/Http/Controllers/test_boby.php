@@ -574,49 +574,47 @@ class test_boby extends Controller
 
         //3,有学情回访后，在获取当日的其他回访信息
         $check = [];
-        $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
-        $s = $this->table_start($th_arr);
+        // $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
+        // $s = $this->table_start($th_arr);
         foreach($ret_info as $item) {
             if (is_array($item)){
                 $uid = $item['uid'];
                 $userid = $item['userid'];
-                // $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
                 $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $revisit_time1, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
                     if (is_array($val)){
-                        // $this->t_revisit_call_count->row_insert([
-                        //     'uid'           => $uid,
-                        //     'userid'        => $userid,
-                        //     'revisit_time1' => $item['revisit_time1'],
-                        //     'revisit_time2' => $val['revisit_time2'],
-                        //     'call_phone_id' => $val['call_phone_id'],
-                        //     'create_time'   => $time,
-                        // ]);
+                        $this->t_revisit_call_count->row_insert([
+                            'uid'           => $uid,
+                            'userid'        => $userid,
+                            'revisit_time1' => $item['revisit_time1'],
+                            'revisit_time2' => $val['revisit_time2'],
+                            'call_phone_id' => $val['call_phone_id'],
+                            'create_time'   => $time,
+                        ]);
 
-                        $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
-                        $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
-                        $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
+                        // $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
+                        // $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
+                        // $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
 
-                        // $check[] = [
-                        //     'uid'           => $uid,
-                        //     'userid'        => $userid,
-                        //     'revisit_time1' => $item['revisit_time1'],
-                        //     'revisit_time2' => $val['revisit_time2'],
-                        //     'call_phone_id' => $val['call_phone_id'],
-                        //     'create_time'   => $time,
-                        // ];
+                        $check[] = [
+                            'uid'           => $uid,
+                            'userid'        => $userid,
+                            'revisit_time1' => $item['revisit_time1'],
+                            'revisit_time2' => $val['revisit_time2'],
+                            'call_phone_id' => $val['call_phone_id'],
+                            'create_time'   => $time,
+                        ];
 
                     }
                 }
             }
         }
 
-        return $s;
+        // return $s;
         dd($check);
-
 
     }
 
@@ -654,7 +652,6 @@ class test_boby extends Controller
                 $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
                 $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
-                print_r($ret_list);
                 foreach($ret_list as $val) {
                     if (is_array($val)){
                         // $this->t_revisit_call_count->row_insert([
