@@ -59,6 +59,7 @@ class test_code extends Controller
         echo "<br>";
         echo count($lesson_list);
         echo "<br>";
+
         $stu_order_list = [];
         foreach($order_list as $o_val){
             $userid  = $o_val['userid'];
@@ -96,7 +97,6 @@ class test_code extends Controller
         $per_price    = $lesson_total==0?0:($price/$lesson_total);
         $lesson_count = $lesson_info['lesson_count']/100;
         if($lesson_left<$lesson_count){
-            echo $order_info['orderid'];exit;
             $lesson_count_left = $lesson_count-$lesson_left;
             $lesson_count = $lesson_left;
             $lesson_left  = 0;
@@ -109,6 +109,8 @@ class test_code extends Controller
         if($lesson_count_left>0){
             $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
         }
+        echo $lesson_info['lessonid']."|".$lesson_price;
+        echo "<br>";
         return $lesson_price;
     }
 
@@ -1278,6 +1280,26 @@ class test_code extends Controller
         }
     }
 
+    public function already(){
+        $start = strtotime(date("Y-m-01",time()));
+        $end   = strtotime("+1 month",$start);
+        $teacher_money_type = 7;
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+        $already_lesson_count = [];
+        foreach($lesson_list as $val){
+            $teacherid    = $val['teacherid'];
+            $lesson_count = $val['lesson_count'];
+            $lessonid     = $val['lessonid'];
+            \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
 
+            echo $lessonid."|".$teacherid."|".$already_lesson_count[$teacherid];
+            echo "<br>";
+
+            // $already_lesson_count[$teacherid]+=$lesson_count;
+            // $this->t_lesson_info->field_update_list($lessonid,[
+            //     "already_lesson_count" => $already_lesson_count[$teacherid]
+            // ]);
+        }
+    }
 
 }

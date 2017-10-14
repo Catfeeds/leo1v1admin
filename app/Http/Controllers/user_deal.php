@@ -138,8 +138,8 @@ class user_deal extends Controller
         $courseid = $this->get_in_courseid();
 
         $item = $this->t_course_order->field_get_list($courseid,"*");
-        if ($item["teacherid"]) {
-            $this->output_err("还没设置老师");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
         }
         if($item["course_type"]==2){
             if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
