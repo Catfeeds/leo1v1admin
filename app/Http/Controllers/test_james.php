@@ -319,7 +319,7 @@ class test_james extends Controller
 
         //使用客服接口发送消息
         $txt_arr = [
-            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
+            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
             'msgtype'  => 'news',
             "news"=>[
                 "articles"=> [
