@@ -65,7 +65,10 @@ class ResetTeacherLessonCount extends cmd_base
                 }
             }
         }elseif($teacher_money_type==E\Eteacher_money_type::V_7){
+            $lesson_list = $t_lesson_info->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+            foreach($lesson_list as $val){
 
+            }
         }
 
         \App\Helper\Utils::logger("reset teacher lesson count has finished");
