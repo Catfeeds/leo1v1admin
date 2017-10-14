@@ -66,6 +66,26 @@
                       </select>
                   </div>
               </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span >学生</span>
+                      <input id="id_userid"  />
+                  </div>
+              </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">主合同id</span>
+                      <input class="opt-change form-control" id="id_parent_orderid" />
+                  </div>
+              </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">分期合同id</span>
+                      <input class="opt-change form-control" id="id_child_orderid" />
+                  </div>
+              </div>
+
+
 
 
           </div>
@@ -88,6 +108,7 @@
                     <td >剩余课时</td>
                     <td style="display:none;">每次课课时数</td>
                     <td >主合同金额</td>
+                    <td style="display:none">分期合同orderid</td>
                     <td >分期金额</td>
                     <td >分期付款状态</td>
                     <td >分期期数</td>                 
@@ -123,6 +144,7 @@
                         <td >{{$var["order_left"]}}</td>
                         <td >{{$var["default_lesson_count"]/100}}</td>
                         <td class="order_price">{{$var["order_price"]}}</td>
+                        <td >{{$var["child_orderid"]}}</td>
                         <td class="price">{{$var["price"]}}</td>
                         <td>{{$var["pay_status_str"]}}</td>
                         <td>{{$var["period_num"]}}</td>
@@ -139,7 +161,10 @@
                             >
                                 <a class="fa-user opt-user" title="个人信息" ></a>
                                 @if($var["channel"]=="baidu")
-                                    <a class=" opt-order-detail-info" title="分期明细" >分期明细</a>
+                                    <a class=" opt-order-detail-info-new" title="分期明细" >分期明细</a>
+                                    @if(in_array($account_role,[12,13]))
+                                        <a class=" opt-order-detail-info" title="分期明细(实时)" >分期明细(实时)</a>
+                                    @endif
                                 @endif
                             </div>
                         </td>

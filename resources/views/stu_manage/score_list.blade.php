@@ -15,7 +15,7 @@
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td>#</td>
@@ -43,16 +43,18 @@
                                 {{$var['score']}}
                             @endif
                         <td> {{$var["rank"]}} </td>
-                        <td> {{$var["grade_rank"]}} </td>                       
-                        <td> 
+                        <td> {{$var["grade_rank"]}} </td>
+                        <td>
                             @if($var['file_url'] === '')
-                                 无
+                                无
                             @else
-                                <a href={{$var["file_url"]}} target= _blank>查看</a> 
+                                @foreach(explode(',',$var['file_url']) as $v)
+                                    <a href={{@$v}} target= _blank>查看</a>
+                                @endforeach
                             @endif
                         </td>
                         <td>
-                            <div class="opt-div" 
+                            <div class="opt-div"
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="修改信息"></a>
@@ -64,6 +66,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

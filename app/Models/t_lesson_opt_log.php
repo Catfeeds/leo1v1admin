@@ -224,8 +224,10 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
 
         $sql=$this->gen_sql_new("select  opt_time, server_ip from %s where  lessonid= %u and  userid =%u  and opt_time =%u ", self::DB_TABLE_NAME, $lessonid,  $userid,  $max_opt_time );
         $ret= $this->main_get_row($sql);
-        $ret["server_ip"]=long2ip($ret["server_ip"]);
-        return $ret; 
+        if ($ret) {
+            $ret["server_ip"]=long2ip($ret["server_ip"]);
+        }
+        return $ret;
     }
 
     //查询学生最后一次登录退出的信息

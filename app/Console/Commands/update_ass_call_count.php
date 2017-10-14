@@ -18,7 +18,7 @@ class update_ass_call_count extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '';
 
     /**
      * Create a new command instance.
@@ -38,11 +38,11 @@ class update_ass_call_count extends Command
     public function handle()
     {
 
-        /**  @var    \App\Console\Tasks\TaskController  $task*/
+        /**  @var \App\Console\Tasks\TaskController  $task*/
         $task = new \App\Console\Tasks\TaskController();
 
         $time = time();
-        //1,先查询今天已近记录的call_phone_id
+        //1,先查询今天已经记录的call_phone_id
         $start_time1 = strtotime('today');
         $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $uid_phoneid = [];
