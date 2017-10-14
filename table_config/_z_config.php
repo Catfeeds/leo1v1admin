@@ -185,6 +185,7 @@ return array(
     ["db_weiyi","t_fulltime_teacher_positive_require_list","id"] ,
     ["db_weiyi","t_location_subject_grade_textbook_info","id"] ,
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
+    ["db_weiyi","t_period_repay_list","orderid","period"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,

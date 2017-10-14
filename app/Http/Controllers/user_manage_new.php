@@ -1731,7 +1731,8 @@ class user_manage_new extends Controller
             }
 
         }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
@@ -2746,6 +2747,7 @@ class user_manage_new extends Controller
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
+        $identity                    = $this->get_in_int_val("identity",-1);
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
         $show_type                   = $this->get_in_str_val("show_type","current");
