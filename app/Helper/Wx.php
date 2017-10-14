@@ -49,7 +49,6 @@ class Wx{
     public function get_token_from_code($code) {
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
-        //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
         $json_data=file_get_contents( "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
 
