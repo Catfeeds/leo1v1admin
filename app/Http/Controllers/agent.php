@@ -461,7 +461,16 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
+        $account_role = E\Eaccount_role::V_2;
+        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
+        foreach($seller_list as $item){
+            $adminid = $item['uid'];
+            $face_pic = $item['face_pic'];
+            $level_face = $item['level_face'];
+            dd($adminid,$face_pic,$level_face);
+            echo $userid.':'."$call_time"."\n";
+        }
+        dd($seller_list);
     }
 
     //处理等级头像
