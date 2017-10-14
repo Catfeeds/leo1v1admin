@@ -174,7 +174,29 @@ class WechatRequest  {
         $name = $userInfo['nickname'];
 
 
-        return ResponsePassive::text($request['fromusername'], $request['tousername'], $name);
+        // return ResponsePassive::text($request['fromusername'], $request['tousername'], $name);
+
+        $tuwenList[] = array(
+
+            'title' => '[新师培训] 常见问题处理方法-for'.$name,
+
+            'description' => '文章描述内容',
+
+            'pic_url' => '',
+
+            'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
+
+        );
+
+
+
+
+        $item = array();
+        foreach($tuwenList as $tuwen){
+            $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
+        }
+        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+
 
     }
 
@@ -417,8 +439,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         //获取该分类的信息
         $eventKey = $request['eventkey'];
         $content = '收到点击菜单事件，您设置的key是' . $eventKey;
-        \App\Helper\Utils::logger('xuejitu1');
-
 
         $tuwenList = array();
         if ($eventKey == 'manual') {
@@ -641,7 +661,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         foreach($tuwenList as $tuwen){
             $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
         }
-      return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
     }
 
     /**
