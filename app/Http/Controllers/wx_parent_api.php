@@ -961,7 +961,7 @@ class wx_parent_api extends Controller
     // 家长微信端上传试卷
 
     public function get_all_stu_info(){
-        $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
 
         $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
 
@@ -1017,8 +1017,9 @@ class wx_parent_api extends Controller
         $file_url = '';
         if($serverId_list){
             $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
-            $img_arr = explode(',',$ret_arr['alibaba_url_str']);
-            $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
+            $file_url = $ret_arr['alibaba_url_str'];
+            // $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+            // $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
         }
 
 
