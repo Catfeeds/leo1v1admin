@@ -195,7 +195,28 @@ class WechatRequest  {
         foreach($tuwenList as $tuwen){
             $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
         }
-        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+
+
+        //使用客服接口发送消息
+        // $txt_arr = [
+        //     'touser'   => $openid_user,
+        //     'msgtype'  => 'text',
+        //     'text'     => [
+        //         'content' =>''
+        //     ]
+        // ];
+
+        // $txt = self::ch_json_encode($txt_arr);
+        // $token = AccessToken::getAccessToken();
+        // $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        // $txt_ret = self::https_post($url,$txt);
+
+
+        $fan_list = UserManage::getFansList($next_openId='');
+
+        return  ResponsePassive::text($request['fromusername'], $request['tousername'], $fan_list);
+
+        // return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
 
 
     }
