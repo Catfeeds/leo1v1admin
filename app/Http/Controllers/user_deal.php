@@ -1379,7 +1379,7 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
-    public function course_add_new() {
+    public function course_add_new(){
         $course_status        = $this->get_in_int_val("course_status");
         $teacherid            = $this->get_in_teacherid();
         $subject              = $this->get_in_int_val("subject");
@@ -1396,6 +1396,7 @@ class user_deal extends Controller
             return $this->output_err("未设置助教!");
         }
 
+        //6-9月份学生升级
         $month = date("m",time());
         if($month>6 && $month <9){
             $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
@@ -1426,7 +1427,6 @@ class user_deal extends Controller
                 "ass_from_test_lesson_id"=>$lessonid,
             ]);
         }
-
 
         return $this->output_succ();
     }

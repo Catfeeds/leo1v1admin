@@ -113,6 +113,8 @@ class lesson extends TeaWxController
             $type=4;
         }else if($teacher_money_type == E\Eteacher_money_type::V_6){
             $type=5;
+        }else if($teacher_money_type == E\Eteacher_money_type::V_7){
+            $type=6;
         }else{
             $type=3;
         }

@@ -281,6 +281,7 @@ class test_james extends Controller
     }
 
     public function ss(){
+        dd(date('t'));
         echo date('Y-m-t', strtotime('-1 month'));
         // $a = time();
         
