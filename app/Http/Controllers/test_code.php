@@ -1278,6 +1278,25 @@ class test_code extends Controller
         }
     }
 
+    public function already(){
+        $start = strtotime(date("Y-m-01",time()));
+        $end   = strtotime("+1 month",$start);
+        $teacher_money_type = 7;
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+        dd($lesson_list);
+        $already_lesson_count = [];
+        foreach($lesson_list as $val){
+            $teacherid    = $val['teacherid'];
+            $lesson_count = $val['lesson_count'];
+            $lessonid     = $val['lessonid'];
+            \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
 
+            $already_lesson_count[$teacherid]+=$lesson_count;
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "already_lesson_count" => $already_lesson_count[$teacherid]
+            ]);
+
+        }
+    }
 
 }
