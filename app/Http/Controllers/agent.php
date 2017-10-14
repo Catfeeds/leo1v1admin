@@ -466,6 +466,9 @@ class agent extends Controller
         foreach($seller_list as $item){
             $adminid = $item['uid'];
             $face_pic = $item['face_pic'];
+            if($face_pic == ''){
+                $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
+            }
             $level_face = $item['level_face'];
             dd($adminid,$face_pic,$level_face);
             echo $userid.':'."$call_time"."\n";
