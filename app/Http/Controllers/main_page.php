@@ -1853,6 +1853,8 @@ class main_page extends Controller
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
 
+
+
         // dd($month_info);
 
         return $this->pageView(__METHOD__ ,null, [
@@ -2149,6 +2151,9 @@ class main_page extends Controller
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
 
+        //各组长回访信息
+        $leader_stu_num = $this->t_admin_group_name->get_stu_num_leader($cur_start, $cur_end);
+        $leader_rev_num = $this->t_admin_group_name->get_stu_num_leader($cur_start, $cur_end);
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
@@ -2159,8 +2164,6 @@ class main_page extends Controller
             "month_info" =>$month_info,
 
         ]);
-
-
 
     }
 
