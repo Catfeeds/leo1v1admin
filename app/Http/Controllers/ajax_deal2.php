@@ -170,7 +170,7 @@ class ajax_deal2 extends Controller
 
             $phone=$this->t_seller_student_new->get_phone($userid);
 
-            $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
+            // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
             $account = $this-> get_account();
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
