@@ -170,31 +170,31 @@ class WechatRequest  {
      * @return array
      */
     public static function image(&$request){
-        $userInfo = UserManage::getUserInfo($request['fromusername']);
-        $name = $userInfo['nickname'];
+        // $userInfo = UserManage::getUserInfo($request['fromusername']);
+        // $name = $userInfo['nickname'];
 
 
-        // return ResponsePassive::text($request['fromusername'], $request['tousername'], $name);
+        // // return ResponsePassive::text($request['fromusername'], $request['tousername'], $name);
 
-        $tuwenList[] = array(
+        // $tuwenList[] = array(
 
-            'title' => '[新师培训] 常见问题处理方法-for'.$name,
+        //     'title' => '[新师培训] 常见问题处理方法-for'.$name,
 
-            'description' => '文章描述内容',
+        //     'description' => '文章描述内容',
 
-            'pic_url' => '',
+        //     'pic_url' => '',
 
-            'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
+        //     'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
 
-        );
-
-
+        // );
 
 
-        $item = array();
-        foreach($tuwenList as $tuwen){
-            $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
-        }
+
+
+        // $item = array();
+        // foreach($tuwenList as $tuwen){
+        //     $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
+        // }
 
 
         //使用客服接口发送消息
@@ -213,8 +213,15 @@ class WechatRequest  {
 
 
         $fan_list = UserManage::getFansList($next_openId='');
+        // $fan_list = json_encode($fan_list);
 
-        return  ResponsePassive::text($request['fromusername'], $request['tousername'], $fan_list);
+        if(is_array($fan_list)){
+            $info = 1;
+        }else{
+            $info = 0;
+        }
+
+        return  ResponsePassive::text($request['fromusername'], $request['tousername'], $info);
 
         // return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
 
