@@ -2729,10 +2729,10 @@ function init_edit() {
             if(opt_data.region == ''){
                 html_node.find("#province").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
             }
-            if(opt_data.region.city == ''){
+            if(html_node.find("#city").val() == ''){
                 html_node.find("#city").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
             }
-            if(opt_data.region.area == ''){
+            if(html_node.find("#area").val() == ''){
                 html_node.find("#area").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
             }
             if(html_node.find("#id_class_rank").val() == ''){
