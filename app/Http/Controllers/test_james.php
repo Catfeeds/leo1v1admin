@@ -333,11 +333,17 @@ class test_james extends Controller
             ]
         ];
 
+        echo WECHAT_APPID_TEC;
+        return ;
 
-        $txt = self::ch_json_encode($txt_arr);
+        $wx= new \App\Helper\Wx() ;
+        $token = $wx->get_wx_token(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC);
+
+
+        $txt = $this->ch_json_encode($txt_arr);
         $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-        $txt_ret = self::https_post($url,$txt);
+        $txt_ret = $this->https_post($url,$txt);
 
     }
 
