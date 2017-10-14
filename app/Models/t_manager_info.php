@@ -732,6 +732,23 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_seller_list_new_three($account_role){
+        $where_arr = [
+            ["m.account_role =%u ",$account_role,  -1] ,
+            "m.del_flag =0 ",
+        ];
+        $sql=$this->gen_sql_new(
+            "select uid,account_role,create_time,seller_level,g.level_face  "
+            ." from %s m "
+            ." left join %s g on g.seller_level = m.seller_level "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_seller_level_goal::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_jw_teacher_list(){
         $time=time();
         $sql = $this->gen_sql_new("select uid,tr.require_id from %s m".
@@ -1278,7 +1295,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
-
     public function get_uid_str_by_adminid($adminid){
         $where_arr = [
             "account_role=1",
@@ -1820,11 +1836,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_cr_num($start_time,$end_time){
         $where_arr = [
-            'account_role = 1',
-            "(leave_member_time=0 or leave_member_time < $end_time)"
+            'main_type = 1 ',
+            ["month=%u",$start_time,-1],
+            "(del_flag = 0 or(del_flag = 1 and  leave_member_time > $start_time))"
         ];
-        $sql = $this->gen_sql_new(" select count(*) from %s where %s",
-                                  self::DB_TABLE_NAME
+        $sql = $this->gen_sql_new(" select  count(distinct(adminid)) as total"
+                                  ." from db_weiyi_admin.t_group_name_month n left join db_weiyi_admin.t_admin_group_user g on g.groupid = n.groupid left join db_weiyi_admin.t_manager_info m on g.adminid = m.uid  where %s"
                                   ,$where_arr);
         return $this->main_get_value($sql);
     }
@@ -1873,24 +1890,41 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         ];
         $sql = $this->gen_sql_new(
             "select count(distinct s.userid) as stu_num,"
-            ." count(distinct r.userid) as revisit_num,"
-            ." sum(tq.duration) as call_num "
+            ." count(distinct r.userid) as revisit_num"
             ." from %s m"
             ." left join %s a on a.phone=m.phone"
             ." left join %s s on s.assistantid=a.assistantid and s.is_test_user=0 and s.type=0"
             ." left join %s r on r.sys_operator=m.account and r.revisit_time>=$start_time and r.revisit_time<$end_time and r.revisit_type=0"
-            ." left join %s tq on tq.id=r.call_phone_id"
             ." where %s"
-            // ." group by uid"
             ,self::DB_TABLE_NAME
             ,t_assistant_info::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_revisit_info::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_row($sql);
 
     }
+
+    public function get_leader_revisit_info($ass_adminid, $start_time,$end_time){
+        $where_arr = [
+            ["m.uid=%u",$ass_adminid,-1],
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$end_time",
+            "r.revisit_type=7"
+        ];
+
+        $sql = $this->gen_sql_new(
+            "select count(distinct r.userid)"
+            ." from %s m"
+            ." left join %s r on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_revisit_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 }

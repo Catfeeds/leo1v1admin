@@ -836,7 +836,27 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ();
     }
+    //修改助教特殊申请配额
+    public function teach_assistant_config_date_set () {
+        $config_date_type     = $this->get_in_int_val("config_date_type");
+        $config_date_sub_type = $this->get_in_int_val("config_date_sub_type");
+        $opt_time=$this->get_in_unixtime_from_str("opt_time");
+        $value                = $this->get_in_int_val("value");
+        if ( in_array($config_date_type , array(
+            E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY )) ) {
+            $opt_time = strtotime(date("Y-m-01", $opt_time) );
+        }
 
+        if ( $config_date_type== E\Econfig_date_type::V_MONTH_MARKET_TEACH_ASSISTANT_DIFF_MONEY  ) {
+            if (!$this->check_account_in_arr(["jim","yueyue"]))  {
+                return $this->output_err("没有权限");
+            }
+        }
+
+        $this->t_config_date->set_config_value($config_date_type,$opt_time,$value);
+
+        return $this->output_succ();
+    }
     public function set_teacher_train_through_info(){
         $phone           = $this->get_in_str_val('phone');
         $adminid = $this->get_in_int_val("adminid");
@@ -1412,13 +1432,26 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 在邮箱组内添加新成员
+     */
     public function  email_group_user_add () {
-        $groupid= $this->get_in_int_val("groupid");
+        $groupid = $this->get_in_int_val("groupid");
         $adminid = $this->get_in_adminid();
-        $this->t_mail_group_user_list->row_insert([
+
+        $check_flag = $this->t_mail_group_user_list->check_is_exists($groupid,$adminid);
+        if($check_flag){
+            return $this->output_err("此用户已在此用户组!");
+        }
+
+        $ret = $this->t_mail_group_user_list->row_insert([
             "groupid" => $groupid,
             "adminid" => $adminid,
         ]);
+        if(!$ret){
+            return $this->output_err("添加失败!请重试!");
+        }
+
         return $this->output_succ();
     }
 
@@ -1621,7 +1654,7 @@ class ajax_deal2 extends Controller
 
     }
 
-    //百度分期还款明细
+    //百度分期还款明细(实时)
     public function get_baidu_period_detail_info(){
         $orderid              = $this->get_in_int_val("orderid",177);
         $list = $this->get_baidu_money_charge_pay_info($orderid);
@@ -1648,6 +1681,32 @@ class ajax_deal2 extends Controller
         }
         return $this->output_succ(["data"=>$data]);
     }
+
+    //百度分期还款明细
+    public function get_baidu_period_detail_info_new(){
+        $orderid              = $this->get_in_int_val("orderid",177);        
+        $data = $this->t_period_repay_list->get_order_repay_info($orderid);
+        if(!$data){
+            return $this->output_err('无数据!');
+        }
+        foreach($data as &$item){
+            if($item["b_status"]==48){
+                $item["b_status_str"] = "已还款";
+            }elseif($item["b_status"]==80){
+                $item["b_status_str"] = "未还但未到期";
+            }elseif($item["b_status"]==112){
+                $item["b_status_str"] = "未还款";
+            }elseif($item["b_status"]==144){
+                $item["b_status_str"] = "未还并逾期";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str");
+            E\Erepay_status::set_item_value_str($item);
+
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
 
     //精排试听详情获取
     public function get_seller_top_lesson_info(){

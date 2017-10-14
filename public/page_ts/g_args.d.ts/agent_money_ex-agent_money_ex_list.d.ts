@@ -23,7 +23,9 @@ interface RowData {
 	money	:any;
 	account	:any;
 	name	:any;
+	flow_status	:any;
 	agent_money_ex_type_str	:any;
+	flow_status_str	:any;
 }
 
 /*

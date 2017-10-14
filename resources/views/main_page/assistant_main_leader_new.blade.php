@@ -391,11 +391,11 @@
                                 <tbody>
                                     @foreach ( $month_info as $var )
                                         <tr>
-                                            <td>{{$var['name']}}</td>
-                                            <td>{{$var["revisit_num"]}} </td>
-                                            <td>{{$var["stu_num"]*2}} </td>
-                                            <td>{{$var["call_num"]/60}} </td>
-                                            <td>{{$var["stu_num"]*6}} </td>
+                                            <td>{{@$var['name']}}</td>
+                                            <td>{{@$var["revisit_num"]/1}} </td>
+                                            <td>{{@$var["stu_num"]*2}} </td>
+                                            <td>{{@$var["call_num"]}} </td>
+                                            <td>{{@$var["stu_num"]*6}}:00 </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -403,8 +403,33 @@
                         </div>
                     </div>
                 </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="panel panel-warning"  >
+                    <div class="panel-heading center-title ">
+                        月组长满意度回访考核
+                    </div>
+                    <div class="panel-body">
+                        <table   class="table table-bordered "   >
+                            <thead>
+                                <tr>
+                                    <td>组长</td>
+                                    <td>已回访量</td>
+                                    <td>月目标回访量</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( $leader_info as $var )
+                                    <tr>
+                                        <td>{{@$var['name']}}</td>
+                                        <td>{{@$var["revisit_num"]}} </td>
+                                        <td>{{@$var["goal"]}} </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-
         </div>
     </section>
 

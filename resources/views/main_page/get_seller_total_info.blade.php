@@ -61,7 +61,7 @@
                                         <td width="200px" align="center">完成率</td>
                                         <td >{{@number_format($ret_info['month_finish_persent'],2)}}%</td>
                                         <td width="200px" align="center">缺口金额</td>
-                                        <td >{{@$ret_info['month_left_money']}}</td>
+                                        <td >{{@number_format($ret_info['month_left_money'],2)}}</td>
                                     </tr>
                                 </thead>
                             </table>
@@ -88,7 +88,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$ret_info['order_num']}} </td>
+                                        <td> {{@$ret_info['order_cc_num']}} </td>
                                         <td> {{@$ret_info['formal_num']}} </td>
                                         <td> {{@number_format($ret_info['aver_money'],2)}} </td>
                                         <td> {{@number_format($ret_info['aver_count'],2)}} </td>
@@ -151,7 +151,7 @@
                                         <td>试听排课数</td>
                                         <td class="panel-red">试听成功数</td>
                                         <td class="panel-red">签单数</td>
-                                        <td class="panel-red">月邀请率</td>
+                                        <td class="panel-red">月邀约率</td>
                                         <td class="panel-red">月排课率</td>
                                         <td class="panel-red">月到课率</td>
                                         <td class="panel-red">月试听转化率</td>

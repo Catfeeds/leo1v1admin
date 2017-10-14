@@ -2,11 +2,18 @@
 @section('content')
 
     <section class="content ">
-        
+
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
                     <div  id="id_date_range" >
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon" >   筛选   </span>
+                        <select class="opt-change form-control" id="id_all_account" >
+                        </select> 
                     </div>
                 </div>
 
@@ -30,10 +37,9 @@
                 <tr>
                     <td>id </td>
                     <td>用户 </td>
-                    <td>服务器IP </td>
-                    <td>登录IP </td>
-                    <td>type </td>
-                    <td>登录成功</td>
+                    <td>serverip </td>
+                    <td>loginip </td>
+                    <td>失败/成功</td>
                     <td>登录时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -43,10 +49,15 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["account"]}} </td>
-                        <td>{{@$var["serverip"]}} </td>
+                        <td>{{@$var["server_ip"]}} </td>
                         <td>{{@$var["login_ip"]}} </td>
-                        <td>{{@$var["type"]}} </td>
-                        <td>{{@$var["login_succ_flag"]}} </td>
+                        <td>
+                            @if ($var["login_succ_flag"]==0)
+                                否
+                            @elseif ($var["login_succ_flag"]==1)
+                                是
+                            @endif
+                        </td>
                         <td>{{@$var["login_time"]}} </td>
                         <td>
                             <div

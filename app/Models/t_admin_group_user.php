@@ -275,4 +275,15 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_row($sql);
     }
 
+    public function get_ass_group_name($ass_adminid){
+        $sql = $this->gen_sql_new("  select group_name from %s gu "
+                                  ." left join %s gn on gn.groupid=gu.groupid"
+                                  ." where gu.adminid=$ass_adminid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_name::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }

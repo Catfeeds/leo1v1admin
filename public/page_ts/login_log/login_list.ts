@@ -10,6 +10,7 @@ $(function(){
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
             account:	$('#id_account').val(),
+            all_account:	$('#id_all_account').val(),
         });
     }
 
@@ -24,26 +25,32 @@ $(function(){
             load_data();
         }
     });
+    Enum_map.append_option_list("boolean",$("#id_all_account"));
     $('#id_account').val(g_args.account);
+    $('#id_all_account').val(g_args.all_account);
     $('.opt-change').set_input_change_event(load_data);
 
     $("#id_add").on("click",function(){
         var $account= $("<input/>" );
-        var $serverip= $("<input/>" );
-        var $type= $("<input/>" );
+        var $server_ip= $("<input/>" );
+        var $login_ip= $("<input/>" );
+        var $login_succ_flag= $("<select/>" );
         var arr=[
              ["用户" ,$account  ],
-             ["serverip", $serverip],
-             ["登录状态", $type],
+             ["server_ip", $server_ip],
+             ["login_ip", $login_ip],
+             ["成功/失败", $login_succ_flag],
         ] ;
+        Enum_map.append_option_list("islogin",$login_succ_flag,true);
           $.show_key_value_table("新增", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/login_log/login_add",{
                     "account" : $account.val(),
-                    "serverip" :$serverip.val(),
-                    "type" :$type.val()
+                    "server_ip" :$server_ip.val(),
+                    "login_ip" :$login_ip.val(),
+                    "login_succ_flag" :$login_succ_flag.val()
                 });
             }
         });
@@ -52,36 +59,38 @@ $(function(){
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var $account= $("<input/>" );
-        var $serverip= $("<input/>" );
-        var $type= $("<input/>" );
-        //var $type= $("<select/>" );
-        Enum_map.append_option_list("type", $type, true);
-
+        var $server_ip= $("<input/>" );
+        var $login_ip= $("<input/>" );
+        var $login_succ_flag= $("<select/>" );
+        Enum_map.append_option_list("islogin", $login_succ_flag, true);
         var arr=[
             ["用户" ,$account  ],
-            ["serverip" ,$serverip  ],
-            ["type" ,$type  ],
+            ["server_ip" ,$server_ip  ],
+            ["login_ip" ,$login_ip  ],
+            ["失败/成功" ,$login_succ_flag  ],
         ] ;
         $account.val(opt_data.account );
-        $serverip.val(opt_data.serverip );
-        $type.val(opt_data.type );
+        $server_ip.val(opt_data.server_ip );
+        $login_ip.val(opt_data.login_ip );
+        $login_succ_flag.val(opt_data.login_succ_flag );
 
         $.show_key_value_table("修改", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax_t("/login_log/login_edit",{
+                $.do_ajax("/login_log/login_edit",{
                     "id" : opt_data.id,
                     "account" : $account.val(),
-                    "serverip" : $serverip.val(),
-                    "type" : $type.val()
+                    "server_ip" : $server_ip.val(),
+                    "login_ip" : $login_ip.val(),
+                    "login_succ_flag" : $login_succ_flag.val()
                 });
             }
         });
 
     });
 
-    $(".opt-del").on("click",function(){
+   /* $(".opt-del").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var arr=[
         ] ;
@@ -96,7 +105,20 @@ $(function(){
             }
         });
 
-      });
+        });*/
+
+    $(".opt-del").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "要删除? 用户:" + opt_data.account,
+            function(val){
+                if (val) {
+                    $.do_ajax("/login_log/login_del",{
+                    "id" : opt_data.id
+                   });
+                }
+            });
+    });
 
 
 });

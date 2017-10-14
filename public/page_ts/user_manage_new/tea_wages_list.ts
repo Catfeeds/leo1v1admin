@@ -10,10 +10,11 @@ $(function(){
 			      end_time            : $('#id_end_time').val(),
 			      teacher_ref_type    : $('#id_teacher_ref_type').val(),
 			      teacher_money_type  : $('#id_teacher_money_type').val(),
+			      teacher_type        : $('#id_teacher_type').val(),
 			      level               : $('#id_level').val(),
 			      show_data           : $('#id_show_data').val(),
 			      show_type           : $('#id_show_type').val(),
-			      reference : $('#id_reference').val(),
+			      reference           : $('#id_reference').val(),
         });
     }
     $.admin_select_user($("#id_reference"),"teacher",function(){load_data();});
@@ -46,9 +47,11 @@ $(function(){
         $.wopen("/human_resource/index?teacherid="+opt_data.teacherid);
     });
 
+    Enum_map.append_option_list("teacher_type",$("#id_teacher_type"));
     Enum_map.append_option_list("teacher_ref_type",$("#id_teacher_ref_type"));
     Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"));
     Enum_map.append_option_list("level",$("#id_level"));
+    $("#id_teacher_type").val(g_args.teacher_type);
     $("#id_teacher_ref_type").val(g_args.teacher_ref_type);
     $("#id_teacher_money_type").val(g_args.teacher_money_type);
     $("#id_level").val(g_args.level);
@@ -100,6 +103,19 @@ $(function(){
         var teacher_cost_normal = 0;
         var teacher_cost_tax    = 0;
         var teacher_full_money  = 0;
+
+        $("#id_lesson_price").val(0);
+        $("#id_teacher_cost").val(0);
+        $("#id_teacher_cost_tax").val(0);
+        $("#id_teacher_money_tax").val(0);
+        $("#id_teacher_money").val(0);
+        $("#id_teacher_normal").val(0);
+        $("#id_teacher_trial").val(0);
+        $("#id_teacher_reward").val(0);
+        $("#id_teacher_reward_ex").val(0);
+        $("#id_teacher_ref_money_1").val(0);
+        $("#id_teacher_ref_money_2").val(0);
+        $("#id_teacher_ref_money_3").val(0);
 
         function do_one() {
             if (do_index < row_list.length ) {
@@ -203,5 +219,9 @@ $(function(){
         };
         do_one();
     });
+
+
+
+
 
 });

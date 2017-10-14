@@ -7,6 +7,17 @@
                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span class="input-group-addon">季度</span>
+                        <select class="opt-change form-control " id="id_start_time" >
+                            @foreach($season_list as $k=>$v)
+                                <option value="{{$k}}">{{$v}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>               
+
+                <div class="col-xs-6 col-md-2" style="display:none">
+                    <div class="input-group ">
                         <span class="input-group-addon">老师类型</span>
                         <select class="opt-change form-control " id="id_fulltime_flag" >
                             <option value="-1">全部</option>

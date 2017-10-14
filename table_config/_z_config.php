@@ -95,6 +95,7 @@ return array(
     ["db_weiyi","t_teacher_apply","id"] ,
     ["db_weiyi","t_revisit_info","userid","revisit_time" ] ,
     ["db_weiyi","t_revisit_assess_info","id" ] ,
+    ["db_weiyi","t_revisit_call_count","count_id" ] ,
     ["db_weiyi","t_revisit_warning_overtime_info","overtime_id" ] ,
     ["db_weiyi","t_parent_info","parentid"] ,
     ["db_weiyi","t_error_info","id"] ,
@@ -184,6 +185,7 @@ return array(
     ["db_weiyi","t_fulltime_teacher_positive_require_list","id"] ,
     ["db_weiyi","t_location_subject_grade_textbook_info","id"] ,
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
+    ["db_weiyi","t_period_repay_list","orderid","period"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,

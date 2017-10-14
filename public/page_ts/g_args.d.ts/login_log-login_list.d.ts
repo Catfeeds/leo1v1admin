@@ -7,6 +7,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	account:	string;
+	all_account:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -17,12 +18,11 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	type	:any;
-	serverip	:any;
-	account	:any;
 	login_time	:any;
-	login_succ_flag	:any;
+	server_ip	:any;
 	login_ip	:any;
+	account	:any;
+	login_succ_flag	:any;
 }
 
 /*
@@ -41,10 +41,12 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			account:	$('#id_account').val()
+			account:	$('#id_account').val(),
+			all_account:	$('#id_all_account').val()
         });
     }
 
+	Enum_map.append_option_list("boolean",$("#id_all_account"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -57,6 +59,7 @@ $(function(){
         }
     });
 	$('#id_account').val(g_args.account);
+	$('#id_all_account').val(g_args.all_account);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -71,6 +74,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">account</span>
                 <input class="opt-change form-control" id="id_account" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_all_account" >
+                </select>
             </div>
         </div>
 */

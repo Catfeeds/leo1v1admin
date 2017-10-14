@@ -14,7 +14,7 @@ class save_seller_info extends Command
      *
      * @var string
      */
-    protected $signature = 'command:save_seller_info';
+    protected $signature = 'command:save_seller_info  {--s=} {--e=}';
 
     /**
      * The console command description.
@@ -43,8 +43,14 @@ class save_seller_info extends Command
         // 月末保存整月信息
         $task=new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime(date('Y-m-01'));
-        $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+        $start_time = $this->option('s');
+        $end_time   = $this->option('e');
+
+        if($start_time == null && $end_time == null ){
+            $start_time = strtotime(date('Y-m-01'));
+            $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+        }
+
 
         $ret_info['data_type'] = "月报数据: ".date('Y-m-d 0:0:0',$start_time)." ~ ".date("Y-m-d 0:0:0",$end_time);
 
@@ -52,18 +58,19 @@ class save_seller_info extends Command
 
         $ret_info['from_time'] = $start_time;
 
-
-        $order_info_total = $task->t_order_info->get_total_money($start_time, $end_time);// 总收入
+        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 新签合同
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
+        $ret_info['new_order_num'] = $new_order_info['order_num_new'] + $referral_order['referral_num']; // 合同数量
+
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
-        $ret_info['new_money']   = $order_info_total['total_price'] - $referral_order['referral_price']; //  新签
-        $ret_info['order_num']   = $order_info_total['total_num']; // 有签单的销售人数
+        $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
+        $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
+        $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-        // $ret_info['formal_info'] = $job_info['job_price']; // 入职完整月人员签单额
         $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
@@ -90,7 +97,6 @@ class save_seller_info extends Command
             }
         }
 
-
         // 计算电销人数
         $first_group  = '咨询一部';
         $second_group = '咨询二部';
@@ -112,7 +118,7 @@ class save_seller_info extends Command
         $ret_info['seller_invit_num'] = $task->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
         $ret_info['seller_schedule_num'] = $task->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
         $ret_info['test_succ_num'] = $task->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
-        $ret_info['new_order_num'] = $order_info_total['total_num']; // 合同数量
+
 
         $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
@@ -143,8 +149,8 @@ class save_seller_info extends Command
 
 
         // 更新漏斗型数据
+        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $ret_info['seller_invit_month'], $ret_info['has_tq_succ_invit_month'], $ret_info['seller_plan_invit_month'], $ret_info['seller_test_succ_month'], $ret_info['order_trans_month'], $ret_info['order_sign_month'], $ret_info['has_tq_succ_sign_month'], $ret_info['has_called_stu'] );
 
-        $task->t_seller_tongji_for_month->update_funnel_date($start_time, $seller_invit_month, $has_tq_succ_invit_month, $seller_plan_invit_month, $seller_test_succ_month, $order_trans_month, $order_sign_month, $has_tq_succ_sign_month, $has_called_stu );
     }
 
 

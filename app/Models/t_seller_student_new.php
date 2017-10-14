@@ -1028,6 +1028,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         case 4 : //c
         case 5 : //d
             $where_arr[] = "(origin_level >3 or $check_no_call_time_str )";
+            break;
         case 6 : //e
             $where_arr[] = "(origin_level >3 )";
             break;
@@ -2474,16 +2475,41 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
+    public function get_tranfer_phone_num_month($start_time,$end_time){
+        $where_arr = [
+            "s.origin_assistantid <> 0 ",
+            "m.account_role = 1",
+            "m.del_flag = 0 ",
+            ['admin_assign_time >=%u',$start_time,-1],
+            ['admin_assign_time <=%u',$end_time,-1]
+        ];
+        $sql = $this->gen_sql_new(" select count(distinct(s.phone)) as total_num, sum(if(o.price>0,1,0)) as total_orderid"
+                                  ." from %s k "
+                                  ." left join %s s on k.userid = s.userid "
+                                  ." left join %s m on m.uid = s.origin_assistantid "
+                                  ." left join %s o on o.userid = s.userid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_row($sql);
+    }
+
     public function get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid){
         $where_arr = [
-            ["a.assistantid=%u",$assistantid,-1]
+            ["a.assistantid=%u",$assistantid,-1],
+            "n.ass_leader_create_flag=1",
+            "s.is_test_user=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,'n.add_time',$start_time,$end_time);
-        $sql = $this->gen_sql_new("select n.userid,s.nick,n.add_time,n.admin_assignerid,n.phone,a.nick ass_nick,s.ass_assign_time"
+        $sql = $this->gen_sql_new("select n.userid,s.nick,n.add_time,n.admin_assignerid,n.phone,n.phone_location,"
+                                  ."m.name ass_nick,s.ass_assign_time,s.origin_assistantid,s.origin,a.nick ass_name "
                                   ." from %s n left join %s s on n.userid = s.userid"
                                   ." left join %s m on n.admin_revisiterid = m.uid"
-                                  ." left join %s a on m.phone = a.phone"
+                                  ." left join %s a on s.assistantid = a.assistantid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

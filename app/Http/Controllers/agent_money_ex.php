@@ -22,6 +22,8 @@ class agent_money_ex extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             E\Eagent_money_ex_type::set_item_value_str($item);
             $item["money"] = $item["money"]/100;
+            \App\Helper\Common::set_item_enum_flow_status($item);
+            
 
         }
         return $this->pageView(__METHOD__,$ret_info);
@@ -56,5 +58,24 @@ class agent_money_ex extends Controller
         return $this->output_succ();
     }
 
+     //@desn:发放现金审批
+    public function examine(){
+        $reason          = $this->get_in_str_val("reason");
+        $agent_money_id = $this->get_in_int_val('agent_money_id');
+        $flow_type       = $this->get_in_e_flow_type(0);
+        $from_key_int    = $this->get_in_int_val("from_key_int",0);
+        $from_key2_int   = $this->get_in_int_val("from_key2_int",0);
+ 
+        
+        $ret=$this->t_flow->add_flow(
+            $flow_type,$this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
+        );
 
+        if($ret) {
+            return $this->output_succ();
+        }else{
+            return $this->output_err( "已经申请过了" );
+        }
+  
+    }
 }

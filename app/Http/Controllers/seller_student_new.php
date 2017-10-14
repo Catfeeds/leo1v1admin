@@ -1606,6 +1606,15 @@ class seller_student_new extends Controller
         $page_info= $this->get_in_page_info();
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $ret_info = $this->t_seller_student_new->get_ass_leader_assign_stu_info($start_time,$end_time,$page_info,$assistantid);
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");        
+            \App\Helper\Utils::unixtime2date_for_item($item, "ass_assign_time","_str");
+            $this->cache_set_item_account_nick($item,"admin_assignerid","admin_assignerid_nick");
+            $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
+ 
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
 
         
     }

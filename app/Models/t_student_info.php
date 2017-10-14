@@ -286,11 +286,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         ];
         if ($user_name) {
-            $where_arr[]= " (nick like '%" . $user_name . "%' or parent_name like '%" . $user_name . "%') "   ;
+            $where_arr[]= " (a.nick like '%" . $user_name . "%' or a.parent_name like '%" . $user_name . "%') "   ;
         }
 
         if ($phone) {
-            $where_arr[]=  "phone like '%".$phone."%'";
+            $where_arr[]=  "a.phone like '%".$phone."%'";
         }
         $sql = $this->gen_sql(
             "select b.userid, b.revisit_type, a.assistantid, b.revisit_time, b.operator_note, b.sys_operator,"
@@ -299,7 +299,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ." left join %s m on b.sys_operator = m.account"
             ." left join %s t on t.phone = m.phone "
             ." left join %s tq on tq.id = b.call_phone_id "
-            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.userid ",
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.revisit_time",
             self::DB_TABLE_NAME,
             t_revisit_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -2873,5 +2873,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info,10,true);
+    }
+
+
+   public function get_stu_info_by_parentid($parentid){
+       $sql = $this->gen_sql_new("  select s.nick, s.grade,s.userid from %s s"
+                                 ." left join %s p on p.userid=s.userid"
+                                 ." where p.parentid=$parentid"
+                                 ,self::DB_TABLE_NAME
+                                 ,t_parent_child::DB_TABLE_NAME
+       );
+
+        return $this->main_get_list($sql);
+        
     }
 }

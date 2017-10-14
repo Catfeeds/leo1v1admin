@@ -107,7 +107,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
 
     }
-    public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject){
+    public function get_all_record_info_time($teacherid,$type,$start_time,$end_time,$page_num,$subject,$lesson_invalid_flag=0){
         $where_arr=[
             ["add_time >= %u",$start_time,-1],
             ["add_time <= %u",$end_time,-1],
@@ -115,10 +115,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["r.type=%u",$type,0],
             ["t.subject=%u",$subject,-1],
             "(t.nick <> '刘辉' and t.realname <> '刘辉' and t.nick <> 'becky老师' and t.realname <> 'becky老师')",
-            "t.teacherid not in (51094,53289,59896,130462,61828,55161,90732)"
+            "t.teacherid not in (51094,53289,59896,130462,61828,55161,90732)",
+            // "lesson_invalid_flag>0"
         ];
+        if($lesson_invalid_flag==1){
+            $where_arr[] = "lesson_invalid_flag>0";
+        }
+        
 
-        $sql=$this->gen_sql_new("select  t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score  "
+        $sql=$this->gen_sql_new("select  t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score,lesson_invalid_flag   "
                                 ." from %s r "
                                 ." left join %s t on r.teacherid = t.teacherid"
                                 ." where %s "
@@ -368,11 +373,14 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_trial_train_lesson_list($page_num,$start_time,$end_time,$status,$grade,
-                                                $subject,$teacherid,$is_test,$lesson_status,$tea_subject
+                                                $subject,$teacherid,$is_test,$lesson_status,
+                                                $tea_subject,$opt_date_str=1
     ){
         $where_arr = [
-            ["lesson_start>%u",$start_time,0],
-            ["lesson_start<%u",$end_time,0],
+            //["tr.add_time>%u",$start_time,0],
+            // ["tr.add_time<%u",$end_time,0],
+            // ["lesson_start>%u",$start_time,0],
+            // ["lesson_start<%u",$end_time,0],
             ["l.grade=%u",$grade,-1],
             ["l.subject=%u",$subject,-1],
             ["l.teacherid=%u",$teacherid,-1],
@@ -396,6 +404,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+
         $sql = $this->gen_sql_new("select tr.id,l.lessonid,audio,draw,l.teacherid,l.subject,l.grade,t.realname as tea_nick,"
                                   ." t.wx_openid,l.lesson_start,l.lesson_end,l.lesson_status,tr.add_time,tr.record_monitor_class,"
                                   ." tr.record_info,tr.acc,tr.trial_train_status,l.trial_train_num,l.stu_comment "

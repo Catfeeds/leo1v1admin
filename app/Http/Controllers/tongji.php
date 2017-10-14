@@ -169,7 +169,7 @@ class tongji extends Controller
         //合同数
         $list = $this->t_order_info->get_1v1_order_list($start_time,$end_time,$sys_operator,-1);
         foreach ($list as $item) {
-            $opt_date=date("Y-m-d",$item["order_time"]);
+            $opt_date=date("Y-m-d",$item["opt_date"]);
             $date_item= &$date_list[$opt_date];
             $date_item["order_count"]=@$date_item["order_count"]+1;
 

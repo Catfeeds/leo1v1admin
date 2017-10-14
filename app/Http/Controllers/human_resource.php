@@ -361,6 +361,10 @@ class human_resource extends Controller
         $arr              = explode("-",$start_time);
         $week = $arr[0];
         $start = @$arr[1];
+
+        if($start == $end_time){
+            return $this->output_err("开始时间不能与结束时间相同!") ;
+        }
         $old_start_time = $old_week."-".$old_start_time;
         $lesson_start = strtotime(date("Y-m-d", time(NULL))." $start");
         $lesson_end = strtotime(date("Y-m-d", time(NULL))." $end_time");
@@ -1997,8 +2001,11 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
+        $account_role = $this->get_account_role();
         if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
-           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
+           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])
+           || $account_role==12
+        ){
             $adminid = -1;
         }
 
@@ -2583,8 +2590,9 @@ class human_resource extends Controller
         if($acc != $account && $acc !=""){
             return $this->output_err("您没有权限审核,审核人为".$acc);
         }
+
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $ret = $this->t_teacher_record_list->field_update_list($id,[
+        $ret  = $this->t_teacher_record_list->field_update_list($id,[
             "tea_process_design_score"         => $tea_process_design_score,
             "knw_point_score"                  => $knw_point_score,
             "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
@@ -2604,7 +2612,6 @@ class human_resource extends Controller
             "acc"                              => $account
         ]);
 
-
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
@@ -2622,7 +2629,6 @@ class human_resource extends Controller
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
 
-            //等级升级通知
             /**
              * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
              * 标题课程 : 等级升级通知
@@ -2634,7 +2640,6 @@ class human_resource extends Controller
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
             $level_degree    = \App\Helper\Utils::get_teacher_level_str($teacher_info);
-            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
@@ -2644,7 +2649,6 @@ class human_resource extends Controller
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "\n升级原因:".$record_info."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
@@ -2658,12 +2662,12 @@ class human_resource extends Controller
             }
 
             //添加模拟试听奖金
-            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
+            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,E\Ereward_type::V_5);
             if(!$check_flag){
                 $train_reward = \App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
-                    "type"       => 5,
+                    "type"       => E\Ereward_type::V_5,
                     "add_time"   => time(),
                     "money"      => $train_reward,
                     "money_info" => $lessonid,
@@ -2687,12 +2691,11 @@ class human_resource extends Controller
                 $data['keyword1'] = $record_info;
                 $data['keyword2'] = $keyword2;
                 $data['keyword3'] = date("Y-m-d H:i:s");
-                $data['remark']   = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
+                $data['remark'] = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
                 $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
             }
             $ret = $this->add_trial_train_lesson($teacher_info,1,2);
-
         }else{
             return $this->output_err("审核状态出错！");
         }
@@ -2735,7 +2738,7 @@ class human_resource extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $subject   = $this->get_in_int_val("subject",-1);
         $page_num  = $this->get_in_page_info();
-        list($start_time,$end_time) = $this->get_in_date_range(-31,date("2017-05-31"));
+        list($start_time,$end_time) = $this->get_in_date_range(date("2017-05-01"),date("2017-05-31"));
         $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject);
 
         $time = time()-7*86400;
@@ -2772,7 +2775,7 @@ class human_resource extends Controller
         $subject   = $this->get_in_int_val("subject",-1);
         $page_num  = $this->get_in_page_num();
         list($start_time,$end_time) = $this->get_in_date_range(-7,0);
-        $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject);
+        $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject,1);
 
         $time = time()-7*86400;
         foreach($ret_info["list"] as &$item){
@@ -4080,7 +4083,7 @@ class human_resource extends Controller
     }
 
     public function get_teacher_lecture_fail_score_info_zs(){
-        $this->get_teacher_lecture_fail_score_info();
+       return $this->get_teacher_lecture_fail_score_info();
     }
 
     public function get_teacher_lecture_fail_score_info(){
@@ -4638,9 +4641,9 @@ class human_resource extends Controller
             $val['grade_str']   = $grade_str;
             $val['subject_str'] = $subject_str;
         }
-
         return $this->pageView(__METHOD__,$tea_list);
     }
+
 
 
 }

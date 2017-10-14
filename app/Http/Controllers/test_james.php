@@ -281,41 +281,26 @@ class test_james extends Controller
     }
 
     public function ss(){
-
-        $a = "[1506866400,1506835800,1507039200,1507023000,1507282200]";
-        $date_modify = json_decode($a,true);
-        $day_date = [];
-        foreach($date_modify as $item){
-            $day_date[] = date('Y-m-d',$item);
-        }
-        $b = array_flip(array_flip($day_date));
-        foreach($b as $val){
-            $begin_time = strtotime($val);
-            $end_time   = $begin_time+86400;
-            $teacher_lesson_time[] = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $begin_time, $end_time);
-        }
-
-
-        dd($b);
-        // dd(json_decode($a,true));
-
-        $ret_arr = \App\Helper\Common::redis_set_json('a',['a'=>1]);
-
-        list($start_time,$end_time) = $this->get_in_date_range_day(-1);
-        dd($start_time.' ~ '.$end_time);
-        $seller_student_status= E\Eseller_student_status::V_200;
-
-
+        dd(date('t'));
+        echo date('Y-m-t', strtotime('-1 month'));
+        // $a = time();
+        
+        // strtotime('');
 
     }
 
     public function has_called(){
+        $this->switch_tongji_database();
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
 
-        $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+        // $order_info_total = $this->t_order_info->get_referral_income($start_time, $end_time);// 总收入
+        $order_info_total = $this->t_order_info->get_new_order_money($start_time, $end_time);// 总收入
 
-        dd($ret_info);
+        // get_new_order_money
+        // $ret_info['has_called'] = $this->t_tq_call_info->get_has_called_stu_num($start_time, $end_time); // 已拨打例子
+
+        dd($order_info_total);
     }
 
     public function install(){
@@ -637,6 +622,18 @@ class test_james extends Controller
             "ret_info" => $ret_info_arr['list']
         ]);
     }
+
+
+    public function get_all_stu_info(){
+
+
+        $parentid = $this->get_in_int_val('parentid');
+
+        $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
+
+        return $this->output_succ(['data'=>$student_info]);
+    }
+   
 
 
 
