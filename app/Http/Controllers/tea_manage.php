@@ -386,6 +386,109 @@ class tea_manage extends Controller
           ->withCookie(cookie('subject', $subject, 45000));
     }
 
+
+    /**
+     * 老师课程列表 pad实时播放二维码
+     */
+    public function get_tea_pad_lesson_qr(){
+        $lessonid=$this->get_in_lessonid();
+        $ret_arr=$this->t_lesson_info->field_get_list($lessonid,"*");
+        $ret_arr["roomid"]= \App\Helper\Utils::gen_roomid_name( $ret_arr["lesson_type"],
+                                $ret_arr["courseid"], $ret_arr["lesson_num"]);
+
+        $lesson_type=$ret_arr["lesson_type"];
+        $server_type=$ret_arr["server_type"];
+
+
+        $server_info= $this->t_lesson_info_b3->get_real_xmpp_server($lessonid) ;
+
+        $ret_arr["webrtc"] = $server_info["ip"].":".  ($server_info["webrtc_port"] -(20061 -5061 ) )  ;
+        $ret_arr["xmpp"]   = $server_info["ip"].":".  $server_info["xmpp_port"]  ;
+
+
+        if($lesson_type<1000) {
+            $ret_arr["type"]=1;
+        }else if ($lesson_type<3000 ){
+            $ret_arr["type"]=2;
+        }else{
+            $ret_arr["type"]=3;
+        }
+
+        $server_type= \App\Helper\Utils::get_lesson_server_type ($lesson_type,$server_type);
+
+        if ($server_type==1){
+            $ret_arr["audioService"]="leoedu";
+        }else{
+            $ret_arr["audioService"]="agora";
+        }
+        //图片信息
+        $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
+
+        // return $this->output_succ(["data"=>$test]);
+
+        // $phone = $ret_arr['phone'];
+        // if(!$phone){
+            // return $this->output_err('');
+            // return "";
+        // }
+
+        $lessonid_qr_name = $lessonid."_qr.png";
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $qiniu_url = $qiniu['public']['url'];
+        $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$lessonid_qr_name);
+        if(!$is_exists ){
+            //text待转化为二维码的内容
+            // $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
+            $text           = "leoedu://meeting.leoedu.com/meeting=".$qr_info;
+            $qr_url         = "/tmp/".$lessonid.".png";
+            $teacher_qr_url = "/tmp/".$lessonid_qr_name;
+
+            //教师节背景图
+            // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/guoqing_pic_invitation.png";
+            $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/b20278468cb5d4bc2dd1eaff3d843edd1507975354381.png";
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+            list($qr_width, $qr_height)=getimagesize($qr_url);
+            //缩放比例
+            $per = round(157/$qr_width,3);
+            $n_w = $qr_width*$per;
+            $n_h = $qr_height*$per;
+            $new = imagecreatetruecolor($n_w, $n_h);
+            $img = imagecreatefrompng($qr_url);
+            //copy部分图像并调整
+            imagecopyresized($new,$img,0,0,0,0,$n_w,$n_h,$qr_width,$qr_height);
+            //图像输出新图片、另存为
+            imagepng($new, $qr_url);
+            imagedestroy($new);
+            imagedestroy($img);
+
+            $image_bg  = imagecreatefrompng($bg_url);
+            $image_qr  = imagecreatefrompng($qr_url);
+            $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
+            imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
+            imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
+            imagepng($image_ret,$teacher_qr_url);
+
+            $file_name = \App\Helper\Utils::qiniu_upload($teacher_qr_url);
+
+            if($file_name!=''){
+                $cmd_rm = "rm /tmp/".$lessonid."*.png";
+                \App\Helper\Utils::exec_cmd($cmd_rm);
+            }
+
+            imagedestroy($image_bg);
+            imagedestroy($image_qr);
+            imagedestroy($image_ret);
+        }else{
+            $file_name=$lessonid_qr_name;
+        }
+
+        $file_url = $qiniu_url."/".$file_name;
+        // return $file_url;
+        return $this->output_succ(["data"=>$file_url]);
+    }
+
+
     public function set_test_lesson_comment(){
         $lessonid =  $this->get_in_int_val('lessonid');
         $courseware_flag =  $this->get_in_str_val('courseware_flag');
@@ -2735,7 +2838,7 @@ class tea_manage extends Controller
         //$userid = 99;
         $page_info=$this->get_in_page_info();
 
-        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num); 
+        $ret_info = $this->t_lesson_info_b3->get_seller_test_lesson_tran_tea_count($page_info,$start_time,$end_time,-1,1,$subject,$grade_part_ex,$teacherid,$tranfer_per,$test_lesson_flag,$test_lesson_num);
         //$ret_info=$this->t_teacher_train_info->get_list($page_info,$start_time,$end_time,$train_type,$subject,$status);
         foreach( $ret_info['list'] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;

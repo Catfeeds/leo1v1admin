@@ -683,6 +683,8 @@ class common extends Controller
         return $file_url;
     }
 
+
+
     /**
      * 优学优享 邀请学员生成二维码图片
      */
@@ -1331,7 +1333,7 @@ class common extends Controller
                         "学生:".$nick." 合同已支付全款",
                         "");
 
- 
+
                 }
 
             }
@@ -1599,7 +1601,7 @@ class common extends Controller
         //成交价格
         $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
         $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
@@ -1797,7 +1799,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             //成交价格
             $parent_orderid = $this->t_child_order_info->get_parent_orderid($orderid);
             $dealmoney = $this->t_order_info->get_price($parent_orderid);
-        
+
             //订单id
             // $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
 
@@ -1858,7 +1860,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 }
                 return $this->output_succ(["status"=>0,"msg"=>"success"]);
             }
- 
+
         }
         // dd(111);
     }
@@ -2007,7 +2009,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $ret_arr= $this->t_lesson_info_b3->get_lesson_condition_info($lesson_arr['courseid'], $lesson_arr['lesson_num']);
             $condition =$ret_arr["lesson_condition"];
             $lessonid=$ret_arr["lessonid"];
-            
+
             if ($utype=="tea" && $ret_arr["teacherid"] != $userid ) { //不是老师,是cc,不处理
 
             }else{
