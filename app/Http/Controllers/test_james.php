@@ -319,7 +319,7 @@ class test_james extends Controller
 
         //使用客服接口发送消息
         $txt_arr = [
-            'touser'   => $openid_user,
+            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
             'msgtype'  => 'news',
             "news"=>[
                 "articles"=> [
@@ -333,19 +333,59 @@ class test_james extends Controller
             ]
         ];
 
-        echo WECHAT_APPID_TEC;
-        return ;
+        $appid_tec     = config('admin')['teacher_wx']['appid'];
+        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
 
-        $wx= new \App\Helper\Wx() ;
-        $token = $wx->get_wx_token(WECHAT_APPID_TEC,WECHAT_APPSECRET_TEC);
+        $wx = new \App\Helper\Wx() ;
+        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
 
 
         $txt = $this->ch_json_encode($txt_arr);
-        $token = AccessToken::getAccessToken();
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
         $txt_ret = $this->https_post($url,$txt);
 
     }
+
+
+    public function https_post($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
+    public function ch_json_encode($data) {
+
+
+        $ret = self::ch_urlencode($data);
+        $ret = json_encode($ret);
+
+        return urldecode($ret);
+    }
+
+    public function ch_urlencode($data) {
+        if (is_array($data) || is_object($data)) {
+            foreach ($data as $k => $v) {
+                if (is_scalar($v)) {
+                    if (is_array($data)) {
+                        $data[$k] = urlencode($v);
+                    } else if (is_object($data)) {
+                        $data->$k = urlencode($v);
+                    }
+                } else if (is_array($data)) {
+                    $data[$k] = self::ch_urlencode($v); //递归调用该函数
+                } else if (is_object($data)) {
+                    $data->$k = self::ch_urlencode($v);
+                }
+            }
+        }
+
+        return $data;
+    }
+
 
 
 

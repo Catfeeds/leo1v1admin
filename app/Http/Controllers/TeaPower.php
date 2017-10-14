@@ -3363,6 +3363,10 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
         }
 
+        if(!$ret){
+            $str= $lesson_count/100;
+            return $this->output_err("课时不足,需要课时数:$str");
+        }
         if($reset_lesson_count){
             $this->t_lesson_info->field_update_list($lessonid,[
                 "lesson_count" => $lesson_count
