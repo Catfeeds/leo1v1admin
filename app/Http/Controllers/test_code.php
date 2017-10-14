@@ -78,9 +78,12 @@ class test_code extends Controller
             if($lesson_price === false){
                 continue;
             }
-            echo $lesson_info['lessonid']."|".$lesson_price;
+            echo $l_val['lessonid']."|".$lesson_price;
             echo "<br>";
-
+            $num++;
+            if($num>100){
+                break;
+            }
             $sum_price += $lesson_price;
         }
         echo "总入:".$sum_price;
