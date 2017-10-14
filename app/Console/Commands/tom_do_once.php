@@ -143,4 +143,33 @@ class tom_do_once extends Command
         }
         */
 
+    //处理等级头像
+    public function get_top_img(){
+        $adminid = 99;
+        $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
+        $image_1 = imagecreatefromjpeg($datapath);
+        $image_2 = imagecreatefrompng($datapath_new);
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        // $color = imagecolorallocate($image_3,255,255,255);
+        $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        imagefill($image_3, 0, 0, $color);
+        imageColorTransparent($image_3, $color);
+
+        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        $tmp_url = "/tmp/".$adminid."_gk.png";
+        imagepng($image_1,$tmp_url);
+        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        $level_face_url = '';
+        if($file_name!=''){
+            $cmd_rm = "rm /tmp/".$adminid."*.png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+            $domain = config('admin')['qiniu']['public']['url'];
+            $level_face_url = $domain.'/'.$file_name;
+        }
+        dd($level_face_url);
+    }
+
+
 }
