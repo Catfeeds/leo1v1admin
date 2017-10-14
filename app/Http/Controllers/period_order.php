@@ -56,7 +56,11 @@ class period_order extends Controller
             }
  
         }
-        return $this->Pageview(__METHOD__,$list);
+
+        $account_role = $this->get_account_role();
+        return $this->Pageview(__METHOD__,$list,[
+            "account_role" =>$account_role
+        ]);
   
     }
 

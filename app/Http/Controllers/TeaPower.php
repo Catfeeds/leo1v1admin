@@ -78,7 +78,10 @@ trait TeaPower {
         }
     }
 
-    public function add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""){
+    public function add_teacher_label(
+        $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,
+        $teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""
+    ){
         $sshd_good=\App\Helper\Utils::json_decode_as_array($sshd_good, true);
         $sshd_bad=\App\Helper\Utils::json_decode_as_array($sshd_bad, true);
         $sshd =  array_merge($sshd_good, $sshd_bad);
@@ -131,7 +134,6 @@ trait TeaPower {
                     "lesson_list"=>$lesson_list,
                     "tea_label_type"=>$tea_label_type
                 ]);
- 
             }
 
             $list=[];
@@ -3230,11 +3232,22 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $list[$start_time_le]=$year." ".$m."-".$md;
 
         return $list;
-
-
-
     }
 
-
+    /**
+     * 检测非测试老师是否成为正式老师
+     */
+    public function check_teacher_is_pass($teacherid){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        if($teacher_info['is_test_user']==0){
+            if($teacher_info['trial_lecture_is_pass']==0
+               || $teacher_info['train_through_new']==0
+               || $teacher_info['wx_use_flag']==0
+            ){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

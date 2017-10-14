@@ -970,8 +970,6 @@ class wx_parent_api extends Controller
 
 
     public function input_student_score (){ //家长录入学生成绩
-
-
         $userid           = $this->get_in_int_val("userid");
         $serverId_list    = $this->get_in_str_val('serverids');
         $create_time      = time();
@@ -1011,17 +1009,13 @@ class wx_parent_api extends Controller
 
         $appid     = config('admin')['wx']['appid'];
         $appscript = config('admin')['wx']['appsecret'];
-
         $sever_name = $_SERVER["SERVER_NAME"];
 
         $file_url = '';
         if($serverId_list){
             $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
             $file_url = $ret_arr['alibaba_url_str'];
-            // $img_arr = explode(',',$ret_arr['alibaba_url_str']);
-            // $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
         }
-
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,

@@ -1357,10 +1357,15 @@ class user_deal extends Controller
         $course_status        = $this->get_in_int_val("course_status");
         $teacherid            = $this->get_in_teacherid();
         $subject              = $this->get_in_int_val("subject");
-         $grade                = $this->get_in_int_val("grade");
+        $grade                = $this->get_in_int_val("grade");
         $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
         $default_lesson_count = $this->get_in_int_val("default_lesson_count");
         $account              = $this->get_account();
+
+        $check_flag = $this->check_teacher_is_pass($teacherid);
+        if(!$check_flag){
+            return $this->output_err("该老师不是正式老师!");
+        }
 
         $data = [
             "course_status"        => $course_status,
@@ -1396,12 +1401,18 @@ class user_deal extends Controller
             return $this->output_err("未设置助教!");
         }
 
-        //6-9月份学生升级
+        //6-9月份新建学生课程包需升一个年级
         $month = date("m",time());
         if($month>6 && $month <9){
             $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
             $lesson_grade_type = 1;
         }
+
+        $check_flag = $this->check_teacher_is_pass($teacherid);
+        if(!$check_flag){
+            return $this->output_err("该老师不是正式老师!");
+        }
+
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,
@@ -1414,9 +1425,9 @@ class user_deal extends Controller
             "default_lesson_count"  => $default_lesson_count,
             "competition_flag"      => $competition_flag,
             "add_time"              => time(),
-            "lesson_grade_type"    => $lesson_grade_type,
-            "course_status"        => $course_status,
-            "is_kk_flag"           => $is_kk_flag
+            "lesson_grade_type"     => $lesson_grade_type,
+            "course_status"         => $course_status,
+            "is_kk_flag"            => $is_kk_flag
         ]);
 
         if($require_id>0){
@@ -2235,12 +2246,15 @@ class user_deal extends Controller
             $start_time = $lesson_confirm_start_time;
         }
 
-        $db_grade=$this->t_student_info->get_grade($userid);
+        $db_grade = $this->t_student_info->get_grade($userid);
         $this->t_student_info->field_update_list($userid,[
             "grade"  => $grade,
         ]);
 
-        $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
+        //设置时间再重置课程年级,避免影响老师工资
+        if($start_time>0){
+            $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
+        }
         $this->t_revisit_info->sys_log( $this->get_account(),
             $userid,
             "年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]"

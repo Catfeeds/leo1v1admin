@@ -1654,7 +1654,7 @@ class ajax_deal2 extends Controller
 
     }
 
-    //百度分期还款明细
+    //百度分期还款明细(实时)
     public function get_baidu_period_detail_info(){
         $orderid              = $this->get_in_int_val("orderid",177);
         $list = $this->get_baidu_money_charge_pay_info($orderid);
@@ -1681,6 +1681,32 @@ class ajax_deal2 extends Controller
         }
         return $this->output_succ(["data"=>$data]);
     }
+
+    //百度分期还款明细
+    public function get_baidu_period_detail_info_new(){
+        $orderid              = $this->get_in_int_val("orderid",177);        
+        $data = $this->t_period_repay_list->get_order_repay_info($orderid);
+        if(!$data){
+            return $this->output_err('无数据!');
+        }
+        foreach($data as &$item){
+            if($item["b_status"]==48){
+                $item["b_status_str"] = "已还款";
+            }elseif($item["b_status"]==80){
+                $item["b_status_str"] = "未还但未到期";
+            }elseif($item["b_status"]==112){
+                $item["b_status_str"] = "未还款";
+            }elseif($item["b_status"]==144){
+                $item["b_status_str"] = "未还并逾期";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str");
+            E\Erepay_status::set_item_value_str($item);
+
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
 
     //精排试听详情获取
     public function get_seller_top_lesson_info(){

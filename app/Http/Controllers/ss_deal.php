@@ -434,7 +434,6 @@ class ss_deal extends Controller
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
-
         return $this->output_succ();
     }
 
