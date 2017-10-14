@@ -197,31 +197,48 @@ class WechatRequest  {
         // }
 
 
+
+        // $fan_list_arr = UserManage::getFansList($next_openId='');
+        // $fan_list_json = json_encode($fan_list);
+
+        // if(is_array($fan_list)){
+        //     $info = 1;
+        // }else{
+        //     $info = 0;
+        // }
+
+        $openid_user = $request['fromusername'];
+
         //使用客服接口发送消息
-        // $txt_arr = [
-        //     'touser'   => $openid_user,
-        //     'msgtype'  => 'text',
-        //     'text'     => [
-        //         'content' =>''
-        //     ]
-        // ];
+        $txt_arr = [
+            'touser'   => $openid_user,
+            'msgtype'  => 'news',
+            "news"=>[
+                "articles"=> [
+                    [
+                        "title"=>"TEST MSG",
+                        "description"=>"Is Really A Happy Day",
+                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+                        "picurl"=>"http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                    ]
+                ]
+            ]
+        ];
 
-        // $txt = self::ch_json_encode($txt_arr);
-        // $token = AccessToken::getAccessToken();
-        // $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-        // $txt_ret = self::https_post($url,$txt);
+
+        $txt = self::ch_json_encode($txt_arr);
+        $token = AccessToken::getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = self::https_post($url,$txt);
 
 
-        $fan_list = UserManage::getFansList($next_openId='');
-        // $fan_list = json_encode($fan_list);
+        return  true;
 
-        if(is_array($fan_list)){
-            $info = 1;
-        }else{
-            $info = 0;
-        }
 
-        return  ResponsePassive::text($request['fromusername'], $request['tousername'], $info);
+        // \App\Helper\Utils::logger(" fan_list $fan_list_json");
+
+
+        return  ResponsePassive::text($request['fromusername'], $request['tousername'], '');
 
         // return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
 
@@ -672,7 +689,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
 第21~30人 '.self::unicode2utf8('\ue12f').'70元/人；
 第31~50人 '.self::unicode2utf8('\ue12f').'80元/人；
 '.self::unicode2utf8('\ue12f').'伯乐奖通过银行卡发放
-'.self::unicode2utf8('\ue12f').'[我的收入]中可查看详情 
+'.self::unicode2utf8('\ue12f').'[我的收入]中可查看详情
 '.self::unicode2utf8('\ue22f').' 分享邀请海报，领取伯乐奖！
 ']
             ];
@@ -928,10 +945,10 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         return $output;
     }
 
-   public static function ch_json_encode($data) {
+    public static function ch_json_encode($data) {
 
 
-       $ret = self::ch_urlencode($data);
+        $ret = self::ch_urlencode($data);
         $ret = json_encode($ret);
 
         return urldecode($ret);

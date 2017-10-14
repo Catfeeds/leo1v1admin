@@ -315,30 +315,29 @@ class test_james extends Controller
 
 
     public function ss1(){
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
 
-        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
-        // $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
-        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($start_time,$end_time,$adminid_list);
 
-        // if (!$month_finish_define_money) {
-        //     $month_finish_define_money=1600000;
-        // }
-        // $month_finish_define_money_2=$month_finish_define_money/100;
-        $cur_money=0;
-        $today=time(NULL);
-        foreach ($month_date_money_list as $date=> &$item ) {
-            $date_time=strtotime($date);
-            if ($date_time>$today) {
+        //使用客服接口发送消息
+        $txt_arr = [
+            'touser'   => $openid_user,
+            'msgtype'  => 'news',
+            "news"=>[
+                "articles"=> [
+                    [
+                        "title"=>"TEST MSG",
+                        "description"=>"Is Really A Happy Day",
+                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+                        "picurl"=>"http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                    ]
+                ]
+            ]
+        ];
 
-            }else{
-                $cur_money+=@$item["money"];
-                // $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
-            }
-        }
 
-        dd($cur_money);
+        $txt = self::ch_json_encode($txt_arr);
+        $token = AccessToken::getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = self::https_post($url,$txt);
 
     }
 

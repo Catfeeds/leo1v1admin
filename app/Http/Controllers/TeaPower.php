@@ -3256,8 +3256,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      */
     public function add_regular_lesson($courseid,$lesson_start,$lesson_end,$old_lessonid){
         $item = $this->t_course_order->field_get_list($courseid,"*");
-        if ($item["teacherid"]) {
-            $this->output_err("还没设置老师");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
         }
         if($item["course_type"]==2){
             if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
@@ -3282,16 +3282,64 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $default_lesson_count = 0;
 
         $lessonid = $this->t_lesson_info->add_lesson(
-            $item["courseid"],0,$item["userid"],0,$item["course_type"],$item["teacherid"],
-            $item["assistantid"],0,0,$grade,$item["subject"],$default_lesson_count,
-            $teacher_info["teacher_money_type"],$teacher_info["level"],
-            $item["competition_flag"],2,$item['week_comment_num'],$item['enable_video']
+            $item["courseid"],
+            0,
+            $item["userid"],
+            0,
+            $item["course_type"],
+            $item["teacherid"],
+            $item["assistantid"],
+            0,
+            0,
+            $grade,$item["subject"],
+            $default_lesson_count,
+            $teacher_info["teacher_money_type"],
+            $teacher_info["level"],
+            $item["competition_flag"],
+            2,
+            $item['week_comment_num'],
+            $item['enable_video']
         );
 
         if ($lessonid) {
             $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$item["grade"],$item["subject"]);
         }
         $this->t_lesson_info->reset_lesson_list($courseid);
+
+        $userid = $this->t_lesson_info->get_userid($lessonid);
+        if ($userid) {
+            $ret_row = $this->t_lesson_info->check_student_time_free(
+                $userid,$lessonid,$lesson_start,$lesson_end
+            );
+
+            if($ret_row) {
+                $error_lessonid=$ret_row["lessonid"];
+                return $this->output_err(
+                    "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                    ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                    ."查看[lessonid=$error_lessonid]<a/><div> "
+                );
+            }
+        }
+
+        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+            $teacherid,$lessonid,$lesson_start,$lesson_end);
+
+        if($ret_row) {
+            $error_lessonid=$ret_row["lessonid"];
+            return $this->output_err(
+                "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                ."查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+        $ret=true;
+        if($lesson_type<1000 && $reset_lesson_count){
+            $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+        }
+
 
         $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($lessonid);
         $courseid     = $this->get_in_courseid();
