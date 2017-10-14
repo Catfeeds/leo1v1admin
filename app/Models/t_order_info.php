@@ -897,6 +897,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr[]= $ret_in_str;
 
         $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count,m.face_pic, "
+                                  ." m.level_face_pic, "
                                   ." g.level_icon "
                                   ." from %s o "
                                   ."left join %s s on o.userid = s.userid "
