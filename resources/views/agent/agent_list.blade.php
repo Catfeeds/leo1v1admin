@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
         <div>
             <div class="row  row-query-list" >
@@ -9,7 +11,7 @@
 
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
-                        <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
+                        <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号/微信昵称 回车查找" />
                     </div>
                 </div>
 
@@ -178,6 +180,8 @@
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
                                 <a class="fa fa-refresh opt-reset-info"  title="刷新信息"> </a>
                                 <a style="display:block;" class="fa fa-times opt-del" title="删除"> </a>
+                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                                <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
                             </div>
                         </td>
                     </tr>
