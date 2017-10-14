@@ -3281,29 +3281,88 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
         $default_lesson_count = 0;
 
-        $lessonid = $this->t_lesson_info->add_lesson(
-            $item["courseid"],
-            0,
-            $item["userid"],
-            0,
-            $item["course_type"],
-            $item["teacherid"],
-            $item["assistantid"],
-            0,
-            0,
-            $grade,$item["subject"],
-            $default_lesson_count,
-            $teacher_info["teacher_money_type"],
-            $teacher_info["level"],
-            $item["competition_flag"],
-            2,
-            $item['week_comment_num'],
-            $item['enable_video']
-        );
+        //区分是否课时确认的调课
+        if($old_lessonid){
+            $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($old_lessonid);
+            $default_lesson_count=0;
+            $lessonid = $this->t_lesson_info->add_lesson_new(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,
+                $item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                $lesson_cw['stu_cw_upload_time'],
+                $lesson_cw['stu_cw_status'],
+                $lesson_cw['stu_cw_url'],
+                $lesson_cw['tea_cw_name'],
+                $lesson_cw['tea_cw_upload_time'],
+                $lesson_cw['tea_cw_status'],
+                $lesson_cw['tea_cw_url'],
+                $lesson_cw['lesson_quiz'],
+                $lesson_cw['lesson_quiz_status'],
+                $lesson_cw['tea_more_cw_url']
+            );
+            if ($lessonid) {
+                $this->t_homework_info->add_new(
+                    $item["courseid"],
+                    0,
+                    $item["userid"],
+                    $lessonid,
+                    $grade,
+                    $item["subject"],
+                    0,
+                    $lesson_cw['work_status'],
+                    $lesson_cw['issue_url'],
+                    $lesson_cw['finish_url'],
+                    $lesson_cw['check_url'],
+                    $lesson_cw['tea_research_url'],
+                    $lesson_cw['ass_research_url'],
+                    $lesson_cw['score'],
+                    $lesson_cw['issue_time'],
+                    $lesson_cw['finish_time'],
+                    $lesson_cw['check_time'],
+                    $lesson_cw['tea_research_time'],
+                    $lesson_cw['ass_research_time']
+                );
+            }
 
-        if ($lessonid) {
-            $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$item["grade"],$item["subject"]);
+        }else{
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,$item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                2,
+                $item['week_comment_num'],
+                $item['enable_video']
+            );
+
+            if ($lessonid) {
+                $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$grade,$item["subject"]);
+            }
+ 
         }
+
         $this->t_lesson_info->reset_lesson_list($courseid);
 
         if ($lesson_start >= $lesson_end) {
@@ -3393,55 +3452,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $grade = $this->t_student_info->get_grade($item["userid"]);
             }
             $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
-            $default_lesson_count=0;
-            $lessonid = $this->t_lesson_info->add_lesson_new(
-                $item["courseid"],0,
-                $item["userid"],
-                0,
-                $item["course_type"],
-                $item["teacherid"],
-                $item["assistantid"],
-                0,0,
-                $grade,
-                $item["subject"],
-                $default_lesson_count,
-                $teacher_info["teacher_money_type"],
-                $teacher_info["level"],
-                $item["competition_flag"],
-                $lesson_cw['stu_cw_upload_time'],
-                $lesson_cw['stu_cw_status'],
-                $lesson_cw['stu_cw_url'],
-                $lesson_cw['tea_cw_name'],
-                $lesson_cw['tea_cw_upload_time'],
-                $lesson_cw['tea_cw_status'],
-                $lesson_cw['tea_cw_url'],
-                $lesson_cw['lesson_quiz'],
-                $lesson_cw['lesson_quiz_status'],
-                $lesson_cw['tea_more_cw_url']
-            );
-            if ($lessonid) {
-                $this->t_homework_info->add_new(
-                    $item["courseid"],
-                    0,
-                    $item["userid"],
-                    $lessonid,
-                    $item["grade"],
-                    $item["subject"],
-                    0,
-                    $lesson_cw['work_status'],
-                    $lesson_cw['issue_url'],
-                    $lesson_cw['finish_url'],
-                    $lesson_cw['check_url'],
-                    $lesson_cw['tea_research_url'],
-                    $lesson_cw['ass_research_url'],
-                    $lesson_cw['score'],
-                    $lesson_cw['issue_time'],
-                    $lesson_cw['finish_time'],
-                    $lesson_cw['check_time'],
-                    $lesson_cw['tea_research_time'],
-                    $lesson_cw['ass_research_time']
-                );
-            }
             $this->t_lesson_info->reset_lesson_list($courseid);
 
             if ($lesson_start >= $lesson_end) {
