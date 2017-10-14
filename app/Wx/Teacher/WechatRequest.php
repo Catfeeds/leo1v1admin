@@ -170,17 +170,11 @@ class WechatRequest  {
      * @return array
      */
     public static function image(&$request){
-        // $content = '收到图片';
-        $wx= new \App\Helper\Wx( \App\Helper\Config::get_teacher_wx_appid()  , \App\Helper\Config::get_teacher_wx_appsecret()  );
-
-        $acess_toke = $wx->get_wx_token(\App\Helper\Config::get_teacher_wx_appid(), \App\Helper\Config::get_teacher_wx_appsecret());
-
-        \App\Helper\Utils::logger('img_openid777:'.$request['fromusername']);
-        $userInfo = UserManage::getUserInfo($openId['openid']);
+        $userInfo = UserManage::getUserInfo($request['fromusername']);
+        $name = $userInfo['nickname'];
 
 
-
-        return ResponsePassive::text($request['fromusername'], $request['tousername'], $acess_toke);
+        return ResponsePassive::text($request['fromusername'], $request['tousername'], $name);
 
     }
 

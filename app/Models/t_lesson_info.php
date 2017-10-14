@@ -1647,9 +1647,9 @@ lesson_type in (0,1) "
 
     public function get_lesson_list_for_tongji($start_time,$end_time) {
         $sql=$this->gen_sql("select lessonid, l.userid,lesson_start,lesson_type, lesson_count  from  %s  l, %s s ".
-                            " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
-                            . " and lesson_del_flag=0 "
-                             ,
+                            " where  l.userid=s.userid "
+                            ." and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
+                            . " and lesson_del_flag=0 ",
                             self::DB_TABLE_NAME,
                             t_student_info::DB_TABLE_NAME, //
                             $start_time,$end_time);
@@ -9638,7 +9638,6 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_value($sql);
     }
-
 
 
 }
