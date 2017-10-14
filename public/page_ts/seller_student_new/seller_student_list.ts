@@ -2726,7 +2726,7 @@ function init_edit() {
             if(html_node.find("#id_stu_gender").val() == 0){
                 html_node.find("#id_stu_gender").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
             }
-            if(html_node.find("#province").val() == ''){
+            if(opt_data.region == ''){
                 html_node.find("#province").parent().attr('style','border-style:solid;border-width:2px;border-color:#FF0000');
             }
             if(html_node.find("#city").val() == ''){
