@@ -95,7 +95,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
 
         //百度分期当期还款时间计算
         $d= date("d");
-        if($d>13){            
+        if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));
             $due_date = $month_start+14*86400;
         }else{

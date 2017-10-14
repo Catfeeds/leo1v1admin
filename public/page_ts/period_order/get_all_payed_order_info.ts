@@ -32,6 +32,7 @@ $(function(){
         }
     });
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
+    Enum_map.append_option_list( "repay_status", $("#id_repay_status"));
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
