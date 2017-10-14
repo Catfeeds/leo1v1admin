@@ -377,7 +377,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     public function get_stu_num_leader($start_time, $end_time){
         $sql = $this->gen_sql_new(
-            "select  a.master_adminid, sum(ra.stu_num)"
+            "select  a.master_adminid, sum(ra.stu_num) as stu_num"
             ." from %s a"
             ." left join %s u on u.groupid=a.groupid"
             ." left join %s ra on ra.uid=u.adminid and create_time>=$start_time  and create_time<$end_time "
