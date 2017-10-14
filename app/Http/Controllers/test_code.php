@@ -1291,10 +1291,12 @@ class test_code extends Controller
             $lessonid     = $val['lessonid'];
             \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
 
-            $already_lesson_count[$teacherid]+=$lesson_count;
-            $this->t_lesson_info->field_update_list($lessonid,[
-                "already_lesson_count" => $already_lesson_count[$teacherid]
-            ]);
+
+
+            // $already_lesson_count[$teacherid]+=$lesson_count;
+            // $this->t_lesson_info->field_update_list($lessonid,[
+            //     "already_lesson_count" => $already_lesson_count[$teacherid]
+            // ]);
 
         }
     }
