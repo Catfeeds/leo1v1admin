@@ -581,9 +581,9 @@ class test_boby extends Controller
                 $uid = $item['uid'];
                 $userid = $item['userid'];
                 // $start_time = strtotime( date('Y-m-d', $item['revisit_time1']) );
-                $end_time = $item['revisit_time1'];
+                $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
-                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $end_time, $uid, $userid, $id_str);
+                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time, $revisit_time1, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
                     if (is_array($val)){
@@ -651,8 +651,9 @@ class test_boby extends Controller
             if (is_array($item)){
                 $uid      = $item['uid'];
                 $userid   = $item['userid'];
+                $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
-                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $end_time, $uid, $userid, $id_str);
+                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
                 print_r($ret_list);
                 foreach($ret_list as $val) {
                     if (is_array($val)){

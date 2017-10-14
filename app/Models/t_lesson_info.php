@@ -1647,9 +1647,9 @@ lesson_type in (0,1) "
 
     public function get_lesson_list_for_tongji($start_time,$end_time) {
         $sql=$this->gen_sql("select lessonid, l.userid,lesson_start,lesson_type, lesson_count  from  %s  l, %s s ".
-                            " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
-                            . " and lesson_del_flag=0 "
-                             ,
+                            " where  l.userid=s.userid "
+                            ." and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
+                            . " and lesson_del_flag=0 ",
                             self::DB_TABLE_NAME,
                             t_student_info::DB_TABLE_NAME, //
                             $start_time,$end_time);
@@ -1661,7 +1661,6 @@ lesson_type in (0,1) "
                               ." from %s "
                               ." where teacherid=%u "
                               ." and userid=%u "
-                              // ." and lesson_status=2 "
                               ." and lesson_type in (0,1,3) "
                               ." and lesson_del_flag=0 "
                               ." and confirm_flag!=2"
@@ -3356,18 +3355,14 @@ lesson_type in (0,1) "
         ];
         $sql=$this->gen_sql_new("select distinct(l.grade) as grade"
                                 ." from %s l"
-                                //." left join %s o on o.userid=l.userid"
                                 ." left join %s s on s.userid=l.userid"
                                 ." left join %s t on t.teacherid=l.teacherid"
                                 ." where %s"
-                                //." and contract_type=0"
-                                //." and contract_status=1"
                                 ." and s.is_test_user=0"
                                 ." and lesson_type=2"
                                 ." and confirm_flag<2"
                                 ." and lesson_del_flag=0"
                                 ,self::DB_TABLE_NAME
-                                //,t_order_info::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
@@ -3376,7 +3371,7 @@ lesson_type in (0,1) "
     }
 
     public function get_error_lesson_list($start,$end){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
@@ -3399,11 +3394,11 @@ lesson_type in (0,1) "
     }
 
     public function get_trial_lesson_list($start,$end,$type,$str){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
-        $where_arr=$this->lesson_common_where_arr($where_arr);
+        $where_arr = $this->lesson_common_where_arr($where_arr);
         if($type==1){
             $sql=$this->gen_sql_new("select count(distinct(l.userid)) as num,l.%s"
                                     ." from %s l"
@@ -9638,7 +9633,6 @@ lesson_type in (0,1) "
                                   $where_arr);
         return $this->main_get_value($sql);
     }
-
 
 
 }

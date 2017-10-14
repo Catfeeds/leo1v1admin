@@ -15,7 +15,8 @@ $(function(){
 			channel:	$('#id_channel').val(),
             userid:	$('#id_userid').val(),
 			parent_orderid:	$('#id_parent_orderid').val(),
-			child_orderid:	$('#id_child_orderid').val()
+			child_orderid:	$('#id_child_orderid').val(),
+            repay_status:	$('#id_repay_status').val()
         });
     }
 
@@ -31,6 +32,7 @@ $(function(){
         }
     });
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
+    Enum_map.append_option_list( "repay_status", $("#id_repay_status"));
 	$('#id_contract_type').val(g_args.contract_type);
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
@@ -38,6 +40,7 @@ $(function(){
     $('#id_userid').val(g_args.userid);
 	$('#id_parent_orderid').val(g_args.parent_orderid);
 	$('#id_child_orderid').val(g_args.child_orderid);
+	$('#id_repay_status').val(g_args.repay_status);
 
     $.admin_select_user( $("#id_userid"), "student", load_data );
     
