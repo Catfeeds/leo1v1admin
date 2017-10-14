@@ -104,6 +104,7 @@ class update_seller_level extends cmd_base
                 ],false,false,true );
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
                 $this->task->t_manager_info->send_wx_todo_msg_by_adminid(898,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
+                $this->task->t_manager_info->send_wx_todo_msg_by_adminid(412,"咨询师等级升级","咨询师等级升级",$account."从".E\Eseller_level::get_desc($this_level)."级升级为".E\Eseller_level::get_desc($next_level)."级","");
             }
             //统计上个月
 
