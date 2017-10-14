@@ -1682,7 +1682,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
         );
-        return $this->main_get_list_as_page($sql);
+        return $this->main_get_list_as_page($sql,function($item) {
+            return $item["order_month"];
+        });
     }
 
     public function tongji_by_grade($account_role,$start_time, $end_time ) {
