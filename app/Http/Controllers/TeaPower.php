@@ -3255,8 +3255,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * 常规课排课接口
      */
     public function add_regular_lesson($courseid,$lesson_start,$lesson_end,$old_lessonid){
-        $courseid = $this->get_in_courseid();
-
         $item = $this->t_course_order->field_get_list($courseid,"*");
         if ($item["teacherid"]) {
             $this->output_err("还没设置老师");
