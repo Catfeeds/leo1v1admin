@@ -630,11 +630,11 @@ class test_boby extends Controller
         // $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $id_str_list = $this->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $uid_phoneid = [];
-        // foreach ($id_str_list as $item) {
-        //     if (is_array($item)) {
-        //         $uid_phoneid[$item['uid']] = $item['phoneids'];
-        //     }
-        // }
+        foreach ($id_str_list as $item) {
+            if (is_array($item)) {
+                $uid_phoneid[$item['uid']] = $item['phoneids'];
+            }
+        }
 
         //2,然后查询助教的学情回访    每分钟查询上一分钟的
         $end_time    = strtotime( date('Y-m-d H:i:00', $time) );
@@ -643,7 +643,9 @@ class test_boby extends Controller
 
         $check = [];
         //3,有学情回访后，在获取当日的其他回访信息
-        echo "<per>";
+        $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
+        $s = $this->table_start($th_arr);
+
         foreach($ret_info as $item) {
             if (is_array($item)){
                 $uid      = $item['uid'];
@@ -661,19 +663,26 @@ class test_boby extends Controller
                         //     'call_phone_id' => $val['call_phone_id'],
                         //     'create_time'   => $time,
                         // ]);
-                        $check[] = [
-                            'uid'           => $uid,
-                            'userid'        => $userid,
-                            'revisit_time1' => $item['revisit_time1'],
-                            'revisit_time2' => $val['revisit_time2'],
-                            'call_phone_id' => $val['call_phone_id'],
-                            'create_time'   => $time,
-                        ];
+                        // $check[] = [
+                        //     'uid'           => $uid,
+                        //     'userid'        => $userid,
+                        //     'revisit_time1' => $item['revisit_time1'],
+                        //     'revisit_time2' => $val['revisit_time2'],
+                        //     'call_phone_id' => $val['call_phone_id'],
+                        //     'create_time'   => $time,
+                        // ];
+
+                        $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
+                        $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
+                        $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
+
+
                     }
                 }
             }
         }
 
+        return $s;
         dd($check);
 
     }
