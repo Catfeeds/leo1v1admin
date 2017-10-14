@@ -51,6 +51,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid,$repay_status){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
+            ["pr.repay_status=%u",$repay_status,-1],
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
@@ -76,6 +77,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }elseif($channel==2){
              $where_arr[] = "c.channel <> 'baidu'";
         }
+        
         if($userid != -1){
             $where_arr=[
                 ["s.userid=%u",$userid,-1]
@@ -102,6 +104,7 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
             $month_start = strtotime(date("Y-m-01",$last_month));
             $due_date = $month_start+14*86400;
         }
+        
 
 
         $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,c.channel,"

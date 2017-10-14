@@ -3356,18 +3356,14 @@ lesson_type in (0,1) "
         ];
         $sql=$this->gen_sql_new("select distinct(l.grade) as grade"
                                 ." from %s l"
-                                //." left join %s o on o.userid=l.userid"
                                 ." left join %s s on s.userid=l.userid"
                                 ." left join %s t on t.teacherid=l.teacherid"
                                 ." where %s"
-                                //." and contract_type=0"
-                                //." and contract_status=1"
                                 ." and s.is_test_user=0"
                                 ." and lesson_type=2"
                                 ." and confirm_flag<2"
                                 ." and lesson_del_flag=0"
                                 ,self::DB_TABLE_NAME
-                                //,t_order_info::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
@@ -3376,7 +3372,7 @@ lesson_type in (0,1) "
     }
 
     public function get_error_lesson_list($start,$end){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
@@ -3399,11 +3395,11 @@ lesson_type in (0,1) "
     }
 
     public function get_trial_lesson_list($start,$end,$type,$str){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
-        $where_arr=$this->lesson_common_where_arr($where_arr);
+        $where_arr = $this->lesson_common_where_arr($where_arr);
         if($type==1){
             $sql=$this->gen_sql_new("select count(distinct(l.userid)) as num,l.%s"
                                     ." from %s l"
