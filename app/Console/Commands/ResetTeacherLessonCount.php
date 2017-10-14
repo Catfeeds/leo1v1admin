@@ -54,7 +54,7 @@ class ResetTeacherLessonCount extends cmd_base
 
         $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
         if(!empty($tea_list) && is_array($tea_list)){
-            if($teacher_money_type==E\Eteacher_money_type::V_0){
+            if($teacher_money_type == E\Eteacher_money_type::V_0){
                 foreach($tea_list as $val){
                     $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
                     if(!empty($stu_list) && is_array($stu_list)){
