@@ -39,7 +39,7 @@ class ResetTeacherLessonCount extends cmd_base
         $day = $this->option('day');
         $teacher_money_type= $this->option('teacher_money_type');
         $end = strtotime(date("Y-m-d",time()+86400));
-        if($day===null){
+        if($day===null || $teacher_money_type==E\Eteacher_money_type::V_7){
             $start = strtotime(date("Y-m-01",time()));
             $end   = strtotime("+1 month",$start);
         }else{
@@ -52,9 +52,9 @@ class ResetTeacherLessonCount extends cmd_base
         \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
         $t_lesson_info = new \App\Models\t_lesson_info();
 
-        $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
-        if(!empty($tea_list) && is_array($tea_list)){
-            if($teacher_money_type == E\Eteacher_money_type::V_0){
+        if($teacher_money_type == E\Eteacher_money_type::V_0){
+            $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
+            if(!empty($tea_list) && is_array($tea_list)){
                 foreach($tea_list as $val){
                     $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
                     if(!empty($stu_list) && is_array($stu_list)){
@@ -63,9 +63,9 @@ class ResetTeacherLessonCount extends cmd_base
                         }
                     }
                 }
-            }elseif($teacher_money_type==E\Eteacher_money_type::V_7){
-
             }
+        }elseif($teacher_money_type==E\Eteacher_money_type::V_7){
+
         }
 
         \App\Helper\Utils::logger("reset teacher lesson count has finished");
