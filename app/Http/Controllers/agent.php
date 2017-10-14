@@ -472,6 +472,7 @@ class agent extends Controller
             $level_face = $item['level_face'];
             $level_face_pic = $item['level_face_pic'];
             $ret = 0;
+            dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
             if($level_face_pic == ''){
                 $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
                 $ret = $this->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
