@@ -420,7 +420,7 @@
                             <tbody>
                                 @foreach ( $leader_info as $var )
                                     <tr>
-                                        <td>{{@$var['nick']}}</td>
+                                        <td>{{@$var['name']}}</td>
                                         <td>{{@$var["revisit_num"]}} </td>
                                         <td>{{@$var["goal"]}} </td>
                                     </tr>

@@ -2154,7 +2154,7 @@ class main_page extends Controller
         foreach ($leader_info as &$item) {
             $item['revisit_num'] = $this->t_manager_info->get_leader_revisit_info( $item['master_adminid'],$cur_start, $cur_end);
             $item['goal'] = ceil($item['stu_num'] /10 );
-            $item['nick'] = $this->cache_get_account_nick($item['master_adminid']);
+            // $item['nick'] = $this->cache_get_account_nick($item['master_adminid']);
         }
 
         return $this->pageView(__METHOD__ ,null, [
