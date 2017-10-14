@@ -39,7 +39,7 @@ class ResetTeacherLessonCount extends cmd_base
         $day = $this->option('day');
         $teacher_money_type= $this->option('teacher_money_type');
         $end = strtotime(date("Y-m-d",time()+86400));
-        if($day===null){
+        if($day===null || $teacher_money_type==E\Eteacher_money_type::V_7){
             $start = strtotime(date("Y-m-01",time()));
             $end   = strtotime("+1 month",$start);
         }else{

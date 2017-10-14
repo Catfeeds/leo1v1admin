@@ -178,7 +178,7 @@ class WechatRequest  {
         \App\Helper\Utils::logger('img_openid777:'.$request['fromusername']);
 
 
-        return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+        return ResponsePassive::image($request['fromusername'], $request['tousername'], $acess_toke);
 
     }
 
