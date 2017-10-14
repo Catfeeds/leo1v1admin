@@ -9,6 +9,7 @@ use Qiniu\Auth;
 // 引入上传类
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
+use \App\Enums as E;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
@@ -60,9 +61,18 @@ class tom_do_once extends Command
         foreach($seller_list as $item){
             $adminid = $item['uid'];
             $face_pic = $item['face_pic'];
+            if($face_pic == ''){
+                $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
+            }
             $level_face = $item['level_face'];
-            dd($adminid,$face_pic,$level_face);
-            echo $userid.':'."$call_time"."\n";
+            $level_face_pic = $item['level_face_pic'];
+            $ret = 0;
+            if($level_face_pic == '' && $level_face != ''){
+                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
+                $ret = $this->task->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
+            }
+            // dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
+            echo $adminid.':'."$level_face_pic".",ret:".$ret."\n";
         }
     }
 
@@ -70,8 +80,30 @@ class tom_do_once extends Command
     public function get_top_img($adminid,$face_pic,$level_face){
         $datapath = $face_pic;
         $datapath_new = $level_face;
-        $image_1 = imagecreatefromjpeg($datapath);
-        $image_2 = imagecreatefrompng($datapath_new);
+        $datapath_type = @end(explode(".",$datapath));
+        $datapath_type_new = @end(explode(".",$datapath_new));
+        if($datapath_type == 'jpg' || $datapath_type == 'jpeg'){
+            $image_1 = imagecreatefromjpeg($datapath);
+        }elseif($datapath_type == 'png'){
+            $image_1 = imagecreatefrompng($datapath);
+        }elseif($datapath_type == 'gif'){
+            $image_1 = imagecreatefromgif($datapath);
+        }elseif($datapath_type == 'wbmp'){
+            $image_1 = imagecreatefromwbmp($datapath);
+        }else{
+            $image_1 = imagecreatefromstring($datapath);
+        }
+        if($datapath_type_new == 'jpg' || $datapath_type_new == 'jpeg'){
+            $image_2 = imagecreatefromjpeg($datapath_new);
+        }elseif($datapath_type_new == 'png'){
+            $image_2 = imagecreatefrompng($datapath_new);
+        }elseif($datapath_type_new == 'gif'){
+            $image_2 = imagecreatefromgif($datapath_new);
+        }elseif($datapath_type_new == 'wbmp'){
+            $image_2 = imagecreatefromwbmp($datapath_new);
+        }else{
+            $image_2 = imagecreatefromstring($datapath_new);
+        }
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
         // $color = imagecolorallocate($image_3,255,255,255);
         $color = imagecolorallocatealpha($image_3,255,255,255,1);
