@@ -18,7 +18,7 @@ class update_ass_call_count extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class update_ass_call_count extends Command
     public function handle()
     {
 
-        /**  @var    \App\Console\Tasks\TaskController  $task*/
+        /**  @var \App\Console\Tasks\TaskController  $task*/
         $task = new \App\Console\Tasks\TaskController();
 
         $time = time();

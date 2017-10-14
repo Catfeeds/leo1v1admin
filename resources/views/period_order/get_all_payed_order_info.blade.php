@@ -66,6 +66,26 @@
                       </select>
                   </div>
               </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span >学生</span>
+                      <input id="id_userid"  />
+                  </div>
+              </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">主合同id</span>
+                      <input class="opt-change form-control" id="id_parent_orderid" />
+                  </div>
+              </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">分期合同id</span>
+                      <input class="opt-change form-control" id="id_child_orderid" />
+                  </div>
+              </div>
+
+
 
 
           </div>

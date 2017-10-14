@@ -18,7 +18,7 @@ class reset_lesson_count_when_lesson_start extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '重置学生剩余课时';
 
     /**
      * Create a new command instance.

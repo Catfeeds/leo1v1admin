@@ -2726,7 +2726,18 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+
+        }
+        dd($d);
+        
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
         dd($list);
         foreach($list as $val){

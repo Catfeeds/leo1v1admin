@@ -58,7 +58,6 @@ class cmd_base extends Command
         if ($day===null) {
             return 0;
         }else{
-
             if (preg_match( "/^\-?[1-9][0-9]*$/" , $day ) ) {
                 return strtotime(date("Y-m-d" ,time()+86400*$day));
             }else{

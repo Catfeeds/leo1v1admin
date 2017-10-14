@@ -745,7 +745,9 @@ class tongji extends Controller
             }else if ($month=="2017-08") {
                 $all_money= 9020138.37;
             }else if ($month=="2017-09") {
-                $all_money= 1010092406.50;
+                $all_money= 10092406.50;
+            }else if ($month=="2017-10") {
+                $all_money= intval($item["all_money"]*1.5);
             }
             if ($all_money) {
                 $v= $all_money/$item["all_money"];

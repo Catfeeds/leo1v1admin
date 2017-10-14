@@ -1048,7 +1048,7 @@ class wx_parent_api extends Controller
         $parentid       = $this->get_in_int_val('parentid',-1);
         $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
 
-        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($parentid,$stu_score_list);
+        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($parentid,$stu_score_type);
 
         return $this->output_succ(['data'=>$stu_score_list]);
     }
