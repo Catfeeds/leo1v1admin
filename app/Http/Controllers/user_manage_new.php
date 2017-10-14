@@ -2747,22 +2747,28 @@ class user_manage_new extends Controller
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
-        $identity                    = $this->get_in_int_val("identity",-1);
+        $teacher_type                = $this->get_in_int_val("teacher_type",-1);
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
         $show_type                   = $this->get_in_str_val("show_type","current");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
+
         $tea_list = $this->t_lesson_info->get_tea_month_list(
-            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
+            $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
         );
-        //公司全职老师列表 full_tea_list
-        $full_start_time = strtotime("-1 month",$start_time);
-        $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-            $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
-        );
-        $list = array_merge($tea_list,$full_tea_list);
+
+        if($teacher_type==-1){
+            //公司全职老师列表 full_tea_list
+            $full_start_time = strtotime("-1 month",$start_time);
+            $full_tea_list = $this->t_lesson_info->get_tea_month_list(
+                $full_start_time,$start_time,$teacher_ref_type,E\Eteacher_type::V_3,$teacher_money_type,$level,$show_type
+            );
+            $list = array_merge($tea_list,$full_tea_list);
+        }else{
+            $list = $tea_list;
+        }
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
@@ -2774,6 +2780,7 @@ class user_manage_new extends Controller
             \App\Helper\Utils::check_isset_data($val['lesson_total'],0,0);
 
             E\Eteacher_money_type::set_item_value_str($val);
+            $val['level_str']=\App\Helper\Utils::get_teacher_letter_level($val['teacher_money_type'],$val['level']);
             E\Elevel::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
             $val['lesson_1v1']   /= 100;
