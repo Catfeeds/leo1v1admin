@@ -86,6 +86,50 @@ $(function(){
 
     });
 
+    $(".opt-order-detail-info-new").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var orderid = opt_data.child_orderid;
+        
+        var title = "分期还款详情";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>期数</td><td>用户账户</td><td>还款明细状态</td><td>已还款日期</td><td>当期应还款日</td><td>当期应还款金额[总]</td><td>已还金额</td><td>未还金额</td><td>还款状态确认</td></tr></table></div>");
+        $.do_ajax("/ajax_deal2/get_baidu_period_detail_info_new",{
+            orderid: orderid,
+        },function(resp){
+            var data_list = resp.data;
+            if(resp.ret != 0){
+                alert(resp.info);
+                return;
+            }
+            $.each(data_list,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['period']+"</td><td>"+item['bid']+"</td><td>"+item['b_status_str']+"</td><td>"+item['paid_time_str']+"</td><td>"+item['due_date_str']+"</td><td>"+item['money']/100+"</td><td>"+item['paid_money']/100+"</td><td>"+item['un_paid_money']/100+"</td><td>"+item['repay_status_str']+"</td></tr>");
+
+            });
+            
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1000px");
+
+        });
+
+    });
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });
