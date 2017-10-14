@@ -9,8 +9,8 @@
                 <tr>
                     <td>月份 </td>
                     <td>收入</td>
-                    <td>签单课时</td>
-                    <td>签单数</td>
+                    <td style="display:none;" >签单课时</td>
+                    <td style="display:none;" >签单数</td>
                 </tr>
             </thead>
             <tbody>
@@ -18,8 +18,8 @@
                     <tr>
                         <td>{{@$var["order_month"]}} </td>
                         <td>{{$var["all_money"]}} </td>
-                        <td>{{(float)$var["order_total"]/100}} </td>
-                        <td>{{@$var["count"]}} </td>
+                        <td style="display:none;" >{{(float)$var["order_total"]/100}} </td>
+                        <td style="display:none;">{{@$var["count"]}} </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -80,6 +80,8 @@ class update_ass_call_count extends Command
             }
         }
 
+        // dd(count($ret_list));
+
     }
 
 }

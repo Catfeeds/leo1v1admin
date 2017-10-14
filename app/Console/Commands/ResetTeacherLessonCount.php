@@ -65,6 +65,7 @@ class ResetTeacherLessonCount extends cmd_base
             }
         }
         if(\App\Helper\Utils::check_env_is_local()){
+
         }
         \App\Helper\Utils::logger("reset teacher lesson count has finished");
     }

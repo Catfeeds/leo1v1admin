@@ -59,14 +59,20 @@ class get_period_repay_info extends Command
                 $ret = $data["data"];
                 foreach($ret as $item){
                     $period = $item["period"];
-                    $is_exist = $task->t_period_repay_list->get_bid($orderid,$period);
                     if($item["bStatus"] != 48){
                         $item["paidTime"]=0; 
                     }
                     if($item["bStatus"] == 48 && $item["paidTime"]>$item["paidTime"]){
                         $repay_status = 2;
+                    }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["paidTime"]){
+                        $repay_status = 1;
+                    }elseif($item["bStatus"] == 144){
+                        $repay_status = 3;
+                    }else{
+                        $repay_status = 0;
                     }
 
+                    $is_exist = $task->t_period_repay_list->get_bid($orderid,$period);
                     if(!$is_exist){
                         $task->t_period_repay_list->row_insert([
                             "orderid" =>$orderid,
@@ -77,7 +83,19 @@ class get_period_repay_info extends Command
                             "due_date" =>$item["dueDate"],
                             "money"    =>$item["money"],
                             "paid_money"=>$item["paidMoney"],
-                            "un_paid_money"=>$item["unpaidMoney"]
+                            "un_paid_money"=>$item["unpaidMoney"],
+                            "repay_status" =>$repay_status
+                        ]);
+                    }else{
+                        $task->t_period_repay_list->field_update_list_2($orderid,$period,[
+                            "bid"     =>$item["bid"],
+                            "b_status"=>$item["bStatus"],
+                            "paid_time"=>$item["paidTime"],
+                            "due_date" =>$item["dueDate"],
+                            "money"    =>$item["money"],
+                            "paid_money"=>$item["paidMoney"],
+                            "un_paid_money"=>$item["unpaidMoney"],
+                            "repay_status" =>$repay_status
                         ]);
                     }
                 }

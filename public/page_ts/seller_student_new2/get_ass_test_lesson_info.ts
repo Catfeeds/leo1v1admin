@@ -239,7 +239,7 @@ $(function(){
     });
 
 
-    if (window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info" || window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info/") {
+    if (window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info" || window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info/" || g_args.account=="jack") {
         $(".opt-set-success").show();
         $(".opt-set-fail").show();
         $(".opt-confirm").show();

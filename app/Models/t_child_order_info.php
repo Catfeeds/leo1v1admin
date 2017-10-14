@@ -51,9 +51,6 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
-            ["c.parent_orderid=%u",$parent_orderid,-1],
-            ["c.child_orderid=%u",$child_orderid,-1],
-            ["s.userid=%u",$userid,-1],
             "s.is_test_user=0",
             "c.price>0",
             "child_order_type=2"
@@ -81,6 +78,28 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }elseif($channel==2){
              $where_arr[] = "c.channel <> 'baidu'";
         }
+        if($userid != -1){
+            $where_arr=[
+                ["s.userid=%u",$userid,-1],
+                "c.price>0",
+                "child_order_type=2"
+            ];
+        }
+        if($parent_orderid != -1){
+            $where_arr=[
+                ["c.parent_orderid=%u",$parent_orderid,-1],
+                "c.price>0",
+                "child_order_type=2"
+            ];
+        }
+        if($child_orderid != -1){
+            $where_arr=[
+                ["c.child_orderid=%u",$child_orderid,-1],
+                "c.price>0",
+                "child_order_type=2"
+            ];
+        }
+
         $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,c.channel,"
                                   ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
