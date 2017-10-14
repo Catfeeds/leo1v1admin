@@ -1675,8 +1675,8 @@ class ajax_deal2 extends Controller
             }elseif($item["bStatus"]==144){
                 $item["bStatus_str"] = "未还并逾期";
             }
-            \App\Helper\Utils::unixtime2date_for_item($item, "paidTime","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item, "dueDate","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "paidTime","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "dueDate","_str","Y-m-d");
 
         }
         return $this->output_succ(["data"=>$data]);
@@ -1699,8 +1699,8 @@ class ajax_deal2 extends Controller
             }elseif($item["b_status"]==144){
                 $item["b_status_str"] = "未还并逾期";
             }
-            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "paid_time","_str","Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item, "due_date","_str","Y-m-d");
             E\Erepay_status::set_item_value_str($item);
 
         }

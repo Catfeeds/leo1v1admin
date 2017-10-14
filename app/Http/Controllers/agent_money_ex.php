@@ -52,9 +52,14 @@ class agent_money_ex extends Controller
        if (!$this->check_account_in_arr(["jim"]) ) {
            return $this->output_err("没有权限");
        }
+       
+       $id= $this->get_in_int_val("id");
+       $flow_status = $this->t_agent_money_ex->get_flow_status($id);
 
-        $id= $this->get_in_int_val("id");
-        $this->t_agent_money_ex->row_delete($id);
+       if($flow_status > 0)
+           return $this->output_err("该订单已经申请不能删除!");
+
+       $this->t_agent_money_ex->row_delete($id);
         return $this->output_succ();
     }
 

@@ -25,9 +25,12 @@ class period_order extends Controller
 
         $pay_status = $this->get_in_int_val("pay_status",-1);
         $channel = $this->get_in_int_val("channel",1);
+        $userid = $this->get_in_int_val("userid",-1);
+        $parent_orderid = $this->get_in_int_val("parent_orderid",-1);
+        $child_orderid = $this->get_in_int_val("child_orderid",-1);
         $page_info = $this->get_in_page_info();
         
-        $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type,$channel);
+        $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid);
         foreach($list["list"] as &$item){
             E\Egrade::set_item_value_str($item);           
             E\Econtract_status::set_item_value_str($item);

@@ -12,7 +12,10 @@ $(function(){
 			contract_type:	$('#id_contract_type').val(),
 			contract_status:	$('#id_contract_status').val(),
 			pay_status:	$('#id_pay_status').val(),
-			channel:	$('#id_channel').val()
+			channel:	$('#id_channel').val(),
+            userid:	$('#id_userid').val(),
+			parent_orderid:	$('#id_parent_orderid').val(),
+			child_orderid:	$('#id_child_orderid').val()
         });
     }
 
@@ -32,6 +35,12 @@ $(function(){
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
 	$('#id_channel').val(g_args.channel);
+    $('#id_userid').val(g_args.userid);
+	$('#id_parent_orderid').val(g_args.parent_orderid);
+	$('#id_child_orderid').val(g_args.child_orderid);
+
+    $.admin_select_user( $("#id_userid"), "student", load_data );
+    
 
     //点击进入个人主页
     $('.opt-user').on('click',function(){

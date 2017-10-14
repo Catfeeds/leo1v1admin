@@ -1,8 +1,9 @@
 <?php
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
+use \App\Enums as E;
 
-class ResetTeacherLessonCount extends Command
+class ResetTeacherLessonCount extends cmd_base
 {
     /**
      * The name and signature of the console command.
@@ -16,7 +17,7 @@ class ResetTeacherLessonCount extends Command
      *
      * @var string
      */
-    protected $description = '更新老师对所教学生的累积课时';
+    protected $description = '重置全职老师课程的累计课时';
 
     /**
      * Create a new command instance.
@@ -36,6 +37,7 @@ class ResetTeacherLessonCount extends Command
     public function handle()
     {
         $day = $this->option('day');
+        $teacher_money_type= $this->option('teacher_money_type');
         $end = strtotime(date("Y-m-d",time()+86400));
         if($day===null){
             $start = strtotime(date("Y-m-01",time()));
@@ -43,31 +45,40 @@ class ResetTeacherLessonCount extends Command
         }else{
             $start = strtotime(date("Y-m-d",(time()-$day*86400)));
         }
-
-        $teacher_money_type= $this->option('teacher_money_type');
         if($teacher_money_type===null){
-            $teacher_money_type = 0;
+            $teacher_money_type = E\Eteacher_money_type::V_0;
         }
-        \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
 
+        \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
         $t_lesson_info = new \App\Models\t_lesson_info();
 
-        $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end);
+        $tea_list = $t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
         if(!empty($tea_list) && is_array($tea_list)){
-            foreach($tea_list as $val){
-                $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
-                if(!empty($stu_list) && is_array($stu_list)){
-                    foreach($stu_list as $item){
-                        $t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
+            if($teacher_money_type==E\Eteacher_money_type::V_0){
+                foreach($tea_list as $val){
+                    $stu_list = $t_lesson_info->get_student_list_by_teacher($val['teacherid'],$start,$end);
+                    if(!empty($stu_list) && is_array($stu_list)){
+                        foreach($stu_list as $item){
+                            $t_lesson_info->reset_teacher_student_already_lesson_count($val['teacherid'],$item['userid']);
+                        }
                     }
                 }
+            }elseif($teacher_money_type==E\Eteacher_money_type::V_7){
+
             }
         }
-        \App\Helper\Utils::logger("reset teacher lesson count has finished");
 
-        /**
-           $job = new \App\Jobs\ResetAlreadyLessonCount($start,$end);
-           dispatch($job);
-        */
+        \App\Helper\Utils::logger("reset teacher lesson count has finished");
     }
+
+
+
+
+
+
+
+
+
+
+
 }

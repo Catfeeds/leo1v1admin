@@ -3585,7 +3585,7 @@ lesson_type in (0,1) "
     }
 
     public function get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type=0){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["teacher_money_type=%u",$teacher_money_type,-1],
