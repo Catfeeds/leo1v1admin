@@ -2714,6 +2714,7 @@ class user_deal extends Controller
     {
        
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
+        dd($list);
         foreach($list as $val){
             $data = $this->get_baidu_money_charge_pay_info($val["child_orderid"]);
             
