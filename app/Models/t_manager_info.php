@@ -163,7 +163,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return false;
     }
 
-    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1)
+    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1,$call_phone_type=-1)
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
@@ -172,6 +172,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "t1.tquin =%u ", $tquin,  -1] ,
             [  "t1.day_new_user_flag =%u ", $day_new_user_flag ,  -1] ,
             [  "t1.fulltime_teacher_type =%u ", $fulltime_teacher_type ,  -1] ,
+            [  "t1.call_phone_type =%u ", $call_phone_type ,  -1] ,
         ];
         if ($user_info >0 ) {
             if  ($user_info < 10000) {
