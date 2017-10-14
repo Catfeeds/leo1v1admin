@@ -1114,9 +1114,10 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "confirm_flag != 2",
             "lesson_del_flag = 0",
         ];
-        $sql = $this->gen_sql_new("select lessonid,lesson_count"
+        $sql = $this->gen_sql_new("select lessonid,lesson_count,teacherid"
                                   ." from %s "
                                   ." where %s"
+                                  ." order by lesson_start asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
