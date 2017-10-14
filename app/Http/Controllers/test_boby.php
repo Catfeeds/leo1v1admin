@@ -624,6 +624,7 @@ class test_boby extends Controller
         $time = $this->get_in_str_val('time',0);
         // dd($time);
         $time = strtotime( $time );
+        $time = $time+2; //计划任务执行时候记录的时间都是２秒
         // $time = time( );
         //1,先查询今天已近记录的call_phone_id
         $start_time1 = strtotime('today');
