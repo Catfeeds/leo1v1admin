@@ -476,10 +476,9 @@ class agent extends Controller
                 $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
                 $ret = $this->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
             }
-            dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
-            echo $userid.':'."$call_time"."\n";
+            // dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
+            echo $adminid.':'."$level_face_pic".",ret:".$ret."\n";
         }
-        dd($seller_list);
     }
 
     //处理等级头像
