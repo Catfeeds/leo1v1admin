@@ -214,4 +214,15 @@ $(function(){
         });
     });
 
+    //电话列表
+    $(".opt-telphone").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen('/tq/get_list?phone=' + opt_data.phone);
+
+    });
+
+
+
+
+
 });
