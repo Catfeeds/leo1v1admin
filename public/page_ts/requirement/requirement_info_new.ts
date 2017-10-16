@@ -72,15 +72,15 @@ $(function(){
 
     $("#id_add_requirement_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
-        var name              = $("<select />");  //产品名称
+        var name              = $("<input />");  //需求名称
         var priority          = $("<select />");  //优先级
-        var significance      = $("<select />");  //目前影响
         var expect_time       = $("<input />");  //期望时间
-        var statement         = $("<textarea  placeholder='【需求故事】作为……  我希望…… 以便…… ' />"); //需求说明
-        var notes             = $("<textarea  placeholder='【验收标准】1、……2、……3、…… ' />"); //备注
+        var statement         = $("<textarea />"); //需求描述
+        var notes             = $("<textarea />"); //需求来源
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
+        var product_operator = $("<input/>");//产品经理
 
         $upload_link.attr('href',opt_data.file_url);
 
@@ -91,34 +91,33 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true);
         Enum_map.append_option_list("require_priority", priority, true);
-        Enum_map.append_option_list("require_significance",significance,true);
 
         var arr = [
-            ["产品名称", name],
+            ["需求名称", name],
             ["优先级", priority],
-            ["目前影响", significance],
             ["期望时间", expect_time],
-            ["需求故事", statement],
-            ["验收标准",    notes],
-            ["需求附件", $upload_div],
+            ["需求描述", statement],
+            ["需求来源",    notes],
+            ["附件", $upload_div],
+            ["产品经理",product_operator]
         ];
-        $.show_key_value_table("添加开发需求", arr, {
+        $.show_key_value_table("添加需求信息", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-                $.do_ajax("/requirement/add_requirement_info",{
+                $.do_ajax("/requirement/add_requirement_info_new",{
                     "name"           : name.val(),
                     'priority'       : priority.val(),
-                    'significance'   : significance.val(),
                     'expect_time'    : expect_time.val(),
                     'statement'      : statement.val(),
                     'content_pic'    : $upload_link.attr('href'),
                     'notes'          : notes.val(),
+                    'product_operator':product_operator.val(),
                 });
             }
         },function(){
+            $.admin_select_user(product_operator,"product");
         	$.custom_upload_file(
                 "id_upload_from_url" ,
                 true,function( up, info, file ){
