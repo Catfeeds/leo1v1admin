@@ -21,21 +21,13 @@ $(function(){
         });
     }
 
-    Enum_map.append_option_list("require_class",$("#id_name"));
     Enum_map.append_option_list("require_priority",$("#id_priority"));
-    Enum_map.append_option_list("require_significance",$("#id_significance"));
-    Enum_map.append_option_list("require_status",$("#id_status"),false,[2,3,4,5]);
     Enum_map.append_option_list("require_product_status",$("#id_product_status"),false,[0,1,2,3,4]);
-    Enum_map.append_option_list("require_development_status",$("#id_development_status"),false,[0,1,2,3,4]);
-    Enum_map.append_option_list("require_test_status",$("#id_test_status"),false,[0,1,2,3,4]);
+
 
     $("#id_name").val(g_args.name);
     $("#id_priority").val(g_args.priority);
-    $("#id_significance").val(g_args.significance);
-    $("#id_status").val(g_args.status);
     $("#id_product_status").val(g_args.product_status);
-    $("#id_development_status").val(g_args.development_status);
-    $("#id_test_status").val(g_args.test_status);
 
 
     $('#id_date_range').select_date_range({
@@ -306,9 +298,7 @@ $(function(){
         });
 
     });
-    admin_select_user($("#id_productid"), "product",function(){
-        load_data();
-    });
+
      $.admin_select_user(
         $('#id_productid'),
         "admin", load_data,false,{"main_type":10});
