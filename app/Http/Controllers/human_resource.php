@@ -4330,7 +4330,7 @@ class human_resource extends Controller
             }
         }
         $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
-            "is_test_user" => 1,
+            //"is_test_user" => 1,
             "wx_use_flag"  => 0,
         ]);
         if(!$ret){

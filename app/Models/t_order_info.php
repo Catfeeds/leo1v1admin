@@ -1147,7 +1147,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                 ." left join %s s on o.userid=s.userid"
                                 ." where %s"
                                 ." and exists (select 1 from %s where %s)"
-                                ." order by lesson_left asc"
+                                ." order by orderid asc"
                                 ,self::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,$where_arr

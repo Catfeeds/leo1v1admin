@@ -71,19 +71,18 @@ class test_code extends Controller
         $sum_price = 0;
         $num = 0;
         foreach($lesson_list as $l_val){
-
             $lesson_price = 0;
             $lesson_price = $this->get_lesson_price($stu_order_list,$l_val,$lesson_price);
 
             if($lesson_price === false){
                 continue;
             }
-            echo $l_val['lessonid']."|".$lesson_price;
-            echo "<br>";
-            $num++;
-            if($num>100){
-                break;
-            }
+
+            // $num++;
+            // if($num>100){
+            //     break;
+            // }
+
             $sum_price += $lesson_price;
         }
         echo "总入:".$sum_price;
@@ -118,6 +117,10 @@ class test_code extends Controller
         if($lesson_count_left>0){
             $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
         }
+
+        // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
+        // echo "<br>";
+
         return $lesson_price;
     }
 
