@@ -761,7 +761,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $this->ensql($nick_phone));
         }
 
-        $sql = $this->gen_sql_new("select s.userid as id , s.nick, ss.phone,s.gender,s.realname  "
+        $sql = $this->gen_sql_new("select s.userid as id , s.nick, s.phone,s.gender,s.realname  "
                                   ." from   %s s , %s a,%s m  where s.assistantid=a.assistantid"
                                   ." and a.phone=m.phone and %s ",
                                   self::DB_TABLE_NAME,
