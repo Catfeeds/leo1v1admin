@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerTongjiForMonthAdd extends Migration
+class TRequirementInfoAddForecastTime extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class TSellerTongjiForMonthAdd extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
+        Schema::table('db_weiyi.t_requirement_info', function( Blueprint $table)
         {
-
-            t_field($table->integer("all_order_price"),"总金额 包含转介绍+新签");
-
+            t_field($table->integer("forecast_time"),"预估完成时间");
         });
-
     }
 
     /**
