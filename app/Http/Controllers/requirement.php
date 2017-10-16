@@ -16,10 +16,10 @@ class requirement extends Controller
      */
     public function requirement_info_new () {
         //$userid = 99;
-        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(date("Y-m-01"),0,1,[
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,3,[
             1 => array("create_time","提交时间"),
             3 => array("expect_time", "期望完成时间"),
-        ],1);
+        ],3);
         $priority = $this->get_in_int_val('priority',"-1");
         $productid = $this->get_in_int_val('id_productid',"-1");
         $product_status = $this->get_in_int_val('product_status',"-1");
@@ -35,7 +35,6 @@ class requirement extends Controller
             $productid,$product_status,$start_time,$end_time);
         
         //        dd($ret_info);
-        dd($ret_info);
         foreach( $ret_info["list"] as $key => &$item ) {
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"expect_time");
@@ -303,6 +302,36 @@ class requirement extends Controller
             'name'                     => $name,
             'priority'                 => $priority ,
             'significance'             => $significance,
+            'expect_time'              => $expect_time,
+            'statement'                => $statement,
+            'content_pic'              => $content_pic,
+            'notes'                    => $notes,
+            'create_phone'             => $create_phone,
+            "status"                   => 2, //提交到达产品
+            "product_status"           => 0, //产品未处理
+         ]);
+        return $this->output_succ();
+    }
+    /**
+     * @author    sam
+     * @function  需求信息录入
+     */
+    public function add_requirement_info_new(){
+        $name            = $this->get_in_int_val('name');
+        $priority        = $this->get_in_int_val('priority');
+        $expect_time     = strtotime($this->get_in_str_val('expect_time'));
+        $statement       = $this->get_in_str_val('statement');
+        $content_pic     = $this->get_in_str_val('content_pic');
+        $notes           = $this->get_in_str_val('notes');
+        $product_operator = $this->get_in_int_val("product_operator");
+        $create_adminid  = $this->get_account_id();
+        $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
+        $create_time     = time();
+        $this->t_requirement_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'name'                     => $name,
+            'priority'                 => $priority ,
             'expect_time'              => $expect_time,
             'statement'                => $statement,
             'content_pic'              => $content_pic,
