@@ -2160,8 +2160,22 @@ $(function(){
         });
     });
 
+    $(".opt-jianli").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var jianli = data.jianli;
+        if(jianli==""){
+            BootstrapDialog.alert("此老师没有简历");
+        }else{
+            $.wopen(jianli);
+        }
+    });
+
+
+
     //下载隐藏
-    download_hide();
+    if(account_role!=12){
+        download_hide();
+    }
 
 
 });

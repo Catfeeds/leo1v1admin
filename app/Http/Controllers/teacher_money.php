@@ -623,8 +623,9 @@ class teacher_money extends Controller
         if(!$ret && $bankcard!=$old_bankcard){
             return $this->output_err("更新失败！请重试！");
         }
+
         if($old_bankcard != $bankcard){
-            $tea_nick = $this->t_teacher_info->get_realname($teacherid);
+            $tea_nick   = $this->t_teacher_info->get_realname($teacherid);
             $header_msg = $tea_nick."老师，修改了绑定的银行卡号。";
             $msg  = "持卡人姓名：$tea_nick \n 银行卡类型： $bank_type \n 卡号：$bankcard";
             $url  = "/teacher_money/show_teacher_bank_info?teacherid=".$teacherid;

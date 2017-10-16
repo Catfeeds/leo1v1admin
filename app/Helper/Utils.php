@@ -833,6 +833,11 @@ class Utils  {
         return $is_success;
     }
 
+    /**
+     * 获取老师课程的课时奖励
+     * @param type 课时奖励类型
+     * @param already_lesson_count 累计课时
+     */
     static public function get_teacher_lesson_money($type,$already_lesson_count){
         $rule_type = \App\Config\teacher_rule::$rule_type;
         $reward    = 0;
@@ -949,7 +954,7 @@ class Utils  {
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){
         $type = 0;
         if(in_array($teacher_money_type,[0,1,2,3,7])){
-            if($teacher_type==3){
+            if($teacher_type == E\Eteacher_type::V_3){
                 $type = 3;
             }else{
                 $type = 1;
@@ -1428,17 +1433,17 @@ class Utils  {
         if($teacher_type>20){
             $level_str="招师代理";
         }else{
-            if($teacher_money_type==0){
+            if($teacher_money_type==E\Eteacher_money_type::V_0){
                 if($level<3){
                     $level_str = E\Elevel::$v2s_map[$level+1];
-                }elseif($level==3){
+                }elseif($level==E\Elevel::V_3){
                     $level_str = "明星";
                 }else{
                     $level_str = "";
                 }
-            }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,3])){
+            }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,E\Eteacher_money_type::V_3])){
                 $level_str = "高级";
-            }elseif($teacher_money_type==6){
+            }elseif($teacher_money_type==E\Eteacher_money_type::V_6){
                 $level_str = E\Enew_level::$v2s_map[$level];
             }else{
                 $level_str = E\Elevel::$v2s_map[$level];
@@ -1541,7 +1546,6 @@ class Utils  {
     **/
    static public function deal_feedback_img($serverId_str,$sever_name)
     {
-        // $serverIdLists = json_decode($serverId_str,true);
         $serverIdLists = explode(',',$serverId_str);
         $alibaba_url   = [];
         $alibaba_url_origi = [];

@@ -1721,7 +1721,8 @@ class user_manage_new extends Controller
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
 
-        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time);
+        // $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time);
+        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
         foreach($tr_info['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['require_test_count_for_month']=$item['require_test_count'];
@@ -1730,22 +1731,27 @@ class user_manage_new extends Controller
             }
 
         }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
-            // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
             $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
-            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            if($item['test_lesson_count'] != 0){
-                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            }
-
+            // $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            // $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            // if($item['test_lesson_count'] != 0){
+            //     $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
+            // }
         }
 
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
         $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
         foreach($test_leeson_list['list'] as $item){
             $adminid = $item['admin_revisiterid'];
             $res[$adminid]['succ_all_count_for_month']=$item['succ_all_count'];
+            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+            if($item['test_lesson_count'] != 0){
+                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
+            }
         }
 
         $this->t_order_info->switch_tongji_database();
@@ -2744,40 +2750,28 @@ class user_manage_new extends Controller
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",time()),0, 0,[],3 );
         $teacher_ref_type            = $this->get_in_int_val("teacher_ref_type",-1);
         $teacher_money_type          = $this->get_in_int_val("teacher_money_type",-1);
+        $teacher_type                = $this->get_in_int_val("teacher_type",-1);
         $level                       = $this->get_in_int_val("level",-1);
         $show_data                   = $this->get_in_int_val("show_data");
         $show_type                   = $this->get_in_str_val("show_type","current");
         $acc                         = $this->get_account();
 
         $this->switch_tongji_database();
-        // $now_date  = date("Y-m",$start_time);
-        // $file_name = "/tmp/teacher_money".$now_date.$teacher_money_type.$level.$teacher_ref_type.$show_type.".txt";
-        // //需要重新拉取  flag  0 不需要  1 需要
-        // $flag = 0;
-        // if(is_file($file_name)){
-        //     $file_info = file_get_contents($file_name);
-        //     if(empty($file_info) || $file_info==""){
-        //         $flag = 1;
-        //     }
-        // }else{
-        //     $flag = 1;
-        // }
 
-        // if($flag){
-            $tea_list = $this->t_lesson_info->get_tea_month_list(
-                $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level,$show_type
-            );
+        $tea_list = $this->t_lesson_info->get_tea_month_list(
+            $start_time,$end_time,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type
+        );
+
+        if($teacher_type==-1){
             //公司全职老师列表 full_tea_list
             $full_start_time = strtotime("-1 month",$start_time);
             $full_tea_list = $this->t_lesson_info->get_tea_month_list(
-                $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
+                $full_start_time,$start_time,$teacher_ref_type,E\Eteacher_type::V_3,$teacher_money_type,$level,$show_type
             );
             $list = array_merge($tea_list,$full_tea_list);
-            // file_put_contents($file_name,json_encode($list));
-        // }else{
-        //     $list = json_decode($file_info,true);
-        // }
-
+        }else{
+            $list = $tea_list;
+        }
 
         $all_lesson_1v1   = 0;
         $all_lesson_trial = 0;
@@ -2789,6 +2783,7 @@ class user_manage_new extends Controller
             \App\Helper\Utils::check_isset_data($val['lesson_total'],0,0);
 
             E\Eteacher_money_type::set_item_value_str($val);
+            $val['level_str']=\App\Helper\Utils::get_teacher_letter_level($val['teacher_money_type'],$val['level']);
             E\Elevel::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
             $val['lesson_1v1']   /= 100;

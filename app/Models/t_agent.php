@@ -29,7 +29,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
         }else if ( $phone ) {
-            $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            if(is_numeric($phone) && strlen($phone))
+                $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            else
+                $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
         }else {
             $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
@@ -46,7 +49,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
                                  ."o.price, "
-                                 ."n.admin_revisiterid "
+                                 ."n.admin_revisiterid,a.userid"
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
@@ -1697,5 +1700,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_parent_map()
+    {
+        $sql = $this->gen_sql_new(
+            "select id,parentid from %s",
+            self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql,function( $item){
+            return $item["id"];
+        } );
     }
 }

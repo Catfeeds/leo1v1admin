@@ -529,7 +529,7 @@
                                 <a class="opt-limit-plan-lesson-list div_show" >限制排课记录</a>
                                 <a class="opt-set-teacher-record-new div_show" >反馈</a>
                                 <a class="opt-get-teacher-record div_show">反馈记录</a>
-                                <a class="div_show" href="/teacher_info/free_time?teacherid={{$var["teacherid"]}}"
+                                <a class="div_show" href="/teacher_info_admin/free_time?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="设置空闲时间">设置空闲时间</a>
                                 <a class="opt-get-teacher-lesson-hold div_show">设置暂停接试听课</a>
                                 <a class="opt-set-research-note div_show">教研备注</a>
@@ -569,7 +569,8 @@
                                 <a class="opt-identity" >老师身份</a>
                                 <a class="opt-teacher-leave-list div_show" >请假记录</a>
                                 <a class=" opt-regular-lesson-detele-list div_show" >常规课表空闲记录</a>
-                               <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
+                                <a class=" opt-teacher-cancel-lesson-list div_show" >老师取消课程记录</a>
+                                <a class=" opt-jianli div_show" >简历</a>
                             </div>
                         </td>
                     </tr>

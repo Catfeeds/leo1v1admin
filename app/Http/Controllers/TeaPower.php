@@ -78,7 +78,10 @@ trait TeaPower {
         }
     }
 
-    public function add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""){
+    public function add_teacher_label(
+        $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,
+        $teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""
+    ){
         $sshd_good=\App\Helper\Utils::json_decode_as_array($sshd_good, true);
         $sshd_bad=\App\Helper\Utils::json_decode_as_array($sshd_bad, true);
         $sshd =  array_merge($sshd_good, $sshd_bad);
@@ -131,7 +134,6 @@ trait TeaPower {
                     "lesson_list"=>$lesson_list,
                     "tea_label_type"=>$tea_label_type
                 ]);
- 
             }
 
             $list=[];
@@ -3192,5 +3194,330 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
+    //老师晋升,获取前4个季度的列表
+    public function get_four_season_list(){
+        $list=[];
+        //上季度
+        $season = ceil((date('n'))/3)-1;
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time);
+        $m = date("m",$start_time);
+        $md = date("m",$start_time+100*86400);
+        $list[$start_time]=$year." ".$m."-".$md;
+
+        //上上季度
+        $season_pre = ceil((date('n'))/3)-2;
+        $start_time_pre = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_pre*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_pre);
+        $m = date("m",$start_time_pre);
+        $md = date("m",$start_time_pre+100*86400);
+        $list[$start_time_pre]=$year." ".$m."-".$md;
+
+
+        //上上上季度
+        $season_se = ceil((date('n'))/3)-3;
+        $start_time_se = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_se*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_se);
+        $m = date("m",$start_time_se);
+        $md = date("m",$start_time_se+100*86400);
+        $list[$start_time_se]=$year." ".$m."-".$md;
+
+
+        //上上上上季度
+        $season_le = ceil((date('n'))/3)-4;
+        $start_time_le = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season_le*3-3+1,1,date('Y'))));
+        $year = date("Y",$start_time_le);
+        $m = date("m",$start_time_le);
+        $md = date("m",$start_time_le+100*86400);
+        $list[$start_time_le]=$year." ".$m."-".$md;
+
+        return $list;
+    }
+
+    /**
+     * 检测非测试老师是否成为正式老师
+     */
+    public function check_teacher_is_pass($teacherid){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        if($teacher_info['is_test_user']==0){
+            if($teacher_info['trial_lecture_is_pass']==0
+               || $teacher_info['train_through_new']==0
+               || $teacher_info['wx_use_flag']==0
+            ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    
+    /**
+     * 常规课排课接口
+     */
+    public function add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count=0,$old_lessonid=0,$reset_lesson_count=1){
+        $item = $this->t_course_order->field_get_list($courseid,"*");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
+        }
+        if($item["course_type"]==2){
+            if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
+                return $this->output_err("没有权限排试听课");
+            }
+        }
+
+        $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
+        if($check){
+            return $check;
+        }
+
+        if($item['lesson_grade_type']==0){
+            $grade = $this->t_student_info->get_grade($item["userid"]);
+        }elseif($item['lesson_grade_type']==1){
+            $grade = $item['grade'];
+        }else{
+            return $this->output_err("学生课程年级出错！请在课程包列表中修改！");
+        }
+
+        $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
+        $default_lesson_count = 0;
+
+        //区分是否课时确认的调课
+        if($old_lessonid){
+            $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($old_lessonid);
+            $default_lesson_count=0;
+            $lessonid = $this->t_lesson_info->add_lesson_new(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,
+                $item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                $lesson_cw['stu_cw_upload_time'],
+                $lesson_cw['stu_cw_status'],
+                $lesson_cw['stu_cw_url'],
+                $lesson_cw['tea_cw_name'],
+                $lesson_cw['tea_cw_upload_time'],
+                $lesson_cw['tea_cw_status'],
+                $lesson_cw['tea_cw_url'],
+                $lesson_cw['lesson_quiz'],
+                $lesson_cw['lesson_quiz_status'],
+                $lesson_cw['tea_more_cw_url']
+            );
+            if ($lessonid) {
+                $this->t_homework_info->add_new(
+                    $item["courseid"],
+                    0,
+                    $item["userid"],
+                    $lessonid,
+                    $grade,
+                    $item["subject"],
+                    0,
+                    $lesson_cw['work_status'],
+                    $lesson_cw['issue_url'],
+                    $lesson_cw['finish_url'],
+                    $lesson_cw['check_url'],
+                    $lesson_cw['tea_research_url'],
+                    $lesson_cw['ass_research_url'],
+                    $lesson_cw['score'],
+                    $lesson_cw['issue_time'],
+                    $lesson_cw['finish_time'],
+                    $lesson_cw['check_time'],
+                    $lesson_cw['tea_research_time'],
+                    $lesson_cw['ass_research_time']
+                );
+            }
+
+        }else{
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,$item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                2,
+                $item['week_comment_num'],
+                $item['enable_video']
+            );
+
+            if ($lessonid) {
+                $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$grade,$item["subject"]);
+            }
+ 
+        }
+
+        $this->t_lesson_info->reset_lesson_list($courseid);
+
+        if ($lesson_start >= $lesson_end) {
+            return $this->output_err( "时间不对: $lesson_start>$lesson_end");
+        }
+
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $userid    = $this->t_lesson_info->get_userid($lessonid);
+        /* 设置lesson_count */
+        $diff=($lesson_end-$lesson_start)/60;
+        if ($diff<=20) {
+            $lesson_count=50;
+        } else if ($diff<=40) {
+            $lesson_count=100;
+        } else if ( $diff <= 60) {
+            $lesson_count=150;
+        } else if ( $diff <=90 ) {
+            $lesson_count=200;
+        } else if ( $diff <=100 ) {
+            $lesson_count=250;
+        }else{
+            $lesson_count= ceil($diff/40)*100 ;
+        }
+
+
+        $userid = $this->t_lesson_info->get_userid($lessonid);
+        if ($userid) {
+            $ret_row = $this->t_lesson_info->check_student_time_free(
+                $userid,$lessonid,$lesson_start,$lesson_end
+            );
+
+            if($ret_row) {
+                $error_lessonid=$ret_row["lessonid"];
+                return $this->output_err(
+                    "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                    ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                    ."查看[lessonid=$error_lessonid]<a/><div> "
+                );
+            }
+        }
+
+        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+            $teacherid,$lessonid,$lesson_start,$lesson_end);
+
+        if($ret_row) {
+            $error_lessonid=$ret_row["lessonid"];
+            return $this->output_err(
+                "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                ."查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+        $ret=true;
+        if($lesson_type<1000 && $reset_lesson_count){
+            $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+        }
+
+        if(!$ret){
+            $str= $lesson_count/100;
+            return $this->output_err("课时不足,需要课时数:$str");
+        }
+        if($reset_lesson_count){
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_count" => $lesson_count
+            ]);
+        }
+        $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+
+
+
+        $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($lessonid);
+        $courseid     = $this->get_in_courseid();
+        $lesson_type  = $this->get_in_int_val("lesson_type");
+        $lesson_count = $this->get_in_str_val("lesson_count")*100;
+        $lesson_start = $lesson_cancel_reason_next_lesson_time;
+        $lesson_end = $this->get_in_str_val("lesson_cancel_reason_next_lesson_end_time");
+        $day = date('Y-m-d',$lesson_cancel_reason_next_lesson_time);
+        $lesson_end = strtotime($day." ".$lesson_end);
+
+        if($lesson_type!=2){
+            $item = $this->t_course_order->field_get_list($courseid,"*");
+            if($item['lesson_grade_type']==1){
+                $grade = $item['grade'];
+            }else{
+                $grade = $this->t_student_info->get_grade($item["userid"]);
+            }
+            $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
+            $this->t_lesson_info->reset_lesson_list($courseid);
+
+            if ($lesson_start >= $lesson_end) {
+                return $this->output_err( "时间不对: 时间不对: 下课时间早于上课时间");
+            }
+            if ($lesson_start <= time()) {
+                return $this->output_err( "时间不对,不能比当前时间晚");
+            }
+
+            $teacherid   = $this->t_lesson_info->get_teacherid($lessonid);
+            $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+            $userid      = $this->t_lesson_info->get_userid($lessonid);
+            if ($userid) {
+                $ret_row = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+                if($ret_row) {
+                    $error_lessonid=$ret_row["lessonid"];
+                    return $this->output_err(
+                        "<div>有现存的学生课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                    );
+                }
+            }
+
+            $ret_row=$this->t_lesson_info->check_teacher_time_free(
+                $teacherid,$lessonid,$lesson_start,$lesson_end);
+
+            if($ret_row) {
+                $error_lessonid=$ret_row["lessonid"];
+                return $this->output_err(
+                    "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                );
+            }
+
+            /* 设置lesson_count */
+            if(empty($lesson_count)){
+                $diff=($lesson_end-$lesson_start)/60;
+                if ($diff<=40) {
+                    $lesson_count=100;
+                } else if ( $diff <= 60) {
+                    $lesson_count=150;
+                } else if ( $diff <=90 ) {
+                    $lesson_count=200;
+                }else{
+                    $lesson_count= ceil($diff/40)*100 ;
+                }
+            }
+
+            $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+            $ret=true;
+            if($lesson_type<1000){
+                $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+            }
+
+            if ($ret) {
+                \App\Helper\Utils::logger("set XXX ");
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_count" => $lesson_count
+                ]);
+                $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+                return $this->output_succ();
+            }else{
+                $str = $lesson_count/100;
+                return $this->output_err("课时不足,需要课时数:$str");
+            }
+        }
+
+
+    }
 
 }

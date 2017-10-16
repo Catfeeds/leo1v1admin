@@ -16,7 +16,7 @@ class period_order extends Controller
         list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,4,[
             1 => array("order_time","下单日期"),
             2 => array("o.pay_time", "生效日期"),
-            3 => array("app_time", "申请日期"),
+            //3 => array("app_time", "申请日期"),
             4 => array("c.pay_time","付款日期")
         ],3);
 
@@ -25,9 +25,13 @@ class period_order extends Controller
 
         $pay_status = $this->get_in_int_val("pay_status",-1);
         $channel = $this->get_in_int_val("channel",1);
+        $userid = $this->get_in_int_val("userid",-1);
+        $parent_orderid = $this->get_in_int_val("parent_orderid",-1);
+        $child_orderid = $this->get_in_int_val("child_orderid",-1);
+        $repay_status = $this->get_in_int_val("repay_status",-1);
         $page_info = $this->get_in_page_info();
         
-        $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type,$channel);
+        $list = $this->t_child_order_info->get_all_period_order_info($start_time,$end_time,$opt_date_type,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid,$repay_status);
         foreach($list["list"] as &$item){
             E\Egrade::set_item_value_str($item);           
             E\Econtract_status::set_item_value_str($item);
@@ -56,7 +60,11 @@ class period_order extends Controller
             }
  
         }
-        return $this->Pageview(__METHOD__,$list);
+
+        $account_role = $this->get_account_role();
+        return $this->Pageview(__METHOD__,$list,[
+            "account_role" =>$account_role
+        ]);
   
     }
 

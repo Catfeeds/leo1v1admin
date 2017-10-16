@@ -1624,7 +1624,7 @@ $(function(){
         var html_node           = $.dlg_need_html_by_id( "id_dlg_post_user_info_new_two");
         var show_noti_info_flag = false;
         var id_userid           = html_node.find("#id_stu_nick_new");//学生姓名
-        $.admin_select_user(id_userid,"student");
+        $.admin_select_user(id_userid,"student_ass");
         var id_par_nick         = html_node.find("#id_par_nick_new");//家长姓名
         var id_gender           = html_node.find("#id_stu_gender_new");//学生性别
         Enum_map.append_option_list("gender", id_gender, true);

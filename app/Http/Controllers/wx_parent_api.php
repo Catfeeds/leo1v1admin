@@ -961,7 +961,7 @@ class wx_parent_api extends Controller
     // 家长微信端上传试卷
 
     public function get_all_stu_info(){
-        $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_parentid();
 
         $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
 
@@ -970,12 +970,10 @@ class wx_parent_api extends Controller
 
 
     public function input_student_score (){ //家长录入学生成绩
-
-
         $userid           = $this->get_in_int_val("userid");
         $serverId_list    = $this->get_in_str_val('serverids');
         $create_time      = time();
-        $create_adminid   = $this->get_account_id();
+        $create_adminid   = $this->get_parentid();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
@@ -1011,14 +1009,13 @@ class wx_parent_api extends Controller
 
         $appid     = config('admin')['wx']['appid'];
         $appscript = config('admin')['wx']['appsecret'];
-
         $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
-
-        $img_arr = explode(',',$ret_arr['alibaba_url_str']);
-        $file_url = \App\Helper\Utils::img_to_pdf($img_arr);
-
+        $file_url = '';
+        if($serverId_list){
+            $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
+            $file_url = $ret_arr['alibaba_url_str'];
+        }
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
@@ -1037,17 +1034,19 @@ class wx_parent_api extends Controller
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
         ],false,false,true);
-        return $this->output_succ();
+
+        if($ret_info){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('成绩录入失败,请稍后重试!');
+        }
 
     }
 
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
-        $parentid       = $this->get_in_int_val('parentid',-1);
-        $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
-
-        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($parentid,$stu_score_list);
-
+        $userid = $this->get_in_int_val('userid');
+        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid);
         return $this->output_succ(['data'=>$stu_score_list]);
     }
 

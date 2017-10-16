@@ -22,6 +22,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	all_price	:any;
+	transfer_introduction_price	:any;
+	new_price	:any;
+	normal_price	:any;
+	extend_price	:any;
+	all_price_suc	:any;
+	all_price_fail	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;

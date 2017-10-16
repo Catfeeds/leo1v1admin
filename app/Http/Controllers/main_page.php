@@ -581,15 +581,15 @@ class main_page extends Controller
 
         //月回访信息
         $month_list = $this->t_revisit_assess_info->get_month_assess_info_by_uid($ass_adminid, $cur_start, $cur_end);
-        // dd($month_list);
         $month_info = @$month_list[0];
         $month_info["call_num"]= \App\Helper\Common::get_time_format_minute(@$month_info["call_num"]);
         //当天回访信息
         $start_time = strtotime( "today" );
         $end_time   = strtotime("tomorrow");
         $today_info = $this->t_manager_info->get_today_assess_info_by_uid($ass_adminid, $start_time, $end_time);
-        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($today_info["call_num"]);
-        $today_info['goal'] = ceil($today_info['stu_num']/10);
+        $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
+        $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
+        $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
@@ -1841,9 +1841,17 @@ class main_page extends Controller
 
         //月回访信息
         $month_info = $this->t_revisit_assess_info->get_month_assess_info_by_uid( $master_adminid, $cur_start, $cur_end,$uid_str);
+
+        $leader_revisit_info = [];
+        //组长回访统计
+        $leader_stu_num = $this->t_revisit_assess_info->get_stu_num_info( $uid_str, $cur_start, $cur_end);
+        $leader_revisit_info['leader_goal'] = ceil($leader_stu_num / 10);
+        $leader_revisit_info['leader_revisited'] = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
+        $leader_revisit_info['nick'] = $this->cache_get_account_nick($master_adminid);
         foreach( $month_info as &$item) {
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
+
 
         // dd($month_info);
 
@@ -1854,9 +1862,8 @@ class main_page extends Controller
             "ass_list_group" =>@$ass_list_group,
             "warning"       => $warning_type_num,
             "month_info" =>$month_info,
+            "leader_revisit_info" =>$leader_revisit_info,
         ]);
-
-
 
     }
 
@@ -2142,6 +2149,13 @@ class main_page extends Controller
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
 
+        //各组长回访信息
+        $leader_info = $this->t_admin_group_name->get_stu_num_leader($cur_start, $cur_end);
+        foreach ($leader_info as &$item) {
+            $item['revisit_num'] = $this->t_manager_info->get_leader_revisit_info( $item['master_adminid'],$cur_start, $cur_end);
+            $item['goal'] = ceil($item['stu_num'] /10 );
+            // $item['nick'] = $this->cache_get_account_nick($item['master_adminid']);
+        }
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
@@ -2150,10 +2164,8 @@ class main_page extends Controller
             "ass_list_group" =>@$ass_list_group,
             "warning"       => $warning_type_num,
             "month_info" =>$month_info,
-
+            "leader_info" => $leader_info,
         ]);
-
-
 
     }
 

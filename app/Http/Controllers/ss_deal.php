@@ -434,7 +434,6 @@ class ss_deal extends Controller
         ];
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
-
         return $this->output_succ();
     }
 
@@ -966,7 +965,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="助教-扩课";
+            $origin_info["origin"]="4助教-扩课";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -2431,7 +2430,7 @@ class ss_deal extends Controller
         $item = $this->t_student_info->field_get_list($userid,"userid,nick,phone,grade,origin");
         E\Egrade::set_item_value_str($item);
         if ($is_ass_flag) {
-            $item["origin"] = "助教-". $this->get_account();
+            $item["origin"] = "1助教-". $this->get_account();
         }
         return $this->output_succ(["data"=> $item] );
     }
@@ -2753,7 +2752,7 @@ class ss_deal extends Controller
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
+        $origin="2助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
@@ -3651,7 +3650,7 @@ class ss_deal extends Controller
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
                 ]);
 
-                $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
+                // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
 
             }
         }

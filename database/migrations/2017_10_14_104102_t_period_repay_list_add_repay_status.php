@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SellerStudentNewAddOriginVaildFlag extends Migration
+class TPeriodRepayListAddRepayStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,10 @@ class SellerStudentNewAddOriginVaildFlag extends Migration
     public function up()
     {
         //
-
+        Schema::table('db_weiyi.t_child_order_info', function( Blueprint $table)
+        {
+            t_field($table->tinyInteger("repay_status"),"还款状态(后台分析) 0,未还款;1,已还款;2,逾期已还款;3,逾期未还款");
+        });
 
     }
 

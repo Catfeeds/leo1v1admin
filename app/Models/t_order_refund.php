@@ -523,14 +523,18 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             "r.qc_other_reason <>'' or r.qc_analysia<>'' or r.qc_reply<>''"
         ];
 
-        $sql = $this->gen_sql_new("  select s.nick, s.userid, f.flow_status, s.phone, s.assistantid, s.seller_adminid, r.orderid, r.apply_time from %s r "
+        $sql = $this->gen_sql_new("  select m.uid as ass_adminid, a.nick as ass_nick, s.nick, s.userid, f.flow_status, s.phone, s.assistantid, s.seller_adminid, r.orderid, r.apply_time from %s r "
                                   ." left join %s s on s.userid=r.userid"
                                   ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
+                                  ." left join %s a on a.assistantid=s.assistantid"
+                                  ." left join %s m on m.phone=a.phone"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_flow::DB_TABLE_NAME
                                   ,E\Eflow_type::V_ASS_ORDER_REFUND
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 

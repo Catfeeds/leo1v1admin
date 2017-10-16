@@ -941,6 +941,21 @@ $(function(){
         });
 
     });
+
+    $(".opt-qr-pad-at-time-new").on("click",function(){
+        var lessonid= $(this).get_opt_data("lessonid");
+        //得到
+        $.do_ajax("/tea_manage/get_tea_pad_lesson_qr",{
+            "lessonid" :lessonid
+        },function(result){
+
+            console.log(result.data);
+          });
+
+    });
+
+
+
     $(".opt-qr-pad").on("click",function(){
 
         var lessonid= $(this).get_opt_data("lessonid");
@@ -1913,10 +1928,10 @@ $(function(){
 
     });
 
-    download_hide();
+   // download_hide();
     $(".opt-download").show();
-$(".opt-teacher-url").show();
-$(".opt-student-url").show();
-$(".opt-homework-url").show();
-$(".opt-quiz-url").show();		
+    $(".opt-teacher-url").show();
+    $(".opt-student-url").show();
+    $(".opt-homework-url").show();
+    $(".opt-quiz-url").show();		
 });
