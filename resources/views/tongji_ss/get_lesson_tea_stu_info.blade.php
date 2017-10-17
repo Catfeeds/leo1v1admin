@@ -22,6 +22,7 @@
                     <td>授课老师人数 </td>
                     <td>试听课数</td>
                     <td>入职老师人数</td>
+                    <td>所有老师人数</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                         <td>{{@$var["tea_num"]}} </td>
                         <td>{{@$var["test_lesson_num"]}} </td>
                         <td>{{@$var["new_num"]}} </td>
+                        <td>{{@$var["all_num"]}} </td>
                        
                         <td>
                             <div

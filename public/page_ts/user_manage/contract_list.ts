@@ -1459,8 +1459,12 @@ $(function(){
 
 
 
+        var list_type= "student";
+        if (g_account_role==2  ) {
+            list_type=  "seller_student";
+        }
 
-        $.admin_select_user( $(this), "seller_student", function(id){
+        $.admin_select_user( $(this), list_type , function(id){
             if (id<=0) {
                 alert("没有选择学生!");
                 return ;
