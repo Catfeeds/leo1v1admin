@@ -71,13 +71,17 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
 
     public function get_advance_success_list($start_time){
         $where_arr=[
-            ["start_time = %u",$start_time,0],
-            "accept_flag =1"
+            ["a.start_time = %u",$start_time,0],
+            "a.accept_flag =1",
+            "(m.account_role is null or m.account_role not in (4,5,9))"
         ];
-        $sql = $this->gen_sql_new("select * "
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select a.* "
+                                  ." from %s a left join %s t on a.teacherid = t.teacherid"
+                                  ." left join %s m on t.phone = m.phone and m.del_flag=0"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

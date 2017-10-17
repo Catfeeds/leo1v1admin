@@ -1746,6 +1746,7 @@ class teacher_info_new extends Controller
                 "wenbin",
                 "李珉劼 ",
                 "王浩鸣", // 
+                "郭冀江", // 
                 "夏宏东",
                 "ted"
             ];

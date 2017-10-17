@@ -3732,6 +3732,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_through_num_month($start_time,$end_time){
+        $where_arr=[
+            "train_through_new=1",
+            "is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"train_through_new_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(*) num,subject from %s where %s group by subject",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr                                 
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["subject"];
+        });
+    }
 
 
 }

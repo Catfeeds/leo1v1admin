@@ -570,8 +570,8 @@ class test_boby extends Controller
 
         //3,有学情回访后，在获取当日的其他回访信息
         // $check = [];
-        // $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
-        // $s = $this->table_start($th_arr);
+        $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
+        $s = $this->table_start($th_arr);
         foreach($ret_info as $item) {
             if (is_array($item)){
                 $uid = $item['uid'];
@@ -591,9 +591,9 @@ class test_boby extends Controller
                             'create_time'   => $time,
                         ]);
 
-                        // $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
-                        // $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
-                        // $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
+                        $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
+                        $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
+                        $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
 
                         // $check[] = [
                         //     'uid'           => $uid,
@@ -609,9 +609,9 @@ class test_boby extends Controller
             }
         }
 
-        // return $s;
+        return $s;
         // dd($check);
-        return 'ok';
+        // return 'ok';
 
     }
 

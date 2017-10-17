@@ -1516,7 +1516,8 @@ class ss_deal extends Controller
         $orderid      = 1;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
-        if ($db_lessonid){
+        $account_role = $this->get_account_role();
+        if ($db_lessonid && $account_role != 12){
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {
@@ -6031,6 +6032,7 @@ class ss_deal extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
