@@ -26,7 +26,7 @@ class teacher_level extends Controller
         $end_time   = strtotime(date('Y-m-d H:i:s',mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
         $this->set_in_value("quarter_start",$start_time);
         $quarter_start = $this->get_in_int_val("quarter_start");
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type",1);
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",5);
         $page_info = $this->get_in_page_info();
 
         $list     = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
@@ -49,11 +49,11 @@ class teacher_level extends Controller
         $tea_refund_info      = $this->get_tea_refund_info($start_time,$end_time,$tea_arr);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level");
-            $item["level_after"] = $item["level"]+1;
+            /* $item["level_after"] = $item["level"]+1;
             if($item["level"]==4){
                 $item["level_after"]=4;
-            }
-            E\Elevel::set_item_value_str($item,"level_after");
+                }
+                E\Elevel::set_item_value_str($item,"level_after");*/
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
             E\Eaccept_flag::set_item_value_str($item);

@@ -51,6 +51,7 @@ class test_code extends Controller
 
 
 
+
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
@@ -81,7 +82,7 @@ class test_code extends Controller
             }
 
             $num++;
-            if($num>100){
+            if($num>1000){
                 break;
             }
 
