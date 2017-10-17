@@ -465,11 +465,11 @@ class tea_manage extends Controller
             $image_stu = "学生：".$stu_nick;
             $image_time = "时间：".$lesson_time;
             $image_lessonid = "课程：".$lessonid;
-            $font_file = "/home/boby/admin_yb1v1/public/fonts/song.ttf";
-            // $fontface = 'simhei.ttf';
-            // if (! is_file($fontface)) {
-            //     $fontface = dirname(__FILE__) . "/" . $fontface;
-            // }
+            // $font_file = "/home/boby/admin_yb1v1/public/fonts/song.ttf";
+            $font_file = 'simhei.ttf';
+            if (! is_file($font_file)) {
+                $font_file= dirname(__FILE__) . "/" . $font_file;
+            }
 
 
             //创建文字
@@ -479,7 +479,7 @@ class tea_manage extends Controller
             imagefill($im1, 0, 0, $bkcolor);
 
             // dd($font_file);
-            $fontcolor = imagecolorallocate($im1, 0,0,0);
+            $fontcolor = imagecolorallocate($im1, 62,187,254);
             imagefttext($im1, 40, 0, 55, 50, $fontcolor, $font_file, $image_title);
             // imagefttext($im1, 13, 0, 150, 50, $fontcolor, $fontface, 'test');
             imagepng($im1, $text_url1);
