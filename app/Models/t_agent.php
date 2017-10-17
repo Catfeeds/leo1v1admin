@@ -811,7 +811,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-
+    
         return $this->main_get_list($sql);
     }
     public  function get_link_list_by_ppid($ppid) {
@@ -840,7 +840,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
             . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  ao1.p_open_price o_p_open_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
-            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid,@agent_user_link:=1 as agent_user_link"
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
@@ -909,6 +909,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $ret_list[ ] = [
                 "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
                 "p1_id"                    => $p1["pid"],
+                "p1_phone"                    => $p1["p_phone"],
+                "agent_user_link"         => $p1["agent_user_link"],
+                "p1_userid"         => $p1["p_userid"],
                 "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
                 "p1_price"                => $p1["o_p_from_price"]/100,
                 "p1_p_agent_level"        => $p1["o_p_agent_level"],
@@ -922,6 +925,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $ret_list[ ]= [
                     "p2_name"=> $p2["nick"]."/".$p2["phone"],
                     "p2_id"=> $p2["id"],
+                    "p2_phone"=> $p2["phone"],
+                    "p2_userid"=> $p2["userid"],
                     "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
                     "p2_price"=> $p2["o_from_price"]/100,
                     "p2_p_agent_level"        => $p2["o_agent_level"],

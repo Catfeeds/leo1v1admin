@@ -2726,6 +2726,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $page_num = $this->get_in_page_num();
+        $adminid=324;
+        $ret_list= $this->t_student_info->get_ass_list_for_select(-1,-1, "", $page_num,$adminid);
+        dd($ret_list);
+
         $d= date("d");
         if($d>15){            
             $month_start = strtotime(date("Y-m-01",time()));

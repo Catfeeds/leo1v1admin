@@ -588,7 +588,11 @@ $(function(){
                 });
             }
         }],function(){
-            $.admin_select_user($id_userid,"student");
+            if(g_args.account_role==12){
+                $.admin_select_user($id_userid,"student");
+            }else{
+                $.admin_select_user($id_userid,"student_ass"); 
+            }
             $.admin_select_user( $green_channel_teacherid, "teacher");
             $id_change_teacher_reason_type.parent().parent().css('display','none');
             $id_change_reason.parent().parent().css('display','none');

@@ -376,7 +376,6 @@ class ss_deal extends Controller
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
         $url = $this->get_in_str_val('change_reason_url');
 
-
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
         }elseif($ass_test_lesson_type == 2 && !$change_reason){
@@ -412,23 +411,21 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
 
-
         $tt_arr=[
-            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
+            "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
             "ass_test_lesson_type" => $ass_test_lesson_type,
             "subject" => $subject,
         ];
 
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
-
         // dd($ret);
         $require_arr = [
             "test_stu_request_test_lesson_demand"=>$stu_request_test_lesson_demand,
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "change_teacher_reason"          => $change_reason,
-            "change_teacher_reason_img_url"      => $change_reason_url,
+            "change_teacher_reason_img_url"  => $change_reason_url,
             "change_teacher_reason_type" => $change_teacher_reason_type,
             "test_stu_grade"   => $grade,
         ];
