@@ -68,7 +68,7 @@ class tom_do_once extends Command
             $level_face = $item['level_face'];
             $level_face_pic = $item['level_face_pic'];
             $ret = 0;
-            if($face_pic != '' && $level_face != '' && $seller_level>0){
+            if($face_pic && $level_face && $seller_level>0){
                 $face_pic_str = substr($face_pic,-12,5);
                 $ex_str = $seller_level.$face_pic_str;
                 $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
