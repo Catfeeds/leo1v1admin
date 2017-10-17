@@ -106,7 +106,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
     public function check_and_add_ass_subject( $require_adminid, $userid,$grade, $subject ,$ass_test_lesson_type )
     {
-        $test_lesson_subject_id= $this->get_test_lesson_subject_id_by_admin_subject( $require_adminid, $userid, $subject);
+        $test_lesson_subject_id = $this->get_test_lesson_subject_id_by_admin_subject( $require_adminid, $userid, $subject);
         if (!$test_lesson_subject_id) {
             $grade=$this->t_student_info->get_grade($userid);
             $this->row_insert([

@@ -1104,11 +1104,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
 
-    public function get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type){
+    public function get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type,$teacherid){
         $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["teacher_money_type=%u",$teacher_money_type,0],
+            ["teacherid=%u",$teacherid,0],
             "lesson_type in (0,1,3)",
             "lesson_status = 2",
             "confirm_flag != 2",

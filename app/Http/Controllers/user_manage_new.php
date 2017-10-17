@@ -2362,20 +2362,32 @@ class user_manage_new extends Controller
             $level = $this->get_in_int_val("level");
         }
 
-        $rule_type = \App\Config\teacher_rule::reward_count_type_list();
         $type      = $this->t_teacher_money_type->get_teacher_type($teacher_money_type,$level);
+        $rule_type = \App\Config\teacher_rule::get_teacher_rule($type);
 
         $i = 0;
         $total_type = [];
-        if(isset($rule_type[$type]) && is_array($rule_type[$type])){
-            $money_type = $rule_type[$type];
-            foreach($money_type as $key=>$val){
-                $i++;
-                if($key!=0){
-                    $total_type[]="<".$key/100;
+        if(isset($rule_type) && is_array($rule_type)){
+            $money_type=$rule_type;
+            if($teacher_money_type==E\Eteacher_money_type::V_7){
+                foreach($money_type as $key=>$val){
+                    $i++;
+                    if($key!=0){
+                        $total_type[]="<=".$key/100;
+                    }
+                    if($i==count($money_type)){
+                        $total_type[]=">".$key/100;
+                    }
                 }
-                if($i==count($money_type)){
-                    $total_type[]=">=".$key/100;
+            }else{
+                foreach($money_type as $key=>$val){
+                    $i++;
+                    if($key!=0){
+                        $total_type[]="<".$key/100;
+                    }
+                    if($i==count($money_type)){
+                        $total_type[]=">=".$key/100;
+                    }
                 }
             }
         }else{
@@ -2388,7 +2400,7 @@ class user_manage_new extends Controller
             if(!empty($money_type) && is_array($money_type)){
                 $num = 0;
                 foreach($money_type as $k=>$v){
-                    $val['money_'.$num]=$val['money']+$v/100;
+                    $val['money_'.$num]=$val['money']+$v;
                     $num++;
                 }
             }else{
@@ -4490,8 +4502,12 @@ class user_manage_new extends Controller
         $money_301 = $this->get_in_int_val("money_301");
         $money_303 = $this->get_in_int_val("money_303");
 
-        if($teacher_money_type!=6){
+        if($teacher_money_type!=7){
             return $this->output_err("此类型工资不能个修改!");
+        }
+
+        if($teacher_money_type==-1 || $level==-1){
+            return $this->output_err("工资类型和等级都不能为空!");
         }
 
         $ret = $this->t_teacher_money_type->update_teacher_money_type(

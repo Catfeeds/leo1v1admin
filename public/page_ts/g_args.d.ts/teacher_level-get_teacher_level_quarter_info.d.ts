@@ -37,6 +37,7 @@ interface RowData {
 	is_refund_str	:any;
 	is_refund	:any;
 	hand_flag	:any;
+	teacher_money_type	:any;
 }
 
 /*

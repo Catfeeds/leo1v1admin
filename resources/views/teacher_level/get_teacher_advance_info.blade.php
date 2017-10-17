@@ -52,6 +52,14 @@
                         </select>
                     </div>
                 </div>               
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">测试老师</span>
+                        <select class="opt-change form-control " id="id_is_test_user" >
+                        </select>
+                    </div>
+                </div>               
+
 
 
 

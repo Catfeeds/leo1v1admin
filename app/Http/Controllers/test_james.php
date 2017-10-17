@@ -281,6 +281,13 @@ class test_james extends Controller
     }
 
     public function ss(){
+
+        $end_time   = date('Y-m-d H:i:s',strtotime(date('Y-m-01')));
+        $end_time_str   = strtotime(date('Y-m-01'));
+        $start_time = date('Y-m-d H:i:s',strtotime(date("Y-m-01",  ($end_time_str-86400*20))));
+
+        dd($end_time."~".$start_time);
+
         dd(date('t'));
         echo date('Y-m-t', strtotime('-1 month'));
         // $a = time();
@@ -304,17 +311,11 @@ class test_james extends Controller
     }
 
     public function install(){
-        // 暂时未建
-
-        $start_time = 1507722518;
-        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
-
-        dd($six_month_old);
     }
 
 
 
-    public function ss1(){
+    public function ss1(){ // 使用客服接口发送消息
 
 
         //使用客服接口发送消息
