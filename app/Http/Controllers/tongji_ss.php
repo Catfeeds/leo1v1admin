@@ -8196,7 +8196,7 @@ class tongji_ss extends Controller
 
        $ret = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,1);
        $data = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,2);
-       $new_teacher = $this->t_teacher_info->get_through_num_month($start_time,$end_time);
+       $new_teacher = $this->t_teacher_info->get_through_num_month($start_time,$end_time,1);
        foreach($arr as $k=>&$val){
            $val["stu_num"] = @$ret[$k]["stu_num"];
            $val["tea_num"] = @$ret[$k]["tea_num"];
