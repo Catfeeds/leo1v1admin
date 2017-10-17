@@ -469,7 +469,7 @@ class agent extends Controller
         $face_pic_str = substr($face_pic,-12,5);
         $ex_str = $next_level.$face_pic_str;
         $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-        $ret = $this->task->t_manager_info->field_update_list($adminid,[
+        $ret = $this->t_manager_info->field_update_list($adminid,[
             'level_face_pic'=>$level_face_pic,
         ]);
         dd($level_face_pic,$ret);
