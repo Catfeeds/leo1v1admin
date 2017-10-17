@@ -1587,15 +1587,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             //["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag"
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." left join %s m on tr.cur_require_adminid=m.uid"
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -1632,14 +1634,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "tr.seller_top_flag=0",
-            "is_green_flag=1"
+            "is_green_flag=1",
+            "m.account_role<>12"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag "
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." left join %s m on tr.cur_require_adminid = m.uid "
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -2200,7 +2205,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "history_accept_adminid >0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
@@ -2208,10 +2213,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   ." from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." join %s s on t.userid = s.userid"
+                                  ." join %s m on tr.cur_require_adminid = m.uid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -2222,7 +2229,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["t.stu_request_test_lesson_time >= %u",$start_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "seller_top_flag=1"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
@@ -2230,10 +2237,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   ."   from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." join %s s on t.userid = s.userid"
+                                  ." join %s m on tr.cur_require_adminid = m.uid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);

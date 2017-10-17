@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
-
     use CacheNick;
     use TeaPower;
     var $br;
@@ -64,7 +63,6 @@ class test_code extends Controller
         }
         return $flag;
     }
-
 
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");

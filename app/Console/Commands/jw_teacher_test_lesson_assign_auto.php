@@ -40,7 +40,6 @@ class jw_teacher_test_lesson_assign_auto extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $start_time  = strtotime(date("Y-m-d"),time());
-        dd(date("Y-m-d"),time());
         $end_time    = time() + 86400*7;
                
         $seller_top_list = $task->t_test_lesson_subject_require->get_seller_top_require_list($start_time,$end_time);
