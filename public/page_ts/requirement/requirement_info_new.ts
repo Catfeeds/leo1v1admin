@@ -65,13 +65,16 @@ $(function(){
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图:
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
         var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
 
         $upload_link.attr('href',opt_data.file_url);
-
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
         expect_time.datetimepicker({
             lang:'ch',
             timepicker:false,
@@ -115,6 +118,7 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
               ["png","jpg","zip","rar","gz","pdf","doc","docx","xls","xlsx","xps","wps","tif","xlsm","csv","ppt","pptx","txt","vsdxx","vsd","xmind"] );
@@ -128,12 +132,15 @@ $(function(){
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图:
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
         var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
         $upload_link.attr('href',opt_data.content_pic);
-
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
 
         expect_time.datetimepicker({
             lang:'ch',
@@ -142,13 +149,13 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
+
         Enum_map.append_option_list("require_priority", priority, true);
         name.val(opt_data.name);
         priority.val(opt_data.priority);
         expect_time.val(opt_data.expect_time);
         statement.val(opt_data.statement);
         notes.val(opt_data.notes);
-        alert(opt_data.product_operator);
         product_operator.val(opt_data.product_operator);
         var arr = [
             ["需求名称", name],
@@ -185,6 +192,7 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","docx","xls","xlsx","xps","wps","tif","xlsm","csv","ppt","pptx","txt","vsdxx","vsd","xmind"] );
@@ -197,12 +205,15 @@ $(function(){
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图:
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
         var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
         $upload_link.attr('href',opt_data.content_pic);
-
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
 
         expect_time.datetimepicker({
             lang:'ch',
@@ -254,6 +265,7 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","xls","xlsx"] );
