@@ -516,7 +516,7 @@ class agent extends Controller
             \App\Helper\Utils::exec_cmd($cmd_rm);
             $domain = config('admin')['qiniu']['public']['url'];
             $level_face_url = $domain.'/'.$file_name;
-            dd($file_name);
+            dd($level_face_url);
         }
         dd($level_face_url);
         return $level_face_url;
