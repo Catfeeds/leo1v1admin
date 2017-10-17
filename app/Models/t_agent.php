@@ -926,6 +926,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     "p2_name"=> $p2["nick"]."/".$p2["phone"],
                     "p2_id"=> $p2["id"],
                     "p2_phone"=> $p2["phone"],
+                    "agent_user_link"         => $p2["agent_user_link"],
                     "p2_userid"=> $p2["userid"],
                     "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
                     "p2_price"=> $p2["o_from_price"]/100,
