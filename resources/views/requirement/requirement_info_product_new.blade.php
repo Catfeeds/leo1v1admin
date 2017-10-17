@@ -121,6 +121,9 @@
                             @if ($var['product_status'] == 4)
                                  <a class="fa  opt-re-edit"  title="编辑">编辑</a>
                             @endif
+                            @if ($var['product_status'] == 0)
+                                 <a class="fa  opt-re-edit"  title="编辑">编辑</a>
+                            @endif
                             </div>
                         </td>
                     </tr>
