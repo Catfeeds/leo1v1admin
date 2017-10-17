@@ -74,6 +74,7 @@ class requirement extends Controller
             $userid=-1;
         }
 
+        $userid = 988;
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_requirement_info->get_list_product_new($page_info,$opt_date_type,$userid,$priority,$productid,$product_status,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {

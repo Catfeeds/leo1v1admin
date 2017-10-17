@@ -66,8 +66,7 @@ class t_requirement_info extends \App\Models\Zgen\z_t_requirement_info
             $where_arr=[
                 ["create_time>=%u", $start_time, -1 ],
                 ["create_time<=%u", $end_time, -1 ],
-                ['create_adminid=%u',$userid,-1],
-                ['product_operator=%u',$productid,-1],
+                ['product_operator=%u',$userid,-1],
                 ["priority=%u",$priority,-1], 
                 ["product_status=%u",$product_status,-1],
 
@@ -76,8 +75,7 @@ class t_requirement_info extends \App\Models\Zgen\z_t_requirement_info
             $where_arr=[
                 ["expect_time>=%u", $start_time, -1 ],
                 ["expect_time<=%u", $end_time, -1 ],
-                ['create_adminid=%u',$userid,-1],
-                ['product_operator=%u',$productid,-1],
+                ['product_operator=%u',$userid,-1],
                 ["priority=%u",$priority,-1], 
                 ["product_status=%u",$product_status,-1],
 
