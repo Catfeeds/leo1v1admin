@@ -929,7 +929,7 @@ class user_manage extends Controller
         }
         if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher" || $type=="research_teacher" || $type=="train_through_teacher"){
             foreach($ret_list["list"] as &$item){
-                $item["phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+                $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
                 $item["subject"] = E\Esubject::get_desc($item["subject"]);
                 $item["grade"] = E\Egrade_part_ex::get_desc($item["grade_part_ex"]);
                 E\Egrade_range::set_item_value_str($item,"grade_start");
@@ -939,6 +939,12 @@ class user_manage extends Controller
                 }
 
             }
+        }elseif($type="student" || $type="student_ass"){
+            foreach($ret_list["list"] as &$item){
+                $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+
+            }
+
         }
         return $this->output_ajax_table($ret_list, [ "lru_list" => $lru_list ]);
     }

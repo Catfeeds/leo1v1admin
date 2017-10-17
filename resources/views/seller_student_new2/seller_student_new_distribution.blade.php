@@ -47,29 +47,9 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
-                    <!-- <td >日均通时</td>
-                         <td>日均呼出</td>
-                         <td>月呼出量</td>
-                         <td>日均邀约</td> -->
-                    <td>试听申请数</td>
-                    <td>教务排课数</td>
-                    <td>试听成功数</td>
-                    <td>取消人数</td>
-                    <td>取消率</td>
-                    <td>签约人数</td>
-                    <td>签约率</td>
-                    <td>签约金额</td>
-                    <td style="display:none;">单笔</td>
-                    <td>团队业绩指标</td>
-                    <td>团队指标完成率</td>
-                    <td>团队缺口金额</td>
+                    <td>分配例子数</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
-                    <td style="display:none;">销售自定指标</td>
-                    <td style="display:none;"> 自定指标完成率</td>
-                    <td style="display:none;">自定指标缺口金额</td>
-                    <td style="display:none;"> 应工作天数</td>
-                    <td style="display:none;">实际工作天数</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -84,34 +64,13 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <!-- <td style=" width:80px" >{{@$var["duration_count_for_day"]}}</td>
-                             <td >{{@$var["is_called_phone_count_for_day"]}}</td>
-                             <td >{{@$var["is_called_phone_count_for_month"]}}</td>
-                             <td >{{@$var["require_test_count_for_day"]}}</td> -->
-                        <td >{{@$var["require_test_count_for_month"]}}</td>
-                        <td >{{@$var["test_lesson_count_for_month"]}}</td>
-                        <td >{{@$var["succ_all_count_for_month"]}}</td>
-                        <td >{{@$var["fail_all_count_for_month"]}}</td>
-                        <td >{{@$var["lesson_per"]}}</td>
-                        <td >{{@$var["all_new_contract_for_month"]}}</td>
-                        <td >{{@$var["order_per"]}}</td>
-                        <td >{{@$var["all_price_for_month"]}}</td>
-                        <td >{{@$var["ave_price_for_month"]}}</td>
-                        <td >{{@$var["target_money"]}}</td>
-                        <td >{{@$var["finish_per"]}}</td>
-                        <td >{{@$var["los_money"]}}</td>
+                        <td ></td>
                         <td >{{@$var["become_member_num"]}}</td>
                         <td >{{@$var["leave_member_num"]}}</td>
-                        <td >{{@$var["target_personal_money"]}}</td>
-                        <td >{{@$var["finish_personal_per"]}}</td>
-                        <td >{{@$var["los_personal_money"]}}</td>
-                        <td >{{@$var["month_work_day_now"]}}</td>
-                        <td >{{@$var["month_work_day_now_real"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-
                             </div>
                         </td>
                     </tr>

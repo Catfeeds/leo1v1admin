@@ -19,6 +19,7 @@ class check_modify_lesson_time extends Command
      * @var string
      */
     protected $description = 'Command description';
+    public $task;
 
     /**
      * Create a new command instance.
@@ -31,6 +32,7 @@ class check_modify_lesson_time extends Command
         $this->task= new \App\Console\Tasks\TaskController();
     }
 
+
     /**
      * Execute the console command.
      *
@@ -41,6 +43,8 @@ class check_modify_lesson_time extends Command
         // 处理家长提交调课申请后 超过一小时就发送微信推送给助教 以便跟进处理
         $now = time(NULL);
         $lesson_list = $this->task->t_lesson_time_modify->get_need_notice_lessonid($now);
+
+        // dd(json_encode($lesson_list));
 
         foreach($lesson_list as $item){
             // 向助教发微信推送
