@@ -7102,7 +7102,7 @@ class tongji_ss extends Controller
         /* if($adminid==349){
             $adminid=297;
             }*/
-        $adminid = $this->get_ass_leader_account_id($adminid);
+        //  $adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("adminid",$adminid);
         return $this-> ass_weekly_info_master();
     }
