@@ -834,7 +834,7 @@ class wx_teacher_api extends Controller
 
             // 向家长发送推送
 
-            $data['first']      = " 拒绝调课申请";
+            $data['first']      = " 调课申请被拒绝";
             $data['keyword1']   = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
             $data['keyword2']   = " 原上课时间:".$lesson_start_date;
             $data['keyword3']   = date('Y-m-d H:i:s');
