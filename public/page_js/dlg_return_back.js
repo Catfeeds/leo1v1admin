@@ -55,6 +55,7 @@ $(function(){
     //回访记录
     $(".opt-return-back-list").on("click",function(){
         var agent_user_link = $(this).parent().data("agent_user_link");
+        console.log(agent_user_link);
         if(agent_user_link){
             //  /agent/agent_user_link  专用
             var p1_userid = $(this).parent().data("p1_userid");
