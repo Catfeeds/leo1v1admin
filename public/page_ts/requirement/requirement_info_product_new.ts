@@ -77,7 +77,7 @@ $(function(){
 
 
         Enum_map.append_option_list("require_priority", priority, true);
-        Enum_map.append_option_list("require_product_status",product_status,true);
+        Enum_map.append_option_list("require_product_status",product_status,true,[1,2,3,4]);
         name.val(opt_data.name);
         priority.val(opt_data.priority);
         expect_time.val(opt_data.expect_time);
@@ -103,20 +103,13 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-                if(expect_time.val() == ''){
-                    alert("请选择期望日期");
-                    return;
-                }
-                if(forecast_time.val() == ''){
-                    alert("请选择预估日期");
-                    return;
-                }
+
                 if(name.val() == ''){
                     alert("请输入需求名称");
                     return;
                 }
-                if(statement.val() == ''){
-                    alert("请输入需求描述");
+                if(expect_time.val() == ''){
+                    alert("请选择期望日期");
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
@@ -125,12 +118,12 @@ $(function(){
                     alert("期望时间不能在当前时间范围之前");
                     return;
                 }
-                var forecast_date = new Date(forecast_time.val());
-                var today       = new Date();
-                if(forecast_date < today){
-                    alert("预估间不能在当前时间范围之前");
+
+                if(statement.val() == ''){
+                    alert("请输入需求描述");
                     return;
                 }
+                
                 $.do_ajax("/requirement/re_edit_requirement_info_new_b2",{
                     "id"             : opt_data.id,
                     "name"           : name.val(),

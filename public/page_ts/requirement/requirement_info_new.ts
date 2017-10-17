@@ -71,10 +71,8 @@ $(function(){
         var $upload_link = $upload_div.find("a") ;
         var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
 
-        $upload_link.attr('href',opt_data.file_url);
-        if(opt_data.content_pic != ''){
-            $upload_link.html("查看");
-        }
+        $upload_link.attr('href',"");
+
         expect_time.datetimepicker({
             lang:'ch',
             timepicker:false,
@@ -97,16 +95,13 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-                if(expect_time.val() == ''){
-                    alert("请选择期望日期");
-                    return;
-                }
+
                 if(name.val() == ''){
                     alert("请输入需求名称");
                     return;
                 }
-                if(statement.val() == ''){
-                    alert("请输入需求描述");
+                if(expect_time.val() == ''){
+                    alert("请选择期望日期");
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
@@ -115,6 +110,11 @@ $(function(){
                     alert("期望时间不能在当前时间范围之前");
                     return;
                 }
+                if(statement.val() == ''){
+                    alert("请输入需求描述");
+                    return;
+                }
+                
                 $.do_ajax("/requirement/add_requirement_info_new",{
                     "name"           : name.val(),
                     'priority'       : priority.val(),
