@@ -54,4 +54,11 @@ class wx_parent extends Controller
     public function adjust_progress() {
 
     }
+
+    public function scores() {
+
+    }
+    public function input_score() {
+
+    }
 }

@@ -461,6 +461,12 @@ class agent extends Controller
     }
 
     public function test_new(){
+        $c = '';
+        if($c){
+            dd('a');
+        }else{
+            dd('b');
+        }
         $adminid = 830;
         $seller_level = E\Eseller_level::V_300;
         $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');

@@ -839,10 +839,10 @@ class wx_teacher_api extends Controller
             $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
             $data_parent = [
                 'first' => "调课申请被拒绝",
-                'keyword1' =>"拒绝调课申请",
-                'keyword2' => "原上课时间: $lesson_old_date ,您已拒绝",
+                'keyword1' =>"调换".date('Y-m-d H:i:s',$lesson_start_date)."上课时间被拒绝",
+                'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
                 'keyword3' => "$day_date",
-                'remark'   => "详细进度稍后将以推送的形式发给您,请注意查看!"
+                'remark'   => "请耐心等待助教老师进行沟通!"
             ];
             $url_parent = '';
             $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
