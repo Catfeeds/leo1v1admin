@@ -11,13 +11,9 @@ $(function(){
             start_time              : $('#id_start_time').val(),
             end_time                : $('#id_end_time').val(),
 
-            name             : $('#id_name').val(),
             priority         : $('#id_priority').val(),
-            significance     : $('#id_significance').val(),
-            status           : $('#id_status').val(),
             product_status   : $('#id_product_status').val(),
-            development_status: $('#id_development_status').val(),
-            test_status      : $('#id_test_status').val(),
+            id_productid        : $('#id_productid').val(),
         });
     }
 
@@ -25,8 +21,8 @@ $(function(){
     Enum_map.append_option_list("require_product_status",$("#id_product_status"),false,[0,1,2,3,4]);
 
 
-    $("#id_name").val(g_args.name);
     $("#id_priority").val(g_args.priority);
+    $("#id_productid").val(g_args.id_productid);
     $("#id_product_status").val(g_args.product_status);
 
 
@@ -69,13 +65,16 @@ $(function(){
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图:
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
-        var product_operator = $("<input/>");//产品经理
+        var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
 
         $upload_link.attr('href',opt_data.file_url);
-
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
         expect_time.datetimepicker({
             lang:'ch',
             timepicker:false,
@@ -109,7 +108,6 @@ $(function(){
                 });
             }
         },function(){
-            $.admin_select_user(product_operator,"product");
         	$.custom_upload_file(
                 "id_upload_from_url" ,
                 true,function( up, info, file ){
@@ -120,25 +118,29 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
-                ["png","jpg","zip","rar","gz","pdf","doc","xls","xlsx"] );
+              ["png","jpg","zip","rar","gz","pdf","doc","docx","xls","xlsx","xps","wps","tif","xlsm","csv","ppt","pptx","txt","vsdxx","vsd","xmind"] );
         });
     });
 
     $(".opt-edit").on("click", function(){
         var opt_data = $(this).get_opt_data();
-        var name              = $("<select />");  //产品名称
+        var name              = $("<input />");  //需求名称
         var priority          = $("<select />");  //优先级
-        var significance      = $("<select />");  //目前影响
         var expect_time       = $("<input />");  //期望时间
-        var statement         = $("<textarea  placeholder='【需求故事】作为……  我希望…… 以便…… ' />"); //需求说明
-        var notes             = $("<textarea  placeholder='【验收标准】1、……2、……3、…… ' />"); //备注
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图
+        var statement         = $("<textarea />"); //需求描述
+        var notes             = $("<textarea />"); //需求来源
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
-
+        var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
         $upload_link.attr('href',opt_data.content_pic);
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
 
         expect_time.datetimepicker({
             lang:'ch',
@@ -147,38 +149,36 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true);
+
         Enum_map.append_option_list("require_priority", priority, true);
-        Enum_map.append_option_list("require_significance",significance,true);
         name.val(opt_data.name);
         priority.val(opt_data.priority);
-        significance.val(opt_data.significance);
         expect_time.val(opt_data.expect_time);
         statement.val(opt_data.statement);
         notes.val(opt_data.notes);
-
+        product_operator.val(opt_data.product_operator);
         var arr = [
-            ["产品名称", name],
+            ["需求名称", name],
             ["优先级", priority],
-            ["目前影响", significance],
             ["期望时间", expect_time],
-            ["需求故事", statement],
-            ["验收标准",    notes],
-            ["需求附件", $upload_div],
+            ["需求描述", statement],
+            ["需求来源",    notes],
+            ["附件", $upload_div],
+            ["产品经理",product_operator]
         ];
         $.show_key_value_table("重新提交开发需求", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-                $.do_ajax("/requirement/re_edit_requirement_info",{
+                $.do_ajax("/requirement/re_edit_requirement_info_new",{
                     "id"             : opt_data.id,
                     "name"           : name.val(),
                     'priority'       : priority.val(),
-                    'significance'   : significance.val(),
                     'expect_time'    : expect_time.val(),
                     'statement'      : statement.val(),
                     'content_pic'    : $upload_link.attr('href'),
                     'notes'          : notes.val(),
+                    'product_operator':product_operator.val(),
                 });
             }
         },function(){
@@ -192,24 +192,28 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
-                ["png","jpg","zip","rar","gz","pdf","doc","xls","xlsx"] );
+                ["png","jpg","zip","rar","gz","pdf","doc","docx","xls","xlsx","xps","wps","tif","xlsm","csv","ppt","pptx","txt","vsdxx","vsd","xmind"] );
         });
     });
     $(".opt-re-edit").on("click", function(){
         var opt_data = $(this).get_opt_data();
-        var name              = $("<select />");  //产品名称
+        var name              = $("<input />");  //需求名称
         var priority          = $("<select />");  //优先级
-        var significance      = $("<select />");  //目前影响
         var expect_time       = $("<input />");  //期望时间
-        var statement         = $("<textarea />"); //需求说明
-        var notes             = $("<textarea />"); //备注
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>"); //内容截图
+        var statement         = $("<textarea />"); //需求描述
+        var notes             = $("<textarea />"); //需求来源
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
+        //内容截图:
         var $upload_btn  = $upload_div.find("button") ;
         var $upload_link = $upload_div.find("a") ;
-
+        var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
         $upload_link.attr('href',opt_data.content_pic);
+        if(opt_data.content_pic != ''){
+            $upload_link.html("查看");
+        }
 
         expect_time.datetimepicker({
             lang:'ch',
@@ -218,38 +222,36 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true);
+
         Enum_map.append_option_list("require_priority", priority, true);
-        Enum_map.append_option_list("require_significance",significance,true);
         name.val(opt_data.name);
         priority.val(opt_data.priority);
-        significance.val(opt_data.significance);
         expect_time.val(opt_data.expect_time);
         statement.val(opt_data.statement);
         notes.val(opt_data.notes);
 
         var arr = [
-            ["产品名称", name],
+            ["需求名称", name],
             ["优先级", priority],
-            ["目前影响", significance],
             ["期望时间", expect_time],
-            ["需求说明", statement],
-            ["需求附件", $upload_div],
-            ["备注",    notes],
+            ["需求描述", statement],
+            ["需求来源",    notes],
+            ["附件", $upload_div],
+            ["产品经理",product_operator]
         ];
         $.show_key_value_table("重新提交开发需求", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
-                $.do_ajax("/requirement/re_edit_requirement_info",{
+                $.do_ajax("/requirement/re_edit_requirement_info_new",{
                     "id"             : opt_data.id,
                     "name"           : name.val(),
                     'priority'       : priority.val(),
-                    'significance'   : significance.val(),
                     'expect_time'    : expect_time.val(),
                     'statement'      : statement.val(),
                     'content_pic'    : $upload_link.attr('href'),
                     'notes'          : notes.val(),
+                    'product_operator':product_operator.val(),
                 });
             }
         },function(){
@@ -263,6 +265,7 @@ $(function(){
                         "public_flag" :1,
                     }, function(resp){
                         $upload_link.attr("href", resp.url);
+                        $upload_link.html("查看");
                     })
                 },null,
                 ["png","jpg","zip","rar","gz","pdf","doc","xls","xlsx"] );
@@ -299,8 +302,5 @@ $(function(){
 
     });
 
-     $.admin_select_user(
-        $('#id_productid'),
-        "admin", load_data,false,{"main_type":10});
 	  $('.opt-change').set_input_change_event(load_data);
 });

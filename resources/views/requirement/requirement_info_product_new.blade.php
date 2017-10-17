@@ -7,7 +7,7 @@
      .panel-red {
         background-color: #d9534f;
      }
-     .panel-grey{
+     .panel-grey {
         background-color: #666666;
      }
     </style>
@@ -62,12 +62,6 @@
                 
                 
             </div>
-             <div class="row  " >
-                 <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-warning" id="id_add_requirement_info">添加需求信息</button>
-                </div>
-            </div>
-
         </div>
         <hr/>
         <table     class="common-table"  > 
@@ -85,6 +79,7 @@
                     <td>处理状态</td>
                     <td>备注</td>
                     <td>创建时间</td>
+                    <td>创建人</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -107,26 +102,28 @@
                         <td>{{@$var['operator_nick']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
                             <td class="panel-red">{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
-                        @elseif( $var['product_status'] == 4)
+                        @elseif($var['product_status'] == 4)
                             <td class="panel-green">{{@$var["operator_status"]}}</td>
-                        @elseif( $var['product_status'] == 3)
+                        @elseif($var['product_status'] == 3)
                             <td class="panel-grey">{{@$var["operator_status"]}}</td>
                         @else
                             <td>{{@$var['operator_status']}}</td>
                         @endif
                         <td>{{@$var['product_comment']}}</td>
                         <td>{{@$var["create_time"]}} </td>
+                        <td>{{@$var['create_admin_nick']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                            @if ($var['flag'])
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del"  title="删除"> </a>
+                            @if ($var['product_status'] == 2 ||$var['product_status'] == 3||$var['product_status'] == 1)
+                                 <a class="fa  opt-re-edit"  title="编辑">编辑</a>
+                                 <a class="fa  opt-reject"  title="驳回">驳回</a>
+                                 <a class="fa  opt-deal"  title="完成">完成</a>
                             @endif
-                            @if ($var['product_status'] == 1)
-                                <a class="fa  opt-re-edit"  title="编辑">编辑</a>
-                                <a class="fa fa-times opt-del"  title="删除"> </a>
+
+                            @if ($var['product_status'] == 4)
+                                 <a class="fa  opt-re-edit"  title="编辑">编辑</a>
                             @endif
                             </div>
                         </td>

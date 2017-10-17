@@ -47,8 +47,8 @@ class save_seller_info extends Command
         $end_time   = $this->option('e');
 
         if($start_time == null && $end_time == null ){
-            $start_time = strtotime(date('Y-m-01'));
-            $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+            $end_time   = strtotime(date('Y-m-01'));
+            $start_time = strtotime(date("Y-m-01", ($end_time-86400*20)));
         }
 
 

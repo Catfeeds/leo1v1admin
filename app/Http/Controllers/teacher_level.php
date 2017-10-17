@@ -103,7 +103,7 @@ class teacher_level extends Controller
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
 
-        $erick =[];
+        /* $erick =[];
         $erick["teacherid"]=50158;
         $erick["realname"]="刘辉";
         $erick["level"]  = $this->t_teacher_info->get_level($erick["teacherid"]);
@@ -116,7 +116,7 @@ class teacher_level extends Controller
         $erick["hand_flag"]=0;
         $erick["teacher_money_type"]=5;
 
-        array_unshift($ret_info["list"],$erick);
+        array_unshift($ret_info["list"],$erick);*/
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -599,9 +599,10 @@ class teacher_level extends Controller
         $accept_flag       = $this->get_in_int_val("accept_flag",-1);
         
         $fulltime_flag_new       = $this->get_in_int_val("fulltime_flag_new",0);
+        $is_test_user       = $this->get_in_int_val("is_test_user",0);
 
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level_before");
             E\Elevel::set_item_value_str($item,"level_after");
