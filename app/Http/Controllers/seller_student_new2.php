@@ -590,8 +590,9 @@ class seller_student_new2 extends Controller
 
     public function grab_test_lesson_list(){
         $subject = $this->get_in_enum_list(E\Esubject::class);
+        $grade   = $this->get_in_enum_list(E\Egrade::class);
 
-        $list = $this->t_test_lesson_subject_require->get_grab_test_lesson_list($subject,1);
+        $list = $this->t_test_lesson_subject_require->get_grab_test_lesson_list($subject,1,$grade);
         $num  = 0;
         foreach($list as &$grab_val){
             $num++;

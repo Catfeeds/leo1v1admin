@@ -1587,15 +1587,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             //["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag"
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." left join %s m on tr.cur_require_adminid=m.uid"
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -1632,14 +1634,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "tr.seller_top_flag=0",
-            "is_green_flag=1"
+            "is_green_flag=1",
+            "m.account_role<>12"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,tr.seller_top_flag "
                                   ." from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+                                  ." left join %s m on tr.cur_require_adminid = m.uid "
                                   ." where %s order by t.stu_request_test_lesson_time asc,tr.require_time asc limit %u",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr,
                                   $num
         );
@@ -2200,7 +2205,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "history_accept_adminid >0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "tr.seller_top_flag=0"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
@@ -2208,10 +2213,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   ." from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." join %s s on t.userid = s.userid"
+                                  ." join %s m on tr.cur_require_adminid = m.uid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -2222,7 +2229,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["t.stu_request_test_lesson_time >= %u",$start_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
+            "m.account_role <>12",
             "seller_top_flag=1"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,"
@@ -2230,10 +2237,12 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   ."   from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
                                   ." join %s s on t.userid = s.userid"
+                                  ." join %s m on tr.cur_require_adminid = m.uid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -2606,13 +2615,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_update($sql);
     }
 
-    public function get_grab_test_lesson_list($subject,$grab_status,$grade=-1){
+    public function get_grab_test_lesson_list($subject,$grab_status,$grade){
         $where_arr = [
             ["grab_status=%u",$grab_status,-1],
             "(current_lessonid='' or current_lessonid is null)",
             "test_lesson_student_status=200"
         ];
         $where_arr[] = $this->where_get_in_str_query("t.subject",$subject);
+        $where_arr[] = $this->where_get_in_str_query("s.grade",$grade);
 
         $sql = $this->gen_sql_new("select t.subject,s.grade,s.phone,tr.require_id,t.stu_request_test_lesson_time, "
                                   ." s.editionid,t.textbook"
@@ -3146,7 +3156,8 @@ ORDER BY require_time ASC";
 
     public function get_invit_num($start_time, $end_time){ //获取邀约数
         $where_arr = [
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            "ts.require_admin_type=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
@@ -3190,7 +3201,9 @@ ORDER BY require_time ASC";
 
     public function get_invit_num_for_month($start_time, $end_time){ //获取邀约数
         $where_arr = [
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            "ts.require_admin_type=2"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
@@ -3216,11 +3229,14 @@ ORDER BY require_time ASC";
         $where_arr = [
             "s.is_test_user=0",
             "tr.accept_flag=1",
+            "ts.require_admin_type=2"
+
             // "tss.test_lesson_fail_flag=0",
-            "tss.fail_greater_4_hour_flag=0"
+            // "tss.fail_greater_4_hour_flag=0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "

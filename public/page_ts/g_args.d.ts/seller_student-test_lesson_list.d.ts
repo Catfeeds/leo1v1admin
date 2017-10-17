@@ -5,8 +5,8 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	origin:	string;
-	grade:	number;//App\Enums\Egrade 
-	subject:	number;//App\Enums\Esubject 
+	grade:	number;//App\Enums\Egrade
+	subject:	number;//App\Enums\Esubject
 	phone:	string;
 	st_application_nick:	string;
 	status:	number;
@@ -19,8 +19,8 @@ interface GargsStatic {
 	teacherid:	number;
 	confirm_flag:	number;
 	require_user_type:	number;
-	test_lesson_cancel_flag:	number;//App\Enums\Etest_lesson_cancel_flag 
-	ass_adminid_flag:	number;//App\Enums\Eboolean 
+	test_lesson_cancel_flag:	number;//App\Enums\Etest_lesson_cancel_flag
+	ass_adminid_flag:	number;//App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;

@@ -9,7 +9,7 @@ function load_data(){
 
 $(function(){
     
-    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),true,[5,6]);
+    Enum_map.append_option_list_new("teacher_money_type", $("#id_teacher_money_type"),true,[5,6]);
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 
