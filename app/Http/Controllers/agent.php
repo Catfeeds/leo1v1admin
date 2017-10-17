@@ -461,7 +461,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $this->t_seller_edit_log
+        
         $c = '';
         if($c){
             dd('a');
