@@ -466,7 +466,7 @@ class tea_manage extends Controller
             $image_stu = "学生：".$stu_nick;
             $image_time = "时间：".$lesson_time;
             $image_lessonid = "课程：".$lessonid;
-            $font_file = "fonts/Light_50868_S60SC_C.tt";
+            $font_file = "fonts/Light_50868_S60SC_C.ttf";
             // $font_file = 'simhei.ttf';
             // if (! is_file($font_file)) {
             //     $font_file = dirname(__FILE__) . "/" . $font_file;
