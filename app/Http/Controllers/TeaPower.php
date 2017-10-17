@@ -3376,26 +3376,29 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $this->output_err( "时间不对: $lesson_start>$lesson_end");
         }
 
-        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
-        $userid    = $this->t_lesson_info->get_userid($lessonid);
+        $teacherid = $item["teacherid"];
+        $userid    = $item["userid"];
+        
         /* 设置lesson_count */
-        $diff=($lesson_end-$lesson_start)/60;
-        if ($diff<=20) {
-            $lesson_count=50;
-        } else if ($diff<=40) {
-            $lesson_count=100;
-        } else if ( $diff <= 60) {
-            $lesson_count=150;
-        } else if ( $diff <=90 ) {
-            $lesson_count=200;
-        } else if ( $diff <=100 ) {
-            $lesson_count=250;
-        }else{
-            $lesson_count= ceil($diff/40)*100 ;
+        if($lesson_count==0){
+            $diff=($lesson_end-$lesson_start)/60;
+            if ($diff<=20) {
+                $lesson_count=50;
+            } else if ($diff<=40) {
+                $lesson_count=100;
+            } else if ( $diff <= 60) {
+                $lesson_count=150;
+            } else if ( $diff <=90 ) {
+                $lesson_count=200;
+            } else if ( $diff <=100 ) {
+                $lesson_count=250;
+            }else{
+                $lesson_count= ceil($diff/40)*100 ;
+            }
+ 
         }
+       
 
-
-        $userid = $this->t_lesson_info->get_userid($lessonid);
         if ($userid) {
             $ret_row = $this->t_lesson_info->check_student_time_free(
                 $userid,$lessonid,$lesson_start,$lesson_end
