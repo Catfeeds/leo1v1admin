@@ -101,11 +101,7 @@
                         <td>{{@$var["forecast_time"]}}</td>
                         <td>{{@$var['operator_nick']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
-                            <td class="panel-red">{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
-                        @elseif($var['product_status'] == 4)
-                            <td class="panel-green">{{@$var["operator_status"]}}</td>
-                        @elseif($var['product_status'] == 3)
-                            <td class="panel-grey">{{@$var["operator_status"]}}</td>
+                            <td >{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
                         @else
                             <td>{{@$var['operator_status']}}</td>
                         @endif
