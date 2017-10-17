@@ -187,7 +187,10 @@ class stu_manage extends Controller
 
     public function  set_assistantid() {
         $assistantid=$this->get_in_assistantid();
-        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu","adrian","kj","foster","sam"])) {
+        $account_role = $this->get_account_role();
+        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster"])
+            && !in_array($account_role,[12])
+        ){
             return $this->output_err("没有权限");
         }
 

@@ -138,8 +138,8 @@ class user_deal extends Controller
         $courseid = $this->get_in_courseid();
 
         $item = $this->t_course_order->field_get_list($courseid,"*");
-        if ($item["teacherid"]) {
-            $this->output_err("还没设置老师");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
         }
         if($item["course_type"]==2){
             if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
@@ -877,6 +877,16 @@ class user_deal extends Controller
             }
         }
 
+        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level');
+        $face_pic = $manager_info['face_pic'];
+        $level_face_pic = $manager_info['level_face_pic'];
+        $level_info = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
+        $level_face = $level_info['level_face'];
+        if($face_pic && $seller_level != $manager_info['seller_level'] && $level_face){
+            $face_pic_str = substr($face_pic,-12,5);
+            $ex_str = $seller_level.$face_pic_str;
+            $level_face_pic = $this->get_top_img($uid,$face_pic,$level_face,$ex_str);
+        }
 
         $set_arr=[
             \App\Models\t_manager_info::C_phone=>$phone,
@@ -892,8 +902,8 @@ class user_deal extends Controller
             "call_phone_type" => $call_phone_type,
             "call_phone_passwd" => $call_phone_passwd,
             "become_full_member_flag" => $become_full_member_flag,
-            "main_department" =>$main_department
-
+            "main_department" =>$main_department,
+            "level_face_pic" => $level_face_pic,
         ];
 
         if ($cardid) {
@@ -934,6 +944,93 @@ class user_deal extends Controller
         */
 
         return $this->output_succ();
+    }
+
+    //处理等级头像
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
+        $datapath = $face_pic;
+        $datapath_new = $level_face;
+        $datapath_type = @end(explode(".",$datapath));
+        $datapath_type_new = @end(explode(".",$datapath_new));
+        $image_1 = $this->yuan_img($datapath);
+        if($datapath_type_new == 'jpg' || $datapath_type_new == 'jpeg'){
+            $image_2 = imagecreatefromjpeg($datapath_new);
+        }elseif($datapath_type_new == 'png'){
+            $image_2 = imagecreatefrompng($datapath_new);
+        }elseif($datapath_type_new == 'gif'){
+            $image_2 = imagecreatefromgif($datapath_new);
+        }elseif($datapath_type_new == 'wbmp'){
+            $image_2 = imagecreatefromwbmp($datapath_new);
+        }else{
+            $image_2 = imagecreatefromstring($datapath_new);
+        }
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        imagefill($image_3, 0, 0, $color);
+        imageColorTransparent($image_3, $color);
+
+        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        // header('Content-type: image/jpg');
+        // dd(imagepng($image_1));
+
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gd.png";
+        imagepng($image_1,$tmp_url);
+        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        $level_face_url = '';
+        if($file_name!=''){
+            $cmd_rm = "rm /tmp/".$adminid."*.png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+            $domain = config('admin')['qiniu']['public']['url'];
+            $level_face_url = $domain.'/'.$file_name;
+        }
+        return $level_face_url;
+    }
+
+    /**
+     *  blog:http://www.zhaokeli.com
+     * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
+     * @param  string $imgpath [description]
+     * @return [type]          [description]
+     */
+    function yuan_img($imgpath = './tx.jpg') {
+        $ext     = pathinfo($imgpath);
+        $src_img = null;
+        switch ($ext['extension']) {
+        case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'png':
+            $src_img = imagecreatefrompng($imgpath);
+            break;
+        }
+        $wh  = getimagesize($imgpath);
+        $w   = $wh[0];
+        $h   = $wh[1];
+        $w   = min($w, $h);
+        $h   = $w;
+        $img = imagecreatetruecolor($w, $h);
+        //这一句一定要有
+        imagesavealpha($img, true);
+        //拾取一个完全透明的颜色,最后一个参数127为全透明
+        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        imagefill($img, 0, 0, $bg);
+        $r   = $w / 2-20; //圆半径
+        $y_x = $r; //圆心X坐标
+        $y_y = $r; //圆心Y坐标
+        // dd($r,$y_x,$y_y);
+        for ($x = 0; $x < $w; $x++) {
+            for ($y = 0; $y < $h; $y++) {
+                $rgbColor = imagecolorat($src_img, $x, $y);
+                if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
+                    imagesetpixel($img, $x+14, $y+14, $rgbColor);
+                }
+            }
+        }
+        return $img;
     }
 
     public function update_admin_info_new() {
@@ -2726,7 +2823,23 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $page_num = $this->get_in_page_num();
+        $adminid=324;
+        $ret_list= $this->t_student_info->get_ass_list_for_select(-1,-1, "", $page_num,$adminid);
+        dd($ret_list);
+
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+
+        }
+        dd($d);
+        
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
         dd($list);
         foreach($list as $val){

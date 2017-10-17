@@ -281,6 +281,13 @@ class test_james extends Controller
     }
 
     public function ss(){
+
+        $end_time   = date('Y-m-d H:i:s',strtotime(date('Y-m-01')));
+        $end_time_str   = strtotime(date('Y-m-01'));
+        $start_time = date('Y-m-d H:i:s',strtotime(date("Y-m-01",  ($end_time_str-86400*20))));
+
+        dd($end_time."~".$start_time);
+
         dd(date('t'));
         echo date('Y-m-t', strtotime('-1 month'));
         // $a = time();
@@ -304,43 +311,82 @@ class test_james extends Controller
     }
 
     public function install(){
-        // 暂时未建
-
-        $start_time = 1507722518;
-        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
-
-        dd($six_month_old);
     }
 
 
 
-    public function ss1(){
-        $start_time = $this->get_in_int_val('s');
-        $end_time = $this->get_in_int_val('e');
+    public function ss1(){ // 使用客服接口发送消息
 
-        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new("");
-        // $month_finish_define_money = ( new tongji_ss() )->get_month_finish_define_money('',$start_time);
-        $month_date_money_list=$this->t_order_info->get_seller_date_money_list($start_time,$end_time,$adminid_list);
 
-        // if (!$month_finish_define_money) {
-        //     $month_finish_define_money=1600000;
-        // }
-        // $month_finish_define_money_2=$month_finish_define_money/100;
-        $cur_money=0;
-        $today=time(NULL);
-        foreach ($month_date_money_list as $date=> &$item ) {
-            $date_time=strtotime($date);
-            if ($date_time>$today) {
+        //使用客服接口发送消息
+        $txt_arr = [
+            'touser'   => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',// james
+            'msgtype'  => 'news',
+            "news"=>[
+                "articles"=> [
+                    [
+                        "title"=>"TEST MSG",
+                        "description"=>"Is Really A Happy Day",
+                        "url"=>"https://mmbiz.qlogo.cn/mmbiz_jpg/cBWf565lml4NcGMWTiaeuDmWsUQpXz8TPJzfbsoUENe9dKqPKDXPZa7ITPCKvQiaVzmAvLBKPYmrhKNg2AkwwkVQ/0?wx_fmt=jpeg",
+                        "picurl"=>"http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question"
+                    ]
+                ]
+            ]
+        ];
 
-            }else{
-                $cur_money+=@$item["money"];
-                // $item["month_finish_persent"]= intval($cur_money/$month_finish_define_money_2) ;
+        $appid_tec     = config('admin')['teacher_wx']['appid'];
+        $appsecret_tec = config('admin')['teacher_wx']['appsecret'];
+
+        $wx = new \App\Helper\Wx() ;
+        $token = $wx->get_wx_token($appid_tec,$appsecret_tec);
+
+
+        $txt = $this->ch_json_encode($txt_arr);
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+        $txt_ret = $this->https_post($url,$txt);
+
+    }
+
+
+    public function https_post($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+
+    public function ch_json_encode($data) {
+
+
+        $ret = self::ch_urlencode($data);
+        $ret = json_encode($ret);
+
+        return urldecode($ret);
+    }
+
+    public function ch_urlencode($data) {
+        if (is_array($data) || is_object($data)) {
+            foreach ($data as $k => $v) {
+                if (is_scalar($v)) {
+                    if (is_array($data)) {
+                        $data[$k] = urlencode($v);
+                    } else if (is_object($data)) {
+                        $data->$k = urlencode($v);
+                    }
+                } else if (is_array($data)) {
+                    $data[$k] = self::ch_urlencode($v); //递归调用该函数
+                } else if (is_object($data)) {
+                    $data->$k = self::ch_urlencode($v);
+                }
             }
         }
 
-        dd($cur_money);
-
+        return $data;
     }
+
 
 
 

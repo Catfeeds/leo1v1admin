@@ -8,6 +8,10 @@ interface GargsStatic {
 	contract_status:	number;
 	pay_status:	number;
 	channel:	number;
+	userid:	number;
+	parent_orderid:	number;
+	child_orderid:	number;
+	repay_status:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -40,7 +44,11 @@ $(function(){
 			contract_type:	$('#id_contract_type').val(),
 			contract_status:	$('#id_contract_status').val(),
 			pay_status:	$('#id_pay_status').val(),
-			channel:	$('#id_channel').val()
+			channel:	$('#id_channel').val(),
+			userid:	$('#id_userid').val(),
+			parent_orderid:	$('#id_parent_orderid').val(),
+			child_orderid:	$('#id_child_orderid').val(),
+			repay_status:	$('#id_repay_status').val()
         });
     }
 
@@ -59,6 +67,10 @@ $(function(){
 	$('#id_contract_status').val(g_args.contract_status);
 	$('#id_pay_status').val(g_args.pay_status);
 	$('#id_channel').val(g_args.channel);
+	$('#id_userid').val(g_args.userid);
+	$('#id_parent_orderid').val(g_args.parent_orderid);
+	$('#id_child_orderid').val(g_args.child_orderid);
+	$('#id_repay_status').val(g_args.repay_status);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -94,6 +106,34 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">channel</span>
                 <input class="opt-change form-control" id="id_channel" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">userid</span>
+                <input class="opt-change form-control" id="id_userid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">parent_orderid</span>
+                <input class="opt-change form-control" id="id_parent_orderid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">child_orderid</span>
+                <input class="opt-change form-control" id="id_child_orderid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">repay_status</span>
+                <input class="opt-change form-control" id="id_repay_status" />
             </div>
         </div>
 */

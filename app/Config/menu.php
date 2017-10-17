@@ -498,7 +498,9 @@ class menu{
                 ["power_id"=>2, "name"=>"请假",   "url"=>"/self_manage/qingjia" ],
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
-                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                //                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
+
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
 
             ]],
@@ -763,6 +765,7 @@ class menu{
                 ["power_id"=>50, "name"=>"未审核统计",   "url"=>"/user_manage/tongji_check"],
                 ["power_id"=>51, "name"=>"质监数据统计",   "url"=>"/tongji_ss/tongji_lesson_record_info"],
                 ["power_id"=>52, "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
+                ["power_id"=>53, "name"=>"学生老师数量统计", "url"=>"/tongji_ss/get_lesson_tea_stu_info"],
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
@@ -892,9 +895,10 @@ class menu{
                     ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
                 ]],
                 ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
-                ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
+                ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product_new"],
+                ["power_id"=>55, "name"=>"产品-需求-old",  "url"=>"/requirement/requirement_info_product"],
+                // ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
+                //["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
             ]],
         ];
 

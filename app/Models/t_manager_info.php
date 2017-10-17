@@ -56,6 +56,24 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_by_page($sql,$page_num,10);
         $this->main_update($sql);
     }
+    public function get_product_user_list_for_select($id,$gender,$nick_phone,$page_num,$main_type)
+    {
+        $main_type = 10;
+        $where_arr = array(
+            array( "uid=%d", $id, -1 ),
+        );
+        if ($nick_phone!=""){
+            $where_arr[]=sprintf( "(account like '%%%s%%' or name like '%%%s%%'  )",
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone));
+        }
+        $where_arr[]=["account_role=%u", $main_type, -1];
+
+        $sql =  $this->gen_sql_new( "select uid as id ,  account as  nick,   name as realname,  phone,'' as gender  from %s    where %s ",
+                       self::DB_TABLE_NAME,  $where_arr );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+        $this->main_update($sql);
+    }
 
     public function get_list_for_select_new($id_arr,$gender, $nick_phone,  $page_num,$main_type)
     {
@@ -163,7 +181,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return false;
     }
 
-    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1)
+    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1,$call_phone_type=-1)
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
@@ -172,6 +190,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "t1.tquin =%u ", $tquin,  -1] ,
             [  "t1.day_new_user_flag =%u ", $day_new_user_flag ,  -1] ,
             [  "t1.fulltime_teacher_type =%u ", $fulltime_teacher_type ,  -1] ,
+            [  "t1.call_phone_type =%u ", $call_phone_type ,  -1] ,
         ];
         if ($user_info >0 ) {
             if  ($user_info < 10000) {
@@ -723,10 +742,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "m.del_flag =0 ",
         ];
         $sql=$this->gen_sql_new(
-            "select uid,account_role,create_time,seller_level  "
+            "select uid,account_role,m.create_time,m.seller_level,face_pic,level_face,level_face_pic "
             ." from %s m "
+            ." left join %s g on g.seller_level=m.seller_level "
             ." where %s "
             ,self::DB_TABLE_NAME
+            ,t_seller_level_goal::DB_TABLE_NAME
             ,$where_arr
         );
         return $this->main_get_list($sql);

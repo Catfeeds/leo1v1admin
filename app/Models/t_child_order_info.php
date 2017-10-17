@@ -48,12 +48,10 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel){
+    public function get_all_period_order_info($start_time,$end_time,$opt_date_str,$page_info,$pay_status,$contract_status,$contract_type,$channel,$userid,$parent_orderid,$child_orderid,$repay_status){
         $where_arr=[
             ["c.pay_status=%u",$pay_status,-1],
-            "s.is_test_user=0",
-            "c.price>0",
-            "child_order_type=2"
+            "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
@@ -78,6 +76,42 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
         }elseif($channel==2){
              $where_arr[] = "c.channel <> 'baidu'";
         }
+        
+        if($userid != -1){
+            $where_arr=[
+                ["s.userid=%u",$userid,-1]
+            ];
+        }
+        if($parent_orderid != -1){
+            $where_arr=[
+                ["c.parent_orderid=%u",$parent_orderid,-1]
+            ];
+        }
+        if($child_orderid != -1){
+            $where_arr=[
+                ["c.child_orderid=%u",$child_orderid,-1]
+            ];
+        }
+
+        //百度分期当期还款时间计算
+        $d= date("d");
+        if($d>=15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+        }
+
+        if($repay_status !=-1){
+            $where_arr=[
+                ["pr.repay_status=%u",$repay_status,-1], 
+            ];
+        }
+        
+
+
         $sql = $this->gen_sql_new("select s.userid,s.nick,o.order_time,o.pay_time order_pay_time,c.channel,"
                                   ." c.pay_time,c.pay_status,c.period_num,o.contract_status,o.contract_type,"
                                   ." s.grade,o.sys_operator,c.channel,c.price,o.price order_price,c.from_orderno,"
@@ -87,11 +121,14 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
                                   ." from %s c left join %s o on c.parent_orderid=o.orderid"
                                   ." left join %s s on o.userid = s.userid"
                                   ." left join %s p on s.parentid = p.parentid"
-                                  ." where %s",
+                                  ." left join %s pr on c.child_orderid = pr.orderid and pr.due_date =%u and c.channel='baidu' "
+                                  ." where %s and c.price>0 and c.child_order_type=2",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_period_repay_list::DB_TABLE_NAME,
+                                  $due_date,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

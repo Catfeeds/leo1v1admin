@@ -18,7 +18,7 @@ class update_ass_call_count extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '';
 
     /**
      * Create a new command instance.
@@ -38,11 +38,11 @@ class update_ass_call_count extends Command
     public function handle()
     {
 
-        /**  @var    \App\Console\Tasks\TaskController  $task*/
+        /**  @var \App\Console\Tasks\TaskController  $task*/
         $task = new \App\Console\Tasks\TaskController();
 
         $time = time();
-        //1,先查询今天已近记录的call_phone_id
+        //1,先查询今天已经记录的call_phone_id
         $start_time1 = strtotime('today');
         $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
         $uid_phoneid = [];
@@ -62,15 +62,16 @@ class update_ass_call_count extends Command
             if (is_array($item)){
                 $uid      = $item['uid'];
                 $userid   = $item['userid'];
+                $revisit_time1 = $item['revisit_time1'];
                 $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
-                $ret_list = $task->t_revisit_info->get_revisit_type6_per_minute($start_time1, $end_time, $uid, $userid, $id_str);
+                $ret_list = $task->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
                     if (is_array($val)){
                         $task->t_revisit_call_count->row_insert([
                             'uid'           => $uid,
                             'userid'        => $userid,
-                            'revisit_time1' => $item['revisit_time1'],
+                            'revisit_time1' => $revisit_time1,
                             'revisit_time2' => $val['revisit_time2'],
                             'call_phone_id' => $val['call_phone_id'],
                             'create_time'   => $time,
@@ -79,6 +80,16 @@ class update_ass_call_count extends Command
                 }
             }
         }
+
+        //测试
+        // $task->t_revisit_call_count->row_insert([
+        //     'uid'           => 0,
+        //     'userid'        => 0,
+        //     'revisit_time1' => 0,
+        //     'revisit_time2' => 0,
+        //     'call_phone_id' => 0,
+        //     'create_time'   => $time,
+        // ]);
 
     }
 

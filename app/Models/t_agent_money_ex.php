@@ -21,12 +21,13 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
             "from %s ame ".
             "left join %s mi on ame.adminid = mi.uid ".
             "left join %s a on ame.agent_id = a.id ".
-            "left join %s f on ame.id = f.from_key_int ".
+            "left join %s f on ame.id = f.from_key_int and f.flow_type = %u ".
             "where %s ",
             self::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
+            E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
             $where_arr
         );
 
@@ -49,6 +50,20 @@ class t_agent_money_ex extends \App\Models\Zgen\z_t_agent_money_ex
         
         return $this->main_get_row($sql);
     }
-    
-  
+
+    //获取该审批当前的状态
+    //$param:$id  申请记录id
+    public function get_flow_status($id){
+        $where_arr = [
+            "from_key_int" => $id,
+            "flow_type" => E\Eflow_type::V_AGENT_MONEY_EX_EXAMINE,
+        ];
+        $sql=$this->gen_sql_new(
+            "select flow_status from %s where %s",
+            t_flow::DB_TABLE_NAME,
+            $where_arr
+        );
+        
+        return $this->main_get_value($sql);
+    }
 }

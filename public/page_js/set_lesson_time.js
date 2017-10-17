@@ -95,10 +95,10 @@
                                 '/user_deal/set_lesson_time',
                                 {
                                     'reset_lesson_count' : me.options.reset_lesson_count,
-                            'lessonid':  data.lessonid,
+                                    'lessonid':  data.lessonid,
                                     'start':  id_start_time.val(),
                                     'end':   id_end_time.val()
-                          },function( ret){
+                                },function( ret){
                                     if (ret.ret != 0) {
                                         BootstrapDialog.alert(ret.info ) ;
                                     }else{

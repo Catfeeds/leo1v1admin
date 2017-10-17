@@ -72,6 +72,7 @@ class wx_teacher_api extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -200,6 +201,7 @@ class wx_teacher_api extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -701,8 +703,6 @@ class wx_teacher_api extends Controller
         $lessonid        = $this->get_in_int_val('lessonid');
         $lesson_time_start  = $this->get_in_int_val('lesson_time');
 
-        //wx-teacher-web.leo1v1.com/comment_list.html?type=1
-
         $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
         $original_lesson_time  = $lesson_old_start.','.$lesson_old_end;
@@ -813,8 +813,6 @@ class wx_teacher_api extends Controller
             $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
             $result = "原因: $parent_keep_original_remark ";
 
-
-
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
 
@@ -831,6 +829,25 @@ class wx_teacher_api extends Controller
             $data['remark']     = "";
 
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+
+
+            // 向家长发送推送
+
+            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
+
+            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+            $data_parent = [
+                'first' => "调课申请被拒绝",
+                'keyword1' =>"调换".date('Y-m-d H:i:s',$lesson_start_date)."上课时间被拒绝",
+                'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
+                'keyword3' => "$day_date",
+                'remark'   => "请耐心等待助教老师进行沟通!"
+            ];
+            $url_parent = '';
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+
         }
 
         //推送给 助教 / 咨询
@@ -982,11 +999,14 @@ class wx_teacher_api extends Controller
         $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
 
 
-        // 给助教// 销售 // 教务 推送结果
-
+        // 给助教// 销售 // 教务[试听课] 推送结果
         $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
         $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
-        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+        if($lesson_type == 2){ // 只有试听课才会有教务 [常规课由助教直接排课]
+            $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+        }
 
         $data_leo = [
             'keyword1' => "$lesson_name",

@@ -841,12 +841,23 @@ class Utils  {
     static public function get_teacher_lesson_money($type,$already_lesson_count){
         $rule_type = \App\Config\teacher_rule::$rule_type;
         $reward    = 0;
+
         if(isset($rule_type[$type])){
-            foreach($rule_type[$type] as $key=>$val){
-                if($already_lesson_count>=$key){
-                    $reward = $val;
-                }elseif($already_lesson_count<$key){
-                    break;
+            if($type == 7){ //武汉全职老师课时累计
+                foreach($rule_type[$type] as $key=>$val){
+                    if($already_lesson_count>$key){
+                        $reward = $val;
+                    }elseif($already_lesson_count<=$key){
+                        break;
+                    }
+                }
+            }else{
+                foreach($rule_type[$type] as $key=>$val){
+                    if($already_lesson_count>=$key){
+                        $reward = $val;
+                    }elseif($already_lesson_count<$key){
+                        break;
+                    }
                 }
             }
         }
@@ -1433,17 +1444,17 @@ class Utils  {
         if($teacher_type>20){
             $level_str="招师代理";
         }else{
-            if($teacher_money_type==0){
+            if($teacher_money_type==E\Eteacher_money_type::V_0){
                 if($level<3){
                     $level_str = E\Elevel::$v2s_map[$level+1];
-                }elseif($level==3){
+                }elseif($level==E\Elevel::V_3){
                     $level_str = "明星";
                 }else{
                     $level_str = "";
                 }
-            }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,3])){
+            }elseif(in_array($teacher_money_type,[E\Eteacher_money_type::V_2,E\Eteacher_money_type::V_3])){
                 $level_str = "高级";
-            }elseif($teacher_money_type==6){
+            }elseif($teacher_money_type==E\Eteacher_money_type::V_6){
                 $level_str = E\Enew_level::$v2s_map[$level];
             }else{
                 $level_str = E\Elevel::$v2s_map[$level];

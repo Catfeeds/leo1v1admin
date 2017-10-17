@@ -57,6 +57,9 @@ interface RowData {
 	test_status	:any;
 	status	:any;
 	del_flag	:any;
+	forecast_time	:any;
+	product_comment	:any;
+	product_name	:any;
 	num	:any;
 	name_str	:any;
 	priority_str	:any;

@@ -2509,8 +2509,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_level_info($page_info,$tea_list,$start_time){
         $where_arr=[];
         $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,if(a.require_time>0,a.level_before,t.level) level,t.teacher_money_type,t.phone,t.train_through_new_time "
                                   ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
+                                  ." ,a.level_after "
                                   ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"
                                   ." where %s order by t.teacherid",
                                   self::DB_TABLE_NAME,
@@ -3731,6 +3732,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_through_num_month($start_time,$end_time){
+        $where_arr=[
+            "train_through_new=1",
+            "is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"train_through_new_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(*) num,subject from %s where %s group by subject",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr                                 
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["subject"];
+        });
+    }
 
 
 }

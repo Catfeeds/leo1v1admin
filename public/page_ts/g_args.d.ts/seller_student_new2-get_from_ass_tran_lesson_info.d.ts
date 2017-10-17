@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	master_flag:	number;
 	assistantid:	number;
 	page_num:	number;
 	page_count:	number;
@@ -36,6 +37,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			master_flag:	$('#id_master_flag').val(),
 			assistantid:	$('#id_assistantid').val(),
 			success_flag:	$('#id_success_flag').val(),
 			order_flag:	$('#id_order_flag').val()
@@ -53,6 +55,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_master_flag').val(g_args.master_flag);
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_success_flag').val(g_args.success_flag);
 	$('#id_order_flag').val(g_args.order_flag);
@@ -65,6 +68,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">master_flag</span>
+                <input class="opt-change form-control" id="id_master_flag" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

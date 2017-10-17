@@ -54,8 +54,19 @@ $(function(){
 
     //回访记录
     $(".opt-return-back-list").on("click",function(){
-        var userid=$(this).parent().data("userid");
-        var phone=$(this).parent().data("phone");
+        var agent_user_link = $(this).parent().data("agent_user_link");
+        if(agent_user_link){
+            //  /agent/agent_user_link  专用
+            var p1_userid = $(this).parent().data("p1_userid");
+            var p2_userid = $(this).parent().data("p2_userid");
+            var p1_phone = $(this).parent().data("p1_phone");
+            var p2_phone = $(this).parent().data("p2_phone");
+            var userid = p1_userid == null ? p2_userid : p1_userid;
+            var phone = p1_phone == null ? p2_phone : p1_phone;
+        }else{
+            var userid=$(this).parent().data("userid");
+            var phone=$(this).parent().data("phone");
+        }
         $.ajax({
             type     : "post",
             url      : "/revisit/get_revisit_info",

@@ -376,7 +376,6 @@ class ss_deal extends Controller
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
         $url = $this->get_in_str_val('change_reason_url');
 
-
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
         }elseif($ass_test_lesson_type == 2 && !$change_reason){
@@ -412,26 +411,25 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
 
-
         $tt_arr=[
-            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
+            "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
             "ass_test_lesson_type" => $ass_test_lesson_type,
             "subject" => $subject,
         ];
 
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
-
         // dd($ret);
         $require_arr = [
             "test_stu_request_test_lesson_demand"=>$stu_request_test_lesson_demand,
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "change_teacher_reason"          => $change_reason,
-            "change_teacher_reason_img_url"      => $change_reason_url,
+            "change_teacher_reason_img_url"  => $change_reason_url,
             "change_teacher_reason_type" => $change_teacher_reason_type,
             "test_stu_grade"   => $grade,
         ];
+
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
         return $this->output_succ();
@@ -1518,7 +1516,8 @@ class ss_deal extends Controller
         $orderid      = 1;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
-        if ($db_lessonid){
+        $account_role = $this->get_account_role();
+        if ($db_lessonid && $account_role != 12){
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {
@@ -3650,7 +3649,7 @@ class ss_deal extends Controller
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
                 ]);
 
-                $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
+                // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
 
             }
         }
@@ -6033,6 +6032,7 @@ class ss_deal extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku

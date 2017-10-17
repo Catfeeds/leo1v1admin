@@ -323,6 +323,7 @@ class seller_student_new2 extends Controller
         $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
+        $this->set_filed_for_js("account_role",$this->get_account_role());
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
@@ -703,7 +704,7 @@ class seller_student_new2 extends Controller
     public function get_ass_test_lesson_info(){
         $this->switch_tongji_database();
         // $start_time = strtotime("2017-07-20");
-        list($start_time,$end_time) = $this->get_in_date_range( "2017-07-20" ,0 );
+        list($start_time,$end_time) = $this->get_in_date_range( -7 ,0 );
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         if($account_id==349){
@@ -752,6 +753,9 @@ class seller_student_new2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
 
         }
+        $account = $this->get_account();
+        $this->set_filed_for_js("account",$account);
+
         return $this->pageView(__METHOD__, $ret_info,[
             "master_flag"  =>$master_flag
         ]);

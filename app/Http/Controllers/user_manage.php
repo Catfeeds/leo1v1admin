@@ -914,6 +914,10 @@ class user_manage extends Controller
             }else{
                 $ret_list= $this->t_manager_info->get_list_for_select($id,$gender, $nick_phone, $page_num,$main_type);
             }
+        }elseif($type=="student_ass"){ //助教学生
+            //  $adminid=324;
+            $adminid = $this->get_account_id(); 
+            $ret_list= $this->t_student_info->get_ass_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);           
         }
 
         $lru_list=null;
