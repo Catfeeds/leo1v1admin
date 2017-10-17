@@ -3738,7 +3738,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"train_through_new_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(*) num,subject from %s where %s group by t.subject",
+        $sql = $this->gen_sql_new("select count(*) num,subject from %s where %s group by subject",
                                   self::DB_TABLE_NAME,
                                   $where_arr                                 
         );
