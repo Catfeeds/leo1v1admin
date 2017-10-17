@@ -507,7 +507,7 @@ class agent extends Controller
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
+        $tmp_url = "/tmp/".$adminid."_gkk.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';
