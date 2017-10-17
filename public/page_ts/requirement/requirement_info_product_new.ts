@@ -43,7 +43,7 @@ $(function(){
     $(".opt-re-edit").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var name              = $("<input />");  //需求名称
-        var priority          = $("<select />");  //优先级
+        var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
@@ -76,26 +76,25 @@ $(function(){
         });
 
 
-        Enum_map.append_option_list("require_priority", priority, true);
         Enum_map.append_option_list("require_product_status",product_status,true,[1,2,3,4]);
-        name.val(opt_data.name);
+        name.val(opt_data.product_name);
         priority.val(opt_data.priority);
-        expect_time.val(opt_data.expect_time);
+        expect_time.val(opt_data.expect_time_b);
         statement.val(opt_data.statement);
         notes.val(opt_data.notes);
         product_status.val(opt_data.product_status);
-        forecast_time.val(opt_data.forecast_time);
+        forecast_time.val(opt_data.forecast_time_b);
         product_comment.val(opt_data.product_comment);
         product_operator.val(opt_data.product_operator);
         var arr = [
-            ["需求名称", name],
-            ["优先级", priority],
-            ["期望时间", expect_time],
-            ["需求描述", statement],
+            ["<font color='red'>*</font>需求名称", name],
+            ["<font color='red'>*</font>优先级", priority],
+            ["<font color='red'>*</font>期望完成时间", expect_time],
+            ["<font color='red'>*</font>需求描述", statement],
             ["需求来源",    notes],
             ["附件", $upload_div],
-            ["产品经理",product_operator],
-            ["处理状态",product_status],
+            ["<font color='red'>*</font>产品经理",product_operator],
+            ["<font color='red'>*</font>处理状态",product_status],
             ["预估时间",forecast_time],
             ["备注",product_comment],
         ];
@@ -124,7 +123,7 @@ $(function(){
                 }
                 if(forecast_time.val() != ''){
                     var forecast_date = new Date(forecast_time.val());
-                    if(expect_date < today){
+                    if(forecast_date < today){
                         alert("预估时间不能在当前时间范围之前");
                         return;
                     }
@@ -178,16 +177,13 @@ $(function(){
     });
     $(".opt-reject").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        $.show_key_value_table("驳回需求请求", arr, {
-            label    :  "确认",
-            cssClass :  'btn-waring',
-            action   :   function(dialog){
+        BootstrapDialog.confirm("驳回提交人是["+opt_data.create_admin_nick+"]的需求吗?",function(val){
+            if(val){
                 $.do_ajax("/requirement/product_reject",{
-                    "id"           : opt_data.id,
-                    'product_reject'       : product_reject.val(),
+                    "id" : opt_data.id,
+                    'product_reject'       : '',
                 });
             }
-        },function(){
         });
     });
     $(".content_show").each(function(){

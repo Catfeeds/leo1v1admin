@@ -56,6 +56,10 @@ interface RowData {
 	forecast_time	:any;
 	product_comment	:any;
 	product_name	:any;
+	expect_time_a	:any;
+	forecast_time_a	:any;
+	expect_time_b	:any;
+	forecast_time_b	:any;
 	product_operator_str	:any;
 	name_str	:any;
 	priority_str	:any;
