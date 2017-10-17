@@ -190,6 +190,7 @@ class teaching_menu{
 
                         ]],
                         [ "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
+                        [ "name"=>"学生老师数量统计", "url"=>"/tongji_ss/get_lesson_tea_stu_info"],
                     ]],
 
 
