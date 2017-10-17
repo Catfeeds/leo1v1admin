@@ -3447,8 +3447,12 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+            return true;
+        }else{
+            return $lessonid;
         }
 
+        
 
 
     }
