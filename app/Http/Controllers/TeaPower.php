@@ -2271,8 +2271,8 @@ trait TeaPower {
 
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
-        $level_str  = E\Elevel::get_desc($teacher_info['level']);
-        // $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
+        // $level_str  = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         // dd($teacher_info);
         // $group_html = $this->get_qq_group_html($teacher_info['subject']);
@@ -3394,8 +3394,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $this->t_lesson_info->start_transaction();
        
-        $this->t_user_info->rollback();
-        $this->t_user_info->commit();
 
         //区分是否课时确认的调课
         if($old_lessonid){
@@ -3575,8 +3573,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+            $this->t_lesson_info->commit();
+            $this->t_homework_info->commit();
+
             return true;
         }else{
+            $this->t_lesson_info->commit();
+            $this->t_homework_info->commit();
             return $lessonid;
         }
 
