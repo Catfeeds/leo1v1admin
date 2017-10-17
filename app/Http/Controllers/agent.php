@@ -465,7 +465,9 @@ class agent extends Controller
         $next_level = E\Eseller_level::V_200;
         $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
         $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/480ae071a98103981b6dcd27c7816ab81507626535482.png';
-        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$next_level);
+        $face_pic_str = substr($face_pic,-12,5);
+        $ex_str = $next_level.$face_pic_str;
+        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
         $ret = $this->t_manager_info->field_update_list($adminid,[
             'level_face_pic'=>$level_face_pic,
         ]);
@@ -473,7 +475,7 @@ class agent extends Controller
     }
 
     //处理等级头像
-    public function get_top_img($adminid,$face_pic,$level_face,$next_level){
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
         $datapath = $face_pic;
         $datapath_new = $level_face;
         $datapath_type = @end(explode(".",$datapath));
@@ -508,7 +510,7 @@ class agent extends Controller
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_".$next_level."_gk.png";
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gk.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';
