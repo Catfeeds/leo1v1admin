@@ -466,7 +466,7 @@ class tea_manage extends Controller
             $image_stu = "学生：".$stu_nick;
             $image_time = "时间：".$lesson_time;
             $image_lessonid = "课程：".$lessonid;
-            $font_file = "fonts/song.ttf";
+            $font_file = "fonts/Light_50868_S60SC_C.tt";
             // $font_file = 'simhei.ttf';
             // if (! is_file($font_file)) {
             //     $font_file = dirname(__FILE__) . "/" . $font_file;
@@ -479,19 +479,15 @@ class tea_manage extends Controller
             $bkcolor = imagecolorallocate($im1, 255, 255, 255);
             imagefill($im1, 0, 0, $bkcolor);
 
-            // dd($font_file);
             $fontcolor = imagecolorallocate($im1, 62,187,254);
             imagefttext($im1, 40, 0, 55, 50, $fontcolor, $font_file, $image_title);
-            // imagefttext($im1, 13, 0, 150, 50, $fontcolor, $fontface, 'test');
             imagepng($im1, $text_url1);
             imagedestroy($im1);
-
 
             $text_url2 = "/tmp/".$lessonid."-text2.png";
             $im2 = imagecreatetruecolor(400, 180);
             imagefill($im2, 0, 0, $bkcolor);
-            $fontcolor = imagecolorallocate($im2, 0,0,0);
-            // imagefttext($im2, 13, 0, 150, 50, $fontcolor, $fontface, 'test');
+            $fontcolor = imagecolorallocate($im2, 102,102,102);
             imagefttext($im2, 20, 0, 0, 40, $fontcolor, $font_file, $image_tea);
             imagefttext($im2, 20, 0, 0, 80, $fontcolor, $font_file, $image_stu);
             imagefttext($im2, 20, 0, 0, 120, $fontcolor, $font_file, $image_time);
