@@ -70,10 +70,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../requirement; vi  ../requirement/requirement_info_new.ts
+	 mkdir -p ../requirement; vi  ../requirement/requirement_info_product_new.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/requirement-requirement_info_new.d.ts" />
+/// <reference path="../g_args.d.ts/requirement-requirement_info_product_new.d.ts" />
 
 $(function(){
     function load_data(){
