@@ -7727,7 +7727,7 @@ class tongji_ss extends Controller
 
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type,$account_id);
 
         foreach($ret_info['list'] as &$item){
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
