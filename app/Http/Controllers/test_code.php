@@ -49,6 +49,8 @@ class test_code extends Controller
         return $arr;
     }
 
+
+
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
@@ -78,10 +80,10 @@ class test_code extends Controller
                 continue;
             }
 
-            // $num++;
-            // if($num>100){
-            //     break;
-            // }
+            $num++;
+            if($num>100){
+                break;
+            }
 
             $sum_price += $lesson_price;
         }
