@@ -1739,6 +1739,7 @@ trait TeaPower {
         $name          = $info['nick'];
         $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
 
+        $star_num=0;
         if($level_str=="中级教师"){
             $level_eng="Intermediate Teacher";
             $star_num=2;
@@ -1750,7 +1751,12 @@ trait TeaPower {
             $star_num=4;
         }else{
             $level_eng=" ";
-            $star_num=1;
+            if($info["teacher_money_type"]==6){
+                $star_num = $info["level"]+1;
+            }
+            if($star_num<1){
+                $star_num=1;  
+            }
         }
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;

@@ -49,12 +49,45 @@ class test_code extends Controller
         return $arr;
     }
 
+    /**
+     * 获取文件拉取标示 0 不拉取 1 拉取
+     */
+    public function get_file_flag($file_name){
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
+        return $flag;
+    }
+
+
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
 
-        $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
-        $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+        $order_name = "/tmp/order_list.txt";
+        $lesson_name = "/tmp/lesson_list.txt";
+
+        $order_flag = $this->get_file_flag($order_name);
+        $lesson_flag = $this->get_file_flag($lesson_name);
+
+        if($order_flag){
+            $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
+            file_put_contents($order_name,json_encode($order_list));
+        }else{
+            $order_list = json_decode(file_get_contents($order_name),true);
+        }
+        if($lesson_flag){
+            $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+            file_put_contents($lesson_name,json_encode($lesson_list));
+        }else{
+            $lesson_list = json_decode(file_get_contents($lesson_name),true);
+        }
         echo count($order_list);
         echo "<br>";
         echo count($lesson_list);
@@ -78,10 +111,10 @@ class test_code extends Controller
                 continue;
             }
 
-            // $num++;
-            // if($num>100){
-            //     break;
-            // }
+            $num++;
+            if($num>1000){
+                break;
+            }
 
             $sum_price += $lesson_price;
         }
@@ -114,9 +147,9 @@ class test_code extends Controller
         }
 
         $lesson_price = $lesson_count*$per_price;
-        if($lesson_count_left>0){
-            $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
-        }
+        // if($lesson_count_left>0){
+        //     $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
+        // }
 
         // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
         // echo "<br>";
@@ -1294,18 +1327,19 @@ class test_code extends Controller
         $start = strtotime(date("Y-m-01",time()));
         $end   = strtotime("+1 month",$start);
         $teacher_money_type = 7;
-        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+        $teacherid = 388040;
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type,$teacherid);
+        dd($lesson_list);
         $already_lesson_count = [];
         foreach($lesson_list as $val){
             $teacherid    = $val['teacherid'];
             $lesson_count = $val['lesson_count'];
             $lessonid     = $val['lessonid'];
-            \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
+            \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],$lesson_count);
 
             echo $lessonid."|".$teacherid."|".$already_lesson_count[$teacherid];
             echo "<br>";
 
-            // $already_lesson_count[$teacherid]+=$lesson_count;
             // $this->t_lesson_info->field_update_list($lessonid,[
             //     "already_lesson_count" => $already_lesson_count[$teacherid]
             // ]);
