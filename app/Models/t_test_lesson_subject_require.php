@@ -2606,13 +2606,14 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_update($sql);
     }
 
-    public function get_grab_test_lesson_list($subject,$grab_status,$grade=-1){
+    public function get_grab_test_lesson_list($subject,$grab_status,$grade){
         $where_arr = [
             ["grab_status=%u",$grab_status,-1],
             "(current_lessonid='' or current_lessonid is null)",
             "test_lesson_student_status=200"
         ];
         $where_arr[] = $this->where_get_in_str_query("t.subject",$subject);
+        $where_arr[] = $this->where_get_in_str_query("s.grade",$grade);
 
         $sql = $this->gen_sql_new("select t.subject,s.grade,s.phone,tr.require_id,t.stu_request_test_lesson_time, "
                                   ." s.editionid,t.textbook"
@@ -3146,7 +3147,8 @@ ORDER BY require_time ASC";
 
     public function get_invit_num($start_time, $end_time){ //获取邀约数
         $where_arr = [
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            "ts.require_admin_type=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
@@ -3190,7 +3192,9 @@ ORDER BY require_time ASC";
 
     public function get_invit_num_for_month($start_time, $end_time){ //获取邀约数
         $where_arr = [
-            "s.is_test_user=0"
+            "s.is_test_user=0",
+            "ts.require_admin_type=2"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
@@ -3216,11 +3220,14 @@ ORDER BY require_time ASC";
         $where_arr = [
             "s.is_test_user=0",
             "tr.accept_flag=1",
+            "ts.require_admin_type=2"
+
             // "tss.test_lesson_fail_flag=0",
-            "tss.fail_greater_4_hour_flag=0"
+            // "tss.fail_greater_4_hour_flag=0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tss.lessonid) from %s tr "
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "

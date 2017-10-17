@@ -201,7 +201,7 @@ class tea_manage extends Controller
         $assistantid     = $this->get_in_assistantid(-1);
         $grade           = $this->get_in_enum_list(E\Egrade::class);
         $test_seller_id  = $this->get_in_int_val("test_seller_id",-1 );
-        $test_seller_adminid  = $this->get_in_int_val("test_seller_adminid",-1 );
+        $test_seller_adminid = $this->get_in_int_val("test_seller_adminid",-1 );
         $has_performance = $this->get_in_int_val("has_performance",-1 );
         $fulltime_flag   = $this->get_in_int_val("fulltime_flag",-1 );
         $lesson_user_online_status = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
@@ -226,7 +226,7 @@ class tea_manage extends Controller
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
         }
 
-        if($seller_flag==1){//销售
+        if($seller_flag==1){ //销售
             $son_adminid = $this->t_admin_main_group_name->get_son_adminid($adminid);
             $son_adminid_arr = [];
             foreach($son_adminid as $item){
