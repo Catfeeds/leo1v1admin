@@ -465,11 +465,11 @@ class tea_manage extends Controller
             $image_stu = "学生：".$stu_nick;
             $image_time = "时间：".$lesson_time;
             $image_lessonid = "课程：".$lessonid;
-            // $font_file = "/home/boby/admin_yb1v1/public/fonts/song.ttf";
-            $font_file = 'simhei.ttf';
-            if (! is_file($font_file)) {
-                $font_file= dirname(__FILE__) . "/" . $font_file;
-            }
+            $font_file = "fonts/song.ttf";
+            // $font_file = 'simhei.ttf';
+            // if (! is_file($font_file)) {
+            //     $font_file = dirname(__FILE__) . "/" . $font_file;
+            // }
 
 
             //创建文字
