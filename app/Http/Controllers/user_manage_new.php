@@ -4516,19 +4516,35 @@ class user_manage_new extends Controller
                 $teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303
             );
         }else{
-            $grade = 101;
-            for(){
+            $grade = [101,102,103,104,105];
+            foreach($grade as $grade_val){
+                $ret = $this->t_teacher_money_type->row_insert([
+                    "teacher_money_type"=>$teacher_money_type,
+                    "level" => $level,
+                    "grade" => $grade_val,
+                    "money" => $money_101,
+                    "type"  => 7,
+                ]);
             }
-            $ret = $this->t_teacher_money_type->row_insert([
-                "teacher_money_type"=>$teacher_money_type,
-                "level" => $level,
-            ]);
+            $grade = [106,201,202];
         }
 
         if(!$ret){
             return $this->output_err("更新失败！");
         }
         return $this->output_succ();
+    }
+
+    public function add_teacher_money_type($teacher_money_type,$level,$money,$grade_arr,$type){
+        foreach($grade as $grade_val){
+            $ret = $this->t_teacher_money_type->row_insert([
+                "teacher_money_type"=>$teacher_money_type,
+                "level" => $level,
+                "grade" => $grade_val,
+                "money" => $money_101,
+                "type"  => 7,
+            ]);
+        }
     }
 
     public function teacher_reward_rule_list(){
