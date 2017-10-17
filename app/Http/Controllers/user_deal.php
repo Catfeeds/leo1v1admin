@@ -2439,6 +2439,16 @@ class user_deal extends Controller
 
                             $teacher_info=$this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
                             $default_lesson_count=0;
+                            if(in_array($acc,["jim","jack"])){
+                                $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
+                                if(is_numeric($ret) ){
+                                    // return $this->output_succ(["lessonid" => $ret ]);
+                                    return $this->output_succ();
+                                }else{
+                                    return $ret;
+                                }
+                            }
+
                             $lessonid = $this->t_lesson_info->add_lesson(
                                 $item["courseid"],0,
                                 $item["userid"],
