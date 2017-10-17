@@ -107,7 +107,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             ['tc.userid=%d',$userid,-1],
         ];
 
-        $sql = $this->gen_sql_new("  select id as scoreid, stu_score_type, score, total_score, semester, subject, grade_rank, rank, file_url from %s tc"
+        $sql = $this->gen_sql_new("  select id as scoreid, stu_score_type, grade,score, total_score, semester, subject, grade_rank, rank, file_url from %s tc"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME,
                                   $where_arr

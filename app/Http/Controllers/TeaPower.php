@@ -3576,7 +3576,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $this->t_lesson_info->commit();
             $this->t_homework_info->commit();
 
-            return true;
+            return $lessonid;
         }else{
             $this->t_lesson_info->commit();
             $this->t_homework_info->commit();

@@ -2213,10 +2213,11 @@ lesson_type in (0,1) "
             ["lesson_status=%u",$lesson_status,-1],
             "lesson_count>0",
             "lesson_type in (0,1,3)",
+
         ];
         $where_str = $this->lesson_common_where_arr($where_str);
         $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
-                                ." teacherid,grade,userid,competition_flag"
+                                ." teacherid,grade,userid,competition_flag,teacher_money_type"
                                 ." from %s"
                                 ." where %s"
                                 ." order by lesson_start asc"

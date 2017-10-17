@@ -1139,7 +1139,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type in (0,1,3)",
-            "o.userid = userid"
+            "o.userid = userid",
+            "teacher_money_type in (5,6)"
         ];
         $sql=$this->gen_sql_new("select o.orderid,o.userid,price,lesson_total,default_lesson_count,contract_type,lesson_left,"
                                 ." competition_flag"

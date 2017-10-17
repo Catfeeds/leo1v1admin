@@ -855,7 +855,7 @@ class wx_teacher_api extends Controller
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = "您申请修改学生 $stu_nick  的家长发起的申请修改 $lesson_old_date  的上课时间 ";
             $data['keyword1']   = " 调换 $stu_nick  的家长发起的换时间申请";
-            $data['keyword2']   = "原上课时间: $lesson_old_date  ,$result";
+            $data['keyword2']   = "原上课时间: $lesson_old_date ";
             $data['keyword3']   = " $day_date";
             $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);

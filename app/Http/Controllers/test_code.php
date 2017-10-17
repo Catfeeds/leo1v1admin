@@ -82,12 +82,14 @@ class test_code extends Controller
         }else{
             $order_list = json_decode(file_get_contents($order_name),true);
         }
+
         if($lesson_flag){
             $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
             file_put_contents($lesson_name,json_encode($lesson_list));
         }else{
             $lesson_list = json_decode(file_get_contents($lesson_name),true);
         }
+
         echo count($order_list);
         echo "<br>";
         echo count($lesson_list);
