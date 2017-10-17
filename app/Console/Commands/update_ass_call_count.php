@@ -82,14 +82,14 @@ class update_ass_call_count extends Command
         }
 
         //测试
-        $task->t_revisit_call_count->row_insert([
-            'uid'           => 0,
-            'userid'        => 0,
-            'revisit_time1' => 0,
-            'revisit_time2' => 0,
-            'call_phone_id' => 0,
-            'create_time'   => $time,
-        ]);
+        // $task->t_revisit_call_count->row_insert([
+        //     'uid'           => 0,
+        //     'userid'        => 0,
+        //     'revisit_time1' => 0,
+        //     'revisit_time2' => 0,
+        //     'call_phone_id' => 0,
+        //     'create_time'   => $time,
+        // ]);
 
 
 
