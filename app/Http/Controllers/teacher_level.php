@@ -88,7 +88,6 @@ class teacher_level extends Controller
             \App\Helper\Utils::unixtime2date_for_item($h,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($h,"require_time","_str");
             E\Eaccept_flag::set_item_value_str($h);
-            array_unshift($ret_info["list"],$h);
             if($h["teacher_money_type"]==6){             
                 $h["level_str"] =E\Enew_level::get_desc($h["level"]);
                 $h["level_after_str"] =E\Enew_level::get_desc($h["level_after"]);
@@ -97,7 +96,8 @@ class teacher_level extends Controller
                 $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
                              
             }
-
+            array_unshift($ret_info["list"],$h);
+            
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );

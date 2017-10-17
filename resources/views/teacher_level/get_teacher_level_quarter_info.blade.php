@@ -83,11 +83,11 @@
                                 状态:未申请
                             @elseif(empty($var["accept_time"]))
                                 状态:已申请,未审核<br>
-                                目标等级:{{$var["level_after_str"]}}<br>
+                                目标等级:{{@$var["level_after_str"]}}<br>
                                 时间:{{$var["require_time_str"]}}
                             @else
                                 状态:已审核<br>
-                                目标等级:{{$var["level_after_str"]}}<br>
+                                目标等级:{{@$var["level_after_str"]}}<br>
                                 结果:{{$var["accept_flag_str"]}}<br>
                                 @if($var["accept_flag"]==2)
                                     理由:{{$var["accept_info"]}}<br>
