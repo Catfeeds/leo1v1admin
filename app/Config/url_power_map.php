@@ -528,6 +528,7 @@ class url_power_map {
 			'/user_manage/tongji_check'	=>1375000,
 			'/tongji_ss/tongji_lesson_record_info'	=>1375100,
 			'/main_page/quality_control'	=>1375200,
+			'/tongji_ss/get_lesson_tea_stu_info'	=>1375300,
 			'/main_page/zs_teacher'	=>1350100,
 			'/tea_manage/train_lesson_list_research'	=>1350400,
 			'/tea_manage/train_not_through_list_px'	=>1350500,
