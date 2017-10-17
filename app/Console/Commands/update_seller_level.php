@@ -89,7 +89,9 @@ class update_seller_level extends cmd_base
                         $level_face = $item['level_face'];
                     }
                 }
-                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
+                $face_pic_str = substr($face_pic,-12,5);
+                $ex_str = $next_level.$face_pic_str;
+                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
                 $this->task->t_manager_info->field_update_list($adminid,[
                     'seller_level'=>$next_level,
                     'level_face_pic'=>$level_face_pic,
@@ -114,7 +116,7 @@ class update_seller_level extends cmd_base
     }
 
     //处理等级头像
-    public function get_top_img($adminid,$face_pic,$level_face){
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
         $datapath = $face_pic;
         $datapath_new = $level_face;
         $datapath_type = @end(explode(".",$datapath));
@@ -149,7 +151,7 @@ class update_seller_level extends cmd_base
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gk.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';

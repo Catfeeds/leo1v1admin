@@ -752,7 +752,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = array(
             array( "s.gender=%d", $gender, -1 ),
             array( "s.userid=%d", $id, -1 ),
-            array( "admin_revisiterid=%d", $seller_adminid, -1 ),
+            array( "m.uid=%d", $ass_adminid, -1 ),
         );
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
@@ -761,10 +761,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $this->ensql($nick_phone));
         }
 
-        $sql = $this->gen_sql_new("select s.userid as id , s.nick, ss.phone,s.gender,s.realname  "
-                                  ." from   %s s , %s ss  where s.userid=ss.userid  and %s ",
+        $sql = $this->gen_sql_new("select s.userid as id , s.nick, s.phone,s.gender,s.realname  "
+                                  ." from   %s s , %s a,%s m  where s.assistantid=a.assistantid"
+                                  ." and a.phone=m.phone and %s ",
                                   self::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }

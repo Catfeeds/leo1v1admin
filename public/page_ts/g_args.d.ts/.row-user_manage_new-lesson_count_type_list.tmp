@@ -32,6 +32,7 @@
 	achievement	:any;
 	is_quit	:any;
 	e_name	:any;
+	assign_lesson_count	:any;
 	yi_total_revisit	:any;
 	total_revisit	:any;
 	first_revisit	:any;

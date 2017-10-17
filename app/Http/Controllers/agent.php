@@ -461,28 +461,21 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->t_manager_info->get_seller_list_new_two($account_role);
-        foreach($seller_list as $item){
-            $adminid = $item['uid'];
-            $face_pic = $item['face_pic'];
-            if($face_pic == ''){
-                $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
-            }
-            $level_face = $item['level_face'];
-            $level_face_pic = $item['level_face_pic'];
-            $ret = 0;
-            if($level_face_pic == ''){
-                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
-                $ret = $this->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
-            }
-            // dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
-            echo $adminid.':'."$level_face_pic".",ret:".$ret."\n";
-        }
+        $adminid = 756;
+        $next_level = E\Eseller_level::V_200;
+        $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/480ae071a98103981b6dcd27c7816ab81507626535482.png';
+        $face_pic_str = substr($face_pic,-12,5);
+        $ex_str = $next_level.$face_pic_str;
+        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+        $ret = $this->t_manager_info->field_update_list($adminid,[
+            'level_face_pic'=>$level_face_pic,
+        ]);
+        dd($level_face_pic,$ret);
     }
 
     //处理等级头像
-    public function get_top_img($adminid,$face_pic,$level_face){
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
         $datapath = $face_pic;
         $datapath_new = $level_face;
         $datapath_type = @end(explode(".",$datapath));
@@ -517,7 +510,7 @@ class agent extends Controller
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gk.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';

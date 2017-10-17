@@ -91,8 +91,6 @@ class update_ass_call_count extends Command
         //     'create_time'   => $time,
         // ]);
 
-
-
     }
 
 }

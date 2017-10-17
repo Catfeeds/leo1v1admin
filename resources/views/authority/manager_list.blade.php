@@ -86,6 +86,13 @@
                     <input class="opt-change form-control" id="id_tquin" />
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2" data-always_show="1">
+                <div class="input-group ">
+                    <span class="input-group-addon">打电话类型</span>
+                    <select class="opt-change form-control" id="id_call_phone_type" >
+                    </select>
+                </div>
+            </div>
             <div class="col-md-2 col-xs-6">
                 <button class="btn btn-warning  add_player " >添加</button>
                 <button id="id_email_list" class="btn btn-primary " >邮箱</button>
