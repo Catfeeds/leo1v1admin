@@ -60,6 +60,7 @@ class tom_do_once extends Command
         $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
         foreach($seller_list as $item){
             $adminid = $item['uid'];
+            $seller_level = $item['seller_level'];
             $face_pic = $item['face_pic'];
             if($face_pic == ''){
                 $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
@@ -67,7 +68,9 @@ class tom_do_once extends Command
             $level_face = $item['level_face'];
             $level_face_pic = $item['level_face_pic'];
             $ret = 0;
-            if($level_face_pic == '' && $level_face != ''){
+            if($face_pic && $level_face && $seller_level>0){
+                $face_pic_str = substr($face_pic,-12,5);
+                $ex_str = $seller_level.$face_pic_str;
                 $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
                 $ret = $this->task->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
             }
@@ -82,17 +85,7 @@ class tom_do_once extends Command
         $datapath_new = $level_face;
         $datapath_type = @end(explode(".",$datapath));
         $datapath_type_new = @end(explode(".",$datapath_new));
-        if($datapath_type == 'jpg' || $datapath_type == 'jpeg'){
-            $image_1 = imagecreatefromjpeg($datapath);
-        }elseif($datapath_type == 'png'){
-            $image_1 = imagecreatefrompng($datapath);
-        }elseif($datapath_type == 'gif'){
-            $image_1 = imagecreatefromgif($datapath);
-        }elseif($datapath_type == 'wbmp'){
-            $image_1 = imagecreatefromwbmp($datapath);
-        }else{
-            $image_1 = imagecreatefromstring($datapath);
-        }
+        $image_1 = $this->yuan_img($datapath);
         if($datapath_type_new == 'jpg' || $datapath_type_new == 'jpeg'){
             $image_2 = imagecreatefromjpeg($datapath_new);
         }elseif($datapath_type_new == 'png'){
@@ -125,5 +118,50 @@ class tom_do_once extends Command
         return $level_face_url;
     }
 
+    /**
+     *  blog:http://www.zhaokeli.com
+     * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
+     * @param  string $imgpath [description]
+     * @return [type]          [description]
+     */
+    function yuan_img($imgpath = './tx.jpg') {
+        $ext     = pathinfo($imgpath);
+        $src_img = null;
+        switch ($ext['extension']) {
+        case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'png':
+            $src_img = imagecreatefrompng($imgpath);
+            break;
+        }
+        $wh  = getimagesize($imgpath);
+        $w   = $wh[0];
+        $h   = $wh[1];
+        $w   = min($w, $h);
+        $h   = $w;
+        $img = imagecreatetruecolor($w, $h);
+        //这一句一定要有
+        imagesavealpha($img, true);
+        //拾取一个完全透明的颜色,最后一个参数127为全透明
+        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        imagefill($img, 0, 0, $bg);
+        $r   = $w / 2-20; //圆半径
+        $y_x = $r; //圆心X坐标
+        $y_y = $r; //圆心Y坐标
+        // dd($r,$y_x,$y_y);
+        for ($x = 0; $x < $w; $x++) {
+            for ($y = 0; $y < $h; $y++) {
+                $rgbColor = imagecolorat($src_img, $x, $y);
+                if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
+                    imagesetpixel($img, $x+14, $y+14, $rgbColor);
+                }
+            }
+        }
+        return $img;
+    }
 
 }
