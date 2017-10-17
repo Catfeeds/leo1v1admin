@@ -180,7 +180,7 @@ class teacher_level extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
         $total_score = $this->get_in_int_val("total_score");
         $level = $this->t_teacher_info->get_level($teacherid);
-        $teacher_money_type = $this->t_teacher_info->get_level($teacher_money_type);
+        $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
         /*$level_after = $level+1;
         if($level==4){
             $level_after=4;
