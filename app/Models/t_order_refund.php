@@ -505,6 +505,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             ['apply_time>%u',$start_time,-1],
             ['apply_time<%u',$end_time,-1],
             "m.assistantid > 0",
+            "price>0"
         ];
         $sql = $this->gen_sql_new("select count(distinct(o.userid)) as person  ".
                                   "from %s  o ".
