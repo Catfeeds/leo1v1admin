@@ -1516,7 +1516,8 @@ class ss_deal extends Controller
         $orderid      = 1;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
-        if ($db_lessonid){
+        $account_role = $this->get_account_role();
+        if ($db_lessonid && $account_role != 12){
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {

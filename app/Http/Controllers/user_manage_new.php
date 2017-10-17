@@ -4516,7 +4516,13 @@ class user_manage_new extends Controller
                 $teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303
             );
         }else{
-            
+            $grade = 101;
+            for(){
+            }
+            $ret = $this->t_teacher_money_type->row_insert([
+                "teacher_money_type"=>$teacher_money_type,
+                "level" => $level,
+            ]);
         }
 
         if(!$ret){
