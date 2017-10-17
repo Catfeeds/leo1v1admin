@@ -304,14 +304,6 @@ class test_james extends Controller
     }
 
     public function install(){
-        // 暂时未建
-        $ret = $this->t_test_lesson_subject_require->get_test_lesson_subject_lesson_info(1000);
-        dd($ret);
-
-        $start_time = 1507722518;
-        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
-
-        dd($six_month_old);
     }
 
 

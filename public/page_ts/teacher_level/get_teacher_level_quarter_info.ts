@@ -18,12 +18,13 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
             
-        var id_level_after = $("<select/>");
-        if(teacher_money_type==5){
+         var id_level_after = $("<select/>");
+
+        if(teacher_money_type==6){            
+            Enum_map.append_option_list("new_level", id_level_after, true );  
+        }else{
             Enum_map.append_option_list("level", id_level_after, true ); 
-        }else if(teacher_money_type==6){
-            Enum_map.append_option_list("level_new", id_level_after, true );  
-        }      
+        }  
         var arr=[
             ["目标等级",id_level_after]
         ];
