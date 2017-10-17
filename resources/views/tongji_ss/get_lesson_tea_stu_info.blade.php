@@ -18,25 +18,21 @@
             <thead>
                 <tr>
                     <td>科目 </td>
-                    <td>试听课 </td>
-                    <td>签单数 </td>
-                    <td>签单率</td>
-                    <td>试听课(去除CC) </td>
-                    <td>签单数(去除CC)</td>
-                    <td>签单率(去除CC)</td>
+                    <td>在读学生人数 </td>
+                    <td>授课老师人数 </td>
+                    <td>试听课数</td>
+                    <td>入职老师人数</td>
                     <td>操作</td>
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $list as $var )
                     <tr>
-                        <td>{{@$var["subject_str"]}}</td>
-                        <td>{{@$var["lesson_count"]}} </td>
-                        <td>{{@$var["order_count"]}} </td>
-                        <td>{{@$var["order_per"]}}% </td>
-                        <td>{{@$var["no_cc_lesson_count"]}} </td>
-                        <td>{{@$var["no_cc_order_count"]}} </td>
-                        <td>{{@$var["no_cc_order_per"]}}% </td>
+                        <td>{{@$var["subject"]}}</td>
+                        <td>{{@$var["stu_num"]}} </td>
+                        <td>{{@$var["tea_num"]}} </td>
+                        <td>{{@$var["test_lesson_num"]}} </td>
+                        <td>{{@$var["new_num"]}} </td>
                        
                         <td>
                             <div

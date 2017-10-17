@@ -834,14 +834,18 @@ class wx_teacher_api extends Controller
 
             // 向家长发送推送
 
-            $data['first']      = " 调课申请被拒绝";
-            $data['keyword1']   = " 您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间,您已拒绝! ";
-            $data['keyword2']   = " 原上课时间:".$lesson_start_date;
-            $data['keyword3']   = date('Y-m-d H:i:s');
-            $data['remark']     = "";
+            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
 
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
-
+            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+            $data_parent = [
+                'first' => "调课申请被拒绝",
+                'keyword1' =>"拒绝调课申请",
+                'keyword2' => "原上课时间: $lesson_old_date ,您已拒绝",
+                'keyword3' => "$day_date",
+                'remark'   => "详细进度稍后将以推送的形式发给您,请注意查看!"
+            ];
+            $url_parent = '';
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
 
 
         }
