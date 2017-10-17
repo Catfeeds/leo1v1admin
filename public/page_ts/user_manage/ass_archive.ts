@@ -184,7 +184,7 @@ $(function(){
         var wx_remind_time="";
         var stop_duration="";
 
-        
+
         $.do_ajax("/user_manage_new/get_last_change_type_info",{
             "userid" : userid
         },function(result){
@@ -197,7 +197,7 @@ $(function(){
                 wx_remind_time = data.wx_remind_time;
                 stop_duration = data.stop_duration;
             }
-            
+
             var id_auto_set_flag = $("<select ><option value=\"0\">系统自动更新</option><option value=\"1\">手动修改</option></select>");
             var id_student_type = $("<select />");
             var id_lesson_stop_reason = $("<textarea />");
@@ -214,7 +214,7 @@ $(function(){
 
                 }
             });
-            
+
             id_wx_remind_time.datetimepicker({
                 datepicker:true,
                 timepicker:false,
@@ -260,7 +260,7 @@ $(function(){
                     show_field( id_stop_duration,false );
                     show_field( id_wx_remind_time,false);
                 }
-               
+
 
 
             };
@@ -295,16 +295,16 @@ $(function(){
                             }
                         }
                     });
-                  
+
                 }
             },function(){
                 reset_ui();
             });
-            
-        });            
+
+        });
 
     });
-    
+
     $(".opt-change-type").on("click", function(){
         var userid = $(this).parent().data("userid");
         var nick   = $(this).parent().data("nick");
@@ -690,7 +690,7 @@ $(function(){
             [ "回访路径",  id_revisit_path] ,
             [ "回访对象",  id_return_record_person] ,
             [ "回访记录",  id_return_record_record] ,
-            [ "其他情况说明", id_recent_learn_info] , 
+            [ "其他情况说明", id_recent_learn_info] ,
             [ "复课时间", id_recover_time],
             ["软件操作是否满意",  $operation_satisfy_flag ],
             ["软件操作不满意的类型",  $operation_satisfy_type ],
@@ -732,7 +732,7 @@ $(function(){
                 jobj.parent().parent().hide();
             }
         };
-        var hidden_field=function(){       
+        var hidden_field=function(){
             show_field( $operation_satisfy_flag ,false );
             show_field( $child_class_performance_flag ,false );
             show_field( $school_score_change_flag ,false );
@@ -802,7 +802,7 @@ $(function(){
                 show_field( id_recover_time ,true);
                 show_field( $other_parent_info ,true);
                 show_field( $other_warning_info ,true);
-                show_field( id_recent_learn_info,true);  
+                show_field( id_recent_learn_info,true);
             }else if(var0 == 4){//首次课前回访
                 hidden_field();
                 show_field( id_revisit_path ,true);
@@ -940,7 +940,7 @@ $(function(){
                         alert("请选择复课时间!");
                         return;
                     }
-             
+
                 }else if(id_return_record_type.val()==='4'){//首次课前回访
                     if(id_parent_guidance_except.val() === ''){
                         alert("请输入家长辅导预期!");
@@ -1216,7 +1216,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var userid = opt_data.userid;
         var title = "学生类型修改记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>微信提醒时间</td><td>操作人</td><td>是否手动修改</td></tr></table></div>");                     
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>微信提醒时间</td><td>操作人</td><td>是否手动修改</td></tr></table></div>");
 
         $.do_ajax("/user_deal/get_student_type_change_list",{
             "userid" : userid
@@ -1228,14 +1228,14 @@ $(function(){
 
             $.each(result.data,function(i,item){
                 html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['type_before_str']+"</td><td>"+item['type_cur_str']+"</td><td>"+item['reason']+"</td><td>"+item['stop_duration']+"</td><td>"+item['recover_time_str']+"</td><td>"+item['wx_remind_time_str']+"</td><td>"+item['account']+"</td><td>"+item['change_type_str']+"</td></tr>");
-                
+
 
             });
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -1245,7 +1245,7 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
@@ -1253,8 +1253,8 @@ $(function(){
             dlg.getModalDialog().css("width","1024px");
 
         });
-        
- 
+
+
     });
 
     $(".opt-require-commend-teacher").on("click",function(){
@@ -1287,7 +1287,7 @@ $(function(){
             ["试听时间",id_stu_request_test_lesson_time],
             ["备注(特殊要求)",id_except_teacher],
         ];
-        
+
 
         $.show_key_value_table("申请推荐老师", arr, {
             label    : '提交',

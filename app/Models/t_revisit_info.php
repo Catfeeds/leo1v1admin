@@ -613,5 +613,32 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
         return $this->main_get_list($sql);
     }
 
+    public function get_revisit_type6($start_time, $revisit_time1,$uid,$userid,$id_str){
+        $where_arr = [
+            "r.revisit_time>=$start_time",
+            "r.revisit_time<$revisit_time1",
+            "r.revisit_type=6",
+            "r.userid=$userid",
+            "r.call_phone_id>0",
+            "m.uid=$uid",
+        ];
+        if($id_str) {
+            $where_arr[] = ['r.call_phone_id not in (%s)', $id_str, ''];
+        }
+
+        $sql = $this->gen_sql_new(
+            "select r.revisit_time as revisit_time2,r.call_phone_id"
+            ." from %s r"
+            ." left join %s m on r.sys_operator=m.account"
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
 
 }
