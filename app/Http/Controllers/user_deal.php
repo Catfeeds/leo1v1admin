@@ -136,6 +136,16 @@ class user_deal extends Controller
 
     public function lesson_add_lesson() {
         $courseid = $this->get_in_courseid();
+        $acc = $this->get_account();
+        if(in_array($acc,["jim","jack"])){
+            $ret = $this->add_regular_lesson($courseid,0,0);
+            if(is_numeric($ret) ){
+                return $this->output_succ(["lessonid" => $ret ]);
+            }else{
+                return $ret;
+            }
+        }
+        
 
         $item = $this->t_course_order->field_get_list($courseid,"*");
         if (!$item["teacherid"]) {

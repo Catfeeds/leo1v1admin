@@ -19,6 +19,7 @@ class check_modify_lesson_time extends Command
      * @var string
      */
     protected $description = 'Command description';
+    public $task;
 
     /**
      * Create a new command instance.
@@ -31,6 +32,7 @@ class check_modify_lesson_time extends Command
         $this->task= new \App\Console\Tasks\TaskController();
     }
 
+
     /**
      * Execute the console command.
      *
@@ -42,6 +44,8 @@ class check_modify_lesson_time extends Command
         $now = time(NULL);
         $lesson_list = $this->task->t_lesson_time_modify->get_need_notice_lessonid($now);
 
+        // dd(json_encode($lesson_list));
+        
         foreach($lesson_list as $item){
             // 向助教发微信推送
             $ass_wx_openid     = $this->task->t_lesson_info_b2->get_ass_wx_openid($item['lessonid']);

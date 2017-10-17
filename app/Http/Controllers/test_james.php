@@ -282,6 +282,11 @@ class test_james extends Controller
 
     public function ss(){
 
+        $now = time(NULL);
+        $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
+
+        dd($lesson_list);
+
         $wx = new \App\Helper\Wx();
         // 向家长发送推送
         $lesson_start_date = date('H:i:s');

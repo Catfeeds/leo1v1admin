@@ -249,8 +249,8 @@ class revisit extends Controller
             }
         }
 
-        //如果是学情回访，查询本次回访前的　其他回访　的通话记录,同步添加到记录
-        if ( $revisit_type==0 ) {
+        //如果是学情回访/或者组长回访，查询本次回访前的　其他回访　的通话记录,同步添加到记录
+        if ( $revisit_type==0 || $revisit_type==7 ) {
             $uid = $this->get_account_id();
             $start_time = strtotime('today');
             $end_time = $revisit_time;
