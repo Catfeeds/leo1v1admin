@@ -462,9 +462,10 @@ class agent extends Controller
 
     public function test_new(){
         $adminid = 756;
+        $next_level = E\Eseller_level::V_200;
         $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
         $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/480ae071a98103981b6dcd27c7816ab81507626535482.png';
-        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face);
+        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$next_level);
         $ret = $this->t_manager_info->field_update_list($adminid,[
             'level_face_pic'=>$level_face_pic,
         ]);
@@ -472,7 +473,7 @@ class agent extends Controller
     }
 
     //处理等级头像
-    public function get_top_img($adminid,$face_pic,$level_face){
+    public function get_top_img($adminid,$face_pic,$level_face,$next_level){
         $datapath = $face_pic;
         $datapath_new = $level_face;
         $datapath_type = @end(explode(".",$datapath));
@@ -507,7 +508,7 @@ class agent extends Controller
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gkk.png";
+        $tmp_url = "/tmp/".$adminid."_".$next_level."_gk.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';
@@ -516,9 +517,7 @@ class agent extends Controller
             \App\Helper\Utils::exec_cmd($cmd_rm);
             $domain = config('admin')['qiniu']['public']['url'];
             $level_face_url = $domain.'/'.$file_name;
-            dd($level_face_url);
         }
-        dd($level_face_url);
         return $level_face_url;
     }
 
