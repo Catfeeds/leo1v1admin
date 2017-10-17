@@ -138,7 +138,7 @@ trait TeaPower {
 
             $list=[];
             foreach($arr as $v){
-                $s =  E\Etea_label_type::get_desc($v); 
+                $s =  E\Etea_label_type::get_desc($v);
                 $list[$s] = $s;
             }
             //dd($list);
@@ -1251,7 +1251,7 @@ trait TeaPower {
      * @param int is_test_user 是否是测试账号 0 不是 1 是
      * @param int use_easy_pass 是否用123456作为老师账号密码 0 不是 1 是
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
-     * @param string base_intro 老师简介 
+     * @param string base_intro 老师简介
      * @param int grade_start 老师年级开始范围
      * @param int grade_end 老师年级结束范围
      * @param string email 邮箱
@@ -1377,21 +1377,21 @@ trait TeaPower {
             "grade_end"              => $grade_range['grade_end'],
             "not_grade"              => $not_grade,
             "create_time"            => time(),
-            "trial_lecture_is_pass"  => $trial_lecture_is_pass, 
-            "train_through_new"      => $train_through_new, 
-            "train_through_new_time" => $train_through_new_time, 
-            "wx_use_flag"            => $wx_use_flag, 
-            "identity"               => $identity, 
-            "teacher_type"           => $teacher_type, 
-            "teacher_ref_type"       => $teacher_ref_type, 
-            "add_acc"                => $acc, 
-            "is_test_user"           => $is_test_user, 
-            "base_intro"             => $base_intro, 
-            "email"                  => $email, 
-            "school"                 => $school, 
-            "transfer_teacherid"     => $transfer_teacherid, 
-            "transfer_time"          => $transfer_time, 
-            "interview_access"       => $interview_access, 
+            "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+            "train_through_new"      => $train_through_new,
+            "train_through_new_time" => $train_through_new_time,
+            "wx_use_flag"            => $wx_use_flag,
+            "identity"               => $identity,
+            "teacher_type"           => $teacher_type,
+            "teacher_ref_type"       => $teacher_ref_type,
+            "add_acc"                => $acc,
+            "is_test_user"           => $is_test_user,
+            "base_intro"             => $base_intro,
+            "email"                  => $email,
+            "school"                 => $school,
+            "transfer_teacherid"     => $transfer_teacherid,
+            "transfer_time"          => $transfer_time,
+            "interview_access"       => $interview_access,
         ]);
 
         if(!$ret){
@@ -1681,7 +1681,7 @@ trait TeaPower {
     }
 
     public function set_teacher_lecture_is_pass($teacher_info){
-        
+
     }
 
     public function get_ass_refund_score($start_time,$end_time){
@@ -1689,7 +1689,7 @@ trait TeaPower {
         $arr=[];
         foreach($list as $val){
             $ss = $val["orderid"]."-".$val["apply_time"];
-            @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"]; 
+            @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"];
         }
 
         $refund_score = [];
@@ -1702,7 +1702,7 @@ trait TeaPower {
                     }
                     $all +=$s;
                 }
-                
+
                 @$refund_score[$uu] +=10*$ass/$all;
             }
         }
@@ -1755,7 +1755,7 @@ trait TeaPower {
                 $star_num = $info["level"]+1;
             }
             if($star_num<1){
-                $star_num=1;  
+                $star_num=1;
             }
         }
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
@@ -1911,7 +1911,7 @@ trait TeaPower {
             }
             $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
-        
+
         if(!empty($list)){
             foreach($list as $k=>$item){
                 \App\Helper\Utils::order_list( $item,"start_time", 1);
@@ -2274,7 +2274,9 @@ trait TeaPower {
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
         // $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        $group_html = $this->get_qq_group_html($teacher_info['subject']);
+        // dd($teacher_info);
+        // $group_html = $this->get_qq_group_html($teacher_info['subject']);
+        $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
         $html       = "
 <!DOCTYPE html>
 <html>
@@ -2431,6 +2433,108 @@ trait TeaPower {
         return $html;
     }
 
+    public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
+        // 528851744 原答疑1群，人数已满
+
+        if ( $grade_start >= 5 ) {
+            $grade = 300;
+        } else if ($grade_start >= 3) {
+            $grade = 200;
+        } else if($grade_start >= 0 ) {
+            $grade = 100;
+        }else if ($grade_part_ex == 1) {
+            $grade = 100;
+        }else if ($grade_part_ex == 2) {
+            $grade = 200;
+        }else if ($grade_part_ex == 3) {
+            $grade = 300;
+        }else{
+            $grade = 100;
+        }
+
+        $qq_answer = [
+            1  => ["答疑语文","126321887","用于薪资，软件等综合问题"],
+            2  => ["答疑数学","29759286","用于薪资，软件等综合问题"],
+            3  => ["答疑英语","451786901","用于薪资，软件等综合问题"],
+            99 => ["答疑综合学科","513683916","用于薪资，软件等综合问题"],
+        ];
+        $qq_group  = [
+            '100' => [
+                1=>[
+                    ["教研-小学语文","653665526","处理教学相关事务"],
+                    ["排课-小学语文","387090573","用于抢课"]
+                ],2=>[
+                    ["教研-小学数学","644249518","处理教学相关事务"],
+                    ["排课-小学数学","527321518","用于排课"],
+                ],3=>[
+                    ["教研-小学英语","653621142","处理教学相关事务"],
+                    ["排课-小学英语","456074027","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ],
+            ],
+            '200' => [
+                1=>[
+                    ["教研-初中语文","623708298","处理教学相关事务"],
+                    ["排课-初中语文","465023367","用于抢课"]
+                ],2=>[
+                    ["教研-初中数学","373652928","处理教学相关事务"],
+                    ["排课-初中数学","665840444","用于排课"],
+                ],3=>[
+                    ["教研-初中英语","161287264","处理教学相关事务"],
+                    ["排课-初中英语","463756557","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+            '300' => [
+                1=>[
+                    ["教研-高中语文","653689781","处理教学相关事务"],
+                    ["排课-高中语文","573564364","用于抢课"]
+                ],2=>[
+                    ["教研-高中数学","644724773","处理教学相关事务"],
+                    ["排课-高中数学","659192934","用于排课"],
+                ],3=>[
+                    ["教研-高中英语","456994484","处理教学相关事务"],
+                    ["排课-高中英语","280781299","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+        ];
+
+        $html="";
+        $list = @$qq_group[ $grade ][ $subject ]?$qq_group[ $grade ][ $subject ]:$qq_group[ $grade ][99];
+        $list[] = @$qq_answer[ $subject ]?$qq_answer[ $subject ]:$qq_answer[99];
+        // dd($list);
+        foreach($list as $val){
+            $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
+        }
+        return $html;
+    }
+
+
     public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2,$region_version,$notes){
 
         $origin="转介绍";
@@ -2449,7 +2553,7 @@ trait TeaPower {
             "user_desc"           => $notes,
         ]);
 
-        
+
         $account= $this->get_account();
 
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
@@ -2998,50 +3102,50 @@ trait TeaPower {
             $grade_new=0;
         }
         return $grade_new;
- 
+
     }
 
     public function  get_textbook_str($subject,$grade){
         $str="other";
         if($subject==1){
             if($grade==100){
-                $str ="yw_primary"; 
+                $str ="yw_primary";
             }elseif($grade==200){
-                $str ="yw_middle"; 
+                $str ="yw_middle";
             }elseif($grade==300){
-                $str ="yw_senior"; 
+                $str ="yw_senior";
             }
 
         }elseif($subject==2){
             if($grade==100){
-                $str ="sx_primary"; 
+                $str ="sx_primary";
             }elseif($grade==200){
-                $str ="sx_middle"; 
+                $str ="sx_middle";
             }elseif($grade==300){
-                $str ="sx_senior"; 
+                $str ="sx_senior";
             }
 
         }elseif($subject==3){
             if($grade==100){
-                $str ="yy_primary"; 
+                $str ="yy_primary";
             }elseif($grade==200){
-                $str ="yy_middle"; 
+                $str ="yy_middle";
             }elseif($grade==300){
-                $str ="yy_senior"; 
+                $str ="yy_senior";
             }
 
         }elseif($subject==4){
             if($grade==200){
-                $str ="hx_middle"; 
+                $str ="hx_middle";
             }elseif($grade==300){
-                $str ="hx_senior"; 
+                $str ="hx_senior";
             }
 
         }elseif($subject==5){
             if($grade==200){
-                $str ="wl_middle"; 
+                $str ="wl_middle";
             }elseif($grade==300){
-                $str ="wl_senior"; 
+                $str ="wl_senior";
             }
         }
 
@@ -3089,7 +3193,7 @@ trait TeaPower {
     public function get_baidu_money_charge($orderid){
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         //  $orderid = $this->get_in_int_val("orderid",516);
-       
+
         $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
             $orderNo=123456789;
@@ -3125,7 +3229,7 @@ trait TeaPower {
     public function get_baidu_money_charge_pay_info($orderid){
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         //  $orderid = $this->get_in_int_val("orderid",516);
-       
+
         $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
             $orderNo=726749100101;
@@ -3257,7 +3361,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return true;
     }
 
-    
+
     /**
      * 常规课排课接口
      */
@@ -3381,7 +3485,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 return $this->output_err("生成课程id失败,请重新再试！");
             }
 
- 
         }
 
         $this->t_lesson_info->reset_lesson_list($courseid);
