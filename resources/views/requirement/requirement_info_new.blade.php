@@ -102,8 +102,8 @@
                             @else
                             @endif
                         </td>
-                        <td>{{@$var["expect_time"]}} </td>
-                        <td>{{@$var["forecast_time"]}}</td>
+                        <td>{{@$var["expect_time_a"]}} </td>
+                        <td>{{@$var["forecast_time_a"]}}</td>
                         <td>{{@$var['operator_nick']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
                             <td >{{@$var["operator_status"]}}</td>
