@@ -48,7 +48,6 @@ class teacher_level extends Controller
         $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
         $tea_refund_info      = $this->get_tea_refund_info($start_time,$end_time,$tea_arr);
         foreach($ret_info["list"] as &$item){
-            E\Elevel::set_item_value_str($item,"level");            
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
             E\Eaccept_flag::set_item_value_str($item);
@@ -72,19 +71,33 @@ class teacher_level extends Controller
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
             $item["hand_flag"]=0;
+            if($item["teacher_money_type"]==6){
+                E\Enew_level::set_item_value_str($item,"level");             
+                E\Enew_level::set_item_value_str($item,"level_after");             
+            }else{
+                E\Elevel::set_item_value_str($item,"level");             
+                E\Elevel::set_item_value_str($item,"level_after");              
+            }
         }
         $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1,0);
         foreach($hand_info as &$h){
             $h["realname"] = $this->t_teacher_info->get_realname($h["teacherid"]);
-            $h["level"]  = $this->t_teacher_info->get_level($h["teacherid"]);
-            $h["level_str"] =E\Elevel::get_desc($h["level"]);
+            $h["level"]  = $h["level_before"];
             $h["lesson_count"] =  $h["lesson_count"]/100;
-            $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
             $h["is_refund_str"] = $h["is_refund"]==1?"<font color='red'>有</font>":"无";
             \App\Helper\Utils::unixtime2date_for_item($h,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($h,"require_time","_str");
             E\Eaccept_flag::set_item_value_str($h);
             array_unshift($ret_info["list"],$h);
+            if($h["teacher_money_type"]==6){             
+                $h["level_str"] =E\Enew_level::get_desc($h["level"]);
+                $h["level_after_str"] =E\Enew_level::get_desc($h["level_after"]);
+            }else{
+                $h["level_str"] =E\Elevel::get_desc($h["level"]);
+                $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
+                             
+            }
+
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
