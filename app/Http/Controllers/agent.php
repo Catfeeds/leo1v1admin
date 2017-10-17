@@ -461,6 +461,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+        
         $c = '';
         if($c){
             dd('a');
