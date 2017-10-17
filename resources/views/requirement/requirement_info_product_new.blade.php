@@ -7,6 +7,9 @@
      .panel-red {
         background-color: #d9534f;
      }
+     .panel-grey {
+        background-color: #666666;
+     }
     </style>
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -90,7 +93,7 @@
                         <td>{{@$var["notes"]}} </td>
                         <td>
                             @if($var['content_pic'])
-                                <a href='{{@$var["content_pic"]}}'>下载</a>
+                                <a href='{{@$var["content_pic"]}}' target="_blank">下载</a>
                             @else
                             @endif
                         </td>
@@ -99,28 +102,27 @@
                         <td>{{@$var['operator_nick']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
                             <td class="panel-red">{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
-                        @elseif($var['status'] == 5 && $var['test_status'] == 4)
+                        @elseif($var['product_status'] == 4)
                             <td class="panel-green">{{@$var["operator_status"]}}</td>
+                        @elseif($var['product_status'] == 3)
+                            <td class="panel-grey">{{@$var["operator_status"]}}</td>
                         @else
                             <td>{{@$var['operator_status']}}</td>
                         @endif
                         <td>{{@$var['product_comment']}}</td>
                         <td>{{@$var["create_time"]}} </td>
-                        <td>{{@$var['create_adminid_nick']}}</td>
+                        <td>{{@$var['create_admin_nick']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                            @if ($var['product_status'] == 2)
+                            @if ($var['product_status'] == 2 ||$var['product_status'] == 3||$var['product_status'] == 1)
                                  <a class="fa  opt-re-edit"  title="编辑">编辑</a>
                                  <a class="fa  opt-reject"  title="驳回">驳回</a>
                                  <a class="fa  opt-deal"  title="完成">完成</a>
                             @endif
 
                             @if ($var['product_status'] == 4)
-                                 <a class="fa  opt-re-edit"  title="编辑">编辑</a>
-                            @endif
-                            @if ($var['product_status'] == 3)
                                  <a class="fa  opt-re-edit"  title="编辑">编辑</a>
                             @endif
                             </div>
