@@ -461,11 +461,10 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 756;
+        $adminid = 902;
         $next_level = E\Eseller_level::V_200;
-        $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
+        $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/9629507e94bb3d70b938749f3fb01a0d1507359046231test.jpg';
         $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/480ae071a98103981b6dcd27c7816ab81507626535482.png';
-
         $face_pic_str = substr($face_pic,-12,5);
         $ex_str = $next_level.$face_pic_str;
         $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
