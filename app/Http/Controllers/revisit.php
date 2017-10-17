@@ -394,6 +394,32 @@ class revisit extends Controller
             }
         }
 
+        //如果是学情回访/或者组长回访，查询本次回访前的　其他回访　的通话记录,同步添加到记录
+        if ( $revisit_type==0 || $revisit_type==7 ) {
+            $uid = $this->get_account_id();
+            $start_time = strtotime( date('Y-m-d', $revisit_time) );
+            $end_time = $revisit_time;
+            $id_str = $this->t_revisit_call_count->get_call_phone_id_str_by_uid($start_time,$end_time,$uid);
+            $ret_list = $this->t_revisit_info->get_revisit_type6($start_time, $end_time, $uid, $userid, $id_str);
+
+            foreach($ret_list as $val) {
+                if (is_array($val)){
+                    $this->t_revisit_call_count->row_insert([
+                        'uid'           => $uid,
+                        'userid'        => $userid,
+                        'revisit_time1' => $revisit_time,
+                        'revisit_time2' => $val['revisit_time2'],
+                        'call_phone_id' => $val['call_phone_id'],
+                        'create_time'   => time(),
+                    ]);
+
+                }
+            }
+
+        }
+
+
+
         return  $this->output_succ();
 
     }

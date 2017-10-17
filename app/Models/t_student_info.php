@@ -780,7 +780,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //array( "seller_adminid=%d", $adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
+            $where_arr[]=sprintf( "(nick like '%%%s%%' or realname like '%%%s%%' or  phone like '%%%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));

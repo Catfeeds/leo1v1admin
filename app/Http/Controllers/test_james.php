@@ -282,10 +282,20 @@ class test_james extends Controller
 
     public function ss(){
 
-        $now = time(NULL);
-        $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
 
-        dd($lesson_list);
+        $new_order_info = $this->t_order_info->get_new_order_money($start_time, $end_time);// 新签合同
+
+        $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+
+        // $a = $new_order_info['order_num_new'] + $referral_order['total_num'];
+        // dd($a);
+
+        // $now = time(NULL);
+        // $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
+
+        dd($new_order_info['order_num_new']." ~ ".$new_order_info['total_price']);
 
         $wx = new \App\Helper\Wx();
         // 向家长发送推送

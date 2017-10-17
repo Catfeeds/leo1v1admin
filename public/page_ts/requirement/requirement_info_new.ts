@@ -61,7 +61,7 @@ $(function(){
     $("#id_add_requirement_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var name              = $("<input />");  //需求名称
-        var priority          = $("<select />");  //优先级
+        var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
@@ -80,16 +80,16 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_priority", priority, true);
+
 
         var arr = [
-            ["需求名称", name],
-            ["优先级", priority],
-            ["期望时间", expect_time],
-            ["需求描述", statement],
+            ["<font color='red'>*</font>需求名称", name],
+            ["<font color='red'>*</font>优先级", priority],
+            ["<font color='red'>*</font>期望完成时间", expect_time],
+            ["<font color='red'>*</font>需求描述", statement],
             ["需求来源",    notes],
             ["附件", $upload_div],
-            ["产品经理",product_operator]
+            ["<font color='red'>*</font>产品经理",product_operator]
         ];
         $.show_key_value_table("添加需求信息", arr, {
             label    :  "确认",
@@ -105,7 +105,11 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;
@@ -168,7 +172,7 @@ $(function(){
             }
         });
 
-        Enum_map.append_option_list("require_priority", priority, true);
+        Enum_map.append_option_list("require_priority", priority, true,[3,2,1]);
         name.val(opt_data.name);
         priority.val(opt_data.priority);
         expect_time.val(opt_data.expect_time);
@@ -201,7 +205,11 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;
@@ -292,7 +300,11 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;

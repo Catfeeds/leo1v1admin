@@ -20,7 +20,9 @@ $(function(){
             }
         });
     });
-	$('#id_subject').val(g_args.subject);
+	  $('#id_subject').val(g_args.subject);
+    $.enum_multi_select($("#id_subject"),"subject",function(){load_data();});
+	  $('#id_subject').val(g_args.subject);
     $.enum_multi_select($("#id_subject"),"subject",function(){load_data();});
 
     $("#id_opt_grab_trial_user_info").on("click",function(){

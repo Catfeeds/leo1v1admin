@@ -2606,7 +2606,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_update($sql);
     }
 
-    public function get_grab_test_lesson_list($subject,$grab_status){
+    public function get_grab_test_lesson_list($subject,$grab_status,$grade=-1){
         $where_arr = [
             ["grab_status=%u",$grab_status,-1],
             "(current_lessonid='' or current_lessonid is null)",

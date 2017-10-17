@@ -113,10 +113,21 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;
+                }
+                if(forecast_time.val() != ''){
+                    var forecast_date = new Date(forecast_time.val());
+                    if(expect_date < today){
+                        alert("预估时间不能在当前时间范围之前");
+                        return;
+                    }
                 }
 
                 if(statement.val() == ''){
@@ -167,10 +178,6 @@ $(function(){
     });
     $(".opt-reject").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        var product_reject         = $("<textarea />"); //驳回原因
-        var arr = [
-            ["驳回原因",    product_reject],
-        ];
         $.show_key_value_table("驳回需求请求", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',

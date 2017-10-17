@@ -223,7 +223,6 @@
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=9&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tq_call_succ_invalid_count"]}}</a></td>
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=10&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tq_call_fail_invalid_count"]}}</a></td>
 
-
                                     <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=11&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["have_intention_a_count"]}}</a></td>
                                     <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=12&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["have_intention_b_count"]}}</a></td>
                                     <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=13&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["have_intention_c_count"]}}</a></td>

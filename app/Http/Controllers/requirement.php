@@ -33,7 +33,7 @@ class requirement extends Controller
         foreach( $ret_info["list"] as $key => &$item ) {
             $item['expect_time']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
             $item['forecast_time'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['create_time'] = $item['create_time'] > 0?date('Y/m/d H:i:s',$item['create_time']):"";
             $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
             $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
             $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);
@@ -79,7 +79,7 @@ class requirement extends Controller
         foreach( $ret_info["list"] as $key => &$item ) {
             $item['expect_time']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
             $item['forecast_time'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            $item['create_time'] = $item['create_time'] > 0?date('Y/m/d H:i:s',$item['create_time']):"";
             $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
             $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
             $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);
