@@ -69,4 +69,16 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
     }
 
 
+    public function get_parent_modify_remark($lessonid){
+        $sql = $this->gen_sql_new("  select parent_modify_remark from %s "
+                                  ." where lessonid = %d"
+                                  ,self::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
 }

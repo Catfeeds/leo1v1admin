@@ -84,9 +84,9 @@ class save_seller_info extends Command
 
         // dd(2);
 
-        $month_finish_define_money_2=$ret_info['seller_target_income']/100;
-        $month_start_time = strtotime( date("Y-m-01",  $start_time));
-        $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
+        $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
+        $month_end_time   = strtotime(date("Y-m-01",  $end_time));
+        $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
         $ret_info['formal_info']=0; //入职完整月人员签单额
         $today=time(NULL);

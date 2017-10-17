@@ -82,7 +82,7 @@ class teacher_advance_send_wx extends Command
                 $data['first']    = "恭喜".$info["realname"]."老师,您已经成功晋级到了".$level_degree;
                 $data['keyword1'] = $info["realname"];
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = "十月一日";
+                $data['keyword3'] = date("Y-m-01 00:00",time());
                 /* $data['remark']   = "晋升分数:".$score
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
@@ -118,7 +118,7 @@ class teacher_advance_send_wx extends Command
                 $data['first']    = "恭喜".$info["realname"]."获得了晋升";
                 $data['keyword1'] = $info["realname"];
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['keyword3'] = date("Y-m-01 00:00",time());
                 $data['remark']   = "";
                 $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

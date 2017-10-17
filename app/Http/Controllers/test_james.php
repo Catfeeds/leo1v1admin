@@ -282,18 +282,20 @@ class test_james extends Controller
 
     public function ss(){
 
-        $end_time   = date('Y-m-d H:i:s',strtotime(date('Y-m-01')));
-        $end_time_str   = strtotime(date('Y-m-01'));
-        $start_time = date('Y-m-d H:i:s',strtotime(date("Y-m-01",  ($end_time_str-86400*20))));
-
-        dd($end_time."~".$start_time);
-
-        dd(date('t'));
-        echo date('Y-m-t', strtotime('-1 month'));
-        // $a = time();
-        
-        // strtotime('');
-
+        $wx = new \App\Helper\Wx();
+        // 向家长发送推送
+        $lesson_start_date = date('H:i:s');
+        $parent_wx_openid    = "orwGAs_IqKFcTuZcU1xwuEtV3Kek";
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+        $data_parent = [
+            'first' => "调课申请被拒绝",
+            'keyword1' =>"调换".$lesson_start_date."上课时间被拒绝",
+            'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
+            'keyword3' => date('Y-m-d H:i:s'),
+            'remark'   => "请耐心等待助教老师进行沟通!"
+        ];
+        $url_parent = '';
+        $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
     }
 
     public function has_called(){

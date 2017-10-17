@@ -19,6 +19,7 @@ class check_modify_lesson_time extends Command
      * @var string
      */
     protected $description = 'Command description';
+    public $task;
 
     /**
      * Create a new command instance.
@@ -30,6 +31,7 @@ class check_modify_lesson_time extends Command
         parent::__construct();
         $this->task= new \App\Console\Tasks\TaskController();
     }
+
 
     /**
      * Execute the console command.

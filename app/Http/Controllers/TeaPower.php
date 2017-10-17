@@ -2272,6 +2272,7 @@ trait TeaPower {
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
+        // $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         // dd($teacher_info);
         // $group_html = $this->get_qq_group_html($teacher_info['subject']);
@@ -3475,111 +3476,49 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $this->t_lesson_info->reset_lesson_list($courseid);
 
-        if ($lesson_start >= $lesson_end) {
-            return $this->output_err( "时间不对: $lesson_start>$lesson_end");
+        if ($lesson_start >= $lesson_end && $lesson_end >0) {
+            return $this->output_err( "时间不对: $lesson_start>=$lesson_end");
         }
 
-        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
-        $userid    = $this->t_lesson_info->get_userid($lessonid);
+        $teacherid = $item["teacherid"];
+        $userid    = $item["userid"];
+        
         /* 设置lesson_count */
-        $diff=($lesson_end-$lesson_start)/60;
-        if ($diff<=20) {
-            $lesson_count=50;
-        } else if ($diff<=40) {
-            $lesson_count=100;
-        } else if ( $diff <= 60) {
-            $lesson_count=150;
-        } else if ( $diff <=90 ) {
-            $lesson_count=200;
-        } else if ( $diff <=100 ) {
-            $lesson_count=250;
-        }else{
-            $lesson_count= ceil($diff/40)*100 ;
-        }
-
-
-        $userid = $this->t_lesson_info->get_userid($lessonid);
-        if ($userid) {
-            $ret_row = $this->t_lesson_info->check_student_time_free(
-                $userid,$lessonid,$lesson_start,$lesson_end
-            );
-
-            if($ret_row) {
-                $error_lessonid=$ret_row["lessonid"];
-                return $this->output_err(
-                    "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
-                    ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
-                    ."查看[lessonid=$error_lessonid]<a/><div> "
-                );
-            }
-        }
-
-        $ret_row=$this->t_lesson_info->check_teacher_time_free(
-            $teacherid,$lessonid,$lesson_start,$lesson_end);
-
-        if($ret_row) {
-            $error_lessonid=$ret_row["lessonid"];
-            return $this->output_err(
-                "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
-                ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
-                ."查看[lessonid=$error_lessonid]<a/><div> "
-            );
-        }
-
-        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
-        $ret=true;
-        if($lesson_type<1000 && $reset_lesson_count){
-            $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
-        }
-
-        if(!$ret){
-            $str= $lesson_count/100;
-            return $this->output_err("课时不足,需要课时数:$str");
-        }
-        if($reset_lesson_count){
-            $this->t_lesson_info->field_update_list($lessonid,[
-                "lesson_count" => $lesson_count
-            ]);
-        }
-        $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
-
-
-
-        $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($lessonid);
-        $courseid     = $this->get_in_courseid();
-        $lesson_type  = $this->get_in_int_val("lesson_type");
-        $lesson_count = $this->get_in_str_val("lesson_count")*100;
-        $lesson_start = $lesson_cancel_reason_next_lesson_time;
-        $lesson_end = $this->get_in_str_val("lesson_cancel_reason_next_lesson_end_time");
-        $day = date('Y-m-d',$lesson_cancel_reason_next_lesson_time);
-        $lesson_end = strtotime($day." ".$lesson_end);
-
-        if($lesson_type!=2){
-            $item = $this->t_course_order->field_get_list($courseid,"*");
-            if($item['lesson_grade_type']==1){
-                $grade = $item['grade'];
+        if($lesson_count==0){
+            $diff=($lesson_end-$lesson_start)/60;
+            if ($diff<=20) {
+                $lesson_count=50;
+            } else if ($diff<=40) {
+                $lesson_count=100;
+            } else if ( $diff <= 60) {
+                $lesson_count=150;
+            } else if ( $diff <=90 ) {
+                $lesson_count=200;
+            } else if ( $diff <=100 ) {
+                $lesson_count=250;
             }else{
-                $grade = $this->t_student_info->get_grade($item["userid"]);
+                $lesson_count= ceil($diff/40)*100 ;
             }
-            $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
-            $this->t_lesson_info->reset_lesson_list($courseid);
-
-            if ($lesson_start >= $lesson_end) {
-                return $this->output_err( "时间不对: 时间不对: 下课时间早于上课时间");
-            }
+ 
+        }
+       
+        if($lesson_start>0){
             if ($lesson_start <= time()) {
                 return $this->output_err( "时间不对,不能比当前时间晚");
             }
 
-            $teacherid   = $this->t_lesson_info->get_teacherid($lessonid);
-            $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
-            $userid      = $this->t_lesson_info->get_userid($lessonid);
+
             if ($userid) {
-                $ret_row = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+                $ret_row = $this->t_lesson_info->check_student_time_free(
+                    $userid,$lessonid,$lesson_start,$lesson_end
+                );
+
                 if($ret_row) {
                     $error_lessonid=$ret_row["lessonid"];
                     return $this->output_err(
-                        "<div>有现存的学生课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                        "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                        ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                        ."查看[lessonid=$error_lessonid]<a/><div> "
                     );
                 }
             }
@@ -3590,42 +3529,34 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             if($ret_row) {
                 $error_lessonid=$ret_row["lessonid"];
                 return $this->output_err(
-                    "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                    "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                    ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                    ."查看[lessonid=$error_lessonid]<a/><div> "
                 );
-            }
-
-            /* 设置lesson_count */
-            if(empty($lesson_count)){
-                $diff=($lesson_end-$lesson_start)/60;
-                if ($diff<=40) {
-                    $lesson_count=100;
-                } else if ( $diff <= 60) {
-                    $lesson_count=150;
-                } else if ( $diff <=90 ) {
-                    $lesson_count=200;
-                }else{
-                    $lesson_count= ceil($diff/40)*100 ;
-                }
             }
 
             $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
             $ret=true;
-            if($lesson_type<1000){
+            if($lesson_type<1000 && $reset_lesson_count){
                 $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
             }
 
-            if ($ret) {
-                \App\Helper\Utils::logger("set XXX ");
+            if(!$ret){
+                $str= $lesson_count/100;
+                return $this->output_err("课时不足,需要课时数:$str");
+            }
+            if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
                     "lesson_count" => $lesson_count
                 ]);
-                $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
-                return $this->output_succ();
-            }else{
-                $str = $lesson_count/100;
-                return $this->output_err("课时不足,需要课时数:$str");
             }
+            $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+            return true;
+        }else{
+            return $lessonid;
         }
+
+        
 
 
     }

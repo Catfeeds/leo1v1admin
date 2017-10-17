@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	week_flag:	number;//App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -19,10 +18,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../tongji; vi  ../tongji/online_user_count_list.ts
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_lesson_tea_stu_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji-online_user_count_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_lesson_tea_stu_info.d.ts" />
 
 $(function(){
     function load_data(){
@@ -31,12 +30,10 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			week_flag:	$('#id_week_flag').val()
+			end_time:	$('#id_end_time').val()
         });
     }
 
-	Enum_map.append_option_list("boolean",$("#id_week_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -48,7 +45,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_week_flag').val(g_args.week_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -58,12 +54,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">boolean</span>
-                <select class="opt-change form-control" id="id_week_flag" >
-                </select>
-            </div>
-        </div>
 */

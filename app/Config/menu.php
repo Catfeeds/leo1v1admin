@@ -417,6 +417,7 @@ class menu{
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
+                    ["power_id"=>42, "name"=>"例子分配统计",   "url"=>"/seller_student_new2/seller_student_new_distribution"],
                     ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
                     ["power_id"=>37, "name"=>"销售个人排行榜",   "url"=>"/tongji/seller_personal_rank"],
                     ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
@@ -765,6 +766,7 @@ class menu{
                 ["power_id"=>50, "name"=>"未审核统计",   "url"=>"/user_manage/tongji_check"],
                 ["power_id"=>51, "name"=>"质监数据统计",   "url"=>"/tongji_ss/tongji_lesson_record_info"],
                 ["power_id"=>52, "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
+                ["power_id"=>53, "name"=>"学生老师数量统计", "url"=>"/tongji_ss/get_lesson_tea_stu_info"],
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[

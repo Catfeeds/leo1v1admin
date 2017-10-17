@@ -469,6 +469,7 @@ class wx_parent_api extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -515,14 +516,7 @@ class wx_parent_api extends Controller
         }
     }
 
-
-
-
-
-
-
     //此处处理家长调整时间功能
-
 
     public function get_vaild_change_time(){ // 获取可调时间段
         $lessonid = $this->get_in_int_val('lessonid');
