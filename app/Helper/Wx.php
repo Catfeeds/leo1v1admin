@@ -113,14 +113,12 @@ class Wx{
                 $item = [
                     "value" => $item,
                     "color" => "#173177",
+                    // "color" => "#e22870", //test
                 ];
             }
         }
 
         $str = $this->gen_temp_data($openid,$template_id,$url,$data);
-        \App\Helper\Utils::logger("OPENID:$openid");
-        \App\Helper\Utils::logger("DATA:$str");
-        \App\Helper\Utils::logger("URL:$url");
         $token = $this->wx_get_token();
         \App\Helper\Utils::logger("token:$token");
         \App\Helper\Utils::logger('xjstr'.$str);
