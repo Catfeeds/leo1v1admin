@@ -16,16 +16,26 @@ $(function(){
     $(".opt-advance-require").on("click",function(){        
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
+        var teacher_money_type = opt_data.teacher_money_type;
             
-
-
-        BootstrapDialog.confirm("确定要申请晋升吗？", function(val){
-            if (val) {
+        var id_level_after = $("<select/>");
+        if(teacher_money_type==5){
+            Enum_map.append_option_list("level", id_level_after, true ); 
+        }else if(teacher_money_type==6){
+            Enum_map.append_option_list("level_new", id_level_after, true );  
+        }      
+        var arr=[
+            ["目标等级",id_level_after]
+        ];
+        $.show_key_value_table("晋升申请", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
                 $.do_ajax( '/teacher_level/set_teacher_advance_require', {
                     'teacherid' : teacherid,
                     'start_time' :g_args.quarter_start,
                     'level_before':opt_data.level,
-                    'level_after':opt_data.level_after,
+                    'level_after':id_level_after.val(),
                     'lesson_count':opt_data.lesson_count*100,
                     'lesson_count_score':opt_data.lesson_count_score,
                     'cc_test_num':opt_data.cc_test_num,
@@ -42,12 +52,13 @@ $(function(){
                     'is_refund'  :opt_data.is_refund ,
                     'total_score':opt_data.total_score,
                     'hand_flag':opt_data.hand_flag,
-                    "golden_flag":0
+                    "golden_flag":0,
+                    "teacher_money_type":teacher_money_type
                 });
-            } 
-        });
-
+            }
+        });        
     });
+
     $(".opt-advance-require-golden").on("click",function(){        
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;

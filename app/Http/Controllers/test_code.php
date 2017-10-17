@@ -51,7 +51,6 @@ class test_code extends Controller
 
 
 
-
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
@@ -1297,7 +1296,9 @@ class test_code extends Controller
         $start = strtotime(date("Y-m-01",time()));
         $end   = strtotime("+1 month",$start);
         $teacher_money_type = 7;
-        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type);
+        $teacherid = 388040;
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type,$teacherid);
+        dd($lesson_list);
         $already_lesson_count = [];
         foreach($lesson_list as $val){
             $teacherid    = $val['teacherid'];

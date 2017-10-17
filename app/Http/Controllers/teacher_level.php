@@ -106,6 +106,7 @@ class teacher_level extends Controller
         $erick["is_refund_str"]="无";
         $erick["is_refund"]=0;
         $erick["hand_flag"]=0;
+        $erick["teacher_money_type"]=5;
 
         array_unshift($ret_info["list"],$erick);
         return $this->pageView(__METHOD__,$ret_info);
@@ -184,15 +185,15 @@ class teacher_level extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
         $total_score = $this->get_in_int_val("total_score");
         $level = $this->t_teacher_info->get_level($teacherid);
-        $level_after = $level+1;
+        /*$level_after = $level+1;
         if($level==4){
             $level_after=4;
-        }
+            }*/
         $this->t_teacher_advance_list->row_insert([
             "start_time" =>$start_time,
             "teacherid"  =>$teacherid,
             "level_before" =>$level,
-            "level_after"  =>$level_after,
+            // "level_after"  =>$level_after,
             "total_score"  =>$total_score,
             "hand_flag"    =>1
         ]);
