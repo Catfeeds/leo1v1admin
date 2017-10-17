@@ -516,14 +516,7 @@ class wx_parent_api extends Controller
         }
     }
 
-
-
-
-
-
-
     //此处处理家长调整时间功能
-
 
     public function get_vaild_change_time(){ // 获取可调时间段
         $lessonid = $this->get_in_int_val('lessonid');

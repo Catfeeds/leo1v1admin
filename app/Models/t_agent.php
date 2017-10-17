@@ -1077,6 +1077,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
 
                 if(!$order_info_old && $p_wx_openid && $p_price){
+                    \App\Helper\Utils::logger("SEND $pid, $p_wx_openid,  $p_price  ");
+
                     $p_price_new = $p_price/100;
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [

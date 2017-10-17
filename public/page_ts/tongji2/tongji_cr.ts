@@ -40,11 +40,11 @@ $(function(){
             });
             list_data.push(row_data);
             });*/
-        var lesson_per = g_data.student_arrive_per+"("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
+        var lesson_per = g_data.student_arrive_per+"% ("+g_data.student_arrive+"/"+g_data.lesson_plan+")";
         var list_data=[
             ["月度目标收入",g_data.target],
             ["完成金额",g_data.total_price],
-            ["完成率",g_data.kpi_per],
+            ["完成率",g_data.kpi_per+"%"],
             ["缺口金额",g_data.gap_money],
             ["现金总收入",g_data.total_price],
             ["下单总人数",g_data.person_num],
@@ -52,7 +52,7 @@ $(function(){
             ["入职完整月人员人数",g_data.person_num_thirty],
             ["平均人效",g_data.person_num_thirty_per],
             ["平均单笔",g_data.contract_per],
-            ["月KPI完整率",g_data.month_kpi_per],
+            ["月KPI完整率",g_data.month_kpi_per+"%"],
             ["CR总人数",g_data.cr_num],
             ["结课学员数",g_data.finish_num],
             ["退费总人数",g_data.refund_num],
@@ -73,12 +73,12 @@ $(function(){
             ["实际续费学生数量",g_data.real_renew_num],
             ["续费金额",g_data.total_renew],
             ["平均单笔",g_data.renew_num_per],
-            ["月续费率",g_data.renew_per],
-            ["月预警续费率",g_data.finish_renew_per],
+            ["月续费率",g_data.renew_per+"%"],
+            ["月预警续费率",g_data.finish_renew_per+"%"],
             ["转介绍至CC例子量",g_data.tranfer_phone_num],
             ["转介绍至CC例子签单量",g_data.tranfer_total_num],
             ["转介绍至CC例子签单金额",g_data.tranfer_total_price],
-            ["月转介绍至CC签单率",g_data.tranfer_success_per],
+            ["月转介绍至CC签单率",g_data.tranfer_success_per+"%"],
             ["转介绍成单数量",g_data.tranfer_num],
             ["转介绍总金额",g_data.total_tranfer],
             ["平均单笔",g_data.tranfer_num_per],
@@ -86,7 +86,7 @@ $(function(){
             ["扩课成单数量",g_data.success_num],
             ["扩科待跟进数量",g_data.wait_num],
             ["扩科未成单数量",g_data.fail_num],
-            ["月扩课成功率",g_data.kk_success_per],
+            ["月扩课成功率",g_data.kk_success_per+"%"],
             ["家长投诉数量",""],
             ["非正常退费事件数量",""],
             ["非正常退费金额",""],
