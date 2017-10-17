@@ -461,17 +461,18 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 756;
-        $next_level = E\Eseller_level::V_200;
-        $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
-        $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/480ae071a98103981b6dcd27c7816ab81507626535482.png';
-
-        $face_pic_str = substr($face_pic,-12,5);
-        $ex_str = $next_level.$face_pic_str;
-        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-        $ret = $this->t_manager_info->field_update_list($adminid,[
-            'level_face_pic'=>$level_face_pic,
-        ]);
+        $adminid = 830;
+        $seller_level = E\Eseller_level::V_300;
+        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
+        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
+        if($face_pic && $seller_level>0){
+            $face_pic_str = substr($face_pic,-12,5);
+            $ex_str = $next_level.$face_pic_str;
+            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+            $ret = $this->t_manager_info->field_update_list($adminid,[
+                'level_face_pic'=>$level_face_pic,
+            ]);
+        }
         dd($level_face_pic,$ret);
     }
 

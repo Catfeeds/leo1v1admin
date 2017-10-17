@@ -52,9 +52,9 @@ class t_teacher_money_type extends \App\Models\Zgen\z_t_teacher_money_type
 
     public function check_is_exists($teacher_money_type,$level,$grade){
         $where_arr = [
-            ["teacher_money_type=%u",$teacher_money_type,0],
-            ["level=%u",$level,0],
-            ["grade=%u",$grade,0],
+            ["teacher_money_type=%u",$teacher_money_type,-1],
+            ["level=%u",$level,-1],
+            ["grade=%u",$grade,-1],
         ];
         $sql = $this->gen_sql_new("select 1 "
                                   ." from %s "
