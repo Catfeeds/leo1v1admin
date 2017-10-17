@@ -462,15 +462,17 @@ class agent extends Controller
 
     public function test_new(){
         $adminid = 830;
-        $next_level = E\Eseller_level::V_300;
-        $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/d375460951577d587a2d848b6e8624501507372371155test.jpg';
-        $level_face = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b272dc934646a5c0353fa746449645cd1507626425309.png';
-        $face_pic_str = substr($face_pic,-12,5);
-        $ex_str = $next_level.$face_pic_str;
-        $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-        $ret = $this->t_manager_info->field_update_list($adminid,[
-            'level_face_pic'=>$level_face_pic,
-        ]);
+        $seller_level = E\Eseller_level::V_300;
+        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
+        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
+        if($face_pic && $seller_level>0){
+            $face_pic_str = substr($face_pic,-12,5);
+            $ex_str = $next_level.$face_pic_str;
+            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+            $ret = $this->t_manager_info->field_update_list($adminid,[
+                'level_face_pic'=>$level_face_pic,
+            ]);
+        }
         dd($level_face_pic,$ret);
     }
 
