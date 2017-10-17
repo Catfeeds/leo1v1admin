@@ -3288,6 +3288,11 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
         $default_lesson_count = 0;
 
+        $this->t_lesson_info->start_transaction();
+       
+        $this->t_user_info->rollback();
+        $this->t_user_info->commit();
+
         //区分是否课时确认的调课
         if($old_lessonid){
             $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($old_lessonid);
@@ -3320,6 +3325,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $lesson_cw['tea_more_cw_url']
             );
             if ($lessonid) {
+                $this->t_homework_info->start_transaction();
                 $this->t_homework_info->add_new(
                     $item["courseid"],
                     0,
@@ -3341,6 +3347,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $lesson_cw['tea_research_time'],
                     $lesson_cw['ass_research_time']
                 );
+            }else{
+                $this->t_lesson_info->rollback();
+                return $this->output_err("生成课程id失败,请重新再试！");
             }
 
         }else{
@@ -3365,14 +3374,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             );
 
             if ($lessonid) {
+                $this->t_homework_info->start_transaction();
                 $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$grade,$item["subject"]);
+            }else{
+                $this->t_lesson_info->rollback();
+                return $this->output_err("生成课程id失败,请重新再试！");
             }
+
  
         }
 
         $this->t_lesson_info->reset_lesson_list($courseid);
 
         if ($lesson_start >= $lesson_end && $lesson_end >0) {
+            $this->t_lesson_info->rollback();
+            $this->t_homework_info->rollback();
             return $this->output_err( "时间不对: $lesson_start>=$lesson_end");
         }
 
@@ -3400,6 +3416,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
        
         if($lesson_start>0){
             if ($lesson_start <= time()) {
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
                 return $this->output_err( "时间不对,不能比当前时间晚");
             }
 
@@ -3411,6 +3429,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
                 if($ret_row) {
                     $error_lessonid=$ret_row["lessonid"];
+                    $this->t_lesson_info->rollback();
+                    $this->t_homework_info->rollback();
                     return $this->output_err(
                         "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
                         ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
@@ -3424,6 +3444,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
             if($ret_row) {
                 $error_lessonid=$ret_row["lessonid"];
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
                 return $this->output_err(
                     "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
                     ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
@@ -3439,6 +3461,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
             if(!$ret){
                 $str= $lesson_count/100;
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
+
                 return $this->output_err("课时不足,需要课时数:$str");
             }
             if($reset_lesson_count){
