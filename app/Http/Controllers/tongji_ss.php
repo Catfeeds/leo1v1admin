@@ -8189,19 +8189,24 @@ class tongji_ss extends Controller
        $list    = E\Esubject::$desc_map;
        unset($list[0]);
        unset($list[11]);
-       dd($list);
+       $arr=[];
+       foreach($list as $k=>$v){
+           $arr[$k]["subject"]=$v;
+       }
 
        $ret = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,1);
-       dd($ret);
        $data = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,2);
        $new_teacher = $this->t_teacher_info->get_through_num_month($start_time,$end_time);
-       foreach($list as $k=>&$val){
+       foreach($arr as $k=>&$val){
            $val["stu_num"] = @$ret[$k]["stu_num"];
            $val["tea_num"] = @$ret[$k]["tea_num"];
            $val["test_lesson_num"] = @$data[$k]["test_lesson_num"];
            $val["new_num"] = @$new_teacher[$k]["num"];
        }
-       dd($list);
+       return $this->pageView(__METHOD__,null,[
+           "list"     =>$arr,
+       ]);
+
        
     }
 
