@@ -3372,7 +3372,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $this->t_lesson_info->reset_lesson_list($courseid);
 
-        if ($lesson_start >= $lesson_end) {
+        if ($lesson_start >= $lesson_end && $lesson_end >0) {
             return $this->output_err( "时间不对: $lesson_start>$lesson_end");
         }
 
@@ -3398,6 +3398,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
  
         }
        
+        if($lesson_start>0){
+            
+        }
 
         if ($userid) {
             $ret_row = $this->t_lesson_info->check_student_time_free(
