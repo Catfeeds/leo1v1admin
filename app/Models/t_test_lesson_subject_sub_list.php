@@ -846,15 +846,22 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
 
 
-    public function get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type){
+    public function get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type,$account_id){
 
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_type=2",
             "m.account_role=1",
-            "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0))",
+            // "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0))",//原代码
             ["tr.change_teacher_reason_type = %d",$change_teacher_reason_type,-1]
         ];
+
+
+        if($account_id == 684){
+            $where_arr[] = "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0))";
+        }else{
+            $where_arr[] = "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0)) and tr.change_teacher_reason_type <> 0";
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 

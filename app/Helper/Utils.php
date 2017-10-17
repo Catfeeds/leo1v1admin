@@ -841,12 +841,23 @@ class Utils  {
     static public function get_teacher_lesson_money($type,$already_lesson_count){
         $rule_type = \App\Config\teacher_rule::$rule_type;
         $reward    = 0;
+
         if(isset($rule_type[$type])){
-            foreach($rule_type[$type] as $key=>$val){
-                if($already_lesson_count>=$key){
-                    $reward = $val;
-                }elseif($already_lesson_count<$key){
-                    break;
+            if($type == 7){ //武汉全职老师课时累计
+                foreach($rule_type[$type] as $key=>$val){
+                    if($already_lesson_count>$key){
+                        $reward = $val;
+                    }elseif($already_lesson_count<=$key){
+                        break;
+                    }
+                }
+            }else{
+                foreach($rule_type[$type] as $key=>$val){
+                    if($already_lesson_count>=$key){
+                        $reward = $val;
+                    }elseif($already_lesson_count<$key){
+                        break;
+                    }
                 }
             }
         }

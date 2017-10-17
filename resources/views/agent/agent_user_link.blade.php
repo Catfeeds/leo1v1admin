@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
+    
     <section class="content ">
         <div>
             <div class="row  row-query-list" >
@@ -65,6 +67,10 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
 
+                                
+                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                                
+                                <a class="fa fa-phone opt-telphone " title="电话列表"> </a>
                                 <a style="display:none;"  class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>

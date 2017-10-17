@@ -2574,7 +2574,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["l.lesson_start<%d",$lesson_start],
             ["l.subject=%d",$subject],
-            // ["l.lesson_type in",0],
             "l.lesson_type in (0,1,3)",
             ["l.userid=%d",$userid]
         ];

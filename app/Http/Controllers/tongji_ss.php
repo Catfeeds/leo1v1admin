@@ -2692,29 +2692,6 @@ class tongji_ss extends Controller
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
-            if(empty($item["teacher_dimension"])){
-                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
-                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
-                if($tea_in["test_transfor_per"]>=20){
-                    $teacher_dimension="维度A";
-                }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
-                    $teacher_dimension="维度B";
-                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
-                    $teacher_dimension="维度C";
-                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
-                    $teacher_dimension="维度C候选";
-                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
-                    $teacher_dimension="维度D";
-                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
-                    $teacher_dimension="维度D候选";
-                }else{
-                    $teacher_dimension="其他";
-                }
-                $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
-                    "teacher_dimension" =>$teacher_dimension 
-                ]);
-
-            }
         }
         return $this->output_succ(["data"=> $list]);
 
@@ -7125,7 +7102,7 @@ class tongji_ss extends Controller
         /* if($adminid==349){
             $adminid=297;
             }*/
-        $adminid = $this->get_ass_leader_account_id($adminid);
+        //  $adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("adminid",$adminid);
         return $this-> ass_weekly_info_master();
     }
@@ -7750,7 +7727,7 @@ class tongji_ss extends Controller
 
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type,$account_id);
 
         foreach($ret_info['list'] as &$item){
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");

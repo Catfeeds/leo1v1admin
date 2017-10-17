@@ -429,6 +429,7 @@ class ss_deal extends Controller
             "change_teacher_reason_type" => $change_teacher_reason_type,
             "test_stu_grade"   => $grade,
         ];
+
         $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
         return $this->output_succ();
