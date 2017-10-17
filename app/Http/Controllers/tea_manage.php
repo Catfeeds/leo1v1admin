@@ -405,7 +405,6 @@ class tea_manage extends Controller
         $ret_arr["webrtc"] = $server_info["ip"].":".  ($server_info["webrtc_port"] -(20061 -5061 ) )  ;
         $ret_arr["xmpp"]   = $server_info["ip"].":".  $server_info["xmpp_port"]  ;
 
-
         if($lesson_type<1000) {
             $ret_arr["type"]=1;
         }else if ($lesson_type<3000 ){
@@ -421,36 +420,29 @@ class tea_manage extends Controller
         }else{
             $ret_arr["audioService"]="agora";
         }
+        // dd($ret_arr);
         //图片信息
         $qr_info = "title=lessonid:{$lessonid}&beginTime={$ret_arr['lesson_start']}&endTime={$ret_arr['lesson_end']}&roomId={$ret_arr['roomid']}&xmpp={$ret_arr['xmpp']}&webrtc={$ret_arr['webrtc']}&ownerId={$ret_arr['teacherid']}&type={$ret_arr['type']}&audioService={$ret_arr['audioService']}";
 
-        // return $this->output_succ(["data"=>$test]);
-
-        // $phone = $ret_arr['phone'];
-        // if(!$phone){
-            // return $this->output_err('');
-            // return "";
-        // }
-
-        $lessonid_qr_name = $lessonid."_qr.png";
+        $lessonid_qr_name = $lessonid."_qr_new.png";
         $qiniu     = \App\Helper\Config::get_config("qiniu");
         $qiniu_url = $qiniu['public']['url'];
         $is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$lessonid_qr_name);
+
         if(!$is_exists ){
             //text待转化为二维码的内容
-            // $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $text           = "leoedu://meeting.leoedu.com/meeting=".$qr_info;
             $qr_url         = "/tmp/".$lessonid.".png";
             $teacher_qr_url = "/tmp/".$lessonid_qr_name;
 
-            //教师节背景图
-            // $bg_url = "http://leowww.oss-cn-shanghai.aliyuncs.com/guoqing_pic_invitation.png";
+            //背景图
             $bg_url = "http://7u2f5q.com2.z0.glb.qiniucdn.com/b20278468cb5d4bc2dd1eaff3d843edd1507975354381.png";
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             list($qr_width, $qr_height)=getimagesize($qr_url);
             //缩放比例
-            $per = round(157/$qr_width,3);
+            // $per = round(157/$qr_width,3);
+            $per = round(365/$qr_width,3);
             $n_w = $qr_width*$per;
             $n_h = $qr_height*$per;
             $new = imagecreatetruecolor($n_w, $n_h);
@@ -462,11 +454,64 @@ class tea_manage extends Controller
             imagedestroy($new);
             imagedestroy($img);
 
+
+            $tea_nick = $this->cache_get_teacher_nick($ret_arr['teacherid']);
+            $stu_nick = $this->cache_get_student_nick($ret_arr['userid']);
+            $grade_str = E\Egrade::get_desc($ret_arr['grade']);
+            $subject_str = E\Esubject::get_desc($ret_arr['subject']);
+            $lesson_time = \App\Helper\Utils::fmt_lesson_time($ret_arr['lesson_start'],$ret_arr['lesson_end']);
+            $image_title = $grade_str.$subject_str;
+            $image_tea = "老师：".$tea_nick;
+            $image_stu = "学生：".$stu_nick;
+            $image_time = "时间：".$lesson_time;
+            $image_lessonid = "课程：".$lessonid;
+            $font_file = "/home/boby/admin_yb1v1/public/fonts/song.ttf";
+            // $fontface = 'simhei.ttf';
+            // if (! is_file($fontface)) {
+            //     $fontface = dirname(__FILE__) . "/" . $fontface;
+            // }
+
+
+            //创建文字
+            $text_url1 = "/tmp/".$lessonid."-text1.png";
+            $im1 = imagecreatetruecolor(320, 60);
+            $bkcolor = imagecolorallocate($im1, 255, 255, 255);
+            imagefill($im1, 0, 0, $bkcolor);
+
+            // dd($font_file);
+            $fontcolor = imagecolorallocate($im1, 0,0,0);
+            imagefttext($im1, 40, 0, 55, 50, $fontcolor, $font_file, $image_title);
+            // imagefttext($im1, 13, 0, 150, 50, $fontcolor, $fontface, 'test');
+            imagepng($im1, $text_url1);
+            imagedestroy($im1);
+
+
+            $text_url2 = "/tmp/".$lessonid."-text2.png";
+            $im2 = imagecreatetruecolor(400, 180);
+            imagefill($im2, 0, 0, $bkcolor);
+            $fontcolor = imagecolorallocate($im2, 0,0,0);
+            // imagefttext($im2, 13, 0, 150, 50, $fontcolor, $fontface, 'test');
+            imagefttext($im2, 20, 0, 0, 40, $fontcolor, $font_file, $image_tea);
+            imagefttext($im2, 20, 0, 0, 80, $fontcolor, $font_file, $image_stu);
+            imagefttext($im2, 20, 0, 0, 120, $fontcolor, $font_file, $image_time);
+            imagefttext($im2, 20, 0, 0, 160, $fontcolor, $font_file, $image_lessonid);
+            imagepng($im2, $text_url2);
+            imagedestroy($im2);
+
             $image_bg  = imagecreatefrompng($bg_url);
             $image_qr  = imagecreatefrompng($qr_url);
-            $image_ret = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
+            $image_text1 = imagecreatefrompng($text_url1);
+            $image_text2 = imagecreatefrompng($text_url2);
+
+            $image_ret  = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
+
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            imagecopymerge($image_ret,$image_qr,287,580,0,0,imagesx($image_qr),imagesy($image_qr),100);
+            imagecopymerge($image_ret,$image_qr,193,400,0,0,imagesx($image_qr),imagesy($image_qr),100);
+
+            imagecopymerge($image_ret,$image_text1,215,130,0,0,imagesx($image_text1),imagesy($image_text1),100);
+            imagecopymerge($image_ret,$image_text2,139,230,0,0,imagesx($image_text2),imagesy($image_text2),100);
+
+
             imagepng($image_ret,$teacher_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($teacher_qr_url);
@@ -478,6 +523,8 @@ class tea_manage extends Controller
 
             imagedestroy($image_bg);
             imagedestroy($image_qr);
+            imagedestroy($image_text1);
+            imagedestroy($image_text2);
             imagedestroy($image_ret);
         }else{
             $file_name=$lessonid_qr_name;

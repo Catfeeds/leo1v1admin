@@ -337,7 +337,7 @@
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码" ></a>
 
-                                <a class="btn fa fa-qrcode hide  opt-qr-pad-at-time-new "
+                                <a class="btn fa fa-qrcode  opt-qr-pad-at-time-new "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码——新版" ></a>
 
