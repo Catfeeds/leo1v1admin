@@ -541,6 +541,8 @@ class NewRouteConfig {
         "/requirement/requirement_info_new"              => true,
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
+        "/requirement/re_edit_requirement_info_new"      => true,
+
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
