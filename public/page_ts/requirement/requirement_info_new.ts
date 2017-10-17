@@ -97,6 +97,24 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
+                if(expect_time.val() == ''){
+                    alert("请选择期望日期");
+                    return;
+                }
+                if(name.val() == ''){
+                    alert("请输入需求名称");
+                    return;
+                }
+                if(statement.val() == ''){
+                    alert("请输入需求描述");
+                    return;
+                }
+                var expect_date = new Date(expect_time.val());
+                var today       = new Date();
+                if(expect_date < today){
+                    alert("期望时间不能在当前时间范围之前");
+                    return;
+                }
                 $.do_ajax("/requirement/add_requirement_info_new",{
                     "name"           : name.val(),
                     'priority'       : priority.val(),
@@ -170,6 +188,24 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
+                if(expect_time.val() == ''){
+                    alert("请选择期望日期");
+                    return;
+                }
+                if(name.val() == ''){
+                    alert("请输入需求名称");
+                    return;
+                }
+                if(statement.val() == ''){
+                    alert("请输入需求描述");
+                    return;
+                }
+                var expect_date = new Date(expect_time.val());
+                var today       = new Date();
+                if(expect_date < today){
+                    alert("期望时间不能在当前时间范围之前");
+                    return;
+                }
                 $.do_ajax("/requirement/re_edit_requirement_info_new",{
                     "id"             : opt_data.id,
                     "name"           : name.val(),
@@ -243,6 +279,25 @@ $(function(){
             label    :  "确认",
             cssClass :  'btn-waring',
             action   :   function(dialog){
+                if(expect_time.val() == ''){
+                    alert("请选择期望日期");
+                    return;
+                }
+                if(name.val() == ''){
+                    alert("请输入需求名称");
+                    return;
+                }
+                if(statement.val() == ''){
+                    alert("请输入需求描述");
+                    return;
+                }
+                var expect_date = new Date(expect_time.val());
+                var today       = new Date();
+                if(expect_date < today){
+                    alert("期望时间不能在当前时间范围之前");
+                    return;
+                }
+
                 $.do_ajax("/requirement/re_edit_requirement_info_new",{
                     "id"             : opt_data.id,
                     "name"           : name.val(),
