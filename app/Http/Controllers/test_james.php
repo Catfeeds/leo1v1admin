@@ -308,7 +308,7 @@ class test_james extends Controller
 
 
 
-    public function ss1(){
+    public function ss1(){ // 使用客服接口发送消息
 
 
         //使用客服接口发送消息
