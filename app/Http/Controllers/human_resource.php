@@ -4227,7 +4227,7 @@ class human_resource extends Controller
         $new_phone = $this->get_in_str_val("new_phone");
         $acc       = $this->get_account();
 
-        if(!in_array($acc,["adrian","jim","zoe"])){
+        if(!in_array($acc,["adrian","jim","zoe","amyshen"])){
             return $this->output_err("权限不足！");
         }
         if($new_phone==""){
@@ -4295,7 +4295,7 @@ class human_resource extends Controller
         $lesson_start  = strtotime($lesson_date);
 
         \App\Helper\Utils::logger("user:".$acc."transfer_teacher old teacherid:".$old_teacherid."new teacherid:".$new_teacherid);
-        if(!in_array($acc,["adrian","jim","alan","zoe"])){
+        if(!in_array($acc,["adrian","jim","alan","zoe","amyshen"])){
             return $this->output_err("权限不足！");
         }
 

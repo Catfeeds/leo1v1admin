@@ -756,8 +756,9 @@ class Utils  {
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $xy_openid ="oAJiDwNulct06mAlmTTO97zKp_24";
         $wx->send_template_msg($xy_openid,$template_id,$data,$url);
-        #$jim_openid="oAJiDwN_Xt1IR66kQgYxYlBA4W6I";
-        #$wx->send_template_msg($jim_openid,$template_id,$data,$url);
+        $jim_openid="oAJiDwMAO47ma8cUpCNKcRumg5KU";
+        $wx->send_template_msg($jim_openid,$template_id,$data,$url);
+
         $is_success = $wx->send_template_msg($openid,$template_id,$data,$url);
         $task= new \App\Console\Tasks\TaskController();
         $task->t_weixin_msg->row_insert([
