@@ -2440,7 +2440,7 @@ trait TeaPower {
             $grade = 300;
         } else if ($grade_start >= 3) {
             $grade = 200;
-        } else if($grade_start >= 0 ) {
+        } else if($grade_start > 0 ) {
             $grade = 100;
         }else if ($grade_part_ex == 1) {
             $grade = 100;
