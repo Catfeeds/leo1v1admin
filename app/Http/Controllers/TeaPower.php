@@ -2272,6 +2272,7 @@ trait TeaPower {
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
+        // $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         $group_html = $this->get_qq_group_html($teacher_info['subject']);
         $html       = "

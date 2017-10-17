@@ -334,7 +334,8 @@ class user_manage_new extends Controller
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
         $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages(
-            $teacherid,$start_time,$end_time,$studentid,$show_type);
+            $teacherid,$start_time,$end_time,$studentid,$show_type
+        );
 
         //拉取上个月的课时信息
         $last_month_info = $this->get_last_lesson_count_info($start_time,$end_time,$teacherid);
@@ -4515,36 +4516,44 @@ class user_manage_new extends Controller
             $ret = $this->t_teacher_money_type->update_teacher_money_type(
                 $teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303
             );
-        }else{
-            $grade = [101,102,103,104,105];
-            foreach($grade as $grade_val){
-                $ret = $this->t_teacher_money_type->row_insert([
-                    "teacher_money_type"=>$teacher_money_type,
-                    "level" => $level,
-                    "grade" => $grade_val,
-                    "money" => $money_101,
-                    "type"  => 7,
-                ]);
+            if(!$ret){
+                return $this->output_err("更新失败！");
             }
-            $grade = [106,201,202];
-        }
-
-        if(!$ret){
-            return $this->output_err("更新失败！");
+        }else{
+            $grade_money_arr = [
+                $money_101 => [101,102,103,104,105],
+                $money_106 => [106,201,202],
+                $money_203 => [203],
+                $money_301 => [301,302],
+                $money_303 => [303],
+            ];
+            $ret = $this->add_teacher_money_type($teacher_money_type,$level,$grade_money_arr,7);
         }
         return $this->output_succ();
     }
 
-    public function add_teacher_money_type($teacher_money_type,$level,$money,$grade_arr,$type){
-        foreach($grade as $grade_val){
-            $ret = $this->t_teacher_money_type->row_insert([
-                "teacher_money_type"=>$teacher_money_type,
-                "level" => $level,
-                "grade" => $grade_val,
-                "money" => $money_101,
-                "type"  => 7,
-            ]);
+    /**
+     * 添加老师工资类型
+     */
+    public function add_teacher_money_type($teacher_money_type,$level,$grade_money_arr,$type){
+        $this->t_teacher_money_type->start_transaction();
+        foreach($grade_money_arr as $money_key => $grade_val){
+            foreach($grade_val as $g_val){
+                $ret = $this->t_teacher_money_type->row_insert([
+                    "teacher_money_type" => $teacher_money_type,
+                    "level"              => $level,
+                    "grade"              => $g_val,
+                    "money"              => $money_key,
+                    "type"               => $type,
+                ]);
+                if(!$ret){
+                    $this->t_teacher_money_type->rollback();
+                    return $ret;
+                }
+            }
         }
+        $this->t_teacher_money_type->commit();
+        return $ret;
     }
 
     public function teacher_reward_rule_list(){
