@@ -145,7 +145,7 @@ class user_deal extends Controller
                 return $ret;
             }
         }
-        
+
 
         $item = $this->t_course_order->field_get_list($courseid,"*");
         if (!$item["teacherid"]) {
@@ -1549,6 +1549,164 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function auto_add_course(){
+        $teacherid            = $this->get_in_teacherid();
+        $subject              = $this->get_in_int_val("subject");
+        $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
+        $account              = $this->get_account();
+        $userid               = $this->get_in_int_val("userid");
+        $competition_flag     = $this->get_in_int_val("competition_flag");
+        $per_lesson_time      = $this->get_in_int_val("per_lesson_time",0) * 60;
+        $course_start_time    = $this->get_in_str_val("course_start_time",0);
+        $course_end_time      = $this->get_in_str_val("course_end_time",0);
+
+
+        if ($course_start_time) {
+            $lesson_start = strtotime( $course_start_time);
+            $date         = date('Y-m-d', $lesson_start);
+            $lesson_end   = strtotime($date . " " . $course_end_time);
+        }
+
+        if ($lesson_start >= $lesson_end) {
+            return $this->output_err( "时间不对: $lesson_start>$lesson_end");
+        } else {
+            //规整时间
+            $time_num = $lesson_end - $lesson_start;
+            $lesson_num = round($time_num / $per_lesson_time);
+            $lesson_end = $lesson_start + $lesson_num*$per_lesson_time;
+        }
+
+        $stu_info = $this->t_student_info->get_student_simple_info($userid);
+        if (!$stu_info["assistantid"] ) {
+            return $this->output_err("未设置助教!");
+        }
+
+        //6-9月份新建学生课程包需升一个年级
+        $month = date("m",time());
+        if($month>6 && $month <9){
+            $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
+            $lesson_grade_type = 1;
+        }
+
+        //检测是否为测试老师
+        $tea_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        if(!$tea_info['is_test_user']){
+            return $this->output_err("该老师不是测试老师!");
+        }
+
+        //检测时间冲突
+        $ret_row = $this->t_lesson_info->check_student_time_free(
+            $userid,0,$lesson_start,$lesson_end
+        );
+
+        if($ret_row) {
+            $error_lessonid=$ret_row["lessonid"];
+            $this->t_lesson_info->rollback();
+            $this->t_homework_info->rollback();
+            return $this->output_err(
+                "<div>有现存的<div style='color:red'>学生</div>课程与该课程时间冲突！"
+                ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                ."查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $ret_row=$this->t_lesson_info->check_teacher_time_free(
+            $teacherid,0,$lesson_start,$lesson_end);
+
+        if($ret_row) {
+            $error_lessonid=$ret_row["lessonid"];
+            $this->t_lesson_info->rollback();
+            $this->t_homework_info->rollback();
+            return $this->output_err(
+                "<div>有现存的<div  style='color:red'>老师</div>课程与该课程时间冲突！"
+                ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                ."查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+
+        $this->t_course_order->row_insert([
+            "userid"                => $userid,
+            "teacherid"             => $teacherid,
+            "subject"               => $subject,
+            "grade"                 => $stu_info['grade'],
+            "assistantid"           => $stu_info['assistantid'],
+            "lesson_total"          => 0,
+            "assigned_lesson_count" => 0,
+            "default_lesson_count"  => 0,
+            "competition_flag"      => $competition_flag,
+            "add_time"              => time(),
+            "lesson_grade_type"     => $lesson_grade_type,
+            "course_status"         => 0,
+            "is_kk_flag"            => 0
+        ]);
+        $courseid_type0 = $this->t_course_order->get_last_insertid();
+
+        $this->t_course_order->row_insert([
+            "userid"                => $userid,
+            "teacherid"             => $teacherid,
+            "subject"               => $subject,
+            "grade"                 => $stu_info['grade'],
+            "assistantid"           => $stu_info['assistantid'],
+            "lesson_total"          => 0,
+            "assigned_lesson_count" => 0,
+            "default_lesson_count"  => 0,
+            "competition_flag"      => $competition_flag,
+            "add_time"              => time(),
+            "lesson_grade_type"     => $lesson_grade_type,
+            "course_status"         => 0,
+            "is_kk_flag"            => 0,
+            "course_type"           => 3001,
+        ]);
+        $courseid_type3001 = $this->t_course_order->get_last_insertid();
+
+
+        //排课
+
+        $teacher_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        for ($i = 0; $i < $lesson_num; $i++) {
+            $start = $lesson_start + $i*$per_lesson_time;
+            $end = $start + $per_lesson_time;
+            if ($i%2 == 0) {
+                $courseid = $courseid_type0;
+                $type = 0;
+            } else {
+                $courseid = $courseid_type3001;
+                $type = 3001;
+            }
+            $this->auto_add_lesson($courseid,$userid,$teacherid,$stu_info["assistantid"],
+                                   $start, $end,$stu_info['grade'],$subject,
+                                   $teacher_info['teacher_money_type'],$teacher_info['level'],
+                                   $competition_flag,$type);
+
+        }
+        return $this->output_succ();
+    }
+
+    public function auto_add_lesson($courseid,$userid,$teacherid,$assistantid,$lesson_start,$lesson_end,$grade,$subject,$teacher_money_type,$level,$competition_flag, $type) {
+
+
+        if ($type == 0) {
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $courseid,0,$userid,0,$type,$teacherid,
+                $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
+                $teacher_money_type,$level,
+                $competition_flag
+            );
+        } else {
+            // $lessonid = $this->t_lesson_info->add_lesson(
+            //     $courseid,0,0,0,$type,$teacherid,
+            //     $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
+            //     $teacher_money_type,$level,
+            //     $competition_flag
+            // );
+
+            // $this->t_small_lesson_info->
+        }
+
+        $this->t_lesson_info->reset_lesson_list($courseid);
+    }
 
     public function course_add(){
         $userid           = $this->get_in_int_val("userid");
@@ -1631,7 +1789,6 @@ class user_deal extends Controller
         }
     }
 
-
     public function course_set_teacher_subject () {
         $courseid  = $this->get_in_courseid();
         $teacherid = $this->get_in_teacherid();
@@ -1686,7 +1843,6 @@ class user_deal extends Controller
 
         return $this->output_succ();
     }
-
 
     public function teacher_month_money_un_confirm() {
         $logtime=strtotime($this->get_in_str_val("logtime"));
@@ -1828,10 +1984,6 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
-
-
-
-
     public function admin_group_edit( ) {
         $groupid=$this->get_in_int_val("groupid");
         $group_name=$this->get_in_str_val("group_name");
@@ -1873,7 +2025,6 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
-
     public function admin_main_group_edit( ) {
         $groupid=$this->get_in_int_val("groupid");
         $group_name=$this->get_in_str_val("group_name");
@@ -1897,7 +2048,6 @@ class user_deal extends Controller
         return $this->output_succ();
 
     }
-
 
     public function admin_group_del ()  {
 
@@ -1923,8 +2073,6 @@ class user_deal extends Controller
         $this->t_admin_main_group_name->update_by_up_groupid($groupid);
         return $this->output_succ();
     }
-
-
 
     public function admin_main_group_del ()  {
 
@@ -2904,7 +3052,7 @@ class user_deal extends Controller
         dd($ret_list);
 
         $d= date("d");
-        if($d>15){            
+        if($d>15){
             $month_start = strtotime(date("Y-m-01",time()));
             $due_date = $month_start+14*86400;
         }else{
@@ -2914,17 +3062,17 @@ class user_deal extends Controller
 
         }
         dd($d);
-        
+
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
         dd($list);
         foreach($list as $val){
             $data = $this->get_baidu_money_charge_pay_info($val["child_orderid"]);
-            
+
             dd($data);
-            
+
         }
 
-               
+
 
     }
 

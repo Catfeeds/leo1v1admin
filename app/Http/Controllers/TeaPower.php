@@ -3394,7 +3394,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $default_lesson_count = 0;
 
         $this->t_lesson_info->start_transaction();
-       
+
 
         //区分是否课时确认的调课
         if($old_lessonid){
@@ -3454,7 +3454,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_lesson_info->rollback();
                 return $this->output_err("生成课程id失败,请重新再试！");
             }
-
         }else{
             $lessonid = $this->t_lesson_info->add_lesson(
                 $item["courseid"],
@@ -3496,7 +3495,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $teacherid = $item["teacherid"];
         $userid    = $item["userid"];
-        
+
         /* 设置lesson_count */
         if($lesson_count==0){
             $diff=($lesson_end-$lesson_start)/60;
@@ -3513,16 +3512,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }else{
                 $lesson_count= ceil($diff/40)*100 ;
             }
- 
+
         }
-       
+
         if($lesson_start>0){
             if ($lesson_start <= time()) {
                 $this->t_lesson_info->rollback();
                 $this->t_homework_info->rollback();
                 return $this->output_err( "时间不对,不能比当前时间晚");
             }
-
 
             if ($userid) {
                 $ret_row = $this->t_lesson_info->check_student_time_free(
@@ -3584,7 +3582,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $lessonid;
         }
 
-        
+
 
 
     }

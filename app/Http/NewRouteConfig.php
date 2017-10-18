@@ -234,6 +234,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/auto_rank_lesson"            => true,
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/train_not_through_list_px"   => true,
         "/tea_manage/set_teacher_part_remark"     => true,
