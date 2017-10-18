@@ -605,7 +605,7 @@ class teacher_level extends Controller
             "accept_info"    =>$accept_info
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        if($accept_flag==1 && in_array($teacherid,["50158","240314","392077"])){
+        if($accept_flag==1 && in_array($teacherid,["50158","240314","392077","58052"])){
             $old_level = $this->t_teacher_info->get_level($teacherid);
             $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
             // $level_degree = E\Elevel::v2s($level_after);
@@ -647,23 +647,19 @@ class teacher_level extends Controller
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
             //邮件推送
-            $html = $this->teacher_level_up_html($info);
+            $html  = $this->teacher_level_up_html($info);
             $email = $this->t_teacher_info->get_email($teacherid);
             // $email = "jack@leoedu.com";
             if($email){
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
-
- 
             }
 
-           
             //微信通知教研
             $subject = $this->t_teacher_info->get_subject($teacherid);
             $master_adminid = $this->get_tea_adminid_by_subject($subject);

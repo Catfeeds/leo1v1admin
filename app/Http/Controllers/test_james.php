@@ -756,11 +756,12 @@ class test_james extends Controller
 
         $start_time = $this->get_in_int_val('s');
 
-        $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
-        $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
-        $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
-        $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group, $start_time);// 新人营
+        $ret_info['one_department']    = $this->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
+        $ret_info['two_department']    = $this->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
+        $ret_info['three_department']  = $this->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+        $ret_info['new_department']    = $this->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
 
+        dd($ret_info);
     }
 
 
