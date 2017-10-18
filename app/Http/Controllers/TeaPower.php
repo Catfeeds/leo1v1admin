@@ -3394,7 +3394,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $default_lesson_count = 0;
 
         $this->t_lesson_info->start_transaction();
-       
+
 
         //区分是否课时确认的调课
         if($old_lessonid){
@@ -3454,7 +3454,6 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_lesson_info->rollback();
                 return $this->output_err("生成课程id失败,请重新再试！");
             }
-
         }else{
             $lessonid = $this->t_lesson_info->add_lesson(
                 $item["courseid"],
@@ -3496,7 +3495,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
         $teacherid = $item["teacherid"];
         $userid    = $item["userid"];
-        
+
         /* 设置lesson_count */
         if($lesson_count==0){
             $diff=($lesson_end-$lesson_start)/60;
@@ -3513,16 +3512,15 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }else{
                 $lesson_count= ceil($diff/40)*100 ;
             }
- 
+
         }
-       
+
         if($lesson_start>0){
             if ($lesson_start <= time()) {
                 $this->t_lesson_info->rollback();
                 $this->t_homework_info->rollback();
                 return $this->output_err( "时间不对,不能比当前时间晚");
             }
-
 
             if ($userid) {
                 $ret_row = $this->t_lesson_info->check_student_time_free(
@@ -3584,7 +3582,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             return $lessonid;
         }
 
-        
+
 
 
     }
@@ -3592,10 +3590,19 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     //获取助教提成
     public function get_ass_percentage_money_list($list){
+        $ret=[];
         $lesson_money=0;
         $lesson_price_avg= $list["lesson_price_avg"]/100;
-        if($lesson_price_avg<=5000){
-            
+        if($lesson_price_avg<=50000){
+            $lesson_money = $lesson_price_avg*0.01;
+        }elseif($lesson_price_avg<=80000){
+            $lesson_money = 50000*0.01+($lesson_price_avg-50000)*0.02;
+        }elseif($lesson_price_avg<=120000){
+            $lesson_money = 50000*0.01+(80000-50000)*0.02+($lesson_price_avg-80000)*0.03;
+        }elseif($lesson_price_avg<=170000){
+            $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+($lesson_price_avg-120000)*0.04;
+        }else{
+             $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
         }
     }
 
