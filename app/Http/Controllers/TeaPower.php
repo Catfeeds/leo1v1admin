@@ -3604,6 +3604,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
              $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
         }
+        $kk_money =0;
+        $kk_num= $list["kk_num"]+$list["hand_kk_num"];
+        if($kk_num<=5){
+            $kk_money=  $kk_num*10;
+        }elseif($kk_num<=10){
+            $kk_money=  5*10+($kk_num-5)*20;
+        }
     }
 
 }

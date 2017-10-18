@@ -111,6 +111,8 @@
                                         <td>中文名</td>
                                         <td>总排课量</td>
                                         <td>已排课程</td>
+                                        <td>已排课程(销售)</td>
+                                        <td>已排课程(助教)</td>
                                         <td>已排课程(绿色)</td>
                                         <td>已排课程(销售绿色)</td>
                                         <td>已排课程(助教绿色)</td>
@@ -140,6 +142,8 @@
                                             <td>{{@$var["name"]}} </td> 
                                             <td class="all_count">{{@$var["all_count"]}} </td> 
                                             <td>{{@$var["set_count"]}} </td>
+                                            <td>{{@$var["seller_count_set"]}} </td>
+                                            <td>{{@$var["ass_count_set"]}} </td>
                                             <td>{{@$var["green_count"]}} </td>
                                             <td>{{@$var["seller_green_count"]}} </td>
                                             <td>{{@$var["ass_green_count"]}} </td>
