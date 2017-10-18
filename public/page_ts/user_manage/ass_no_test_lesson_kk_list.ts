@@ -28,9 +28,12 @@ $(function(){
         var opt_data=$(this).get_opt_data();
       
         var id_hand_kk_num = $("<input />") ;
+        var id_hand_tran_num  = $("<input />") ;
         id_hand_kk_num.val(opt_data.hand_kk_num);
+        id_hand_tran_num.val(opt_data.hand_tran_num);
         var arr=[
             ["扩课数",id_hand_kk_num],           
+            ["转介绍",id_hand_tran_num],           
         ];
         
         $.show_key_value_table("编辑", arr, {
@@ -43,6 +46,7 @@ $(function(){
                     "month"                    : opt_data.month,
                     "kpi_type"                      : opt_data.kpi_type,
                     "hand_kk_num"                   : id_hand_kk_num.val(),
+                    "hand_tran_num"                   : id_hand_tran_num.val(),
                 });
             }
         });

@@ -116,6 +116,9 @@
                                 @if($var["hand_flag"]==1)
                                     <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                 @endif
+                                @if($var["accept_flag"]==0 && $var["require_time"]>0)
+                                    <a class="opt-update-level-after" title="修改等级">修改等级</a>
+                                @endif
 
                             </div>
                         </td>

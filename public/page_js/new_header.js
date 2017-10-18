@@ -230,10 +230,14 @@ function table_init() {
     var row_query=$(".row-query-list" );
     if (row_query.length>0) {
         var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
-        var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  id_attime_query \"> 查询 </button  <div> ");
-
-        //row_query.prepend( query_attime );
-        row_query.append( query_attime );
+        var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
+        if ( window.load_data ) {
+            row_query.append( query_attime );
+            query_attime.find("button") .on("click",function(){
+                window["g_load_data_flag"]=1;
+                window.load_data();
+            });
+        }
 
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");

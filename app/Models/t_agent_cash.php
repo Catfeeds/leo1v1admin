@@ -56,8 +56,8 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 
     public function get_have_cash($aid, $check_money_flag= -1 ){
         $where_arr =[
-            ["check_money_flag=%u", $check_money_flag, -1 ]
         ];
+        $this->where_arr_add_int_or_idlist($where_arr,"check_money_flag",$check_money_flag);
 
         $sql = $this->gen_sql_new(
             "select sum(cash) have_cash "

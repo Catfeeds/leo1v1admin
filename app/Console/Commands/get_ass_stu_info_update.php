@@ -98,6 +98,9 @@ class get_ass_stu_info_update extends Command
         //续费金额 分期按80%计算,按新方法获取
         $ass_renw_money = $task->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
 
+        //cc签单助教转介绍数据
+        $cc_tran_order = $task->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
+
         //扩课成功数
         $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
         $refund_info = $task->t_order_refund->get_ass_refund_info($start_time,$end_time);
@@ -199,6 +202,10 @@ class get_ass_stu_info_update extends Command
             $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
             $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
 
+            //cc签单助教转介绍数据
+
+            $item["cc_tran_num"] =  @$cc_tran_order[$k]["stu_num"];
+            $item["cc_tran_money"] =  @$cc_tran_order[$k]["all_price"];
             //主管2.0数据
             $item["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $item["userid_list_first_target"] = count($item["userid_list_first"]);
@@ -253,7 +260,9 @@ class get_ass_stu_info_update extends Command
                     "refund_score"          => $item["refund_score"],
                     "lesson_price_avg"      => $item["lesson_price_avg"],
                     "student_finsh"         =>$item["student_finish"],
-                    "tran_num"              =>$item["tran_num"]
+                    "tran_num"              =>$item["tran_num"],
+                    "cc_tran_num"           =>$item["cc_tran_num"],
+                    "cc_tran_money"           =>$item["cc_tran_money"],
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
@@ -292,7 +301,9 @@ class get_ass_stu_info_update extends Command
                     "refund_score"          => $item["refund_score"],
                     "lesson_price_avg"      => $item["lesson_price_avg"],
                     "student_finsh"         =>$item["student_finish"],
-                    "tran_num"              =>$item["tran_num"]
+                    "tran_num"              =>$item["tran_num"],
+                    "cc_tran_num"           =>$item["cc_tran_num"],
+                    "cc_tran_money"         =>$item["cc_tran_money"],
                 ]);
 
             }
@@ -450,6 +461,12 @@ class get_ass_stu_info_update extends Command
         $end_stu_info_new  = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $lesson_info       = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
         $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        $ass_renw_money = $task->t_manager_info->get_ass_renw_money_new($start_time,$end_time);
+
+        //cc签单助教转介绍数据
+        $cc_tran_order = $task->t_manager_info->get_cc_tran_origin_order_info($start_time,$end_time);
+
+
 
         //主管2数据
         $month_middle = $start_time+15*86400;
@@ -504,9 +521,20 @@ class get_ass_stu_info_update extends Command
             $item["end_stu_num"]           = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;//结课学生
             $item["lesson_student"]        = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
 
-            $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];
+            if($start_time>= strtotime("2017-10-01")){
+                $item["renw_price"]            = @$ass_renw_money[$k]["money"];
+            }else{
+                $item["renw_price"]            = @$assistant_renew_list[$k]["renw_price"];       
+            }
+
             $item["tran_price"]            = @$assistant_renew_list[$k]["tran_price"];
             $item["renw_student"]          = @$assistant_renew_list[$k]["all_student"];
+
+            //cc签单助教转介绍数据
+
+            $item["cc_tran_num"] =  @$cc_tran_order[$k]["stu_num"];
+            $item["cc_tran_money"] =  @$cc_tran_order[$k]["all_price"];
+
 
             //主管2.0数据
             $item["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
@@ -542,6 +570,8 @@ class get_ass_stu_info_update extends Command
                     "renw_price"            =>$item["renw_price"],
                     "tran_price"            =>$item["tran_price"],
                     "renw_student"          =>$item["renw_student"],
+                    "cc_tran_num"           =>$item["cc_tran_num"],
+                    "cc_tran_money"           =>$item["cc_tran_money"],
 
                     //  "revisit_target"        =>$item["revisit_target"],
                     // "revisit_real"          => $item["revisit_real"],
