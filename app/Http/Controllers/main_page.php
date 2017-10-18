@@ -603,7 +603,7 @@ class main_page extends Controller
             $val["cc_tran_money"] = $list["cc_tran_money"];
             $val["all_money"] = $list["all_money"];
 
-        }
+        }        
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
