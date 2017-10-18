@@ -167,6 +167,10 @@ class seller_student_new2 extends Controller
         }else{
             $tea_subject = "";
         }
+        $account_role = $this->get_account_role();
+        if($account_role==3 || $account_role==12){
+            $tea_subject="";
+        }
 
         $grade                      = $this->get_in_grade();
         $subject                    = $this->get_in_subject();

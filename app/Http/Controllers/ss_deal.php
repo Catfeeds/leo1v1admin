@@ -239,16 +239,15 @@ class ss_deal extends Controller
                 $ass_account = $this->t_manager_info->get_account($origin_assistantid);
                 $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
                 $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
-
-                //分配日志
-                $this->t_seller_edit_log->row_insert([
-                    'adminid'=>$this->get_account_id(),//分配人
-                    'uid'=>$opt_adminid,//组员
-                    'new'=>$userid,//例子
-                    'type'=>E\Eseller_edit_log_type::V_3,
-                    'create_time'=>time(NULL),
-                ]);
             }
+            //分配日志
+            $this->t_seller_edit_log->row_insert([
+                'adminid'=>$this->get_account_id(),//分配人
+                'uid'=>$opt_adminid,//组员
+                'new'=>$userid,//例子
+                'type'=>E\Eseller_edit_log_type::V_3,
+                'create_time'=>time(NULL),
+            ]);
         }
 
         return $this->output_succ();
