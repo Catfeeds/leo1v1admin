@@ -4398,6 +4398,11 @@ class human_resource extends Controller
     public function reaearch_teacher_lesson_list_fulltime(){
         return $this->reaearch_teacher_lesson_list();
     }
+
+    public function reaearch_teacher_lesson_list_research(){
+        return $this->reaearch_teacher_lesson_list();
+    }
+
     public function reaearch_teacher_lesson_list(){
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();

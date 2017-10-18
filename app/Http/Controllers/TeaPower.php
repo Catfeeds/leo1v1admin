@@ -2241,7 +2241,8 @@ trait TeaPower {
      */
     public function send_offer_info($teacher_info){
         $today_date  = date("Y年m月d日",time());
-        $level_str = E\Elevel::get_desc($teacher_info['level']);
+        // $level_str = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);
@@ -2259,7 +2260,7 @@ trait TeaPower {
              * {{remark.DATA}}
              */
             $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
+            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str;
             $data["keyword1"] = "教职老师";
             $data["keyword2"] = "理优教育";
             $data["keyword3"] = $today_date;
@@ -2273,7 +2274,7 @@ trait TeaPower {
         $name       = $teacher_info['nick'];
         // $level_str  = E\Elevel::get_desc($teacher_info['level']);
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
+        $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         // dd($teacher_info);
         // $group_html = $this->get_qq_group_html($teacher_info['subject']);
         $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
