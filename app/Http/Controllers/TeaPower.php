@@ -3589,4 +3589,14 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+
+    //获取助教提成
+    public function get_ass_percentage_money_list($list){
+        $lesson_money=0;
+        $lesson_price_avg= $list["lesson_price_avg"]/100;
+        if($lesson_price_avg<=5000){
+            
+        }
+    }
+
 }

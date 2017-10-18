@@ -732,6 +732,20 @@ class test_james extends Controller
 
 
 
+    public function dds(){
+        $to_url = 'wx_parent/score';
+
+        $goto_url_arr=preg_split("/\//", $to_url);
+
+        dd($goto_url_arr);
+
+
+        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_common/wx_parent_jump_page?goto_url=$to_url" );
+
+        dd($redirect_url);
+    }
+
+
 
 
 

@@ -21,7 +21,7 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
             
-         var id_level_after = $("<select/>");
+        var id_level_after = $("<select/>");
 
         if(teacher_money_type==6){            
             Enum_map.append_option_list("new_level", id_level_after, true );  
@@ -61,6 +61,35 @@ $(function(){
                 });
             }
         });        
+    });
+
+    $(".opt-update-level-after").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var teacher_money_type = opt_data.teacher_money_type;
+        
+        var id_level_after = $("<select/>");
+        if(teacher_money_type==6){            
+            Enum_map.append_option_list("new_level", id_level_after, true );  
+        }else{
+            Enum_map.append_option_list("level", id_level_after, true ); 
+        }  
+        var arr=[
+            ["目标等级",id_level_after]
+        ];
+        $.show_key_value_table("修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/update_level_after', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'level_after':id_level_after.val(),                  
+                });
+            }
+        });        
+
+
     });
 
     $(".opt-advance-require-golden").on("click",function(){        

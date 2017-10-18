@@ -2113,31 +2113,31 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
         var token=ret.token;
 
         var uploader = Qiniu.uploader({
-        runtimes: 'html5, flash, html4',
-        browse_button: btn_id , //choose files id
-        uptoken: token,
-        domain: "http://"+domain_name,
-        max_file_size: '30mb',
-        dragdrop: true,
-        flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-        chunk_size: '4mb',
-        unique_names: false,
-        save_key: false,
-        auto_start: true,
+            runtimes: 'html5, flash, html4',
+            browse_button: btn_id , //choose files id
+            uptoken: token,
+            domain: "http://"+domain_name,
+            max_file_size: '30mb',
+            dragdrop: true,
+            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+            chunk_size: '4mb',
+            unique_names: false,
+            save_key: false,
+            auto_start: true,
             multi_selection: false,
             filters: {
                 mime_types: [
                     {title: "", extensions: ext_file_list.join(",") }
                 ]
             },
-        init: {
-          'FilesAdded': function(up, files) {
-            plupload.each(files, function(file) {
+            init: {
+                'FilesAdded': function(up, files) {
+                    plupload.each(files, function(file) {
                         console.log('waiting...'+file.name );
                     });
-          },
-          'BeforeUpload': function(up, file) {
-            console.log('before uplaod the file 11111');
+                },
+                'BeforeUpload': function(up, file) {
+                    console.log('before uplaod the file 11111');
                     var match = file.name.match(/.*\.(.*)?/);
                     var file_ext=match[1];
                     var check_flag=false;
@@ -2150,45 +2150,44 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
                         BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
                         return false;
                     }
-            console.log('before uplaod the file');
+                    console.log('before uplaod the file');
                     return true;
-
-          },
-          'UploadProgress': function(up,file) {
+                },
+                'UploadProgress': function(up,file) {
                     if(noti_process) {
                         noti_process (file.percent);
                     }
                     console.log(file.percent);
-            console.log('upload progress');
-          },
-          'UploadComplete': function() {
-            console.log(' UploadComplete .. end ');
-          },
-            'FileUploaded' : function(up, file, info) {
-                if(noti_process) {
-                    noti_process (0);
-                }
-                console.log('Things below are from FileUploaded');
-                if(info.response){
-                    complete_func(up, info.response, file ,ctminfo);
-                }else{
-                    complete_func(up, info, file,ctminfo );
-                }
-            },
-          'Error': function(up, err, errTip) {
-            console.log('Things below are from Error');
+                    console.log('upload progress');
+                },
+                'UploadComplete': function() {
+                    console.log(' UploadComplete .. end ');
+                },
+                'FileUploaded' : function(up, file, info) {
+                    if(noti_process) {
+                        noti_process (0);
+                    }
+                    console.log('Things below are from FileUploaded');
+                    if(info.response){
+                        complete_func(up, info.response, file ,ctminfo);
+                    }else{
+                        complete_func(up, info, file,ctminfo );
+                    }
+                },
+                'Error' : function(up, err, errTip) {
+                    console.log('Things below are from Error');
                     BootstrapDialog.alert(errTip);
-          },
-          'Key': function(up, file) {
-            var key = "";
+                },
+                'Key': function(up, file) {
+                    var key = "";
                     var time = (new Date()).valueOf();
                     var match = file.name.match(/.*\.(.*)?/);
-            var file_name=$.md5(file.name) +time +'.' + match[1];
-            console.log('gen file_name:'+file_name);
+                    var file_name=$.md5(file.name) +time +'.' + match[1];
+                    console.log('gen file_name:'+file_name);
                     return file_name;
-          }
-        }
-      });
+                }
+            }
+        });
     });
 
 };

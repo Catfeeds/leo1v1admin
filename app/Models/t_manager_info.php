@@ -1067,7 +1067,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.contract_status in (1,2,3)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0"
+            // "m.del_flag =0"
         ];
         $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(o.lesson_total*o.default_lesson_count) all_total,sum(if(contract_type=1,lesson_total*default_lesson_count,0)) give_total,sum(if(contract_type=0,price,0)) tran_total".
                                  " from  %s m ".
@@ -1089,7 +1089,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] ,
             ["uid=%u",$adminid,-1],
-            "o.contract_status in (1)" ,
+            "o.contract_status in (1,2)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
             // "m.del_flag =0",
@@ -1108,6 +1108,34 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
+    }
+
+    //cc签单助教转介绍数据
+    public function get_cc_tran_origin_order_info($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] ,
+            "o.contract_status in (1,2)" ,
+            "(m.uid <> 68 and m.uid <> 74)",
+            "m.account_role = 1 ",
+            // "m.del_flag =0",
+            "o.price >0"
+        ];
+        $sql = $this->gen_sql_new("select m.uid,count(o.userid) stu_num,"
+                                  ."sum(o.price) all_price "
+                                  ." from %s m left join %s s on m.uid=s.origin_assistantid "
+                                  ." left join %s o on s.userid = o.userid and o.sys_operator <> m.account"
+                                  ." where %s group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+
+
     }
 
 

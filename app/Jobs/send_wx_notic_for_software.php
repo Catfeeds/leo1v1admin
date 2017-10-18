@@ -44,6 +44,21 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
             ];
             $url_leo = '';
 
+
+            /*
+              // 成绩记录功能
+              $data_leo = [
+              'first'    => "家长您好，【理优在线教育】成绩记录功能上线了",
+              'keyword1' => "功能上线通知",
+              'keyword2' => "点击个人中心，成绩记录功能，录入孩子成绩让班主任准确掌握孩子情况，制定实际有效解决孩子学习问题的课程规划",
+              'keyword3' => date('Y-m-d H:i:s'),
+              'remark'   => ""
+              ];
+              $url_leo = '';
+
+
+             */
+
             $ret = $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
 
             if($ret){
