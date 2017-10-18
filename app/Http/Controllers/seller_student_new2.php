@@ -975,6 +975,7 @@ class seller_student_new2 extends Controller
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
             $item["phone"] = $this->t_phone_to_user->get_phone($userid);
             $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
+            $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
         }
         return $this->pageView(__METHOD__,$ret_info);
     }

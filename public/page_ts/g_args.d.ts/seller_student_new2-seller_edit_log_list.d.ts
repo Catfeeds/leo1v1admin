@@ -25,10 +25,12 @@ interface RowData {
 	old	:any;
 	new	:any;
 	global_tq_called_flag	:any;
+	del_flag	:any;
 	adminid_nick	:any;
 	uid_nick	:any;
 	phone	:any;
 	global_tq_called_flag_str	:any;
+	del_flag_str	:any;
 }
 
 /*
