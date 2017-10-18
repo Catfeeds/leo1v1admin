@@ -605,7 +605,7 @@ class teacher_level extends Controller
             "accept_info"    =>$accept_info
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        if($accept_flag==1 && in_array($teacherid,["50158","240314","392077","58052"])){
+        if($accept_flag==1 ){
             $old_level = $this->t_teacher_info->get_level($teacherid);
             $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
             // $level_degree = E\Elevel::v2s($level_after);
@@ -618,7 +618,7 @@ class teacher_level extends Controller
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
-            $level_start = strtotime(date("Y-m-d",time()));
+            $level_start = strtotime(date("Y-m-01",time()));
             $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
             $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
@@ -641,7 +641,7 @@ class teacher_level extends Controller
                 $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
                 $data['keyword1'] = $realname;
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = "十月一日";
+                $data['keyword3'] = date("Y-m-01 00:00",time());
                 /* $data['remark']   = "晋升分数:".$score
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
@@ -650,15 +650,15 @@ class teacher_level extends Controller
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
-            //邮件推送
-            $html  = $this->teacher_level_up_html($info);
+            //邮件推送 暂时不推
+            /* $html  = $this->teacher_level_up_html($info);
             $email = $this->t_teacher_info->get_email($teacherid);
             // $email = "jack@leoedu.com";
             if($email){
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
-            }
+                }*/
 
             //微信通知教研
             $subject = $this->t_teacher_info->get_subject($teacherid);
@@ -666,7 +666,7 @@ class teacher_level extends Controller
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
             $jy_teacherid = $teacher_info["teacherid"];
             $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            //  $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
