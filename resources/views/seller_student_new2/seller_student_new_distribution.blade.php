@@ -71,7 +71,7 @@
                             </a>
                         </td>
                         <td >
-                            <a href="javascript:;" class="distribution_count" >
+                            <a href="javascript:;" class="no_call_count" >
                                 {{@$var["no_call_count"]}}
                             </a>
                         </td>
