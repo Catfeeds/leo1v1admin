@@ -260,9 +260,6 @@
                         <input class="opt-change form-control" id="id_call_count" />
                     </div>
                 </div>
-
-
-
             </div>
 
             <div class="row  " >
