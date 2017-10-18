@@ -789,6 +789,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
         return $arr;
     }
+
+    public function get_jw_teacher_list_detail(){
+        $time=time();
+        $sql = $this->gen_sql_new("select uid,tr.require_id from %s m".
+                                  " left join %s tr on (m.uid = tr.accept_adminid ".
+                                  " and tr.test_lesson_student_status=200 ".
+                                  " and tr.jw_test_lesson_status = 0 and tr.is_green_flag=0 ".
+                                  " and tr.curl_stu_request_test_lesson_time >%u)".
+                                  " where  account_role = 3 and admin_work_status = 1 "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,$time
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_jw_teacher_list_all(){
         $sql = $this->gen_sql_new("select uid from %s ".
                                   " where account_role = 3 and admin_work_status = 1 "

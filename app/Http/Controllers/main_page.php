@@ -188,7 +188,8 @@ class main_page extends Controller
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
                 }
 
-                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
+
 
                 if($ret_info['new_order_num']>0){ //平均单笔
                     $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];

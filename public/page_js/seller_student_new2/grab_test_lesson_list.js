@@ -4,9 +4,11 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			subject : $('#id_subject').val()
+			      subject : $('#id_subject').val(),
+			      grade   : $('#id_grade').val()
         });
     }
+
     $("#id_select_all").on("click", function() {
         $(".opt-select-item").iCheck("check");
     });
@@ -20,10 +22,11 @@ $(function(){
             }
         });
     });
+
 	  $('#id_subject').val(g_args.subject);
     $.enum_multi_select($("#id_subject"),"subject",function(){load_data();});
-	  $('#id_subject').val(g_args.subject);
-    $.enum_multi_select($("#id_subject"),"subject",function(){load_data();});
+	  $('#id_grade').val(g_args.grade);
+    $.enum_multi_select($("#id_grade"),"grade",function(){load_data();});
 
     $("#id_opt_grab_trial_user_info").on("click",function(){
         var id           = "";

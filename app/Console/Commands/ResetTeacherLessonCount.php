@@ -50,7 +50,6 @@ class ResetTeacherLessonCount extends cmd_base
         }
 
         \App\Helper\Utils::logger("reset teacher command start:".$start."end:".$end);
-
         if($teacher_money_type == E\Eteacher_money_type::V_0){
             $tea_list = $this->task->t_lesson_info->get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type);
             if(!empty($tea_list) && is_array($tea_list)){
@@ -72,9 +71,7 @@ class ResetTeacherLessonCount extends cmd_base
                 $teacherid    = $val['teacherid'];
                 $lesson_count = $val['lesson_count'];
                 $lessonid     = $val['lessonid'];
-                \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],0,0);
-
-                $already_lesson_count[$teacherid]+=$lesson_count;
+                \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],$lesson_count);
                 $this->task->t_lesson_info->field_update_list($lessonid,[
                     "already_lesson_count" => $already_lesson_count[$teacherid]
                 ]);
