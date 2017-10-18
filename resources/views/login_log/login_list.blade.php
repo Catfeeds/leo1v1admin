@@ -55,7 +55,7 @@
                             @if ($var["login_succ_flag"]==0)
                                 否
                             @elseif ($var["login_succ_flag"]==1)
-                                是
+                                <span style="color:#f00;">是</span>
                             @endif
                         </td>
                         <td>{{@$var["login_time"]}} </td>

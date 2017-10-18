@@ -604,8 +604,15 @@ class teacher_level extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user);
         foreach($ret_info["list"] as &$item){
-            E\Elevel::set_item_value_str($item,"level_before");
-            E\Elevel::set_item_value_str($item,"level_after");
+            if($item["teacher_money_type"]==6){
+                E\Enew_level::set_item_value_str($item,"level_before");
+                E\Enew_level::set_item_value_str($item,"level_after");
+
+            }else{
+                E\Elevel::set_item_value_str($item,"level_before");
+                E\Elevel::set_item_value_str($item,"level_after");
+   
+            }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
 

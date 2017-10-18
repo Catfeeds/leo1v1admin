@@ -239,16 +239,15 @@ class ss_deal extends Controller
                 $ass_account = $this->t_manager_info->get_account($origin_assistantid);
                 $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
                 $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
-
-                //分配日志
-                $this->t_seller_edit_log->row_insert([
-                    'adminid'=>$this->get_account_id(),//分配人
-                    'uid'=>$opt_adminid,//组员
-                    'new'=>$userid,//例子
-                    'type'=>E\Eseller_edit_log_type::V_3,
-                    'create_time'=>time(NULL),
-                ]);
             }
+            //分配日志
+            $this->t_seller_edit_log->row_insert([
+                'adminid'=>$this->get_account_id(),//分配人
+                'uid'=>$opt_adminid,//组员
+                'new'=>$userid,//例子
+                'type'=>E\Eseller_edit_log_type::V_3,
+                'create_time'=>time(NULL),
+            ]);
         }
 
         return $this->output_succ();
@@ -1879,9 +1878,9 @@ class ss_deal extends Controller
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
             $adm = $this->get_account();
-            if(!in_array($adm,["jim","jack"])){
+            /* if(!in_array($adm,["jim","jack"])){
                 return $this->output_err("该功能开发中");
-            }
+                }*/
             $assistantid = $this->t_assistant_info->get_assistantid($adm);
             $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
             if($assign_lesson_count < $lesson_total){
@@ -1935,6 +1934,7 @@ class ss_deal extends Controller
             $this->t_assistant_info->field_update_list($assistantid,[
                "assign_lesson_count" =>$assign_lesson_count_left
             ]);
+           
             //合同状态更新
             $this->t_order_info->field_update_list($orderid,[
                 "contract_status"=>1,
@@ -1942,6 +1942,10 @@ class ss_deal extends Controller
                 "check_money_flag"=>1,
                 "check_money_time"=>time()
             ]);
+
+            $acc= $this->get_account();
+            $this->t_manager_info->send_wx_todo_msg("jack","助教课时赠送","助教".$acc,"课时".$lesson_total,""  );
+
         }else{
             if($order_require_flag) {
                 $this->t_flow->add_flow(

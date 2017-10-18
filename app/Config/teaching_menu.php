@@ -112,6 +112,7 @@ class teaching_menu{
                     ["name"=>"教材版本管理",   "url"=>"/textbook_manage/get_subject_grade_textbook_info"],
                     [ "name"=>"教材版本地图",   "url"=>"/textbook_manage/show_textbook_map"],
                     [ "name"=>"老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_new"],
+                    [ "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_research"],
 
                     [ "name"=>"教研组",  "list"=>[
                         ["name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
@@ -227,7 +228,7 @@ class teaching_menu{
 
                 [ "name"=>"产品部",  "list"=>[
 
-                    ["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
+                    //["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
                     [ "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product_new"],
                     ["name" =>"产品-需求-old" ,  "url"=>"/requirement/requirement_info_product"],
                     //[ "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
