@@ -3253,5 +3253,18 @@ ORDER BY require_time ASC";
         return $this->main_get_value($sql);
 
     }
+    public function get_cur_require_adminid_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s tr"
+                                  ." left join %s tss on tss.require_id=tr.require_id"
+                                  ." left join %s m on m.uid=tr.cur_require_adminid"
+                                  ." where tss.lessonid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 }

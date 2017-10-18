@@ -2454,7 +2454,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname){
+    public function get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname,$arr=[]){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
@@ -2464,6 +2464,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="l.lesson_type <>2";
         }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
                                   ." where %s group by t.teacherid ",
@@ -2519,7 +2520,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,100);
+        return $this->main_get_list_by_page($sql,$page_info,500);
 
 
     }
@@ -3751,5 +3752,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         });
     }
 
+    public function get_wx_openid_list(){
+        $sql = $this->gen_sql_new("  select wx_openid, teacherid from %s t"
+                                  ." where t.wx_openid <> '' and quit_time=0"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 }

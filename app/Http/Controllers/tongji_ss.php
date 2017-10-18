@@ -481,6 +481,12 @@ class tongji_ss extends Controller
         return $this->origin_count();
     }
 
+    public function origin_count_yhyy () {
+        $this->set_in_value("origin_ex","用户运营,,,");
+        return $this->origin_count();
+    }
+
+
     public function origin_count_bd () {
         $this->set_in_value("origin_ex","BD,,,");
         return $this->origin_count();

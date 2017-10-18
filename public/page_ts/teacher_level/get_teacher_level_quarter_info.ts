@@ -3,7 +3,8 @@
 function load_data(){
     $.reload_self_page ( {
         order_by_str: g_args.order_by_str,
-		teacher_money_type:	$('#id_teacher_money_type').val()
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		teacherid:	$('#id_teacherid').val()
     });
 }
 
@@ -12,6 +13,8 @@ $(function(){
     Enum_map.append_option_list_new("teacher_money_type", $("#id_teacher_money_type"),true,[5,6]);
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
+	$('#id_teacherid').val(g_args.teacherid);
+    $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
     $(".opt-advance-require").on("click",function(){        
         var opt_data = $(this).get_opt_data();
@@ -181,6 +184,16 @@ $(function(){
         });
 
         
+
+    });
+    $("#id_add_info").on("click",function(){
+        BootstrapDialog.confirm("确定刷新数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/update_teacher_advance_info_new', {
+                    "teacher_money_type": g_args.teacher_money_type 
+                });
+            } 
+        });
 
     });
 	$('.opt-change').set_input_change_event(load_data);

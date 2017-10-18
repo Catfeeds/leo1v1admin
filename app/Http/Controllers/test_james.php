@@ -10,6 +10,9 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
+use App\Jobs\send_wx_notic_for_software;
+
+
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
@@ -698,6 +701,33 @@ class test_james extends Controller
         $student_info = $this->t_student_info->get_stu_info_by_parentid($parentid);
 
         return $this->output_succ(['data'=>$student_info]);
+    }
+
+
+
+    public function send_msg_to_parent(){
+        // dd(1);
+
+
+        dispatch(new send_wx_notic_for_software());
+
+
+    }
+
+
+    public function send_msg_to_teacher(){
+        // dd(2);
+
+        $teacher_list = $this->t_teacher_info->get_wx_openid_list();
+
+        dd($teacher_list);
+        //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+
+        // {{first.DATA}}
+        // 待办主题：{{keyword1.DATA}}
+        // 待办内容：{{keyword2.DATA}}
+        // 日期：{{keyword3.DATA}}
+        // {{remark.DATA}}
     }
 
 

@@ -1759,7 +1759,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_ass_stu_info_new($adminid=-1){
         $where_arr=[
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0",
             ["m.uid=%u",$adminid,-1]
         ];
@@ -1783,7 +1783,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr=[
             "type=2",
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"s.type_change_time",$start_time,$end_time);
@@ -1820,7 +1820,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
-                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 and m.del_flag=0",
+                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 ",
                                  self::DB_TABLE_NAME,
                                  t_assistant_info::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME

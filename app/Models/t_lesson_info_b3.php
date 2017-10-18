@@ -1185,5 +1185,24 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         });
     }
 
+    /**
+     * 获取试听课学生,老师的教材版本进行匹配度统计
+     */
+    public function get_textbook_match_lesson_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new(""
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

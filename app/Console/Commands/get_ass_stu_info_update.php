@@ -71,7 +71,15 @@ class get_ass_stu_info_update extends Command
 
         //dd($ass_last_month);
         //dd(date("Y-m-d",$last_month));
-        $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
+        /* $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
+        $cur_start = strtotime(date("Y-m-01",time()));
+        if($start_time < $cur_start){
+            $history_flag=1;
+        }else{
+            $history_flag=0;
+            }*/
+        $ass_list = $task->t_manager_info->get_adminid_list_by_account_role_new(1,$start_time,0);
+
         $warning_list = $task->t_student_info->get_warning_stu_list();
         
         foreach($warning_list as $item){

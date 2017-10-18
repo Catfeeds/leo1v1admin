@@ -152,9 +152,19 @@ class test_code extends Controller
         // }
 
         // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
-        // echo "<br>";
 
         return $lesson_price;
+    }
+
+    public function get_textbook_match_degree(){
+        $start_date = $this->get_in_int_val("month_start");
+        $end_date   = $this->get_in_int_val("month_end");
+
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date);
+
+        $list  = $this->t_test_lesson_subject->get_textbook_match_list($start_time,$end_time);
+
     }
 
     public function get_success_lesson(){
