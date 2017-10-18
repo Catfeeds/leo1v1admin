@@ -32,7 +32,10 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["adminid_nick"]}} </td>
+                        <td>{{@$var["uid_nick"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
