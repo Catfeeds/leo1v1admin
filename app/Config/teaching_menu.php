@@ -227,7 +227,7 @@ class teaching_menu{
 
                 [ "name"=>"产品部",  "list"=>[
 
-                    ["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
+                    //["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
                     [ "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product_new"],
                     ["name" =>"产品-需求-old" ,  "url"=>"/requirement/requirement_info_product"],
                     //[ "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
