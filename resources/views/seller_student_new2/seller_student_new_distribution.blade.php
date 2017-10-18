@@ -64,7 +64,11 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <td >{{@$var["count"]}}</td>
+                        <td >
+                            <a href="javascript:;" class="distribution_count" >
+                                {{@$var["count"]}}
+                            </a>
+                        </td>
                         <td >{{@$var["become_member_num"]}}</td>
                         <td >{{@$var["leave_member_num"]}}</td>
                         <td>
