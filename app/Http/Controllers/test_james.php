@@ -703,9 +703,15 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        dd(1);
+        // dd(1);
 
         $parent_list = $this->t_parent_info->get_openid_list();
+
+        dd($parent_list);
+
+        foreach($parent_list as $item){
+
+        }
 
     }
 

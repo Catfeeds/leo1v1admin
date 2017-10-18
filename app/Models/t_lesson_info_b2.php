@@ -127,7 +127,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ." left join %s tls  on  tls.test_lesson_subject_id= tsr.test_lesson_subject_id "
             ." left join %s tlm on tlm.lessonid=l.lessonid"
             ." left join %s tsc on tsc.userid=l.userid"
-            ." where %s  order by lesson_start desc "
+            ." where %s group by l.lessonid order by lesson_start desc  "
             ,self::DB_TABLE_NAME
             ,t_parent_child::DB_TABLE_NAME
             ,t_teacher_label::DB_TABLE_NAME

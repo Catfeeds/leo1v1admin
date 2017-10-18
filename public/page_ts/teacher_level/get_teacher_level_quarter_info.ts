@@ -183,6 +183,16 @@ $(function(){
         
 
     });
+    $("#id_add_info").on("click",function(){
+        BootstrapDialog.confirm("确定刷新数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/update_teacher_advance_info_new', {
+                    "teacher_money_type": g_args.teacher_money_type 
+                });
+            } 
+        });
+
+    });
 	$('.opt-change').set_input_change_event(load_data);
 });
 

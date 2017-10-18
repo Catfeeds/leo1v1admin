@@ -57,7 +57,7 @@ class check_modify_lesson_time extends Command
 
 
             $lesson_start_time = $this->task->t_lesson_info_b2->get_lesson_start($item['lessonid']);
-            $lesson_start_date = date('m月d日',$lesson_start_time );
+            $lesson_start_date = date('m月d日 H:i:s',$lesson_start_time );
             $stu_nick          = $this->task->t_student_info->get_stu_nick_by_lessonid($item['lessonid']);
             $teacher_nick      = $this->task->t_teacher_info->get_teacher_nick_lessonid($item['lessonid']);
             $day_date          = date('Y-m-d H:i:s');

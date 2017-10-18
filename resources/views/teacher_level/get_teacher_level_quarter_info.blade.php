@@ -15,6 +15,9 @@
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
                 </div>                
+                @if($acc=="jack")
+                    <button class="btn btn-primary" id="id_add_info"> 刷新数据 </button>
+                @endif
 
 
 
