@@ -2743,7 +2743,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.record_info <> ''";
         }
-        
+
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
@@ -2957,7 +2957,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
-        
+
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
@@ -3706,7 +3706,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-   
+
 
     public function get_no_time_train_lesson_teacher_list(){
         $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname,t.phone,t.wx_openid "
@@ -3938,6 +3938,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_row($sql);
     }
+
 
 
 }
