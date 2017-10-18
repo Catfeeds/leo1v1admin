@@ -82,7 +82,7 @@ class update_seller_level extends cmd_base
             //统计本月
             $price = $this->task->t_order_info->get_seller_price($start_time_this,$end_time_this,$adminid);
             $price = $price/100;
-            if($price>$next_goal){
+            if($price>$next_goal && !in_array($adminid,[380,457])){
                 foreach($ret_level_goal as $item){
                     if($price >= $item['level_goal']){
                         $next_level = $item['seller_level'];

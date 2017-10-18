@@ -465,7 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 380;
+        $adminid = 381;
         if(!in_array($adminid,[380,457])){
             dd('a');
         }else{
