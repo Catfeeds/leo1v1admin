@@ -702,6 +702,15 @@ class test_james extends Controller
 
 
 
+    public function send_msg_to_parent(){
+        dd(1);
+
+
+
+    }
+
+
+
 
 
 
