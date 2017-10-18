@@ -1625,7 +1625,6 @@ class user_deal extends Controller
             );
         }
 
-
         $this->t_course_order->row_insert([
             "userid"                => $userid,
             "teacherid"             => $teacherid,
@@ -1643,8 +1642,9 @@ class user_deal extends Controller
         ]);
         $courseid_type0 = $this->t_course_order->get_last_insertid();
 
+        $lesson_total = floor($lesson_num/2);
         $this->t_course_order->row_insert([
-            "userid"                => $userid,
+            "userid"                => 0,
             "teacherid"             => $teacherid,
             "subject"               => $subject,
             "grade"                 => $stu_info['grade'],
@@ -1658,9 +1658,17 @@ class user_deal extends Controller
             "course_status"         => 0,
             "is_kk_flag"            => 0,
             "course_type"           => 3001,
+            "course_name"           => '自动排课-小班课',
+            "lesson_total"          => $lesson_total,
+            "stu_total"             =>1,
         ]);
         $courseid_type3001 = $this->t_course_order->get_last_insertid();
 
+        $this->t_small_class_user->row_insert([
+            "courseid"  => $courseid_type3001,
+            "userid"    => $userid,
+            "join_time" => time(),
+        ]);
 
         //排课
 
@@ -1695,14 +1703,19 @@ class user_deal extends Controller
                 $competition_flag
             );
         } else {
-            // $lessonid = $this->t_lesson_info->add_lesson(
-            //     $courseid,0,0,0,$type,$teacherid,
-            //     $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
-            //     $teacher_money_type,$level,
-            //     $competition_flag
-            // );
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $courseid,0,0,0,$type,$teacherid,
+                $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
+                $teacher_money_type,$level,
+                $competition_flag
+            );
 
-            // $this->t_small_lesson_info->
+            $this->t_small_lesson_info->row_insert([
+                    "lessonid" => $lessonid,
+                    "userid"   => $userid,
+                ]);
+
+
         }
 
         $this->t_lesson_info->reset_lesson_list($courseid);

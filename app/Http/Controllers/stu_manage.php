@@ -713,13 +713,20 @@ class stu_manage extends Controller
             }
         }
 
-        // dd($list);
+        $show_flag = 0;
         $is_test_user = $this->t_student_info->check_is_test_user($userid);
+        if($is_test_user) {
+            $show_flag++;
+        }
+        $ass_role = $this->get_account_role();
+        if ($ass_role == 10 || $ass_role==12 ) {
+            $show_flag++;
+        }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
             "lesson_left"            => sprintf("%.1f", $lesson_left),
             "assigned_lesson_count"   => sprintf("%.1f", $g_assigned_lesson_count),
             "unassigned_lesson_count" => sprintf("%.1f", $lesson_left-$g_assigned_lesson_count),
-            "is_test_user"     => $is_test_user,
+            "show_flag"     => $show_flag,
         ]);
     }
 
