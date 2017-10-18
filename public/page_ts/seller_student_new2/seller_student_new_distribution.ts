@@ -45,7 +45,7 @@ $(function(){
                 +"&end_time="+g_args.end_time
                 +"&date_type="+g_args.date_type
                 +"&opt_date_type="+g_args.opt_date_type
-                +"&global_tq_called_flag="+opt_data.global_tq_called_flag
+                +"&global_tq_called_flag="+0
                );
     });
 

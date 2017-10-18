@@ -49,7 +49,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             " select count(l.adminid) count,l.adminid,l.type,"
             ." count(ss.global_tq_called_flag = 0) no_call_count,ss.global_tq_called_flag "
             ." from %s l"
-            ." left join %s ss on ss.userid=l.new "
+            ." left join %s ss on ss.userid=l.new and ss.global_tq_called_flag = 0 "
             ." where %s "
             ." group by l.adminid "
             ,self::DB_TABLE_NAME
