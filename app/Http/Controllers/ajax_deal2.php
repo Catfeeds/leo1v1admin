@@ -950,7 +950,6 @@ class ajax_deal2 extends Controller
     public function set_admin_menu_config () {
         $menu_config= $this->get_in_str_val("menu_config");
         $adminid=$this->get_account_id();
-
         $this->t_manager_info->field_update_list($adminid,[
             "menu_config" =>  $menu_config
         ]);
