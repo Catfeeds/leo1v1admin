@@ -27,6 +27,7 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
             ['l.adminid = %u',$adminid,-1],
             ['l.type = %u',E\Eseller_edit_log_type::V_3],
             ['ss.global_tq_called_flag = %u',$global_tq_called_flag,-1],
+            'ss.userid >0 ',
         ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $sql = $this->gen_sql_new(
@@ -42,7 +43,9 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
     }
 
     public function get_distribution_count($start_time,$end_time){
-        $where_arr = [];
+        $where_arr = [
+            'ss.userid >0 ',
+        ];
         $this->where_arr_add_time_range($where_arr,'l.create_time',$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,'l.type',E\Eseller_edit_log_type::V_3);
         $sql = $this->gen_sql_new(
