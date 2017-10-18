@@ -1878,9 +1878,9 @@ class ss_deal extends Controller
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
             $adm = $this->get_account();
-            if(!in_array($adm,["jim","jack"])){
+            /* if(!in_array($adm,["jim","jack"])){
                 return $this->output_err("该功能开发中");
-            }
+                }*/
             $assistantid = $this->t_assistant_info->get_assistantid($adm);
             $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
             if($assign_lesson_count < $lesson_total){
