@@ -47,7 +47,8 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
-                    <td>分配例子数</td>
+                    <td>分配数</td>
+                    <td>分配未联系数</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
                     <td> 操作  </td>
@@ -67,6 +68,11 @@
                         <td >
                             <a href="javascript:;" class="distribution_count" >
                                 {{@$var["count"]}}
+                            </a>
+                        </td>
+                        <td >
+                            <a href="javascript:;" class="distribution_count" >
+                                {{@$var["no_call_count"]}}
                             </a>
                         </td>
                         <td >{{@$var["become_member_num"]}}</td>

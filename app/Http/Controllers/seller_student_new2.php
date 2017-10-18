@@ -851,6 +851,8 @@ class seller_student_new2 extends Controller
         foreach($seller_log_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['count'] = $item['count'];
+            $res[$adminid]['no_call_count'] = $item['no_call_count'];
+            $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
@@ -963,14 +965,16 @@ class seller_student_new2 extends Controller
     public function seller_edit_log_list(){
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $adminid    = $this->get_in_int_val('adminid',-1);
+        $global_tq_called_flag    = $this->get_in_int_val('global_tq_called_flag',-1);
         $page_info  = $this->get_in_page_info();
-        $ret_info   = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info);
+        $ret_info   = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info,$global_tq_called_flag);
         foreach($ret_info['list'] as &$item){
             $userid = (int)$item['new'];
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             $item["adminid_nick"]= $this->cache_get_account_nick($item["adminid"]);
             $item["uid_nick"]= $this->cache_get_account_nick($item["uid"]);
             $item["phone"] = $this->t_phone_to_user->get_phone($userid);
+            $item["global_tq_called_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["global_tq_called_flag"]);
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
