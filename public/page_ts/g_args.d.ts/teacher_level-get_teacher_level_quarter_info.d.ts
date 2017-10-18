@@ -2,6 +2,7 @@ interface GargsStatic {
 	order_by_str:	string;
 	quarter_start:	number;
 	teacher_money_type:	number;
+	teacherid:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -53,7 +54,8 @@ $(function(){
         $.reload_self_page ( {
 			order_by_str:	$('#id_order_by_str').val(),
 			quarter_start:	$('#id_quarter_start').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val()
+			teacher_money_type:	$('#id_teacher_money_type').val(),
+			teacherid:	$('#id_teacherid').val()
         });
     }
 
@@ -61,6 +63,7 @@ $(function(){
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_quarter_start').val(g_args.quarter_start);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
+	$('#id_teacherid').val(g_args.teacherid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -89,6 +92,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacher_money_type</span>
                 <input class="opt-change form-control" id="id_teacher_money_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacherid</span>
+                <input class="opt-change form-control" id="id_teacherid" />
             </div>
         </div>
 */

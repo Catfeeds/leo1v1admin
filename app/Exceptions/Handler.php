@@ -45,8 +45,9 @@ class Handler extends ExceptionHandler
         $cmd_info= @join(" ", @$global["argv"]);
 
         $account=@$_SESSION["acc"];
+        $url=@$_SERVER["REQUEST_URI"];
 
-        $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/> server_info $server_info  $cmd_info<br/> ";
+        $bt_str= "user:$account<br/>.url:$url<br/> server_info $server_info  $cmd_info<br/> ";
 
         foreach( $e->getTrace() as &$bt_item ) {
             //$args=json_encode($bt_item["args"]);
@@ -57,15 +58,17 @@ class Handler extends ExceptionHandler
 
         $ip=@$_SERVER["REMOTE_ADDR"];
 
-        if( \App\Helper\Utils::check_env_is_release() ) {
-            $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
-            if ( !in_array( $ip_fix ,["59.173.189","140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
+        if ( strpos($url,"." ) ===false ) { //找文件,
+            if( \App\Helper\Utils::check_env_is_release()  ) {
+                $ip_fix=preg_replace("/\.[^.]*$/","", $ip );
+                if ( !in_array( $ip_fix ,["59.173.189","140.205.201","121.42.0", "140.205.225" ])   ) { //阿里云盾
 
-                dispatch( new \App\Jobs\send_error_mail(
-                    "", date("H:i:s")."ERR1:" .$e->getMessage(),
-                    "$bt_str".
-                    "<br>client_ip:$ip", \App\Enums\Ereport_error_from_type::V_1
-                ));
+                    dispatch( new \App\Jobs\send_error_mail(
+                        "", date("H:i:s")."ERR1:" .$e->getMessage(),
+                        "$bt_str".
+                        "<br>client_ip:$ip", \App\Enums\Ereport_error_from_type::V_1
+                    ));
+                }
             }
         }
         $list_str=preg_replace("/<br\/>/","\n" ,$bt_str );

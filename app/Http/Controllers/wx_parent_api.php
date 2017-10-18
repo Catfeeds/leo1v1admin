@@ -89,7 +89,7 @@ class wx_parent_api extends Controller
             $lesson_num= $item["lesson_num"];
             $lessonid= $item["lessonid"];
             $userid= $item["userid"];
-            $item["lesson_name"]= "第{$lesson_num}次试听课";
+            $item["lesson_name"]= "第 $lesson_num 次试听课";
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
 

@@ -592,6 +592,9 @@ class main_page extends Controller
         $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
+        //薪资展示
+
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
             "end_time" => $end_time_date,

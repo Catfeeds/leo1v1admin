@@ -73,9 +73,6 @@ class requirement extends Controller
         $productid = $this->get_in_int_val('id_productid',"-1");
         $product_status = $this->get_in_int_val('product_status',"-1");
         $userid = $this->get_account_id();
-        if($userid==944){
-            $userid=-1;
-        }
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_requirement_info->get_list_product_new($page_info,$opt_date_type,$userid,$priority,$productid,$product_status,$start_time,$end_time);
 
