@@ -92,6 +92,8 @@ class agent extends Controller
         $ret_info_new = [];
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
+            $item['p_nickname'] = $item['p_nickname'].'/'.$item['p_phone'];
+            $item['pp_nickname'] = $item['pp_nickname'].'/'.$item['pp_phone'];
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_user_online_status"]);
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
