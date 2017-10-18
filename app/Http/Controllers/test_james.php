@@ -10,6 +10,9 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
+use App\Jobs\send_wx_notic_for_software;
+
+
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
@@ -705,19 +708,26 @@ class test_james extends Controller
     public function send_msg_to_parent(){
         // dd(1);
 
-        $parent_list = $this->t_parent_info->get_openid_list();
 
-        dd($parent_list);
+        dispatch(new send_wx_notic_for_software());
 
-        foreach($parent_list as $item){
-
-        }
 
     }
 
 
     public function send_msg_to_teacher(){
-        dd(2);
+        // dd(2);
+
+        $teacher_list = $this->t_teacher_info->get_wx_openid_list();
+
+        dd($teacher_list);
+        //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+
+        // {{first.DATA}}
+        // 待办主题：{{keyword1.DATA}}
+        // 待办内容：{{keyword2.DATA}}
+        // 日期：{{keyword3.DATA}}
+        // {{remark.DATA}}
     }
 
 

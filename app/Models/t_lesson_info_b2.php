@@ -1393,7 +1393,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.assistantid>0",
             "s.is_test_user=0",
             "m.account_role=1",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new("select distinct l.userid,m.uid "

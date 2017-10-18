@@ -27,10 +27,11 @@ class teacher_level extends Controller
         $this->set_in_value("quarter_start",$start_time);
         $quarter_start = $this->get_in_int_val("quarter_start");
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",5);
+        $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();
 
       
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,-1,-1,-1,-1,0);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,-1,-1,-1,0);
         foreach($ret_info["list"] as &$item){
             $item["level"]=$item["level_before"];
             if($item["teacher_money_type"]==6){
@@ -398,12 +399,17 @@ class teacher_level extends Controller
         $start_time = $this->get_in_int_val("start_time");
         $realname = $this->get_in_str_val("realname");
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
         // $realname ="胡玉梅";
+        $tea_arr=[];
+        $tea_arr[] = $teacherid;
+        if($transfer_teacherid>0){
+            $tea_arr[]= $transfer_teacherid;
+        }
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        $lesson_total = $this->t_teacher_info->get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname);
-        $tea_arr=[];$lesson_count=0;
+        $lesson_total = $this->t_teacher_info->get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,"",$tea_arr);
+        $lesson_count=0;
         foreach($lesson_total as $val){
-            $tea_arr[]=$val["teacherid"];
             $lesson_count +=$val["lesson_count"];
         }
         $lesson_count = round($lesson_count/3,1);
@@ -741,7 +747,7 @@ class teacher_level extends Controller
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
  
         }
-
+        
         //季度时间列表
         $season_list = $this->get_four_season_list();
 

@@ -734,9 +734,11 @@ class tongji extends Controller
     }
 
     public function get_month_money_info(){
+
         $ret_list = $this->t_order_info->get_month_money_info();
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
+            /*
             $all_money=0;
             if ($month=="2017-06"  ) {
                 $all_money=7406943;
@@ -765,6 +767,7 @@ class tongji extends Controller
             }else if ($month=="2017-05"  ) {
                 $item["all_money"]=4454107;
             }
+            */
 
         }
 
