@@ -58,7 +58,7 @@ $(function(){
             ["完成率",month_finish_persent],
             ["缺口金额",g_data.month_left_money],
 
-            ["下单总人数",g_data.order_num],
+            ["下单总人数",g_data.order_cc_num],
             ["入职完整月人员人数",g_data.formal_num],
             ["平均人效",aver_money],
             ["平均单笔",aver_count],
