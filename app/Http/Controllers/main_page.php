@@ -593,6 +593,18 @@ class main_page extends Controller
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
        
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        foreach($ass_month as &$val){
+            $list=$this->get_ass_percentage_money_list($val);
+            $val["lesson_price_money"] = $list["lesson_money"];
+            $val["kk_money"] = $list["kk_money"];
+            $val["renw_money"] = $list["renw_money"];
+            $val["tran_num_money"] = $list["tran_num_money"];
+            $val["cc_tran_money"] = $list["cc_tran_money"];
+            $val["all_money"] = $list["all_money"];
+
+        }
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
             "end_time" => $end_time_date,
@@ -608,6 +620,7 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
+            "ass_month"    =>  $ass_month
         ]);
 
     }

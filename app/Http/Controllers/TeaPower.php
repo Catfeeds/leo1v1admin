@@ -1776,26 +1776,39 @@ trait TeaPower {
          *{margin:0 auto;padding:0 auto;}
          body{opacity:100%;color:#666;font-family:'黑体';}
          html{font-size:10px;}
+
          .color333{color:#333;}
          .fl{float:left;}
          .fr{float:right;}
          .cl{clear:both;}
          .tl{text-align:left;}
          .tr{text-align:right;}
-         .size12{font-size:2.4rem;}
-         .size14{font-size:2.8rem;}
-         .size18{font-size:3.6rem;}
-         .size20{font-size:4rem;}
-         .size24{font-size:4.8rem;}
-         .size28{font-size:5.6rem;}
-         .size36{font-size:7.2rem;}
-         .hl{line-height:4.2rem;}
+
+         /* .size12{font-size:2.4rem;}
+            .size14{font-size:2.8rem;}
+            .size18{font-size:3.6rem;}
+            .size20{font-size:4rem;}
+            .size24{font-size:4.8rem;}
+            .size28{font-size:5.6rem;}
+            .size36{font-size:7.2rem;}
+            .hl{line-height:4.2rem;} */
+         .size12{font-size:24px;}
+         .size14{font-size:28px;}
+         .size18{font-size:36px;}
+         .size20{font-size:40px;}
+         .size24{font-size:48px;}
+         .size28{font-size:56px;}
+         .size36{font-size:72px;}
+         .hl{line-height:42px;}
+
          .top-line{margin-top:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
-         .title{margin:2rem 0;}
-         .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
+         /* .title{margin:2rem 0;} */
+         .title{margin:20px 0;}
+         /* .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;} */
+         .border{border:2px solid #e8665e;border-radius:20px;margin:40px 0 20px;padding:12px 22px 8px 20px;}
          .tea_name{font-weight:bold;}
          .tea_level{font-weight:bold;}
          .img_position{position:relative;z-index:0;width:100%;}
@@ -1803,30 +1816,39 @@ trait TeaPower {
          .img_level_eng{position:relative;z-index:1;height:0;top:335px;}
          .img_star{position:relative;z-index:1;height:0;top:390px;}
          .img_name{position:relative;z-index:1;height:0;top:535px;font-family:'Helvetica','方正舒体','华文行楷','隶书';}
+
          @media screen and (max-width: 720px) {
-             .size12{font-size:1.5rem;}
-             .size14{font-size:1.75rem;}
-             .size18{font-size:2.25rem;}
-             .size20{font-size:2.5rem;}
-             .size24{font-size:3rem;}
-             .size28{font-size:3.5rem;}
-             .size36{font-size:4.5rem;}
+             /* .size12{font-size:1.5rem;}
+                .size14{font-size:1.75rem;}
+                .size18{font-size:2.25rem;}
+                .size20{font-size:2.5rem;}
+                .size24{font-size:3rem;}
+                .size28{font-size:3.5rem;}
+                .size36{font-size:4.5rem;} */
+             .size12{font-size:15px;}
+             .size14{font-size:17.5px;}
+             .size18{font-size:22.5px;}
+             .size20{font-size:25px;}
+             .size24{font-size:30px;}
+             .size28{font-size:35px;}
+             .size36{font-size:45px;}
              .content{width:400px;}
              .img_level{top:140px;}
              .img_level_eng{top:185px;}
              .img_star{top:213px;}
              .img_star img{width:30px;}
              .img_name{top:285px;}
-             .hl{line-height:2.625rem;}
+             /* .hl{line-height:2.625rem;} */
+             .hl{line-height:26.25px;}
          }
         </style>
     </head>
     <body>
         <div style='width:100%' align='center'>
             <div class='content size14'>
-            <div class='logo top-line' align='center'>
-                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
-            </div>
+                <div class='logo top-line' align='center'>
+                    <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+                </div>
                 <div class='title size24'>理优教育</div>
                 <div >感谢您一路对我们的支持与信任</div>
                 <div class='border tl'>
@@ -3604,6 +3626,51 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }else{
              $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
         }
+        $lesson_money = round($lesson_money,2);
+        $kk_money =0;
+        $kk_num= $list["kk_num"]+$list["hand_kk_num"];
+        if($kk_num<=5){
+            $kk_money=  $kk_num*10;
+        }elseif($kk_num<=10){
+            $kk_money=  5*10+($kk_num-5)*20;
+        }else{
+            $kk_money=  5*10+(10-5)*20+($kk_num-10)*30;
+        }
+        $kk_money = round($kk_money,2);
+        $renw_money=0;
+        $renw_price = ($list["renw_price"]+$list["tran_price"])/100;
+        if($renw_price<=10000){
+            $renw_money = $renw_price*0.01;
+        }elseif($renw_price<=20000){
+            $renw_money = 10000*0.01+($renw_price-10000)*0.02;
+        }elseif($renw_price<=50000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+($renw_price-20000)*0.03;
+        }elseif($renw_price<=80000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+($renw_price-50000)*0.035;
+        }elseif($renw_price<=110000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+($renw_price-80000)*0.04;
+        }else{
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+(110000-80000)*0.04+($renw_price-80000)*0.045;
+        }
+        $renw_money = round($renw_money,2);
+        $tran_num_money=$list["hand_tran_num"]*200;
+        if($tran_num_money>1000){
+            $tran_num_money=1000;
+        }
+        $tran_num_money = round($tran_num_money,2);
+        $cc_tran_money = $list["cc_tran_money"]/100*0.02;
+        $cc_tran_money = round($cc_tran_money,2);
+        $all_money = $lesson_money+$kk_money+$renw_money+$tran_num_money+$cc_tran_money;
+        $ret=[
+            "lesson_money"=>$lesson_money,
+            "kk_money"    =>$kk_money,
+            "renw_money"  =>$renw_money,
+            "tran_num_money"=>$tran_num_money,
+            "cc_tran_money" =>$cc_tran_money,
+            "all_money"     =>$all_money
+        ];
+        return $ret;
+
     }
 
 }
