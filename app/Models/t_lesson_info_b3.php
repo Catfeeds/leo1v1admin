@@ -1197,10 +1197,20 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "confirm_flag!=2",
             "lesson_del_flag=0",
         ];
-        $sql = $this->gen_sql_new(""
-                                  ." from %s "
+        $sql = $this->gen_sql_new("select s.editionid,tl.textbook,t.teacher_textbook"
+                                  ." from %s l"
+                                  ." left join %s tls on l.lessonid=tls.lessonid"
+                                  ." left join %s tr on tls.require_id=tr.require_id"
+                                  ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

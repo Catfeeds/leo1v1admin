@@ -3035,6 +3035,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $cur_start =strtotime("2017-09-01");
+        // $end_time =strtotime("2017-10-01");
+        //薪资展示
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        foreach($ass_month as &$val){
+            $list=$this->get_ass_percentage_money_list($val); 
+        }
+
+        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        dd($assistant_renew_list);
+
         $page_num = $this->get_in_page_num();
         $adminid=324;
         $ret_list= $this->t_student_info->get_ass_list_for_select(-1,-1, "", $page_num,$adminid);
@@ -5540,8 +5551,10 @@ class user_deal extends Controller
         $month   = $this->get_in_int_val("month");
         $kpi_type = $this->get_in_int_val("kpi_type");
         $hand_kk_num = $this->get_in_int_val("hand_kk_num");
+        $hand_tran_num  = $this->get_in_int_val("hand_tran_num");
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$month,$kpi_type,[
-            "hand_kk_num"  =>$hand_kk_num
+            "hand_kk_num"  =>$hand_kk_num,
+            "hand_tran_num"=>$hand_tran_num 
         ]);
         return $this->output_succ();
 

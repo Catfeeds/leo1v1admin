@@ -157,14 +157,35 @@ class test_code extends Controller
     }
 
     public function get_textbook_match_degree(){
-        $start_date = $this->get_in_int_val("month_start");
-        $end_date   = $this->get_in_int_val("month_end");
+        $start_date = $this->get_in_str_val("month_start","2017-9-1");
+        $end_date   = $this->get_in_str_val("month_end","2017-10-1");
 
+        $region_version = array_flip(E\Eregion_version::$desc_map);
         $start_time = strtotime($start_date);
         $end_time   = strtotime($end_date);
 
-        $list  = $this->t_test_lesson_subject->get_textbook_match_list($start_time,$end_time);
-
+        $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $all_num = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            // echo "stu_textbook:".$stu_textbook;
+            // echo "<br>";
+            // echo "tea_textbook:".$val['teacher_textbook'];
+            // echo "<br>";
+            // echo "<br>";
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }
+        }
+        $match_per = $all_num>0?($match_num/$all_num):0;
+        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
     }
 
     public function get_success_lesson(){

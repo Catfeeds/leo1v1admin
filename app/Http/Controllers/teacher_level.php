@@ -478,6 +478,16 @@ class teacher_level extends Controller
         return $this->output_succ();
     }
 
+    public function update_level_after(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        $level_after = $this->get_in_int_val("level_after");
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "level_after" =>$level_after
+        ]);
+        return $this->output_succ();
+
+    }
     public function set_teacher_advance_require(){
         $teacherid = $this->get_in_int_val("teacherid");
         $start_time = $this->get_in_int_val("start_time");
