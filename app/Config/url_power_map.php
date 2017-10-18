@@ -575,6 +575,7 @@ class url_power_map {
 			'/tongji_ss/get_stu_test_paper_download_info'	=>1323119,
 			'/tongji_ss/get_homework_and_work_status_info'	=>1323120,
 			'/tea_manage_new/get_teacher_complaints_info'	=>1323326,
+			'/human_resource/reaearch_teacher_lesson_list_research'	=>1320200,
 			'/fulltime_teacher/fulltime_teacher_count'	=>1348000,
 			'/tongji_ss/tongji_fulltime_teacher_test_lesson_info'	=>1340200,
 			'/human_resource/teacher_test_lesson_info_total_fulltime'	=>1340500,

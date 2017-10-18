@@ -290,7 +290,7 @@ class test_james extends Controller
         $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
         $b = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 销售邀约数
-        
+
         dd($b);
         // $a = $new_order_info['order_num_new'] + $referral_order['total_num'];
         // dd($a);
@@ -699,7 +699,7 @@ class test_james extends Controller
 
         return $this->output_succ(['data'=>$student_info]);
     }
-   
+
 
 
 

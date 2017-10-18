@@ -2260,7 +2260,7 @@ trait TeaPower {
              * {{remark.DATA}}
              */
             $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
+            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str;
             $data["keyword1"] = "教职老师";
             $data["keyword2"] = "理优教育";
             $data["keyword3"] = $today_date;
