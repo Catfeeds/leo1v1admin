@@ -967,6 +967,7 @@ class wx_teacher_api extends Controller
         // 给助教// 销售 // 教务[试听课] 推送结果
         // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
         // $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
 
 
         if($lesson_type == 0){ //常规课
@@ -977,7 +978,6 @@ class wx_teacher_api extends Controller
         }
 
 
-        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
         if($lesson_type == 2){ // 只有试听课才会有教务 [常规课由助教直接排课]
             $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
         }

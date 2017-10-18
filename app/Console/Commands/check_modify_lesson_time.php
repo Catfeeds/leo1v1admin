@@ -52,7 +52,7 @@ class check_modify_lesson_time extends Command
             if($lesson_type == 0){
                 $ass_wx_openid = $this->task->t_lesson_info_b2->get_ass_wx_openid($item['lessonid']);
             }elseif($lesson_type == 2){
-                $ass_wx_openid = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+                $ass_wx_openid = $this->task->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($item['lessonid']);
             }
 
 
