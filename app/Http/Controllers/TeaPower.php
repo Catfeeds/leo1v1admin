@@ -2241,7 +2241,8 @@ trait TeaPower {
      */
     public function send_offer_info($teacher_info){
         $today_date  = date("Y年m月d日",time());
-        $level_str = E\Elevel::get_desc($teacher_info['level']);
+        // $level_str = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);
