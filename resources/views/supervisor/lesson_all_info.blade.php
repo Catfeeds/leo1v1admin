@@ -92,7 +92,9 @@
                     <span >年级:</span> {{$stu_info["grade_str"]}} <br/>
 
                     <span >老师退出次数:</span> {{$stu_info["tea_xmpp"]}} |
+                    
                     {{@$log_tea_last['server_ip']}} |
+
                     {{@$stu_info['tea_log_status']}}<br/>
                     <span >学生退出次数:</span> {{$stu_info["stu_xmpp"]}} |
                     {{@$log_stu_last['server_ip']}} |

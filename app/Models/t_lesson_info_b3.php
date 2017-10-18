@@ -265,7 +265,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
             $where_arr[] = ["tss.grab_flag=%u",$grab_flag,-1];
         }
-        
+
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
@@ -373,7 +373,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
         }
 
-       
+
         $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname"
                                   ." from %s l "
@@ -427,7 +427,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[]= ["tss.set_lesson_time >= %u",$start_time,-1];
             $where_arr[]= ["tss.set_lesson_time < %u",$end_time,-1];
         }
-       
+
         if($require_type==1){
             $where_arr[] = "tq.seller_top_flag=1";
         }elseif($require_type==2){
@@ -1103,5 +1103,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
+        public function get_lesson_time_xmpp_list($xmpp_value,$start_time, $end_time )
+        {
+            // dd($xmpp_value);
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+
+            ];
+            if($xmpp_value != ''){
+                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value]; 
+            }
+
+            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+            $sql = $this->gen_sql_new(
+                " select lesson_start,lesson_end".
+                " from %s".
+                " where %s".
+                " order by lesson_start asc ",
+                self::DB_TABLE_NAME,
+                $where_arr);
+            return $this->main_get_list($sql);
+        }
+
+
 
 }

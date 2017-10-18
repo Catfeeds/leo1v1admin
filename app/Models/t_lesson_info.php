@@ -3538,11 +3538,12 @@ lesson_type in (0,1) "
 
     public function get_lesson_time_list($start_time, $end_time )
     {
-        $where_arr=[
-            "confirm_flag not in (2,3)",
-            "lesson_del_flag=0",
-            "lesson_type <>4001",
-        ];
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+            ];
+  
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select lesson_start,lesson_end".
@@ -3553,6 +3554,38 @@ lesson_type in (0,1) "
             $where_arr);
         return $this->main_get_list($sql);
     }
+
+    //xmpp单个显示
+    public function get_lesson_time_xmpp_list($xmpp_value,$start_time, $end_time )
+    {
+        // dd($xmpp_value);
+        if($xmpp_value != ''){
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+                "xmpp_server_name=".$xmpp_value,
+            ];
+
+        }else{
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+            ];
+        }
+     
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select lesson_start,lesson_end".
+            " from %s".
+            " where %s".
+            " order by lesson_start asc ",
+            self::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_tea_paper_lesson_list($start,$end){
         $where_arr=[
