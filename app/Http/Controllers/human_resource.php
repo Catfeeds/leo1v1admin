@@ -2001,8 +2001,11 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
+        $account_role = $this->get_account_role();
         if(in_array($adminid,[349,72,186,68,500,897,967,480,944,974,985,994,986,1043])
-           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
+           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])
+           || $account_role==12
+        ){
             $adminid = -1;
         }
 
@@ -4224,7 +4227,7 @@ class human_resource extends Controller
         $new_phone = $this->get_in_str_val("new_phone");
         $acc       = $this->get_account();
 
-        if(!in_array($acc,["adrian","jim","zoe"])){
+        if(!in_array($acc,["adrian","jim","zoe","amyshen"])){
             return $this->output_err("权限不足！");
         }
         if($new_phone==""){
@@ -4292,7 +4295,7 @@ class human_resource extends Controller
         $lesson_start  = strtotime($lesson_date);
 
         \App\Helper\Utils::logger("user:".$acc."transfer_teacher old teacherid:".$old_teacherid."new teacherid:".$new_teacherid);
-        if(!in_array($acc,["adrian","jim","alan","zoe"])){
+        if(!in_array($acc,["adrian","jim","alan","zoe","amyshen"])){
             return $this->output_err("权限不足！");
         }
 
@@ -4327,7 +4330,7 @@ class human_resource extends Controller
             }
         }
         $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
-            "is_test_user" => 1,
+            //"is_test_user" => 1,
             "wx_use_flag"  => 0,
         ]);
         if(!$ret){

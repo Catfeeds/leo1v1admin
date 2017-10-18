@@ -230,6 +230,11 @@ function table_init() {
     var row_query=$(".row-query-list" );
     if (row_query.length>0) {
         var query_select_list=$( " <div class=\"col-xs-6 col-md-1\"> <div class=\"input-group\" >  <div class=\"input-group\" > <button   title=\"显示所有条件\" class=\"btn btn-warning fa   show-all  \"> ALL </button> </div> </div> <div> ");
+        var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  id_attime_query \"> 查询 </button  <div> ");
+
+        //row_query.prepend( query_attime );
+        row_query.append( query_attime );
+
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");
         var table_query_key=path_list[1]+"-"+path_list[2]+"-query" ;
@@ -1478,7 +1483,34 @@ Enum_map = {
             }
             $item.text( desc  );
         });
-    }
+    },
+    append_option_list_new : function (group_name, $select , not_add_all_option, id_list ){
+        //console.log(group_name);
+        var desc_map=g_enum_map[group_name]["desc_map"];
+        var newkey = Object.keys(desc_map).sort().reverse();
+　    　//先用Object内置类的keys方法获取要排序对象的属性名，再利用Array原型上的sort方法对获取的属性名进行排序，newkey是一个数组
+        var newObj = {};//创建一个新的对象，用于存放排好序的键值对
+        for (var i = 0; i < newkey.length; i++) {//遍历newkey数组
+            newObj[newkey[i]] = desc_map[newkey[i]];//向新创建的对象中按照排好的顺序依次增加键值对
+        }
+
+
+        var html_str="";
+        if (!not_add_all_option  ){
+            html_str += "<option value=\"-1\">[全部]</option>";
+        }
+        $.each(newObj, function(k,v){
+            if ($.isArray( id_list)) {
+                if($.inArray( parseInt(k), id_list ) != -1 ){
+                    html_str+="<option value=\""+k+"\">"+v+"</option>";
+                }
+            }else{
+                html_str+="<option value=\""+k+"\">"+v+"</option>";
+            }
+        });
+        $select.append(html_str);
+    },
+
 };
 
 function get_page_node(page_info ,reload_func)

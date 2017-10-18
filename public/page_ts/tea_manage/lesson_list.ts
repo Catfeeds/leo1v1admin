@@ -934,13 +934,36 @@ $(function(){
             var dlg = BootstrapDialog.show({
                 title: title,
                 message :"<div style = \"text-align:center\"><img width=\"350px\" src=\"/common/get_qr?text="+text+"\"></img>" ,
-                closable             : true
+                closable : true
             });
             //dlg.getModalDialog().css("width","800px");
 
         });
 
     });
+
+    $(".opt-qr-pad-at-time-new").on("click",function(){
+        var lessonid= $(this).get_opt_data("lessonid");
+        var title = $(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_tea_pad_lesson_qr",{
+            "lessonid" :lessonid
+        },function(result){
+
+            console.log(result.data);
+            var img_src = result.data;
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message :"<div style = \"text-align:center\"><img width=\"350px\" src=\""+img_src+"\"></img>" ,
+                closable : true
+            });
+
+          });
+
+    });
+
+
+
     $(".opt-qr-pad").on("click",function(){
 
         var lessonid= $(this).get_opt_data("lessonid");
@@ -1913,10 +1936,10 @@ $(function(){
 
     });
 
-    download_hide();
+   // download_hide();
     $(".opt-download").show();
-$(".opt-teacher-url").show();
-$(".opt-student-url").show();
-$(".opt-homework-url").show();
-$(".opt-quiz-url").show();		
+    $(".opt-teacher-url").show();
+    $(".opt-student-url").show();
+    $(".opt-homework-url").show();
+    $(".opt-quiz-url").show();		
 });

@@ -325,6 +325,7 @@ class menu{
                 ]],
                 ["power_id"=>5, "name"=>"质检-退费处理", "list"=>[
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
+                    ["power_id"=>9, "name"=>"退费汇总",   "url"=>"/user_manage/refund_duty_analysis"],
                     ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
                 ]],
@@ -416,6 +417,7 @@ class menu{
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
+                    ["power_id"=>42, "name"=>"例子分配统计",   "url"=>"/seller_student_new2/seller_student_new_distribution"],
                     ["power_id"=>35, "name"=>"销售个人业绩表",   "url"=>"/tongji/seller_personal_money"],
                     ["power_id"=>37, "name"=>"销售个人排行榜",   "url"=>"/tongji/seller_personal_rank"],
                     ["power_id"=>33, "name"=>"销售个效统计表",   "url"=>"/tongji/seller_time_income_list"],
@@ -497,7 +499,9 @@ class menu{
                 ["power_id"=>2, "name"=>"请假",   "url"=>"/self_manage/qingjia" ],
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
-                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                //                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
+                ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
+
                 ["power_id"=>13, "name"=>"上传头像",   "url"=>"/self_manage/upload_face_pic"],
 
             ]],
@@ -762,6 +766,7 @@ class menu{
                 ["power_id"=>50, "name"=>"未审核统计",   "url"=>"/user_manage/tongji_check"],
                 ["power_id"=>51, "name"=>"质监数据统计",   "url"=>"/tongji_ss/tongji_lesson_record_info"],
                 ["power_id"=>52, "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
+                ["power_id"=>53, "name"=>"学生老师数量统计", "url"=>"/tongji_ss/get_lesson_tea_stu_info"],
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
@@ -891,9 +896,10 @@ class menu{
                     ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
                 ]],
                 ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
-                ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
+                ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product_new"],
+                ["power_id"=>55, "name"=>"产品-需求-old",  "url"=>"/requirement/requirement_info_product"],
+                // ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
+                //["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
             ]],
         ];
 

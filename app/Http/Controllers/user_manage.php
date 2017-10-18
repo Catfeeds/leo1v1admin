@@ -914,6 +914,10 @@ class user_manage extends Controller
             }else{
                 $ret_list= $this->t_manager_info->get_list_for_select($id,$gender, $nick_phone, $page_num,$main_type);
             }
+        }elseif($type=="student_ass"){ //助教学生
+            //  $adminid=324;
+            $adminid = $this->get_account_id(); 
+            $ret_list= $this->t_student_info->get_ass_list_for_select($id,$gender, $nick_phone, $page_num,$adminid);           
         }
 
         $lru_list=null;
@@ -925,7 +929,7 @@ class user_manage extends Controller
         }
         if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher" || $type=="research_teacher" || $type=="train_through_teacher"){
             foreach($ret_list["list"] as &$item){
-                $item["phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+                $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
                 $item["subject"] = E\Esubject::get_desc($item["subject"]);
                 $item["grade"] = E\Egrade_part_ex::get_desc($item["grade_part_ex"]);
                 E\Egrade_range::set_item_value_str($item,"grade_start");
@@ -935,6 +939,12 @@ class user_manage extends Controller
                 }
 
             }
+        }elseif($type="student" || $type="student_ass"){
+            foreach($ret_list["list"] as &$item){
+                $item["phone"] = preg_replace('/(1[356789]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+
+            }
+
         }
         return $this->output_ajax_table($ret_list, [ "lru_list" => $lru_list ]);
     }
@@ -1312,15 +1322,9 @@ class user_manage extends Controller
 
         foreach($refund_list['list'] as &$item ){
             $item['apply_time_str']    = \App\Helper\Utils::unixtime2date($item['apply_time']);
-
             $item['seller_nick'] = $this->cache_get_account_nick($item['seller_adminid']);
             $refund_analysis = $this->get_refund_analysis_info($item['orderid'],$item['apply_time']);
             $item['main_duty_arr'] = [];
-
-
-
-
-
             foreach($refund_analysis['key1_value'] as $val){
                 if(isset($val['responsibility_percent'])){
                     $item['main_duty_arr'][] = intval($val['responsibility_percent']);
@@ -1357,22 +1361,13 @@ class user_manage extends Controller
             $item['ass_group'] = '';
             $item['seller_group'] = '';
             if(strstr($item['main_deparment'],'助教部') !=false && $item['ass_adminid']>0){
-
                 $item['ass_group'] = $this->t_admin_group_user->get_ass_group_name($item['ass_adminid']);
             }
-
             if(strstr($item['main_deparment'],"咨询部") != false && $item['seller_adminid']>0){
                 $item['seller_group'] = $this->t_admin_group_user->get_ass_group_name($item['seller_adminid']);
             }
-
         }
-
-
-        dd($refund_list);
-
-
         return $this->Pageview(__METHOD__,$refund_list);
-
     }
 
     public function set_refund_order(){

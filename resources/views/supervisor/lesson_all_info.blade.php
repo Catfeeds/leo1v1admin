@@ -55,7 +55,6 @@
      }
 
 
-     body {background-color: red}
      p {margin-left: 20px}
     </style>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
@@ -380,6 +379,7 @@
                 </div>
             @endif
        @endforeach
+       {!!  $server_info!!}  <br/>
 
             <h5 style=" border-bottom: 2px solid #999;font-size:25px ; line-height: 50px;" >登录日志 </h5>
 

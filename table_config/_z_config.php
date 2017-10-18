@@ -12,6 +12,7 @@ return array(
     ["db_weiyi_admin","t_main_major_group_name_month", "groupid"],
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
+    ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
     ["db_weiyi_admin","t_admin_majordomo_group_name", "groupid"],
@@ -185,6 +186,7 @@ return array(
     ["db_weiyi","t_fulltime_teacher_positive_require_list","id"] ,
     ["db_weiyi","t_location_subject_grade_textbook_info","id"] ,
     ["db_weiyi","t_student_subject_list","userid","subject"] ,
+    ["db_weiyi","t_period_repay_list","orderid","period"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,

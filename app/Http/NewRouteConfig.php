@@ -71,6 +71,7 @@ class NewRouteConfig {
         "/supervisor/get_lesson_conditions_js"    => true,
         "/supervisor/add_error_info"              => true,
         "/tea_manage/get_lesson_xmpp_audio"       => true,
+        "/tea_manage/get_tea_pad_lesson_qr"       => true,
         "/login/teacher"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
         "/common/add_trial_train_lesson_by_admin" => true,
@@ -536,8 +537,12 @@ class NewRouteConfig {
         "/customer_service/proposal_info"                => true,
 
         "/requirement/add_requirement_info"              => true,
+        "/requirement/add_requirement_info_new"          => true,
+        "/requirement/requirement_info_new"              => true,
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
+        "/requirement/re_edit_requirement_info_new"      => true,
+
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,

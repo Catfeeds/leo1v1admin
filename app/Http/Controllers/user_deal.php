@@ -136,10 +136,20 @@ class user_deal extends Controller
 
     public function lesson_add_lesson() {
         $courseid = $this->get_in_courseid();
+        $acc = $this->get_account();
+        if(in_array($acc,["jim","jack"])){
+            $ret = $this->add_regular_lesson($courseid,0,0);
+            if(is_numeric($ret) ){
+                return $this->output_succ(["lessonid" => $ret ]);
+            }else{
+                return $ret;
+            }
+        }
+        
 
         $item = $this->t_course_order->field_get_list($courseid,"*");
-        if ($item["teacherid"]) {
-            $this->output_err("还没设置老师");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
         }
         if($item["course_type"]==2){
             if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
@@ -877,6 +887,16 @@ class user_deal extends Controller
             }
         }
 
+        $manager_info = $this->t_manager_info->field_get_list($uid,'face_pic,level_face_pic,seller_level');
+        $face_pic = $manager_info['face_pic'];
+        $level_face_pic = $manager_info['level_face_pic'];
+        $level_info = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
+        $level_face = $level_info['level_face'];
+        if($face_pic && $seller_level != $manager_info['seller_level'] && $level_face){
+            $face_pic_str = substr($face_pic,-12,5);
+            $ex_str = $seller_level.$face_pic_str;
+            $level_face_pic = $this->get_top_img($uid,$face_pic,$level_face,$ex_str);
+        }
 
         $set_arr=[
             \App\Models\t_manager_info::C_phone=>$phone,
@@ -892,8 +912,8 @@ class user_deal extends Controller
             "call_phone_type" => $call_phone_type,
             "call_phone_passwd" => $call_phone_passwd,
             "become_full_member_flag" => $become_full_member_flag,
-            "main_department" =>$main_department
-
+            "main_department" =>$main_department,
+            "level_face_pic" => $level_face_pic,
         ];
 
         if ($cardid) {
@@ -934,6 +954,93 @@ class user_deal extends Controller
         */
 
         return $this->output_succ();
+    }
+
+    //处理等级头像
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
+        $datapath = $face_pic;
+        $datapath_new = $level_face;
+        $datapath_type = @end(explode(".",$datapath));
+        $datapath_type_new = @end(explode(".",$datapath_new));
+        $image_1 = $this->yuan_img($datapath);
+        if($datapath_type_new == 'jpg' || $datapath_type_new == 'jpeg'){
+            $image_2 = imagecreatefromjpeg($datapath_new);
+        }elseif($datapath_type_new == 'png'){
+            $image_2 = imagecreatefrompng($datapath_new);
+        }elseif($datapath_type_new == 'gif'){
+            $image_2 = imagecreatefromgif($datapath_new);
+        }elseif($datapath_type_new == 'wbmp'){
+            $image_2 = imagecreatefromwbmp($datapath_new);
+        }else{
+            $image_2 = imagecreatefromstring($datapath_new);
+        }
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        $color = imagecolorallocatealpha($image_3,255,255,255,1);
+        imagefill($image_3, 0, 0, $color);
+        imageColorTransparent($image_3, $color);
+
+        imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
+        imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
+        // header('Content-type: image/jpg');
+        // dd(imagepng($image_1));
+
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gd.png";
+        imagepng($image_1,$tmp_url);
+        $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
+        $level_face_url = '';
+        if($file_name!=''){
+            $cmd_rm = "rm /tmp/".$adminid."*.png";
+            \App\Helper\Utils::exec_cmd($cmd_rm);
+            $domain = config('admin')['qiniu']['public']['url'];
+            $level_face_url = $domain.'/'.$file_name;
+        }
+        return $level_face_url;
+    }
+
+    /**
+     *  blog:http://www.zhaokeli.com
+     * 处理成圆图片,如果图片不是正方形就取最小边的圆半径,从左边开始剪切成圆形
+     * @param  string $imgpath [description]
+     * @return [type]          [description]
+     */
+    function yuan_img($imgpath = './tx.jpg') {
+        $ext     = pathinfo($imgpath);
+        $src_img = null;
+        switch ($ext['extension']) {
+        case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'png':
+            $src_img = imagecreatefrompng($imgpath);
+            break;
+        }
+        $wh  = getimagesize($imgpath);
+        $w   = $wh[0];
+        $h   = $wh[1];
+        $w   = min($w, $h);
+        $h   = $w;
+        $img = imagecreatetruecolor($w, $h);
+        //这一句一定要有
+        imagesavealpha($img, true);
+        //拾取一个完全透明的颜色,最后一个参数127为全透明
+        $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        imagefill($img, 0, 0, $bg);
+        $r   = $w / 2-20; //圆半径
+        $y_x = $r; //圆心X坐标
+        $y_y = $r; //圆心Y坐标
+        // dd($r,$y_x,$y_y);
+        for ($x = 0; $x < $w; $x++) {
+            for ($y = 0; $y < $h; $y++) {
+                $rgbColor = imagecolorat($src_img, $x, $y);
+                if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
+                    imagesetpixel($img, $x+14, $y+14, $rgbColor);
+                }
+            }
+        }
+        return $img;
     }
 
     public function update_admin_info_new() {
@@ -1357,10 +1464,15 @@ class user_deal extends Controller
         $course_status        = $this->get_in_int_val("course_status");
         $teacherid            = $this->get_in_teacherid();
         $subject              = $this->get_in_int_val("subject");
-         $grade                = $this->get_in_int_val("grade");
+        $grade                = $this->get_in_int_val("grade");
         $lesson_grade_type    = $this->get_in_int_val("lesson_grade_type");
         $default_lesson_count = $this->get_in_int_val("default_lesson_count");
         $account              = $this->get_account();
+
+        $check_flag = $this->check_teacher_is_pass($teacherid);
+        if(!$check_flag){
+            return $this->output_err("该老师不是正式老师!");
+        }
 
         $data = [
             "course_status"        => $course_status,
@@ -1379,7 +1491,7 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
-    public function course_add_new() {
+    public function course_add_new(){
         $course_status        = $this->get_in_int_val("course_status");
         $teacherid            = $this->get_in_teacherid();
         $subject              = $this->get_in_int_val("subject");
@@ -1396,11 +1508,18 @@ class user_deal extends Controller
             return $this->output_err("未设置助教!");
         }
 
+        //6-9月份新建学生课程包需升一个年级
         $month = date("m",time());
         if($month>6 && $month <9){
             $stu_info['grade'] = \App\Helper\Utils::get_up_grade($stu_info['grade']);
             $lesson_grade_type = 1;
         }
+
+        $check_flag = $this->check_teacher_is_pass($teacherid);
+        if(!$check_flag){
+            return $this->output_err("该老师不是正式老师!");
+        }
+
 
         $this->t_course_order->row_insert([
             "userid"                => $userid,
@@ -1413,9 +1532,9 @@ class user_deal extends Controller
             "default_lesson_count"  => $default_lesson_count,
             "competition_flag"      => $competition_flag,
             "add_time"              => time(),
-            "lesson_grade_type"    => $lesson_grade_type,
-            "course_status"        => $course_status,
-            "is_kk_flag"           => $is_kk_flag
+            "lesson_grade_type"     => $lesson_grade_type,
+            "course_status"         => $course_status,
+            "is_kk_flag"            => $is_kk_flag
         ]);
 
         if($require_id>0){
@@ -1426,7 +1545,6 @@ class user_deal extends Controller
                 "ass_from_test_lesson_id"=>$lessonid,
             ]);
         }
-
 
         return $this->output_succ();
     }
@@ -2235,12 +2353,15 @@ class user_deal extends Controller
             $start_time = $lesson_confirm_start_time;
         }
 
-        $db_grade=$this->t_student_info->get_grade($userid);
+        $db_grade = $this->t_student_info->get_grade($userid);
         $this->t_student_info->field_update_list($userid,[
             "grade"  => $grade,
         ]);
 
-        $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
+        //设置时间再重置课程年级,避免影响老师工资
+        if($start_time>0){
+            $this->t_lesson_info->update_grade_by_userid($userid,$start_time,$grade);
+        }
         $this->t_revisit_info->sys_log( $this->get_account(),
             $userid,
             "年级 [". E\Egrade::get_desc($db_grade) ."]=>[". E\Egrade::get_desc($grade) ."]"
@@ -2318,6 +2439,17 @@ class user_deal extends Controller
 
                             $teacher_info=$this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
                             $default_lesson_count=0;
+                            $acc= $this->get_account();
+                            if(in_array($acc,["jim","jack"])){
+                                $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
+                                if(is_numeric($ret) ){
+                                    // return $this->output_succ(["lessonid" => $ret ]);
+                                    return $this->output_succ();
+                                }else{
+                                    return $ret;
+                                }
+                            }
+
                             $lessonid = $this->t_lesson_info->add_lesson(
                                 $item["courseid"],0,
                                 $item["userid"],
@@ -2712,9 +2844,32 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $page_num = $this->get_in_page_num();
+        $adminid=324;
+        $ret_list= $this->t_student_info->get_ass_list_for_select(-1,-1, "", $page_num,$adminid);
+        dd($ret_list);
+
+        $d= date("d");
+        if($d>15){            
+            $month_start = strtotime(date("Y-m-01",time()));
+            $due_date = $month_start+14*86400;
+        }else{
+            $last_month = strtotime("-1 month",time());
+            $month_start = strtotime(date("Y-m-01",$last_month));
+            $due_date = $month_start+14*86400;
+
+        }
+        dd($d);
+        
         $list = $this->t_child_order_info->get_period_list(1,"baidu");
         dd($list);
+        foreach($list as $val){
+            $data = $this->get_baidu_money_charge_pay_info($val["child_orderid"]);
+            
+            dd($data);
+            
+        }
+
                
 
     }
@@ -4746,7 +4901,8 @@ class user_deal extends Controller
             if($main_master_deal_flag==1){
                 $this->t_manager_info->field_update_list($adminid,[
                     "become_full_member_flag" =>1,
-                    "become_full_member_time" =>$positive_time
+                    //  "become_full_member_time" =>$positive_time
+                    "become_full_member_time" =>time()
                 ]);
 
                 //修改老师等级

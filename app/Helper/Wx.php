@@ -49,7 +49,6 @@ class Wx{
     public function get_token_from_code($code) {
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
-        //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
         $json_data=file_get_contents( "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);
 
@@ -114,14 +113,12 @@ class Wx{
                 $item = [
                     "value" => $item,
                     "color" => "#173177",
+                    // "color" => "#e22870", //test
                 ];
             }
         }
 
         $str = $this->gen_temp_data($openid,$template_id,$url,$data);
-        \App\Helper\Utils::logger("OPENID:$openid");
-        \App\Helper\Utils::logger("DATA:$str");
-        \App\Helper\Utils::logger("URL:$url");
         $token = $this->wx_get_token();
         \App\Helper\Utils::logger("token:$token");
         \App\Helper\Utils::logger('xjstr'.$str);

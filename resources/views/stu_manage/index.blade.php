@@ -340,7 +340,7 @@
                                     <span >user_agent:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-10  row-td-field-value">
-                                    <span  >{{$stu_info["user_agent"]}} </span>
+                                    <span >{{$stu_info["user_agent"]}} </span>
                                 </div>
                             </div>
                         </div>

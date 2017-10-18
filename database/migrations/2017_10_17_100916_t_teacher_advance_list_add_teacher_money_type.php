@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SellerStudentNewAddOriginVaildFlag extends Migration
+class TTeacherAdvanceListAddTeacherMoneyType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,10 @@ class SellerStudentNewAddOriginVaildFlag extends Migration
     public function up()
     {
         //
-
+        Schema::table('db_weiyi.t_teacher_advance_list', function( Blueprint $table)
+        {
+            t_field($table->integer("teacher_money_type"),"老师工资分类");
+        });
 
     }
 

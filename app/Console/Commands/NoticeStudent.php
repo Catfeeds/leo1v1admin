@@ -45,7 +45,6 @@ class NoticeStudent extends Command
             $type = 1;
         }
 
-
         if($type==1){
             $end_time   = time()-300;
             $start_time = $end_time-60;

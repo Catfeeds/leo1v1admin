@@ -167,6 +167,10 @@ class seller_student_new2 extends Controller
         }else{
             $tea_subject = "";
         }
+        $account_role = $this->get_account_role();
+        if($account_role==3 || $account_role==12){
+            $tea_subject="";
+        }
 
         $grade                      = $this->get_in_grade();
         $subject                    = $this->get_in_subject();
@@ -323,6 +327,7 @@ class seller_student_new2 extends Controller
         $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
+        $this->set_filed_for_js("account_role",$this->get_account_role());
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
@@ -589,8 +594,9 @@ class seller_student_new2 extends Controller
 
     public function grab_test_lesson_list(){
         $subject = $this->get_in_enum_list(E\Esubject::class);
+        $grade   = $this->get_in_enum_list(E\Egrade::class);
 
-        $list = $this->t_test_lesson_subject_require->get_grab_test_lesson_list($subject,1);
+        $list = $this->t_test_lesson_subject_require->get_grab_test_lesson_list($subject,1,$grade);
         $num  = 0;
         foreach($list as &$grab_val){
             $num++;
@@ -703,7 +709,7 @@ class seller_student_new2 extends Controller
     public function get_ass_test_lesson_info(){
         $this->switch_tongji_database();
         // $start_time = strtotime("2017-07-20");
-        list($start_time,$end_time) = $this->get_in_date_range( "2017-07-20" ,0 );
+        list($start_time,$end_time) = $this->get_in_date_range( -7 ,0 );
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         if($account_id==349){
@@ -728,11 +734,11 @@ class seller_student_new2 extends Controller
 
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             if($item["test_lesson_fail_flag"]==0){
-                $item["test_lesson_fail_flag_str"]="";  
+                $item["test_lesson_fail_flag_str"]="";
             }
             E\Eass_test_lesson_order_fail_flag::set_item_value_str($item);
             if($item["ass_test_lesson_order_fail_flag"]==0){
-                $item["ass_test_lesson_order_fail_flag_str"]="";  
+                $item["ass_test_lesson_order_fail_flag_str"]="";
             }
 
 
@@ -752,6 +758,9 @@ class seller_student_new2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
 
         }
+        $account = $this->get_account();
+        $this->set_filed_for_js("account",$account);
+
         return $this->pageView(__METHOD__, $ret_info,[
             "master_flag"  =>$master_flag
         ]);
@@ -811,18 +820,18 @@ class seller_student_new2 extends Controller
         $ret_info = $this->t_student_info->get_tran_stu_to_seller_info($add_time,$page_info,$assistantid,$leader_flag,$account_id,$campus_id,$groupid);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time","_str");          
+            \App\Helper\Utils::unixtime2date_for_item($item, "admin_assign_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item, "ass_assign_time","_str");
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_1","sub_assign_adminid_1_nick");
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_adminid_2_nick");
             if(!$item["nick"]){
                 $item["nick"]="无名";
             }
- 
+
         }
         $master_flag=1;
         $campus_list = $this->t_admin_campus_list->get_admin_campus_info();
-        $groupid_list = $this->t_admin_group_name->get_group_list (1); 
+        $groupid_list = $this->t_admin_group_name->get_group_list (1);
         return $this->pageView(__METHOD__, $ret_info,[
             "master_flag"  =>$master_flag,
             "campus_list"  =>$campus_list,
@@ -830,4 +839,124 @@ class seller_student_new2 extends Controller
         ]);
 
     }
+
+    //分配例子统计
+    public function seller_student_new_distribution(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        if($end_time >= time()){
+            $end_time = time();
+        }
+        $res = [];
+        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time);
+        foreach($seller_log_list as $item){
+            $adminid = $item['adminid'];
+            $res[$adminid]['count'] = $item['count'];
+        }
+        foreach ($res as $ret_k=> &$res_item) {
+            $res_item["adminid"] = $ret_k ;
+        }
+        list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
+        $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
+        foreach($ret_info as $key=>&$item){
+            $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
+            $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
+            $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
+            E\Emain_type::set_item_value_str($item);
+            if($item['level'] == "l-4" ){
+                \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time",'','Y-m-d');
+                \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time",'','Y-m-d');
+                $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                $item["del_flag"]?$leave_member_num_l3++:$become_member_num_l3++;
+                $item["del_flag"]?$leave_member_num_l2++:$become_member_num_l2++;
+                $item['become_member_num'] = $become_member_num_l3;
+                $item['leave_member_num'] = $leave_member_num_l3;
+            }else{
+                $item["become_member_time"] = '';
+                $item["leave_member_time"] = '';
+                $item["del_flag_str"] = '';
+                $item['become_member_num'] = '';
+                $item['leave_member_num'] = '';
+            }
+
+            if($item['level'] == 'l-3'){
+                $member[] = [
+                    "up_group_name"     => $item['up_group_name'],
+                    "group_name"        => $item['group_name'],
+                ];
+                $member_num[] = [
+                    'become_member_num' => $become_member_num_l3,
+                    'leave_member_num'  => $leave_member_num_l3,
+                ];
+
+                $become_member_num_l3 = 0;
+                $leave_member_num_l3 = 0;
+            }
+
+            if($item['level'] == 'l-2'){
+                $member_new[] = [
+                    "up_group_name" => $item['up_group_name'],
+                    "group_name"    => $item['group_name'],
+                ];
+                $member_num_new[] = [
+                    'become_member_num' => $become_member_num_l2,
+                    'leave_member_num'  => $leave_member_num_l2,
+                ];
+
+                $become_member_num_l2 = 0;
+                $leave_member_num_l2 = 0;
+            }
+            if($item['main_type_str'] == '助教'){
+                unset($ret_info[$key]);
+            }
+        }
+        foreach($member as $key=>&$item){
+            foreach($member_num as $k=>$info){
+                if(($key+1) == $k){
+                    $item['become_member_num'] = $info['become_member_num'];
+                    $item['leave_member_num'] = $info['leave_member_num'];
+                }
+            }
+            $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
+            $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
+        }
+        foreach($member_new as $key=>&$item){
+            foreach($member_num_new as $k=>$info){
+                if(($key+1) == $k){
+                    $item['become_member_num'] = $info['become_member_num'];
+                    $item['leave_member_num'] = $info['leave_member_num'];
+                }
+            }
+            $item['become_member_num'] = isset($item['become_member_num'])?$item['become_member_num']:'';
+            $item['leave_member_num'] = isset($item['leave_member_num'])?$item['leave_member_num']:'';
+        }
+        foreach($ret_info as &$item){
+            if(($item['main_type_str'] == '未定义') or ($item['main_type_str'] == '助教')){
+                unset($item);
+            }else{
+                if($item['level'] == 'l-2'){
+                    foreach($member_new as $info){
+                        if($item['up_group_name'] == $info['up_group_name']){
+                            $item['become_member_num'] = $info['become_member_num'];
+                            $item['leave_member_num'] = $info['leave_member_num'];
+                        }
+                    }
+                }else{
+                    if($item['level'] == 'l-3'){
+                        foreach($member as $info){
+                            if($item['group_name'] == $info['group_name']){
+                                $item['become_member_num'] = $info['become_member_num'];
+                                $item['leave_member_num'] = $info['leave_member_num'];
+                            }
+                        }
+                    }else{
+                        $item['become_member_num'] = '';
+                        $item['leave_member_num'] = '';
+                    }
+                }
+            }
+        }
+
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+    }
+
 }

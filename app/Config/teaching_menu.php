@@ -190,6 +190,7 @@ class teaching_menu{
 
                         ]],
                         [ "name"=>"质监数据总体", "url"=>"/main_page/quality_control"],
+                        [ "name"=>"学生老师数量统计", "url"=>"/tongji_ss/get_lesson_tea_stu_info"],
                     ]],
 
 
@@ -226,10 +227,11 @@ class teaching_menu{
 
                 [ "name"=>"产品部",  "list"=>[
 
-                    ["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
-                    [ "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                    [ "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                    [ "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
+                    //["name"=>"开发需求提交",   "url"=>"/requirement/requirement_info_new"],
+                    [ "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product_new"],
+                    ["name" =>"产品-需求-old" ,  "url"=>"/requirement/requirement_info_product"],
+                    //[ "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
+                    //[ "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
 
                     [ "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
 

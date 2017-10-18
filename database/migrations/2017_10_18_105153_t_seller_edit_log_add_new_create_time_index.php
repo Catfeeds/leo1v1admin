@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerTongjiForMonthAdd extends Migration
+class TSellerEditLogAddNewCreateTimeIndex extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class TSellerTongjiForMonthAdd extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_seller_tongji_for_month', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_seller_edit_log', function( Blueprint $table)
         {
-
-            t_field($table->integer("all_order_price"),"总金额 包含转介绍+新签");
-
+            $table->index("create_time");
+            $table->index("new");
+            $table->index("type");
         });
-
     }
 
     /**

@@ -47,8 +47,8 @@ class save_seller_info extends Command
         $end_time   = $this->option('e');
 
         if($start_time == null && $end_time == null ){
-            $start_time = strtotime(date('Y-m-01'));
-            $end_time   = strtotime(date("Y-m-01",  ($start_time+86400*32)));
+            $end_time   = strtotime(date('Y-m-01'));
+            $start_time = strtotime(date("Y-m-01", ($end_time-86400*20)));
         }
 
 
@@ -58,16 +58,19 @@ class save_seller_info extends Command
 
         $ret_info['from_time'] = $start_time;
 
-        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 新签合同
+        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
-        $ret_info['new_order_num'] = $new_order_info['order_num_new'] + $referral_order['referral_num']; // 合同数量
+        // $ret_info['new_order_num'] = $new_order_info['order_num_new'] + $referral_order['referral_num']; // 合同数量
+        $ret_info['new_order_num'] = $new_order_info['order_num_new'] ; // 合同数量
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
         $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
-        $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
-        $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
+        // $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
+        $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
+        $ret_info['all_order_price'] = $new_order_info['total_price'] ;
+        // $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
 
 
         $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
@@ -84,9 +87,9 @@ class save_seller_info extends Command
 
         // dd(2);
 
-        $month_finish_define_money_2=$ret_info['seller_target_income']/100;
-        $month_start_time = strtotime( date("Y-m-01",  $start_time));
-        $month_end_time   = strtotime(date("Y-m-01",  ($month_start_time+86400*32)));
+        $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
+        $month_end_time   = strtotime(date("Y-m-01",  $end_time));
+        $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
         $ret_info['formal_info']=0; //入职完整月人员签单额
         $today=time(NULL);
@@ -102,10 +105,10 @@ class save_seller_info extends Command
         $second_group = '咨询二部';
         $third_group  = '咨询三部';
         $new_group    = '新人营';
-        $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group);// 咨询一部
-        $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group);// 咨询二部
-        $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group);// 咨询三部
-        $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group);// 新人营
+        $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
+        $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
+        $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+        $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group, $start_time);// 新人营
         $ret_info['train_department']  = 0;// 培训中
 
         // 金额转化率占比

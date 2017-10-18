@@ -188,7 +188,8 @@ class main_page extends Controller
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
                 }
 
-                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
+
 
                 if($ret_info['new_order_num']>0){ //平均单笔
                     $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
@@ -1848,10 +1849,10 @@ class main_page extends Controller
         $leader_revisit_info['leader_goal'] = ceil($leader_stu_num / 10);
         $leader_revisit_info['leader_revisited'] = $this->t_manager_info->get_leader_revisit_info( $master_adminid,$cur_start, $cur_end);
         $leader_revisit_info['nick'] = $this->cache_get_account_nick($master_adminid);
-
         foreach( $month_info as &$item) {
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
+
 
         // dd($month_info);
 
@@ -2149,6 +2150,13 @@ class main_page extends Controller
             $item["call_num"]= \App\Helper\Common::get_time_format_minute(@$item["call_num"]);
         }
 
+        //各组长回访信息
+        $leader_info = $this->t_admin_group_name->get_stu_num_leader($cur_start, $cur_end);
+        foreach ($leader_info as &$item) {
+            $item['revisit_num'] = $this->t_manager_info->get_leader_revisit_info( $item['master_adminid'],$cur_start, $cur_end);
+            $item['goal'] = ceil($item['stu_num'] /10 );
+            // $item['nick'] = $this->cache_get_account_nick($item['master_adminid']);
+        }
 
         return $this->pageView(__METHOD__ ,null, [
             "stu_info" => @$stu_info,
@@ -2157,10 +2165,8 @@ class main_page extends Controller
             "ass_list_group" =>@$ass_list_group,
             "warning"       => $warning_type_num,
             "month_info" =>$month_info,
-
+            "leader_info" => $leader_info,
         ]);
-
-
 
     }
 
