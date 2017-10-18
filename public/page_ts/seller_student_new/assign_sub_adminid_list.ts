@@ -215,7 +215,7 @@ $(function(){
     );
 
 
-
+    
     $.admin_select_user(
         $('#id_sub_assign_adminid_2'),
         "admin_group_master", load_data ,false, {

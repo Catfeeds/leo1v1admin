@@ -428,9 +428,6 @@ class supervisor extends Controller
         //查询学生最后一次登录/退出信息
         $stu_last_login_info= $this->t_lesson_opt_log-> get_lesson_log_user_last($lessonid,$stu_id);
 
-        //dd($ret_arr_log_teacher_last);
-
-
         $ret_list_log=array();
         $server_type_conf=array("1" =>"webrtc" , "2" => "xmpp" );
         $log_type_conf=array("1" =>"login" , "2" =>"logout", "3"=>"register", "4"=> "no_recv_data" );

@@ -4,6 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	week_flag:	number;//App\Enums\Eboolean
+	xmpp_value:	string;
 	page_num:	number;
 	page_count:	number;
 }
@@ -15,29 +17,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	adminid	:any;
-	add_time	:any;
-	type	:any;
-	start_time	:any;
-	end_time	:any;
-	hour_count	:any;
-	del_flag	:any;
-	msg	:any;
-	flow_status	:any;
-	flowid	:any;
-	type_str	:any;
-	hour_count_str	:any;
-	flow_status_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../self_manage; vi  ../self_manage/qingjia.ts
+	 mkdir -p ../tongji; vi  ../tongji/online_user_count_xmpp_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/self_manage-qingjia.d.ts" />
+/// <reference path="../g_args.d.ts/tongji-online_user_count_xmpp_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -46,10 +34,13 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
+			end_time:	$('#id_end_time').val(),
+			week_flag:	$('#id_week_flag').val(),
+			xmpp_value:	$('#id_xmpp_value').val()
         });
     }
 
+	Enum_map.append_option_list("boolean",$("#id_week_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -61,6 +52,8 @@ $(function(){
             load_data();
         }
     });
+	$('#id_week_flag').val(g_args.week_flag);
+	$('#id_xmpp_value').val(g_args.xmpp_value);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -70,4 +63,19 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_week_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">xmpp_value</span>
+                <input class="opt-change form-control" id="id_xmpp_value" />
+            </div>
+        </div>
 */
