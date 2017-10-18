@@ -2926,4 +2926,8 @@ class tea_manage extends Controller
 
         return $this->output_succ(["data"=>$ret_arr]);
     }
+
+    public function auto_rank_lesson(){
+        return 1;
+    }
 }

@@ -1160,5 +1160,12 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         });
     }
 
+    public function check_student_has_lesson($userid,$lesson_start, $lesson_end){
+        $where_arr = [
+            "userid = $userid",
+            "lesson_start>= $lesson_start"
+        ];
+    } 
+
 
 }
