@@ -2,7 +2,6 @@
 /// <reference path="../g_args.d.ts/seller_student_new-assign_sub_adminid_list.d.ts" />
 function load_data(){
     $.reload_self_page ( {
-
         order_by_str : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
 			  show_list_flag:	$('#id_show_list_flag').val(),
@@ -40,8 +39,6 @@ function load_data(){
         //wx
         wx_invaild_flag:$('#id_wx_invaild_flag').val(),
         filter_flag:	$('#id_filter_flag').val()
-
-
     });
 }
 
@@ -792,7 +789,6 @@ $(function(){
     $(".opt-seller-list").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-
         $(this).admin_select_dlg_ajax({
             "opt_type" :  "list", // or "list"
             "url"          : "/ss_deal2/test_subject_free_list_get_list_js",
@@ -827,19 +823,9 @@ $(function(){
         });
     });
 
-
-
     $('#id_set_shaixuan').on('click',function(){
         $.do_ajax("/seller_student_new/do_filter",{"filter_flag": 1},function(result){
             load_data();
         });
-
     });
-
-
-
-
-
-
-
 });

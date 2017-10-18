@@ -250,16 +250,15 @@ class authority extends Controller
         $time     = strtotime($time_str);
         $set_arr['del_flag'] = $del_flag;
         if($del_flag){
-            $set_arr['leave_member_time'] = $time;
             $set_arr['tquin'] = null;
             $set_arr['call_phone_type'] = 0;
             $set_arr['call_phone_passwd'] = '';
+            $set_arr["wx_openid"]=NULL;
+            $set_arr['leave_member_time'] = $time;
         }else{
             $set_arr['become_member_time'] = $time;
         }
-        if($del_flag){
-            $set_arr["wx_openid"]=NULL;
-        }
+
         $this->t_manager_info->field_update_list($uid, $set_arr);
         $this->t_manager_info->sync_kaoqin_user($uid);
         $account_role = $this->t_manager_info->get_account_role($uid);
