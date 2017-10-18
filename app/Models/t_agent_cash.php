@@ -7,14 +7,20 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 	{
 		parent::__construct();
 	}
-    public function get_agent_cash_list($page_info){
+    public function get_agent_cash_list($page_info,$agent_check_money_flag,$phone){
+        $where_arr=[
+            ["ac.check_money_flag = %u",$agent_check_money_flag,""],
+            ["a.phone='%s'", $phone, ""],
+        ];
         $sql=$this->gen_sql_new("select ac.*,a.nickname,a.phone,a.bankcard,a.bank_type,a.bank_account,"
                                 ."a.bank_address,a.bank_phone,a.bank_province,a.bank_city,"
                                 ."a.zfb_name,a.zfb_account,all_yxyx_money,all_open_cush_money,all_have_cush_money "
                                 ." from %s ac "
                                 ." left join %s a on a.id = ac.aid "
+                                ." where %s"
                                 ,self::DB_TABLE_NAME
                                 ,t_agent::DB_TABLE_NAME
+                                ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }

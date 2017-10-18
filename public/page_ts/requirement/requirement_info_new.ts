@@ -18,9 +18,7 @@ $(function(){
     }
 
     Enum_map.append_option_list("require_priority",$("#id_priority"));
-    Enum_map.append_option_list("require_product_status",$("#id_product_status"),false,[0,1,2,3,4]);
-
-
+    Enum_map.append_option_list("require_product_status",$("#id_product_status"),false,[1,2,3,4]);
     $("#id_priority").val(g_args.priority);
     $("#id_productid").val(g_args.id_productid);
     $("#id_product_status").val(g_args.product_status);
@@ -37,31 +35,10 @@ $(function(){
         }
     });
 
-
-    
-    $(".opt-detail").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        console.log(opt_data);
-        var now_status = opt_data.status;
-        if(now_status == 1){
-            alert(1);
-        }else if(now_status == 2){
-            alert(2);
-        }else if(now_status == 3){
-            alert(3);
-        }else if(now_status == 4){
-            alert(4);
-        }else if(now_status == 5){
-            alert(5);
-        }
-
-    });
-
-
     $("#id_add_requirement_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var name              = $("<input />");  //需求名称
-        var priority          = $("<select />");  //优先级
+        var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
@@ -80,16 +57,16 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_priority", priority, true);
+
 
         var arr = [
-            ["需求名称", name],
-            ["优先级", priority],
-            ["期望时间", expect_time],
-            ["需求描述", statement],
+            ["<font color='red'>*</font>需求名称", name],
+            ["<font color='red'>*</font>优先级", priority],
+            ["<font color='red'>*</font>期望完成时间", expect_time],
+            ["<font color='red'>*</font>需求描述", statement],
             ["需求来源",    notes],
             ["附件", $upload_div],
-            ["产品经理",product_operator]
+            ["<font color='red'>*</font>产品经理",product_operator]
         ];
         $.show_key_value_table("添加需求信息", arr, {
             label    :  "确认",
@@ -105,7 +82,11 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;
@@ -143,101 +124,10 @@ $(function(){
         });
     });
 
-    $(".opt-edit").on("click", function(){
-        var opt_data = $(this).get_opt_data();
-        var name              = $("<input />");  //需求名称
-        var priority          = $("<select />");  //优先级
-        var expect_time       = $("<input />");  //期望时间
-        var statement         = $("<textarea />"); //需求描述
-        var notes             = $("<textarea />"); //需求来源
-        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\""+opt_data.content_pic+"\" target=\"_blank\" id=\"id_pre_look\"> </a>   </div>");
-        //内容截图:
-        var $upload_btn  = $upload_div.find("button") ;
-        var $upload_link = $upload_div.find("a") ;
-        var product_operator = $("<select id='id_productid'> <option value=\"448\">夏宏东</option> <option value=\"919\">邓晓玲</option>  <option value=\"1118\">孙瞿</option> <option value=\"1167\">杨磊</option><option value=\"974\">付玉文</option> <option value=\"871\">邓春燕</option>/>");//产品经理
-        $upload_link.attr('href',opt_data.content_pic);
-        if(opt_data.content_pic != ''){
-            $upload_link.html("查看");
-        }
-
-        expect_time.datetimepicker({
-            lang:'ch',
-            timepicker:false,
-            format:'Y-m-d',
-            "onChangeDateTime" : function() {
-            }
-        });
-
-        Enum_map.append_option_list("require_priority", priority, true);
-        name.val(opt_data.name);
-        priority.val(opt_data.priority);
-        expect_time.val(opt_data.expect_time);
-        statement.val(opt_data.statement);
-        notes.val(opt_data.notes);
-        product_operator.val(opt_data.product_operator);
-        var arr = [
-            ["需求名称", name],
-            ["优先级", priority],
-            ["期望时间", expect_time],
-            ["需求描述", statement],
-            ["需求来源",    notes],
-            ["附件", $upload_div],
-            ["产品经理",product_operator]
-        ];
-        $.show_key_value_table("重新提交开发需求", arr, {
-            label    :  "确认",
-            cssClass :  'btn-waring',
-            action   :   function(dialog){
-                if(expect_time.val() == ''){
-                    alert("请选择期望日期");
-                    return;
-                }
-                if(name.val() == ''){
-                    alert("请输入需求名称");
-                    return;
-                }
-                if(statement.val() == ''){
-                    alert("请输入需求描述");
-                    return;
-                }
-                var expect_date = new Date(expect_time.val());
-                var today       = new Date();
-                if(expect_date < today){
-                    alert("期望时间不能在当前时间范围之前");
-                    return;
-                }
-                $.do_ajax("/requirement/re_edit_requirement_info_new",{
-                    "id"             : opt_data.id,
-                    "name"           : name.val(),
-                    'priority'       : priority.val(),
-                    'expect_time'    : expect_time.val(),
-                    'statement'      : statement.val(),
-                    'content_pic'    : $upload_link.attr('href'),
-                    'notes'          : notes.val(),
-                    'product_operator':product_operator.val(),
-                });
-            }
-        },function(){
-            $.custom_upload_file(
-                "id_upload_from_url" ,
-                true,function( up, info, file ){
-                    var res = $.parseJSON(info);
-                    var url=res.key;
-                    $.do_ajax("/common_new/get_qiniu_download",{
-                        "file_url" :res.key ,
-                        "public_flag" :1,
-                    }, function(resp){
-                        $upload_link.attr("href", resp.url);
-                        $upload_link.html("查看");
-                    })
-                },null,
-                ["png","jpg","zip","rar","gz","pdf","doc","docx","xls","xlsx","xps","wps","tif","xlsm","csv","ppt","pptx","txt","vsdxx","vsd","xmind"] );
-        });
-    });
     $(".opt-re-edit").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var name              = $("<input />");  //需求名称
-        var priority          = $("<select />");  //优先级
+        var priority          = $("<select id='id_priority'><option value=\"3\">高</option> <option value=\"2\">中</option><option value=\"1\">低</option>/>");  //优先级
         var expect_time       = $("<input />");  //期望时间
         var statement         = $("<textarea />"); //需求描述
         var notes             = $("<textarea />"); //需求来源
@@ -259,21 +149,20 @@ $(function(){
             }
         });
 
-        Enum_map.append_option_list("require_priority", priority, true);
-        name.val(opt_data.name);
+        name.val(opt_data.product_name);
         priority.val(opt_data.priority);
-        expect_time.val(opt_data.expect_time);
+        expect_time.val(opt_data.expect_time_b);
         statement.val(opt_data.statement);
         notes.val(opt_data.notes);
 
         var arr = [
-            ["需求名称", name],
-            ["优先级", priority],
-            ["期望时间", expect_time],
-            ["需求描述", statement],
+            ["<font color='red'>*</font>需求名称", name],
+            ["<font color='red'>*</font>优先级", priority],
+            ["<font color='red'>*</font>期望完成时间", expect_time],
+            ["<font color='red'>*</font>需求描述", statement],
             ["需求来源",    notes],
             ["附件", $upload_div],
-            ["产品经理",product_operator]
+            ["<font color='red'>*</font>产品经理",product_operator]
         ];
         $.show_key_value_table("重新提交开发需求", arr, {
             label    :  "确认",
@@ -292,7 +181,11 @@ $(function(){
                     return;
                 }
                 var expect_date = new Date(expect_time.val());
-                var today       = new Date();
+                var today_date       = new Date();
+                var today = today_date.getFullYear()+'-';
+                var today = today + (today_date.getMonth()+1);
+                var today = today+'-'+today_date.getDate(); 
+                var today = new Date(today);
                 if(expect_date < today){
                     alert("期望时间不能在当前时间范围之前");
                     return;

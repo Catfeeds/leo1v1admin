@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
-
     use CacheNick;
     use TeaPower;
     var $br;
@@ -65,7 +64,6 @@ class test_code extends Controller
         return $flag;
     }
 
-
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
@@ -82,12 +80,14 @@ class test_code extends Controller
         }else{
             $order_list = json_decode(file_get_contents($order_name),true);
         }
+
         if($lesson_flag){
             $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
             file_put_contents($lesson_name,json_encode($lesson_list));
         }else{
             $lesson_list = json_decode(file_get_contents($lesson_name),true);
         }
+
         echo count($order_list);
         echo "<br>";
         echo count($lesson_list);
@@ -152,9 +152,19 @@ class test_code extends Controller
         // }
 
         // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
-        // echo "<br>";
 
         return $lesson_price;
+    }
+
+    public function get_textbook_match_degree(){
+        $start_date = $this->get_in_int_val("month_start");
+        $end_date   = $this->get_in_int_val("month_end");
+
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date);
+
+        $list  = $this->t_test_lesson_subject->get_textbook_match_list($start_time,$end_time);
+
     }
 
     public function get_success_lesson(){

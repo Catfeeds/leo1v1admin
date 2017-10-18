@@ -9,6 +9,12 @@
                         <input class="opt-change form-control" id="id_subject" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <input class="opt-change form-control" id="id_grade" />
+                    </div>
+                </div>
                 <div class="col-xs-3 col-md-2">
                     <div class="input-group">
                         <button class="btn btn-danger" id="id_opt_grab_trial_user_info">生成抢单链接</button>

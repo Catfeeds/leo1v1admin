@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],
     ["db_weiyi_admin","t_ssh_login_log", "id"],
@@ -12,6 +13,7 @@ return array(
     ["db_weiyi_admin","t_main_major_group_name_month", "groupid"],
     ["db_weiyi_admin","t_tongji_log", "tongji_log_type", "logtime"],
     ["db_weiyi_admin","t_seller_level_goal", "seller_level"],
+    ["db_weiyi_admin","t_seller_edit_log", "id"],
     ["db_weiyi_admin","t_mail_group_name", "groupid"],
     ["db_weiyi_admin","t_mail_group_user_list", "groupid", "adminid"  ],
     ["db_weiyi_admin","t_admin_majordomo_group_name", "groupid"],

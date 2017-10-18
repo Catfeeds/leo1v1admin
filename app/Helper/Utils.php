@@ -1469,13 +1469,11 @@ class Utils  {
      * 检测老师工资类型获取老师等级(字母形式:C,B,A...)
      */
     static public function get_teacher_letter_level($teacher_money_type,$level){
-
         if($teacher_money_type==E\Eteacher_money_type::V_6){
             $letter_level = E\Enew_level::get_desc($level);
         }else{
             $letter_level = E\Elevel::get_desc($level);
         }
-
         return $letter_level;
     }
 

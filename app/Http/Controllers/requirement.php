@@ -31,9 +31,12 @@ class requirement extends Controller
         $ret_info=$this->t_requirement_info->get_list_requirement_new($page_info,$opt_date_type,$userid,$priority,
             $productid,$product_status,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {
-            $item['expect_time']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
-            $item['forecast_time'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'','Y/m/d H:i:s');
+            $item['expect_time_a']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
+            $item['forecast_time_a'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
+            $item['expect_time_b']   = $item['expect_time'] > 0?date('Y-m-d',$item['expect_time']):"";
+            $item['forecast_time_b'] = $item['forecast_time'] > 0?date('Y-m-d',$item['forecast_time']):"";
+
             $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
             $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
             $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);
@@ -70,16 +73,15 @@ class requirement extends Controller
         $productid = $this->get_in_int_val('id_productid',"-1");
         $product_status = $this->get_in_int_val('product_status',"-1");
         $userid = $this->get_account_id();
-        if($userid==944 ){
-            $userid=-1;
-        }
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_requirement_info->get_list_product_new($page_info,$opt_date_type,$userid,$priority,$productid,$product_status,$start_time,$end_time);
 
         foreach( $ret_info["list"] as $key => &$item ) {
-            $item['expect_time']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
-            $item['forecast_time'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'','Y/m/d H:i:s');
+            $item['expect_time_a']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
+            $item['forecast_time_a'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
+            $item['expect_time_b']   = $item['expect_time'] > 0?date('Y-m-d',$item['expect_time']):"";
+            $item['forecast_time_b'] = $item['forecast_time'] > 0?date('Y-m-d',$item['forecast_time']):"";
             $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
             $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
             $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);

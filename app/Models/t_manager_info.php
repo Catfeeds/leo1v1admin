@@ -789,6 +789,22 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
         return $arr;
     }
+
+    public function get_jw_teacher_list_detail(){
+        $time=time();
+        $sql = $this->gen_sql_new("select uid,tr.require_id from %s m".
+                                  " left join %s tr on (m.uid = tr.accept_adminid ".
+                                  " and tr.test_lesson_student_status=200 ".
+                                  " and tr.jw_test_lesson_status = 0 and tr.is_green_flag=0 ".
+                                  " and tr.curl_stu_request_test_lesson_time >%u)".
+                                  " where  account_role = 3 and admin_work_status = 1 "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,$time
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_jw_teacher_list_all(){
         $sql = $this->gen_sql_new("select uid from %s ".
                                   " where account_role = 3 and admin_work_status = 1 "
@@ -886,7 +902,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                             ." left join %s l on l.assistantid = a.assistantid"
                             ." left join %s s on l.userid = s.userid"
                             ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,4)  and l.lesson_type in (0,1,3)"
-                            . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.del_flag =0 and m.uid <>74  "
+                            . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74  "
                             ." group by m.uid  ",
                             self::DB_TABLE_NAME,
                             t_assistant_info::DB_TABLE_NAME,
@@ -906,7 +922,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." left join %s l on l.assistantid = a.assistantid"
                                 ." left join %s s on l.userid = s.userid"
                                 ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag  <>2  and l.lesson_type in (0,1,3)"
-                                . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.del_flag =0 and m.uid <>74  ",
+                                . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.uid <>74  ",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
                                 t_lesson_info::DB_TABLE_NAME,
@@ -933,7 +949,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
-                                ." and m.account_role=1 and m.del_flag =0 and m.uid <>74"
+                                ." and m.account_role=1 and m.uid <>74"
                                 ." group by m.uid",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
@@ -963,7 +979,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
-                                ." and m.account_role=1 and m.del_flag =0 and m.uid <>74",
+                                ." and m.account_role=1 and m.uid <>74",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
                                 t_lesson_info::DB_TABLE_NAME,
@@ -1076,7 +1092,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.contract_status in (1)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "o.price >0"
         ];
         $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
@@ -1104,7 +1120,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             //"o.contract_status in (1)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "o.price >0",
             "o.contract_type in (3,3001)"
         ];

@@ -45,12 +45,19 @@ class check_modify_lesson_time extends Command
         $lesson_list = $this->task->t_lesson_time_modify->get_need_notice_lessonid($now);
 
         // dd(json_encode($lesson_list));
-        
+
         foreach($lesson_list as $item){
             // 向助教发微信推送
-            $ass_wx_openid     = $this->task->t_lesson_info_b2->get_ass_wx_openid($item['lessonid']);
+            $lesson_type = $this->task->t_lesson_info_b2->get_lesson_type($item['lessonid']);
+            if($lesson_type == 0){
+                $ass_wx_openid = $this->task->t_lesson_info_b2->get_ass_wx_openid($item['lessonid']);
+            }elseif($lesson_type == 2){
+                $ass_wx_openid = $this->task->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($item['lessonid']);
+            }
+
+
             $lesson_start_time = $this->task->t_lesson_info_b2->get_lesson_start($item['lessonid']);
-            $lesson_start_date = date('m月d日',$lesson_start_time );
+            $lesson_start_date = date('m月d日 H:i:s',$lesson_start_time );
             $stu_nick          = $this->task->t_student_info->get_stu_nick_by_lessonid($item['lessonid']);
             $teacher_nick      = $this->task->t_teacher_info->get_teacher_nick_lessonid($item['lessonid']);
             $day_date          = date('Y-m-d H:i:s');

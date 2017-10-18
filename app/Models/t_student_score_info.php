@@ -91,7 +91,9 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     public function get_score_info_for_parent($parentid,$userid){
         $where_arr = [
             ["create_adminid = %d",$parentid,-1],
-            ["userid = %d ",$userid,-1]
+            ["userid = %d ",$userid,-1],
+            'status=0',
+
         ];
 
         $sql = $this->gen_sql_new(" select subject, stu_score_type, score, grade_rank from %s where %s",
@@ -105,9 +107,10 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     public function get_stu_score_list_for_score_type($userid){
         $where_arr = [
             ['tc.userid=%d',$userid,-1],
+            "tc.status=0"
         ];
 
-        $sql = $this->gen_sql_new("  select id as scoreid, stu_score_type, score, total_score, semester, subject, grade_rank, rank, file_url from %s tc"
+        $sql = $this->gen_sql_new("  select id as scoreid, stu_score_type, grade,score, total_score, semester, subject, grade_rank, rank, file_url from %s tc"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME,
                                   $where_arr

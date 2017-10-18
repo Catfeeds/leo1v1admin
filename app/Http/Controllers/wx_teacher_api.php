@@ -775,7 +775,7 @@ class wx_teacher_api extends Controller
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
 
-            $keyword2 = "原上课时间: $lesson_start_date ; $result";
+            $keyword2 = "原上课时间: $lesson_start_date";
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
@@ -792,23 +792,33 @@ class wx_teacher_api extends Controller
 
 
             // 向家长发送推送
-            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
-            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-            $data_parent = [
-                'first' => "调课申请被拒绝",
-                'keyword1' =>"调换 $lesson_start_date 上课时间被拒绝",
-                'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
-                'keyword3' => date('Y-m-d H:i:s'),
-                'remark'   => "请耐心等待助教老师进行沟通!"
-            ];
-            $url_parent = '';
-            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+            $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+
+            if($lesson_type == 0){ // 常规课发送给家长
+                $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
+                $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+                $data_parent = [
+                    'first' => "调课申请被拒绝",
+                    'keyword1' =>"调换 $lesson_start_date 上课时间被拒绝",
+                    'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
+                    'keyword3' => date('Y-m-d H:i:s'),
+                    'remark'   => "请耐心等待助教老师进行沟通!"
+                ];
+                $url_parent = '';
+                $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+            }
         }
 
         //推送给 助教 / 咨询
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
-        $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+
+        if($lesson_type == 0){ //常规课
+            $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+            $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        }elseif($lesson_type == 2){ // 试听课
+            $wx_openid_arr[] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
 
         $data_leo = [
             'first'    => "$first",
@@ -855,7 +865,7 @@ class wx_teacher_api extends Controller
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = "您申请修改学生 $stu_nick  的家长发起的申请修改 $lesson_old_date  的上课时间 ";
             $data['keyword1']   = " 调换 $stu_nick  的家长发起的换时间申请";
-            $data['keyword2']   = "原上课时间: $lesson_old_date  ,$result";
+            $data['keyword2']   = "原上课时间: $lesson_old_date ";
             $data['keyword3']   = " $day_date";
             $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
@@ -955,10 +965,19 @@ class wx_teacher_api extends Controller
 
 
         // 给助教// 销售 // 教务[试听课] 推送结果
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
-        $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
-
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
         $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+
+
+        if($lesson_type == 0){ //常规课
+            $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+            $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        }elseif($lesson_type == 2){ // 试听课
+            $wx_openid_arr[] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
+
         if($lesson_type == 2){ // 只有试听课才会有教务 [常规课由助教直接排课]
             $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
         }

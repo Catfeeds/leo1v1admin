@@ -188,7 +188,8 @@ class main_page extends Controller
                     $ret_info['month_finish_persent'] = $ret_info['formal_info']/$ret_info['seller_target_income']*100;//月kpi完成率
                 }
 
-                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['month_finish_persent'];//
+                $ret_info['month_left_money'] = $ret_info['seller_target_income'] - $ret_info['formal_info'];//
+
 
                 if($ret_info['new_order_num']>0){ //平均单笔
                     $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
@@ -590,6 +591,9 @@ class main_page extends Controller
         $call_num   = $this->t_revisit_call_count->get_today_call_count($ass_adminid, $start_time, $end_time);
         $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
+
+        //薪资展示
+
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,

@@ -13,8 +13,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	fail_all_count_for_month	:any;
-	lesson_per	:any;
+	count	:any;
+	no_call_count	:any;
+	global_tq_called_flag	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;

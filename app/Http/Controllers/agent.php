@@ -92,6 +92,8 @@ class agent extends Controller
         $ret_info_new = [];
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
+            $item['p_nickname'] = $item['p_nickname'].'/'.$item['p_phone'];
+            $item['pp_nickname'] = $item['pp_nickname'].'/'.$item['pp_phone'];
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_user_online_status"]);
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
@@ -310,7 +312,9 @@ class agent extends Controller
         $cash     = $this->get_in_int_val('type');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
+        $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", 0,E\Eagent_check_money_flag::class);
+        $phone = $this->get_in_phone();
+        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone);
         foreach($ret_info['list'] as &$item){
             $item['agent_check_money_flag'] = $item['check_money_flag'];
             $item['cash'] /=100 ;
@@ -461,6 +465,7 @@ class agent extends Controller
     }
 
     public function test_new(){
+        
         $c = '';
         if($c){
             dd('a');

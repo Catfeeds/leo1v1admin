@@ -1488,8 +1488,7 @@ class common extends Controller
         return $this->output_succ(['default_comment_tags'=>$default_comment_tags]);
     }
     public function get_token($bucket){
-
-        $qiniu     = \App\Helper\Config::get_config("qiniu");
+        $qiniu = \App\Helper\Config::get_config("qiniu");
 
         $accessKey = $qiniu['access_key'];
         $secretKey = $qiniu['secret_key'];

@@ -5,10 +5,25 @@
 
         <div>
             <div class="row  row-query-list" >
-
+               
+                <div class="col-xs-6 col-md-3" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">财务审核状态</span>
+                        <select class="opt-change form-control" id="id_agent_check_money_flag" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <span class="input-group-addon">手机</span>
+                        <input class="opt-change form-control" id="id_phone" />
+                    </div>
+                </div>
+                
             </div>
         </div>
         <hr/>
+
         <table     class="common-table"  >
             <thead>
                 <tr>

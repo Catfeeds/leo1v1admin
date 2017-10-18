@@ -1109,6 +1109,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
         ];
+        if($nick || $phone) {
+            $where_arr[]= "f.adminid =$adminid ";
+        }
         if (!($nick || $phone)) {
             $now=time(NULL);
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
@@ -1132,7 +1135,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_subject_free_list::DB_TABLE_NAME,
              $where_arr
         );
-        return $this->main_get_page_random ($sql,2);
+        if($nick || $phone) {
+            return $this->main_get_list_as_page($sql);
+        }else{
+            return $this->main_get_page_random($sql,2);
+        }
     }
 
     public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$user_info

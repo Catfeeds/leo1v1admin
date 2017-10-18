@@ -17,6 +17,9 @@ class t_online_count_log extends \App\Models\Zgen\z_t_online_count_log
 
         return $this->main_get_list($sql);
     }
+
+
+
     public function add( $logtime, $online_count ) {
         return $this->row_insert([
             "logtime" =>$logtime,

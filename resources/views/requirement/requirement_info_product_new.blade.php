@@ -97,11 +97,11 @@
                             @else
                             @endif
                         </td>
-                        <td>{{@$var["expect_time"]}} </td>
-                        <td>{{@$var["forecast_time"]}}</td>
+                        <td>{{@$var["expect_time_a"]}} </td>
+                        <td>{{@$var["forecast_time_a"]}}</td>
                         <td>{{@$var['operator_nick']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
-                            <td >{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
+                            <td >{{@$var["operator_status"]}}</td>
                         @else
                             <td>{{@$var['operator_status']}}</td>
                         @endif
@@ -119,6 +119,9 @@
                             @endif
 
                             @if ($var['product_status'] == 4)
+                                 <a class="fa  opt-re-edit"  title="编辑">编辑</a>
+                            @endif
+                            @if ($var['product_status'] == 0)
                                  <a class="fa  opt-re-edit"  title="编辑">编辑</a>
                             @endif
                             </div>

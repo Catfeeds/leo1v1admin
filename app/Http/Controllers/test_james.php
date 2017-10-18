@@ -10,6 +10,9 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
+use App\Jobs\send_wx_notic_for_software;
+
+
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
@@ -282,10 +285,23 @@ class test_james extends Controller
 
     public function ss(){
 
-        $now = time(NULL);
-        $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
 
-        dd($lesson_list);
+        $new_order_info = $this->t_order_info->get_new_order_money($start_time, $end_time);// 新签合同
+
+        $referral_order = $this->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
+
+        $b = $this->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 销售邀约数
+
+        dd($b);
+        // $a = $new_order_info['order_num_new'] + $referral_order['total_num'];
+        // dd($a);
+
+        // $now = time(NULL);
+        // $lesson_list = $this->t_lesson_time_modify->get_need_notice_lessonid($now);
+
+        dd($new_order_info['order_num_new']." ~ ".$new_order_info['total_price']);
 
         $wx = new \App\Helper\Wx();
         // 向家长发送推送
@@ -686,7 +702,34 @@ class test_james extends Controller
 
         return $this->output_succ(['data'=>$student_info]);
     }
-   
+
+
+
+    public function send_msg_to_parent(){
+        // dd(1);
+
+
+        dispatch(new send_wx_notic_for_software());
+
+
+    }
+
+
+    public function send_msg_to_teacher(){
+        // dd(2);
+
+        $teacher_list = $this->t_teacher_info->get_wx_openid_list();
+
+        dd($teacher_list);
+        //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+
+        // {{first.DATA}}
+        // 待办主题：{{keyword1.DATA}}
+        // 待办内容：{{keyword2.DATA}}
+        // 日期：{{keyword3.DATA}}
+        // {{remark.DATA}}
+    }
+
 
 
 
