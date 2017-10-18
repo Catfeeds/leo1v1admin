@@ -1003,11 +1003,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $phone = $p_pp_info['phone'];
         $p_wx_openid = $p_pp_info['p_wx_openid'];
         $pp_wx_openid = $p_pp_info['pp_wx_openid'];
+        //该订单是否已生成过奖励记录
         $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
         $orderid=0;
+        \App\Helper\Utils::logger("yxyx_userid $userid yxyx_is_test_user $is_test_user");
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
+            \App\Helper\Utils::logger("yxyx_order_info_orderid ".$order_info["orderid"]);
             if ($order_info) {
                 $orderid =  $order_info["orderid"] ;
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
@@ -1076,8 +1079,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'create_time' =>  $check_time,
                 ]);
 
+                \App\Helper\Utils::logger("yxyx_p_info $pid, $p_wx_openid,  $p_price  ");
                 if(!$order_info_old && $p_wx_openid && $p_price){
-                    \App\Helper\Utils::logger("SEND $pid, $p_wx_openid,  $p_price  ");
 
                     $p_price_new = $p_price/100;
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
