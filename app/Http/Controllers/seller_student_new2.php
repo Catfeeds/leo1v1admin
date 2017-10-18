@@ -959,4 +959,12 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
+
+    public function seller_edit_log_list(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $adminid    = $this->get_in_int_val('adminid');
+        $page_info  = $this->get_in_page_info();
+        $ret_info   = $this->t_seller_edit_log->get_distribution_list($adminid,$start_time,$end_time,$page_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }
