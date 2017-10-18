@@ -1934,6 +1934,7 @@ class ss_deal extends Controller
             $this->t_assistant_info->field_update_list($assistantid,[
                "assign_lesson_count" =>$assign_lesson_count_left
             ]);
+           
             //合同状态更新
             $this->t_order_info->field_update_list($orderid,[
                 "contract_status"=>1,
@@ -1941,6 +1942,10 @@ class ss_deal extends Controller
                 "check_money_flag"=>1,
                 "check_money_time"=>time()
             ]);
+
+            $acc= $this->get_account();
+            $this->t_manager_info->send_wx_todo_msg("jack","助教课时赠送","助教".$acc,"课时".$lesson_total,""  );
+
         }else{
             if($order_require_flag) {
                 $this->t_flow->add_flow(

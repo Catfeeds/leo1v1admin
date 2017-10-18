@@ -2273,7 +2273,7 @@ trait TeaPower {
         $name       = $teacher_info['nick'];
         // $level_str  = E\Elevel::get_desc($teacher_info['level']);
         $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
+        $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         // dd($teacher_info);
         // $group_html = $this->get_qq_group_html($teacher_info['subject']);
         $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
