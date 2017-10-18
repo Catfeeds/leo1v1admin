@@ -33,7 +33,7 @@
             <div class="col-xs-6 col-md-2">
                 <button class="btn btn-warning" id="id_add_course_new">增加课程包</button>
             </div>
-            @if($is_test_user)
+            @if($show_flag)
             <div class="col-xs-6 col-md-2">
                 <button class="btn btn-warning" id="id_auto_add_course_new">一键增加课程包</button>
             </div>
