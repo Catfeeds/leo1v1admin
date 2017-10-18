@@ -847,31 +847,35 @@ class seller_student_new2 extends Controller
             $end_time = time();
         }
         $res = [];
-        $this->t_test_lesson_subject_require->switch_tongji_database();
-        $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
-        foreach($tr_info['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['require_test_count_for_month']=$item['require_test_count'];
-            if(isset($res[$adminid]['month_work_day_now_real']) && $res[$adminid]['month_work_day_now_real'] != 0){
-                $res[$adminid]['require_test_count_for_day'] = round($item['require_test_count']/$res[$adminid]['month_work_day_now_real']);
-            }
+        // $this->t_test_lesson_subject_require->switch_tongji_database();
+        // $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time);
+        // foreach($tr_info['list'] as $item){
+        //     $adminid = $item['admin_revisiterid'];
+        //     $res[$adminid]['require_test_count_for_month']=$item['require_test_count'];
+        //     if(isset($res[$adminid]['month_work_day_now_real']) && $res[$adminid]['month_work_day_now_real'] != 0){
+        //         $res[$adminid]['require_test_count_for_day'] = round($item['require_test_count']/$res[$adminid]['month_work_day_now_real']);
+        //     }
 
-        }
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
-        }
+        // }
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new_two($start_time,$end_time );
+        // foreach($test_leeson_list['list'] as $item){
+        //     $adminid = $item['admin_revisiterid'];
+        //     $res[$adminid]['test_lesson_count_for_month'] = $item['test_lesson_count'];
+        // }
 
-        $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
-        foreach($test_leeson_list['list'] as $item){
-            $adminid = $item['admin_revisiterid'];
-            $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
-            if($item['test_lesson_count'] != 0){
-                $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
-            }
+        // $test_leeson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid_new($start_time,$end_time );
+        // foreach($test_leeson_list['list'] as $item){
+        //     $adminid = $item['admin_revisiterid'];
+        //     $res[$adminid]['fail_all_count_for_month'] = $item['fail_all_count'];
+        //     if($item['test_lesson_count'] != 0){
+        //         $res[$adminid]['lesson_per'] = round($item['fail_all_count']/$item['test_lesson_count'],2);
+        //     }
+        // }
+        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time);
+        foreach($seller_log_list as $item){
+            $adminid = $item['adminid'];
+            $res[$adminid]['count'] = $item['count'];
         }
-
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
         }
