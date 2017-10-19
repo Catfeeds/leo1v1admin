@@ -72,6 +72,7 @@ class NewRouteConfig {
         "/supervisor/get_lesson_conditions_js"    => true,
         "/supervisor/add_error_info"              => true,
         "/tea_manage/get_lesson_xmpp_audio"       => true,
+        "/tea_manage/get_tea_pad_lesson_qr"       => true,
         "/login/teacher"                          => true,
         "/lesson_manage/get_lesson_info"          => true,
         "/common/add_trial_train_lesson_by_admin" => true,
@@ -234,6 +235,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/auto_rank_lesson"            => true,
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/train_not_through_list_px"   => true,
         "/tea_manage/set_teacher_part_remark"     => true,
@@ -504,6 +506,7 @@ class NewRouteConfig {
         "/human_resource/quit_teacher_info"                   => true,
         "/human_resource/reaearch_teacher_lesson_list"        => true,
         "/human_resource/reaearch_teacher_lesson_list_fulltime"      => true,
+        "/human_resource/reaearch_teacher_lesson_list_research"      => true,
 
 
 
@@ -537,8 +540,12 @@ class NewRouteConfig {
         "/customer_service/proposal_info"                => true,
 
         "/requirement/add_requirement_info"              => true,
+        "/requirement/add_requirement_info_new"          => true,
+        "/requirement/requirement_info_new"              => true,
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
+        "/requirement/re_edit_requirement_info_new"      => true,
+
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,

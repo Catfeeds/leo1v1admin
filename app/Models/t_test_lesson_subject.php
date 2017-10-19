@@ -13,13 +13,14 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     {
         parent::__construct();
     }
+
     public function get_set_status_info( $test_lesson_subject_id) {
-        $sql=$this->gen_sql_new("select  phone, subject,seller_student_status , t.userid,n.origin_vaild_flag "
-                                ." from %s t, %s n "
-                                ." where t.userid=n.userid and  test_lesson_subject_id=%u  ",
-                                self::DB_TABLE_NAME,
-                                t_seller_student_new::DB_TABLE_NAME,
-                                $test_lesson_subject_id);
+        $sql = $this->gen_sql_new("select  phone, subject,seller_student_status , t.userid,n.origin_vaild_flag "
+                                  ." from %s t, %s n "
+                                  ." where t.userid=n.userid and  test_lesson_subject_id=%u  ",
+                                  self::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  $test_lesson_subject_id);
         return $this->main_get_row($sql);
     }
 
@@ -106,7 +107,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
     public function check_and_add_ass_subject( $require_adminid, $userid,$grade, $subject ,$ass_test_lesson_type )
     {
-        $test_lesson_subject_id= $this->get_test_lesson_subject_id_by_admin_subject( $require_adminid, $userid, $subject);
+        $test_lesson_subject_id = $this->get_test_lesson_subject_id_by_admin_subject( $require_adminid, $userid, $subject);
         if (!$test_lesson_subject_id) {
             $grade=$this->t_student_info->get_grade($userid);
             $this->row_insert([
@@ -345,8 +346,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     }
     public function get_unallot_info  () {
         $end_time=time(NULL);
-        $start_time=$end_time-86400*30*6;
-        $where_arr=[
+        $start_time = $end_time-86400*30*6;
+        $where_arr  = [
             "s.lesson_count_all=0",
         ];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
@@ -951,4 +952,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql = $this->gen_sql_new("select * from %s where stu_request_test_lesson_demand ='' and knowledge_point_location<>''",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
+
+
 }

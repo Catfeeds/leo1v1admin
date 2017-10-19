@@ -18,7 +18,7 @@ class reset_lesson_count_when_lesson_start extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '重置学生剩余课时';
 
     /**
      * Create a new command instance.
@@ -40,21 +40,20 @@ class reset_lesson_count_when_lesson_start extends Command
         $lesson_start = time()-120;
         $lesson_start -= $lesson_start%60;
 
-
-        $all_flag=$this->option('all');
-        /**  @var    \App\Console\Tasks\TaskController  $task*/
-        $task=new \App\Console\Tasks\TaskController();
-        if ($all_flag)  {
+        $all_flag = $this->option('all');
+        /** @var  \App\Console\Tasks\TaskController $task*/
+        $task = new \App\Console\Tasks\TaskController();
+        if ($all_flag) {
             //系统判定无效
-            $now=time(NULL);
-            $user_list=$task->t_seller_student_new->get_user_list_by_add_time( $now-86400*101 ,$now );
+            $now = time(NULL);
+            $user_list = $task->t_seller_student_new->get_user_list_by_add_time( $now-86400*101,$now );
             foreach ($user_list as $item ) {
-                $userid=$item["userid"];
+                $userid = $item["userid"];
                 echo "$userid\n";
                 $task->t_seller_student_new->reset_sys_invaild_flag($userid);
-                $phone= $item["phone"];
+                $phone   = $item["phone"];
                 $adminid = $item["admin_revisiterid"];
-                $cur_adminid_call_count= $task->t_tq_call_info->get_cur_adminid_call_count($adminid,$phone);
+                $cur_adminid_call_count = $task->t_tq_call_info->get_cur_adminid_call_count($adminid,$phone);
                 if ($cur_adminid_call_count != $item["cur_adminid_call_count"]) {
                     $task->t_seller_student_new->field_update_list($userid,[
                         "cur_adminid_call_count" => $cur_adminid_call_count
@@ -75,6 +74,9 @@ class reset_lesson_count_when_lesson_start extends Command
             $task->t_student_info->reset_lesson_count($userid);
         }
     }
+
+
+
 
 
 

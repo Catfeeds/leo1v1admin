@@ -11,6 +11,7 @@ class teacher_rule{
      * 2,3,5 第一版 2016年12月之前老版规则执行,和第二版并行
      * 4     第三版 2016年12月之后第三版，平台合作执行此规则
      * 6     第四版 2017年9月之后第四版执行此规则
+     * 7     武汉全职老师执行此规则
      */
     static public $rule_type = [
         1=>[
@@ -79,20 +80,20 @@ class teacher_rule{
         ]
     ];
 
-    static public function reward_count_type_list($type=E\Ereward_count_type::V_1){
-        $rule_type_key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
-        $rule_type = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$rule_type_key,[],true);
-        if($rule_type===null){
-            if($type==E\Ereward_count_type::V_2){
-                $ret_type = self::$reference_rule;
-            }else{
-                $ret_type = self::$rule_type;
-            }
-        }else{
-            $ret_type = $rule_type[$type];
-        }
-        return $ret_type;
-    }
+    // static public function reward_count_type_list($type=E\Ereward_count_type::V_1){
+    //     $rule_type_key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+    //     $rule_type = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$rule_type_key,[],true);
+    //     if($rule_type===null){
+    //         if($type==E\Ereward_count_type::V_2){
+    //             $ret_type = self::$reference_rule;
+    //         }else{
+    //             $ret_type = self::$rule_type;
+    //         }
+    //     }else{
+    //         $ret_type = $rule_type[$type];
+    //     }
+    //     return $ret_type;
+    // }
 
     /**
      * @param type 老师工资对应的类型

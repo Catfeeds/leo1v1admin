@@ -75,24 +75,27 @@ class teacher_advance_send_wx extends Command
              * {{remark.DATA}}
              */
             $wx_openid = $task->t_teacher_info->get_wx_openid($teacherid);
-            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
-                $data['first']    = "恭喜您获得了晋升";
+                $data['first']    = "恭喜".$info["realname"]."老师,您已经成功晋级到了".$level_degree;
                 $data['keyword1'] = $info["realname"];
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "晋升分数:".$score
-                                  ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";
+                $data['keyword3'] = date("Y-m-01 00:00",time());
+                /* $data['remark']   = "晋升分数:".$score
+                   ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
+                $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
+
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
             //邮件推送
             $html = $task->teacher_level_up_html($info);
             $email = $task->t_teacher_info->get_email($teacherid);
-            // $email = "jack@leoedu.com";
+            $email = "jack@leoedu.com";
             if($email){
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
@@ -108,14 +111,14 @@ class teacher_advance_send_wx extends Command
             $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($master_adminid);
             $jy_teacherid = $teacher_info["teacherid"];
             $wx_openid = $task->t_teacher_info->get_wx_openid($jy_teacherid);
-            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
                 $data['first']    = "恭喜".$info["realname"]."获得了晋升";
                 $data['keyword1'] = $info["realname"];
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['keyword3'] = date("Y-m-01 00:00",time());
                 $data['remark']   = "";
                 $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

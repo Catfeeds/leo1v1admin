@@ -1647,9 +1647,9 @@ lesson_type in (0,1) "
 
     public function get_lesson_list_for_tongji($start_time,$end_time) {
         $sql=$this->gen_sql("select lessonid, l.userid,lesson_start,lesson_type, lesson_count  from  %s  l, %s s ".
-                            " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
-                            . " and lesson_del_flag=0 "
-                             ,
+                            " where  l.userid=s.userid "
+                            ." and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and lesson_status =2 and confirm_flag <>2  and lesson_type in (0,1,2,3) "
+                            . " and lesson_del_flag=0 ",
                             self::DB_TABLE_NAME,
                             t_student_info::DB_TABLE_NAME, //
                             $start_time,$end_time);
@@ -1661,7 +1661,6 @@ lesson_type in (0,1) "
                               ." from %s "
                               ." where teacherid=%u "
                               ." and userid=%u "
-                              // ." and lesson_status=2 "
                               ." and lesson_type in (0,1,3) "
                               ." and lesson_del_flag=0 "
                               ." and confirm_flag!=2"
@@ -2214,10 +2213,11 @@ lesson_type in (0,1) "
             ["lesson_status=%u",$lesson_status,-1],
             "lesson_count>0",
             "lesson_type in (0,1,3)",
+            "teacher_money_type in (5,6)",
         ];
         $where_str = $this->lesson_common_where_arr($where_str);
         $sql = $this->gen_sql_new("select lessonid,lesson_count,lesson_type,lesson_start,lesson_end,lesson_status,"
-                                ." teacherid,grade,userid,competition_flag"
+                                ." teacherid,grade,userid,competition_flag,teacher_money_type"
                                 ." from %s"
                                 ." where %s"
                                 ." order by lesson_start asc"
@@ -3356,18 +3356,14 @@ lesson_type in (0,1) "
         ];
         $sql=$this->gen_sql_new("select distinct(l.grade) as grade"
                                 ." from %s l"
-                                //." left join %s o on o.userid=l.userid"
                                 ." left join %s s on s.userid=l.userid"
                                 ." left join %s t on t.teacherid=l.teacherid"
                                 ." where %s"
-                                //." and contract_type=0"
-                                //." and contract_status=1"
                                 ." and s.is_test_user=0"
                                 ." and lesson_type=2"
                                 ." and confirm_flag<2"
                                 ." and lesson_del_flag=0"
                                 ,self::DB_TABLE_NAME
-                                //,t_order_info::DB_TABLE_NAME
                                 ,t_student_info::DB_TABLE_NAME
                                 ,t_teacher_info::DB_TABLE_NAME
                                 ,$where_arr
@@ -3376,7 +3372,7 @@ lesson_type in (0,1) "
     }
 
     public function get_error_lesson_list($start,$end){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
@@ -3399,11 +3395,11 @@ lesson_type in (0,1) "
     }
 
     public function get_trial_lesson_list($start,$end,$type,$str){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
         ];
-        $where_arr=$this->lesson_common_where_arr($where_arr);
+        $where_arr = $this->lesson_common_where_arr($where_arr);
         if($type==1){
             $sql=$this->gen_sql_new("select count(distinct(l.userid)) as num,l.%s"
                                     ." from %s l"
@@ -3538,11 +3534,12 @@ lesson_type in (0,1) "
 
     public function get_lesson_time_list($start_time, $end_time )
     {
-        $where_arr=[
-            "confirm_flag not in (2,3)",
-            "lesson_del_flag=0",
-            "lesson_type <>4001",
-        ];
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+            ];
+  
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new(
             " select lesson_start,lesson_end".
@@ -3553,6 +3550,38 @@ lesson_type in (0,1) "
             $where_arr);
         return $this->main_get_list($sql);
     }
+
+    //xmpp单个显示
+    public function get_lesson_time_xmpp_list($xmpp_value,$start_time, $end_time )
+    {
+        // dd($xmpp_value);
+        if($xmpp_value != ''){
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+                "xmpp_server_name=".$xmpp_value,
+            ];
+
+        }else{
+            $where_arr=[
+                "confirm_flag not in (2,3)",
+                "lesson_del_flag=0",
+                "lesson_type <>4001",
+            ];
+        }
+     
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select lesson_start,lesson_end".
+            " from %s".
+            " where %s".
+            " order by lesson_start asc ",
+            self::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_tea_paper_lesson_list($start,$end){
         $where_arr=[
@@ -3585,7 +3614,7 @@ lesson_type in (0,1) "
     }
 
     public function get_teacherid_for_reset_lesson_count($start,$end,$teacher_money_type=0){
-        $where_arr=[
+        $where_arr = [
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["teacher_money_type=%u",$teacher_money_type,-1],
@@ -5431,7 +5460,7 @@ lesson_type in (0,1) "
     }
 
     public function get_tea_month_list(
-        $start,$end,$teacher_ref_type,$teacher_type=0,$teacher_money_type,$level,$show_type="current"
+        $start,$end,$teacher_ref_type,$teacher_type,$teacher_money_type,$level,$show_type="current"
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start,0],
@@ -5446,10 +5475,12 @@ lesson_type in (0,1) "
         if($show_type=="current"){
             $where_arr[]="l.lesson_status=2";
         }
-        if($teacher_type!=3){
+        if($teacher_type ==-1){
             $where_arr[] = "(t.teacher_type!=3 or l.teacherid in (51094,99504,97313))";
-        }else{
+        }elseif($teacher_type==3 ){
             $where_arr[] = "(t.teacher_type=3 and l.teacherid not in (51094,99504,97313))";
+        }else{
+            $where_arr[]=["t.teacher_type=%u",$teacher_type,-1];
         }
         $where_arr = $this->lesson_common_where_arr($where_arr);
         $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"

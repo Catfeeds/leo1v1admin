@@ -428,9 +428,6 @@ class supervisor extends Controller
         //查询学生最后一次登录/退出信息
         $stu_last_login_info= $this->t_lesson_opt_log-> get_lesson_log_user_last($lessonid,$stu_id);
 
-        //dd($ret_arr_log_teacher_last);
-
-
         $ret_list_log=array();
         $server_type_conf=array("1" =>"webrtc" , "2" => "xmpp" );
         $log_type_conf=array("1" =>"login" , "2" =>"logout", "3"=>"register", "4"=> "no_recv_data" );
@@ -519,12 +516,33 @@ class supervisor extends Controller
             $info['par_xmpp']    = 0;
             $info['par_webrtc']  = 0;
         }
+        //最后一次登录情况
+
+        $server_info_str="";
+        if (!$tea_last_login_info ) {
+            $server_info_str.="<font color=red>老师未登录</font>";
+        }
+
+        if (!$stu_last_login_info ) {
+            $server_info_str.="<font color=red>学生未登录</font>";
+        }
+        if ($tea_last_login_info && $stu_last_login_info){
+            if( $tea_last_login_info["server_ip"]  !=  $stu_last_login_info["server_ip"]   ) {
+                $server_info_str.="<font color=red>学生和老师 画笔 服务器IP不一致</font>";
+            }else{
+                $server_info_str.="<font color=green> 学生和老师 画笔 服务器IP 一致 </font>";
+            }
+        }
+
+        //   $server_info
 
         //dd($ret_list_log);
         //dd($info);
         return $this->pageView(__METHOD__,$ret_info,["self_groupid"=>$self_groupid,'stu_info'=>$info,"is_group_leader_flag"=>$is_group_leader_flag,'log_lists'=>$ret_list_log,
+                                                     "server_info" => $server_info_str,
                                                      'log_tea_last'=>$tea_last_login_info,
-                                                     'log_stu_last'=>$stu_last_login_info]);}
+                                                     'log_stu_last'=>$stu_last_login_info]);
+    }
 
 
 }

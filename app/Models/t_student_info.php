@@ -748,6 +748,30 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
+    public function get_ass_list_for_select ( $id,$gender, $nick_phone,  $page_num,$ass_adminid) {
+        $where_arr = array(
+            array( "s.gender=%d", $gender, -1 ),
+            array( "s.userid=%d", $id, -1 ),
+            array( "m.uid=%d", $ass_adminid, -1 ),
+        );
+        if ($nick_phone!=""){
+            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone));
+        }
+
+        $sql = $this->gen_sql_new("select s.userid as id , s.nick, s.phone,s.gender,s.realname  "
+                                  ." from   %s s , %s a,%s m  where s.assistantid=a.assistantid"
+                                  ." and a.phone=m.phone and %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+    }
+
+
     public function get_list_for_select($id,$gender, $nick_phone,  $page_num,$adminid=-1)
     {
         $where_arr = array(
@@ -756,7 +780,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //array( "seller_adminid=%d", $adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
+            $where_arr[]=sprintf( "(nick like '%%%s%%' or realname like '%%%s%%' or  phone like '%%%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -1735,7 +1759,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_ass_stu_info_new($adminid=-1){
         $where_arr=[
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0",
             ["m.uid=%u",$adminid,-1]
         ];
@@ -1759,7 +1783,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr=[
             "type=2",
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"s.type_change_time",$start_time,$end_time);
@@ -1796,7 +1820,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
-                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 and m.del_flag=0",
+                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 ",
                                  self::DB_TABLE_NAME,
                                  t_assistant_info::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME
@@ -2768,7 +2792,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_stu_grade_info_month($time){
-        
+
         $sql = $this->gen_sql_new("select count(*) num,grade from %s where reg_time <%u and is_test_user=0 and grade >0 and grade <402 and assistantid>0 group by grade",
                                   self::DB_TABLE_NAME,
                                   $time
@@ -2885,6 +2909,16 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
        );
 
         return $this->main_get_list($sql);
-        
+
     }
+
+    public function check_is_test_user($userid){
+        $sql = $this->gen_sql_new("select is_test_user from %s where userid=$userid"
+                                  ,self::DB_TABLE_NAME
+
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 }

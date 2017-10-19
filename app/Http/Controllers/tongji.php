@@ -739,8 +739,39 @@ class tongji extends Controller
         $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
         $end_time = strtotime($end_time);
         $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
-        foreach($ret_list['list'] as &$val){
-            $val['all_money']/=100;
+        foreach($ret_list['list'] as $month=> &$item){
+            $item['all_money']/=100;
+            /*
+            $all_money=0;
+            if ($month=="2017-06"  ) {
+                $all_money=7406943;
+            }else if ($month=="2017-07") {
+                $all_money= 8210116.87;
+            }else if ($month=="2017-08") {
+                $all_money= 9020138.37;
+            }else if ($month=="2017-09") {
+                $all_money= 10583119.1;
+            }else if ($month=="2017-10") {
+                $all_money= intval($item["all_money"]*1.5);
+            }
+            if ($all_money) {
+                $v= $all_money/$item["all_money"];
+                $item["all_money"]= $all_money;
+                $item["order_total"]= intval(  $item["order_total"]*$v/100)*100;
+                $item["count"]=  intval($item["count"]*$v);
+            }
+            if ($month=="2017-01"  ) {
+                $item["all_money"]=1649660;
+            }else if ($month=="2017-03"  ) {
+                $item["all_money"]=3010315.6;
+            }else if ($month=="2017-04"  ) {
+                $item["all_money"]=4139886.1;
+
+            }else if ($month=="2017-05"  ) {
+                $item["all_money"]=4454107;
+            }
+            */
+
         }
 
         return $this->pageView(__METHOD__, $ret_list);
@@ -776,6 +807,41 @@ class tongji extends Controller
         ] );
 
     }
+
+
+
+    //每个xmpp在线用户统计显示
+        public function online_user_count_xmpp_list() {
+        list($start_time ,$end_time)=$this->get_in_date_range_day(0);
+        $week_flag=$this->get_in_int_val("week_flag", 1, E\Eboolean::class );
+        $xmpp_value=$this->get_in_str_val("xmpp_value");  //xmpp传值筛选
+
+
+        $def_time_list=[];
+        for($i=0; $i<288;$i++ ) {
+            $def_time_list[$i]=0;
+        }
+
+        $date_count=1;
+        for($i=0;$i<$date_count;$i++) {
+            $opt_time=$start_time-$i*86400;
+            $date_time_list=$this->t_lesson_info_b3-> get_lesson_time_xmpp_list($xmpp_value,$start_time ,$end_time);
+            $def_time_list=\App\Helper\Utils::get_online_line($def_time_list, $date_time_list );
+        }
+
+        //查询xmpp列表
+        $page_info= $this->get_in_page_info();
+        $ret_info=$this->t_xmpp_server_config->get_list($page_info);
+
+        return $this->pageView(__METHOD__,null,[
+            "data_ex_list" =>[
+                "time_list" => [[], $def_time_list, []],
+            ],
+            "xmpp_list"=>$ret_info["list"]
+        ] );
+
+    }
+
 
     public function online_def_user_count_list() {
 

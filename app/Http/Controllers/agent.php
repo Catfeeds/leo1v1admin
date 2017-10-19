@@ -92,6 +92,8 @@ class agent extends Controller
         $ret_info_new = [];
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
+            $item['p_nickname'] = $item['p_nickname'].'/'.$item['p_phone'];
+            $item['pp_nickname'] = $item['pp_nickname'].'/'.$item['pp_phone'];
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_user_online_status"]);
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
@@ -310,7 +312,9 @@ class agent extends Controller
         $cash     = $this->get_in_int_val('type');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
+        $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", 0,E\Eagent_check_money_flag::class);
+        $phone = $this->get_in_phone();
+        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone);
         foreach($ret_info['list'] as &$item){
             $item['agent_check_money_flag'] = $item['check_money_flag'];
             $item['cash'] /=100 ;
@@ -461,24 +465,62 @@ class agent extends Controller
     }
 
     public function test_new(){
-        dd('a');
+        $adminid = 380;
+        if(!in_array($adminid,[380,457])){
+            dd('a');
+        }else{
+            dd('b');
+        }
+        $c = '';
+        if($c){
+            dd('a');
+        }else{
+            dd('b');
+        }
+        $adminid = 830;
+        $seller_level = E\Eseller_level::V_300;
+        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
+        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
+        if($face_pic && $seller_level>0){
+            $face_pic_str = substr($face_pic,-12,5);
+            $ex_str = $next_level.$face_pic_str;
+            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+            $ret = $this->t_manager_info->field_update_list($adminid,[
+                'level_face_pic'=>$level_face_pic,
+            ]);
+        }
+        dd($level_face_pic,$ret);
     }
 
     //处理等级头像
-    public function get_top_img(){
-        $datapath = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/032b2cc936860b03048302d991c3498f1505471050366test.jpg';
-        $datapath_new = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/aedfd832fcef79e331577652efba5acf1507626407041.png';
-        $image_1 = imagecreatefromjpeg($datapath);
-        $image_2 = imagecreatefrompng($datapath_new);
+    public function get_top_img($adminid,$face_pic,$level_face,$ex_str){
+        $datapath = $face_pic;
+        $datapath_new = $level_face;
+        $datapath_type = @end(explode(".",$datapath));
+        $datapath_type_new = @end(explode(".",$datapath_new));
+        $image_1 = $this->yuan_img($datapath);
+        if($datapath_type_new == 'jpg' || $datapath_type_new == 'jpeg'){
+            $image_2 = imagecreatefromjpeg($datapath_new);
+        }elseif($datapath_type_new == 'png'){
+            $image_2 = imagecreatefrompng($datapath_new);
+        }elseif($datapath_type_new == 'gif'){
+            $image_2 = imagecreatefromgif($datapath_new);
+        }elseif($datapath_type_new == 'wbmp'){
+            $image_2 = imagecreatefromwbmp($datapath_new);
+        }else{
+            $image_2 = imagecreatefromstring($datapath_new);
+        }
         $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
-        // $color = imagecolorallocate($image_3,255,255,255);
         $color = imagecolorallocatealpha($image_3,255,255,255,1);
         imagefill($image_3, 0, 0, $color);
         imageColorTransparent($image_3, $color);
 
         imagecopyresampled($image_3,$image_2,0,0,0,0,imagesx($image_3),imagesy($image_3),imagesx($image_2),imagesy($image_2));
         imagecopymerge($image_1,$image_3,0,0,0,0,imagesx($image_3),imagesx($image_3),100);
-        $tmp_url = "/tmp/".$adminid."_gk.png";
+        // header('Content-type: image/jpg');
+        // dd(imagepng($image_1));
+
+        $tmp_url = "/tmp/".$adminid."_".$ex_str."_gd.png";
         imagepng($image_1,$tmp_url);
         $file_name = \App\Helper\Utils::qiniu_upload($tmp_url);
         $level_face_url = '';
@@ -488,6 +530,7 @@ class agent extends Controller
             $domain = config('admin')['qiniu']['public']['url'];
             $level_face_url = $domain.'/'.$file_name;
         }
+        return $level_face_url;
     }
 
     //设备版本信息
@@ -1532,8 +1575,12 @@ class agent extends Controller
         $dst_im = imagecreatetruecolor($newwidth, $newheight);
         imagecopyresized($dst_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
         imagejpeg($dst_im, $imgname); //输出压缩后的图片
+        // header('Content-type: image/jpg');
+        // dd(imagejpeg($dst_im));
+
         imagedestroy($dst_im);
         imagedestroy($src_im);
+
         return $imgname;
     }
 
@@ -1560,9 +1607,13 @@ class agent extends Controller
             }
         imagesavealpha($newpic, true);
         imagepng($newpic, $dest_path);
+        // header('Content-type: image/jpg');
+        // dd(imagepng($newpic));
+
         imagedestroy($newpic);
         imagedestroy($src);
         unlink($url);
+
         return $dest_path;
     }
 
@@ -1572,16 +1623,17 @@ class agent extends Controller
 
         list($max_width, $max_height) = getimagesize($imgs['dst']);
         $dests = imagecreatetruecolor($max_width, $max_height);
-        $dst_im = imagecreatefromjpeg($imgs['dst']);
+        // $dst_im = imagecreatefromjpeg($imgs['dst']);
+        $dst_im = imagecreatefrompng($imgs['dst']);
         imagecopy($dests,$dst_im,0,0,0,0,$max_width,$max_height);
         imagedestroy($dst_im);
-
         $src_im = imagecreatefrompng($imgs['src']);
         $src_info = getimagesize($imgs['src']);
         imagecopy($dests,$src_im,354,35,0,0,190,190);
 
         imagedestroy($src_im);
         imagejpeg($dests,$imgname);
+
         unlink($imgs['src']);
         return $imgname;
     }
@@ -1617,14 +1669,15 @@ class agent extends Controller
         //拾取一个完全透明的颜色,最后一个参数127为全透明
         $bg = imagecolorallocatealpha($img, 255, 255, 255, 127);
         imagefill($img, 0, 0, $bg);
-        $r   = $w / 2; //圆半径
+        $r   = $w / 2-20; //圆半径
         $y_x = $r; //圆心X坐标
         $y_y = $r; //圆心Y坐标
+        // dd($r,$y_x,$y_y);
         for ($x = 0; $x < $w; $x++) {
             for ($y = 0; $y < $h; $y++) {
                 $rgbColor = imagecolorat($src_img, $x, $y);
                 if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
-                    imagesetpixel($img, $x, $y, $rgbColor);
+                    imagesetpixel($img, $x+14, $y+14, $rgbColor);
                 }
             }
         }

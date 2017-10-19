@@ -18,6 +18,7 @@
                    
                     <td >助教</td>
                     <td >未试听扩课数</td>
+                    <td >转介绍数量</td>
                    
                     <td >操作</td>
                 </tr>
@@ -27,6 +28,7 @@
                     <tr>
                         <td  >{{$var["name"]}} </td>
                         <td >{{$var["hand_kk_num"]}}</td>
+                        <td >{{$var["hand_tran_num"]}}</td>
 
                         <td  >
                             <div

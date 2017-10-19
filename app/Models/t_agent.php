@@ -29,7 +29,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
         }else if ( $phone ) {
-            $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            if(is_numeric($phone) && strlen($phone))
+                $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+            else
+                $where_arr[] = ["a.nickname like '%s%%'", $phone, ""];
         }else {
             $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
@@ -46,7 +49,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
                                  ."o.price, "
-                                 ."n.admin_revisiterid "
+                                 ."n.admin_revisiterid,a.userid"
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
@@ -808,7 +811,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-
+    
         return $this->main_get_list($sql);
     }
     public  function get_link_list_by_ppid($ppid) {
@@ -837,7 +840,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
             . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  ao1.p_open_price o_p_open_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
-            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  ao.pp_open_price o_open_price ,  o.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid,@agent_user_link:=1 as agent_user_link"
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
@@ -906,6 +909,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $ret_list[ ] = [
                 "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
                 "p1_id"                    => $p1["pid"],
+                "p1_phone"                    => $p1["p_phone"],
+                "agent_user_link"         => $p1["agent_user_link"],
+                "p1_userid"         => $p1["p_userid"],
                 "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
                 "p1_price"                => $p1["o_p_from_price"]/100,
                 "p1_p_agent_level"        => $p1["o_p_agent_level"],
@@ -919,6 +925,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $ret_list[ ]= [
                     "p2_name"=> $p2["nick"]."/".$p2["phone"],
                     "p2_id"=> $p2["id"],
+                    "p2_phone"=> $p2["phone"],
+                    "agent_user_link"         => $p2["agent_user_link"],
+                    "p2_userid"=> $p2["userid"],
                     "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
                     "p2_price"=> $p2["o_from_price"]/100,
                     "p2_p_agent_level"        => $p2["o_agent_level"],
@@ -994,11 +1003,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $phone = $p_pp_info['phone'];
         $p_wx_openid = $p_pp_info['p_wx_openid'];
         $pp_wx_openid = $p_pp_info['pp_wx_openid'];
+        //该订单是否已生成过奖励记录
         $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
         $orderid=0;
+        \App\Helper\Utils::logger("yxyx_userid $userid yxyx_is_test_user $is_test_user");
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
+            \App\Helper\Utils::logger("yxyx_order_info_orderid ".$order_info["orderid"]);
             if ($order_info) {
                 $orderid =  $order_info["orderid"] ;
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
@@ -1067,7 +1079,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'create_time' =>  $check_time,
                 ]);
 
+                \App\Helper\Utils::logger("yxyx_p_info $pid, $p_wx_openid,  $p_price  ");
                 if(!$order_info_old && $p_wx_openid && $p_price){
+
                     $p_price_new = $p_price/100;
                     $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
                     $data = [

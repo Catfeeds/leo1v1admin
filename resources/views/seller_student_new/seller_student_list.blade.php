@@ -324,7 +324,6 @@
                                  转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
                                  介绍人:{{$var["origin_user_nick"]}}
                              @endif
-                             版本: {{$var["user_agent"]}}<br/>
                          </td>
                          <td >{{$var["opt_time"]}}</td>
                          <td >{{$var["add_time"]}}</td>
@@ -416,6 +415,8 @@
                                  <font color="red"> 家长未绑定微信  </font>
                              @endif
                              <br/>
+                             版本: {{$var["user_agent"]}}
+                             <br/>
                              上课时间: {{$var["lesson_start"]}}
                              <br/>
                              家长确认时间: {{$var["parent_confirm_time"]}}
@@ -427,7 +428,6 @@
                              @endif
 
                              {!! @$var["notify_lesson_flag_str"]!!}
-
                          </td>
                          <td >
                                 {!!$var["success_flag_str"]!!}

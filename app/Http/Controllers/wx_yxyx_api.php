@@ -592,7 +592,7 @@ class wx_yxyx_api extends Controller
 
         $agent_info=$this->t_agent->field_get_list($agent_id ,"*");
         $total_cash = $agent_info["all_open_cush_money"];
-        $have_cash = $this->t_agent_cash->get_have_cash($agent_id);
+        $have_cash = $this->t_agent_cash->get_have_cash($agent_id,[0,1]);
         $cash_new = $cash + $have_cash;
         if($cash_new > $total_cash){
             return $this->output_err("超出可提现金额!");

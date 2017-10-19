@@ -15,7 +15,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $teacher_ref_type=0,$grade_start=0,$grade_end=0,$not_grade="",$bankcard="",
                                     $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system",
                                     $zs_id=0
-                                    
+
     ){
         return $this->row_insert([
             'nick'                   => $tea_nick,
@@ -621,7 +621,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-        
+
         if($test_transfor_per ==1){
             $where_arr[] = "t.test_transfor_per <10";
         }else if($test_transfor_per==2){
@@ -683,9 +683,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
         if($plan_level==1){
-           $where_arr[] = "t.test_transfor_per >=20"; 
+           $where_arr[] = "t.test_transfor_per >=20";
         }elseif($plan_level==2){
-           $where_arr[] = "t.test_transfor_per >=10 and t.test_transfor_per <20";  
+           $where_arr[] = "t.test_transfor_per >=10 and t.test_transfor_per <20";
         }elseif($plan_level==3){
              $where_arr[] = "t.test_transfor_per <10";
              $where_arr[] = "t.identity in (5,6)";
@@ -700,7 +700,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "t.test_transfor_per <10";
             $where_arr[] = "t.identity in (5,6)";
             $where_arr[] = "month_stu_num >=1 and month_stu_num<=3";
-            $where_arr[] = "tr.record_score>=60 and tr.record_score<=90"; 
+            $where_arr[] = "tr.record_score>=60 and tr.record_score<=90";
         }elseif($plan_level==6){
             $where_arr[] = "t.test_transfor_per <10";
             $where_arr[] = "t.identity not in (5,6)";
@@ -908,7 +908,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ." teacher_type,teacher_ref_type,create_time,identity,phone,realname,nick,"
             ." gender,birth,address,face,grade_part_ex,bankcard,teacher_money_flag,transfer_teacherid,transfer_time,"
             ." train_through_new,trial_lecture_is_pass,wx_use_flag,teacher_money_type_simulate,level_simulate,"
-            ." grade_start,grade_end,subject"
+            ." grade_start,grade_end,subject,is_test_user"
             ." from %s "
             ." where teacherid=%u"
             ,self::DB_TABLE_NAME
@@ -2454,7 +2454,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname){
+    public function get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname,$arr=[]){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
@@ -2464,6 +2464,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]="l.lesson_type <>2";
         }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
                                   ." where %s group by t.teacherid ",
@@ -2509,8 +2510,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_level_info($page_info,$tea_list,$start_time){
         $where_arr=[];
         $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
-        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,if(a.require_time>0,a.level_before,t.level) level,t.teacher_money_type,t.phone,t.train_through_new_time "
                                   ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
+                                  ." ,a.level_after "
                                   ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"
                                   ." where %s order by t.teacherid",
                                   self::DB_TABLE_NAME,
@@ -2518,7 +2520,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,100);
+        return $this->main_get_list_by_page($sql,$page_info,500);
 
 
     }
@@ -3246,7 +3248,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             " train_through_new=1 ",
             " is_quit=0 ",
-            " is_test_user =0",           
+            " is_test_user =0",
             "train_through_new_time>=".$start_time,
             "train_through_new_time<".$end_time
         ];
@@ -3369,7 +3371,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_train_through_all_list($start_time,$end_time){
         $where_arr = [
             " t.is_quit=0 ",
-            " t.is_test_user =0",           
+            " t.is_test_user =0",
             "t.train_through_new_time>=".$start_time,
             "t.train_through_new_time<".$end_time,
             "t.train_through_new=1",
@@ -3726,7 +3728,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid,phone,teacher_textbook,subject,grade_part_ex,grade_start,grade_end "
                                   ." from %s"
                                   ." where is_test_user=0 and train_through_new=1 and teacher_textbook='' and subject>0",
-                                  self::DB_TABLE_NAME                                 
+                                  self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
@@ -3915,6 +3917,32 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         dd($res);
     }
 
+    public function get_through_num_month($start_time,$end_time,$flag=1){
+        $where_arr=[
+            "train_through_new=1",
+            "is_test_user=0"
+        ];
+        if($flag==1){
+            $this->where_arr_add_time_range($where_arr,"train_through_new_time",$start_time,$end_time);
+        }else{
+            $where_arr[]="train_through_new_time<=".$end_time;
+        }
+        $sql = $this->gen_sql_new("select count(*) num,subject from %s where %s group by subject",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["subject"];
+        });
+    }
 
+    public function get_wx_openid_list(){
+        $sql = $this->gen_sql_new("  select wx_openid, teacherid from %s t"
+                                  ." where t.wx_openid <> '' and quit_time=0"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 
 } 

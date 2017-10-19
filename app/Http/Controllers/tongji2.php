@@ -970,6 +970,9 @@ class tongji2 extends Controller
             $val["lesson_money"] = isset($ass_month[$k])?$ass_month[$k]["lesson_price_avg"]/100:0;
             $val["lesson_total"] = isset($ass_month[$k])?$ass_month[$k]["lesson_total"]/100:0;
             $val["kk_succ"] = (isset($ass_month[$k])?$ass_month[$k]["kk_num"]:0)+(isset($ass_month[$k])?$ass_month[$k]["hand_kk_num"]:0);
+            $val["cc_tran_money"] = isset($ass_month[$k])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍金额
+            $val["hand_tran_num"] = isset($ass_month[$k])?$ass_month[$k]["hand_tran_num"]:0;//手动确认转介绍人数
+            $val["tran_num"] = $val["hand_tran_num"]+$val["tran_num"];//目前以两者相加为准(9月之后准确)
             
 
             //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
@@ -1033,6 +1036,7 @@ class tongji2 extends Controller
             @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
             @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
             @$ass_group[$master_adminid_ass]["tran_num"]       += $va["tran_num"];
+            @$ass_group[$master_adminid_ass]["cc_tran_money"]       += $va["cc_tran_money"];
             @$ass_group[$master_adminid_ass]["group_name"]       = $va["group_name"];
 
 

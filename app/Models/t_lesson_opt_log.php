@@ -211,7 +211,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
 
         return $this->main_get_list($sql);
     }
-    //查询老师最后一次登录退出的信息
+    //查询老师/学生最后一次登录/退出的信息
     public function get_lesson_log_user_last($lessonid,$userid )
     {
 
@@ -221,38 +221,11 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
                                   self::DB_TABLE_NAME ,
                                   $lessonid, $userid);
         $max_opt_time=$this->main_get_value($sql);
-
-        $sql=$this->gen_sql_new("select  opt_time, server_ip from %s where  lessonid= %u and  userid =%u  and opt_time =%u ", self::DB_TABLE_NAME, $lessonid,  $userid,  $max_opt_time );
-        $ret= $this->main_get_row($sql);
-        $ret["server_ip"]=long2ip($ret["server_ip"]);
-        return $ret; 
-    }
-
-    //查询学生最后一次登录退出的信息
-    public function get_lesson_log_by_pool_stu_last($lessonid,$userid,$server_type,$teacherid,$stu_id,$lesson_start,$lesson_end )
-    {
-        if ( $userid != -1) {
-            $where_arr=[
-                ['userid=%d',$userid]
-            ];
+        $sql=$this->gen_sql_new("select  opt_time, server_ip, server_type from %s where  lessonid= %u and  userid =%u  and opt_time =%u ", self::DB_TABLE_NAME, $lessonid,  $userid,  $max_opt_time );
+        if ($ret) {
+            $ret["server_ip"]=long2ip($ret["server_ip"]);
         }
-        if ( $server_type != -1 ){
-            $where_arr=[
-                ['server_type=%d',$server_type]
-            ];
-        }
-        $where_arr=[
-            "opt_time = (select max(opt_time) from db_weiyi.t_lesson_opt_log where userid = $stu_id)"
-        ];
-
-        $sql = $this->gen_sql_new("select  opt_time ,userid, opt_type, server_type , server_ip"
-                                  ." from %s "
-                                  ." where %s ",
-                                  self::DB_TABLE_NAME ,
-                                  $where_arr
-        );
-
-        return $this->main_get_list($sql);
+        return $ret;
     }
 
 

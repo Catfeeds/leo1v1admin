@@ -8,17 +8,20 @@ $(function(){
 			teacher_money_type:	$('#id_teacher_money_type').val(),
 			teacherid:	$('#id_teacherid').val(),
             accept_flag:	$('#id_accept_flag').val(),
-            fulltime_flag:	$('#id_fulltime_flag').val()
+            fulltime_flag:	$('#id_fulltime_flag').val(),
+			is_test_user:	$('#id_is_test_user').val()
         });
     }
 
-    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[1,4,5]);
+    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[5,6]);
+    Enum_map.append_option_list("boolean", $("#id_is_test_user"));
 
 	$('#id_start_time').val(g_args.start_time);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_accept_flag').val(g_args.accept_flag);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
+	$('#id_is_test_user').val(g_args.is_test_user);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
     $(".opt-accept").on("click",function(){        

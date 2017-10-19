@@ -101,14 +101,21 @@ class cr_info_funnel_week extends Command
                 $arr['renew_per']        = $warning_num == 0 ? 0:round(100*$month_plan_renew_num/$warning_num,2);//  月续费率
                 $arr['finish_renew_per'] = $warning_num == 0 ? 0:round(100*$arr['plan_renew_num']/$warning_num,2);//  月预警续费率
                 ////D4-月转介绍至CC签单率
-                $tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
+
+                $tranfer_total_month = $task->t_seller_student_new->get_tranfer_phone_num_month($cur_month,$end_time);
+                if($tranfer_total_month['total_orderid']){
+                  $arr['tranfer_success_per'] = round(100*$tranfer_total_month['total_orderid']/$tranfer_total_month['total_num'],2); //D4-月转介绍至CC签单率
+                }else{
+                  $arr['tranfer_success_per'] = 0;
+                }
+                /*$tranfer            = $task->t_seller_student_new->get_tranfer_phone_num($cur_month,$end_time);
                 $month_tranfer_data = $task->t_order_info->get_cr_to_cc_order_num($cur_month,$now_time); //签单数量(分配例子当月1号到6个月)
                 $arr['month_tranfer_total_num']   = $month_tranfer_data['total_num'];
                 if($arr['month_tranfer_total_num']){
                   $arr['tranfer_success_per'] = round(100*$arr['month_tranfer_total_num']/$tranfer,2); //D4-月转介绍至CC签单率
                 }else{
                   $arr['tranfer_success_per'] = 0;
-                }
+                }*/
                 //E5-月扩课成功率
                 $month_kk          = $task->t_test_lesson_subject_sub_list->tongji_kk_data($cur_month,$end_time) ;
                 $month_success_num = $task->t_test_lesson_subject_sub_list->tongji_success_order($cur_month,$end_time);

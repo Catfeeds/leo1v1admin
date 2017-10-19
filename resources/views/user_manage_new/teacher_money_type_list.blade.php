@@ -19,7 +19,7 @@
                      <div class="input-group ">
                      <button class="btn btn-primary" id="id_add_teacher_money_type">修改当前工资配置</button>
                      </div>
-                     </div> -->
+                </div> -->
             </div>
         </div>
         <hr/>

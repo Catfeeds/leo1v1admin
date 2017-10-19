@@ -7,15 +7,18 @@ $(function(){
             cash:    $('#id_cash').val(),
             phone:    $('#id_phone').val(),
             type:    $('#id_type').val(),
-            aid:    $('#id_aid').val()
+            aid:    $('#id_aid').val(),
+            agent_check_money_flag:	$('#id_agent_check_money_flag').val()
         });
     }
 
+    Enum_map.append_option_list("agent_check_money_flag",$("#id_agent_check_money_flag"));
 
     $('#id_phone').val(g_args.phone);
     $('#id_cash').val(g_args.cash);
     $('#id_type').val(g_args.type);
     $('#id_aid').val(g_args.aid);
+    $('#id_agent_check_money_flag').val(g_args.agent_check_money_flag);
 
     $("#id_add").on("click",function(){
         var $aid  = $("<input/>");

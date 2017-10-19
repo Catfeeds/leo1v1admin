@@ -481,6 +481,12 @@ class tongji_ss extends Controller
         return $this->origin_count();
     }
 
+    public function origin_count_yhyy () {
+        $this->set_in_value("origin_ex","用户运营,,,");
+        return $this->origin_count();
+    }
+
+
     public function origin_count_bd () {
         $this->set_in_value("origin_ex","BD,,,");
         return $this->origin_count();
@@ -1301,7 +1307,6 @@ class tongji_ss extends Controller
                 1 => array("check_money_time","财务确认时间"),
             ], 0,0
         );
-
 
         //$start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         //$end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
@@ -2693,29 +2698,6 @@ class tongji_ss extends Controller
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
-            if(empty($item["teacher_dimension"])){
-                $tea_in = $this->t_teacher_info->field_get_list($item["teacherid"],"test_transfor_per,identity,month_stu_num");
-                $record_score = $this->t_teacher_record_list->get_teacher_first_record_score($item["teacherid"]);
-                if($tea_in["test_transfor_per"]>=20){
-                    $teacher_dimension="维度A";
-                }elseif($tea_in["test_transfor_per"]>=10 && $tea_in["test_transfor_per"]<20){
-                    $teacher_dimension="维度B";
-                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score>=60 && $record_score<=90){
-                    $teacher_dimension="维度C";
-                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=4 && $record_score<=90){
-                    $teacher_dimension="维度C候选";
-                }elseif($tea_in["test_transfor_per"]<10 && in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score>=60 && $record_score<=90){
-                    $teacher_dimension="维度D";
-                }elseif($tea_in["test_transfor_per"]<10 && !in_array($tea_in["identity"],[5,6]) && $tea_in["month_stu_num"]>=1 && $tea_in["month_stu_num"]<=3 && $record_score<=90){
-                    $teacher_dimension="维度D候选";
-                }else{
-                    $teacher_dimension="其他";
-                }
-                $this->t_test_lesson_subject_sub_list->field_update_list($item["lessonid"],[
-                    "teacher_dimension" =>$teacher_dimension 
-                ]);
-
-            }
         }
         return $this->output_succ(["data"=> $list]);
 
@@ -7126,7 +7108,7 @@ class tongji_ss extends Controller
         /* if($adminid==349){
             $adminid=297;
             }*/
-        $adminid = $this->get_ass_leader_account_id($adminid);
+        //  $adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("adminid",$adminid);
         return $this-> ass_weekly_info_master();
     }
@@ -7751,7 +7733,7 @@ class tongji_ss extends Controller
 
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type,$account_id);
 
         foreach($ret_info['list'] as &$item){
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
@@ -8205,6 +8187,35 @@ class tongji_ss extends Controller
             "all_record_info"=>$all_record_info,
         ]);
         // dd($list);
+    }
+
+    public function get_lesson_tea_stu_info(){
+       list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+       
+       $list    = E\Esubject::$desc_map;
+       unset($list[0]);
+       unset($list[11]);
+       $arr=[];
+       foreach($list as $k=>$v){
+           $arr[$k]["subject"]=$v;
+       }
+
+       $ret = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,1);
+       $data = $this->t_lesson_info_b3->get_lesson_tea_stu_info_new($start_time,$end_time,2);
+       $new_teacher = $this->t_teacher_info->get_through_num_month($start_time,$end_time,1);
+       $all_teacher = $this->t_teacher_info->get_through_num_month($start_time,$end_time,2);
+       foreach($arr as $k=>&$val){
+           $val["stu_num"] = @$ret[$k]["stu_num"];
+           $val["tea_num"] = @$ret[$k]["tea_num"];
+           $val["test_lesson_num"] = @$data[$k]["test_lesson_num"];
+           $val["new_num"] = @$new_teacher[$k]["num"];
+           $val["all_num"] = @$all_teacher[$k]["num"];
+       }
+       return $this->pageView(__METHOD__,null,[
+           "list"     =>$arr,
+       ]);
+
+       
     }
 
 }

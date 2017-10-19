@@ -206,7 +206,7 @@
                         @foreach ($table_data_list as $var)
                             <tr class="{{$var["level"]}}">
                                 <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
-                                <td  data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
+                                <td data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
                                 <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                                 <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                                 @if($origin_type)
@@ -222,7 +222,6 @@
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=8&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tq_call_succ_valid_count"]}}</a></td>
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=9&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tq_call_succ_invalid_count"]}}</a></td>
                                     <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=10&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["tq_call_fail_invalid_count"]}}</a></td>
-
 
                                     <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=11&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["have_intention_a_count"]}}</a></td>
                                     <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=12&start_time={{@$start_time}}&end_time={{@$end_time}}">{{@$var["have_intention_b_count"]}}</a></td>

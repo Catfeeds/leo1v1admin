@@ -18,6 +18,17 @@ class t_revisit_call_count extends \App\Models\Zgen\z_t_revisit_call_count
         return $this->main_get_list($sql);
     }
 
+    public function get_call_phone_id_str_by_uid($start_time,$end_time,$uid){
+        $sql = $this->gen_sql_new("select group_concat(call_phone_id) "
+                                  ." from %s "
+                                  ." where revisit_time2>=$start_time and revisit_time2<$end_time and uid=$uid"
+                                  // ." group by uid"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_today_call_count($ass_adminid,$start_time,$end_time){
 
         $where_arr = [

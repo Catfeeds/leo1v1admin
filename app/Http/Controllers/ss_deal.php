@@ -239,8 +239,15 @@ class ss_deal extends Controller
                 $ass_account = $this->t_manager_info->get_account($origin_assistantid);
                 $this->t_manager_info->send_wx_todo_msg($ass_account,"转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
                 $this->t_manager_info->send_wx_todo_msg("jack","转介绍学生分配销售","学生:".$nick,"您的转介绍学生".$nick."已分配给销售:".$opt_account.",联系电话:".$phone,""  );
-
             }
+            //分配日志
+            $this->t_seller_edit_log->row_insert([
+                'adminid'=>$this->get_account_id(),//分配人
+                'uid'=>$opt_adminid,//组员
+                'new'=>$userid,//例子
+                'type'=>E\Eseller_edit_log_type::V_3,
+                'create_time'=>time(NULL),
+            ]);
         }
 
         return $this->output_succ();
@@ -376,7 +383,6 @@ class ss_deal extends Controller
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
         $url = $this->get_in_str_val('change_reason_url');
 
-
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
         }elseif($ass_test_lesson_type == 2 && !$change_reason){
@@ -412,28 +418,26 @@ class ss_deal extends Controller
 
         $this->t_student_info->field_update_list($userid,$stu_arr);
 
-
         $tt_arr=[
-            "stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
-            "stu_request_test_lesson_demand" =>$stu_request_test_lesson_demand,
+            "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
+            "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
             "ass_test_lesson_type" => $ass_test_lesson_type,
             "subject" => $subject,
         ];
 
         $ret= $this->t_test_lesson_subject->field_update_list($test_lesson_subject_id,$tt_arr);
 
-
         // dd($ret);
         $require_arr = [
             "test_stu_request_test_lesson_demand"=>$stu_request_test_lesson_demand,
             "curl_stu_request_test_lesson_time" =>$stu_request_test_lesson_time,
             "change_teacher_reason"          => $change_reason,
-            "change_teacher_reason_img_url"      => $change_reason_url,
+            "change_teacher_reason_img_url"  => $change_reason_url,
             "change_teacher_reason_type" => $change_teacher_reason_type,
             "test_stu_grade"   => $grade,
         ];
-        $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
+        $this->t_test_lesson_subject_require->field_update_list($require_id,$require_arr);
 
         return $this->output_succ();
     }
@@ -966,7 +970,7 @@ class ss_deal extends Controller
         $origin_info=$this->t_student_info->get_origin($userid);
         $ass_test_lesson_type = $this->t_test_lesson_subject->get_ass_test_lesson_type($test_lesson_subject_id);
         if($ass_test_lesson_type==1){
-            $origin_info["origin"]="助教-扩课";
+            $origin_info["origin"]="4助教-扩课";
         }
 
         $ret=$this->t_test_lesson_subject_require->add_require(
@@ -1519,7 +1523,8 @@ class ss_deal extends Controller
         $orderid      = 1;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
-        if ($db_lessonid){
+        $account_role = $this->get_account_role();
+        if ($db_lessonid && $account_role != 12){
             return $this->output_err("已经排课过了!,可以换老师&时间");
         }
         if ($teacherid<=0 || $lesson_end<=0 || $lesson_start<=0 ) {
@@ -1873,9 +1878,9 @@ class ss_deal extends Controller
 
         }else if($from_parent_order_type==E\Efrom_parent_order_type::V_6){
             $adm = $this->get_account();
-            if(!in_array($adm,["jim","jack"])){
+            /* if(!in_array($adm,["jim","jack"])){
                 return $this->output_err("该功能开发中");
-            }
+                }*/
             $assistantid = $this->t_assistant_info->get_assistantid($adm);
             $assign_lesson_count = $this->t_assistant_info->get_assign_lesson_count($assistantid);
             if($assign_lesson_count < $lesson_total){
@@ -1929,6 +1934,7 @@ class ss_deal extends Controller
             $this->t_assistant_info->field_update_list($assistantid,[
                "assign_lesson_count" =>$assign_lesson_count_left
             ]);
+           
             //合同状态更新
             $this->t_order_info->field_update_list($orderid,[
                 "contract_status"=>1,
@@ -1936,6 +1942,10 @@ class ss_deal extends Controller
                 "check_money_flag"=>1,
                 "check_money_time"=>time()
             ]);
+
+            $acc= $this->get_account();
+            $this->t_manager_info->send_wx_todo_msg("jack","助教课时赠送","助教".$acc,"课时".$lesson_total,""  );
+
         }else{
             if($order_require_flag) {
                 $this->t_flow->add_flow(
@@ -2431,7 +2441,7 @@ class ss_deal extends Controller
         $item = $this->t_student_info->field_get_list($userid,"userid,nick,phone,grade,origin");
         E\Egrade::set_item_value_str($item);
         if ($is_ass_flag) {
-            $item["origin"] = "助教-". $this->get_account();
+            $item["origin"] = "1助教-". $this->get_account();
         }
         return $this->output_succ(["data"=> $item] );
     }
@@ -2753,7 +2763,7 @@ class ss_deal extends Controller
         $test_lesson_subject_id= $this->t_test_lesson_subject->check_and_add_ass_subject(
             $this->get_account_id(),$userid,$grade,$subject,$ass_test_lesson_type);
 
-        $origin="助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
+        $origin="2助教-".E\Eass_test_lesson_type::get_desc($ass_test_lesson_type);
 
         $this->t_test_lesson_subject->field_update_list(
             $test_lesson_subject_id,["stu_request_test_lesson_time" => $stu_request_test_lesson_time,
@@ -3651,7 +3661,7 @@ class ss_deal extends Controller
                     "seller_resource_type"=>E\Eseller_resource_type::V_0,
                 ]);
 
-                $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
+                // $this->t_manager_info->send_wx_todo_msg( "李子璇","来自:$account" , "TMK 有效:$phone"  );
 
             }
         }
@@ -5873,7 +5883,8 @@ class ss_deal extends Controller
         $add_time        = date('Y-m-d,H:i:s',$complaint_info["add_time"]);
         $complaint_info_str  = $complaint_info['complaint_info'];
         $deal_info       = $complaint_info['deal_info'];
-        $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
+        // $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
+        $deal_time_date  = date('Y-m-d H:i:s');
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
@@ -5913,7 +5924,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $ret_parent=$wx->send_template_msg($parent_openid,$template_id,$data_msg ,$url);
 
-            } else if ($account_type == 2) {  // 2:老师
+            }elseif($account_type == 2) {  // 2:老师
                 /**
                    模板id:r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE
                    {{first.DATA}}
@@ -5962,19 +5973,19 @@ class ss_deal extends Controller
                             "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
                             "oJ_4fxJqMn0pH4XQfgXYiFb_1_Iw"  // melody
                         ];
-                    }else if($subject == 3) { //[英语]
+                    }elseif($subject == 3) { //[英语]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
                         ];
-                    }else if($subject == 5){ //[物理]
+                    }elseif($subject == 5){ //[物理]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxOo38y6hEisvFoSxN4T1nBs", // 李红涛
                         ];
-                    }else if($subject == 4){ //[化学]
+                    }elseif($subject == 4){ //[化学]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxME6lCpNAMwtEhMcpYo5N7c", // 展慧东
                         ];
-                    }else if($subject == 2){ // 数学
+                    }elseif($subject == 2){ // 数学
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxFE0-MHPkT-vstzEDzAfRkg", // 彭老师 [wander]
                         ];
@@ -6034,6 +6045,7 @@ class ss_deal extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                 "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku

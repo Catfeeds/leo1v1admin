@@ -10,6 +10,100 @@ use Illuminate\Support\Facades\Redis;
 class requirement extends Controller
 {
     use CacheNick;
+        /**
+     * @author    sam
+     * @function  需求开发信息
+     */
+    public function requirement_info_new () {
+        //$userid = 99;
+        list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,3,[
+            1 => array("create_time","提交时间"),
+            3 => array("expect_time", "期望完成时间"),
+        ],3);
+        $priority = $this->get_in_int_val('priority',"-1");
+        $productid = $this->get_in_int_val('id_productid',"-1");
+        $product_status = $this->get_in_int_val('product_status',"-1");
+        $userid = $this->get_account_id();
+        if($userid==944){
+            $userid=-1;
+        }
+        $page_info=$this->get_in_page_info();
+        $ret_info=$this->t_requirement_info->get_list_requirement_new($page_info,$opt_date_type,$userid,$priority,
+            $productid,$product_status,$start_time,$end_time);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'','Y/m/d H:i:s');
+            $item['expect_time_a']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
+            $item['forecast_time_a'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
+            $item['expect_time_b']   = $item['expect_time'] > 0?date('Y-m-d',$item['expect_time']):"";
+            $item['forecast_time_b'] = $item['forecast_time'] > 0?date('Y-m-d',$item['forecast_time']):"";
+
+            $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
+            $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
+            $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);
+            $item['significance_str']= E\Erequire_significance::get_desc($item["significance"]);
+            $item['status_str']      = E\Erequire_status::get_desc($item["status"]);
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+            $item['flag'] = false;
+            if(($item['status'] == 2 && $item['product_status'] == 0)){
+                $item['flag'] = true;
+            }
+            if($item['status'] == 1){
+                $item['operator_status'] = E\Erequire_product_status::get_desc($item['product_status']);
+                $this->cache_set_item_account_nick($item,"create_adminid","operator_nick" );
+            }elseif($item['status'] == 2){
+                $item['operator_status'] = E\Erequire_product_status::get_desc($item['product_status']);
+                $this->cache_set_item_account_nick($item,"product_operator","operator_nick" );
+            }
+
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+    /**
+     * @author    sam
+     * @function  需求页面－产品
+     */
+
+    public function requirement_info_product_new()
+    {
+       list($start_time,$end_time,$opt_date_type)=$this->get_in_date_range(0,0,3,[
+            1 => array("create_time","提交时间"),
+            3 => array("expect_time", "期望完成时间"),
+        ],3);
+        $priority = $this->get_in_int_val('priority',"-1");
+        $productid = $this->get_in_int_val('id_productid',"-1");
+        $product_status = $this->get_in_int_val('product_status',"-1");
+        $userid = $this->get_account_id();
+        $page_info=$this->get_in_page_info();
+        $ret_info=$this->t_requirement_info->get_list_product_new($page_info,$opt_date_type,$userid,$priority,$productid,$product_status,$start_time,$end_time);
+
+        foreach( $ret_info["list"] as $key => &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'','Y/m/d H:i:s');
+            $item['expect_time_a']   = $item['expect_time'] > 0?date('Y/m/d',$item['expect_time']):"";
+            $item['forecast_time_a'] = $item['forecast_time'] > 0?date('Y/m/d',$item['forecast_time']):"";
+            $item['expect_time_b']   = $item['expect_time'] > 0?date('Y-m-d',$item['expect_time']):"";
+            $item['forecast_time_b'] = $item['forecast_time'] > 0?date('Y-m-d',$item['forecast_time']):"";
+            $this->cache_set_item_account_nick($item,"product_operator","product_operator_str" );
+            $item['name_str']        = E\Erequire_class::get_desc($item["name"]);
+            $item['priority_str']    = E\Erequire_priority::get_desc($item["priority"]);
+            $item['significance_str']= E\Erequire_significance::get_desc($item["significance"]);
+            $item['status_str']      = E\Erequire_status::get_desc($item["status"]);
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+            $item['flag'] = false;
+            if(($item['status'] == 2 && $item['product_status'] == 0)){
+                $item['flag'] = true;
+            }
+            if($item['status'] == 1){
+                $item['operator_status'] = E\Erequire_product_status::get_desc($item['product_status']);
+                $this->cache_set_item_account_nick($item,"create_adminid","operator_nick" );
+            }elseif($item['status'] == 2){
+                $item['operator_status'] = E\Erequire_product_status::get_desc($item['product_status']);
+                $this->cache_set_item_account_nick($item,"product_operator","operator_nick" );
+            }
+
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+
+    }
     /**
      * @author    sam
      * @function  需求开发信息
@@ -260,6 +354,37 @@ class requirement extends Controller
          ]);
         return $this->output_succ();
     }
+    /**
+     * @author    sam
+     * @function  需求信息录入
+     */
+    public function add_requirement_info_new(){
+        $name            = $this->get_in_str_val('name');
+        $priority        = $this->get_in_int_val('priority');
+        $expect_time     = strtotime($this->get_in_str_val('expect_time'));
+        $statement       = $this->get_in_str_val('statement');
+        $content_pic     = $this->get_in_str_val('content_pic');
+        $notes           = $this->get_in_str_val('notes');
+        $product_operator = $this->get_in_int_val("product_operator");
+        $create_adminid  = $this->get_account_id();
+        $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
+        $create_time     = time();
+        $this->t_requirement_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'product_name'             => $name,
+            'priority'                 => $priority ,
+            'expect_time'              => $expect_time,
+            'statement'                => $statement,
+            'content_pic'              => $content_pic,
+            'notes'                    => $notes,
+            'product_operator'         => $product_operator,
+            'create_phone'             => $create_phone,
+            "status"                   => 2, //提交到达产品
+            "product_status"           => 2, //产品待处理
+         ]);
+        return $this->output_succ();
+    }
      /**
      * @author    sam
      * @function  需求信息录入
@@ -274,6 +399,7 @@ class requirement extends Controller
         $content_pic     = $this->get_in_str_val('content_pic');
         $notes           = $this->get_in_str_val('notes');
         $create_adminid  = $this->get_account_id();
+        $
         $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
         $create_time     = time();
         $data = [
@@ -294,6 +420,75 @@ class requirement extends Controller
         return $this->output_succ();
     }
 
+     /**
+     * @author    sam
+     * @function  需求信息录入
+     */
+    public function re_edit_requirement_info_new(){
+        $id              = $this->get_in_int_val('id');
+        $name            = $this->get_in_str_val('name');
+        $priority        = $this->get_in_int_val('priority');
+        $expect_time     = strtotime($this->get_in_str_val('expect_time'));
+        $statement       = $this->get_in_str_val('statement');
+        $content_pic     = $this->get_in_str_val('content_pic');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = $this->get_account_id();
+        $product_operator = $this->get_in_int_val('product_operator');
+        $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
+        $create_time     = time();
+        $data = [
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'product_name'             => $name,
+            'priority'                 => $priority ,
+            'expect_time'              => $expect_time,
+            'statement'                => $statement,
+            'content_pic'              => $content_pic,
+            'notes'                    => $notes,
+            'create_phone'             => $create_phone,
+            'product_operator'         => $product_operator,
+            "status"                   => 2, //提交到达产品
+            "product_status"           => 2, //产品未处理
+         ];
+        $ret = $this->t_requirement_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+    /**
+     * @author    sam
+     * @function  需求信息录入
+     */
+    public function re_edit_requirement_info_new_b2(){
+        $id              = $this->get_in_int_val('id');
+        $name            = $this->get_in_str_val('name');
+        $priority        = $this->get_in_int_val('priority');
+        $expect_time     = strtotime($this->get_in_str_val('expect_time'));
+        $statement       = $this->get_in_str_val('statement');
+        $content_pic     = $this->get_in_str_val('content_pic');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = $this->get_account_id();
+        $product_operator = $this->get_in_int_val('product_operator');
+        $product_status  = $this->get_in_int_val('product_status');
+        $product_comment = $this->get_in_str_val("product_comment");
+        $forecast_time     = strtotime($this->get_in_str_val('forecast_time'));
+        $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
+        $create_time     = time();
+        $data = [
+            'product_name'             => $name,
+            'priority'                 => $priority ,
+            'expect_time'              => $expect_time,
+            'statement'                => $statement,
+            'content_pic'              => $content_pic,
+            'notes'                    => $notes,
+            'create_phone'             => $create_phone,
+            'product_operator'         => $product_operator,
+            'forecast_time'            => $forecast_time,
+            'product_comment'          => $product_comment,
+            "status"                   => 2, //提交到达产品
+            "product_status"           => $product_status, 
+         ];
+        $ret = $this->t_requirement_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
     /**
      * @author    sam
      * @function  需求信息录入
@@ -340,7 +535,7 @@ class requirement extends Controller
         $data = [
             'product_add_time'     => $product_add_time,
             'product_operator'     => $product_operator,
-            'product_status'       => 2 //接收处理
+            'product_status'       => 4 //完成
         ];
         $ret = $this->t_requirement_info->field_update_list($id,$data);
         return $this->output_succ();

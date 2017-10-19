@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
-
     use CacheNick;
     use TeaPower;
     var $br;
@@ -49,16 +48,51 @@ class test_code extends Controller
         return $arr;
     }
 
+    /**
+     * 获取文件拉取标示 0 不拉取 1 拉取
+     */
+    public function get_file_flag($file_name){
+        $flag = 0;
+        if(is_file($file_name)){
+            $file_info = file_get_contents($file_name);
+            if(empty($file_info) || $file_info==""){
+                $flag = 1;
+            }
+        }else{
+            $flag = 1;
+        }
+        return $flag;
+    }
+
     public function set_order_lesson(){
         $start_time = strtotime("2017-10-1");
         $end_time = strtotime("2017-11-1");
 
-        $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
-        $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+        $order_name = "/tmp/order_list.txt";
+        $lesson_name = "/tmp/lesson_list.txt";
+
+        $order_flag = $this->get_file_flag($order_name);
+        $lesson_flag = $this->get_file_flag($lesson_name);
+
+        if($order_flag){
+            $order_list  = $this->t_order_info->get_pay_user_has_lesson($start_time,$end_time);
+            file_put_contents($order_name,json_encode($order_list));
+        }else{
+            $order_list = json_decode(file_get_contents($order_name),true);
+        }
+
+        if($lesson_flag){
+            $lesson_list = $this->t_lesson_info->get_user_lesson_list(0,-1,$start_time,$end_time,-1);
+            file_put_contents($lesson_name,json_encode($lesson_list));
+        }else{
+            $lesson_list = json_decode(file_get_contents($lesson_name),true);
+        }
+
         echo count($order_list);
         echo "<br>";
         echo count($lesson_list);
         echo "<br>";
+
         $stu_order_list = [];
         foreach($order_list as $o_val){
             $userid  = $o_val['userid'];
@@ -68,12 +102,20 @@ class test_code extends Controller
         }
 
         $sum_price = 0;
+        $num = 0;
         foreach($lesson_list as $l_val){
             $lesson_price = 0;
             $lesson_price = $this->get_lesson_price($stu_order_list,$l_val,$lesson_price);
+
             if($lesson_price === false){
                 continue;
             }
+
+            $num++;
+            if($num>1000){
+                break;
+            }
+
             $sum_price += $lesson_price;
         }
         echo "总入:".$sum_price;
@@ -96,7 +138,6 @@ class test_code extends Controller
         $per_price    = $lesson_total==0?0:($price/$lesson_total);
         $lesson_count = $lesson_info['lesson_count']/100;
         if($lesson_left<$lesson_count){
-            echo $order_info['orderid'];exit;
             $lesson_count_left = $lesson_count-$lesson_left;
             $lesson_count = $lesson_left;
             $lesson_left  = 0;
@@ -106,10 +147,45 @@ class test_code extends Controller
         }
 
         $lesson_price = $lesson_count*$per_price;
-        if($lesson_count_left>0){
-            $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
-        }
+        // if($lesson_count_left>0){
+        //     $lesson_price = $this->get_lesson_price($stu_order_list,$lesson_info,$lesson_price);
+        // }
+
+        // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
+
         return $lesson_price;
+    }
+
+    public function get_textbook_match_degree(){
+        $start_date = $this->get_in_str_val("month_start","2017-9-1");
+        $end_date   = $this->get_in_str_val("month_end","2017-10-1");
+
+        $region_version = array_flip(E\Eregion_version::$desc_map);
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date);
+
+        $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $all_num = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            // echo "stu_textbook:".$stu_textbook;
+            // echo "<br>";
+            // echo "tea_textbook:".$val['teacher_textbook'];
+            // echo "<br>";
+            // echo "<br>";
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }
+        }
+        $match_per = $all_num>0?($match_num/$all_num):0;
+        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
     }
 
     public function get_success_lesson(){
@@ -1278,6 +1354,27 @@ class test_code extends Controller
         }
     }
 
+    public function already(){
+        $start = strtotime(date("Y-m-01",time()));
+        $end   = strtotime("+1 month",$start);
+        $teacher_money_type = 7;
+        $teacherid = 388040;
+        $lesson_list = $this->t_lesson_info_b3->get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type,$teacherid);
+        dd($lesson_list);
+        $already_lesson_count = [];
+        foreach($lesson_list as $val){
+            $teacherid    = $val['teacherid'];
+            $lesson_count = $val['lesson_count'];
+            $lessonid     = $val['lessonid'];
+            \App\Helper\Utils::check_isset_data($already_lesson_count[$teacherid],$lesson_count);
 
+            echo $lessonid."|".$teacherid."|".$already_lesson_count[$teacherid];
+            echo "<br>";
+
+            // $this->t_lesson_info->field_update_list($lessonid,[
+            //     "already_lesson_count" => $already_lesson_count[$teacherid]
+            // ]);
+        }
+    }
 
 }

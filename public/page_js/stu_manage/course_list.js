@@ -139,33 +139,105 @@ $(function(){
         });
     });
 
+    $("#id_auto_add_course_new").on("click",function(){
+        var id_course_start_time=$("<input/> ");
+        var id_course_end_time=$("<input/> ");
+
+        var id_course_status     = $("<select/>");
+        var id_subject           = $("<select/>");
+        var id_teacherid         = $("<input/>");
+        var id_lesson_grade_type = $("<select/>");
+        var id_per_lesson_time = $("<input/>");
+
+        Enum_map.append_option_list("course_status", id_course_status,true );
+        Enum_map.append_option_list("subject", id_subject,true );
+        Enum_map.append_option_list("lesson_grade_type", id_lesson_grade_type,true );
+
+        //时间插件
+        id_course_start_time.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : true,
+            format     : 'Y-m-d H:i',
+            step       : 30,
+            onChangeDateTime :function(){
+
+                var end_time= parseInt(strtotime(id_course_start_time.val() )) + 3600;
+                id_course_end_time.val(DateFormat(end_time,"hh:mm"));
+            }
+        });
+
+        id_course_end_time.datetimepicker({
+            lang       : 'ch',
+            datepicker : false,
+            timepicker : true,
+            format     : 'H:i',
+            step       : 30
+        });
+
+        var arr = [
+            [ "排课开始时间",id_course_start_time] ,
+            [ "排课结束时间",id_course_end_time],
+
+            ["老师",id_teacherid ]  ,
+            ["科目",id_subject ]  ,
+            ["课程年级来源",id_lesson_grade_type ]  ,
+            ["默认课长",id_per_lesson_time ]  ,
+        ];
+
+        id_per_lesson_time.val(20);
+        $.show_key_value_table("增加一键排课课程包", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                if(id_course_end_time.val() <= 0 || id_course_start_time.val() <= 0 || id_subject.val() <=0 || id_teacherid.val() <=0){
+                    alert("请填写完整!");
+                    return;
+                }
+
+                $.do_ajax("/user_deal/auto_add_course",{
+                    "userid"            : g_sid,
+                    'teacherid'         : id_teacherid.val(),
+                    "subject"           : id_subject.val(),
+                    "lesson_grade_type" : id_lesson_grade_type.val(),
+                    "competition_flag"  : $("#id_competition_flag").val(),
+                    "per_lesson_time"   : id_per_lesson_time.val(),
+                    "course_start_time" : id_course_start_time.val(),
+                    "course_end_time"   : id_course_end_time.val(),
+                });
+            }
+        },function(){
+            $.admin_select_user(id_teacherid,"teacher");
+        });
+    });
+
 
     $(".opt-set-course-status").on("click",function(){
         var opt_data                = $(this).get_opt_data();
-       // alert(opt_data.courseid);
         var id_course_status        = $("<select/>");
         var id_subject              = $("<select/>");
-         var id_grade                = $("<select/>");
+        var id_grade                = $("<select/>");
         var id_teacherid            = $("<input/>");
         var id_lesson_grade_type    = $("<select/>");
         var id_default_lesson_count = $("<input/>");
 
         Enum_map.append_option_list("course_status", id_course_status,true );
         Enum_map.append_option_list("subject", id_subject,true );
-         Enum_map.append_option_list("grade", id_grade,true );
+        Enum_map.append_option_list("grade", id_grade,true );
         Enum_map.append_option_list("lesson_grade_type", id_lesson_grade_type,true );
 
         id_course_status.val(opt_data.course_status );
         id_teacherid.val(opt_data.teacherid);
         id_subject.val(opt_data.subject);
-         id_grade.val(opt_data.grade);
+        id_grade.val(opt_data.grade);
         id_default_lesson_count.val(opt_data.default_lesson_count);
         id_lesson_grade_type.val(opt_data.lesson_grade_type);
+
         var arr = [
             ["状态",id_course_status ]  ,
             ["老师",id_teacherid ]  ,
             ["科目",id_subject ]  ,
-             ["年级",id_grade ]  ,
+            ["年级",id_grade ]  ,
             ["课程年级来源",id_lesson_grade_type ]  ,
             ["默认课时数",id_default_lesson_count ]  ,
         ];
@@ -179,7 +251,7 @@ $(function(){
                     'teacherid'            : id_teacherid.val(),
                     "course_status"        : id_course_status.val(),
                     "subject"              : id_subject.val(),
-                     "grade"                : id_grade.val(),
+                    "grade"                : id_grade.val(),
                     "lesson_grade_type"    : id_lesson_grade_type.val(),
                     "default_lesson_count" : id_default_lesson_count.val()*100
                 });
@@ -190,9 +262,9 @@ $(function(){
     });
 
     $(".opt-lesson-list").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        var subject = opt_data.subject;
-        if(subject <=0){
+        var opt_data = $(this).get_opt_data();
+        var subject  = opt_data.subject;
+        if(subject <= 0){
             alert("请先设置科目!");
             return;
         }
@@ -208,11 +280,8 @@ $(function(){
                     "courseid":opt_data.courseid
                 }) ;
             }
-
         });
-
     });
-
 
     $(".opt-assigned_lesson_count").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -220,7 +289,7 @@ $(function(){
         var id_opt_type=$("<select  > <option value=0>取出课时</option>  <option value=1>加进课时</option> </select>");
         var unassigned_lesson_count= $("#id_unassigned_lesson_count").val();
         var left_lesson_count = parseFloat( opt_data.left_lesson_count) - parseFloat( opt_data.no_finish_lesson_count );
-        var  id_range_txt=$( "<div> </div>");
+        var id_range_txt=$( "<div> </div>");
         id_opt_type.on("change",function(){
             if (id_opt_type.val()==1) {
                 id_range_txt.text("0 ~ " +  unassigned_lesson_count);
@@ -235,8 +304,7 @@ $(function(){
             id_range_txt.text("0 ~ " + left_lesson_count);
         }
 
-
-        var arr=[
+        var arr = [
             ["课程未排课时", left_lesson_count  ],
             ["公共区待分配课时", unassigned_lesson_count ],
             ["操作类型",   id_opt_type ],

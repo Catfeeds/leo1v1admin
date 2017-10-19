@@ -72,6 +72,7 @@ class wx_teacher_api extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -200,6 +201,7 @@ class wx_teacher_api extends Controller
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4-nyzZL2rAdqT2o63GvxG0", // 郭冀江
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -653,55 +655,12 @@ class wx_teacher_api extends Controller
         $time_info['parent_modify_time'] = $parent_modify_time;
 
         return $this->output_succ(['data'=>$time_info]);
-
-
-
-        // $lesson_time_arr = [];
-        // $t = [];
-        // $t2 = [];
-        // $t3 = [];
-        // $t4 = [];
-        // $t5 = [];
-        // $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
-
-        // foreach($all_tea_stu_lesson_time  as $item){
-        //     $t['time'][0] = date('Y-m-d',$item['lesson_start']);
-        //     $t['time'][1] = date('H',$item['lesson_start']).':59:00';
-        //     $t['can_edit'] = 1;// 0:可编辑 1:老师/学生的有课时间 2:课时本来的时间 3:家长填写的调课时间 4:老师填写的调课时间
-        //     array_push($lesson_time_arr,$t);
-        //     $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
-        //     $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
-        //     $t2['can_edit'] = 1;
-        //     array_push($lesson_time_arr,$t2);
-        // }
-
-        // foreach($lesson_time as $item){
-        //     $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
-        //     $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
-        //     $t4['can_edit'] = 2;
-        //     array_push($lesson_time_arr,$t4);
-        //     $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
-        //     $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
-        //     $t3['can_edit'] = 2;
-        //     array_push($lesson_time_arr,$t3);
-        // }
-
-        // foreach($parent_modify_time_arr as $item_parent_modify){
-        //     $t5['time'][0] = date('Y-m-d',$item_parent_modify);
-        //     $t5['time'][1] = date('H',$item_parent_modify).':59:00';
-        //     $t5['can_edit'] = 3;
-        //     array_push($lesson_time_arr,$t5);
-        // }
-
-        // return $this->output_succ(['data'=>$lesson_time_arr]);
     }
 
 
     public function set_lesson_time_by_teacher(){ //2009 // 老师同意时间调整 并设置了自己的时间
         $lessonid        = $this->get_in_int_val('lessonid');
         $lesson_time_start  = $this->get_in_int_val('lesson_time');
-
-        //wx-teacher-web.leo1v1.com/comment_list.html?type=1
 
         $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
@@ -813,12 +772,10 @@ class wx_teacher_api extends Controller
             $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
             $result = "原因: $parent_keep_original_remark ";
 
-
-
             $first    = "您的学生 $stu_nick 的家长申请修改 $lesson_start_date 上课时间被 $teacher_nick 老师拒绝!";
             $keyword1 = "老师拒绝调课申请";
 
-            $keyword2 = "原上课时间: $lesson_start_date ; $result";
+            $keyword2 = "原上课时间: $lesson_start_date";
 
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = ''; //待定
@@ -831,12 +788,37 @@ class wx_teacher_api extends Controller
             $data['remark']     = "";
 
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+
+
+            // 向家长发送推送
+
+            $lesson_type = $this->t_lesson_info_b2->get_lesson_type($lessonid);
+
+            if($lesson_type == 0){ // 常规课发送给家长
+                $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
+                $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+                $data_parent = [
+                    'first' => "调课申请被拒绝",
+                    'keyword1' =>"调换 $lesson_start_date 上课时间被拒绝",
+                    'keyword2' => "由于此时间段老师时间不方便,故调课申请未成功",
+                    'keyword3' => date('Y-m-d H:i:s'),
+                    'remark'   => "请耐心等待助教老师进行沟通!"
+                ];
+                $url_parent = '';
+                $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+            }
         }
 
         //推送给 助教 / 咨询
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
-        $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+
+        if($lesson_type == 0){ //常规课
+            $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+            $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        }elseif($lesson_type == 2){ // 试听课
+            $wx_openid_arr[] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
 
         $data_leo = [
             'first'    => "$first",
@@ -883,7 +865,7 @@ class wx_teacher_api extends Controller
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']      = "您申请修改学生 $stu_nick  的家长发起的申请修改 $lesson_old_date  的上课时间 ";
             $data['keyword1']   = " 调换 $stu_nick  的家长发起的换时间申请";
-            $data['keyword2']   = "原上课时间: $lesson_old_date  ,$result";
+            $data['keyword2']   = "原上课时间: $lesson_old_date ";
             $data['keyword3']   = " $day_date";
             $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
@@ -982,11 +964,23 @@ class wx_teacher_api extends Controller
         $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
 
 
-        // 给助教// 销售 // 教务 推送结果
+        // 给助教// 销售 // 教务[试听课] 推送结果
+        // $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        // $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
 
-        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
-        $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
-        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+        if($lesson_type == 0){ //常规课
+            $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+            $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        }elseif($lesson_type == 2){ // 试听课
+            $wx_openid_arr[] = $this->t_test_lesson_subject_require->get_cur_require_adminid_by_lessonid($lessonid);
+        }
+
+
+        if($lesson_type == 2){ // 只有试听课才会有教务 [常规课由助教直接排课]
+            $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+        }
 
         $data_leo = [
             'keyword1' => "$lesson_name",

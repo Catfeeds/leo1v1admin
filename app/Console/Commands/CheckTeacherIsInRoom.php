@@ -61,7 +61,7 @@ class CheckTeacherIsInRoom extends Command
                         $server_config = [];
                         $xmpp_server_name=$lesson_val["xmpp_server_name"];
                         $current_server=$lesson_val["current_server"];
-                        $server_config        = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
+                        $server_config        = $task->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server,$server_name_map) ;
                         $roomid        = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
                         $user_list     = \App\Helper\Utils::get_room_users($roomid,$server_config);
                         $teacher_nick  = $task->cache_get_teacher_nick($teacherid);

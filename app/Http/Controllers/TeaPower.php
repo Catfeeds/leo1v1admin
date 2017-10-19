@@ -78,7 +78,10 @@ trait TeaPower {
         }
     }
 
-    public function add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""){
+    public function add_teacher_label(
+        $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,
+        $teacherid,$label_origin,$lessonid=0,$subject=0,$lessonid_list=""
+    ){
         $sshd_good=\App\Helper\Utils::json_decode_as_array($sshd_good, true);
         $sshd_bad=\App\Helper\Utils::json_decode_as_array($sshd_bad, true);
         $sshd =  array_merge($sshd_good, $sshd_bad);
@@ -131,12 +134,11 @@ trait TeaPower {
                     "lesson_list"=>$lesson_list,
                     "tea_label_type"=>$tea_label_type
                 ]);
- 
             }
 
             $list=[];
             foreach($arr as $v){
-                $s =  E\Etea_label_type::get_desc($v); 
+                $s =  E\Etea_label_type::get_desc($v);
                 $list[$s] = $s;
             }
             //dd($list);
@@ -1249,7 +1251,7 @@ trait TeaPower {
      * @param int is_test_user 是否是测试账号 0 不是 1 是
      * @param int use_easy_pass 是否用123456作为老师账号密码 0 不是 1 是
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
-     * @param string base_intro 老师简介 
+     * @param string base_intro 老师简介
      * @param int grade_start 老师年级开始范围
      * @param int grade_end 老师年级结束范围
      * @param string email 邮箱
@@ -1375,21 +1377,21 @@ trait TeaPower {
             "grade_end"              => $grade_range['grade_end'],
             "not_grade"              => $not_grade,
             "create_time"            => time(),
-            "trial_lecture_is_pass"  => $trial_lecture_is_pass, 
-            "train_through_new"      => $train_through_new, 
-            "train_through_new_time" => $train_through_new_time, 
-            "wx_use_flag"            => $wx_use_flag, 
-            "identity"               => $identity, 
-            "teacher_type"           => $teacher_type, 
-            "teacher_ref_type"       => $teacher_ref_type, 
-            "add_acc"                => $acc, 
-            "is_test_user"           => $is_test_user, 
-            "base_intro"             => $base_intro, 
-            "email"                  => $email, 
-            "school"                 => $school, 
-            "transfer_teacherid"     => $transfer_teacherid, 
-            "transfer_time"          => $transfer_time, 
-            "interview_access"       => $interview_access, 
+            "trial_lecture_is_pass"  => $trial_lecture_is_pass,
+            "train_through_new"      => $train_through_new,
+            "train_through_new_time" => $train_through_new_time,
+            "wx_use_flag"            => $wx_use_flag,
+            "identity"               => $identity,
+            "teacher_type"           => $teacher_type,
+            "teacher_ref_type"       => $teacher_ref_type,
+            "add_acc"                => $acc,
+            "is_test_user"           => $is_test_user,
+            "base_intro"             => $base_intro,
+            "email"                  => $email,
+            "school"                 => $school,
+            "transfer_teacherid"     => $transfer_teacherid,
+            "transfer_time"          => $transfer_time,
+            "interview_access"       => $interview_access,
         ]);
 
         if(!$ret){
@@ -1679,7 +1681,7 @@ trait TeaPower {
     }
 
     public function set_teacher_lecture_is_pass($teacher_info){
-        
+
     }
 
     public function get_ass_refund_score($start_time,$end_time){
@@ -1687,7 +1689,7 @@ trait TeaPower {
         $arr=[];
         foreach($list as $val){
             $ss = $val["orderid"]."-".$val["apply_time"];
-            @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"]; 
+            @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"];
         }
 
         $refund_score = [];
@@ -1700,7 +1702,7 @@ trait TeaPower {
                     }
                     $all +=$s;
                 }
-                
+
                 @$refund_score[$uu] +=10*$ass/$all;
             }
         }
@@ -1737,6 +1739,7 @@ trait TeaPower {
         $name          = $info['nick'];
         $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
 
+        $star_num=0;
         if($level_str=="中级教师"){
             $level_eng="Intermediate Teacher";
             $star_num=2;
@@ -1748,7 +1751,12 @@ trait TeaPower {
             $star_num=4;
         }else{
             $level_eng=" ";
-            $star_num=1;
+            if($info["teacher_money_type"]==6){
+                $star_num = $info["level"]+1;
+            }
+            if($star_num<1){
+                $star_num=1;
+            }
         }
         $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
         $star_html = $show_star;
@@ -1768,26 +1776,39 @@ trait TeaPower {
          *{margin:0 auto;padding:0 auto;}
          body{opacity:100%;color:#666;font-family:'黑体';}
          html{font-size:10px;}
+
          .color333{color:#333;}
          .fl{float:left;}
          .fr{float:right;}
          .cl{clear:both;}
          .tl{text-align:left;}
          .tr{text-align:right;}
-         .size12{font-size:2.4rem;}
-         .size14{font-size:2.8rem;}
-         .size18{font-size:3.6rem;}
-         .size20{font-size:4rem;}
-         .size24{font-size:4.8rem;}
-         .size28{font-size:5.6rem;}
-         .size36{font-size:7.2rem;}
-         .hl{line-height:4.2rem;}
+
+         /* .size12{font-size:2.4rem;}
+            .size14{font-size:2.8rem;}
+            .size18{font-size:3.6rem;}
+            .size20{font-size:4rem;}
+            .size24{font-size:4.8rem;}
+            .size28{font-size:5.6rem;}
+            .size36{font-size:7.2rem;}
+            .hl{line-height:4.2rem;} */
+         .size12{font-size:24px;}
+         .size14{font-size:28px;}
+         .size18{font-size:36px;}
+         .size20{font-size:40px;}
+         .size24{font-size:48px;}
+         .size28{font-size:56px;}
+         .size36{font-size:72px;}
+         .hl{line-height:42px;}
+
          .top-line{margin-top:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
-         .title{margin:2rem 0;}
-         .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
+         /* .title{margin:2rem 0;} */
+         .title{margin:20px 0;}
+         /* .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;} */
+         .border{border:2px solid #e8665e;border-radius:20px;margin:40px 0 20px;padding:12px 22px 8px 20px;}
          .tea_name{font-weight:bold;}
          .tea_level{font-weight:bold;}
          .img_position{position:relative;z-index:0;width:100%;}
@@ -1795,30 +1816,39 @@ trait TeaPower {
          .img_level_eng{position:relative;z-index:1;height:0;top:335px;}
          .img_star{position:relative;z-index:1;height:0;top:390px;}
          .img_name{position:relative;z-index:1;height:0;top:535px;font-family:'Helvetica','方正舒体','华文行楷','隶书';}
+
          @media screen and (max-width: 720px) {
-             .size12{font-size:1.5rem;}
-             .size14{font-size:1.75rem;}
-             .size18{font-size:2.25rem;}
-             .size20{font-size:2.5rem;}
-             .size24{font-size:3rem;}
-             .size28{font-size:3.5rem;}
-             .size36{font-size:4.5rem;}
+             /* .size12{font-size:1.5rem;}
+                .size14{font-size:1.75rem;}
+                .size18{font-size:2.25rem;}
+                .size20{font-size:2.5rem;}
+                .size24{font-size:3rem;}
+                .size28{font-size:3.5rem;}
+                .size36{font-size:4.5rem;} */
+             .size12{font-size:15px;}
+             .size14{font-size:17.5px;}
+             .size18{font-size:22.5px;}
+             .size20{font-size:25px;}
+             .size24{font-size:30px;}
+             .size28{font-size:35px;}
+             .size36{font-size:45px;}
              .content{width:400px;}
              .img_level{top:140px;}
              .img_level_eng{top:185px;}
              .img_star{top:213px;}
              .img_star img{width:30px;}
              .img_name{top:285px;}
-             .hl{line-height:2.625rem;}
+             /* .hl{line-height:2.625rem;} */
+             .hl{line-height:26.25px;}
          }
         </style>
     </head>
     <body>
         <div style='width:100%' align='center'>
             <div class='content size14'>
-            <div class='logo top-line' align='center'>
-                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
-            </div>
+                <div class='logo top-line' align='center'>
+                    <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+                </div>
                 <div class='title size24'>理优教育</div>
                 <div >感谢您一路对我们的支持与信任</div>
                 <div class='border tl'>
@@ -1903,7 +1933,7 @@ trait TeaPower {
             }
             $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
-        
+
         if(!empty($list)){
             foreach($list as $k=>$item){
                 \App\Helper\Utils::order_list( $item,"start_time", 1);
@@ -2233,7 +2263,8 @@ trait TeaPower {
      */
     public function send_offer_info($teacher_info){
         $today_date  = date("Y年m月d日",time());
-        $level_str = E\Elevel::get_desc($teacher_info['level']);
+        // $level_str = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);
@@ -2251,7 +2282,7 @@ trait TeaPower {
              * {{remark.DATA}}
              */
             $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
+            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str;
             $data["keyword1"] = "教职老师";
             $data["keyword2"] = "理优教育";
             $data["keyword3"] = $today_date;
@@ -2263,9 +2294,12 @@ trait TeaPower {
 
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
-        $level_str  = E\Elevel::get_desc($teacher_info['level']);
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        $group_html = $this->get_qq_group_html($teacher_info['subject']);
+        // $level_str  = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = \App\Helper\Utils::get_teacher_level_str($teacher_info);
+        $date_str  = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
+        // dd($teacher_info);
+        // $group_html = $this->get_qq_group_html($teacher_info['subject']);
+        $group_html = $this->get_new_qq_group_html($teacher_info['grade_start'],$teacher_info['grade_part_ex'],$teacher_info['subject']);
         $html       = "
 <!DOCTYPE html>
 <html>
@@ -2422,6 +2456,108 @@ trait TeaPower {
         return $html;
     }
 
+    public function get_new_qq_group_html($grade_start,$grade_part_ex,$subject){
+        // 528851744 原答疑1群，人数已满
+
+        if ( $grade_start >= 5 ) {
+            $grade = 300;
+        } else if ($grade_start >= 3) {
+            $grade = 200;
+        } else if($grade_start > 0 ) {
+            $grade = 100;
+        }else if ($grade_part_ex == 1) {
+            $grade = 100;
+        }else if ($grade_part_ex == 2) {
+            $grade = 200;
+        }else if ($grade_part_ex == 3) {
+            $grade = 300;
+        }else{
+            $grade = 100;
+        }
+
+        $qq_answer = [
+            1  => ["答疑语文","126321887","用于薪资，软件等综合问题"],
+            2  => ["答疑数学","29759286","用于薪资，软件等综合问题"],
+            3  => ["答疑英语","451786901","用于薪资，软件等综合问题"],
+            99 => ["答疑综合学科","513683916","用于薪资，软件等综合问题"],
+        ];
+        $qq_group  = [
+            '100' => [
+                1=>[
+                    ["教研-小学语文","653665526","处理教学相关事务"],
+                    ["排课-小学语文","387090573","用于抢课"]
+                ],2=>[
+                    ["教研-小学数学","644249518","处理教学相关事务"],
+                    ["排课-小学数学","527321518","用于排课"],
+                ],3=>[
+                    ["教研-小学英语","653621142","处理教学相关事务"],
+                    ["排课-小学英语","456074027","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ],
+            ],
+            '200' => [
+                1=>[
+                    ["教研-初中语文","623708298","处理教学相关事务"],
+                    ["排课-初中语文","465023367","用于抢课"]
+                ],2=>[
+                    ["教研-初中数学","373652928","处理教学相关事务"],
+                    ["排课-初中数学","665840444","用于排课"],
+                ],3=>[
+                    ["教研-初中英语","161287264","处理教学相关事务"],
+                    ["排课-初中英语","463756557","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+            '300' => [
+                1=>[
+                    ["教研-高中语文","653689781","处理教学相关事务"],
+                    ["排课-高中语文","573564364","用于抢课"]
+                ],2=>[
+                    ["教研-高中数学","644724773","处理教学相关事务"],
+                    ["排课-高中数学","659192934","用于排课"],
+                ],3=>[
+                    ["教研-高中英语","456994484","处理教学相关事务"],
+                    ["排课-高中英语","280781299","用于排课"],
+                ],4=>[
+                    ["教研-化学","652504426","处理教学相关事务"],
+                    ["排课-化学","608323943","用于排课"],
+                ],5=>[
+                    ["教研-物理","652500552","处理教学相关事务"],
+                    ["排课-物理","534509273","用于排课"],
+                ],99=>[
+                    ["教研-文理综合","652567225","处理教学相关事务"],
+                    ["排课-文理综合","598180360","用于排课"],
+                ]
+            ],
+        ];
+
+        $html="";
+        $list = @$qq_group[ $grade ][ $subject ]?$qq_group[ $grade ][ $subject ]:$qq_group[ $grade ][99];
+        $list[] = @$qq_answer[ $subject ]?$qq_answer[ $subject ]:$qq_answer[99];
+        // dd($list);
+        foreach($list as $val){
+            $html .= "<li>【LEO】".$val[0]."<br>群号：".$val[1]."<br>群介绍：".$val[2]."</li>";
+        }
+        return $html;
+    }
+
+
     public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2,$region_version,$notes){
 
         $origin="转介绍";
@@ -2440,7 +2576,7 @@ trait TeaPower {
             "user_desc"           => $notes,
         ]);
 
-        
+
         $account= $this->get_account();
 
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
@@ -2989,50 +3125,50 @@ trait TeaPower {
             $grade_new=0;
         }
         return $grade_new;
- 
+
     }
 
     public function  get_textbook_str($subject,$grade){
         $str="other";
         if($subject==1){
             if($grade==100){
-                $str ="yw_primary"; 
+                $str ="yw_primary";
             }elseif($grade==200){
-                $str ="yw_middle"; 
+                $str ="yw_middle";
             }elseif($grade==300){
-                $str ="yw_senior"; 
+                $str ="yw_senior";
             }
 
         }elseif($subject==2){
             if($grade==100){
-                $str ="sx_primary"; 
+                $str ="sx_primary";
             }elseif($grade==200){
-                $str ="sx_middle"; 
+                $str ="sx_middle";
             }elseif($grade==300){
-                $str ="sx_senior"; 
+                $str ="sx_senior";
             }
 
         }elseif($subject==3){
             if($grade==100){
-                $str ="yy_primary"; 
+                $str ="yy_primary";
             }elseif($grade==200){
-                $str ="yy_middle"; 
+                $str ="yy_middle";
             }elseif($grade==300){
-                $str ="yy_senior"; 
+                $str ="yy_senior";
             }
 
         }elseif($subject==4){
             if($grade==200){
-                $str ="hx_middle"; 
+                $str ="hx_middle";
             }elseif($grade==300){
-                $str ="hx_senior"; 
+                $str ="hx_senior";
             }
 
         }elseif($subject==5){
             if($grade==200){
-                $str ="wl_middle"; 
+                $str ="wl_middle";
             }elseif($grade==300){
-                $str ="wl_senior"; 
+                $str ="wl_senior";
             }
         }
 
@@ -3080,7 +3216,7 @@ trait TeaPower {
     public function get_baidu_money_charge($orderid){
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         //  $orderid = $this->get_in_int_val("orderid",516);
-       
+
         $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
             $orderNo=123456789;
@@ -3116,7 +3252,7 @@ trait TeaPower {
     public function get_baidu_money_charge_pay_info($orderid){
         $url = 'https://umoney.baidu.com/edu/openapi/post';
         //  $orderid = $this->get_in_int_val("orderid",516);
-       
+
         $orderNo = $this->t_child_order_info->get_from_orderno($orderid);
         if(empty($orderNo)){
             $orderNo=726749100101;
@@ -3230,11 +3366,311 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $list[$start_time_le]=$year." ".$m."-".$md;
 
         return $list;
+    }
+
+    /**
+     * 检测非测试老师是否成为正式老师
+     */
+    public function check_teacher_is_pass($teacherid){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        if($teacher_info['is_test_user']==0){
+            if($teacher_info['trial_lecture_is_pass']==0
+               || $teacher_info['train_through_new']==0
+               || $teacher_info['wx_use_flag']==0
+            ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 常规课排课接口
+     */
+    public function add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count=0,$old_lessonid=0,$reset_lesson_count=1){
+        $item = $this->t_course_order->field_get_list($courseid,"*");
+        if (!$item["teacherid"]) {
+           return $this->output_err("还没设置老师");
+        }
+        if($item["course_type"]==2){
+            if(!$this->check_power(E\Epower::V_ADD_TEST_LESSON)) {
+                return $this->output_err("没有权限排试听课");
+            }
+        }
+
+        $check = $this->research_fulltime_teacher_lesson_plan_limit($item["teacherid"],$item["userid"]);
+        if($check){
+            return $check;
+        }
+
+        if($item['lesson_grade_type']==0){
+            $grade = $this->t_student_info->get_grade($item["userid"]);
+        }elseif($item['lesson_grade_type']==1){
+            $grade = $item['grade'];
+        }else{
+            return $this->output_err("学生课程年级出错！请在课程包列表中修改！");
+        }
+
+        $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
+        $default_lesson_count = 0;
+
+        $this->t_lesson_info->start_transaction();
+
+
+        //区分是否课时确认的调课
+        if($old_lessonid){
+            $lesson_cw    = $this->t_lesson_info->get_lesson_cw_info($old_lessonid);
+            $default_lesson_count=0;
+            $lessonid = $this->t_lesson_info->add_lesson_new(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,
+                $item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                $lesson_cw['stu_cw_upload_time'],
+                $lesson_cw['stu_cw_status'],
+                $lesson_cw['stu_cw_url'],
+                $lesson_cw['tea_cw_name'],
+                $lesson_cw['tea_cw_upload_time'],
+                $lesson_cw['tea_cw_status'],
+                $lesson_cw['tea_cw_url'],
+                $lesson_cw['lesson_quiz'],
+                $lesson_cw['lesson_quiz_status'],
+                $lesson_cw['tea_more_cw_url']
+            );
+            if ($lessonid) {
+                $this->t_homework_info->start_transaction();
+                $this->t_homework_info->add_new(
+                    $item["courseid"],
+                    0,
+                    $item["userid"],
+                    $lessonid,
+                    $grade,
+                    $item["subject"],
+                    0,
+                    $lesson_cw['work_status'],
+                    $lesson_cw['issue_url'],
+                    $lesson_cw['finish_url'],
+                    $lesson_cw['check_url'],
+                    $lesson_cw['tea_research_url'],
+                    $lesson_cw['ass_research_url'],
+                    $lesson_cw['score'],
+                    $lesson_cw['issue_time'],
+                    $lesson_cw['finish_time'],
+                    $lesson_cw['check_time'],
+                    $lesson_cw['tea_research_time'],
+                    $lesson_cw['ass_research_time']
+                );
+            }else{
+                $this->t_lesson_info->rollback();
+                return $this->output_err("生成课程id失败,请重新再试！");
+            }
+        }else{
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $item["courseid"],
+                0,
+                $item["userid"],
+                0,
+                $item["course_type"],
+                $item["teacherid"],
+                $item["assistantid"],
+                0,
+                0,
+                $grade,$item["subject"],
+                $default_lesson_count,
+                $teacher_info["teacher_money_type"],
+                $teacher_info["level"],
+                $item["competition_flag"],
+                2,
+                $item['week_comment_num'],
+                $item['enable_video']
+            );
+
+            if ($lessonid) {
+                $this->t_homework_info->start_transaction();
+                $this->t_homework_info->add($item["courseid"],0,$item["userid"],$lessonid,$grade,$item["subject"]);
+            }else{
+                $this->t_lesson_info->rollback();
+                return $this->output_err("生成课程id失败,请重新再试！");
+            }
+
+        }
+
+        $this->t_lesson_info->reset_lesson_list($courseid);
+
+        if ($lesson_start >= $lesson_end && $lesson_end >0) {
+            $this->t_lesson_info->rollback();
+            $this->t_homework_info->rollback();
+            return $this->output_err( "时间不对: $lesson_start>=$lesson_end");
+        }
+
+        $teacherid = $item["teacherid"];
+        $userid    = $item["userid"];
+
+        /* 设置lesson_count */
+        if($lesson_count==0){
+            $diff=($lesson_end-$lesson_start)/60;
+            if ($diff<=20) {
+                $lesson_count=50;
+            } else if ($diff<=40) {
+                $lesson_count=100;
+            } else if ( $diff <= 60) {
+                $lesson_count=150;
+            } else if ( $diff <=90 ) {
+                $lesson_count=200;
+            } else if ( $diff <=100 ) {
+                $lesson_count=250;
+            }else{
+                $lesson_count= ceil($diff/40)*100 ;
+            }
+
+        }
+
+        if($lesson_start>0){
+            if ($lesson_start <= time()) {
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
+                return $this->output_err( "时间不对,不能比当前时间晚");
+            }
+
+            if ($userid) {
+                $ret_row = $this->t_lesson_info->check_student_time_free(
+                    $userid,$lessonid,$lesson_start,$lesson_end
+                );
+
+                if($ret_row) {
+                    $error_lessonid=$ret_row["lessonid"];
+                    $this->t_lesson_info->rollback();
+                    $this->t_homework_info->rollback();
+                    return $this->output_err(
+                        "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                        ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                        ."查看[lessonid=$error_lessonid]<a/><div> "
+                    );
+                }
+            }
+
+            $ret_row=$this->t_lesson_info->check_teacher_time_free(
+                $teacherid,$lessonid,$lesson_start,$lesson_end);
+
+            if($ret_row) {
+                $error_lessonid=$ret_row["lessonid"];
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
+                return $this->output_err(
+                    "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                    ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                    ."查看[lessonid=$error_lessonid]<a/><div> "
+                );
+            }
+
+            $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+            $ret=true;
+            if($lesson_type<1000 && $reset_lesson_count){
+                $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
+            }
+
+            if(!$ret){
+                $str= $lesson_count/100;
+                $this->t_lesson_info->rollback();
+                $this->t_homework_info->rollback();
+
+                return $this->output_err("课时不足,需要课时数:$str");
+            }
+            if($reset_lesson_count){
+                $this->t_lesson_info->field_update_list($lessonid,[
+                    "lesson_count" => $lesson_count
+                ]);
+            }
+            $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
+            $this->t_lesson_info->commit();
+            $this->t_homework_info->commit();
+
+            return $lessonid;
+        }else{
+            $this->t_lesson_info->commit();
+            $this->t_homework_info->commit();
+            return $lessonid;
+        }
+
 
 
 
     }
 
 
+    //获取助教提成
+    public function get_ass_percentage_money_list($list){
+        $ret=[];
+        $lesson_money=0;
+        $lesson_price_avg= $list["lesson_price_avg"]/100;
+        if($lesson_price_avg<=50000){
+            $lesson_money = $lesson_price_avg*0.01;
+        }elseif($lesson_price_avg<=80000){
+            $lesson_money = 50000*0.01+($lesson_price_avg-50000)*0.02;
+        }elseif($lesson_price_avg<=120000){
+            $lesson_money = 50000*0.01+(80000-50000)*0.02+($lesson_price_avg-80000)*0.03;
+        }elseif($lesson_price_avg<=170000){
+            $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+($lesson_price_avg-120000)*0.04;
+        }else{
+             $lesson_money = 50000*0.01+(80000-50000)*0.02+(120000-80000)*0.03+(170000-120000)*0.04+($lesson_price_avg-170000)*0.05;
+        }
+        $lesson_money = round($lesson_money,2);
+        $kk_money =0;
+        $kk_num= $list["kk_num"]+$list["hand_kk_num"];
+        if($kk_num<=5){
+            $kk_money=  $kk_num*10;
+        }elseif($kk_num<=10){
+            $kk_money=  5*10+($kk_num-5)*20;
+        }else{
+            $kk_money=  5*10+(10-5)*20+($kk_num-10)*30;
+        }
+        $kk_money = round($kk_money,2);
+        $renw_money=0;
+        $renw_price = ($list["renw_price"]+$list["tran_price"])/100;
+        if($renw_price<=10000){
+            $renw_money = $renw_price*0.01;
+        }elseif($renw_price<=20000){
+            $renw_money = 10000*0.01+($renw_price-10000)*0.02;
+        }elseif($renw_price<=50000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+($renw_price-20000)*0.03;
+        }elseif($renw_price<=80000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+($renw_price-50000)*0.035;
+        }elseif($renw_price<=110000){
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+($renw_price-80000)*0.04;
+        }else{
+            $renw_money = 10000*0.01+(20000-10000)*0.02+(50000-20000)*0.03+(80000-50000)*0.035+(110000-80000)*0.04+($renw_price-80000)*0.045;
+        }
+        $renw_money = round($renw_money,2);
+        $tran_num_money=$list["hand_tran_num"]*200;
+        if($tran_num_money>1000){
+            $tran_num_money=1000;
+        }
+        $tran_num_money = round($tran_num_money,2);
+        $cc_tran_money = $list["cc_tran_money"]/100*0.02;
+        $cc_tran_money = round($cc_tran_money,2);
+        $all_money = $lesson_money+$kk_money+$renw_money+$tran_num_money+$cc_tran_money;
+        $ret=[
+            "lesson_money"=>$lesson_money,
+            "kk_money"    =>$kk_money,
+            "renw_money"  =>$renw_money,
+            "tran_num_money"=>$tran_num_money,
+            "cc_tran_money" =>$cc_tran_money,
+            "all_money"     =>$all_money
+        ];
+        return $ret;
+
+    }
 
 }

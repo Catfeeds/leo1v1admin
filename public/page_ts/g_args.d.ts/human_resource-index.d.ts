@@ -59,6 +59,7 @@ interface RowData {
 	nick	:any;
 	realname	:any;
 	teacher_type	:any;
+	jianli	:any;
 	gender	:any;
 	teacher_money_type	:any;
 	identity	:any;

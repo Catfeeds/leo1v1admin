@@ -121,8 +121,8 @@ class stu_manage extends Controller
         //科目教材
         $subject_textbook_list = $this->t_student_subject_list->get_info_by_userid($sid);
         foreach($subject_textbook_list  as &$item_oo){
-            $item_oo["editionid_str"] =  E\Eregion_version::get_desc ($item_oo["editionid"]);   
-            $item_oo["subject_str"] =  E\Esubject::get_desc ($item_oo["subject"]);   
+            $item_oo["editionid_str"] =  E\Eregion_version::get_desc ($item_oo["editionid"]);
+            $item_oo["subject_str"] =  E\Esubject::get_desc ($item_oo["subject"]);
         }
 
         return $this->pageView(__METHOD__,null,[
@@ -187,7 +187,10 @@ class stu_manage extends Controller
 
     public function  set_assistantid() {
         $assistantid=$this->get_in_assistantid();
-        if (!$this->check_account_in_arr(["cora","fly","jim","alan","qichenchong","jack","michael","longyu","adrian","kj","foster","sam"])) {
+        $account_role = $this->get_account_role();
+        if (!$this->check_account_in_arr(["cora","fly","qichenchong","michael","longyu","kj","foster"])
+            && !in_array($account_role,[12])
+        ){
             return $this->output_err("没有权限");
         }
 
@@ -408,7 +411,7 @@ class stu_manage extends Controller
         }
         //dd($ret_lesson);
 
-     
+
         $args=array(
             "start_time" => $start_time,
             "end_time"   => $end_time,
@@ -481,7 +484,7 @@ class stu_manage extends Controller
         }else{
             \App\Helper\Utils::logger("parentid".$parentid);
             $this->t_parent_info->field_update_list($parentid,[
-               "nick"  =>$parent_name 
+               "nick"  =>$parent_name
             ]);
             $this->t_student_info->field_update_list($studentid,[
                 "parentid"  =>$parentid,
@@ -489,7 +492,7 @@ class stu_manage extends Controller
                 "parent_type" =>$parent_type
             ]);
             $check_flag = $this->t_parent_child->check_has_parent($parentid,$studentid);
-            if($check_flag){               
+            if($check_flag){
                 $this->t_parent_child->update_parent_type($parentid,$studentid,$parent_type);
                 //$this->t_parent_info->send_wx_todo_msg($parentid,"确认课时","sadfaafa  ","ttt1");
                 return outputjson_error("用户已绑定！");
@@ -503,11 +506,11 @@ class stu_manage extends Controller
 
             //查询该手机对应的帐号是否为家长登录帐号
             if (!$this->t_phone_to_user->get_info_by_userid($parentid)) {
-                $this->t_phone_to_user->set_userid($phone,"parent",$parentid); 
+                $this->t_phone_to_user->set_userid($phone,"parent",$parentid);
             }
 
 
-            
+
             if($ret_info){
                 $parent_name = $this->t_parent_info->get_nick($parentid);
                 $ret_info    = $this->t_student_info->field_update_list($studentid,[
@@ -710,10 +713,20 @@ class stu_manage extends Controller
             }
         }
 
+        $show_flag = 0;
+        $is_test_user = $this->t_student_info->check_is_test_user($userid);
+        if($is_test_user) {
+            $show_flag++;
+        }
+        $ass_role = $this->get_account_role();
+        if ($ass_role == 10 || $ass_role==12 ) {
+            $show_flag++;
+        }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
             "lesson_left"            => sprintf("%.1f", $lesson_left),
             "assigned_lesson_count"   => sprintf("%.1f", $g_assigned_lesson_count),
             "unassigned_lesson_count" => sprintf("%.1f", $lesson_left-$g_assigned_lesson_count),
+            "show_flag"     => $show_flag,
         ]);
     }
 
@@ -1129,7 +1142,7 @@ class stu_manage extends Controller
                     }
                 }
             }
-            
+
 
         }
         $adminid = $this->get_account_id();

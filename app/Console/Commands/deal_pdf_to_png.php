@@ -110,6 +110,8 @@ class deal_pdf_to_png extends cmd_base
                 @unlink($savePathFile);
             }
         }
+
+
         if ( count( $pdf_lists)==0  )  {
             sleep(20);
         }

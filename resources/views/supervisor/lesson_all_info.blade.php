@@ -55,7 +55,6 @@
      }
 
 
-     body {background-color: red}
      p {margin-left: 20px}
     </style>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
@@ -92,7 +91,9 @@
                     <span >年级:</span> {{$stu_info["grade_str"]}} <br/>
 
                     <span >老师退出次数:</span> {{$stu_info["tea_xmpp"]}} |
+                    
                     {{@$log_tea_last['server_ip']}} |
+
                     {{@$stu_info['tea_log_status']}}<br/>
                     <span >学生退出次数:</span> {{$stu_info["stu_xmpp"]}} |
                     {{@$log_stu_last['server_ip']}} |
@@ -378,6 +379,7 @@
                 </div>
             @endif
        @endforeach
+       {!!  $server_info!!}  <br/>
 
             <h5 style=" border-bottom: 2px solid #999;font-size:25px ; line-height: 50px;" >登录日志 </h5>
 
