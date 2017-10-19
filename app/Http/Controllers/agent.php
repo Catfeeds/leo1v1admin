@@ -507,7 +507,7 @@ class agent extends Controller
                 $ret['ret'] = 4;
             }
             $ret['rate'] = $del_rate;
-            dd($self_top_info,$ret_info,$count_del,$count,$del_rate);
+            dd($start_time,$end_time,$ret_info,$count_del,$count,$del_rate);
         }
         return $ret;
     }
