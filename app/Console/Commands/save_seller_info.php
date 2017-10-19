@@ -108,7 +108,7 @@ class save_seller_info extends Command
         $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
         $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
         $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
-        $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group, $start_time);// 新人营
+        $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
         $ret_info['train_department']  = 0;// 培训中
 
         // 金额转化率占比
