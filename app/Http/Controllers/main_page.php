@@ -373,7 +373,6 @@ class main_page extends Controller
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
-        dd($group_list);
 
         $ret_info_first = [];
         $ret_info_two = [];
