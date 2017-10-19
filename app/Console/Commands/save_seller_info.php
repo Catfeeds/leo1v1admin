@@ -109,7 +109,7 @@ class save_seller_info extends Command
         $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
         $ret_info['train_department']  = 0;// 培训中
 
-        $ret_info['formal_num']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 入职完整月人数
+        $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
         // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
