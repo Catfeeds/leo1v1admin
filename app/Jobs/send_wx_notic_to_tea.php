@@ -41,7 +41,14 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
                 'wx_openid' => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
                 'teacherid' => '225427'
 
+            ],
+            [
+                'wx_openid' => '1111111',
+                'teacherid' => '225427'
+
             ]
+
+            
         ];
 
         foreach($tea_list as $item){
