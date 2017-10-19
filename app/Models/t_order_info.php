@@ -987,9 +987,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "g.master_adminid not in(364,416)",
         ];
-        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,if(gm.month_money,gm.month_money,0) month_money "
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count"
+                                  // ."if(gm.month_money,gm.month_money,0) month_money "
                                   ." from %s o , %s s , %s m,  %s gu,   %s g  "
-                                  ." left join %s gm on gm.groupid = g.groupid and gm.month = %s "
+                                  // ." left join %s gm on gm.groupid = g.groupid and gm.month = %s "
                                   ." where ".
                                   " o.userid = s.userid   and   ".
                                   " o.sys_operator =m.account   and   ".
@@ -1001,8 +1002,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,
-                                  t_admin_group_month_time::DB_TABLE_NAME,
-                                  $start_first,
+                                  // t_admin_group_month_time::DB_TABLE_NAME,
+                                  // $start_first,
                                   $where_arr
         );
         return $this->main_get_list($sql);
