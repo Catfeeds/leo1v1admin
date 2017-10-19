@@ -996,7 +996,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s g on gu.groupid =g.groupid "
                                   ." left join %s gm on gm.groupid =g.groupid and gm.month = %s "
                                   ." where %s "
-                                  ."  group by g.groupid order by all_price desc  ",
+                                  ."  group by g.groupid order by sum(price) desc  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
