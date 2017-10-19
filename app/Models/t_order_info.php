@@ -995,7 +995,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   " o.sys_operator =m.account and ".
                                   " m.uid=gu.adminid and ".
                                   " gu.groupid =g.groupid and ".
-                                  " gm.groupid =g.groupid and gm.month = %s ".
+                                  " gm.groupid =g.groupid and gm.month = %s and ".
                                   "  %s group by g.groupid order by all_price desc  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
