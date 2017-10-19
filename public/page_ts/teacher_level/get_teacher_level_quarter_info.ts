@@ -92,6 +92,33 @@ $(function(){
 
     });
 
+    $(".opt-edit").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        
+        var id_record_score_avg  = $("<input/>");
+        var id_record_num  = $("<input/>"); 
+        var arr=[
+            ["反馈次数",id_record_num],
+            ["反馈平均得分",id_record_score_avg]
+        ];
+        $.show_key_value_table("修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/update_level_record_info', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'record_score_avg':id_record_score_avg.val(),                  
+                    'record_num':id_record_num.val(),                  
+                });
+            }
+        });        
+
+
+    });
+
+
     $(".opt-advance-require-golden").on("click",function(){        
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;

@@ -260,6 +260,7 @@
                                         </td>
 
                                         <td>{{@$stu_info["tran_price"]}}</td>
+                                        <td>{{@$stu_info["cc_tran_money"]}}</td>
 
                                         <td>{{@$stu_info["kk_suc"]}}</td>
                                         <td>{{@$stu_info["kk_require"]}}</td>
@@ -302,7 +303,8 @@
                                         <td>续费人数</td>
                                         <td>续费目标金额</td>
                                         <td>续费金额</td>
-                                        <td>转介绍金额</td>
+                                        <td>新签金额</td>
+                                        <td>转介绍金额(CC)</td>
                                         <td>扩课成功数</td>
                                         <td>扩课申请数</td>
                                         <td>新签退费金额</td>
@@ -340,6 +342,7 @@
                                                 <a href="javascript:;" >{{@$var["renw_price"]}}</a>
                                             </td>
                                             <td>{{@$var["tran_price"]}}</td>
+                                            <td>{{@$var["cc_tran_money"]}}</td>
                                             <td class="opt_kk_suc" data-uid='{{@$var["uid"]}}'>
                                                 <a href="javascript:;" >{{@$var["kk_suc"]}}</a>
                                             </td>
