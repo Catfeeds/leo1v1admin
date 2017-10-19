@@ -312,6 +312,7 @@ class main_page extends Controller
         if($start_time == 1506787200){//10月,10.3-10.31
             $start_time = 1506960000;
         }
+        $start_first = date('Y-m-01',$start_time);
         $adminid=$this->get_account_id();
 
         //判断top25,排课情况每月40
@@ -370,9 +371,8 @@ class main_page extends Controller
         }else{
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
-
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
 
         $ret_info_first = [];
         $ret_info_two = [];
