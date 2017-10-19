@@ -696,4 +696,49 @@ class test_boby extends Controller
 
     }
 
+    public function match_lesson_textbook(){
+        $start_time = 1506787200;
+        $end_time = 1509465600;
+
+        $region_version = array_flip(E\Eregion_version::$desc_map);
+
+        // $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
+        $all_num   = 0;
+        $match_num = 0;
+        $stu_arr   = [];
+        $succ_arr  = [];
+        $match_arr = [];
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+                if(!in_array($val['succ_userid'],$match_arr)){
+                    array_push($match_arr,$val['succ_userid']);
+                }
+            } else {
+                if(!in_array($val['succ_userid'],$succ_arr)){
+                    array_push($succ_arr,$val['succ_userid']);
+                }
+            }
+            if(!in_array($val['stu_userid'],$stu_arr)){
+                array_push($stu_arr,$val['stu_userid']);
+            }
+
+        }
+        dd($succ_arr);
+        $match_rate = $all_num>0?($match_num/$all_num):0;
+        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
+        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
+        // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
+
+    }
+
+
 }
