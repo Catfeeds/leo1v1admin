@@ -395,7 +395,7 @@ class ajax_deal2 extends Controller
             $rank_down = '';
         }
 
-
+        $score = $score*10;
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
