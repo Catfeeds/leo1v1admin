@@ -4126,5 +4126,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $res;
     }
 
+    public function get_openid_list(){
+        $sql = $this->gen_sql_new("  select ");
+    }
 
 } 
