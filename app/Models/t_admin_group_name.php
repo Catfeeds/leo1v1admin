@@ -395,6 +395,18 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
     public function get_entry_month_num($start_time,$end_time){
 
+        $where_arr = [
+            " m.account_role =2",
+            "(m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>$start_time and )"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(*) as num from %s m "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }
