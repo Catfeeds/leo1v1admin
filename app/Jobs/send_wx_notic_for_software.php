@@ -69,7 +69,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
 
              */
 
-            $ret = $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
+            $ret = @$wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
 
             if($ret){
                 $t_parent_send_mgs_log->row_insert([

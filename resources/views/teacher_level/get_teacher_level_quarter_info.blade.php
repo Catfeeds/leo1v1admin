@@ -125,6 +125,7 @@
                                 @endif
                                 @if($acc=="jack")
                                     <a class="opt-del" title="删除">删除</a>
+                                    <a class="opt-edit" title="编辑">编辑</a>
                                 @endif
 
                             </div>

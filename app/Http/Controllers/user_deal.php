@@ -3075,6 +3075,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime('today');
+        $end_time = time();
+        $id_str = $this->t_revisit_call_count->get_call_phone_id_str_by_uid($start_time,$end_time,527);
+        $ret_list = $this->t_revisit_info->get_revisit_type6($start_time, $end_time, 527, 60246, $id_str);
+        dd($ret_list);
+
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));

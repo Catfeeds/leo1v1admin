@@ -54,7 +54,9 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["lesson_count"] = $item["lesson_count"]/100;
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
- 
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;
+            $item["record_final_score"]=$record_final_score;
         }
 
 
@@ -254,6 +256,25 @@ class teacher_level extends Controller
         $this->t_teacher_advance_list->row_delete_2($start_time,$teacherid);
         
         return $this->output_succ();
+    }
+
+    public function update_level_record_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        $record_num = $this->get_in_int_val("record_num");
+        $record_score_avg  = $this->get_in_str_val("record_score_avg");
+        $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
+        $total_score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
+        $record_final_score_old = $this->t_teacher_advance_list->get_record_final_score($start_time,$teacherid);
+        $total_score =$total_score-$record_final_score_old+$record_final_score;
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "record_final_score" =>$record_final_score,
+            "record_num"         =>$record_num,
+            "record_score_avg"   =>$record_score_avg,
+            "total_score"        =>$total_score
+        ]);
+        return $this->output_succ(); 
+
     }
 
     public function get_teacher_level_quarter_info_new(){
@@ -803,6 +824,10 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["test_total_score"] = $item["cc_order_score"]+$item["other_order_score"];
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;;
+            $item["record_final_score"]=$record_final_score;
+
  
         }
         
