@@ -1995,7 +1995,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         $where_arr = [
             " m.account_role =2",
-            "(m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time )"
+            "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time ))"
         ];
 
         $sql = $this->gen_sql_new("  select count(*) as num from %s m "
