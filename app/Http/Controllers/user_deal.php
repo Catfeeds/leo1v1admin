@@ -3075,6 +3075,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-10-01");
+        $tea_arr=[53534];
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
+        $kk_test_person_num     = $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        dd($kk_test_person_num);
+        $change_test_person_num = $this->t_lesson_info->get_change_teacher_test_person_num_list(
+            $start_time,$end_time,-1,-1,$tea_arr);
+
+        dd($cr_list);
+
         $start_time = strtotime('today');
         $end_time = time();
         $id_str = $this->t_revisit_call_count->get_call_phone_id_str_by_uid($start_time,$end_time,527);

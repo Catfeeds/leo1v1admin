@@ -745,10 +745,14 @@ class test_james extends Controller
 
 
     public function ssss(){
+        $this->switch_tongji_database();
+        $r = $this->t_parent_info->get_openid_list();
+        dd($r);
 
+        $userid= $this->get_in_str_val('u');
 
-        $userid= $this->get_in_int_val('u');
-
+        $userid  = $userid*10;
+        dd($userid);
 
         $ass_openid = $this->t_student_info->get_ass_openid($userid);
 

@@ -9672,8 +9672,8 @@ lesson_type in (0,1) "
     public function get_imit_audi_sched_count($start_time, $end_time)
     {
         $whereArr = [
-            //["operate_time<%u",$start_time,0],
-            //["operate_time>%u",$end_time,0],
+            ["operate_time<%u",$start_time,0],
+            ["operate_time>%u",$end_time,0],
             "lesson_type=1100",
             "train_type=4"
         ];
@@ -9692,8 +9692,8 @@ lesson_type in (0,1) "
     // 上课
     public function get_attend_lesson_count($start_time, $end_time) {
          $whereArr = [
-            //["lesson_start<%u",$start_time,0],
-            //["lesson_start>%u",$end_time,0],
+            ["lesson_start<%u",$start_time,0],
+            ["lesson_start>%u",$end_time,0],
             "tea_attend>0",
         ];
         $table = self::DB_TABLE_NAME;
@@ -9710,6 +9710,8 @@ lesson_type in (0,1) "
 
     public function get_adopt_lesson_count($start_time, $end_time) {
         $whereArr = [
+            ["train_through_new_time>%u", $start_time, 0],
+            ["train_through_new_time<%u", $end_time, 0],
             "train_through_new=1"
         ];
         $table = t_teacher_info::DB_TABLE_NAME;
@@ -9799,8 +9801,8 @@ lesson_type in (0,1) "
 
     public function get_imit_audi_sched_type_count($start_time, $end_time){
         $whereArr = [
-            //["l.operate_time<%u",$start_time,0],
-            //["l.operate_time>%u",$end_time,0],
+            ["l.operate_time<%u",$start_time,0],
+            ["l.operate_time>%u",$end_time,0],
             "l.lesson_type=1100",
             "l.train_type=4"
         ];
@@ -9817,8 +9819,8 @@ lesson_type in (0,1) "
 
     public function get_attend_lesson_type_count($start_time, $end_time) {
         $whereArr = [
-            //["lesson_start<%u",$start_time,0],
-            //["lesson_start>%u",$end_time,0],
+            ["lesson_start<%u",$start_time,0],
+            ["lesson_start>%u",$end_time,0],
             "tea_attend>0",
         ];
 
@@ -9834,7 +9836,9 @@ lesson_type in (0,1) "
 
     public function get_adopt_lesson_type_count($start_time, $end_time) {
         $whereArr = [
-            "train_through_new=1"
+            ["t.train_through_new_time>%u", $start_time, 0],
+            ["t.train_through_new_time<%u", $end_time, 0],
+            "t.train_through_new=1"
         ];
         $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s l left join %s t on l.teacherid=t.teacherid where %s group by identity",
                                   self::DB_TABLE_NAME,

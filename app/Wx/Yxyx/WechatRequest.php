@@ -517,7 +517,9 @@ class WechatRequest  {
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
+            $t_agent->set_add_type_2( $agent["id"]);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+
         }elseif ($eventKey == 'invitation_member') {
             $t_agent = new \App\Models\t_agent();
             $agent = $t_agent->get_agent_info_by_openid($openid);
@@ -565,6 +567,7 @@ class WechatRequest  {
 
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
+            $t_agent->set_add_type_2( $agent["id"]);
             if ( \App\Helper\Utils::check_env_is_release() ) {
                 return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
             }else{
@@ -572,7 +575,6 @@ class WechatRequest  {
                 //ResponseInitiative::
                 return "";
             }
-
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',

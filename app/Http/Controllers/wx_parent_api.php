@@ -971,7 +971,7 @@ class wx_parent_api extends Controller
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
-        $score            = $this->get_in_int_val("score");
+        $score            = $this->get_in_str_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
         $semester         = $this->get_in_int_val("semester");
@@ -1011,7 +1011,7 @@ class wx_parent_api extends Controller
             $file_url = $ret_arr['alibaba_url_str'];
         }
 
-        // $score = $score*10;
+        $score = $score*10;
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -1068,9 +1068,9 @@ class wx_parent_api extends Controller
         $userid = $this->get_in_int_val('userid');
         $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid);
 
-        // foreach($stu_score_list as &$item){
-            // $item['score'] = $item['score']/10;
-        // }
+        foreach($stu_score_list as &$item){
+            $item['score'] = $item['score']/10;
+        }
 
         return $this->output_succ(['data'=>$stu_score_list]);
     }

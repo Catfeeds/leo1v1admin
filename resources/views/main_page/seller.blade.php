@@ -298,7 +298,6 @@
                                     <td><strong><font class="font_thead" >团队 </font></strong></td>
                                     <td><strong><font class="font_thead" >签单数</font></strong></td>
                                     <td><strong><font class="font_thead" >总金额</font></strong></td>
-                                    <!-- <td><strong><font class="font_thead" >完成率</font></strong></td> -->
                                 </tr>
                             </thead>
                             <tbody id="id_group_body">
