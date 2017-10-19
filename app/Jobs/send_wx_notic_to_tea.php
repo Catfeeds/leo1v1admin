@@ -57,9 +57,9 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
 
             \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'], $tea_template_id, $data_leo, $url_leo);
 
-            if($test){
+            // if($test){
                 
-            }
+            // }
 
             $t_parent_send_mgs_log->row_insert([
                 "parentid" => $item['teacherid'],
