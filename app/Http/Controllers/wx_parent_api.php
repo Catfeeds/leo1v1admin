@@ -1029,7 +1029,13 @@ class wx_parent_api extends Controller
             "rank_down"             => $rank_down,
         ],false,false,true);
 
+
+
         if($ret_info){
+            $ass_openid = $this->t_student_info->get_ass_openid();
+
+
+
             return $this->output_succ();
         }else{
             return $this->output_err('成绩录入失败,请稍后重试!');

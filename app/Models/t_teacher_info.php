@@ -1075,6 +1075,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_teacherid_by_name($name){
+        $where_arr = [
+            ["realname='%s'",$name,""]
+        ];
+        $sql = $this->gen_sql_new("select teacherid "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function get_teacherid_by_realname($realname){
         $time = strtotime("2016-12-21 14:00:00");
         $sql  = $this->gen_sql_new("select realname,l.teacherid,set_lesson_adminid,m.account,set_lesson_time,success_flag "
