@@ -1911,8 +1911,8 @@ class tongji extends Controller
 
         }
         $match_rate = $all_num>0?($match_num/$all_num):0;
-        $succ_rate  = count($stu_arr)>0?(count($succ_arr)/count($stu_arr)):0;
-        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)/count($stu_arr)):0;
+        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
+        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
         // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
 
         return $this->pageView(__METHOD__,[],[
