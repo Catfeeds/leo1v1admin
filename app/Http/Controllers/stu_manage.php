@@ -719,9 +719,11 @@ class stu_manage extends Controller
             $show_flag++;
         }
         $ass_role = $this->get_account_role();
-        if ($ass_role == 10 ) {
+        $ass_id = $this->get_account_id();
+        if ($ass_role == 10 || $ass_id == 356) {
             $show_flag++;
         }
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
             "lesson_left"            => sprintf("%.1f", $lesson_left),
             "assigned_lesson_count"   => sprintf("%.1f", $g_assigned_lesson_count),
