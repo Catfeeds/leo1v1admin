@@ -1499,6 +1499,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                     $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"学生分配助教组长","学生分配助教组长通知","您好,您的学员".$nick."已经分配至".$group_name.",组长:".$ass_account.",微信号:".$wx_id.",状态:未分配助教","");
 
                 }
+            }else{
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长","");
             }
         }
 
