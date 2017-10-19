@@ -24,9 +24,9 @@ $(function(){
         var id_level_after = $("<select/>");
 
         if(teacher_money_type==6){            
-            Enum_map.append_option_list("new_level", id_level_after, true );  
+            Enum_map.append_option_list_v2s("new_level", id_level_after, true );  
         }else{
-            Enum_map.append_option_list("level", id_level_after, true ); 
+            Enum_map.append_option_list_v2s("level", id_level_after, true ); 
         }  
         var arr=[
             ["目标等级",id_level_after]
@@ -70,9 +70,9 @@ $(function(){
         
         var id_level_after = $("<select/>");
         if(teacher_money_type==6){            
-            Enum_map.append_option_list("new_level", id_level_after, true );  
+            Enum_map.append_option_list_v2s("new_level", id_level_after, true );  
         }else{
-            Enum_map.append_option_list("level", id_level_after, true ); 
+            Enum_map.append_option_list_v2s("level", id_level_after, true ); 
         }  
         var arr=[
             ["目标等级",id_level_after]
@@ -225,6 +225,25 @@ $(function(){
         });
 
     });
+
+    $(".opt-del").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var realname = opt_data.realname;
+        var start_time = g_args.quarter_start;
+        var teacherid = opt_data.teacherid;
+        BootstrapDialog.confirm("确定删除数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/del_advance_info', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                });
+            } 
+        });
+
+        
+
+    });
+
 	$('.opt-change').set_input_change_event(load_data);
 });
 

@@ -1032,17 +1032,13 @@ class wx_parent_api extends Controller
 
 
         if($ret_info){
-            $ass_openid = $this->t_student_info->get_ass_openid($userid);
+            $send_openid = $this->t_student_info->get_ass_openid($userid);
 
-            if($ass_openid == 0){ 
+            if(!$send_openid){ 
                 $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
-                \App\Helper\Utils::logger(" seller_send_upload1: $send_openid ");
-
-            }else{
-                $send_openid = $ass_openid;
             }
 
-            \App\Helper\Utils::logger(" seller_send_upload2: $send_openid userid:$userid ");
+            \App\Helper\Utils::logger(" seller_send_upload4: $send_openid userid:$userid" );
 
             $stu_nick = $this->cache_get_student_nick($userid);
 

@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      //$this->switch_tongji_database();
+      $this->switch_tongji_database();
     }
 
     public function table_start($th_arr){
@@ -690,6 +690,91 @@ class test_boby extends Controller
             }
         }
 
+        return $s;
+
+    }
+
+    public function get_stu_num(){
+        //9.1-10.18期间上过非试听课的所有学生统计
+        $sql = "select l.subject,l.userid,l.grade  from db_weiyi.t_lesson_info l force index(lesson_start) left join t_student_info s on s.userid=l.userid where l.lesson_start >=1504195200 and l.lesson_start<1508342400 and l.lesson_user_online_status <>2  and l.lesson_type<>2  and s.is_test_user=0";
+
+        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $subject_arr = [
+            1 =>[],
+            2 =>[],
+            3 =>[],
+            4 =>[],
+            5 =>[],
+            6 =>[],
+            7 =>[],
+            8 =>[],
+            9 =>[],
+            10 =>[],
+            11 =>[],
+        ];
+        $grade_arr = [
+            101 =>[],
+            102 =>[],
+            103 =>[],
+            104 =>[],
+            105 =>[],
+            106 =>[],
+            201 =>[],
+            202 =>[],
+            203 =>[],
+            301 =>[],
+            302 =>[],
+            303 =>[],
+        ];
+        $sub = array_keys($subject_arr);
+        $grade = array_keys($grade_arr);
+        $new = [];
+        foreach ($grade as $g) {
+            $new[$g] = $subject_arr;
+        }
+
+        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        foreach ($ret_info as $item){
+            $g = $item['grade'];
+            $s = $item['subject'];
+            $u = $item['userid'];
+            if ( !in_array($u, $new[$g][$s]) ){
+                array_push($new[$g][$s], $u );
+            }
+
+            if ( !in_array($u, $subject_arr[$s]) ){
+                array_push($subject_arr[$s], $u );
+            }
+
+            if ( !in_array($u, $grade_arr[$g]) ){
+                array_push($grade_arr[$g], $u );
+            }
+        }
+
+        $th_arr = ['年级','科目','人数'];
+        $s = $this->table_start($th_arr);
+        foreach($new as $k=>$v){
+            foreach ($v as $g=>$n){
+                $s= $this->tr_add($s, $k,$g,count($n));
+            }
+        }
+        $s = $this->table_end($s);
+        echo $s;
+
+        $th_arr = ['年级','人数'];
+        $s = $this->table_start($th_arr);
+        foreach($grade_arr as $k=>$v){
+            $s= $this->tr_add($s,$k,count($v));
+        }
+        $s = $this->table_end($s);
+        echo $s;
+
+        $th_arr = ['科目','人数'];
+        $s = $this->table_start($th_arr);
+        foreach($subject_arr as $k=>$v){
+            $s= $this->tr_add($s,$k,count($v));
+        }
+        $s = $this->table_end($s);
         return $s;
 
     }

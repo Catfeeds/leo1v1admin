@@ -179,7 +179,7 @@ trait  ViewDeal {
              "/// <reference path=\"../g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.d.ts\" />\n".
              "\n".
              "function load_data(){\n".
-             "    if (  !window[\"g_load_data_flag\"]) {return;}\n".
+             "    if ( window[\"g_load_data_flag\"]) {return;}\n".
              "    $.reload_self_page ( {\n".
              $reload_filed_str.
              "    });\n".

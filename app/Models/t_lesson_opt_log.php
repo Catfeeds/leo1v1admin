@@ -222,6 +222,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
                                   $lessonid, $userid);
         $max_opt_time=$this->main_get_value($sql);
         $sql=$this->gen_sql_new("select  opt_time, server_ip, server_type from %s where  lessonid= %u and  userid =%u  and opt_time =%u ", self::DB_TABLE_NAME, $lessonid,  $userid,  $max_opt_time );
+        $ret= $this->main_get_row($sql);
         if ($ret) {
             $ret["server_ip"]=long2ip($ret["server_ip"]);
         }

@@ -35,12 +35,17 @@ class teacher_level extends Controller
         foreach($ret_info["list"] as &$item){
             $item["level"]=$item["level_before"];
             if($item["teacher_money_type"]==6){
-                E\Enew_level::set_item_value_str($item,"level");
-                E\Enew_level::set_item_value_str($item,"level_after");
+                //  E\Enew_level::set_item_value_str($item,"level_before");
+                // E\Enew_level::set_item_value_str($item,"level_after");
+                $item["level_str"] = E\Enew_level::v2s($item["level"]);
+                $item["level_after_str"] = E\Enew_level::v2s($item["level_after"]);
+
 
             }else{
-                E\Elevel::set_item_value_str($item,"level");
-                E\Elevel::set_item_value_str($item,"level_after");
+                //  E\Elevel::set_item_value_str($item,"level_before");
+                // E\Elevel::set_item_value_str($item,"level_after");
+                $item["level_str"] = E\Elevel::v2s($item["level"]);
+                $item["level_after_str"] = E\Elevel::v2s($item["level_after"]);
    
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -49,7 +54,9 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["lesson_count"] = $item["lesson_count"]/100;
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
- 
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;;
+            $item["record_final_score"]=$record_final_score;
         }
 
 
@@ -241,6 +248,14 @@ class teacher_level extends Controller
         }
         return $this->output_succ();
  
+    }
+
+    public function del_advance_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        $this->t_teacher_advance_list->row_delete_2($start_time,$teacherid);
+        
+        return $this->output_succ();
     }
 
     public function get_teacher_level_quarter_info_new(){
@@ -773,10 +788,15 @@ class teacher_level extends Controller
             if($item["teacher_money_type"]==6){
                 E\Enew_level::set_item_value_str($item,"level_before");
                 E\Enew_level::set_item_value_str($item,"level_after");
+                $item["level_before_str"] = E\Enew_level::v2s($item["level_before"]);
+                $item["level_after_str"] = E\Enew_level::v2s($item["level_after"]);
+
 
             }else{
                 E\Elevel::set_item_value_str($item,"level_before");
                 E\Elevel::set_item_value_str($item,"level_after");
+                $item["level_before_str"] = E\Elevel::v2s($item["level_before"]);
+                $item["level_after_str"] = E\Elevel::v2s($item["level_after"]);
    
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
@@ -785,6 +805,10 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["test_total_score"] = $item["cc_order_score"]+$item["other_order_score"];
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;;
+            $item["record_final_score"]=$record_final_score;
+
  
         }
         
