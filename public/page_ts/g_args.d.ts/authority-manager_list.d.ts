@@ -75,26 +75,27 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/authority-manager_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		assign_groupid:	$('#id_assign_groupid').val(),
+		assign_account_role:	$('#id_assign_account_role').val(),
+		creater_adminid:	$('#id_creater_adminid').val(),
+		adminid:	$('#id_adminid').val(),
+		uid:	$('#id_uid').val(),
+		user_info:	$('#id_user_info').val(),
+		has_question_user:	$('#id_has_question_user').val(),
+		del_flag:	$('#id_del_flag').val(),
+		account_role:	$('#id_account_role').val(),
+		cardid:	$('#id_cardid').val(),
+		day_new_user_flag:	$('#id_day_new_user_flag').val(),
+		tquin:	$('#id_tquin').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+		call_phone_type:	$('#id_call_phone_type').val(),
+		seller_level:	$('#id_seller_level').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			assign_groupid:	$('#id_assign_groupid').val(),
-			assign_account_role:	$('#id_assign_account_role').val(),
-			creater_adminid:	$('#id_creater_adminid').val(),
-			adminid:	$('#id_adminid').val(),
-			uid:	$('#id_uid').val(),
-			user_info:	$('#id_user_info').val(),
-			has_question_user:	$('#id_has_question_user').val(),
-			del_flag:	$('#id_del_flag').val(),
-			account_role:	$('#id_account_role').val(),
-			cardid:	$('#id_cardid').val(),
-			day_new_user_flag:	$('#id_day_new_user_flag').val(),
-			tquin:	$('#id_tquin').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
-			call_phone_type:	$('#id_call_phone_type').val(),
-			seller_level:	$('#id_seller_level').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
 
