@@ -35,7 +35,6 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
         $tea_list = $t_teacher_info->get_openid_list();
 
-        $wx = new \App\Helper\Wx();
 
         // $parent_list = [
         //     [
@@ -56,15 +55,13 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
             ];
             $url_leo = '';
 
-
-
-            $ret = @$wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'], $tea_template_id, $data_leo, $url_leo);
 
             if($ret){
                 $t_parent_send_mgs_log->row_insert([
-                    "parentid" => $item['parentid'],
+                    "parentid" => $item['teacherid'],
                     "create_time" => time(),
-                    "is_send_flag" => 1
+                    "is_send_flag" => 2
                 ]);
             }
 
