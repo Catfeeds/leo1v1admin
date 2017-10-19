@@ -298,6 +298,7 @@
                                     <td><strong><font class="font_thead" >团队 </font></strong></td>
                                     <td><strong><font class="font_thead" >签单数</font></strong></td>
                                     <td><strong><font class="font_thead" >总金额</font></strong></td>
+                                    <td><strong><font class="font_thead" >团队目标</font></strong></td>
                                     <td><strong><font class="font_thead" >完成率</font></strong></td>
                                 </tr>
                             </thead>
@@ -362,6 +363,18 @@
                                                 <font style="color:#CB7F31;">{{$var["month_money"]}}</font>
                                             @else
                                                 {{$var["month_money"]}}
+                                            @endif
+                                        </td>
+
+                                        <td class="all_price">
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["finish_per"]}}</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}</font>
+                                            @else
+                                                {{$var["finish_per"]}}
                                             @endif
                                         </td>
                                     </tr>

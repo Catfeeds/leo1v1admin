@@ -1627,9 +1627,6 @@ class main_page extends Controller
         $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
         // 老师类型培训合格
         $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-        //foreach($type_ret_info as $key => &$item) {
-            //E\Eidentity::set_item_value_str($item, "identity");
-            //}
 
         //$type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
         // 模拟试听排课人数
@@ -1694,7 +1691,8 @@ class main_page extends Controller
             $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
             $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
-            $total['sum'] += $item['sum'];
+echo $item['sum'];            
+$total['sum'] += $item['sum'];
             $total['train_tea_sum'] += $train_tea[$key]['sum'];
             $total['train_qual_sum'] += $train_qual[$key]['sum'];
             $total['imit_sum'] += $imit_lesson[$key]['sum'];
