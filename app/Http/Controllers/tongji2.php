@@ -1036,6 +1036,7 @@ class tongji2 extends Controller
             @$ass_group[$master_adminid_ass]["kk_succ"]       += $va["kk_succ"];
             @$ass_group[$master_adminid_ass]["tran_price"]       += $va["tran_price"];
             @$ass_group[$master_adminid_ass]["tran_num"]       += $va["tran_num"];
+            @$ass_group[$master_adminid_ass]["cc_tran_money"]       += $va["cc_tran_money"];
             @$ass_group[$master_adminid_ass]["group_name"]       = $va["group_name"];
 
 

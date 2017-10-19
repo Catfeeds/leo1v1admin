@@ -1649,6 +1649,8 @@ class main_page extends Controller
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
+            $item["hand_tran_num"]  = isset($ass_month[$k]["hand_tran_num"])?$ass_month[$k]["hand_tran_num"]:0;//手动确认转介绍人数
+            $item["cc_tran_money"]  = isset($ass_month[$k]["cc_tran_money"])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍金额
 
         }
 
