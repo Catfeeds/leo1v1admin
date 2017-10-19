@@ -29,7 +29,7 @@ tofile:
 /// <reference path="../g_args.d.ts/main_page-seller.d.ts" />
 
 function load_data(){
-    if (  !window["g_load_data_flag"]) {return;}
+    if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
 		date_type_config:	$('#id_date_type_config').val(),
 		date_type:	$('#id_date_type').val(),

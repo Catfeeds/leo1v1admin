@@ -1873,10 +1873,37 @@ class tongji extends Controller
     }
 
     /**
-     * 
+     * 试听课学生和老师教材版本的匹配度
      */
-    public function lesson_match(){
+    public function match_lesson_textbook(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
+        $region_version = array_flip(E\Eregion_version::$desc_map);
+
+        $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $all_num = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }
+        }
+        $match_rate = $all_num>0?($match_num/$all_num):0;
+        // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
+
+        return $this->pageView(__METHOD__,[],[
+            "all_num"    => $all_num,
+            "match_num"  => $match_num,
+            "match_rate" => round($match_rate*100,2)."%",
+        ]);
     }
+
 
 }

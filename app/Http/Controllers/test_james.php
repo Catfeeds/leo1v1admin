@@ -706,7 +706,7 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        // dd(1);
+        dd(1);
 
 
         dispatch(new send_wx_notic_for_software());
