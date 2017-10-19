@@ -1370,6 +1370,8 @@ class stu_manage extends Controller
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
 
+        // dd($ret_info);
+
         return $this->pageView(__METHOD__, $ret_info);
     }
 
