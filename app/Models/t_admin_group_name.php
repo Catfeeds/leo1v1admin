@@ -393,5 +393,47 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_list($sql);
     }
 
+    public function get_entry_month_num($start_time,$end_time){
+
+        $where_arr = [
+            " m.account_role =2",
+            "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time ))"
+        ];
+
+        $sql = $this->gen_sql_new("  select count(*) as num from %s m "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_group_seller_num_($group_name, $start_time){
+        $where_arr = [
+            " m.account_role =2",
+            "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time ))",
+            " mg.main_type=2 and mgn.group_name='$group_name' and (m.leave_member_time >$start_time or m.leave_member_time=0)"
+        ];
+
+
+
+        $sql = $this->gen_sql_new("  select count(u.adminid) as seller_num from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." left join %s mgn on mgn.groupid=mg.up_groupid"
+                                  ." left join %s m on m.uid=u.adminid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+                                  ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
+
+
 
 }
