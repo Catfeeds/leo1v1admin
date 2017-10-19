@@ -372,12 +372,13 @@ class main_page extends Controller
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,(string)$start_first);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
         foreach($group_list as &$item){
-            $all_price = $item['all_price']/100;
+            $item['all_price'] = $item['all_price']/100;
+            $all_price = $item['all_price'];
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1).'%';
+            $item['finish_per'] = round($item['finish_per']*100,1);
         }
 
         $ret_info_first = [];

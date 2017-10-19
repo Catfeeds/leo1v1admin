@@ -12,16 +12,16 @@ class agent extends Controller
     use CacheNick;
     public function agent_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $userid        = $this->get_in_userid(-1);
-        $phone         = $this->get_in_phone();
-        $p_phone       = $this->get_in_str_val('p_phone');
-        $type          = $this->get_in_int_val('agent_type');
-        $page_info     = $this->get_in_page_info();
-        $test_lesson_flag= $this->get_in_e_boolean(-1, "test_lesson_flag" );
-        $agent_type= $this->get_in_el_agent_type();
-        $agent_level = $this->get_in_el_agent_level();
-        $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
-        $l1_child_count= $this->get_in_intval_range("l1_child_count");
+        $userid           = $this->get_in_userid(-1);
+        $phone            = $this->get_in_phone();
+        $p_phone          = $this->get_in_str_val('p_phone');
+        $type             = $this->get_in_int_val('agent_type');
+        $page_info        = $this->get_in_page_info();
+        $test_lesson_flag = $this->get_in_e_boolean(-1, "test_lesson_flag" );
+        $agent_type       = $this->get_in_el_agent_type();
+        $agent_level      = $this->get_in_el_agent_level();
+        $order_flag       = $this->get_in_e_boolean(-1, "order_flag" );
+        $l1_child_count   = $this->get_in_intval_range("l1_child_count");
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
             =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
