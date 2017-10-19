@@ -719,9 +719,12 @@ class test_james extends Controller
     public function send_msg_to_teacher(){
 
 
-        // $re = $this->t_teacher_info->get_openid_list();
+        $re = $this->t_teacher_info->get_openid_list();
+        dd($re);
+        dd('已处理');
+        
 
-        dispatch(new send_wx_notic_to_tea());
+        // dispatch(new send_wx_notic_to_tea());
 
         // dd($re);
     }
@@ -741,6 +744,12 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $r = $this->t_manager_info->get_entry_month_num($start_time,$end_time);
+        dd($r);
+
         $this->switch_tongji_database();
         $r = $this->t_parent_info->get_openid_list();
         dd($r);
