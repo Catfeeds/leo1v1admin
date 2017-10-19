@@ -148,4 +148,8 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 
         return $this->main_get_list($sql);
     }
+
+    public function update_score($id){
+        $sql = $this->gen_sql_new("  update %s set score=score*10  ");
+    }
 }
