@@ -365,7 +365,7 @@ class ajax_deal2 extends Controller
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
-        $score            = $this->get_in_int_val("score");
+        $score            = $this->get_in_str_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
         $semester         = $this->get_in_int_val("semester");

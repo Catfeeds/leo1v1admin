@@ -1723,4 +1723,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             return $item["id"];
         } );
     }
+    //设置用户为会员
+    public function set_add_type_2( $id) {
+
+    }
 }
