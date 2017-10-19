@@ -9713,7 +9713,8 @@ lesson_type in (0,1) "
             ["train_through_new_time>%u", $start_time, 0],
             ["train_through_new_time<%u", $end_time, 0],
             "train_through_new=1",
-            "is_test_user=0"
+            "is_test_user=0",
+            "train_type=2"
         ];
         $table = t_teacher_info::DB_TABLE_NAME;
         $sql = "select count(*) from %s where %s";
