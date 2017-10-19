@@ -719,7 +719,7 @@ class stu_manage extends Controller
             $show_flag++;
         }
         $ass_role = $this->get_account_role();
-        if ($ass_role == 10 || $ass_role==12 ) {
+        if ($ass_role == 10 ) {
             $show_flag++;
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
