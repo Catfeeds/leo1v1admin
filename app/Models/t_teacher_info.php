@@ -3838,7 +3838,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "status=1",
         ];
 
-        $sql = $this->gen_sql_new("select identity,count(*) from %s where %s group by identity",
+        $sql = $this->gen_sql_new("select identity,count(*) sum from %s where %s group by identity",
                                   t_teacher_lecture_info::DB_TABLE_NAME,
                                   $whereArr
         );
@@ -3926,7 +3926,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = "select count(*) from %s where %s";
         $res = $this->get_three_maj_sub($sql, $whereArr, t_teacher_lecture_info::DB_TABLE_NAME);
 
-        $sql = $this->gen_sql_new("select subject,count(*) from %s where %s group by subject",
+        $sql = $this->gen_sql_new("select subject,count(*) sum from %s where %s group by subject",
                                   t_teacher_lecture_info::DB_TABLE_NAME,
                                   $whereArr
         );

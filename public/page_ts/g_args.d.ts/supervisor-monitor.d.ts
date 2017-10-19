@@ -55,23 +55,24 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/supervisor-monitor.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date:	$('#id_date').val(),
+		st_application_nick:	$('#id_st_application_nick').val(),
+		require_adminid:	$('#id_require_adminid').val(),
+		test_seller_id:	$('#id_test_seller_id').val(),
+		seller_flag:	$('#id_seller_flag').val(),
+		userid:	$('#id_userid').val(),
+		teacherid:	$('#id_teacherid').val(),
+		run_flag:	$('#id_run_flag').val(),
+		assistantid:	$('#id_assistantid').val(),
+		group_type:	$('#id_group_type').val(),
+		self_groupid:	$('#id_self_groupid').val(),
+		is_group_leader_flag:	$('#id_is_group_leader_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date:	$('#id_date').val(),
-			st_application_nick:	$('#id_st_application_nick').val(),
-			require_adminid:	$('#id_require_adminid').val(),
-			test_seller_id:	$('#id_test_seller_id').val(),
-			seller_flag:	$('#id_seller_flag').val(),
-			userid:	$('#id_userid').val(),
-			teacherid:	$('#id_teacherid').val(),
-			run_flag:	$('#id_run_flag').val(),
-			assistantid:	$('#id_assistantid').val(),
-			group_type:	$('#id_group_type').val(),
-			self_groupid:	$('#id_self_groupid').val(),
-			is_group_leader_flag:	$('#id_is_group_leader_flag').val()
-        });
-    }
 
 
 	$('#id_date').val(g_args.date);
