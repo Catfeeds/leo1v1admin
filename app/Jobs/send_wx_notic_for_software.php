@@ -31,17 +31,17 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
 
         $t_parent_info = new  \App\Models\t_parent_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-        // $parent_list = $t_parent_info->get_openid_list();
+        $parent_list = $t_parent_info->get_openid_list();
 
         $wx = new \App\Helper\Wx();
 
-        $parent_list = [
-            [
-                'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-                'parentid' => '271968'
+        // $parent_list = [
+        //     [
+        //         'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        //         'parentid' => '271968'
 
-            ]
-        ];
+        //     ]
+        // ];
 
         foreach($parent_list as $item){
             $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';

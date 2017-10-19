@@ -265,8 +265,15 @@ class teacher_level extends Controller
         $record_score_avg  = $this->get_in_str_val("record_score_avg");
         $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
         $total_score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
-        $total_score =$item["total_score"]-$item["record_final_score"]+$record_final_score;
-        
+        $record_final_score_old = $this->t_teacher_advance_list->get_record_final_score($start_time,$teacherid);
+        $total_score =$total_score-$record_final_score_old+$record_final_score;
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "record_final_score" =>$record_final_score,
+            "record_num"         =>$record_num,
+            "record_score_avg"   =>$record_score_avg,
+            "total_score"        =>$total_score
+        ]);
+        return $this->output_succ(); 
 
     }
 
