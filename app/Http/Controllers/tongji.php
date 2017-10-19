@@ -1898,11 +1898,11 @@ class tongji extends Controller
                 $match_num++;
             } else {
                 if(!in_array($val['succ_userid'],$succ_arr)){
-                    array_push($val['succ_userid'],$succ_arr);
+                    array_push($succ_arr,$val['succ_userid']);
                 }
             }
             if(!in_array($val['stu_userid'],$stu_arr)){
-                array_push($val['stu_userid'],$stu_arr);
+                array_push($stu_arr,$val['stu_userid']);
             }
 
         }

@@ -3080,9 +3080,9 @@ class user_deal extends Controller
         $tea_arr=[53534];
         $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr,1);
         $kk_test_person_num     = $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
-        dd($kk_test_person_num);
         $change_test_person_num = $this->t_lesson_info->get_change_teacher_test_person_num_list(
             $start_time,$end_time,-1,-1,$tea_arr);
+        //   dd($change_test_person_num);
 
         dd($cr_list);
 
