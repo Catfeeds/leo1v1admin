@@ -54,7 +54,9 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["lesson_count"] = $item["lesson_count"]/100;
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
- 
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;;
+            $item["record_final_score"]=$record_final_score;
         }
 
 
@@ -803,6 +805,10 @@ class teacher_level extends Controller
             E\Eaccept_flag::set_item_value_str($item);
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["test_total_score"] = $item["cc_order_score"]+$item["other_order_score"];
+            $record_final_score = !empty($item["record_num"])?round($item["record_score_avg"]*0.3,1):18;
+            $item["total_score"] =$item["total_score"]-$item["record_final_score"]+$record_final_score;;
+            $item["record_final_score"]=$record_final_score;
+
  
         }
         

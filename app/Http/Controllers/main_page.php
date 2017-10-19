@@ -1908,6 +1908,7 @@ class main_page extends Controller
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
             $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]/100:0;//课耗收入
+            $item["cc_tran_money"]          = isset($ass_month[$k]["cc_tran_money"])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍
 
 
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
@@ -1977,6 +1978,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["cc_tran_money"]       += $val["cc_tran_money"];
             @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
         }
 
