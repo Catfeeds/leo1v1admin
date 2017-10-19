@@ -3090,7 +3090,6 @@ class user_deal extends Controller
 
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user,2);
-        dd(111);
         foreach($ret_info["list"] as $item){
             $teacherid = $item["teacherid"];
             $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
@@ -3138,7 +3137,7 @@ class user_deal extends Controller
             }
       
             $other_order_per = !empty($other_test_num)?round($other_order_num/$other_test_num*100,2):0;*/
-            $other_order_score = $this->get_other_order_score($item["cc_order_num"],$item["cc_order_per"]);
+            $other_order_score = $this->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
 
             $record_num = $record_score=0;
             foreach($teacher_record_score as $val){
@@ -3270,6 +3269,94 @@ class user_deal extends Controller
 
 
     }
+
+        public function get_other_order_score($num,$per){
+        if($num==1 && $per==100){
+            return 2;
+        }elseif($num==2 && $per==100){
+            return 3;  
+        }elseif($num==3 && $per==100){
+            return 4;  
+        }elseif($num>=4 && $per==100){
+            return 5;  
+        }elseif($per <20){
+            return 1;
+        }elseif($per >=20 && $per <40){
+            return 2;
+        }elseif($per >=40 && $per <60){
+            return 3;
+        }elseif($per >=60 && $per <100){
+            return 4;
+        }
+
+
+    }
+
+    public function get_cc_order_score($num,$per){
+        if($num==1 && $per==100){
+            return 12;
+        }elseif($num==2 && $per==100){
+            return 13;  
+        }elseif($num==3 && $per==100){
+            return 14;  
+        }elseif($num==4 && $per==100){
+             return 15;  
+        }elseif($per==0){
+            return 10;
+        }elseif($per <10 && $per>0){
+            return 9;
+        }elseif($per >=10 && $per <20){
+            return 11;
+        }elseif($per >=20 && $per <40){
+            return 12;
+        }elseif($per >=40 && $per <60){
+            return 13;
+        }elseif($per >=60 && $per <80){
+            return 14;
+        }elseif($per >=80){
+            return 15;
+        }
+
+
+    }
+    
+    public function get_stu_num_score($stu_num){
+        if($stu_num<8){
+            return 6;
+        }elseif($stu_num<12){
+            return 7;
+        }elseif($stu_num<16){
+            return 8;
+        }elseif($stu_num<20){
+            return 9;
+        }else{
+            return 10;
+        }
+    }
+    public function get_score_by_lesson_count($lesson_count){
+        if($lesson_count >=60 && $lesson_count <80){
+            return 26;
+        }elseif($lesson_count >=60 && $lesson_count <100){
+            return 28;
+        }elseif($lesson_count >=100 && $lesson_count <120){
+            return 30;
+        }elseif($lesson_count >=120 && $lesson_count <140){
+            return 32;
+        }elseif($lesson_count >=140 && $lesson_count <160){
+            return 34;
+        }elseif($lesson_count >=160 && $lesson_count <180){
+            return 36;
+        }elseif($lesson_count >=180 && $lesson_count <200){
+            return 38;
+        }elseif($lesson_count>=200){
+            return 40;
+        }else{
+            return 0;
+        }
+
+
+    }
+
     
 
     public function get_admin_wx_info() {

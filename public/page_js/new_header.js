@@ -234,10 +234,16 @@ function table_init() {
         var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
 
         var pathname = window.location.pathname;
-        window.g_load_data_flag = window.localStorage.getItem(pathname);
-        if ( window.load_data && window.g_load_data_flag    ) {
+        g_load_data_flag = window.localStorage.getItem(pathname);
+        if(g_load_data_flag){//点击查询
+            $('#id_now_refresh').html('立即查询');
+        }else{
+            $('#id_now_refresh').html('点击查询');
+        }
+        if ( window.load_data && g_load_data_flag) {
             row_query.append( query_attime );
             query_attime.find("button") .on("click",function(){
+                g_load_data_flag = 0;
                 window.load_data();
             });
         }
@@ -798,9 +804,11 @@ $(function(){
             if(g_load_data_flag == 1){
                 window.localStorage.removeItem(pathname);//删除
                 alert('设置为[立即查询]');
+                window.location.reload();
             }else{
                 window.localStorage.setItem(pathname,1);//存
                 alert('设置为[点击查询]');
+                window.location.reload();
             }
         }else{
             alert('浏览器不支持localstorage');
