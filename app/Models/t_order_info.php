@@ -989,14 +989,14 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
                                   ."if(gm.month_money,gm.month_money,0) month_money "
-                                  ." from %s o , %s s , %s m,  %s gu,   %s g , %s gm "
-                                  ." where ".
-                                  " o.userid = s.userid and ".
-                                  " o.sys_operator =m.account and ".
-                                  " m.uid=gu.adminid and ".
-                                  " gu.groupid =g.groupid and ".
-                                  " gm.groupid =g.groupid and gm.month = %s and ".
-                                  "  %s group by g.groupid order by all_price desc  ",
+                                  ." from %s o "
+                                  ." left join %s s on o.userid = s.userid "
+                                  ." left join %s m on o.sys_operator =m.account "
+                                  ." left join %s gu on m.uid=gu.adminid "
+                                  ." left join %s g on gu.groupid =g.groupid "
+                                  ." left join %s gm on gm.groupid =g.groupid and gm.month = %s "
+                                  ." where %s "
+                                  ."  group by g.groupid order by all_price desc  ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
