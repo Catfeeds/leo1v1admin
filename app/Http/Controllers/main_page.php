@@ -1627,9 +1627,6 @@ class main_page extends Controller
         $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
         // 老师类型培训合格
         $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-        //foreach($type_ret_info as $key => &$item) {
-            //E\Eidentity::set_item_value_str($item, "identity");
-            //}
 
         //$type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
         // 模拟试听排课人数
