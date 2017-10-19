@@ -1602,8 +1602,6 @@ class user_deal extends Controller
 
         if($ret_row) {
             $error_lessonid=$ret_row["lessonid"];
-            $this->t_lesson_info->rollback();
-            $this->t_homework_info->rollback();
             return $this->output_err(
                 "<div>有现存的<div style='color:red'>学生</div>课程与该课程时间冲突！"
                 ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
@@ -1616,8 +1614,6 @@ class user_deal extends Controller
 
         if($ret_row) {
             $error_lessonid=$ret_row["lessonid"];
-            $this->t_lesson_info->rollback();
-            $this->t_homework_info->rollback();
             return $this->output_err(
                 "<div>有现存的<div  style='color:red'>老师</div>课程与该课程时间冲突！"
                 ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
@@ -1625,8 +1621,8 @@ class user_deal extends Controller
             );
         }
 
-
-        $this->t_course_order->row_insert([
+        $this->t_lesson_info->start_transaction();
+        $res = $this->t_course_order->row_insert([
             "userid"                => $userid,
             "teacherid"             => $teacherid,
             "subject"               => $subject,
@@ -1641,10 +1637,18 @@ class user_deal extends Controller
             "course_status"         => 0,
             "is_kk_flag"            => 0
         ]);
+        if(!$res) {
+            $this->t_lesson_info->rollback();
+            return $this->output_err('排课失败,请刷新重试!');
+        }
+
         $courseid_type0 = $this->t_course_order->get_last_insertid();
 
-        $this->t_course_order->row_insert([
-            "userid"                => $userid,
+
+        $lesson_total = floor($lesson_num/2);
+
+        $res = $this->t_course_order->row_insert([
+            "userid"                => 0,
             "teacherid"             => $teacherid,
             "subject"               => $subject,
             "grade"                 => $stu_info['grade'],
@@ -1658,8 +1662,26 @@ class user_deal extends Controller
             "course_status"         => 0,
             "is_kk_flag"            => 0,
             "course_type"           => 3001,
+            "course_name"           => '自动排课-小班课',
+            "lesson_total"          => $lesson_total,
+            "stu_total"             =>1,
         ]);
+        if(!$res) {
+            $this->t_lesson_info->rollback();
+            return $this->output_err('排课失败,请刷新重试!');
+        }
+
         $courseid_type3001 = $this->t_course_order->get_last_insertid();
+
+        $res = $this->t_small_class_user->row_insert([
+            "courseid"  => $courseid_type3001,
+            "userid"    => $userid,
+            "join_time" => time(),
+        ]);
+        if(!$res) {
+            $this->t_lesson_info->rollback();
+            return $this->output_err('排课失败,请刷新重试!');
+        }
 
 
         //排课
@@ -1675,12 +1697,18 @@ class user_deal extends Controller
                 $courseid = $courseid_type3001;
                 $type = 3001;
             }
-            $this->auto_add_lesson($courseid,$userid,$teacherid,$stu_info["assistantid"],
+           $res = $this->auto_add_lesson($courseid,$userid,$teacherid,$stu_info["assistantid"],
                                    $start, $end,$stu_info['grade'],$subject,
                                    $teacher_info['teacher_money_type'],$teacher_info['level'],
                                    $competition_flag,$type);
 
+            if(!$res) {
+                $this->t_lesson_info->rollback();
+                return $this->output_err('排课失败,请刷新重试!');
+            }
+
         }
+        $this->t_lesson_info->commit();
         return $this->output_succ();
     }
 
@@ -1695,17 +1723,29 @@ class user_deal extends Controller
                 $competition_flag
             );
         } else {
-            // $lessonid = $this->t_lesson_info->add_lesson(
-            //     $courseid,0,0,0,$type,$teacherid,
-            //     $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
-            //     $teacher_money_type,$level,
-            //     $competition_flag
-            // );
+            $lessonid = $this->t_lesson_info->add_lesson(
+                $courseid,0,0,0,$type,$teacherid,
+                $assistantid,$lesson_start,$lesson_end,$grade,$subject,0,
+                $teacher_money_type,$level,
+                $competition_flag
+            );
 
-            // $this->t_small_lesson_info->
+           $res = $this->t_small_lesson_info->row_insert([
+                    "lessonid" => $lessonid,
+                    "userid"   => $userid,
+                ]);
+
+            if(!$res) {
+                return false;
+            }
+
         }
 
+        if(!$lessonid) {
+            return false;
+        }
         $this->t_lesson_info->reset_lesson_list($courseid);
+        return true;
     }
 
     public function course_add(){
@@ -3039,9 +3079,59 @@ class user_deal extends Controller
         // $end_time =strtotime("2017-10-01");
         //薪资展示
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        $master_arr=[];
         foreach($ass_month as &$val){
-            $list=$this->get_ass_percentage_money_list($val); 
+            $list=$this->get_ass_percentage_money_list($val);
+            $val["lesson_price_money"] = $list["lesson_money"];
+            $val["kk_money"] = $list["kk_money"];
+            $val["renw_money"] = $list["renw_money"];
+            $val["tran_num_money"] = $list["tran_num_money"];
+            $val["cc_tran_money"] = $list["cc_tran_money"];
+            $val["all_money"] = $list["all_money"];
+            if(!isset( $master_arr[$val["master_adminid"]])){
+                $master_arr[$val["master_adminid"]] =$val["master_adminid"];
+            }
+
+        }        
+        \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
+        $i=1;
+        foreach($ass_month as &$v){
+            $v["num_range"]=$i;
+            $i++;
         }
+        $account_id = $this->get_account_id();
+        $account_id = 702;
+        $account_role = $this->get_account_role();
+        if( $account_id==396 || $account_id==186){
+            echo 111; 
+        }elseif(in_array($account_id,$master_arr)){
+            foreach($ass_month as $k=>$tt){
+                if($tt["master_adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+        }else{
+            foreach($ass_month as $k=>$tt){
+                if($tt["adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+
+        }
+        dd($ass_month);
+
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        foreach($ass_month as &$val){
+            $list=$this->get_ass_percentage_money_list($val);
+            $val["lesson_price_money"] = $list["lesson_money"];
+            $val["kk_money"] = $list["kk_money"];
+            $val["renw_money"] = $list["renw_money"];
+            $val["tran_num_money"] = $list["tran_num_money"];
+            $val["cc_tran_money"] = $list["cc_tran_money"];
+            $val["all_money"] = $list["all_money"];
+
+        }
+        dd($ass_month);
 
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
         dd($assistant_renew_list);
@@ -5554,7 +5644,7 @@ class user_deal extends Controller
         $hand_tran_num  = $this->get_in_int_val("hand_tran_num");
         $this->t_month_ass_student_info->get_field_update_arr($adminid,$month,$kpi_type,[
             "hand_kk_num"  =>$hand_kk_num,
-            "hand_tran_num"=>$hand_tran_num 
+            "hand_tran_num"=>$hand_tran_num
         ]);
         return $this->output_succ();
 

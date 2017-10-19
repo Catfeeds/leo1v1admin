@@ -593,6 +593,46 @@ class main_page extends Controller
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
        
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        $master_arr=[];
+        foreach($ass_month as &$val){
+            $list=$this->get_ass_percentage_money_list($val);
+            $val["lesson_price_money"] = $list["lesson_money"];
+            $val["kk_money"] = $list["kk_money"];
+            $val["renw_money"] = $list["renw_money"];
+            $val["tran_num_money"] = $list["tran_num_money"];
+            $val["cc_tran_price"] = $list["cc_tran_money"];
+            $val["all_money"] = $list["all_money"];
+            if(!isset($master_arr[$val["master_adminid"]])){
+                $master_arr[$val["master_adminid"]] =$val["master_adminid"];
+            }
+
+        }        
+        \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
+        $i=1;
+        foreach($ass_month as &$v){
+            $v["num_range"]=$i;
+            $i++;
+        }
+        $account_id = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        if($account_role==12 || $account_id==396 || $account_id==186){
+            
+        }elseif(in_array($account_id,$master_arr)){
+            foreach($ass_month as $k=>$tt){
+                if($tt["master_adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+        }else{
+            foreach($ass_month as $k=>$tt){
+                if($tt["adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+
+        }
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,
             "end_time" => $end_time_date,
@@ -608,6 +648,7 @@ class main_page extends Controller
             "warning"      => $warning_type_num,
             "month_info"   => $month_info,
             "today_info"   => $today_info,
+            "ass_month"    =>  $ass_month
         ]);
 
     }
@@ -1538,6 +1579,148 @@ class main_page extends Controller
         ]);
     }
 
+    // 招师例子流 面试通过到模拟试听通过
+    public function recruit_division() {
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        // 科目培训合格
+        $ret_info = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
+        // foreach($ret_info as $key => &$item) {
+        //     if (isset($item['grade'])) {
+        //         E\Esubject::set_item_value_str($item, "subject");
+        //         E\Egrade::set_item_value_str($item, "grade");
+        //     } else {
+        //         $item['grade_str'] = '';
+        //         E\Esubject::set_item_value_str($item, "subject");
+        //     }
+        // }
+        //dd($ret_info);
+        // 模拟试听排课人数
+        $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+        // 模拟试听上课人数
+        $attend_lesson = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
+        // 模拟试听通过人数
+        $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time);
+        // dd($adopt_lesson);
+        $total['sum'] = 0;
+        $total['imit_sum'] = 0;
+        $total['attend_sum'] = 0;
+        $total['adopt_sum'] = 0;
+        foreach($ret_info as $key => &$item) {
+            if (isset($item['grade'])) {
+                E\Esubject::set_item_value_str($item, "subject");
+                E\Egrade::set_item_value_str($item, "grade");
+            } else {
+                $item['grade_str'] = '';
+                E\Esubject::set_item_value_str($item, "subject");
+            }
+            $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
+            $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
+            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
+            $total['sum'] += $item['sum'];
+            $total['imit_sum'] += $imit_lesson[$key]['sum'];
+            $total['attend_sum'] += $attend_lesson[$key]['sum'];
+            $total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+        }
+        //dd($adopt_lesson);
+        //dd($ret_info);
+        // 老师类型培训合格
+        $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+        //foreach($type_ret_info as $key => &$item) {
+            //E\Eidentity::set_item_value_str($item, "identity");
+            //}
+        
+        // 模拟试听排课人数
+        $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
+        // 模拟试听上课人数
+        $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
+        // 模拟试听通过人数
+        $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
+        $type_total['sum'] = 0;
+        $type_total['imit_sum'] = 0;
+        $type_total['attend_sum'] = 0;
+        $type_total['adopt_sum'] = 0;
+        foreach($type_ret_info as $key => &$item) {
+            E\Eidentity::set_item_value_str($item, "identity");
+            $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
+            $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
+            $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
+            $type_total['sum'] += $item['sum'];
+            $type_total['imit_sum'] += $imit_lesson[$key]['sum'];
+            $type_total['attend_sum'] += $attend_lesson[$key]['sum'];
+            $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+        }
+        return $this->pageView(__METHOD__, null, [
+            "ret_info" => $ret_info,
+            "type_ret_info" => $type_ret_info,
+            "total" => $total,
+            "type_total" => $type_total
+        ]);
+    }
+
+    // 招师例子流 培训通过 至 模拟试听通过
+    public function train_recruit_division() {
+        list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        // 面试通过人数
+        $ret_info = $this->t_teacher_info->get_interview_through_count($start_time, $end_time);
+        dd($ret_info);
+        // 科目培训合格
+        $ret_info = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
+        // 模拟试听排课人数
+        $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
+        // 模拟试听上课人数
+        $attend_lesson = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
+        // 模拟试听通过人数
+        $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time);
+        // dd($adopt_lesson);
+        $total['sum'] = 0;
+        $total['imit_sum'] = 0;
+        $total['attend_sum'] = 0;
+        $total['adopt_sum'] = 0;
+        foreach($ret_info as $key => &$item) {
+            if (isset($item['grade'])) {
+                E\Esubject::set_item_value_str($item, "subject");
+                E\Egrade::set_item_value_str($item, "grade");
+            } else {
+                $item['grade_str'] = '';
+                E\Esubject::set_item_value_str($item, "subject");
+            }
+            $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
+            $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
+            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
+            $total['sum'] += $item['sum'];
+            $total['imit_sum'] += $imit_lesson[$key]['sum'];
+            $total['attend_sum'] += $attend_lesson[$key]['sum'];
+            $total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+        }
+        // 老师类型培训合格
+        $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+        // 模拟试听排课人数
+        $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
+        // 模拟试听上课人数
+        $attend_lesson = $this->t_lesson_info->get_attend_lesson_type_count($start_time, $end_time);
+        // 模拟试听通过人数
+        $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
+        $type_total['sum'] = 0;
+        $type_total['imit_sum'] = 0;
+        $type_total['attend_sum'] = 0;
+        $type_total['adopt_sum'] = 0;
+        foreach($type_ret_info as $key => &$item) {
+            E\Eidentity::set_item_value_str($item, "identity");
+            $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
+            $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
+            $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
+            $type_total['sum'] += $item['sum'];
+            $type_total['imit_sum'] += $imit_lesson[$key]['sum'];
+            $type_total['attend_sum'] += $attend_lesson[$key]['sum'];
+            $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
+        }
+        return $this->pageView(__METHOD__, null, [
+            "ret_info" => $ret_info,
+            "type_ret_info" => $type_ret_info,
+            "total" => $total,
+            "type_total" => $type_total
+        ]);
+    }
 
     public function assistant_new() {
         $this->switch_tongji_database();
@@ -1608,6 +1791,8 @@ class main_page extends Controller
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
+            $item["hand_tran_num"]  = isset($ass_month[$k]["hand_tran_num"])?$ass_month[$k]["hand_tran_num"]:0;//手动确认转介绍人数
+            $item["cc_tran_money"]  = isset($ass_month[$k]["cc_tran_money"])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍金额
 
         }
 

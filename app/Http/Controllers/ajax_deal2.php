@@ -1412,6 +1412,7 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
 
     }
+
     public function email_group_add()  {
         $title=trim($this->get_in_str_val("title"));
         $email=trim($this->get_in_str_val("email"));

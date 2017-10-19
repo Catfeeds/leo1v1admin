@@ -326,66 +326,72 @@ class teacher_level extends Controller
 
     }
     public function get_other_order_score($num,$per){
-        if($num<=0){
-            return 5;
-        }elseif($per <60){
+        if($num==1 && $per==100){
+            return 2;
+        }elseif($num==2 && $per==100){
+            return 3;  
+        }elseif($num==3 && $per==100){
+            return 4;  
+        }elseif($num>=4 && $per==100){
+            return 5;  
+        }elseif($per <20){
+            return 1;
+        }elseif($per >=20 && $per <40){
+            return 2;
+        }elseif($per >=40 && $per <60){
+            return 3;
+        }elseif($per >=60 && $per <100){
             return 4;
-        }elseif($per >=60 && $per <70){
-            return 5;
-        }elseif($per >=70 && $per <80){
-            return 6;
-        }elseif($per >=80 && $per <90){
-            return 7;
-        }elseif($per >=90 ){
-            return 8;
         }
 
 
     }
 
     public function get_cc_order_score($num,$per){
-        if($num<=0){
-            return 7;
-        }elseif($per <15){
-            return 6;
-        }elseif($per >=15 && $per <20){
-            return 7;
-        }elseif($per >=20 && $per <25){
-            return 8;
-        }elseif($per >=25 && $per <30){
-            return 9;
-        }elseif($per >=30 && $per <35){
-            return 10;
-        }elseif($per >=35 && $per <40){
-            return 11;
-        }elseif($per >=40){
+        if($num==1 && $per==100){
             return 12;
+        }elseif($num==2 && $per==100){
+            return 13;  
+        }elseif($num==3 && $per==100){
+            return 14;  
+        }elseif($num==4 && $per==100){
+             return 15;  
+        }elseif($per==0){
+            return 10;
+        }elseif($per <10 && $per>0){
+            return 9;
+        }elseif($per >=10 && $per <20){
+            return 11;
+        }elseif($per >=20 && $per <40){
+            return 12;
+        }elseif($per >=40 && $per <60){
+            return 13;
+        }elseif($per >=60 && $per <80){
+            return 14;
+        }elseif($per >=80){
+            return 15;
         }
 
 
     }
     
     public function get_score_by_lesson_count($lesson_count){
-        if($lesson_count >=60 && $lesson_count <70){
-            return 51;
-        }elseif($lesson_count >=70 && $lesson_count <80){
-            return 52;
-        }elseif($lesson_count >=80 && $lesson_count <90){
-            return 53;
-        }elseif($lesson_count >=90 && $lesson_count <100){
-            return 54;
-        }elseif($lesson_count >=100 && $lesson_count <110){
-            return 55;
-        }elseif($lesson_count >=110 && $lesson_count <120){
-            return 56;
-        }elseif($lesson_count >=120 && $lesson_count <130){
-            return 57;
-        }elseif($lesson_count >=130 && $lesson_count <140){
-            return 58;
-        }elseif($lesson_count >=140 && $lesson_count <150){
-            return 59;
-        }elseif($lesson_count>=150){
-            return 60;
+        if($lesson_count >=60 && $lesson_count <80){
+            return 26;
+        }elseif($lesson_count >=60 && $lesson_count <100){
+            return 28;
+        }elseif($lesson_count >=100 && $lesson_count <120){
+            return 30;
+        }elseif($lesson_count >=120 && $lesson_count <140){
+            return 32;
+        }elseif($lesson_count >=140 && $lesson_count <160){
+            return 34;
+        }elseif($lesson_count >=160 && $lesson_count <180){
+            return 36;
+        }elseif($lesson_count >=180 && $lesson_count <200){
+            return 38;
+        }elseif($lesson_count>=200){
+            return 40;
         }else{
             return 0;
         }
@@ -605,7 +611,7 @@ class teacher_level extends Controller
             "accept_info"    =>$accept_info
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        if($accept_flag==1 && in_array($teacherid,["50158","240314","392077"])){
+        if($accept_flag==1 ){
             $old_level = $this->t_teacher_info->get_level($teacherid);
             $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
             // $level_degree = E\Elevel::v2s($level_after);
@@ -618,11 +624,10 @@ class teacher_level extends Controller
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
-            $level_start = strtotime(date("Y-m-d",time()));
+            $level_start = strtotime(date("Y-m-01",time()));
             $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
             $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
-            
             //微信通知老师
             /**
              * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
@@ -641,36 +646,32 @@ class teacher_level extends Controller
                 $data['first']    = "恭喜".$realname."老师,您已经成功晋级到了".$level_degree;
                 $data['keyword1'] = $realname;
                 $data['keyword2'] = $level_degree;
-                $data['keyword3'] = "十月一日";
+                $data['keyword3'] = date("Y-m-01 00:00",time());
                 /* $data['remark']   = "晋升分数:".$score
                    ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";*/
                 $data['remark']   = "希望老师在今后的教学中继续努力,再创佳绩";
 
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
-                // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
-            //邮件推送
-            $html = $this->teacher_level_up_html($info);
+            //邮件推送 暂时不推
+            /* $html  = $this->teacher_level_up_html($info);
             $email = $this->t_teacher_info->get_email($teacherid);
             // $email = "jack@leoedu.com";
             if($email){
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
+                }*/
 
- 
-            }
-
-           
             //微信通知教研
             $subject = $this->t_teacher_info->get_subject($teacherid);
             $master_adminid = $this->get_tea_adminid_by_subject($subject);
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
             $jy_teacherid = $teacher_info["teacherid"];
             $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            //  $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
@@ -740,6 +741,68 @@ class teacher_level extends Controller
 
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user);
+        $arr=$ret_info["list"];
+        foreach($arr as &$item){
+            $teacherid = $item["teacherid"];
+            $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+            // $realname ="胡玉梅";
+            $tea_arr=[];
+            $tea_arr[] = $teacherid;
+            if($transfer_teacherid>0){
+                $tea_arr[]= $transfer_teacherid;
+            }
+            $teacher_money_type = $item["teacher_money_type"];
+            $lesson_total = $this->t_teacher_info->get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,"",$tea_arr);
+            $lesson_count=0;
+            foreach($lesson_total as $val){
+                $lesson_count +=$val["lesson_count"];
+            }
+            $lesson_count = round($lesson_count/3,1);
+            $lesson_count_score = $this->get_score_by_lesson_count($lesson_count/100);
+
+            //  $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        
+
+            //$kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+            // $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+
+            $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+            /* $cc_test_num=$cc_order_num=0;
+            foreach($test_person_num as $val){
+                $cc_test_num +=$val["person_num"];
+                $cc_order_num +=$val["have_order"];
+            }
+        
+            $cc_order_per= !empty($cc_test_num)?round($cc_order_num/$cc_test_num*100,2):0;*/
+            $cc_order_score = $this->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
+
+            /*$other_test_num = $other_order_num=0;
+            foreach($kk_test_person_num as $val){
+                $other_test_num +=$val["kk_num"];
+                $other_order_num +=$val["kk_order"];
+
+            }
+            foreach($change_test_person_num as $val){
+                $other_test_num +=$val["change_num"];
+                $other_order_num +=$val["change_order"];
+            }
+      
+            $other_order_per = !empty($other_test_num)?round($other_order_num/$other_test_num*100,2):0;*/
+            $other_order_score = $this->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
+
+            $record_num = $record_score=0;
+            foreach($teacher_record_score as $val){
+                $record_num +=$val["num"];
+                $record_score +=$val["score"];
+            }
+            $record_score_avg = !empty($record_num)?round($record_score/$record_num,1):0;
+            $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
+
+            //常规学生数
+            $total_score = $lesson_count_score+$cc_order_score+ $other_order_score+$record_final_score;
+ 
+        }
+        dd($ret_info["list"]);
         foreach($ret_info["list"] as &$item){
             if($item["teacher_money_type"]==6){
                 E\Enew_level::set_item_value_str($item,"level_before");

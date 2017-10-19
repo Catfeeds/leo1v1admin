@@ -1029,7 +1029,30 @@ class wx_parent_api extends Controller
             "rank_down"             => $rank_down,
         ],false,false,true);
 
+
+
         if($ret_info){
+            $send_openid = $this->t_student_info->get_ass_openid($userid);
+
+            if(!$send_openid ){
+                $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            }
+
+            $stu_nick = $this->cache_get_teacher_nick($userid);
+
+            $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待办事项提醒
+            $data_msg = [
+                "first"     => "$stu_nick 同学的家长上传了学生成绩",
+                "keyword1"  => "成绩录入提醒",
+                "keyword2"  => "点击详情进行查看",
+                "keyword3"  => date('Y-m-d H:i:s'),
+            ];
+            $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
+            $wx=new \App\Helper\Wx();
+
+
+            $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
+
             return $this->output_succ();
         }else{
             return $this->output_err('成绩录入失败,请稍后重试!');
