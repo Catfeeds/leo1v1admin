@@ -18,20 +18,30 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
      */
     public function __construct()
     {
-        //
+
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+
         $t_parent_info = new  \App\Models\t_parent_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-        // $parent_list = $t_parent_info->get_openid_list();
+        $parent_list = $t_parent_info->get_openid_list();
 
         $wx = new \App\Helper\Wx();
 
-        $parent_list = [
-            [
-                'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-                'parentid' => '271968'
+        // $parent_list = [
+        //     [
+        //         'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        //         'parentid' => '271968'
 
-            ]
-        ];
+        //     ]
+        // ];
 
         foreach($parent_list as $item){
             $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
@@ -59,27 +69,17 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
 
              */
 
-            $ret = $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
+            $ret = @$wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
 
             if($ret){
-                // $t_parent_send_mgs_log->row_insert([
-                //     "parentid" => $item['parentid'],
-                //     "create_time" => time(),
-                //     "is_send_flag" => 1
-                // ]);
+                $t_parent_send_mgs_log->row_insert([
+                    "parentid" => $item['parentid'],
+                    "create_time" => time(),
+                    "is_send_flag" => 1
+                ]);
             }
 
         }
 
-    }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        //
     }
 }

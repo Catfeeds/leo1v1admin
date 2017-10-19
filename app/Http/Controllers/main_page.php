@@ -312,6 +312,7 @@ class main_page extends Controller
         if($start_time == 1506787200){//10月,10.3-10.31
             $start_time = 1506960000;
         }
+        $start_first = date('Y-m-01',$start_time);
         $adminid=$this->get_account_id();
 
         //判断top25,排课情况每月40
@@ -370,9 +371,8 @@ class main_page extends Controller
         }else{
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
-
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
 
         $ret_info_first = [];
         $ret_info_two = [];
@@ -1916,6 +1916,7 @@ class main_page extends Controller
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             // $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
             $item["lesson_money"]          = isset($ass_month[$k]["lesson_money"])?$ass_month[$k]["lesson_money"]/100:0;//课耗收入
+            $item["cc_tran_money"]          = isset($ass_month[$k]["cc_tran_money"])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍
 
 
             $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
@@ -1985,6 +1986,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["cc_tran_money"]       += $val["cc_tran_money"];
             @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
         }
 
@@ -2145,6 +2147,8 @@ class main_page extends Controller
             $item["end_stu_num"]  = isset($ass_month[$k]["end_stu_num"])?$ass_month[$k]["end_stu_num"]:0;//结课学生
             //$item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;//在读学生
             $item["lesson_student"]  = isset($ass_month[$k]["lesson_student"])?$ass_month[$k]["lesson_student"]:0;//在读学生
+            $item["cc_tran_money"]          = isset($ass_month[$k]["cc_tran_money"])?$ass_month[$k]["cc_tran_money"]/100:0;//CC转介绍
+
 
 
 
@@ -2201,6 +2205,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
             @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
             @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            @$ass_group[$master_adminid_ass]["cc_tran_money"]       += $val["cc_tran_money"];
             @$ass_group[$master_adminid_ass]["group_name"]  = $val["group_name"];
 
 
@@ -2250,6 +2255,7 @@ class main_page extends Controller
             @$stu_info["renw_target"]           += @$item1["renw_target"];
             //$item["renw_per"]              = !empty($item["renw_target"])?round($item["renw_price"]/$item["renw_target"],4)*100:0;
             @$stu_info["renw_stu_target"]       += @$item1["renw_stu_target"];
+            @$stu_info["cc_tran_money"]       += @$item1["cc_tran_money"];
             //$item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
         }
         $stu_info["lesson_ratio"]          = !empty($stu_info["read_student_last"])?round($stu_info["lesson_total_old"]/$stu_info["read_student_last"],1):0;
@@ -2283,6 +2289,7 @@ class main_page extends Controller
                 $melon_info["new_refund_money"]  = $melon_info["new_refund_money"]/100;
                 $melon_info["renw_refund_money"]  = $melon_info["renw_refund_money"]/100;
                 $melon_info["new_lesson_count"]  = $melon_info["new_lesson_count"]/100;
+                $melon_info["cc_tran_money"]  = $melon_info["cc_tran_money"]/100;
                 $melon_info["account"]=$tp["name"];
                 $melon_info["nick"]=$tp["name"];
 

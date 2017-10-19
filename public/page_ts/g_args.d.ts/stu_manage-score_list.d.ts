@@ -47,12 +47,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/stu_manage-score_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		sid:	$('#id_sid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			sid:	$('#id_sid').val()
-        });
-    }
 
 
 	$('#id_sid').val(g_args.sid);

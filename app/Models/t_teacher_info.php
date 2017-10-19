@@ -1075,6 +1075,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_teacherid_by_name($name){
+        $where_arr = [
+            ["realname='%s'",$name,""]
+        ];
+        $sql = $this->gen_sql_new("select teacherid "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
     public function get_teacherid_by_realname($realname){
         $time = strtotime("2016-12-21 14:00:00");
         $sql  = $this->gen_sql_new("select realname,l.teacherid,set_lesson_adminid,m.account,set_lesson_time,success_flag "
@@ -2434,13 +2447,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.confirm_flag <>2"
+            "l.confirm_flag <>2",
+            "l.lesson_type<1000",
+            "l.lesson_type <>2"
         ];
-        if($teacher_money_type==1){
-            $where_arr[]="l.lesson_type <>2";
-        }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
+        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,count(distinct l.userid) stu_num "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
                                   ." where %s group by t.teacherid having(lesson_count>=18000)",
                                   self::DB_TABLE_NAME,
@@ -2458,11 +2470,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
-            ["t.realname='%s'",$realname,""]
+            ["t.realname='%s'",$realname,""],
+            "l.lesson_type <>2",
+            "l.lesson_type<1000"
         ];
-        if($teacher_money_type==1){
-            $where_arr[]="l.lesson_type <>2";
-        }
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
         $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
@@ -2476,6 +2487,28 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
     }
+
+    public function get_teacher_lesson_stu_num($teacher_money_type,$start_time,$end_time,$arr=[]){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            "l.lesson_type <>2",
+            "l.lesson_type<1000"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
+        $sql = $this->gen_sql_new("select count(distinct l.userid) "
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid"
+                                  ." where %s  ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+
+
+    }
+
 
 
     public function get_teacher_info_by_money_type_new($teacher_money_type,$start_time,$end_time,$arr){

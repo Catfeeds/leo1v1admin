@@ -971,7 +971,7 @@ class wx_parent_api extends Controller
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
-        $score            = $this->get_in_int_val("score");
+        $score            = $this->get_in_str_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
         $semester         = $this->get_in_int_val("semester");
@@ -1011,6 +1011,7 @@ class wx_parent_api extends Controller
             $file_url = $ret_arr['alibaba_url_str'];
         }
 
+        $score = $score*10;
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -1029,7 +1030,32 @@ class wx_parent_api extends Controller
             "rank_down"             => $rank_down,
         ],false,false,true);
 
+
+
         if($ret_info){
+            $send_openid = $this->t_student_info->get_ass_openid($userid);
+
+            if(!$send_openid){ 
+                $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            }
+
+            \App\Helper\Utils::logger(" seller_send_upload4: $send_openid userid:$userid" );
+
+            $stu_nick = $this->cache_get_student_nick($userid);
+
+            $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待办事项提醒
+            $data_msg = [
+                "first"     => "$stu_nick 同学的家长上传了学生成绩",
+                "keyword1"  => "成绩录入提醒",
+                "keyword2"  => "点击详情进行查看",
+                "keyword3"  => date('Y-m-d H:i:s'),
+            ];
+            $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
+            $wx = new \App\Helper\Wx();
+
+
+            $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);
+
             return $this->output_succ();
         }else{
             return $this->output_err('成绩录入失败,请稍后重试!');
@@ -1041,6 +1067,11 @@ class wx_parent_api extends Controller
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $userid = $this->get_in_int_val('userid');
         $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid);
+
+        foreach($stu_score_list as &$item){
+            $item['score'] = $item['score']/10;
+        }
+
         return $this->output_succ(['data'=>$stu_score_list]);
     }
 

@@ -18,7 +18,7 @@ class update_ass_call_count extends Command
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = '每小时刷新一次,补漏';
 
     /**
      * Create a new command instance.
@@ -52,9 +52,9 @@ class update_ass_call_count extends Command
             }
         }
 
-        //2,然后查询助教的学情回访    每分钟查询上一分钟的
-        $end_time    = strtotime( date('Y-m-d H:i:00', $time) );
-        $start_time2 = $end_time-60;
+        //2,然后查询助教的学情回访    查询上一小时的信息
+        $end_time    = $time;
+        $start_time2 = $time-3600;
         $ret_info    = $task->t_revisit_info->get_revisit_type0_per_minute($start_time2, $end_time);
 
         //3,有学情回访后，在获取当日的其他回访信息
@@ -63,7 +63,7 @@ class update_ass_call_count extends Command
                 $uid      = $item['uid'];
                 $userid   = $item['userid'];
                 $revisit_time1 = $item['revisit_time1'];
-                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
+                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : '';
                 $ret_list = $task->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
 
                 foreach($ret_list as $val) {
@@ -80,16 +80,6 @@ class update_ass_call_count extends Command
                 }
             }
         }
-
-        //测试
-        // $task->t_revisit_call_count->row_insert([
-        //     'uid'           => 0,
-        //     'userid'        => 0,
-        //     'revisit_time1' => 0,
-        //     'revisit_time2' => 0,
-        //     'call_phone_id' => 0,
-        //     'create_time'   => $time,
-        // ]);
 
     }
 

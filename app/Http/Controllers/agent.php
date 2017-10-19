@@ -465,31 +465,19 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 380;
-        if(!in_array($adminid,[380,457])){
-            dd('a');
-        }else{
-            dd('b');
+        $res = [];
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $start_first = date('Y-m-01',$start_time);
+        $this->t_admin_group_user->switch_tongji_database();
+        $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first);
+        $num_info = $this->t_admin_group_user->get_group_num($start_time);
+        foreach($group_money_info as &$item){
+            $groupid = $item['groupid'];
+            if($groupid >0 && isset($num_info[$groupid])){
+                $res[$item['adminid']]['target_money'] =  $item['month_money']/$num_info[$groupid]['num'];
+            }
         }
-        $c = '';
-        if($c){
-            dd('a');
-        }else{
-            dd('b');
-        }
-        $adminid = 830;
-        $seller_level = E\Eseller_level::V_300;
-        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
-        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
-        if($face_pic && $seller_level>0){
-            $face_pic_str = substr($face_pic,-12,5);
-            $ex_str = $next_level.$face_pic_str;
-            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-            $ret = $this->t_manager_info->field_update_list($adminid,[
-                'level_face_pic'=>$level_face_pic,
-            ]);
-        }
-        dd($level_face_pic,$ret);
+        dd($res);
     }
 
     //处理等级头像

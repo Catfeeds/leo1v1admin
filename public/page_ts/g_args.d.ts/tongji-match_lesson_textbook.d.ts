@@ -13,29 +13,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	money	:any;
-	personal_money	:any;
-	month_money	:any;
-	test_lesson_count	:any;
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	main_type_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/admin_member_list.ts
+	 mkdir -p ../tongji; vi  ../tongji/match_lesson_textbook.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-admin_member_list.d.ts" />
+/// <reference path="../g_args.d.ts/tongji-match_lesson_textbook.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

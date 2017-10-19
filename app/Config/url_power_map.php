@@ -22,6 +22,7 @@ class url_power_map {
 			'/teacher_level/teacher_advance_info_list'	=>1401900,
 			'/teacher_level/get_teacher_advance_info_fulltime'	=>1402000,
 			'/teacher_level/teacher_switch_list_finally'	=>1401700,
+			'/tongji/match_lesson_textbook'	=>1402100,
 			'/supervisor/monitor'	=>1012200,
 			'/user_manage/all_users'	=>1010100,
 			'/user_manage/index'	=>1010200,

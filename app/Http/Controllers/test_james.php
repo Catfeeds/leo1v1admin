@@ -706,7 +706,7 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        // dd(1);
+        dd(1);
 
 
         dispatch(new send_wx_notic_for_software());
@@ -733,22 +733,40 @@ class test_james extends Controller
 
 
     public function dds(){
-        $to_url = 'wx_parent/score';
+        $list = $this->t_student_score_info->get_all_info();
 
-        $goto_url_arr=preg_split("/\//", $to_url);
-
-        dd($goto_url_arr);
-
-
-        $redirect_url=urlencode("http://wx-parent.leo1v1.com/wx_parent_common/wx_parent_jump_page?goto_url=$to_url" );
-
-        dd($redirect_url);
+        foreach($list as $itme){
+            $this->t_student_score_info->update_score($itme['id']);
+        }
+        dd($list);
     }
 
 
 
 
     public function ssss(){
+
+
+        $userid= $this->get_in_str_val('u');
+
+        $userid  = $userid*10;
+        dd($userid);
+
+        $ass_openid = $this->t_student_info->get_ass_openid($userid);
+
+        $check = 1;
+        $send_openid = 'cccc';
+
+        if(!$ass_openid ){
+            $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            $check = 2;
+
+        }
+
+
+
+        dd($ass_openid." ~ ".$send_openid." ~ ".$check);
+
         $first_group  = '咨询一部';
         $second_group = '咨询二部';
         $third_group  = '咨询三部';

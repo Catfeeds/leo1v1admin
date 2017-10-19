@@ -47,6 +47,8 @@
                     <td>签单数(其他)</td>
                     <td>转化率(其他)</td>
                     <td>转化率得分(其他)</td>
+                    <td>常规学生数</td>
+                    <td>常规学生数得分</td>
                     <td>反馈数量</td>
                     <td>反馈平均分数</td>
                     <td>教学质量评估分</td>
@@ -75,6 +77,8 @@
                         <td>{{@$var["other_order_num"]}} </td>
                         <td>{{@$var["other_order_per"]}}% </td>
                         <td>{{@$var["other_order_score"]}} </td>
+                        <td>{{@$var["stu_num"]}} </td>
+                        <td>{{@$var["stu_num_score"]}} </td>
 
                         <td>{{@$var["record_num"]}} </td>
                         <td>{{@$var["record_score_avg"]}} </td>
@@ -118,6 +122,10 @@
                                 @endif
                                 @if($var["accept_flag"]==0 && $var["require_time"]>0)
                                     <a class="opt-update-level-after" title="修改等级">修改等级</a>
+                                @endif
+                                @if($acc=="jack")
+                                    <a class="opt-del" title="删除">删除</a>
+                                    <a class="opt-edit" title="编辑">编辑</a>
                                 @endif
 
                             </div>

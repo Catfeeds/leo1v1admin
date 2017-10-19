@@ -140,4 +140,16 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_all_info(){
+        $sql = $this->gen_sql_new("  select score from %s s"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function update_score($id){
+        $sql = $this->gen_sql_new("  update %s set score=score*10  ");
+    }
 }

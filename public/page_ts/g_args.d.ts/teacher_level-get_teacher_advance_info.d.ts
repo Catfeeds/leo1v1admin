@@ -61,18 +61,19 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_level-get_teacher_advance_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_time:	$('#id_start_time').val(),
+		quarter_start:	$('#id_quarter_start').val(),
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		teacherid:	$('#id_teacherid').val(),
+		accept_flag:	$('#id_accept_flag').val(),
+		fulltime_flag_new:	$('#id_fulltime_flag_new').val(),
+		is_test_user:	$('#id_is_test_user').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_time:	$('#id_start_time').val(),
-			quarter_start:	$('#id_quarter_start').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val(),
-			teacherid:	$('#id_teacherid').val(),
-			accept_flag:	$('#id_accept_flag').val(),
-			fulltime_flag_new:	$('#id_fulltime_flag_new').val(),
-			is_test_user:	$('#id_is_test_user').val()
-        });
-    }
 
 
 	$('#id_start_time').val(g_args.start_time);

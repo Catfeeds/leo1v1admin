@@ -407,7 +407,7 @@ $(function(){
             ["每日最大排课数", id_limit_day_lesson_num],
             ["每周最大排课数", id_limit_week_lesson_num],
             ["每月最大排课数", id_limit_month_lesson_num],
-            ["教研老师周六排课数", id_saturday_lesson_num],
+            ["教研老师周六可排课时", id_saturday_lesson_num],
             ["教研周课时上限", id_week_lesson_count],
             ["是否CC要求",id_seller_require_flag]
         ];
