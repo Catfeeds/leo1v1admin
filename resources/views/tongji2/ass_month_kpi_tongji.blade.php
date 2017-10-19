@@ -119,7 +119,7 @@
                                             <td  > {{@$var["renw_per"]}}% </td>
                                             <td>{{@$var["kk_succ"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
-                                            <td>{{@$var["tran_price"]}} </td>
+                                            <td>{{@$var["cc_tran_money"]}} </td>
                                             <td>{{@$var["people_per"]}}</td>
 
                                         </tr>
@@ -192,7 +192,7 @@
                                             <td>{{@$var["lesson_money"]}} </td>
                                             <td>{{@$var["lesson_total"]}} </td>
                                             <td>{{@$var["kk_succ"]}} </td>
-                                            <td>{{@$var["tran_price"]}} </td>
+                                            <td>{{@$var["cc_tran_money"]}} </td>
 
                                             <td>{{@$var["all_price"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
