@@ -27,6 +27,12 @@
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
+                    <span>匹配转化率</span>
+                    <input value="{{$match_succ_rate}}">
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
                     <span>非匹配转化率</span>
                     <input value="{{$succ_rate}}">
                 </div>
