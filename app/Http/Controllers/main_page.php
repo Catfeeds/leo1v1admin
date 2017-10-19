@@ -1627,9 +1627,8 @@ class main_page extends Controller
         // 面试通过人数
         $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
         // 老师类型培训合格
-        $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-
         //$type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
         // 模拟试听上课人数
