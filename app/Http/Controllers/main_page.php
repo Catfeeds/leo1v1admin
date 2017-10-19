@@ -304,6 +304,7 @@ class main_page extends Controller
 
     public function seller()
     {
+        $order_by_str = $this->get_in_str_val('order_by_str','');
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $group_start_time=   $start_time;
         if($start_time == 1504195200){//9月,9.1-10.2
@@ -372,7 +373,8 @@ class main_page extends Controller
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
+        // dd($order_by_str);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
         foreach($group_list as &$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];
