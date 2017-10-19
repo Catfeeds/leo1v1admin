@@ -1725,6 +1725,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
     //设置用户为会员
     public function set_add_type_2( $id) {
+        $type=$this->get_type($id);
+        /*
+            0 => "注册",
+            1 => "学员",
+            2 => "会员",
+            3 => "会员+学员",
+        */
+        if ($type==0 || $type==1  ) { //+会员
+            $this->field_update_list($id,[
+                "type" => $type+2,
+            ]);
+        }
 
     }
 }
