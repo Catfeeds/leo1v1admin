@@ -1307,8 +1307,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         // $seller_adminid = $this->task->t_seller_student_new->get_admin_revisiterid($userid);
         $seller_adminid = $this->task->t_manager_info->get_id_by_account($account);
         $origin_assistantid = $this->get_assistantid($user_info["origin_userid"]);
-        // $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
-        $adminid = $origin_assistantid;
+        $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
+
         if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
