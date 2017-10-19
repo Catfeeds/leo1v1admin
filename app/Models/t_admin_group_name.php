@@ -393,5 +393,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_list($sql);
     }
 
+    public function get_entry_month_num($start_time,$end_time){
+
+    }
 
 }

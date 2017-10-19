@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD: 1001
+//__DESC:  微信[优学优享]-邀请表单 http://wx-yxyx.leo1v1.com/wx_yxyx_common/agent_add
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    string  phone =1 ; // 被邀请人手机号 
+    string  p_phone =2 ; //邀请人手机号 
+    uint32  type =3 ;  //type=1报名上课,type=2我要推荐
+}
+
+message out {
+
+}
