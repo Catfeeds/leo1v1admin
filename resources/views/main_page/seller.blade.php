@@ -296,10 +296,12 @@
                                 <tr>
                                     <td><strong><font class="font_thead" >排名</font></strong></td>
                                     <td><strong><font class="font_thead" >团队 </font></strong></td>
-                                    <td><strong><font class="font_thead" >签单数</font></strong></td>
-                                    <td><strong><font class="font_thead" >总金额</font></strong></td>
-                                    <td><strong><font class="font_thead" >团队目标</font></strong></td>
-                                    <td><strong><font class="font_thead" >完成率</font></strong></td>
+                                    {!!\App\Helper\Utils::th_order_gen([
+                                        ["签单数" , "all_count"],
+                                        ["总金额" , "all_price"],
+                                        ["完成率" , "finish_per"],
+                                       ])
+                                    !!}
                                 </tr>
                             </thead>
                             <tbody id="id_group_body">
@@ -345,36 +347,24 @@
                                         </td>
                                         <td class="all_price">
                                             @if($key==0)
-                                                <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#F6A623;">{{$var["all_price"]}}</font>
                                             @elseif($key==1)
-                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]}}</font>
                                             @elseif($key==2)
-                                                <font style="color:#CB7F31;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#CB7F31;">{{$var["all_price"]}}</font>
                                             @else
-                                                {{$var["all_price"]/100}}
+                                                {{$var["all_price"]}}
                                             @endif
                                         </td>
                                         <td class="all_price">
                                             @if($key==0)
-                                                <font style="color:#F6A623;">{{$var["month_money"]}}</font>
+                                                <font style="color:#F6A623;">{{$var["finish_per"]}}%</font>
                                             @elseif($key==1)
-                                                <font style="color:#9EB0C2;">{{$var["month_money"]}}</font>
+                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}%</font>
                                             @elseif($key==2)
-                                                <font style="color:#CB7F31;">{{$var["month_money"]}}</font>
+                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}%</font>
                                             @else
-                                                {{$var["month_money"]}}
-                                            @endif
-                                        </td>
-
-                                        <td class="all_price">
-                                            @if($key==0)
-                                                <font style="color:#F6A623;">{{$var["finish_per"]}}</font>
-                                            @elseif($key==1)
-                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}</font>
-                                            @elseif($key==2)
-                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}</font>
-                                            @else
-                                                {{$var["finish_per"]}}
+                                                {{$var["finish_per"]}}%
                                             @endif
                                         </td>
                                     </tr>
