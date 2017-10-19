@@ -9694,7 +9694,7 @@ lesson_type in (0,1) "
          $whereArr = [
             ["lesson_start<%u",$start_time,0],
             ["lesson_start>%u",$end_time,0],
-            "tea_attend>0",
+            "tea_attend>0"
         ];
         $table = self::DB_TABLE_NAME;
         $sql = "select count(*) from %s where %s";
@@ -9714,7 +9714,7 @@ lesson_type in (0,1) "
             ["train_through_new_time<%u", $end_time, 0],
             "train_through_new=1",
             "is_test_user=0",
-            "train_type=2"
+            "train_type=4"
         ];
         $table = t_teacher_info::DB_TABLE_NAME;
         $sql = "select count(*) from %s where %s";
@@ -9840,7 +9840,8 @@ lesson_type in (0,1) "
         $whereArr = [
             ["t.train_through_new_time>%u", $start_time, 0],
             ["t.train_through_new_time<%u", $end_time, 0],
-            "t.train_through_new=1"
+            "t.train_through_new=1",
+            "t.train_type=4"
         ];
         $sql = $this->gen_sql_new("select t.identity,count(*) as sum from %s l left join %s t on l.teacherid=t.teacherid where %s group by identity",
                                   self::DB_TABLE_NAME,

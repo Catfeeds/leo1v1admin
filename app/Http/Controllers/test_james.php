@@ -719,9 +719,12 @@ class test_james extends Controller
     public function send_msg_to_teacher(){
 
 
-        // $re = $this->t_teacher_info->get_openid_list();
+        $re = $this->t_teacher_info->get_openid_list();
+        dd($re);
+        dd('已处理');
+        
 
-        dispatch(new send_wx_notic_to_tea());
+        // dispatch(new send_wx_notic_to_tea());
 
         // dd($re);
     }

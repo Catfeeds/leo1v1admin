@@ -1,6 +1,9 @@
 app/Enums/*.php
 app/Models/Zgen/*
+app/proto/*
 app/Models/.*
+proto/php_*
+proto/src/.protos
 docker/dbdata/
 app/Http/Controllers/ControllerEx.php
 app/Http/Controllers/.*

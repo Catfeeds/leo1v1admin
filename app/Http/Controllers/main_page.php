@@ -304,6 +304,7 @@ class main_page extends Controller
 
     public function seller()
     {
+        $order_by_str = $this->get_in_str_val('order_by_str','');
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01"));
         $group_start_time=   $start_time;
         if($start_time == 1504195200){//9月,9.1-10.2
@@ -372,7 +373,7 @@ class main_page extends Controller
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first,$order_by_str);
         foreach($group_list as &$item){
             $item['all_price'] = $item['all_price']/100;
             $all_price = $item['all_price'];
@@ -1627,9 +1628,8 @@ class main_page extends Controller
         // 面试通过人数
         $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
         // 老师类型培训合格
-        $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
-
         //$type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
         // 模拟试听上课人数
@@ -1691,9 +1691,8 @@ class main_page extends Controller
             $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
             $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
-            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
-echo $item['sum'];            
-$total['sum'] += $item['sum'];
+            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum']; 
+            $total['sum'] += $item['sum'];
             $total['train_tea_sum'] += $train_tea[$key]['sum'];
             $total['train_qual_sum'] += $train_qual[$key]['sum'];
             $total['imit_sum'] += $imit_lesson[$key]['sum'];
