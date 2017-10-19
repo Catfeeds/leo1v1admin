@@ -622,7 +622,6 @@ class teacher_level extends Controller
             $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
             $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
-            
             //微信通知老师
             /**
              * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
