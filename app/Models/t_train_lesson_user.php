@@ -134,4 +134,20 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         $sql = $this->gen_sql_new("select userid from %s where lessonid = %u",self::DB_TABLE_NAME,$lessonid);
         return $this->main_get_list($sql);
     }
+
+    public function get_count($start_time, $end_time) {
+        $where_arr = [
+            ["tl.add_time>%u",$start_time,0],
+            ["tl.add_time<%u",$end_time,0],
+            "tl.score>90",
+            "tl.train_type=2"
+        ];
+        $sql = $this->gen_sql_new("select count(*) from %s tl left join %s l "
+                                  ." ON(tl.lessonid = l.lessonid) where %s group by l.subject",
+                                 self::DB_TABLE_NAME,
+                                 t_lesson_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 }

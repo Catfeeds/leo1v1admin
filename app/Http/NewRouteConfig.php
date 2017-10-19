@@ -56,6 +56,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/main_page/recruit_division"                    => true,
         "/warning_overtime/add_overtime"          => true,
         "/grab_lesson/add_requireids"             => true,
         "/grab_lesson/upadte_lesson_link"         => true,
