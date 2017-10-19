@@ -1691,9 +1691,8 @@ class main_page extends Controller
             $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
             $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
-            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
-echo $item['sum'];            
-$total['sum'] += $item['sum'];
+            $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum']; 
+            $total['sum'] += $item['sum'];
             $total['train_tea_sum'] += $train_tea[$key]['sum'];
             $total['train_qual_sum'] += $train_qual[$key]['sum'];
             $total['imit_sum'] += $imit_lesson[$key]['sum'];
