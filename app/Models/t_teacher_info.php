@@ -3872,7 +3872,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["tl.train_through_new_time>%u", $start_time, 0],
             ["tl.train_through_new_time<%u", $end_time, 0],
             "tl.is_test_user=0",
-            "l.score>=0"
+            "l.score>=90"
         ];
         $sql = $this->gen_sql_new("select identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by identity",
                                   self::DB_TABLE_NAME,
