@@ -1310,6 +1310,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
 
         if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
+            //记录一条数据
+            $phone = $this->get_phone($userid);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                $nick."合同已确认/交界单已经提交",
+                "system"
+            );
+
+            
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){

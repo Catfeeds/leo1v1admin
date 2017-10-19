@@ -4127,6 +4127,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_openid_list(){
+        return true;
         $sql = $this->gen_sql_new("  select wx_openid, teacherid from %s t "
                                   ." where quit_time=0 and trial_lecture_is_pass=1"
                                   ,self::DB_TABLE_NAME

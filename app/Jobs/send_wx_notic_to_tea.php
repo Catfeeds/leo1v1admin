@@ -33,16 +33,16 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
 
         $t_teacher_info = new \App\Models\t_teacher_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-        $tea_list = $t_teacher_info->get_openid_list();
+        // $tea_list = $t_teacher_info->get_openid_list();
 
 
-        // $parent_list = [
-        //     [
-        //         'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-        //         'parentid' => '271968'
+        $tea_list = [
+            [
+                'wx_openid' => 'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
+                'teacherid' => '225427'
 
-        //     ]
-        // ];
+            ]
+        ];
 
         foreach($tea_list as $item){
             $tea_template_id  = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
@@ -57,13 +57,11 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
 
             \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'], $tea_template_id, $data_leo, $url_leo);
 
-            if($ret){
-                $t_parent_send_mgs_log->row_insert([
-                    "parentid" => $item['teacherid'],
-                    "create_time" => time(),
-                    "is_send_flag" => 2
-                ]);
-            }
+            $t_parent_send_mgs_log->row_insert([
+                "parentid" => $item['teacherid'],
+                "create_time" => time(),
+                "is_send_flag" => 2
+            ]);
 
         }
 
