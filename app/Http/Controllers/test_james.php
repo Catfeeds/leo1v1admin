@@ -749,6 +749,7 @@ class test_james extends Controller
 
         $userid= $this->get_in_str_val('u');
 
+        $userid  = $userid*10;
         dd($userid);
 
         $ass_openid = $this->t_student_info->get_ass_openid($userid);
