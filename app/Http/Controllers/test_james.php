@@ -747,8 +747,9 @@ class test_james extends Controller
     public function ssss(){
 
 
-        $userid= $this->get_in_int_val('u');
+        $userid= $this->get_in_str_val('u');
 
+        dd($userid);
 
         $ass_openid = $this->t_student_info->get_ass_openid($userid);
 
