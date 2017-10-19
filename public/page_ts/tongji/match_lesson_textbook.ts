@@ -1,27 +1,5 @@
-interface GargsStatic {
-	date_type_config:	string;
-	date_type:	number;
-	opt_date_type:	number;
-	start_time:	string;
-	end_time:	string;
-}
-declare module "g_args" {
-    export = g_args;
-}
-declare var g_args: GargsStatic;
-declare var g_account: string;
-declare var g_account_role: any;
-declare var g_adminid: any;
-interface RowData {
-}
-
-/*
-
-tofile: 
-	 mkdir -p ../main_page; vi  ../main_page/admin.ts
-
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page-admin.d.ts" />
+/// <reference path="../g_args.d.ts/tongji-match_lesson_textbook.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -50,9 +28,3 @@ $(function(){
 
 	$('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-*/
-/* HTML ...
-*/

@@ -258,7 +258,7 @@ class revisit extends Controller
             $ret_list = $this->t_revisit_info->get_revisit_type6($start_time, $end_time, $uid, $userid, $id_str);
 
             foreach($ret_list as $val) {
-                if (is_array($val)){
+                if ( is_array($val) ){
                     $this->t_revisit_call_count->row_insert([
                         'uid'           => $uid,
                         'userid'        => $userid,
