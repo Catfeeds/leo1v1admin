@@ -594,16 +594,44 @@ class main_page extends Controller
 
        
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
+        $master_arr=[];
         foreach($ass_month as &$val){
             $list=$this->get_ass_percentage_money_list($val);
             $val["lesson_price_money"] = $list["lesson_money"];
             $val["kk_money"] = $list["kk_money"];
             $val["renw_money"] = $list["renw_money"];
             $val["tran_num_money"] = $list["tran_num_money"];
-            $val["cc_tran_money"] = $list["cc_tran_money"];
+            $val["cc_tran_price"] = $list["cc_tran_money"];
             $val["all_money"] = $list["all_money"];
+            if(!isset($master_arr[$val["master_adminid"]])){
+                $master_arr[$val["master_adminid"]] =$val["master_adminid"];
+            }
 
         }        
+        \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
+        $i=1;
+        foreach($ass_month as &$v){
+            $v["num_range"]=$i;
+            $i++;
+        }
+        $account_id = $this->get_account_id();
+        $account_role = $this->get_account_role();
+        if($account_role==12 || $account_id==396 || $account_id==186){
+            
+        }elseif(in_array($account_id,$master_arr)){
+            foreach($ass_month as $k=>$tt){
+                if($tt["master_adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+        }else{
+            foreach($ass_month as $k=>$tt){
+                if($tt["adminid"] != $account_id){
+                    unset($ass_month[$k]);
+                }
+            }
+
+        }
 
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => $ret_info,

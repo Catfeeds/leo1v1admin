@@ -76,13 +76,17 @@ class t_month_ass_student_info extends \App\Models\Zgen\z_t_month_ass_student_in
             ["ma.adminid=%u",$adminid,-1],
             ["ma.month=%u",$month,-1],
             ["ma.kpi_type=%u",$kpi_type,-1],
-            "(m.del_flag=0 or (m.del_flag=1 and leave_member_time<$end_time))"
+            "(m.del_flag=0 or (m.del_flag=1 and leave_member_time>$end_time))"
         ];
-        $sql = $this->gen_sql_new("select ma.* "
+        $sql = $this->gen_sql_new("select ma.*,n.master_adminid,m.name "
                                   ."from %s ma left join %s m on ma.adminid=m.uid"
+                                  ." left join %s u on ma.adminid = u.adminid"
+                                  ." left join %s n on u.groupid = n.groupid"
                                   ." where %s group by ma.adminid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list($sql,function($item){
             return $item["adminid"];
