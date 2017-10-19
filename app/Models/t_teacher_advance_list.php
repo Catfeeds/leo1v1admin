@@ -24,6 +24,8 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         }
         if($require_flag==1){
             $where_arr[]= "a.require_time>0";
+        }elseif($require_flag==2){
+            $where_arr[]= "a.require_time=0";
         }
         /*elseif($fulltime_flag==2){           
             $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
@@ -37,7 +39,7 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info,100);
+        return $this->main_get_list_by_page($sql,$page_info,500);
     }
 
     public function get_info_by_time_new($page_info,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag=-1,$start_time){

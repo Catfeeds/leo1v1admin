@@ -1017,6 +1017,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
 
+        //E\Eorigin_level
         switch ( $seller_level_flag ) {
         case 1 :  //s
         case 2 :  //a
@@ -1027,7 +1028,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             break;
         case 4 : //c
         case 5 : //d
-            $where_arr[] = "(origin_level >3 or $check_no_call_time_str )";
+            $before_3_time= time(NULL) -3600*3;
+            $where_arr[] = "(origin_level >3 or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
             break;
         case 6 : //e
             $where_arr[] = "(origin_level >3 )";
@@ -2523,8 +2525,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   t_manager_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   $where_arr
-                                  
+
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
+    public function get_seller_openid($userid){
+        $sql = $this->gen_sql_new("  select wx_openid from %s ss"
+                                  ." left join %s m on m.uid=ss.admin_revisiterid"
+                                  ." where ss.userid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$userid
+        );
+
+        return $this->main_get_value($sql);
     }
 }

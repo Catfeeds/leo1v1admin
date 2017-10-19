@@ -3075,6 +3075,110 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        // $start_time = strtotime("2017-04-01");
+        $start_time = $this->get_in_int_val("start_time",$start_time);
+        $this->set_filed_for_js("quarter_start",$start_time);
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $accept_flag       = $this->get_in_int_val("accept_flag",-1);
+        
+        $fulltime_flag_new       = $this->get_in_int_val("fulltime_flag_new",0);
+        $is_test_user       = $this->get_in_int_val("is_test_user",0);
+
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user,2);
+        foreach($ret_info["list"] as $item){
+            $teacherid = $item["teacherid"];
+            $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
+            // $realname ="胡玉梅";
+            $tea_arr=[];
+            $tea_arr[] = $teacherid;
+            if($transfer_teacherid>0){
+                $tea_arr[]= $transfer_teacherid;
+            }
+            $teacher_money_type = $item["teacher_money_type"];
+            $lesson_total = $this->t_teacher_info->get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,"",$tea_arr);
+            $lesson_count=0;
+            foreach($lesson_total as $val){
+                $lesson_count +=$val["lesson_count"];
+            }
+            $lesson_count = round($lesson_count/3,1);
+            $lesson_count_score = $this->get_score_by_lesson_count($lesson_count/100);
+
+            /* $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+        
+
+            $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
+            $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);*/
+
+            $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
+            //  $tea_refund_info =$this->get_tea_refund_info($start_time,$end_time,$tea_arr);
+            /* $cc_test_num=$cc_order_num=0;
+            foreach($test_person_num as $val){
+                $cc_test_num +=$val["person_num"];
+                $cc_order_num +=$val["have_order"];
+            }
+        
+            $cc_order_per= !empty($cc_test_num)?round($cc_order_num/$cc_test_num*100,2):0;*/
+            $cc_order_score = $this->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
+
+            /* $other_test_num = $other_order_num=0;
+            foreach($kk_test_person_num as $val){
+                $other_test_num +=$val["kk_num"];
+                $other_order_num +=$val["kk_order"];
+
+            }
+            foreach($change_test_person_num as $val){
+                $other_test_num +=$val["change_num"];
+                $other_order_num +=$val["change_order"];
+            }
+      
+            $other_order_per = !empty($other_test_num)?round($other_order_num/$other_test_num*100,2):0;*/
+            $other_order_score = $this->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
+
+            $record_num = $record_score=0;
+            foreach($teacher_record_score as $val){
+                $record_num +=$val["num"];
+                $record_score +=$val["score"];
+            }
+            $record_score_avg = !empty($record_num)?round($record_score/$record_num,1):0;
+            $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
+            /* $is_refund = 0;
+            if(!empty($tea_refund_info)){
+                $is_refund=1;
+                }*/
+
+            //常规学生数
+            $stu_num = $this->t_teacher_info->get_teacher_lesson_stu_num($teacher_money_type,$start_time,$end_time,$tea_arr);
+            $stu_num_score = $this->get_stu_num_score($stu_num);
+
+            $total_score = $lesson_count_score+$cc_order_score+ $other_order_score+$record_final_score+$stu_num_score;
+            $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                "lesson_count"=>$lesson_count,
+                "lesson_count_score"=>$lesson_count_score,
+                //"cc_test_num"=>$cc_test_num,
+                //"cc_order_num" =>$cc_order_num,
+                // "cc_order_per" =>$cc_order_per,
+                "cc_order_score" =>$cc_order_score,
+                // "other_test_num"=>$other_test_num,
+                // "other_order_num" =>$other_order_num,
+                // "other_order_per" =>$other_order_per,
+                "other_order_score" =>$other_order_score,
+                "record_final_score"=>$record_final_score,
+                "record_score_avg" =>$record_score_avg,
+                "record_num"     =>$record_num,
+                //  "is_refund"      =>$is_refund,
+                "total_score"    =>$total_score,
+                "stu_num"        =>$stu_num,
+                "stu_num_score"  =>$stu_num_score
+            ]);
+ 
+        }
+        dd(111);
+
         $cur_start =strtotime("2017-09-01");
         // $end_time =strtotime("2017-10-01");
         //薪资展示
@@ -3165,6 +3269,95 @@ class user_deal extends Controller
 
 
     }
+
+        public function get_other_order_score($num,$per){
+        if($num==1 && $per==100){
+            return 2;
+        }elseif($num==2 && $per==100){
+            return 3;  
+        }elseif($num==3 && $per==100){
+            return 4;  
+        }elseif($num>=4 && $per==100){
+            return 5;  
+        }elseif($per <20){
+            return 1;
+        }elseif($per >=20 && $per <40){
+            return 2;
+        }elseif($per >=40 && $per <60){
+            return 3;
+        }elseif($per >=60 && $per <100){
+            return 4;
+        }
+
+
+    }
+
+    public function get_cc_order_score($num,$per){
+        if($num==1 && $per==100){
+            return 12;
+        }elseif($num==2 && $per==100){
+            return 13;  
+        }elseif($num==3 && $per==100){
+            return 14;  
+        }elseif($num==4 && $per==100){
+             return 15;  
+        }elseif($per==0){
+            return 10;
+        }elseif($per <10 && $per>0){
+            return 9;
+        }elseif($per >=10 && $per <20){
+            return 11;
+        }elseif($per >=20 && $per <40){
+            return 12;
+        }elseif($per >=40 && $per <60){
+            return 13;
+        }elseif($per >=60 && $per <80){
+            return 14;
+        }elseif($per >=80){
+            return 15;
+        }
+
+
+    }
+    
+    public function get_stu_num_score($stu_num){
+        if($stu_num<8){
+            return 6;
+        }elseif($stu_num<12){
+            return 7;
+        }elseif($stu_num<16){
+            return 8;
+        }elseif($stu_num<20){
+            return 9;
+        }else{
+            return 10;
+        }
+    }
+    public function get_score_by_lesson_count($lesson_count){
+        if($lesson_count >=60 && $lesson_count <80){
+            return 26;
+        }elseif($lesson_count >=60 && $lesson_count <100){
+            return 28;
+        }elseif($lesson_count >=100 && $lesson_count <120){
+            return 30;
+        }elseif($lesson_count >=120 && $lesson_count <140){
+            return 32;
+        }elseif($lesson_count >=140 && $lesson_count <160){
+            return 34;
+        }elseif($lesson_count >=160 && $lesson_count <180){
+            return 36;
+        }elseif($lesson_count >=180 && $lesson_count <200){
+            return 38;
+        }elseif($lesson_count>=200){
+            return 40;
+        }else{
+            return 0;
+        }
+
+
+    }
+
+    
 
     public function get_admin_wx_info() {
         $account= $this->get_account();

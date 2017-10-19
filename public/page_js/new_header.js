@@ -233,16 +233,21 @@ function table_init() {
 
         var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
 
-        if ( window.load_data ) {
+        var pathname = window.location.pathname;
+        g_load_data_flag = window.localStorage.getItem(pathname);
+        if(g_load_data_flag){//点击查询
+            $('#id_now_refresh').html('立即查询');
+        }else{
+            $('#id_now_refresh').html('点击查询');
+        }
+        if ( window.load_data && g_load_data_flag) {
             row_query.append( query_attime );
             query_attime.find("button") .on("click",function(){
-                window["g_load_data_flag"]=1;
+                g_load_data_flag = 0;
                 window.load_data();
             });
         }
 
-        //row_query.prepend( query_attime );
-        row_query.append( query_attime );
 
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");
@@ -791,8 +796,32 @@ $(function(){
     });
 
 
+    $("#id_now_refresh").on("click",function(){
+        if(window.localStorage){
+            var pathname = window.location.pathname;
+            var g_load_data_flag = window.localStorage.getItem(pathname);
 
-
+            if(g_load_data_flag == 1){
+                window.localStorage.removeItem(pathname);//删除
+                alert('设置为[立即查询]');
+                window.location.reload();
+            }else{
+                window.localStorage.setItem(pathname,1);//存
+                alert('设置为[点击查询]');
+                window.location.reload();
+            }
+        }else{
+            alert('浏览器不支持localstorage');
+            return false;
+        }
+        // window.localStorage.setItem("key","value");//存
+        // window.localStorage.getItem("key");//获取
+        // window.localStorage.removeItem("key");//删除
+        // $.do_ajax("/self_manage/ssh_login",{
+        // },function(resp){
+        //     alert("请登录: " + resp.ssh_cmd   );
+        // } );
+    });
 
     $("#id_ssh_open").on("click",function(){
         $.do_ajax("/self_manage/ssh_login",{
@@ -1497,7 +1526,6 @@ Enum_map = {
         //console.log(group_name);
         var desc_map=g_enum_map[group_name]["desc_map"];
         var newkey = Object.keys(desc_map).sort().reverse();
-　    　//先用Object内置类的keys方法获取要排序对象的属性名，再利用Array原型上的sort方法对获取的属性名进行排序，newkey是一个数组
         var newObj = {};//创建一个新的对象，用于存放排好序的键值对
         for (var i = 0; i < newkey.length; i++) {//遍历newkey数组
             newObj[newkey[i]] = desc_map[newkey[i]];//向新创建的对象中按照排好的顺序依次增加键值对
@@ -1519,6 +1547,26 @@ Enum_map = {
         });
         $select.append(html_str);
     },
+    append_option_list_v2s : function (group_name, $select , not_add_all_option, id_list ){
+        //console.log(group_name);
+        var desc_map=g_enum_map[group_name]["v2s_map"];
+
+        var html_str="";
+        if (!not_add_all_option  ){
+            html_str += "<option value=\"-1\">[全部]</option>";
+        }
+        $.each(desc_map, function(k,v){
+            if ($.isArray( id_list)) {
+                if($.inArray( parseInt(k), id_list ) != -1 ){
+                    html_str+="<option value=\""+k+"\">"+v+"</option>";
+                }
+            }else{
+                html_str+="<option value=\""+k+"\">"+v+"</option>";
+            }
+        });
+        $select.append(html_str);
+    },
+
 
 };
 
@@ -2203,6 +2251,8 @@ function reload_self_page(args){
             args_str+= "&"+key +"=" +  encodeURIComponent(value);
         }
     });
+
+
     window.location.href=window.location.pathname +"?" +  args_str;
 }
 
