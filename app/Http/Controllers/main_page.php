@@ -373,6 +373,12 @@ class main_page extends Controller
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
         $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
+        foreach($group_list as &$item){
+            $all_price = $item['all_price']/100;
+            $month_money = isset($item['month_money'])?$item['month_money']:0;
+            $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
+            $item['finish_per'] = round($item['finish_per']*100,1).'%';
+        }
 
         $ret_info_first = [];
         $ret_info_two = [];
@@ -592,7 +598,7 @@ class main_page extends Controller
         $today_info["call_num"]= \App\Helper\Common::get_time_format_minute($call_num);
         $today_info['goal'] = ceil(@$today_info['stu_num']/10);
 
-       
+
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info_payroll($cur_start);
         $master_arr=[];
         foreach($ass_month as &$val){
@@ -607,7 +613,7 @@ class main_page extends Controller
                 $master_arr[$val["master_adminid"]] =$val["master_adminid"];
             }
 
-        }        
+        }
         \App\Helper\Utils::order_list( $ass_month,"all_money", 0 );
         $i=1;
         foreach($ass_month as &$v){
@@ -617,7 +623,7 @@ class main_page extends Controller
         $account_id = $this->get_account_id();
         $account_role = $this->get_account_role();
         if($account_role==12 || $account_id==396 || $account_id==186){
-            
+
         }elseif(in_array($account_id,$master_arr)){
             foreach($ass_month as $k=>$tt){
                 if($tt["master_adminid"] != $account_id){
@@ -1628,7 +1634,7 @@ class main_page extends Controller
         //foreach($type_ret_info as $key => &$item) {
             //E\Eidentity::set_item_value_str($item, "identity");
             //}
-        
+
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
         // 模拟试听上课人数
