@@ -11,7 +11,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      // $this->switch_tongji_database();
+      $this->switch_tongji_database();
     }
 
     public function table_start($th_arr){
@@ -37,17 +37,6 @@ class test_boby extends Controller
         return $s.'</table>';
     }
 
-    public function test(){
-        $th_arr = ['姓名','电话','年龄'];
-        $str = $this->table_start($th_arr);
-        $str = $this->tr_add($str, 'sdfa',13213,45);
-        $str = $this->tr_add($str, 'sdfsf',353513,15);
-        $str = $this->tr_add($str, 'aaasf',111113,15);
-        $str = $this->tr_add($str, 'asddasf',5511113,15);
-        $str = $this->tr_add($str, 'a350sf',22113,15);
-        $str = $this->table_end($str);
-        return $str;
-    }
     public function get_b_txt($file_name="b"){
        $info = file_get_contents("/home/boby/".$file_name.".txt");
        $arr  = explode("\n",$info);
@@ -96,17 +85,6 @@ class test_boby extends Controller
         }
 
         return $this->pageView( __METHOD__, $ret_info);
-    }
-    public function ajax() {
-        $phone = $this->get_in_str_val('phone');
-        $arr = [1313,34645132,3546312,645413,6846312,64513268,635312686,31684,641,87,987,61,35,4,876,46416,49,8464,68,74964,6];
-        $newArr = [];
-        foreach($arr as $k) {
-            if( strpos($k, $phone) !== false ) {
-                $newArr[] = $k;
-            }
-        }
-        return json_encode($newArr);
     }
     public function test_one(){
         $phone    = $this->get_in_phone();
@@ -227,6 +205,7 @@ class test_boby extends Controller
         $s = $this->table_end($s);
         return $s;
     }
+
     //通过订单号查询老师，科目
     public function get_teacher_subject_by_orderid(){
         // $arr = $this->get_b_txt();
@@ -444,12 +423,6 @@ class test_boby extends Controller
         return $s;
     }
 
-    public function ex_seven_days(){
-        $sessionId   = session()->getId();
-        $sessionName = session()->getName();
-        setcookie($sessionId,$sessionName, time()+3600*24*7);//有效期7天
-    }
-
     public function get_test_succ_count(){
         $arr = [5,6,7,8];
         echo "月份｜年级|课数|成功数";
@@ -593,7 +566,6 @@ class test_boby extends Controller
         }
 
         return $s;
-
     }
 
     public function update_revisit_call_info_new(){
@@ -639,63 +611,8 @@ class test_boby extends Controller
         return 'ok';
     }
 
-    public function check_command(){
-        $time = $this->get_in_str_val('time',0);
-        // dd($time);
-        $time = strtotime( $time );
-        $time = $time+2; //计划任务执行时候记录的时间都是２秒
-        // $time = time( );
-        //1,先查询今天已近记录的call_phone_id
-        $start_time1 = strtotime('today');
-        // $id_str_list = $task->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
-        $id_str_list = $this->t_revisit_call_count->get_call_phone_id_str($start_time1,$time);
-        $uid_phoneid = [];
-        foreach ($id_str_list as $item) {
-            if (is_array($item)) {
-                $uid_phoneid[$item['uid']] = $item['phoneids'];
-            }
-        }
-
-        //2,然后查询助教的学情回访    每分钟查询上一分钟的
-        $end_time    = strtotime( date('Y-m-d H:i:00', $time) );
-        $start_time2 = $end_time-60;
-        $ret_info    = $this->t_revisit_info->get_revisit_type0_per_minute($start_time2, $end_time);
-
-        //3,有学情回访后，在获取当日的其他回访信息
-        $th_arr = ['uid','userid','学情回访时间','电话时间（其他回访）','call_phone_id'];
-        $s = $this->table_start($th_arr);
-
-        foreach($ret_info as $item) {
-            if (is_array($item)){
-                $uid      = $item['uid'];
-                $userid   = $item['userid'];
-                $revisit_time1 = $item['revisit_time1'];
-                $id_str   = @$uid_phoneid[$uid] ? $uid_phoneid[$uid] : 1;
-                $ret_list = $this->t_revisit_info->get_revisit_type6_per_minute($start_time1, $revisit_time1, $uid, $userid, $id_str);
-                foreach($ret_list as $val) {
-                    if (is_array($val)){
-                        // $this->t_revisit_call_count->row_insert([
-                        //     'uid'           => $uid,
-                        //     'userid'        => $userid,
-                        //     'revisit_time1' => $item['revisit_time1'],
-                        //     'revisit_time2' => $val['revisit_time2'],
-                        //     'call_phone_id' => $val['call_phone_id'],
-                        //     'create_time'   => $time,
-                        // ]);
-                        $t1 = date('Y-m-d H:i:s',$item['revisit_time1']);
-                        $t2 = date('Y-m-d H:i:s',$val['revisit_time2']);
-                        $s = $this->tr_add($s,$uid,$userid,$item['revisit_time1']."<br>".$t1,$val['revisit_time2']."<br>".$t2,$val['call_phone_id']);
-                    }
-                }
-            }
-        }
-
-        return $s;
-
-    }
-
+    //9.1-10.18期间上过非试听课的所有学生统计
     public function get_stu_num(){
-        //9.1-10.18期间上过非试听课的所有学生统计
         $sql = "select l.subject,l.userid,l.grade  from db_weiyi.t_lesson_info l force index(lesson_start) left join t_student_info s on s.userid=l.userid where l.lesson_start >=1504195200 and l.lesson_start<1508342400 and l.lesson_user_online_status <>2  and l.lesson_type<>2  and s.is_test_user=0";
 
         $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
