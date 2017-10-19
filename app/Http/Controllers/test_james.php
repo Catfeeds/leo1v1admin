@@ -720,6 +720,7 @@ class test_james extends Controller
 
 
         // $re = $this->t_teacher_info->get_openid_list();
+        dd('已处理');
 
         dispatch(new send_wx_notic_to_tea());
 
