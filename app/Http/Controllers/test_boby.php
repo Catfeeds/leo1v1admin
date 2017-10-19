@@ -732,7 +732,7 @@ class test_boby extends Controller
             }
 
         }
-        dd($succ_arr);
+        dd($stu_arr);
         $match_rate = $all_num>0?($match_num/$all_num):0;
         $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
         $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
