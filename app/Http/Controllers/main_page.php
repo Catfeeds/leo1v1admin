@@ -372,12 +372,13 @@ class main_page extends Controller
             $group_name=$this->t_admin_group_name->get_group_name($groupid);
         }
         $group_self_list = $this->t_order_info->get_1v1_order_seller_list_group_self($start_time,$end_time,$groupid);
-        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,(string)$start_first);
+        $group_list      = $this->t_order_info->get_1v1_order_seller_list_group($start_time,$end_time,-1,$start_first);
         foreach($group_list as &$item){
-            $all_price = $item['all_price']/100;
+            $item['all_price'] = $item['all_price']/100;
+            $all_price = $item['all_price'];
             $month_money = isset($item['month_money'])?$item['month_money']:0;
             $item['finish_per'] = $month_money>0?$all_price/$month_money:0;
-            $item['finish_per'] = round($item['finish_per']*100,1).'%';
+            $item['finish_per'] = round($item['finish_per']*100,1);
         }
 
         $ret_info_first = [];
@@ -1691,7 +1692,8 @@ class main_page extends Controller
             $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
             $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
-            $total['sum'] += $item['sum'];
+echo $item['sum'];            
+$total['sum'] += $item['sum'];
             $total['train_tea_sum'] += $train_tea[$key]['sum'];
             $total['train_qual_sum'] += $train_qual[$key]['sum'];
             $total['imit_sum'] += $imit_lesson[$key]['sum'];
