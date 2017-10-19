@@ -1684,7 +1684,6 @@ class user_deal extends Controller
         }
 
 
-
         //排课
 
         $teacher_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
@@ -1698,10 +1697,15 @@ class user_deal extends Controller
                 $courseid = $courseid_type3001;
                 $type = 3001;
             }
-           $this->auto_add_lesson($courseid,$userid,$teacherid,$stu_info["assistantid"],
+           $res = $this->auto_add_lesson($courseid,$userid,$teacherid,$stu_info["assistantid"],
                                    $start, $end,$stu_info['grade'],$subject,
                                    $teacher_info['teacher_money_type'],$teacher_info['level'],
                                    $competition_flag,$type);
+
+            if(!$res) {
+                $this->t_lesson_info->rollback();
+                return $this->output_err('排课失败,请刷新重试!');
+            }
 
         }
         $this->t_lesson_info->commit();
@@ -1732,18 +1736,16 @@ class user_deal extends Controller
                 ]);
 
             if(!$res) {
-                $this->t_lesson_info->rollback();
-                return $this->output_err('排课失败,请刷新重试!');
+                return false;
             }
-
 
         }
 
         if(!$lessonid) {
-            $this->t_lesson_info->rollback();
-            return $this->output_err('排课失败,请刷新重试!');
+            return false;
         }
         $this->t_lesson_info->reset_lesson_list($courseid);
+        return true;
     }
 
     public function course_add(){
