@@ -42,11 +42,11 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
                 'teacherid' => '225427'
 
             ],
-            [
-                'wx_openid' => '1111111',
-                'teacherid' => '225427'
+            // [
+            //     'wx_openid' => '1111111',
+            //     'teacherid' => '225427'
 
-            ]
+            // ]
 
             
         ];
