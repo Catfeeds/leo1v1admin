@@ -718,9 +718,9 @@ class test_james extends Controller
     public function send_msg_to_teacher(){
         // dd(2);
 
-        $teacher_list = $this->t_teacher_info->get_wx_openid_list();
+        // $teacher_list = $this->t_teacher_info->get_wx_openid_list();
 
-        dd($teacher_list);
+        // dd($teacher_list);
         //rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
 
         // {{first.DATA}}
@@ -728,6 +728,12 @@ class test_james extends Controller
         // 待办内容：{{keyword2.DATA}}
         // 日期：{{keyword3.DATA}}
         // {{remark.DATA}}
+
+
+
+
+        $re = $this->t_teacher_info->get_openid_list();
+        dd($re);
     }
 
 
