@@ -753,11 +753,21 @@ class test_james extends Controller
 
         $userid= $this->get_in_int_val('u');
 
-        $re = $this->t_seller_student_new->get_seller_openid($userid);
-        dd($re);
 
         $ass_openid = $this->t_student_info->get_ass_openid($userid);
-        dd($ass_openid);
+
+        $check = 1;
+        $send_openid = 'cccc';
+
+        if(!$ass_openid ){
+            $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            $check = 2;
+
+        }
+
+
+
+        dd($ass_openid." ~ ".$send_openid." ~ ".$check);
 
         $first_group  = '咨询一部';
         $second_group = '咨询二部';

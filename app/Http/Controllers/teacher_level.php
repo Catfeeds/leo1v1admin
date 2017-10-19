@@ -375,6 +375,19 @@ class teacher_level extends Controller
 
     }
     
+    public function get_stu_num_score($stu_num){
+        if($stu_num<8){
+            return 6;
+        }elseif($stu_num<12){
+            return 7;
+        }elseif($stu_num<16){
+            return 8;
+        }elseif($stu_num<20){
+            return 9;
+        }else{
+            return 10;
+        }
+    }
     public function get_score_by_lesson_count($lesson_count){
         if($lesson_count >=60 && $lesson_count <80){
             return 26;
@@ -427,7 +440,7 @@ class teacher_level extends Controller
         $kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
 
-        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
+        $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
         $tea_refund_info =$this->get_tea_refund_info($start_time,$end_time,$tea_arr);
         $cc_test_num=$cc_order_num=0;
         foreach($test_person_num as $val){
@@ -458,12 +471,17 @@ class teacher_level extends Controller
             $record_score +=$val["score"];
         }
         $record_score_avg = !empty($record_num)?round($record_score/$record_num,1):0;
-        $record_final_score = !empty($record_num)?ceil($record_score_avg*0.2):12;
+        $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
         $is_refund = 0;
         if(!empty($tea_refund_info)){
             $is_refund=1;
         }
-        $total_score = $lesson_count_score+$cc_order_score+ $other_order_score+$record_final_score;
+
+        //常规学生数
+        $stu_num = $this->t_teacher_info->get_teacher_lesson_stu_num($teacher_money_type,$start_time,$end_time,$tea_arr);
+        $stu_num_score = $this->get_stu_num_score($stu_num);
+
+        $total_score = $lesson_count_score+$cc_order_score+ $other_order_score+$record_final_score+$stu_num_score;
         $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
             "lesson_count"=>$lesson_count,
             "lesson_count_score"=>$lesson_count_score,
@@ -479,7 +497,9 @@ class teacher_level extends Controller
             "record_score_avg" =>$record_score_avg,
             "record_num"     =>$record_num,
             "is_refund"      =>$is_refund,
-            "total_score"    =>$total_score
+            "total_score"    =>$total_score,
+            "stu_num"        =>$stu_num,
+            "stu_num_score"  =>$stu_num_score
         ]);
         return $this->output_succ();
     }
@@ -741,68 +761,6 @@ class teacher_level extends Controller
 
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag_new,$is_test_user);
-        $arr=$ret_info["list"];
-        foreach($arr as &$item){
-            $teacherid = $item["teacherid"];
-            $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
-            // $realname ="胡玉梅";
-            $tea_arr=[];
-            $tea_arr[] = $teacherid;
-            if($transfer_teacherid>0){
-                $tea_arr[]= $transfer_teacherid;
-            }
-            $teacher_money_type = $item["teacher_money_type"];
-            $lesson_total = $this->t_teacher_info->get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,"",$tea_arr);
-            $lesson_count=0;
-            foreach($lesson_total as $val){
-                $lesson_count +=$val["lesson_count"];
-            }
-            $lesson_count = round($lesson_count/3,1);
-            $lesson_count_score = $this->get_score_by_lesson_count($lesson_count/100);
-
-            //  $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
-        
-
-            //$kk_test_person_num= $this->t_lesson_info->get_kk_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
-            // $change_test_person_num= $this->t_lesson_info->get_change_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
-
-            $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr,1);
-            /* $cc_test_num=$cc_order_num=0;
-            foreach($test_person_num as $val){
-                $cc_test_num +=$val["person_num"];
-                $cc_order_num +=$val["have_order"];
-            }
-        
-            $cc_order_per= !empty($cc_test_num)?round($cc_order_num/$cc_test_num*100,2):0;*/
-            $cc_order_score = $this->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
-
-            /*$other_test_num = $other_order_num=0;
-            foreach($kk_test_person_num as $val){
-                $other_test_num +=$val["kk_num"];
-                $other_order_num +=$val["kk_order"];
-
-            }
-            foreach($change_test_person_num as $val){
-                $other_test_num +=$val["change_num"];
-                $other_order_num +=$val["change_order"];
-            }
-      
-            $other_order_per = !empty($other_test_num)?round($other_order_num/$other_test_num*100,2):0;*/
-            $other_order_score = $this->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
-
-            $record_num = $record_score=0;
-            foreach($teacher_record_score as $val){
-                $record_num +=$val["num"];
-                $record_score +=$val["score"];
-            }
-            $record_score_avg = !empty($record_num)?round($record_score/$record_num,1):0;
-            $record_final_score = !empty($record_num)?ceil($record_score_avg*0.3):18;
-
-            //常规学生数
-            $total_score = $lesson_count_score+$cc_order_score+ $other_order_score+$record_final_score;
- 
-        }
-        dd($ret_info["list"]);
         foreach($ret_info["list"] as &$item){
             if($item["teacher_money_type"]==6){
                 E\Enew_level::set_item_value_str($item,"level_before");
@@ -818,6 +776,7 @@ class teacher_level extends Controller
 
             E\Eaccept_flag::set_item_value_str($item);
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
+            $item["test_total_score"] = $item["cc_order_score"]+$item["other_order_score"];
  
         }
         

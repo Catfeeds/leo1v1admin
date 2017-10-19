@@ -1034,11 +1034,15 @@ class wx_parent_api extends Controller
         if($ret_info){
             $send_openid = $this->t_student_info->get_ass_openid($userid);
 
-            if(!$send_openid ){
+            if($send_openid == 0){ 
                 $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            }else{
+                
             }
 
-            $stu_nick = $this->cache_get_teacher_nick($userid);
+            \App\Helper\Utils::logger(" seller_send_upload: $send_openid ");
+
+            $stu_nick = $this->cache_get_student_nick($userid);
 
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待办事项提醒
             $data_msg = [
@@ -1048,7 +1052,7 @@ class wx_parent_api extends Controller
                 "keyword3"  => date('Y-m-d H:i:s'),
             ];
             $url = 'http://admin.yb1v1.com/stu_manage/score_list?sid='.$userid;
-            $wx=new \App\Helper\Wx();
+            $wx = new \App\Helper\Wx();
 
 
             $wx->send_template_msg($send_openid,$template_id,$data_msg ,$url);

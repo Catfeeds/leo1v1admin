@@ -24,6 +24,8 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         }
         if($require_flag==1){
             $where_arr[]= "a.require_time>0";
+        }elseif($require_flag==2){
+            $where_arr[]= "a.require_time=0";
         }
         /*elseif($fulltime_flag==2){           
             $where_arr[] = "m.account_role =5 and fulltime_teacher_type=2";
