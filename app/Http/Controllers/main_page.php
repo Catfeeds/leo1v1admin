@@ -1588,25 +1588,21 @@ class main_page extends Controller
     // 招师例子流 面试通过到模拟试听通过
     public function recruit_division() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
+        $history_data = $this->get_in_int_val('history_data');
+        if ($history_data) { // 没有历史数据
+        } else { // 有历史数据
+            // 从数据库中取数据
+        }
+        // 面试通过人数
+        $ret_info = $this->t_teacher_info->get_interview_through_count($start_time, $end_time);
         // 科目培训合格
-        $ret_info = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
-        // foreach($ret_info as $key => &$item) {
-        //     if (isset($item['grade'])) {
-        //         E\Esubject::set_item_value_str($item, "subject");
-        //         E\Egrade::set_item_value_str($item, "grade");
-        //     } else {
-        //         $item['grade_str'] = '';
-        //         E\Esubject::set_item_value_str($item, "subject");
-        //     }
-        // }
-        //dd($ret_info);
+        //$ret_info = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
         // 模拟试听上课人数
         $attend_lesson = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
         // 模拟试听通过人数
         $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time);
-        // dd($adopt_lesson);
         $total['sum'] = 0;
         $total['imit_sum'] = 0;
         $total['attend_sum'] = 0;
@@ -1627,14 +1623,15 @@ class main_page extends Controller
             $total['attend_sum'] += $attend_lesson[$key]['sum'];
             $total['adopt_sum'] += $adopt_lesson[$key]['sum'];
         }
-        //dd($adopt_lesson);
-        //dd($ret_info);
+        // 面试通过人数
+        $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
         // 老师类型培训合格
         $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
         //foreach($type_ret_info as $key => &$item) {
             //E\Eidentity::set_item_value_str($item, "identity");
             //}
 
+        //$type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
         // 模拟试听上课人数
@@ -1668,17 +1665,19 @@ class main_page extends Controller
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         // 面试通过人数
         $ret_info = $this->t_teacher_info->get_interview_through_count($start_time, $end_time);
-        dd($ret_info);
+        // 培训参训新师人数
+        $train_tea = $this->t_teacher_info->get_train_inter_teacher_count($start_time, $end_time);
         // 科目培训合格
-        $ret_info = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
+        $train_qual = $this->t_teacher_info->get_subject_train_qual_count($start_time, $end_time);
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_count($start_time, $end_time);
         // 模拟试听上课人数
         $attend_lesson = $this->t_lesson_info->get_attend_lesson_count($start_time, $end_time);
         // 模拟试听通过人数
         $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_count($start_time, $end_time);
-        // dd($adopt_lesson);
         $total['sum'] = 0;
+        $total['train_tea_sum'] = 0;
+        $total['train_qual_sum'] = 0;
         $total['imit_sum'] = 0;
         $total['attend_sum'] = 0;
         $total['adopt_sum'] = 0;
@@ -1690,16 +1689,24 @@ class main_page extends Controller
                 $item['grade_str'] = '';
                 E\Esubject::set_item_value_str($item, "subject");
             }
+            $ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
+            $ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
             $ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
             $ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
             $total['sum'] += $item['sum'];
+            $total['train_tea_sum'] += $train_tea[$key]['sum'];
+            $total['train_qual_sum'] += $train_qual[$key]['sum'];
             $total['imit_sum'] += $imit_lesson[$key]['sum'];
             $total['attend_sum'] += $attend_lesson[$key]['sum'];
             $total['adopt_sum'] += $adopt_lesson[$key]['sum'];
         }
+        // 面试通过人数
+        $type_ret_info = $this->t_teacher_info->get_interview_through_type_count($start_time, $end_time);
+        // 培训参训新师人数
+        $train_tea = $this->t_teacher_info->get_train_inter_teacher_type_count($start_time, $end_time);
         // 老师类型培训合格
-        $type_ret_info = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
+        $train_qual = $this->t_teacher_info->get_subject_train_qual_type_count($start_time, $end_time);
         // 模拟试听排课人数
         $imit_lesson = $this->t_lesson_info->get_imit_audi_sched_type_count($start_time, $end_time);
         // 模拟试听上课人数
@@ -1707,15 +1714,21 @@ class main_page extends Controller
         // 模拟试听通过人数
         $adopt_lesson = $this->t_lesson_info->get_adopt_lesson_type_count($start_time, $end_time);
         $type_total['sum'] = 0;
+        $type_total['train_tea_sum'] = 0;
+        $type_total['train_qual_sum'] = 0;
         $type_total['imit_sum'] = 0;
         $type_total['attend_sum'] = 0;
         $type_total['adopt_sum'] = 0;
         foreach($type_ret_info as $key => &$item) {
             E\Eidentity::set_item_value_str($item, "identity");
+            $type_ret_info[$key]['train_tea_sum'] = $train_tea[$key]['sum'];
+            $type_ret_info[$key]['train_qual_sum'] = $train_qual[$key]['sum'];
             $type_ret_info[$key]['imit_sum'] = $imit_lesson[$key]['sum'];
             $type_ret_info[$key]['attend_sum'] = $attend_lesson[$key]['sum'];
             $type_ret_info[$key]['adopt_sum'] = $adopt_lesson[$key]['sum'];
             $type_total['sum'] += $item['sum'];
+            $type_total['train_tea_sum'] += $train_tea[$key]['sum'];
+            $type_total['train_qual_sum'] += $train_qual[$key]['sum'];
             $type_total['imit_sum'] += $imit_lesson[$key]['sum'];
             $type_total['attend_sum'] += $attend_lesson[$key]['sum'];
             $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
