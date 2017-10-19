@@ -1002,8 +1002,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_manager_info::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,
-                                  t_admin_group_month_time::DB_TABLE_NAME,
-                                  $start_first,
+                                  // t_admin_group_month_time::DB_TABLE_NAME,
+                                  // $start_first,
                                   $where_arr
         );
         return $this->main_get_list($sql);
