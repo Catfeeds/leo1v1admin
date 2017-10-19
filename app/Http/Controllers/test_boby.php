@@ -333,10 +333,11 @@ class test_boby extends Controller
         // $end_time = strtotime('2017-10-01');
         $lessonid_list = ['371543','371544','371545','318460','318461'];
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        // foreach ($lessonid_list as $v) {
-        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
-        // }
-        // exit;
+        foreach ($lessonid_list as $v) {
+            $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
+        }
+        echo 'ok';
+        exit;
 
         // $g100 = [];
         // $g200 = [];
@@ -367,9 +368,9 @@ class test_boby extends Controller
             //     }
             // }
 
-            foreach($lessonid_list as $lessonid){
-                $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
-            }
+            // foreach($lessonid_list as $lessonid){
+                // $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+            // }
         }
 
         echo 'ok';
