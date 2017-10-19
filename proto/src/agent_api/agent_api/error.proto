@@ -1,0 +1,20 @@
+syntax = "proto3";
+package error;
+option php_namespace = "Proto\\agent_api\\error"; 
+enum  enum_error {
+  ERR_SUCC  =0;
+
+  //报文长度长度不对(IN)
+  ERR_IN_PROTO_LEN  = 1000 ;
+
+  //报文长度长度不对(OUT)
+  ERR_OUT_PROTO_LEN  = 1010 ;
+
+  //密码出错
+  ERR_PASSWD  = 3001 ;
+
+  //用户不存在
+  ERR_USER_NOFIND = 3002 ;
+
+
+};

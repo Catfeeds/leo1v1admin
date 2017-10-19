@@ -26,6 +26,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
+            "Proto\\agent_api\\": "app/proto/agent_api/Proto/agent_api/",
             "Qiniu\\": "app/Libs/Qiniu"
         },
         "files": ["app/Libs/Qiniu/functions.php","app/Functions/common_funtions.php"]

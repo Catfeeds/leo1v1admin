@@ -1,0 +1,7 @@
+syntax = "proto3";
+package common;
+option php_namespace = "Proto\\agent_api\\common"; 
+message  money_item_t {
+  float all_money=1;// 总金额
+  float open_money=2;// 可提现金额
+}
