@@ -2452,7 +2452,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_type <>2"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
+        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count,count(distinct l.userid) stu_num "
                                   ." from %s t left join %s l on t.teacherid=l.teacherid"
                                   ." where %s group by t.teacherid having(lesson_count>=18000)",
                                   self::DB_TABLE_NAME,

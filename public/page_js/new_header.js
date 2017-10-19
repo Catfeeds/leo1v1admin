@@ -233,23 +233,15 @@ function table_init() {
 
         var query_attime=$( " <div class=\"col-xs-6 col-md-1\">  <button   title=\"点击查询\" class=\"btn btn-warning fa  \" > 查询 </button  <div> ");
 
-        if ( window.load_data ) {
+        var pathname = window.location.pathname;
+        g_load_data_flag = window.localStorage.getItem(pathname);
+        if ( window.load_data && g_load_data_flag    ) {
             row_query.append( query_attime );
             query_attime.find("button") .on("click",function(){
-                // window["g_load_data_flag"]=1;
-                // window.load_data();
-                var pathname = window.location.pathname;
-                var g_load_data_flag = window.localStorage.getItem(pathname);
-                if(g_load_data_flag == 1){//点击查询
-                    window.load_data();
-                }else{//立即查询
-                    return false;
-                }
+                window.load_data();
             });
         }
 
-        //row_query.prepend( query_attime );
-        row_query.append( query_attime );
 
         row_query.append( query_select_list );
         var path_list=window.location.pathname.split("/");
