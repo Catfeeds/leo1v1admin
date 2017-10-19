@@ -29,13 +29,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/table_manage-index.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		db_name:	$('#id_db_name').val(),
+		table_name:	$('#id_table_name').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			db_name:	$('#id_db_name').val(),
-			table_name:	$('#id_table_name').val()
-        });
-    }
 
 
 	$('#id_db_name').val(g_args.db_name);

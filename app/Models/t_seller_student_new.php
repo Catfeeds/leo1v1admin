@@ -2534,7 +2534,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_seller_openid($userid){
         $sql = $this->gen_sql_new("  select wx_openid from %s ss"
                                   ." left join %s m on m.uid=ss.admin_revisiterid"
-                                  ." where ss.admin_revisiterid=%d"
+                                  ." where ss.userid=%d"
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,$userid
