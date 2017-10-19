@@ -53,8 +53,8 @@ class update_ass_call_count extends Command
         }
 
         //2,然后查询助教的学情回访    查询上一小时的信息
-        $end_time    = strtotime( date('Y-m-d H:00:00', $time) );
-        $start_time2 = $end_time-3600;
+        $end_time    = $time;
+        $start_time2 = $time-3600;
         $ret_info    = $task->t_revisit_info->get_revisit_type0_per_minute($start_time2, $end_time);
 
         //3,有学情回访后，在获取当日的其他回访信息
