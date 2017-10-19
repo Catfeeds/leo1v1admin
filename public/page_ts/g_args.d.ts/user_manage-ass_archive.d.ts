@@ -73,23 +73,24 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-ass_archive.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		test_user:	$('#id_test_user').val(),
+		originid:	$('#id_originid').val(),
+		grade:	$('#id_grade').val(),
+		user_name:	$('#id_user_name').val(),
+		phone:	$('#id_phone').val(),
+		teacherid:	$('#id_teacherid').val(),
+		student_type:	$('#id_student_type').val(),
+		assistantid:	$('#id_assistantid').val(),
+		userid:	$('#id_userid').val(),
+		revisit_flag:	$('#id_revisit_flag').val(),
+		warning_stu:	$('#id_warning_stu').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			test_user:	$('#id_test_user').val(),
-			originid:	$('#id_originid').val(),
-			grade:	$('#id_grade').val(),
-			user_name:	$('#id_user_name').val(),
-			phone:	$('#id_phone').val(),
-			teacherid:	$('#id_teacherid').val(),
-			student_type:	$('#id_student_type').val(),
-			assistantid:	$('#id_assistantid').val(),
-			userid:	$('#id_userid').val(),
-			revisit_flag:	$('#id_revisit_flag').val(),
-			warning_stu:	$('#id_warning_stu').val()
-        });
-    }
 
 
 	$('#id_order_by_str').val(g_args.order_by_str);
