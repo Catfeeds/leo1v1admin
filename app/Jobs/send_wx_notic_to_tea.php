@@ -31,9 +31,9 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
         //
 
 
-        $t_teacher_info = new  \App\Models\t_teacher_info();
+        $t_teacher_info = new \App\Models\t_teacher_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-        $parent_list = $t_parent_info->get_openid_list();
+        $tea_list = $t_teacher_info->get_openid_list();
 
         $wx = new \App\Helper\Wx();
 
@@ -45,31 +45,18 @@ class send_wx_notic_to_tea extends Job implements ShouldQueue
         //     ]
         // ];
 
-        foreach($t_teacher_info as $item){
-            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+        foreach($tea_list as $item){
+            $tea_template_id  = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
             $data_leo = [
-                'first'    => "家长您好，【理优在线教育】调时间功能上线了",
+                'first'    => "老师您好，家长自主调时间功能上线了",
                 'keyword1' => "功能上线通知",
-                'keyword2' => "点击个人中心，课程详情列表中调课申请按钮，选择想要调换至的时间发给老师，老师将结合自己情况进行处理",
+                'keyword2' => "收到相关推送，点击详情可进行调课同意处理或者拒绝调课处理",
                 'keyword3' => date('Y-m-d H:i:s'),
                 'remark'   => ""
             ];
             $url_leo = '';
 
 
-            /*
-              // 成绩记录功能
-              $data_leo = [
-              'first'    => "家长您好，【理优在线教育】成绩记录功能上线了",
-              'keyword1' => "功能上线通知",
-              'keyword2' => "点击个人中心，成绩记录功能，录入孩子成绩让班主任准确掌握孩子情况，制定实际有效解决孩子学习问题的课程规划",
-              'keyword3' => date('Y-m-d H:i:s'),
-              'remark'   => ""
-              ];
-              $url_leo = '';
-
-
-             */
 
             $ret = @$wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
 
