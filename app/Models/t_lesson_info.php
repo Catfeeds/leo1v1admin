@@ -3907,7 +3907,7 @@ lesson_type in (0,1) "
         if($account_role==2){
             $where_arr[] = "m.account_role=2 or tq.origin like '%%转介绍%%'";
         }elseif($account_role==1){
-            $where_arr[] = "m.account_role=1 or tq.origin not like '%%转介绍%%'";
+            $where_arr[] = "m.account_role=1 and tq.origin not like '%%转介绍%%'";
         }
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
