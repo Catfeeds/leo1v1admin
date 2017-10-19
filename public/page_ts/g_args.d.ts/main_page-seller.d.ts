@@ -28,21 +28,22 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/main_page-seller.d.ts" />
 
+function load_data(){
+    if (  !window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		test_seller_id:	$('#id_test_seller_id').val(),
+		groupid:	$('#id_groupid').val(),
+		self_groupid:	$('#id_self_groupid').val(),
+		is_group_leader_flag:	$('#id_is_group_leader_flag').val(),
+		tongji_type:	$('#id_tongji_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			test_seller_id:	$('#id_test_seller_id').val(),
-			groupid:	$('#id_groupid').val(),
-			self_groupid:	$('#id_self_groupid').val(),
-			is_group_leader_flag:	$('#id_is_group_leader_flag').val(),
-			tongji_type:	$('#id_tongji_type').val()
-        });
-    }
 
 	Enum_map.append_option_list("tongji_type",$("#id_tongji_type"));
 

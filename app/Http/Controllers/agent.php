@@ -465,31 +465,51 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 380;
-        if(!in_array($adminid,[380,457])){
-            dd('a');
-        }else{
-            dd('b');
+        $adminid = 428;
+        $userid = $this->get_in_int_val('userid');
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        $week = date('w',$time);
+        if($week == 0){
+            $week = 7;
+        }elseif($week == 1){
+            $week = 8;
         }
-        $c = '';
-        if($c){
-            dd('a');
-        }else{
-            dd('b');
+        $end_time = $time-3600*24*($week-2);
+        $start_time = $end_time-3600*24*7;
+        list($count,$count_del) = [0,0];
+        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
+        if($self_top_info>25){//上周取消率>25%,查看当天是否有过排课申请
+            $start_time = $time;
+            $end_time = $time+3600*24;
+            // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
+            $require_id = $this->t_test_lesson_subject_require->get_test_lesson_require_row($start_time,$end_time,$adminid);
+            $ret['ret'] = $require_id?1:2;
+            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
+            if($review_suc){
+                $ret['ret'] = 2;
+            }
+            $ret['rate'] = $self_top_info;
+        }else{//本周取消率
+            $start_time = $time-3600*24*($week-2);
+            $end_time = time();
+            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
+            foreach($ret_info as $item){
+                if($item['lesson_del_flag']){
+                    $count_del++;
+                }
+                $count++;
+            }
+            $del_rate = ($count?($count_del/$count):0)*100;
+            if($del_rate>20){
+                $ret['ret'] = 3;
+            }else{
+                $ret['ret'] = 4;
+            }
+            $ret['rate'] = $del_rate;
+            dd($self_top_info,$ret_info,$count_del,$count,$del_rate);
         }
-        $adminid = 830;
-        $seller_level = E\Eseller_level::V_300;
-        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
-        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
-        if($face_pic && $seller_level>0){
-            $face_pic_str = substr($face_pic,-12,5);
-            $ex_str = $next_level.$face_pic_str;
-            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-            $ret = $this->t_manager_info->field_update_list($adminid,[
-                'level_face_pic'=>$level_face_pic,
-            ]);
-        }
-        dd($level_face_pic,$ret);
+        return $ret;
     }
 
     //处理等级头像
