@@ -736,7 +736,7 @@ class test_james extends Controller
         $list = $this->t_student_score_info->get_all_info();
 
         foreach($list as $itme){
-            $this->t_student_score_info->update_field_list();
+            $this->t_student_score_info->update_score($itme['id']);
         }
         dd($list);
     }
