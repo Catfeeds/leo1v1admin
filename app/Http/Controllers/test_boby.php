@@ -331,8 +331,8 @@ class test_boby extends Controller
         // $teacherid = "(180795)";
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
-        // $lessonid_list = ['371543','371544','371545','318460','318461'];
-        $lessonid_list = ['371543','371544','371545'];
+        $lessonid_list = ['318460','318461'];
+        // $lessonid_list = ['371543','371544','371545'];
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
         // foreach ($lessonid_list as $v) {
         //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
