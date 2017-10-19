@@ -465,51 +465,19 @@ class agent extends Controller
     }
 
     public function test_new(){
-        $adminid = 428;
-        $userid = $this->get_in_int_val('userid');
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
-        $week = date('w',$time);
-        if($week == 0){
-            $week = 7;
-        }elseif($week == 1){
-            $week = 8;
+        $res = [];
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $start_first = date('Y-m-01',$start_time);
+        $this->t_admin_group_user->switch_tongji_database();
+        $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first);
+        $num_info = $this->t_admin_group_user->get_group_num($start_time);
+        foreach($group_money_info as &$item){
+            $groupid = $item['groupid'];
+            if($groupid >0 && isset($num_info[$groupid])){
+                $res[$item['adminid']]['target_money'] =  $item['month_money']/$num_info[$groupid]['num'];
+            }
         }
-        $end_time = $time-3600*24*($week-2);
-        $start_time = $end_time-3600*24*7;
-        list($count,$count_del) = [0,0];
-        $tongji_type=E\Etongji_type::V_SELLER_WEEK_FAIL_LESSON_PERCENT;
-        $self_top_info =$this->t_tongji_seller_top_info->get_admin_week_fail_percent($adminid,$start_time,$tongji_type);
-        if($self_top_info>25){//上周取消率>25%,查看当天是否有过排课申请
-            $start_time = $time;
-            $end_time = $time+3600*24;
-            // $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_row($start_time,$end_time,$adminid);
-            $require_id = $this->t_test_lesson_subject_require->get_test_lesson_require_row($start_time,$end_time,$adminid);
-            $ret['ret'] = $require_id?1:2;
-            $review_suc = $this->t_test_lesson_subject_require_review->get_row_by_adminid_userid($adminid,$userid);
-            if($review_suc){
-                $ret['ret'] = 2;
-            }
-            $ret['rate'] = $self_top_info;
-        }else{//本周取消率
-            $start_time = $time-3600*24*($week-2);
-            $end_time = time();
-            $ret_info = $this->t_lesson_info_b2->get_seller_week_lesson_new($start_time,$end_time,$adminid);
-            foreach($ret_info as $item){
-                if($item['lesson_del_flag']){
-                    $count_del++;
-                }
-                $count++;
-            }
-            $del_rate = ($count?($count_del/$count):0)*100;
-            if($del_rate>20){
-                $ret['ret'] = 3;
-            }else{
-                $ret['ret'] = 4;
-            }
-            $ret['rate'] = $del_rate;
-            dd($start_time,$end_time,$ret_info,$count_del,$count,$del_rate);
-        }
-        return $ret;
+        dd($res);
     }
 
     //处理等级头像
