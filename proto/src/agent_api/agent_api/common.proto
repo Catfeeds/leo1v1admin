@@ -1,4 +1,5 @@
 syntax = "proto3";
+//import "common_2.proto";
 package common;
 option php_namespace = "Proto\\agent_api\\common"; 
 message  money_item_t {
@@ -49,9 +50,9 @@ message all_test_pic{
   string bank_account = 3;//持卡人姓名
 }
 // message all_test_pic{
-//   common.yxyx_page page_info = 1;//页码信息
-//   common.yxyx_list list = 2;//反馈列表
-//   common.yxyx_poster poster = 3;//封面列表
+//   common_2.yxyx_page page_info = 1;//页码信息
+//   common_2.yxyx_list list = 2;//反馈列表
+//   common_2.yxyx_poster poster = 3;//封面列表
 // }
 // message yxyx_page{
 //   uint32 tital_num = 1;//总页码
