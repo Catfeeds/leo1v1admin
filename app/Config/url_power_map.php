@@ -162,6 +162,7 @@ class url_power_map {
 			'/human_resource/assistant_info2'	=>1040400,
 			'/human_resource/assistant_info_new'	=>1040500,
 			'/human_resource/get_apply_info'	=>1040600,
+			'/human_resource/interview_remind'	=>1041200,
 			'/human_resource/teacher_lecture_list'	=>1040900,
 			'/teacher_feedback/teacher_feedback_list'	=>1041001,
 			'/authority/manager_list'	=>1060200,

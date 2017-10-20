@@ -3927,7 +3927,7 @@ lesson_type in (0,1) "
         }
 
         $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list);
-        $sql = $this->gen_sql_new("select count(distinct l.userid) person_num,count(l.lessonid) lesson_num,l.teacherid "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject) person_num,count(l.lessonid) lesson_num,l.teacherid "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -3982,7 +3982,7 @@ lesson_type in (0,1) "
         }
 
         $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list);
-        $sql = $this->gen_sql_new("select count(distinct l.userid) person_num,count(l.lessonid) lesson_num,l.teacherid "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject) person_num,count(l.lessonid) lesson_num,l.teacherid "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -7177,7 +7177,7 @@ lesson_type in (0,1) "
             $where_arr[] =  ["l.grade = %u",$grade_part_ex,-1];
         }
 
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid,l.teacherid,l.subject) success_lesson"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -7208,7 +7208,7 @@ lesson_type in (0,1) "
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid,l.subject) success_lesson,l.subject"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson,l.subject"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -7480,7 +7480,7 @@ lesson_type in (0,1) "
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
 
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid,l.subject) success_lesson"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -7539,7 +7539,7 @@ lesson_type in (0,1) "
             "require_admin_type=2"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid,l.subject) success_lesson"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -9042,7 +9042,7 @@ lesson_type in (0,1) "
         if($grade_arr != -1){
             $where_arr[]= $this->where_get_in_str("l.grade", $grade_arr);
         }
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9079,7 +9079,7 @@ lesson_type in (0,1) "
             "mm.del_flag=0",
         ];
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.subject"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9129,7 +9129,7 @@ lesson_type in (0,1) "
             $where_arr[]= $this->where_get_in_str("l.grade", $grade_arr);
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count( l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count( l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9171,7 +9171,7 @@ lesson_type in (0,1) "
             "tq.origin like '%%扩课%%'"
         ];
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid) kk_per_num,count( l.lessonid) lesson_num,l.subject "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.subject,l.teacherid) kk_per_num,count( l.lessonid) lesson_num,l.subject "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9213,7 +9213,7 @@ lesson_type in (0,1) "
             $where_arr[]= $this->where_get_in_str("l.grade", $grade_arr);
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid) kk_per_num,count( l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) kk_per_num,count( l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9253,7 +9253,7 @@ lesson_type in (0,1) "
             $where_arr[]= $this->where_get_in_str("l.grade", $grade_arr);
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid) kk_per_num,count( l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) kk_per_num,count( l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -9286,7 +9286,7 @@ lesson_type in (0,1) "
             "tq.origin like '%%换老师%%'"
         ];
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid) kk_per_num,count( l.lessonid) lesson_num,l.subject "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) kk_per_num,count( l.lessonid) lesson_num,l.subject "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
