@@ -534,6 +534,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     {
         $where_arr = [
             "type>0",
+            "type not in (5,6)",//逾期学员不更新
             // "is_auto_set_type_flag = 1",
             "type_change_time<".$time
         ];
