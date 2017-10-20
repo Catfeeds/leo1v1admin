@@ -28,11 +28,12 @@
             <thead>
                 <tr>
                     <td> 姓名 </td>
-                    <td> 电话  </td>
-                    <td> 性别  </td>
-                    <td> 面试时间  </td>
-                    <td> 面试岗位 </td>
+                    <td> 面试岗位  </td>
                     <td> 面试部门  </td>
+                    <td> 面试时间  </td>
+                    <td> 面试官 </td>
+                    <td> 是否发送提醒 </td>
+                    <td> 发送时间 </td>
                     <td>  操作 </td>
                 </tr>
             </thead>
@@ -40,11 +41,12 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["gender_str"]}} </td>
-                        <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["post"]}} </td>
                         <td>{{@$var["dept"]}} </td>
+                        <td>{{@$var["interview_time"]}} </td>
+                        <td>{{@$var["interviewer_name"]}} </td>
+                        <td>{{@$var["is_send_flag_str"]}} </td>
+                        <td>{{@$var["send_msg_time"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
