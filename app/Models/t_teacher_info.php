@@ -3875,9 +3875,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 新师参训 -- 老师参型
     public function get_train_inter_teacher_type_count($start_time, $end_time){
         $whereArr = [
-            ["tl.train_through_new_time>%u", $start_time, 0],
-            ['tl.train_through_new_time<%u', $end_time, 0],
-            "l.score>=90",
+            ["l.add_time>%u", $start_time, 0],
+            ['l.add_time<%u', $end_time, 0],
             "l.train_type=1"
         ];
 
@@ -3966,7 +3965,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $whereArr = [
             ["l.add_time>%u", $start_time, 0],
             ['l.add_time<%u', $end_time, 0],
-            "l.score>=90",
             "l.train_type=1"
         ];
         // 
