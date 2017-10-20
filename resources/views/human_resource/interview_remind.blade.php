@@ -16,9 +16,8 @@
                 </div>
                 <div class="col-md-1 col-xs-5 ">
                     <div class="input-group input-group-btn">
-                        <button type="button" class="btn btn-warning id_add fa fa-plus form-control">新增面试信息</button>
+                        <button type="button" class="btn btn-warning id_add form-control">新增面试信息</button>
 
-                        <button type="button" class="btn btn-primary">（首选项）Primary</button>
                     </div>
                 </div>
 

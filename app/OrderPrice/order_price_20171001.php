@@ -71,9 +71,9 @@ class order_price_20171001 extends order_price_base
         303 => 2,
     ];
 
-	//2017-10 20-21签单 , 10号前试听的 每满10000减1000 
-    static  public function get_activity_2017102001 (&$price,  &$present_lesson_count, $args, &$desc_list ){
-        $free_money=floor($price /10000)*1000;
+    //2017-10 20-21签单 , 10号前试听的 每满10000减1000
+    static  public function get_activity_2017102001 (&$price,  &$present_lesson_count, &$desc_list ,  $lesson_times,$args ){
+
 
         $order_activity_type= E\Eorder_activity_type::V_2017102001 ;
 
@@ -88,44 +88,30 @@ class order_price_20171001 extends order_price_base
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
             $last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
+            $lesson_count_all=$task->t_student_info->get_lesson_count_all($userid);
+
             $lesson_start = $last_lesson_info["lesson_start"];
             $now=time(NULL);
-            if ($lesson_start < strtotime("2017-10-10") 
-                && $now >= strtotime("2017-10-20") 
-                && $now < strtotime("2017-10-22") 
-            ){ //10号前
-                
-                
-            }
+            if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
+                 && $now < strtotime("2017-10-22") ) {
 
-            if ( $lesson_times>=30 && $lesson_start &&  time(NULL)<$check_time  ) {
-                $free_money=300;
+                $free_money=floor($price /10000)*1000;
                 $price-=$free_money;
 
-                //2017-0801 当配活动(常规)
-                $activity_desc="试听后一天内下单 立减 300元";
-                $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
-            }else{
+                if ($lesson_start < strtotime("2017-10-10") && $lesson_times >=60 && $price){ //10号前
+                    $activity_desc=" 立减 $free_money 元";
+                    $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
+                }else{
+                    $activity_desc="";
+                    $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
+                }
 
-                $activity_desc="";
-                $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
             }
-        }else{
-
-        if ($now_count<$max_count  && $free_money>0) {
-            $price-=$free_money;
-            $activity_desc="立减 $free_money, $activity_desc_cur_count ";
-            $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
-        }else{
-            $activity_desc=" $activity_desc_cur_count ";
-            $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
-
         }
-
 
     }
 
-    //2017-1008  每满15000减500 88个名额 
+    //2017-1008  每满15000减500 88个名额
     static  public function get_activity_2017100801 (&$price,  &$present_lesson_count,  &$desc_list ){
 
         $free_money=floor($price /15000)*500;
@@ -210,7 +196,7 @@ class order_price_20171001 extends order_price_base
             $adminid=$task->t_seller_student_new->get_admin_assignerid($userid);
             $account_role=$task->t_manager_info->get_account_role($adminid);
             if ($account_role == E\Eaccount_role::V_2
-                && $lesson_start> strtotime("2017-10-01") 
+                && $lesson_start> strtotime("2017-10-01")
             ) {
                 $now_count= $task->t_order_activity_info->get_count_by_order_activity_type($order_activity_type);
                 $max_count=30;
@@ -303,29 +289,29 @@ class order_price_20171001 extends order_price_base
         $price=$old_price;
         $desc_list[]=static::gen_activity_item(E\Eorder_activity_type::V_0,1, " $lesson_count 课时 $old_price 元, 一次课 单价:$grade_price ", $price,  $present_lesson_count );
 
-        $off_86_flag=false;
+        //$off_86_flag=false;
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             //check 6.8折
-            $off_86_flag=static::get_activity_2017100102( $price, $present_lesson_count,  $desc_list, $args );
-            if (!$off_86_flag) {
+            //$off_86_flag=static::get_activity_2017100102( $price, $present_lesson_count,  $desc_list, $args );
+            //if (!$off_86_flag) {
             static::get_activity_20170901($price, $present_lesson_count,  $desc_list,  $lesson_times,$new_discount_config );
-            }
+            //}
+            static::get_activity_2017102001($price,$present_lesson_count,$desc_list , $lesson_times,$args);
 
 
             $now=time(NULL);
             //if ($now > strtotime("2017-10-01" ) &&  $now < strtotime("2017-10-08" )   ) {
-            static::get_activity_20171001($price, $present_lesson_count,  $desc_list,  $lesson_times);
-                //}
+            //static::get_activity_20171001($price, $present_lesson_count,  $desc_list,  $lesson_times);
+            //}
 
 
         }
 
         static::get_activity_2017100801($price, $present_lesson_count,  $desc_list  );
 
-        if (!$off_86_flag) {
-            static::get_activity_20170801($price, $present_lesson_count,  $desc_list,  $args,$lesson_times);
-        }
+        //当配
+        static::get_activity_20170801($price, $present_lesson_count,  $desc_list,  $args,$lesson_times);
 
 
         return [

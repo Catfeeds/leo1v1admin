@@ -4651,6 +4651,7 @@ class human_resource extends Controller
 
     public function interview_remind(){ // 面试提醒
 
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $ret_info = [];
         return $this->pageView(__METHOD__,$ret_info);
 
