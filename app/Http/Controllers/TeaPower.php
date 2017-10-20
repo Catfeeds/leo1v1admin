@@ -3554,7 +3554,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                     $this->t_lesson_info->rollback();
                     $this->t_homework_info->rollback();
                     return $this->output_err(
-                        "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                        "11<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
                         ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
                         ."查看[lessonid=$error_lessonid]<a/><div> "
                     );
@@ -3569,7 +3569,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
                 $this->t_lesson_info->rollback();
                 $this->t_homework_info->rollback();
                 return $this->output_err(
-                    "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                    "11<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
                     ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
                     ."查看[lessonid=$error_lessonid]<a/><div> "
                 );

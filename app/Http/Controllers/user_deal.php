@@ -291,6 +291,7 @@ class user_deal extends Controller
             $lesson_end = strtotime($day." ".$lesson_end);
 
             if($lesson_type!=2){
+                $acc= $this->get_account();
                 if(in_array($acc,["jim","jack"])){
                     $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count,$lessonid);
                     if(is_numeric($ret) ){
