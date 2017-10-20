@@ -21,19 +21,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	person_num	:any;
-	lesson_num	:any;
-	have_order	:any;
-	teacherid	:any;
-	realname	:any;
-	subject	:any;
-	train_through_new_time	:any;
-	grade_part_ex	:any;
-	phone	:any;
-	per	:any;
-	num	:any;
-	subject_str	:any;
-	grade_part_ex_str	:any;
 }
 
 /*
@@ -44,22 +31,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-teacher_cc_count.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		subject:	$('#id_subject').val(),
+		grade_part_ex:	$('#id_grade_part_ex').val(),
+		tranfer_per:	$('#id_tranfer_per').val(),
+		teacherid:	$('#id_teacherid').val(),
+		test_lesson_flag:	$('#id_test_lesson_flag').val(),
+		test_lesson_num:	$('#id_test_lesson_num').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			subject:	$('#id_subject').val(),
-			grade_part_ex:	$('#id_grade_part_ex').val(),
-			tranfer_per:	$('#id_tranfer_per').val(),
-			teacherid:	$('#id_teacherid').val(),
-			test_lesson_flag:	$('#id_test_lesson_flag').val(),
-			test_lesson_num:	$('#id_test_lesson_num').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
