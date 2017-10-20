@@ -1,5 +1,6 @@
 interface GargsStatic {
 	subject:	string;//枚举列表: App\Enums\Esubject
+ 	grade:	string;//枚举列表: App\Enums\Egrade
  }
 declare module "g_args" {
     export = g_args;
@@ -31,16 +32,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-grab_test_lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			subject:	$('#id_subject').val()
-        });
-    }
 
 
 	$('#id_subject').val(g_args.subject);
 	$.enum_multi_select( $('#id_subject'), 'subject', function(){load_data();} )
+	$('#id_grade').val(g_args.grade);
+	$.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,6 +60,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">subject</span>
                 <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
             </div>
         </div>
 */
