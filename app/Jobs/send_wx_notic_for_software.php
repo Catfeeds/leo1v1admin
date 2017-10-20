@@ -32,17 +32,17 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
         $this->delete();// 防止队列失败后 重复推送
         $t_parent_info = new  \App\Models\t_parent_info();
         $t_parent_send_mgs_log = new  \App\Models\t_parent_send_mgs_log();
-        // $parent_list = $t_parent_info->get_openid_list();
+        $parent_list = $t_parent_info->get_openid_list();
 
         $wx = new \App\Helper\Wx();
 
-        $parent_list = [
-            [
-                'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
-                'parentid' => '271968'
+        // $parent_list = [
+        //     [
+        //         'wx_openid' => 'orwGAs_IqKFcTuZcU1xwuEtV3Kek',
+        //         'parentid' => '271968'
 
-            ]
-        ];
+        //     ]
+        // ];
 
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
 
@@ -67,9 +67,7 @@ class send_wx_notic_for_software extends Job implements ShouldQueue
             ];
             $url_leo = '';
 
-
             $wx->send_template_msg($item['wx_openid'], $parent_template_id, $data_leo, $url_leo);
-
 
             $t_parent_send_mgs_log->row_insert([
                 "parentid" => $item['parentid'],

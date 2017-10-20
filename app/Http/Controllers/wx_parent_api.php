@@ -67,6 +67,14 @@ class wx_parent_api extends Controller
         // $parentid = 54573;//测试
         $now = time();
 
+        if($type == 0){
+            $lesson_type_str = '常规课';
+        }elseif($type == 2){
+            $lesson_type_str = '试听课';
+        }else{
+            $lesson_type_str = '';
+        }
+
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
 
@@ -89,7 +97,7 @@ class wx_parent_api extends Controller
             $lesson_num= $item["lesson_num"];
             $lessonid= $item["lessonid"];
             $userid= $item["userid"];
-            $item["lesson_name"]= "第 $lesson_num 次试听课";
+            $item["lesson_name"]= "第 $lesson_num 次 $lesson_type_str ";
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
 

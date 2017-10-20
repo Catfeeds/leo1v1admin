@@ -142,7 +142,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$arr['total_price']}}</td> 
+                                        <td> {{@$arr['total_income']}}</td> 
                                         <td> {{@$arr['person_num']}}</td> 
                                         <td> {{@$arr['total_price_thirty']}} </td> 
                                         <td> {{@$arr['person_num_thirty']}}</td> 

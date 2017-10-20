@@ -82,7 +82,7 @@ class cr_info_week extends Command
         $ret_refund = $task->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
         $arr['target']             = $target * 100;                          //1-续费目标
-        $arr['total_price']        = $month_total_money ;                    //2-现金总收入
+        $arr['total_price']        = $month_total_money;                    //2-现金总收入
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
         $arr['contract_num']       = $ret_total['order_num']; //合同数

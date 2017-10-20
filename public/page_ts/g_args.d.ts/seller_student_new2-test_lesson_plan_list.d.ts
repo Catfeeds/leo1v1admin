@@ -201,45 +201,46 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-test_lesson_plan_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		cur_page:	$('#id_cur_page').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		test_lesson_student_status:	$('#id_test_lesson_student_status').val(),
+		lessonid:	$('#id_lessonid').val(),
+		userid:	$('#id_userid').val(),
+		accept_flag:	$('#id_accept_flag').val(),
+		success_flag:	$('#id_success_flag').val(),
+		teacherid:	$('#id_teacherid').val(),
+		jw_teacher:	$('#id_jw_teacher').val(),
+		is_test_user:	$('#id_is_test_user').val(),
+		jw_test_lesson_status:	$('#id_jw_test_lesson_status').val(),
+		require_admin_type:	$('#id_require_admin_type').val(),
+		require_adminid:	$('#id_require_adminid').val(),
+		require_assign_flag:	$('#id_require_assign_flag').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		tmk_adminid:	$('#id_tmk_adminid').val(),
+		seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
+		ass_test_lesson_type:	$('#id_ass_test_lesson_type').val(),
+		test_lesson_fail_flag:	$('#id_test_lesson_fail_flag').val(),
+		accept_adminid:	$('#id_accept_adminid').val(),
+		is_jw:	$('#id_is_jw').val(),
+		is_ass_tran:	$('#id_is_ass_tran').val(),
+		limit_require_flag:	$('#id_limit_require_flag').val(),
+		limit_require_send_adminid:	$('#id_limit_require_send_adminid').val(),
+		require_id:	$('#id_require_id').val(),
+		has_1v1_lesson_flag:	$('#id_has_1v1_lesson_flag').val(),
+		lesson_plan_style:	$('#id_lesson_plan_style').val(),
+		account_role:	$('#id_account_role').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			cur_page:	$('#id_cur_page').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			test_lesson_student_status:	$('#id_test_lesson_student_status').val(),
-			lessonid:	$('#id_lessonid').val(),
-			userid:	$('#id_userid').val(),
-			accept_flag:	$('#id_accept_flag').val(),
-			success_flag:	$('#id_success_flag').val(),
-			teacherid:	$('#id_teacherid').val(),
-			jw_teacher:	$('#id_jw_teacher').val(),
-			is_test_user:	$('#id_is_test_user').val(),
-			jw_test_lesson_status:	$('#id_jw_test_lesson_status').val(),
-			require_admin_type:	$('#id_require_admin_type').val(),
-			require_adminid:	$('#id_require_adminid').val(),
-			require_assign_flag:	$('#id_require_assign_flag').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			tmk_adminid:	$('#id_tmk_adminid').val(),
-			seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
-			ass_test_lesson_type:	$('#id_ass_test_lesson_type').val(),
-			test_lesson_fail_flag:	$('#id_test_lesson_fail_flag').val(),
-			accept_adminid:	$('#id_accept_adminid').val(),
-			is_jw:	$('#id_is_jw').val(),
-			is_ass_tran:	$('#id_is_ass_tran').val(),
-			limit_require_flag:	$('#id_limit_require_flag').val(),
-			limit_require_send_adminid:	$('#id_limit_require_send_adminid').val(),
-			require_id:	$('#id_require_id').val(),
-			has_1v1_lesson_flag:	$('#id_has_1v1_lesson_flag').val(),
-			lesson_plan_style:	$('#id_lesson_plan_style').val(),
-			account_role:	$('#id_account_role').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 	Enum_map.append_option_list("subject",$("#id_subject"));
