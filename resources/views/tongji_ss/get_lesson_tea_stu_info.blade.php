@@ -40,6 +40,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >                           
+                                <a class="opt-jack">测试</a>
                             </div>
                         </td>
                     </tr>

@@ -64,22 +64,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-index.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		grade:	$('#id_grade').val(),
+		all_flag:	$('#id_all_flag').val(),
+		test_user:	$('#id_test_user').val(),
+		originid:	$('#id_originid').val(),
+		user_name:	$('#id_user_name').val(),
+		phone:	$('#id_phone').val(),
+		assistantid:	$('#id_assistantid').val(),
+		seller_adminid:	$('#id_seller_adminid').val(),
+		order_type:	$('#id_order_type').val(),
+		student_type:	$('#id_student_type').val(),
+		userid:	$('#id_userid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			grade:	$('#id_grade').val(),
-			all_flag:	$('#id_all_flag').val(),
-			test_user:	$('#id_test_user').val(),
-			originid:	$('#id_originid').val(),
-			user_name:	$('#id_user_name').val(),
-			phone:	$('#id_phone').val(),
-			assistantid:	$('#id_assistantid').val(),
-			seller_adminid:	$('#id_seller_adminid').val(),
-			order_type:	$('#id_order_type').val(),
-			student_type:	$('#id_student_type').val(),
-			userid:	$('#id_userid').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 
