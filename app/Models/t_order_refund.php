@@ -19,19 +19,18 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
         $this->where_arr_adminid_in_list($where_arr,"refund_userid", $require_adminid_list );
 
-        //            ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
-
 
         $sql = $this->gen_sql_new(
             " select  r.qc_contact_status, r.qc_advances_status, r.qc_voluntarily_status, r.userid,s.phone, o.discount_price,r.orderid,o.contract_type,r.lesson_total, f.flow_status,"
             ." f.flow_status_time,f.flowid,r.should_refund,r.price,o.invoice,o.order_time,o.sys_operator,r.pay_account, "
             ." r.real_refund,r.refund_status,r.apply_time,r.refund_userid,o.contractid,r.save_info,r.refund_info,file_url, "
-            ." o.grade,o.need_receipt , if(co.child_order_type=2,1,0) is_staged_flag"
+            ." o.grade,o.need_receipt  "
+            ." ,if(co.child_order_type=2,1,0) is_staged_flag"
             ." from %s r"
             ." left join %s s on s.userid=r.userid"
             ." left join %s o on o.orderid=r.orderid"
             ." left join %s f on (f.flow_type=%u and r.orderid=f.from_key_int and r.apply_time = f.from_key2_int) "
-            ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
+            ." left join %s co on (co.parent_orderid = r.orderid and co.child_order_type = 2)"
             ." where %s"
             ." order by $opt_date_str desc"
             ,self::DB_TABLE_NAME
