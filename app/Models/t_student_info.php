@@ -86,6 +86,45 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $ret_info;
     }
 
+    public function get_student_list_for_finance( $page_num,$all_flag, $userid,$grade, $status,
+                                             $user_name, $phone, $teacherid, $assistantid, 
+                                             $originid, $seller_adminid
+    ){
+        $where_arr=[
+            ["s.userid=%u", $userid, -1] ,
+            ["s.grade=%u", $grade, -1] ,
+            ["s.status=%u", $status, -1] ,
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.originid=%u ", $originid , -1] ,
+            ["s.seller_adminid=%u ", $seller_adminid, -1] ,
+            "s.type<>1",
+            "s.is_test_user=0",
+            "o.contract_type in (0,1,3)",
+            "o.price>0",
+        ];
+        if ($user_name) {
+            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+
+        $sql = $this->gen_sql(
+            "select s.origin_userid, s.userid, s.nick,s.realname, s.spree, phone, s.originid, s.origin, s.grade, "
+            ."s.parent_name, s.parent_type, s.last_login_ip, s.last_lesson_time, s.last_login_time,s.assistantid, s.lesson_count_all, "
+            ."s.lesson_count_left, s.user_agent,s.seller_adminid,s.ass_assign_time ,s.reg_time,s.phone_location,s.origin_assistantid ,s.grade_up"
+            ." from %s s "
+            ." left join %s o on o.userid=s.userid"
+            ." where  %s ",
+            self::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            [$this->where_str_gen($where_arr)]
+        );
+
+        return  $this->main_get_list_by_page($sql,$page_num,10);
+    }
+
+
 
 
     public function get_student_list_search_two_weeks( $start_time, $end_time,$page_num,$all_flag, $userid,$grade, $status,

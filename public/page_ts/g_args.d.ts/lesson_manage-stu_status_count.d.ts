@@ -40,13 +40,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/lesson_manage-stu_status_count.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val()
-        });
-    }
 
 
 	$('#id_start_date').val(g_args.start_date);
