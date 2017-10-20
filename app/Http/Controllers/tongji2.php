@@ -1295,8 +1295,8 @@ class tongji2 extends Controller
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
             $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
             //$arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
-            $arr['total_price']        = $month_total_money;                    //2-现金总收入
-            $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
+            $arr['total_price']        = $month_total_money/100;                    //2-现金总收入
+            $arr['total_income']       = $ret_total['total_price']/100 ;             //A1-现金总收入
 
             $arr['person_num']         = $ret_total['person_num']; //下单总人数
             $arr['contract_num']       = $ret_total['order_num']; //合同数
