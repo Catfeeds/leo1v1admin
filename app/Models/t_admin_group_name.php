@@ -406,7 +406,7 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         $where_arr = [
             // " m.account_role =2",
             "((m.leave_member_time=0 and $end_time-m.become_member_time>=30*86400) or (m.leave_member_time>=$start_time and $end_time-m.become_member_time>=30*86400 ))",
-            " mg.main_type=2",
+            // " mg.main_type=2",
         ];
 
         // $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
