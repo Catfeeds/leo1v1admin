@@ -11,6 +11,7 @@ app/Http/Controllers/ControllerEnums.php
 old
 public/page_js/enum_map.js
 public/page_ts/.*
+public/proto/*
 storage
 core
 f
