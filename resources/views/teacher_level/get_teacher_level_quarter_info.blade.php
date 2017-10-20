@@ -13,8 +13,19 @@
                     </div>
                 </div>               
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师 </span>
+                        <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
                 </div>                
+                @if($acc=="jack")
+                    <button class="btn btn-primary" id="id_add_info"> 刷新数据 </button>
+                @endif
+                
 
 
 
@@ -36,6 +47,8 @@
                     <td>签单数(其他)</td>
                     <td>转化率(其他)</td>
                     <td>转化率得分(其他)</td>
+                    <td>常规学生数</td>
+                    <td>常规学生数得分</td>
                     <td>反馈数量</td>
                     <td>反馈平均分数</td>
                     <td>教学质量评估分</td>
@@ -64,6 +77,8 @@
                         <td>{{@$var["other_order_num"]}} </td>
                         <td>{{@$var["other_order_per"]}}% </td>
                         <td>{{@$var["other_order_score"]}} </td>
+                        <td>{{@$var["stu_num"]}} </td>
+                        <td>{{@$var["stu_num_score"]}} </td>
 
                         <td>{{@$var["record_num"]}} </td>
                         <td>{{@$var["record_score_avg"]}} </td>
@@ -104,6 +119,13 @@
                                 @endif
                                 @if($var["hand_flag"]==1)
                                     <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
+                                @endif
+                                @if($var["accept_flag"]==0 && $var["require_time"]>0)
+                                    <a class="opt-update-level-after" title="修改等级">修改等级</a>
+                                @endif
+                                @if($acc=="jack")
+                                    <a class="opt-del" title="删除">删除</a>
+                                    <a class="opt-edit" title="编辑">编辑</a>
                                 @endif
 
                             </div>

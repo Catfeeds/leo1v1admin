@@ -127,7 +127,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ." left join %s tls  on  tls.test_lesson_subject_id= tsr.test_lesson_subject_id "
             ." left join %s tlm on tlm.lessonid=l.lessonid"
             ." left join %s tsc on tsc.userid=l.userid"
-            ." where %s  order by lesson_start desc "
+            ." where %s group by l.lessonid order by lesson_start desc  "
             ,self::DB_TABLE_NAME
             ,t_parent_child::DB_TABLE_NAME
             ,t_teacher_label::DB_TABLE_NAME
@@ -1393,7 +1393,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.assistantid>0",
             "s.is_test_user=0",
             "m.account_role=1",
-            "m.del_flag=0"
+            // "m.del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new("select distinct l.userid,m.uid "
@@ -2743,7 +2743,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.record_info <> ''";
         }
-        
+
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
@@ -2957,7 +2957,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
-        
+
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
@@ -3706,7 +3706,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-   
+
 
     public function get_no_time_train_lesson_teacher_list(){
         $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname,t.phone,t.wx_openid "
@@ -3883,13 +3883,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_seller_week_lesson_new($start_time,$end_time,$adminid){
         $where_arr=[
             ["l.lesson_type=%u",2,-1],
-            ["lsl.set_lesson_time >= %u",$start_time,-1],
-            ["lsl.set_lesson_time < %u",$end_time,-1],
             ["ls.require_adminid = %u",$adminid,-1],
         ];
-
+        // $this->where_arr_add_time_range($where_arr,'lsl.set_lesson_time',$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,'l.lesson_end',$start_time,$end_time);
         $sql = $this->gen_sql_new(" select l.lessonid,l.userid,l.lesson_start,l.lesson_end,l.lesson_del_flag,"
-                                  ."lsl.call_before_time,lsl.call_end_time,"
+                                  ."lsl.call_before_time,lsl.call_end_time,set_lesson_time,"
                                   ."ls.require_adminid adminid,ls.require_adminid"
                                   ." from %s l "
                                   ." left join %s lsl on lsl.lessonid=l.lessonid "
@@ -3938,6 +3937,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_row($sql);
     }
+
 
 
 }

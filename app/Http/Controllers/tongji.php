@@ -734,9 +734,14 @@ class tongji extends Controller
     }
 
     public function get_month_money_info(){
-        $ret_list = $this->t_order_info->get_month_money_info();
+        $year=$this->get_in_el_year(date('Y', time()));
+        $start_time = $year[0].'-01-01 00:00:00';
+        $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
+        $end_time = strtotime($end_time);
+        $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
+            /*
             $all_money=0;
             if ($month=="2017-06"  ) {
                 $all_money=7406943;
@@ -765,6 +770,7 @@ class tongji extends Controller
             }else if ($month=="2017-05"  ) {
                 $item["all_money"]=4454107;
             }
+            */
 
         }
 
@@ -1864,6 +1870,58 @@ class tongji extends Controller
 
         }
         return $this->pageView(__METHOD__, $ret_info);
+    }
+
+    /**
+     * 试听课学生和老师教材版本的匹配度
+     */
+    public function match_lesson_textbook(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+
+        $region_version = array_flip(E\Eregion_version::$desc_map);
+
+        // $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $list      = $this->t_lesson_info_b3->get_textbook_match_lesson_and_order_list($start_time,$end_time);
+        $all_num   = 0;
+        $match_num = 0;
+        $stu_arr   = [];
+        $succ_arr  = [];
+        $match_arr = [];
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+                if(!in_array($val['succ_userid'],$match_arr)){
+                    array_push($match_arr,$val['succ_userid']);
+                }
+            } else {
+                if(!in_array($val['succ_userid'],$succ_arr)){
+                    array_push($succ_arr,$val['succ_userid']);
+                }
+            }
+            if(!in_array($val['stu_userid'],$stu_arr)){
+                array_push($stu_arr,$val['stu_userid']);
+            }
+
+        }
+        $match_rate = $all_num>0?($match_num/$all_num):0;
+        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
+        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
+        // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
+
+        return $this->pageView(__METHOD__,[],[
+            "all_num"    => $all_num,
+            "match_num"  => $match_num,
+            "match_rate" => round($match_rate*100,2)."%",
+            "succ_rate" => round($succ_rate*100,2)."%",
+            "match_succ_rate" => round($match_succ_rate*100,2)."%",
+        ]);
     }
 
 

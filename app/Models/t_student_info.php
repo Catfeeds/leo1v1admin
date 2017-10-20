@@ -299,7 +299,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ." left join %s m on b.sys_operator = m.account"
             ." left join %s t on t.phone = m.phone "
             ." left join %s tq on tq.id = b.call_phone_id "
-            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.revisit_time",
+            ."  where %s and b.revisit_time > %u and b.revisit_time < %u order by b.revisit_time desc",
             self::DB_TABLE_NAME,
             t_revisit_info::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
@@ -1310,6 +1310,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
 
         if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
+            //记录一条数据
+            $phone = $this->get_phone($userid);
+            $this->task->t_book_revisit->add_book_revisit(
+                $phone,
+                $nick."合同已确认/交界单已经提交",
+                "system"
+            );
+
+            
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
             if($user_info["origin_assistantid"]>0){
@@ -1498,7 +1507,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                     $wx_id = $this->task->t_manager_info->get_wx_id($master_adminid);
                     $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"学生分配助教组长","学生分配助教组长通知","您好,您的学员".$nick."已经分配至".$group_name.",组长:".$ass_account.",微信号:".$wx_id.",状态:未分配助教","");
 
+                }else{
+                     $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长,更新数据表失败","");
                 }
+            }else{
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"学生未分配助教组长","学生未分配助教组长通知","您好,学员".$nick."未找到对应助教助长","");
             }
         }
 
@@ -1759,7 +1772,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_ass_stu_info_new($adminid=-1){
         $where_arr=[
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0",
             ["m.uid=%u",$adminid,-1]
         ];
@@ -1783,7 +1796,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr=[
             "type=2",
             " m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "s.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"s.type_change_time",$start_time,$end_time);
@@ -1820,7 +1833,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
                                  " join %s a on a.assistantid=s.assistantid".
                                  " join %s m on a.phone=m.phone".
-                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 and m.del_flag=0",
+                                 " where s.assistantid >0 and s.type=0 and m.account_role=1 ",
                                  self::DB_TABLE_NAME,
                                  t_assistant_info::DB_TABLE_NAME,
                                  t_manager_info::DB_TABLE_NAME
@@ -2792,7 +2805,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_stu_grade_info_month($time){
-        
+
         $sql = $this->gen_sql_new("select count(*) num,grade from %s where reg_time <%u and is_test_user=0 and grade >0 and grade <402 and assistantid>0 group by grade",
                                   self::DB_TABLE_NAME,
                                   $time
@@ -2909,6 +2922,29 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
        );
 
         return $this->main_get_list($sql);
-        
+
     }
+
+    public function check_is_test_user($userid){
+        $sql = $this->gen_sql_new("select is_test_user from %s where userid=$userid"
+                                  ,self::DB_TABLE_NAME
+
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_ass_openid($userid){
+        $sql = $this->gen_sql_new("  select wx_openid from %s s "
+                                  ." left join %s a on a.assistantid=s.assistantid"
+                                  ." left join %s m on m.phone=a.phone"
+                                  ." where s.userid=%d "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$userid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 }

@@ -191,39 +191,40 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		studentid:	$('#id_studentid').val(),
+		teacherid:	$('#id_teacherid').val(),
+		confirm_flag:	$('#id_confirm_flag').val(),
+		seller_adminid:	$('#id_seller_adminid').val(),
+		lesson_status:	$('#id_lesson_status').val(),
+		assistantid:	$('#id_assistantid').val(),
+		grade:	$('#id_grade').val(),
+		test_seller_id:	$('#id_test_seller_id').val(),
+		test_seller_adminid:	$('#id_test_seller_adminid').val(),
+		has_performance:	$('#id_has_performance').val(),
+		fulltime_flag:	$('#id_fulltime_flag').val(),
+		lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
+		lesson_type:	$('#id_lesson_type').val(),
+		subject:	$('#id_subject').val(),
+		lesson_count:	$('#id_lesson_count').val(),
+		lesson_cancel_reason_type:	$('#id_lesson_cancel_reason_type').val(),
+		lesson_del_flag:	$('#id_lesson_del_flag').val(),
+		has_video_flag:	$('#id_has_video_flag').val(),
+		is_with_test_user:	$('#id_is_with_test_user').val(),
+		seller_flag:	$('#id_seller_flag').val(),
+		lessonid:	$('#id_lessonid').val(),
+		origin:	$('#id_origin').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			studentid:	$('#id_studentid').val(),
-			teacherid:	$('#id_teacherid').val(),
-			confirm_flag:	$('#id_confirm_flag').val(),
-			seller_adminid:	$('#id_seller_adminid').val(),
-			lesson_status:	$('#id_lesson_status').val(),
-			assistantid:	$('#id_assistantid').val(),
-			grade:	$('#id_grade').val(),
-			test_seller_id:	$('#id_test_seller_id').val(),
-			test_seller_adminid:	$('#id_test_seller_adminid').val(),
-			has_performance:	$('#id_has_performance').val(),
-			fulltime_flag:	$('#id_fulltime_flag').val(),
-			lesson_user_online_status:	$('#id_lesson_user_online_status').val(),
-			lesson_type:	$('#id_lesson_type').val(),
-			subject:	$('#id_subject').val(),
-			lesson_count:	$('#id_lesson_count').val(),
-			lesson_cancel_reason_type:	$('#id_lesson_cancel_reason_type').val(),
-			lesson_del_flag:	$('#id_lesson_del_flag').val(),
-			has_video_flag:	$('#id_has_video_flag').val(),
-			is_with_test_user:	$('#id_is_with_test_user').val(),
-			seller_flag:	$('#id_seller_flag').val(),
-			lessonid:	$('#id_lessonid').val(),
-			origin:	$('#id_origin').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
-        });
-    }
 
 	Enum_map.append_option_list("set_boolean",$("#id_lesson_user_online_status"));
 	Enum_map.append_option_list("boolean",$("#id_has_video_flag"));

@@ -3,6 +3,8 @@ interface GargsStatic {
 	type:	number;
 	page_num:	number;
 	page_count:	number;
+	agent_check_money_flag:	number;//App\Enums\Eagent_check_money_flag
+	phone:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -26,8 +28,16 @@ interface RowData {
 	phone	:any;
 	bankcard	:any;
 	bank_type	:any;
+	bank_account	:any;
+	bank_address	:any;
+	bank_phone	:any;
+	bank_province	:any;
+	bank_city	:any;
 	zfb_name	:any;
 	zfb_account	:any;
+	all_yxyx_money	:any;
+	all_open_cush_money	:any;
+	all_have_cush_money	:any;
 	agent_check_money_flag	:any;
 	check_money_admin_nick	:any;
 	agent_check_money_flag_str	:any;
@@ -45,13 +55,18 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			cash:	$('#id_cash').val(),
-			type:	$('#id_type').val()
+			type:	$('#id_type').val(),
+			agent_check_money_flag:	$('#id_agent_check_money_flag').val(),
+			phone:	$('#id_phone').val()
         });
     }
 
+	Enum_map.append_option_list("agent_check_money_flag",$("#id_agent_check_money_flag"));
 
 	$('#id_cash').val(g_args.cash);
 	$('#id_type').val(g_args.type);
+	$('#id_agent_check_money_flag').val(g_args.agent_check_money_flag);
+	$('#id_phone').val(g_args.phone);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -73,6 +88,21 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">type</span>
                 <input class="opt-change form-control" id="id_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">agent_check_money_flag</span>
+                <select class="opt-change form-control" id="id_agent_check_money_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">phone</span>
+                <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
 */

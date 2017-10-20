@@ -56,6 +56,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/main_page/recruit_division"                    => true,
         "/warning_overtime/add_overtime"          => true,
         "/grab_lesson/add_requireids"             => true,
         "/grab_lesson/upadte_lesson_link"         => true,
@@ -234,6 +235,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/auto_rank_lesson"            => true,
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/train_not_through_list_px"   => true,
         "/tea_manage/set_teacher_part_remark"     => true,

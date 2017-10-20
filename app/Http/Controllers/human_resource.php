@@ -834,8 +834,6 @@ class human_resource extends Controller
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
         $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
-
-
         // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){

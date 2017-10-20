@@ -1,4 +1,5 @@
 interface GargsStatic {
+	order_by_str:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -28,21 +29,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/main_page-seller.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		test_seller_id:	$('#id_test_seller_id').val(),
+		groupid:	$('#id_groupid').val(),
+		self_groupid:	$('#id_self_groupid').val(),
+		is_group_leader_flag:	$('#id_is_group_leader_flag').val(),
+		tongji_type:	$('#id_tongji_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			test_seller_id:	$('#id_test_seller_id').val(),
-			groupid:	$('#id_groupid').val(),
-			self_groupid:	$('#id_self_groupid').val(),
-			is_group_leader_flag:	$('#id_is_group_leader_flag').val(),
-			tongji_type:	$('#id_tongji_type').val()
-        });
-    }
 
 	Enum_map.append_option_list("tongji_type",$("#id_tongji_type"));
 
@@ -56,6 +59,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_test_seller_id').val(g_args.test_seller_id);
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_self_groupid').val(g_args.self_groupid);
@@ -70,6 +74,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

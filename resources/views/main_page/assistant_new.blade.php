@@ -183,6 +183,10 @@
                                         <td>{{@$stu_info["renw_student"]}} </td>
                                         <td>{{@$stu_info["renw_stu_per"]}}% </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2">转介绍人数(手动编辑)</td> 
+                                        <td colspan="2">{{@$stu_info["hand_tran_num"]}}</td>
+                                    </tr>
                                    
 
                                 </tbody>
@@ -235,8 +239,9 @@
                                         <td>排名</td>
                                         <td>助教</td>
                                         <td>续费金额</td>
-                                        <td>转介绍金额</td>
-                                        <td>合计</td>
+                                        <td>新签金额</td>
+                                        <td>总续费金额</td>
+                                        <td>CC转介绍金额</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_renw_list">
@@ -247,6 +252,7 @@
                                             <td>{{@$var["renw_price"]}} </td>
                                             <td>{{@$var["tran_price"]}} </td>
                                             <td>{{@$var["all_price"]}}</td>
+                                            <td>{{@$var["cc_tran_money"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

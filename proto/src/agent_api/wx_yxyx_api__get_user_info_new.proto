@@ -1,0 +1,33 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD: 1020
+//__DESC:  微信[优学优享]-个人中心新版 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_info_new?_agent_id=3606 
+//__TAGS: for_wx_yxyx 
+
+message in  {
+}
+
+/*
+  <field field_name="agent_level" field_type="uint32" field_size="0" field_flag="0" field_desc="会员等级"/>
+  <field field_name="agent_level_str" field_type="bytes" field_size="0" field_flag="0" field_desc="会员等级"/>
+*/
+
+message out {
+  uint32  agent_level = 1 ;// 会员等级
+  string  agent_level_str =2 ; // 会员等级
+  uint32 star_count   =3; // 星星个数
+  string wx_nick=4;//微信昵称
+  string wx_headimgurl =5;//微信头像
+  float all_have_cush_money = 6; //已提现总金额
+  common.money_item_t all_money_info = 7; //总收入
+  common.money_item_t order_money_info = 8; //签单佣金
+  common.money_item_t invite_money_info= 9; //邀请奖励
+  common.money_item_t l2_invite_money_info=10; //l2邀请奖励
+  common.money_item_t activity_money_info =11; //活动奖励
+  uint32 invite_money_not_open_lesson_succ =12; //不可提现 试听成功总金额
+  uint32  invite_money_not_open_not_lesson_succ=13; // 不可提现 试听未成功 总金额
+  uint32  child_all_count =14; // 一级+二级个数
+  uint32   order_user_count=15; //签单人数
+
+}

@@ -101,7 +101,7 @@ trait  ViewDeal {
 
 
             if ( !in_array( $key ,["page_num","page_count"]) ) {
-                $reload_filed_str.=  "\t\t\t$key:\t\$('#id_$key').val(),\n";
+                $reload_filed_str.=  "\t\t$key:\t\$('#id_$key').val(),\n";
                 $add_set_filed_flag=false;
                 if ($check_data_range) {
                     if ( !in_array ( $key, ["date_type_config","date_type", "opt_date_type","start_time","end_time"] ) )  {
@@ -178,12 +178,14 @@ trait  ViewDeal {
              "/// <reference path=\"../common.d.ts\" />\n".
              "/// <reference path=\"../g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.d.ts\" />\n".
              "\n".
-             "$(function(){\n".
-             "    function load_data(){\n".
-             "        $.reload_self_page ( {\n".
+             "function load_data(){\n".
+             "    if ( window[\"g_load_data_flag\"]) {return;}\n".
+             "    $.reload_self_page ( {\n".
              $reload_filed_str.
-             "        });\n".
-             "    }\n".
+             "    });\n".
+             "}\n".
+
+             "$(function(){\n".
              "\n".
              $enum_set_select_str.
              "\n".

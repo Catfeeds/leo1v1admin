@@ -246,4 +246,14 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
         return $this->main_get_list($sql);
     }
+
+
+    public function get_openid_list(){
+        $sql = $this->gen_sql_new("  select wx_openid, parentid from %s "
+                                  ." where wx_openid <> '' group by wx_openid order by parentid desc"
+                                  ,self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

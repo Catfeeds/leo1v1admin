@@ -10,6 +10,10 @@ use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
+use App\Jobs\send_wx_notic_for_software;
+use  App\Jobs\send_wx_notic_to_tea;
+
+
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
@@ -702,8 +706,98 @@ class test_james extends Controller
 
 
 
+    public function send_msg_to_parent(){
+        dd(1);
 
 
+        dispatch(new send_wx_notic_for_software());
+
+
+    }
+
+
+    public function send_msg_to_teacher(){
+
+
+        $re = $this->t_teacher_info->get_openid_list();
+        dd($re);
+        dd('已处理');
+        
+
+        // dispatch(new send_wx_notic_to_tea());
+
+        // dd($re);
+    }
+
+
+
+    public function dds(){
+        $list = $this->t_student_score_info->get_all_info();
+
+        foreach($list as $itme){
+            $this->t_student_score_info->update_score($itme['id']);
+        }
+        dd($list);
+    }
+
+
+
+
+    public function ssss(){
+
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+
+        // dd($r);
+        $arr = [];
+        foreach($r as $v){
+            $arr[] = $v['account'];
+        }
+        dd($arr);
+
+        $this->switch_tongji_database();
+        $r = $this->t_parent_info->get_openid_list();
+        dd($r);
+
+        $userid= $this->get_in_str_val('u');
+
+        $userid  = $userid*10;
+        dd($userid);
+
+        $ass_openid = $this->t_student_info->get_ass_openid($userid);
+
+        $check = 1;
+        $send_openid = 'cccc';
+
+        if(!$ass_openid ){
+            $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+            $check = 2;
+
+        }
+
+
+
+        dd($ass_openid." ~ ".$send_openid." ~ ".$check);
+
+        $first_group  = '咨询一部';
+        $second_group = '咨询二部';
+        $third_group  = '咨询三部';
+        $new_group    = '新人营';
+
+        $start_time = $this->get_in_int_val('s');
+
+        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
+
+        dd($new_order_info);
+
+        $ret_info['one_department']    = $this->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
+        $ret_info['two_department']    = $this->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
+        $ret_info['three_department']  = $this->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
+        $ret_info['new_department']    = $this->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
+
+        dd($ret_info);
+    }
 
 
 

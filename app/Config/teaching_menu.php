@@ -21,7 +21,7 @@ class teaching_menu{
                     [ "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
                     [ "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                     [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
-
+                    [ "name"=>"教材版本匹配度",   "url"=>"/tongji/match_lesson_textbook"],
                 ]],
 
                 [ "name"=>"师资管理部",  "list"=>[

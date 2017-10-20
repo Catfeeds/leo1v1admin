@@ -556,6 +556,7 @@ return array(
     'TSellerTongjiForMonthRename' => $baseDir . '/database/migrations/2017_10_12_141047_t_seller_tongji_for_month_rename.php',
     'TSellerTongjiForMonthReset' => $baseDir . '/database/migrations/2017_10_09_165401_t_seller_tongji_for_month_reset.php',
     'TSshLoginLogNew' => $baseDir . '/database/migrations/2017_10_11_175202_t_ssh_login_log_new.php',
+    'TTeacherAdvanceListAddTeacherMoneyType' => $baseDir . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
     'TTqCallInfoAddObjStartTime' => $baseDir . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',

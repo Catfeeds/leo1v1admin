@@ -9,10 +9,10 @@ $(function(){
         var assistantid = $("#id_assistantid").val();
         var del_flag    = $("#id_del_flag").val();
 
-	    var url= window.location.pathname+"?start_time="+start_date+"&end_time="+end_date+"&teacherid="+teacherid+"&assistantid="+assistantid+"&del_flag="+del_flag;
-	    window.location.href=url;
+      var url= window.location.pathname+"?start_time="+start_date+"&end_time="+end_date+"&teacherid="+teacherid+"&assistantid="+assistantid+"&del_flag="+del_flag;
+      window.location.href=url;
     };
-    
+
     $("#id_teacherid").val(g_args.teacherid);
     $("#id_assistantid").val(g_args.assistantid);
     $("#id_date_start").val(g_args.start_time);
@@ -32,22 +32,22 @@ $(function(){
             load_data();
         }
     });
-    
+
     $("#id_del_flag").on("change", function(){
         load_data();
     });
-    
-	//TODO
-	//时间控件
-	$('#id_date_start, #id_date_end').datetimepicker({
-		lang:'ch',
-		timepicker:false,
-		format:'Y-m-d ',
-	    onChangeDateTime :function(){
-		    load_data();
+
+  //TODO
+  //时间控件
+  $('#id_date_start, #id_date_end').datetimepicker({
+    lang:'ch',
+    timepicker:false,
+    format:'Y-m-d ',
+      onChangeDateTime :function(){
+        load_data();
         }
-	});
-    
+  });
+
     $('#add_small_class_course').on('click', function(){
         var id_course_name  = $("<input>");
         var id_grade        = $("<select/>");
@@ -55,10 +55,10 @@ $(function(){
         var id_lesson_count = $("<input>");
         var id_stu_total    = $("<input>");
         var id_packageid    = $("<input>");
-        
+
         Enum_map.append_option_list("grade", id_grade,true);
         Enum_map.append_option_list("subject", id_subject,true);
-        
+
         var arr = [
             [ "名称",  id_course_name] ,
             [ "年级",  id_grade] ,
@@ -105,7 +105,7 @@ $(function(){
                     dataType: 'json',
                     success:   ajax_default_deal_func
                 });
-			    dialog.close();
+          dialog.close();
             }
         });
 
@@ -149,43 +149,43 @@ $(function(){
                         'arg_name' :  "package_type"  ,
                         select_option_list: [ {
                             value : -1 ,
-                            text :  "全部" 
+                            text :  "全部"
                         },{
                             value :  1 ,
-                            text :  "1V1试听课" 
+                            text :  "1V1试听课"
                         },{
                             value :  2 ,
-                            text :  "1V1定制课" 
+                            text :  "1V1定制课"
                         },{
                             value :  3 ,
                             text :  "1V1自选课"
                         },{
                             value :  1001,
-                            text :  "普通公开课" 
+                            text :  "普通公开课"
                         },{
                             value :  2001,
-                            text :  "普通答疑课" 
+                            text :  "普通答疑课"
                         },{
                             value :  3001,
-                            text :  "普通小班课" 
+                            text :  "普通小班课"
                         }]
                     },{
                         size_class: "col-md-8" ,
                         title :"课程包名称/科目",
                         'arg_name' :  "search_str"  ,
-                        type  : "input" 
+                        type  : "input"
                     }
 
-                ] 
+                ]
             ],
             "auto_close" : true,
             "onChange"   : null,
             "onLoadData" : null
         });
-        
+
     });
-    
-    
+
+
     $('.opt-alloc-teacher').on('click',function(){
         var courseid = $(this).parent().data("courseid");
         $(this).admin_select_user({
@@ -232,7 +232,7 @@ $(function(){
 
     $('.opt-list-student').on('click',  function(){
         var courseid =  $(this).get_opt_data("courseid");
-        
+
         show_ajax_table({
             "title" : "学生列表",
             "bind"  : function($id_body ) {
@@ -272,7 +272,7 @@ $(function(){
                 "title" : "操作",
                 "render" :function(val,item){
                     return "<a   data-student_nick=\""+item["student_nick"]+"\"  data-userid=\""+item["userid"]+"\" class=\"opt-delete-student\" >删除</a>" ;
-                    
+
                 }
             }],
             "request_info" : {
@@ -283,7 +283,7 @@ $(function(){
             }
         });
     });
-    
+
     $('.opt-lesson-open').on('click', function(){
         var courseid       = $(this).get_opt_data("courseid");
         var id_lesson_open = $("<input>");
@@ -294,7 +294,7 @@ $(function(){
             autoclose: true,
             todayBtn: true
         });
-        
+
         id_lesson_open.val(lesson_open);
 
         var arr                = [
@@ -313,7 +313,7 @@ $(function(){
                 },function(){
                     alert('设置成功' );
                 });
-			    dialog.close();
+          dialog.close();
             }
         });
     });
@@ -351,7 +351,7 @@ $(function(){
         return $lesson_time.html();
 
     };
-    
+
     var dp_set_lesson_time = function(courseid, lesson_time_list) {
         var html_node=$('<div></div>').html(dlg_get_html_by_class('dlg_set_lesson_time'));
         if (lesson_time_list != null && lesson_time_list.length != 0 ) {
@@ -365,8 +365,8 @@ $(function(){
             }
         }
         BootstrapDialog.show({
-	        title: '修改可能上课时间',
-	        message : function(dialog) {
+          title: '修改可能上课时间',
+          message : function(dialog) {
 
                 html_node.find('.lesson_time_tab').on('click', '.add_new_time', function(){
                     var time_str = '<tr class="lesson_time"><td><select class="form-control dayofweek">'+
@@ -389,16 +389,16 @@ $(function(){
 
                 return html_node;
             },
-	        buttons: [{
-		        label: '返回',
-		        action: function(dialog) {
-			        dialog.close();
-		        }
-	        }, {
-		        label: '确认',
-		        cssClass: 'btn-warning',
-		        action: function(dialog) {
-                    
+          buttons: [{
+            label: '返回',
+            action: function(dialog) {
+              dialog.close();
+            }
+          }, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+
                     var lesson_time = '';
                     html_node.find('.lesson_time').each(function(){
                         lesson_time += $(this).find('.dayofweek').val() + '|' +
@@ -411,14 +411,14 @@ $(function(){
                     }, function(result) {
                         BootstrapDialog.alert(result['info']);
                     });
-			        dialog.close();
-		        }
-	        }]
+              dialog.close();
+            }
+          }]
         });
     };
 
     $('.opt-add-extra-lesson').on('click', function() {
-        
+
         var courseid = $(this).parent().data('courseid');
 
         var id_incr_lesson_num = $("<input>");
@@ -442,26 +442,26 @@ $(function(){
                         alert("成功") ;
                         window.location.reload();
                     }
-			        dialog.close();
+              dialog.close();
                 });
             }
         });
     });
-    
+
     $('.opt-del-lesson-info').on('click', function() {
         var config_courseid = $(this).parent().data('courseid');
         BootstrapDialog.show({
-	        title: "删除改管理",
-	        message : "确认是否删除" + config_courseid,
-	        buttons: [{
-		        label: '返回',
-		        action: function(dialog) {
-			        dialog.close();
-		        }
-	        }, {
-		        label: '确认',
-		        cssClass: 'btn-warning',
-		        action : function(dialog) {
+          title: "删除改管理",
+          message : "确认是否删除" + config_courseid,
+          buttons: [{
+            label: '返回',
+            action: function(dialog) {
+              dialog.close();
+            }
+          }, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action : function(dialog) {
                 do_ajax( "/small_class/get_config_courseid",{
                 'courseid' : config_courseid
                 },function(data){
@@ -479,10 +479,10 @@ $(function(){
                     });
                 };
             }
-        });  
-                                       
-		        }
-	        }]
+        });
+
+            }
+          }]
         });
       });
 

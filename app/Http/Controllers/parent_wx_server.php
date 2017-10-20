@@ -54,15 +54,16 @@ class  parent_wx_server extends Controller
             //array('id'=>'6', 'pid'=>'3', 'name'=>'帐号绑定', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/binding'),
             array('id'=>'7', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
             array('id'=>'8', 'pid'=>'3', 'name'=>'课程详情', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/index'),
+            array('id'=>'10', 'pid'=>'3', 'name'=>'成绩记录', 'type'=>'view', 'code'=>"http://wx-parent.leo1v1.com/wx_parent/scores?_url=/wx_parent/scores"),
+            //http://wx-parent-web.leo1v1.com/scores?_url=/wx_parent/scores
             array('id'=>'9', 'pid'=>'3', 'name'=>'我要投诉', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/complain' ),
-            //array('id'=>'9', 'pid'=>'3', 'name'=>'我要投诉', 'type'=>'view', 'code'=>'https://wj.qq.com/s/1299964/375f/'),
 
         );
 
         // dd(\LaneWeChat\Core\Menu::getMenu($menuList));
         $result = \LaneWeChat\Core\Menu::setMenu($menuList);
-        dd($result);
-        // dd(\LaneWeChat\Core\Menu::getMenu());
+        // dd($result);
+        dd(\LaneWeChat\Core\Menu::getMenu());
 
     }
 

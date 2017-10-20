@@ -467,11 +467,6 @@ class tea_manage extends Controller
             $image_time = "时间：".$lesson_time;
             $image_lessonid = "课程：".$lessonid;
             $font_file = "fonts/Light_50868_S60SC_C.ttf";
-            // $font_file = 'simhei.ttf';
-            // if (! is_file($font_file)) {
-            //     $font_file = dirname(__FILE__) . "/" . $font_file;
-            // }
-
 
             //创建文字
             $text_url1 = "/tmp/".$lessonid."-text1.png";
@@ -488,10 +483,10 @@ class tea_manage extends Controller
             $im2 = imagecreatetruecolor(400, 180);
             imagefill($im2, 0, 0, $bkcolor);
             $fontcolor = imagecolorallocate($im2, 102,102,102);
-            imagefttext($im2, 20, 0, 0, 40, $fontcolor, $font_file, $image_tea);
-            imagefttext($im2, 20, 0, 0, 80, $fontcolor, $font_file, $image_stu);
-            imagefttext($im2, 20, 0, 0, 120, $fontcolor, $font_file, $image_time);
-            imagefttext($im2, 20, 0, 0, 160, $fontcolor, $font_file, $image_lessonid);
+            imagefttext($im2, 18, 0, 0, 40, $fontcolor, $font_file, $image_tea);
+            imagefttext($im2, 18, 0, 0, 80, $fontcolor, $font_file, $image_stu);
+            imagefttext($im2, 18, 0, 0, 120, $fontcolor, $font_file, $image_time);
+            imagefttext($im2, 18, 0, 0, 160, $fontcolor, $font_file, $image_lessonid);
             imagepng($im2, $text_url2);
             imagedestroy($im2);
 
@@ -2925,5 +2920,9 @@ class tea_manage extends Controller
         }
 
         return $this->output_succ(["data"=>$ret_arr]);
+    }
+
+    public function auto_rank_lesson(){
+        return 1;
     }
 }

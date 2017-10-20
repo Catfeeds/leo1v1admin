@@ -1113,7 +1113,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
             ];
             if($xmpp_value != ''){
-                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value]; 
+                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value];
             }
 
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
@@ -1156,7 +1156,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "l.lesson_del_flag=0",
-            "l.lesson_type <1000",
+            // "l.lesson_type <1000",
             "s.is_test_user=0",
             "t.is_test_user=0"
         ];
@@ -1167,13 +1167,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "l.lesson_type=2";
             $where_arr[] = "tss.success_flag <2";
         }
-        
+
         $sql = $this->gen_sql_new("select count(distinct l.userid) stu_num,count(distinct l.teacherid) tea_num,"
                                   ." count(*) test_lesson_num,l.subject "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s group by l.subject order by l.subject",
+                                  ." where %s group by l.subject ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -1183,6 +1183,78 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql,function($item){
             return $item["subject"];
         });
+    }
+
+
+    /**
+     * 获取试听课学生,老师的教材版本进行匹配度统计
+     */
+    public function get_textbook_match_lesson_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select s.editionid,tl.textbook,t.teacher_textbook"
+                                  ." from %s l"
+                                  ." left join %s tls on l.lessonid=tls.lessonid"
+                                  ." left join %s tr on tls.require_id=tr.require_id"
+                                  ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    /**
+     * 获取试听课学生,老师的教材版本进行匹配度统计,并计算相关转换率(根据t_coures_order)
+     */
+    public function get_textbook_match_lesson_and_order_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+        ];
+        $sql = $this->gen_sql_new(
+            "select s.editionid,tl.textbook,t.teacher_textbook,c.userid succ_userid,l.userid as stu_userid"
+            ." from %s l"
+            ." left join %s tls on l.lessonid=tls.lessonid"
+            ." left join %s tr on tls.require_id=tr.require_id"
+            ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+            ." left join %s s on l.userid=s.userid"
+            ." left join %s t on l.teacherid=t.teacherid"
+            // ." left join %s o on o.from_test_lesson_id=l.lessonid"
+            ." left join %s c on "
+            ." (l.userid = c.userid "
+            ." and l.teacherid = c.teacherid "
+            ." and l.subject = c.subject "
+            ." and c.course_type=0 and c.courseid >0) "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            // ,t_order_info::DB_TABLE_NAME
+            ,t_course_order::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 

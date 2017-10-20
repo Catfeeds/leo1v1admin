@@ -56,27 +56,30 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $account_role = E\Eaccount_role::V_2;
-        $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
-        foreach($seller_list as $item){
-            $adminid = $item['uid'];
-            $seller_level = $item['seller_level'];
-            $face_pic = $item['face_pic'];
-            if($face_pic == ''){
-                $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
-            }
-            $level_face = $item['level_face'];
-            $level_face_pic = $item['level_face_pic'];
-            $ret = 0;
-            if($face_pic && $level_face && $seller_level>0){
-                $face_pic_str = substr($face_pic,-12,5);
-                $ex_str = $seller_level.$face_pic_str;
-                $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-                $ret = $this->task->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
-            }
-            // dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
-            echo $adminid.':'."$level_face_pic".",ret:".$ret."\n";
-        }
+        $job=(new \App\Jobs\tom_do_once(5))->delay(3);
+        dispatch($job);
+
+        // $account_role = E\Eaccount_role::V_2;
+        // $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);
+        // foreach($seller_list as $item){
+        //     $adminid = $item['uid'];
+        //     $seller_level = $item['seller_level'];
+        //     $face_pic = $item['face_pic'];
+        //     if($face_pic == ''){
+        //         $face_pic = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fdc4c3830ce59d611028f24fced65f321504755368876.png';
+        //     }
+        //     $level_face = $item['level_face'];
+        //     $level_face_pic = $item['level_face_pic'];
+        //     $ret = 0;
+        //     if($face_pic && $level_face && $seller_level>0){
+        //         $face_pic_str = substr($face_pic,-12,5);
+        //         $ex_str = $seller_level.$face_pic_str;
+        //         $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
+        //         $ret = $this->task->t_manager_info->field_update_list($adminid,['level_face_pic'=>$level_face_pic]);
+        //     }
+        //     // dd($adminid,$face_pic,$level_face,$level_face_pic,$ret);
+        //     echo $adminid.':'."$level_face_pic".",ret:".$ret."\n";
+        // }
     }
 
     //处理等级头像
