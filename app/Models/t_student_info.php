@@ -115,10 +115,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ."s.lesson_count_left, s.user_agent,s.seller_adminid,s.ass_assign_time ,s.reg_time,s.phone_location,s.origin_assistantid ,s.grade_up"
             ." from %s s "
             ." left join %s o on o.userid=s.userid"
-            ." where  %s ",
-            self::DB_TABLE_NAME,
-            t_order_info::DB_TABLE_NAME,
-            [$this->where_str_gen($where_arr)]
+            ." where  %s "
+            ." group by s.userid"
+            ,self::DB_TABLE_NAME
+            ,t_order_info::DB_TABLE_NAME
+            ,[$this->where_str_gen($where_arr)]
         );
 
         return  $this->main_get_list_by_page($sql,$page_num,10);
