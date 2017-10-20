@@ -499,10 +499,10 @@ class tea_manage extends Controller
             $image_ret  = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
 
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            imagecopymerge($image_ret,$image_qr,193,420,0,0,imagesx($image_qr),imagesy($image_qr),100);
+            imagecopymerge($image_ret,$image_qr,193,430,0,0,imagesx($image_qr),imagesy($image_qr),100);
 
             imagecopymerge($image_ret,$image_text1,215,130,0,0,imagesx($image_text1),imagesy($image_text1),100);
-            imagecopymerge($image_ret,$image_text2,139,230,0,0,imagesx($image_text2),imagesy($image_text2),100);
+            imagecopymerge($image_ret,$image_text2,139,240,0,0,imagesx($image_text2),imagesy($image_text2),100);
 
 
             imagepng($image_ret,$teacher_qr_url);
