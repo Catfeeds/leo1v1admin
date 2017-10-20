@@ -1592,7 +1592,8 @@ class main_page extends Controller
     public function recruit_division() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $history_data = $this->get_in_int_val('history_data');
-        if ($history_data) { // 没有历史数据
+        $total = $this->t_new_tea_entry->get_total();
+        if ($history_data && !$total) { // 没有历史数据
             // 面试通过人数
             $ret_info = $this->t_teacher_info->get_interview_through_count($start_time, $end_time);
             // 科目培训合格
@@ -1649,7 +1650,6 @@ class main_page extends Controller
                 $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
             }
         } else { // 有历史数据
-            $total = $this->t_new_tea_entry->get_total();
             $ret_info = $this->t_new_tea_entry->get_subject_list();
             foreach($ret_info as &$item) {
                 if (isset($item['grade'])) {
@@ -1679,7 +1679,8 @@ class main_page extends Controller
     public function train_recruit_division() {
         list($start_time, $end_time) = $this->get_in_date_range_day(0);
         $history_data = $this->get_in_int_val('history_data');
-        if ($history_data) { // 没有历史数据
+        $total = $this->t_new_tea_entry->get_total();
+        if ($history_data && !$total) { // 没有历史数据
             // 面试通过人数
             $ret_info = $this->t_teacher_info->get_interview_through_count($start_time, $end_time);
             // 培训参训新师人数
@@ -1751,7 +1752,6 @@ class main_page extends Controller
                 $type_total['adopt_sum'] += $adopt_lesson[$key]['sum'];
             } 
         } else {
-            $total = $this->t_new_tea_entry->get_total();
             $ret_info = $this->t_new_tea_entry->get_subject_list();
             foreach($ret_info as &$item) {
                 if (isset($item['grade'])) {
