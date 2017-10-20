@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD: 1003
+//__DESC:微信[优学优享]-可提现收入-http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  type = 1 ;  //type=0返回可提现收入,type=1返回总收入
+}
+
+message out {
+  uint32  cash = 1 ;// 可提现收入
+  common.user_cash_item_t user_cash_item_t = 2; //详情
+}

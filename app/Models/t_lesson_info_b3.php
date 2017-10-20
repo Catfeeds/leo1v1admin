@@ -1079,6 +1079,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+    public function get_lesson_info_for_check_lesson_end($courseid, $lesson_num) {
+        $sql= $this->gen_sql_new(
+            "select lessonid,teacherid,lesson_end from  %s"
+            . "  where courseid= %u and lesson_num =%u ",
+            self::DB_TABLE_NAME, $courseid, $lesson_num  );
+        return $this->main_get_row($sql);
+    }
 
     public function get_lesson_info($lessonid){
         $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick, l.grade from %s l"

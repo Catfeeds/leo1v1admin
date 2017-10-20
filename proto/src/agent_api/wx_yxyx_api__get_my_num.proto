@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD: 1005
+//__DESC:微信[优学优享]-我邀请的-http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_my_num
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  common.my_num_item_t list = 1; //我邀请的
+}

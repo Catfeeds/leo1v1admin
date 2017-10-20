@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1012
+//__DESC:获取单个反馈信息 http://admin.yb1v1.com/wx_yxyx_common/get_one_test_and_other
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  id =1 ; //反馈id
+    uint32  flag =2 ; //是否已访问
+    string  wx_openid =3 ; //微信标识 
+}
+
+message out {
+  common.yxyx_detail list = 1;//单个反馈信息
+}
