@@ -20,6 +20,10 @@ $app->configureMonologUsing(function(Monolog\Logger $monolog) use ($app) {
         $filename = storage_path('logs/testing-laravel-'.php_sapi_name().'.log');
         $handler = new Monolog\Handler\RotatingFileHandler($filename);
 
+        $handler->setFormatter(
+            new \Monolog\Formatter\LineFormatter("%datetime%: %message% \n", 'H:i:s', true, true)
+        );
+
         $monolog->pushHandler($handler);
     }else{
         $processUser = posix_getpwuid(posix_geteuid());
@@ -27,6 +31,11 @@ $app->configureMonologUsing(function(Monolog\Logger $monolog) use ($app) {
 
         $filename = storage_path('logs/'.$user.'-laravel-'.php_sapi_name().'.log');
         $handler = new Monolog\Handler\RotatingFileHandler($filename);
+
+
+        $handler->setFormatter(
+            new \Monolog\Formatter\LineFormatter("%datetime%: %message% \n", 'H:i:s', true, true)
+        );
         //Log::useDailyFiles(storage_path().'/logs/laravel.log', 30);
         $monolog->pushHandler($handler);
     }

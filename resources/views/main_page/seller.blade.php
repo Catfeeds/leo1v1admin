@@ -18,7 +18,7 @@
     </script>
 
     <section class="content " id="id_content">
-
+        <input type="hidden" id="id_order_by_str"> 
         <div  id="id_query_row">
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -107,9 +107,6 @@
                                     </td>
                                     <td >{{@$self_top_info[15]["top_index"]}} </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
-                                </tr>
                                 @if($seller_top_flag==1)
                                     <tr>
                                         <td>精排消耗情况</td>
@@ -124,7 +121,9 @@
                                         </a>
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td colspan="3">再做<font color="red">{{@$self_money["differ_price"]}}</font>业绩可多赚约<font color="red">{{@$self_money["differ_money"]}}</font>元 </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -297,8 +296,24 @@
                                 <tr>
                                     <td><strong><font class="font_thead" >排名</font></strong></td>
                                     <td><strong><font class="font_thead" >团队 </font></strong></td>
-                                    <td><strong><font class="font_thead" >签单数</font></strong></td>
-                                    <td><strong><font class="font_thead" >总金额</font></strong></td>
+                                    <td>
+                                        <strong><font class="font_thead" >签单数</font></strong>
+                                        <a href="javascript:;" id="id_order_by_all_count">
+                                            <img  style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <strong><font class="font_thead" >总金额</font></strong>
+                                        <a href="javascript:;" id="id_order_by_all_price">
+                                            <img style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <strong><font class="font_thead" >完成率</font></strong>
+                                        <a href="javascript:;" id="id_order_by_finish_per">
+                                            <img style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody id="id_group_body">
@@ -344,13 +359,24 @@
                                         </td>
                                         <td class="all_price">
                                             @if($key==0)
-                                                <font style="color:#F6A623;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#F6A623;">{{$var["all_price"]}}</font>
                                             @elseif($key==1)
-                                                <font style="color:#9EB0C2;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#9EB0C2;">{{$var["all_price"]}}</font>
                                             @elseif($key==2)
-                                                <font style="color:#CB7F31;">{{$var["all_price"]/100}}</font>
+                                                <font style="color:#CB7F31;">{{$var["all_price"]}}</font>
                                             @else
-                                                {{$var["all_price"]/100}}
+                                                {{$var["all_price"]}}
+                                            @endif
+                                        </td>
+                                        <td class="all_price">
+                                            @if($key==0)
+                                                <font style="color:#F6A623;">{{$var["finish_per"]}}%</font>
+                                            @elseif($key==1)
+                                                <font style="color:#9EB0C2;">{{$var["finish_per"]}}%</font>
+                                            @elseif($key==2)
+                                                <font style="color:#CB7F31;">{{$var["finish_per"]}}%</font>
+                                            @else
+                                                {{$var["finish_per"]}}%
                                             @endif
                                         </td>
                                     </tr>

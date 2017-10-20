@@ -26,6 +26,7 @@ return array(
     'SuperClosure\\' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
     'Qiniu\\' => array($baseDir . '/app/Libs/Qiniu'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src/Psy'),
+    'Proto\\agent_api\\' => array($baseDir . '/app/proto/agent_api/Proto/agent_api'),
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),

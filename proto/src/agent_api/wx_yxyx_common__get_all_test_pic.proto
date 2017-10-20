@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1011
+//__DESC:获取学员反馈列表 http://admin.yb1v1.com/wx_yxyx_common/get_all_test_pic
+//__TAGS: for_wx_yxyx
+
+message in  {
+    uint32  page_num =1 ;  //页码
+    uint32  grade =2 ;  //年级
+    uint32  subject =3 ;  //科目 0未设定 1语文 2数学 3英语 4化学 5物理 6生物 7政治 8历史 9地理
+    uint32  test_type =4 ;  //
+    string  wx_openid =5 ; //微信标识 
+}
+
+message out {
+  common.all_test_pic home_info = 1; //学员反馈
+}

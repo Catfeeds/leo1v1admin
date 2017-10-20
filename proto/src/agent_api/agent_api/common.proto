@@ -1,0 +1,120 @@
+syntax = "proto3";
+//import "common_2.proto";
+package common;
+option php_namespace = "Proto\\agent_api\\common"; 
+message  money_item_t {
+  float all_money=1;// 总金额
+  float open_money=2;// 可提现金额
+}
+message agent_invite_list{
+  string new_nick = 1;//加入的用户
+  string create_time = 2;//创建时间
+  string from_nick = 3;//邀请用户
+}
+message user_cash_item_t{
+  string pay_time = 1;//购课时间
+  string parent_name = 2;//家长姓名
+  uint32 count = 3;//上课次数
+  uint32 order_cash = 4;//单笔提现金额
+  uint32 level1_cash = 5;//上满2次课可提现金额
+  uint32 level2_cash = 6;//上满8次课可提现金额
+  uint32 price = 7;//单笔收入
+}
+message have_cash_list{
+  uint32 cash = 1;//提现金额
+  string create_time = 2;//提现时间
+  uint32 is_suc_flag = 3;//提现状态0结算中,1已结算
+}
+message my_num_item_t{
+  string name = 1;//姓名
+  string time = 2;//时间
+  string status = 3;//状态,0未试听,1试听成功,2已购课
+  string count = 4;//他邀请的
+  uint32 before_test_lesson_desc = 5;//试听前说明
+}
+message bank_info{
+  string bankcard = 1;//银行卡号
+  string bank_address = 2;//开户行和支行
+  string bank_account = 3;//持卡人姓名
+  string bank_phone = 4;//银行预留手机号
+  string bank_type = 5;//银行卡类型
+  string idcard = 6;//身份证号码
+  string bank_city = 7;//银行卡开户市
+  string bank_province = 8;//银行卡开户省
+  string zfb_name = 9;//支付宝姓名
+  string zfb_account = 10;//支付宝账号
+}
+// message all_test_pic{
+//   string bankcard = 1;//银行卡号
+//   string bank_address = 2;//开户行和支行
+//   string bank_account = 3;//持卡人姓名
+// }
+message all_test_pic{
+  yxyx_page page_info = 1;//页码信息
+  yxyx_list list = 2;//反馈列表
+  yxyx_poster poster = 3;//封面列表
+}
+message yxyx_page{
+  uint32 tital_num = 1;//总页码
+  uint32 per_page_count = 2;//每页信息条数
+  uint32 page_num = 3;//当前页码
+}
+message yxyx_list{
+  uint32 id = 1;//ID
+  string test_title = 2;//标题
+  string create_time = 3;//创建时间
+  uint32 flag = 4;//阅读标示 0：未读； 1：已读
+}
+message yxyx_poster{
+  uint32 id = 1;//ID
+  string poster = 2;//封面图片地址
+}
+message yxyx_detail{
+  uint32 id = 1;//ID
+  string test_title = 2;//标题
+  string test_des = 3;//内容
+  string create_time = 4;//创建时间
+  string grade_str = 5;//年级
+  string subject_str = 6;//科目
+  string test_type_str = 7;//类型
+  string pic_arr = 8;//封面图片
+  yxyx_other other = 9;//三个列表信息
+  uint32 visit_num = 10;//访问次数
+  uint32 share_num = 11;//分享次数
+}
+message yxyx_other{
+  uint32 id = 1;//ID
+  string test_title = 2;//标题
+  string poster = 3;//封面图片地址
+}
+message yxyx_new{
+  uint32 id = 1;//ID
+  string new_pic = 2;//图片
+  string new_title = 3;//标题
+  string new_content = 4;//内容
+}
+message agent_link_item_t{
+  uint32 agent_id = 1;//优学优享ID
+  string create_time = 2;//创建时间
+  string name = 3;//姓名
+  string agent_type = 4;//类型 array(1,"","学员" ), array(2,"","会员" ), array(3,"","会员+学员" )
+  string agent_student_status = 5;//array(0,"","未回访"), array(10,"","未拨通"), array(20,"","回访中"), array(30,"","安排试听"), array(40,"","试听完成"), array(50 ,"","签单"), array(100,"","无意向")
+  uint32 child_count = 6;//下线个数
+  string agent_student_status_str = 7;//
+  string agent_type_str = 8;//
+  string agent_status = 9;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
+  string agent_status_str = 10;//agent_status str
+  uint32 invaild_flag = 11;//无意向标示
+}
+message l1_invite_money_item_t{
+  string create_time = 1;//创建时间
+  string nick = 2;//昵称,无昵称则为手机号
+  uint32 agent_status = 3;//状态 array(0,"","无"), array(1,"","已报名"), array(10,"","已回访"), array(20,"","安排试听"), array(30,"","成功试听"), array(40 ,"","签单")
+  string agent_status_str = 4;//agent_status str
+  float agent_status_money = 5;//金额
+  uint32 agent_status_money_open_flag = 6;//是否可提现
+}
+message yxyx_new_home{
+  yxyx_page page_info = 1;//页码信息
+  yxyx_new 	list = 2;//信息列表
+}

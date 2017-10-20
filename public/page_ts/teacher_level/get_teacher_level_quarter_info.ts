@@ -3,7 +3,8 @@
 function load_data(){
     $.reload_self_page ( {
         order_by_str: g_args.order_by_str,
-		teacher_money_type:	$('#id_teacher_money_type').val()
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		teacherid:	$('#id_teacherid').val()
     });
 }
 
@@ -12,18 +13,20 @@ $(function(){
     Enum_map.append_option_list_new("teacher_money_type", $("#id_teacher_money_type"),true,[5,6]);
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
+	$('#id_teacherid').val(g_args.teacherid);
+    $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
     $(".opt-advance-require").on("click",function(){        
         var opt_data = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var teacher_money_type = opt_data.teacher_money_type;
             
-         var id_level_after = $("<select/>");
+        var id_level_after = $("<select/>");
 
         if(teacher_money_type==6){            
-            Enum_map.append_option_list("new_level", id_level_after, true );  
+            Enum_map.append_option_list_v2s("new_level", id_level_after, true );  
         }else{
-            Enum_map.append_option_list("level", id_level_after, true ); 
+            Enum_map.append_option_list_v2s("level", id_level_after, true ); 
         }  
         var arr=[
             ["目标等级",id_level_after]
@@ -59,6 +62,62 @@ $(function(){
             }
         });        
     });
+
+    $(".opt-update-level-after").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var teacher_money_type = opt_data.teacher_money_type;
+        
+        var id_level_after = $("<select/>");
+        if(teacher_money_type==6){            
+            Enum_map.append_option_list_v2s("new_level", id_level_after, true );  
+        }else{
+            Enum_map.append_option_list_v2s("level", id_level_after, true ); 
+        }  
+        var arr=[
+            ["目标等级",id_level_after]
+        ];
+        $.show_key_value_table("修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/update_level_after', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'level_after':id_level_after.val(),                  
+                });
+            }
+        });        
+
+
+    });
+
+    $(".opt-edit").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        
+        var id_record_score_avg  = $("<input/>");
+        var id_record_num  = $("<input/>"); 
+        var arr=[
+            ["反馈次数",id_record_num],
+            ["反馈平均得分",id_record_score_avg]
+        ];
+        $.show_key_value_table("修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/teacher_level/update_level_record_info', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'record_score_avg':id_record_score_avg.val(),                  
+                    'record_num':id_record_num.val(),                  
+                });
+            }
+        });        
+
+
+    });
+
 
     $(".opt-advance-require-golden").on("click",function(){        
         var opt_data = $(this).get_opt_data();
@@ -183,6 +242,35 @@ $(function(){
         
 
     });
+    $("#id_add_info").on("click",function(){
+        BootstrapDialog.confirm("确定刷新数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/update_teacher_advance_info_new', {
+                    "teacher_money_type": g_args.teacher_money_type 
+                });
+            } 
+        });
+
+    });
+
+    $(".opt-del").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var realname = opt_data.realname;
+        var start_time = g_args.quarter_start;
+        var teacherid = opt_data.teacherid;
+        BootstrapDialog.confirm("确定删除数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/del_advance_info', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                });
+            } 
+        });
+
+        
+
+    });
+
 	$('.opt-change').set_input_change_event(load_data);
 });
 

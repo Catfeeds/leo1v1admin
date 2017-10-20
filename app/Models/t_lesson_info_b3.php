@@ -34,6 +34,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function get_grade_last_test_lesson($userid, $grade ) {
+        $sql = $this->gen_sql_new(
+            "select lesson_start from %s"
+            . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start desc limit 1  ",
+            self::DB_TABLE_NAME,
+            $userid, $grade
+        ) ;
+
+        return $this->main_get_row($sql);
+    }
+
 
     public function get_next_day_lesson_info(){
         $next_day_begin = strtotime(date('Y-m-d',strtotime("+1 days")));
@@ -266,7 +277,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = ["tss.grab_flag=%u",$grab_flag,-1];
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -318,7 +329,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tq.cur_require_adminid"
                                   ." ,mm.account "
                                   ." from %s l "
@@ -374,7 +385,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         }
 
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -441,52 +452,52 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $having = '';
         if($test_lesson_num==-1){
             if($tranfer_per == 1){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)=0";
             }else if($tranfer_per == 2){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10";
             }else if($tranfer_per == 3){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15";
 
             }else if($tranfer_per == 4){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20";
 
             }else if($tranfer_per == 5){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>20";
             }
         }elseif($test_lesson_num==1){
             if($tranfer_per == 1){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0 and count(l.lessonid) >=5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)=0 and count(l.lessonid) >=5";
             }else if($tranfer_per == 2){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) >=5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) >=5";
             }else if($tranfer_per == 3){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) >=5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) >=5";
 
             }else if($tranfer_per == 4){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) >=5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) >=5";
 
             }else if($tranfer_per == 5){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20 and count(l.lessonid) >=5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>20 and count(l.lessonid) >=5";
             }
 
         }elseif($test_lesson_num==2){
             if($tranfer_per == 1){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)=0 and count(l.lessonid) <5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)=0 and count(l.lessonid) <5";
             }else if($tranfer_per == 2){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) <5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>0 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=10 and count(l.lessonid) <5";
             }else if($tranfer_per == 3){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) <5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>10 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=15 and count(l.lessonid) <5";
 
             }else if($tranfer_per == 4){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) <5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>15 and round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)<=20 and count(l.lessonid) <5";
 
             }else if($tranfer_per == 5){
-                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2)>20 and count(l.lessonid) <5";
+                $having = "round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2)>20 and count(l.lessonid) <5";
             }
 
         }
         if($having != ''){
             $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
-                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2) as per"
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2) as per"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
                                   ." left join %s tq on tq.require_id = tss.require_id"
@@ -510,8 +521,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   $having
           );
         }else{
-           $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
-                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid) ,2) as per"
+           $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,l.teacherid,t.realname,t.subject,t.train_through_new_time,t.grade_part_ex,t.phone, round(100*count(distinct c.userid,c.teacherid,c.subject)/count(distinct l.userid,l.teacherid,l.subject) ,2) as per"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"
                                   ." left join %s tq on tq.require_id = tss.require_id"
@@ -567,7 +578,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "tq.is_green_flag =0";
         }
 
-        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order,tss.set_lesson_adminid,"
                                   ."m.account "
                                   ." from %s l "
@@ -1079,6 +1090,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+    public function get_lesson_info_for_check_lesson_end($courseid, $lesson_num) {
+        $sql= $this->gen_sql_new(
+            "select lessonid,teacherid,lesson_end from  %s"
+            . "  where courseid= %u and lesson_num =%u ",
+            self::DB_TABLE_NAME, $courseid, $lesson_num  );
+        return $this->main_get_row($sql);
+    }
 
     public function get_lesson_info($lessonid){
         $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick, l.grade from %s l"
@@ -1113,7 +1131,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
             ];
             if($xmpp_value != ''){
-                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value]; 
+                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value];
             }
 
             $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
@@ -1156,7 +1174,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "l.lesson_del_flag=0",
-            "l.lesson_type <1000",
+            // "l.lesson_type <1000",
             "s.is_test_user=0",
             "t.is_test_user=0"
         ];
@@ -1167,13 +1185,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             $where_arr[] = "l.lesson_type=2";
             $where_arr[] = "tss.success_flag <2";
         }
-        
+
         $sql = $this->gen_sql_new("select count(distinct l.userid) stu_num,count(distinct l.teacherid) tea_num,"
                                   ." count(*) test_lesson_num,l.subject "
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s group by l.subject order by l.subject",
+                                  ." where %s group by l.subject ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -1183,6 +1201,80 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql,function($item){
             return $item["subject"];
         });
+    }
+
+
+    /**
+     * 获取试听课学生,老师的教材版本进行匹配度统计
+     */
+    public function get_textbook_match_lesson_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select s.editionid,tl.textbook,t.teacher_textbook"
+                                  ." from %s l"
+                                  ." left join %s tls on l.lessonid=tls.lessonid"
+                                  ." left join %s tr on tls.require_id=tr.require_id"
+                                  ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    /**
+     * 获取试听课学生,老师的教材版本进行匹配度统计,并计算相关转换率(根据t_coures_order)
+     */
+    public function get_textbook_match_lesson_and_order_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type=2",
+            "confirm_flag!=2",
+            "lesson_del_flag=0",
+            "s.is_test_user=0",
+            "t.is_test_user=0",
+            "(tls.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "(m.account_role=2 or tr.origin like '%%转介绍%%')",
+        ];
+        $sql = $this->gen_sql_new(
+            "select s.editionid,tl.textbook,t.teacher_textbook,c.userid succ_userid,l.userid as stu_userid"
+            ." from %s l"
+            ." left join %s tls on l.lessonid=tls.lessonid"
+            ." left join %s tr on tls.require_id=tr.require_id"
+            ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+            ." left join %s s on l.userid=s.userid"
+            ." left join %s t on l.teacherid=t.teacherid"
+            ." left join %s m on tr.cur_require_adminid = m.uid"
+            ." left join %s c on "
+            ." (l.userid = c.userid "
+            ." and l.teacherid = c.teacherid "
+            ." and l.subject = c.subject "
+            ." and c.course_type=0 and c.courseid >0) "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            ,t_manager_info::DB_TABLE_NAME
+            ,t_course_order::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 

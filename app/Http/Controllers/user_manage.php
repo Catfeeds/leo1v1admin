@@ -839,7 +839,6 @@ class user_manage extends Controller
         $lru_flag    = $this->get_in_int_val("lru_flag");
         $lru_id      = $this->get_in_int_val("lru_id");
         $lru_id_name = $this->get_in_str_val("lru_id_name" );
-
         // dd($lru_id);
         $lru_key = "USER_LIST_".$type."_".$this->get_account_id();
 
@@ -900,6 +899,8 @@ class user_manage extends Controller
             $ret_list= $this->t_teacher_info->get_research_tea_list_for_select($id,$gender, $nick_phone, $page_num);
         }else if($type=="train_through_teacher"){//正式入职的培训通过的老师
             $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select($id,$gender, $nick_phone, $page_num);
+        }else if($type=="train_through_teacher_new"){//正式入职的培训通过的老师,老师所带学生超过10个学生人数
+            $ret_list= $this->t_teacher_info->get_train_through_tea_list_for_select_new($id,$gender, $nick_phone, $page_num);
         }else if($type=="seller_group"){//销售下级id
             if ($id<=0) {
                 $adminid = $this->get_account_id();
@@ -3013,7 +3014,7 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__, $arr);
     }
 
-    //助教未试听扩课
+    //助教未试听扩课/转介绍数量
     public function ass_no_test_lesson_kk_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],3 );

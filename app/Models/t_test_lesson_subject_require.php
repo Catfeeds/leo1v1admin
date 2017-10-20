@@ -258,7 +258,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql = $this->gen_sql_new(
             "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
-            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid ,"
+            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid,s.is_test_user ,"
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
@@ -774,7 +774,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s s on s.userid = l.userid "
             ." join %s tea on tea.teacherid=l.teacherid "
-            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+            ." where %s and lesson_start >=%u and lesson_start<%u"
+            ." and l.lesson_type=2"
+            ." and accept_flag=1  "
             ." and s.is_test_user=0 "
             ." and require_admin_type = 2 ",
             // ." group by check_value " ,
@@ -1662,7 +1664,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "m.account_role = 3",
             "s.is_test_user=0",
             "o.orderid>0",
-            "seller_top_flag=1"
+            "seller_top_flag=1",
+            "is_green_flag=0"
         ];
         $sql = $this->gen_sql_new("select s.nick,tt.realname,tt.teacherid,tr.test_lesson_student_status,".
                                   "tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject,mm.account ".
@@ -1696,8 +1699,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["tr.accept_adminid = %u",$adminid,-1],
             "s.is_test_user=0",
             "test_lesson_student_status in(210,220,290,300,301,302,420)",
-            "seller_top_flag=1"
-
+            "seller_top_flag=1",
+            "is_green_flag=0"
         ];
         $sql = $this->gen_sql_new("select s.nick,t.realname,t.teacherid,tr.test_lesson_student_status,"
                                   ."tss.teacher_dimension,l.lessonid,l.lesson_start ,l.grade,l.subject "
@@ -1724,7 +1727,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "s.is_test_user=0",
             // "ll.lesson_user_online_status in (0,1)",
             "ll.lesson_del_flag=0",
-            "seller_top_flag=1"
+            "seller_top_flag=1",
+            "is_green_flag=0"
         ];
 
         $sql = $this->gen_sql_new("select s.nick,tt.realname,tt.teacherid,tr.test_lesson_student_status,".
@@ -1771,6 +1775,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         ];
         $sql = $this->gen_sql_new("select m.name,accept_adminid,".
                                   "m.account,sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) set_count,".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=1,1,0)) ass_count_set, ".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and t.require_admin_type=2,1,0)) seller_count_set, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1,1,0)) green_count, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1 and t.require_admin_type=1,1,0)) ass_green_count, ".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1 and t.require_admin_type=2,1,0)) seller_green_count, ".
@@ -1778,9 +1784,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason='未排课,期待时间已到',1,0)) back_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason <> '未排课,期待时间已到',1,0)) back_other_count,".
                                   "sum(if(test_lesson_student_status =200,1,0)) un_count,".
-                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200,1,0)) top_un_count,".
-                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) top_count,".
-                                  " sum(if(o.orderid>0 and tr.seller_top_flag=1,1,0)) order_num,".
+                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status =200 and tr.is_green_flag=0,1,0)) top_un_count,".
+                                  "sum(if(tr.seller_top_flag=1 and test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=0,1,0)) top_count,".
+                                  " sum(if(o.orderid>0 and tr.seller_top_flag=1 and tr.is_green_flag=0,1,0)) order_num,".
                                   "count(*) all_count ".
                                   " from %s tr left join %s m on tr.accept_adminid = m.uid ".
                                   " left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id".
@@ -1952,9 +1958,13 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             // "ll.lesson_user_online_status in (0,1)",
             "ll.lesson_del_flag=0",
             ["t.require_admin_type=%u",$require_admin_type,-1],
-            ["tr.seller_top_flag=%u",$seller_top_flag,-1],
+            // ["tr.seller_top_flag=%u",$seller_top_flag,-1],
             "l.lessonid >0"
         ];
+        if($seller_top_flag==1){
+            $where_arr[]="tr.seller_top_flag=1";
+            $where_arr[]="tr.is_green_flag=1";
+        }
 
         $sql = $this->gen_sql_new("select accept_adminid,count(distinct l.lessonid) num ".
                                   " from %s tr join %s m on tr.accept_adminid = m.uid ".
@@ -3252,6 +3262,19 @@ ORDER BY require_time ASC";
 
         return $this->main_get_value($sql);
 
+    }
+    public function get_cur_require_adminid_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("  select m.wx_openid from %s tr"
+                                  ." left join %s tss on tss.require_id=tr.require_id"
+                                  ." left join %s m on m.uid=tr.cur_require_adminid"
+                                  ." where tss.lessonid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

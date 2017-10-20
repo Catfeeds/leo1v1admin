@@ -56,6 +56,7 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
+        "/main_page/recruit_division"                    => true,
         "/warning_overtime/add_overtime"          => true,
         "/grab_lesson/add_requireids"             => true,
         "/grab_lesson/upadte_lesson_link"         => true,
@@ -234,6 +235,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/auto_rank_lesson"            => true,
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/train_not_through_list_px"   => true,
         "/tea_manage/set_teacher_part_remark"     => true,
@@ -386,10 +388,11 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
-        "/human_resource/get_check_textbook_tea_list"        => true,
-        "/human_resource/switch_teacher_to_test"                     => true,
-        "/human_resource/origin_list"                                => true,
-        "/human_resource/teacher_total_list"                         => true,
+        "/human_resource/interview_remind"   => true,
+        "/human_resource/get_check_textbook_tea_list"   => true,
+        "/human_resource/switch_teacher_to_test"        => true,
+        "/human_resource/origin_list"                   => true,
+        "/human_resource/teacher_total_list"            => true,
         "/human_resource/zs_origin_list"     => true,
         "/human_resource/zs_origin_list_new" => true,
         "/human_resource/set_trial_train_lesson" => true,

@@ -902,7 +902,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                             ." left join %s l on l.assistantid = a.assistantid"
                             ." left join %s s on l.userid = s.userid"
                             ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag in (0,1,4)  and l.lesson_type in (0,1,3)"
-                            . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.del_flag =0 and m.uid <>74  "
+                            . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1  and m.uid <>74  "
                             ." group by m.uid  ",
                             self::DB_TABLE_NAME,
                             t_assistant_info::DB_TABLE_NAME,
@@ -922,7 +922,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." left join %s l on l.assistantid = a.assistantid"
                                 ." left join %s s on l.userid = s.userid"
                                 ." where s.is_test_user=0 and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag  <>2  and l.lesson_type in (0,1,3)"
-                                . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.del_flag =0 and m.uid <>74  ",
+                                . " and l.lesson_del_flag=0 and l.assistantid <> 59329 and m.account_role=1 and m.uid <>74  ",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
                                 t_lesson_info::DB_TABLE_NAME,
@@ -949,7 +949,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
-                                ." and m.account_role=1 and m.del_flag =0 and m.uid <>74"
+                                ." and m.account_role=1 and m.uid <>74"
                                 ." group by m.uid",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
@@ -979,7 +979,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                 ." and l.lesson_type in (0,1,3)"
                                 ." and l.lesson_del_flag=0 "
                                 ." and l.assistantid <> 59329 "
-                                ." and m.account_role=1 and m.del_flag =0 and m.uid <>74",
+                                ." and m.account_role=1 and m.uid <>74",
                                 self::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
                                 t_lesson_info::DB_TABLE_NAME,
@@ -1067,7 +1067,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.contract_status in (1,2,3)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0"
+            // "m.del_flag =0"
         ];
         $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(o.lesson_total*o.default_lesson_count) all_total,sum(if(contract_type=1,lesson_total*default_lesson_count,0)) give_total,sum(if(contract_type=0,price,0)) tran_total".
                                  " from  %s m ".
@@ -1089,10 +1089,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] ,
             ["uid=%u",$adminid,-1],
-            "o.contract_status in (1)" ,
+            "o.contract_status in (1,2)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "o.price >0"
         ];
         $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
@@ -1110,6 +1110,34 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
     }
 
+    //cc签单助教转介绍数据
+    public function get_cc_tran_origin_order_info($start_time,$end_time){
+        $where_arr=[
+            [  "o.order_time >= %u", $start_time, -1 ] ,
+            [  "o.order_time <= %u", $end_time, -1 ] ,
+            "o.contract_status in (1,2)" ,
+            "(m.uid <> 68 and m.uid <> 74)",
+            "m.account_role = 1 ",
+            // "m.del_flag =0",
+            "o.price >0"
+        ];
+        $sql = $this->gen_sql_new("select m.uid,count(o.userid) stu_num,"
+                                  ."sum(o.price) all_price "
+                                  ." from %s m left join %s s on m.uid=s.origin_assistantid "
+                                  ." left join %s o on s.userid = o.userid and o.sys_operator <> m.account"
+                                  ." where %s group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+
+
+    }
+
 
     //助教续费金额 分期按80%计算
     public function get_ass_renw_money_new($start_time,$end_time){
@@ -1120,7 +1148,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             //"o.contract_status in (1)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
-            "m.del_flag =0",
+            // "m.del_flag =0",
             "o.price >0",
             "o.contract_type in (3,3001)"
         ];
@@ -1962,6 +1990,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_value($sql);
     }
+
 
 
 }

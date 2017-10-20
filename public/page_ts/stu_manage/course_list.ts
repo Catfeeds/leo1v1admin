@@ -139,6 +139,78 @@ $(function(){
         });
     });
 
+    $("#id_auto_add_course_new").on("click",function(){
+        var id_course_start_time=$("<input/> ");
+        var id_course_end_time=$("<input/> ");
+
+        var id_course_status     = $("<select/>");
+        var id_subject           = $("<select/>");
+        var id_teacherid         = $("<input/>");
+        var id_lesson_grade_type = $("<select/>");
+        var id_per_lesson_time = $("<input/>");
+
+        Enum_map.append_option_list("course_status", id_course_status,true );
+        Enum_map.append_option_list("subject", id_subject,true );
+        Enum_map.append_option_list("lesson_grade_type", id_lesson_grade_type,true );
+
+        //时间插件
+        id_course_start_time.datetimepicker({
+            lang       : 'ch',
+            datepicker : true,
+            timepicker : true,
+            format     : 'Y-m-d H:i',
+            step       : 30,
+            onChangeDateTime :function(){
+
+                var end_time= parseInt(strtotime(id_course_start_time.val() )) + 3600;
+                id_course_end_time.val(DateFormat(end_time,"hh:mm"));
+            }
+        });
+
+        id_course_end_time.datetimepicker({
+            lang       : 'ch',
+            datepicker : false,
+            timepicker : true,
+            format     : 'H:i',
+            step       : 30
+        });
+
+        var arr = [
+            [ "排课开始时间",id_course_start_time] ,
+            [ "排课结束时间",id_course_end_time],
+
+            ["老师",id_teacherid ]  ,
+            ["科目",id_subject ]  ,
+            ["课程年级来源",id_lesson_grade_type ]  ,
+            ["默认课长",id_per_lesson_time ]  ,
+        ];
+
+        id_per_lesson_time.val(20);
+        $.show_key_value_table("增加一键排课课程包", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                if(id_course_end_time.val() <= 0 || id_course_start_time.val() <= 0 || id_subject.val() <=0 || id_teacherid.val() <=0){
+                    alert("请填写完整!");
+                    return;
+                }
+
+                $.do_ajax("/user_deal/auto_add_course",{
+                    "userid"            : g_sid,
+                    'teacherid'         : id_teacherid.val(),
+                    "subject"           : id_subject.val(),
+                    "lesson_grade_type" : id_lesson_grade_type.val(),
+                    "competition_flag"  : $("#id_competition_flag").val(),
+                    "per_lesson_time"   : id_per_lesson_time.val(),
+                    "course_start_time" : id_course_start_time.val(),
+                    "course_end_time"   : id_course_end_time.val(),
+                });
+            }
+        },function(){
+            $.admin_select_user(id_teacherid,"teacher");
+        });
+    });
+
 
     $(".opt-set-course-status").on("click",function(){
         var opt_data                = $(this).get_opt_data();

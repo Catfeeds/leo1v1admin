@@ -976,8 +976,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_1v1_order_seller_list_group( $start_time,$end_time,$groupid=-1) {
-
+    public function get_1v1_order_seller_list_group( $start_time,$end_time,$groupid=-1,$start_first,$order_by_str) {
+        if(!$order_by_str){
+            // $order_by_str = 'sum(price) desc';
+            $order_by_str = 'if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc';
+        }
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
@@ -988,20 +991,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "m.account_role=2",
             "g.master_adminid not in(364,416)",
         ];
-        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count  "
-                                  ." from %s o , %s s , %s m,  %s gu,   %s g  "
-                                  ." where ".
-                                  " o.userid = s.userid   and   ".
-                                  " o.sys_operator =m.account   and   ".
-                                  " m.uid=gu.adminid  and   ".
-                                  " gu.groupid =g.groupid and   ".
-                                  "  %s group by g.groupid order by all_price desc  ",
+        $sql = $this->gen_sql_new("select g.group_img,g.groupid, group_name , sum(price) as all_price,count(*)as all_count,"
+                                  ."if(gm.month_money,gm.month_money,0) month_money "
+                                  ." from %s o "
+                                  ." left join %s s on o.userid = s.userid "
+                                  ." left join %s m on o.sys_operator =m.account "
+                                  ." left join %s gu on m.uid=gu.adminid "
+                                  ." left join %s g on gu.groupid =g.groupid "
+                                  ." left join %s gm on gm.groupid =g.groupid and gm.month = '%s' "
+                                  ." where %s "
+                                  ."  group by g.groupid order by %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_admin_group_user::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,
-                                  $where_arr
+                                  t_admin_group_month_time::DB_TABLE_NAME,
+                                  $start_first,
+                                  $where_arr,
+                                  $order_by_str
         );
         return $this->main_get_list($sql);
     }
@@ -1702,7 +1710,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
-    public function get_month_money_info(){
+    public function get_month_money_info($start_time, $end_time){
         $sql = $this->gen_sql_new("select sum(price) as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
                                   ." count(*) as count,sum(lesson_total*default_lesson_count) as order_total "
                                   ." from %s o,%s s "
@@ -1710,6 +1718,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." and s.is_test_user=0 "
                                   ." and contract_status>0 "
                                   ." and price>0 "
+                                  ." and order_time>$start_time"
+                                  ." and order_time<$end_time"
                                   ." group by order_month "
                                   ." order by order_month asc "
                                   ,self::DB_TABLE_NAME
@@ -3445,12 +3455,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+    public function get_total_price_new($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "contract_status <> 0",
+            "price > 0",
+            "m.account_role = 1"
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price"
+                                  ." from %s o "
+                                  ." left join %s m on o.sys_operator = m.account"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_value($sql);
+    }
 
     public function get_total_price_thirty($start_time,$end_time){
         $where_arr = [
             ['order_time>%u',$start_time,-1],
             ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$end_time,-1], //大于订单时间
+            ['m.create_time+86400*29 < %u',$end_time,-1], //大于订单时间
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
@@ -3588,7 +3617,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(o.orderid) from %s o "
+        $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
                                   ." left join %s tq on tq.phone=ss.phone"
                                   ." left join %s ts on ts.userid=o.userid"
@@ -3614,7 +3643,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(o.orderid) from %s o "
+        $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
                                   ." left join %s ts on ts.userid=ss.userid"
                                   ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"

@@ -110,37 +110,38 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-teacher_lecture_appointment_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		lecture_appointment_status:	$('#id_lecture_appointment_status').val(),
+		teacherid:	$('#id_teacherid').val(),
+		status:	$('#id_status').val(),
+		interview_type:	$('#id_interview_type').val(),
+		user_name:	$('#id_user_name').val(),
+		record_status:	$('#id_record_status').val(),
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		have_wx:	$('#id_have_wx').val(),
+		lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
+		lecture_revisit_type_new:	$('#id_lecture_revisit_type_new').val(),
+		full_time:	$('#id_full_time').val(),
+		show_full_time:	$('#id_show_full_time').val(),
+		teacher_ref_type:	$('#id_teacher_ref_type').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+		accept_adminid:	$('#id_accept_adminid').val(),
+		second_train_status:	$('#id_second_train_status').val(),
+		teacher_pass_type:	$('#id_teacher_pass_type').val(),
+		tea_adminid:	$('#id_tea_adminid').val(),
+		fulltime_flag:	$('#id_fulltime_flag').val(),
+		next_day:	$('#id_next_day').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			lecture_appointment_status:	$('#id_lecture_appointment_status').val(),
-			teacherid:	$('#id_teacherid').val(),
-			status:	$('#id_status').val(),
-			interview_type:	$('#id_interview_type').val(),
-			user_name:	$('#id_user_name').val(),
-			record_status:	$('#id_record_status').val(),
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			have_wx:	$('#id_have_wx').val(),
-			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
-			lecture_revisit_type_new:	$('#id_lecture_revisit_type_new').val(),
-			full_time:	$('#id_full_time').val(),
-			show_full_time:	$('#id_show_full_time').val(),
-			teacher_ref_type:	$('#id_teacher_ref_type').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
-			accept_adminid:	$('#id_accept_adminid').val(),
-			second_train_status:	$('#id_second_train_status').val(),
-			teacher_pass_type:	$('#id_teacher_pass_type').val(),
-			tea_adminid:	$('#id_tea_adminid').val(),
-			fulltime_flag:	$('#id_fulltime_flag').val(),
-			next_day:	$('#id_next_day').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

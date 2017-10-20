@@ -152,9 +152,40 @@ class test_code extends Controller
         // }
 
         // echo $orderid."|".$lesson_info['lessonid']."|".$lesson_price;
-        // echo "<br>";
 
         return $lesson_price;
+    }
+
+    public function get_textbook_match_degree(){
+        $start_date = $this->get_in_str_val("month_start","2017-9-1");
+        $end_date   = $this->get_in_str_val("month_end","2017-10-1");
+
+        $region_version = array_flip(E\Eregion_version::$desc_map);
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date);
+
+        $list  = $this->t_lesson_info_b3->get_textbook_match_lesson_list($start_time,$end_time);
+        $all_num = 0;
+        $match_num = 0;
+        foreach($list as $val){
+            $all_num++;
+            if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
+                $stu_textbook = $region_version[$val['textbook']];
+            }else{
+                $stu_textbook = $val['editionid'];
+            }
+            // echo "stu_textbook:".$stu_textbook;
+            // echo "<br>";
+            // echo "tea_textbook:".$val['teacher_textbook'];
+            // echo "<br>";
+            // echo "<br>";
+            $tea_textbook = explode(",",$val['teacher_textbook']);
+            if(in_array($stu_textbook,$tea_textbook)){
+                $match_num++;
+            }
+        }
+        $match_per = $all_num>0?($match_num/$all_num):0;
+        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
     }
 
     public function get_success_lesson(){
@@ -683,7 +714,7 @@ class test_code extends Controller
 
     public function reset_test_appointment(){
         if(\App\Helper\Utils::check_env_is_test()){
-            $phone     = "99900020001";
+            $phone     = $this->get_in_int_val("phone","99900020001");
             $id=$this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
         }else{
             $phone=$this->get_in_str_val("phone");
@@ -710,6 +741,12 @@ class test_code extends Controller
                 $this->t_lesson_info->row_delete($val['lessonid']);
             }
         }
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "wx_use_flag"            => 0,
+            "trial_lecture_is_pass"  => 0,
+            "train_through_new"      => 0,
+            "train_through_new_time" => 0,
+        ]);
         $id=$this->t_teacher_lecture_info->get_id_list_by_phone($phone);
         if(is_array($id) && !empty($id)){
             foreach($id as $val_l){

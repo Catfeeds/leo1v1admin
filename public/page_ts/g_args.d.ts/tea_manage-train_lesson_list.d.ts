@@ -39,6 +39,8 @@ interface RowData {
 	login_num	:any;
 	through_num	:any;
 	train_type	:any;
+	xmpp_server_name	:any;
+	current_server	:any;
 	lesson_time	:any;
 	subject_str	:any;
 	grade_str	:any;
@@ -60,22 +62,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-train_lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val(),
+		lesson_status:	$('#id_lesson_status').val(),
+		lesson_type:	$('#id_lesson_type').val(),
+		lessonid:	$('#id_lessonid').val(),
+		lesson_sub_type:	$('#id_lesson_sub_type').val(),
+		train_type:	$('#id_train_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			lesson_status:	$('#id_lesson_status').val(),
-			lesson_type:	$('#id_lesson_type').val(),
-			lessonid:	$('#id_lessonid').val(),
-			lesson_sub_type:	$('#id_lesson_sub_type').val(),
-			train_type:	$('#id_train_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

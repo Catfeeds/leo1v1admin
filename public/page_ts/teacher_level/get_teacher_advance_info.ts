@@ -13,7 +13,7 @@ $(function(){
         });
     }
 
-    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[1,4,5]);
+    Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),false,[5,6]);
     Enum_map.append_option_list("boolean", $("#id_is_test_user"));
 
 	$('#id_start_time').val(g_args.start_time);

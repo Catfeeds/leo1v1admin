@@ -52,24 +52,25 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-test_lesson_plan_detail_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		set_lesson_adminid:	$('#id_set_lesson_adminid').val(),
+		subject:	$('#id_subject').val(),
+		grade:	$('#id_grade').val(),
+		success_flag:	$('#id_success_flag').val(),
+		test_lesson_fail_flag:	$('#id_test_lesson_fail_flag').val(),
+		userid:	$('#id_userid').val(),
+		require_admin_type:	$('#id_require_admin_type').val(),
+		require_adminid:	$('#id_require_adminid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			set_lesson_adminid:	$('#id_set_lesson_adminid').val(),
-			subject:	$('#id_subject').val(),
-			grade:	$('#id_grade').val(),
-			success_flag:	$('#id_success_flag').val(),
-			test_lesson_fail_flag:	$('#id_test_lesson_fail_flag').val(),
-			userid:	$('#id_userid').val(),
-			require_admin_type:	$('#id_require_admin_type').val(),
-			require_adminid:	$('#id_require_adminid').val()
-        });
-    }
 
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("grade",$("#id_grade"));

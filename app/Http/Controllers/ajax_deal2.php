@@ -365,7 +365,7 @@ class ajax_deal2 extends Controller
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
-        $score            = $this->get_in_int_val("score");
+        $score            = $this->get_in_str_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
         $semester         = $this->get_in_int_val("semester");
@@ -395,7 +395,7 @@ class ajax_deal2 extends Controller
             $rank_down = '';
         }
 
-
+        $score = $score*10;
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -950,7 +950,6 @@ class ajax_deal2 extends Controller
     public function set_admin_menu_config () {
         $menu_config= $this->get_in_str_val("menu_config");
         $adminid=$this->get_account_id();
-
         $this->t_manager_info->field_update_list($adminid,[
             "menu_config" =>  $menu_config
         ]);
@@ -1405,14 +1404,21 @@ class ajax_deal2 extends Controller
     }
 
     public function  set_lesson_current_server() {
-        $courseid=$this->get_in_courseid();
+        $lessonid=$this->get_in_lessonid();
+        $courseid=$this->t_lesson_info->get_courseid($lessonid);
         $current_server= $this->get_in_str_val("current_server");
         $this->t_course_order->field_update_list(
             $courseid,
-            ["current_server" => $current_server]);
+            ["current_server" => $current_server]
+        );
+
+        $this->t_lesson_info->field_update_list($lessonid,[
+            "xmpp_server_name" =>  $current_server,
+        ]);
         return $this->output_succ();
 
     }
+
     public function email_group_add()  {
         $title=trim($this->get_in_str_val("title"));
         $email=trim($this->get_in_str_val("email"));

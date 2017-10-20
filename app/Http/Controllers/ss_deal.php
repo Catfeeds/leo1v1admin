@@ -2837,6 +2837,7 @@ class ss_deal extends Controller
         ]);
         return $this->output_succ();
     }
+
     public function tmk_set_no_called_to_self()  {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
         $userid=$this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
@@ -5883,7 +5884,8 @@ class ss_deal extends Controller
         $add_time        = date('Y-m-d,H:i:s',$complaint_info["add_time"]);
         $complaint_info_str  = $complaint_info['complaint_info'];
         $deal_info       = $complaint_info['deal_info'];
-        $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
+        // $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
+        $deal_time_date  = date('Y-m-d H:i:s');
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
@@ -5923,7 +5925,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $ret_parent=$wx->send_template_msg($parent_openid,$template_id,$data_msg ,$url);
 
-            } else if ($account_type == 2) {  // 2:老师
+            }elseif($account_type == 2) {  // 2:老师
                 /**
                    模板id:r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE
                    {{first.DATA}}
@@ -5972,19 +5974,19 @@ class ss_deal extends Controller
                             "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
                             "oJ_4fxJqMn0pH4XQfgXYiFb_1_Iw"  // melody
                         ];
-                    }else if($subject == 3) { //[英语]
+                    }elseif($subject == 3) { //[英语]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
                         ];
-                    }else if($subject == 5){ //[物理]
+                    }elseif($subject == 5){ //[物理]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxOo38y6hEisvFoSxN4T1nBs", // 李红涛
                         ];
-                    }else if($subject == 4){ //[化学]
+                    }elseif($subject == 4){ //[化学]
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxME6lCpNAMwtEhMcpYo5N7c", // 展慧东
                         ];
-                    }else if($subject == 2){ // 数学
+                    }elseif($subject == 2){ // 数学
                         $subject_adminid_wx_openid_list = [
                             "oJ_4fxFE0-MHPkT-vstzEDzAfRkg", // 彭老师 [wander]
                         ];

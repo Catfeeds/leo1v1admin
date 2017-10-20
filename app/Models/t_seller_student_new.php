@@ -400,7 +400,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
         $sql=$this->gen_sql_new(
-            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
+            "select   ss.favorite_adminid,tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,s.is_test_user,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
@@ -1017,20 +1017,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $check_no_call_time_str=" ( origin_level <>99 and   (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) )";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
 
+        //E\Eorigin_level
         switch ( $seller_level_flag ) {
         case 1 :  //s
         case 2 :  //a
             $where_arr[] = "(origin_level >0  or $check_no_call_time_str) ";
             break;
         case 3 : //b
-            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
+            $where_arr[] = "( (origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
             break;
         case 4 : //c
         case 5 : //d
-            $where_arr[] = "(origin_level >3 or $check_no_call_time_str )";
+            $before_3_time= time(NULL) -3600*3;
+            $where_arr[] = "( (origin_level <>99 and origin_level >3)  or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
             break;
         case 6 : //e
-            $where_arr[] = "(origin_level >3 )";
+            $where_arr[] = " (origin_level <>99 and origin_level >3) ";
             break;
 
         default:
@@ -1109,6 +1111,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
         ];
+        if($nick || $phone) {
+            $where_arr[]= "f.adminid =$adminid ";
+        }
         if (!($nick || $phone)) {
             $now=time(NULL);
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
@@ -1132,7 +1137,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_subject_free_list::DB_TABLE_NAME,
              $where_arr
         );
-        return $this->main_get_page_random ($sql,2);
+        if($nick || $phone) {
+            return $this->main_get_list_as_page($sql);
+        }else{
+            return $this->main_get_page_random($sql,2);
+        }
     }
 
     public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$user_info
@@ -2516,8 +2525,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                   t_manager_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   $where_arr
-                                  
+
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
+    public function get_seller_openid($userid){
+        $sql = $this->gen_sql_new("  select wx_openid from %s ss"
+                                  ." left join %s m on m.uid=ss.admin_revisiterid"
+                                  ." where ss.userid=%d"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$userid
+        );
+
+        return $this->main_get_value($sql);
     }
 }

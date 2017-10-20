@@ -73,8 +73,6 @@ class save_seller_info extends Command
         // $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
 
 
-        $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
-        $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
@@ -108,8 +106,14 @@ class save_seller_info extends Command
         $ret_info['one_department']    = $task->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
         $ret_info['two_department']    = $task->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部
         $ret_info['three_department']  = $task->t_admin_group_name->get_group_seller_num($third_group, $start_time);// 咨询三部
-        $ret_info['new_department']    = $task->t_admin_group_name->get_group_new_count($new_group, $start_time);// 新人营
+        $ret_info['new_department']    = $task->t_admin_group_name->get_group_seller_num($new_group, $start_time);// 新人营
         $ret_info['train_department']  = 0;// 培训中
+
+        $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
+        // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
+        // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
+
+        
 
         // 金额转化率占比
         $ret_info['high_school_money'] = $task->t_order_info->get_high_money_for_month($start_time, $end_time);
@@ -118,7 +122,7 @@ class save_seller_info extends Command
 
 
         // 转化率
-        $ret_info['seller_invit_num'] = $task->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 销售邀约数
+        $ret_info['seller_invit_num'] = $task->t_test_lesson_subject_require->get_invit_num($start_time, $end_time); // 试听邀约数
         $ret_info['seller_schedule_num'] = $task->t_test_lesson_subject_require->get_seller_schedule_num($start_time, $end_time); // 教务已排课
         $ret_info['test_succ_num'] = $task->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 

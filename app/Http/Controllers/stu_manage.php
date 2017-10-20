@@ -713,10 +713,22 @@ class stu_manage extends Controller
             }
         }
 
+        $show_flag = 0;
+        $is_test_user = $this->t_student_info->check_is_test_user($userid);
+        if($is_test_user) {
+            $show_flag++;
+        }
+        $ass_role = $this->get_account_role();
+        $ass_id = $this->get_account_id();
+        if ($ass_role == 10 || $ass_id == 356) {
+            $show_flag++;
+        }
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
             "lesson_left"            => sprintf("%.1f", $lesson_left),
             "assigned_lesson_count"   => sprintf("%.1f", $g_assigned_lesson_count),
             "unassigned_lesson_count" => sprintf("%.1f", $lesson_left-$g_assigned_lesson_count),
+            "show_flag"     => $show_flag,
         ]);
     }
 
@@ -1348,6 +1360,8 @@ class stu_manage extends Controller
         $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
+            $item['score'] = $item['score']/10;
+
             //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y-m-d");
@@ -1357,6 +1371,8 @@ class stu_manage extends Controller
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__, $ret_info);
     }

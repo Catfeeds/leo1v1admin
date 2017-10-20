@@ -131,7 +131,7 @@
                                         <td>现金总收入</td>
                                         <td>下单总人数</td>
                                         <td>入职完整月人员签单额</td>
-                                        <td>入职完整月人员人数</td>
+                                        <td>入职完整月签单人数</td>
                                         <td>平均人效</td>
                                         <td>平均单笔</td>
                                         <td>月KPI完整率</td>
@@ -142,7 +142,7 @@
                                 </thead>
                                 <tbody id="id_lesson_count_list">
                                     <tr>
-                                        <td> {{@$arr['total_price']}}</td> 
+                                        <td> {{@$arr['total_income']}}</td> 
                                         <td> {{@$arr['person_num']}}</td> 
                                         <td> {{@$arr['total_price_thirty']}} </td> 
                                         <td> {{@$arr['person_num_thirty']}}</td> 

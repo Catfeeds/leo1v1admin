@@ -12,16 +12,16 @@ class agent extends Controller
     use CacheNick;
     public function agent_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
-        $userid        = $this->get_in_userid(-1);
-        $phone         = $this->get_in_phone();
-        $p_phone       = $this->get_in_str_val('p_phone');
-        $type          = $this->get_in_int_val('agent_type');
-        $page_info     = $this->get_in_page_info();
-        $test_lesson_flag= $this->get_in_e_boolean(-1, "test_lesson_flag" );
-        $agent_type= $this->get_in_el_agent_type();
-        $agent_level = $this->get_in_el_agent_level();
-        $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
-        $l1_child_count= $this->get_in_intval_range("l1_child_count");
+        $userid           = $this->get_in_userid(-1);
+        $phone            = $this->get_in_phone();
+        $p_phone          = $this->get_in_str_val('p_phone');
+        $type             = $this->get_in_int_val('agent_type');
+        $page_info        = $this->get_in_page_info();
+        $test_lesson_flag = $this->get_in_e_boolean(-1, "test_lesson_flag" );
+        $agent_type       = $this->get_in_el_agent_type();
+        $agent_level      = $this->get_in_el_agent_level();
+        $order_flag       = $this->get_in_e_boolean(-1, "order_flag" );
+        $l1_child_count   = $this->get_in_intval_range("l1_child_count");
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
             =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
@@ -92,6 +92,8 @@ class agent extends Controller
         $ret_info_new = [];
         $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
+            $item['p_nickname'] = $item['p_nickname'].'/'.$item['p_phone'];
+            $item['pp_nickname'] = $item['pp_nickname'].'/'.$item['pp_phone'];
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_user_online_status"]);
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
@@ -310,7 +312,9 @@ class agent extends Controller
         $cash     = $this->get_in_int_val('type');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
+        $agent_check_money_flag    = $this->get_in_int_val("agent_check_money_flag", 0,E\Eagent_check_money_flag::class);
+        $phone = $this->get_in_phone();
+        $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info,$agent_check_money_flag,$phone);
         foreach($ret_info['list'] as &$item){
             $item['agent_check_money_flag'] = $item['check_money_flag'];
             $item['cash'] /=100 ;
@@ -461,26 +465,19 @@ class agent extends Controller
     }
 
     public function test_new(){
-        
-        $c = '';
-        if($c){
-            dd('a');
-        }else{
-            dd('b');
+        $res = [];
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $start_first = date('Y-m-01',$start_time);
+        $this->t_admin_group_user->switch_tongji_database();
+        $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first);
+        $num_info = $this->t_admin_group_user->get_group_num($start_time);
+        foreach($group_money_info as &$item){
+            $groupid = $item['groupid'];
+            if($groupid >0 && isset($num_info[$groupid])){
+                $res[$item['adminid']]['target_money'] =  $item['month_money']/$num_info[$groupid]['num'];
+            }
         }
-        $adminid = 830;
-        $seller_level = E\Eseller_level::V_300;
-        $face_pic = $this->t_manager_info->field_get_list($adminid,'face_pic');
-        $level_face = $this->t_seller_level_goal->field_get_list($seller_level,'level_face');
-        if($face_pic && $seller_level>0){
-            $face_pic_str = substr($face_pic,-12,5);
-            $ex_str = $next_level.$face_pic_str;
-            $level_face_pic = $this->get_top_img($adminid,$face_pic,$level_face,$ex_str);
-            $ret = $this->t_manager_info->field_update_list($adminid,[
-                'level_face_pic'=>$level_face_pic,
-            ]);
-        }
-        dd($level_face_pic,$ret);
+        dd($res);
     }
 
     //处理等级头像

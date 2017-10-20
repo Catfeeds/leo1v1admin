@@ -834,8 +834,6 @@ class human_resource extends Controller
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
         $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
-
-
         // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){
@@ -4649,6 +4647,14 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$tea_list);
     }
 
+
+
+    public function interview_remind(){ // 面试提醒
+
+        $ret_info = [];
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
 
 
 }

@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1015
+//__DESC:微信 精品内容 单条新闻详情 http://admin.yb1v1.com/wx_yxyx_common/get_yxyx_one_new
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  id =1 ; //内容id
+}
+
+message out {
+  string new_title = 1;//标题
+  string new_content = 2;//内容
+}

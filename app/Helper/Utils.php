@@ -300,6 +300,14 @@ class Utils  {
         }
     }
 
+    static function fmt_lesson_time_new($lesson_start,$lesson_end){
+        if ($lesson_start>0){
+            return date('m-d H:i', $lesson_start) . date('~H:i', $lesson_end);
+        }else{
+            return "无";
+        }
+    }
+
     static function get_lesson_time($lesson_start,$lesson_end,$type=0){
         $date_str = date('m-d H:i', $lesson_start) . date('~H:i', $lesson_end);
         if($type===0){
@@ -1233,6 +1241,9 @@ class Utils  {
         }
         return $grade_range;
     }
+
+
+    
 
     //黄嵩婕 71743 在2017-9-20之前所有都是60元/课时
     //张珍颖奥数 58812 所有都是75元/课时

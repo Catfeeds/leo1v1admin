@@ -1,0 +1,1 @@
+{"tag_list":["for_app","for_admin"],"cmd_list":[{"NAME":"account__register","DESC":"\u7528\u6237\u6ce8\u518c","TAGS":["for_app"],"CMD":"0x1000"},{"NAME":"account__login","DESC":"\u7528\u6237\u767b\u5f55","TAGS":["for_app","for_admin"],"CMD":"0x1001"}]}
