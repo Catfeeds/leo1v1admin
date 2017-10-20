@@ -87,11 +87,17 @@ class order_price_20171001 extends order_price_base
 
             $userid = $lesson_info["userid"];
             $grade  = $lesson_info["grade"];
-            $cur_lesson_start = $lesson_info["lesson_start"];
-            $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
-            $lesson_start = $first_lesson_info["lesson_start"];
+            $last_lesson_info=$task->t_lesson_info_b3->get_grade_last_test_lesson( $userid, $grade );
+            $lesson_start = $last_lesson_info["lesson_start"];
+            $now=time(NULL);
+            if ($lesson_start < strtotime("2017-10-10") 
+                && $now >= strtotime("2017-10-20") 
+                && $now < strtotime("2017-10-22") 
+            ){ //10号前
+                
+                
+            }
 
-            $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
             if ( $lesson_times>=30 && $lesson_start &&  time(NULL)<$check_time  ) {
                 $free_money=300;
                 $price-=$free_money;

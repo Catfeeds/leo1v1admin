@@ -34,6 +34,17 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_row($sql);
     }
 
+    public function get_grade_last_test_lesson($userid, $grade ) {
+        $sql = $this->gen_sql_new(
+            "select lesson_start from %s"
+            . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start desc limit 1  ",
+            self::DB_TABLE_NAME,
+            $userid, $grade
+        ) ;
+
+        return $this->main_get_row($sql);
+    }
+
 
     public function get_next_day_lesson_info(){
         $next_day_begin = strtotime(date('Y-m-d',strtotime("+1 days")));
