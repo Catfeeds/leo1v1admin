@@ -1854,7 +1854,7 @@ function init_edit() {
                 }
             },function(){
 
-                $.admin_select_user( $green_channel_teacherid, "train_through_teacher_new");
+                $.admin_select_user( $green_channel_teacherid, "teacher");
             });
         }
                // }else{

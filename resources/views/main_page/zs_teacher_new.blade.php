@@ -96,6 +96,7 @@
                             
                             <font color="#333" >审核通过数:</font> 
                             <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["all_succ"]}}　</span>
+
                         </div>
 
 
@@ -283,10 +284,6 @@
                 </div>
                 
             </div>
-
-
-            
-
         </div>
 
     </section>
