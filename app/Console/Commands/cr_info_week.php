@@ -103,7 +103,7 @@ class cr_info_week extends Command
             $arr['month_kpi_per'] = 0;
         }
         if($arr['total_price']){
-            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
+            $arr['contract_per']   = round($arr['total_income']/$arr['contract_num']);//A6-平均单笔
         }else{
             $arr['contract_per']   = 0;
         }
