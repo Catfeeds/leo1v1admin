@@ -14,6 +14,15 @@ class t_xmpp_server_config extends \App\Models\Zgen\z_t_xmpp_server_config
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_xmpp_id($xmpp_value){
+        $sql = $this->gen_sql_new(" select id "
+                                  ." from %s "
+                                  ." where server_name ='%s' ",
+                                  self::DB_TABLE_NAME ,
+                                  $xmpp_value);
+        return $this->main_get_value($sql);
+
+    }
 
     public function get_info_by_server_name($server_name){
 

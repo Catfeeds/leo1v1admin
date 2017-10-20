@@ -8218,4 +8218,41 @@ class tongji_ss extends Controller
        
     }
 
+    public function get_four_teacher_money_type_info(){
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $grade = $this->get_in_grade(100);
+        $list = $this->t_teacher_info->get_teacher_info_by_teacher_money_type(6);
+        $tea_arr=[];
+        foreach($list as $v){
+            $tea_arr[]=$v["teacherid"];
+        }
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,2);
+        /*  if(!empty($cc_list)){
+            $cc_list = $cc_list[$teacherid];
+            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        }else{
+            $cc_per =0;
+            }*/
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,1);
+        foreach($list as $k=>&$val){
+            $val["cc_lesson_count"] = isset($cc_list[$val["teacherid"]])?$cc_list[$val["teacherid"]]["lesson_num"]:0;
+            $val["cc_person_num"] = isset($cc_list[$val["teacherid"]])?$cc_list[$val["teacherid"]]["person_num"]:0;
+            $val["cc_have_order"] = isset($cc_list[$val["teacherid"]])?$cc_list[$val["teacherid"]]["have_order"]:0;
+            $val["cr_lesson_count"] = isset($cr_list[$val["teacherid"]])?$cr_list[$val["teacherid"]]["lesson_num"]:0;
+            $val["cr_person_num"] = isset($cr_list[$val["teacherid"]])?$cr_list[$val["teacherid"]]["person_num"]:0;
+            $val["cr_have_order"] = isset($cr_list[$val["teacherid"]])?$cr_list[$val["teacherid"]]["have_order"]:0;
+            $val["cc_per"] = !empty($val["cc_person_num"])?round($val["cc_have_order"]/$val["cc_person_num"]*100,2):0;
+            $val["cr_per"] = !empty($val["cr_person_num"])?round($val["cr_have_order"]/$val["cr_person_num"]*100,2):0;
+            $val["grade_str"] =E\Egrade::get_desc($grade);
+            if($val["cc_lesson_count"]==0 &&  $val["cr_lesson_count"]==0){
+                unset($list[$k]);
+            }
+
+        }
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+
+       
+        
+    }
+
 }

@@ -1,4 +1,9 @@
 	account	:any;
+	all_num	:any;
+	all_count	:any;
+	real_num	:any;
+	real_all	:any;
 	pass_per	:any;
 	ave_time	:any;
 	order_per	:any;
+	all_pass_per	:any;

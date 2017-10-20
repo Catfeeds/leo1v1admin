@@ -2072,7 +2072,7 @@ trait TeaPower {
     public function set_full_time_teacher($teacherid){
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
-        if(!in_array($teacher_info['teacher_money_type']!=0,[0,7])){
+        if(!in_array($teacher_info['teacher_money_type'],[0,7])){
             $update_arr['teacher_money_type'] = 0;
         }
         if($teacher_info['level']!=0){
@@ -3590,7 +3590,9 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             }
             if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_count" => $lesson_count
+                    "lesson_count" => $lesson_count,
+                    "operate_time" => time(),
+                    "sys_operator" => $this->get_account()
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);

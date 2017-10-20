@@ -276,6 +276,31 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
+    public function get_train_through_tea_list_for_select_new($id,$gender, $nick_phone, $page_num){
+        $where_arr = [
+            ["t.gender=%d",$gender,-1],
+            ["teacherid=%d",$id,-1],
+            "train_through_new=1",
+            "trial_lecture_is_pass=1",
+            "month_stu_num<=10"
+        ];
+        if($nick_phone!=""){
+            $where_arr[] = array( "(nick like '%%%s%%' or  realname like '%%%s%%' or  t.phone like '%%%s%%' )",array(
+                $this->ensql($nick_phone),
+                $this->ensql($nick_phone),
+                $this->ensql($nick_phone))
+            );
+        }
+
+        $sql = $this->gen_sql_new("select teacherid as id , nick,t.phone,t.gender ,"
+                                  ."realname,subject,grade_part_ex,grade_start,grade_end "
+                                  ." from %s t"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num,10);
+    }
 
     public function get_teacher_detail_list_new(
         $teacherid,$is_freeze,$page_num,$is_test_user,$gender,$grade_part_ex,$subject,$second_subject,
@@ -4135,6 +4160,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
         );
 
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_info_by_teacher_money_type($teacher_money_type){
+        $where_arr=[
+            "is_test_user=0",
+            "train_through_new=1",
+            ["teacher_money_type=%u",$teacher_money_type,-1]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,realname from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 

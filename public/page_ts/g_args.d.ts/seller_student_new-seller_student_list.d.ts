@@ -115,6 +115,7 @@ interface RowData {
 	study_type	:any;
 	lesson_count_all	:any;
 	lesson_count_left	:any;
+	is_test_user	:any;
 	contract_type	:any;
 	price	:any;
 	lesson_total	:any;
@@ -177,48 +178,49 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new-seller_student_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		cur_page:	$('#id_cur_page').val(),
+		status_list_str:	$('#id_status_list_str').val(),
+		no_jump:	$('#id_no_jump').val(),
+		account_seller_level:	$('#id_account_seller_level').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		adminid_list:	$('#id_adminid_list').val(),
+		origin_assistant_role:	$('#id_origin_assistant_role').val(),
+		origin:	$('#id_origin').val(),
+		userid:	$('#id_userid').val(),
+		seller_student_status:	$('#id_seller_student_status').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		phone_location:	$('#id_phone_location').val(),
+		require_admin_type:	$('#id_require_admin_type').val(),
+		subject:	$('#id_subject').val(),
+		has_pad:	$('#id_has_pad').val(),
+		seller_level:	$('#id_seller_level').val(),
+		tq_called_flag:	$('#id_tq_called_flag').val(),
+		seller_resource_type:	$('#id_seller_resource_type').val(),
+		origin_assistantid:	$('#id_origin_assistantid').val(),
+		origin_userid:	$('#id_origin_userid').val(),
+		admin_revisiterid:	$('#id_admin_revisiterid').val(),
+		success_flag:	$('#id_success_flag').val(),
+		seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
+		end_class_flag:	$('#id_end_class_flag').val(),
+		group_seller_student_status:	$('#id_group_seller_student_status').val(),
+		tmk_student_status:	$('#id_tmk_student_status').val(),
+		phone_name:	$('#id_phone_name').val(),
+		current_require_id_flag:	$('#id_current_require_id_flag').val(),
+		favorite_flag:	$('#id_favorite_flag').val(),
+		jack_flag:	$('#id_jack_flag').val(),
+		account_role:	$('#id_account_role').val(),
+		account:	$('#id_account').val(),
+		admin_seller_level:	$('#id_admin_seller_level').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			cur_page:	$('#id_cur_page').val(),
-			status_list_str:	$('#id_status_list_str').val(),
-			no_jump:	$('#id_no_jump').val(),
-			account_seller_level:	$('#id_account_seller_level').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			adminid_list:	$('#id_adminid_list').val(),
-			origin_assistant_role:	$('#id_origin_assistant_role').val(),
-			origin:	$('#id_origin').val(),
-			userid:	$('#id_userid').val(),
-			seller_student_status:	$('#id_seller_student_status').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			phone_location:	$('#id_phone_location').val(),
-			require_admin_type:	$('#id_require_admin_type').val(),
-			subject:	$('#id_subject').val(),
-			has_pad:	$('#id_has_pad').val(),
-			seller_level:	$('#id_seller_level').val(),
-			tq_called_flag:	$('#id_tq_called_flag').val(),
-			seller_resource_type:	$('#id_seller_resource_type').val(),
-			origin_assistantid:	$('#id_origin_assistantid').val(),
-			origin_userid:	$('#id_origin_userid').val(),
-			admin_revisiterid:	$('#id_admin_revisiterid').val(),
-			success_flag:	$('#id_success_flag').val(),
-			seller_require_change_flag:	$('#id_seller_require_change_flag').val(),
-			end_class_flag:	$('#id_end_class_flag').val(),
-			group_seller_student_status:	$('#id_group_seller_student_status').val(),
-			tmk_student_status:	$('#id_tmk_student_status').val(),
-			phone_name:	$('#id_phone_name').val(),
-			current_require_id_flag:	$('#id_current_require_id_flag').val(),
-			favorite_flag:	$('#id_favorite_flag').val(),
-			jack_flag:	$('#id_jack_flag').val(),
-			account_role:	$('#id_account_role').val(),
-			account:	$('#id_account').val(),
-			admin_seller_level:	$('#id_admin_seller_level').val()
-        });
-    }
 
 	Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
 	Enum_map.append_option_list("subject",$("#id_subject"));

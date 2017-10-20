@@ -12,6 +12,7 @@ $(function(){
             end_time       : $('#id_end_time').val(),
             groupid        : groupid,
             test_seller_id : $("#id_test_seller_id").val(),
+            order_by_str   : $('#id_order_by_str').val(),
         });
     }
     $('#id_date_range').select_date_range({
@@ -133,7 +134,7 @@ $(function(){
                     field_name:"lesson_time"
                 },{
                     title:"学生",
-                    field_name: "student_nick" 
+                    field_name: "student_nick"
                 },{
                     title:"老师",
                     field_name:"teacher_nick"
@@ -157,6 +158,16 @@ $(function(){
             "onLoadData" : null
         });
     });
-
-
+    $('#id_order_by_all_count').click(function(){
+        $('#id_order_by_str').val('count(*) desc');
+        load_data();
+    });
+    $('#id_order_by_all_price').click(function(){
+        $('#id_order_by_str').val('sum(price) desc');
+        load_data();
+    });
+    $('#id_order_by_finish_per').click(function(){
+        $('#id_order_by_str').val('if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc');
+        load_data();
+    });
 });

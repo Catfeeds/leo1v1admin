@@ -101,6 +101,8 @@ class seller_menu{
                     ["power_id"=>24, "name"=>"销售-周报月报",   "url"=>"/main_page/get_seller_total_info"],
                     ["power_id"=>42, "name"=>"例子分配统计",   "url"=>"/seller_student_new2/seller_student_new_distribution"],
                     ["power_id"=>44, "name"=>"例子分配列表",   "url"=>"/seller_student_new2/seller_edit_log_list"],
+                    ["power_id"=>5, "name"=>"试听签约失败分类", "url"=>"/tongji_ss/order_fail_list"],
+                    ["power_id"=>6, "name"=>"试听签约失败-未设置","url"=>"/tongji_ss/order_fail_seller_set"],
                 ]],
             ]],
         ];  

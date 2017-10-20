@@ -11,9 +11,10 @@ class flow_ass_order_refund  extends flow_base{
         1=>[ 2,"主管审批"  ],
         2=>[ 3,"[部]主审批" ],
         4=>[ -1,"xixi审核" ], //原来的
-        3=>[ [6,5] ,"财务复核" ],
-        5=>[ 6 ," michael复核 " ],
+        3=>[ [7,5] ,"财务复核" ],
+        5=>[ 6 ," 助教 michael复核 " ],
         6 =>[-1, " xixi复核 "  ],
+        7=>[ 6 ," 销售 tina 复核 " ],
     ];
     static function get_self_info( $from_key_int,  $from_key_str, $from_key2_int   ) {
         $t_order_refund  = new \App\Models\t_order_refund();
@@ -113,12 +114,19 @@ class flow_ass_order_refund  extends flow_base{
             return [5,188];
         }else{
             $flag=\App\Helper\Utils::check_env_is_release() ;
-            return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
+            return [7,"班洁" ];
+            //return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
         }
     }
 
 
     static function next_node_process_5 ($flowid, $adminid){ //
+        $flag=\App\Helper\Utils::check_env_is_release() ;
+        return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
+    }
+
+
+    static function next_node_process_7 ($flowid, $adminid){ //
         $flag=\App\Helper\Utils::check_env_is_release() ;
         return [6, $flag?"xixi":"jim" , 1 ]; //自动通过
     }

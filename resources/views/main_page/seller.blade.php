@@ -18,7 +18,7 @@
     </script>
 
     <section class="content " id="id_content">
-
+        <input type="hidden" id="id_order_by_str"> 
         <div  id="id_query_row">
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -47,7 +47,7 @@
 
         <div class="row">
 
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-4" style="width:30%;">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading">
                         本月-我的数据
@@ -296,12 +296,24 @@
                                 <tr>
                                     <td><strong><font class="font_thead" >排名</font></strong></td>
                                     <td><strong><font class="font_thead" >团队 </font></strong></td>
-                                    {!!\App\Helper\Utils::th_order_gen([
-                                        ["签单数" , "all_count"],
-                                        ["总金额" , "all_price"],
-                                        ["完成率" , "finish_per"],
-                                       ])
-                                    !!}
+                                    <td>
+                                        <strong><font class="font_thead" >签单数</font></strong>
+                                        <a href="javascript:;" id="id_order_by_all_count">
+                                            <img  style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <strong><font class="font_thead" >总金额</font></strong>
+                                        <a href="javascript:;" id="id_order_by_all_price">
+                                            <img style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <strong><font class="font_thead" >完成率</font></strong>
+                                        <a href="javascript:;" id="id_order_by_finish_per">
+                                            <img style="width:10px;height:12px;" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/859fe590f02db0c6dc7390d6961edb381508408480370.jpg" alt="" />
+                                        </a>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody id="id_group_body">

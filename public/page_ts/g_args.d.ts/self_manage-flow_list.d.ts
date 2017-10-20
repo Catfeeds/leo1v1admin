@@ -50,19 +50,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/self_manage-flow_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		post_adminid:	$('#id_post_adminid').val(),
+		flow_check_flag:	$('#id_flow_check_flag').val(),
+		flow_type:	$('#id_flow_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			post_adminid:	$('#id_post_adminid').val(),
-			flow_check_flag:	$('#id_flow_check_flag').val(),
-			flow_type:	$('#id_flow_type').val()
-        });
-    }
 
 	Enum_map.append_option_list("flow_check_flag",$("#id_flow_check_flag"));
 	Enum_map.append_option_list("flow_type",$("#id_flow_type"));

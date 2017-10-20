@@ -1,0 +1,19 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1010
+//__DESC:微信[优学优享]-文章分享  http://wx-yxyx.leo1v1.com/wx_yxyx_common/get_wx_yxyx_js_config
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    string  ref =1 ; //验证码 
+}
+
+message out {
+    uint32  debug =1 ; //是否开启调试模式(默认未开启)
+    string  appid =2 ; //必填，公众号的唯一标识
+    string  timestam =3 ; //必填，生成签名的时间戳(随意值)
+    string  signatur =4 ; //必填，生成签名的随机串(随意值)
+    string  nonceStr =5 ; //必填，签名
+    string  jsApiList =6 ; //必填，需要使用的JS接口列表
+}

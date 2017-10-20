@@ -25,6 +25,31 @@
                     <input value="{{$match_rate}}">
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                    <span>去重后</span>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span>总人数</span>
+                    <input value="{{$all_stu}}">
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span>匹配-下单人数</span>
+                    <input value="{{$match_stu}}">
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span>非匹配-下单人数</span>
+                    <input value="{{$no_match_stu}}">
+                </div>
+            </div>
+
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span>匹配转化率</span>
@@ -34,7 +59,7 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span>非匹配转化率</span>
-                    <input value="{{$succ_rate}}">
+                    <input value="{{$no_match_succ_rate}}">
                 </div>
             </div>
         </div>

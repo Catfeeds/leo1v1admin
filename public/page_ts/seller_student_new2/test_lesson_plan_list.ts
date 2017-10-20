@@ -163,8 +163,8 @@ $(function(){
             ["年级",opt_data.grade_str]  ,
             ["科目",opt_data.subject_str]  ,
         ];
-
-        $.show_key_value_table("排课", arr ,[
+        if(opt_data.is_test_user > 0){ //1 测试用户
+            $.show_key_value_table("排课", arr ,[
             {
                 label    : '驳回',
                 cssClass : 'btn-danger',
@@ -214,6 +214,58 @@ $(function(){
             }],function(){
                 $.admin_select_user(id_teacherid,"train_through_teacher");
             });
+        }else{
+            $.show_key_value_table("排课", arr ,[
+            {
+                label    : '驳回',
+                cssClass : 'btn-danger',
+                action   : function(dialog) {
+                    var $input = $("<input style=\"width:180px\"  placeholder=\"驳回理由\"/>");
+                    $.show_input(
+                        opt_data.nick+" : "+ opt_data.subject_str+ ",要驳回, 不计算排课数?! ",
+                        "",function(val){
+                            $.do_ajax("/ss_deal/set_no_accpect",{
+                                'require_id'       : opt_data.require_id,
+                                'fail_reason' : val
+                            });
+                        }, $input  );
+                    $input.val("未排课,期待时间已到");
+                }
+            },{
+                label    : '------',
+            },{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+                    var do_post = function() {
+                        $.do_ajax("/ss_deal/course_set_new",{
+                            'require_id'   : opt_data.require_id,
+                            "grade"        : opt_data.grade,
+                            'teacherid'    : id_teacherid.val(),
+                            'lesson_start' : id_start_time.val(),
+                            'top_seller_flag' : opt_data.seller_top_flag
+                        });
+                    };
+
+                    var now        = (new Date()).getTime()/1000;
+                    var start_time = $.strtotime(id_start_time.val());
+                    if ( now > start_time ) {
+                        alert("上课时间比现在还小.");
+                        return ;
+                    } else if ( now + 5*3600  > start_time ) {
+                        BootstrapDialog.confirm("上课时间离现在很近了,要提交吗?!",function(val){
+                            if(val) {
+                                do_post();
+                            }
+                        });
+                    }else{
+                        do_post();
+                    }
+                }
+            }],function(){
+                $.admin_select_user(id_teacherid,"train_through_teacher");
+            });
+        }
     });
 
 

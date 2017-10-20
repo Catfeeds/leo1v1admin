@@ -21,7 +21,7 @@ class proto extends Controller
     var $check_login_flag = false;
 
     public function cmd_list() {
-        $project=$this->get_in_str_val("project","yb_db");
+        $project=$this->get_in_str_val("project","yb_admin");
         $tag=$this->get_in_str_val("tag","");
         $query_str=trim($this->get_in_str_val("query_str"));
         //得到
@@ -102,6 +102,7 @@ class proto extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cmd_list) ,[
             "cmd_desc_list" =>  $cmd_desc_list,
             "error_list" => $error_list,
+            "project" => $project,
         ]);
     }
 

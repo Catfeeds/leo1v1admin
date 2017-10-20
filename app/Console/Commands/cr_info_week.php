@@ -69,17 +69,22 @@ class cr_info_week extends Command
         //节点
         //概况
         $ret_total         = $task->t_order_info->get_total_price($start_time,$end_time);
+
         if($type == 3){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($end_month),$end_time);
+            $month_total_money = $task->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
+            $ret_cr = $task->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
         }elseif($type == 1 || $type == 2){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
+            $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+            $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
         }//月初至今
         $ret_total_thirty  = $task->t_order_info->get_total_price_thirty($start_time,$end_time);
-        $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+        
         $ret_refund = $task->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
         $arr['target']             = $target * 100;                          //1-续费目标
-        $arr['total_price']        = $ret_total['total_price'] ;             //2-现金总收入
+        $arr['total_price']        = $month_total_money;                    //2-现金总收入
         $arr['total_income']       = $ret_total['total_price'] ;             //A1-现金总收入
         $arr['person_num']         = $ret_total['person_num'];               //A2-下单总人数
         $arr['contract_num']       = $ret_total['order_num']; //合同数
@@ -100,7 +105,7 @@ class cr_info_week extends Command
             $arr['month_kpi_per'] = 0;
         }
         if($arr['total_price']){
-            $arr['contract_per']   = round($arr['total_price']/$arr['contract_num']);//A6-平均单笔
+            $arr['contract_per']   = round($arr['total_income']/$arr['contract_num']);//A6-平均单笔
         }else{
             $arr['contract_per']   = 0;
         }
@@ -281,7 +286,7 @@ class cr_info_week extends Command
 
           "total_income"            => $arr['total_income'],    //A1-现金总收入
           "person_num"              => $arr['person_num'],      //A2-下单总人数
-          "total_price_thirty"      => $arr["total_price_thirty"],//A3-入职完整月人员签单额
+          "total_price_thirty"      => intval($arr["total_price_thirty"]*100),//A3-入职完整月人员签单额
           "person_num_thirty"       => $arr['person_num_thirty'],//A4-入职完整月人员人数
           "person_num_thirty_per"   => intval($arr['person_num_thirty_per']*100),//A5-平均人效
           "contract_per"            => intval($arr['contract_per']),//A6-平均单笔

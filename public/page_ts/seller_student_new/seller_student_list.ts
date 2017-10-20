@@ -1820,25 +1820,44 @@ function init_edit() {
         var arr=[
             ["选择老师",$green_channel_teacherid]
         ];
-
-        $.show_key_value_table("申请绿色通道", arr, {
-            label    : '提交',
-            cssClass : 'btn-danger',
-            action   : function(dialog) {
-                if($green_channel_teacherid.val() <= 0){
-                    alert("请选择老师!");
-                    return;
+        if(opt_data.is_test_user > 0){
+            $.show_key_value_table("申请绿色通道", arr, {
+                label    : '提交',
+                cssClass : 'btn-danger',
+                action   : function(dialog) {
+                    if($green_channel_teacherid.val() <= 0){
+                        alert("请选择老师!");
+                        return;
+                    }
+                    $.do_ajax("/ss_deal/set_green_channel_teacherid", {
+                        "require_id"             : opt_data.current_require_id,
+                        "green_channel_teacherid":$green_channel_teacherid.val()
+                    });
                 }
-                $.do_ajax("/ss_deal/set_green_channel_teacherid", {
-                    "require_id"             : opt_data.current_require_id,
-                    "green_channel_teacherid":$green_channel_teacherid.val()
-                });
-            }
-        },function(){
+            },function(){
 
-            $.admin_select_user( $green_channel_teacherid, "teacher");
-        });
-       // }else{
+                $.admin_select_user( $green_channel_teacherid, "teacher");
+            });
+        }else{
+             $.show_key_value_table("申请绿色通道", arr, {
+                label    : '提交',
+                cssClass : 'btn-danger',
+                action   : function(dialog) {
+                    if($green_channel_teacherid.val() <= 0){
+                        alert("请选择老师!");
+                        return;
+                    }
+                    $.do_ajax("/ss_deal/set_green_channel_teacherid", {
+                        "require_id"             : opt_data.current_require_id,
+                        "green_channel_teacherid":$green_channel_teacherid.val()
+                    });
+                }
+            },function(){
+
+                $.admin_select_user( $green_channel_teacherid, "teacher");
+            });
+        }
+               // }else{
            // alert("您没有权限进行绿色通道申请!");
             //return;
        // }

@@ -20,8 +20,14 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	teacher_nick	:any;
-	teacher_money_type_str	:any;
+	stu_num	:any;
+	valid_count	:any;
+	teacher_come_late_count	:any;
+	teacher_cut_class_count	:any;
+	teacher_change_lesson	:any;
+	teacher_leave_lesson	:any;
 	work_time	:any;
+	teacher_money_type_str	:any;
 	lesson_leavel_rate	:any;
 	lesson_come_late_rate	:any;
 	lesson_cut_class_rate	:any;
@@ -36,20 +42,21 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-tongji_change_lesson_for_jy.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		is_full_time:	$('#id_is_full_time').val(),
+		teacher_money_type:	$('#id_teacher_money_type').val(),
+		order_by_str:	$('#id_order_by_str').val(),
+		assistantid:	$('#id_assistantid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			is_full_time:	$('#id_is_full_time').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val(),
-			order_by_str:	$('#id_order_by_str').val(),
-			assistantid:	$('#id_assistantid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

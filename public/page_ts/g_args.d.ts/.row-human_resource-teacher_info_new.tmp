@@ -155,6 +155,7 @@
 	hobby	:any;
 	speciality	:any;
 	train_type	:any;
+	new_train_flag	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;

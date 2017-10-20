@@ -196,7 +196,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         }
         if($up_master_adminid != -1){
-            $where_arr[]="t2.ass_master_adminid=".$account_id;
+            // $where_arr[]="t2.ass_master_adminid=".$account_id;
+            $where_arr[]="if(nn.master_adminid>0,nn.master_adminid=".$account_id.",t2.ass_master_adminid=".$account_id.")";
         }
 
         if (!$show_yueyue_flag) {
@@ -223,7 +224,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
             ." pp.nick as parent_nick,t2.phone,t1.origin,t1.sys_operator,t1.from_type,"
             ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
-            ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,title,"
+            ." check_money_adminid,check_money_desc,t2.assistantid,t2.init_info_pdf_url,t1.title,"
             ." need_receipt, order_promotion_type, promotion_discount_price, promotion_present_lesson, "
             ." promotion_spec_discount, promotion_spec_present_lesson ,lesson_start,"
             ." t2.ass_master_adminid,m.account master_nick,t2.master_assign_time, pdf_url, "
@@ -240,6 +241,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." left join %s m2 on t1.sys_operator = m2.account"
             ." left join %s ti on t1.userid = ti.userid"
             ." left join %s pp on t2.parentid= pp.parentid"
+            ." left join %s a on t2.assistantid = a.assistantid"
+            ." left join %s mm on a.phone = mm.phone"
+            ." left join %s u on u.adminid = mm.uid"
+            ." left join %s nn on u.groupid = nn.groupid"
             ." where %s order by $order_by_str ",
             // ." left join %s co on (co.parent_orderid = t1.orderid and co.child_order_type = 2)"
             // ." where %s group by t1.orderid order by $order_by_str ",
@@ -254,6 +259,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_manager_info::DB_TABLE_NAME,
             t_student_init_info::DB_TABLE_NAME,
             t_parent_info::DB_TABLE_NAME,
+            t_assistant_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_admin_group_user::DB_TABLE_NAME,
+            t_admin_group_name::DB_TABLE_NAME,
             // t_child_order_info::DB_TABLE_NAME,
             $where_arr
         );
@@ -976,7 +985,11 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function get_1v1_order_seller_list_group( $start_time,$end_time,$groupid=-1,$start_first) {
+    public function get_1v1_order_seller_list_group( $start_time,$end_time,$groupid=-1,$start_first,$order_by_str) {
+        if(!$order_by_str){
+            // $order_by_str = 'sum(price) desc';
+            $order_by_str = 'if(sum(price)>0 and month_money<>0,sum(price)/month_money,0) desc';
+        }
         $where_arr = [
             ["order_time>=%u" , $start_time, -1],
             ["order_time<=%u" , $end_time, -1],
@@ -996,7 +1009,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s g on gu.groupid =g.groupid "
                                   ." left join %s gm on gm.groupid =g.groupid and gm.month = '%s' "
                                   ." where %s "
-                                  ."  group by g.groupid order by sum(price) desc  ",
+                                  ."  group by g.groupid order by %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
@@ -1004,7 +1017,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   t_admin_group_name::DB_TABLE_NAME,
                                   t_admin_group_month_time::DB_TABLE_NAME,
                                   $start_first,
-                                  $where_arr
+                                  $where_arr,
+                                  $order_by_str
         );
         return $this->main_get_list($sql);
     }
@@ -3450,12 +3464,31 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   $where_arr);
         return $this->main_get_row($sql);
     }
+    public function get_total_price_new($start_time,$end_time){
+        $where_arr = [
+            ['order_time>%u',$start_time,-1],
+            ['order_time<%u',$end_time,-1],
+            "contract_status <> 0",
+            "price > 0",
+            "m.account_role = 1"
+        ];
+        $sql = $this->gen_sql_new("select sum(price) as total_price"
+                                  ." from %s o "
+                                  ." left join %s m on o.sys_operator = m.account"
+                                  ." left join %s s on o.userid = s.userid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_value($sql);
+    }
 
     public function get_total_price_thirty($start_time,$end_time){
         $where_arr = [
             ['order_time>%u',$start_time,-1],
             ['order_time<%u',$end_time,-1],
-            ['m.create_time+86400*30 < %u',$end_time,-1], //大于订单时间
+            ['m.create_time+86400*29 < %u',$end_time,-1], //大于订单时间
             "contract_status <> 0",
             "price > 0",
             "m.account_role = 1",
@@ -3593,7 +3626,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(o.orderid) from %s o "
+        $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
                                   ." left join %s tq on tq.phone=ss.phone"
                                   ." left join %s ts on ts.userid=o.userid"
@@ -3619,7 +3652,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(o.orderid) from %s o "
+        $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
                                   ." left join %s ts on ts.userid=ss.userid"
                                   ." left join %s tr on tr.test_lesson_subject_id=ts.test_lesson_subject_id"

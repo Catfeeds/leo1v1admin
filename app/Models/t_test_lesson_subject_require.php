@@ -258,7 +258,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $sql = $this->gen_sql_new(
             "select tr.change_teacher_reason, tr.change_teacher_reason_img_url, tr.change_teacher_reason_type, test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
-            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid ,"
+            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid,s.is_test_user ,"
             ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
             ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
             ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
@@ -774,7 +774,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s s on s.userid = l.userid "
             ." join %s tea on tea.teacherid=l.teacherid "
-            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+            ." where %s and lesson_start >=%u and lesson_start<%u"
+            ." and l.lesson_type=2"
+            ." and accept_flag=1  "
             ." and s.is_test_user=0 "
             ." and require_admin_type = 2 ",
             // ." group by check_value " ,
