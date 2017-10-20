@@ -366,9 +366,7 @@ class menu{
                 ["power_id"=>5, "name"=>"学员档案-付费",   "url"=>"/user_manage/pay_money_stu_list"],
                 ["power_id"=>8, "name"=>"总体收入",   "url"=>"/tongji/all_info"],
                 ["power_id"=>9, "name"=>"月度收入",   "url"=>"/tongji/get_month_money_info"],
-                ["power_id"=>3, "name"=>"渠道统计",
-                 "url"=>"/seller_student/money_contract_list_for_origin"],
-
+                ["power_id"=>3, "name"=>"渠道统计", "url"=>"/seller_student/money_contract_list_for_origin"],
                 ["power_id"=>4, "name"=>"月份学生统计",   "url"=>"/user_manage_new/month_user_info"],
                 ["power_id"=>10, "name"=>"退费管理",   "url"=>"/user_manage/refund_list_finance"],
 
