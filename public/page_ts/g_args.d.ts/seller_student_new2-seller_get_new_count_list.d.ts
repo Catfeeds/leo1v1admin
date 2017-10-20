@@ -38,18 +38,19 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-seller_get_new_count_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		adminid:	$('#id_adminid').val(),
+		seller_new_count_type:	$('#id_seller_new_count_type').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			adminid:	$('#id_adminid').val(),
-			seller_new_count_type:	$('#id_seller_new_count_type').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 	Enum_map.append_option_list("seller_new_count_type",$("#id_seller_new_count_type"));
 
