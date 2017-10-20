@@ -1929,8 +1929,8 @@ class tongji extends Controller
         $no_match_stu = count($no_match_arr)-1;
         $match_stu = count($match_arr)-1;
 
-        $no_match_all_stu = count($no_match_all)-1;
-        $match_all_stu = count($match_all)-1;
+        $no_match_all_stu = count($no_match_all);
+        $match_all_stu = count($match_all);
 
 
         $no_match_succ_rate  = $all_stu>0 ? $no_match_stu/$no_match_all_stu : 0;
