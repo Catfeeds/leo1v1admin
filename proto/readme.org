@@ -1,5 +1,17 @@
 
+
 https://github.com/google/protobuf/archive/v3.4.1.tar.gz
+ sudo apt-get install curl  libtool    g++
+ autogen.sh
+./configure 
+make -j 4
+sudo make intall
+
+~/.bashrc
+export  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+
 
 
 http://self.admin.yb1v1.com/proto/cmd_desc?project=agent_api
+

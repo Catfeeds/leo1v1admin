@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1100
+//__DESC:微信[优学优享]发送手机验证码 http://wx-yxyx.leo1v1.com/wx_yxyx_common/agent_add_send_phone_code
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    string  phone =1 ; //用户手机号
+}
+
+message out {
+  uint32 msg_num = 1;//验证码编号
+  uint32 code = 2;//验证码
+}

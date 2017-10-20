@@ -33,11 +33,11 @@
 
         @foreach (  $cmd_desc_list as $cmd_item )
 
-            <h4>
+            <h4 style="margin-top:30px;margin-bottom:30px;">
 
                 <a
                                        id="{{@$cmd_item["name"]}}_desc"
-                                       href="#{{@$cmd_item["name"]}}_item" style="font-size:20px;color:blue;" >
+                                       href="#{{@$cmd_item["name"]}}_item" style="font-size:15px;color:green;padding:30px 0px 30px 50px;" >
                     {{$cmd_item["cmdid"]}} | {{$cmd_item["name"]}}  | {{$cmd_item["desc"]}} </a> </h4>
             <table      class="table table-bordered table-striped " style="margin-left:50px;max-width: 800px; "  >
                 <thead>

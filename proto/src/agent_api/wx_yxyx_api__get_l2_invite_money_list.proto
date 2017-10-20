@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1022
+//__DESC:微信[优学优享]- 得到邀请金额列表 http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_l2_invite_money_list
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  agent_status_money_open_flag =1 ; //是否可提现
+    uint32  test_lesson_succ_flag =1 ; //是否试听成功
+}
+
+message out {
+  common.l1_invite_money_item_t list = 1;//邀请金额列表
+}
