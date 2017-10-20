@@ -6568,4 +6568,19 @@ class ss_deal extends Controller
         return $this->output_succ($ret_info);
     }
 
+
+    public function add_interview_remind(){
+        $name = $this->get_in_str_val('name');
+        $post = $this->get_in_str_val('post');
+        $dept = $this->get_in_str_val('dept');
+        $interview_time = strtotime($this->get_in_str_val('interview_time'));
+        $interviewer    = $this->get_in_int_val('interviewer');
+
+
+        $this->t_interview_remind->row_insert([
+            
+        ]);
+
+
+    }
 }

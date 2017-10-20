@@ -1432,7 +1432,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
             $lesson_type = $item["lesson_type"];
             $lesson_num  = $item["lesson_num"];
             $lesson_end  = $item["lesson_end"];
-            $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+            $roomid    = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
 
             $xmpp_server_name=$item["xmpp_server_name"];
             $current_server=$item["current_server"];
