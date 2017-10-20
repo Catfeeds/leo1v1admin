@@ -98,7 +98,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["s.originid=%u ", $originid , -1] ,
             ["s.seller_adminid=%u ", $seller_adminid, -1] ,
             "s.type<>1",
-            "s.is_test_user=0",
+            "( s.is_test_user=0 or s.is_test_user is null )",
             "o.contract_type in (0,1,3)",
             "o.price>0",
         ];
