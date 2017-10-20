@@ -73,12 +73,14 @@ class cr_info_week extends Command
         if($type == 3){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($end_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
+            $ret_cr = $task->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
         }elseif($type == 1 || $type == 2){
             $month_ret_total   = $task->t_order_info->get_total_price(strtotime($start_month),$end_time);
             $month_total_money = $task->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+            $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
         }//月初至今
         $ret_total_thirty  = $task->t_order_info->get_total_price_thirty($start_time,$end_time);
-        $ret_cr = $task->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
+        
         $ret_refund = $task->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
         $target = $task->t_manager_info->get_cr_target($last_month);//月度目标
         $arr['target']             = $target * 100;                          //1-续费目标
