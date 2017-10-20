@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1018
+//__DESC:得到第一级用户列表  http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_1_user_list
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    
+}
+
+message out {
+  common.agent_link_item_t list = 1;//一级用户列表
+}

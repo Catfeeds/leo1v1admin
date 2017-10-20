@@ -1285,14 +1285,21 @@ class tongji2 extends Controller
             $ret_total   = $this->t_order_info->get_total_price($start_time,$end_time);
             if($type == 3){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($end_month),$end_time);
+                $month_total_money = $this->t_order_info->get_total_price_new(strtotime($end_month),$end_time);
+                $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($end_month),$end_time);
             }elseif($type == 1 || $type == 2){
                 $month_ret_total   = $this->t_order_info->get_total_price(strtotime($start_month),$end_time);
+                $month_total_money = $this->t_order_info->get_total_price_new(strtotime($start_month),$end_time);
+                $ret_cr            = $this->t_manager_info->get_cr_num(strtotime($start_month),$end_time);
             }
             $ret_total_thirty = $this->t_order_info->get_total_price_thirty($start_time,$end_time);
-            $ret_cr = $this->t_manager_info->get_cr_num($start_time,$end_time);
+            
             $ret_refund = $this->t_order_refund->get_assistant_num($start_time,$end_time);  //退费总人数
             $target = $this->t_manager_info->get_cr_target($last_month);//月度目标
-            $arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
+            //$arr['total_price']        = $ret_total['total_price'] / 100; //现金总收入
+            $arr['total_price']        = $month_total_money/100;                    //2-现金总收入
+            $arr['total_income']       = $ret_total['total_price']/100 ;             //A1-现金总收入
+
             $arr['person_num']         = $ret_total['person_num']; //下单总人数
             $arr['contract_num']       = $ret_total['order_num']; //合同数
             $arr['total_price_thirty'] = round($ret_total_thirty['total_price'] / 100,2); //入职完整月人员签单额
@@ -1307,7 +1314,7 @@ class tongji2 extends Controller
                 $arr['gap_money'] = 0;  //缺口金额
             }
             if($arr['total_price']){
-                $arr['contract_per']   = round($arr['total_price']/$arr['contract_num'],2);
+                $arr['contract_per']   = round($arr['total_income']/$arr['contract_num'],2);
             }else{
                 $arr['contract_per']   = 0;
             }

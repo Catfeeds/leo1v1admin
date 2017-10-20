@@ -29,6 +29,16 @@ $(function(){
   $('#id_week_flag').val(g_args.week_flag);
   $('#id_xmpp_value').val(g_args.xmpp_value);
 
+ //点击生成
+  $(".reset_xmpp").on("click",function(){
+      var xmpp_value=$('#id_xmpp_value').val();
+      alert(xmpp_value);
+      $.do_ajax( "/tongji/reset_xmpp_online_count" ,{
+          "start_time" : g_args.start_time,
+          "xmpp_value" :  xmpp_value,
+      } );
+  })
+
   $('.opt-change').set_input_change_event(load_data);
 
     var online_count_list=[];
@@ -37,11 +47,10 @@ $(function(){
         online_count_list[j]=[];
         $.each(item_list ,function(i, item){
             if (j==0) {
-                online_count_list[j].push([i*60000, item["online_count"] ]);
+                //online_count_list[j].push([i*60000, item["online_count"] ]);
             }else if(j==2){
-                online_count_list[j].push([i*60000, item["value"] ]);
             }else{
-                online_count_list[j].push([i*300000, item ]);
+                online_count_list[j].push([(item["logtime"]- 3600*16)*1000, item["online_count"] ]);
             }
         } )
     });

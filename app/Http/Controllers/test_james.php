@@ -710,7 +710,6 @@ class test_james extends Controller
         dd(1);
 
 
-        dispatch(new send_wx_notic_for_software());
 
 
     }
@@ -724,7 +723,6 @@ class test_james extends Controller
         dd('已处理');
         
 
-        // dispatch(new send_wx_notic_to_tea());
 
         // dd($re);
     }
@@ -732,12 +730,8 @@ class test_james extends Controller
 
 
     public function dds(){
-        $list = $this->t_student_score_info->get_all_info();
 
-        foreach($list as $itme){
-            $this->t_student_score_info->update_score($itme['id']);
-        }
-        dd($list);
+
     }
 
 
@@ -745,11 +739,16 @@ class test_james extends Controller
 
     public function ssss(){
 
+
+        $parent_list = $this->t_parent_info->get_openid_list();
+
+        dd(count($parent_list));
+
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
         $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
-        // dd($r);
+        dd($r);
         $arr = [];
         foreach($r as $v){
             $arr[] = $v['account'];

@@ -22,13 +22,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-get_check_textbook_tea_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		textbook_check_flag:	$('#id_textbook_check_flag').val(),
+		user_name:	$('#id_user_name').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			textbook_check_flag:	$('#id_textbook_check_flag').val(),
-			user_name:	$('#id_user_name').val()
-        });
-    }
 
 
 	$('#id_textbook_check_flag').val(g_args.textbook_check_flag);

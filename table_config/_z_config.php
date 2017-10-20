@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi_admin","t_interview_remind", "id"],
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],
@@ -71,6 +72,7 @@ return array(
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
     ["db_weiyi_admin","t_online_count_log","logtime"],
+    ["db_weiyi_admin","t_online_count_xmpp_log","xmpp_id","logtime"],
     ["db_weiyi","t_seller_student_origin","userid","origin" ],
     ["db_weiyi","t_seller_student_new","userid" ],
     ["db_weiyi","t_test_lesson_subject","test_lesson_subject_id" ],

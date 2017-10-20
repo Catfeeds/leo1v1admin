@@ -669,7 +669,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "lesson_type = 2",
             "lesson_del_flag = 0",
         ];
-        $sql = $this->gen_sql_new("select count(distinct l.userid) person_num,count(l.lessonid) lesson_num,l.teacherid "
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid,l.subject) person_num,count(l.lessonid) lesson_num,l.teacherid "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid = l.lessonid"

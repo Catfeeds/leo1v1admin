@@ -300,6 +300,14 @@ class Utils  {
         }
     }
 
+    static function fmt_lesson_time_new($lesson_start,$lesson_end){
+        if ($lesson_start>0){
+            return date('m-d H:i', $lesson_start) . date('~H:i', $lesson_end);
+        }else{
+            return "无";
+        }
+    }
+
     static function get_lesson_time($lesson_start,$lesson_end,$type=0){
         $date_str = date('m-d H:i', $lesson_start) . date('~H:i', $lesson_end);
         if($type===0){
@@ -651,6 +659,18 @@ class Utils  {
         }
         return $time_list;
     }
+
+    static public function get_online_line_timestramp($time_list,$list) {
+        foreach ($list as $item) {
+            $start_time = $item["lesson_start"]- $item["lesson_start"]%300 ;
+            $end_time   = $item["lesson_end"]+300;
+            for( ; $start_time<=$end_time; $start_time+=300 ) {
+                $time_list[$start_time]++;
+            }
+        }
+        return $time_list;
+    }
+
 
     static public function exec_cmd($cmd){
         \App\Helper\Utils::logger("EXEC: $cmd");

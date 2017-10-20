@@ -20,13 +20,14 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-month_user_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		year:	$('#id_year').val(),
+		month:	$('#id_month').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			year:	$('#id_year').val(),
-			month:	$('#id_month').val()
-        });
-    }
 
 
 	$('#id_year').val(g_args.year);

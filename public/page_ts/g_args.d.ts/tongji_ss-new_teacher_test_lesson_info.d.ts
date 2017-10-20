@@ -46,20 +46,21 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-new_teacher_test_lesson_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		have_test_lesson_flag:	$('#id_have_test_lesson_flag').val(),
+		subject:	$('#id_subject').val(),
+		grade_part_ex:	$('#id_grade_part_ex').val(),
+		train_through_new:	$('#id_train_through_new').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			have_test_lesson_flag:	$('#id_have_test_lesson_flag').val(),
-			subject:	$('#id_subject').val(),
-			grade_part_ex:	$('#id_grade_part_ex').val(),
-			train_through_new:	$('#id_train_through_new').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

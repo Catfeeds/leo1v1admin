@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
-  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.time.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.time.js"></script>
     <script type="text/javascript" >
 
      var g_data_ex_list= <?php  echo json_encode($data_ex_list); ?> ;
@@ -30,6 +30,11 @@
                             <option value="{{@$val["server_name"]}}" > {{@$val["server_desc"]}}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <input type="button" class="reset_xmpp" value="生成"/>
                 </div>
             </div>
 

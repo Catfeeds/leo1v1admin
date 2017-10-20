@@ -4254,7 +4254,7 @@ class human_resource extends Controller
                 "subject"               => $teacher_info['subject'],
                 "tea_nick"              => $teacher_info['nick'],
                 "realname"              => $teacher_info['realname'],
-                "phone_spare"           => $phone,
+                // "phone_spare"           => $phone,
                 "phone"                 => $new_phone,
                 "identity"              => $teacher_info['identity'],
                 "grade_start"           => $teacher_info['grade_start'],
@@ -4647,6 +4647,31 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$tea_list);
     }
 
+
+
+    public function interview_remind(){ // 面试提醒
+
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
+            1 => array("require_time","申请时间"),
+        ],1);
+
+        $ret_info = $this->t_interview_remind->get_interview_remind_list();
+
+        foreach($ret_info as &$v){
+            $v['interviewer_name'] = $this->t_manager_info->get_account($v['interviewer_id']);
+            \App\Helper\Utils::unixtime2date_for_item($v,"interview_time" ,"", "");
+            \App\Helper\Utils::unixtime2date_for_item($v,"send_msg_time" ,"", "");
+
+            if($v['is_send_flag'] == 1){
+                $v['is_send_flag_str'] = "<font color=\"green\">已发送</font>";
+            }else{
+                $v['is_send_flag_str'] = "<font color=\"blue\">未发送</font>";
+            }
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
 
 
 }

@@ -143,39 +143,40 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-contract_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		orderid:	$('#id_orderid').val(),
+		contract_type:	$('#id_contract_type').val(),
+		contract_status:	$('#id_contract_status').val(),
+		config_courseid:	$('#id_config_courseid').val(),
+		test_user:	$('#id_test_user').val(),
+		studentid:	$('#id_studentid').val(),
+		has_money:	$('#id_has_money').val(),
+		sys_operator:	$('#id_sys_operator').val(),
+		stu_from_type:	$('#id_stu_from_type').val(),
+		account_role:	$('#id_account_role').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		grade:	$('#id_grade').val(),
+		subject:	$('#id_subject').val(),
+		self_adminid:	$('#id_self_adminid').val(),
+		tmk_adminid:	$('#id_tmk_adminid').val(),
+		teacherid:	$('#id_teacherid').val(),
+		origin_userid:	$('#id_origin_userid').val(),
+		referral_adminid:	$('#id_referral_adminid').val(),
+		assistantid:	$('#id_assistantid').val(),
+		from_key:	$('#id_from_key').val(),
+		from_url:	$('#id_from_url').val(),
+		order_activity_type:	$('#id_order_activity_type').val(),
+		spec_flag:	$('#id_spec_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			orderid:	$('#id_orderid').val(),
-			contract_type:	$('#id_contract_type').val(),
-			contract_status:	$('#id_contract_status').val(),
-			config_courseid:	$('#id_config_courseid').val(),
-			test_user:	$('#id_test_user').val(),
-			studentid:	$('#id_studentid').val(),
-			has_money:	$('#id_has_money').val(),
-			sys_operator:	$('#id_sys_operator').val(),
-			stu_from_type:	$('#id_stu_from_type').val(),
-			account_role:	$('#id_account_role').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			grade:	$('#id_grade').val(),
-			subject:	$('#id_subject').val(),
-			self_adminid:	$('#id_self_adminid').val(),
-			tmk_adminid:	$('#id_tmk_adminid').val(),
-			teacherid:	$('#id_teacherid').val(),
-			origin_userid:	$('#id_origin_userid').val(),
-			referral_adminid:	$('#id_referral_adminid').val(),
-			assistantid:	$('#id_assistantid').val(),
-			from_key:	$('#id_from_key').val(),
-			from_url:	$('#id_from_url').val(),
-			order_activity_type:	$('#id_order_activity_type').val(),
-			spec_flag:	$('#id_spec_flag').val()
-        });
-    }
 
 	Enum_map.append_option_list("order_activity_type",$("#id_order_activity_type"));
 	Enum_map.append_option_list("boolean",$("#id_spec_flag"));

@@ -739,6 +739,7 @@ class tongji extends Controller
         $end_time = date('Y-m-d 23:59:59', strtotime("$start_time +1 year -1day"));
         $end_time = strtotime($end_time);
         $ret_list = $this->t_order_info->get_month_money_info(strtotime($start_time), $end_time);
+        // $lesson_list = $this->t_lesson_info_b3->get_lesson_count_money_info_by_month(strtotime($start_time), $end_time);
         foreach($ret_list['list'] as $month=> &$item){
             $item['all_money']/=100;
             /*
@@ -781,11 +782,11 @@ class tongji extends Controller
         list($start_time ,$end_time)=$this->get_in_date_range_day(0);
         $week_flag=$this->get_in_int_val("week_flag", 1, E\Eboolean::class );
         $time_list=$this->t_online_count_log->get_list($start_time,$end_time);
+        //dd($time_list);
         $time_list=\App\Helper\Common::gen_day_time_list($time_list,$start_time,$end_time,'logtime', "online_count" );
         $need_deal_count_list=$this->t_tongji_log->get_list(
             E\Etongji_log_type::V_SYS_NEED_GEN_LESSON_VIDEO_COUNT, $start_time,$end_time);
         $need_deal_count_list=\App\Helper\Common::gen_day_time_list( $need_deal_count_list,$start_time,$end_time);
-
 
         $def_time_list=[];
         for($i=0; $i<288;$i++ ) {
@@ -799,7 +800,6 @@ class tongji extends Controller
             $def_time_list=\App\Helper\Utils::get_online_line($def_time_list, $date_time_list );
         }
 
-
         return $this->pageView(__METHOD__,null,[
             "data_ex_list" =>[
                 "time_list" => [$time_list, $def_time_list, $need_deal_count_list],
@@ -808,27 +808,14 @@ class tongji extends Controller
 
     }
 
-
-
     //每个xmpp在线用户统计显示
-        public function online_user_count_xmpp_list() {
+    public function online_user_count_xmpp_list() {
         list($start_time ,$end_time)=$this->get_in_date_range_day(0);
         $week_flag=$this->get_in_int_val("week_flag", 1, E\Eboolean::class );
-        $xmpp_value=$this->get_in_str_val("xmpp_value");  //xmpp传值筛选
-
-
-        $def_time_list=[];
-        for($i=0; $i<288;$i++ ) {
-            $def_time_list[$i]=0;
-        }
-
-        $date_count=1;
-        for($i=0;$i<$date_count;$i++) {
-            $opt_time=$start_time-$i*86400;
-            $date_time_list=$this->t_lesson_info_b3-> get_lesson_time_xmpp_list($xmpp_value,$start_time ,$end_time);
-            $def_time_list=\App\Helper\Utils::get_online_line($def_time_list, $date_time_list );
-        }
-
+        $xmpp_value=$this->get_in_str_val("xmpp_value",'');  //xmpp传值筛选
+        $xmpp_id=$this->t_xmpp_server_config->get_xmpp_id($xmpp_value); //获取xmpp_id
+        $def_time_list=$this->t_online_count_xmpp_log->get_list($xmpp_id,$start_time,$end_time);
+        //dd($def_time_list);
         //查询xmpp列表
         $page_info= $this->get_in_page_info();
         $ret_info=$this->t_xmpp_server_config->get_list($page_info);
@@ -839,6 +826,29 @@ class tongji extends Controller
             ],
             "xmpp_list"=>$ret_info["list"]
         ] );
+
+    }
+    public function reset_xmpp_online_count() {
+        list($start_time ,$end_time)=$this->get_in_date_range_day(0);
+        $xmpp_value=$this->get_in_str_val("xmpp_value",'');  //xmpp传值筛选
+        $xmpp_id=$this->t_xmpp_server_config->get_xmpp_id($xmpp_value); //获取xmpp_id
+        $this->switch_tongji_database(false);
+
+        $def_time_list=[];
+        for($tmp=$start_time; $tmp<$end_time;$tmp+=300 ) {
+            $def_time_list[$tmp]=0;
+        }
+        $date_time_list=$this->t_lesson_info_b3-> get_lesson_time_xmpp_list($xmpp_value,$start_time ,$end_time);
+        $time_list=\App\Helper\Utils::get_online_line_timestramp($def_time_list, $date_time_list );
+        foreach($time_list as $logtime=> $val){
+            $this->t_online_count_xmpp_log->row_insert([
+                "xmpp_id" => $xmpp_id,
+                "logtime" => $logtime,
+                "online_count" => $val,
+            ],true);
+        }
+        return $this->output_succ() ;
+
 
     }
 
@@ -1885,8 +1895,10 @@ class tongji extends Controller
         $all_num   = 0;
         $match_num = 0;
         $stu_arr   = [];
-        $succ_arr  = [];
+        $no_match_arr  = [];
         $match_arr = [];
+        $no_match_arr_all = [];
+        $match_arr_all = [];
         foreach($list as $val){
             $all_num++;
             if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
@@ -1894,33 +1906,56 @@ class tongji extends Controller
             }else{
                 $stu_textbook = $val['editionid'];
             }
+
             $tea_textbook = explode(",",$val['teacher_textbook']);
             if(in_array($stu_textbook,$tea_textbook)){
                 $match_num++;
                 if(!in_array($val['succ_userid'],$match_arr)){
                     array_push($match_arr,$val['succ_userid']);
                 }
-            } else {
-                if(!in_array($val['succ_userid'],$succ_arr)){
-                    array_push($succ_arr,$val['succ_userid']);
+                if(!in_array($val['stu_userid'],$match_arr_all)){
+                    array_push($match_arr_all,$val['succ_userid']);
                 }
+
+            } else {
+                if(!in_array($val['succ_userid'],$no_match_arr)){
+                    array_push($no_match_arr,$val['succ_userid']);
+                }
+                if(!in_array($val['stu_userid'],$no_match_arr_all)){
+                    array_push($no_match_arr_all,$val['succ_userid']);
+                }
+
             }
+
             if(!in_array($val['stu_userid'],$stu_arr)){
                 array_push($stu_arr,$val['stu_userid']);
             }
 
         }
+
         $match_rate = $all_num>0?($match_num/$all_num):0;
-        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
-        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
+        //除重数据
+        $all_stu = count($stu_arr);
+        $no_match_stu = count($no_match_arr)-1;
+        $match_stu = count($match_arr)-1;
+
+        $no_match_all_stu = count($no_match_arr_all);
+        $match_all_stu = count($match_arr_all);
+
+
+        $no_match_succ_rate  = $all_stu>0 ? $no_match_stu/$no_match_all_stu : 0;
+        $match_succ_rate  = $all_stu>0 ? $match_stu/$match_all_stu : 0;
         // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
 
         return $this->pageView(__METHOD__,[],[
             "all_num"    => $all_num,
             "match_num"  => $match_num,
             "match_rate" => round($match_rate*100,2)."%",
-            "succ_rate" => round($succ_rate*100,2)."%",
+            "no_match_succ_rate" => round($no_match_succ_rate*100,2)."%",
             "match_succ_rate" => round($match_succ_rate*100,2)."%",
+            "all_stu"    => $all_stu,
+            "no_match_stu"    => $no_match_stu,
+            "match_stu"    => $match_stu,
         ]);
     }
 

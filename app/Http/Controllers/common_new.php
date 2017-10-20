@@ -1188,7 +1188,7 @@ class common_new extends Controller
                             $is_exist = $this->t_period_repay_list->get_bid($orderid,$period);
                             if(!$is_exist){
                                 if($item["bStatus"] != 48){
-                                    $item["paidTime"]=0; 
+                                    $item["paidTime"]=0;
                                 }
                                 $this->t_period_repay_list->row_insert([
                                     "orderid" =>$orderid,
@@ -1402,7 +1402,52 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
 
     }
 
+    public function set_lesson_end() {
+        $lessonid=$this->get_in_lessonid();
+        $lesson_end= $this->t_lesson_info_b3->get_lesson_end($lessonid);
+        $now=time(NULL);
+        if ($lesson_end > $now   ) { //
+            return $this->output_err("课程还没结束");
+        }
 
+        $this->t_lesson_info->field_update_list($lessonid,[
+            "lesson_status" => E\Elesson_status::V_END
+        ]);
 
+        return $this->output_succ();
+    }
+
+    public function get_check_lesson_end_list()
+    {
+        $client_ip = $this->get_in_client_ip();
+        $lesson_list = $this->t_lesson_info->get_need_set_lesson_end_list();
+        $server_name_map = $this->t_xmpp_server_config->get_server_name_map();
+
+        $ret_list=[];
+        foreach ($lesson_list as $item) {
+            $teacherid   = $item["teacherid"];
+            $userid      = $item["userid"];
+            $lessonid    = $item["lessonid"];
+            $courseid    = $item["courseid"];
+            $lesson_type = $item["lesson_type"];
+            $lesson_num  = $item["lesson_num"];
+            $lesson_end  = $item["lesson_end"];
+            $roomid    = \App\Helper\Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
+
+            $xmpp_server_name=$item["xmpp_server_name"];
+            $current_server=$item["current_server"];
+
+            $server_config = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server ,$server_name_map  );
+            if(@$server_config['ip'] == $client_ip ){ //同一个ip
+                $ret_list[] = [
+                    "roomid"   => $roomid,
+                    "lessonid" => $lessonid,
+                    "teacherid" => $teacherid,
+                ];
+            }
+        }
+
+        return $this->output_succ(["list"=> $ret_list]);
+    }
 
 }

@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1008
+//__DESC:微信[优学优享]绑定优学优享账号 http://wx-yxyx.leo1v1.com/wx_yxyx_common/bind
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    string  code =1 ; //验证码 
+    string  phone =2 ; //用户手机号
+}
+
+message out {
+
+}

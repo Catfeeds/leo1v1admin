@@ -1,0 +1,18 @@
+syntax = "proto3";
+package common_2;
+option php_namespace = "Proto\\agent_api\\common_2"; 
+message yxyx_page{
+  uint32 tital_num = 1;//总页码
+  uint32 per_page_count = 1;//每页信息条数
+  uint32 page_num = 1;//当前页码
+}
+message yxyx_list{
+  uint32 id = 1;//ID
+  string test_title = 2;//标题
+  string create_time = 3;//创建时间
+  uint32 flag = 4;//阅读标示 0：未读； 1：已读
+}
+message yxyx_poster{
+  uint32 id = 1;//ID
+  string poster = 2;//封面图片地址
+}

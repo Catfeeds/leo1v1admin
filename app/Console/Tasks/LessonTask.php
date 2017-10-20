@@ -49,7 +49,7 @@ class LessonTask extends TaskController
 
             $server_config = $this->t_lesson_info_b3->eval_real_xmpp_server($xmpp_server_name,$current_server ,$server_name_map  ) ;
             $roomid    = Utils::gen_roomid_name($lesson_type,$courseid,$lesson_num);
-            if(isset($server_config['ip'])){
+            if(isset($server_config['ip']) && $server_config['ip'] != "118.190.164.27"  ){
                 echo "check_room :  $roomid   ip: ". $server_config['ip']."\n";
                 $user_list = Utils::get_room_users($roomid,$server_config);
 

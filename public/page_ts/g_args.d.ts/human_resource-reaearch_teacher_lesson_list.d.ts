@@ -11,6 +11,13 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
+	subject	:any;
+	grade_part_ex	:any;
+	phone	:any;
+	realname	:any;
+	subject_str	:any;
+	grade_part_ex_str	:any;
 }
 
 /*
@@ -21,12 +28,13 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-reaearch_teacher_lesson_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacherid:	$('#id_teacherid').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacherid:	$('#id_teacherid').val()
-        });
-    }
 
 
 	$('#id_teacherid').val(g_args.teacherid);
