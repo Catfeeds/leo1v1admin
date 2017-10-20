@@ -744,6 +744,18 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+
+        dd($r);
+        $arr = [];
+        foreach($r as $v){
+            $arr[] = $v['account'];
+        }
+        dd($arr);
+
         $this->switch_tongji_database();
         $r = $this->t_parent_info->get_openid_list();
         dd($r);

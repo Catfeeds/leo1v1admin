@@ -378,35 +378,72 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
     public function get_stu_num_leader($start_time, $end_time){
+        $where_arr = [
+            "ra.create_time>=$start_time",
+            "ra.create_time<$end_time",
+            "a.main_type = 1",
+        ];
         $sql = $this->gen_sql_new(
             "select  a.master_adminid, m.name,sum(ra.stu_num) as stu_num"
             ." from %s a"
             ." left join %s u on u.groupid=a.groupid"
-            ." left join %s ra on ra.uid=u.adminid and create_time>=$start_time  and create_time<$end_time "
-            ." left join %s m on m.uid=u.adminid"
-            ." where a.main_type = 1  group by a.master_adminid "
+            ." left join %s ra on ra.uid=u.adminid  "
+            ." left join %s m on m.uid=a.master_adminid"
+            ." where %s "
+            ."group by a.master_adminid "
             ,self::DB_TABLE_NAME
             ,t_admin_group_user::DB_TABLE_NAME
             ,t_revisit_assess_info::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list($sql);
     }
 
-    public function get_entry_month_num($start_time,$end_time){
+    // public function get_entry_month_num($start_time,$end_time){
 
+    //     $where_arr = [
+    //         " m.account_role =2",
+    //         "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time ))"
+    //     ];
+
+    //     $sql = $this->gen_sql_new("  select count(*) as num from %s m "
+    //                               ." where %s"
+    //                               ,self::DB_TABLE_NAME
+    //                               ,$where_arr
+    //     );
+
+    //     return $this->main_get_value($sql);
+    // }
+
+
+    public function get_entry_month_num( $start_time,$end_time){
         $where_arr = [
-            " m.account_role =2",
-            "(m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>$start_time and )"
+            // " m.account_role =2",
+            "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time and $end_time-m.become_member_time>30*86400 ))",
+            " mg.main_type=2",
         ];
 
-        $sql = $this->gen_sql_new("  select count(*) as num from %s m "
-                                  ." where %s"
+        $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("  select  count(distinct(m.uid)) from %s n"
+                                  ." left join %s u on u.groupid=n.groupid "
+                                  ." left join %s mg on mg.groupid=n.up_groupid"
+                                  ." left join %s mgn on mgn.groupid=mg.up_groupid"
+                                  ." left join %s m on m.uid=u.adminid"
+                                  ." left join %s o on o.sys_operator=m.account"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
+                                  ,t_admin_group_user::DB_TABLE_NAME
+                                  ,t_admin_main_group_name::DB_TABLE_NAME
+                                  ,t_admin_majordomo_group_name::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
         return $this->main_get_value($sql);
-    }
 
+
+    }
 }

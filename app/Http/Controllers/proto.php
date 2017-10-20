@@ -102,6 +102,7 @@ class proto extends Controller
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($cmd_list) ,[
             "cmd_desc_list" =>  $cmd_desc_list,
             "error_list" => $error_list,
+            "project" => $project,
         ]);
     }
 

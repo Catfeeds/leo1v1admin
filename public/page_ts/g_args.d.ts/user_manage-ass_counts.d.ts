@@ -46,23 +46,24 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-ass_counts.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		start_date:	$('#id_start_date').val(),
+		end_date:	$('#id_end_date').val(),
+		test_user:	$('#id_test_user').val(),
+		originid:	$('#id_originid').val(),
+		grade:	$('#id_grade').val(),
+		user_name:	$('#id_user_name').val(),
+		phone:	$('#id_phone').val(),
+		teacherid:	$('#id_teacherid').val(),
+		assistantid:	$('#id_assistantid').val(),
+		revisit_assistantid:	$('#id_revisit_assistantid').val(),
+		userid:	$('#id_userid').val(),
+		revisit_type:	$('#id_revisit_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			start_date:	$('#id_start_date').val(),
-			end_date:	$('#id_end_date').val(),
-			test_user:	$('#id_test_user').val(),
-			originid:	$('#id_originid').val(),
-			grade:	$('#id_grade').val(),
-			user_name:	$('#id_user_name').val(),
-			phone:	$('#id_phone').val(),
-			teacherid:	$('#id_teacherid').val(),
-			assistantid:	$('#id_assistantid').val(),
-			revisit_assistantid:	$('#id_revisit_assistantid').val(),
-			userid:	$('#id_userid').val(),
-			revisit_type:	$('#id_revisit_type').val()
-        });
-    }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 
