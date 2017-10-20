@@ -2072,7 +2072,7 @@ trait TeaPower {
     public function set_full_time_teacher($teacherid){
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
-        if(!in_array($teacher_info['teacher_money_type']!=0,[0,7])){
+        if(!in_array($teacher_info['teacher_money_type'],[0,7])){
             $update_arr['teacher_money_type'] = 0;
         }
         if($teacher_info['level']!=0){
