@@ -59,7 +59,7 @@
                     <td style="display:none;"   >最近登录IP</td>
                     <td style="display:none;"   >最近上课时间</td>
                     <td >助教</td>
-                    <td >转介绍助教</td>
+                    <td style="display:none;">转介绍助教</td>
                     <td style="display:none;">分配助教时间</td>
                     <td style="display:none;">销售</td>
                     <td style="display:none;">大礼包</td>
