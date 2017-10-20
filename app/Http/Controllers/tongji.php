@@ -1894,6 +1894,7 @@ class tongji extends Controller
             }else{
                 $stu_textbook = $val['editionid'];
             }
+
             $tea_textbook = explode(",",$val['teacher_textbook']);
             if(in_array($stu_textbook,$tea_textbook)){
                 $match_num++;
@@ -1905,6 +1906,7 @@ class tongji extends Controller
                     array_push($no_match_arr,$val['succ_userid']);
                 }
             }
+
             if(!in_array($val['stu_userid'],$stu_arr)){
                 array_push($stu_arr,$val['stu_userid']);
             }
@@ -1917,8 +1919,8 @@ class tongji extends Controller
         $no_match_stu = count($no_match_arr)-1;
         $match_stu = count($match_arr)-1;
 
-        $no_match_succ_rate  = $all_stu>0?$no_match_stu/$all_stu:0;
-        $match_succ_rate  = $all_stu?$match_stu/$all_stu:0;
+        $no_match_succ_rate  = $all_stu>0 ? $no_match_stu/$all_stu : 0;
+        $match_succ_rate  = $all_stu>0 ? $match_stu/$all_stu : 0;
         // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
 
         return $this->pageView(__METHOD__,[],[
