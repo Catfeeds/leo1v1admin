@@ -701,8 +701,10 @@ class test_boby extends Controller
 
     }
 
-        public function match_lesson_textbook(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+    public function match_lesson_textbook(){
+        // list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $start_time = strtotime('2017-10-01');
+        $end_time = strtotime('2017-11-01');
 
         $region_version = array_flip(E\Eregion_version::$desc_map);
 
