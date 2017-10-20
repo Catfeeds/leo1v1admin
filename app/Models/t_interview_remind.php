@@ -29,14 +29,20 @@ class t_interview_remind extends \App\Models\Zgen\z_t_interview_remind
     }
 
 
-    public function get_remind_list($start_time, $end_time){
+    public function get_remind_list($start_time){
         $where_arr = [
-            "i.interview_time < $start_time + 3600"
+            "i.interview_time < $now + 60"
         ];
 
-        $sql = $this->gen_sql_new("  select m.wx_openid from %s i "
+        $sql = $this->gen_sql_new("  select m.wx_openid,i.id, m.account, i.interview_time,i.name,i.post,i.dept from %s i "
                                   ." left join %s m on m.uid=i.interviewer_id"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
+
+        return $this->main_get_list($sql);
 
     }
 }

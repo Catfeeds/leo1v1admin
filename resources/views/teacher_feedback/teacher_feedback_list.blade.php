@@ -59,6 +59,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td >老师id</td>
                     <td width="100px">老师信息</td>
                     <td>课程信息</td>
                     <td>反馈类型</td>
@@ -76,6 +77,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{$var["teacherid"]}}</td>
                         <td>
                             {{$var["nick"]}}
                             <br/>
