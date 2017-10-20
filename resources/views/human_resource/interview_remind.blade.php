@@ -51,13 +51,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <!-- <a class="fa fa-user opt-info"  href="/admin_join/index?phone={{@$var["phone"]}}"  title="详细信息" target="_blank"> </a>
-                                     <a class="fa fa-list-alt opt-set-trial-info"   title="录入试用信息" > </a>
-                                     <a class="fa fa-times opt-del" title="删除"> </a>
-                                     <!--  <a class="fa fa-file-o opt-file"  href="/admin_join/file_print?phone={{@$var["phone"]}}"  title="进入打印界面" target="_blank"> </a>
-                                   -->
-                                <!-- <a class="fa fa-file-o opt-file-new"  href="/admin_join/file_print_new?phone={{@$var["phone"]}}"  title="员工档案表打印" target="_blank"> </a> -->
-
+                                <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>

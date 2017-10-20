@@ -46,14 +46,14 @@ class send_interview_remind_for_wx extends Command
 
         $wx = new \App\Helper\Wx();
         $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
-        $color = "#dccd1b";
+        $color = "#a930e7";
 
         foreach($remind_list as $v){
             //i.name,i.post,i.dept
             $data_leo = [
-                'first'    => $v['account']." 您好，".date('Y-m-d H:i:s',$v['interview_time'])."有一场面试请处理",
+                'first'    => $v['account']." 您好，".date('Y-m-d H:i:s',$v['interview_time'])."有一场面试请及时处理",
                 'keyword1' => "面试通知",
-                'keyword2' => " 应聘人姓名: ".$v['name']." 应聘职位: ".$v['post']." 所属部门: ".$v['dept']." 面试时间: ".date('Y-m-d H:i:s',$v['interview_time']) ,
+                'keyword2' => " 应聘人姓名: ".$v['name']."; 应聘职位: ".$v['post']."; 所属部门: ".$v['dept']."; 面试时间: ".date('Y-m-d H:i:s',$v['interview_time']) ,
                 'keyword3' => date('Y-m-d H:i:s'),
                 'remark'   => ""
             ];

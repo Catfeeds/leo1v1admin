@@ -292,7 +292,7 @@ class user_deal extends Controller
 
             if($lesson_type!=2){
                 $acc= $this->get_account();
-                if(in_array($acc,["jim","jack"])){
+                if(!in_array($acc,["jim"])){
                     $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count,$lessonid);
                     if(is_numeric($ret) ){
                         return $this->output_succ();
@@ -685,7 +685,9 @@ class user_deal extends Controller
         if ($ret) {
             if($reset_lesson_count){
                 $this->t_lesson_info->field_update_list($lessonid,[
-                    "lesson_count" => $lesson_count
+                    "lesson_count" => $lesson_count,
+                    "operate_time" => time(),
+                    "sys_operator" => $this->get_account()
                 ]);
             }
             $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);

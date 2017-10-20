@@ -76,12 +76,12 @@ $(function(){
 
 
     $(".opt-del").on("click", function(){
-        var phone = $(this).parent().data("phone");
+        var opt_data=$(this).get_opt_data();
+
         BootstrapDialog.confirm("要删除？！",function(val){
             if(val) {
-                $.do_ajax("/admin_join/apply_del",{
-                    "opt_type"  : "del" ,
-                    "phone" : phone
+                $.do_ajax("/ss_deal/interview_del",{
+                    "id"  : opt_data.id,
                 } );
             }
 
