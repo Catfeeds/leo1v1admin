@@ -400,21 +400,6 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
         return $this->main_get_list($sql);
     }
 
-    // public function get_entry_month_num($start_time,$end_time){
-
-    //     $where_arr = [
-    //         " m.account_role =2",
-    //         "((m.leave_member_time=0 and $end_time-m.become_member_time>30*86400) or (m.leave_member_time>=$start_time ))"
-    //     ];
-
-    //     $sql = $this->gen_sql_new("  select count(*) as num from %s m "
-    //                               ." where %s"
-    //                               ,self::DB_TABLE_NAME
-    //                               ,$where_arr
-    //     );
-
-    //     return $this->main_get_value($sql);
-    // }
 
 
     public function get_entry_month_num( $start_time,$end_time){
@@ -426,7 +411,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
 
         $this->where_arr_add_time_range($where_arr,"o.order_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select  count(distinct(m.uid)) from %s n"
+        $sql = $this->gen_sql_new("  select  distinct(m.account) from %s n"
+                                  // $sql = $this->gen_sql_new("  select  count(distinct(m.uid)) from %s n"
                                   ." left join %s u on u.groupid=n.groupid "
                                   ." left join %s mg on mg.groupid=n.up_groupid"
                                   ." left join %s mgn on mgn.groupid=mg.up_groupid"
@@ -442,7 +428,8 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        // return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
 
 
     }

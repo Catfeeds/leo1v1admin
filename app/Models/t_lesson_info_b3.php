@@ -1156,7 +1156,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "l.lesson_del_flag=0",
-            "l.lesson_type <1000",
+            // "l.lesson_type <1000",
             "s.is_test_user=0",
             "t.is_test_user=0"
         ];
@@ -1173,7 +1173,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s group by l.subject order by l.subject",
+                                  ." where %s group by l.subject ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
