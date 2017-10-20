@@ -1,5 +1,4 @@
 syntax = "proto3";
-//import "common_2.proto";
 package common;
 option php_namespace = "Proto\\agent_api\\common"; 
 message  money_item_t {

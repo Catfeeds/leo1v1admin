@@ -7,4 +7,5 @@ rm -rf ../app/proto/$project_name/
 mkdir -p   ../app/proto/
 cp -rf ./php_${project_name} ../app/proto/$project_name
 
-cp -rf ./php_${project_name}/$project_name*.json   ~/admin_yb1v1/public/proto/
+mkdir -p ../public/proto/
+cp -rf ./php_${project_name}/$project_name*.json   ../public/proto/
