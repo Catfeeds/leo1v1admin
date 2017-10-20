@@ -707,7 +707,7 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        dd(1);
+        // dd(1);
 
 
         dispatch(new send_wx_notic_for_software());
@@ -744,6 +744,11 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+
+        $parent_list = $t_parent_info->get_openid_list();
+
+        dd(count($parent_list));
 
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
