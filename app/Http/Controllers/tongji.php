@@ -1887,8 +1887,8 @@ class tongji extends Controller
         $stu_arr   = [];
         $no_match_arr  = [];
         $match_arr = [];
-        $no_match_all = [];
-        $match_all = [];
+        $no_match_arr_all = [];
+        $match_arr_all = [];
         foreach($list as $val){
             $all_num++;
             if($val['textbook']!="" && isset($region_version[$val['textbook']]) ){
