@@ -67,6 +67,9 @@
 
     </style>
 
+    <script type="text/javascript">
+     var g_data = <?php echo json_encode(['info'=> $ret_info, 'total' => $total, 't_info' => $type_ret_info, 't_total' => $type_total]);?>;
+    </script>
 
     <section class="content " id="id_content" style="max-width:1600px;">
         <div>
@@ -75,6 +78,21 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">历史数据</span>
+                        <select class="opt-change form-control" id="id_history_data">
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div><a href="javascript:;" id="download_data" class="fa fa-download">导出</a></div>
+                </div>
+
             </div>
             <hr/>
         </div>

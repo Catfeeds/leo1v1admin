@@ -1853,6 +1853,33 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function train_is_through_list() { // 新师培训名单
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $is_all     = $this->get_in_int_val("is_all",-1);
+        $has_openid = $this->get_in_int_val("has_openid",-1);
+        $grade      = $this->get_in_int_val("grade",-1);
+        $subject    = $this->get_in_int_val("subject",-1);
+        $is_pass    = $this->get_in_int_val("is_pass",-1);
+        
+        if($is_all==1){
+            $start_time = 0;
+            $end_time   = 0;
+        }
+
+        $ret_info = $this->t_train_lesson_user->get_is_through_user($start_time,$end_time,$has_openid, $subject, $grade, $is_pass);
+        foreach($ret_info['list'] as &$val){
+            if($val['wx_openid']!=""){
+                $val['has_openid_str']="已绑定";
+            }else{
+                $val['has_openid_str']="未绑定";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($val,"train_through_new_time","_str");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
     /**
      * 添加培训课程的参与者
@@ -2100,12 +2127,11 @@ class tea_manage extends Controller
         $page_num      = $this->get_in_page_num();
         $acc           = $this->get_account();
         $tea_subject = $this->get_admin_subject($this->get_account_id(),1);
-
         $ret_info = $this->t_teacher_record_list->get_trial_train_lesson_list(
             $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,
             $is_test,$lesson_status,$tea_subject,$opt_date_str
         );
-
+        
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info['list'] as &$val){
             if($val['subject']==0){

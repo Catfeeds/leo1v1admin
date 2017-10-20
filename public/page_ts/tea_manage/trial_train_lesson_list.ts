@@ -7,6 +7,7 @@ $(function(){
     Enum_map.append_option_list("check_status",$("#id_status"));
     Enum_map.append_option_list("is_test",$("#id_is_test_flag"));
     Enum_map.append_option_list("lesson_status",$("#id_lesson_status"),false,[0,1,2]);
+    $('#id_status').append("<option value='999'>旷课</option>");
 
     $("#id_grade").val(g_args.grade);
     $("#id_status").val(g_args.status);

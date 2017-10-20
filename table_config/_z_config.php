@@ -1,6 +1,10 @@
 <?php
 return array(
+<<<<<<< HEAD
+    ["db_weiyi","t_new_tea_entry","id"],
+=======
     ["db_weiyi_admin","t_interview_remind", "id"],
+>>>>>>> 5d677afe32f9d5978c1fd8450aff27b2764276fb
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],
