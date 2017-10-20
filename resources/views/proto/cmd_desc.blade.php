@@ -190,9 +190,9 @@
             @endif
             <hr/>
 
-            @foreach (  $cmd_desc_list as $cmd_item )
+            @foreach (  $cmd_desc_list as  $key=> $cmd_item )
 
-                <table class="title_def" cellspacing="0"><tbody><tr><th class="title_def" width="50">0</th><th class="title_def">&nbsp;
+                <table class="title_def" cellspacing="0"><tbody><tr><th class="title_def" width="50"> {{$key}} </th><th class="title_def">&nbsp;
                     <a
                         id="{{@$cmd_item["name"]}}_desc"
                         href="#{{@$cmd_item["name"]}}_item"  >
