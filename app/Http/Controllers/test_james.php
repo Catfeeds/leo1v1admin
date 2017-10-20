@@ -707,10 +707,9 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        // dd(1);
+        dd(1);
 
 
-        dispatch(new send_wx_notic_for_software());
 
 
     }
@@ -724,7 +723,6 @@ class test_james extends Controller
         dd('已处理');
         
 
-        // dispatch(new send_wx_notic_to_tea());
 
         // dd($re);
     }

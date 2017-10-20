@@ -1024,15 +1024,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = "(origin_level >0  or $check_no_call_time_str) ";
             break;
         case 3 : //b
-            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
+            $where_arr[] = "( (origin_level <>99 and origin_level >2) or $check_no_call_time_str )";
             break;
         case 4 : //c
         case 5 : //d
             $before_3_time= time(NULL) -3600*3;
-            $where_arr[] = "(origin_level >3 or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
+            $where_arr[] = "( (origin_level <>99 and origin_level >3)  or $check_no_call_time_str or  (origin_level =3  and n.add_time < $before_3_time  )  )";
             break;
         case 6 : //e
-            $where_arr[] = "(origin_level >3 )";
+            $where_arr[] = " (origin_level <>99 and origin_level >3) ";
             break;
 
         default:
