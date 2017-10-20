@@ -14,6 +14,18 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	check_value	:any;
+	title	:any;
+	key1	:any;
+	key2	:any;
+	key3	:any;
+	key4	:any;
+	key1_class	:any;
+	key2_class	:any;
+	key3_class	:any;
+	key4_class	:any;
+	level	:any;
+	create_time	:any;
 }
 
 /*
@@ -24,17 +36,18 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-tongji_seller_test_lesson_order_info.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
