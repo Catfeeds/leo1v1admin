@@ -6591,7 +6591,15 @@ class ss_deal extends Controller
         }else{
             return $this->output_err('添加提醒任务失败,请联系开发人员!');
         }
+    }
 
+
+    public function interview_del(){
+        $id = $this->get_in_int_val('id');
+
+        $this->t_interview_remind->row_delete($id);
+
+        return $this->output_succ();
 
     }
 }
