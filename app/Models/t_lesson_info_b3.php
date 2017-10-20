@@ -1235,8 +1235,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "lesson_del_flag=0",
             "s.is_test_user=0",
             "t.is_test_user=0",
-            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
-            "(m.account_role=2 or tq.origin like '%%转介绍%%')",
+            "(tls.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "(m.account_role=2 or tr.origin like '%%转介绍%%')",
         ];
         $sql = $this->gen_sql_new(
             "select s.editionid,tl.textbook,t.teacher_textbook,c.userid succ_userid,l.userid as stu_userid"
@@ -1246,10 +1246,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
             ." left join %s s on l.userid=s.userid"
             ." left join %s t on l.teacherid=t.teacherid"
-            ." left join %s tss on tss.lessonid = l.lessonid"
-            ." left join %s tq on tq.require_id = tss.require_id"
-            ." left join %s m on tq.cur_require_adminid = m.uid"
-            // ." left join %s o on o.from_test_lesson_id=l.lessonid"
+            ." left join %s m on tr.cur_require_adminid = m.uid"
             ." left join %s c on "
             ." (l.userid = c.userid "
             ." and l.teacherid = c.teacherid "
@@ -1262,9 +1259,6 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ,t_test_lesson_subject::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,t_teacher_info::DB_TABLE_NAME
-            // ,t_order_info::DB_TABLE_NAME
-            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-            ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_manager_info::DB_TABLE_NAME
             ,t_course_order::DB_TABLE_NAME
             ,$where_arr
