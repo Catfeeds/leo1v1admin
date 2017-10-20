@@ -460,7 +460,7 @@ class tea_manage extends Controller
             $stu_nick = $this->cache_get_student_nick($ret_arr['userid']);
             $grade_str = E\Egrade::get_desc($ret_arr['grade']);
             $subject_str = E\Esubject::get_desc($ret_arr['subject']);
-            $lesson_time = \App\Helper\Utils::fmt_lesson_time($ret_arr['lesson_start'],$ret_arr['lesson_end']);
+            $lesson_time = \App\Helper\Utils::fmt_lesson_time_new($ret_arr['lesson_start'],$ret_arr['lesson_end']);
             $image_title = $grade_str.$subject_str;
             $image_tea = "老师：".$tea_nick;
             $image_stu = "学生：".$stu_nick;
@@ -484,10 +484,10 @@ class tea_manage extends Controller
             $im2 = imagecreatetruecolor(400, 180);
             imagefill($im2, 0, 0, $bkcolor);
             $fontcolor = imagecolorallocate($im2, 102,102,102);
-            imagefttext($im2, 18, 0, 0, 40, $fontcolor, $font_file2, $image_tea);
-            imagefttext($im2, 18, 0, 0, 80, $fontcolor, $font_file2, $image_stu);
-            imagefttext($im2, 18, 0, 0, 120, $fontcolor, $font_file2, $image_time);
-            imagefttext($im2, 18, 0, 0, 160, $fontcolor, $font_file2, $image_lessonid);
+            imagefttext($im2, 20, 0, 0, 40, $fontcolor, $font_file2, $image_tea);
+            imagefttext($im2, 20, 0, 0, 80, $fontcolor, $font_file2, $image_stu);
+            imagefttext($im2, 20, 0, 0, 120, $fontcolor, $font_file2, $image_time);
+            imagefttext($im2, 20, 0, 0, 160, $fontcolor, $font_file2, $image_lessonid);
             imagepng($im2, $text_url2);
             imagedestroy($im2);
 
@@ -499,10 +499,10 @@ class tea_manage extends Controller
             $image_ret  = imageCreatetruecolor(imagesx($image_bg),imagesy($image_bg));
 
             imagecopyresampled($image_ret,$image_bg,0,0,0,0,imagesx($image_bg),imagesy($image_bg),imagesx($image_bg),imagesy($image_bg));
-            imagecopymerge($image_ret,$image_qr,193,430,0,0,imagesx($image_qr),imagesy($image_qr),100);
+            imagecopymerge($image_ret,$image_qr,193,450,0,0,imagesx($image_qr),imagesy($image_qr),100);
 
             imagecopymerge($image_ret,$image_text1,215,130,0,0,imagesx($image_text1),imagesy($image_text1),100);
-            imagecopymerge($image_ret,$image_text2,139,240,0,0,imagesx($image_text2),imagesy($image_text2),100);
+            imagecopymerge($image_ret,$image_text2,139,250,0,0,imagesx($image_text2),imagesy($image_text2),100);
 
 
             imagepng($image_ret,$teacher_qr_url);
