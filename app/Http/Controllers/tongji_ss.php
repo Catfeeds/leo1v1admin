@@ -8218,4 +8218,32 @@ class tongji_ss extends Controller
        
     }
 
+    public function get_four_teacher_money_type_info(){
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $grade = $this->get_in_grade(100);
+        $list = $this->t_teacher_info->get_teacher_info_by_teacher_money_type(6);
+        $tea_arr=[];
+        foreach($list as $v){
+            $tea_arr[]=$v["teacherid"];
+        }
+        $cc_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,2);
+        /*  if(!empty($cc_list)){
+            $cc_list = $cc_list[$teacherid];
+            $cc_per = !empty($cc_list["person_num"])?round($cc_list["have_order"]/$cc_list["person_num"]*100,2):0;
+        }else{
+            $cc_per =0;
+            }*/
+        $cr_list        = $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,$grade,$tea_arr,1);
+                dd($cr_list);
+
+        if(!empty($cr_list)){
+            $cr_list = $cr_list[$teacherid];
+            $cr_per = !empty($cr_list["person_num"])?round($cr_list["have_order"]/$cr_list["person_num"]*100,2):0;
+        }else{
+            $cr_per =0;
+        }
+
+        
+    }
+
 }
