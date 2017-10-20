@@ -3598,7 +3598,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(distinct(o.userid))) from %s o "
+        $sql = $this->gen_sql_new("  select count(distinct(o.userid)) from %s o "
                                   ." left join %s ss on ss.userid=o.userid"
                                   ." left join %s tq on tq.phone=ss.phone"
                                   ." left join %s ts on ts.userid=o.userid"
