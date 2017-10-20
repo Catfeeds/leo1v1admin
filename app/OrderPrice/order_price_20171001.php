@@ -71,6 +71,53 @@ class order_price_20171001 extends order_price_base
         303 => 2,
     ];
 
+	//2017-10 20-21签单 , 10号前试听的 每满10000减1000 
+    static  public function get_activity_2017102001 (&$price,  &$present_lesson_count, $args, &$desc_list ){
+        $free_money=floor($price /10000)*1000;
+
+        $order_activity_type= E\Eorder_activity_type::V_2017102001 ;
+
+        $task= self::get_task_controler();
+        if($args["from_test_lesson_id"]!=0){
+            $from_test_lesson_id=@$args["from_test_lesson_id"];
+            $task= self::get_task_controler();
+            $lesson_info= $task->t_lesson_info_b2->field_get_list(
+                $from_test_lesson_id,
+                "lesson_start,userid,grade");
+
+            $userid = $lesson_info["userid"];
+            $grade  = $lesson_info["grade"];
+            $cur_lesson_start = $lesson_info["lesson_start"];
+            $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
+            $lesson_start = $first_lesson_info["lesson_start"];
+
+            $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
+            if ( $lesson_times>=30 && $lesson_start &&  time(NULL)<$check_time  ) {
+                $free_money=300;
+                $price-=$free_money;
+
+                //2017-0801 当配活动(常规)
+                $activity_desc="试听后一天内下单 立减 300元";
+                $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
+            }else{
+
+                $activity_desc="";
+                $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
+            }
+        }else{
+
+        if ($now_count<$max_count  && $free_money>0) {
+            $price-=$free_money;
+            $activity_desc="立减 $free_money, $activity_desc_cur_count ";
+            $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
+        }else{
+            $activity_desc=" $activity_desc_cur_count ";
+            $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
+
+        }
+
+
+    }
 
     //2017-1008  每满15000减500 88个名额 
     static  public function get_activity_2017100801 (&$price,  &$present_lesson_count,  &$desc_list ){

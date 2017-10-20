@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1016
+//__DESC:微信　精品内容首页——新　http://admin.yb1v1.com/wx_yxyx_common/get_yxyx_all_news
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  page_num =1 ; //页码
+}
+
+message out {
+  common.yxyx_new_home data = 1;//精品内容首页-新
+}

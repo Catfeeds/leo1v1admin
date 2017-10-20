@@ -185,6 +185,7 @@ interface RowData {
 	hobby	:any;
 	speciality	:any;
 	train_type	:any;
+	new_train_flag	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
@@ -216,29 +217,30 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-teacher_info_new.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		teacherid:	$('#id_teacherid').val(),
+		is_freeze:	$('#id_is_freeze').val(),
+		free_time:	$('#id_free_time').val(),
+		is_test_user:	$('#id_is_test_user').val(),
+		gender:	$('#id_gender').val(),
+		grade_part_ex:	$('#id_grade_part_ex').val(),
+		subject:	$('#id_subject').val(),
+		second_subject:	$('#id_second_subject').val(),
+		address:	$('#id_address').val(),
+		limit_plan_lesson_type:	$('#id_limit_plan_lesson_type').val(),
+		lesson_hold_flag:	$('#id_lesson_hold_flag').val(),
+		train_through_new:	$('#id_train_through_new').val(),
+		seller_flag:	$('#id_seller_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			is_freeze:	$('#id_is_freeze').val(),
-			free_time:	$('#id_free_time').val(),
-			is_test_user:	$('#id_is_test_user').val(),
-			gender:	$('#id_gender').val(),
-			grade_part_ex:	$('#id_grade_part_ex').val(),
-			subject:	$('#id_subject').val(),
-			second_subject:	$('#id_second_subject').val(),
-			address:	$('#id_address').val(),
-			limit_plan_lesson_type:	$('#id_limit_plan_lesson_type').val(),
-			lesson_hold_flag:	$('#id_lesson_hold_flag').val(),
-			train_through_new:	$('#id_train_through_new').val(),
-			seller_flag:	$('#id_seller_flag').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

@@ -17,6 +17,16 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	ass_nick	:any;
+	stu_num	:any;
+	valid_count	:any;
+	family_change_count	:any;
+	teacher_change_count	:any;
+	fix_change_count	:any;
+	internet_change_count	:any;
+	student_leave_count	:any;
+	teacher_leave_count	:any;
+	lesson_rate	:any;
+	lesson_lose_rate	:any;
 }
 
 /*
@@ -27,19 +37,20 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji-test_lesson_ass.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		assistantid:	$('#id_assistantid').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			assistantid:	$('#id_assistantid').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

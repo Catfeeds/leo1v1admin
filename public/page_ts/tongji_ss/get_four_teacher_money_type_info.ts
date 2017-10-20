@@ -1,27 +1,5 @@
-interface GargsStatic {
-	date_type_config:	string;
-	date_type:	number;
-	opt_date_type:	number;
-	start_time:	string;
-	end_time:	string;
-}
-declare module "g_args" {
-    export = g_args;
-}
-declare var g_args: GargsStatic;
-declare var g_account: string;
-declare var g_account_role: any;
-declare var g_adminid: any;
-interface RowData {
-}
-
-/*
-
-tofile: 
-	 mkdir -p ../main_page; vi  ../main_page/jw_teacher.ts
-
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/main_page-jw_teacher.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_four_teacher_money_type_info.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
@@ -30,11 +8,13 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		grade:	$('#id_grade').val()
     });
 }
 $(function(){
 
+//	Enum_map.append_option_list("grade",$("#id_grade"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -46,6 +26,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_grade').val(g_args.grade);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -53,6 +34,3 @@ $(function(){
 
 
 
-*/
-/* HTML ...
-*/

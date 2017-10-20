@@ -4649,4 +4649,12 @@ class human_resource extends Controller
 
 
 
+    public function interview_remind(){ // 面试提醒
+
+        $ret_info = [];
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+
 }

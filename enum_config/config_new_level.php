@@ -5,5 +5,5 @@ return array(
     array (2 , "三星级" ,"B+"),
     array (3 , "四星级" ,"A"),
     array (4 , "五星级" ,"A+" ),
-    array (11 , "T级" ,"T" ),
+    array (11 , "特级" ,"T" ),
 );

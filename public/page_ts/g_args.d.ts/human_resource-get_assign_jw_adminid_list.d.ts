@@ -11,6 +11,7 @@ interface GargsStatic {
 	have_lesson:	number;
 	revisit_flag:	number;
 	textbook_flag:	number;
+	have_test_lesson_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -67,21 +68,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/human_resource-get_assign_jw_adminid_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		teacherid:	$('#id_teacherid').val(),
+		jw_adminid:	$('#id_jw_adminid').val(),
+		grade_part_ex:	$('#id_grade_part_ex').val(),
+		subject:	$('#id_subject').val(),
+		second_subject:	$('#id_second_subject').val(),
+		identity:	$('#id_identity').val(),
+		class_will_type:	$('#id_class_will_type').val(),
+		have_lesson:	$('#id_have_lesson').val(),
+		revisit_flag:	$('#id_revisit_flag').val(),
+		textbook_flag:	$('#id_textbook_flag').val(),
+		have_test_lesson_flag:	$('#id_have_test_lesson_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacherid:	$('#id_teacherid').val(),
-			jw_adminid:	$('#id_jw_adminid').val(),
-			grade_part_ex:	$('#id_grade_part_ex').val(),
-			subject:	$('#id_subject').val(),
-			second_subject:	$('#id_second_subject').val(),
-			identity:	$('#id_identity').val(),
-			class_will_type:	$('#id_class_will_type').val(),
-			have_lesson:	$('#id_have_lesson').val(),
-			revisit_flag:	$('#id_revisit_flag').val(),
-			textbook_flag:	$('#id_textbook_flag').val()
-        });
-    }
 
 
 	$('#id_teacherid').val(g_args.teacherid);
@@ -94,6 +97,7 @@ $(function(){
 	$('#id_have_lesson').val(g_args.have_lesson);
 	$('#id_revisit_flag').val(g_args.revisit_flag);
 	$('#id_textbook_flag').val(g_args.textbook_flag);
+	$('#id_have_test_lesson_flag').val(g_args.have_test_lesson_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -171,6 +175,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">textbook_flag</span>
                 <input class="opt-change form-control" id="id_textbook_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">have_test_lesson_flag</span>
+                <input class="opt-change form-control" id="id_have_test_lesson_flag" />
             </div>
         </div>
 */

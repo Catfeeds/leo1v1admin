@@ -13,10 +13,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_jw_no_plan_remind.ts
+	 mkdir -p ../human_resource; vi  ../human_resource/interview_remind.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-get_jw_no_plan_remind.d.ts" />
+/// <reference path="../g_args.d.ts/human_resource-interview_remind.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

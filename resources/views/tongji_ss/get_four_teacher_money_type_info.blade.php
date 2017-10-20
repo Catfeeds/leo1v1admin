@@ -9,6 +9,17 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <select class="opt-change form-control" id="id_grade" >
+                            <option value="100">小学</option>
+                            <option value="200">初中</option>
+                            <option value="300">高中</option>
+                        </select>
+                    </div>
+                </div>
+
 
                
                                
