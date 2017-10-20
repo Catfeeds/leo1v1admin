@@ -368,7 +368,7 @@ $(function(){
             //选择
             "onChange"         : function(v) {
             $.do_ajax( '/ajax_deal2/set_lesson_current_server',{
-                    "courseid" : opt_data.courseid,
+                    "lessonid" : opt_data.lessonid ,
                     "current_server" :  v,
                 });
             },

@@ -1413,7 +1413,7 @@ class ajax_deal2 extends Controller
         );
 
         $this->t_lesson_info->field_update_list($lessonid,[
-            "xmpp_server_name" =>  $xmpp_server_name,
+            "xmpp_server_name" =>  $current_server,
         ]);
         return $this->output_succ();
 
