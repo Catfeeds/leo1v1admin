@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //Commands\add_new_tea_entry::class,
+        Commands\add_new_tea_entry::class,
         Commands\send_interview_remind_for_wx::class,
         Commands\check_modify_lesson_time::class,
         Commands\get_agent_parent_id::class,
