@@ -122,7 +122,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ,[$this->where_str_gen($where_arr)]
         );
 
-        return  $this->main_get_list_by_page($sql,$page_num,10);
+        return  $this->main_get_list_by_page($sql,$page_num,10,true);
     }
 
 
