@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1019
+//__DESC:得到第二级用户列表  http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_2_user_list
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  sub_agent_id =1 ; //推荐者id
+}
+
+message out {
+  common.agent_link_item_t list = 1;//二级永久列表
+}

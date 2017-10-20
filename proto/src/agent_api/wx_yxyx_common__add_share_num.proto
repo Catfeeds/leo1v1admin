@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1013
+//__DESC:分享成功添加分享次数 http://admin.yb1v1.com/wx_yxyx_common/add_share_num
+//__TAGS: for_wx_yxyx 
+
+message in  {
+    uint32  id =1 ; //分享内容id 
+}
+
+message out {
+
+}

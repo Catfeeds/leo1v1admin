@@ -1885,7 +1885,7 @@ class tongji extends Controller
         $all_num   = 0;
         $match_num = 0;
         $stu_arr   = [];
-        $succ_arr  = [];
+        $no_match_arr  = [];
         $match_arr = [];
         foreach($list as $val){
             $all_num++;
@@ -1901,8 +1901,8 @@ class tongji extends Controller
                     array_push($match_arr,$val['succ_userid']);
                 }
             } else {
-                if(!in_array($val['succ_userid'],$succ_arr)){
-                    array_push($succ_arr,$val['succ_userid']);
+                if(!in_array($val['succ_userid'],$no_match_arr)){
+                    array_push($no_match_arr,$val['succ_userid']);
                 }
             }
             if(!in_array($val['stu_userid'],$stu_arr)){
@@ -1910,17 +1910,26 @@ class tongji extends Controller
             }
 
         }
+
         $match_rate = $all_num>0?($match_num/$all_num):0;
-        $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
-        $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
+        //除重数据
+        $all_stu = count($stu_arr);
+        $no_match_stu = count($no_match_arr)-1;
+        $match_stu = count($match_arr)-1;
+
+        $no_match_succ_rate  = $all_stu>0?$no_match_stu/$all_stu:0;
+        $match_succ_rate  = $all_stu?$match_stu/$all_stu:0;
         // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
 
         return $this->pageView(__METHOD__,[],[
             "all_num"    => $all_num,
             "match_num"  => $match_num,
             "match_rate" => round($match_rate*100,2)."%",
-            "succ_rate" => round($succ_rate*100,2)."%",
+            "no_match_succ_rate" => round($no_match_succ_rate*100,2)."%",
             "match_succ_rate" => round($match_succ_rate*100,2)."%",
+            "all_stu"    => $all_stu,
+            "no_match_stu"    => $no_match_stu,
+            "match_stu"    => $match_stu,
         ]);
     }
 

@@ -1404,11 +1404,17 @@ class ajax_deal2 extends Controller
     }
 
     public function  set_lesson_current_server() {
-        $courseid=$this->get_in_courseid();
+        $lessonid=$this->get_in_lessonid();
+        $courseid=$this->t_lesson_info->get_courseid($lessonid);
         $current_server= $this->get_in_str_val("current_server");
         $this->t_course_order->field_update_list(
             $courseid,
-            ["current_server" => $current_server]);
+            ["current_server" => $current_server]
+        );
+
+        $this->t_lesson_info->field_update_list($lessonid,[
+            "xmpp_server_name" =>  $current_server,
+        ]);
         return $this->output_succ();
 
     }
