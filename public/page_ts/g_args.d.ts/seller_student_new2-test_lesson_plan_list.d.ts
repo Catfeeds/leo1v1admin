@@ -57,6 +57,7 @@ interface RowData {
 	accept_flag	:any;
 	require_admin_type	:any;
 	origin_userid	:any;
+	is_test_user	:any;
 	ass_test_lesson_type	:any;
 	stu_score_info	:any;
 	stu_character_info	:any;
