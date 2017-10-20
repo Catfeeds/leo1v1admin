@@ -25,6 +25,9 @@ $(function(){
     });
 
 
+    $(".opt-jack").on("click",function(){
+        alert(load_data);
+    });
 	$('.opt-change').set_input_change_event(load_data);
 });
 
