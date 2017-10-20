@@ -702,9 +702,7 @@ class test_boby extends Controller
     }
 
     public function match_lesson_textbook(){
-        // list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-        $start_time = strtotime('2017-10-01');
-        $end_time = strtotime('2017-11-01');
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
         $region_version = array_flip(E\Eregion_version::$desc_map);
 
@@ -741,12 +739,11 @@ class test_boby extends Controller
         $match_rate = $all_num>0?($match_num/$all_num):0;
         $succ_rate  = count($stu_arr)>0?(count($succ_arr)-1)/count($stu_arr):0;
         $match_succ_rate  = count($stu_arr)>0?(count($match_arr)-1)/count($stu_arr):0;
-        // echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
+        echo "总数:".$all_num." 匹配正确数: ".$match_num." 匹配率:".(round($match_per*100,2))."%";
+        echo '<br>';
+        echo "总数:".count($stu_arr)." 匹配正确数: ".count($match_arr)." 匹配率:".(round($match_per*100,2))."%";
 
-        echo '<per>';
-        print_r($stu_arr);
-        print_r($match_arr);
-        dd($succ_arr);
+        exit;
         return $this->pageView(__METHOD__,[],[
             "all_num"    => $all_num,
             "match_num"  => $match_num,
