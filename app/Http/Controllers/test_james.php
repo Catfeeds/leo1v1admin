@@ -707,7 +707,7 @@ class test_james extends Controller
 
 
     public function send_msg_to_parent(){
-        dd(1);
+        // dd(1);
 
 
         dispatch(new send_wx_notic_for_software());
@@ -719,9 +719,12 @@ class test_james extends Controller
     public function send_msg_to_teacher(){
 
 
-        // $re = $this->t_teacher_info->get_openid_list();
+        $re = $this->t_teacher_info->get_openid_list();
+        dd($re);
+        dd('已处理');
+        
 
-        dispatch(new send_wx_notic_to_tea());
+        // dispatch(new send_wx_notic_to_tea());
 
         // dd($re);
     }
@@ -741,6 +744,23 @@ class test_james extends Controller
 
 
     public function ssss(){
+
+
+        $parent_list = $t_parent_info->get_openid_list();
+
+        dd(count($parent_list));
+
+        $start_time = $this->get_in_int_val('s');
+        $end_time = $this->get_in_int_val('e');
+        $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+
+        dd($r);
+        $arr = [];
+        foreach($r as $v){
+            $arr[] = $v['account'];
+        }
+        dd($arr);
+
         $this->switch_tongji_database();
         $r = $this->t_parent_info->get_openid_list();
         dd($r);

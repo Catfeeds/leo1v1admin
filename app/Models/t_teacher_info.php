@@ -3773,7 +3773,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["tl.train_through_new_time>%u", $start_time, 0],
             ["tl.train_through_new_time<%u", $end_time, 0],
             "tl.is_test_user=0",
-            "l.train_type=2",
+            "l.train_type=1",
             "l.score>=90",
         ];
         $sql = "select count(*) sum from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid"
@@ -3852,8 +3852,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $whereArr = [
             ["tl.train_through_new_time>%u", $start_time, 0],
             ['tl.train_through_new_time<%u', $end_time, 0],
-            "l.score>90",
-            "l.train_type=2"
+            "l.score>=90",
+            "l.train_type=1"
         ];
 
         $sql = $this->gen_sql_new("select tl.identity as identity,count(*) sum from %s tl left join %s l on tl.teacherid=l.userid where %s group by tl.identity",
@@ -3940,8 +3940,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $whereArr = [
             ["l.add_time>%u", $start_time, 0],
             ['l.add_time<%u', $end_time, 0],
-            "l.score>0",
-            "l.train_type=2"
+            "l.score>=90",
+            "l.train_type=1"
         ];
         $sql = "select count(*) from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid where %s";
         $res = $this->get_three_maj_sub_rel($sql, $whereArr);
@@ -4127,12 +4127,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_openid_list(){
-        return true;
+        // return true;
         $sql = $this->gen_sql_new("  select wx_openid, teacherid from %s t "
                                   ." where quit_time=0 and trial_lecture_is_pass=1"
                                   ,self::DB_TABLE_NAME
         );
 
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_info_by_teacher_money_type($teacher_money_type){
+        $where_arr=[
+            "is_test_user=0",
+            "train_through_new=1",
+            ["teacher_money_type=%u",$teacher_money_type,-1]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,realname from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
 

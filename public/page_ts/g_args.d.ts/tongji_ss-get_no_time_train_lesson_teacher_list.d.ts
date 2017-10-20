@@ -1,5 +1,4 @@
 interface GargsStatic {
-	download:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -9,26 +8,30 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
+	realname	:any;
+	phone	:any;
+	wx_openid	:any;
+	wx_flag	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../login; vi  ../login/teacher.ts
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_no_time_train_lesson_teacher_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/login-teacher.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_no_time_train_lesson_teacher_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
-		download:	$('#id_download').val()
+
     });
 }
 $(function(){
 
 
-	$('#id_download').val(g_args.download);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -38,11 +41,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">download</span>
-                <input class="opt-change form-control" id="id_download" />
-            </div>
-        </div>
 */

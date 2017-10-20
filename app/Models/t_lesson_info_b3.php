@@ -1079,6 +1079,13 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_value($sql);
     }
+    public function get_lesson_info_for_check_lesson_end($courseid, $lesson_num) {
+        $sql= $this->gen_sql_new(
+            "select lessonid,teacherid,lesson_end from  %s"
+            . "  where courseid= %u and lesson_num =%u ",
+            self::DB_TABLE_NAME, $courseid, $lesson_num  );
+        return $this->main_get_row($sql);
+    }
 
     public function get_lesson_info($lessonid){
         $sql = $this->gen_sql_new( "  select lesson_name, subject, lesson_start, lesson_end, s.nick, l.grade from %s l"
@@ -1156,7 +1163,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "l.lesson_del_flag=0",
-            "l.lesson_type <1000",
+            // "l.lesson_type <1000",
             "s.is_test_user=0",
             "t.is_test_user=0"
         ];
@@ -1173,7 +1180,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
                                   ." from %s l left join %s s on l.userid = s.userid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." where %s group by l.subject order by l.subject",
+                                  ." where %s group by l.subject ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -1217,7 +1224,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
     }
 
     /**
-     * 获取试听课学生,老师的教材版本进行匹配度统计,并计算相关转换率(在三个月内签单)
+     * 获取试听课学生,老师的教材版本进行匹配度统计,并计算相关转换率(根据t_coures_order)
      */
     public function get_textbook_match_lesson_and_order_list($start_time,$end_time){
         $where_arr = [
@@ -1229,23 +1236,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "s.is_test_user=0",
             "t.is_test_user=0",
         ];
-        $sql = $this->gen_sql_new("select s.editionid,tl.textbook,t.teacher_textbook,o.userid succ_userid,l.userid as stu_userid"
-                                  ." from %s l"
-                                  ." left join %s tls on l.lessonid=tls.lessonid"
-                                  ." left join %s tr on tls.require_id=tr.require_id"
-                                  ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
-                                  ." left join %s s on l.userid=s.userid"
-                                  ." left join %s t on l.teacherid=t.teacherid"
-                                  ." left join %s o on o.from_test_lesson_id=l.lessonid"
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
-                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_order_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select s.editionid,tl.textbook,t.teacher_textbook,c.userid succ_userid,l.userid as stu_userid"
+            ." from %s l"
+            ." left join %s tls on l.lessonid=tls.lessonid"
+            ." left join %s tr on tls.require_id=tr.require_id"
+            ." left join %s tl on tr.test_lesson_subject_id=tl.test_lesson_subject_id"
+            ." left join %s s on l.userid=s.userid"
+            ." left join %s t on l.teacherid=t.teacherid"
+            // ." left join %s o on o.from_test_lesson_id=l.lessonid"
+            ." left join %s c on "
+            ." (l.userid = c.userid "
+            ." and l.teacherid = c.teacherid "
+            ." and l.subject = c.subject "
+            ." and c.course_type=0 and c.courseid >0) "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_teacher_info::DB_TABLE_NAME
+            // ,t_order_info::DB_TABLE_NAME
+            ,t_course_order::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list($sql);
     }
