@@ -95,7 +95,7 @@ class order_price_20171001 extends order_price_base
             if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
                  && $now < strtotime("2017-10-22") ) {
 
-                $free_money=floor($price /10000)*1000;
+                $free_money=floor($price /10000)*500;
                 $price-=$free_money;
 
                 if ($lesson_start < strtotime("2017-10-10") && $lesson_times >=60 && $price){ //10号前
@@ -308,7 +308,7 @@ class order_price_20171001 extends order_price_base
 
         }
 
-        static::get_activity_2017100801($price, $present_lesson_count,  $desc_list  );
+        //static::get_activity_2017100801($price, $present_lesson_count,  $desc_list  );
 
         //当配
         static::get_activity_20170801($price, $present_lesson_count,  $desc_list,  $args,$lesson_times);

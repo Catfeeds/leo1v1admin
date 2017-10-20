@@ -56,16 +56,13 @@ $(function(){
             ["部门", $dept],
         ];
 
-
-
-
         $.show_key_value_table("新增面试信息", arr ,[{
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
                 $.do_ajax ('/ss_deal/add_interview_remind', {
                     'name': $name.val(),
-                    'phone': $interview_time.val(),
+                    'interview_time': $interview_time.val(),
                     'interviewer': $interviewer.val(),
                     'post': $post.val(),
                     'dept': $dept.val(),
