@@ -741,6 +741,12 @@ class test_code extends Controller
                 $this->t_lesson_info->row_delete($val['lessonid']);
             }
         }
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "wx_use_flag"            => 0,
+            "trial_lecture_is_pass"  => 0,
+            "train_through_new"      => 0,
+            "train_through_new_time" => 0,
+        ]);
         $id=$this->t_teacher_lecture_info->get_id_list_by_phone($phone);
         if(is_array($id) && !empty($id)){
             foreach($id as $val_l){
