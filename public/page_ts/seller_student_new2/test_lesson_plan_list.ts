@@ -263,7 +263,7 @@ $(function(){
                     }
                 }
             }],function(){
-                $.admin_select_user(id_teacherid,"train_through_teacher_new");
+                $.admin_select_user(id_teacherid,"train_through_teacher");
             });
         }
     });

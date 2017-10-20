@@ -219,7 +219,7 @@ class menu{
                 ["power_id"=>4, "name"=>"助教档案",   "url"=>"/human_resource/assistant_info2"],
                 ["power_id"=>5, "name"=>"助教档案-new",   "url"=>"/human_resource/assistant_info_new"],
                 ["power_id"=>6, "name"=>"面试信息查看",   "url"=>"/human_resource/get_apply_info"],
-                ["power_id"=>12, "name"=>"面试通知设定",   "url"=>"/human_resource/interview_remind"],
+                ["power_id"=>12, "name"=>"面试通知提醒",   "url"=>"/human_resource/interview_remind"],
                 ["power_id"=>9, "name"=>"老师试讲课列表","url"=>"/human_resource/teacher_lecture_list"],
                 ["power_id"=>10, "name"=>"老师反馈","list"=>[
                     ["power_id"=>1, "name"=>"反馈列表", "url"=>"/teacher_feedback/teacher_feedback_list"],
@@ -363,11 +363,10 @@ class menu{
                 ["power_id"=>1, "name"=>"合同管理-财务",   "url"=>"/user_manage_new/money_contract_list"],
                 ["power_id"=>11, "name"=>"合同管理-new",   "url"=>"/user_manage_new/money_contract_list_stu"],
                 ["power_id"=>2, "name"=>"统计",   "url"=>"/lesson_manage/stu_status_count"],
+                ["power_id"=>5, "name"=>"学员档案-付费",   "url"=>"/user_manage/pay_money_stu_list"],
                 ["power_id"=>8, "name"=>"总体收入",   "url"=>"/tongji/all_info"],
                 ["power_id"=>9, "name"=>"月度收入",   "url"=>"/tongji/get_month_money_info"],
-                ["power_id"=>3, "name"=>"渠道统计",
-                 "url"=>"/seller_student/money_contract_list_for_origin"],
-
+                ["power_id"=>3, "name"=>"渠道统计", "url"=>"/seller_student/money_contract_list_for_origin"],
                 ["power_id"=>4, "name"=>"月份学生统计",   "url"=>"/user_manage_new/month_user_info"],
                 ["power_id"=>10, "name"=>"退费管理",   "url"=>"/user_manage/refund_list_finance"],
 

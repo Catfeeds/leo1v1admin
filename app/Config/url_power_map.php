@@ -259,6 +259,7 @@ class url_power_map {
 			'/user_manage_new/money_contract_list'	=>1080100,
 			'/user_manage_new/money_contract_list_stu'	=>1081100,
 			'/lesson_manage/stu_status_count'	=>1080200,
+			'/user_manage/pay_money_stu_list'	=>1080500,
 			'/tongji/all_info'	=>1080800,
 			'/tongji/get_month_money_info'	=>1080900,
 			'/seller_student/money_contract_list_for_origin'	=>1080300,

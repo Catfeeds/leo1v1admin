@@ -15,6 +15,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
 	hr_adminid	:any;
 	interviewer_id	:any;
 	name	:any;
