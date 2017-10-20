@@ -146,12 +146,6 @@ $(function(){
         );
   });
 
-    //点击进入排课页面
-    $('.opt-lesson').on('click',function(){
-        var opt_data=$(this).get_opt_data();
-    var userid=opt_data.userid;
-        $.wopen('/stu_manage/course_list?sid='+userid );
-    });
 
   function load_data(){
         if ($.trim($("#id_user_name").val()) != g_args.user_name ) {

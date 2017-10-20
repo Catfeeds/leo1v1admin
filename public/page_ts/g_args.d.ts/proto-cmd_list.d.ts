@@ -25,14 +25,15 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/proto-cmd_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		project:	$('#id_project').val(),
+		tag:	$('#id_tag').val(),
+		query_str:	$('#id_query_str').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			project:	$('#id_project').val(),
-			tag:	$('#id_tag').val(),
-			query_str:	$('#id_query_str').val()
-        });
-    }
 
 
 	$('#id_project').val(g_args.project);

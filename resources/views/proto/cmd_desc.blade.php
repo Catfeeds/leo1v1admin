@@ -205,7 +205,7 @@
                 <table      class="ui-widget ui-widget-content"  cellspacing="0"  style=" margin:0 auto; " >
                     <thead>
                         <tr  class="ui-widget-header">
-                            <td width="40%"> {{$cmd_item["name"]}} <font color="blue">请求包 </font>  字段名</td>
+                            <td width="40%">  <font color="blue">请求包 </font>  字段名</td>
                             <td width="20%">类型</td>
                             <td width="30%">说明</td>
                             <td width="10%">字段id</td>
@@ -230,7 +230,7 @@
                 <table      class="ui-widget ui-widget-content"  cellspacing="0"  style=" margin:0 auto; " >
                     <thead>
                         <tr  class="ui-widget-header">
-                            <td width="40%"> {{$cmd_item["name"]}} 返回包 字段名</td>
+                            <td width="40%">  返回包 字段名</td>
                             <td width="20%">类型</td>
                             <td width="30%">说明</td>
                             <td width="10%">字段id</td>

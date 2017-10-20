@@ -6574,14 +6574,13 @@ class ss_deal extends Controller
         $post = $this->get_in_str_val('post');
         $dept = $this->get_in_str_val('dept');
         $hr_adminid  = $this->get_account_id();
-        $interviewer = $this->get_in_int_val('interviewer');
+        $interviewer_id = $this->get_in_int_val('interviewer');
         $interview_time = strtotime($this->get_in_str_val('interview_time'));
 
         $ret = $this->t_interview_remind->row_insert([
             "name"  => $name,
             "post"  => $post,
             "dept"  => $dept,
-            "interviewer" => $interviewer,
             "interviewer_id" => $interviewer_id,
             "interview_time" => $interview_time,
             "hr_adminid" => $hr_adminid
@@ -6592,7 +6591,15 @@ class ss_deal extends Controller
         }else{
             return $this->output_err('添加提醒任务失败,请联系开发人员!');
         }
+    }
 
+
+    public function interview_del(){
+        $id = $this->get_in_int_val('id');
+
+        $this->t_interview_remind->row_delete($id);
+
+        return $this->output_succ();
 
     }
 }

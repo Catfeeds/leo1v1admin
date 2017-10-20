@@ -91,22 +91,23 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage_new-ass_contract_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		studentid:	$('#id_studentid').val(),
+		check_money_flag:	$('#id_check_money_flag').val(),
+		have_init:	$('#id_have_init').val(),
+		have_master:	$('#id_have_master').val(),
+		assistantid:	$('#id_assistantid').val(),
+		contract_type:	$('#id_contract_type').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			studentid:	$('#id_studentid').val(),
-			check_money_flag:	$('#id_check_money_flag').val(),
-			have_init:	$('#id_have_init').val(),
-			have_master:	$('#id_have_master').val(),
-			assistantid:	$('#id_assistantid').val(),
-			contract_type:	$('#id_contract_type').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({

@@ -697,7 +697,54 @@ class user_manage extends Controller
         ]);
     }
 
-    //＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    public function pay_money_stu_list (){
+        $grade          = $this->get_in_grade();
+        $all_flag       = $this->get_in_int_val('all_flag',0);
+        // $test_user      = $this->get_in_int_val('test_user',-1);
+        $originid       = $this->get_in_int_val('originid',-1);
+        $user_name      = trim($this->get_in_str_val('user_name',''));
+        $phone          = trim($this->get_in_str_val('phone',''));
+        $assistantid    = $this->get_in_int_val("assistantid",-1);
+        $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
+        // $order_type     = $this->get_in_int_val("order_type",-1);
+        // $student_type   = $this->get_in_int_val("student_type",-1);
+        $page_num       = $this->get_in_page_num();
+        $status         = -1;
+        $userid         = $this->get_in_userid(-1);
+
+        $teacherid = -1;
+        if (is_numeric($user_name) && $user_name< 10000000 ) {
+            $userid    = $user_name;
+            $user_name = "";
+        }
+        if ($assistantid >0 && $order_type == -1) {
+            $order_type = 3;
+        }
+
+        $ret_info = $this->t_student_info->get_student_list_for_finance(
+            $page_num,$all_flag, $userid, $grade, $status,
+            $user_name, $phone, $teacherid,
+            $assistantid, $originid,
+            $seller_adminid);
+
+        foreach($ret_info['list'] as &$item) {
+            $item['originid']          = E\Estu_origin::get_desc($item['originid']);
+            $item['user_agent_simple'] = get_machine_info_from_user_agent($item["user_agent"] );
+            $item['last_login_ip']     = long2ip( $item['last_login_ip'] );
+            \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"last_login_time");
+            $item['lesson_count_all']  = $item['lesson_count_all']/100;
+            $item['lesson_count_left'] = $item['lesson_count_left']/100;
+            $item["seller_admin_nick"] = $this->cache_get_account_nick($item["seller_adminid"] );
+            $item["assistant_nick"]    = $this->cache_get_assistant_nick ($item["assistantid"] );
+            $item["origin_ass_nick"]   = $this->cache_get_account_nick($item["origin_assistantid"] );
+            $item["ss_assign_time"]    = $item["ass_assign_time"]==0?'未分配':date('Y-m-d H:i:s',$item["ass_assign_time"]);
+            $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
+            \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
+        }
+        return $this->Pageview(__METHOD__,$ret_info);
+    }
+
     public function del_contract(){
         $orderid = $this->get_in_int_val("orderid");
         $userid  = $this->get_in_int_val("userid");

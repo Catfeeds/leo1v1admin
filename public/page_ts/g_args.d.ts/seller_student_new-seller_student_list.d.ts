@@ -115,6 +115,7 @@ interface RowData {
 	study_type	:any;
 	lesson_count_all	:any;
 	lesson_count_left	:any;
+	is_test_user	:any;
 	contract_type	:any;
 	price	:any;
 	lesson_total	:any;
