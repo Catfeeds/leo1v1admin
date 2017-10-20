@@ -6573,14 +6573,25 @@ class ss_deal extends Controller
         $name = $this->get_in_str_val('name');
         $post = $this->get_in_str_val('post');
         $dept = $this->get_in_str_val('dept');
+        $hr_adminid  = $this->get_account_id();
+        $interviewer = $this->get_in_int_val('interviewer');
         $interview_time = strtotime($this->get_in_str_val('interview_time'));
-        $interviewer    = $this->get_in_int_val('interviewer');
 
-
-        $this->t_interview_remind->row_insert([
+        $ret = $this->t_interview_remind->row_insert([
             "name"  => $name,
-            "post"  => $post
+            "post"  => $post,
+            "dept"  => $dept,
+            "interviewer" => $interviewer,
+            "interviewer_id" => $interviewer_id,
+            "interview_time" => $interview_time,
+            "hr_adminid" => $hr_adminid
         ]);
+
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('添加提醒任务失败,请联系开发人员!');
+        }
 
 
     }

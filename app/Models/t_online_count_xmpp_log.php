@@ -8,7 +8,7 @@ class t_online_count_xmpp_log extends \App\Models\Zgen\z_t_online_count_xmpp_log
 		parent::__construct();
 	}
     public function get_list($xmpp_id,$start_time, $end_time) {
-        $where_arr[]= ["xmpp_id='%s' ", $xmpp_id];
+        $where_arr[]= ["xmpp_id='%u' ", $xmpp_id];
         $this->where_arr_add_time_range($where_arr,"logtime",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select logtime,online_count from %s where %s order by logtime asc "

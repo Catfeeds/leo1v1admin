@@ -832,6 +832,7 @@ class tongji extends Controller
         list($start_time ,$end_time)=$this->get_in_date_range_day(0);
         $xmpp_value=$this->get_in_str_val("xmpp_value",'');  //xmpp传值筛选
         $xmpp_id=$this->t_xmpp_server_config->get_xmpp_id($xmpp_value); //获取xmpp_id
+        $this->switch_tongji_database(false);
 
         $def_time_list=[];
         for($tmp=$start_time; $tmp<$end_time;$tmp+=300 ) {
