@@ -746,7 +746,7 @@ class test_james extends Controller
     public function ssss(){
 
 
-        $parent_list = $t_parent_info->get_openid_list();
+        $parent_list = $this->t_parent_info->get_openid_list();
 
         dd(count($parent_list));
 
