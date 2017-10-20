@@ -184,6 +184,10 @@ $(function(){
         var wx_remind_time="";
         var stop_duration="";
 
+        if(student_type>4){
+            alert("逾期学员不可更改类型!");
+            return;
+        }
 
         $.do_ajax("/user_manage_new/get_last_change_type_info",{
             "userid" : userid
@@ -204,7 +208,7 @@ $(function(){
             var id_recover_time = $("<input />");
             var id_wx_remind_time = $("<input />");
             var id_stop_duration = $("<input />");
-            Enum_map.append_option_list( "student_type",  id_student_type,true);
+            Enum_map.append_option_list( "student_type",  id_student_type,true,[0,1,2,3,4]);
             id_recover_time.datetimepicker({
                 datepicker:true,
                 timepicker:false,

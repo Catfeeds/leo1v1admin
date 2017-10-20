@@ -4254,7 +4254,7 @@ class human_resource extends Controller
                 "subject"               => $teacher_info['subject'],
                 "tea_nick"              => $teacher_info['nick'],
                 "realname"              => $teacher_info['realname'],
-                "phone_spare"           => $phone,
+                // "phone_spare"           => $phone,
                 "phone"                 => $new_phone,
                 "identity"              => $teacher_info['identity'],
                 "grade_start"           => $teacher_info['grade_start'],
@@ -4651,18 +4651,31 @@ class human_resource extends Controller
 
     public function interview_remind(){ // 面试提醒
 
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,3,[
-            1 => array("require_time","申请时间"),
-        ],3);
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
+            1 => array("interview_time","面试时间"),
+        ],1);
 
-        $ret_info = $this->t_interview_remind->get_interview_remind_list();
+        $user_name = $this->get_in_str_val('user_name');
+        $page_num  = $this->get_in_int_val('page_num');
 
-        foreach($ret_info as &$v){
+
+        $ret_info = $this->t_interview_remind->get_interview_remind_list($page_num,$start_time, $end_time,$user_name);
+
+        foreach($ret_info['list'] as &$v){
             $v['interviewer_name'] = $this->t_manager_info->get_account($v['interviewer_id']);
+            $v['interview_time'] = date('Y-m-d H:i:s',$v['interview_time']);
+            if($v['send_msg_time']>0){
+                $v['send_msg_time'] = date('Y-m-d H:i:s',$v['send_msg_time']);
+            }else{
+                $v['send_msg_time'] = '无';
+            }
+            if($v['is_send_flag'] == 1){
+                $v['is_send_flag_str'] = "<font color=\"green\">已发送</font>";
+            }else{
+                $v['is_send_flag_str'] = "<font color=\"blue\">未发送</font>";
+            }
         }
-
         return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 

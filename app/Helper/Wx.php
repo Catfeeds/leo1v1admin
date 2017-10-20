@@ -154,6 +154,56 @@ class Wx{
         }
     }
 
+
+
+    function send_template_msg_color( $openid, $template_id, $data ,$url="", $color ) {
+        foreach ($data as &$item) {
+            if (!is_array($item)) {
+                $item = [
+                    "value" => $item,
+                    "color" => $color,
+                    // "color" => "#e22870", //test
+                ];
+            }
+        }
+
+        $str = $this->gen_temp_data($openid,$template_id,$url,$data);
+        $token = $this->wx_get_token();
+        \App\Helper\Utils::logger("token:$token");
+        \App\Helper\Utils::logger('xjstr'.$str);
+
+        $qq_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$token";
+        $ret    = \App\Helper\Utils::json_decode_as_array( \App\Helper\Common::http_post_json_str($qq_url, $str ));
+
+        if ($ret["errcode"]===0) {
+            \App\Helper\Utils::logger("WX MSG SUCC:" .json_encode($ret) );
+            return true;
+        }else{
+            \App\Helper\Utils::logger("RESET WX MSG ONE ERROR:".json_encode($ret) );
+            //send next..
+            $token=$this->wx_get_token(true);
+            \App\Helper\Utils::logger("2 token:$token");
+            $qq_url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$token";
+            $ret=\App\Helper\Utils::json_decode_as_array(\App\Helper\Common::http_post_json_str($qq_url, $str ));
+
+
+            if(@$ret["errcode"]===0){
+                \App\Helper\Utils::logger("WX MSG SUCC:".json_encode($ret) );
+                return true;
+            }else{
+                \App\Helper\Utils::logger("WX MSG TWO ERROR:".json_encode($ret) );
+                if (!in_array(  $ret["errcode"], [43004  ,40003])) {
+                    dispatch( new \App\Jobs\send_error_mail(
+                        "xcwenn@qq.com","WX ERR: $template_id ", json_encode($ret)  ));
+                    dispatch( new \App\Jobs\send_error_mail(
+                        "wg392567893@163.com","WX ERR: $template_id ", json_encode($ret)  ));
+                }
+                return false;
+            }
+        }
+    }
+
+
     public function get_user_info_from_token($openid,$token) {
         $appid=$this->appid;
         $appsecret=$this->appsecret;

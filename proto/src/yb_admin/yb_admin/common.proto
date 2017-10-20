@@ -1,0 +1,10 @@
+syntax = "proto3";
+package common;
+option php_namespace = "Proto\\yb_admin\\common"; 
+
+
+message get_check_lesson_end_item_t {
+  string room_id =1 ;  //  like : l_42623y23y0
+  uint32 lessonid =2 ;  //  课程id 
+  uint32 teacherid =3 ;  //  老师id 
+}

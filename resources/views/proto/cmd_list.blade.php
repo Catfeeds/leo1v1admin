@@ -9,8 +9,8 @@
                     <div class="input-group " >
                         <span >项目</span>
                         <select   id="id_project" class="opt-change"   >
-                            <option value="yb_db"> yb_db </option>
-                            <option value="yb_api"> yb_api </option>
+                            <option value="yb_admin">yb_admin</option>
+                            <option value="agent_api">agent_api</option>
                         </select>
                     </div>
                 </div>

@@ -50,7 +50,7 @@ $(function(){
                 //online_count_list[j].push([i*60000, item["online_count"] ]);
             }else if(j==2){
             }else{
-                online_count_list[j].push([item["logtime"]*1000, item["online_count"] ]);
+                online_count_list[j].push([(item["logtime"]- 3600*16)*1000, item["online_count"] ]);
             }
         } )
     });

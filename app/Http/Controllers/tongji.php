@@ -833,11 +833,15 @@ class tongji extends Controller
         $xmpp_value=$this->get_in_str_val("xmpp_value",'');  //xmpp传值筛选
         $xmpp_id=$this->t_xmpp_server_config->get_xmpp_id($xmpp_value); //获取xmpp_id
         $this->switch_tongji_database(false);
+        $end_time= $start_time+86400;
 
         $def_time_list=[];
         for($tmp=$start_time; $tmp<$end_time;$tmp+=300 ) {
             $def_time_list[$tmp]=0;
         }
+        \App\Helper\Utils::logger("start_time :$start_time, end_time: $end_time");
+
+
         $date_time_list=$this->t_lesson_info_b3-> get_lesson_time_xmpp_list($xmpp_value,$start_time ,$end_time);
         $time_list=\App\Helper\Utils::get_online_line_timestramp($def_time_list, $date_time_list );
         foreach($time_list as $logtime=> $val){

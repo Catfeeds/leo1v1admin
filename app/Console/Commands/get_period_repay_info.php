@@ -52,6 +52,7 @@ class get_period_repay_info extends Command
 
         }
         $list = $task->t_period_repay_list->get_repay_order_info($due_date);
+        dd(count($list));
         if(count($list)>0){
             foreach($list as $val){
                 $orderid = $val["orderid"];

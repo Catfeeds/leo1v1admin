@@ -542,7 +542,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["is_auto_set_type_flag=%u",$is_auto_set_type_flag,-1],
             "lesson_count_left <100",
-            "type <>1"
+            "type not in (1,5,6)"
             //"is_auto_set_type_flag = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".
@@ -573,6 +573,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     {
         $where_arr = [
             "type>0",
+            "type not in (5,6)",//逾期学员不更新
             // "is_auto_set_type_flag = 1",
             "type_change_time<".$time
         ];
