@@ -749,7 +749,7 @@ class test_james extends Controller
         $end_time = $this->get_in_int_val('e');
         $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
-        // dd($r);
+        dd($r);
         $arr = [];
         foreach($r as $v){
             $arr[] = $v['account'];
