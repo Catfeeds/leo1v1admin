@@ -1,6 +1,5 @@
 interface GargsStatic {
 	grade:	number;//App\Enums\Egrade
-	all_flag:	number;
 	originid:	number;
 	user_name:	string;
 	phone:	string;
@@ -62,7 +61,6 @@ function load_data(){
     if ( window["g_load_data_flag"]) {return;}
     $.reload_self_page ( {
 		grade:	$('#id_grade').val(),
-		all_flag:	$('#id_all_flag').val(),
 		originid:	$('#id_originid').val(),
 		user_name:	$('#id_user_name').val(),
 		phone:	$('#id_phone').val(),
@@ -76,7 +74,6 @@ $(function(){
 	Enum_map.append_option_list("grade",$("#id_grade"));
 
 	$('#id_grade').val(g_args.grade);
-	$('#id_all_flag').val(g_args.all_flag);
 	$('#id_originid').val(g_args.originid);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_phone').val(g_args.phone);
@@ -98,13 +95,6 @@ $(function(){
                 <span class="input-group-addon">年级</span>
                 <select class="opt-change form-control" id="id_grade" >
                 </select>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">all_flag</span>
-                <input class="opt-change form-control" id="id_all_flag" />
             </div>
         </div>
 

@@ -92,7 +92,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr=[
             ["s.userid=%u", $userid, -1] ,
             ["s.grade=%u", $grade, -1] ,
-            ["s.status=%u", $status, -1] ,
             ["s.assistantid=%u", $assistantid, -1] ,
             ["s.originid=%u ", $originid , -1] ,
             ["s.seller_adminid=%u ", $seller_adminid, -1] ,
