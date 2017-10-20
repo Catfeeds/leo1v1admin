@@ -9607,7 +9607,7 @@ lesson_type in (0,1) "
             "lesson_type IN (0, 1, 3) ",
             "(s.is_test_user = 0 or s.is_test_user is null)"
         ];
-        $sql = $this->gen_sql_new("select sum(l.lesson_count) as total_consume, count(distinct(l.userid)) as total_student ".
+        $sql = $this->gen_sql_new("select sum(if(l.confirm_flag in (0,1,3,4), l.lesson_count,0) )as total_consume, count(distinct(l.userid)) as total_student ".
                                   "from %s l ".
                                   "left join %s s on s.userid = l.userid ".
                                   " where %s",
