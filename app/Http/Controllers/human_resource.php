@@ -4657,7 +4657,10 @@ class human_resource extends Controller
 
         $ret_info = $this->t_interview_remind->get_interview_remind_list();
 
-        $ret_info = [];
+        foreach($ret_info as &$v){
+            $v['interviewer_name'] = $this->t_manager_info->get_account($v['interviewer_id']);
+        }
+
         return $this->pageView(__METHOD__,$ret_info);
 
     }
