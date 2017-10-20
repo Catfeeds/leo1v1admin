@@ -13,8 +13,8 @@ class test_sam  extends Controller
     use CacheNick;
     use TeaPower;
     public function ss(){
-        $start_time = 1504195200;
-        $end_time   = 1506787200;
+        $start_time = 1506787200;
+        $end_time   = 1508486232;
         $ret = $this->t_seller_student_new->get_tranfer_phone_num_month($start_time,$end_time) ;
         dd($ret);
 

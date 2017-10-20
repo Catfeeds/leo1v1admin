@@ -2470,7 +2470,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "m.account_role = 1",
             "m.del_flag = 0 ",
             ['admin_assign_time >=%u',$start_time,-1],
-            ['admin_assign_time <=%u',$end_time,-1]
+            ['admin_assign_time <=%u',$end_time,-1],
         ];
         $sql = $this->gen_sql_new(" select count(distinct(s.phone)) as phone_num "
                                   ." from %s k "
@@ -2490,7 +2490,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "m.account_role = 1",
             "m.del_flag = 0 ",
             ['admin_assign_time >=%u',$start_time,-1],
-            ['admin_assign_time <=%u',$end_time,-1]
+            ['admin_assign_time <=%u',$end_time,-1],
+            "o.contract_status <> 0 "
         ];
         $sql = $this->gen_sql_new(" select count(distinct(s.phone)) as total_num, sum(if(o.price>0,1,0)) as total_orderid"
                                   ." from %s k "
