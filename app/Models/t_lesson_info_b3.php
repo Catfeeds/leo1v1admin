@@ -40,11 +40,18 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         return $this->main_get_list($sql);
     }
     public function get_grade_first_test_lesson($userid, $grade ) {
+        //E\Eflow_status::S_PASS
+        //无效试听课不算
         $sql = $this->gen_sql_new(
-            "select lesson_start from %s"
-            . " where userid= %u and  grade=%u and lesson_start>0  order by lesson_start asc limit 1  ",
+            "select lesson_start from %s  l"
+            ." left join %s f on   ( f.flow_type= %u and l.lessonid=f.from_key_int  ) "
+            . " where userid= %u and  grade=%u and lesson_start>0 "
+            . "  and  (f.flow_status is null or  f.flow_status <> %u ) "
+            . " order by lesson_start asc limit 1  ",
             self::DB_TABLE_NAME,
-            $userid, $grade
+            t_flow::DB_TABLE_NAME,  E\Eflow_type::V_SELLER_RECHECK_LESSON_SUCESS,
+            $userid, $grade,
+            E\Eflow_status::V_PASS
         ) ;
 
         return $this->main_get_row($sql);
@@ -1137,31 +1144,30 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         );
         return $this->main_get_list($sql);
     }
-        public function get_lesson_time_xmpp_list($xmpp_value,$start_time, $end_time )
-        {
-            // dd($xmpp_value);
-            $where_arr=[
-                "confirm_flag not in (2,3)",
-                "lesson_del_flag=0",
-                "lesson_type <>4001",
 
-            ];
-            if($xmpp_value != ''){
-                  $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value];
-            }
+    public function get_lesson_time_xmpp_list($xmpp_value,$start_time, $end_time )
+    {
+        // dd($xmpp_value);
+        $where_arr=[
+            "confirm_flag not in (2,3)",
+            "lesson_del_flag=0",
+            "lesson_type <>4001",
 
-            $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-            $sql = $this->gen_sql_new(
-                " select lesson_start,lesson_end".
-                " from %s".
-                " where %s".
-                " order by lesson_start asc ",
-                self::DB_TABLE_NAME,
-                $where_arr);
-            return $this->main_get_list($sql);
+        ];
+        if($xmpp_value != ''){
+            $where_arr[]=  [ "xmpp_server_name='%s' ",$xmpp_value];
         }
 
-
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new(
+            " select lesson_start,lesson_end".
+            " from %s".
+            " where %s".
+            " order by lesson_start asc ",
+            self::DB_TABLE_NAME,
+            $where_arr);
+        return $this->main_get_list($sql);
+    }
 
     public function get_lesson_list_by_teacher_money_type($start,$end,$teacher_money_type,$teacherid=0){
         $where_arr = [
