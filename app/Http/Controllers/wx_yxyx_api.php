@@ -705,4 +705,38 @@ class wx_yxyx_api extends Controller
     }
 
 
+    public function get_user_center_info(){
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+
+        $agent_level = (int)$agent_info['agent_level'];
+        $nick         = $agent_info['nickname'];
+        if (!$nick) {
+            $nick=$phone;
+        }
+        $headimgurl   = $agent_info['headimgurl'];
+        $nickname     = $agent_info['nickname'];
+
+        $data = [
+            'agent_level'         => $agent_level ,
+            'usernick'            => $nick,
+            'wx_headimgurl'       => $agent_info['headimgurl'],
+            "all_money" => $agent_info["all_yxyx_money"]/100,
+        ];
+
+        E\Eagent_level::set_item_value_str($data);
+        
+        $activity_money=$this->t_agent_money_ex->get_all_money($agent_id)/100;
+
+        $data["child_all_count"]= $agent_info["l1_child_count"] + $agent_info["l2_child_count"] ;
+
+        
+        return $this->output_succ(["user_info_list" =>$data]);
+
+    }
 }
