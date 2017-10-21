@@ -37,7 +37,8 @@ class add_lesson_grade_user extends Job implements ShouldQueue
             if($ret==0){
                 $t_open_lesson_user->row_insert([
                     "lessonid" => $this->lessonid,
-                    "userid"   => $val['userid']
+                    "userid"   => $val['userid'],
+                    "join_time"=> time()
                 ]);
             }
         }

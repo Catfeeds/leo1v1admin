@@ -367,10 +367,10 @@ class test_boby extends Controller
             }
 
             // foreach($lessonid_list as $lessonid){
-            //     $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+                // $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
             // }
         }
-        dd($userid_xiao);
+        // dd($userid_xiao);
 
         foreach($lessonid_list as $k=>$v){
             if ($v == 100){
