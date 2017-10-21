@@ -8,7 +8,8 @@ $(function(){
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
             end_time:	$('#id_end_time').val(),
-            user_name: $("#id_user_name").val()
+            user_name: $("#id_user_name").val(),
+
         });
     }
 
@@ -110,12 +111,10 @@ $(function(){
         var $dept         = $("<input/>");
         var $interview_time = $("<input />");
 
-
         $name.val( opt_data.name);
         $post.val( opt_data.post);
         $dept.val( opt_data.dept);
         $interview_time.val(opt_data.interview_time);
-
 
         $interview_time.datetimepicker( {
             lang:'ch',
@@ -138,7 +137,6 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-
                 $.do_ajax ('/ss_deal/edit_interview_remind', {
                     'name': $name.val(),
                     'id'  : opt_data.id,
@@ -149,8 +147,7 @@ $(function(){
                 });
             }
         }],function(){
-            $('#id_interviewer_name').val(opt_data.interviewer_name);
-
+            $('#id_interviewer_name').val(opt_data.interviewer_id);
             $.admin_select_user( $interviewer, "admin");
         });
     });
