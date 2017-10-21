@@ -358,11 +358,11 @@ class test_boby extends Controller
         foreach ($userid_list as $item) {
             if ($item['grade'] > 0) {
                 if ($item['grade'] < 200 ) {
-                    array_push($userid_xiao,$item['userid']);
+                    array_push($userid_xiao,$item);
                 } else if ($item['grade'] < 300 ) {
-                    array_push($userid_chu,$item['userid']);
+                    array_push($userid_chu,$item);
                 } else {
-                    array_push($userid_gao,$item['userid']);
+                    array_push($userid_gao,$item);
                 }
             }
 
@@ -371,7 +371,7 @@ class test_boby extends Controller
             // }
         }
 
-dd($userid_xiao);
+        dd($userid_xiao);
         foreach($lessonid_list as $k=>$v){
             if ($v == 100){
                 $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
