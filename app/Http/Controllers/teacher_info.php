@@ -1746,9 +1746,8 @@ class teacher_info extends Controller
             $item['teacher_tags_arr'] = explode(',',$item['teacher_tags']);
             $item['tags_flag'] = count($item['teacher_tags_arr']);
             //判断完整度
-            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','major',
-                       'hobby','speciality','bank_account','idcard','bankcard','bank_address','bank_type',
-                       'bank_phone','bank_province','bank_city'];
+            $msgarr = ['birth','gender','work_year','address','dialect_notes','school','education','major', 'hobby','speciality',
+                       'bank_account','idcard','bankcard','bank_address','bank_type', 'bank_phone','bank_province','bank_city'];
             $integrity = 0;
             $able_edit = [];
             foreach ($item as $key=> $val) {
@@ -1776,6 +1775,7 @@ class teacher_info extends Controller
             } else {
                 $show_flag = 1;
             }
+            $item['normal_count'] = $item['normal_count']/100;
         }
         // dd($ret_info);
 
