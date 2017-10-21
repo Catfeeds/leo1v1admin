@@ -2266,7 +2266,8 @@ class ss_deal extends Controller
         }
         
         //分期合同不能全款
-        if($child_order_type==2){
+        $adm = $this->get_account_id();
+        if($child_order_type==2 && $adm !=349){
             $period_money = $this->t_child_order_info->get_period_price_by_parent_orderid($parent_orderid);
             $all_price = $this->t_order_info->get_price($parent_orderid);
             if(($price+$period_money) >($all_price-200000)){
