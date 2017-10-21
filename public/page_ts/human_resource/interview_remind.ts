@@ -116,13 +116,6 @@ $(function(){
         $dept.val( opt_data.dept);
         $interview_time.val(opt_data.interview_time);
 
-        $('#id_interviewer_name').val(opt_data.interviewer_name);
-        // $interviewer.nextSbiling.val(opt_data.interviewer_name);
-
-        // console.log(opt_data.interviewer_name);
-        console.log($interviewer.closest('td'));
-        // $interviewer.nextSbiling().val( opt_data.interviewer_name);
-
 
         $interview_time.datetimepicker( {
             lang:'ch',
@@ -156,6 +149,8 @@ $(function(){
                 });
             }
         }],function(){
+            $('#id_interviewer_name').val(opt_data.interviewer_name);
+
             $.admin_select_user( $interviewer, "admin");
         });
     });
