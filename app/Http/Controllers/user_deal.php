@@ -2818,7 +2818,7 @@ class user_deal extends Controller
                             $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
 
                             $acc= $this->get_account();
-                            if(in_array($acc,["jim"])){
+                            if(!in_array($acc,["jim"])){
                                 $ret1 = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
                                 if(is_numeric($ret1) ){
                                     // return $this->output_succ(["lessonid" => $ret ]);
@@ -2994,7 +2994,7 @@ class user_deal extends Controller
 
                             //使用新方法排课
                             $acc= $this->get_account();
-                            if(in_array($acc,["jim"])){
+                            if(!in_array($acc,["jim"])){
                                 $ret1 = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
                                 if(is_numeric($ret1) ){
                                     // return $this->output_succ(["lessonid" => $ret ]);

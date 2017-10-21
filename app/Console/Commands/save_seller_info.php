@@ -67,10 +67,8 @@ class save_seller_info extends Command
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
         $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
-        // $ret_info['order_cc_num']    = $new_order_info['total_num'] + $referral_order['total_num']; // 有签单的销售人数
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
         $ret_info['all_order_price'] = $new_order_info['total_price'] ;
-        // $ret_info['all_order_price'] = $new_order_info['total_price'] + $referral_order['referral_price'];
 
 
 
@@ -83,13 +81,13 @@ class save_seller_info extends Command
         }
 
 
-        // dd(2);
+        // // dd(2);
 
-        $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
+        // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
         $month_end_time   = strtotime(date("Y-m-01",  $end_time));
         $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
-        $ret_info['formal_info']=0; 
+        $ret_info['formal_info']=0;  // 完成金额
         $today=time(NULL);
         foreach ($month_date_money_list as $date=> &$item ) {
             $date_time=strtotime($date);
