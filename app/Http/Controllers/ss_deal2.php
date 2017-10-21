@@ -179,7 +179,6 @@ class ss_deal2 extends Controller
     */
 
     public function set_user_free () {
-
         $userid=$this->get_in_userid();
         $item=$this->t_seller_student_new->get_user_info_for_free($userid);
         $account = $this->get_account();
