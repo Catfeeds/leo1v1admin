@@ -84,17 +84,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
             "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
             // "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
-            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_call_time,"
+            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_call_time,add_time"
             // ." sum(add_time+86400>first_revisit_time) after_24_first_revisit_time_count "
-            ." sum(add_time>=%u and add_time<%u) after_24_first_revisit_time_count "
+            ." sum(add_time>=unix_tiemstamp(from_unixtime(first_call_time, '%%Y-%%m-%%d')) and add_time<unix_tiemstamp(from_unixtime(first_call_time, '%%Y-%%m-%%d'))+86400) after_24_first_revisit_time_count "
             ." from %s n "
-            .  "left join %s s on s.userid=n.userid"
+            ." left join %s s on s.userid=n.userid "
             // ." where first_revisit_time  >=%u and  first_revisit_time  <%u and %s  ".
             ." where first_call_time  >=%u and  first_call_time  <%u and %s  ".
-            // " group by from_unixtime(first_revisit_time, '%%Y-%%m-%%d') "
-            " group by from_unixtime(first_call_time, '%%Y-%%m-%%d') "
-            ,$start_time
-            ,$end_time,
+            // " group by from_unixtime(first_revisit_time, '%%Y-%%m-%%d') ",
+            " group by from_unixtime(first_call_time, '%%Y-%%m-%%d') ",
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             $start_time, $end_time,$where_arr );
