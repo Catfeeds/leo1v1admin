@@ -2845,7 +2845,7 @@ $(function(){
 
                     var child_orderid = $(this).data("child_orderid");
                     var status = $(this).data("status");
-                    if(status >0){
+                    if(status >0 && parent_orderid != 24041 && parent_orderid != 23800){
                         alert("已付款,不能拆分!");
                         return;
                     }
