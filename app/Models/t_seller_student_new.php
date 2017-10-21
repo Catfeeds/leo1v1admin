@@ -2299,7 +2299,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
@@ -2322,7 +2323,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
@@ -2344,7 +2346,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_tq_succ_num_for_sign($start_time, $end_time){
 
         $where_arr = [
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);

@@ -3647,7 +3647,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     public function get_order_sign_month($start_time, $end_time){
         $where_arr = [
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
