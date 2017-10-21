@@ -33,11 +33,11 @@ class add_lesson_grade_user extends Job implements ShouldQueue
     {
         $t_open_lesson_user = new \App\Models\t_open_lesson_user();
         foreach($this->userid_list as $val){
-            $ret = $t_open_lesson_user->check_lesson_has($this->lessonid,$val['userid']);
+            $ret = $t_open_lesson_user->check_lesson_has($this->lessonid,$val);
             if($ret==0){
                 $t_open_lesson_user->row_insert([
                     "lessonid" => $this->lessonid,
-                    "userid"   => $val['userid']
+                    "userid"   => $val
                 ]);
             }
         }
