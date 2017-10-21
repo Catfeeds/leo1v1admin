@@ -6595,6 +6595,35 @@ class ss_deal extends Controller
     }
 
 
+    public function edit_interview_remind(){
+        $id = $this->get_in_int_val('id');
+        $name = $this->get_in_str_val('name');
+        $post = $this->get_in_str_val('post');
+        $dept = $this->get_in_str_val('dept');
+        $hr_adminid  = $this->get_account_id();
+        $interviewer_id = $this->get_in_int_val('interviewer');
+        $interview_time = strtotime($this->get_in_str_val('interview_time'));
+
+        $ret = $this->t_interview_remind->field_update_list($id,[
+            "name"  => $name,
+            "post"  => $post,
+            "dept"  => $dept,
+            "interviewer_id" => $interviewer_id,
+            "interview_time" => $interview_time,
+            "hr_adminid"     => $hr_adminid,
+            "create_time"    => time(),
+            "is_send_flag"   => 0,
+            "send_msg_time"  => 0
+        ]);
+
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('编辑任务失败,请联系开发人员!');
+        }
+    }
+
+
     public function interview_del(){
         $id = $this->get_in_int_val('id');
 

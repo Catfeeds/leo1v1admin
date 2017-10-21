@@ -157,17 +157,19 @@ class order_price_20171001 extends order_price_base
             $first_lesson_info=$task->t_lesson_info_b3->get_grade_first_test_lesson( $userid, $grade );
             $lesson_start = $first_lesson_info["lesson_start"];
 
+            $lesson_start_desc=" 试听课时间:".\App\Helper\Utils::unixtime2date($lesson_start );
+
             $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
             if ( $lesson_times>=30 && $lesson_start &&  time(NULL)<$check_time  ) {
                 $free_money=300;
                 $price-=$free_money;
 
                 //2017-0801 当配活动(常规)
-                $activity_desc="试听后一天内下单 立减 300元";
+                $activity_desc="试听后一天内下单 立减 300元 ,$lesson_start_desc";
                 $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
             }else{
 
-                $activity_desc="";
+                $activity_desc="$lesson_start_desc";
                 $desc_list[]=static::gen_activity_item($order_activity_type,0, $activity_desc ,  $price,  $present_lesson_count );
             }
         }else{

@@ -1364,7 +1364,7 @@ class common extends Controller
 
         if($code==$check_code){
             $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
-            if($teacher_info['subject']==11){ // 临时测试!
+            if($teacher_info['subject']==E\Esubject::V_11){ // 教育学老师无法绑定老师帮
                 return $this->output_err("此账号无法绑定！");
             }
             if(!isset($teacher_info['teacherid'])  ){

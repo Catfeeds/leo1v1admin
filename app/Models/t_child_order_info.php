@@ -196,9 +196,11 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
             "c.price>0",
             "c.pay_status=1",
             "o.pay_time>0",
+            "o.lesson_left >0",
             "c.channel='baidu'"
         ];
-        $sql = $this->gen_sql_new("select o.pay_time,o.price,c.price period_price,c.child_orderid"
+        $sql = $this->gen_sql_new("select o.pay_time,o.price,c.price period_price,c.child_orderid,"
+                                  ."o.discount_price,o.default_lesson_count,o.lesson_total,o.order_time   "
                                   ." from %s c left join %s o on c.parent_orderid = o.orderid "
                                   ." where %s",
                                   self::DB_TABLE_NAME,

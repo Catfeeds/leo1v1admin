@@ -1418,6 +1418,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $this->output_succ();
     }
 
+
     public function get_check_lesson_end_list()
     {
         $client_ip = $this->get_in_client_ip();
@@ -1449,6 +1450,25 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         }
 
         return $this->output_succ(["list"=> $ret_list]);
+    }
+    public function xmpp_server_get_end_time_by_roomid() {
+        $room_name = $this->get_in_str_val("room_name");
+        if (preg_match("/[lp]_([0-9]+)y([0-9]+)y[0-9]+/",$room_name, $matches)) {
+            $courseid=$matches[1];
+            $lesson_num=$matches[2];
+            $ret=$this->t_lesson_info_b3->get_lesson_info_for_check_lesson_end($courseid, $lesson_num);
+            if ($ret) {
+                $lesson_end=$ret["lesson_end"];
+                $now=time(NULL);
+                $room_del_flag =   ($now-$lesson_end >3600);
+                return $this->output_succ([
+                    "lesson_end" => $lesson_end,
+                    "room_del_flag" =>$room_del_flag 
+                ]);
+            }
+        }
+        return $this->output_err("no find $room_name");
+
     }
 
 }
