@@ -334,7 +334,7 @@ class test_boby extends Controller
         // $end_time = strtotime('2017-10-01');
 
         // $lessonid_list = ['374979','374980','374096','374097','374098',374080,374081,374082,374083,374084,374085,374086];
-        $lessid_list = [318460,318461,371543,371544,371545];
+        $lessonid_list = [318460,318461,371543,371544,371545];
         foreach($lessonid_list as $lessonid){
             $courseid = $this->t_lesson_info->get_courseid($lessonid);
 
@@ -772,5 +772,24 @@ class test_boby extends Controller
         ]);
     }
 
+
+    public function get_data() {
+        // $sql = 'select   t.realname,t.teacherid,sum( if (lesson_type= 2,lesson_count,0) ) as test ,sum( if (lesson_type in (0,1,3),lesson_count,0) ) as normal  from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
+        $sql = 'select   t.realname,t.teacherid,lesson_type,lesson_count from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
+
+
+        $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
+        $new = [];
+        foreach($ret_info as $item) {
+            $tid = $item['teacherid'];
+            $new[$tid]['name'] = $item['realname'];
+            if ($item['lesson_type'] == 2) {
+                $new[$tid][ 2 ]['lesson_count'] = @$new[$tid][ 2 ]['lesson_count']+$item['lesson_count'];
+            } else {
+                $new[$tid][ 1 ]['lesson_count'] = @$new[$tid][ 1 ]['lesson_count']+$item['lesson_count'];
+            }
+        }
+        dd($new);
+    }
 
 }
