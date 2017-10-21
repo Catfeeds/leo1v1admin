@@ -81,10 +81,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[]= $this->where_get_in_str_query("s.grade",$grade_list);
 
         $sql = $this->gen_sql_new(
-            "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
-            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
+            // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            // "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
+            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_call_time,"
             // ." sum(add_time+86400>first_revisit_time) after_24_first_revisit_time_count "
-            ." sum(add_time>=%u and add_time<%u) after_24_first_revisit_time_count,first_call_time "
+            ." sum(add_time>=%u and add_time<%u) after_24_first_revisit_time_count "
             ." from %s n "
             .  "left join %s s on s.userid=n.userid"
             // ." where first_revisit_time  >=%u and  first_revisit_time  <%u and %s  ".
