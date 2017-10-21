@@ -27,6 +27,17 @@ class menu{
                 ["power_id"=>21, "name"=>"教材版本匹配度","url"=>"/tongji/match_lesson_textbook"],
             ]],
 
+            ["power_id"=>80, "name"=>"运维管理",  "list"=> [
+                ["power_id"=>83, "name"=>"系统状态",   "url"=>"/main_page/admin"],
+                ["power_id"=>80, "name"=>"在线预计课数", "url"=>"/tongji/online_def_user_count_list"],
+                ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list"],
+                ["power_id"=>1, "name"=>"xmpp在线课数", "url"=>"/tongji/online_user_count_xmpp_list"],
+                ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
+                ["power_id"=>71, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
+
+                ["power_id"=>13, "name"=>"录音xmpp分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
+                ["power_id"=>72, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
+            ]],
 
             ["power_id"=>1, "name"=>"服务管理",  "list"=> [
                 ["power_id"=>22, "name"=>"课堂状态", "icon"=>"fa-dashboard", "url"=>"/supervisor/monitor"],
@@ -72,9 +83,6 @@ class menu{
                 ]],
                 ["power_id"=>12, "name"=>"统计", "list"=>[
 
-                    ["power_id"=>83, "name"=>"系统状态",   "url"=>"/main_page/admin"],
-                    ["power_id"=>80, "name"=>"在线预计课数", "url"=>"/tongji/online_def_user_count_list"],
-                    ["power_id"=>81, "name"=>"在线课数", "url"=>"/tongji/online_user_count_list"],
                     ["power_id"=>82, "name"=>"新增例子分时统计", "url"=>"/tongji_ss/new_user_count"],
                     ["power_id"=>1, "name"=>"例子统计", "url"=>"/tongji_ss/user_count"],
                     ["power_id"=>52, "name"=>"tmk统计-销售", "url"=>"/tongji_ss/origin_count_seller"],
@@ -105,7 +113,6 @@ class menu{
                     ["power_id"=>22,"name"=>"学生续费统计", "url"=>"/tongji_ss/stu_lesson_total_list"],
 
 
-
                 ]],
 
                 ["power_id"=>20, "name"=>"统计2", "list"=>[
@@ -125,7 +132,6 @@ class menu{
             ["power_id"=>2, "name"=>"课程管理", "list"=> [
                 ["power_id"=>1, "name"=>"课程管理",   "url"=>"/tea_manage/lesson_list"],
                 ["power_id"=>12, "name"=>"error 课程视频",   "url"=>"/user_manage_new/get_error_record_lesson_list"],
-                ["power_id"=>13, "name"=>"当前录音服务器分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
                 ["power_id"=>11, "name"=>"课程列表", "list"=> [
                     ["power_id"=>1, "name"=>"老师-课程列表",   "url"=>"/tea_manage/tea_lesson_list"],
                 ]],
@@ -405,9 +411,6 @@ class menu{
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
-                ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
-                ["power_id"=>81, "name"=>"xmpp记录管理",   "url"=>"/admin_manage/xmpp_server_list"],
-                ["power_id"=>82, "name"=>"ssh 登录记录",   "url"=>"/login_log/login_list"],
 
                 // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
