@@ -93,7 +93,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         return $this->main_get_value($sql);
     }
 
-    public function get_not_through_user($start_time,$end_time,$has_openid=-1){
+    public function get_not_through_user($start_time,$end_time,$has_openid=-1,$type=-1){
         $where_arr = [
             ["add_time>%u",$start_time,0],
             ["add_time<%u",$end_time,0],
@@ -107,7 +107,42 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
             $where_arr[]="wx_openid!=''";
         }
 
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.phone,t.wx_openid,max(tl.score) as score,t.create_time"
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.train_through_new_time,t.phone,t.wx_openid,max(tl.score) as score,t.create_time"
+                                  ." from %s tl"
+                                  ." left join %s t on tl.userid=t.teacherid"
+                                  ." where %s"
+                                  ." group by t.teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
+    public function get_is_through_user($start_time,$end_time,$has_openid=-1,$subject,$grade,$is_pass){
+        $where_arr = [
+            ["add_time>%u",$start_time,0],
+            ["add_time<%u",$end_time,0],
+            "t.train_through_new=0",
+            //"t.trial_lecture_is_pass=1",
+            "t.is_test_user=0"
+        ];
+        if($has_openid==0){
+            $where_arr[]="wx_openid=''";
+        }elseif($has_openid>0){
+            $where_arr[]="wx_openid!=''";
+        }
+        if ($is_pass != -1) {
+            $where_arr[]="t.trial_lecture_is_pass=".$is_pass;
+        }
+        if ($subject != -1) {
+            $where_arr[]="t.subject=".$subject;
+        }
+        if ($grade != -1) {
+            $where_arr[]="t.grade=".$grade;
+        }
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.train_through_new_time,t.phone,t.wx_openid,max(tl.score) as score,t.create_time"
                                   ." from %s tl"
                                   ." left join %s t on tl.userid=t.teacherid"
                                   ." where %s"

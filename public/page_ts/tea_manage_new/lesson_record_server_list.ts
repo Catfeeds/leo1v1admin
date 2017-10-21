@@ -11,6 +11,7 @@ $(function(){
 
 
 	$('#id_record_audio_server1').val(g_args.record_audio_server1);
+
 	$('#id_xmpp_server_name').val(g_args.xmpp_server_name);
 
 

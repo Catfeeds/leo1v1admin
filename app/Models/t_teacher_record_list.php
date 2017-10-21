@@ -386,7 +386,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.teacherid=%u",$teacherid,-1],
             ["t.is_test_user=%u",$is_test,-1],
             ["lesson_status=%u",$lesson_status,-1],
-            ["tr.trial_train_status=%u",$status,-1],
+            //["tr.trial_train_status=%u",$status,-1],
             "tr.type=1",
             "tr.lesson_style=5",
             "l.lesson_type=1100",
@@ -395,6 +395,12 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "l.lesson_del_flag=0",
             "l.confirm_flag <2"
         ];
+        // 处理旷课
+        if ($status == 999) {
+            array_push($where_arr, ["l.absenteeism_flag=%u", 1, -1]);
+        } else {
+            array_push($where_arr, ["tr.trial_train_status=%u", $status, -1]);
+        }
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){

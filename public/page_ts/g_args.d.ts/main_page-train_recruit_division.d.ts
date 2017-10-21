@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	history_data:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -30,7 +31,8 @@ function load_data(){
 		date_type:	$('#id_date_type').val(),
 		opt_date_type:	$('#id_opt_date_type').val(),
 		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val()
+		end_time:	$('#id_end_time').val(),
+		history_data:	$('#id_history_data').val()
     });
 }
 $(function(){
@@ -46,6 +48,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_history_data').val(g_args.history_data);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -55,4 +58,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">history_data</span>
+                <input class="opt-change form-control" id="id_history_data" />
+            </div>
+        </div>
 */

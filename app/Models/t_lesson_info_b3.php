@@ -6,6 +6,22 @@ use \App\Models as M;
 use \App\Enums as E;
 
 class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
+    public function lesson_record_server_list($page_num,$start_time, $end_time ,$record_audio_server1 ,$xmpp_server_name  ) {
+        $where_arr=[
+            //"lesson_status=1" ,
+
+            ["record_audio_server1='%s'", $record_audio_server1, "" ],
+            ["xmpp_server_name='%s'", $xmpp_server_name, "" ],
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select lessonid, record_audio_server1, xmpp_server_name, lesson_start, lesson_end, userid,teacherid"
+            ." from %s   where  lesson_del_flag=0 and  %s " ,
+            self::DB_TABLE_NAME,
+            $where_arr );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
     public function get_open_lesson_list(){
         $start = strtotime("2017-9-1");
         $end   = strtotime("2017-10-1");

@@ -13,9 +13,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	count	:any;
-	no_call_count	:any;
-	global_tq_called_flag	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
@@ -37,10 +34,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../seller_student_new2; vi  ../seller_student_new2/seller_student_new_distribution.ts
+	 mkdir -p ../seller_student_new2; vi  ../seller_student_new2/seller_diff_money.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/seller_student_new2-seller_student_new_distribution.d.ts" />
+/// <reference path="../g_args.d.ts/seller_student_new2-seller_diff_money.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}
