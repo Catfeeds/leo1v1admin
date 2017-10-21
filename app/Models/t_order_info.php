@@ -3010,7 +3010,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_add_int_or_idlist($where_arr,"contract_status",$contract_status);
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(
-            "select  promotion_spec_diff_money/100 diff_money "
+            "select  promotion_spec_diff_money/100 diff_money,m.uid adminid "
             . "from %s o"
             ." left join %s m on m.account=o.sys_operator "
             ." left join %s s on s.userid=o.userid "
