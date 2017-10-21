@@ -1,8 +1,29 @@
 @extends('layouts.app')
 @section('content')
 
+    <script type="text/javascript" src="/page_js/select_seller_month_thing.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <link rel='stylesheet' href='/css/fullcalendar.css' />
+    <script src='/js/moment.js'></script>
+    <script src='/js/fullcalendar.js'></script>
+    <script src='/js/lang-all.js'></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time.js"></script>
+    <script type="text/javascript" src="/page_js/select_teacher_free_time_new.js"></script>
+    <style>
+     #cal_week th  {
+         text-align:center;
+     }
+
+     #cal_week td  {
+         text-align:center;
+     }
+
+     #cal_week .select_free_time {
+         background-color : #17a6e8;
+     }
+    </style>
+
     <section class="content ">
-        
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
