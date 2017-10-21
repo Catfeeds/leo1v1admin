@@ -57,11 +57,14 @@ $(function(){
             ["月完成金额",g_data.formal_info],
             ["完成率",month_finish_persent],
             ["缺口金额",g_data.month_left_money],
+            ["收入",g_data.new_money],
 
             ["下单总人数",g_data.order_cc_num],
             ["入职完整月人员人数",g_data.formal_num],
             ["平均人效",aver_money],
             ["平均单笔",aver_count],
+            ["月KPI完成率",month_finish_persent],
+
 
             ["cc总人数",seller_num],
             ["咨询一部",g_data.one_department],
