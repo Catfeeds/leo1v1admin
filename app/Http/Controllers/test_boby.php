@@ -333,8 +333,8 @@ class test_boby extends Controller
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
 
-        $lessonid_list = ['374979','374980','374096','374097','374098',374080,374081,374082,374083,374084,374085,374086];
-
+        // $lessonid_list = ['374979','374980','374096','374097','374098',374080,374081,374082,374083,374084,374085,374086];
+        $lessid_list = [318460,318461,371543,371544,371545];
         foreach($lessonid_list as $lessonid){
             $courseid = $this->t_lesson_info->get_courseid($lessonid);
 
