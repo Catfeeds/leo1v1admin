@@ -55,26 +55,27 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-user_count.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		order_by_str:	$('#id_order_by_str').val(),
+		seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+		check_add_time_count:	$('#id_check_add_time_count').val(),
+		check_call_old_count:	$('#id_check_call_old_count').val(),
+		grade:	$('#id_grade').val(),
+		stu_test_paper_flag:	$('#id_stu_test_paper_flag').val(),
+		check_first_revisit_time_count:	$('#id_check_first_revisit_time_count').val(),
+		check_test_lesson_count:	$('#id_check_test_lesson_count').val(),
+		check_order_count:	$('#id_check_order_count').val(),
+		admin_revisiterid:	$('#id_admin_revisiterid').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			order_by_str:	$('#id_order_by_str').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			check_add_time_count:	$('#id_check_add_time_count').val(),
-			check_call_old_count:	$('#id_check_call_old_count').val(),
-			grade:	$('#id_grade').val(),
-			stu_test_paper_flag:	$('#id_stu_test_paper_flag').val(),
-			check_first_revisit_time_count:	$('#id_check_first_revisit_time_count').val(),
-			check_test_lesson_count:	$('#id_check_test_lesson_count').val(),
-			check_order_count:	$('#id_check_order_count').val(),
-			admin_revisiterid:	$('#id_admin_revisiterid').val(),
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
-        });
-    }
 
 	Enum_map.append_option_list("boolean",$("#id_stu_test_paper_flag"));
 
