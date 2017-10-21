@@ -137,7 +137,7 @@ class user_deal extends Controller
     public function lesson_add_lesson() {
         $courseid = $this->get_in_courseid();
         $acc = $this->get_account();
-        if(in_array($acc,["jim","jack"])){
+        if(!in_array($acc,["jim"])){
             $ret = $this->add_regular_lesson($courseid,0,0);
             if(is_numeric($ret) ){
                 return $this->output_succ(["lessonid" => $ret ]);
@@ -2663,7 +2663,7 @@ class user_deal extends Controller
                             $teacher_info=$this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
                             $default_lesson_count=0;
                             $acc= $this->get_account();
-                            if(in_array($acc,["jim","jack"])){
+                            if(!in_array($acc,["jim"])){
                                 $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
                                 if(is_numeric($ret) ){
                                     // return $this->output_succ(["lessonid" => $ret ]);
@@ -2722,7 +2722,9 @@ class user_deal extends Controller
                             $ret = $this->t_lesson_info->check_lesson_count_for_change($lessonid,$lesson_count);
                             if ($ret) {
                                 $this->t_lesson_info->field_update_list($lessonid,[
-                                    "lesson_count" => $lesson_count
+                                    "lesson_count" => $lesson_count,
+                                    "operate_time" => time(),
+                                    "sys_operator" => $this->get_account()
                                 ]);
                                 $this->t_lesson_info ->set_lesson_time($lessonid,$lesson_start,$lesson_end);
                             }else{
@@ -2815,7 +2817,7 @@ class user_deal extends Controller
                             $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
 
                             $acc= $this->get_account();
-                            if(in_array($acc,["jim","jack"])){
+                            if(!in_array($acc,["jim"])){
                                 $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
                                 if(is_numeric($ret) ){
                                     // return $this->output_succ(["lessonid" => $ret ]);
@@ -2888,7 +2890,9 @@ class user_deal extends Controller
 
                             if ($ret) {
                                 $this->t_lesson_info->field_update_list($lessonid,[
-                                    "lesson_count" => $lesson_count
+                                    "lesson_count" => $lesson_count,
+                                    "operate_time" => time(),
+                                    "sys_operator" => $this->get_account()
                                 ]);
                                 $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
                             }else{
@@ -2988,8 +2992,9 @@ class user_deal extends Controller
                             $lesson_start = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$start);
                             $lesson_end = strtotime(date('Y-m-d',(strtotime($start_time)+($week-1)*86400))." ".$end);
 
+                            //使用新方法排课
                             $acc= $this->get_account();
-                            if(in_array($acc,["jim","jack"])){
+                            if(!in_array($acc,["jim"])){
                                 $ret = $this->add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count);
                                 if(is_numeric($ret) ){
                                     // return $this->output_succ(["lessonid" => $ret ]);
@@ -3062,7 +3067,9 @@ class user_deal extends Controller
 
                             if ($ret) {
                                 $this->t_lesson_info->field_update_list($lessonid,[
-                                    "lesson_count" => $lesson_count
+                                    "lesson_count" => $lesson_count,
+                                    "operate_time" => time(),
+                                    "sys_operator" => $this->get_account()
                                 ]);
                                 $this->t_lesson_info->set_lesson_time($lessonid,$lesson_start,$lesson_end);
                             }else{
@@ -3113,15 +3120,30 @@ class user_deal extends Controller
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
        
-        $userid = 367085;
         $userid = $this->get_in_userid(367085);
 
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
         if($period_info){
             $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
-            dd($data);
+            $pay_price=0;
+            if($data && $data["status"]==0){
+                $data = $data["data"];
+                foreach($data as $val){
+                    if($val["bStatus"]==48){
+                        $pay_price +=$val["paidMoney"];
+                    }
+                }
+            }
+            $pay_price +=$period_info["price"]-$period_info["period_price"];
+            $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+            $lesson_count = floor($pay_price/$per_price/100+3);
+            $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
+            if(empty($order_lesson_left_pre)){
+                
+            }
+            
+            dd($order_lesson_left_pre);
         }
-        dd($period_info);
 
 
     }

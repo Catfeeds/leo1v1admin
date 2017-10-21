@@ -343,7 +343,6 @@ class TeacherTask extends TaskController
                 $end_time    = $start_time+86400;
                 $lesson_end  = $val['lesson_end'];
                 $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
-                // $time_period = 45*60;
                 $time_period = 120*60;
                 $val['shut_time'] = $lesson_end+$time_period;
                 if(is_array($ret_list)){

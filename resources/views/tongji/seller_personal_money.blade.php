@@ -21,8 +21,10 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>序号 </td>
-                    <td>销售 </td>
+                    <td>类型 </td>
+                    <td>主管 </td>
+                    <td>小组 </td>
+                    <td>成员 </td>
                     @foreach ( $date_list as $var )
                         <td>{{@$var["month"]}}月 </td>
                     @endforeach
@@ -32,8 +34,10 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["id"]}} </td>
-                        <td>{{@$var["account"]}} </td>
+                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
+                        <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
                         <td>{{@$var["money1"]}} </td>
                         <td>{{@$var["money2"]}} </td>
                         <td>{{@$var["money3"]}} </td>

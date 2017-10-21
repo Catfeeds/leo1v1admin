@@ -48,6 +48,17 @@ $(function(){
             }
         });
 
+        $interview_time.datetimepicker( {
+            lang:'ch',
+            timepicker:true,
+            format: "Y-m-d H:i",
+            onChangeDateTime :function(){
+            }
+        });
+
+
+
+
         var arr=[
             ["姓名", $name] ,
             ["面试时间", $interview_time] ,
@@ -88,55 +99,62 @@ $(function(){
         } );
     });
 
-    $(".opt-set-trial-info").on("click",function(){
+
+
+    $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        var phone = opt_data.phone;
-        var id_trial_dept = $("<input />");
-        var id_trial_post = $("<input />");
-        var id_trial_start_time = $("<input />");
-        var id_trial_end_time = $("<input />");
-        id_trial_end_time.datetimepicker({
+
+        var $name         = $("<input/>");
+        var $interviewer  = $("<input/>");
+        var $post         = $("<input/>");
+        var $dept         = $("<input/>");
+        var $interview_time = $("<input/>");
+
+
+        $name.val( opt_data.name);
+        $post.val( opt_data.post);
+        $dept.val( opt_data.dept);
+        $interview_time.val(opt_data.interview_time);
+        // $interviewer.nextSbiling.val(opt_data.interviewer_name);
+
+        // console.log(opt_data.interviewer_name);
+        console.log($interviewer.closest('td'));
+        // $interviewer.nextSbiling().val( opt_data.interviewer_name);
+
+
+        $interview_time.datetimepicker( {
             lang:'ch',
-            timepicker:false,
-            format:'Y-m-d',
-            "onChangeDateTime" : function() {
+            timepicker:true,
+            format: "Y-m-d H:i",
+            onChangeDateTime :function(){
             }
-
-        });
-        id_trial_start_time.datetimepicker({
-            lang:'ch',
-            timepicker:false,
-            format:'Y-m-d',
-            "onChangeDateTime" : function() {
-            }
-
         });
 
-
-        id_trial_end_time.val( opt_data.trial_end_time_str);
-        id_trial_start_time.val( opt_data.trial_start_time_str);
-        id_trial_dept.val( opt_data.trial_dept);
-        id_trial_post.val( opt_data.trial_post);
-
-        var arr = [
-            [ "试用部门",  id_trial_dept] ,
-            [ "试用岗位",  id_trial_post] ,
-            [ "试用期开始时间",  id_trial_start_time] ,
-            [ "试用期结束时间",  id_trial_end_time] ,
+        var arr=[
+            ["姓名", $name] ,
+            ["面试时间", $interview_time] ,
+            ["面试官",   $interviewer],
+            ["岗位", $post],
+            ["部门", $dept],
         ];
 
-        $.show_key_value_table("修改", arr ,{
+
+        $.show_key_value_table("编辑", arr ,[{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax("/admin_join/update_trial_info", {
-                    "phone":phone,
-                    "trial_dept":id_trial_dept.val(),
-                    "trial_post":id_trial_post.val(),
-                    "trial_start_time":id_trial_start_time.val(),
-                    "trial_end_time":id_trial_end_time.val()
+
+                $.do_ajax ('/ss_deal/edit_interview_remind', {
+                    'name': $name.val(),
+                    'id'  : opt_data.id,
+                    'interview_time': $interview_time.val(),
+                    'interviewer': $interviewer.val(),
+                    'post': $post.val(),
+                    'dept': $dept.val(),
                 });
             }
+        }],function(){
+            $.admin_select_user( $interviewer, "admin");
         });
     });
 

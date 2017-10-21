@@ -3767,4 +3767,15 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_order_lesson_left_pre($userid,$order_time){
+        $where_arr=[
+            ["userid= %u",$userid,-1],
+            "contract_status in (1,2)",
+            "contract_type in (0,1,3)",
+            "order_time<$order_time"
+        ];
+        $sql = $this->gen_sql_new("select sum(lesson_left) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }
