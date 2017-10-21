@@ -465,20 +465,10 @@ class agent extends Controller
     }
 
     public function test_new(){
-        phpinfo();
-        // $res = [];
-        // list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-        // $start_first = date('Y-m-01',$start_time);
-        // $this->t_admin_group_user->switch_tongji_database();
-        // $group_money_info = $this->t_admin_group_user->get_seller_month_money_info($start_first);
-        // $num_info = $this->t_admin_group_user->get_group_num($start_time);
-        // foreach($group_money_info as &$item){
-        //     $groupid = $item['groupid'];
-        //     if($groupid >0 && isset($num_info[$groupid])){
-        //         $res[$item['adminid']]['target_money'] =  $item['month_money']/$num_info[$groupid]['num'];
-        //     }
-        // }
-        // dd($res);
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $role_2_diff_money_def= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY ,strtotime( date("Y-m-01", $start_time) ));
+        $role_2_diff_money= $this->t_order_info-> get_spec_diff_money_all( $start_time,$end_time,E\Eaccount_role::V_2 );
+        dd($role_2_diff_money_def,$role_2_diff_money);
     }
 
     //处理等级头像
