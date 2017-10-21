@@ -3117,6 +3117,9 @@ class user_deal extends Controller
         $userid = $this->get_in_userid(367085);
 
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
+        if($period_info){
+            
+        }
         dd($period_info);
 
 
