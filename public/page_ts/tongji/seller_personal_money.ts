@@ -2,6 +2,7 @@
 /// <reference path="../g_args.d.ts/tongji-seller_personal_money.d.ts" />
 
 $(function(){
+    $(".common-table").tbody_scroll_table();
     var show_name_key="";
     show_name_key="account_name_"+g_adminid;
 
