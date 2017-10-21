@@ -75,8 +75,8 @@
                         {!!\App\Helper\Utils::th_order_gen([
                             ["日期 ","title" ],
                             ["新进例子数","add_time_count" ],
-                            ["消耗例子数","first_revisit_time_count" ],
-                            ["例子进入一天内消耗数","after_24_first_revisit_time_count" ],
+                            ["例子首次拨打数","first_revisit_time_count" ],
+                            ["进入当天被拨打数","after_24_first_revisit_time_count" ],
                             ["例子进入一天内消耗-拨打间隔(分钟)","avg_first_time" ],
                             ["回访旧例子数","call_old_count" ],
                             ["正式试听数(全部)","test_lesson_count" ],

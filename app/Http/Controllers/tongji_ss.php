@@ -8251,8 +8251,6 @@ class tongji_ss extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
-       
-        
     }
 
 }

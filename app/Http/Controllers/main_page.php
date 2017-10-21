@@ -91,7 +91,7 @@ class main_page extends Controller
                 }
 
                 if($ret_info['formal_num']>0){ //平均人效
-                    $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
+                    $ret_info['aver_money'] = $ret_info['all_order_price']/$ret_info['formal_num'];
                 }else{
                     $ret_info['aver_money'] = 0;
                 }
@@ -100,11 +100,11 @@ class main_page extends Controller
 
                 // 金额转化率占比
 
-                if($ret_info['all_order_price']>0){
-                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['all_order_price']*100;
-                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['all_order_price']*100;
-                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['all_order_price']*100;
-                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['all_order_price']*100;
+                if($ret_info['new_money']>0){
+                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['new_money']*100;
+                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['new_money']*100;
+                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['new_money']*100;
+                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['new_money']*100;
                 }else{
                     $ret_info['referral_money_rate']    = 0;
                     $ret_info['high_school_money_rate'] = 0;
@@ -151,8 +151,8 @@ class main_page extends Controller
                 }
 
                 if($ret_info['has_called']>0){
-                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called_stu']*100; //接通率
+                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called_stu']*100; //认领率
                 }else{
                     $ret_info['claim_num_rate'] = 0;
                     $ret_info['succ_called_rate'] = 0;
@@ -198,7 +198,7 @@ class main_page extends Controller
                 }
 
                 if($ret_info['formal_num']>0){ //平均人效
-                    $ret_info['aver_money'] = $ret_info['formal_info']/$ret_info['formal_num'];
+                    $ret_info['aver_money'] = $ret_info['all_order_price']/$ret_info['formal_num'];
                 }else{
                     $ret_info['aver_money'] = 0;
                 }
@@ -207,11 +207,11 @@ class main_page extends Controller
 
                 // 金额转化率占比
 
-                if($ret_info['formal_info']>0){
-                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['all_order_price']*100;
-                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['all_order_price']*100;
-                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['all_order_price']*100;
-                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['all_order_price']*100;
+                if($ret_info['new_money']>0){
+                    $ret_info['referral_money_rate'] = $ret_info['referral_money']/$ret_info['new_money']*100;
+                    $ret_info['high_school_money_rate']   =  $ret_info['high_school_money']/$ret_info['new_money']*100;
+                    $ret_info['junior_money_rate']  = $ret_info['junior_money']/$ret_info['new_money']*100;
+                    $ret_info['primary_money_rate'] = $ret_info['primary_money']/$ret_info['new_money']*100;
                 }else{
                     $ret_info['referral_money_rate']    = 0;
                     $ret_info['high_school_money_rate'] = 0;
@@ -254,8 +254,8 @@ class main_page extends Controller
                 }
 
                 if($ret_info['has_called']>0){
-                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called_stu']*100; //接通率
+                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called_stu']*100; //认领率
                 }else{
                     $ret_info['claim_num_rate'] = 0;
                     $ret_info['succ_called_rate'] = 0;
