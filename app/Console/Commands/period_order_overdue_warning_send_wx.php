@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class get_period_repay_info extends Command
+class period_order_overdue_warning_send_wx extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:get_period_repay_info';
+    protected $signature = 'command:period_order_overdue_warning_send_wx';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '百度分期合同还款信息更新';
+    protected $description = '每月16日逾期预警学生微信推送';
 
     /**
      * Create a new command instance.
@@ -51,7 +51,8 @@ class get_period_repay_info extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_repay_order_info($due_date);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,1);
+        dd($list);
         if(count($list)>0){
             foreach($list as $val){
                 $orderid = $val["orderid"];

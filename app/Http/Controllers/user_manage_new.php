@@ -3242,8 +3242,11 @@ class user_manage_new extends Controller
         $apply_time = $this->get_in_int_val("apply_time");
 
         $refund_info = $this->t_order_refund->field_get_list_2($orderid,$apply_time,"*");
-        $order_info  = $this->t_order_info->get_order_info_by_orderid($orderid);
+        if($refund_info['refund_status']==1){
+            return $this->output_err("此退费已打款，无法取消!");
+        }
 
+        $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_info['lesson_left'] += $refund_info['should_refund'];
         $this->t_order_info->start_transaction();
         $ret = $this->t_order_info->field_update_list($orderid,[

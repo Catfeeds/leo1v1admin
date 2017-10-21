@@ -65,7 +65,7 @@ class save_seller_info_by_week extends Command
 
 
 
-                $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
+        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
 
         $referral_order = $task->t_order_info->get_referral_income($start_time, $end_time); //  转介绍
 
@@ -88,8 +88,9 @@ class save_seller_info_by_week extends Command
         // // dd(2);
 
         // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
-        $month_end_time   = strtotime(date("Y-m-01",  $end_time));
-        $month_start_time = strtotime(date("Y-m-01",  ($month_end_time-86400*20)));
+        $month_start_time = strtotime(date("Y-m-01"));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month')));
+
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
         $ret_info['formal_info']=0;  // 完成金额
         $today=time(NULL);
@@ -166,14 +167,6 @@ class save_seller_info_by_week extends Command
 
 
     }
-
-
-
-
-
-
-
-
 
 
     public function get_month_finish_define_money($seller_groupid_ex,$start_time){

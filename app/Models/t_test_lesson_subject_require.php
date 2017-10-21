@@ -3213,8 +3213,8 @@ ORDER BY require_time ASC";
 
     public function get_invit_num_for_month($start_time, $end_time){ //获取邀约数
         $where_arr = [
-            // "s.is_test_user=0",
-            // "ts.require_admin_type=2",
+            "s.is_test_user=0",
+            "ts.require_admin_type=2",
             "tq.is_called_phone=1",
             "tq.admin_role=2"
         ];
@@ -3222,8 +3222,8 @@ ORDER BY require_time ASC";
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
-                                  // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
-                                  // ." left join %s s on ts.userid=s.userid"
+                                  ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "
+                                  ." left join %s s on ts.userid=s.userid"
                                   ." left join %s ss on ss.userid=ts.userid"
                                   ." left join %s tq on ss.phone=tq.phone"
                                   ." where %s"
