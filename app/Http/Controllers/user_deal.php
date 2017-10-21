@@ -3114,6 +3114,7 @@ class user_deal extends Controller
         $end_time = strtotime("2017-10-01");
        
         $userid = 367085;
+        $userid = $this->get_in_userid(367085);
 
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
         dd($period_info);
