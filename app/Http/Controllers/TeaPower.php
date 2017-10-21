@@ -3368,6 +3368,8 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         return $list;
     }
 
+    
+
     /**
      * 检测非测试老师是否成为正式老师
      */
@@ -3385,11 +3387,53 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     }
 
 
+    //百度分期用户首月排课限制
+    public function check_is_period_first_month($userid,$lesson_count){
+        $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
+        if($period_info){
+            $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
+            $pay_price=0;
+            if($data && $data["status"]==0){
+                $data = $data["data"];
+                foreach($data as $val){
+                    if($val["bStatus"]==48){
+                        $pay_price +=$val["paidMoney"];
+                    }
+                }
+            }
+            $pay_price +=$period_info["price"]-$period_info["period_price"];
+            $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
+            $lesson_count_plan = floor($pay_price/$per_price/100+3*3);
+            $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
+            $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
+                       
+
+            if(empty($order_lesson_left_pre) && $flag){
+                $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
+                $day_end = $period_info["pay_time"]+30*86400;
+                $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
+                $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+                $all_plan = ($lesson_use+$order_use)/100;
+                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
+                if($plan_flag){
+                    return $this->output_err("分期用户,已超限,该时间段不能排课!");
+                }
+
+            }
+                        
+        }
+    }
+
+    
     /**
      * 常规课排课接口
      */
     public function add_regular_lesson($courseid,$lesson_start,$lesson_end,$lesson_count=0,$old_lessonid=0,$reset_lesson_count=1){
         $item = $this->t_course_order->field_get_list($courseid,"*");
+
+        
+
+        
         if (!$item["teacherid"]) {
            return $this->output_err("还没设置老师");
         }

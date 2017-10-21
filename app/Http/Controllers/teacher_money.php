@@ -584,24 +584,27 @@ class teacher_money extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $idcard        = $this->get_in_str_val("idcard");
 
-        if($teacherid==0){
-            $error_info="老师未登录!";
-        }elseif($bank_account==""){
-            $error_info="请填写持卡人!";
-        }elseif($idcard==""){
-            $error_info="请填写身份证号!";
-        }elseif($bank_type==""){
-            $error_info="请选择银行卡类型!";
-        }elseif($bank_address==""){
-            $error_info="请填写银行支行名称!";
-        }elseif($bank_province==""){
-            $error_info="请填写开户省!";
-        }elseif($bank_city==""){
-            $error_info="请填写开户市!";
-        }elseif($bankcard==""){
-            $error_info="请填写银行卡号!";
-        }elseif($bank_phone==""){
-            $error_info="请填写银行预留手机号!";
+        $is_test_user = $this->t_teacher_info->get_is_test_user($teacherid);
+        if(!$is_test_user){
+            if($teacherid==0){
+                $error_info="老师未登录!";
+            }elseif($bank_account==""){
+                $error_info="请填写持卡人!";
+            }elseif($idcard==""){
+                $error_info="请填写身份证号!";
+            }elseif($bank_type==""){
+                $error_info="请选择银行卡类型!";
+            }elseif($bank_address==""){
+                $error_info="请填写银行支行名称!";
+            }elseif($bank_province==""){
+                $error_info="请填写开户省!";
+            }elseif($bank_city==""){
+                $error_info="请填写开户市!";
+            }elseif($bankcard==""){
+                $error_info="请填写银行卡号!";
+            }elseif($bank_phone==""){
+                $error_info="请填写银行预留手机号!";
+            }
         }
         if(isset($error_info) && $error_info!=""){
             return $this->output_err($error_info);
