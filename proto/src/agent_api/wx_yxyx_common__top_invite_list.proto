@@ -2,7 +2,7 @@ syntax = "proto3";
 import "agent_api/common.proto";
 
 //__CMD: 1102
-//__DESC: 微信[优学优享]-最近邀请人列表 http://wx-yxyx.leo1v1.com/wx_yxyx_common/agent_add
+//__DESC: 微信[优学优享]-最近邀请人列表 http://wx-yxyx.leo1v1.com/wx_yxyx_common/top_invite_list 
 //__TAGS: for_wx_yxyx 
 
 message in  {
