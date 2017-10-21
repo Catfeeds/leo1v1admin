@@ -1265,7 +1265,7 @@ class user_manage extends Controller
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
         $refund_info = [];
         foreach($ret_info['list'] as &$item){
-            // $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
+            $item["is_staged_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["is_staged_flag"]);
 
 
             $item['user_nick']         = $this->cache_get_student_nick($item['userid']);
