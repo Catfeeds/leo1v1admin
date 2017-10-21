@@ -45,7 +45,8 @@ class Handler extends ExceptionHandler
         $cmd_info= @join(" ", @$global["argv"]);
 
         $account=@$_SESSION["acc"];
-        $url=@$_SERVER["REQUEST_URI"];
+
+        $url=preg_split("/\\?/", @$_SERVER["REQUEST_URI"])[0];
 
         $bt_str= "user:$account<br/>.url:$url<br/> server_info $server_info  $cmd_info<br/> ";
 

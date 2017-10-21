@@ -81,10 +81,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[]= $this->where_get_in_str_query("s.grade",$grade_list);
 
         $sql = $this->gen_sql_new(
-            "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
-            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
+            // "select from_unixtime(first_revisit_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            "select from_unixtime(first_call_time, '%%Y-%%m-%%d') as opt_date, count(*)  first_revisit_time_count ,".
+            // "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_revisit_time,"
+            "  avg(if(add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, first_call_time,"
             // ." sum(add_time+86400>first_revisit_time) after_24_first_revisit_time_count "
-            ." sum(add_time>=%u and add_time<%u) after_24_first_revisit_time_count,first_call_time "
+            ." sum(add_time>=%u and add_time<%u) after_24_first_revisit_time_count "
             ." from %s n "
             .  "left join %s s on s.userid=n.userid"
             // ." where first_revisit_time  >=%u and  first_revisit_time  <%u and %s  ".
@@ -2299,12 +2301,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tq.start_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("  select count(tq.id) from %s tq "
+        $sql = $this->gen_sql_new("  select count(distinct(s.userid)) from %s tq "
                                   ." left join %s ss on tq.phone=ss.phone"
                                   ." left join %s s on s.userid=ss.userid"
                                   ." where %s"
@@ -2322,7 +2325,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $where_arr = [
             "s.is_test_user = 0",
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
         ];
 
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
@@ -2344,7 +2348,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_tq_succ_num_for_sign($start_time, $end_time){
 
         $where_arr = [
-            "tq.is_called_phone=1"
+            "tq.is_called_phone=1",
+            "tq.admin_role=2"
+
         ];
 
         $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);

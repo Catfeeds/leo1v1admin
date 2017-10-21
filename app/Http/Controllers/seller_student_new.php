@@ -1585,7 +1585,7 @@ class seller_student_new extends Controller
         }
         //近1小时内有拨通过
         if($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子")){
-            $account=$this->t_manager_info->get_account( $competition_call_adminid );
+            $account = $this->t_manager_info->get_account( $competition_call_adminid );
             $this->t_seller_student_new->set_admin_info(0, [$userid], $competition_call_adminid,0);
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,

@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         Commands\get_ass_stu_by_month::class,
         Commands\reset_parent_call_status::class,
         Commands\get_period_repay_info::class,
+        Commands\period_order_overdue_warning_send_wx::class,
         Commands\send_wx_msg_for_test_lesson::class,
         Commands\check_system::class,
         Commands\CheckLessonTeacherMoneyType::class,

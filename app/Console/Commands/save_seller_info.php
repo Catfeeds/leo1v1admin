@@ -123,6 +123,7 @@ class save_seller_info extends Command
         $ret_info['test_succ_num'] = $task->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
+        // $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
         $ret_info['has_tq_succ'] = $task->t_seller_student_new->get_tq_succ_num($start_time, $end_time); // 拨通电话数量
 
         //  外呼情况

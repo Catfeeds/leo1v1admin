@@ -3119,6 +3119,7 @@ class user_deal extends Controller
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
        
+        $lesson_count=3;
         $userid = $this->get_in_userid(367085);
 
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
@@ -3135,16 +3136,24 @@ class user_deal extends Controller
             }
             $pay_price +=$period_info["price"]-$period_info["period_price"];
             $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
-            $lesson_count = floor($pay_price/$per_price/100+3);
+            $lesson_count_plan = floor($pay_price/$per_price/100+3*3);
             $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
             $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
+                       
+
             if(empty($order_lesson_left_pre) && $flag){
                 $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
                 $day_end = $period_info["pay_time"]+30*86400;
                 $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
+                $order_use =  $period_info["default_lesson_count"]*$period_info["lesson_total"]-$period_info["lesson_left"];
+                $all_plan = ($lesson_use+$order_use)/100;
+                $plan_flag = (($all_plan+$lesson_count)>$lesson_count_plan)?1:0;
+                if($plan_flag){
+                    return $this->output_err("分期用户,已超限,该时间段不能排课!");
+                }
+
             }
-            
-            dd($order_lesson_left_pre);
+                        
         }
 
 

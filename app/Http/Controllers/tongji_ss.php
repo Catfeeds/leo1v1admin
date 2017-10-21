@@ -27,10 +27,15 @@ class tongji_ss extends Controller
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
+
     public function user_count() {
-        $sum_field_list=["add_time_count", "call_count", "call_old_count", "first_revisit_time_count",
+        $sum_field_list=[
+            "add_time_count",
+            "call_count",
+            "call_old_count",
+            "first_revisit_time_count",
             "after_24_first_revisit_time_count",
-            //"avg_first_time",
+            "avg_first_time",
             "test_lesson_count",
             "test_lesson_count_succ",
             "seller_require_test_lesson_count",
@@ -89,7 +94,6 @@ class tongji_ss extends Controller
             $date_item["after_24_first_revisit_time_count"]=$item["after_24_first_revisit_time_count"];
             $date_item["avg_first_time"]=$item["avg_first_time"];
         }
-
         //seller_require_test_lesson_count
         $list = $this->t_test_lesson_subject_require->tongji_require_test_lesson($start_time,$end_time,$adminid_list,$adminid_all, $grade_list );
         foreach ($list as $item) {
@@ -185,8 +189,7 @@ class tongji_ss extends Controller
             \App\Helper\Utils::order_list( $date_list, $order_field_name, $order_type );
         }
         $all_item = ["title" => "全部"];
-        \App\Helper\Utils::list_add_sum_item( $date_list,$all_item,$sum_field_list );
-
+        \App\Helper\Utils::list_add_sum_item($date_list,$all_item,$sum_field_list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list),[
             "data_ex_list"  => $date_list,
             "adminid_right" => $adminid_right

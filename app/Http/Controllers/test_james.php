@@ -739,13 +739,19 @@ class test_james extends Controller
 
     public function ssss(){
 
-
+        $this->switch_tongji_database();
         // $parent_list = $this->t_parent_info->get_openid_list();
 
         // dd(count($parent_list));
 
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
+
+        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
+
+       echo date('Y-m-01', strtotime('+1 month'));
+
+        dd($six_month_old);
         // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
         // dd($r);
@@ -778,6 +784,7 @@ class test_james extends Controller
         $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
+        $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
 
         // dd($ass_openid." ~ ".$send_openid." ~ ".$check);
 
