@@ -740,55 +740,55 @@ class test_james extends Controller
     public function ssss(){
 
 
-        $parent_list = $this->t_parent_info->get_openid_list();
+        // $parent_list = $this->t_parent_info->get_openid_list();
 
-        dd(count($parent_list));
+        // dd(count($parent_list));
 
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
-        $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
+        // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
-        dd($r);
-        $arr = [];
-        foreach($r as $v){
-            $arr[] = $v['account'];
-        }
-        dd($arr);
+        // dd($r);
+        // $arr = [];
+        // foreach($r as $v){
+        //     $arr[] = $v['account'];
+        // }
+        // dd($arr);
 
-        $this->switch_tongji_database();
-        $r = $this->t_parent_info->get_openid_list();
-        dd($r);
+        // $this->switch_tongji_database();
+        // $r = $this->t_parent_info->get_openid_list();
+        // dd($r);
 
-        $userid= $this->get_in_str_val('u');
+        // $userid= $this->get_in_str_val('u');
 
-        $userid  = $userid*10;
-        dd($userid);
+        // $userid  = $userid*10;
+        // dd($userid);
 
-        $ass_openid = $this->t_student_info->get_ass_openid($userid);
+        // $ass_openid = $this->t_student_info->get_ass_openid($userid);
 
-        $check = 1;
-        $send_openid = 'cccc';
+        // $check = 1;
+        // $send_openid = 'cccc';
 
-        if(!$ass_openid ){
-            $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
-            $check = 2;
+        // if(!$ass_openid ){
+        //     $send_openid = $this->t_seller_student_new->get_seller_openid($userid);
+        //     $check = 2;
 
-        }
+        // }
 
 
 
-        dd($ass_openid." ~ ".$send_openid." ~ ".$check);
+        // dd($ass_openid." ~ ".$send_openid." ~ ".$check);
 
         $first_group  = '咨询一部';
         $second_group = '咨询二部';
         $third_group  = '咨询三部';
         $new_group    = '新人营';
 
-        $start_time = $this->get_in_int_val('s');
+        // $start_time = $this->get_in_int_val('s');
 
-        $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
+        // $new_order_info = $task->t_order_info->get_new_order_money($start_time, $end_time);// 全部合同信息[部包含新签+转介绍]
 
-        dd($new_order_info);
+        // dd($new_order_info);
 
         $ret_info['one_department']    = $this->t_admin_group_name->get_group_seller_num($first_group,$start_time);// 咨询一部
         $ret_info['two_department']    = $this->t_admin_group_name->get_group_seller_num($second_group, $start_time);// 咨询二部

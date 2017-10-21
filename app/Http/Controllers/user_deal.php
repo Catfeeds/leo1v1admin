@@ -3138,7 +3138,8 @@ class user_deal extends Controller
             $per_price = $period_info["discount_price"]/$period_info["default_lesson_count"]/$period_info["lesson_total"];
             $lesson_count = floor($pay_price/$per_price/100+3);
             $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
-            if(empty($order_lesson_left_pre)){
+            $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
+            if(empty($order_lesson_left_pre) && $flag){
                 
             }
             
