@@ -3118,7 +3118,8 @@ class user_deal extends Controller
 
         $period_info = $this->t_child_order_info->get_period_info_by_userid($userid);
         if($period_info){
-            
+            $data = $this->get_baidu_money_charge_pay_info($period_info["child_orderid"]);
+            dd($data);
         }
         dd($period_info);
 
