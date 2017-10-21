@@ -61,6 +61,7 @@ $(function(){
 
             ["下单总人数",g_data.order_cc_num],
             ["入职完整月人员人数",g_data.formal_num],
+            ["入职完整月人员签单总额",g_data.all_order_price],
             ["平均人效",aver_money],
             ["平均单笔",aver_count],
             ["月KPI完成率",month_finish_persent],

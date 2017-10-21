@@ -3138,8 +3138,17 @@ class user_deal extends Controller
             $lesson_count = floor($pay_price/$per_price/100+3);
             $order_lesson_left_pre = $this->t_order_info->get_order_lesson_left_pre($userid,$period_info["order_time"]);
             $flag = ((time()-$period_info["pay_time"])<30*86400)?1:0;
+            $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
+            $day_end = $period_info["pay_time"]+30*86400;
+            dd(date("Y-m-d H:i:s",$day_end));
+            $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
+            dd($lesson_use);
+
             if(empty($order_lesson_left_pre) && $flag){
-                
+                $day_start = strtotime(date("Y-m-d 05:00:00",time())); 
+                $day_end = $period_info["pay_time"]+30*86400;
+                $lesson_use = $this->t_lesson_info_b3->get_lesson_count_sum($userid,$day_start,$day_end);
+                dd($lesson_use);
             }
             
             dd($order_lesson_left_pre);

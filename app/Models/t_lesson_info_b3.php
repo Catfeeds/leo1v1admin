@@ -1333,6 +1333,21 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     }
 
+    public function get_lesson_count_sum($userid,$start_time,$end_time){
+        $where_arr = [
+            ["userid=%u",$userid,-1],
+            "lesson_start > $start_time",
+            "lesson_start < $end_time",
+            "confirm_flag  in  (0,1,3,4)",
+            "lesson_type in(0,1,3 ) ",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select sum(lesson_count) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+ 
+    }
+
+
 
 
 }
