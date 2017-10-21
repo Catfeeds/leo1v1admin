@@ -63,6 +63,8 @@ $(function(){
             ["入职完整月人员人数",g_data.formal_num],
             ["平均人效",aver_money],
             ["平均单笔",aver_count],
+            ["月KPI完成率",month_finish_persent],
+
 
             ["cc总人数",seller_num],
             ["咨询一部",g_data.one_department],
