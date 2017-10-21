@@ -89,6 +89,8 @@ class tongji_ss extends Controller
         $list = $this->t_seller_student_new->get_tongji_first_revisit_time($start_time,$end_time,$adminid_list,$adminid_all,$grade_list);
         foreach ($list as $item) {
             $opt_date  = $item["opt_date"];
+            $add_time  = $item['add_time'];
+            $first_call_time  = $item['first_call_time'];
             $date_item = &$date_list[$opt_date];
             $date_item["first_revisit_time_count"]=$item["first_revisit_time_count"];
             $date_item["after_24_first_revisit_time_count"]=$item["after_24_first_revisit_time_count"];
