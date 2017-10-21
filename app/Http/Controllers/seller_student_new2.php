@@ -1046,6 +1046,9 @@ class seller_student_new2 extends Controller
             if($item['main_type_str'] == '助教'){
                 unset($ret_info[$key]);
             }
+            if($item['main_type_str'] == '未定义'){
+                unset($ret_info[$key]);
+            }
         }
         foreach($member as $key=>&$item){
             foreach($member_num as $k=>$info){
