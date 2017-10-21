@@ -151,8 +151,8 @@ class main_page extends Controller
                 }
 
                 if($ret_info['has_called']>0){
-                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called_stu']*100; //接通率
+                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called_stu']*100; //认领率
                 }else{
                     $ret_info['claim_num_rate'] = 0;
                     $ret_info['succ_called_rate'] = 0;
@@ -254,8 +254,8 @@ class main_page extends Controller
                 }
 
                 if($ret_info['has_called']>0){
-                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called']*100; //接通率
-                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called']*100; //认领率
+                    $ret_info['succ_called_rate'] = $ret_info['has_tq_succ']/$ret_info['has_called_stu']*100; //接通率
+                    $ret_info['claim_num_rate'] = $ret_info['claim_num']/$ret_info['has_called_stu']*100; //认领率
                 }else{
                     $ret_info['claim_num_rate'] = 0;
                     $ret_info['succ_called_rate'] = 0;
