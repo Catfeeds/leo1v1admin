@@ -370,8 +370,8 @@ class test_boby extends Controller
             //     $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
             // }
         }
-
         dd($userid_xiao);
+
         foreach($lessonid_list as $k=>$v){
             if ($v == 100){
                 $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
