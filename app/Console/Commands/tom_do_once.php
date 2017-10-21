@@ -56,8 +56,18 @@ class tom_do_once extends Command
      */
     public function handle()
     {
-        $job=(new \App\Jobs\tom_do_once(5))->delay(3);
-        dispatch($job);
+        echo "aa";
+        exit;
+        foreach($this->userid_list as $val){
+            $ret = $this->task->t_open_lesson_user->check_lesson_has($this->lessonid,$val['userid']);
+            if($ret==0){
+                $t_open_lesson_user->row_insert([
+                    "lessonid" => $this->lessonid,
+                    "userid"   => $val['userid']
+                ]);
+            }
+        }
+
 
         // $account_role = E\Eaccount_role::V_2;
         // $seller_list = $this->task->t_manager_info->get_seller_list_new_two($account_role);

@@ -984,6 +984,7 @@ class seller_student_new2 extends Controller
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $res = [];
         $diff_money_list = $this->t_order_info->get_spec_diff_money_all_new( $start_time,$end_time,E\Eaccount_role::V_2 );
+        // $adminid_list = array_unique(array_column($diff_money_list,'adminid'));
         foreach($diff_money_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['diff_money'] = $item['diff_money'];
