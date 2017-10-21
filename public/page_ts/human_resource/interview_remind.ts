@@ -88,7 +88,9 @@ $(function(){
         } );
     });
 
-    $(".opt-set-trial-info").on("click",function(){
+
+
+    $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var phone = opt_data.phone;
         var id_trial_dept = $("<input />");

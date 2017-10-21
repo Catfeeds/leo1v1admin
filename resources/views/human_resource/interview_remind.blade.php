@@ -52,6 +52,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-times opt-del" title="删除"> </a>
+                                <a class="fa fa-edit opt-edit" title="编辑"> </a>
 
                             </div>
                         </td>
