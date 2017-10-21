@@ -98,6 +98,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.type<>1",
             "s.is_test_user=0",
             "o.contract_type in (0,1,3)",
+            "o.contract_status > 0",
             "o.price>0",
         ];
         if ($user_name) {

@@ -2216,6 +2216,7 @@ class user_manage_new extends Controller
             }
             return $map;
         };
+
         $old_order_list=$this->t_order_info->get_order_list_for_tongji(-1,$start_time);
         $new_order_list=$this->t_order_info->get_order_list_for_tongji($start_time,$end_time);
         //统计
