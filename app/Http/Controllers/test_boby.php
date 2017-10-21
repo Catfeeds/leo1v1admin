@@ -762,13 +762,5 @@ class test_boby extends Controller
         ]);
     }
 
-    public function update_my_error() {
-        $this->t_open_lesson_user->add_open_class_user(374098,178817);
-        $this->t_open_lesson_user->add_open_class_user(374098, 303768);
-        $this->t_open_lesson_user->add_open_class_user(374097, 178817);
-        $this->t_open_lesson_user->add_open_class_user(374097, 303768);
-
-    }
-
 
 }
