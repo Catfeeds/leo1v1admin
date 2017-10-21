@@ -678,13 +678,6 @@ class wx_parent_api extends Controller
     }
 
 
-
-
-
-
-
-
-
     public function set_lesson_time_by_parent(){ // 1032 // 家长同意老师申请的时间
         $lessonid = $this->get_in_int_val('lessonid');
         $lesson_time_str = $this->get_in_str_val('lesson_time_str');

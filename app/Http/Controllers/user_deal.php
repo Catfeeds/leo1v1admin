@@ -795,11 +795,24 @@ class user_deal extends Controller
             "contract_endtime"    => $contract_endtime,
         ]);
 
+       
+
         $order_item = $this->t_order_info->field_get_list($orderid,"contract_type,userid, sys_operator, lesson_total,price");
 
         $flowid=$this->t_flow->get_flowid_from_key_int(E\Eflow_type::V_SELLER_ORDER_REQUIRE, $orderid );
         $sys_operator  = $order_item["sys_operator"];
         $userid        = $order_item["userid"];
+
+        //记录数据
+        $phone = $this->t_student_info->get_phone($userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            $nick."财务确认",
+            "system"
+        );
+
+        
         $contract_type = $order_item["contract_type"];
         $lesson_total  = $order_item["lesson_total"];
         $price         = $order_item["price"]/100;
