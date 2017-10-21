@@ -3318,6 +3318,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             "is_test_user=0",
             "o.grade>=300",
+            "o.grade<400",
             "m.account_role=2",
             "sys_operator<>'jim'",
             "contract_status <> 0",
