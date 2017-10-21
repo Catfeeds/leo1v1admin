@@ -56,7 +56,6 @@ class limit_require_deal extends Command
             $lesson_time = date("Y-m-d H:i:s",$lesson_start);
             $db_lessonid = $task->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
-           
             $ret_row1 = $task->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
             //检查时间是否冲突
             if ($ret_row1) {

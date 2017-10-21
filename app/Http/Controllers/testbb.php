@@ -117,9 +117,7 @@ class testbb extends Controller
 
 
     public function tt() {
-        $store=new \App\FileStore\file_store_tea();
-        $ret=$store->list_dir("10001", "/log1");
-        dd($ret);
+        dd($_SERVER);;
     }
     public function rename_file() {
         dd(date('Y年m月'));

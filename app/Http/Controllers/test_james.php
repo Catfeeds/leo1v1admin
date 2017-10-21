@@ -746,6 +746,12 @@ class test_james extends Controller
 
         $start_time = $this->get_in_int_val('s');
         $end_time = $this->get_in_int_val('e');
+
+        $six_month_old = strtotime(date('Y-m-d 0:0:0',strtotime('-2 month',$start_time)));
+
+       echo date('Y-m-01', strtotime('+1 month'));
+
+        dd($six_month_old);
         // $r = $this->t_admin_group_name->get_entry_month_num($start_time,$end_time);
 
         // dd($r);
