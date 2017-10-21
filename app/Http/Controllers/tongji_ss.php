@@ -27,6 +27,7 @@ class tongji_ss extends Controller
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
+
     public function user_count() {
         $sum_field_list=[
             "add_time_count",
@@ -189,7 +190,8 @@ class tongji_ss extends Controller
             \App\Helper\Utils::order_list( $date_list, $order_field_name, $order_type );
         }
         $all_item = ["title" => "全部"];
-        \App\Helper\Utils::list_add_sum_item( $date_list,$all_item,$sum_field_list );
+        dd($date_list);
+        \App\Helper\Utils::list_add_sum_item($date_list,$all_item,$sum_field_list);
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list),[
             "data_ex_list"  => $date_list,

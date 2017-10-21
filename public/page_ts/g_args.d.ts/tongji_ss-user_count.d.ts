@@ -29,6 +29,7 @@ interface RowData {
 	call_old_count	:any;
 	first_revisit_time_count	:any;
 	after_24_first_revisit_time_count	:any;
+	avg_first_time	:any;
 	test_lesson_count	:any;
 	test_lesson_count_succ	:any;
 	seller_require_test_lesson_count	:any;
