@@ -2843,7 +2843,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." join %s s on s.userid = l.userid "
             ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
             ." and is_test_user=0 "
-            ." and require_admin_type = 2 "
+            ." and require_admin_type = 2 and l.lesson_type=2 "
             ." group by check_value " ,
             self::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,

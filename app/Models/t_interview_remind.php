@@ -15,7 +15,7 @@ class t_interview_remind extends \App\Models\Zgen\z_t_interview_remind
         $this->where_arr_add_time_range($where_arr,"interview_time",$start_time,$end_time);
 
         if ($user_name) {
-            $where_arr[]= " (name like '%" . $user_name . "%' or post like '%" . $user_name . "%' or dept like '%" . $user_name . "%') "   ;
+            $where_arr[]= " (name like '%" . $this->ensql($user_name) . "%' or post like '%" .$this->ensql($user_name) . "%' or dept like '%" . $this->ensql($user_name) . "%') "   ;
         }
 
 
