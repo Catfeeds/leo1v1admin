@@ -66,11 +66,8 @@ class save_seller_info extends Command
         $ret_info['new_order_num'] = $new_order_info['order_num_new'] ; // 合同数量
 
         $ret_info['referral_money'] = $referral_order['referral_price']; // 转介绍收入
-        $ret_info['new_money']   = $new_order_info['total_price'] ; //  新签
+        $ret_info['new_money']      = $new_order_info['total_price'] ; //   全部收入[新签+转介绍]
         $ret_info['order_cc_num']    = $new_order_info['total_num'] ; // 有签单的销售人数
-        $ret_info['all_order_price'] = $new_order_info['total_price'] ;
-
-
 
         $adminid_list = $task->t_admin_main_group_name->get_adminid_list_new("");
 
@@ -110,8 +107,9 @@ class save_seller_info extends Command
         $ret_info['formal_num']    = $task->t_admin_group_name->get_entry_month_num($start_time,$end_time);// 入职完整月人数
         // $job_info = $task->t_order_info->get_formal_order_info($start_time,$end_time); // 入职完整月人员签单额
         // $ret_info['formal_num']  = $job_info['job_num']; // 入职完整月人员人数
+        $ret_info['all_order_price'] = $task->t_admin_group_name->get_entry_total_price($start_time,$end_time);// 入职完整月人数
 
-        
+
 
         // 金额转化率占比
         $ret_info['high_school_money'] = $task->t_order_info->get_high_money_for_month($start_time, $end_time);
