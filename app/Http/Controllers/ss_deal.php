@@ -6583,7 +6583,8 @@ class ss_deal extends Controller
             "dept"  => $dept,
             "interviewer_id" => $interviewer_id,
             "interview_time" => $interview_time,
-            "hr_adminid" => $hr_adminid
+            "hr_adminid" => $hr_adminid,
+            "create_time" => time()
         ]);
 
         if($ret){

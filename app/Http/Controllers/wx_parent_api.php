@@ -589,6 +589,7 @@ class wx_parent_api extends Controller
             'parent_modify_time'   => $parent_modify_time,
             'parent_modify_remark' => $parent_modify_remark,
             'parent_deal_time'     => time(NULL)
+            // ''
         ]);
 
         if($ret){
@@ -676,13 +677,6 @@ class wx_parent_api extends Controller
 
         return $this->output_succ(['data'=>$lesson_time_arr]);
     }
-
-
-
-
-
-
-
 
 
     public function set_lesson_time_by_parent(){ // 1032 // 家长同意老师申请的时间

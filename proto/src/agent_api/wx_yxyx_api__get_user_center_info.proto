@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "agent_api/common.proto";
+
+//__CMD:1103
+//__DESC:微信[优学优享]个人中心信息 http://wx-yxyx.leo1v1.comwx_yxyx_api/get_user_center_info?_agent_id=54
+//__TAGS: for_wx_yxyx 
+
+message in  {
+
+}
+
+message out {
+  common.user_center_list user_center_list = 1;//获取用户中心信息
+}

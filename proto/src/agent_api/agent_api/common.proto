@@ -117,3 +117,10 @@ message yxyx_new_home{
   yxyx_page page_info = 1;//页码信息
   yxyx_new 	list = 2;//信息列表
 }
+message user_center_list{
+  string usernick = 1;//用户名称
+  string wx_headimgurl = 2;//用户头像链接
+  string agent_level_str = 3;//用户会员等级
+  float all_money = 4;//总收入
+  uint32 child_all_count = 5;//邀请个数
+}

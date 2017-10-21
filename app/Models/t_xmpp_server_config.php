@@ -7,10 +7,13 @@ class t_xmpp_server_config extends \App\Models\Zgen\z_t_xmpp_server_config
     {
         parent::__construct();
     }
-    public function get_list( $page_info ) {
+    public function get_list( $page_info, $server_name="" ) {
+        $where_arr =[
+            ["server_name='%s'", $server_name, "" ],
+        ];
         $sql= $this->gen_sql_new(
-            "select * from %s ",
-            self::DB_TABLE_NAME);
+            "select * from %s where %s ",
+            self::DB_TABLE_NAME, $where_arr );
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
