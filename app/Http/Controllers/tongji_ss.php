@@ -94,7 +94,6 @@ class tongji_ss extends Controller
             $date_item["after_24_first_revisit_time_count"]=$item["after_24_first_revisit_time_count"];
             $date_item["avg_first_time"]=$item["avg_first_time"];
         }
-        dd($date_list);
         //seller_require_test_lesson_count
         $list = $this->t_test_lesson_subject_require->tongji_require_test_lesson($start_time,$end_time,$adminid_list,$adminid_all, $grade_list );
         foreach ($list as $item) {
