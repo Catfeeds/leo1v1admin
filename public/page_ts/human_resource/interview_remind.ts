@@ -105,16 +105,18 @@ $(function(){
         var opt_data = $(this).get_opt_data();
 
         var $name         = $("<input/>");
-        var $interviewer  = $("<input/>");
+        var $interviewer  = $("<input id='id_interviewer_name'/>");
         var $post         = $("<input/>");
         var $dept         = $("<input/>");
-        var $interview_time = $("<input/>");
+        var $interview_time = $("<input />");
 
 
         $name.val( opt_data.name);
         $post.val( opt_data.post);
         $dept.val( opt_data.dept);
         $interview_time.val(opt_data.interview_time);
+
+        $('#id_interviewer_name').val(opt_data.interviewer_name);
         // $interviewer.nextSbiling.val(opt_data.interviewer_name);
 
         // console.log(opt_data.interviewer_name);
