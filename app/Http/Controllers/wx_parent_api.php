@@ -589,6 +589,7 @@ class wx_parent_api extends Controller
             'parent_modify_time'   => $parent_modify_time,
             'parent_modify_remark' => $parent_modify_remark,
             'parent_deal_time'     => time(NULL)
+            // ''
         ]);
 
         if($ret){

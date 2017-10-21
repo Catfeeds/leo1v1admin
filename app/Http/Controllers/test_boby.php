@@ -323,6 +323,7 @@ class test_boby extends Controller
     }
 
     //添加给老师添加公开课学生
+
     public function add_stu_to_tea_open_lesson(){
         $start_time = strtotime('2017-09-01');
         $end_time = strtotime('2017-10-01');
@@ -331,11 +332,10 @@ class test_boby extends Controller
         // $teacherid = "(180795)";
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
-        $lessonid_list = ['318460','318461'];
-        // $lessonid_list = ['371543','371544','371545'];
+        $lessonid_list = ['374096'=>300,'374097'=>300,'374098'=>300,'374080'=>200,'374081'=>200,'374082'=>100,'374083'=>100,'374084'=>100,'374085'=>100,'374086'=>100];
         // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        // foreach ($lessonid_list as $v) {
-        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $v );
+        // foreach ($lessonid_list as $k=>$v) {
+        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $k );
         // }
         // echo 'ok';
         // exit;
@@ -352,30 +352,39 @@ class test_boby extends Controller
         //         $g300[] = $v['lessonid'];
         //     }
         // }
+        $userid_xiao = [];
+        $userid_chu = [];
+        $userid_gao = [];
         foreach ($userid_list as $item) {
-            // if ($item['grade'] > 0) {
-            //     if ($item['grade'] < 200 ) {
-            //         foreach ($g100 as $lessonid) {
-            //             $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
-            //         }
-            //     } else if ($item['grade'] < 300 ) {
-            //         foreach ($g200 as $lessonid) {
-            //             $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
-            //         }
-            //     } else {
-            //         foreach ($g300 as $lessonid) {
-                        // $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
-            //         }
-            //     }
-            // }
-
-            foreach($lessonid_list as $lessonid){
-                $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+            if ($item['grade'] > 0) {
+                if ($item['grade'] < 200 ) {
+                    array_push($userid_xiao,$item['userid']);
+                } else if ($item['grade'] < 300 ) {
+                    array_push($userid_chu,$item['userid']);
+                } else {
+                    array_push($userid_gao,$item['userid']);
+                }
             }
+
+            // foreach($lessonid_list as $lessonid){
+            //     $this->t_open_lesson_user->add_open_class_user($lessonid, $item['userid']);
+            // }
         }
 
-        echo 'ok';
-        exit;
+dd($userid_xiao);
+        foreach($lessonid_list as $k=>$v){
+            if ($v == 100){
+                $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);
+                dispatch($job);
+            } else if ($v == 200) {
+                $job=(new \App\Jobs\add_lesson_grade_user($userid_chu, $k))->delay(10);
+                dispatch($job);
+            } else {
+                $job=(new \App\Jobs\add_lesson_grade_user($userid_gao, $k))->delay(10);
+                dispatch($job);
+           }
+        }
+        return 'ok';
     }
 
     public function get_teacher(){

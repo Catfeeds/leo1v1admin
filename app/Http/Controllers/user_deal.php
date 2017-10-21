@@ -2356,6 +2356,16 @@ class user_deal extends Controller
             "seller_adminid" => $this->get_account_id(),
         ]);
 
+        //记录数据
+        $phone = $this->t_student_info->get_phone($userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            $nick."交界单提交(老)",
+            "system"
+        );
+
+
 
         $account=$this->get_account();
         $this->t_student_info->noti_ass_order($userid, $account );
@@ -3498,8 +3508,9 @@ class user_deal extends Controller
 
     public function get_xmpp_server_list_js()  {
         $page_num=$this->get_in_page_num();
+        $server_name= $this->get_in_str_val("server_name");
 
-        $ret_list=$this->t_xmpp_server_config->get_list($page_num);
+        $ret_list=$this->t_xmpp_server_config->get_list($page_num, $server_name);
         $check_time=time(NULL)-60;
 
         foreach($ret_list["list"] as &$item) {
@@ -5353,6 +5364,16 @@ class user_deal extends Controller
             "init_info_pdf_url"   =>  "true",
             "seller_adminid" => $this->get_account_id(),
         ]);
+
+        //记录数据
+        $phone = $this->t_student_info->get_phone($userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            $nick."交界单提交(新)",
+            "system"
+        );
+
 
 
         $account=$this->get_account();
