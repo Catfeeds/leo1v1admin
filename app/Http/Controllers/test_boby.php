@@ -333,12 +333,12 @@ class test_boby extends Controller
         // $start_time = strtotime('2017-09-01');
         // $end_time = strtotime('2017-10-01');
         $lessonid_list = ['374096'=>300,'374097'=>300,'374098'=>300,'374080'=>200,'374081'=>200,'374082'=>100,'374083'=>100,'374084'=>100,'374085'=>100,'374086'=>100];
-        // $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
-        // foreach ($lessonid_list as $k=>$v) {
-        //     $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $k );
-        // }
-        // echo 'ok';
-        // exit;
+        //$lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
+         foreach ($lessonid_list as $k=>$v) {
+             $this->t_open_lesson_user->delete_open_lesson_by_lessonid( $k );
+         }
+         echo 'ok';
+         exit;
 
         // $g100 = [];
         // $g200 = [];
@@ -358,11 +358,11 @@ class test_boby extends Controller
         foreach ($userid_list as $item) {
             if ($item['grade'] > 0) {
                 if ($item['grade'] < 200 ) {
-                    array_push($userid_xiao,$item['userid']);
+                    array_push($userid_xiao,$item);
                 } else if ($item['grade'] < 300 ) {
-                    array_push($userid_chu,$item['userid']);
+                    array_push($userid_chu,$item);
                 } else {
-                    array_push($userid_gao,$item['userid']);
+                    array_push($userid_gao,$item);
                 }
             }
 
@@ -371,7 +371,7 @@ class test_boby extends Controller
             // }
         }
 
-dd($userid_xiao);
+        dd($userid_xiao);
         foreach($lessonid_list as $k=>$v){
             if ($v == 100){
                 $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);

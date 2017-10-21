@@ -588,8 +588,8 @@ class wx_parent_api extends Controller
             'lessonid'             => $lessonid,
             'parent_modify_time'   => $parent_modify_time,
             'parent_modify_remark' => $parent_modify_remark,
-            'parent_deal_time'     => time(NULL)
-            // ''
+            'parent_deal_time'     => time(NULL),
+            'backstage_type'       => 1
         ]);
 
         if($ret){

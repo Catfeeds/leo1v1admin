@@ -189,6 +189,25 @@ class t_child_order_info extends \App\Models\Zgen\z_t_child_order_info
     }
 
 
+    public function get_period_info_by_userid($userid){
+        $where_arr=[
+            ["o.userid=%u",$userid,-1],
+            "c.child_order_type=2",
+            "c.price>0",
+            "c.pay_status=1",
+            "o.pay_time>0"
+        ];
+        $sql = $this->gen_sql_new("select o.pay_time,o.price,c.price period_price,c.child_orderid"
+                                  ." from %s c left join %s o on c.parent_orderid = o.orderid "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
 }
 
 
