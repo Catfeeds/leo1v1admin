@@ -47,6 +47,7 @@
                     <td>入职时间 </td>
                     <td>离职时间 </td>
                     <td>是否离职 </td>
+                    <td>总配额</td>
                     <td>已用配额</td>
                     <td>在职人数</td>
                     <td>离职人数</td>
@@ -64,9 +65,8 @@
                         <td >{{@$var["become_member_time"]}}</td>
                         <td >{{@$var["leave_member_time"]}}</td>
                         <td>{!! @$var["del_flag_str"] !!}</td>
-                        <td >
-                            {{@$var["diff_money"]}}
-                        </td>
+                        <td >{{@$var["diff_money_def"]}}</td>
+                        <td >{{@$var["diff_money"]}}</td>
                         <td >{{@$var["become_member_num"]}}</td>
                         <td >{{@$var["leave_member_num"]}}</td>
                         <td>

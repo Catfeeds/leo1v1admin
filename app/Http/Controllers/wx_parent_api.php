@@ -622,7 +622,7 @@ class wx_parent_api extends Controller
             ];
             $ret_parent = $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
 
-
+            
             // 发送微信推送[老师]
             $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
             $teacher_url = "http://wx-teacher-web.leo1v1.com/handle-adjust/index.html?lessonid=".$lessonid; //待定

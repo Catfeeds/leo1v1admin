@@ -983,8 +983,8 @@ class seller_student_new2 extends Controller
     public function seller_diff_money(){
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $res = [];
+        $diff_money_def= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY ,strtotime( date("Y-m-01", $start_time) ));
         $diff_money_list = $this->t_order_info->get_spec_diff_money_all_new( $start_time,$end_time,E\Eaccount_role::V_2 );
-        // $adminid_list = array_unique(array_column($diff_money_list,'adminid'));
         foreach($diff_money_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['diff_money'] = $item['diff_money'];
@@ -995,6 +995,7 @@ class seller_student_new2 extends Controller
         list($member_new,$member_num_new,$member,$member_num,$become_member_num_l1,$leave_member_num_l1,$become_member_num_l2,$leave_member_num_l2,$become_member_num_l3,$leave_member_num_l3) = [[],[],[],[],0,0,0,0,0,0];
         $ret_info = \App\Helper\Common::gen_admin_member_data($res,[],0,strtotime(date("Y-m-01",$start_time )));
         foreach($ret_info as $key=>&$item){
+            $item['diff_money_def'] = $diff_money_def;
             $item["become_member_time"] = isset($item["create_time"])?$item["create_time"]:0;
             $item["leave_member_time"] = isset($item["leave_member_time"])?$item["leave_member_time"]:0;
             $item["del_flag"] = isset($item["del_flag"])?$item["del_flag"]:0;
@@ -1043,6 +1044,9 @@ class seller_student_new2 extends Controller
                 $leave_member_num_l2 = 0;
             }
             if($item['main_type_str'] == '助教'){
+                unset($ret_info[$key]);
+            }
+            if($item['main_type_str'] == '未定义'){
                 unset($ret_info[$key]);
             }
         }
