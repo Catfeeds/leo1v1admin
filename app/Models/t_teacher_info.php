@@ -961,7 +961,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
             ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
             ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
-            ."sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
+            ." sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
             ." from %s t"
             ." left join %s l on l.teacherid=t.teacherid"
             ." where %s"

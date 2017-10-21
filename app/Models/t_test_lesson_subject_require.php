@@ -3191,8 +3191,10 @@ ORDER BY require_time ASC";
             "s.is_test_user=0"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"tss.set_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
+        //require_time
         $sql = $this->gen_sql_new("  select count(tr.require_id) from %s tr "
                                   ." left join %s tss on tss.require_id=tr.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id "

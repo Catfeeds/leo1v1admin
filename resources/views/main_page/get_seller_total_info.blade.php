@@ -192,8 +192,8 @@
                                 <thead>
                                     <tr>
                                         <td>呼出量</td>
-                                        <td>接通率</td>
-                                        <td class="panel-red">认领率</td>
+                                        <td>例子接通率</td>
+                                        <td class="panel-red">例子认领率</td>
                                         <td class="panel-red">邀约数</td>
                                         <td class="panel-red">未消耗例子数</td>
                                         <td class="panel-red">月例子消耗率</td>
