@@ -1,5 +1,7 @@
 <?php
 return array(
+    ["db_weiyi","t_agent_group", "group_id"],
+    ["db_weiyi","t_agent_group_members", "id"],
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],
     ["db_weiyi","t_wx_give_book", "id"],

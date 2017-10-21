@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'CreateTAgentGroup' => $baseDir . '/database/migrations/2017_10_20_144808_create_t_agent_group.php',
+    'CreateTAgentGroupMembers' => $baseDir . '/database/migrations/2017_10_20_153116_create_t_agent_group_members.php',
+    'CreateTAgentGroupRelation' => $baseDir . '/database/migrations/2017_10_20_145038_create_t_agent_group_relation.php',
     'CreateTRevisitAssessInfo' => $baseDir . '/database/migrations/2017_10_11_100938_create_t_revisit_assess_info.php',
     'CreateTRevisitCallCount' => $baseDir . '/database/migrations/2017_10_12_152226_create_t_revisit_call_count.php',
     'CreateTWxGiveBook' => $baseDir . '/database/migrations/2017_10_10_145114_create_t_wx_give_book.php',
@@ -538,6 +541,8 @@ return array(
     'TChildOrderInfoAddParentName' => $baseDir . '/database/migrations/2017_10_12_180712_t_child_order_info_add_parent_name.php',
     'TGrabLessonLinkVisitOperationAddVisitidIndex' => $baseDir . '/database/migrations/2017_10_11_094505_t_grab_lesson_link_visit_operation_add_visitid_index.php',
     'TManagerInfoAddLevelFacePic' => $baseDir . '/database/migrations/2017_10_12_151350_t_manager_info_add_level_face_pic.php',
+    'TMonthAssStudentInfoAddCcTranNum' => $baseDir . '/database/migrations/2017_10_18_165409_t_month_ass_student_info_add_cc_tran_num.php',
+    'TParentSendMgsLog' => $baseDir . '/database/migrations/2017_10_18_145354_t_parent_send_mgs_log.php',
     'TPeriodRepayListAddRepayStatus' => $baseDir . '/database/migrations/2017_10_14_104102_t_period_repay_list_add_repay_status.php',
     'TPeriodRepayListAddRepayStatusNew' => $baseDir . '/database/migrations/2017_10_14_104537_t_period_repay_list_add_repay_status_new.php',
     'TRequirementInfoAddForecastTime' => $baseDir . '/database/migrations/2017_10_16_125510_t_requirement_info_add_forecast_time.php',
@@ -546,6 +551,7 @@ return array(
     'TRequirementInfoUpdateProductComment' => $baseDir . '/database/migrations/2017_10_17_101814_t_requirement_info_update_product_comment.php',
     'TRevisitAssessInfoDropRevisitNumCallCount' => $baseDir . '/database/migrations/2017_10_12_114323_t_revisit_assess_info_drop_revisit_num_call_count.php',
     'TRevisitCallCountDrop' => $baseDir . '/database/migrations/2017_10_12_183545_t_revisit_call_count_drop.php',
+    'TSellerEditLogAddNewCreateTimeIndex' => $baseDir . '/database/migrations/2017_10_18_105153_t_seller_edit_log_add_new_create_time_index.php',
     'TSellerLevelGoal' => $baseDir . '/database/migrations/2017_10_09_163301_t_seller_level_goal.php',
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
     'TSellerLevelGoalAddNum' => $baseDir . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',
@@ -556,9 +562,11 @@ return array(
     'TSellerTongjiForMonthRename' => $baseDir . '/database/migrations/2017_10_12_141047_t_seller_tongji_for_month_rename.php',
     'TSellerTongjiForMonthReset' => $baseDir . '/database/migrations/2017_10_09_165401_t_seller_tongji_for_month_reset.php',
     'TSshLoginLogNew' => $baseDir . '/database/migrations/2017_10_11_175202_t_ssh_login_log_new.php',
+    'TTeacherAdvanceListAddStuNum' => $baseDir . '/database/migrations/2017_10_19_101810_t_teacher_advance_list_add_stu_num.php',
     'TTeacherAdvanceListAddTeacherMoneyType' => $baseDir . '/database/migrations/2017_10_17_100916_t_teacher_advance_list_add_teacher_money_type.php',
     'TTeacherMoneyListAddRecommendedTeacherid' => $baseDir . '/database/migrations/2017_10_09_095052_t_teacher_money_list_add_recommended_teacherid.php',
     'TTestLessonSubjectAddLearningSituation' => $baseDir . '/database/migrations/2017_10_10_135556_t_test_lesson_subject_add_learning_situation.php',
+    'TTestSubjectFreeListAddIndexAddTime' => $baseDir . '/database/migrations/2017_10_20_101727_t_test_subject_free_list_add_index_add_time.php',
     'TTqCallInfoAddObjStartTime' => $baseDir . '/database/migrations/2017_10_09_182200_t_tq_call_info_add_obj_start_time.php',
     'TWxGiveBookModifyColumon' => $baseDir . '/database/migrations/2017_10_10_172130_t_wx_give_book_modify_columon.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',

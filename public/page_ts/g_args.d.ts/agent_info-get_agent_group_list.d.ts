@@ -13,10 +13,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../teacher_info; vi  ../teacher_info/current_course.ts
+	 mkdir -p ../agent_info; vi  ../agent_info/get_agent_group_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_info-current_course.d.ts" />
+/// <reference path="../g_args.d.ts/agent_info-get_agent_group_list.d.ts" />
 
 function load_data(){
     if ( window["g_load_data_flag"]) {return;}

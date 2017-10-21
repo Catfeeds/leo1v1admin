@@ -1739,4 +1739,33 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
     }
+
+    //@desn:检查优学优享团登录
+    public function check_login_userid($phone, $passwd)
+    {
+        $sql = $this->gen_sql("select a.userid ".
+                              "from %s a, %s ui,%s ptu where a.userid = ui.userid and a.userid = ptu.userid ".
+                              "and a.phone = '%s' and ui.passwd = '%s' ".
+                              "and ptu.role = %u",
+                              self::DB_TABLE_NAME,
+                              t_user_info::DB_TABLE_NAME,
+                              t_phone_to_user::DB_TABLE_NAME,
+                              $phone, $passwd,E\Erole::V_STUDENT );
+        return $this->main_get_value( $sql  );
+    }
+    //@desn:获取优学优享id
+    public function get_agentid($phone )
+    {
+        $sql = $this->gen_sql("select  userid ".
+                              " from  %s a,%s ptu".
+                              " where ptu.userid = a.userid and a.phone= '%s' and ptu.role = %u",
+                              self::DB_TABLE_NAME,
+                              t_phone_to_user::DB_TABLE_NAME,
+                              $phone,
+                              E\Erole::V_STUDENT
+        );
+        return $this->main_get_value( $sql );
+    }
+
+    
 }
