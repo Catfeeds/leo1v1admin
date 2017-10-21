@@ -739,7 +739,7 @@ class test_james extends Controller
 
     public function ssss(){
 
-
+        $this->switch_tongji_database();
         // $parent_list = $this->t_parent_info->get_openid_list();
 
         // dd(count($parent_list));
@@ -778,6 +778,7 @@ class test_james extends Controller
         $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
 
 
+        $ret_info['seller_invit_month'] = $this->t_test_lesson_subject_require->get_invit_num_for_month($start_time, $end_time); // 销售邀约数[月邀约数]
 
         // dd($ass_openid." ~ ".$send_openid." ~ ".$check);
 
