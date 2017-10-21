@@ -1036,6 +1036,7 @@ class wx_parent_api extends Controller
             "grade_rank"            => $grade_rank,
             "rank_up"               => $rank_up,
             "rank_down"             => $rank_down,
+            "admin_type"            => 1 
         ],false,false,true);
 
 

@@ -4370,7 +4370,7 @@ class ss_deal extends Controller
             $account_id     = $this->get_account_id();
             $freeze_adminid = $this->t_teacher_info->get_freeze_adminid($teacherid);
             $del_flag = $this->t_manager_info->get_del_flag($freeze_adminid);
-            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0){
+            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $account_id !=349){
                 return $this->output_err("您没有权限进行该操作!");
             }
             $this->t_teacher_info->field_update_list($teacherid,[
@@ -4493,7 +4493,7 @@ class ss_deal extends Controller
             $account_id     = $this->get_account_id();
             $freeze_adminid = $this->t_teacher_info->get_freeze_adminid($teacherid);
             $del_flag = $this->t_manager_info->get_del_flag($freeze_adminid);
-            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448){
+            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448 && $account_id !=349 && $freeze_adminid !=349){
                 return $this->output_err("您没有权限进行该操作!");
             }
             $this->t_teacher_info->field_update_list($teacherid,[
@@ -4626,7 +4626,7 @@ class ss_deal extends Controller
             $account_id     = $this->get_account_id();
             $freeze_adminid = $this->t_teacher_info->get_freeze_adminid($teacherid);
             $del_flag = $this->t_manager_info->get_del_flag($freeze_adminid);
-            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448){
+            if($account_id != $freeze_adminid && $account_id !=72 && $del_flag==0 && $freeze_adminid>0 && $freeze_adminid !=72 && $account_id !=448 && $freeze_adminid !=448 && $account_id !=349 && $freeze_adminid !=349){
                 return $this->output_err("您没有权限进行该操作!");
             }
             $this->t_teacher_info->field_update_list($teacherid,[
