@@ -371,6 +371,7 @@ class test_boby extends Controller
             // }
         }
 
+dd($userid_xiao);
         foreach($lessonid_list as $k=>$v){
             if ($v == 100){
                 $job=(new \App\Jobs\add_lesson_grade_user($userid_xiao, $k))->delay(10);

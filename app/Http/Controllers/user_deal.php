@@ -5365,6 +5365,16 @@ class user_deal extends Controller
             "seller_adminid" => $this->get_account_id(),
         ]);
 
+        //记录数据
+        $phone = $this->t_student_info->get_phone($userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            $nick."交界单提交(新)",
+            "system"
+        );
+
+
 
         $account=$this->get_account();
         $this->t_student_info->noti_ass_order($userid, $account );
