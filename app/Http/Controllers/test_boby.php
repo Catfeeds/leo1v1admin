@@ -774,7 +774,8 @@ class test_boby extends Controller
 
 
     public function get_data() {
-        $sql = 'select   t.realname,t.teacherid,sum( if (lesson_type= 2,lesson_count,0) ) as test ,sum( if (lesson_type in (0,1,3),lesson_count,0) ) as normal  from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
+        // $sql = 'select   t.realname,t.teacherid,sum( if (lesson_type= 2,lesson_count,0) ) as test ,sum( if (lesson_type in (0,1,3),lesson_count,0) ) as normal  from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
+        $sql = 'select   t.realname,t.teacherid,lesson_type,lesson_count from db_weiyi.t_teacher_info t  left join db_weiyi.t_lesson_info l on l.teacherid=t.teacherid where  teacher_type=4 and lesson_start>=1504195200   and  lesson_start<1506787200 and  lesson_del_flag=0 and is_test_user=0 group by t.teacherid';
 
 
         $ret_info = $this->t_grab_lesson_link_info->get_info_test($sql);
