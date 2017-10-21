@@ -3090,6 +3090,8 @@ class user_deal extends Controller
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-10-01");
        
+        $userid = 366039;
+        // $is_period = $this->t_child_order_info->
 
 
     }
