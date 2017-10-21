@@ -775,6 +775,8 @@ class test_james extends Controller
 
         // }
 
+        $ret_info['test_succ_num'] = $this->t_lesson_info_b3->get_test_lesson_succ_num($start_time, $end_time); // 试听成功
+
 
 
         // dd($ass_openid." ~ ".$send_openid." ~ ".$check);
