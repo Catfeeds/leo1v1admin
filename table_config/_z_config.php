@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_new_tea_entry","id"],
     ["db_weiyi_admin","t_interview_remind", "id"],
     ["db_weiyi","t_parent_send_mgs_log", "id"],
     ["db_weiyi","t_agent_money_ex", "id"],

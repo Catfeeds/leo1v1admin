@@ -56,7 +56,8 @@ class NewRouteConfig {
 
     //config
     static public $url_map = [
-        "/main_page/recruit_division"                    => true,
+        "/tea_manage/train_is_through_list"        => true,
+        "/main_page/recruit_division"             => true,
         "/warning_overtime/add_overtime"          => true,
         "/grab_lesson/add_requireids"             => true,
         "/grab_lesson/upadte_lesson_link"         => true,
@@ -115,8 +116,9 @@ class NewRouteConfig {
         "/common/baidu_callback_return_info_test" => true,
         "/common/baidu_callback_return_info"      => true,
 
-        "/user_manage/refund_duty_analysis"        => true,
-        "/user_manage/set_refund_money"        => true,
+        "/user_manage/pay_money_stu_list"                       => true,
+        "/user_manage/refund_duty_analysis"                     => true,
+        "/user_manage/set_refund_money"                         => true,
         "/user_manage/complaint_department_deal_teacher_tea_jy" => true,
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"     => true,

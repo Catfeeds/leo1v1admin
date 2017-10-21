@@ -95,10 +95,10 @@ class order_price_20171001 extends order_price_base
             if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
                  && $now < strtotime("2017-10-22") ) {
 
-                $free_money=floor($price /10000)*500;
-                $price-=$free_money;
 
                 if ($lesson_start < strtotime("2017-10-10") && $lesson_times >=60 && $price){ //10号前
+                    $free_money=floor($price /10000)*500;
+                    $price-=$free_money;
                     $activity_desc=" 立减 $free_money 元";
                     $desc_list[]=static::gen_activity_item($order_activity_type,1, $activity_desc ,  $price,  $present_lesson_count );
                 }else{

@@ -3875,9 +3875,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 新师参训 -- 老师参型
     public function get_train_inter_teacher_type_count($start_time, $end_time){
         $whereArr = [
-            ["tl.train_through_new_time>%u", $start_time, 0],
-            ['tl.train_through_new_time<%u', $end_time, 0],
-            "l.score>=90",
+            ["l.add_time>%u", $start_time, 0],
+            ['l.add_time<%u', $end_time, 0],
             "l.train_type=1"
         ];
 
@@ -3942,10 +3941,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     // 面试通过
     public function get_interview_through_count($start_time, $end_time)
     {
+        // 手机关联
         $whereArr = [
             ["confirm_time>%u", $start_time, 0],
             ["confirm_time<%u", $end_time, 0],
-            "status=1",
+            "status=1"
         ];
 
         $sql = "select count(*) from %s where %s";
@@ -3965,9 +3965,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $whereArr = [
             ["l.add_time>%u", $start_time, 0],
             ['l.add_time<%u', $end_time, 0],
-            "l.score>=90",
             "l.train_type=1"
         ];
+        // 
         $sql = "select count(*) from t_teacher_info tl left join t_train_lesson_user l on tl.teacherid=l.userid where %s";
         $res = $this->get_three_maj_sub_rel($sql, $whereArr);
 

@@ -190,9 +190,9 @@
             @endif
             <hr/>
 
-            @foreach (  $cmd_desc_list as $cmd_item )
+            @foreach (  $cmd_desc_list as  $key=> $cmd_item )
 
-                <table class="title_def" cellspacing="0"><tbody><tr><th class="title_def" width="50">0</th><th class="title_def">&nbsp;
+                <table class="title_def" cellspacing="0"><tbody><tr><th class="title_def" width="50"> {{$key}} </th><th class="title_def">&nbsp;
                     <a
                         id="{{@$cmd_item["name"]}}_desc"
                         href="#{{@$cmd_item["name"]}}_item"  >
@@ -205,7 +205,7 @@
                 <table      class="ui-widget ui-widget-content"  cellspacing="0"  style=" margin:0 auto; " >
                     <thead>
                         <tr  class="ui-widget-header">
-                            <td width="40%"> {{$cmd_item["name"]}} <font color="blue">请求包 </font>  字段名</td>
+                            <td width="40%">  <font color="blue">请求包 </font>  字段名</td>
                             <td width="20%">类型</td>
                             <td width="30%">说明</td>
                             <td width="10%">字段id</td>
@@ -230,7 +230,7 @@
                 <table      class="ui-widget ui-widget-content"  cellspacing="0"  style=" margin:0 auto; " >
                     <thead>
                         <tr  class="ui-widget-header">
-                            <td width="40%"> {{$cmd_item["name"]}} 返回包 字段名</td>
+                            <td width="40%">  返回包 字段名</td>
                             <td width="20%">类型</td>
                             <td width="30%">说明</td>
                             <td width="10%">字段id</td>
