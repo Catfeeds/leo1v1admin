@@ -93,7 +93,7 @@ class order_price_20171001 extends order_price_base
             $lesson_start = $last_lesson_info["lesson_start"];
             $now=time(NULL);
             if ( !$lesson_count_all && $now >= strtotime("2017-10-20")
-                 && $now < strtotime("2017-10-22") ) {
+                 && $now < strtotime("2017-10-24") ) {
 
 
                 if ($lesson_start < strtotime("2017-10-10") && $lesson_times >=60 && $price){ //10号前

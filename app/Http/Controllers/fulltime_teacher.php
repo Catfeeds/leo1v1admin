@@ -77,7 +77,7 @@ class fulltime_teacher extends Controller
 
         //$account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
 
-        $account_info["order_per_score"] = round(0.3125*$account_info["order_per"]);
+        $account_info["order_per_score"] = round(0.45*$account_info["order_per"]);
         if($account_info["order_per_score"]>=25){//20->25
             $account_info["order_per_score"]=25;
         }

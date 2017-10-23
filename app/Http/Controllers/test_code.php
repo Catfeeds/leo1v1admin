@@ -1383,4 +1383,12 @@ class test_code extends Controller
         }
     }
 
+    public function test_reward(){
+        $type = 2;
+        $day=30;
+        $begin_time = $this->get_begin_time($type,$day);
+        $list = $this->t_test_lesson_subject_sub_list->get_teacher_trial_success_list($begin_time,$type);
+        dd($list);
+    }
+
 }
