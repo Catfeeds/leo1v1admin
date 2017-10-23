@@ -44,7 +44,7 @@ class SetTeacherMoney extends Command
         \App\Helper\Utils::logger("set_teacher_money_day:".$day);
 
         if($type===null){
-            $type = 1;
+            $type = 2;
         }
         if($day===null){
             $day = 0;
