@@ -1569,7 +1569,16 @@ class human_resource extends Controller
                 }else{
                     $val["have_wx_flag"]="否";
                 }
-
+                if($val['train_through_new_time'] >0){
+                    $val['train_status_str'] = "已通过";
+                }else{
+                    $val['train_status_str'] = "未通过";
+                }
+                if($val['train_through_new'] == 1){
+                    $val['train_through_str'] = "已通过";
+                }else{
+                    $val['train_through_str'] = "未通过";
+                }
             }
         }
 

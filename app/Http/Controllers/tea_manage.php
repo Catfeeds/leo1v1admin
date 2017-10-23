@@ -2291,6 +2291,16 @@ class tea_manage extends Controller
             }elseif($val['trial_train_status']==2){
                 $status_str="<font color='blue'>老师未到</font>";
             }
+            if($val['train_through_new_time'] >0){
+                $val['train_status_str'] = "已通过";
+            }else{
+                $val['train_status_str'] = "未通过";
+            }
+            if($val['train_through_new'] == 1){
+                $val['train_through_str'] = "已通过";
+            }else{
+                $val['train_through_str'] = "未通过";
+            }
             $val['trial_train_status_str']=$status_str;
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['l_teacherid']);
             if($val["lecture_status_ex"]==-2){
