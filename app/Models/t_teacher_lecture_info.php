@@ -64,7 +64,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
                                   ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"
                                   ." m.account accept_account, m.name as zs_name,"
-                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time  "
+                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time ,t.train_through_new_time,t.train_through_new "
                                   ." from %s as b"
                                   ." left join %s la on b.phone=la.phone"
                                   ." left join %s t on t.phone=la.reference"
