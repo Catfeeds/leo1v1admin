@@ -2554,15 +2554,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_distribution_count($start_time,$end_time){
         $where_arr = [
-            'admin_assignerid>0',
+            'n.admin_assignerid>0',
+            ['m.account_role=%u',E\Eaccount_role::V_2],
         ];
-        $this->where_arr_add_time_range($where_arr,'admin_assign_time',$start_time,$end_time);
-        $sql = $this->gen_sql_new(" select sum(if(hand_get_adminid=0,1,0)) auto_get_count,admin_revisiterid adminid, "
-                                  ." sum(if(admin_revisiterid = hand_get_adminid and hand_get_adminid>0,1,0)) hand_get_count "
-                                  ." from %s "
+        $this->where_arr_add_time_range($where_arr,'n.admin_assign_time',$start_time,$end_time);
+        $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
+                                  ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
+                                  ." from %s n "
+                                  ." left join %s m m.uid=n.admin_revisiterid "
                                   ." where %s "
-                                  ." group by admin_assignerid "
+                                  ." group by n.admin_assignerid "
                                   ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
