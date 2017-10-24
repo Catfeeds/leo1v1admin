@@ -31,7 +31,22 @@
                 </tr>
             </thead>
             <tbody id="id_tbody">
-               
+                @foreach ( $list as $var )
+                    <tr>
+                        <td>{{@$var["month"]}} </td>                          
+                        <td>{{@$var["stu_num"]}} </td>                          
+                        <td>{{@$var["all_price"]/100}} </td>                          
+                        <td>{{@$var["lesson_count_all"]/100}} </td>                          
+                        @foreach ( $list as $k=>$v )
+                            <td>{{@$var[$k]}} </td>                          
+                        @endforeach
+                        <td></td>
+                     
+                    </tr>
+
+                @endforeach
+                    
+ 
                
             </tbody>
         </table>

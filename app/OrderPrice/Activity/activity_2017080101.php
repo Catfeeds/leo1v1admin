@@ -12,7 +12,6 @@ class activity_2017080101 extends  activity_base {
     protected function do_exec (  &$price,  &$present_lesson_count,  &$desc_list )   {
 
         $free_money=0;
-
         if($this->from_test_lesson_id ){
             $task= self::get_task_controler();
             //当配活动
@@ -28,11 +27,11 @@ class activity_2017080101 extends  activity_base {
             $lesson_start_desc=" 试听课时间:".\App\Helper\Utils::unixtime2date($lesson_start );
 
             $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
-            $free_money=300;
-            $price-=$free_money;
 
             if ( $this->lesson_times>=30 && $lesson_start &&  time(NULL)<$check_time  ) {
 
+                $free_money=300;
+                $price-=$free_money;
                 //2017-0801 当配活动(常规)
                 $activity_desc="试听后一天内下单 立减 300元 ,$lesson_start_desc";
                 $desc_list[]=static::gen_activity_item(1, $activity_desc ,  $price,  $present_lesson_count );
