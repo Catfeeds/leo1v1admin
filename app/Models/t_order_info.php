@@ -3141,7 +3141,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ["o.pay_time>=%u",$start_time,0],
             ["o.pay_time<%u",$end_time,0],
-            "o.contract_type in (0,3)",
+            "o.contract_type=0",
             "o.contract_status=1",
             "s.is_test_user=0",
             // "s.grade>200",
