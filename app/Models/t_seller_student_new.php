@@ -2561,7 +2561,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(" select sum(if(n.hand_get_adminid=0,1,0)) auto_get_count,n.admin_revisiterid adminid, "
                                   ." sum(if(n.admin_revisiterid = n.hand_get_adminid and n.hand_get_adminid>0,1,0)) hand_get_count "
                                   ." from %s n "
-                                  ." left join %s m m.uid=n.admin_revisiterid "
+                                  ." left join %s m on m.uid=n.admin_revisiterid "
                                   ." where %s "
                                   ." group by n.admin_assignerid "
                                   ,self::DB_TABLE_NAME
