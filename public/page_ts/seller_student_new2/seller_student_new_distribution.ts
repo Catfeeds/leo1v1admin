@@ -25,7 +25,7 @@ $(function(){
     });
 
     var jump_url_1="/seller_student_new2/seller_edit_log_list";
-    $(".distribution_count").on("click",function(){
+    $(".count").on("click",function(){
         var opt_data= $(this).get_row_opt_data();
         $.wopen(jump_url_1+"?"
                 +"adminid="+opt_data.adminid

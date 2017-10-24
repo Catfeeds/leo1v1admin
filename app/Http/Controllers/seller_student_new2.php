@@ -854,12 +854,17 @@ class seller_student_new2 extends Controller
             $res[$adminid]['auto_get_count'] = $item['auto_get_count'];
             $res[$adminid]['hand_get_count'] = $item['hand_get_count'];
         }
-        $seller_log_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);
+        $seller_log_list = $this->t_seller_edit_log->get_count($start_time,$end_time,$origin_ex);
         foreach($seller_log_list as $item){
             $adminid = $item['adminid'];
             $res[$adminid]['account_role'] = $item['account_role'];
             $res[$adminid]['count'] = $item['count'];
             $res[$adminid]['tmk_count'] = $item['tmk_count'];
+        }
+        $seller_distribution_list = $this->t_seller_edit_log->get_distribution_count($start_time,$end_time,$origin_ex);
+        foreach($seller_distribution_list as $item){
+            $adminid = $item['adminid'];
+            $res[$adminid]['distribution_count'] = $item['count'];
             $res[$adminid]['no_call_count'] = $item['no_call_count'];
             $res[$adminid]['global_tq_called_flag'] = $item['global_tq_called_flag'];
         }
