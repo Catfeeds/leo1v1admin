@@ -85,7 +85,7 @@ class main_page extends Controller
 
 
                 if($ret_info['new_order_num']>0){ //平均单笔
-                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
+                    $ret_info['aver_count'] = $ret_info['new_money']/$ret_info['new_order_num'];
                 }else{
                     $ret_info['aver_count'] = 0;
                 }
@@ -192,7 +192,7 @@ class main_page extends Controller
 
 
                 if($ret_info['new_order_num']>0){ //平均单笔
-                    $ret_info['aver_count'] = $ret_info['formal_info']/$ret_info['new_order_num'];
+                    $ret_info['aver_count'] = $ret_info['new_money']/$ret_info['new_order_num'];
                 }else{
                     $ret_info['aver_count'] = 0;
                 }

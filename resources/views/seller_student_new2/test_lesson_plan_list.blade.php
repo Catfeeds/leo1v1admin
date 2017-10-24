@@ -291,7 +291,7 @@
                         <td style="min-width:250px">排课信息</td>
                         <td style="display:none;">老师</td>
                         <td style="display:none;">实际上课时间</td>
-                        <td style="display:none;" class="limit-require-info">限课特殊申请情况</td>
+                        <td  class="limit-require-info" style="display:none;">限课特殊申请情况</td>
                         <td style="width:130px" >操作</td>
                     </tr>
                 </thead>

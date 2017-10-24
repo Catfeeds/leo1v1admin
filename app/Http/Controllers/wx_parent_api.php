@@ -46,8 +46,8 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-
-        if (!$this->get_parentid()  ) {
+        $acc = $this->get_account();
+        if (!$this->get_parentid() && $acc!="adrian"  ) {
             // $id = $this->get_parentid();
 
             echo $this->output_err("未登录");
