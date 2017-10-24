@@ -9,7 +9,12 @@ $(function(){
     }
     $("#id_get_money").on("click",function(){
         var row_list=$("#id_tbody tr");
-        console.log(row_list);
+        var a = g_args.arr;
+        console.log(g_args.arr);
+        for(var item in a) {
+            alert(a[item]["month"]);
+        }
+        return;
         var do_index=0;
 	    
         function do_one() {
