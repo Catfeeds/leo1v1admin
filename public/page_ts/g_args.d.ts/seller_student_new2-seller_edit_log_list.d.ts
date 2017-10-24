@@ -1,4 +1,7 @@
 interface GargsStatic {
+	flag:	number;
+	account_role:	number;
+	origin_ex:	string;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -41,18 +44,22 @@ tofile:
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/seller_student_new2-seller_edit_log_list.d.ts" />
 
+function load_data(){
+    if ( window["g_load_data_flag"]) {return;}
+    $.reload_self_page ( {
+		flag:	$('#id_flag').val(),
+		account_role:	$('#id_account_role').val(),
+		origin_ex:	$('#id_origin_ex').val(),
+		date_type_config:	$('#id_date_type_config').val(),
+		date_type:	$('#id_date_type').val(),
+		opt_date_type:	$('#id_opt_date_type').val(),
+		start_time:	$('#id_start_time').val(),
+		end_time:	$('#id_end_time').val(),
+		adminid:	$('#id_adminid').val(),
+		global_tq_called_flag:	$('#id_global_tq_called_flag').val()
+    });
+}
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			adminid:	$('#id_adminid').val(),
-			global_tq_called_flag:	$('#id_global_tq_called_flag').val()
-        });
-    }
 
 
     $('#id_date_range').select_date_range({
@@ -65,6 +72,9 @@ $(function(){
             load_data();
         }
     });
+	$('#id_flag').val(g_args.flag);
+	$('#id_account_role').val(g_args.account_role);
+	$('#id_origin_ex').val(g_args.origin_ex);
 	$('#id_adminid').val(g_args.adminid);
 	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 
@@ -76,6 +86,27 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">flag</span>
+                <input class="opt-change form-control" id="id_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">account_role</span>
+                <input class="opt-change form-control" id="id_account_role" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin_ex</span>
+                <input class="opt-change form-control" id="id_origin_ex" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
