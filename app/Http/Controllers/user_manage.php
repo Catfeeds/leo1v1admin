@@ -689,6 +689,9 @@ class user_manage extends Controller
         // dd($price);
 
         $acc = $this->get_account();
+        $this->set_filed_for_js("account_role",$this->get_account_role());
+        $this->set_filed_for_js("acc",$this->get_account()); 
+
         return $this->Pageview(__METHOD__,$ret_list,[
             "account_role"                  => $this->get_account_role(),
             "all_lesson_count"              => $all_lesson_count,
@@ -736,8 +739,6 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
         }
 
-        $this->set_filed_for_js("account_role",$this->get_account_role());
-        $this->set_filed_for_js("acc",$this->get_account()); 
         return $this->Pageview(__METHOD__,$ret_info);
     }
 
