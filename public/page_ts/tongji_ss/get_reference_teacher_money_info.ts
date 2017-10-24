@@ -42,9 +42,10 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".cc_per").text(resp.cc_per); 
-                        $tr.find(".cr_per").text(resp.cr_per); 
-                        $tr.find(".record_score").text(resp.score);
+                        var data = resp.data;
+                        $tr.find(".stu_num").text(data.stu_num); 
+                        $tr.find(".all_price").text(data.all_price/100); 
+                        $tr.find(".lesson_count_all").text(data.lesson_count_all/100);
                                              
 
                        
