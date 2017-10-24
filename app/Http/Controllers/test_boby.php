@@ -789,6 +789,7 @@ class test_boby extends Controller
                 $new[$tid][ 1 ]['lesson_count'] = @$new[$tid][ 1 ]['lesson_count']+$item['lesson_count'];
             }
         }
+        $th_arr = ['老师','常规课----money','试听课----money'];
         dd($new);
     }
 

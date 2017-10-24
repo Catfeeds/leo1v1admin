@@ -1667,10 +1667,17 @@ jQuery.extend({
         $.each(arr , function( index,element){
             var row_obj=$("<tr> </tr>" );
             var v = element[0] ;
+            if (element['2']) {
+                var add_required = '<td style="color:ff3451;vertical-align:middle;">*</td>';
+            } else {
+                var add_required = '';
+            }
             if ( v === 'merge') {
                 var td_obj=$( "<td colspan=\"2\" style=\"text-align:center;color:#00a6ff\"></td>" );
                 td_obj.append( element[1] );
+                // td_obj.append( add_required);
                 row_obj.append(td_obj);
+                row_obj.append( add_required);
                 table_obj.append(row_obj);
 
             } else {
@@ -1680,7 +1687,9 @@ jQuery.extend({
                 td_obj=$( "<td style=\""+styleCss+"\"></td>" );
 
                 td_obj.append( element[1] );
+                // td_obj.append( add_required );
                 row_obj.append(td_obj);
+                row_obj.append( add_required);
                 table_obj.append(row_obj);
 
             }
@@ -1689,7 +1698,11 @@ jQuery.extend({
             label: '返回',
             cssClass : 'btn-default col-xs-2 col-xs-offset-7',
             action: function(dialog) {
-                dialog.close();
+                // dialog.close();
+
+                if(confirm('你还未保存信息，确定要返回吗？')){
+                    dialog.close();
+                }
             }
         }];
         if (btn_config){
