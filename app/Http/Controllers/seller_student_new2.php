@@ -996,7 +996,6 @@ class seller_student_new2 extends Controller
             }
         }elseif($flag == 2){//手动认领
             $ret_info = $this->t_seller_student_new->get_hand_get_list($adminid,$start_time,$end_time,$origin_ex,$page_info);
-            dd($ret_info['list']);
             foreach($ret_info['list'] as &$item){
                 $userid = (int)$item['new'];
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
