@@ -106,6 +106,8 @@
                     <td width="300px">确认原因</td>
                     <td width="120px">扩年级</td>
                     <td width="120px">跨科面试情况</td>
+                    <td >培训状态</td>
+                    <td >模拟试听</td>
                     <td>推荐人</td>
                     <td>负责人</td>
                     <td>客户端版本</td>
@@ -139,6 +141,8 @@
                                 {{@$var["t_subject_str"]}}
                             @endif
                         </td>
+                        <td >{{$var['train_status_str']}}</td>
+                        <td >{{$var['train_through_str']}}</td>
                         <td>{{$var["reference_name"]}}</td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["user_agent"]}}</td>

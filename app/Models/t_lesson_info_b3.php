@@ -46,7 +46,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
             "select lesson_start from %s  l"
             ." left join %s f on   ( f.flow_type= %u and l.lessonid=f.from_key_int  ) "
             . " where userid= %u and  grade=%u and lesson_start>0 "
-            . "  and  (f.flow_status is null or  f.flow_status <> %u ) "
+            . "  and  ( l.lesson_user_online_status <>2    or   f.flow_status = %u ) "
             . " order by lesson_start asc limit 1  ",
             self::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,  E\Eflow_type::V_SELLER_RECHECK_LESSON_SUCESS,

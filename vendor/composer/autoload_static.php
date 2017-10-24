@@ -831,6 +831,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TSellerLevelGoalAddLevelIcon' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
         'TSellerLevelGoalAddNum' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',
         'TSellerStudentNewAddAssLeaderCreateGlag' => __DIR__ . '/../..' . '/database/migrations/2017_10_12_105759_t_seller_student_new_add_ass_leader_create_glag.php',
+        'TSellerStudentNewAddHandGetAdminid' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
         'TSellerStudentNewAddIndexFirstCallTimeAddTime' => __DIR__ . '/../..' . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
         'TSellerTongjiForMonthAdd' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
         'TSellerTongjiForMonthAddColumons' => __DIR__ . '/../..' . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',

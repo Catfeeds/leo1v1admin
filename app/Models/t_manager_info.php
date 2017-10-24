@@ -1290,7 +1290,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $where_arr=[
             ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]
         ];
-        $sql = $this->gen_sql_new("select teacherid,t.realname from %s m".
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.train_through_new_time from %s m".
                                   " join %s t on m.phone=t.phone where %s and account_role=%u and del_flag =0",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,

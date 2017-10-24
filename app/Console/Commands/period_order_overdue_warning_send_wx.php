@@ -51,57 +51,50 @@ class period_order_overdue_warning_send_wx extends Command
             $due_date = $month_start+14*86400;
 
         }
-        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,1);
-        dd($list);
+        $list = $task->t_period_repay_list->get_period_order_overdue_warning_info($due_date,3);
+        // dd($list);
         if(count($list)>0){
             foreach($list as $val){
-                $orderid = $val["orderid"];
-                $data = $task->get_baidu_money_charge_pay_info($orderid);
-                if($data["status"]==0 && isset($data["data"]) && is_array($data["data"])){
-                    $ret = $data["data"];
-                    foreach($ret as $item){
-                        $period = $item["period"];
-                        if($item["bStatus"] != 48){
-                            $item["paidTime"]=0; 
-                        }
-                        if($item["bStatus"] == 48 && $item["paidTime"]>$item["paidTime"]){
-                            $repay_status = 2;
-                        }elseif($item["bStatus"] == 48 && $item["paidTime"]<=$item["paidTime"]){
-                            $repay_status = 1;
-                        }elseif($item["bStatus"] == 144){
-                            $repay_status = 3;
-                        }else{
-                            $repay_status = 0;
-                        }
+                //微信推送家长
+                $wx = new \App\Helper\Wx();
+                $openid = $val["wx_openid"];
+                $openid = "orwGAsxjW7pY7EM5JPPHpCY7X3GA";
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
 
-                        $is_exist = $task->t_period_repay_list->get_bid($orderid,$period);
-                        if(!$is_exist){
-                            $task->t_period_repay_list->row_insert([
-                                "orderid" =>$orderid,
-                                "period"  =>$period,
-                                "bid"     =>$item["bid"],
-                                "b_status"=>$item["bStatus"],
-                                "paid_time"=>$item["paidTime"],
-                                "due_date" =>$item["dueDate"],
-                                "money"    =>$item["money"],
-                                "paid_money"=>$item["paidMoney"],
-                                "un_paid_money"=>$item["unpaidMoney"],
-                                "repay_status" =>$repay_status
-                            ]);
-                        }else{
-                            $task->t_period_repay_list->field_update_list_2($orderid,$period,[
-                                "bid"     =>$item["bid"],
-                                "b_status"=>$item["bStatus"],
-                                "paid_time"=>$item["paidTime"],
-                                "due_date" =>$item["dueDate"],
-                                "money"    =>$item["money"],
-                                "paid_money"=>$item["paidMoney"],
-                                "un_paid_money"=>$item["unpaidMoney"],
-                                "repay_status" =>$repay_status
-                            ]);
-                        }
-                    }
-                }
+                $data=[
+                    "first"    => "百度分期还款逾期通知",
+                    "keyword1" => "百度分期还款逾期",
+                    "keyword2" => "家长，您好！由于您本月15日没有按时缴纳百度分期还款，即已发生逾期行为，建议尽快还款，避免出现停课情况，具体还款方式为：登录百度钱包APP进行还款，谢谢您的配合！",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => "",
+                ];
+                $url="";
+
+
+                $wx->send_template_msg($openid,$template_id,$data,$url);
+
+
+                //微信推送助教
+                $ass_oponid = $task->t_manager_info->get_wx_openid($val["uid"]);
+                $ass_oponid = $task->t_manager_info->get_wx_openid(349);
+                $account = $task->t_manager_info->get_account($val["uid"]);
+                $data=[
+                    "first"    => "百度分期还款逾期通知",
+                    "keyword1" => "百度分期还款逾期",
+                    "keyword2" => $account."老师，您好！您的".$val["nick"]."学员在使用百度分期产品的过程中，已发生逾期行为，请及时联系学员家长，及时告知登录百度钱包进行还款，以免造成停课处理，谢谢您的配合！",
+                    "keyword3" => date("Y-m-d H:i:s"),
+                    "remark"   => "",
+                ];
+
+                $wx->send_template_msg($ass_oponid,$template_id,$data,$url);
+
+
+
+
+                //dd($list);
+
+
+                
             }
             
         }

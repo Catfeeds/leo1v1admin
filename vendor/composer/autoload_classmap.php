@@ -560,6 +560,7 @@ return array(
     'TSellerLevelGoalAddLevelIcon' => $baseDir . '/database/migrations/2017_10_11_112220_t_seller_level_goal_add_level_icon.php',
     'TSellerLevelGoalAddNum' => $baseDir . '/database/migrations/2017_10_10_163653_t_seller_level_goal_add_num.php',
     'TSellerStudentNewAddAssLeaderCreateGlag' => $baseDir . '/database/migrations/2017_10_12_105759_t_seller_student_new_add_ass_leader_create_glag.php',
+    'TSellerStudentNewAddHandGetAdminid' => $baseDir . '/database/migrations/2017_10_24_112850_t_seller_student_new_add_hand_get_adminid.php',
     'TSellerStudentNewAddIndexFirstCallTimeAddTime' => $baseDir . '/database/migrations/2017_10_21_154835_t_seller_student_new_add_index_first_call_time_add_time.php',
     'TSellerTongjiForMonthAdd' => $baseDir . '/database/migrations/2017_10_11_162119_t_seller_tongji_for_month_add.php',
     'TSellerTongjiForMonthAddColumons' => $baseDir . '/database/migrations/2017_10_11_112953_t_seller_tongji_for_month_add_columons.php',

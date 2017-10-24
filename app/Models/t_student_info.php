@@ -376,15 +376,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
 
         if ($user_name) {
-            $where_arr[]= " (nick like '%" . $user_name . "%' "
-                ." or parent_name like '%" . $user_name . "%' "
-                ." or phone_location like '%" . $user_name . "%' "
-                ." or realname like '%" . $user_name . "%') ";
+            $where_arr[]= " (nick like '" . $this->ensql( $user_name)  . "%' "
+                ." or parent_name like '" . $this->ensql(  $user_name) . "%' "
+                //." or phone_location like '" . $this->ensql(  $user_name) . "%' "
+                ." or realname like '" . $this->ensql( $user_name) . "%') ";
         }
 
-        if ($phone) {
-            $where_arr[]=  "phone like '%".$phone."%'";
-        }
+        $where_arr[]=  ["phone like '%s%%'",$phone,"" ] ;
+
         if($warning_stu == 1){
             $have = "(sum(b.lesson_count) - sum(a.lesson_count_left)/count(*)) >=0";
         }elseif($warning_stu == 2){
@@ -774,7 +773,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             array( "admin_revisiterid=%d", $seller_adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -795,7 +794,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             array( "m.uid=%d", $ass_adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -820,7 +819,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             //array( "seller_adminid=%d", $adminid, -1 ),
         );
         if ($nick_phone!=""){
-            $where_arr[]=sprintf( "(nick like '%%%s%%' or realname like '%%%s%%' or  phone like '%%%s%%' )",
+            $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone),
                                   $this->ensql($nick_phone));
@@ -1665,7 +1664,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s_1.is_test_user=0",
             ["s_1.grade=%u", $grade ,-1 ],
             ["c_1.subject=%u", $subject,-1 ],
-            [ "s_1.phone_location like '%%%s%%'  ", trim( $phone_location ) ,""  ],
+            [ "s_1.phone_location like '%s%%'  ", trim( $phone_location ) ,""  ],
             ["c_1.competition_flag=%u", $competition_flag ,-1 ],
         ];
 

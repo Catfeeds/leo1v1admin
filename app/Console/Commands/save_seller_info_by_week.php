@@ -88,8 +88,10 @@ class save_seller_info_by_week extends Command
         // // dd(2);
 
         // $month_finish_define_money_2 = $ret_info['seller_target_income']/100;
-        $month_start_time = strtotime(date("Y-m-01"));
-        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month')));
+
+        $month_start_time = strtotime(date("Y-m-01",$start_time));
+        $month_end_time = strtotime(date('Y-m-01', strtotime('+1 month',$month_start_time)));
+
 
         $month_date_money_list = $task->t_order_info->get_seller_date_money_list($month_start_time,$month_end_time,$adminid_list);
         $ret_info['formal_info']=0;  // 完成金额
